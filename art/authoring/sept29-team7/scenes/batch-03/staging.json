@@ -1,0 +1,4435 @@
+{
+  "schema": "ocd-place-staging/v2",
+  "note": "Candidate source-keyed preview measurements. Coordinates are percent of each native source image. Source keys intentionally separate variants; job08 maps them to import identities. Physical object sizes in measuredFrom are explicit artistic scale assumptions, not surveys or simulation coefficients. No actor composite/runtime proof or approval.",
+  "places": {
+    "place-coffee-shop__midday--2": {
+      "horizonY": 28,
+      "metersPercent": 0.37,
+      "spots": [
+        {
+          "x": 51.0,
+          "y": 86.667,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 520,
+          "hero": true
+        },
+        {
+          "x": 50.0,
+          "y": 65.333,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 392
+        },
+        {
+          "x": 43.833,
+          "y": 53.333,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 320,
+          "clipBelowY": 42.333,
+          "group": "counter"
+        },
+        {
+          "x": 4.167,
+          "y": 74.0,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 444,
+          "seatY": 62.167,
+          "clipBelowY": 54.667,
+          "group": "left-table-1"
+        },
+        {
+          "x": 13.167,
+          "y": 66.167,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 397,
+          "seatY": 56.167,
+          "clipBelowY": 53.0,
+          "group": "left-table-2"
+        },
+        {
+          "x": 21.5,
+          "y": 57.333,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 344,
+          "seatY": 51.666,
+          "clipBelowY": 48.333,
+          "group": "left-table-3"
+        },
+        {
+          "x": 84.5,
+          "y": 61.5,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 369,
+          "seatY": 52.833,
+          "clipBelowY": 49.0,
+          "group": "right-table-1"
+        },
+        {
+          "x": 92.333,
+          "y": 68.667,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 412,
+          "seatY": 58.667,
+          "clipBelowY": 52.833,
+          "group": "right-table-2"
+        }
+      ],
+      "measuredFrom": "Nearest chair cushion373px, floor444px on600x600 image; assume0.45m seat."
+    },
+    "place-coffee-shop__midday--3": {
+      "horizonY": 37,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 45.5,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 71.833,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 254,
+          "clipBelowY": 59.281,
+          "group": "counter"
+        },
+        {
+          "x": 6.667,
+          "y": 89.222,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 298,
+          "seatY": 77.545,
+          "clipBelowY": 63.473,
+          "group": "tables-1"
+        },
+        {
+          "x": 16.833,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 70.659,
+          "clipBelowY": 63.473,
+          "group": "tables-2"
+        },
+        {
+          "x": 24.167,
+          "y": 74.85,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 250,
+          "seatY": 66.467,
+          "clipBelowY": 60.479,
+          "group": "tables-3"
+        },
+        {
+          "x": 28.667,
+          "y": 70.659,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 236,
+          "seatY": 63.174,
+          "clipBelowY": 58.383,
+          "group": "tables-4"
+        },
+        {
+          "x": 38.0,
+          "y": 66.766,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 223,
+          "seatY": 59.88,
+          "clipBelowY": 54.79,
+          "group": "tables-5"
+        }
+      ],
+      "measuredFrom": "Counter top198px, floor285px; assume1.0m counter."
+    },
+    "place-coffee-shop__midday-v2": {
+      "horizonY": 34,
+      "metersPercent": 0.57,
+      "spots": [
+        {
+          "x": 47.0,
+          "y": 86.527,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 289,
+          "hero": true
+        },
+        {
+          "x": 72.667,
+          "y": 75.449,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 252,
+          "clipBelowY": 52.695,
+          "group": "counter"
+        },
+        {
+          "x": 7.167,
+          "y": 78.743,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 263,
+          "seatY": 68.862,
+          "clipBelowY": 59.581,
+          "group": "tables-1"
+        },
+        {
+          "x": 25.5,
+          "y": 92.814,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 310,
+          "seatY": 83.234,
+          "clipBelowY": 66.766,
+          "group": "tables-2"
+        },
+        {
+          "x": 32.0,
+          "y": 84.132,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 281,
+          "seatY": 75.15,
+          "clipBelowY": 61.078,
+          "group": "tables-3"
+        },
+        {
+          "x": 36.0,
+          "y": 75.449,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 252,
+          "seatY": 67.964,
+          "clipBelowY": 55.389,
+          "group": "tables-4"
+        },
+        {
+          "x": 41.167,
+          "y": 69.76,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 233,
+          "seatY": 62.874,
+          "clipBelowY": 50.599,
+          "group": "tables-5"
+        },
+        {
+          "x": 48.667,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 49.401,
+          "group": "tables-6"
+        }
+      ],
+      "measuredFrom": "Chair cushion278px, floor310px; assume0.45m seat."
+    },
+    "place-coffee-shop__midday": {
+      "horizonY": 39,
+      "metersPercent": 0.56,
+      "spots": [
+        {
+          "x": 37.167,
+          "y": 89.82,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 300,
+          "hero": true
+        },
+        {
+          "x": 78.333,
+          "y": 82.635,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 276,
+          "clipBelowY": 69.76,
+          "group": "counter"
+        },
+        {
+          "x": 5.667,
+          "y": 99.701,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 333,
+          "seatY": 91.916,
+          "clipBelowY": 88.323,
+          "group": "tables-1"
+        },
+        {
+          "x": 36.167,
+          "y": 85.329,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 285,
+          "seatY": 74.85,
+          "clipBelowY": 67.964,
+          "group": "tables-2"
+        },
+        {
+          "x": 45.833,
+          "y": 76.347,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 255,
+          "seatY": 68.563,
+          "clipBelowY": 64.671,
+          "group": "tables-3"
+        },
+        {
+          "x": 50.667,
+          "y": 79.641,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 266,
+          "seatY": 70.958,
+          "clipBelowY": 67.365,
+          "group": "tables-4"
+        },
+        {
+          "x": 56.5,
+          "y": 75.15,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 251,
+          "seatY": 67.365,
+          "clipBelowY": 64.671,
+          "group": "tables-5"
+        }
+      ],
+      "measuredFrom": "Nearest chair cushion307px, floor333px; assume0.45m seat."
+    },
+    "place-coffee-shop__morning-v2": {
+      "horizonY": 34,
+      "metersPercent": 0.57,
+      "spots": [
+        {
+          "x": 47.0,
+          "y": 86.527,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 289,
+          "hero": true
+        },
+        {
+          "x": 72.667,
+          "y": 75.449,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 252,
+          "clipBelowY": 52.695,
+          "group": "counter"
+        },
+        {
+          "x": 7.167,
+          "y": 78.743,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 263,
+          "seatY": 68.862,
+          "clipBelowY": 59.581,
+          "group": "tables-1"
+        },
+        {
+          "x": 25.5,
+          "y": 92.814,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 310,
+          "seatY": 83.234,
+          "clipBelowY": 66.766,
+          "group": "tables-2"
+        },
+        {
+          "x": 32.0,
+          "y": 84.132,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 281,
+          "seatY": 75.15,
+          "clipBelowY": 61.078,
+          "group": "tables-3"
+        },
+        {
+          "x": 36.0,
+          "y": 75.449,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 252,
+          "seatY": 67.964,
+          "clipBelowY": 55.389,
+          "group": "tables-4"
+        },
+        {
+          "x": 41.167,
+          "y": 69.76,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 233,
+          "seatY": 62.874,
+          "clipBelowY": 50.599,
+          "group": "tables-5"
+        },
+        {
+          "x": 48.667,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 49.401,
+          "group": "tables-6"
+        }
+      ],
+      "measuredFrom": "Chair cushion278px, floor310px; assume0.45m seat."
+    },
+    "place-coffee-shop__morning": {
+      "horizonY": 37,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 45.5,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 71.833,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 254,
+          "clipBelowY": 59.281,
+          "group": "counter"
+        },
+        {
+          "x": 6.667,
+          "y": 89.222,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 298,
+          "seatY": 77.545,
+          "clipBelowY": 63.473,
+          "group": "tables-1"
+        },
+        {
+          "x": 16.833,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 70.659,
+          "clipBelowY": 63.473,
+          "group": "tables-2"
+        },
+        {
+          "x": 24.167,
+          "y": 74.85,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 250,
+          "seatY": 66.467,
+          "clipBelowY": 60.479,
+          "group": "tables-3"
+        },
+        {
+          "x": 28.667,
+          "y": 70.659,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 236,
+          "seatY": 63.174,
+          "clipBelowY": 58.383,
+          "group": "tables-4"
+        },
+        {
+          "x": 38.0,
+          "y": 66.766,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 223,
+          "seatY": 59.88,
+          "clipBelowY": 54.79,
+          "group": "tables-5"
+        }
+      ],
+      "measuredFrom": "Counter top198px, floor285px; assume1.0m counter."
+    },
+    "place-coffee-shop__night-v2": {
+      "horizonY": 34,
+      "metersPercent": 0.57,
+      "spots": [
+        {
+          "x": 47.0,
+          "y": 86.527,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 289,
+          "hero": true
+        },
+        {
+          "x": 72.667,
+          "y": 75.449,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 252,
+          "clipBelowY": 52.695,
+          "group": "counter"
+        },
+        {
+          "x": 7.167,
+          "y": 78.743,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 263,
+          "seatY": 68.862,
+          "clipBelowY": 59.581,
+          "group": "tables-1"
+        },
+        {
+          "x": 25.5,
+          "y": 92.814,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 310,
+          "seatY": 83.234,
+          "clipBelowY": 66.766,
+          "group": "tables-2"
+        },
+        {
+          "x": 32.0,
+          "y": 84.132,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 281,
+          "seatY": 75.15,
+          "clipBelowY": 61.078,
+          "group": "tables-3"
+        },
+        {
+          "x": 36.0,
+          "y": 75.449,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 252,
+          "seatY": 67.964,
+          "clipBelowY": 55.389,
+          "group": "tables-4"
+        },
+        {
+          "x": 41.167,
+          "y": 69.76,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 233,
+          "seatY": 62.874,
+          "clipBelowY": 50.599,
+          "group": "tables-5"
+        },
+        {
+          "x": 48.667,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 49.401,
+          "group": "tables-6"
+        }
+      ],
+      "measuredFrom": "Chair cushion278px, floor310px; assume0.45m seat."
+    },
+    "place-coffee-shop__night": {
+      "horizonY": 37,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 45.5,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 71.833,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 254,
+          "clipBelowY": 59.281,
+          "group": "counter"
+        },
+        {
+          "x": 6.667,
+          "y": 89.222,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 298,
+          "seatY": 77.545,
+          "clipBelowY": 63.473,
+          "group": "tables-1"
+        },
+        {
+          "x": 16.833,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 70.659,
+          "clipBelowY": 63.473,
+          "group": "tables-2"
+        },
+        {
+          "x": 24.167,
+          "y": 74.85,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 250,
+          "seatY": 66.467,
+          "clipBelowY": 60.479,
+          "group": "tables-3"
+        },
+        {
+          "x": 28.667,
+          "y": 70.659,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 236,
+          "seatY": 63.174,
+          "clipBelowY": 58.383,
+          "group": "tables-4"
+        },
+        {
+          "x": 38.0,
+          "y": 66.766,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 223,
+          "seatY": 59.88,
+          "clipBelowY": 54.79,
+          "group": "tables-5"
+        }
+      ],
+      "measuredFrom": "Counter top198px, floor285px; assume1.0m counter."
+    },
+    "place-coffee-shop__rain-v2": {
+      "horizonY": 34,
+      "metersPercent": 0.57,
+      "spots": [
+        {
+          "x": 47.0,
+          "y": 86.527,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 289,
+          "hero": true
+        },
+        {
+          "x": 72.667,
+          "y": 75.449,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 252,
+          "clipBelowY": 52.695,
+          "group": "counter"
+        },
+        {
+          "x": 7.167,
+          "y": 78.743,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 263,
+          "seatY": 68.862,
+          "clipBelowY": 59.581,
+          "group": "tables-1"
+        },
+        {
+          "x": 25.5,
+          "y": 92.814,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 310,
+          "seatY": 83.234,
+          "clipBelowY": 66.766,
+          "group": "tables-2"
+        },
+        {
+          "x": 32.0,
+          "y": 84.132,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 281,
+          "seatY": 75.15,
+          "clipBelowY": 61.078,
+          "group": "tables-3"
+        },
+        {
+          "x": 36.0,
+          "y": 75.449,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 252,
+          "seatY": 67.964,
+          "clipBelowY": 55.389,
+          "group": "tables-4"
+        },
+        {
+          "x": 41.167,
+          "y": 69.76,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 233,
+          "seatY": 62.874,
+          "clipBelowY": 50.599,
+          "group": "tables-5"
+        },
+        {
+          "x": 48.667,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 49.401,
+          "group": "tables-6"
+        }
+      ],
+      "measuredFrom": "Chair cushion278px, floor310px; assume0.45m seat."
+    },
+    "place-coffee-shop__rain": {
+      "horizonY": 37,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 45.5,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 71.833,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 254,
+          "clipBelowY": 59.281,
+          "group": "counter"
+        },
+        {
+          "x": 6.667,
+          "y": 89.222,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 298,
+          "seatY": 77.545,
+          "clipBelowY": 63.473,
+          "group": "tables-1"
+        },
+        {
+          "x": 16.833,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 70.659,
+          "clipBelowY": 63.473,
+          "group": "tables-2"
+        },
+        {
+          "x": 24.167,
+          "y": 74.85,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 250,
+          "seatY": 66.467,
+          "clipBelowY": 60.479,
+          "group": "tables-3"
+        },
+        {
+          "x": 28.667,
+          "y": 70.659,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 236,
+          "seatY": 63.174,
+          "clipBelowY": 58.383,
+          "group": "tables-4"
+        },
+        {
+          "x": 38.0,
+          "y": 66.766,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 223,
+          "seatY": 59.88,
+          "clipBelowY": 54.79,
+          "group": "tables-5"
+        }
+      ],
+      "measuredFrom": "Counter top198px, floor285px; assume1.0m counter."
+    },
+    "place-committee-hearing-room__m": {
+      "horizonY": 38,
+      "metersPercent": 0.44,
+      "spots": [
+        {
+          "x": 49.833,
+          "y": 91.617,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 306,
+          "hero": true
+        },
+        {
+          "x": 7.333,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 16.167,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 25.0,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 34.167,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 42.0,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 58.0,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 65.667,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 74.333,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 82.667,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 91.0,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 84.132,
+          "group": "audience-1"
+        },
+        {
+          "x": 4.167,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 12.167,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 21.0,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 29.5,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 37.5,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 63.167,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 72.0,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 80.833,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 89.5,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 97.333,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 82.934,
+          "clipBelowY": 77.246,
+          "group": "audience-2"
+        },
+        {
+          "x": 44.0,
+          "y": 85.928,
+          "pose": "sit",
+          "depth": 287,
+          "seatY": 76.647,
+          "clipBelowY": 65.269,
+          "group": "witness-1"
+        },
+        {
+          "x": 57.0,
+          "y": 85.928,
+          "pose": "sit",
+          "depth": 287,
+          "seatY": 76.647,
+          "clipBelowY": 65.269,
+          "group": "witness-1"
+        },
+        {
+          "x": 5.0,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 10.833,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 16.833,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 22.667,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 28.167,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 35.167,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 43.333,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 50.5,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 58.833,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 65.667,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 72.5,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 77.5,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 82.833,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 88.333,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        },
+        {
+          "x": 94.5,
+          "y": 67.665,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 226,
+          "seatY": 58.982,
+          "clipBelowY": 52.695,
+          "group": "committee-1",
+          "floor": "raised"
+        }
+      ],
+      "measuredFrom": "Audience cushion311px, floor332px; assume0.45m seat; raised committee bench uses separate candidate floor.",
+      "floors": {
+        "raised": 0.506
+      }
+    },
+    "place-congressional-office__mid": {
+      "horizonY": 32,
+      "metersPercent": 0.75,
+      "spots": [
+        {
+          "x": 47.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 273,
+          "hero": true
+        },
+        {
+          "x": 60.667,
+          "y": 76.946,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 257
+        },
+        {
+          "x": 8.833,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 16.667,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 32.333,
+          "y": 65.569,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 219,
+          "seatY": 56.287,
+          "clipBelowY": 58.683,
+          "group": "visitor-chair-1"
+        },
+        {
+          "x": 75.0,
+          "y": 67.964,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 227,
+          "seatY": 58.982,
+          "clipBelowY": 47.006,
+          "group": "office-desk-1"
+        }
+      ],
+      "measuredFrom": "Sofa cushion207px, floor246px; assume0.45m seat."
+    },
+    "place-congressional-office__mor": {
+      "horizonY": 32,
+      "metersPercent": 0.75,
+      "spots": [
+        {
+          "x": 47.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 273,
+          "hero": true
+        },
+        {
+          "x": 60.667,
+          "y": 76.946,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 257
+        },
+        {
+          "x": 8.833,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 16.667,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 32.333,
+          "y": 65.569,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 219,
+          "seatY": 56.287,
+          "clipBelowY": 58.683,
+          "group": "visitor-chair-1"
+        },
+        {
+          "x": 75.0,
+          "y": 67.964,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 227,
+          "seatY": 58.982,
+          "clipBelowY": 47.006,
+          "group": "office-desk-1"
+        }
+      ],
+      "measuredFrom": "Sofa cushion207px, floor246px; assume0.45m seat."
+    },
+    "place-congressional-office__nig": {
+      "horizonY": 32,
+      "metersPercent": 0.75,
+      "spots": [
+        {
+          "x": 47.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 273,
+          "hero": true
+        },
+        {
+          "x": 60.667,
+          "y": 76.946,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 257
+        },
+        {
+          "x": 8.833,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 16.667,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 32.333,
+          "y": 65.569,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 219,
+          "seatY": 56.287,
+          "clipBelowY": 58.683,
+          "group": "visitor-chair-1"
+        },
+        {
+          "x": 75.0,
+          "y": 67.964,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 227,
+          "seatY": 58.982,
+          "clipBelowY": 47.006,
+          "group": "office-desk-1"
+        }
+      ],
+      "measuredFrom": "Sofa cushion207px, floor246px; assume0.45m seat."
+    },
+    "place-congressional-office__rai": {
+      "horizonY": 32,
+      "metersPercent": 0.75,
+      "spots": [
+        {
+          "x": 47.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 273,
+          "hero": true
+        },
+        {
+          "x": 60.667,
+          "y": 76.946,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 257
+        },
+        {
+          "x": 8.833,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 16.667,
+          "y": 73.653,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 246,
+          "seatY": 61.976,
+          "clipBelowY": 58.982,
+          "group": "sofa-1"
+        },
+        {
+          "x": 32.333,
+          "y": 65.569,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 219,
+          "seatY": 56.287,
+          "clipBelowY": 58.683,
+          "group": "visitor-chair-1"
+        },
+        {
+          "x": 75.0,
+          "y": 67.964,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 227,
+          "seatY": 58.982,
+          "clipBelowY": 47.006,
+          "group": "office-desk-1"
+        }
+      ],
+      "measuredFrom": "Sofa cushion207px, floor246px; assume0.45m seat."
+    },
+    "place-county-clerk-office__midd": {
+      "horizonY": 36,
+      "metersPercent": 0.59,
+      "spots": [
+        {
+          "x": 47.333,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 30.167,
+          "y": 76.347,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 255,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 61.5,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 281
+        },
+        {
+          "x": 45.833,
+          "y": 68.263,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 228,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 4.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 12.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 76.833,
+          "y": 71.557,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 239,
+          "seatY": 65.269,
+          "clipBelowY": 60.778,
+          "group": "workstation-1"
+        }
+      ],
+      "measuredFrom": "Counter187px to floor255px; assume1.0m counter."
+    },
+    "place-county-clerk-office__morn": {
+      "horizonY": 36,
+      "metersPercent": 0.59,
+      "spots": [
+        {
+          "x": 47.333,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 30.167,
+          "y": 76.347,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 255,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 61.5,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 281
+        },
+        {
+          "x": 45.833,
+          "y": 68.263,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 228,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 4.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 12.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 76.833,
+          "y": 71.557,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 239,
+          "seatY": 65.269,
+          "clipBelowY": 60.778,
+          "group": "workstation-1"
+        }
+      ],
+      "measuredFrom": "Counter187px to floor255px; assume1.0m counter."
+    },
+    "place-county-clerk-office__nigh": {
+      "horizonY": 36,
+      "metersPercent": 0.59,
+      "spots": [
+        {
+          "x": 47.333,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 30.167,
+          "y": 76.347,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 255,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 61.5,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 281
+        },
+        {
+          "x": 45.833,
+          "y": 68.263,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 228,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 4.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 12.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 76.833,
+          "y": 71.557,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 239,
+          "seatY": 65.269,
+          "clipBelowY": 60.778,
+          "group": "workstation-1"
+        }
+      ],
+      "measuredFrom": "Counter187px to floor255px; assume1.0m counter."
+    },
+    "place-county-clerk-office__rain": {
+      "horizonY": 36,
+      "metersPercent": 0.59,
+      "spots": [
+        {
+          "x": 47.333,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 30.167,
+          "y": 76.347,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 255,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 61.5,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 281
+        },
+        {
+          "x": 45.833,
+          "y": 68.263,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 228,
+          "clipBelowY": 55.988,
+          "group": "service-counter"
+        },
+        {
+          "x": 4.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 12.0,
+          "y": 91.317,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 305,
+          "seatY": 79.94,
+          "group": "waiting-bench-1"
+        },
+        {
+          "x": 76.833,
+          "y": 71.557,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 239,
+          "seatY": 65.269,
+          "clipBelowY": 60.778,
+          "group": "workstation-1"
+        }
+      ],
+      "measuredFrom": "Counter187px to floor255px; assume1.0m counter."
+    },
+    "place-county-elections-office__--2": {
+      "horizonY": 36,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 46.167,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 63.667,
+          "y": 85.03,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 284
+        },
+        {
+          "x": 37.167,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 258,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 65.667,
+          "y": 77.844,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 260,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 69.167,
+          "y": 74.551,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 249,
+          "seatY": 64.072,
+          "clipBelowY": 58.683,
+          "group": "back-counter-1"
+        }
+      ],
+      "measuredFrom": "Counter196px to floor275px; assume1.0m counter."
+    },
+    "place-county-elections-office__--3": {
+      "horizonY": 36,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 46.167,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 63.667,
+          "y": 85.03,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 284
+        },
+        {
+          "x": 37.167,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 258,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 65.667,
+          "y": 77.844,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 260,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 69.167,
+          "y": 74.551,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 249,
+          "seatY": 64.072,
+          "clipBelowY": 58.683,
+          "group": "back-counter-1"
+        }
+      ],
+      "measuredFrom": "Counter196px to floor275px; assume1.0m counter."
+    },
+    "place-county-elections-office__--4": {
+      "horizonY": 36,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 46.167,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 63.667,
+          "y": 85.03,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 284
+        },
+        {
+          "x": 37.167,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 258,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 65.667,
+          "y": 77.844,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 260,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 69.167,
+          "y": 74.551,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 249,
+          "seatY": 64.072,
+          "clipBelowY": 58.683,
+          "group": "back-counter-1"
+        }
+      ],
+      "measuredFrom": "Counter196px to floor275px; assume1.0m counter."
+    },
+    "place-county-elections-office__": {
+      "horizonY": 36,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 46.167,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 63.667,
+          "y": 85.03,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 284
+        },
+        {
+          "x": 37.167,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 258,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 65.667,
+          "y": 77.844,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 260,
+          "clipBelowY": 58.683,
+          "group": "service-counter"
+        },
+        {
+          "x": 69.167,
+          "y": 74.551,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 249,
+          "seatY": 64.072,
+          "clipBelowY": 58.683,
+          "group": "back-counter-1"
+        }
+      ],
+      "measuredFrom": "Counter196px to floor275px; assume1.0m counter."
+    },
+    "place-county-office-cramped__mi": {
+      "horizonY": 39,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 58.833,
+          "y": 85.928,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 287,
+          "hero": true
+        },
+        {
+          "x": 41.167,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 254
+        },
+        {
+          "x": 29.333,
+          "y": 82.635,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 276,
+          "clipBelowY": 58.383,
+          "group": "counter"
+        },
+        {
+          "x": 75.167,
+          "y": 85.329,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 285,
+          "seatY": 76.048,
+          "group": "waiting-1"
+        },
+        {
+          "x": 81.5,
+          "y": 92.515,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 309,
+          "seatY": 82.335,
+          "group": "waiting-2"
+        },
+        {
+          "x": 87.5,
+          "y": 98.503,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 329,
+          "seatY": 87.725,
+          "group": "waiting-3"
+        }
+      ],
+      "measuredFrom": "Waiting seat293px to floor329px; assume0.45m seat."
+    },
+    "place-courthouse-hallway__midda": {
+      "horizonY": 50,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 48.333,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 38.333,
+          "y": 71.557,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 239
+        },
+        {
+          "x": 60.5,
+          "y": 73.054,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 244
+        },
+        {
+          "x": 5.167,
+          "y": 90.12,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 301,
+          "seatY": 79.641,
+          "group": "left-bench-1"
+        },
+        {
+          "x": 33.0,
+          "y": 71.856,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 240,
+          "seatY": 65.269,
+          "group": "left-bench-2"
+        },
+        {
+          "x": 87.667,
+          "y": 89.521,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 299,
+          "seatY": 77.844,
+          "group": "right-bench-1"
+        },
+        {
+          "x": 65.5,
+          "y": 70.958,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 237,
+          "seatY": 64.671,
+          "group": "right-bench-2"
+        }
+      ],
+      "measuredFrom": "Nearest bench266px to floor301px; assume0.45m seat."
+    },
+    "place-courthouse-steps__midday--2": {
+      "horizonY": 52,
+      "metersPercent": 0.54,
+      "spots": [
+        {
+          "x": 47.667,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 69.667,
+          "y": 83.533,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 279
+        },
+        {
+          "x": 44.833,
+          "y": 75.749,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 253,
+          "group": "stairs",
+          "floor": "raised"
+        }
+      ],
+      "measuredFrom": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "floors": {
+        "raised": 0.621
+      }
+    },
+    "place-courthouse-steps__midday": {
+      "horizonY": 55,
+      "metersPercent": 0.42,
+      "spots": [
+        {
+          "x": 51.333,
+          "y": 91.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 549,
+          "hero": true
+        },
+        {
+          "x": 30.667,
+          "y": 86.333,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 518
+        },
+        {
+          "x": 61.5,
+          "y": 79.167,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 475,
+          "group": "stairs",
+          "floor": "raised"
+        }
+      ],
+      "measuredFrom": "Door top270px, landing375px on600x600 camera; assume2.1m door.",
+      "floors": {
+        "raised": 0.48299999999999993
+      }
+    },
+    "place-courthouse-steps__morning": {
+      "horizonY": 52,
+      "metersPercent": 0.54,
+      "spots": [
+        {
+          "x": 47.667,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 69.667,
+          "y": 83.533,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 279
+        },
+        {
+          "x": 44.833,
+          "y": 75.749,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 253,
+          "group": "stairs",
+          "floor": "raised"
+        }
+      ],
+      "measuredFrom": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "floors": {
+        "raised": 0.621
+      }
+    },
+    "place-courthouse-steps__night": {
+      "horizonY": 52,
+      "metersPercent": 0.54,
+      "spots": [
+        {
+          "x": 47.667,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 69.667,
+          "y": 83.533,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 279
+        },
+        {
+          "x": 44.833,
+          "y": 75.749,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 253,
+          "group": "stairs",
+          "floor": "raised"
+        }
+      ],
+      "measuredFrom": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "floors": {
+        "raised": 0.621
+      }
+    },
+    "place-courthouse-steps__rain": {
+      "horizonY": 52,
+      "metersPercent": 0.54,
+      "spots": [
+        {
+          "x": 47.667,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 69.667,
+          "y": 83.533,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 279
+        },
+        {
+          "x": 44.833,
+          "y": 75.749,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 253,
+          "group": "stairs",
+          "floor": "raised"
+        }
+      ],
+      "measuredFrom": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "floors": {
+        "raised": 0.621
+      }
+    },
+    "place-courtroom-county-trial__m": {
+      "horizonY": 39,
+      "metersPercent": 0.46,
+      "spots": [
+        {
+          "x": 98.167,
+          "y": 97.305,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 325,
+          "hero": true
+        },
+        {
+          "x": 53.833,
+          "y": 79.641,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 266
+        },
+        {
+          "x": 57.0,
+          "y": 68.263,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 228,
+          "clipBelowY": 57.186,
+          "group": "counsel"
+        },
+        {
+          "x": 10.667,
+          "y": 99.102,
+          "pose": "sit",
+          "depth": 331,
+          "seatY": 92.515,
+          "clipBelowY": 85.03,
+          "group": "public-1"
+        },
+        {
+          "x": 24.5,
+          "y": 99.102,
+          "pose": "sit",
+          "depth": 331,
+          "seatY": 92.515,
+          "clipBelowY": 85.03,
+          "group": "public-1"
+        },
+        {
+          "x": 38.5,
+          "y": 99.102,
+          "pose": "sit",
+          "depth": 331,
+          "seatY": 92.515,
+          "clipBelowY": 85.03,
+          "group": "public-1"
+        },
+        {
+          "x": 13.0,
+          "y": 87.126,
+          "pose": "sit",
+          "depth": 291,
+          "seatY": 80.838,
+          "clipBelowY": 73.353,
+          "group": "public-2"
+        },
+        {
+          "x": 25.833,
+          "y": 87.126,
+          "pose": "sit",
+          "depth": 291,
+          "seatY": 80.838,
+          "clipBelowY": 73.353,
+          "group": "public-2"
+        },
+        {
+          "x": 37.5,
+          "y": 87.126,
+          "pose": "sit",
+          "depth": 291,
+          "seatY": 80.838,
+          "clipBelowY": 73.353,
+          "group": "public-2"
+        },
+        {
+          "x": 17.0,
+          "y": 77.545,
+          "pose": "sit",
+          "depth": 259,
+          "seatY": 72.156,
+          "clipBelowY": 65.269,
+          "group": "public-3"
+        },
+        {
+          "x": 29.167,
+          "y": 77.545,
+          "pose": "sit",
+          "depth": 259,
+          "seatY": 72.156,
+          "clipBelowY": 65.269,
+          "group": "public-3"
+        },
+        {
+          "x": 39.167,
+          "y": 77.545,
+          "pose": "sit",
+          "depth": 259,
+          "seatY": 72.156,
+          "clipBelowY": 65.269,
+          "group": "public-3"
+        },
+        {
+          "x": 34.833,
+          "y": 56.886,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 190,
+          "seatY": 50.599,
+          "clipBelowY": 47.605,
+          "group": "judge-1",
+          "floor": "raised"
+        },
+        {
+          "x": 73.833,
+          "y": 64.671,
+          "pose": "sit",
+          "depth": 216,
+          "seatY": 58.982,
+          "clipBelowY": 54.491,
+          "group": "jury-1"
+        },
+        {
+          "x": 77.333,
+          "y": 64.671,
+          "pose": "sit",
+          "depth": 216,
+          "seatY": 58.982,
+          "clipBelowY": 54.491,
+          "group": "jury-1"
+        },
+        {
+          "x": 81.167,
+          "y": 64.671,
+          "pose": "sit",
+          "depth": 216,
+          "seatY": 58.982,
+          "clipBelowY": 54.491,
+          "group": "jury-1"
+        },
+        {
+          "x": 85.333,
+          "y": 64.671,
+          "pose": "sit",
+          "depth": 216,
+          "seatY": 58.982,
+          "clipBelowY": 54.491,
+          "group": "jury-1"
+        },
+        {
+          "x": 89.167,
+          "y": 64.671,
+          "pose": "sit",
+          "depth": 216,
+          "seatY": 58.982,
+          "clipBelowY": 54.491,
+          "group": "jury-1"
+        },
+        {
+          "x": 25.833,
+          "y": 69.76,
+          "pose": "sit",
+          "depth": 233,
+          "seatY": 63.772,
+          "clipBelowY": 57.485,
+          "group": "counsel-1"
+        },
+        {
+          "x": 47.0,
+          "y": 69.76,
+          "pose": "sit",
+          "depth": 233,
+          "seatY": 63.772,
+          "clipBelowY": 57.485,
+          "group": "counsel-2"
+        }
+      ],
+      "measuredFrom": "Public pew309px to floor331px; assume0.45m seat.",
+      "floors": {
+        "raised": 0.529
+      }
+    },
+    "place-courtroom-state-supreme__": {
+      "horizonY": 42,
+      "metersPercent": 0.55,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 95.509,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 319,
+          "hero": true
+        },
+        {
+          "x": 50.167,
+          "y": 91.617,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 306,
+          "clipBelowY": 61.677,
+          "group": "lectern"
+        },
+        {
+          "x": 5.667,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 87.126,
+          "group": "public-1"
+        },
+        {
+          "x": 18.5,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 87.126,
+          "group": "public-1"
+        },
+        {
+          "x": 30.333,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 87.126,
+          "group": "public-1"
+        },
+        {
+          "x": 68.833,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 87.126,
+          "group": "public-1"
+        },
+        {
+          "x": 81.667,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 87.126,
+          "group": "public-1"
+        },
+        {
+          "x": 93.667,
+          "y": 99.401,
+          "pose": "sit",
+          "depth": 332,
+          "seatY": 93.114,
+          "clipBelowY": 87.126,
+          "group": "public-1"
+        },
+        {
+          "x": 9.333,
+          "y": 90.719,
+          "pose": "sit",
+          "depth": 303,
+          "seatY": 85.329,
+          "clipBelowY": 78.743,
+          "group": "public-2"
+        },
+        {
+          "x": 20.833,
+          "y": 90.719,
+          "pose": "sit",
+          "depth": 303,
+          "seatY": 85.329,
+          "clipBelowY": 78.743,
+          "group": "public-2"
+        },
+        {
+          "x": 31.333,
+          "y": 90.719,
+          "pose": "sit",
+          "depth": 303,
+          "seatY": 85.329,
+          "clipBelowY": 78.743,
+          "group": "public-2"
+        },
+        {
+          "x": 67.667,
+          "y": 90.719,
+          "pose": "sit",
+          "depth": 303,
+          "seatY": 85.329,
+          "clipBelowY": 78.743,
+          "group": "public-2"
+        },
+        {
+          "x": 79.167,
+          "y": 90.719,
+          "pose": "sit",
+          "depth": 303,
+          "seatY": 85.329,
+          "clipBelowY": 78.743,
+          "group": "public-2"
+        },
+        {
+          "x": 89.667,
+          "y": 90.719,
+          "pose": "sit",
+          "depth": 303,
+          "seatY": 85.329,
+          "clipBelowY": 78.743,
+          "group": "public-2"
+        },
+        {
+          "x": 25.0,
+          "y": 73.054,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 244,
+          "seatY": 65.868,
+          "clipBelowY": 58.084,
+          "group": "bench-1",
+          "floor": "raised"
+        },
+        {
+          "x": 33.5,
+          "y": 73.054,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 244,
+          "seatY": 65.868,
+          "clipBelowY": 58.084,
+          "group": "bench-1",
+          "floor": "raised"
+        },
+        {
+          "x": 41.667,
+          "y": 73.054,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 244,
+          "seatY": 65.868,
+          "clipBelowY": 58.084,
+          "group": "bench-1",
+          "floor": "raised"
+        },
+        {
+          "x": 50.0,
+          "y": 73.054,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 244,
+          "seatY": 65.868,
+          "clipBelowY": 58.084,
+          "group": "bench-1",
+          "floor": "raised"
+        },
+        {
+          "x": 58.667,
+          "y": 73.054,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 244,
+          "seatY": 65.868,
+          "clipBelowY": 58.084,
+          "group": "bench-1",
+          "floor": "raised"
+        },
+        {
+          "x": 66.667,
+          "y": 73.054,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 244,
+          "seatY": 65.868,
+          "clipBelowY": 58.084,
+          "group": "bench-1",
+          "floor": "raised"
+        },
+        {
+          "x": 75.167,
+          "y": 73.054,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 244,
+          "seatY": 65.868,
+          "clipBelowY": 58.084,
+          "group": "bench-1",
+          "floor": "raised"
+        }
+      ],
+      "measuredFrom": "Lectern top206px to floor306px; assume1.1m lectern.",
+      "floors": {
+        "raised": 0.6325
+      }
+    },
+    "place-diner-counter__midday": {
+      "horizonY": 36,
+      "metersPercent": 0.44,
+      "spots": [
+        {
+          "x": 55.0,
+          "y": 87.725,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 293,
+          "hero": true
+        },
+        {
+          "x": 48.667,
+          "y": 78.443,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 262
+        },
+        {
+          "x": 28.667,
+          "y": 62.575,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 209,
+          "clipBelowY": 47.605,
+          "group": "counter"
+        },
+        {
+          "x": 38.0,
+          "y": 93.114,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 311,
+          "seatY": 71.856,
+          "group": "stool-0-1"
+        },
+        {
+          "x": 42.0,
+          "y": 83.234,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 278,
+          "seatY": 64.072,
+          "group": "stool-1-1"
+        },
+        {
+          "x": 45.0,
+          "y": 75.15,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 251,
+          "seatY": 58.084,
+          "group": "stool-2-1"
+        },
+        {
+          "x": 47.667,
+          "y": 69.162,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 231,
+          "seatY": 53.593,
+          "group": "stool-3-1"
+        },
+        {
+          "x": 50.0,
+          "y": 64.371,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 215,
+          "seatY": 50.599,
+          "group": "stool-4-1"
+        },
+        {
+          "x": 94.333,
+          "y": 93.413,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 312,
+          "seatY": 81.138,
+          "clipBelowY": 76.946,
+          "group": "booths-1"
+        },
+        {
+          "x": 86.667,
+          "y": 81.437,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 272,
+          "seatY": 71.557,
+          "clipBelowY": 67.665,
+          "group": "booths-2"
+        },
+        {
+          "x": 80.167,
+          "y": 72.156,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 241,
+          "seatY": 63.473,
+          "clipBelowY": 60.18,
+          "group": "booths-3"
+        },
+        {
+          "x": 74.833,
+          "y": 64.97,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 217,
+          "seatY": 57.485,
+          "clipBelowY": 54.79,
+          "group": "booths-4"
+        }
+      ],
+      "measuredFrom": "Nearest stool240px to floor311px; assume0.7m stool."
+    },
+    "place-distillery-rickhouse__mid": {
+      "horizonY": 58,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 41.167,
+          "y": 90.12,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 301,
+          "hero": true
+        },
+        {
+          "x": 53.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 273
+        },
+        {
+          "x": 93.833,
+          "y": 76.048,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 254,
+          "seatY": 71.557,
+          "group": "roadside-bench-1"
+        }
+      ],
+      "measuredFrom": "Bench239px to floor254px; assume0.45m seat."
+    },
+    "place-distillery-rickhouse__mor": {
+      "horizonY": 58,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 41.167,
+          "y": 90.12,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 301,
+          "hero": true
+        },
+        {
+          "x": 53.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 273
+        },
+        {
+          "x": 93.833,
+          "y": 76.048,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 254,
+          "seatY": 71.557,
+          "group": "roadside-bench-1"
+        }
+      ],
+      "measuredFrom": "Bench239px to floor254px; assume0.45m seat."
+    },
+    "place-distillery-rickhouse__nig": {
+      "horizonY": 58,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 41.167,
+          "y": 90.12,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 301,
+          "hero": true
+        },
+        {
+          "x": 53.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 273
+        },
+        {
+          "x": 93.833,
+          "y": 76.048,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 254,
+          "seatY": 71.557,
+          "group": "roadside-bench-1"
+        }
+      ],
+      "measuredFrom": "Bench239px to floor254px; assume0.45m seat."
+    },
+    "place-distillery-rickhouse__rai": {
+      "horizonY": 58,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 41.167,
+          "y": 90.12,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 301,
+          "hero": true
+        },
+        {
+          "x": 53.167,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 273
+        },
+        {
+          "x": 93.833,
+          "y": 76.048,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 254,
+          "seatY": 71.557,
+          "group": "roadside-bench-1"
+        }
+      ],
+      "measuredFrom": "Bench239px to floor254px; assume0.45m seat."
+    },
+    "place-doctor-exam-room__midday": {
+      "horizonY": 39,
+      "metersPercent": 0.63,
+      "spots": [
+        {
+          "x": 58.167,
+          "y": 85.928,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 287,
+          "hero": true
+        },
+        {
+          "x": 51.333,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 30.167,
+          "y": 81.437,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 272,
+          "seatY": 65.269,
+          "group": "clinical-stool-1"
+        },
+        {
+          "x": 40.833,
+          "y": 77.844,
+          "pose": "sit",
+          "depth": 260,
+          "seatY": 54.79,
+          "group": "exam-chair-1"
+        }
+      ],
+      "measuredFrom": "Stool218px to floor272px; assume0.6m stool."
+    },
+    "place-doctor-exam-room__morning": {
+      "horizonY": 39,
+      "metersPercent": 0.63,
+      "spots": [
+        {
+          "x": 58.167,
+          "y": 85.928,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 287,
+          "hero": true
+        },
+        {
+          "x": 51.333,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 30.167,
+          "y": 81.437,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 272,
+          "seatY": 65.269,
+          "group": "clinical-stool-1"
+        },
+        {
+          "x": 40.833,
+          "y": 77.844,
+          "pose": "sit",
+          "depth": 260,
+          "seatY": 54.79,
+          "group": "exam-chair-1"
+        }
+      ],
+      "measuredFrom": "Stool218px to floor272px; assume0.6m stool."
+    },
+    "place-doctor-exam-room__night": {
+      "horizonY": 39,
+      "metersPercent": 0.63,
+      "spots": [
+        {
+          "x": 58.167,
+          "y": 85.928,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 287,
+          "hero": true
+        },
+        {
+          "x": 51.333,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 30.167,
+          "y": 81.437,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 272,
+          "seatY": 65.269,
+          "group": "clinical-stool-1"
+        },
+        {
+          "x": 40.833,
+          "y": 77.844,
+          "pose": "sit",
+          "depth": 260,
+          "seatY": 54.79,
+          "group": "exam-chair-1"
+        }
+      ],
+      "measuredFrom": "Stool218px to floor272px; assume0.6m stool."
+    },
+    "place-doctor-exam-room__rain": {
+      "horizonY": 39,
+      "metersPercent": 0.63,
+      "spots": [
+        {
+          "x": 58.167,
+          "y": 85.928,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 287,
+          "hero": true
+        },
+        {
+          "x": 51.333,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 30.167,
+          "y": 81.437,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 272,
+          "seatY": 65.269,
+          "group": "clinical-stool-1"
+        },
+        {
+          "x": 40.833,
+          "y": 77.844,
+          "pose": "sit",
+          "depth": 260,
+          "seatY": 54.79,
+          "group": "exam-chair-1"
+        }
+      ],
+      "measuredFrom": "Stool218px to floor272px; assume0.6m stool."
+    },
+    "place-dorm-common-room__midday": {
+      "horizonY": 36,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 50.5,
+          "y": 93.114,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 311,
+          "hero": true
+        },
+        {
+          "x": 49.0,
+          "y": 80.539,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 269
+        },
+        {
+          "x": 11.833,
+          "y": 85.329,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 285,
+          "seatY": 71.557,
+          "group": "lounge-chair-1"
+        },
+        {
+          "x": 57.667,
+          "y": 88.024,
+          "pose": "sit",
+          "depth": 294,
+          "seatY": 74.85,
+          "group": "lounge-chair-1"
+        },
+        {
+          "x": 31.333,
+          "y": 75.449,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 252,
+          "seatY": 66.168,
+          "group": "sofa-1"
+        },
+        {
+          "x": 40.167,
+          "y": 75.449,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 252,
+          "seatY": 66.168,
+          "group": "sofa-1"
+        },
+        {
+          "x": 76.667,
+          "y": 96.108,
+          "pose": "sit",
+          "depth": 321,
+          "seatY": 82.635,
+          "clipBelowY": 80.539,
+          "group": "study-table-1"
+        },
+        {
+          "x": 65.667,
+          "y": 88.323,
+          "pose": "sit",
+          "depth": 295,
+          "seatY": 76.946,
+          "clipBelowY": 71.557,
+          "group": "study-table-2"
+        },
+        {
+          "x": 96.333,
+          "y": 95.21,
+          "pose": "sit",
+          "depth": 318,
+          "seatY": 84.431,
+          "clipBelowY": 80.539,
+          "group": "study-table-3"
+        }
+      ],
+      "measuredFrom": "Front lounge cushion250px to floor294px; assume0.45m seat."
+    },
+    "place-dorm-room-double__midday": {
+      "horizonY": 44,
+      "metersPercent": 0.63,
+      "spots": [
+        {
+          "x": 49.833,
+          "y": 89.521,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 299,
+          "hero": true
+        },
+        {
+          "x": 45.0,
+          "y": 79.341,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 265
+        },
+        {
+          "x": 17.833,
+          "y": 100.0,
+          "pose": "sit",
+          "depth": 334,
+          "seatY": 85.928,
+          "clipBelowY": 72.156,
+          "group": "left-desk-1"
+        },
+        {
+          "x": 81.0,
+          "y": 100.0,
+          "pose": "sit",
+          "depth": 334,
+          "seatY": 85.629,
+          "clipBelowY": 74.551,
+          "group": "right-desk-1"
+        },
+        {
+          "x": 35.167,
+          "y": 80.539,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 269,
+          "seatY": 67.665,
+          "group": "left-bed-1"
+        },
+        {
+          "x": 63.0,
+          "y": 80.539,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 269,
+          "seatY": 67.665,
+          "group": "right-bed-1"
+        }
+      ],
+      "measuredFrom": "Desk chair287px to floor334px; assume0.45m seat."
+    },
+    "place-downtown-sidewalk-night__--2": {
+      "horizonY": 55,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 53.0,
+          "y": 88.623,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 296,
+          "hero": true
+        },
+        {
+          "x": 36.167,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 64.833,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 254
+        },
+        {
+          "x": 79.333,
+          "y": 81.737,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 273,
+          "seatY": 71.856,
+          "group": "sidewalk-bench-1"
+        },
+        {
+          "x": 84.5,
+          "y": 84.431,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 282,
+          "seatY": 73.653,
+          "group": "sidewalk-bench-2"
+        }
+      ],
+      "measuredFrom": "Bench246px to pavement282px; assume0.45m seat."
+    },
+    "place-downtown-sidewalk-night__--3": {
+      "horizonY": 55,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 53.0,
+          "y": 88.623,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 296,
+          "hero": true
+        },
+        {
+          "x": 36.167,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 64.833,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 254
+        },
+        {
+          "x": 79.333,
+          "y": 81.737,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 273,
+          "seatY": 71.856,
+          "group": "sidewalk-bench-1"
+        },
+        {
+          "x": 84.5,
+          "y": 84.431,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 282,
+          "seatY": 73.653,
+          "group": "sidewalk-bench-2"
+        }
+      ],
+      "measuredFrom": "Bench246px to pavement282px; assume0.45m seat."
+    },
+    "place-downtown-sidewalk-night__--4": {
+      "horizonY": 55,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 53.0,
+          "y": 88.623,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 296,
+          "hero": true
+        },
+        {
+          "x": 36.167,
+          "y": 77.246,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 64.833,
+          "y": 76.048,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 254
+        },
+        {
+          "x": 79.333,
+          "y": 81.737,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 273,
+          "seatY": 71.856,
+          "group": "sidewalk-bench-1"
+        },
+        {
+          "x": 84.5,
+          "y": 84.431,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 282,
+          "seatY": 73.653,
+          "group": "sidewalk-bench-2"
+        }
+      ],
+      "measuredFrom": "Bench246px to pavement282px; assume0.45m seat."
+    },
+    "place-downtown-sidewalk-night__": {
+      "horizonY": 55,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 53.0,
+          "y": 87.834,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 296,
+          "hero": true
+        },
+        {
+          "x": 36.167,
+          "y": 76.558,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 258
+        },
+        {
+          "x": 64.833,
+          "y": 75.371,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 254
+        },
+        {
+          "x": 79.333,
+          "y": 81.009,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 273,
+          "seatY": 71.216,
+          "group": "sidewalk-bench-1"
+        },
+        {
+          "x": 84.5,
+          "y": 83.679,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 282,
+          "seatY": 72.997,
+          "group": "sidewalk-bench-2"
+        }
+      ],
+      "measuredFrom": "Bench246px to pavement282px; assume0.45m seat."
+    },
+    "place-emergency-shelter-gym__mi": {
+      "horizonY": 42,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 50.5,
+          "y": 86.826,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 290,
+          "hero": true
+        },
+        {
+          "x": 50.333,
+          "y": 65.868,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 220
+        },
+        {
+          "x": 87.0,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 281,
+          "clipBelowY": 58.683,
+          "group": "supplies"
+        },
+        {
+          "x": 15.167,
+          "y": 90.719,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 303,
+          "seatY": 80.24,
+          "group": "cot-0-1"
+        },
+        {
+          "x": 22.333,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 72.156,
+          "group": "cot-1-1"
+        },
+        {
+          "x": 27.833,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 73.167,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 31.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 69.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 34.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 66.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 37.333,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 64.0,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 39.833,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 62.0,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 42.0,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        },
+        {
+          "x": 59.833,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        }
+      ],
+      "measuredFrom": "Nearest cot268px to floor303px; assume0.5m cot."
+    },
+    "place-emergency-shelter-gym__mo": {
+      "horizonY": 42,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 50.5,
+          "y": 86.826,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 290,
+          "hero": true
+        },
+        {
+          "x": 50.333,
+          "y": 65.868,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 220
+        },
+        {
+          "x": 87.0,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 281,
+          "clipBelowY": 58.683,
+          "group": "supplies"
+        },
+        {
+          "x": 15.167,
+          "y": 90.719,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 303,
+          "seatY": 80.24,
+          "group": "cot-0-1"
+        },
+        {
+          "x": 22.333,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 72.156,
+          "group": "cot-1-1"
+        },
+        {
+          "x": 27.833,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 73.167,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 31.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 69.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 34.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 66.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 37.333,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 64.0,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 39.833,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 62.0,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 42.0,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        },
+        {
+          "x": 59.833,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        }
+      ],
+      "measuredFrom": "Nearest cot268px to floor303px; assume0.5m cot."
+    },
+    "place-emergency-shelter-gym__ni": {
+      "horizonY": 42,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 50.5,
+          "y": 86.826,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 290,
+          "hero": true
+        },
+        {
+          "x": 50.333,
+          "y": 65.868,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 220
+        },
+        {
+          "x": 87.0,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 281,
+          "clipBelowY": 58.683,
+          "group": "supplies"
+        },
+        {
+          "x": 15.167,
+          "y": 90.719,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 303,
+          "seatY": 80.24,
+          "group": "cot-0-1"
+        },
+        {
+          "x": 22.333,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 72.156,
+          "group": "cot-1-1"
+        },
+        {
+          "x": 27.833,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 73.167,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 31.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 69.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 34.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 66.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 37.333,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 64.0,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 39.833,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 62.0,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 42.0,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        },
+        {
+          "x": 59.833,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        }
+      ],
+      "measuredFrom": "Nearest cot268px to floor303px; assume0.5m cot."
+    },
+    "place-emergency-shelter-gym__ra": {
+      "horizonY": 42,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 50.5,
+          "y": 86.826,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 290,
+          "hero": true
+        },
+        {
+          "x": 50.333,
+          "y": 65.868,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 220
+        },
+        {
+          "x": 87.0,
+          "y": 84.132,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 281,
+          "clipBelowY": 58.683,
+          "group": "supplies"
+        },
+        {
+          "x": 15.167,
+          "y": 90.719,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 303,
+          "seatY": 80.24,
+          "group": "cot-0-1"
+        },
+        {
+          "x": 22.333,
+          "y": 81.138,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 271,
+          "seatY": 72.156,
+          "group": "cot-1-1"
+        },
+        {
+          "x": 27.833,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 73.167,
+          "y": 73.353,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 245,
+          "seatY": 65.868,
+          "group": "cot-2-1"
+        },
+        {
+          "x": 31.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 69.667,
+          "y": 67.365,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 225,
+          "seatY": 60.778,
+          "group": "cot-3-1"
+        },
+        {
+          "x": 34.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 66.667,
+          "y": 61.976,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 207,
+          "seatY": 56.287,
+          "group": "cot-4-1"
+        },
+        {
+          "x": 37.333,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 64.0,
+          "y": 57.485,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 192,
+          "seatY": 52.395,
+          "group": "cot-5-1"
+        },
+        {
+          "x": 39.833,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 62.0,
+          "y": 53.593,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 179,
+          "seatY": 49.102,
+          "group": "cot-6-1"
+        },
+        {
+          "x": 42.0,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        },
+        {
+          "x": 59.833,
+          "y": 50.898,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 170,
+          "seatY": 46.707,
+          "group": "cot-7-1"
+        }
+      ],
+      "measuredFrom": "Nearest cot268px to floor303px; assume0.5m cot."
+    },
+    "place-factory-exterior__midday--2": {
+      "horizonY": 54,
+      "metersPercent": 0.27,
+      "spots": [
+        {
+          "x": 46.333,
+          "y": 92.814,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 310,
+          "hero": true
+        },
+        {
+          "x": 17.0,
+          "y": 83.832,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 280
+        },
+        {
+          "x": 39.5,
+          "y": 70.659,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 236
+        }
+      ],
+      "measuredFrom": "Guard-booth door about52px high, floor258px; assume2.0m door."
+    },
+    "place-factory-exterior__midday": {
+      "horizonY": 68,
+      "metersPercent": 0.32,
+      "spots": [
+        {
+          "x": 54.833,
+          "y": 92.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 552,
+          "hero": true
+        },
+        {
+          "x": 24.667,
+          "y": 92.0,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 552
+        },
+        {
+          "x": 43.667,
+          "y": 86.333,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 518
+        }
+      ],
+      "measuredFrom": "Rollup door450px to ground520px on600x600 source; assume3m door."
+    },
+    "place-factory-exterior__morning": {
+      "horizonY": 54,
+      "metersPercent": 0.27,
+      "spots": [
+        {
+          "x": 46.333,
+          "y": 92.814,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 310,
+          "hero": true
+        },
+        {
+          "x": 17.0,
+          "y": 83.832,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 280
+        },
+        {
+          "x": 39.5,
+          "y": 70.659,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 236
+        }
+      ],
+      "measuredFrom": "Guard-booth door about52px high, floor258px; assume2.0m door."
+    },
+    "place-factory-exterior__night": {
+      "horizonY": 54,
+      "metersPercent": 0.27,
+      "spots": [
+        {
+          "x": 46.333,
+          "y": 92.814,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 310,
+          "hero": true
+        },
+        {
+          "x": 17.0,
+          "y": 83.832,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 280
+        },
+        {
+          "x": 39.5,
+          "y": 70.659,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 236
+        }
+      ],
+      "measuredFrom": "Guard-booth door about52px high, floor258px; assume2.0m door."
+    },
+    "place-factory-exterior__rain": {
+      "horizonY": 54,
+      "metersPercent": 0.27,
+      "spots": [
+        {
+          "x": 46.333,
+          "y": 92.814,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 310,
+          "hero": true
+        },
+        {
+          "x": 17.0,
+          "y": 83.832,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 280
+        },
+        {
+          "x": 39.5,
+          "y": 70.659,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 236
+        }
+      ],
+      "measuredFrom": "Guard-booth door about52px high, floor258px; assume2.0m door."
+    },
+    "place-farm-field__midday": {
+      "horizonY": 37,
+      "metersPercent": 0.53,
+      "spots": [
+        {
+          "x": 51.667,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 36.667,
+          "y": 82.635,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 276
+        },
+        {
+          "x": 83.833,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 273
+        }
+      ],
+      "measuredFrom": "Fence post185px to ground268px; assume1.2m post."
+    },
+    "place-farm-field__morning": {
+      "horizonY": 37,
+      "metersPercent": 0.53,
+      "spots": [
+        {
+          "x": 51.667,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 36.667,
+          "y": 82.635,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 276
+        },
+        {
+          "x": 83.833,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 273
+        }
+      ],
+      "measuredFrom": "Fence post185px to ground268px; assume1.2m post."
+    },
+    "place-farm-field__night": {
+      "horizonY": 37,
+      "metersPercent": 0.53,
+      "spots": [
+        {
+          "x": 51.667,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 36.667,
+          "y": 82.635,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 276
+        },
+        {
+          "x": 83.833,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 273
+        }
+      ],
+      "measuredFrom": "Fence post185px to ground268px; assume1.2m post."
+    },
+    "place-farm-field__rain": {
+      "horizonY": 37,
+      "metersPercent": 0.53,
+      "spots": [
+        {
+          "x": 51.667,
+          "y": 88.024,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 294,
+          "hero": true
+        },
+        {
+          "x": 36.667,
+          "y": 82.635,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 276
+        },
+        {
+          "x": 83.833,
+          "y": 81.737,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 273
+        }
+      ],
+      "measuredFrom": "Fence post185px to ground268px; assume1.2m post."
+    },
+    "place-federal-courtroom__midday": {
+      "horizonY": 42,
+      "metersPercent": 0.5,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 91.617,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 306,
+          "hero": true
+        },
+        {
+          "x": 51.333,
+          "y": 68.563,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 229,
+          "clipBelowY": 61.078,
+          "group": "counsel"
+        },
+        {
+          "x": 11.0,
+          "y": 99.701,
+          "pose": "sit",
+          "depth": 333,
+          "seatY": 93.114,
+          "clipBelowY": 87.425,
+          "group": "public-1"
+        },
+        {
+          "x": 21.333,
+          "y": 99.701,
+          "pose": "sit",
+          "depth": 333,
+          "seatY": 93.114,
+          "clipBelowY": 87.425,
+          "group": "public-1"
+        },
+        {
+          "x": 31.833,
+          "y": 99.701,
+          "pose": "sit",
+          "depth": 333,
+          "seatY": 93.114,
+          "clipBelowY": 87.425,
+          "group": "public-1"
+        },
+        {
+          "x": 69.167,
+          "y": 99.701,
+          "pose": "sit",
+          "depth": 333,
+          "seatY": 93.114,
+          "clipBelowY": 87.425,
+          "group": "public-1"
+        },
+        {
+          "x": 79.667,
+          "y": 99.701,
+          "pose": "sit",
+          "depth": 333,
+          "seatY": 93.114,
+          "clipBelowY": 87.425,
+          "group": "public-1"
+        },
+        {
+          "x": 90.333,
+          "y": 99.701,
+          "pose": "sit",
+          "depth": 333,
+          "seatY": 93.114,
+          "clipBelowY": 87.425,
+          "group": "public-1"
+        },
+        {
+          "x": 13.167,
+          "y": 91.317,
+          "pose": "sit",
+          "depth": 305,
+          "seatY": 85.329,
+          "clipBelowY": 79.042,
+          "group": "public-2"
+        },
+        {
+          "x": 23.167,
+          "y": 91.317,
+          "pose": "sit",
+          "depth": 305,
+          "seatY": 85.329,
+          "clipBelowY": 79.042,
+          "group": "public-2"
+        },
+        {
+          "x": 32.833,
+          "y": 91.317,
+          "pose": "sit",
+          "depth": 305,
+          "seatY": 85.329,
+          "clipBelowY": 79.042,
+          "group": "public-2"
+        },
+        {
+          "x": 67.667,
+          "y": 91.317,
+          "pose": "sit",
+          "depth": 305,
+          "seatY": 85.329,
+          "clipBelowY": 79.042,
+          "group": "public-2"
+        },
+        {
+          "x": 77.5,
+          "y": 91.317,
+          "pose": "sit",
+          "depth": 305,
+          "seatY": 85.329,
+          "clipBelowY": 79.042,
+          "group": "public-2"
+        },
+        {
+          "x": 87.0,
+          "y": 91.317,
+          "pose": "sit",
+          "depth": 305,
+          "seatY": 85.329,
+          "clipBelowY": 79.042,
+          "group": "public-2"
+        },
+        {
+          "x": 11.0,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 53.293,
+          "group": "jury-1"
+        },
+        {
+          "x": 15.5,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 53.293,
+          "group": "jury-1"
+        },
+        {
+          "x": 19.833,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 53.293,
+          "group": "jury-1"
+        },
+        {
+          "x": 23.833,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 53.293,
+          "group": "jury-1"
+        },
+        {
+          "x": 27.833,
+          "y": 64.072,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 214,
+          "seatY": 57.485,
+          "clipBelowY": 53.293,
+          "group": "jury-1"
+        },
+        {
+          "x": 50.0,
+          "y": 58.982,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 197,
+          "seatY": 52.395,
+          "clipBelowY": 49.701,
+          "group": "judge-1",
+          "floor": "raised"
+        },
+        {
+          "x": 23.667,
+          "y": 73.353,
+          "pose": "sit",
+          "depth": 245,
+          "seatY": 68.263,
+          "clipBelowY": 66.168,
+          "group": "counsel-1"
+        },
+        {
+          "x": 34.167,
+          "y": 73.353,
+          "pose": "sit",
+          "depth": 245,
+          "seatY": 68.263,
+          "clipBelowY": 66.168,
+          "group": "counsel-1"
+        },
+        {
+          "x": 66.667,
+          "y": 73.353,
+          "pose": "sit",
+          "depth": 245,
+          "seatY": 68.263,
+          "clipBelowY": 66.168,
+          "group": "counsel-1"
+        },
+        {
+          "x": 77.333,
+          "y": 73.353,
+          "pose": "sit",
+          "depth": 245,
+          "seatY": 68.263,
+          "clipBelowY": 66.168,
+          "group": "counsel-1"
+        }
+      ],
+      "measuredFrom": "Public cushion311px to floor333px; assume0.45m seat.",
+      "floors": {
+        "raised": 0.575
+      }
+    }
+  }
+}
