@@ -65,9 +65,9 @@ export interface PersonContext {
   /** "Maya" — what a person in the room would call them. */
   readonly shortName: string;
   /**
-   * "your mom", "your housemate", "your former teacher" — or null when the
+   * "your mom", "your roommate", "your former teacher" — or null when the
    * record does not establish one. Always a noun phrase from the viewer's
-   * side, so it reads the same after a name ("Dean Campos, your housemate")
+   * side, so it reads the same after a name ("Dean Campos, your roommate")
    * as it does on its own, on every screen that names people.
    */
   readonly relationship: string | null;
@@ -567,7 +567,7 @@ function resolveHousehold(
     );
     if (!residents.includes(subjectId)) continue;
     return {
-      relationship: "your housemate",
+      relationship: "your roommate",
       basis:
         "Resident on the same household record, with no kinship record between them.",
       anchors: [

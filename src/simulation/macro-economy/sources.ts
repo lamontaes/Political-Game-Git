@@ -69,7 +69,7 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
 const W3_INTERNATIONAL_SUBJECT_SHOCKS: Readonly<
   Record<string, MacroShockKind>
 > = {
-  // "Shipping delays were reported along a busy international trade route."
+  // Legacy W3 subject 0 maps to a recorded trade disruption.
   "0": "trade-disruption",
 };
 

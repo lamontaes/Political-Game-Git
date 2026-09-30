@@ -1,0 +1,166 @@
+# MERGED
+
+No Team 5 product changes have merged. The routing table is ready for review. Both product pull requests are READY for the CTO gate. The assignment remains incomplete.
+
+# WHAT EMERGED
+
+DECIDED: The assigned Job 07 records the September 29 ruling: “remove canned news. Old saves don't matter.” The candidate removes the ready-made local and international news producers and the crisis draw that consumed them. Existing scheduled synthetic transitions cancel without creating events or successors.
+
+HARDWIRED: The opening archive considers the preceding 90 days in `src/simulation/press/desk.ts:171`. It publishes existing eligible public occurrences through Civic Ledger, using their original occurrence dates. It creates no election, law, vote, business opening, or death to fill an empty archive. The first desk sweep reads the pre-schedule record; later sweeps keep their incremental frontier.
+
+HARDWIRED: The dossier candidate reads public events involving the person, beyond office tenures, in `src/presentation/person-dossier.ts:187`. Work and education facts require the player's own identity, a public source event, or accurate recorded event knowledge. Private biography remains withheld. This does not generate missing pre-play hiring or favor history.
+
+HARDWIRED: The rejected generic choice opener and appearance developer notice are removed from their player components. The ownership check still prevents editing another person's appearance.
+
+# Wider knock-on effects and missing links
+
+The required meeting change waits for Team 1's claimed `src/simulation/living-world/local-council-meetings.ts`. That file still introduces a meeting-room-hours ordinance. Team 1 also owns `src/simulation/campaigns.ts` and `src/presentation/opening-life.ts`; their synthetic-development calls remain temporarily callable through retired entry points. Team 5 has not edited these files.
+
+Team 4 owns `scripts/zero-dice-allowlist.json`. The source candidate removes code matched by two pressure-event entries. Team 4 must reconcile these after receiving the change; Team 5 has not changed that file.
+
+Both entries name src/simulation/pressure/events.ts, Build 19, count 1:
+
+- Kind fixed-share; code `chanceCap: 0.9,`.
+- Kind roll; code `draw(next, ["international", matter, ordinal]) >=`.
+
+The corresponding source removal is in commit `f99e10b48b17efb31a0f32fde7eb8631a01052c5`, READY PR #1134.
+
+Item 51 has a grounding blocker: day-opening English uses roommate and household IDs to claim home or next-room presence without location evidence. These lines are not a presence producer. Item 43 now uses “your roommate” in the canonical relationship reader and succession fallback. Source commit: `4fc83de4442ec72561e3cabd7bed8724877cd6a7`. ESLint, Prettier and whitespace checks passed; browser proof remains NOT RUN.
+
+Meeting attendees, agenda-driven speech, full pre-play leader history, and most items routed to Job 09 remain open. The candidate records each public comment listener in the comment event and gives each listener direct knowledge. It does not yet produce an attendee-specific reply. Neither a five-year story count nor a three-year speed comparison has been run. No watched-world outcome is claimed.
+
+# VITAL STATISTICS
+
+- Routing: 149 unique numbered items, 1 through 149. Report check: 0 errors and 0 warnings. Prettier passed.
+- Two focused notice/opener tests passed before the host restriction. They tested the earlier notice-only candidate, before subsequent news and dossier changes.
+- An earlier three-file canned-news test run was interrupted by Team 5 with exit 130 at the coordinator's request. NO RESULT.
+- Changed-file typecheck: passed for 18 files. Separate bounded behavior results are listed below. Full project typecheck, release check, zero-dice, watched worlds and timing: NOT RUN.
+- The resumed eight-file default-loader invocation produced no test results and was interrupted by Team 5, exit 130, NO RESULT. The runner invocation finished; its final result is below. No exclusions or timeout changes.
+- Browser and GitHub validation: NOT RUN locally, per the latest direction assigning these to Claude.
+- Current bounded behavior results: dossier 3 tests passed; archive 2 tests passed after an absent-collection fixture repair; guard and headline 2 tests passed after removal of an obsolete comment caption. These are separate invocations, not a passing eight-file suite.
+- Original eight-file suite: 3 meeting failures among 10 meeting tests observed. The final assertion text reports timeouts; the underlying cause is unresolved. The failed entries are local-chair attendance in 2743000, and explicit entry/staying through the remaining meeting in 2743000 and 1150000. Full file duration: 551,217 ms. No timeout or exclusion change.
+- Dossier date-guard increment: ESLint, Prettier and whitespace checks passed. The separate dossier behavior run passes 3 tests. Changed-file typecheck now passes for 18 files with zero diagnostics after fixture ID/date repairs. The repair commit is `658af24ed0b411734500a77de485d706e7d245ea`.
+- Report agent review: NOT RUN. The wave permits one source-research helper only; no reviewer helper was started.
+
+## Candidate before and after
+
+The separate small-copy candidate addresses items 3, 85, 95, 125, 130, 142 and 149, plus the setup portion of item 126. Place search hides after a selection and returns through Change. The rent benchmark is omitted from that step. Filing and News lose developer copy, shift coverage uses schedule, and Quit appears only where native Quit is available. The replay disclosure requires diagnostics. News omits the repeated current-officeholder section. Other wording listed in item 126 remains open.
+
+- Item 22 and item 25: Full record routed away from the opening; the NPC button now expands the overlay in place. Browser proof remains NOT RUN.
+- Item 23: A developer notice appeared on another person's record; the appearance component now returns no controls or notice for that person.
+- Item 103: The generic choices opener appeared over the room; the opener is removed.
+- Item 109: Only the player received knowledge of the public comment; each recorded listener now receives direct knowledge, with listener IDs stored on the event. An individual spoken reaction remains open.
+- Contact controls: expanded dossiers offered unavailable travel, meeting and contact buttons; each button now requires an available action and a callback.
+
+## Source and workspace
+
+The small-copy [READY PR #1135](https://github.com/lamontaes/Political-Game-Git/pull/1135) repairs place selection and developer wording. Its source checkpoint is `acf6d17d99f900db4de61c49bf24d8ec83f54e4a`, on `codex/team-5-playtest-copy`. This branch starts from main and is independent of the larger candidate.
+
+The unvalidated [READY PR #1134](https://github.com/lamontaes/Political-Game-Git/pull/1134) retires canned news and exposes record-backed history. Its original product checkpoint is `f99e10b48b17efb31a0f32fde7eb8631a01052c5`. The dossier source-date guard is in `1211def515e239254e1a578c98ef00664d24f268`; it withholds biography whose source event has not yet been recorded. It is stacked on the routing branch and must remain unmerged until its required checks and dependency review pass.
+
+The routing-only [PR #1132](https://github.com/lamontaes/Political-Game-Git/pull/1132) assigns every September 29 playtest item to a job. It does not mark any defect fixed.
+
+Team 5 reuses the registered `/private/tmp/wt-gate-1121`. The larger product candidate is stacked on the routing branch. All three branches start from main `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`.
+
+The former detached gate checkpoint is preserved by `codex/team-5-preserved-gate-1121`. Its tree matched a published main checkpoint. No live process working directory was found in this tree before reuse. No other owner's process was stopped.
+
+The shared root remains on its original branch with all product edits preserved. Team 5 changed only its append-only claim rows and its assigned hand-back documents there. Coordinator status.md was not edited.
+
+## History-source findings
+
+One permitted Low source-research helper inspected the existing initialization paths without editing or running checks. At canonical main, `establishOpeningOfficeholders` creates identity and current tenure, with no earlier career constructor, in `src/presentation/opening-officeholders.ts:70`.
+
+Local civilian hiring already backdates canonical work through `fillTownJobs` in `src/simulation/living-world/town-employment.ts:1354`. It writes work relationships, roles and statuses, but no historical hiring event or favor. This file belongs to Team 3, so Team 5 did not change it.
+
+Appointment favors require an actual personal appointment decision trace in `src/simulation/patronage/appointments.ts:580`. Missing favors cannot be filled by arbitrary rows. A full D-9 pre-play history producer remains work to implement through these boundaries.
+
+## History producer requirements (design only)
+
+This is a source-only handoff, not implemented history. The opening officeholder producer needs an earlier career plan before publishing its current tenure. It must use canonical person-history writers, preserve the seeded identity, and carry occurrence dates and source event IDs into each supported work or education fact. It must not treat the current office as proof of earlier jobs.
+
+The employment producer can expose the work relationship's existing start date and employer as recorded work history. It cannot derive a hiring conversation, supporter, appointer or motive from that date alone. A personal appointment favor requires the actual selection trace; campaign favors require recorded contribution outcomes. Team 5's dossier renderer must not author these decisions while somebody reads it.
+
+Each produced history record needs its intended audience and knowledge grant. A public career event can appear on the public dossier. Private work or education needs accurate learned knowledge before another person sees it. The date guard now also requires the source record to exist by the current date. Acceptance must exercise the five officeholder/neighbor dossiers, an actual hiring or appointment sequence, its favor when supported, and save/reload through the same player route.
+
+## Claude's required browser checks and screenshots
+
+Use the candidate's exact PR head after local checks are released. Start a new adult life in a random supported place outside Lebanon, naming the place and seed.
+
+1. Pick a place in setup. Capture the hidden search after the pick, click Change and capture the restored search. Verify the rent benchmark is absent.
+2. Complete the opening. Open the President, governor, mayor, a council member and an ordinary neighbor. Capture each expanded dossier. Check that each history line refers to the person and a recorded occurrence, and that private facts remain withheld.
+3. From opening card 2, open Full record and close it. Capture before, expanded and returned screens. It must return to card 2; the candidate expands the NPC overlay in place, but this return route remains unverified.
+4. Open News on day one. Capture a story whose occurrence predates January 5, 2026, with the original event date. If the world produced no qualifying archive, record that gap; do not accept a fabricated substitute.
+5. At home, verify the generic choice opener is absent. Open another person's full record and verify the appearance notice is absent and their wardrobe cannot be changed.
+6. Attend a council meeting. Capture agenda, room attendees, public comment and its recorded audience response. This remains a dependency and is not ready for acceptance.
+7. Repeat the assigned new-game, opening, home, housemate conversation, Stops, radial menu, Journal, TV, map, filing, News and meeting path. List still-broken routed items.
+
+8. Capture browser title with no Quit, and a disposable native session with a working Quit. Capture campaign filing without empty-committee wording, News without the fictional-person disclaimer or repeated In office section, setup without the replay disclosure in ordinary play, and a shift-coverage record using schedule.
+
+## Team 5 claims
+
+Claimed paths were appended under the atomic shared lock before edits. Only Team 5 source belongs in its product PRs. Some claimed paths remain unedited while their dependencies are unresolved:
+
+- `docs/codex/handbacks/09-routing.md`
+- `docs/codex/handbacks/team-5.md`
+- `src/player/SavedAppearance.tsx`
+- `src/player/opening-life/OpeningLifeFlow.tsx`
+- `src/player/opening-life/OpeningLifeFlow.test.tsx`
+- `tests/canned-content-guard.test.ts`
+- `src/presentation/person-dossier.ts`
+- `src/presentation/person-dossier.test.ts`
+- `src/player/ShellDossier.tsx`
+- `src/simulation/press/desk.ts`
+- `src/simulation/press/opening-archive.test.ts`
+- `docs/release/changes/wave1-record-backed-content.md`
+- `src/simulation/living-world/developments.ts`
+- `src/simulation/pressure/events.ts`
+- `src/simulation/pressure/events.test.ts`
+- `src/presentation/news-headlines.ts`
+- `src/presentation/news-headlines.test.ts`
+- `src/presentation/living-world-developments.test.ts`
+- `src/simulation/life-opportunities.ts`
+- `src/simulation/ordinary-meeting-presence.ts`
+- `src/simulation/ordinary-meeting-presence.test.ts`
+- `src/player/PersonCard.tsx`
+- `src/presentation/ordinary-meeting-scene.test.ts`
+- `src/simulation/life-circumstances.ts`
+- `src/player/TitleScreen.tsx`
+- `src/player/World39News.tsx`
+- `src/player/CampaignWorkspace.tsx`
+- `docs/release/changes/wave1-playtest-copy.md`
+- `src/player/SetupScreen.tsx`
+- `src/presentation/day-opening-english.ts` (claimed; unedited)
+- `src/presentation/day-opening-english.test.ts` (claimed; unedited)
+- `src/simulation/person-context.ts` (roommate wording repaired)
+- `src/presentation/people-continuation.ts` (roommate wording repaired)
+- `src/simulation/macro-economy/sources.ts` (obsolete caption removed)
+
+# NEEDS LAMONTAE
+
+No new product decision is required for the candidate. The owner granted standing approval for coordinator updates. The latest CTO correction makes focused tests and changed-file typecheck immediately eligible. Team 5 is running both. Full simulations and speed timing remain subject to the heavy-job rule. No merge is authorized.
+
+# PLACEHOLDERS
+
+The 90-day opening archive window is an authored editorial limit. Retired synthetic entry points remain until the owners of their callers merge. No missing historical occurrence is replaced with a stand-in.
+
+## Completed focused checks and original suite result
+
+The retirement fixture now schedules its synthetic transition for the following day. The previous fixture used today, which the scheduler correctly rejected. The unchanged cancellation assertions pass: 1 test passed. Its changed-file typecheck reports zero diagnostics. Source repair: `520bfd610998328e4bb8c8e0a6f16c8fa28e19de`.
+
+The original eight-file invocation completed with exit 1: 4 tests failed and 17 passed, with one worker error. It began at `e8d7e60bbe15875d8e6011b1309ff77e474833d2`; sources changed while it ran, so this is not immutable-head acceptance. One failure was the retirement fixture repaired above. The three meeting failures each report `Error: Test timed out in 60000ms.`:
+
+- `records a local chair only on successful attendance in 2743000`, reported at ordinary-meeting-scene.test.ts:153:34.
+- `enters explicitly then stays through the remaining meeting exactly once in 2743000`, reported at ordinary-meeting-scene.test.ts:239:34.
+- The same explicit-entry test in 1150000, reported at ordinary-meeting-scene.test.ts:239:34.
+
+The underlying meeting cause remains unmeasured. No timeout or exclusion was changed. The pressure test includes a 910-day simulation. Under the owner's post-merge full-simulation rule, Team 5 interrupted only its identified worker; that scenario has NO RESULT. The parent reported the worker exit. The saved assertion output is `/private/tmp/team5-original-suite-final.log`. The fixture rerun is `/private/tmp/team5-retirement-fixture-rerun.log`.
+
+The separate meeting-controls branch records eligible sitting council officers and explicit recorded participants. It removes group-ranked filler and manufactured NPC speeches, and hides controls without a working callback. Four changed files pass the scoped typecheck. Its direct card and opening tests pass 6 tests. Meeting tests and browser screenshots remain pending. Its saved head is `c13cf80b8d9d96efa6665b3914a2b5985b753c8a`.
+
+Team 2 should read canonical history through `factsForPerson(world.people[id])`.
+
+Resolve each fact source event through `eventById(world, id)`.
+
+New plans use `applyCharacterHistoryPlan(world, plan)` and its returned world. The dossier is an access-aware presentation reader.
+
+The shared claim lock is now a regular file, so atomic directory acquisition refuses. Team 5 has not bypassed it. The scene presentation source remains unclaimed and unedited. Existing claimed paths remain available for this work.
