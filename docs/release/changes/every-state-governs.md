@@ -16,3 +16,5 @@ The draft records the released Senate writer scope and confirms the agenda integ
 Historical Senate procedure reads now keep later adoption records from changing an earlier action boundary in the draft.
 
 The Senate can pass a bill on a recorded member's request without a roll call when no member's recorded principles object. An objection keeps the ordinary vote. The request, passage and evidence survive Save/Continue.
+
+The draft now inventories governing and election-response numbers, their evidence gaps and the behavior they affect. It changes no numeric calibration.
