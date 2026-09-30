@@ -2,6 +2,22 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 11:03 dispatch and map integration
+
+### MERGED
+No new landing claimed in this entry. Merge received CTO approval routing for shared stamp 1237 first, then browser-only 1230. Team 2 received the 11:30 nationwide audit deadline.
+
+### CONNECTIONS TABLE
+Team 5 now owns teacher-pay stamp and curriculum month hunks. Team 8 owns HealthCoverageRecord stamp field and health coverage transfer. Team 3 was instructed to transfer housing to Team 4, health to Team 8 and nondiscrimination to Team 5 with preserved source receipts.
+
+### BLOCKED
+Nationwide results remain pending. Full five-part records still need terms, costs, ideology and stamped proof; fourteen notes do not establish those parts.
+
+### EFFECTS
+Coordinator READY PR1239 at 8715cf8c6f8dd605141931047c743907ca7757eb integrates fourteen Team 5 education why-chain notes. Existing source fields matched; no numbers or activation changed. JSON validation and report check passed. Shared index and checkout preserved.
+
+Coordinator corrected PR1232 to 79bdbd935945846b14a1d92edcd1fca6f29deb04: historical TSP size cannot apply to the PM2.5 cause. Runtime coefficient is unset; the original source proposal and range remain under research with a unit gate. No conversion invented. Posted to coordinator 00.
+
 ## September 30, 10:55 collection: five-part law records
 
 The deadline is now 1 p.m. Each law needs terms, all effects, cost, weighted ideology and nationwide proof. All eight cloud law teams and Merge received the new standard and the published shared stamp API. Art remains unchanged.

@@ -698,3 +698,7 @@ Supersedes earlier policy splits. Team 1: 20 federal laws. Team 2: 8 government/
 ## CTO 10:55 catalog and narrow producer allocation
 
 Coordinator exclusively integrates shared catalog parameters and links.json from team payloads. Team 4 granted law-effect hunks in housing-market.ts and town-businesses.ts plus focused tests; no preexisting central claim found. Team 1 rent/finance loan and Team 3 housing/health transfers requested; preserve unpublished work before overlapping edits. Team 2 sole stamp module/test writer; producer owners consume its exported type. Team 8 health-coverage grant depends on receiving Team 3 active-hunk state. No general schema takeover.
+
+## CTO 11:03 explicit hunk grants
+
+Team 5: town-pay.ts raiseTeacherPayToFloor stamp hunk; month.ts curriculum import/schools/record stamp hunks. Team 8: crisis/types.ts HealthCoverageRecord optional shared stamp mixin/import; health-coverage.ts/test transfer. Team 3 transfers housing law hunks to Team 4 and shared nondiscrimination readers to Team 5, preserving and delivering existing unique bytes. These grants supersede earlier ownership for only these surfaces. Coordinator remains sole links.json and catalog-parameter writer.
