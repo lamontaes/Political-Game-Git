@@ -8,7 +8,7 @@ Lamontae created cloud Teams 1–6, 8 and 9 and authorized their assignments and
 
 | Team | Model / effort | Cloud chat ID | Transfer state |
 | --- | --- | --- | --- |
-| 1 | Sol 6.1 Medium | 01a0f02e-e6f1-71bc-968b-a74bc4c920dc | Final local handoff requested; cloud setup active. |
+| 1 | Sol 6.1 Medium | 01a0f02e-e6f1-71bc-968b-a74bc4c920dc | Working checkout verified; final handback fetched/read. Local chat archived. |
 | 2 | Sol 6.1 High | 01a0f02f-580d-75fb-8495-9b7cb80ae0d1 | Final local handoff requested; cloud setup active. |
 | 3 | Sol 6.1 Medium | 01a0f02f-b5e1-72f4-aa6d-04bb752e50ec | Preserve fairness candidate before source transfer. |
 | 4 | Sol 6.1 Medium | 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 | PR #1160 handoff delivered; cloud setup active. |
