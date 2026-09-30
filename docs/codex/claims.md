@@ -618,3 +618,9 @@ September 30, 4:00: Team8 exclusively owns new src/presentation/story-scene-reso
 - Team 7: art/authoring/sept29-team7/kids/age14-native-scale-comparison.jpg — native-pixel comparison contact; candidate review only.
 
 September30 4:30 pending ownership requests, not grants: Team2 continuous-strength principles-from-life shared hunks toTeam1; Team3 generic life.ts appendOne/requireRecord/assertUniqueStableKey/import hunks toTeam4. Existing writers retain claims until explicit release and central update. Team8 resolver files remain exclusivelyTeam8; Team5 consumer1197 exact map requested.
+
+- Team 7: art/authoring/sept29-team7/kids/boy-14-standing-base-v4.png — master-referenced style revision candidate only.
+
+September30 4:55 confirmed exclusive hunk transfer: Team2 explicitly released principles-from-life.ts combination, evidence deduplication and changed-row append, and associated continuous-strength fixtures in principles-from-life.test.ts toTeam1, with no active conflicting edits. This supersedes Team2 ownership only for those hunks. Team3 population-reader/CDP fixture seam staysTeam3; remaining file surfaces stay with their existing owners.
+
+September30 4:55 Team3 explicitly confirms no working/staged life.ts edits and releases ONLY import line3 and generic appendOne, requireRecord, assertUniqueStableKey helper conversions toTeam4 exclusively. Team3 retains household/birth/eviction logic; no schema or policy release. CTO4:40 separately grants Team3 town-homes enterHome/vacancy host-first destination and permanent former-dwelling exclusion; shelter follows researched capacity.
