@@ -516,6 +516,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "health-human-services.housing-first-homelessness",
+      parameters: [
+        { key: "treatment-precondition", value: "yes-or-no" },
+        { key: "eligibility", value: "eligible-household-categories" },
+      ],
       issue: "us-state-and-local:health-human-services.homelessness-services",
       name: "Housing first",
       question:
@@ -528,6 +532,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "justice-public-safety.end-cash-bail",
+      parameters: [
+        { key: "money-condition", value: "yes-or-no" },
+        { key: "coverage", value: "covered-charge-and-defendant-categories" },
+      ],
       issue: "us-state-and-local:justice-public-safety.courts",
       name: "End cash bail",
       question: "Should release before trial be decided without money bail?",
@@ -540,6 +548,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "justice-public-safety.mandatory-minimum-sentences",
+      parameters: [
+        { key: "floor", value: "months-of-custody" },
+        { key: "coverage", value: "covered-offense-categories" },
+      ],
       issue:
         "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
       name: "Mandatory minimum sentences",
@@ -554,6 +566,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "justice-public-safety.civilian-oversight-of-police",
+      parameters: [
+        { key: "powers", value: "investigation-and-enforcement-powers" },
+        { key: "coverage", value: "covered-agencies" },
+      ],
       issue: "us-state-and-local:justice-public-safety.policing",
       name: "Civilian oversight of police",
       question:
@@ -566,6 +582,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "justice-public-safety.permit-to-carry-concealed",
+      parameters: [
+        { key: "required", value: "yes-or-no" },
+        { key: "eligibility", value: "eligible-applicant-categories" },
+      ],
       issue: "us-state-and-local:justice-public-safety.firearms",
       name: "Require a permit to carry concealed",
       question: "Should carrying a concealed firearm require a permit?",
@@ -589,6 +609,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "justice-public-safety.restore-voting-after-sentence",
+      parameters: [
+        { key: "restoration-event", value: "sentence-completion-stage" },
+        { key: "coverage", value: "eligible-person-categories" },
+      ],
       issue: "us-state-and-local:justice-public-safety.reentry",
       name: "Restore voting after a sentence",
       question:
@@ -601,6 +625,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.allow-multifamily-in-single-family-zones",
+      parameters: [
+        { key: "units", value: "dwellings-per-parcel" },
+        { key: "coverage", value: "covered-zones-and-parcels" },
+      ],
       // A housing-supply question: states answer it too, overriding local
       // zoning (Oregon, California, Washington, Montana, Maine, Vermont, Arizona).
       issue: "us-state-and-local:housing-land-use.housing-supply",
@@ -616,6 +644,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.rent-stabilization",
+      parameters: [
+        { key: "cap", value: "annual-percentage-increase" },
+        { key: "coverage", value: "covered-tenancy-and-building-categories" },
+      ],
       issue: "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
       name: "Rent stabilization",
       question:
@@ -629,6 +661,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.by-right-permitting",
+      parameters: [
+        { key: "approval", value: "ministerial-or-discretionary" },
+        { key: "coverage", value: "qualifying-project-categories" },
+      ],
       issue: "us-state-and-local:housing-land-use.permitting",
       name: "By-right permitting",
       question:
@@ -641,6 +677,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.inclusionary-requirement",
+      parameters: [
+        { key: "share", value: "share-of-new-homes" },
+        { key: "income-limit", value: "share-of-area-median-income" },
+      ],
       issue: "us-state-and-local:housing-land-use.housing-affordability",
       name: "Inclusionary housing requirement",
       question:
@@ -653,6 +693,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.preempt-local-housing-limits",
+      parameters: [
+        { key: "subjects", value: "preempted-local-restrictions" },
+        { key: "coverage", value: "covered-localities" },
+      ],
       issue: "us-state-and-local:housing-land-use.state-housing-preemption",
       name: "Preempt local housing limits",
       question: "Should the state override local rules that block housing?",
@@ -665,6 +709,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.right-to-counsel-in-eviction",
+      parameters: [
+        { key: "income-limit", value: "share-of-federal-poverty-level" },
+        { key: "coverage", value: "covered-proceeding-categories" },
+      ],
       issue: "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
       name: "Right to counsel in eviction",
       question: "Should a tenant facing eviction be provided a lawyer?",
@@ -675,6 +723,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.shift-highway-funds-to-transit",
+      parameters: [
+        { key: "share", value: "share-of-eligible-transport-funding" },
+        { key: "coverage", value: "eligible-funding-programs" },
+      ],
       issue: "us-state-and-local:transportation-infrastructure.transit",
       name: "Shift highway funds to transit",
       question:
@@ -687,6 +739,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.additional-rural-transit-service-hours",
+      parameters: [
+        { key: "appropriation", value: "usd-per-budget-year" },
+        { key: "service", value: "additional-vehicle-service-hours" },
+      ],
       issue: "us-state-and-local:transportation-infrastructure.transit",
       name: "Additional rural transit service hours",
       question:
@@ -700,6 +756,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.fare-free-transit",
+      parameters: [
+        { key: "fare", value: "usd-per-ride" },
+        { key: "coverage", value: "covered-services-and-riders" },
+      ],
       issue: "us-state-and-local:transportation-infrastructure.transit",
       name: "Fare-free transit",
       question: "Should local transit be free to ride?",
@@ -711,6 +771,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      parameters: [
+        { key: "rate", value: "usd-per-vehicle-mile" },
+        { key: "coverage", value: "covered-vehicle-categories" },
+      ],
       issue:
         "us-state-and-local:transportation-infrastructure.roads-and-bridges",
       name: "Mileage fee instead of fuel tax",
@@ -724,6 +788,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.public-broadband",
+      parameters: [
+        { key: "authorized", value: "yes-or-no" },
+        { key: "coverage", value: "authorized-public-providers" },
+      ],
       issue: "us-state-and-local:transportation-infrastructure.broadband",
       name: "Public broadband",
       question:
@@ -736,6 +804,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.fix-it-first",
+      parameters: [
+        { key: "priority", value: "maintenance-before-expansion-rule" },
+        { key: "coverage", value: "covered-capital-programs" },
+      ],
       issue:
         "us-state-and-local:transportation-infrastructure.capital-construction-and-maintenance",
       name: "Fix it first",
@@ -749,6 +821,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "business-commerce.reduce-occupational-licensing",
+      parameters: [
+        { key: "exemptions", value: "occupations-exempt-from-licensing" },
+        { key: "coverage", value: "retained-safety-requirements" },
+      ],
       issue: "us-state-and-local:business-commerce.occupational-licensing",
       name: "Reduce occupational licensing",
       question:
@@ -762,6 +838,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "business-commerce.legalize-cannabis-sales",
+      parameters: [
+        { key: "authorized", value: "yes-or-no" },
+        { key: "minimum-age", value: "years-of-age" },
+        { key: "tax-rate", value: "share-of-taxable-sales" },
+      ],
       issue: "us-state-and-local:business-commerce.alcohol-cannabis-gaming",
       name: "Legalize cannabis sales",
       question: "Should the sale of cannabis to adults be legal and regulated?",
