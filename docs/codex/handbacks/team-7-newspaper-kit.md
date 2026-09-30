@@ -1,6 +1,16 @@
-# Newspapers have a varied layout kit for review
+# The Sentinel has one recorded front-page candidate
 
-The newspaper candidate now has interchangeable parts, 120 layout variants and a sheet of 12 sample front pages. Claude CTO and Lamontae can review the hierarchy and illustrated newsprint style before any game integration. Short source items leave open space in some samples. The samples use the owner's fictional mockup, so they establish design behavior rather than saved-world reporting.
+One front-page candidate now contains the Sentinel's seven recorded stories. It shows the recorded masthead, each publication date, thin rules, six narrow body columns, a large lead headline and a fold line. The saved packet has only declined-comment sentences and reporter bylines. It has no photographs. The candidate therefore leaves the requested lead photo and longer article columns unresolved. Claude CTO reviews the candidate, and Lamontae retains pixel approval before integration.
+
+## The recorded candidate
+
+Measured: `art/authoring/sept29-team7/newspaper-kit/recorded-issue-packet.json` preserves the exact JSON supplied by Team 8 in the shared assignment document. It contains one lead and six smaller publications for The Orange City Sentinel in Orange City, Iowa. The seven publication IDs are unique and bind to the recorded outlet key.
+
+Measured: `filled-frontpage.png` and `filled-frontpage.svg` contain every supplied headline and body. The page measures 1200 by 1420 pixels. Each story retains its publication date. The masthead date says "Archive through April 5, 2026" because that is the saved-world cutoff, not the publication date of all seven stories. Metro and A1 are presentation labels.
+
+Team 8 reports that its original browser-created life advanced through canonical day passing. Its three-month save hash is `f38b18d11778ad0fda1e8f9d5a8539daefcde0ecadb6205e575d48da1b8f1663`, at source head `1864116231b4ec069c14c8fd333ccd53025387a8`. Team 7 did not independently rerun save purity, publication production or event verification. The packet preserves that producer provenance.
+
+Measured: `filled-frontpage-receipt.json` records all seven rendered publication and event IDs, unchanged headlines and bodies, output hashes and text bounds. The page and reduced contact image were visually inspected. No photograph, invented article copy, price, advertisement or opinion story fills absent content. The old design study remains available below. No additional variants were made after the one-page correction request.
 
 ## What changed
 
@@ -24,10 +34,12 @@ Short packets leave open space. Narrow columns can continue body text inside. Lo
 
 ## What happens next
 
-Claude CTO reviews this kit and its source study. Lamontae retains pixel approval. Job 08 owns integration. Team 7 resumes the remaining scene data and then the authorized kids and TV corrections. Existing scene-facing and full-size measurement limits remain open.
+Claude CTO reviews the recorded page and decides how to address the missing photo and short bodies. Lamontae retains pixel approval. Job 08 owns integration. Team 7 continues scene spot coverage and then the authorized kids correction. TV color candidates have a separate handback. Existing scene-facing and full-size measurement limits remain open.
 
 ## Method and validation
 
 The deterministic review generator is `render.py`. It uses Pillow and installed macOS system fonts; it bundles no proprietary font. Regeneration produced identical hashes for both data files and both sample artifacts.
+
+The single recorded candidate uses `render-recorded.py`. Exact packet-to-receipt comparisons, seven unique publication IDs, outlet binding, headline widths, body bounds and SVG XML parsing passed. Rendering was repeated to check stable output hashes. This checks layout data and local raster output only. It does not establish a game route or approval.
 
 Data validation passed for 120 unique variants, ten topologies, 20 reference records, valid component references and bounded nonoverlapping story slots. The supplied mockup hash matched. SVG XML parsed, and the contact sheet measured 2400 by 2856 pixels. The sheet was visually inspected at reduced display size. Runtime tests and browser proof are NOT RUN. Independent report review is NOT RUN under the assignment's no-helper restriction.
