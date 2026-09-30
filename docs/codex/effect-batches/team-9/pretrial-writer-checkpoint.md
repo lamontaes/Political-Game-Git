@@ -34,7 +34,7 @@ Record and consume the legal findings required for conditional release, and run 
 
 Focused tests: 12 passed across the five saved-consequence fixtures and existing pretrial law tests. ESLint passed for changed justice files. Base seed: `team9-pretrial-stamp-20260930-five`. Places: Massachusetts, Colorado, Michigan, Idaho and Arizona; exact place keys and people are in `pretrial-five-state-proof.json`. Stamp source copied byte-for-byte from main, with no helper changes.
 
-## Current main-based batch check
+### Current main-based batch check
 
 The patch was transplanted onto main `e3182daa79e221604c5a328a1b6b4e055ebf648e` in `codex/team-9-justice-stamp-batch`. Both focused files passed all 12 tests in 66.27 seconds. Typecheck, scoped lint, formatting and whitespace checks passed. The first launch failed during configuration with `spawnSync git EPERM`; the retry under network-enabled execution ran the normal configuration successfully. The adjacent named receipt remains the earlier preserved source receipt; the new run independently repeats the saved-event and canonical-reload assertions.
 
