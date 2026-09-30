@@ -1,0 +1,1293 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate quads in each source image native pixels, TL/TR/BR/BL. Independent source keys prevent accidental sharing across changed cameras. No enlargement. Job08 must remeasure full-size rasters or apply exact source mapping.",
+  "places": {
+    "place-funeral-home-viewing-room--7": {
+      "checked": [
+        "place-funeral-home-viewing-room--7.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Memorial and decorative art retain paint."
+      ]
+    },
+    "place-funeral-home-viewing-room--8": {
+      "checked": [
+        "place-funeral-home-viewing-room--8.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Memorial and decorative art retain paint."
+      ]
+    },
+    "place-gas-station__midday--2": {
+      "checked": [
+        "place-gas-station__midday--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fuel displays, ice cabinets and vending faces are product equipment, not civic content screens.",
+        "Fascia signs remain painted."
+      ]
+    },
+    "place-gas-station__midday": {
+      "checked": [
+        "place-gas-station__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Pump displays and ice lettering retain paint."
+      ]
+    },
+    "place-gas-station__morning": {
+      "checked": [
+        "place-gas-station__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fuel displays, ice cabinets and vending faces are product equipment, not civic content screens.",
+        "Fascia signs remain painted."
+      ]
+    },
+    "place-gas-station__night": {
+      "checked": [
+        "place-gas-station__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fuel displays, ice cabinets and vending faces are product equipment, not civic content screens.",
+        "Fascia signs remain painted."
+      ]
+    },
+    "place-gas-station__rain": {
+      "checked": [
+        "place-gas-station__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fuel displays, ice cabinets and vending faces are product equipment, not civic content screens.",
+        "Fascia signs remain painted."
+      ]
+    },
+    "place-governor-office__midday": {
+      "checked": [
+        "place-governor-office__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Computer back, diploma frames, books and calendar retain paint.",
+        "No exposed TV or paper face identified."
+      ]
+    },
+    "place-grocery-store__midday": {
+      "checked": [
+        "place-grocery-store__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Register housings, grocery labels and shelves retain paint."
+      ]
+    },
+    "place-grocery-store__morning": {
+      "checked": [
+        "place-grocery-store__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Register housings, grocery labels and shelves retain paint."
+      ]
+    },
+    "place-grocery-store__night": {
+      "checked": [
+        "place-grocery-store__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Register housings, grocery labels and shelves retain paint."
+      ]
+    },
+    "place-grocery-store__rain": {
+      "checked": [
+        "place-grocery-store__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Register housings, grocery labels and shelves retain paint."
+      ]
+    },
+    "place-hardware-store-interior__--2": {
+      "checked": [
+        "place-hardware-store-interior__--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register, product labels, tools and shelving retain paint."
+      ]
+    },
+    "place-hardware-store-interior__--3": {
+      "checked": [
+        "place-hardware-store-interior__--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register, product labels, tools and shelving retain paint."
+      ]
+    },
+    "place-hardware-store-interior__--4": {
+      "checked": [
+        "place-hardware-store-interior__--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register, product labels, tools and shelving retain paint."
+      ]
+    },
+    "place-hardware-store-interior__--5": {
+      "checked": [
+        "place-hardware-store-interior__--5.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register, stocked tool boards and bin labels retain paint."
+      ]
+    },
+    "place-hardware-store-interior__--6": {
+      "checked": [
+        "place-hardware-store-interior__--6.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register, stocked tool boards and bin labels retain paint."
+      ]
+    },
+    "place-hardware-store-interior__--7": {
+      "checked": [
+        "place-hardware-store-interior__--7.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register, stocked tool boards and bin labels retain paint."
+      ]
+    },
+    "place-hardware-store-interior__--8": {
+      "checked": [
+        "place-hardware-store-interior__--8.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register, stocked tool boards and bin labels retain paint."
+      ]
+    },
+    "place-hardware-store-interior__": {
+      "checked": [
+        "place-hardware-store-interior__.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mechanical register and tools retain paint."
+      ]
+    },
+    "place-high-school-exterior__mid": {
+      "checked": [
+        "place-high-school-exterior__mid.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "School architecture, flag, buses and windows retain paint."
+      ]
+    },
+    "place-high-school-exterior__mor": {
+      "checked": [
+        "place-high-school-exterior__mor.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "School architecture, flag, buses and windows retain paint."
+      ]
+    },
+    "place-high-school-exterior__nig": {
+      "checked": [
+        "place-high-school-exterior__nig.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "School architecture, flag, buses and windows retain paint."
+      ]
+    },
+    "place-high-school-exterior__rai": {
+      "checked": [
+        "place-high-school-exterior__rai.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "School architecture, flag, buses and windows retain paint."
+      ]
+    },
+    "place-hospital-emergency-waitin": {
+      "checked": [
+        "place-hospital-emergency-waitin.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-emergency-waitin-public-notice",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Hospital public notice",
+          "quad": [
+            [
+              279,
+              88
+            ],
+            [
+              306,
+              88
+            ],
+            [
+              306,
+              128
+            ],
+            [
+              279,
+              128
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vending products, clock, glass partitions and fire equipment retain paint."
+      ]
+    },
+    "place-hospital-emergency-waitin--2": {
+      "checked": [
+        "place-hospital-emergency-waitin--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-emergency-waitin--2-public-notice",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Hospital public notice",
+          "quad": [
+            [
+              279,
+              88
+            ],
+            [
+              306,
+              88
+            ],
+            [
+              306,
+              128
+            ],
+            [
+              279,
+              128
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vending products, clock, glass partitions and fire equipment retain paint."
+      ]
+    },
+    "place-hospital-emergency-waitin--3": {
+      "checked": [
+        "place-hospital-emergency-waitin--3.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-emergency-waitin--3-public-notice",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Hospital public notice",
+          "quad": [
+            [
+              279,
+              88
+            ],
+            [
+              306,
+              88
+            ],
+            [
+              306,
+              128
+            ],
+            [
+              279,
+              128
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vending products, clock, glass partitions and fire equipment retain paint."
+      ]
+    },
+    "place-hospital-emergency-waitin--4": {
+      "checked": [
+        "place-hospital-emergency-waitin--4.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-emergency-waitin--4-public-notice",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Hospital public notice",
+          "quad": [
+            [
+              279,
+              88
+            ],
+            [
+              306,
+              88
+            ],
+            [
+              306,
+              128
+            ],
+            [
+              279,
+              128
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vending products, clock, glass partitions and fire equipment retain paint."
+      ]
+    },
+    "place-hospital-patient-room__mi--2": {
+      "checked": [
+        "place-hospital-patient-room__mi--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__mi--2-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              421,
+              113
+            ],
+            [
+              457,
+              113
+            ],
+            [
+              457,
+              137
+            ],
+            [
+              421,
+              137
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed controls, privacy curtain and windows retain paint."
+      ]
+    },
+    "place-hospital-patient-room__mi": {
+      "checked": [
+        "place-hospital-patient-room__mi.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__mi-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              235,
+              235
+            ],
+            [
+              274,
+              235
+            ],
+            [
+              274,
+              270
+            ],
+            [
+              235,
+              270
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed, curtain and controls retain paint."
+      ]
+    },
+    "place-hospital-patient-room__mo--2": {
+      "checked": [
+        "place-hospital-patient-room__mo--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__mo--2-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              421,
+              113
+            ],
+            [
+              457,
+              113
+            ],
+            [
+              457,
+              137
+            ],
+            [
+              421,
+              137
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed controls, privacy curtain and windows retain paint."
+      ]
+    },
+    "place-hospital-patient-room__mo": {
+      "checked": [
+        "place-hospital-patient-room__mo.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__mo-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              242,
+              143
+            ],
+            [
+              260,
+              143
+            ],
+            [
+              261,
+              161
+            ],
+            [
+              242,
+              161
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed, curtain, window and controls retain paint."
+      ]
+    },
+    "place-hospital-patient-room__ni--2": {
+      "checked": [
+        "place-hospital-patient-room__ni--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__ni--2-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              421,
+              113
+            ],
+            [
+              457,
+              113
+            ],
+            [
+              457,
+              137
+            ],
+            [
+              421,
+              137
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed controls, privacy curtain and windows retain paint."
+      ]
+    },
+    "place-hospital-patient-room__ni": {
+      "checked": [
+        "place-hospital-patient-room__ni.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__ni-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              265,
+              135
+            ],
+            [
+              283,
+              134
+            ],
+            [
+              284,
+              150
+            ],
+            [
+              265,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed, curtain, window and controls retain paint."
+      ]
+    },
+    "place-hospital-patient-room__ra--2": {
+      "checked": [
+        "place-hospital-patient-room__ra--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__ra--2-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              421,
+              113
+            ],
+            [
+              457,
+              113
+            ],
+            [
+              457,
+              137
+            ],
+            [
+              421,
+              137
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed controls, privacy curtain and windows retain paint."
+      ]
+    },
+    "place-hospital-patient-room__ra": {
+      "checked": [
+        "place-hospital-patient-room__ra.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-patient-room__ra-medical-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private medical monitor",
+          "quad": [
+            [
+              246,
+              151
+            ],
+            [
+              266,
+              152
+            ],
+            [
+              266,
+              172
+            ],
+            [
+              246,
+              171
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed, curtain, window and controls retain paint."
+      ]
+    },
+    "place-hospital-waiting-room__mi": {
+      "checked": [
+        "place-hospital-waiting-room__mi.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-hospital-waiting-room__mi-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Waiting television",
+          "quad": [
+            [
+              381,
+              53
+            ],
+            [
+              438,
+              51
+            ],
+            [
+              440,
+              87
+            ],
+            [
+              383,
+              89
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        },
+        {
+          "id": "place-hospital-waiting-room__mi-left-notice",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Public hospital notice",
+          "quad": [
+            [
+              212,
+              104
+            ],
+            [
+              227,
+              104
+            ],
+            [
+              227,
+              139
+            ],
+            [
+              212,
+              139
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-hospital-waiting-room__mi-right-notice",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Public hospital notice",
+          "quad": [
+            [
+              426,
+              122
+            ],
+            [
+              441,
+              122
+            ],
+            [
+              441,
+              146
+            ],
+            [
+              426,
+              146
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vending machine product fronts retain paint."
+      ]
+    },
+    "place-house-rural-kitchen__midd": {
+      "checked": [
+        "place-house-rural-kitchen__midd.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Kitchen utensils, window, stove and crockery retain paint."
+      ]
+    },
+    "place-house-rural-kitchen__morn": {
+      "checked": [
+        "place-house-rural-kitchen__morn.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Kitchen utensils, window, stove and crockery retain paint."
+      ]
+    },
+    "place-house-rural-kitchen__nigh": {
+      "checked": [
+        "place-house-rural-kitchen__nigh.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Kitchen utensils, window, stove and crockery retain paint."
+      ]
+    },
+    "place-house-rural-kitchen__rain": {
+      "checked": [
+        "place-house-rural-kitchen__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Kitchen utensils, window, stove and crockery retain paint."
+      ]
+    },
+    "place-house-suburban-living__mi": {
+      "checked": [
+        "place-house-suburban-living__mi.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Family photographs retain painted anonymous identities; no relatives created.",
+        "Fireplace and windows are not content faces."
+      ]
+    },
+    "place-house-suburban-living__mo": {
+      "checked": [
+        "place-house-suburban-living__mo.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Family photographs retain painted anonymous identities; no relatives created.",
+        "Fireplace and windows are not content faces."
+      ]
+    },
+    "place-house-suburban-living__ni": {
+      "checked": [
+        "place-house-suburban-living__ni.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Family photographs retain painted anonymous identities; no relatives created.",
+        "Fireplace and windows are not content faces."
+      ]
+    },
+    "place-house-suburban-living__ra": {
+      "checked": [
+        "place-house-suburban-living__ra.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Family photographs retain painted anonymous identities; no relatives created.",
+        "Fireplace and windows are not content faces."
+      ]
+    },
+    "place-jail-visiting-room__midda": {
+      "checked": [
+        "place-jail-visiting-room__midda.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Glass booths, phones and window panes retain paint."
+      ]
+    },
+    "place-jail-visiting-room__morni": {
+      "checked": [
+        "place-jail-visiting-room__morni.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Glass booths, phones and window panes retain paint."
+      ]
+    },
+    "place-jail-visiting-room__night": {
+      "checked": [
+        "place-jail-visiting-room__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Glass booths, phones and window panes retain paint."
+      ]
+    },
+    "place-jail-visiting-room__rain": {
+      "checked": [
+        "place-jail-visiting-room__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Glass booths, phones and window panes retain paint."
+      ]
+    },
+    "place-jury-room__midday": {
+      "checked": [
+        "place-jury-room__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-jury-room__midday-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "Jury whiteboard",
+          "quad": [
+            [
+              72,
+              59
+            ],
+            [
+              213,
+              64
+            ],
+            [
+              213,
+              142
+            ],
+            [
+              72,
+              142
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-jury-room__midday-paper-1",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Juror notes",
+          "quad": [
+            [
+              294,
+              219
+            ],
+            [
+              326,
+              213
+            ],
+            [
+              351,
+              220
+            ],
+            [
+              318,
+              228
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-jury-room__midday-paper-2",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Juror notes",
+          "quad": [
+            [
+              245,
+              199
+            ],
+            [
+              275,
+              194
+            ],
+            [
+              289,
+              199
+            ],
+            [
+              257,
+              204
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-jury-room__midday-paper-3",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Juror notes",
+          "quad": [
+            [
+              210,
+              183
+            ],
+            [
+              232,
+              179
+            ],
+            [
+              246,
+              183
+            ],
+            [
+              224,
+              187
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-jury-room__midday-paper-4",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Juror notes",
+          "quad": [
+            [
+              193,
+              167
+            ],
+            [
+              210,
+              165
+            ],
+            [
+              215,
+              168
+            ],
+            [
+              198,
+              171
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-jury-room__midday-paper-5",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Juror notes",
+          "quad": [
+            [
+              250,
+              164
+            ],
+            [
+              269,
+              162
+            ],
+            [
+              282,
+              165
+            ],
+            [
+              263,
+              167
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-jury-room__midday-paper-6",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Juror notes",
+          "quad": [
+            [
+              338,
+              188
+            ],
+            [
+              364,
+              184
+            ],
+            [
+              379,
+              188
+            ],
+            [
+              351,
+              194
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-jury-room__midday-paper-7",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Juror notes",
+          "quad": [
+            [
+              405,
+              211
+            ],
+            [
+              432,
+              205
+            ],
+            [
+              453,
+              209
+            ],
+            [
+              424,
+              215
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Blinds, pitcher, cups and door retain paint."
+      ]
+    },
+    "place-lawyer-office__midday--2": {
+      "checked": [
+        "place-lawyer-office__midday--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-lawyer-office__midday--2-desk-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Private desk paper",
+          "quad": [
+            [
+              289,
+              177
+            ],
+            [
+              310,
+              177
+            ],
+            [
+              315,
+              183
+            ],
+            [
+              286,
+              183
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Diplomas, book spines and lamp retain paint."
+      ]
+    },
+    "place-lawyer-office__midday": {
+      "checked": [
+        "place-lawyer-office__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Diploma, books and closed blotter retain paint; no exposed loose paper."
+      ]
+    },
+    "place-lawyer-office__morning": {
+      "checked": [
+        "place-lawyer-office__morning.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-lawyer-office__morning-desk-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Private desk paper",
+          "quad": [
+            [
+              289,
+              177
+            ],
+            [
+              310,
+              177
+            ],
+            [
+              315,
+              183
+            ],
+            [
+              286,
+              183
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Diplomas, book spines and lamp retain paint."
+      ]
+    },
+    "place-lawyer-office__night": {
+      "checked": [
+        "place-lawyer-office__night.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-lawyer-office__night-desk-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Private desk paper",
+          "quad": [
+            [
+              289,
+              177
+            ],
+            [
+              310,
+              177
+            ],
+            [
+              315,
+              183
+            ],
+            [
+              286,
+              183
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Diplomas, book spines and lamp retain paint."
+      ]
+    },
+    "place-lawyer-office__rain": {
+      "checked": [
+        "place-lawyer-office__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-lawyer-office__rain-desk-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Private desk paper",
+          "quad": [
+            [
+              289,
+              177
+            ],
+            [
+              310,
+              177
+            ],
+            [
+              315,
+              183
+            ],
+            [
+              286,
+              183
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Diplomas, book spines and lamp retain paint."
+      ]
+    },
+    "place-main-street-small-town__m": {
+      "checked": [
+        "place-main-street-small-town__m.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Storefront glass and street fixtures retain paint."
+      ]
+    },
+    "place-mayor-office__midday": {
+      "checked": [
+        "place-mayor-office__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall certificates, seal, flags and books retain paint.",
+        "Desktop papers are too small for trusted quads; unresolved."
+      ]
+    },
+    "place-mayor-office__morning": {
+      "checked": [
+        "place-mayor-office__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall certificates, seal, flags and books retain paint.",
+        "Desktop papers are too small for trusted quads; unresolved."
+      ]
+    },
+    "place-mayor-office__night": {
+      "checked": [
+        "place-mayor-office__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall certificates, seal, flags and books retain paint.",
+        "Desktop papers are too small for trusted quads; unresolved."
+      ]
+    },
+    "place-mayor-office__rain": {
+      "checked": [
+        "place-mayor-office__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall certificates, seal, flags and books retain paint.",
+        "Desktop papers are too small for trusted quads; unresolved."
+      ]
+    }
+  }
+}
