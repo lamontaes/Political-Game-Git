@@ -10,3 +10,5 @@ Members bring forward bills with backing from their caucus and a chamber majorit
 The draft now records broader turnout evidence and the Senate procedure gaps that still need resolution.
 
 The Senate draft refuses to infer consent from a senator's missing recorded principles.
+
+The draft records the released Senate writer scope and confirms the agenda integration on main.
