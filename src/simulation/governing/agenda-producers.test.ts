@@ -39,7 +39,7 @@ function aligned(
 ) {
   const bearings = new Map(
     (propositionId
-      ? world.policyCatalog.propositions[propositionId]?.principles ?? []
+      ? (world.policyCatalog.propositions[propositionId]?.principles ?? [])
       : []
     ).map((b) => [b.principleId, b.bearing]),
   );
