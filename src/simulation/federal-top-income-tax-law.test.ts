@@ -114,6 +114,7 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
     expect(none).toEqual({
       schedule: FEDERAL_INCOME_TAX_2026["married-filing-jointly"],
       lawMeasureIds: [],
+      governingLaw: null,
     });
   });
 
@@ -131,6 +132,14 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
       federalIncomeTaxUnderLaw(world, "single", makeIsoDate("2027-01-15"))
         .lawMeasureIds,
     ).toEqual([raise.measure.id]);
+    expect(
+      federalIncomeTaxUnderLaw(world, "single", makeIsoDate("2027-01-15"))
+        .governingLaw?.measureId,
+    ).toBe(raise.measure.id);
+    expect(
+      federalIncomeTaxUnderLaw(world, "single", makeIsoDate("2029-01-15"))
+        .governingLaw?.measureId,
+    ).toBe(repeal.measure.id);
     // Only the top bracket moves.
     const raised = federalIncomeTaxUnderLaw(
       world,
