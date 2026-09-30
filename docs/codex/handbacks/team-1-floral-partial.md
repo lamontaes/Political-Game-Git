@@ -1,6 +1,6 @@
-# Floral still has no typed enactments in the partial year
+# Floral completes a year with no typed enactments
 
-The repeated Floral observation reached November 1 after 300 one-day advances. Thirteen measures enacted; none carried an explicit typed operative provision. The run remains incomplete, and no named-person law consequence has been extracted. Refusal has not delivered the required working bill pipeline.
+The repeated Floral observation completed 365 one-day advances. Fourteen measures enacted; none carried an explicit typed operative provision. Save/Continue and a named-person law consequence remain unverified. Refusal has not delivered the required working bill pipeline.
 
 ## 1. Why-chain
 
@@ -14,13 +14,13 @@ The repeated source is Team2's reconciled pair at `ef64da2c4d932fc78c13203d1ff78
 
 ## 3. Revisions
 
-No law amounts, rates, people, authority or source lineage were added to make the run pass. The same seed and place were used. An incomplete window is not compared as if it were a completed year. A typed count means an enacted measure with an explicit operative-effect provision; a positive count would still require term-completeness and reader checks.
+No law amounts, rates, people, authority or source lineage were added to make the run pass. The same seed and place were used. The observation now matches the baseline's full-year endpoint, but source differences still prevent isolated causal attribution. A typed count means an enacted measure with an explicit operative-effect provision; a positive count would still require term-completeness and reader checks.
 
 ## 4. Numbered parts
 
 1. Repeat the existing observer opening in Floral and advance one day per call.
 2. Record date, enactments and typed provisions every fifteen days.
-3. Publish the current checkpoint while the next day is still running.
+3. Preserve the original 300-day checkpoint and publish the terminal year receipt.
 4. Keep the missing sponsor-term and named-person requirements open.
 
 ## 5. Simulated, records, world pieces, checks
@@ -31,12 +31,12 @@ The diagnostic older combined source had nine focused passes and one cash-caller
 
 ## 6. Proof run
 
-Seed team2-main-proof-20260930-b; place Floral, Arkansas, 0524070. Source was clean at opening. The existing observer opening began January 5, 2026. Three hundred calls to the normal one-day observer advance reached November 1, 2026: zero typed enactments out of thirteen total. These are simulation action calls, not browser clicks. The next call remains active at this publication checkpoint.
+Seed team2-main-proof-20260930-b; place Floral, Arkansas, 0524070. Source was clean at opening. The existing observer opening began January 5, 2026. The earlier 300-day checkpoint reached November 1: zero typed enactments out of thirteen total. The terminal receipt reaches January 5, 2027 after 365 one-day advances: zero typed enactments out of fourteen total. It took 268.143 seconds, diagnostic timing only. These are simulation action calls, not browser clicks. The process completed with exit zero; no check remains active.
 
-No Save/Continue, browser acceptance, full suite, exclusive-host speed gate or complete year is claimed. The checkpoint JSON contains the exact enactment IDs and harness. Feature-walkthrough applied; no new team or helper was created.
+Save/Continue, browser acceptance, full suite and the exclusive-host speed gate were NOT RUN. The checkpoint JSON contains the exact enactment IDs and harness. Feature-walkthrough applied; no new team or helper was created.
 
 ## 7. Worked example
 
 Frances Khan is the actual opening resident, ID person_194b69d666147d40. No law-linked paycheck, rent or tax consequence has been extracted for her or another named person. This is a missing worked example, not a zero-dollar payment or proof that every personal reader is inert.
 
-The run is partial. The remaining dependencies are structured starting-law sponsor terms, their real reader connection and completion of the observation. The active next-day call has not returned; no stop or timeout is relabeled as success.
+Acceptance is partial despite the completed observation. The remaining dependencies are structured starting-law sponsor terms, their real reader connection and an extracted named-person consequence. The result is not a working legislature. The earlier checkpoint is preserved at evidence commit 61940fa0cd61cd83a9fd88988be5b5aa5c3297b0.
