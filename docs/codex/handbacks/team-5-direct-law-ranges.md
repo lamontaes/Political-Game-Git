@@ -129,6 +129,48 @@ Missing wage or tuition source coverage remains missing; no rate is invented.
 4. Held: fairness range, sponsor-written numeric floor terms, tier/contract
    fidelity, authority catalog repair and individual student charges.
 
+### Six-line trace: raise-teacher-minimum-salary
+
+Owner: Team 5. Source head and candidate route are pinned in the proof section
+and exact-head pull request description. Status: **fixed tonight in candidate**
+for the direct estimated ratio; **needs research** for full law effects.
+
+1. Enactment: the existing law reader supplies a yes answer; the teacher-floor
+   reader applies the drawn state ratio from the first operative July 1.
+2. Effects: public-school pay terms use 0.67–0.95 of the state median. The
+   unchanged provisional graduation link is +0.25%, range +0.1%–+0.5%, after
+   twenty-four months. Two paths are counted in the catalog inventory; pay
+   reached three people here, graduation has no person-level reader demonstrated.
+3. Authority: this state question retains its existing reach. Federal rights,
+   local powers, territory organic acts and township powers need separate
+   evidence. Repeal ends future floor application; it does not cut saved pay.
+4. Terminal: estimated legal pay constraint followed by recorded transfers.
+   For the aggregate graduation effect, no person feels this yet.
+5. Gap/fix: the midpoint became a stable world/state draw. Exact enacted terms,
+   salary tiers and the graduation intervention remain separate research gaps.
+6. Proof: Appomattox's three named teachers reached $2,240 per paycheck; dates,
+   superseded terms, transfers and exposure were asserted. Team 2 proof NOT RUN.
+
+### Six-line trace: freeze-public-tuition
+
+Owner: Team 5. Status: **fixed tonight in candidate** for the direct growth
+parameter; **needs research** for full law effects and person-level tuition.
+
+1. Enactment: the existing law reader counts school years frozen on July 1;
+   the budget reader uses the stable world/state nominal growth parameter.
+2. Effects: state receipts forgo drawn growth of 2.67%–4.13% on the measured
+   tuition share. One direct budget path is counted. The unchanged college
+   completion link is zero with zero delay, citing Deming and Walters; that
+   encoded inert claim was not independently reverified in this repair.
+3. Authority: the existing state budget reach remains. No federal/local/territory
+   power is added. Repeal stops further frozen years and retains earlier gaps.
+4. Terminal: modeled state budget receipts. No person feels an individual
+   student charge change yet; a zero completion link is not blanket inertness.
+5. Gap/fix: the universal growth midpoint became a stable researched draw.
+   Individual student terms and full authority/repeal research remain gaps.
+6. Proof: seeded partial-budget settlement verifies charges, other receipts
+   and repeal arithmetic. No student or governor example; Team 2 proof NOT RUN.
+
 ## 5. Simulated, records, world pieces, checks
 
 SIMULATED: existing paydays and state budget settlement; no new actor decision.
