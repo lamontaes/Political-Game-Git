@@ -4,13 +4,13 @@ The owner-created cloud teams have their assignments. Their local predecessors r
 
 ## Current cloud transfer
 
-Lamontae created cloud Teams 1–6, 8 and 9 and authorized their assignments and local chat archival. All eight assignments were delivered; working checkout confirmations are pending. Team 7 and the coordinator stay local. Preserve every local workspace and its evidence.
+Lamontae created cloud Teams 1–6, 8 and 9 and authorized their assignments and local chat archival. All eight assignments were delivered and working checkouts confirmed. All six replaced local chats are archived. Team 7 and the coordinator stay local. Preserve every local workspace and its evidence.
 
 | Team | Model / effort | Cloud chat ID | Transfer state |
 | --- | --- | --- | --- |
 | 1 | Sol 6.1 Medium | 01a0f02e-e6f1-71bc-968b-a74bc4c920dc | Working checkout verified; final handback fetched/read. Local chat archived. |
-| 2 | Sol 6.1 High | 01a0f02f-580d-75fb-8495-9b7cb80ae0d1 | Final local handoff requested; cloud setup active. |
-| 3 | Sol 6.1 Medium | 01a0f02f-b5e1-72f4-aa6d-04bb752e50ec | Preserve fairness candidate before source transfer. |
+| 2 | Sol 6.1 High | 01a0f02f-580d-75fb-8495-9b7cb80ae0d1 | Cloud final handoff verified at f7d78624; local chat archived. |
+| 3 | Sol 6.1 Medium | 01a0f02f-b5e1-72f4-aa6d-04bb752e50ec | Final WIP 48631f388 fetched and read; local chat archived. |
 | 4 | Sol 6.1 Medium | 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 | Cloud month measured 29.45 seconds; local chat archived. |
 | 5 | Sol 6.1 Medium | 01a0f030-4338-73d2-9537-17649ef680fb | Cloud checkpoint bc28a855 verified; local chat archived. |
 | 6 | Sol 6.1 Medium | 01a0f030-a052-773a-9258-ca86c99570f5 | Cloud verified final head 17ee27b69; local chat archived. |
@@ -307,3 +307,9 @@ Cloud storage blocks Team 3 installation by 8.8 MiB, Team 5 by 152 MiB, and Team
 
 ### EFFECTS
 Team 9 has a verified cloud checkout and two authorized Low researchers. Outgoing homelessness evidence is first. No new runtime effect, calibrated coefficient or watched-world result is claimed. The existing effects map and missing numeric links remain the implementation guide.
+
+## Standing report cadence
+
+Lamontae requires every team and Merge to set one report automation on its existing chat for :25 and :55 Eastern. Each sends its current task, actual activity, exact head and PR, checks, blockers, next action and changed system connections to the coordinator. Automation confirmations are pending.
+
+At :00 and :30, the coordinator reads the newest replies, verifies reports against current CTO assignments and the ownership ledger, resolves blockers, and reports system integration. A completed checkpoint does not end an unfinished assignment. CTO approval has explicitly delegated owner authority.
