@@ -276,6 +276,7 @@ export function createScenarioWorld(
     principleId: SYNTHETIC_POLICY_IDS.principles.reduceInequality,
     formedAt: world.currentDate,
     stance: "endorses",
+    strength: 0.5,
     conviction: "moderate",
     flexibility: "conditional",
     qualification: "Institutional stability also matters.",

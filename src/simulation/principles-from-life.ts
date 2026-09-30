@@ -1,6 +1,6 @@
 import { confidantsOf } from "./confidants";
 import { ageOnDate } from "./dates";
-import { eventIndexOf } from "./event-index";
+import { eventById, eventIndexOf } from "./event-index";
 import { recordsByStringField } from "./history-index";
 import { personOwnsHome } from "./home-purchase";
 import { lifePlaceByJurisdictionId } from "./life-places";
@@ -20,10 +20,11 @@ import {
 import { affiliationAt } from "./living-world/party-evolution";
 import { TOWN_JOB_END_REASONS } from "./living-world/town-labor-market";
 import { placeReferencePopulation } from "./nationwide-world/place-population";
-import { personName } from "./people";
+import { factsForPerson, personName } from "./people";
 import { parentsOf } from "./people-family";
 import { personTrait } from "./people-traits";
 import { createFormationContext, recordPrinciples } from "./politics";
+import { combinePrinciplePulls } from "./principle-strength";
 import type { PrincipleRecordInput } from "./history";
 import type {
   BeliefConviction,
@@ -75,6 +76,7 @@ export interface PrinciplePull {
   /** Plain words for the formation note: what in their life pulls. */
   readonly because: string;
   readonly eventIds?: readonly EntityId[];
+  readonly factIds?: readonly EntityId[];
 }
 
 /**
@@ -83,11 +85,11 @@ export interface PrinciplePull {
  * between Republicans and Democrats in the Pew Research Center's surveys of
  * values (Partisan divides over values, 2024; views of government's role,
  * 2023 and 2024). A principle the parties do not divide on is left out. For
- * someone who only leans toward a party it is one slight pull, so the label
- * alone never makes a principle (D-093: the party does not decide for its
- * members). For someone who carries the party's name in public life it
- * weighs strongly: people active in politics hold their side's principles far
- * more consistently and firmly than the public does.
+ * every person it is one slight pull, including a seated member or party
+ * officer. A public party cue alone never makes a principle (D-093: the
+ * party does not decide for its members; CTO, September 30, 3:05 a.m.).
+ * Greater consistency among politically active people is a population check,
+ * not evidence that the party label decided an individual's view.
  */
 const PARTY_CUES: Readonly<
   Record<
@@ -171,18 +173,21 @@ const SAFETY_OCCUPATIONS: readonly string[] = [
  * alone makes nothing: a single cue is not yet a principle.
  */
 const FORMS_FROM = 2;
+/** Developer data only: normalized authored points, not researched probabilities. */
+export const LIFE_STRENGTH_DEVELOPER_DATA = {
+  status: "AUTHORED_STAND_IN",
+  legacyPointScale: 4,
+  // Preserve the authored requirement for two distinct slight pulls.
+  formationThreshold: 1 - (1 - 1 / 4) ** FORMS_FROM,
+  basis: "Existing authored life-pull points normalized to the reader scale.",
+  research: "Team 9 socialization sizes and ranges remain pending.",
+} as const;
 const CONVICTION_FROM: readonly (readonly [number, BeliefConviction])[] = [
   [6, "settled"],
   [4, "strong"],
   [3, "moderate"],
   [2, "tentative"],
 ];
-/**
- * SET BY HAND: pulled both ways, a person is torn when the weaker side is at
- * least half the stronger.
- */
-const TORN_AT = 0.5;
-
 const FLEXIBILITY_ORDER: readonly PoliticalFlexibility[] = [
   "open",
   "negotiable",
@@ -220,14 +225,9 @@ function latestPrinciples(
   return latest;
 }
 
-/**
- * The stable-key prefix of the officeholder draw (governing/
- * officeholder-principles.ts). A seated officeholder's principles still come
- * from it: seated members have no recorded life yet (no home, family, work or
- * faith), so forming theirs from life would leave only the party (measured:
- * a Congress formed that way voted on party lines and enacted nothing in 200
- * days). This file leaves seated officeholders, and anyone the draw reached,
- * as they are.
+/** Legacy seeded rows remain intact when an old save is read. The ordinary
+ * life pass skips seated officials; the explicit officeholder pass forms new
+ * principles from their recorded lives and affiliations.
  */
 const OFFICEHOLDER_DRAW = "officeholder-principles/v1:";
 
@@ -256,8 +256,7 @@ function crimesAgainst(world: World, personId: EntityId): readonly EntityId[] {
     index = built;
   }
   return (index.get(personId) ?? []).filter(
-    (id) =>
-      (eventIndexOf(events).get(id)?.occurredAt ?? "") <= world.currentDate,
+    (id) => (eventById(world, id)?.occurredAt ?? "") <= world.currentDate,
   );
 }
 
@@ -374,9 +373,8 @@ export function principlePullsOf(
               : `someone they talk to ${toward === "endorses" ? "holds" : "rejects"} it`,
         });
 
-  // Party: the principles their party stands for, as a cue. Someone who
-  // carries the party's name in public life, as a seated member or a party
-  // officer, takes that cue harder than someone who only leans that way.
+  // Party is one slight pull among life records. Public service under a
+  // party's name is not sufficient evidence to form its principles alone.
   const party = partyKey(world, personId);
   const publicLife = party !== null && carriesPartyName(world, personId);
   if (party)
@@ -384,20 +382,28 @@ export function principlePullsOf(
       pulls.push({
         principle,
         toward,
-        weight: publicLife ? 3 : 1,
+        weight: 1,
         because: publicLife
           ? `they serve under the ${party === "democratic" ? "Democrats'" : "Republicans'"} name, and the party stands for it`
           : `their party, the ${party === "democratic" ? "Democrats" : "Republicans"}, stands for it`,
       });
 
   // The times they grew up in.
-  const born = Number(person.birthDate.slice(0, 4));
+  const facts = factsForPerson(person);
+  const birth = facts.find((fact) => fact.kind === "birth-date");
+  const born = Number((birth?.occurredAt ?? person.birthDate).slice(0, 4));
   for (const [principle, toward, because] of born <= COHORTS.olderThrough
     ? COHORTS.older
     : born >= COHORTS.youngerFrom
       ? COHORTS.younger
       : [])
-    pulls.push({ principle, toward, weight: 1, because });
+    pulls.push({
+      principle,
+      toward,
+      weight: 1,
+      because,
+      factIds: birth ? [birth.id] : [],
+    });
 
   // Faith and the other bodies they belong to.
   const memberships = activeOrganizationParticipationsAt(world, personId).map(
@@ -419,8 +425,17 @@ export function principlePullsOf(
     });
 
   // Place: the size of the town they live in.
-  const home = householdMembershipsAt(world, personId)[0]?.location
-    ?.jurisdictionId;
+  const residence = facts.find(
+    (fact) =>
+      fact.kind === "residence" &&
+      fact.endedAt === null &&
+      fact.occurredAt <= world.currentDate,
+  );
+  const home =
+    householdMembershipsAt(world, personId)[0]?.location?.jurisdictionId ??
+    residence?.jurisdictionId;
+  const residenceFacts =
+    residence && residence.jurisdictionId === home ? [residence.id] : [];
   const geoid = home ? lifePlaceByJurisdictionId(home)?.sourceGeoid : null;
   const population = geoid
     ? (placeReferencePopulation(geoid)?.value ?? null)
@@ -431,12 +446,14 @@ export function principlePullsOf(
       toward: "endorses",
       weight: 1,
       because: "they live in a small town",
+      factIds: residenceFacts,
     });
     pulls.push({
       principle: "tradition",
       toward: "endorses",
       weight: 1,
       because: "they live in a small town",
+      factIds: residenceFacts,
     });
   } else if (population !== null && population >= BIG_CITY_FROM)
     pulls.push({
@@ -444,6 +461,7 @@ export function principlePullsOf(
       toward: "endorses",
       weight: 1,
       because: "they live in a big city",
+      factIds: residenceFacts,
     });
 
   // Work and money.
@@ -551,6 +569,7 @@ export interface FormedPrinciple {
   readonly stance: PrincipleStance;
   readonly conviction: BeliefConviction;
   readonly flexibility: PoliticalFlexibility;
+  readonly strength: number;
   readonly pulls: readonly PrinciplePull[];
 }
 
@@ -562,6 +581,7 @@ export function principlesFromPulls(
   world: World,
   personId: EntityId,
   pulls: readonly PrinciplePull[],
+  retainedPrinciples: ReadonlySet<string> = new Set(),
 ): readonly FormedPrinciple[] {
   const byPrinciple = new Map<string, PrinciplePull[]>();
   for (const pull of pulls) {
@@ -577,17 +597,35 @@ export function principlesFromPulls(
   for (const [principle, list] of [...byPrinciple].sort(([a], [b]) =>
     a.localeCompare(b),
   )) {
-    const endorse = sum(list, "endorses");
-    const reject = sum(list, "rejects");
-    const stronger = Math.max(endorse, reject);
-    if (stronger < FORMS_FROM) continue;
-    const weaker = Math.min(endorse, reject);
-    const torn = weaker > 0 && weaker >= stronger * TORN_AT;
-    const net = stronger - weaker;
-    if (!torn && net < FORMS_FROM) continue;
-    const conviction: BeliefConviction = torn
-      ? "tentative"
-      : CONVICTION_FROM.find(([from]) => net >= from)![1];
+    const combined = combinePrinciplePulls(
+      list.map((pull) => ({
+        evidenceKey: pullEvidenceKey(pull),
+        direction: pull.toward,
+        weight: pull.weight / LIFE_STRENGTH_DEVELOPER_DATA.legacyPointScale,
+      })),
+    );
+    if (
+      !retainedPrinciples.has(principle) &&
+      (combined.direction === null ||
+        combined.strength < LIFE_STRENGTH_DEVELOPER_DATA.formationThreshold)
+    )
+      continue;
+    const unique = new Map<string, PrinciplePull>();
+    // A paraphrase of the same source is not another experience. Keep the
+    // representative reason stable when an input list arrives reordered.
+    for (const pull of [...list].sort((a, b) =>
+      a.because < b.because ? -1 : a.because > b.because ? 1 : 0,
+    ))
+      if (!unique.has(pullEvidenceKey(pull)))
+        unique.set(pullEvidenceKey(pull), pull);
+    const distinct = combined.evidenceKeys.map((key) => unique.get(key)!);
+    // Categorical metadata remains for existing displays. It does not define
+    // continuous strength or the weight used by principle readers.
+    const legacyNet = Math.abs(
+      sum(distinct, "endorses") - sum(distinct, "rejects"),
+    );
+    const conviction: BeliefConviction =
+      CONVICTION_FROM.find(([from]) => legacyNet >= from)?.[1] ?? "tentative";
     const base = FLEXIBILITY_ORDER.indexOf(FLEXIBILITY_FOR[conviction]);
     const flexibility =
       FLEXIBILITY_ORDER[
@@ -595,13 +633,29 @@ export function principlesFromPulls(
       ]!;
     formed.push({
       principle,
-      stance: torn ? "conflicted" : endorse > reject ? "endorses" : "rejects",
+      stance: combined.direction ?? "conflicted",
       conviction,
       flexibility,
-      pulls: list,
+      strength: combined.strength,
+      pulls: distinct,
     });
   }
   return formed;
+}
+
+function pullEvidenceKey(pull: PrinciplePull): string {
+  const references = [
+    ...new Set([
+      ...(pull.eventIds ?? []).map((id) => `event:${id}`),
+      ...(pull.factIds ?? []).map((id) => `fact:${id}`),
+    ]),
+  ].sort();
+  // Without source IDs, do not assume repeated contextual reasons describe
+  // independent experiences. This conservative fallback creates no evidence.
+  return JSON.stringify([
+    pull.principle,
+    references.length > 0 ? references : ["context", pull.because],
+  ]);
 }
 
 function sum(
@@ -618,7 +672,7 @@ function note(formed: FormedPrinciple): string {
     (pull) =>
       `${pull.toward === "endorses" ? "for" : "against"}: ${pull.because}`,
   );
-  return `Formed from their life (${LIFE_PRINCIPLES_VERSION}): ${reasons.join("; ")}.`;
+  return `Formed from their life (${LIFE_PRINCIPLES_VERSION}): ${reasons.join("; ")}. Continuous support ${formed.strength}; weights are developer-authored stand-ins.`;
 }
 
 /**
@@ -632,6 +686,7 @@ function note(formed: FormedPrinciple): string {
 export function formPrinciplesFromLife(
   world: World,
   personIds: readonly EntityId[],
+  options: { readonly officeholders?: boolean } = {},
 ): World {
   const catalog = world.policyCatalog;
   const idForKey = new Map<string, EntityId>();
@@ -657,16 +712,26 @@ export function formPrinciplesFromLife(
     if (personId === controlled) return;
     const before = latestRows(world, personId);
     if (
-      seatedOfficeholder(world, personId) ||
-      [...before.values()].some((row) =>
-        row.stableKey.startsWith(OFFICEHOLDER_DRAW),
-      )
+      !options.officeholders &&
+      (seatedOfficeholder(world, personId) ||
+        [...before.values()].some((row) =>
+          row.stableKey.startsWith(OFFICEHOLDER_DRAW),
+        ))
     )
       return;
     const formed = principlesFromPulls(
       world,
       personId,
       principlePullsOf(world, personId, pending),
+      new Set(
+        [...before.values()]
+          .filter((row) =>
+            row.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`),
+          )
+          .map((row) =>
+            principleKeyOf(catalog.principles[row.principleId]!.stableKey),
+          ),
+      ),
     );
     const holds = new Map(heldBy(latestPrinciples(world, personId), world));
     for (const principle of formed) {
@@ -678,11 +743,24 @@ export function formPrinciplesFromLife(
       if (prior && !prior.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`))
         continue;
       holds.set(principle.principle, principle.stance);
+      const formationNote = note(principle);
+      const relevantEventIds = [
+        ...new Set(principle.pulls.flatMap((pull) => pull.eventIds ?? [])),
+      ].sort();
+      const sourceFactIds = [
+        ...new Set(principle.pulls.flatMap((pull) => pull.factIds ?? [])),
+      ].sort();
       if (
         prior?.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`) &&
         prior.stance === principle.stance &&
+        prior.strength === principle.strength &&
         prior.conviction === principle.conviction &&
-        prior.flexibility === principle.flexibility
+        prior.flexibility === principle.flexibility &&
+        prior.formation.note === formationNote &&
+        JSON.stringify(prior.formation.relevantEventIds) ===
+          JSON.stringify(relevantEventIds) &&
+        JSON.stringify(prior.formation.sourceFactIds) ===
+          JSON.stringify(sourceFactIds)
       )
         continue;
       rows.push({
@@ -691,14 +769,14 @@ export function formPrinciplesFromLife(
         principleId,
         formedAt: world.currentDate,
         stance: principle.stance,
+        strength: principle.strength,
         conviction: principle.conviction,
         flexibility: principle.flexibility,
         qualification: null,
         formation: createFormationContext("experience:life", {
-          relevantEventIds: [
-            ...new Set(principle.pulls.flatMap((pull) => pull.eventIds ?? [])),
-          ].sort(),
-          note: note(principle),
+          relevantEventIds,
+          sourceFactIds,
+          note: formationNote,
         }),
         supersedesPrincipleRecordId: prior?.id ?? null,
       });

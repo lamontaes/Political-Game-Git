@@ -1036,6 +1036,8 @@ export interface PrincipleRecord {
   readonly principleId: EntityId;
   readonly formedAt: IsoDate;
   readonly stance: PrincipleStance;
+  /** Held support on [0, 1]; stance supplies its direction. */
+  readonly strength: number;
   readonly conviction: BeliefConviction;
   readonly flexibility: PoliticalFlexibility;
   readonly qualification: string | null;

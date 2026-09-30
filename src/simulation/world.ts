@@ -3466,6 +3466,12 @@ function validatePoliticalHistory(
       );
     }
     assertMember(PRINCIPLE_STANCES, principle.stance, "principle stance");
+    if (
+      !Number.isFinite(principle.strength) ||
+      principle.strength < 0 ||
+      principle.strength > 1
+    )
+      throw new Error("Principle strength must be finite and in [0, 1].");
     assertMember(CONVICTIONS, principle.conviction, "principle conviction");
     assertMember(FLEXIBILITIES, principle.flexibility, "principle flexibility");
     validateOptionalString(principle.qualification, "Principle qualification");

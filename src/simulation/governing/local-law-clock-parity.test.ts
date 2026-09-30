@@ -78,6 +78,7 @@ function thirtyDayLawOpening(): {
       principleId: principle.id,
       formedAt: world.currentDate,
       stance: "endorses",
+      strength: 1,
       conviction: "settled",
       flexibility: "firm",
       qualification: null,
