@@ -151,3 +151,9 @@ Research → laws row removed: job 13 is not authorized.
 All seven existing teams received the newer 8:27 ruling. No new team, no Codex merge.
 
 Team 3 follow-up: #1143 still contains labeled peer estimates for suppressed demographics and two unmatched Island village keys. Team 3 is auditing own-source records under the missing-number ruling; these estimates are not claimed owner-approved. Claude should account for this limit while gating.
+
+## Team 3 corrective publication after 8:30
+
+Team 3 reports corrective head 37e561cd1 pushed to ready PR #1143, superseding 0469647. Peer demographic, population and growth substitutions removed; missing fields remain null/unknown, with own-geography change only. Team-reported checks: 12 relevant focused tests passed, scoped TypeScript, lint, compile/replay, report and release checks passed. Coordinator has not rerun these checks. Ta'u and Chalan Kanoa village identities remain unresolved and unknown. Team 3 posted the receipt in 00.
+
+Team 3 reports Team 1 agreed the money contract and released the narrow adapter in 00; the agreement blocker is removed. Team 3 proceeds with job 05 preserving law hunks. This is an agreed integration route, not a claim that the money connection is on main or verified in a watched world.

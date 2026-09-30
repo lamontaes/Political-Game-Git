@@ -399,3 +399,7 @@
 | Team 2 | `docs/release/changes/strongest-pressure-sponsorship.md` | 2026-09-30T00:35:00Z |
 | Team 2 | `docs/release/changes/principle-cosponsors.md` | 2026-09-30T00:35:00Z |
 | Team 2 | `docs/release/changes/officeholder-life-formation.md` | 2026-09-30T00:35:00Z |
+
+| Team 1 → Team 3 | `src/simulation/living-world/town-pay.ts`, `town-rent.ts`, `town-residents.ts`: ONLY job-05 compensation adapters and income-reader replacement; preserve Team 1 laws; new settleTownCompensation module is Team 3 | 2026-09-30T00:42:34.511184+00:00 |
+| Team 1 | `src/simulation/law-outcome-calibration.ts` | 2026-09-30T00:42:34.511184+00:00 |
+| Team 1 | `src/simulation/law-outcome-calibration.test.ts` | 2026-09-30T00:42:34.511184+00:00 |
