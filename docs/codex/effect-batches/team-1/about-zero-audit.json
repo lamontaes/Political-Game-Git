@@ -1,0 +1,140 @@
+{
+  "version": "team1-about-zero-audit/v1",
+  "sourcePin": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+  "scope": "20 direct federal links plus4one-step links;8unique about-zero/zero records",
+  "directSharedEdits": 0,
+  "acceptedMeasuredNearZeroUnderCurrentBroadSemantics": 0,
+  "meaningOfZero": "Zero accepted count reflects qualification failures, NOT evidence that these laws have no effects.",
+  "rows": [
+    {
+      "key": "immigration-to-crime",
+      "from": "law:us-federal-positions:immigration.admit-more-immigrants",
+      "to": "crime.rate-index",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "needs-primary-qualification",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "Undocumented immigration share across states is not the intervention of increasing lawful admissions. Existing anchor describes generally negative associations, not a measured equivalence interval near zero. Primary PMC request returned browser challenge, not study text.",
+      "proposedAction": "unset-size-and-remove-about-zero-label",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    },
+    {
+      "key": "federal-mandatory-minimums-to-crime",
+      "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "to": "crime.rate-index",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "wrong-intervention-and-population",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "2014 retroactive guideline reductions are not a generic statutory mandatory-minimum repeal; quoted three-year recidivism27.9% versus30.5% is a comparison, not a measured all-place crime-rate zero. The attempted USSC PDF URL404, so the numeric quote remains catalog evidence, not independently verified here.",
+      "proposedAction": "unset-size-and-remove-about-zero-label",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    },
+    {
+      "key": "housing-vouchers-to-graduation",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "school.graduation-pct",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "measured-but-not-equivalence-to-zero",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "Primary TableIII measured positive graduation coefficients with uncertainty. MaleITT.0150 SE.0094; femaleITT.0101 SE.0094; control graduation.3940/.5766. IV coefficients.0286/.0190, SE.0178/.0176. Nonsignificance is not zero, and Chicago child-cohort estimates cannot be a universal instantaneous law effect.",
+      "proposedAction": "unset-size-and-replace-with-cohort-specific-researched-range-after-unit-review",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    },
+    {
+      "key": "housing-vouchers-to-crime",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "crime.rate-index",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "measured-but-outcome-mismatch",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "The primary experiment measured children arrest outcomes and heterogeneous effects, not an all-age place crime-rate index. A statistically insignificant arrest coefficient cannot establish a universal exact zero. A cohort-specific outcome/unit bridge is needed.",
+      "proposedAction": "unset-size-and-remove-about-zero-label",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    },
+    {
+      "key": "top-income-tax-rate-to-poverty",
+      "from": "law:us-federal-positions:tax.raise-top-income-tax-rate",
+      "to": "household.poverty-pct",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "definitional-not-measured-causal-zero",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "Official poverty excludes taxes in its money-income definition. This states no direct subtraction of tax in the poverty calculation; it does not identify zero indirect effects through spending, wages or services. Coordinator owns this transferred law.",
+      "proposedAction": "remove-from-causal-map-retain-accounting-definition-in-law-record",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    },
+    {
+      "key": "student-loan-forgiveness-to-poverty",
+      "from": "law:us-federal-positions:education.forgive-student-loans",
+      "to": "household.poverty-pct",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "definitional-not-measured-causal-zero",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "Official poverty uses pretax money income and debt cancellation is not that income. This is an accounting-definition statement, not a study showing all consequences for poverty are zero; repayment cash flow and labor decisions can change.",
+      "proposedAction": "remove-from-causal-map-retain-accounting-definition-in-law-record",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    },
+    {
+      "key": "congress-stock-ban-to-member-returns",
+      "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
+      "to": "government.member-market-returns",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "no-ban-effect-identified",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "The primary paper measured2012\u20132023 congressional portfolios against market benchmarks, finding underperformance or matching. It did not estimate the causal effect of a trading ban. Missing portfolio substrate is not evidence of zero returns from a ban.",
+      "proposedAction": "remove-causal-link",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    },
+    {
+      "key": "incarceration-to-crime",
+      "from": "justice.incarcerated-per-100k",
+      "to": "crime.all",
+      "currentSize": 0,
+      "currentEvidence": "about-zero",
+      "qualification": "needs-review-population-and-horizon",
+      "whyItDoesNotQualifyAsMeasuredNearZero": "A review of offsetting incapacitation and post-release effects cannot establish an exact all-place zero for every offense, custody level and horizon. The primary review request403; no numerical equivalence bound was inspected. This downstream justice link also intersectsTeam9; coordinator integrates.",
+      "proposedAction": "unset-size-and-remove-about-zero-label",
+      "applyBy": "coordinator sole shared-map writer",
+      "replacementRange": null,
+      "missingFigure": "Intervention-matched estimate, uncertainty/equivalence interval, correct outcome unit, cohort and horizon before numeric activation. No fabricated rate or range."
+    }
+  ],
+  "primaryReads": [
+    {
+      "url": "https://www.nber.org/system/files/working_papers/w20164/w20164.pdf",
+      "sha256": "5de7648fbab885a0fba79f8420c862cb35d2dfd6014bee8eb17bc1dc02c3c2eb",
+      "verifiedTable": "TableIII; parentheses are standard errors, adjacent IV column is a point estimate. No CI invented."
+    },
+    {
+      "url": "https://www.nber.org/papers/w35041",
+      "sha256": "41e5e3c615df25cf0aa8cf727c68bee69e942f4f1e58de3e68b98025ecc39f5c",
+      "quote": "We find that, on average, legislators\u2019 portfolios underperform or, at best, match market benchmarks after the STOCK Act."
+    }
+  ],
+  "failedReads": [
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6241529/",
+      "result": "browser challenge; not evidence read"
+    },
+    {
+      "url": "https://www.openphilanthropy.org/research/the-impacts-of-incarceration-on-crime/",
+      "result": "HTTP403"
+    },
+    {
+      "url": "https://www.ussc.gov/sites/default/files/pdf/research-and-publications/research-publications/2020/20200708_Recidivism-DrugsMinusTwo.pdf",
+      "result": "HTTP404"
+    }
+  ]
+}

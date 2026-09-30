@@ -1,0 +1,112 @@
+{
+  "scope": "Controlled federal laws in five real drawn-state minimal worlds, not nationwide/natural-legislative-passage proof; federal cost is booked once nationally, not charged again per state.",
+  "sourceSHA256": "ac9ea33b48e3d44f1f24dd0c6ef37e5d48f21989833c3563eb9bc9413ab9e6dd",
+  "focusedTests": "10/10 PASS20.19s; future-law/repeal/JSONreload and deficit/debt identity assertions",
+  "receipts": [
+    {
+      "seed": "team1-defense-cost-0",
+      "place": "Norman, North Carolina",
+      "state": "US-NC",
+      "month": "2026-07-01",
+      "government": "United States Treasury",
+      "line": "nationalDefense",
+      "costDollars": 1227805477,
+      "extraBorrowingDollars": 1227805477,
+      "stamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "measure_defense_1",
+        "source": "enacted",
+        "effectKind": "government-outlay-change",
+        "questionKey": "us-federal-positions:defense.grow-defense-spending",
+        "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+        "operativeAt": "2026-01-05",
+        "appliedAt": "2026-07-01",
+        "sourceRecordIds": ["measure_defense_1"]
+      }
+    },
+    {
+      "seed": "team1-defense-cost-1",
+      "place": "Cottonwood, California",
+      "state": "US-CA",
+      "month": "2026-07-01",
+      "government": "United States Treasury",
+      "line": "nationalDefense",
+      "costDollars": 1227805477,
+      "extraBorrowingDollars": 1227805477,
+      "stamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "measure_defense_1",
+        "source": "enacted",
+        "effectKind": "government-outlay-change",
+        "questionKey": "us-federal-positions:defense.grow-defense-spending",
+        "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+        "operativeAt": "2026-01-05",
+        "appliedAt": "2026-07-01",
+        "sourceRecordIds": ["measure_defense_1"]
+      }
+    },
+    {
+      "seed": "team1-defense-cost-2",
+      "place": "Lakewood, New Jersey",
+      "state": "US-NJ",
+      "month": "2026-07-01",
+      "government": "United States Treasury",
+      "line": "nationalDefense",
+      "costDollars": 1227805477,
+      "extraBorrowingDollars": 1227805477,
+      "stamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "measure_defense_1",
+        "source": "enacted",
+        "effectKind": "government-outlay-change",
+        "questionKey": "us-federal-positions:defense.grow-defense-spending",
+        "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+        "operativeAt": "2026-01-05",
+        "appliedAt": "2026-07-01",
+        "sourceRecordIds": ["measure_defense_1"]
+      }
+    },
+    {
+      "seed": "team1-defense-cost-3",
+      "place": "Sellers, South Carolina",
+      "state": "US-SC",
+      "month": "2026-07-01",
+      "government": "United States Treasury",
+      "line": "nationalDefense",
+      "costDollars": 1227805477,
+      "extraBorrowingDollars": 1227805477,
+      "stamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "measure_defense_1",
+        "source": "enacted",
+        "effectKind": "government-outlay-change",
+        "questionKey": "us-federal-positions:defense.grow-defense-spending",
+        "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+        "operativeAt": "2026-01-05",
+        "appliedAt": "2026-07-01",
+        "sourceRecordIds": ["measure_defense_1"]
+      }
+    },
+    {
+      "seed": "team1-defense-cost-4",
+      "place": "Doe Valley, Kentucky",
+      "state": "US-KY",
+      "month": "2026-07-01",
+      "government": "United States Treasury",
+      "line": "nationalDefense",
+      "costDollars": 1227805477,
+      "extraBorrowingDollars": 1227805477,
+      "stamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "measure_defense_1",
+        "source": "enacted",
+        "effectKind": "government-outlay-change",
+        "questionKey": "us-federal-positions:defense.grow-defense-spending",
+        "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+        "operativeAt": "2026-01-05",
+        "appliedAt": "2026-07-01",
+        "sourceRecordIds": ["measure_defense_1"]
+      }
+    }
+  ]
+}
