@@ -1,3 +1,7 @@
+import { lawEffectStamp } from "../law-effect-stamp";
+import { lawInForce } from "./law-in-force";
+import { propositionIdFor } from "../public-budgets/fiscal";
+import { STATE_TRANSIT_SERVICE_QUESTION } from "../legislation-transit-families";
 import { TRANSIT_METRIC_INPUT } from "../transit-contract-definitions";
 import { TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR } from "../legislation-transit-families";
 import { publishPublicEvent } from "../public-information";
@@ -66,6 +70,7 @@ export function recordPaidTransitProgramService(
     (row) => row.measureId === measure?.id,
   );
   if (
+    !measure ||
     !profile ||
     lineage?.variantKey !== "transit-staged-service-v2" ||
     profile.programKey !== appropriation.programKey
@@ -81,6 +86,32 @@ export function recordPaidTransitProgramService(
     outcome.transferredAmount.minorUnits !== plan.amount.minorUnits
   )
     throw new Error("Transit service hours require the exact posted payment.");
+  const propositionId = propositionIdFor(world, STATE_TRANSIT_SERVICE_QUESTION);
+  const governingLaw = propositionId
+    ? lawInForce(
+        world,
+        appropriation.jurisdictionId,
+        propositionId,
+        installment.recordedAt,
+      )
+    : null;
+  // Never attribute this payment to a different measure answering the same question.
+  const ownLaw = governingLaw?.measureId === measure.id ? governingLaw : null;
+  const sources = [
+    measure.id,
+    appropriation.id,
+    commitment.id,
+    installment.id,
+    installment.resourceFlowId,
+    outcome.id,
+  ];
+  const spendingStamp = lawEffectStamp(ownLaw, {
+    effectKind: "state-spending",
+    questionKey: STATE_TRANSIT_SERVICE_QUESTION,
+    jurisdictionId: appropriation.jurisdictionId,
+    appliedAt: installment.recordedAt,
+    sourceRecordIds: sources,
+  });
   const key = `${installment.stableKey}:paid-service-hours`;
   if (world.history.events.some((event) => event.stableKey === key))
     return world;
@@ -156,6 +187,7 @@ export function recordPaidTransitProgramService(
   next = recordWorldEvent(next, {
     stableKey: key,
     type: "transit.program-paid-service-hours",
+    ...(spendingStamp ? { lawEffectStamps: [spendingStamp] } : {}),
     occurredAt: installment.recordedAt,
     recordedAt: installment.recordedAt,
     jurisdictionId: modeledAreaId ?? appropriation.jurisdictionId,
@@ -192,7 +224,21 @@ export function recordPaidTransitProgramService(
         ],
       }),
     };
+  const serviceStamp = lawEffectStamp(ownLaw, {
+    effectKind: "transit.paid-service-hours",
+    questionKey: STATE_TRANSIT_SERVICE_QUESTION,
+    jurisdictionId: modeledAreaId ?? appropriation.jurisdictionId,
+    appliedAt: installment.recordedAt,
+    sourceRecordIds: [...sources, serviceEventId],
+  });
   next = recordWorldMetricState(next, {
+    ...(spendingStamp || serviceStamp
+      ? {
+          lawEffectStamps: [spendingStamp, serviceStamp].filter(
+            (stamp) => stamp !== null,
+          ),
+        }
+      : {}),
     stableKey: `${key}:metric`,
     metricId: metric.id,
     scope: {

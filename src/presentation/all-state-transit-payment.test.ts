@@ -1,3 +1,9 @@
+import { propositionIdFor } from "../simulation/public-budgets/fiscal";
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import {
+  isLawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../simulation/law-effect-stamp";
 import { describe, expect, it } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -123,6 +129,32 @@ function enactedTransitBill(stateUsps: string) {
   });
   world = filed.world;
   const measureId = filed.bill.measureId;
+  // Authored saved-answer fixture matching automatic transit measures. Manual
+  // fileDraft currently omits answers; this does not repair that production gap.
+  const propositionId = propositionIdFor(
+    world,
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+  );
+  if (!propositionId)
+    throw new Error("The transit question is missing from the test catalog.");
+  world = {
+    ...world,
+    history: {
+      ...world.history,
+      legislativeMeasures: world.history.legislativeMeasures!.map((row) =>
+        row.id === measureId
+          ? {
+              ...row,
+              propositionIds: [
+                ...new Set([...(row.propositionIds ?? []), propositionId]),
+              ],
+              propositionAnswers: [{ propositionId, answer: "yes" as const }],
+            }
+          : row,
+      ),
+    },
+  };
+
   const bodies = pack.chambers.map((chamber) => {
     const seats = seatsForChamber(pack, chamber.chamberKey)?.seats;
     if (!seats)
@@ -189,7 +221,10 @@ function paidService(stateUsps: string) {
   const enactment = world.history.legislativeEnactments?.find(
     (row) => row.measureId === enacted.measureId && row.outcome === "enacted",
   );
-  expect(appropriation.availableFrom).toBe(enactment?.effectiveAt);
+  if (!enactment) throw new Error("The appropriation has no enacted measure.");
+  expect(appropriation.availableFrom).toBe(
+    operativeDateInWorld(world, enactment)?.date,
+  );
   expect(appropriation.amount.minorUnits).toBe(2_000_000);
   const account = publicTaxAccountForJurisdiction(
     world,
@@ -310,6 +345,43 @@ describe("same fictional state transit bill reaches exact paid service", () => {
           (row) => row.type === "transit.program-paid-service-hours",
         ),
       ).toHaveLength(1);
+      const service = world.history.events.find(
+        (row) => row.type === "transit.program-paid-service-hours",
+      )!;
+      const metric = world.history.metricStates.find(
+        (row) =>
+          row.provenance.kind === "simulated" &&
+          row.provenance.sourceEntityIds.includes(service.id),
+      )!;
+      expect(metric).toBeDefined();
+      const savedMetric = metric as typeof metric & LawEffectStampedRecord;
+      expect(savedMetric.lawEffectStamps, usps).toHaveLength(2);
+      const stamp = savedMetric.lawEffectStamps!.find(
+        (row) => row.effectKind === "state-spending",
+      )!;
+      expect(isLawEffectStamp(stamp), usps).toBe(true);
+      const measure = world.history.legislativeMeasures!.find(
+        (row) => row.id === stamp.governingLawKey,
+      )!;
+      expect(service.involvedEntityIds).toContain(measure.id);
+      const appropriation = world.history.publicProgramRecords!.find(
+        (row) =>
+          row.kind === "appropriation" && row.sourceMeasureId === measure.id,
+      )!;
+      expect(stamp.sourceRecordIds).toContain(appropriation.id);
+      expect(
+        savedMetric.lawEffectStamps!.find(
+          (row) => row.effectKind === "transit.paid-service-hours",
+        ),
+      ).toMatchObject({ governingLawKey: measure.id });
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(
+        (
+          reopened.history.metricStates.find(
+            (row) => row.id === metric.id,
+          ) as typeof metric & LawEffectStampedRecord
+        ).lawEffectStamps,
+      ).toEqual(savedMetric.lawEffectStamps);
     },
   );
 
@@ -364,6 +436,7 @@ describe("same fictional state transit bill reaches exact paid service", () => {
         createElement(
           TimeCommandProvider,
           {
+            children: null,
             runner: {
               pending: false,
               submit: () => {},
