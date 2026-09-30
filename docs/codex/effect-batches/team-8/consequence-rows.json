@@ -1,0 +1,392 @@
+{
+  "schema": "team-8-law-consequence-conversion/v1",
+  "sharedType": {
+    "path": "src/simulation/law-consequence-types.ts",
+    "sourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+    "contractHead": "1e44b58863169f42b70dbd488bd3df6964751f36"
+  },
+  "owner": "team-8",
+  "status": "TYPED_DISABLED_INPUTS_PENDING_COORDINATOR_ADMISSION",
+  "runtimeAdmission": "Only law.consequences arrays below are runnable inputs; all are empty pending registered bindings. proposedRow objects exist exclusively under missingCapabilities and MUST NOT be loaded as catalog rows.",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "consequences": []
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "consequences": []
+    }
+  ],
+  "missingCapabilities": [
+    {
+      "id": "coverage-expansion-binding",
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "kind": "coverage-eligibility",
+      "status": "UNSUPPORTED_REGISTRY_BINDING",
+      "proposedRow": {
+        "id": "team-8-medicaid-expansion-coverage-v1",
+        "kind": "coverage-eligibility",
+        "when": "effective",
+        "who": {
+          "selector": "householdMembershipsAt",
+          "predicates": []
+        },
+        "what": "recordHealthCoverage",
+        "amount": {
+          "op": "constant",
+          "value": 1,
+          "unit": "people",
+          "sourceIds": [
+            "legal-unit:one-actual-subject",
+            "src/simulation/crisis/health-coverage.ts:recordHealthCoverage"
+          ]
+        },
+        "conditions": [],
+        "lag": {
+          "days": 0,
+          "sourceIds": [
+            "src/simulation/crisis/health-coverage.ts:recordHealthCoverage:effectiveAt=onDate"
+          ]
+        },
+        "onRepeal": "end-future-eligibility",
+        "evidence": {
+          "sourceIds": [
+            "src/simulation/crisis/health-coverage.ts",
+            "src/simulation/crisis/health-coverage.test.ts",
+            "#1244:217a8de539acb2dd13e3b7b627a78dfc91677eba",
+            "docs/codex/handbacks/team-8-person-coverage-news-proof.md@8eb6b2ee5ce3cad3a0e32b97dcaa75cbf448bf27"
+          ],
+          "population": "One actual supplied person with recorded residence and household; existing producer checks age, recorded income, work and exemptions.",
+          "scope": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "why": "The existing legal eligibility producer recomputes whether this person is covered and writes only a change. One people unit denotes the actual selected subject, not a population rate or a manufactured enrollee.",
+          "uncertainty": "DISABLED conversion: existing export identifiers are references for coordinator binding, not claimed registered capabilities. Effective invocation is not proof of automatic same-day scheduling; existing monthly pass remains. Whole-law filed terms, preemption and statutory exemptions remain incomplete."
+        }
+      },
+      "requiredBindings": [
+        {
+          "field": "who.selector",
+          "existingExport": "householdMembershipsAt",
+          "registeredCapability": null,
+          "requirement": "Resolve context.subjectIds against actual dated household residence and canonical jurisdiction. Export name is an existing reference, not a granted registry key."
+        },
+        {
+          "field": "what",
+          "existingExport": "recordHealthCoverage",
+          "registeredCapability": null,
+          "requirement": "Bind the existing saved coverage writer through the ONE coverage kind; expansion/work rows must not apply it twice."
+        },
+        {
+          "field": "conditions",
+          "existingExport": "medicaidCoverageDecision",
+          "registeredCapability": null,
+          "requirement": "Expose existing decision and no-change checks without inventing predicate names; legal effective dates must use the canonical reader."
+        },
+        {
+          "field": "amount",
+          "requirement": "One actual subject is a legal counting unit, not a coverage prediction. The handler must expose a typed current covered/not-covered decision; people units alone do not encode that boolean."
+        },
+        {
+          "field": "terms",
+          "requirement": "Bind existing legal income/age/eligibility terms to immutable starting/enacted terms; research constants are not automatically filed catalog terms."
+        }
+      ],
+      "knownInputs": {
+        "legalReader": "lawInForce",
+        "existingTerms": [
+          "MEDICAID_EXPANSION_RULES.incomeLimitPercentOfPovertyLine",
+          "MEDICAID_EXPANSION_RULES.minimumAge",
+          "MEDICAID_EXPANSION_RULES.maximumAge"
+        ],
+        "actualRecords": [
+          "person.birthDate",
+          "dated household membership and residence",
+          "monthlyIncomeMinor from actual recorded household pay",
+          "householdSize"
+        ],
+        "existingCalculation": "annualPovertyLineMinor(actual state, householdSize, onDate) \u00d7 incomeLimitPercentOfPovertyLine / 100 compared to monthlyIncomeMinor \u00d7 12; all actual-person coverage changes keep existing stamps."
+      },
+      "onwardMissing": [
+        "Clinical service exposure is not equivalent to insurance enrollment.",
+        "Mortality/blood-pressure/depression onward input requires recorded exposure and matched study/CI; no effect coefficient or guessed care amount admitted."
+      ]
+    },
+    {
+      "id": "coverage-work-binding",
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "kind": "coverage-eligibility",
+      "status": "UNSUPPORTED_REGISTRY_BINDING",
+      "proposedRow": {
+        "id": "team-8-medicaid-work-coverage-v1",
+        "kind": "coverage-eligibility",
+        "when": "effective",
+        "who": {
+          "selector": "householdMembershipsAt",
+          "predicates": []
+        },
+        "what": "recordHealthCoverage",
+        "amount": {
+          "op": "constant",
+          "value": 1,
+          "unit": "people",
+          "sourceIds": [
+            "legal-unit:one-actual-subject",
+            "src/simulation/crisis/health-coverage.ts:recordHealthCoverage"
+          ]
+        },
+        "conditions": [],
+        "lag": {
+          "days": 0,
+          "sourceIds": [
+            "src/simulation/crisis/health-coverage.ts:recordHealthCoverage:effectiveAt=onDate"
+          ]
+        },
+        "onRepeal": "recompute-prospective",
+        "evidence": {
+          "sourceIds": [
+            "src/simulation/crisis/health-coverage.ts",
+            "src/simulation/crisis/health-coverage.test.ts",
+            "#1244:217a8de539acb2dd13e3b7b627a78dfc91677eba",
+            "docs/codex/handbacks/team-8-person-coverage-news-proof.md@8eb6b2ee5ce3cad3a0e32b97dcaa75cbf448bf27"
+          ],
+          "population": "One actual supplied person with recorded residence and household; existing producer checks age, recorded income, work and exemptions.",
+          "scope": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "why": "The existing legal eligibility producer recomputes whether this person is covered and writes only a change. One people unit denotes the actual selected subject, not a population rate or a manufactured enrollee.",
+          "uncertainty": "DISABLED conversion: existing export identifiers are references for coordinator binding, not claimed registered capabilities. Effective invocation is not proof of automatic same-day scheduling; existing monthly pass remains. Whole-law filed terms, preemption and statutory exemptions remain incomplete."
+        }
+      },
+      "requiredBindings": [
+        {
+          "field": "who.selector",
+          "existingExport": "householdMembershipsAt",
+          "registeredCapability": null,
+          "requirement": "Same recorded-subject selector as expansion, preserving age/residence and already-eligible expansion scope."
+        },
+        {
+          "field": "what",
+          "existingExport": "recordHealthCoverage",
+          "registeredCapability": null,
+          "requirement": "Same coverage handler, consuming current full decision and prior record; work-rule repeal can restore eligible coverage and must preserve prior history."
+        },
+        {
+          "field": "conditions",
+          "existingExport": "medicaidCoverageDecision",
+          "registeredCapability": null,
+          "requirement": "Bind recorded work-hours and existing child-caregiver, serious-health-episode and enrollment exemptions; no new invented test."
+        },
+        {
+          "field": "terms",
+          "requirement": "Expose required monthly hours and exemptions as legally operative catalog terms; do not install a guessed statutory rule or reinterpret expected job hours as verified worked hours."
+        }
+      ],
+      "knownInputs": {
+        "existingTerms": [
+          "MEDICAID_EXPANSION_RULES.requiredHoursPerMonth",
+          "MEDICAID_EXPANSION_RULES.childExemptionMaximumAge"
+        ],
+        "actualRecords": [
+          "monthlyWorkHours",
+          "activeWorkRelationshipsAt:role.timeDemand.expectedWeekly",
+          "dated household members",
+          "activeHealthEpisodes",
+          "activeEducationEnrollmentsAt"
+        ],
+        "existingCalculation": "Compare current recorded-model monthlyWorkHours to the legally operative requiredHoursPerMonth, with the existing exemptions and expansion eligibility; prospective repeal recomputes the same person decision."
+      },
+      "onwardMissing": [
+        "Employment change is not produced by a legal work requirement.",
+        "Existing about-zero employment link is measured nondetection with CI missing; no zero employment row admitted."
+      ]
+    },
+    {
+      "id": "team-8-work-requirement-for-assistance-binding",
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "kind": "coverage-eligibility",
+      "status": "UNSUPPORTED_BINDING_OR_ACTUAL_INPUT",
+      "requiredBindings": [
+        "Actual assistance program membership, operative exemption/reporting terms and saved household-specific determination.",
+        "Registered existing assistance subject and consequence bindings; no assumption that Medicaid eligibility is assistance eligibility."
+      ],
+      "evidence": [
+        "docs/codex/effect-batches/team-8/part-status-1245.json"
+      ],
+      "why": "A work rule changes future assistance eligibility for a qualifying actual applicant; it does not create jobs or count paid benefits by itself."
+    },
+    {
+      "id": "team-8-fund-behavioral-health-crisis-response-binding",
+      "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "kind": "service-delivered",
+      "status": "UNSUPPORTED_BINDING_OR_ACTUAL_INPUT",
+      "requiredBindings": [
+        "Actual crisis dispatch, assigned qualified responder capacity, completion and named recipient.",
+        "Operative funded service terms and actual paid service units; appropriation alone is not a completed response."
+      ],
+      "evidence": [
+        "docs/codex/effect-batches/team-8/part-status-1245.json"
+      ],
+      "why": "A person receives crisis response only when an actual responder delivers it; no universal response rate or dollar amount is available in the verified input."
+    },
+    {
+      "id": "team-8-harm-reduction-services-binding",
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "kind": "service-delivered",
+      "status": "UNSUPPORTED_BINDING_OR_ACTUAL_INPUT",
+      "requiredBindings": [
+        "Actual service encounter, supplied naloxone/other intervention, capacity/inventory and named person exposure.",
+        "Intervention-specific delivered dose/unit and price records; do not conflate all harm reduction or infer violent-crime zero."
+      ],
+      "evidence": [
+        "docs/codex/effect-batches/team-8/batch-03-age-verification-and-zero-audit.json"
+      ],
+      "why": "A delivered intervention can change an exposed person's clinical outcome; merely allowing services is not delivery."
+    },
+    {
+      "id": "team-8-housing-first-homelessness-binding",
+      "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "kind": "service-delivered",
+      "status": "UNSUPPORTED_BINDING_OR_ACTUAL_INPUT",
+      "requiredBindings": [
+        "Recorded housing placement, eligible household, available actual unit, completed occupancy/service and any paid assistance.",
+        "Research effect applies to actually housed/exposed subjects, not all homeless people or a binary law flag."
+      ],
+      "evidence": [
+        "docs/codex/effect-batches/team-8/part-status-1245.json"
+      ],
+      "why": "Actual stable occupancy changes a named household's housing circumstances; a declaration does not manufacture a home."
+    },
+    {
+      "id": "team-8-consumer-data-privacy-law-binding",
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "kind": "price-cost",
+      "status": "UNSUPPORTED_BINDING_OR_ACTUAL_INPUT",
+      "requiredBindings": [
+        "State-law covered data-processing activity, actual compliance task units and completed work/provider invoice.",
+        "Matched unit effort/actual wage or price and incremental-expense attribution without charging payroll twice.",
+        "Registered privacy rights/permission and enforcement-case actions; existing population-average state enforcement budget component is historical modeled attribution only."
+      ],
+      "evidence": [
+        "#1298:7e61ea718d9078148b869a95745605aeeaad26f8",
+        "src/simulation/public-budgets/consumer-privacy-cost.ts",
+        "docs/codex/effect-batches/team-8/privacy-mechanism-source-trace.json"
+      ],
+      "why": "Legal duties create specific data work. Cost requires actual covered workload \u00d7 actual unit price/compensation, not revenue share or an outcome draw.",
+      "uncertainty": "Federal privacy trace is a known mechanism-gap reference, not proof the state law has identical terms or scope."
+    },
+    {
+      "id": "team-8-age-verification-for-social-media-binding",
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "kind": "right-permission",
+      "status": "UNSUPPORTED_BINDING_OR_ACTUAL_INPUT",
+      "requiredBindings": [
+        "Recorded platform/account and actual user's age/consent/legal scope.",
+        "Completed age-verification task, provider fee/payment and actual ID-data exposure.",
+        "Canonical operative injunction/preemption status; state budget stamp alone is not account restriction or person cost."
+      ],
+      "evidence": [
+        "docs/codex/effect-batches/team-8/batch-03-age-verification-and-zero-audit.json",
+        "#1274:231aa8c1f517918e983e2d36e31800fe8dc8743f"
+      ],
+      "why": "An operative verification rule governs an actual account's access. Only recorded verification creates cost or ID exposure; no graduation effect or automatic teen exposure is inferred."
+    },
+    {
+      "id": "team-8-restrict-government-facial-recognition-binding",
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "kind": "right-permission",
+      "status": "UNSUPPORTED_BINDING_OR_ACTUAL_INPUT",
+      "requiredBindings": [
+        "Actual government facial-recognition use/request and named affected subject.",
+        "Operative prohibited/permitted-use, warrant/exception and legal-jurisdiction terms plus saved compliance determination.",
+        "No person surveillance record or allowlisted action established by the published Team8 evidence."
+      ],
+      "evidence": [
+        "docs/codex/effect-batches/team-8/part-status-1245.json"
+      ],
+      "why": "A legal restriction changes permission for an actual scoped government use; no case, identity match, arrest or privacy exposure is manufactured."
+    }
+  ],
+  "noticing": {
+    "existingConsumer": "src/simulation/press/law-effect-news.ts:reportLawEffects/healthCoverageTouches",
+    "actualRecords": "Saved coverage change with lawEffectStamps and actual dated household residence; unique recorded persons, no sampled-population extrapolation.",
+    "sourceHead": "7d4f8be4da506720812e3475a9b5efdc7b685e49",
+    "personProofHead": "8eb6b2ee5ce3cad3a0e32b97dcaa75cbf448bf27",
+    "missingCapability": "No separate noticing kind invented; generic completed consequences need an admitted stamped-person record adapter. A government budget row is not a person consequence."
+  },
+  "preservation": {
+    "sharedEngineOwner": "Coordinator",
+    "catalogOwner": "Coordinator",
+    "payKindOwner": "Team2",
+    "noNewPerLawCaller": true,
+    "noProductionChanges": true,
+    "existingStampSources": [
+      "#1244:217a8de539acb2dd13e3b7b627a78dfc91677eba",
+      "#1274:231aa8c1f517918e983e2d36e31800fe8dc8743f",
+      "#1298:7e61ea718d9078148b869a95745605aeeaad26f8"
+    ]
+  },
+  "checks": {
+    "lawEntries": 9,
+    "typedDisabledCoverageRows": 2,
+    "runnableRows": 0,
+    "onwardRunnableRows": 0,
+    "meaning": "Zero admitted rows is a missing capability/admission count, not zero existing simulation effects.",
+    "executed": [
+      "JSON parse",
+      "9 unique canonical assigned question keys",
+      "Shared LawConsequenceRow/Kind strict check against exact1305 type: zero diagnostics",
+      "2 distinct disabled coverage row IDs",
+      "No runnable unsupported rows or onward rows",
+      "Prettier and whitespace"
+    ],
+    "notRun": [
+      "Coordinator engine registry admission",
+      "Shared dispatcher runtime",
+      "Law Lab",
+      "Nationwide audit",
+      "Browser",
+      "Person or cost runtime; data-only conversion"
+    ]
+  },
+  "walkthrough": {
+    "1WhyChain": "A catalog consequence must select actual subjects, read operative terms and actual records, and save a real consequence. Existing coverage eligibility writes actual person records. Terminal: HARDWIRED legal eligibility/bookkeeping. Registry admission is absent from this conversion, so no row is enabled.",
+    "2Research": "Existing evidence only: coverage1244/person-news8eb6b2ee, inherited age1274 and privacy1298 cost limits, and published age/about-zero replacement packet. No new study coefficient, invoice, capacity, permission or outcome amount supplied.",
+    "3Revisions": "Keep unknowns explicit. Count one actual selected subject only after eligibility resolution; no inferred account, clinical service, surveillance case or population extrapolation. Budget cost projections remain separate from person consequences.",
+    "4NumberedParts": [
+      "Nine canonical law entries",
+      "Two disabled typed coverage conversions in missingCapabilities only",
+      "Actual legal-term and record calculation requirements",
+      "Seven other exact missing subject/action/exposure/workload bindings",
+      "Noticing consumes existing saved stamped person records"
+    ],
+    "5SimulatedRecordsWorldPiecesChecks": "No simulation action performed. Existing person coverage records are known; registered generic selectors/actions/typed coverage decision still require Coordinator. Workload/service/case producers for other laws require Audit contracts, not invented rows.",
+    "6ProofRun": "Data conversion only: JSON, keys, exact shared types and format checked. Historical five-state coverage/news proof is cited, not rerun or relabeled as shared-engine proof. Runtime, nationwide and browser NOT RUN.",
+    "7WorkedExample": "Known Alicia Franco person_cb11ba35944a617e from coverage-stamp:2464475 has four saved coverage changes and four actual news events in existing proof. This conversion does not create her, pay her, expose her to care or migrate that writer. Admission must preserve her IDs and existing law/source records."
+  }
+}
