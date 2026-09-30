@@ -1,0 +1,433 @@
+{
+  "schema": "team7-scene-measurements/v1",
+  "coordinateOrigin": "upper-left",
+  "coordinateUnit": "source-image-edge pixels",
+  "approval": "pending-cto-and-owner",
+  "baseHead": "7eee3bedd6f532cb10709d887a10837289864c93",
+  "sourceRoot": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "sourceGroups": 11,
+  "images": [
+    {
+      "sourceKey": "place-tornado-damage-neighborho--3",
+      "file": "places/place-tornado-damage-neighborho--3.png",
+      "kind": "tornado-damage-neighborhood",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "a027c6f9a1888201c36c7ca1418dd11d0686645b53a0ae6a8851477aa33f5367",
+      "group": "place-tornado-damage-neighborho--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest house door126px to porch204px; assume2.1m door.",
+      "unresolved": [
+        "Candidate sidewalk points avoid large visible debris only; hazards, safety and access are not proven or authored."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tornado-damage-neighborho--4",
+      "file": "places/place-tornado-damage-neighborho--4.png",
+      "kind": "tornado-damage-neighborhood",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "1641bf4e9a47ec5f545f44d342f80e8b47a02772e39bbb1b7c023cd78bfb813c",
+      "group": "place-tornado-damage-neighborho--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest house door126px to porch204px; assume2.1m door.",
+      "unresolved": [
+        "Candidate sidewalk points avoid large visible debris only; hazards, safety and access are not proven or authored."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-trailer-home-living__midd",
+      "file": "places/place-trailer-home-living__midd.png",
+      "kind": "trailer-home-living-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "62f26a49e15ab39092e4bcbddd8d0e8ec73a8cabf6b239e12d83aeb37dc0f2c3",
+      "group": "place-trailer-home-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Dining cushion224px to floor250px; assume0.45m seat.",
+      "unresolved": [
+        "Near sofa feet are cropped; far table contacts partly hidden. Rear-facing dining seat blocked. Narrow aisle actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-trailer-home-living__morn",
+      "file": "places/place-trailer-home-living__morn.png",
+      "kind": "trailer-home-living-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "608ea1ad81763c817008ec58a0e58d7e2abc3b7c3910250bd908c5cbad174a54",
+      "group": "place-trailer-home-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Dining cushion224px to floor250px; assume0.45m seat.",
+      "unresolved": [
+        "Near sofa feet are cropped; far table contacts partly hidden. Rear-facing dining seat blocked. Narrow aisle actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-trailer-home-living__nigh",
+      "file": "places/place-trailer-home-living__nigh.png",
+      "kind": "trailer-home-living-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "3a6b2eb904ad408a0d929e29ad3a8fa9efe05bbb3c43aedf8096336a61e36a49",
+      "group": "place-trailer-home-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Dining cushion224px to floor250px; assume0.45m seat.",
+      "unresolved": [
+        "Near sofa feet are cropped; far table contacts partly hidden. Rear-facing dining seat blocked. Narrow aisle actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-trailer-home-living__rain",
+      "file": "places/place-trailer-home-living__rain.png",
+      "kind": "trailer-home-living-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "95696d83141f9431d55f15c17c715a74e8e4a982bd88f16462282e0b2122f800",
+      "group": "place-trailer-home-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Dining cushion224px to floor250px; assume0.45m seat.",
+      "unresolved": [
+        "Near sofa feet are cropped; far table contacts partly hidden. Rear-facing dining seat blocked. Narrow aisle actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tv-debate-green-room__mid",
+      "file": "places/place-tv-debate-green-room__mid.png",
+      "kind": "tv-debate-green-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "558b4fe1d4bfec5b68e75f45adc5aa29899f50ce3277bfeb8a32bd2b91bb38e3",
+      "group": "place-tv-debate-green-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Vanity stool205px to floor246px; assume0.6m stool.",
+      "unresolved": [
+        "Sofa feet hidden by arms; stool head support and actor angle fit pending. Mirror is not a content screen."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tv-debate-green-room__mor",
+      "file": "places/place-tv-debate-green-room__mor.png",
+      "kind": "tv-debate-green-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "e1742985deb3058edae1814ce980881ec80b0ce8218b3e6e3f1a822800fd489e",
+      "group": "place-tv-debate-green-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Vanity stool205px to floor246px; assume0.6m stool.",
+      "unresolved": [
+        "Sofa feet hidden by arms; stool head support and actor angle fit pending. Mirror is not a content screen."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tv-debate-green-room__nig",
+      "file": "places/place-tv-debate-green-room__nig.png",
+      "kind": "tv-debate-green-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "d40af7a7afb183f3a476a69ec76daf3a6daa5e51c8806e42cf58064a8d037a54",
+      "group": "place-tv-debate-green-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Vanity stool205px to floor246px; assume0.6m stool.",
+      "unresolved": [
+        "Sofa feet hidden by arms; stool head support and actor angle fit pending. Mirror is not a content screen."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tv-debate-green-room__rai",
+      "file": "places/place-tv-debate-green-room__rai.png",
+      "kind": "tv-debate-green-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "679592b77d080da79c4553a25698d3ed802ce68378f31ef9fbbcc7ba3aab60bf",
+      "group": "place-tv-debate-green-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Vanity stool205px to floor246px; assume0.6m stool.",
+      "unresolved": [
+        "Sofa feet hidden by arms; stool head support and actor angle fit pending. Mirror is not a content screen."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tv-news-studio__midday",
+      "file": "places/place-tv-news-studio__midday.png",
+      "kind": "tv-news-studio",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "53f17cbeadee99ad169740fcf740f72b06be8924ae8628e555080e1c7424cc08",
+      "group": "place-tv-news-studio",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Desk193px to base264px; assume0.9m desk.",
+      "unresolved": [
+        "Anchor foot behind desk estimated; floor camera obstruction requires actor fit. Camera rigs and desk occlude parts of side displays; unoccluded composition is NOT RUN. Displays require recorded content; no broadcast invented."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-unemployment-office__midd",
+      "file": "places/place-unemployment-office__midd.png",
+      "kind": "unemployment-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "b524b2f3e13f2019a0eb0d2ebc7380267e2e2711ac166d50f65b6c9cdb056fe6",
+      "group": "place-unemployment-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion277px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Computer and waiting chairs face away. Service feet hidden; partial edge chairs and some back-row seats unresolved. No benefits eligibility or employment outcome created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-unemployment-office__morn",
+      "file": "places/place-unemployment-office__morn.png",
+      "kind": "unemployment-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "f440e29bc38a7fbe612754b1af02ef4a29eceaba0bb15a6644b10dd97ee8e858",
+      "group": "place-unemployment-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion277px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Computer and waiting chairs face away. Service feet hidden; partial edge chairs and some back-row seats unresolved. No benefits eligibility or employment outcome created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-unemployment-office__nigh",
+      "file": "places/place-unemployment-office__nigh.png",
+      "kind": "unemployment-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "ce2086e3d58dc0cc0d6e6ec0f25bf538c1f319c4897ee546c2cc1e7aa18d7647",
+      "group": "place-unemployment-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion277px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Computer and waiting chairs face away. Service feet hidden; partial edge chairs and some back-row seats unresolved. No benefits eligibility or employment outcome created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-unemployment-office__rain",
+      "file": "places/place-unemployment-office__rain.png",
+      "kind": "unemployment-office",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "c07d7228f7448e40a638c247a71f7ec8dac914e4a07a822ba16a0b8d3af348d9",
+      "group": "place-unemployment-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion277px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Computer and waiting chairs face away. Service feet hidden; partial edge chairs and some back-row seats unresolved. No benefits eligibility or employment outcome created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-union-hall__midday",
+      "file": "places/place-union-hall__midday.png",
+      "kind": "union-hall",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "57541aceb65b26c92750b0d9ad3017bc4f58eaabc6f415b60b97cc65de1db58e",
+      "group": "place-union-hall",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest cushion286px to floor327px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away; dense hidden rows need full-size review. Raised stage actor fit pending. Banners are hanging cloth, not flat paper measurements."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-union-hall-interior__midd",
+      "file": "places/place-union-hall-interior__midd.png",
+      "kind": "union-hall-interior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "81b34ca274c5406acb47354696c400701c10e40b89261b573d603b62b520f9ec",
+      "group": "place-union-hall-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near cushion310px to floor333px; assume0.45m seat.",
+      "unresolved": [
+        "Independent close stage camera; cropped near seat feet unresolved and audience faces away. Stage contact fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-university-lecture-hall__",
+      "file": "places/place-university-lecture-hall__.png",
+      "kind": "university-lecture-hall",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "3a1b439220e7dd3254a4c0229e310adffb4ff0e164654bf6da5a54706f53a509",
+      "group": "place-university-lecture-hall",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest bench278px to floor314px; assume0.45m seat.",
+      "unresolved": [
+        "Raked floor levels and hidden bench contacts unresolved. Panel finish records green chalkboard because current enum has no chalkboard. No enrollment or course facts created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-vfw-hall__midday",
+      "file": "places/place-vfw-hall__midday.png",
+      "kind": "vfw-hall",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "0e6299c54d0b7d197792ec049e2acf22e11dd9e691dc392e9115fa275753802d",
+      "group": "place-vfw-hall",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away; table chairs partly hidden. Portraits are not content boards and do not create veteran identities."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-vfw-hall__morning",
+      "file": "places/place-vfw-hall__morning.png",
+      "kind": "vfw-hall",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "6d6708991a9bfe1654ffc2d714d60bc906bf308bdfab24bd5b6d7030bb47a5d1",
+      "group": "place-vfw-hall",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away; table chairs partly hidden. Portraits are not content boards and do not create veteran identities."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-vfw-hall__night",
+      "file": "places/place-vfw-hall__night.png",
+      "kind": "vfw-hall",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "e8b32c79c0db480a0d1a401aded7ac260e97f50e8b9618001f684f3a6219f7b1",
+      "group": "place-vfw-hall",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away; table chairs partly hidden. Portraits are not content boards and do not create veteran identities."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-vfw-hall__rain",
+      "file": "places/place-vfw-hall__rain.png",
+      "kind": "vfw-hall",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "85516764a8d83504edb98e836383664a7304aa537cb3b0401865b9767974aeea",
+      "group": "place-vfw-hall",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away; table chairs partly hidden. Portraits are not content boards and do not create veteran identities."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-white-house-exterior__mid",
+      "file": "places/place-white-house-exterior__mid.png",
+      "kind": "white-house-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "79f738754df2586108f209bac7bffecf16c14688734e352b97dae59c06550c7e",
+      "group": "place-white-house-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Foreground fence220px to ground288px; assume1.5m fence.",
+      "unresolved": [
+        "All points remain on public-side foreground sidewalk; no grounds access or presidential authority created. Fence height is an artistic scale assumption."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-white-house-exterior__mor",
+      "file": "places/place-white-house-exterior__mor.png",
+      "kind": "white-house-exterior",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "48237236d6ce96d4b32afbeff635059815199760e0ddec06ee5d81a0ba3f8589",
+      "group": "place-white-house-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Foreground fence220px to ground288px; assume1.5m fence.",
+      "unresolved": [
+        "All points remain on public-side foreground sidewalk; no grounds access or presidential authority created. Fence height is an artistic scale assumption."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-white-house-exterior__nig",
+      "file": "places/place-white-house-exterior__nig.png",
+      "kind": "white-house-exterior",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "01af6b1a9841042a7d9f4cdcc2603f5920a847c3dec6bcc81482e8118b5dd352",
+      "group": "place-white-house-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Foreground fence220px to ground288px; assume1.5m fence.",
+      "unresolved": [
+        "All points remain on public-side foreground sidewalk; no grounds access or presidential authority created. Fence height is an artistic scale assumption."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-white-house-exterior__rai",
+      "file": "places/place-white-house-exterior__rai.png",
+      "kind": "white-house-exterior",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "95ccf152fedfc310e74c5aa177dd4f0d33f078dbb08a1a1ea3c387138a942492",
+      "group": "place-white-house-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Foreground fence220px to ground288px; assume1.5m fence.",
+      "unresolved": [
+        "All points remain on public-side foreground sidewalk; no grounds access or presidential authority created. Fence height is an artistic scale assumption."
+      ],
+      "approval": "pending"
+    }
+  ],
+  "limits": [
+    "No actual actor composites tested.",
+    "Hidden seat cushion and foot points are estimated from furniture; annotated as candidates.",
+    "No staging variant support exists in current v2 consumer; independent source keys must be mapped by job08.",
+    "No geometry claim about missing or full-size versions."
+  ]
+}

@@ -1,0 +1,948 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate quads in each source image native pixels, TL/TR/BR/BL. Independent source keys prevent accidental sharing across changed cameras. No enlargement. Job08 must remeasure full-size rasters or apply exact source mapping.",
+  "places": {
+    "place-tornado-damage-neighborho--3": {
+      "checked": [
+        "place-tornado-damage-neighborho--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Damaged homes, fallen wires and debris retain paint."
+      ]
+    },
+    "place-tornado-damage-neighborho--4": {
+      "checked": [
+        "place-tornado-damage-neighborho--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Damaged homes, fallen wires and debris retain paint."
+      ]
+    },
+    "place-trailer-home-living__midd": {
+      "checked": [
+        "place-trailer-home-living__midd.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Air conditioner, stove, cupboards and windows retain paint."
+      ]
+    },
+    "place-trailer-home-living__morn": {
+      "checked": [
+        "place-trailer-home-living__morn.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Air conditioner, stove, cupboards and windows retain paint."
+      ]
+    },
+    "place-trailer-home-living__nigh": {
+      "checked": [
+        "place-trailer-home-living__nigh.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Air conditioner, stove, cupboards and windows retain paint."
+      ]
+    },
+    "place-trailer-home-living__rain": {
+      "checked": [
+        "place-trailer-home-living__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Air conditioner, stove, cupboards and windows retain paint."
+      ]
+    },
+    "place-tv-debate-green-room__mid": {
+      "checked": [
+        "place-tv-debate-green-room__mid.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-tv-debate-green-room__mid-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Green-room television",
+          "quad": [
+            [
+              258,
+              99
+            ],
+            [
+              341,
+              99
+            ],
+            [
+              341,
+              150
+            ],
+            [
+              258,
+              150
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vanity mirror, water bottles and windows retain paint."
+      ]
+    },
+    "place-tv-debate-green-room__mor": {
+      "checked": [
+        "place-tv-debate-green-room__mor.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-tv-debate-green-room__mor-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Green-room television",
+          "quad": [
+            [
+              258,
+              99
+            ],
+            [
+              341,
+              99
+            ],
+            [
+              341,
+              150
+            ],
+            [
+              258,
+              150
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vanity mirror, water bottles and windows retain paint."
+      ]
+    },
+    "place-tv-debate-green-room__nig": {
+      "checked": [
+        "place-tv-debate-green-room__nig.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-tv-debate-green-room__nig-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Green-room television",
+          "quad": [
+            [
+              258,
+              99
+            ],
+            [
+              341,
+              99
+            ],
+            [
+              341,
+              150
+            ],
+            [
+              258,
+              150
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vanity mirror, water bottles and windows retain paint."
+      ]
+    },
+    "place-tv-debate-green-room__rai": {
+      "checked": [
+        "place-tv-debate-green-room__rai.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-tv-debate-green-room__rai-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Green-room television",
+          "quad": [
+            [
+              258,
+              99
+            ],
+            [
+              341,
+              99
+            ],
+            [
+              341,
+              150
+            ],
+            [
+              258,
+              150
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Vanity mirror, water bottles and windows retain paint."
+      ]
+    },
+    "place-tv-news-studio__midday": {
+      "checked": [
+        "place-tv-news-studio__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-tv-news-studio__midday-left-screen",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Left studio display",
+          "quad": [
+            [
+              80,
+              88
+            ],
+            [
+              198,
+              90
+            ],
+            [
+              198,
+              213
+            ],
+            [
+              80,
+              229
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        },
+        {
+          "id": "place-tv-news-studio__midday-center-screen",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Center studio display",
+          "quad": [
+            [
+              230,
+              95
+            ],
+            [
+              383,
+              95
+            ],
+            [
+              383,
+              176
+            ],
+            [
+              230,
+              176
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        },
+        {
+          "id": "place-tv-news-studio__midday-right-screen",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Right studio display",
+          "quad": [
+            [
+              410,
+              88
+            ],
+            [
+              532,
+              84
+            ],
+            [
+              532,
+              191
+            ],
+            [
+              410,
+              210
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        },
+        {
+          "id": "place-tv-news-studio__midday-desk-left-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Private presenter script",
+          "quad": [
+            [
+              311,
+              187
+            ],
+            [
+              330,
+              187
+            ],
+            [
+              327,
+              194
+            ],
+            [
+              308,
+              194
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-tv-news-studio__midday-desk-right-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Private presenter script",
+          "quad": [
+            [
+              338,
+              188
+            ],
+            [
+              352,
+              190
+            ],
+            [
+              358,
+              194
+            ],
+            [
+              343,
+              193
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Camera housings, lights and rigging retain paint."
+      ]
+    },
+    "place-unemployment-office__midd": {
+      "checked": [
+        "place-unemployment-office__midd.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-unemployment-office__midd-computer-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              110,
+              123
+            ],
+            [
+              137,
+              123
+            ],
+            [
+              137,
+              140
+            ],
+            [
+              110,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__midd-computer-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              171,
+              123
+            ],
+            [
+              198,
+              123
+            ],
+            [
+              198,
+              140
+            ],
+            [
+              171,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__midd-computer-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              230,
+              123
+            ],
+            [
+              257,
+              123
+            ],
+            [
+              257,
+              141
+            ],
+            [
+              230,
+              141
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__midd-left-notices",
+          "kind": "board",
+          "finish": "cork",
+          "what": "Public employment notices",
+          "quad": [
+            [
+              122,
+              62
+            ],
+            [
+              215,
+              62
+            ],
+            [
+              215,
+              106
+            ],
+            [
+              122,
+              106
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Service glass, reverse computer faces, certificates and small notices beyond glass retain paint. Right-edge board corners unresolved."
+      ]
+    },
+    "place-unemployment-office__morn": {
+      "checked": [
+        "place-unemployment-office__morn.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-unemployment-office__morn-computer-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              109,
+              125
+            ],
+            [
+              137,
+              125
+            ],
+            [
+              137,
+              141
+            ],
+            [
+              109,
+              141
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__morn-computer-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              169,
+              125
+            ],
+            [
+              197,
+              125
+            ],
+            [
+              197,
+              141
+            ],
+            [
+              169,
+              141
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__morn-computer-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              229,
+              125
+            ],
+            [
+              257,
+              125
+            ],
+            [
+              257,
+              143
+            ],
+            [
+              229,
+              143
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__morn-left-notices",
+          "kind": "board",
+          "finish": "cork",
+          "what": "Public employment notices",
+          "quad": [
+            [
+              122,
+              62
+            ],
+            [
+              215,
+              62
+            ],
+            [
+              215,
+              106
+            ],
+            [
+              122,
+              106
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Service glass, reverse computer faces, certificates and small notices beyond glass retain paint. Right-edge board corners unresolved."
+      ]
+    },
+    "place-unemployment-office__nigh": {
+      "checked": [
+        "place-unemployment-office__nigh.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-unemployment-office__nigh-computer-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              110,
+              123
+            ],
+            [
+              137,
+              123
+            ],
+            [
+              137,
+              140
+            ],
+            [
+              110,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__nigh-computer-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              171,
+              123
+            ],
+            [
+              198,
+              123
+            ],
+            [
+              198,
+              140
+            ],
+            [
+              171,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__nigh-computer-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              230,
+              123
+            ],
+            [
+              257,
+              123
+            ],
+            [
+              257,
+              141
+            ],
+            [
+              230,
+              141
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__nigh-left-notices",
+          "kind": "board",
+          "finish": "cork",
+          "what": "Public employment notices",
+          "quad": [
+            [
+              122,
+              62
+            ],
+            [
+              215,
+              62
+            ],
+            [
+              215,
+              106
+            ],
+            [
+              122,
+              106
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Service glass, reverse computer faces, certificates and small notices beyond glass retain paint. Right-edge board corners unresolved."
+      ]
+    },
+    "place-unemployment-office__rain": {
+      "checked": [
+        "place-unemployment-office__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-unemployment-office__rain-computer-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              110,
+              123
+            ],
+            [
+              137,
+              123
+            ],
+            [
+              137,
+              140
+            ],
+            [
+              110,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__rain-computer-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              171,
+              123
+            ],
+            [
+              198,
+              123
+            ],
+            [
+              198,
+              140
+            ],
+            [
+              171,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__rain-computer-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private benefits workstation",
+          "quad": [
+            [
+              230,
+              123
+            ],
+            [
+              257,
+              123
+            ],
+            [
+              257,
+              141
+            ],
+            [
+              230,
+              141
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-unemployment-office__rain-left-notices",
+          "kind": "board",
+          "finish": "cork",
+          "what": "Public employment notices",
+          "quad": [
+            [
+              122,
+              62
+            ],
+            [
+              215,
+              62
+            ],
+            [
+              215,
+              106
+            ],
+            [
+              122,
+              106
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Service glass, reverse computer faces, certificates and small notices beyond glass retain paint. Right-edge board corners unresolved."
+      ]
+    },
+    "place-union-hall__midday": {
+      "checked": [
+        "place-union-hall__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, fabric banners, refreshments and curtain/window faces retain paint."
+      ]
+    },
+    "place-union-hall-interior__midd": {
+      "checked": [
+        "place-union-hall-interior__midd.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Hanging fabric banners, refreshments, windows and door retain paint."
+      ]
+    },
+    "place-university-lecture-hall__": {
+      "checked": [
+        "place-university-lecture-hall__.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-university-lecture-hall__-chalkboard",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Private classroom chalkboard",
+          "quad": [
+            [
+              151,
+              110
+            ],
+            [
+              296,
+              114
+            ],
+            [
+              295,
+              177
+            ],
+            [
+              151,
+              183
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Seal, windows and door retain paint."
+      ]
+    },
+    "place-vfw-hall__midday": {
+      "checked": [
+        "place-vfw-hall__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Portrait wall, flags, memorabilia, trophies and bottle labels retain painted anonymous identities."
+      ]
+    },
+    "place-vfw-hall__morning": {
+      "checked": [
+        "place-vfw-hall__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Portrait wall, flags, memorabilia, trophies and bottle labels retain painted anonymous identities."
+      ]
+    },
+    "place-vfw-hall__night": {
+      "checked": [
+        "place-vfw-hall__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Portrait wall, flags, memorabilia, trophies and bottle labels retain painted anonymous identities."
+      ]
+    },
+    "place-vfw-hall__rain": {
+      "checked": [
+        "place-vfw-hall__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Portrait wall, flags, memorabilia, trophies and bottle labels retain painted anonymous identities."
+      ]
+    },
+    "place-white-house-exterior__mid": {
+      "checked": [
+        "place-white-house-exterior__mid.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fence, building windows, statuary and fountain retain paint."
+      ]
+    },
+    "place-white-house-exterior__mor": {
+      "checked": [
+        "place-white-house-exterior__mor.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fence, building windows, statuary and fountain retain paint."
+      ]
+    },
+    "place-white-house-exterior__nig": {
+      "checked": [
+        "place-white-house-exterior__nig.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fence, building windows, statuary and fountain retain paint."
+      ]
+    },
+    "place-white-house-exterior__rai": {
+      "checked": [
+        "place-white-house-exterior__rai.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Fence, building windows, statuary and fountain retain paint."
+      ]
+    }
+  }
+}
