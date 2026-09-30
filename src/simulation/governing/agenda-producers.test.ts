@@ -62,6 +62,7 @@ function aligned(
           bearings.get(principleId) === "against"
             ? ("rejects" as const)
             : ("endorses" as const),
+        strength: 1,
         conviction: "settled" as const,
         flexibility: "firm" as const,
         qualification: null,

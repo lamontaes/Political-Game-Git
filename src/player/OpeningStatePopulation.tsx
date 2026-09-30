@@ -61,12 +61,14 @@ export function OpeningStatePopulation({
         <figure className="pg-state-population-figure">
           <p className="pg-state-population-number">
             <span className="pg-state-population-value">
+              {population.estimated ? "About " : ""}
               {population.value.toLocaleString("en-US")}
             </span>{" "}
             <span className="pg-state-population-unit">people</span>
           </p>
           <figcaption className="pg-state-population-caption">
             {populationCaption(population.geography.name, population.period)}
+            {population.estimated ? " estimate" : ""}
           </figcaption>
         </figure>
       ) : (

@@ -202,6 +202,7 @@ describe("Build 27 step 1: every Supreme Court seat is filled by nomination and 
           principleId: row.principleId,
           formedAt: briefed.currentDate,
           stance: row.stance,
+          strength: 1,
           conviction: "settled" as const,
           flexibility: "firm" as const,
           qualification: null,

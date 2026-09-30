@@ -15,6 +15,7 @@ import {
 import { derivePersonAppearance } from "./person-appearance";
 import { requireStartingBirthday } from "./starting-birthday";
 import { SeededRng } from "./rng";
+import { generatePersonIdentity } from "./person-identity";
 import type {
   EducationFact,
   EntityId,
@@ -809,6 +810,31 @@ export type GivenNameGenerationVersion =
  * through the same pool. It is a preference, not a guarantee — a pool smaller
  * than the group keeps the drawn name rather than inventing one outside it.
  */
+/**
+ * A name and an identity for somebody the world is inventing, drawn so the
+ * two agree: the identity comes first from its own stream, then a given name
+ * for that gender. Without this a generated officeholder could be named Alan
+ * and drawn with a woman's body, because the appearance reads the identity.
+ */
+export function drawGeneratedPersonName(
+  rng: SeededRng,
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
+): {
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly identity: PersonIdentity;
+} {
+  const identity = generatePersonIdentity(rng.fork("generated-identity"));
+  const name = drawCanonicalNameForGender(
+    rng,
+    identity.gender === "female" || identity.gender === "male"
+      ? identity.gender
+      : "unstated",
+    corpusVersion,
+  );
+  return { ...name, identity };
+}
+
 export function drawCanonicalNameForGender(
   rng: SeededRng,
   gender: GenderIdentityKey,

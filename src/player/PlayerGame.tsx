@@ -205,6 +205,7 @@ import {
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
+import { StorySceneDayPanel } from "./StorySceneDayPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -2567,13 +2568,20 @@ function PlayingScreen({
               !readOnly &&
               !showOrientation &&
               !conversation ? (
-                <OrdinaryMeetingPanel
-                  world={session.world}
-                  personId={session.personId}
-                  onWorldChange={onWorldChange}
-                  onOpenEntity={openEntity}
-                  onOutcome={setPassOutcome}
-                />
+                <>
+                  <StorySceneDayPanel
+                    world={session.world}
+                    personId={session.personId}
+                    onOpenEntity={openEntity}
+                  />
+                  <OrdinaryMeetingPanel
+                    world={session.world}
+                    personId={session.personId}
+                    onWorldChange={onWorldChange}
+                    onOpenEntity={openEntity}
+                    onOutcome={setPassOutcome}
+                  />
+                </>
               ) : null}
               {view.surface === "scene" &&
               !readOnly &&
@@ -3583,7 +3591,14 @@ function renderWorkspace({
           isPinnedRef={pinnedRef}
           onOpen={openEntity}
           onTogglePin={togglePin}
-          onWorldChange={onWorldChange}
+          onWorldChange={(next) => {
+            onWorldChange(next);
+            if (
+              projectOrdinaryMeetingScene(next, session.personId)?.phase ===
+              "active"
+            )
+              dispatch({ type: "go-to-scene" });
+          }}
           onOpenWork={() =>
             dispatch({
               type: "go-to-surface",
@@ -3598,7 +3613,14 @@ function renderWorkspace({
           today={
             <TodayView
               session={session}
-              onWorldChange={onWorldChange}
+              onWorldChange={(next) => {
+                onWorldChange(next);
+                if (
+                  projectOrdinaryMeetingScene(next, session.personId)?.phase ===
+                  "active"
+                )
+                  dispatch({ type: "go-to-scene" });
+              }}
               workHint={workHint}
               embedded
               onOpenCommitment={(activityId) =>

@@ -27,6 +27,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
   propositions: [
     {
       key: "budget.pay-for-a-higher-debt-limit",
+      parameters: [
+        { key: "limit", value: "usd-federal-debt-limit" },
+        { key: "offset", value: "required-spending-reduction-usd" },
+      ],
       issue: "us-federal:budget.borrowing",
       name: "Pay for a higher debt limit",
       question:
@@ -45,6 +49,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "tax.raise-top-income-tax-rate",
+      parameters: [
+        { key: "rate", value: "share-of-top-bracket-taxable-income" },
+        { key: "threshold", value: "annual-taxable-income-usd" },
+      ],
       issue: "us-federal:tax.income-tax",
       name: "Raise the top federal income tax rate",
       question: "Should the top federal income tax rate go up?",
@@ -62,6 +70,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "monetary-financial.cap-consumer-loan-interest",
+      parameters: [
+        { key: "cap", value: "annual-percentage-rate" },
+        { key: "coverage", value: "covered-loan-categories" },
+      ],
       issue: "us-federal:monetary-financial.consumer-finance",
       name: "Cap consumer loan interest",
       question: "Should federal law cap the interest rate on consumer loans?",
@@ -79,6 +91,9 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "defense.grow-defense-spending",
+      parameters: [
+        { key: "appropriation", value: "usd-per-federal-fiscal-year" },
+      ],
       issue: "us-federal:defense.procurement",
       name: "Grow defense spending",
       question: "Should defense spending grow faster than inflation?",
@@ -96,6 +111,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "foreign-affairs.increase-foreign-aid",
+      parameters: [
+        { key: "appropriation", value: "usd-per-federal-fiscal-year" },
+        { key: "coverage", value: "eligible-aid-programs" },
+      ],
       issue: "us-federal:foreign-affairs.foreign-assistance",
       name: "Increase foreign aid",
       question:
@@ -114,6 +133,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "trade.raise-tariffs",
+      parameters: [
+        { key: "rate", value: "share-of-import-customs-value" },
+        { key: "coverage", value: "covered-import-categories-and-origins" },
+      ],
       issue: "us-federal:trade.tariffs-customs",
       name: "Raise tariffs on imports",
       question: "Should the United States raise tariffs on imported goods?",
@@ -131,6 +154,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "immigration.admit-more-immigrants",
+      parameters: [
+        { key: "cap", value: "admissions-per-fiscal-year" },
+        { key: "coverage", value: "covered-admission-categories" },
+      ],
       issue: "us-federal:immigration.admission-status",
       name: "Admit more immigrants",
       question: "Should the United States admit more immigrants each year?",
@@ -145,6 +172,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "health.medicare-drug-price-negotiation",
+      parameters: [
+        { key: "authorized", value: "yes-or-no" },
+        { key: "coverage", value: "eligible-drugs-and-programs" },
+      ],
       issue: "us-federal:health.medicare",
       name: "Medicare drug price negotiation",
       question:
@@ -163,6 +194,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "social-insurance.raise-retirement-age",
+      parameters: [
+        { key: "age", value: "years-of-age" },
+        { key: "coverage", value: "covered-birth-cohorts" },
+      ],
       issue: "us-federal:social-insurance.retirement-survivors",
       name: "Raise the Social Security retirement age",
       question:
@@ -181,6 +216,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "education.forgive-student-loans",
+      parameters: [
+        { key: "cap", value: "usd-forgiven-per-borrower" },
+        { key: "eligibility", value: "eligible-loans-and-borrowers" },
+      ],
       issue: "us-federal:education.student-aid",
       name: "Forgive federal student loans",
       question: "Should the federal government forgive student loan debt?",
@@ -198,6 +237,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "labor-commerce.raise-federal-minimum-wage",
+      parameters: [
+        { key: "floor", value: "usd-per-work-hour" },
+        { key: "coverage", value: "covered-worker-categories" },
+      ],
       issue: "us-federal:labor-commerce.labor-standards",
       name: "Raise the federal minimum wage",
       question: "Should the federal minimum wage go up?",
@@ -215,6 +258,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing.vouchers-for-every-eligible-family",
+      parameters: [
+        { key: "entitlement", value: "yes-or-no" },
+        { key: "eligibility", value: "eligible-household-categories" },
+      ],
       issue: "us-federal:housing.housing-assistance",
       name: "Housing vouchers for every eligible family",
       question:
@@ -233,6 +280,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transport-water.expand-passenger-rail",
+      parameters: [
+        { key: "appropriation", value: "usd-per-federal-fiscal-year" },
+        { key: "coverage", value: "eligible-rail-projects" },
+      ],
       issue: "us-federal:transport-water.surface-transport",
       name: "Expand passenger rail",
       question: "Should the federal government pay to expand passenger rail?",
@@ -250,6 +301,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "energy-environment.limit-power-plant-carbon",
+      parameters: [
+        { key: "limit", value: "co2-mass-per-electricity-output-unit" },
+        { key: "coverage", value: "covered-power-plant-categories" },
+      ],
       issue: "us-federal:energy-environment.pollution",
       name: "Limit power plant carbon emissions",
       question: "Should federal law limit carbon emissions from power plants?",
@@ -267,6 +322,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "agriculture.cut-farm-subsidies",
+      parameters: [
+        { key: "cap", value: "usd-per-recipient-per-year" },
+        { key: "coverage", value: "covered-payment-programs" },
+      ],
       issue: "us-federal:agriculture.producer-support",
       name: "Cut farm subsidies",
       question: "Should federal payments to farmers be cut?",
@@ -284,6 +343,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "emergencies.states-share-disaster-costs",
+      parameters: [
+        { key: "share", value: "state-share-of-eligible-disaster-cost" },
+        { key: "coverage", value: "covered-disaster-assistance-programs" },
+      ],
       issue: "us-federal:emergencies.public-assistance",
       name: "States share more disaster costs",
       question:
@@ -302,6 +365,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "justice-rights.reduce-mandatory-minimums",
+      parameters: [
+        { key: "floor", value: "months-of-custody" },
+        { key: "coverage", value: "covered-offense-and-sentence-categories" },
+      ],
       issue: "us-federal:justice-rights.federal-justice",
       name: "Reduce mandatory minimum sentences",
       question:
@@ -317,6 +384,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government.ban-congressional-stock-trading",
+      parameters: [
+        { key: "prohibited", value: "yes-or-no" },
+        { key: "coverage", value: "covered-persons-assets-and-transactions" },
+      ],
       issue: "us-federal:government.public-accountability",
       name: "Ban stock trading by members of Congress",
       question:
@@ -335,6 +406,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "science-communications.national-data-privacy",
+      parameters: [
+        { key: "rights", value: "covered-personal-data-rights" },
+        { key: "coverage", value: "covered-data-and-businesses" },
+      ],
       issue: "us-federal:science-communications.data-cybersecurity",
       name: "National data privacy law",
       question:
@@ -350,6 +425,10 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "territories-culture.statehood-for-dc",
+      parameters: [
+        { key: "admitted", value: "yes-or-no" },
+        { key: "territory", value: "admitted-territory-boundary" },
+      ],
       issue: "us-federal:territories-culture.territories-district",
       name: "Statehood for the District of Columbia",
       question: "Should the District of Columbia become a state?",

@@ -46,6 +46,7 @@ function fixture(withPrinciple: boolean, sponsorIsPlayer = false) {
       principleId: bearing.principleId,
       formedAt: world.currentDate,
       stance: bearing.bearing === "consistent-with" ? "endorses" : "rejects",
+      strength: 0.75,
       conviction: "strong",
       flexibility: "open",
       qualification: null,

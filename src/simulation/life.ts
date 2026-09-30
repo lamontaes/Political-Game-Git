@@ -1,6 +1,11 @@
 import { eventById } from "./event-index";
 import { addDays, makeIsoDate } from "./dates";
-import { stableKeysOf } from "./history-index";
+import {
+  appendedList,
+  hasStableKey,
+  recordById,
+  stableKeysOf,
+} from "./history-index";
 import { createStableId } from "./ids";
 import {
   assessLifeLoadAt,
@@ -1903,10 +1908,22 @@ function appendOne<K extends keyof World["history"]>(
     (record as { readonly stableKey: string }).stableKey,
     String(family),
   );
+  let appended: unknown[];
+  try {
+    // The successful key index also establishes that this list is dense.
+    // A malformed list keeps spread's hole filling and validation behavior.
+    hasStableKey(
+      records as readonly { readonly stableKey: string }[],
+      (record as { readonly stableKey: string }).stableKey,
+    );
+    appended = appendedList(records, [record]);
+  } catch {
+    appended = [...records, record];
+  }
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 1,
-    [family]: [...records, record],
+    [family]: appended,
   });
 }
 
@@ -2292,7 +2309,13 @@ function requireRecord<T extends { readonly id: EntityId }>(
   id: EntityId,
   label: string,
 ): T {
-  const record = records.find((candidate) => candidate.id === id);
+  let record: T | undefined;
+  try {
+    record = recordById(records, id);
+  } catch {
+    // A match before a malformed later row still wins, as the scan did.
+    record = records.find((candidate) => candidate.id === id);
+  }
   if (!record) throw new Error(`Missing ${label}: ${id}`);
   return record;
 }
@@ -2303,7 +2326,14 @@ function assertUniqueStableKey(
   label: string,
 ): void {
   assertNonEmpty(stableKey, `${label} stable key`);
-  if (records.some((record) => record.stableKey === stableKey)) {
+  let exists: boolean;
+  try {
+    exists = hasStableKey(records, stableKey);
+  } catch {
+    // Preserve short-circuit errors for histories with malformed later rows.
+    exists = records.some((record) => record.stableKey === stableKey);
+  }
+  if (exists) {
     throw new Error(`${label} stable key already exists: ${stableKey}`);
   }
 }

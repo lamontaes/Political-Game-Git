@@ -6,6 +6,9 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { searchLifePlaces } from "../index";
+import { createWorld } from "../world";
+import { principlePullsOf, principlesFromPulls } from "../principles-from-life";
+import { createFormationContext, recordPrinciple } from "../politics";
 import type {
   EntityId,
   LegislativeMeasureRecord,
@@ -15,11 +18,13 @@ import type {
 import {
   ensureOfficeholderPrinciples,
   principledLeaning,
+  principleAgreement,
   principleVoteConsideration,
+  spendingPrincipleConsideration,
 } from "./officeholder-principles";
 
 /**
- * A sitting officeholder's own principles: drawn once, never for the player,
+ * A sitting officeholder's own principles: formed from life, never for the player,
  * and read into a leaning on a question and a reason to vote on a bill.
  */
 
@@ -37,15 +42,36 @@ function openingWorld(): { world: World; playerPersonId: EntityId } {
       questionnaire: "skipped",
     }),
   ).game!;
-  return { world: game.world, playerPersonId: game.playerPersonId };
+  // A fresh unit fixture retains the ordinary opening's canonical people,
+  // facts and place, before this writer has formed any principles.
+  const fresh = createWorld({
+    seed: game.world.seed,
+    lineage: "production",
+    control: game.world.control,
+    currentDate: game.world.currentDate,
+    people: game.world.personOrder.map((id) => game.world.people[id]!),
+    jurisdictions: game.world.jurisdictionOrder.map(
+      (id) => game.world.jurisdictions[id]!,
+    ),
+    policyCatalog: game.world.policyCatalog,
+  });
+  return {
+    world: fresh,
+    playerPersonId: game.playerPersonId,
+  };
 }
 
 const { world, playerPersonId } = openingWorld();
 const alreadyHeld = new Set(world.history.principles.map((r) => r.personId));
 const people = world.personOrder
-  .filter((id) => id !== playerPersonId && !alreadyHeld.has(id))
+  .filter(
+    (id) =>
+      id !== playerPersonId &&
+      !alreadyHeld.has(id) &&
+      principlesFromPulls(world, id, principlePullsOf(world, id)).length > 0,
+  )
   .slice(0, 12);
-const drawn = ensureOfficeholderPrinciples(world, people);
+const formed = ensureOfficeholderPrinciples(world, people);
 
 function billAnswering(
   propositionId: EntityId,
@@ -56,7 +82,7 @@ function billAnswering(
   } as Partial<LegislativeMeasureRecord> as LegislativeMeasureRecord;
 }
 
-/** A question some drawn principle bears on, and a person it moves. */
+/** A question some formed principle bears on, and a person it moves. */
 function engaged(next: World): {
   personId: EntityId;
   propositionId: EntityId;
@@ -67,36 +93,102 @@ function engaged(next: World): {
       const { score } = principledLeaning(next, personId, propositionId);
       if (score !== 0) return { personId, propositionId, score };
     }
-  throw new Error("No drawn principle bears on any question.");
+  throw new Error("No formed principle bears on any question.");
 }
 
 describe("officeholder principles", () => {
-  it("draws principles for officeholders from the catalog", () => {
-    expect(world.policyCatalog.principleOrder.length).toBeGreaterThan(0);
-    const holders = new Set(
-      drawn.history.principles.map((record) => record.personId),
+  it("all three readers use fractional strength instead of categorical conviction", () => {
+    const principleId = world.policyCatalog.principleOrder.find((id) =>
+      world.policyCatalog.principles[id]!.stableKey.endsWith(
+        ":fiscal-restraint",
+      ),
+    )!;
+    expect(principleId).toBeDefined();
+    const personId = people[0]!;
+    const subjectId = people[1]!;
+    expect(subjectId).toBeDefined();
+    const input = {
+      stableKey: "fractional-strength:viewer",
+      personId,
+      principleId,
+      formedAt: world.currentDate,
+      stance: "endorses" as const,
+      strength: 0.37,
+      conviction: "settled" as const,
+      flexibility: "firm" as const,
+      qualification: null,
+      formation: createFormationContext("reflection:test", {
+        note: "Authored fractional-strength fixture, not a research estimate.",
+      }),
+      supersedesPrincipleRecordId: null,
+    };
+    let next = recordPrinciple(world, input);
+    next = recordPrinciple(next, {
+      ...input,
+      stableKey: "fractional-strength:subject",
+      personId: subjectId,
+      strength: 0.8,
+      conviction: "tentative",
+    });
+    const propositionId = next.policyCatalog.propositionOrder.find((id) =>
+      next.policyCatalog.propositions[id]!.principles?.some(
+        (bearing) => bearing.principleId === principleId,
+      ),
+    )!;
+    expect(propositionId).toBeDefined();
+    const bearing = next.policyCatalog.propositions[
+      propositionId
+    ]!.principles!.find((row) => row.principleId === principleId)!;
+    expect(principledLeaning(next, personId, propositionId).score).toBeCloseTo(
+      (bearing.bearing === "consistent-with" ? 1 : -1) * 1.48,
     );
-    expect(holders.size).toBeGreaterThan(people.length / 2);
-    for (const record of drawn.history.principles.slice(
-      world.history.principles.length,
-    ))
-      expect(record.formation.reason).toBe("other:drawn-before-play");
+    expect(principleAgreement(next, personId, subjectId).score).toBeCloseTo(
+      1.48,
+    );
+    expect(spendingPrincipleConsideration(next, personId)).toMatchObject({
+      optionKey: "vote-nay",
+      importance: "slight",
+    });
   });
 
-  it("is seeded and draws only once", () => {
-    const again = ensureOfficeholderPrinciples(drawn, people);
+  it("forms catalog principles from recorded life", () => {
+    expect(world.policyCatalog.principleOrder.length).toBeGreaterThan(0);
+    expect(people.length).toBeGreaterThan(0);
+    const holders = new Set(
+      formed.history.principles.map((record) => record.personId),
+    );
+    expect(holders.size).toBeGreaterThan(people.length / 2);
+    for (const record of formed.history.principles.slice(
+      world.history.principles.length,
+    ))
+      expect(record.formation.reason).toBe("experience:life");
+  });
+
+  it("is reproducible and writes nothing when life is unchanged", () => {
+    const again = ensureOfficeholderPrinciples(formed, people);
     expect(again.history.principles).toHaveLength(
-      drawn.history.principles.length,
+      formed.history.principles.length,
     );
     const twin = ensureOfficeholderPrinciples(openingWorld().world, people);
     const shape = (records: readonly PrincipleRecord[]) =>
       records.map((r) => [r.personId, r.principleId, r.stance, r.conviction]);
     expect(shape(twin.history.principles)).toEqual(
-      shape(drawn.history.principles),
+      shape(formed.history.principles),
     );
   });
 
-  it("never draws the player's mind", () => {
+  it("does not fill an unsupported life with a random principle", () => {
+    const unsupported = world.personOrder.find(
+      (id) =>
+        id !== playerPersonId &&
+        principlesFromPulls(world, id, principlePullsOf(world, id)).length ===
+          0,
+    )!;
+    expect(unsupported).toBeDefined();
+    expect(ensureOfficeholderPrinciples(world, [unsupported])).toBe(world);
+  });
+
+  it("never forms the player's mind", () => {
     expect(world.control).toMatchObject({ personId: playerPersonId });
     const player = playerPersonId;
     const after = ensureOfficeholderPrinciples(world, [player, ...people]);
@@ -109,16 +201,16 @@ describe("officeholder principles", () => {
   });
 
   it("reads a leaning into a vote for a bill that answers it their way, and against one that does not", () => {
-    const { personId, propositionId, score } = engaged(drawn);
+    const { personId, propositionId, score } = engaged(formed);
     const theirWay = score > 0 ? "yes" : "no";
     const otherWay = score > 0 ? "no" : "yes";
     const forIt = principleVoteConsideration(
-      drawn,
+      formed,
       personId,
       billAnswering(propositionId, theirWay),
     );
     const against = principleVoteConsideration(
-      drawn,
+      formed,
       personId,
       billAnswering(propositionId, otherWay),
     );
@@ -129,9 +221,9 @@ describe("officeholder principles", () => {
   });
 
   it("gives no principled reason on a bill that answers nothing", () => {
-    const { personId } = engaged(drawn);
+    const { personId } = engaged(formed);
     expect(
-      principleVoteConsideration(drawn, personId, {
+      principleVoteConsideration(formed, personId, {
         propositionAnswers: [],
       } as Partial<LegislativeMeasureRecord> as LegislativeMeasureRecord),
     ).toBeNull();

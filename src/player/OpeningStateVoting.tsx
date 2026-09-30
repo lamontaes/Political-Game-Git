@@ -22,6 +22,17 @@ function rate(value: CpsVotingCell, margin: CpsVotingCell): string {
     : `${estimate} (margin unavailable)`;
 }
 
+/** The headline share in plain words: "About 62% of citizen adults said
+ * they voted (give or take 3 points)." */
+export function plainRate(value: CpsVotingCell, margin: CpsVotingCell): string {
+  if (value.value.state !== "HISTORICAL")
+    return "How many citizen adults voted is not in this survey.";
+  const share = `About ${Math.round(value.value.value)}% of citizen adults said they voted`;
+  if (margin.value.state !== "HISTORICAL") return `${share}.`;
+  const points = Math.max(1, Math.round(margin.value.value));
+  return `${share} (give or take ${points} ${points === 1 ? "point" : "points"}).`;
+}
+
 /** Historical survey context only; opening or changing a table never writes World. */
 export function OpeningStateVoting({
   stateUsps,
@@ -73,12 +84,10 @@ export function OpeningStateVoting({
             <strong>{count(totals.metrics.reportedVoted)}</strong>
           </p>
           <p>
-            Among citizen adults,{" "}
-            {rate(
+            {plainRate(
               totals.metrics.votedCitizenPercent,
               totals.metrics.votedCitizenMoe,
-            )}{" "}
-            reported voting.
+            )}
           </p>
           <details>
             <summary>Voting by age and other groups</summary>

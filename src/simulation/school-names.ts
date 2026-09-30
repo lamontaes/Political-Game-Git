@@ -165,13 +165,23 @@ export const SCHOOL_NAMES_V2: SchoolNameCorpus = {
   version: SCHOOL_NAMES_V2_VERSION,
 };
 
+/** New lives restrict person/family honorees to the historical naming corpus. */
+export const SCHOOL_NAMES_V3_VERSION = "school-names-v3";
+export const SCHOOL_NAMES_V3: SchoolNameCorpus = {
+  ...SCHOOL_NAMES_V2,
+  version: SCHOOL_NAMES_V3_VERSION,
+};
+
 const CORPORA: Record<string, SchoolNameCorpus> = {
   [SCHOOL_NAMES_V1.version]: SCHOOL_NAMES_V1,
   [SCHOOL_NAMES_V2.version]: SCHOOL_NAMES_V2,
+  [SCHOOL_NAMES_V3.version]: SCHOOL_NAMES_V3,
 };
 
 export type SchoolNameVersion =
-  typeof DEFAULT_SCHOOL_NAME_CORPUS_VERSION | typeof SCHOOL_NAMES_V2_VERSION;
+  | typeof DEFAULT_SCHOOL_NAME_CORPUS_VERSION
+  | typeof SCHOOL_NAMES_V2_VERSION
+  | typeof SCHOOL_NAMES_V3_VERSION;
 
 /** "US-ND" to "ND"; null for anything that is not a state key. */
 export function stateUsps(stateJurisdictionKey: string | null): string | null {
@@ -266,7 +276,10 @@ export function generateSchoolName(
   place: SchoolNamingPlace = { state: null },
 ): string {
   const corpus = getSchoolNameCorpus(corpusVersion);
-  if (corpus.version === SCHOOL_NAMES_V2_VERSION) {
+  if (
+    corpus.version === SCHOOL_NAMES_V2_VERSION ||
+    corpus.version === SCHOOL_NAMES_V3_VERSION
+  ) {
     return measuredSchoolName(rng, level, stem, corpus, place);
   }
   const pattern = rng.pick(weightedPatterns(level));
@@ -353,8 +366,11 @@ export function schoolFigureWeights(
  * many schools of this level the town has (one when the directory lists at
  * most one). A national figure is weighted by how many schools carry that name
  * in this Census region, plus one so that no figure is ruled out entirely; the
- * plus one is authored. A person or a family name is drawn from the game's own
- * name corpus, so it is a generated local honoree, not a real one. Everything
+ * plus one is authored. Legacy v2 draws person/family names from the game's
+ * name corpus. New v3 instead chooses a known historical figure from the
+ * existing region-weighted naming corpus: it invents no local honoree. The
+ * measured shape weights are retained; this honoree restriction is authored,
+ * not a newly measured rate of historical-figure school names. Everything
  * the classifier could not place, which includes landscape names, district and
  * county names and brands, is drawn as landscape.
  */
@@ -393,8 +409,12 @@ function measuredSchoolName(
       return `${figure} ${suffix}`;
     }
     case "person":
+      if (corpus.version === SCHOOL_NAMES_V3_VERSION)
+        return `${weightedPick(rng, schoolFigureWeights(corpus, place))} ${suffix}`;
       return `${rng.pick(NAMES_STARTER_V1.givenNames)} ${rng.pick(NAMES_STARTER_V1.familyNames)} ${suffix}`;
     case "family":
+      if (corpus.version === SCHOOL_NAMES_V3_VERSION)
+        return `${weightedPick(rng, schoolFigureWeights(corpus, place))} ${suffix}`;
       return `${rng.pick(NAMES_STARTER_V1.familyNames)} ${suffix}`;
     case "other":
       return `${rng.pick(corpus.features)} ${suffix}`;

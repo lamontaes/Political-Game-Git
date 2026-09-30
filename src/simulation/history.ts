@@ -182,6 +182,7 @@ export interface PrincipleRecordInput {
   readonly principleId: EntityId;
   readonly formedAt: IsoDate;
   readonly stance: PrincipleStance;
+  readonly strength: number;
   readonly conviction: BeliefConviction;
   readonly flexibility: PoliticalFlexibility;
   readonly qualification: string | null;
