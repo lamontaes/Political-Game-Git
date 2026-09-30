@@ -1,3 +1,17 @@
+## September 30, 1:15 active integration
+
+### MERGED
+Merge reports verified 1264, 1268, 1271, 1249 and renewed 1263. For 1249, six named tests passed, 47 skipped; the earlier whole-file timeout remains NO RESULT.
+
+### CONNECTIONS TABLE
+The complete 92-row part ledger is [law-pipeline.md](law-pipeline.md). Weighted catalogs feed Team 2's actual vote comparison. Fresh audit owns all 56 jurisdictions and all saved stamp stores. Team 3 now owns the released positive-partial paid-leave budget reader and saved-row append. Coordinator repairs 1267 by preserving both teacher and federal wage attribution; four-root types pass and focused payment tests are running.
+
+### BLOCKED
+Google Docs check-in append failed twice with Precondition check failed despite fresh revision reads; no successful post claimed. 1267 needs repaired head and renewed approval. Police statewide officer base is under Team 9 research. Newspaper save/media remain missing.
+
+### EFFECTS
+CTO 1:03 golden rule dispatched to every team and Merge. Outcome amounts must derive from legal terms and actual world bases; research ranges calibrate them. Parks 1273 and cannabis 1282 are held for mechanism rebuilds. All teams owe exact drawn-level inventories at 1:30. No nationwide proof or complete-law percentage inferred.
+
 ## September 30, 12:45 counts and 12:51 publications
 
 Pinned main for counts: `6a9740db5f23c3f1313868e2738a3ee18a527d1c`.

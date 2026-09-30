@@ -2,15 +2,19 @@
 
 Every catalog question has a named owner below. A published argument, a saved effect and a fully proved law are different stages. The table keeps incomplete parts visible and links back to the earlier source audit. No percentage is estimated.
 
+## September 30, 1:15 rule and activity
+
+CTO 1:03: outcome levels emerge from law terms times actual world bases. Research ranges are calibration checks, not outcome draws. Parks #1273 and cannabis #1282 are held for mechanism repairs. All teams received the 1:30 drawn-level audit. Team states below distinguish reported activity from dispatch.
+
 ## Team activity at the latest receipt
 
 | Team | State | Current bounded work |
 | --- | --- | --- |
 | 1 | Working, reported | Privacy cost into hiring affordability |
 | 2 | Working, reported | Weighted decision consumer and Georgia comparison |
-| 3 | Working, reported | State/local wage stamps and income-tax costs |
-| 4 | Working, reported | Cannabis range and startup lag correction |
-| 5 | Working, dispatched after release | Curriculum/library repair, then parks cost |
+| 3 | Working, reported | Paid-leave partial-payment budget join; state/local wage stamps after repaired #1267 |
+| 4 | Working, reported | Cannabis law-rate × actual legal-sales mechanism; #1282 held |
+| 5 | Working, dispatched after release | Parks amount mechanism rebuild; #1273 held; curriculum/library repair |
 | 6 | Working, dispatched | Transit operating-cost research and next cost |
 | 7 | Blocked on photo inputs | Approved source import published; exact newspaper save missing |
 | 8 | Working, reported | Age-verification cost published; news and zero-claim follow-through |
@@ -88,7 +92,7 @@ Terms below means declarations are present; usable filing ranges and each actual
 | 5 | Restrict abortion (`us-policy-positions:civil-family-community.restrict-abortion`) | Declared; usable route unverified | Current writer evidence audit pending | Complete cost unverified | Catalog #1263; decision proof pending | All-jurisdiction proof pending |
 | 5 | Fund public libraries (`us-policy-positions:civil-family-community.fund-public-libraries`) | Declared; usable route unverified | Current writer evidence audit pending | Complete cost unverified | Catalog #1263; decision proof pending | All-jurisdiction proof pending |
 | 5 | Local control of library materials (`us-policy-positions:civil-family-community.local-control-of-library-materials`) | Declared; usable route unverified | Current writer evidence audit pending | Complete cost unverified | Catalog #1263; decision proof pending | All-jurisdiction proof pending |
-| 5 | Dedicated parks funding (`us-policy-positions:civil-family-community.dedicated-parks-funding`) | Declared; usable route unverified | Current writer evidence audit pending | Complete cost unverified | Catalog #1263; decision proof pending | All-jurisdiction proof pending |
+| 5 | Dedicated parks funding (`us-policy-positions:civil-family-community.dedicated-parks-funding`) | Declared; usable route unverified | State parks outlay and cash, #1273 branch | Five-state modeled cost receipt; 2026 research incomplete | Catalog #1263; decision proof pending | All-jurisdiction proof pending |
 | 8 | Consumer data privacy law (`us-policy-positions:technology-privacy.consumer-data-privacy-law`) | Declared; usable route unverified | Current writer evidence audit pending | Complete cost unverified | Catalog #1262; decision proof pending | All-jurisdiction proof pending |
 | 8 | Restrict government facial recognition (`us-policy-positions:technology-privacy.restrict-government-facial-recognition`) | Declared; usable route unverified | Current writer evidence audit pending | Complete cost unverified | Catalog #1262; decision proof pending | All-jurisdiction proof pending |
 | 8 | Age verification for social media (`us-policy-positions:technology-privacy.age-verification-for-social-media`) | Declared; usable route unverified | Current writer evidence audit pending | Modeled cost stamp #1274 branch; researched range incomplete | Catalog #1262; decision proof pending | All-jurisdiction proof pending |

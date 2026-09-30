@@ -1,5 +1,10 @@
 # File claims
 
+## September 30, 1:08 paid-leave budget handoff
+
+Team 5 confirmed its parks month hunk is published at 600a121e6585faba01694aa9ba91c547e96a3c3b with no unpublished edits. Team 3 now owns only MonthFlows optional paid-leave stamp map, readMonthFlows outgoing paid-leave filter, settleGovernmentMonth paid-leave stamp append, and BudgetMonthRow optional stamp field. Compose against Team 5/Team 8 source; preserve age, cannabis and parks attribution arrays. Team 3 proposed payload is dbc06d2b12bc9b3098fc85397856f630fbcd1c28. No whole-file ownership transfer. Team 5 retains disjoint curriculum/library work.
+
+
 The daily assignments now center on measured law effects. Existing work remains preserved while the named owners coordinate their handoffs.
 
 ## September 30 daily assignment handoffs
