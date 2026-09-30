@@ -670,11 +670,8 @@ export function createCharacterHistoryContextPeople(
       people = {};
       // Preserve the table's own key order, including after a save reload.
       // An explicit copy avoids V8's slower spread for this large dictionary.
-      const existingIds = Object.keys(world.people) as EntityId[];
-      for (let at = 0; at < existingIds.length; at += 1) {
-        const id = existingIds[at]!;
+      for (const id of Object.keys(world.people) as EntityId[])
         people[id] = world.people[id]!;
-      }
       personOrder = [...world.personOrder];
       probe = { ...world, people };
     }
