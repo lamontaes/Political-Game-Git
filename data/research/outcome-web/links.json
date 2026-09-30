@@ -124,10 +124,9 @@
       "to": "crime.violent",
       "strength": "moderate",
       "shape": {
-        "kind": "diminishing",
-        "scale": 1.0
+        "kind": "elasticity"
       },
-      "size": null,
+      "size": -0.34,
       "per": "1% more officers: -0.34% violent crime",
       "lagMonths": 0,
       "group": "place",
@@ -143,19 +142,20 @@
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
         "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "blocked-runtime-unit-conversion",
-        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
-      }
+        "status": "shape-connected-cause-reader-missing",
+        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+      },
+      "range": [-0.536, -0.144],
+      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
     },
     {
       "key": "police-to-property-crime",
       "to": "crime.property",
       "strength": "moderate",
       "shape": {
-        "kind": "diminishing",
-        "scale": 1.0
+        "kind": "elasticity"
       },
-      "size": null,
+      "size": -0.17,
       "per": "1% more officers: -0.17% property crime",
       "lagMonths": 0,
       "group": "place",
@@ -171,9 +171,11 @@
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
         "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "blocked-runtime-unit-conversion",
-        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
-      }
+        "status": "shape-connected-cause-reader-missing",
+        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+      },
+      "range": [-0.3464, 0.0064],
+      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
     },
     {
       "key": "police-to-low-level-arrests",
@@ -450,7 +452,33 @@
       "anchor": "-10.8% premature, -11.8% low birth weight",
       "source": "Currie and Walker 2011",
       "from": "env.traffic-congestion-near-home",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "exposure-and-outcome-definition-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "area": "environment-health",
+        "linkId": "congestion-to-premature-births",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w15413/w15413.pdf",
+        "version": "October2009workingpaper;finalpublishedversioncomparisonopen",
+        "access": "PreservedprimaryfulltextTable3read.",
+        "estimate": -0.0086,
+        "standardError": 0.0034,
+        "derivedNormal95CI": [-0.015264, -0.001936],
+        "table": "3,panel1,column2,p33",
+        "unit": "Absolute premature-birth probability difference for mothers residingwithin2km of tollplaza after E-ZPass adoption versus comparison exposure;not per congestion index point.",
+        "outcomeDefinition": "Study defines prematurity as gestation less than38weeks,not interchangeable with standardless-than37weeks without outcome reconciliation.",
+        "population": "NewJersey/Pennsylvaniabirthsnearbusyroadways/tollplazas;405802observationsinprematurityregression.",
+        "lag": "Prenatalexposure andbirthoutcome after adoption;not universal immediate monthly change.",
+        "conditions": [
+          "Within2km treateddistance;comparison2–10km in studydesign.",
+          "Electroniccollectionreduces tollboothcongestion/pollution;not a measuredgenerictraffic elasticity.",
+          "Maternalcontrols andtoll/year/monthfixed effects retained."
+        ],
+        "rangeMeaning": "Calculatednormal95CIfromreportedSE,not placevariance or drawn birthrate.",
+        "missingConversion": "A generic runtime congestion measure must define equivalent change in exposure. No measured E-ZPass-to-congestion-index dose conversion supplied. Birthoutcomedefinition also must match.",
+        "aboutZero": false,
+        "runtimeActivation": "NOTRUN;coordinatorownssharedmap."
+      }
     },
     {
       "key": "birth-year-pollution-to-adult-earnings",
@@ -1480,10 +1508,44 @@
       "lagMonths": 0,
       "group": "tenants, esp. women and Black tenants",
       "owner": "M",
-      "anchor": "More homelessness, hospital visits, lower earnings and credit for 2 years",
+      "anchor": "Emergency shelter use rises in year 1 for marginal eviction-order tenants; year 2 estimate is uncertain.",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "unit-and-exposure-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "sourceVersion": "August2022revisedJuly2023workingpaper",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "estimates": [
+          {
+            "linkId": "eviction-to-homelessness",
+            "outcome": "Emergency shelter use indicator",
+            "followUpAfterFiling": "Year1",
+            "estimate": 0.034,
+            "standardError": 0.017,
+            "derivedNormal95CI": [0.00068, 0.06732]
+          },
+          {
+            "linkId": "eviction-to-homelessness",
+            "outcome": "Emergency shelter use indicator",
+            "followUpAfterFiling": "Year2",
+            "estimate": -0.001,
+            "standardError": 0.013,
+            "derivedNormal95CI": [-0.02648, 0.02448]
+          }
+        ],
+        "exposure": "Evictionorderamong marginal filed-case tenants,judge-stringencyinstrument. Not every residentialmove or eviction filing.",
+        "unit": "Shelter:absoluteprobabilitydifference. Hospital:additionalvisitcountpercoveredtenantduringfollow-up. Neitherrelativepopulationrate.",
+        "rangeMeaning": "Calculatednormal95CIfromreportedclusteredSE;not across-placeaverage spread or conditions bound.",
+        "runtimeGap": "Needmatchingevictionorderexposure,coveredtenantsandseparatefollow-uprecords/outcomeunits. Do notdividebywholecountyhomelessbaseline or apply perratepoint.",
+        "conditions": [
+          "Shelterrecordcapturesobservedemergencyshelterstay,not allunshelteredhomelessness.",
+          "Hospitaloutcomeexcludespregnancy-relatedvisits.",
+          "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
+          "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
+        ]
+      }
     },
     {
       "key": "eviction-to-hospital-visits",
@@ -1497,10 +1559,44 @@
       "lagMonths": 0,
       "group": "tenants",
       "owner": "F",
-      "anchor": "Up in the first 2 years",
+      "anchor": "Nonpregnancy hospital visits rise in quarters 1–4 in the New York sample; quarters 5–8 estimate is uncertain.",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "unit-and-exposure-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "sourceVersion": "August2022revisedJuly2023workingpaper",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "estimates": [
+          {
+            "linkId": "eviction-to-hospital-visits",
+            "outcome": "Nonpregnancyhospitalvisitcount",
+            "followUpAfterFiling": "Quarters1–4",
+            "estimate": 0.188,
+            "standardError": 0.094,
+            "derivedNormal95CI": [0.00376, 0.37224]
+          },
+          {
+            "linkId": "eviction-to-hospital-visits",
+            "outcome": "Nonpregnancyhospitalvisitcount",
+            "followUpAfterFiling": "Quarters5–8",
+            "estimate": -0.113,
+            "standardError": 0.142,
+            "derivedNormal95CI": [-0.39132, 0.16532]
+          }
+        ],
+        "exposure": "Evictionorderamong marginal filed-case tenants,judge-stringencyinstrument. Not every residentialmove or eviction filing.",
+        "unit": "Shelter:absoluteprobabilitydifference. Hospital:additionalvisitcountpercoveredtenantduringfollow-up. Neitherrelativepopulationrate.",
+        "rangeMeaning": "Calculatednormal95CIfromreportedclusteredSE;not across-placeaverage spread or conditions bound.",
+        "runtimeGap": "Needmatchingevictionorderexposure,coveredtenantsandseparatefollow-uprecords/outcomeunits. Do notdividebywholecountyhomelessbaseline or apply perratepoint.",
+        "conditions": [
+          "Shelterrecordcapturesobservedemergencyshelterstay,not allunshelteredhomelessness.",
+          "Hospitaloutcomeexcludespregnancy-relatedvisits.",
+          "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
+          "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
+        ]
+      }
     },
     {
       "key": "home-prices-to-owner-births",
@@ -4268,37 +4364,6 @@
       "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
       "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
       "who": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
-      "lagWhy": {
-        "months": 0,
-        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
-      },
-      "aboutZero": true
-    },
-    {
-      "key": "social-media-age-check-to-graduation",
-      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
-      "to": "school.graduation-pct",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "law in force says yes (1) rather than no (0)",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "F-cloud",
-      "evidence": "about-zero",
-      "anchor": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
-      "source": "NetChoice v. Griffin, W.D. Ark. 2025; Braghieri, Levy and Makarin 2022, American Economic Review 112(11)",
-      "why": [
-        "An operative platform rule requires an age check.",
-        "A platform may refuse access when verification fails.",
-        "A refusal is different from a measured change in school completion.",
-        "The terminal is a legal rule and access decision; injunctions and absent outcome evidence prevent inferring a graduation gain."
-      ],
-      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
-      "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
-      "who": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
       "lagWhy": {
         "months": 0,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."

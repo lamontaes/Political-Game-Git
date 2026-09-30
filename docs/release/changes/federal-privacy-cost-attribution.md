@@ -1,6 +1,8 @@
 ---
 id: federal-privacy-cost-attribution
 impact: patch
+section: Fixed
+title: Federal privacy compliance retains its saved cost and law
 ---
 
 Federal privacy compliance now saves its actual quarterly cost and controlling

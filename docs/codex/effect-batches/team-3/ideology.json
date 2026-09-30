@@ -1,0 +1,933 @@
+{
+  "team": 3,
+  "catalogWriter": "Coordinator only",
+  "lawCount": 13,
+  "status": "AUTHORED IDEOLOGY/CONSTITUENCY PAYLOAD, NOT RUNTIME INTEGRATION",
+  "weightScale": "0 to 1; numeric magnitudes are authored choices, never empirical rates",
+  "principleNamespace": "us-policy-positions",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "fiscal.adopt-income-tax",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "rationale": "Support argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Support argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "weight": 0.55,
+          "rationale": "Support argument: A government should not promise money it has not got, and should keep what it has put by."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Opposition argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opposition argument: What a person owns is theirs to use, and taking or restricting it needs a strong reason."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.55,
+          "rationale": "Opposition argument: Open competition sorts things out better than direction from above does."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "public-service users",
+          "direction": "support",
+          "condition": "when reliable revenue finances services they value",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "taxable wage households",
+          "direction": "oppose",
+          "condition": "when their net burden rises more than benefits they value",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "fiscal taxpayers",
+          "direction": "support",
+          "condition": "when revenue replaces borrowing or another tax",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "fiscal.graduated-income-tax",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Support argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "weight": 0.7,
+          "rationale": "Support argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Opposition argument: The law should fall the same way on everyone it reaches."
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "weight": 0.6,
+          "rationale": "Opposition argument: What a person owns is theirs to use, and taking or restricting it needs a strong reason."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.55,
+          "rationale": "Opposition argument: Open competition sorts things out better than direction from above does."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "lower-income wage households",
+          "direction": "support",
+          "condition": "when their share falls or services improve",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "higher-income wage households",
+          "direction": "oppose",
+          "condition": "when their own marginal or total burden rises",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "public-service users",
+          "direction": "support",
+          "condition": "when additional revenue finances valued services",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "fiscal.cap-property-tax-growth",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Support argument: What a person owns is theirs to use, and taking or restricting it needs a strong reason."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "rationale": "Support argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "weight": 0.5,
+          "rationale": "Support argument: A government should not promise money it has not got, and should keep what it has put by."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Opposition argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "weight": 0.75,
+          "rationale": "Opposition argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.7,
+          "rationale": "Opposition argument: A decision belongs as close as possible to the people who live with it."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "property owners",
+          "direction": "support",
+          "condition": "when a cap restrains their own bill",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "school and service constituencies",
+          "direction": "oppose",
+          "condition": "when revenue constraints reduce their services",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "local governments",
+          "direction": "oppose",
+          "condition": "when the cap removes fiscal discretion",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "fiscal.exempt-groceries-from-sales-tax",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Support argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Support argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.7,
+          "rationale": "Opposition argument: A government should not promise money it has not got, and should keep what it has put by."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.55,
+          "rationale": "Opposition argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.45,
+          "rationale": "Opposition argument: Open competition sorts things out better than direction from above does."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "grocery-buying households",
+          "direction": "support",
+          "condition": "when their grocery tax decreases",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "public-service constituencies",
+          "direction": "oppose",
+          "condition": "when unreplaced revenue loss reduces services",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "food retailers",
+          "direction": "support",
+          "condition": "when the exemption reduces their customers tax-inclusive bill",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "fiscal.balanced-operating-budget",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Support argument: A government should not promise money it has not got, and should keep what it has put by."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.65,
+          "rationale": "Support argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Opposition argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opposition argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.45,
+          "rationale": "Opposition argument: A decision belongs as close as possible to the people who live with it."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "debt-sensitive taxpayers",
+          "direction": "support",
+          "condition": "when the rule restrains borrowing exposure",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "public-service users",
+          "direction": "oppose",
+          "condition": "when balancing requires cuts during a downturn",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "public employees",
+          "direction": "oppose",
+          "condition": "when the adjustment reduces their jobs or pay",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "fiscal.fund-pensions-to-schedule",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "rationale": "Support argument: A government should not promise money it has not got, and should keep what it has put by."
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Support argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "consistent-with",
+          "weight": 0.6,
+          "rationale": "Support argument: What a person owns is theirs to use, and taking or restricting it needs a strong reason."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.6,
+          "rationale": "Opposition argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.4,
+          "rationale": "Opposition argument: Some things are met better by everyone together than by each household on its own."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "public workers and retirees",
+          "direction": "support",
+          "condition": "when contributions protect promised pensions",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "debt-sensitive taxpayers",
+          "direction": "support",
+          "condition": "when funding reduces future fiscal exposure",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "current service constituencies",
+          "direction": "oppose",
+          "condition": "when contributions crowd out valued current services",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "fiscal.minimum-reserve-balance",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Support argument: A government should not promise money it has not got, and should keep what it has put by."
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "consistent-with",
+          "weight": 0.4,
+          "rationale": "Support argument: What a person owns is theirs to use, and taking or restricting it needs a strong reason."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opposition argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.6,
+          "rationale": "Opposition argument: A decision belongs as close as possible to the people who live with it."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "debt-sensitive taxpayers",
+          "direction": "support",
+          "condition": "when reserves cushion future shocks",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "public-service users",
+          "direction": "support",
+          "condition": "when a reserve prevents future disruption",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "current service constituencies",
+          "direction": "oppose",
+          "condition": "when reserve deposits crowd out current services",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "labor-workforce.raise-minimum-wage",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Support argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Support argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Opposition argument: Open competition sorts things out better than direction from above does."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opposition argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "covered low-wage workers",
+          "direction": "support",
+          "condition": "when their own wage rises",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "labor organizations",
+          "direction": "support",
+          "condition": "when the rule improves members bargaining position",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "covered employers",
+          "direction": "oppose",
+          "condition": "when payroll costs rise without offsetting benefit",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "labor-workforce.city-minimum-wage",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Support argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "rationale": "Support argument: A decision belongs as close as possible to the people who live with it."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Support argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.8,
+          "rationale": "Opposition argument: Open competition sorts things out better than direction from above does."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opposition argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "weight": 0.55,
+          "rationale": "Opposition argument: The law should fall the same way on everyone it reaches."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "covered local low-wage workers",
+          "direction": "support",
+          "condition": "when an operative local floor raises pay",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "local officials and constituents",
+          "direction": "support",
+          "condition": "when it preserves local policy choice",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "covered employers",
+          "direction": "oppose",
+          "condition": "when local payroll costs or compliance costs rise",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "labor-workforce.local-minimum-wage-authority",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Support argument: A decision belongs as close as possible to the people who live with it."
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Support argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.65,
+          "rationale": "Support argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.75,
+          "rationale": "Opposition argument: Open competition sorts things out better than direction from above does."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "weight": 0.6,
+          "rationale": "Opposition argument: The law should fall the same way on everyone it reaches."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "local officials and constituents",
+          "direction": "support",
+          "condition": "when authority permits their preferred local floor",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "covered local workers",
+          "direction": "support",
+          "condition": "when an actual ordinance improves their pay",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "multi-location employers",
+          "direction": "oppose",
+          "condition": "when differing local rules increase compliance burdens",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "labor-workforce.paid-family-leave",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Support argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "rationale": "Support argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "rationale": "Support argument: Where a person starts should not settle where they can get to."
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "weight": 0.55,
+          "rationale": "Support argument: A person should be left to run their own life where it is theirs to run."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.8,
+          "rationale": "Opposition argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opposition argument: Open competition sorts things out better than direction from above does."
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.55,
+          "rationale": "Opposition argument: A government should not promise money it has not got, and should keep what it has put by."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "covered workers and family caregivers",
+          "direction": "support",
+          "condition": "when benefits and protection outweigh their premium",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "public-program supporters",
+          "direction": "support",
+          "condition": "when pooled insurance improves access to leave",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "covered employers",
+          "direction": "oppose",
+          "condition": "when uncompensated premiums or compliance duties increase",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ],
+      "verifiedNamedPosition": {
+        "organization": "National Partnership for Women & Families",
+        "direction": "support",
+        "url": "https://nationalpartnership.org/economic-justice/paid-leave/",
+        "quote": "We\u2019re working with lawmakers and advocates across the country to support a range of innovative proposals to make paid family and medical leave available to all working families.",
+        "scope": "Supports access to paid leave; does not specify every state program term."
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "labor-workforce.public-sector-collective-bargaining",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Support argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "weight": 0.7,
+          "rationale": "Support argument: A person should be left to run their own life where it is theirs to run."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.8,
+          "rationale": "Opposition argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.7,
+          "rationale": "Opposition argument: A government should not promise money it has not got, and should keep what it has put by."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "weight": 0.55,
+          "rationale": "Opposition argument: The law should fall the same way on everyone it reaches."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "public employees and labor organizations",
+          "direction": "support",
+          "condition": "when collective representation improves bargaining rights",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "public employers",
+          "direction": "oppose",
+          "condition": "when negotiated obligations or process reduce discretion",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "fiscal taxpayers",
+          "direction": "oppose",
+          "condition": "when resulting agreements increase their burden without valued service gains",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+      "weightBasis": "AUTHORED_DESIGN_CHOICE, grounded in the cited position and principle definitions; not an empirical estimate or an actor probability",
+      "positionSource": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "lawKey": "labor-workforce.right-to-work",
+        "existingBearingsPreserved": true
+      },
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Support argument: A person should be left to run their own life where it is theirs to run."
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "weight": 0.7,
+          "rationale": "Support argument: Open competition sorts things out better than direction from above does."
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.55,
+          "rationale": "Support argument: A government should do as little as the job requires, and what it does not need to do it should leave alone."
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "against",
+          "weight": 0.95,
+          "rationale": "Opposition argument: Someone who works for a living should have the law on their side when bargaining alone would not be enough."
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.55,
+          "rationale": "Opposition argument: Some things are met better by everyone together than by each household on its own."
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "weight": 0.6,
+          "rationale": "Opposition argument: The law should fall the same way on everyone it reaches."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituency": "workers opposed to compulsory fees",
+          "direction": "support",
+          "condition": "when they can decline fees without losing employment",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "labor organizations",
+          "direction": "oppose",
+          "condition": "when union-security restrictions reduce resources for collective representation",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        },
+        {
+          "constituency": "covered employers",
+          "direction": "support",
+          "condition": "when the rule aligns with their preferred bargaining arrangement",
+          "basis": "Authored conditional affinity from the laws recorded benefits, burdens or legal rights; no universal real-world endorsement claimed",
+          "runtimeClassification": "membership:law-interest",
+          "runtimeGap": "Current law-interest-groups.ts materializes groups from recorded personal losses; these catalog affinities require coordinator adapter integration, not new named organizations"
+        }
+      ],
+      "verifiedNamedPosition": {
+        "organization": "National Right to Work Legal Defense Foundation",
+        "direction": "support",
+        "url": "https://www.nrtw.org/right-to-work-states/",
+        "quote": "Meet the Victims of Compulsory Unionism We Fight For",
+        "scope": "Stated advocacy against compulsory unionism; not a measured worker preference."
+      }
+    }
+  ],
+  "sourceReadLimits": {
+    "primaryNamedPositionsRead": [
+      "National Partnership paid-leave page",
+      "National Right to Work Foundation state page"
+    ],
+    "failedReads": [
+      "AFL-CIO issues403",
+      "NFIB advocacy403",
+      "CBPP state-budget page403",
+      "ITEP requested path404"
+    ],
+    "limit": "Failed sources support no claim. Generic constituency directions are conditional authored design judgments, not surveyed real endorsements."
+  },
+  "completeFivePartLaws": 0
+}
