@@ -14,6 +14,7 @@ import {
   placeReferencePopulation,
 } from "./nationwide-world/place-population";
 import { parentsOf } from "./people-family";
+import { factsForPerson } from "./people";
 import { createFormationContext, recordPrinciple } from "./politics";
 import {
   formPrinciplesFromLife,
@@ -212,6 +213,76 @@ describe("principles that form from a life", () => {
     const own = (w: World) =>
       w.history.principles.filter((row) => row.personId === someone).length;
     expect(own(formPrinciplesFromLife(drawn, [someone]))).toBe(own(drawn));
+  });
+
+  it("can form an officeholder from their life while preserving an older saved principle", () => {
+    const someone = adults.find((id) =>
+      formPrinciplesFromLife(world, [id])
+        .history.principles.slice(world.history.principles.length)
+        .some((row) => row.personId === id),
+    )!;
+    expect(someone).toBeDefined();
+    const expected = formPrinciplesFromLife(world, [someone])
+      .history.principles.slice(world.history.principles.length)
+      .filter((row) => row.personId === someone);
+    const untouched = world.policyCatalog.principleOrder.find(
+      (id) => !expected.some((row) => row.principleId === id),
+    )!;
+    expect(untouched).toBeDefined();
+    const saved = recordPrinciple(world, {
+      stableKey: `officeholder-principles/v1:${someone}:preserved-test`,
+      personId: someone,
+      principleId: untouched,
+      formedAt: world.currentDate,
+      stance: "endorses",
+      conviction: "settled",
+      flexibility: "firm",
+      qualification: null,
+      formation: createFormationContext("other:drawn-before-play", {
+        note: "Test fixture: an older saved principle retained during migration.",
+      }),
+      supersedesPrincipleRecordId: null,
+    });
+    const oldRow = saved.history.principles.at(-1)!;
+    const formed = formPrinciplesFromLife(saved, [someone], {
+      officeholders: true,
+    });
+    const added = formed.history.principles
+      .slice(saved.history.principles.length)
+      .filter((row) => row.personId === someone);
+    expect(added.length).toBeGreaterThan(0);
+    expect(
+      added.every((row) => row.formation.reason === "experience:life"),
+    ).toBe(true);
+    expect(
+      formed.history.principles.find((row) => row.id === oldRow.id),
+    ).toEqual(oldRow);
+    expect(
+      formed.history.principles.some(
+        (row) => row.supersedesPrincipleRecordId === oldRow.id,
+      ),
+    ).toBe(false);
+    expect(
+      formPrinciplesFromLife(world, [player], {
+        officeholders: true,
+      }).history.principles.some((row) => row.personId === player),
+    ).toBe(false);
+  });
+
+  it("cites canonical facts when birth and residence supply a pull", () => {
+    const someone = adults.find((id) =>
+      principlePullsOf(world, id).some(
+        (pull) => (pull.factIds?.length ?? 0) > 0,
+      ),
+    )!;
+    expect(someone).toBeDefined();
+    const facts = new Set(
+      factsForPerson(world.people[someone]!).map((fact) => fact.id),
+    );
+    const pulls = principlePullsOf(world, someone);
+    const cited = pulls.flatMap((pull) => pull.factIds ?? []);
+    expect(cited.length).toBeGreaterThan(0);
+    expect(cited.every((id) => facts.has(id))).toBe(true);
   });
 
   it("reads a census-designated town's size from the survey count", () => {
