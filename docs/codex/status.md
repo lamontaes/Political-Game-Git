@@ -13,9 +13,9 @@ Lamontae created cloud Teams 1–6, 8 and 9 and authorized their assignments and
 | 3 | Sol 6.1 Medium | 01a0f02f-b5e1-72f4-aa6d-04bb752e50ec | Preserve fairness candidate before source transfer. |
 | 4 | Sol 6.1 Medium | 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 | PR #1160 handoff delivered; cloud setup active. |
 | 5 | Sol 6.1 Medium | 01a0f030-4338-73d2-9537-17649ef680fb | Published continuation packet delivered; cloud setup active. |
-| 6 | Sol 6.1 Medium | 01a0f030-a052-773a-9258-ca86c99570f5 | Final research handoff requested; cloud setup active. |
+| 6 | Sol 6.1 Medium | 01a0f030-a052-773a-9258-ca86c99570f5 | Cloud verified final head 17ee27b69; local chat archived. |
 | 8 | Sol 6.1 Medium | 01a0f031-01c1-7471-89e5-b592f54830f3 | English engine assignment delivered. |
-| 9 | Sol 6.1 Low | 01a0f031-51fd-71b1-a8d5-feb9e66270d6 | Standing research assignment delivered; two Low research helpers authorized. |
+| 9 | Sol 6.1 Low | 01a0f031-51fd-71b1-a8d5-feb9e66270d6 | Working checkout verified at 4a2be71b; two Low research helpers active. |
 
 Only cloud Merge standby, 01a0f020-2e60-76e4-b23b-2e01263690c7, may merge. It requires the exact current-head Claude CTO approval comment, additive main integration, and only changed test files. Changed heads require renewed approval. No full suite. Local chats are archived after a cloud working checkpoint; their workspaces are retained.
 

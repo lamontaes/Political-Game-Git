@@ -1,5 +1,7 @@
 # File claims
 
+Each listed surface has one team owner. Confirmed cloud transfers below replace the local writer while preserving the same team scope.
+
 | Team | Files | Claimed at |
 | ---- | ----- | ---------- |
 | Team 1 | `data/research/laws/congressional-stock-trading.json` | 2026-09-29T21:35:29.601781+00:00 |
@@ -528,3 +530,13 @@ Team 1 narrow job 04 release to Team 3, September 29: baseline a8dfa63bac8d69219
 | Team 7 | `art/authoring/sept29-team7/newspaper-kit/render.py` | 2026-09-30T02:38:05.217215+00:00 — newspaper candidate reproducible renderer |
 
 | Team 4 | `docs/codex/handbacks/team-4-cloud-continuation.md` | 2026-09-30T02:40:21.699812+00:00 — CTO assigned cloud continuation handoff |
+
+| Team 1 | `docs/codex/handbacks/team-1-local-research-20260929.tar.gz` | final local cloud-migration handoff, September29 |
+
+| Team 1 | `docs/codex/handbacks/team-1-local-research-20260929-manifest.json` | final local cloud-migration handoff, September29 |
+
+## Confirmed cloud ownership transfers
+
+Team 6 local writer and helper are stopped. Ownership of its existing claimed paths transfers to cloud chat 01a0f030-a052-773a-9258-ca86c99570f5. The cloud verified final head 17ee27b69bc4cf2e316a19774aea72db7f012835, read the handback, and ran packet and schema checks. The local chat is archived; its workspace and evidence remain preserved. Historical Team 6 rows identify the same team, now writing only in cloud.
+
+Team 9 cloud chat 01a0f031-51fd-71b1-a8d5-feb9e66270d6 owns only data/research/standing-research/team-9/homelessness-outgoing.md, data/research/standing-research/team-9/wave-2-queue.md, docs/codex/handbacks/team-9.md and docs/release/changes/team-9-standing-research.md. Research only; no simulation paths.
