@@ -4,7 +4,7 @@ Design for CTO review; no simulation change authorized or implemented by this do
 
 ## Contract
 
-An enacted law changes a legal term. Existing producers apply that term to actual people, money, organizations and service records. Outcome readers consume the saved result. Research estimates calibrate response strengths and supported turning points; they do not supply a drawn revenue, price, cost or other outcome level.
+An enacted law changes a legal term. Existing producers apply that term to actual people, money, organizations and service records. Outcome readers consume the saved result. Research estimates calibrate response strengths and supported turning points; they do not supply a drawn revenue, price, cost or other outcome level. Under CTO1:25, a study range describes the average across places. Place-specific responses arise from recorded conditions and may fall outside that range; do not clamp each place to the research interval.
 
 A benefit can run out of reachable recipients or usable capacity. A separate adverse mechanism can grow at the same time. Their timing, scope and direction must be recorded separately; no universal inverted-U curve or fixed sequence is proposed.
 

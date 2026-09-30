@@ -8,7 +8,7 @@ Merge reports the full 92-law ideology stack landed through 1279, plus police el
 ### CONNECTIONS TABLE
 - Weighted catalog to votes: Team 2 reports 76 present-to-yea changes in 12,240 decisions, zero yea/nay reversals; Cameron Salas is the named example. Exact published receipt requested.
 - Federal wage to paid transfer: 1267 repaired at ab2a5e691f68a708dc9f49a8e2c8d7d651cfc83d, five payment tests pass; renewed approval pending.
-- Police links and unsupported zero removal: 1281 repaired at 0c683638d82108c220e70e389526b6d632200a12, every retained link and research contract preserved; renewal pending.
+- Police links and unsupported zero removal: 1281 repaired and formatted at 7857f6729a6affd10f39d59fbd8d0cd0b197b71d, every retained link and research contract preserved; renewal pending.
 - Paid leave to budget: Team 3 reports 19 preservation tests pass; its zero-sign fixture correction and partial-payment cases remain active. Team 8 needs only the disjoint age/cannabis repair hunks.
 - The design for capacity, trust and crowding is in effects-mechanism-design.md, for CTO review only. No code added.
 
