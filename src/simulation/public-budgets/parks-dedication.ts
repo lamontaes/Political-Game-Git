@@ -1,5 +1,8 @@
 import finances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { drawnLinkSize } from "../outcome-web";
+import { lawEffectStamp } from "../law-effect-stamp";
+import type { PublicBudgetGovernment } from "./store";
 import type { EntityId, IsoDate, World } from "../types";
 import { propositionIdFor } from "./fiscal";
 import { PARKS_DEDICATION_QUESTION, SPENDING_QUESTION_EFFECTS } from "./rules";
@@ -38,6 +41,78 @@ export function parksSpendingPerResident(placeKey: string): number {
   );
 }
 
+/** Existing researched dedication yields: fiscal-2022 dollars per 2023 resident. */
+export const PARKS_ANNUAL_PER_RESIDENT = {
+  low: 53_900_000 / 6_208_038,
+  high: 56_600_000 / 5_753_048,
+} as const;
+
+/** One stable world/state dedication amount; not an invented tax-base rate. */
+export function parksAnnualPerResident(
+  world: World,
+  jurisdictionId: EntityId,
+): number {
+  return drawnLinkSize(
+    world,
+    {
+      key: "direct:parks-dedication-annual-per-resident",
+      size:
+        (PARKS_ANNUAL_PER_RESIDENT.low + PARKS_ANNUAL_PER_RESIDENT.high) / 2,
+      range: [PARKS_ANNUAL_PER_RESIDENT.low, PARKS_ANNUAL_PER_RESIDENT.high],
+      evidence: "researched",
+    },
+    jurisdictionId,
+  );
+}
+
+/** The state's actual incremental parks budget amount and its governing law. */
+export function parksBudgetChange(
+  world: World,
+  government: PublicBudgetGovernment,
+  month: IsoDate,
+) {
+  if (government.level !== "state") return null;
+  const propositionId = propositionIdFor(world, PARKS_DEDICATION_QUESTION);
+  if (!propositionId) return null;
+  const law = lawInForce(
+    world,
+    government.lawJurisdictionId,
+    propositionId,
+    month,
+  );
+  const began = lawInForceAtStart(
+    world,
+    government.lawJurisdictionId,
+    propositionId,
+    month,
+  );
+  if (
+    !law ||
+    (law.answer !== "yes" && law.answer !== "no") ||
+    (began !== "yes" && began !== "no") ||
+    began === law.answer
+  )
+    return null;
+  const annualPerResident = parksAnnualPerResident(
+    world,
+    government.lawJurisdictionId,
+  );
+  const dollars =
+    ((annualPerResident * government.population) / 12) *
+    (law.answer === "yes" ? 1 : -1);
+  return {
+    law,
+    dollars,
+    stamp: lawEffectStamp(law, {
+      effectKind: "parks-spending",
+      questionKey: PARKS_DEDICATION_QUESTION,
+      jurisdictionId: government.lawJurisdictionId,
+      appliedAt: month,
+      sourceRecordIds: [government.lawJurisdictionId],
+    }),
+  };
+}
+
 /**
  * The percent the parks line has been moved by the law in force on `asOf`,
  * against what the place spends on parks: 0 while the law is where the place
@@ -58,9 +133,9 @@ export function parksLawAddedPct(
   const began = lawInForceAtStart(world, jurisdictionId, propositionId, asOf);
   const perResident =
     began === "no" && now === "yes"
-      ? effect.toYes
+      ? parksAnnualPerResident(world, jurisdictionId)
       : began === "yes" && now === "no"
-        ? effect.toNo
+        ? -parksAnnualPerResident(world, jurisdictionId)
         : null;
   return perResident === null
     ? 0
