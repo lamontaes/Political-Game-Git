@@ -32,3 +32,5 @@ Source baseline b921f76393a153067840624e1b395f5bc474bbaf. Fixture states are sel
 ## 7. Worked example
 
 A fixture state adopting sales effective March 1, 2026 has no revenue delta on January 31, 2027 and the inherited modeled amount on February 28. Its result names measure_0. The test population is 1,000, not an observed real population. No buyer, sale or tax transaction is invented. The monthly writer and its actual ledger evidence remain pending.
+
+Publication checks: the unpublished commit was rebased onto fetched main 8c085849bd91d2e0b0d761d1645590fce15c28cb without conflicts. Final focused tests passed four of four; scoped lint, strict source and test types, formatting, spelling/date and whitespace passed. Zero-dice found zero new findings; five removed allowances were inherited from main. Release validation fails on the unchanged main file docs/release/changes/wave1-playtest-copy.md, which lacks its required header. The same failure occurs with both comparison refs set to origin/main. No cross-owner declaration was edited. Caller integration, shared provenance stamping, watched attribution and speed remain pending, so the code PR stays draft.
