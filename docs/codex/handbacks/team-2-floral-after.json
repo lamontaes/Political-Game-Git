@@ -1,0 +1,418 @@
+{
+  "status": "partial-live-checkpoint",
+  "seed": "team2-main-proof-20260930-b",
+  "place": "Floral, Arkansas",
+  "placeKey": "0524070",
+  "sourceHead": "df19b0e4c33fcb96069877b498d9ae52c2f26415",
+  "sourceDirty": false,
+  "collectorHead": "01b41ffa9d8418fe1df8b70374e23f1cd8b38443:system-only-path-adapter+dated-checkpoints",
+  "days": 300,
+  "currentDate": "2026-11-01",
+  "recordedAtUtc": "2026-09-30T13:01:29.394Z",
+  "totalEnacted": 13,
+  "typedOperativeEnacted": 0,
+  "measures": 30,
+  "enactments": [
+    {
+      "id": "legislative-enactment_b10d4b6dcd3ec9b8",
+      "measureId": "legislative-measure_0f3cabe834398882",
+      "resolvedAt": "2026-03-02"
+    },
+    {
+      "id": "legislative-enactment_1f7e688ed1f480e5",
+      "measureId": "legislative-measure_0f3caae8343986cf",
+      "resolvedAt": "2026-03-02"
+    },
+    {
+      "id": "legislative-enactment_321ef7483faed3ee",
+      "measureId": "legislative-measure_0f3ca9e83439851c",
+      "resolvedAt": "2026-03-02"
+    },
+    {
+      "id": "legislative-enactment_f36c9f630ee2039b",
+      "measureId": "legislative-measure_0f3ca8e834398369",
+      "resolvedAt": "2026-03-02"
+    },
+    {
+      "id": "legislative-enactment_2ec1db3fd210bdde",
+      "measureId": "legislative-measure_0f3ca7e8343981b6",
+      "resolvedAt": "2026-03-02"
+    },
+    {
+      "id": "legislative-enactment_28b392ed37f2da94",
+      "measureId": "legislative-measure_0f3ca5e834397e50",
+      "resolvedAt": "2026-03-02"
+    },
+    {
+      "id": "legislative-enactment_7695598bb66d02df",
+      "measureId": "legislative-measure_0f3cb3e83439961a",
+      "resolvedAt": "2026-03-16"
+    },
+    {
+      "id": "legislative-enactment_57c294246e9a4770",
+      "measureId": "legislative-measure_c43deb9319ecf3bd",
+      "resolvedAt": "2026-04-02"
+    },
+    {
+      "id": "legislative-enactment_ae10de0b596e3cd1",
+      "measureId": "legislative-measure_02a044a51e1a08c7",
+      "resolvedAt": "2026-04-17"
+    },
+    {
+      "id": "legislative-enactment_353f3b03f683a141",
+      "measureId": "legislative-measure_8658bb06001f7fbf",
+      "resolvedAt": "2026-04-17"
+    },
+    {
+      "id": "legislative-enactment_b3634ecce976d69b",
+      "measureId": "legislative-measure_1da0d190bdc34d42",
+      "resolvedAt": "2026-05-11"
+    },
+    {
+      "id": "legislative-enactment_3b091bd2f7bae69f",
+      "measureId": "legislative-measure_1da0d590bdc3540e",
+      "resolvedAt": "2026-07-20"
+    },
+    {
+      "id": "legislative-enactment_4f8345efaf6bd098",
+      "measureId": "legislative-measure_1d9d6790bdc0634d",
+      "resolvedAt": "2026-09-28"
+    }
+  ],
+  "lawEvidence": [
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_1d9d6790bdc0634d",
+      "designation": "ORD 20",
+      "shortTitle": "Repeal: Dedicated Parks Funding Ordinance",
+      "level": "local",
+      "enactedOn": "2026-09-28",
+      "effectiveAt": "2026-10-28",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_1da0d590bdc3540e",
+      "designation": "ORD 18",
+      "shortTitle": "Repeal: Dedicated Parks Funding Ordinance",
+      "level": "local",
+      "enactedOn": "2026-07-20",
+      "effectiveAt": "2026-08-19",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_1da0d190bdc34d42",
+      "designation": "ORD 14",
+      "shortTitle": "Repeal: Dedicated Parks Funding Ordinance",
+      "level": "local",
+      "enactedOn": "2026-05-11",
+      "effectiveAt": "2026-06-10",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_8658bb06001f7fbf",
+      "designation": "HB 8",
+      "shortTitle": "School Crossing Signal Standards",
+      "level": "state",
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_02a044a51e1a08c7",
+      "designation": "HB 2",
+      "shortTitle": "Harbor Dredging Schedule",
+      "level": "state",
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_c43deb9319ecf3bd",
+      "designation": "ORD 13",
+      "shortTitle": "Repeal: Dedicated parks funding",
+      "level": "local",
+      "enactedOn": "2026-04-02",
+      "effectiveAt": "2026-04-02",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_0f3cb3e83439961a",
+      "designation": "ORD 9",
+      "shortTitle": "Inclusionary Housing Requirement Ordinance",
+      "level": "local",
+      "enactedOn": "2026-03-16",
+      "effectiveAt": "2026-04-15",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_0f3ca5e834397e50",
+      "designation": "ORD 7",
+      "shortTitle": "Fix It First Ordinance",
+      "level": "local",
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_0f3ca7e8343981b6",
+      "designation": "ORD 5",
+      "shortTitle": "Independent Ward Commission Ordinance",
+      "level": "local",
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_0f3ca8e834398369",
+      "designation": "ORD 4",
+      "shortTitle": "Shift Highway Funds to Transit Ordinance",
+      "level": "local",
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_0f3ca9e83439851c",
+      "designation": "ORD 3",
+      "shortTitle": "Expand Public Land Access Ordinance",
+      "level": "local",
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_0f3caae8343986cf",
+      "designation": "ORD 2",
+      "shortTitle": "Repeal: Dedicated Parks Funding Ordinance",
+      "level": "local",
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    },
+    {
+      "version": "enacted-law-effects/v1",
+      "measureId": "legislative-measure_0f3cabe834398882",
+      "designation": "ORD 1",
+      "shortTitle": "Restrict Building in Flood Zones Ordinance",
+      "level": "local",
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "hasTypedOperativeEffect": false,
+      "operativeEffectOutcomes": [],
+      "lines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "payments": [],
+      "taxes": [],
+      "withholding": [],
+      "missingMoneyLink": "No law-linked actual money movement recorded in this period. Authority or a future payment is not money received."
+    }
+  ],
+  "anchorEvidence": {
+    "personId": "person_194b69d666147d40",
+    "name": "Frances Khan",
+    "months": [
+      {
+        "month": "2026-01",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-02",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-03",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-04",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-05",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-06",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-07",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-08",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-09",
+        "recordedTransferCount": 0
+      },
+      {
+        "month": "2026-10",
+        "recordedTransferCount": 0
+      }
+    ]
+  },
+  "baseline": {
+    "sourceHead": "54930d427555034f3a92f335064586247985784d",
+    "days": 365,
+    "typedOperativeEnacted": 1,
+    "totalEnacted": 56,
+    "lawLinkedMoney": 0
+  },
+  "collectorManifest": {
+    "sourceCommit": "01b41ffa9d8418fe1df8b70374e23f1cd8b38443",
+    "description": "Existing system-only runner adapter plus read-only dated partial checkpoints; no simulation copy or mutation",
+    "sha256": {
+      "run.ts": "27fba38a972314b95e50d5c258dc37ba6f23ac66a8731c00a9453fc918e8521e",
+      "systems.ts": "20a8c750858214591cc9f296635fded7a38bab2109f8974fc007f3085a63f5a5"
+    }
+  }
+}
