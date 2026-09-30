@@ -665,7 +665,12 @@ describe("actual stamped coverage reaches resident news", () => {
       );
       expect(both).toHaveLength(2);
       expect(both[1]!.summary).toContain("coverage ended for 1 resident");
-      coverage(true, "unstamped", false);
+      coverage(true, "coverage-restored");
+      world = reportLawEffects(world, 0);
+      expect(world.history.events.filter((event) =>
+        event.tags.includes("law-effect:reach:health-coverage"),
+      )).toHaveLength(3);
+      coverage(false, "unstamped", false);
       expect(reportLawEffects(world, 0)).toBe(world);
     },
   );
