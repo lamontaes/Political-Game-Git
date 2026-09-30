@@ -1,3 +1,12 @@
+import { propositionIdFor } from "../simulation/public-budgets/fiscal";
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import { projectBudgetEconomy } from "./budget-economy";
+import { recordPaidTransitProgramService } from "../simulation/governing/public-program-transit";
+import { SeededRng } from "../simulation/rng";
+import {
+  isLawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../simulation/law-effect-stamp";
 import { describe, expect, it } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -46,6 +55,7 @@ import {
 } from "../simulation/nationwide-world/state-executives";
 import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { money } from "../simulation/resources";
+import { resourcePositionAt } from "../simulation/resource-queries";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import type { World } from "../simulation/types";
@@ -123,6 +133,32 @@ function enactedTransitBill(stateUsps: string) {
   });
   world = filed.world;
   const measureId = filed.bill.measureId;
+  // Authored saved-answer fixture matching automatic transit measures. Manual
+  // fileDraft currently omits answers; this does not repair that production gap.
+  const propositionId = propositionIdFor(
+    world,
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+  );
+  if (!propositionId)
+    throw new Error("The transit question is missing from the test catalog.");
+  world = {
+    ...world,
+    history: {
+      ...world.history,
+      legislativeMeasures: world.history.legislativeMeasures!.map((row) =>
+        row.id === measureId
+          ? {
+              ...row,
+              propositionIds: [
+                ...new Set([...(row.propositionIds ?? []), propositionId]),
+              ],
+              propositionAnswers: [{ propositionId, answer: "yes" as const }],
+            }
+          : row,
+      ),
+    },
+  };
+
   const bodies = pack.chambers.map((chamber) => {
     const seats = seatsForChamber(pack, chamber.chamberKey)?.seats;
     if (!seats)
@@ -177,7 +213,10 @@ function enactedTransitBill(stateUsps: string) {
   };
 }
 
-function paidService(stateUsps: string) {
+function paidService(
+  stateUsps: string,
+  purpose: "operating" | "maintenance" = "operating",
+) {
   const enacted = enactedTransitBill(stateUsps);
   let { world } = enacted;
   const programKey = `transit:${stateUsps.toLowerCase()}`;
@@ -189,7 +228,10 @@ function paidService(stateUsps: string) {
   const enactment = world.history.legislativeEnactments?.find(
     (row) => row.measureId === enacted.measureId && row.outcome === "enacted",
   );
-  expect(appropriation.availableFrom).toBe(enactment?.effectiveAt);
+  if (!enactment) throw new Error("The appropriation has no enacted measure.");
+  expect(appropriation.availableFrom).toBe(
+    operativeDateInWorld(world, enactment)?.date,
+  );
   expect(appropriation.amount.minorUnits).toBe(2_000_000);
   const account = publicTaxAccountForJurisdiction(
     world,
@@ -222,13 +264,19 @@ function paidService(stateUsps: string) {
   const choice = {
     appropriationId: appropriation.id,
     alternative: {
-      key: "one-paid-vehicle-hour",
-      title: "Pay one modeled vehicle-service hour",
+      key:
+        purpose === "operating"
+          ? "one-paid-vehicle-hour"
+          : "maintenance-payment",
+      title:
+        purpose === "operating"
+          ? "Pay one modeled vehicle-service hour"
+          : "Pay modeled maintenance",
       installments: [
         {
           afterDays: 0,
           amount: money(10_000, "USD"),
-          purpose: "operating" as const,
+          purpose,
         },
       ],
       deliveryLeadDays: null,
@@ -241,6 +289,22 @@ function paidService(stateUsps: string) {
   expect(committed.ok).toBe(true);
   if (!committed.ok) throw new Error(`${stateUsps}: ${committed.reason}`);
   const saved = deserializeWorld(serializeWorld(committed.world));
+  const payer = {
+    kind: "organization" as const,
+    organizationId: account.organizationId,
+  };
+  const openingCash = resourcePositionAt(
+    world,
+    payer,
+    appropriation.amount.currency,
+  )?.liquidBalance.minorUnits;
+  const paidCash = resourcePositionAt(
+    saved,
+    payer,
+    appropriation.amount.currency,
+  )?.liquidBalance.minorUnits;
+  expect(openingCash).toBeDefined();
+  expect(paidCash).toBe(openingCash! - 10_000);
   const installments = programInstallments(saved, programKey);
   expect(installments).toHaveLength(1);
   expect(installments[0]?.status).toBe("posted");
@@ -269,6 +333,10 @@ function paidService(stateUsps: string) {
       row.type === "transit.program-paid-service-hours" &&
       row.involvedEntityIds.includes(enacted.measureId),
   );
+  if (purpose === "maintenance") {
+    expect(service).toHaveLength(0);
+    return saved;
+  }
   expect(service).toHaveLength(1);
   expect(service[0]?.summary).toContain("1 vehicle-service hour");
   const servicePlace = service[0]?.jurisdictionId
@@ -301,6 +369,98 @@ function paidService(stateUsps: string) {
 }
 
 describe("same fictional state transit bill reaches exact paid service", () => {
+  it("saved maintenance stays distinct from operating hours and mismatched payment chains", () => {
+    const seed = "team6-transit-payment-purpose-20260930";
+    const usps =
+      US_STATE_USPS[new SeededRng(seed).integer(0, US_STATE_USPS.length - 1)]!;
+    const maintained = paidService(usps, "maintenance");
+    const outturn = maintained.history.publicProgramRecords!.find(
+      (row) => row.kind === "capacity-outturn",
+    );
+    expect(outturn, `${seed}: ${usps}`).toBeDefined();
+    if (!outturn || outturn.kind !== "capacity-outturn")
+      throw new Error("Missing maintenance outturn.");
+    expect(outturn.restoredUnits).toBe(0);
+    const installment = maintained.history.publicProgramRecords!.find(
+      (row) => row.kind === "installment" && row.id === outturn.installmentId,
+    );
+    expect(installment?.kind).toBe("installment");
+    if (!installment || installment.kind !== "installment")
+      throw new Error("Missing maintenance installment.");
+    const commitment = maintained.history.publicProgramRecords!.find(
+      (row) => row.kind === "commitment" && row.id === installment.commitmentId,
+    );
+    if (!commitment || commitment.kind !== "commitment")
+      throw new Error("Missing maintenance commitment.");
+    expect(commitment.installments[installment.installmentIndex]?.purpose).toBe(
+      "maintenance",
+    );
+    expect(outturn.commitmentId).toBe(commitment.id);
+    expect(
+      maintained.history.metricStates.filter(
+        (row) =>
+          row.value.kind === "quantity" &&
+          row.value.quantity.unit === "duration:vehicle-service-hour",
+      ),
+    ).toHaveLength(0);
+
+    const operated = paidService(usps);
+    const records = operated.history.publicProgramRecords!;
+    const paid = records.find((row) => row.kind === "installment")!;
+    if (paid.kind !== "installment")
+      throw new Error("Missing operating installment.");
+    const decision = records.find(
+      (row) => row.kind === "commitment" && row.id === paid.commitmentId,
+    )!;
+    if (decision.kind !== "commitment")
+      throw new Error("Missing operating commitment.");
+    const authority = records.find(
+      (row) =>
+        row.kind === "appropriation" && row.id === decision.appropriationId,
+    )!;
+    if (authority.kind !== "appropriation")
+      throw new Error("Missing operating appropriation.");
+    expect(() =>
+      recordPaidTransitProgramService(
+        operated,
+        authority,
+        { ...decision, appropriationId: operated.id },
+        paid,
+      ),
+    ).toThrow("saved appropriation payment chain");
+    expect(() =>
+      recordPaidTransitProgramService(operated, authority, decision, {
+        ...paid,
+        commitmentId: operated.id,
+      }),
+    ).toThrow("saved appropriation payment chain");
+    const differentCurrency: World = {
+      ...operated,
+      history: {
+        ...operated.history,
+        resourceTransferOutcomes: operated.history.resourceTransferOutcomes.map(
+          (row) =>
+            row.resourceFlowId === paid.resourceFlowId
+              ? {
+                  ...row,
+                  transferredAmount: money(
+                    row.transferredAmount.minorUnits,
+                    "CAD",
+                  ),
+                }
+              : row,
+        ),
+      },
+    };
+    expect(() =>
+      recordPaidTransitProgramService(
+        differentCurrency,
+        authority,
+        decision,
+        paid,
+      ),
+    ).toThrow("exact posted payment");
+  });
   it.each(US_STATE_USPS)(
     "%s: enacted authority pays one saved hour",
     (usps) => {
@@ -310,6 +470,88 @@ describe("same fictional state transit bill reaches exact paid service", () => {
           (row) => row.type === "transit.program-paid-service-hours",
         ),
       ).toHaveLength(1);
+      const service = world.history.events.find(
+        (row) => row.type === "transit.program-paid-service-hours",
+      )!;
+      const metric = world.history.metricStates.find(
+        (row) =>
+          row.provenance.kind === "simulated" &&
+          row.provenance.sourceEntityIds.includes(service.id),
+      )!;
+      expect(metric).toBeDefined();
+      const savedMetric = metric as typeof metric & LawEffectStampedRecord;
+      expect(savedMetric.lawEffectStamps, usps).toHaveLength(2);
+      const stamp = savedMetric.lawEffectStamps!.find(
+        (row) => row.effectKind === "state-spending",
+      )!;
+      expect(isLawEffectStamp(stamp), usps).toBe(true);
+      const measure = world.history.legislativeMeasures!.find(
+        (row) => row.id === stamp.governingLawKey,
+      )!;
+      expect(service.involvedEntityIds).toContain(measure.id);
+      const appropriation = world.history.publicProgramRecords!.find(
+        (row) =>
+          row.kind === "appropriation" && row.sourceMeasureId === measure.id,
+      )!;
+      expect(stamp.sourceRecordIds).toContain(appropriation.id);
+      const budgetMetric = Object.values(world.metricCatalog.definitions).find(
+        (row) => row.stableKey === "government.outlays",
+      )!;
+      const budgetStates = world.history.metricStates.filter(
+        (row) =>
+          row.metricId === budgetMetric.id &&
+          row.scope.jurisdictionId === appropriation.jurisdictionId &&
+          row.scope.segmentKey === null,
+      );
+      const budget = budgetStates.at(-1)!;
+      const budgetStamp = (
+        budget as typeof budget & LawEffectStampedRecord
+      ).lawEffectStamps?.find((row) => row.effectKind === "state-spending");
+      expect(budgetStamp).toMatchObject({
+        governingLawKey: measure.id,
+        jurisdictionId: appropriation.jurisdictionId,
+      });
+      expect(budgetStamp?.sourceRecordIds).toContain(appropriation.id);
+      expect(budget.value).toMatchObject({
+        kind: "money",
+        money: { minorUnits: 10_000, currency: "USD" },
+      });
+      expect(budget.supersedesStateId).toBe(budgetStates.at(-2)?.id);
+      expect(budget.value).toEqual(budgetStates.at(-2)?.value);
+      const budgetView = projectBudgetEconomy(
+        world,
+        appropriation.jurisdictionId,
+      );
+      const outlays = budgetView.fiscalGraphs
+        .flatMap((row) => row.series)
+        .find(
+          (row) => row.seriesKey === "government.outlays:simulated-history",
+        )!;
+      expect(outlays.points).toHaveLength(1);
+      expect(outlays.points[0]?.value).toBe(10_000);
+      expect(outlays.points[0]?.pointKey).toBe(budget.id);
+      expect(
+        savedMetric.lawEffectStamps!.find(
+          (row) => row.effectKind === "transit.paid-service-hours",
+        ),
+      ).toMatchObject({ governingLawKey: measure.id });
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(
+        (
+          reopened.history.metricStates.find(
+            (row) => row.id === metric.id,
+          ) as typeof metric & LawEffectStampedRecord
+        ).lawEffectStamps,
+      ).toEqual(savedMetric.lawEffectStamps);
+      expect(
+        (
+          reopened.history.metricStates.find(
+            (row) => row.id === budget.id,
+          ) as typeof budget & LawEffectStampedRecord
+        ).lawEffectStamps,
+      ).toEqual(
+        (budget as typeof budget & LawEffectStampedRecord).lawEffectStamps,
+      );
     },
   );
 
@@ -364,6 +606,7 @@ describe("same fictional state transit bill reaches exact paid service", () => {
         createElement(
           TimeCommandProvider,
           {
+            children: null,
             runner: {
               pending: false,
               submit: () => {},
