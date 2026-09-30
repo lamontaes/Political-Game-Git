@@ -193,11 +193,14 @@ it("attributes completed program spending once and never substitutes a posted or
     ...world.policyCatalog,
     propositions: {
       ...world.policyCatalog.propositions,
-      [PROP]: { ...world.policyCatalog.propositions[PROP], stableKey: questionKey },
+      [PROP]: {
+        ...world.policyCatalog.propositions[PROP],
+        stableKey: questionKey,
+      },
     },
   };
   const start = { ...opening, policyCatalog } as World;
-  const measureId = world.history.legislativeMeasures[0]!.id;
+  const measureId = world.history.legislativeMeasures![0]!.id;
   const amount = { minorUnits: 12345, currency: "USD" };
   for (const status of ["completed", "failed"]) {
     const candidate = {
@@ -207,29 +210,48 @@ it("attributes completed program spending once and never substitutes a posted or
         ...world.history,
         publicProgramRecords: [
           {
-            id: "appropriation_test", sequence: 3, kind: "appropriation",
-            sourceMeasureId: measureId, amount,
+            id: "appropriation_test",
+            sequence: 3,
+            kind: "appropriation",
+            sourceMeasureId: measureId,
+            amount,
             availableFrom: makeIsoDate("2026-06-01"),
             availableThrough: makeIsoDate("2033-12-31"),
           },
           {
-            id: "commitment_test", sequence: 4, kind: "commitment",
+            id: "commitment_test",
+            sequence: 4,
+            kind: "commitment",
             appropriationId: "appropriation_test",
           },
           {
-            id: "installment_test", sequence: 5, kind: "installment",
-            commitmentId: "commitment_test", resourceFlowId: "flow_test",
+            id: "installment_test",
+            sequence: 5,
+            kind: "installment",
+            commitmentId: "commitment_test",
+            resourceFlowId: "flow_test",
             status: "posted",
           },
         ],
-        resourceFlows: [{
-          id: "flow_test", sequence: 6,
-          recipient: { kind: "organization", organizationId: "operator_test" },
-        }],
-        resourceTransferOutcomes: [{
-          id: "transfer_test", sequence: 7, resourceFlowId: "flow_test",
-          status, transferredAmount: status === "completed" ? amount : null,
-        }],
+        resourceFlows: [
+          {
+            id: "flow_test",
+            sequence: 6,
+            recipient: {
+              kind: "organization",
+              organizationId: "operator_test",
+            },
+          },
+        ],
+        resourceTransferOutcomes: [
+          {
+            id: "transfer_test",
+            sequence: 7,
+            resourceFlowId: "flow_test",
+            status,
+            transferredAmount: status === "completed" ? amount : null,
+          },
+        ],
         events: [],
       },
     } as unknown as World;
@@ -240,7 +262,9 @@ it("attributes completed program spending once and never substitutes a posted or
     if (status === "completed")
       expect(spending[0]?.evidence[0]?.after).toEqual(amount);
     expect(rows.some((row) => row.effect === "program-payment")).toBe(false);
-    expect(rows.find((row) => row.effect === "public-service")?.fired).toBe(false);
+    expect(rows.find((row) => row.effect === "public-service")?.fired).toBe(
+      false,
+    );
   }
 });
 
@@ -250,15 +274,24 @@ it("does not invent a transit-hours reader for an appropriation on another quest
     ...world,
     history: {
       ...world.history,
-      publicProgramRecords: [{
-        id: "appropriation_nontransit", sequence: 3, kind: "appropriation",
-        sourceMeasureId: world.history.legislativeMeasures[0]!.id,
-        amount: { minorUnits: 100, currency: "USD" },
-        availableFrom: makeIsoDate("2026-06-01"),
-        availableThrough: makeIsoDate("2033-12-31"),
-      }],
-      resourceTransferOutcomes: [], events: [],
+      publicProgramRecords: [
+        {
+          id: "appropriation_nontransit",
+          sequence: 3,
+          kind: "appropriation",
+          sourceMeasureId: world.history.legislativeMeasures![0]!.id,
+          amount: { minorUnits: 100, currency: "USD" },
+          availableFrom: makeIsoDate("2026-06-01"),
+          availableThrough: makeIsoDate("2033-12-31"),
+        },
+      ],
+      resourceTransferOutcomes: [],
+      events: [],
     },
   } as unknown as World;
-  expect(auditWorld(opening, candidate).some((row) => row.effect === "public-service")).toBe(false);
+  expect(
+    auditWorld(opening, candidate).some(
+      (row) => row.effect === "public-service",
+    ),
+  ).toBe(false);
 });

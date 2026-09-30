@@ -466,7 +466,8 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
             effect.effect,
           ) ||
           (effect.effect === "state-spending" &&
-            (appropriations.length > 0 || question === STATE_TRANSIT_SERVICE_QUESTION))
+            (appropriations.length > 0 ||
+              question === STATE_TRANSIT_SERVICE_QUESTION))
         ) {
           const records = world.history.publicProgramRecords ?? [];
           const authorities = records.filter(
@@ -535,7 +536,10 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
             const flow = world.history.resourceFlows.find(
               (flow) => flow.id === payment.resourceFlowId,
             );
-            if (effect.effect === "program-payment" || effect.effect === "state-spending")
+            if (
+              effect.effect === "program-payment" ||
+              effect.effect === "state-spending"
+            )
               evidence.push({
                 record: `publicProgramRecords:${installment.id}; resourceTransferOutcomes:${payment.id}`,
                 touched: flow
@@ -662,8 +666,13 @@ function stampedTouched(
     record.studentPersonId,
     record.pupilPersonId,
     record.recipientPersonId,
-    ...(Array.isArray(record.involvedEntityIds) ? record.involvedEntityIds : []),
-  ].filter((id): id is EntityId => typeof id === "string" && Boolean(world.people[id as EntityId]));
+    ...(Array.isArray(record.involvedEntityIds)
+      ? record.involvedEntityIds
+      : []),
+  ].filter(
+    (id): id is EntityId =>
+      typeof id === "string" && Boolean(world.people[id as EntityId]),
+  );
   return (
     people
       .map((id) =>
