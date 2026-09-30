@@ -1,3 +1,4 @@
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { eventById } from "./event-index";
 import {
   appendedList,
@@ -108,7 +109,7 @@ export interface CreateResourceFlowInput {
   readonly provenance: LifeRecordProvenance;
 }
 
-export interface RecordResourceFlowTermsInput {
+export interface RecordResourceFlowTermsInput extends LawEffectStampedRecord {
   readonly stableKey: string;
   readonly resourceFlowId: EntityId;
   readonly effectiveAt: string;
@@ -616,6 +617,28 @@ function buildResourceTransferOutcome(
     transferredAmount: { ...input.transferredAmount },
     provenance: { ...input.provenance },
   };
+  if (
+    flow.basisReference.kind === "work" &&
+    input.transferredAmount.minorUnits > 0 &&
+    terms.lawEffectStamps?.length
+  ) {
+    return {
+      ...record,
+      lawEffectStamps: terms.lawEffectStamps.map((stamp) => ({
+        ...stamp,
+        effectKind: "work-compensation-payment",
+        appliedAt: occurredAt,
+        sourceRecordIds: [
+          ...new Set([
+            ...(stamp.sourceRecordIds ?? []),
+            terms.id,
+            flow.id,
+            record.id,
+          ]),
+        ],
+      })),
+    };
+  }
   return record;
 }
 

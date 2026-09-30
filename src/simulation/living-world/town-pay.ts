@@ -1,3 +1,7 @@
+import { lawEffectStamp } from "../law-effect-stamp";
+import { lawInForce } from "../governing/law-in-force";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -930,7 +934,31 @@ export function raiseTownPayToMinimum(
       const event = eventOf.get(setBy.measureId);
       const rate = `$${hourly.toFixed(2)} an hour`;
       const which = setting.level === "local" ? "city" : setting.level;
+      const question =
+        setting.level === "federal"
+          ? Object.values(world.policyCatalog.propositions).find(
+              (p) => p.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+            )
+          : undefined;
+      const governing = question
+        ? lawInForce(world, NATIONAL_ELECTION_JURISDICTION.id, question.id, day)
+        : null;
+      const stamp =
+        governing?.measureId === setting.measureId
+          ? lawEffectStamp(governing, {
+              effectKind: "minimum-wage-compensation",
+              questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+              appliedAt: day,
+              sourceRecordIds: [
+                flow.id,
+                current.id,
+                flow.basisReference.workRelationshipId,
+              ],
+            })
+          : null;
       next = recordResourceFlowTerms(next, {
+        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
         stableKey: `${flow.stableKey}:minimum-wage:${day}`,
         resourceFlowId: flow.id,
         effectiveAt: day,
