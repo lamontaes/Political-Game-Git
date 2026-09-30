@@ -1,10 +1,12 @@
 # Nationwide lawmaking still needs its watched proof
 
-Majority-backed agendas, strongest-pressure sponsorship and principle-based cosponsors are merged. Their nationwide watched result is still unmeasured. Life formation remains ready on the law team's stack. Midterm weights, Senate integration and opening-seat calibration remain unfinished. The cloud continuation has received the final local handoff and can continue within its declared paths.
+Majority-backed agendas reached main. Strongest-pressure sponsorship and principle-based cosponsors were merged into feature branches and still await main integration. Their nationwide watched result is unmeasured. Life formation remains on the law team's stack. Senate integration, researched election responses and opening-seat calibration remain unfinished. The cloud continuation received the final local handoff and is auditing the shared writer boundaries.
 
 ## MERGED
 
 Live GitHub verifies three merges: [PR #1146](https://github.com/lamontaes/Political-Game-Git/pull/1146) brings up majority-backed agendas; [PR #1147](https://github.com/lamontaes/Political-Game-Git/pull/1147) chooses the member with the strongest recorded pressure to sponsor; [PR #1150](https://github.com/lamontaes/Political-Game-Git/pull/1150) makes cosponsors judge bills from their principles. Their merge commits are `97ff010685a63835098fd007a23bc49c6da7a599`, `cc4d2798933693ceadaff9f87865dbb23bd7ae05` and `d12f2d4862bb1db48ec6aa7fe0273459b966932c`.
+
+The merge targets matter: only #1146's merge is an ancestor of the inspected main head, `a18f22a76b2b41c01ff030026024eb940ccefbef`. The other two are feature-branch merges. Main integration [PR #1163](https://github.com/lamontaes/Political-Game-Git/pull/1163) remains open at `ae992a095d44adcd443525dbfb1c457f3a964d93`. Earlier wording that implied all three reached main was incomplete.
 
 [PR #1152](https://github.com/lamontaes/Political-Game-Git/pull/1152) forms officeholder principles from recorded lives. It remains open at `0a13f1393f0225d4f238b109064923c4c4023abb`, following the open law PR #1131. [Draft PR #1136](https://github.com/lamontaes/Political-Game-Git/pull/1136) preserves unfinished candidates and research. The historical sections below retain their original receipts; this section and the final cloud checkpoint establish the current transfer state. Only cloud Merge may merge after Claude CTO's current-head approval.
 
@@ -229,3 +231,46 @@ Workspace preflight passed. The first dependency install failed because npm's de
 The exact active continuation paths are listed in this branch's `docs/codex/claims.md`. Core law files, the Team 1 officeholder caller and Team 3 population readers are excluded. The coordinator must reconcile the central claim record. No helper or new project copy was created. The stopped local workspace and original evidence remain preserved.
 
 Next: inspect the preserved Senate route against its source authority, identify the exact law-writer and clock seams, and request only those ownership releases needed for a small ready piece. The unsupported mood model remains with the standing research queue. No researched coefficient, source seat total or watched outcome will be fabricated. Five-year watched proofs remain post-merge work on main. Independent report-agent review remains NOT RUN under the explicit helper limit.
+
+## Senate wiring and opening-person audit
+
+The Senate candidate has no production callers. Its saved route cannot affect canonical votes until the shared writers and clock agree on that route. Missing principle evidence must not establish unanimous consent, and late route adoption must not reinterpret earlier actions. No runtime connection changed during this audit.
+
+The coordinator received the exact shared hunk request in Doc 00. On main `a18f22a76b2b41c01ff030026024eb940ccefbef`, `legislation.ts:3128` is the per-measure resolver seam. Replay, action validation, offered steps and all measure-based writer lookups must use one consistent route. The pack-only introduction lookup remains separate. `legislative-clock.ts:343` currently returns the ordinary Congress blueprint. Its Senate calendar branch at line 712 must adopt an authorized route before floor entry and recompute its blueprint and position. Pending chamber questions and notice resolution must agree. Existing congressional sitting scheduling remains the clock substrate.
+
+These shared paths are read-only until the coordinator releases the named hunks. Team 1's policy terms, enactment effects and officeholder caller remain protected. No release was inferred from a request. No new global rule pack, clock, filing adapter, schema or allowlist claim was taken.
+
+The owned candidate has these blockers:
+
+- `recordedCongressProcedure` has no historical cutoff. A late event would change the pack used to replay prior floor actions.
+- `recordBudgetInstructions` writes compact votes, but not a concurrent budget resolution with fiscal-year instructions, directed committees and a recorded scoring window.
+- `reconciliationScope` rejects each individual worsening fiscal provision. This conservative filter does not implement the statutory committee-net and out-of-window tests or incidental-policy rulings.
+- `recordUnanimousConsent` treats a zero score without supporting principle IDs as no objection. It also represents consent as a unanimous vote rather than an objection-based canonical action.
+
+Official operative text was read at [2 U.S.C. 641](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title2-section641&num=0&edition=prelim) and [2 U.S.C. 644](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title2-section644&num=0&edition=prelim). Section 641(a) specifies committee directives and amounts; subsection (b) requires committee recommendations. Section 644(b)(1) defines the six extraneousness tests. Subsection (a) links removal to a sustained point of order. The candidate's fiscal label and compact vote events do not supply these missing contracts.
+
+The retrieved HTML digests are `878f25097beb6f5322f460186c7473faf1a775f18f96eb184c290bf4dbb00042` for section 641 and `98dc3c7d2c0d34bd6ecc50985f7175ad930b3bfc684f311a0857ccb27f021952` for section 644. Bytes and extracted text remain in the cloud evidence folder. These are federal legal research receipts, not locked production inputs. CRS product URLs failed with 403 or 404. Senate legacy pages returned a 404 error body despite successful HTTP retrieval. GovInfo paths likewise returned identical fallback bodies; none was used as legal evidence.
+
+The [official Senate Rules Committee page](https://www.rules.senate.gov/rules-of-the-senate) was subsequently read successfully. Its HTML digest is `52b24c068a8dffdc2f3527c923866ac872b2f3d9a93814c94943e5354d47988a`. Rule XII paragraph 4 requires a quorum call for an agreement scheduling a final vote. Rule XXII paragraph 2 retains the three-fifths cloture threshold for ordinary measures. A consent agreement about voting is not evidence that passage requires a unanimous roll call. The candidate still lacks an explicit consent request, objection action and routine-measure admission contract.
+
+Team 5 received the education-availability response in Doc 00. `createWorld` creates empty history after cloning supplied people, and starting/lightweight people do not establish completed education. Ordinary production opening must initialize the existing cohort after age-eligible school/background writes. Pre-start finalization admits the player directly and needs its own post-background hook. The complete-opening boundary follows the returned `openedWorld`, which has added town, local-government and judiciary people. Press initialization alone precedes town admission.
+
+Education remains person-specific even at those later boundaries. `materializePersonRecord` may append education later. `educationHistoryEvidenceForPerson` distinguishes canonical enrollment/state evidence from current-frontier facts. Missing evidence is unknown attainment; active enrollment is not a completed credential. Team 5 must preserve saved habits without rerolling them after materialization. This read-only response releases none of Team 1, 4 or 5's paths.
+
+## Election research scope after CTO 11:12
+
+The fitted-model request is superseded. The current requirement is evidence for approval, felt economy, candidate quality, mobilization, election type/date and registration, with broad size evidence. Preserved academic-model receipts remain historical. No fitted intercept or coefficients from one model are required or accepted.
+
+`data/research/midterm-calibration.json` now records the current scope and inspected Census tables with URLs, digests, source cells and limits. Table A-3a supplies all 50 states and DC for multiple congressional elections. Its 2022 citizen voting-age estimates range from 38.4 percent in West Virginia to 70.0 percent in Oregon. National A-4 records 52.2 percent voting and 69.1 percent registered in 2022. A-6 records 65.3 percent voting and 73.6 percent registered in 2024. Every denominator is self-reported citizen voting-age population, not registered voters or administrative ballots.
+
+These are descriptive survey observations, subject to sampling and reporting error. They do not establish causal slopes, residual spread, future hard bounds or settlement-size adjustments. Territory and county/town-size evidence remains absent. Missing approval, candidate and mobilization response evidence remains open. No game weights, source seat totals or saved-world sampling law changed.
+
+Team 9's bill-number quick research has priority. The later queue is county/parish elections and real wards, then court news and appeals after research approval. The coordinator was asked to supersede the historical fitted-model request. No new helper or Wave 2 implementation started.
+
+## Cloud audit delivery and remaining work
+
+The audit started at published head `f7d78624aa68df342ed305d5447fdbdef5df6c20` on `codex/wave1-state-governing`. Draft PR #1136 remains WIP. This delivery changes only owned research and documentation. The previous four-file, 22-case fixture receipt remains tied to the transfer source. New source tests, scoped types, source lint, zero-dice, browser, speed and full watched simulations were NOT RUN for this documentation/research delivery. Independent reviewer remains NOT RUN under the helper limit.
+
+The requested cloud reporter at :25/:55 Eastern is NOT SET and has no automation ID. Exposed create/update instructions cap execution at hourly, and no direct hostlocal thread-send tool is available. The coordinator's latest reply confirms its existing local collector covers the half-hour cadence. Doc replies remain authorized coordination, not direct thread delivery.
+
+Next: continue consent-action and causal-driver evidence review; receive the coordinator's exact writer release before shared source edits. The Senate admission/action contracts and settlement-size evidence remain dependencies. Five-year watched acceptance stays post-merge on main. Runtime connections added or changed: zero. Newly proved three-step chains: zero.
