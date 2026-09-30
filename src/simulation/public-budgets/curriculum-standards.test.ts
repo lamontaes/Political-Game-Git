@@ -10,7 +10,14 @@ import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
 import { CURRICULUM_QUESTION } from "../education-civil-law-terms";
 
-import type { PublicBudgetGovernment } from "./store";
+import {
+  BUDGET_PROGRAMS,
+  BUDGET_SOURCES,
+  type PublicBudgetGovernment,
+} from "./store";
+import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { budgetLawReadings } from "./fiscal";
+import type { LawEffectStampedRecord } from "../law-effect-stamp";
 
 import { curriculumAdoptionEffect } from "./curriculum-standards";
 
@@ -228,6 +235,87 @@ describe("curriculum materials reach school spending", () => {
           invalid.enacted.currentDate,
         )?.spendingDollars,
       ).toBeNull();
+    }
+  });
+  it("saves filed curriculum spending and pupil-linked stamps in five states", () => {
+    const rng = new SeededRng("curriculum-budget-stamp-2026");
+    const remaining = [...lifePlaceStateIdentities()];
+    const flows: MonthFlows = {
+      withheld: new Map(),
+      represented: new Map(),
+      levies: new Map(),
+      payments: new Map(),
+    };
+    for (let i = 0; i < 5; i++) {
+      const place = rng.pick(remaining);
+      remaining.splice(remaining.indexOf(place), 1);
+      const { base, enacted, government } = pair(
+        place.jurisdictionKey,
+        20_000,
+        24,
+      );
+      const dated = {
+        ...government,
+        years: [
+          {
+            fiscalYear: 2026,
+            basis: "automatic" as const,
+            startsOn: makeIsoDate("2026-01-01"),
+            endsOn: makeIsoDate("2026-12-31"),
+            adoptedOn: makeIsoDate("2026-01-01"),
+            expectedRevenue: BUDGET_SOURCES.map(() => 12000),
+            appropriations: BUDGET_PROGRAMS.map(() => 12000),
+            reserveDeposit: 0,
+            pensionRequired: 0,
+            pensionShare: 1,
+            economyAtAdoption: null,
+            laws: budgetLawReadings(
+              base,
+              government.lawJurisdictionId,
+              base.currentDate,
+              false,
+            ),
+          },
+        ],
+      };
+      const control = settleGovernmentMonth(
+        base,
+        dated,
+        base.currentDate,
+        flows,
+      ).government;
+      const treated = settleGovernmentMonth(
+        enacted,
+        dated,
+        enacted.currentDate,
+        flows,
+      ).government;
+      const schoolAt = BUDGET_PROGRAMS.indexOf("schools");
+      expect(
+        treated.months[0]!.spending[schoolAt]! -
+          control.months[0]!.spending[schoolAt]!,
+        place.jurisdictionKey,
+      ).toBe(1000);
+      expect(control.balance - treated.balance).toBe(1000);
+      const row = treated.months[0]! as (typeof treated.months)[number] &
+        LawEffectStampedRecord;
+      const stamp = row.lawEffectStamps?.find(
+        (value) => value.questionKey === CURRICULUM_QUESTION,
+      );
+      expect(stamp).toMatchObject({
+        governingLawKey: "measure_curriculum",
+        effectKind: "state-spending",
+      });
+      expect(stamp!.sourceRecordIds).toContain("person_0");
+      expect(stamp!.sourceRecordIds).toContain("enrollment_0");
+      expect(stamp!.sourceRecordIds).toContain("organization_school");
+      expect(JSON.parse(JSON.stringify(row)).lawEffectStamps).toEqual(
+        row.lawEffectStamps,
+      );
+      expect(
+        settleGovernmentMonth(enacted, treated, enacted.currentDate, flows)
+          .government,
+      ).toBe(treated);
     }
   });
 });
