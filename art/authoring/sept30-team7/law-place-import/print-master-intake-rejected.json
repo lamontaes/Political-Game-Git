@@ -1,6 +1,6 @@
 {
   "candidateCount": 10,
-  "productionCount": 10,
+  "productionCount": 0,
   "records": [
     {
       "aspectRatio": 1.7959,
@@ -8,12 +8,17 @@
       "byteLength": 1474181,
       "contentHash": "098b8eb4c5855d89f43570c85148a23be5a4ad935f822a0186c7e7031b50597d",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1681px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1681px, below the 4608px master minimum, even though the file is 1681px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -26,12 +31,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 936,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1681,
       "path": "art/authoring/sept30-team7/law-places/clinic.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -45,12 +48,17 @@
       "byteLength": 1770137,
       "contentHash": "daf8268d617fae2f0b895a937b45d14accd93c164e985a3e02db8d7ddb53aad4",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1672px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1672px, below the 4608px master minimum, even though the file is 1672px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -63,12 +71,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 941,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1672,
       "path": "art/authoring/sept30-team7/law-places/county-board-room-v2.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -82,12 +88,17 @@
       "byteLength": 1449805,
       "contentHash": "3d9e4ce3be756abab935b9c043ada047d6a7c2dd234b10bd7357ed1015cd1017",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1672px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1672px, below the 4608px master minimum, even though the file is 1672px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -100,12 +111,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 941,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1672,
       "path": "art/authoring/sept30-team7/law-places/courtroom.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -119,12 +128,17 @@
       "byteLength": 1763273,
       "contentHash": "686b787bf7ba2699bd4aef7b7485476032fab16fa0fef0e5359c742ab9048135",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1681px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1681px, below the 4608px master minimum, even though the file is 1681px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -137,12 +151,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 936,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1681,
       "path": "art/authoring/sept30-team7/law-places/homeless-shelter.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -156,12 +168,17 @@
       "byteLength": 1741427,
       "contentHash": "223f6e8113142cb73bc43a33e5734058a1addaf164a50806842681ad5d358a7b",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1681px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1681px, below the 4608px master minimum, even though the file is 1681px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -174,12 +191,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 936,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1681,
       "path": "art/authoring/sept30-team7/law-places/jail-visiting-room-v2.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -193,12 +208,17 @@
       "byteLength": 1680601,
       "contentHash": "ba4abda92ad6c6d991390563343b3e44eefbe7951ce646abfc6ab7049446da03",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1672px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1672px, below the 4608px master minimum, even though the file is 1672px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -211,12 +231,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 941,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1672,
       "path": "art/authoring/sept30-team7/law-places/polling-place.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -230,12 +248,17 @@
       "byteLength": 1955100,
       "contentHash": "22a8dee9fa1debcad933765edf242575fe1ed589ffebc5e4cfdbd92047f22992",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1672px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1672px, below the 4608px master minimum, even though the file is 1672px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -248,12 +271,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 941,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1672,
       "path": "art/authoring/sept30-team7/law-places/public-library.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -267,12 +288,17 @@
       "byteLength": 1571345,
       "contentHash": "2aa552d5a5cef3dbe3a7cad418d135df305ef8fd9a408684de345c6c122f9fb7",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1672px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1672px, below the 4608px master minimum, even though the file is 1672px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -285,12 +311,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 941,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1672,
       "path": "art/authoring/sept30-team7/law-places/school-classroom.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -304,12 +328,17 @@
       "byteLength": 1582596,
       "contentHash": "525d4a453f5b75d69de89d5ea17fea272bea7acbc5d3f17adfeca9f2a009e22d",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1672px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1672px, below the 4608px master minimum, even though the file is 1672px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -322,12 +351,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 941,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1672,
       "path": "art/authoring/sept30-team7/law-places/state-agency-counter.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -341,12 +368,17 @@
       "byteLength": 1627117,
       "contentHash": "a26911e4c11b569f6be3eec7c46017c1705588a0f953a3ba3a2b8453b001079b",
       "derivationMethod": null,
-      "disposition": "production",
+      "disposition": "reject",
       "familyId": null,
       "findings": [
         {
-          "code": "later-high-resolution-pass",
-          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "code": "master-width-below-minimum",
+          "message": "Width 1672px is below the 4608px absolute minimum for an environment master.",
+          "severity": "error"
+        },
+        {
+          "code": "native-detail-below-minimum",
+          "message": "Real detail stops at 1672px, below the 4608px master minimum, even though the file is 1672px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.",
           "severity": "warning"
         },
         {
@@ -359,12 +391,10 @@
       "hasAlphaChannel": false,
       "hasVaryingAlpha": false,
       "height": 941,
-      "highResolutionPassRequired": true,
       "lineageClass": "original-master",
       "nativeDetailState": "native",
       "nativeDetailWidth": 1672,
       "path": "art/authoring/sept30-team7/law-places/union-hall.png",
-      "resolutionProfile": "native-display",
       "rightsStatus": "unknown",
       "sourceAssetId": null,
       "sourceHeight": null,
@@ -374,6 +404,6 @@
     }
   ],
   "referenceCount": 0,
-  "rejectCount": 0,
+  "rejectCount": 10,
   "tool": "environment-master-intake-v1"
 }

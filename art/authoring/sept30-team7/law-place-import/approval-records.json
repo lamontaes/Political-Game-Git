@@ -45,9 +45,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_county_board_room_v2_sept30",
@@ -96,9 +98,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_polling_place_sept30",
@@ -145,9 +149,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_public_library_sept30",
@@ -194,9 +200,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_school_classroom_sept30",
@@ -243,9 +251,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_clinic_sept30",
@@ -292,9 +302,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_homeless_shelter_sept30",
@@ -341,9 +353,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_jail_visiting_room_v2_sept30",
@@ -392,9 +406,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_state_agency_counter_sept30",
@@ -441,9 +457,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     },
     {
       "asset_id": "env_team7_law_union_hall_sept30",
@@ -490,9 +508,11 @@
         "sourcePR": 1223,
         "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
       },
-      "admission": "blocked-native-width",
+      "admission": "native-display admitted under CTO12:18 resolution",
       "geometry": "unresolved",
-      "runtimeRelease": "unreleased"
+      "runtimeRelease": "unreleased",
+      "previousAdmission": "blocked-native-width under print-master profile",
+      "laterHighResolutionPass": true
     }
   ],
   "excluded": [

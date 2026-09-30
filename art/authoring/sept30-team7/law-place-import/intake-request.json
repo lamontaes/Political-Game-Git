@@ -10,7 +10,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_county_board_room_v2_sept30",
@@ -20,7 +21,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_polling_place_sept30",
@@ -30,7 +32,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_public_library_sept30",
@@ -40,7 +43,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_school_classroom_sept30",
@@ -50,7 +54,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_clinic_sept30",
@@ -60,7 +65,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_homeless_shelter_sept30",
@@ -70,7 +76,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_jail_visiting_room_v2_sept30",
@@ -80,7 +87,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_state_agency_counter_sept30",
@@ -90,7 +98,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     },
     {
       "asset_id": "env_team7_law_union_hall_sept30",
@@ -100,7 +109,8 @@
       "native_detail_state": "native",
       "rights_status": "unknown",
       "approved_by": "Owner approval relayed by Claude CTO in 00, 2026-09-30 11:48 Eastern",
-      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release"
+      "approval_note": "PR1223 selected ten only; pixel approval distinct from geometry/runtime release; CTO12:18 native-display minimum1600, later high-resolution pass",
+      "resolution_profile": "native-display"
     }
   ]
 }

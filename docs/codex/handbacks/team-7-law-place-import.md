@@ -1,33 +1,33 @@
-# Approved pictures are recorded; production intake rejects their width
+# Approved pictures now pass native display intake
 
-Before: ten selected law-place pictures had owner approval but no canonical manifest records. After: ten manifest and provenance entries preserve that approval and the original hashes. Production intake rejected every native image for width below its minimum. This is an import-preparation PR, not a runtime-ready claim.
+Before: the ten approved law-place pictures failed the print-master width floor. After: the owner's native-display decision admits them without enlargement, together with eleven approved regional pictures and four TV screens. The default print-master minimum remains intact. Four kids sheets await exact docket identities; the larger kids bank is not presumed approved.
 
 ## 1. Why-chain
 
-Approved illustration bytes need stable asset identities before later scene integration. Approval does not measure floor geometry, actor contact or runtime suitability. These records keep those separate.
+Approved source bytes need canonical registry identities and truthful resolution records. Native display admission answers the display need while retaining a later high-resolution pass. Scene geometry and runtime bindings remain separate work.
 
 ## 2. Approval and lineage
 
-The CTO relayed the owner's approval in the shared 00 document on September 30 at 11:48 Eastern, naming PR 1223. Exactly its ten selectedKinds are recorded. The two superseded attempts and all regional candidates are excluded. Approval records retain source head, source hashes, reference hashes, edit parents and original generation paths. No image bytes changed.
+The shared 00 document records ten law-place approvals at 11:48 and eleven regional pictures plus TV approval at 12:18 on September 30. Original hashes, reference hashes, edit parents and generation paths remain recorded. Two superseded law-place attempts are excluded. The original rejected intake report is preserved.
 
-## 3. Observed intake rejection
+## 3. Resolution decision
 
-Seven pictures are 1672 by 941 pixels; three are 1681 by 936. Existing environment intake requires a minimum width of 4608 pixels. The executed intake returned ten rejections and exit 1. Its report and bank disposition are retained. No enlargement, fixture relabeling or minimum change was performed.
+An explicit native-display profile admits environment backgrounds at least 1600 pixels wide. It rejects smaller images, upscales and non-background classes. Default print-master intake still requires 4608 pixels. Every admitted background below that width is flagged for a later high-resolution pass. TV screens use the existing interface-graphic target.
 
 ## 4. Numbered parts
 
-1. Ten additions to the canonical asset manifest, generation approved, QA pending and runtime unreleased.
-2. Ten linked AI-generation provenance records, with unknown model version and reference rights preserved honestly.
-3. Ten approval records, intake request, rejection report and selected-image QA receipt.
+1. Ten law-place and fifteen regional/TV canonical manifest and provenance entries.
+2. Approval records, native intake requests and measured reports, preserving unknown reference rights.
+3. Focused admission-profile boundary tests and the documented display/print distinction.
 
 ## 5. Checks and effects
 
-Manifest validation passed. Inventory completed for 11188 local art items with duplicate-hash warnings; this is not a production-admission pass. Scoped QA generated metadata for the source batch; the retained receipt selects only the ten approved images. Original selected hashes matched. Prior manifest entries remain semantically unchanged.
+Native intake passed ten of ten law-place pictures and fifteen of fifteen regional/TV pictures. Thirty-two focused tests passed using the runner config loader; the initial bundled-config attempt failed before discovery on a sandbox write. Scoped ESLint passed. A corrected three-root TypeScript check returned zero diagnostics; its first configuration attempt failed before a valid check. Manifest validation passed. Prior inventory completed with duplicate-hash warnings; it is not a runtime proof.
 
 ## 6. Proof run
 
-Intake FAILED for all ten widths. Browser, actor fit, scene geometry and runtime integration were NOT RUN. No runtime release, scene binding, access grant, capacity or simulation effect changed. The QA commands refreshed local inventory/contact reports; those shared generated reports are excluded from the PR. Independent helper review was not run under the scope limit.
+Actor fit, scene geometry, geographic qualification, browser integration and full suite were NOT RUN. The canonical entries remain runtime unreleased: this PR imports approved artwork into the registry without asserting completed scene bindings. No world, attendance or household identity facts change. Helper review was not run under the scope limit.
 
 ## 7. Worked example and next action
 
-The approved county-board-room-v2 hash is retained, while its earlier four-chair attempt receives no admission record. The approved file remains unreleased because production intake failed. CTO must resolve the native-resolution contract before production admission; geometry and actual consumer proof follow separately. The PR is ready to review as approval bookkeeping, not ready to release.
+The same county-board-room-v2 bytes that failed the old print profile pass native display intake. Its 1672-pixel width is preserved and its later high-resolution flag remains true. Next: exact four kids-sheet identities, their admission, and recorded-story newspaper variations with source-bound photographs or headshots. Normal scene/runtime integration remains a separate acceptance step.

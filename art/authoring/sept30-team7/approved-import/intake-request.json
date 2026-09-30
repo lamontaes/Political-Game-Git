@@ -1,0 +1,152 @@
+{
+  "requestVersion": 1,
+  "batchId": "team7-approved-regional-tv-sept30",
+  "candidates": [
+    {
+      "asset_id": "env_team7_southwest_street_sept30",
+      "file": "../regional-priority/southwest-street.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_southwest_home_sept30",
+      "file": "../regional-priority/southwest-home.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_northeast_street_sept30",
+      "file": "../regional-priority/northeast-street.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_northeast_home_sept30",
+      "file": "../regional-priority/northeast-home.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_appalachian_town_january_sept30",
+      "file": "../regional-streets/appalachian-town-january.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_buchanan_small_town_sept30",
+      "file": "../regional-streets/buchanan-small-town.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_pikeville_valley_street_sept30",
+      "file": "../regional-streets/pikeville-valley-street.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_socal_inland_bungalow_neighborhood_sept30",
+      "file": "../regional-streets/socal-inland-bungalow-neighborhood.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_sonoran_home_exterior_sept30",
+      "file": "../regional-exteriors/sonoran-home-exterior.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_green_mountain_home_exterior_sept30",
+      "file": "../regional-exteriors/green-mountain-home-exterior.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "env_team7_green_mountain_street_sept30",
+      "file": "../regional-exteriors/green-mountain-street.png",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00",
+      "resolution_profile": "native-display"
+    },
+    {
+      "asset_id": "ui_team7_tv_local_news_v2",
+      "file": "../../sept29-team7/tv/local-news-v2.png",
+      "target_class": "interface-graphic",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00"
+    },
+    {
+      "asset_id": "ui_team7_tv_debate_v2",
+      "file": "../../sept29-team7/tv/debate-v2.png",
+      "target_class": "interface-graphic",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00"
+    },
+    {
+      "asset_id": "ui_team7_tv_cable_panel_v2",
+      "file": "../../sept29-team7/tv/cable-panel-v2.png",
+      "target_class": "interface-graphic",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00"
+    },
+    {
+      "asset_id": "ui_team7_tv_press_briefing_v2",
+      "file": "../../sept29-team7/tv/press-briefing-v2.png",
+      "target_class": "interface-graphic",
+      "lineage_class": "original-master",
+      "native_detail_state": "native",
+      "rights_status": "unknown",
+      "approved_by": "Owner docket via CTO12:18 in shared00"
+    }
+  ]
+}

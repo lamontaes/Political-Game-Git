@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "delivery_date": "2026-09-29",
+  "source_root": "repository",
+  "source_index_sha256": "bdaba2201835f762c56ab32412b299a08e6e1b5291cbd341f71fba0cd2f93078",
+  "review_policy": {
+    "approved_for_game": "yes requires recorded CTO and owner approval; no is the conservative state before review or when issues remain.",
+    "preview_limit": "These tags are for candidate selection. Full-size files, lineage verification, figure cutting and runtime import belong to job 08.",
+    "facing_extensions": "side-left, threequarter-left and mixed preserve observed non-front/back sources; they require explicit view support and are held from import."
+  },
+  "images": [
+    {
+      "file": "art/authoring/sept29-team7/tv/local-news-v2.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "48f3cb396676af5cec75bf08c5e6e40458e7c03b9f358c30819d4f39fc61c274",
+      "width": 1672,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Individual displayed output reviewed: original set geometry and blank dynamic regions retained visually; distinct station palette. Pixel-identical geometry and runtime overlay fit NOT RUN.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv-v2.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json",
+      "references": [
+        "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/local-news.png",
+        "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+      ],
+      "kind": "local-news",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none",
+        "alphaExtrema": [
+          255,
+          255
+        ]
+      },
+      "palette": "teal / ivory / copper",
+      "edit_parent": "art/authoring/sept29-team7/tv/local-news.png",
+      "edit_parent_sha256": "30c13257cc528dd5bc0663caa946c7464a3d29794d2d8f040f5ef359cf0c5d96"
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/debate-v2.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "36ea3eb7707ad65feb015adc9f3d2bf70f68f328d4d8dbdb818688dd6d5e98d9",
+      "width": 1671,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [
+        "Native edit is 1671px wide versus 1672px parent; overlay coordinates require source-aware mapping."
+      ],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Individual displayed output reviewed: original set geometry and blank dynamic regions retained visually; distinct station palette. Pixel-identical geometry and runtime overlay fit NOT RUN.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv-v2.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json",
+      "references": [
+        "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/debate.png",
+        "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+      ],
+      "kind": "debate",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1671,
+        "height": 941,
+        "aspectRatio": "1671:941",
+        "hasTransparency": "none",
+        "alphaExtrema": [
+          255,
+          255
+        ]
+      },
+      "palette": "burgundy / stone / brass",
+      "edit_parent": "art/authoring/sept29-team7/tv/debate.png",
+      "edit_parent_sha256": "c11d2ea48eb5dc33cdf431450577abcee31387657f16acae2753a6d200e8c030"
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/cable-panel-v2.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "71166e9f2fcb076cfc1e99912e214e307d4c9f6a4d51345a6e3599150fb0de23",
+      "width": 1672,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Individual displayed output reviewed: original set geometry and blank dynamic regions retained visually; distinct station palette. Pixel-identical geometry and runtime overlay fit NOT RUN.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv-v2.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json",
+      "references": [
+        "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/cable-panel.png",
+        "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+      ],
+      "kind": "cable-panel",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none",
+        "alphaExtrema": [
+          255,
+          255
+        ]
+      },
+      "palette": "plum / warm gray / lavender",
+      "edit_parent": "art/authoring/sept29-team7/tv/cable-panel.png",
+      "edit_parent_sha256": "15c52541b232b47ae6711643361e502882d3b12ef74557c91b38f97470270e37"
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/press-briefing-v2.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "9dd50dde3e84ba4a373afc8334c81589d42ead0c520c28d9ef1081d70d592e59",
+      "width": 1672,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Individual displayed output reviewed: original set geometry and blank dynamic regions retained visually; distinct station palette. Pixel-identical geometry and runtime overlay fit NOT RUN.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv-v2.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json",
+      "references": [
+        "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/press-briefing.png",
+        "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+      ],
+      "kind": "press-briefing",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none",
+        "alphaExtrema": [
+          255,
+          255
+        ]
+      },
+      "palette": "olive / parchment / ochre",
+      "edit_parent": "art/authoring/sept29-team7/tv/press-briefing.png",
+      "edit_parent_sha256": "65222ce93f9146cef5a5d165190429e5ca7efa5e4b1eb8215d9cdbf556756386"
+    }
+  ],
+  "source_readme_sha256": "e66b0bb103f3358a798866c8e8e14a141eefb7aa772a2ffce830f7956ad60b5d",
+  "summary": {
+    "generated_count": 4,
+    "approved_count": 0,
+    "category": "tv"
+  },
+  "shared_input_inventory": "art/authoring/sept29-team7/tags.json"
+}

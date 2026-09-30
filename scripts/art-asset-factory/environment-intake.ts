@@ -45,6 +45,7 @@ export interface IntakeRequestCandidate {
   /** Path relative to the request file's own directory. */
   readonly file: string;
   readonly target_class: AssetTargetClass;
+  readonly resolution_profile?: "print-master" | "native-display";
   readonly family_id?: string;
   readonly lineage_class: AssetLineageClass;
   readonly source_asset_id?: string;
@@ -161,6 +162,9 @@ function toCandidate(
     assetId: declared.asset_id,
     path: repoRelativePath,
     targetClass: declared.target_class,
+    ...(declared.resolution_profile !== undefined
+      ? { resolutionProfile: declared.resolution_profile }
+      : {}),
     ...(declared.family_id !== undefined
       ? { familyId: declared.family_id }
       : {}),
@@ -202,7 +206,7 @@ function toCandidate(
 
 export interface EnvironmentIntakeResult {
   readonly report: EnvironmentIntakeReport;
-  /** A seeded asset bank, every judgment still unassessed. */
+  /** A seeded asset bank, every judgement still unassessed. */
   readonly assetBank: AssetBankManifest;
   /**
    * Files present in the candidate directory that no declaration mentions.
@@ -236,7 +240,7 @@ function listMediaFiles(directory: string): string[] {
  * Runs intake for one request file.
  *
  * `repositoryRoot` only shapes the paths written into the report, so the
- * artifact is portable between checkouts.
+ * artefact is portable between checkouts.
  */
 export function runEnvironmentIntake(
   requestPath: string,
@@ -290,7 +294,7 @@ export function runEnvironmentIntake(
         ...(record.familyId !== null ? { sceneFamilyId: record.familyId } : {}),
       }),
     ),
-    "Seeded by environment intake. Every judgment is unassessed until a reviewer or an external QA pass fills it in.",
+    "Seeded by environment intake. Every judgement is unassessed until a reviewer or an external QA pass fills it in.",
   );
 
   const undeclaredFiles = listMediaFiles(requestDirectory)

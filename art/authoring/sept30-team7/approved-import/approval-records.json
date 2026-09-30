@@ -1,0 +1,554 @@
+{
+  "approvalDocument": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+  "approvalTime": "2026-09-30T12:18:00-04:00",
+  "records": [
+    {
+      "id": "env_team7_southwest_street_sept30",
+      "source": {
+        "kind": "southwest-street",
+        "file": "art/authoring/sept30-team7/regional-priority/southwest-street.png",
+        "sha256": "d7eaeff82dd1f5a896759c867c30783dbd5eb46b509eb7a6ddda00cacc0fda81",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-priority/southwest-street-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+            "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          },
+          {
+            "path": "/Users/lamontae/Documents/PG-LAND/art/families/regional-opening/env_regional_sonoran_desert_v1.png",
+            "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
+            "role": "landscape cues only; not street/home admission",
+            "license": "not documented in this batch"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-309f6d93-a2af-4832-91df-bd2a403e2e72.png",
+        "promptSummary": "Illustrated desert Southwest small-town street, first-person sidewalk, Sonoran visual cues, blank signs, no people.",
+        "visualReview": "Clear sidewalk and blank signs; foliage/gravel detail heavier than master; geography and actor fit unverified.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "201557b0ff58c3ebe940769f06be40f2e5b2a5de822b38a4522e06cc5a1c2f7c",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_southwest_home_sept30",
+      "source": {
+        "kind": "southwest-home",
+        "file": "art/authoring/sept30-team7/regional-priority/southwest-home.png",
+        "sha256": "c165323c1bb0f67aa8d74624c3f2467a9e08b3cbdfc89105a4f60860d11c7d94",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-priority/southwest-home-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/suburban-house__midday.jpg",
+            "sha256": "857ffa02ebc7f124f63b3f83e7a980eebb68a6f361998a90a865489c559334e9",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          },
+          {
+            "path": "/Users/lamontae/Documents/PG-LAND/art/families/regional-opening/env_regional_sonoran_desert_v1.png",
+            "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
+            "role": "landscape cues only; not street/home admission",
+            "license": "not documented in this batch"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8d10d18e-c6c1-4d8e-bcda-9b384501cb1e.png",
+        "promptSummary": "Southwest living room with dry landscape through windows, clear foreground, cel-shaded style.",
+        "visualReview": "Clear foreground; source layout retained; rug texture heavier than master; actor fit unverified.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "845f3fa959ce0b87fb402b5940953242f941ad256795612a1f1bdf7af5fab41e",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_northeast_street_sept30",
+      "source": {
+        "kind": "northeast-street",
+        "file": "art/authoring/sept30-team7/regional-priority/northeast-street.png",
+        "sha256": "bef2b68ccead08962e4cef3f7a6fe1357d3333685903d52f4a7a9de8dff95225",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-priority/northeast-street-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+            "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-9dd7bdca-686b-412a-8f75-a974567f84b1.png",
+        "promptSummary": "Northeast small-town summer main street, brick and clapboard, wooded hills, blank signs.",
+        "visualReview": "Clear sidewalk; generic brick streetscape remains; requested clapboard transition not evident; regional distinction needs owner review.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "86a0d4c5b6ec1f06246762590cd00fb1340195f37b26673776b9500ab3242ffe",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_northeast_home_sept30",
+      "source": {
+        "kind": "northeast-home",
+        "file": "art/authoring/sept30-team7/regional-priority/northeast-home.png",
+        "sha256": "1950aeb02f271d0ee874f40950cf3a5c22ff792743c902bee023e9e949f2cb9e",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-priority/northeast-home-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/rural-farmhouse__midday.jpg",
+            "sha256": "5e1618ea67eea76cf469a43a9fd7db7fa7baa0d68aa860ca0d8bbe3a9cc9d209",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-97d08b23-5f3d-4759-96df-64d46b205afb.png",
+        "promptSummary": "Northeast small-town kitchen, neighboring clapboard homes through windows, clear floor.",
+        "visualReview": "Clear door approach and floor; no visible people or text; houses outside replace farm view; regional identity unverified.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "15dc1ce946385629fc81593f0d8b79563ff1d5cdd4501859199c3805c928a331",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_appalachian_town_january_sept30",
+      "source": {
+        "kind": "appalachian-town-january",
+        "file": "art/authoring/sept30-team7/regional-streets/appalachian-town-january.png",
+        "sha256": "dcb44fc44058dd7494c0d78499bd28feecfd5484539218b855c11225f692b4e2",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-streets/appalachian-town-january-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+            "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-38ebf4a6-d1fe-4087-b408-afee31e2122a.png",
+        "promptSummary": "Dormant Appalachian valley town street in January, leafless hills and patchy snow.",
+        "visualReview": "Winter cues present; original streetscape composition strongly retained; hill and paving texture heavier than master; no exact town claim.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "382b2361fe19c1f172ce36e16f3c76b1c7414472307da2bfaf5ad42b00628001",
+        "respondsToRequestKey": "playtest65-region-appalachian-town-january",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_buchanan_small_town_sept30",
+      "source": {
+        "kind": "buchanan-small-town",
+        "file": "art/authoring/sept30-team7/regional-streets/buchanan-small-town.png",
+        "sha256": "ab4789b2b77260f8ab614947a63d8010a70869280f8f5f7c6402eae5fdabd9ca",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-streets/buchanan-small-town-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-main-street-small-town__m.png",
+            "sha256": "c451b239eabc8ab3f7f215a0d2487db6420abe4dc8675057e4cf42c7fb255f2e",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-d241868e-47e9-4d2c-91a7-cae7279c3c22.png",
+        "promptSummary": "Great Lakes main street seen from corner plaza, summer, brick commercial block, blank signs.",
+        "visualReview": "Distinct corner-plaza composition; cars present; curb ramp geometry and place likeness unverified; foliage detail remains heavy.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "59387369c45c440a4ddf80fae741dde87bc27c5253dc8dadfa5a75cef01329cf",
+        "respondsToRequestKey": "playtest65-region-buchanan-small-town",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_pikeville_valley_street_sept30",
+      "source": {
+        "kind": "pikeville-valley-street",
+        "file": "art/authoring/sept30-team7/regional-streets/pikeville-valley-street.png",
+        "sha256": "61133f2f84afc5cc49e30be350bb6633d25a0ff71a21620e5a3e34fab374d9a4",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-streets/pikeville-valley-street-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+            "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-3239193c-3968-4112-973e-ee627f3d7d5b.png",
+        "promptSummary": "Leaf-on Appalachian valley street, steep enclosed wooded hills, clear sidewalk.",
+        "visualReview": "Valley cues present; exact Pikeville likeness unverified; foliage detail heavy; original commercial layout retained.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "2add445bdaf504a3f2e146fcbcda263fd33badb15b11adc18532667739ffd259",
+        "respondsToRequestKey": "playtest65-region-pikeville-valley-street",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_socal_inland_bungalow_neighborhood_sept30",
+      "source": {
+        "kind": "socal-inland-bungalow-neighborhood",
+        "file": "art/authoring/sept30-team7/regional-streets/socal-inland-bungalow-neighborhood.png",
+        "sha256": "f48ed1cd1f60bc9c659a3f896e93cdfba9464fa288ce8ae3311f97a0775731f3",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-streets/socal-inland-bungalow-neighborhood-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-sidewalk-suburban__midday.png",
+            "sha256": "0eedec9d6af7c180c49ea61da94f23ac545e82b51d0a128ff9bd6fde49209edc",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-2c7e29e3-facc-43cc-8527-db05e91eae46.png",
+        "promptSummary": "Single-story inland Southern California bungalows, dry foothills and clear sidewalk.",
+        "visualReview": "Single-story homes visible; lawns larger than requested; exact place and botanical fit unverified; grass texture heavier than master.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "d0c7192dfc728b99682e05efdd7561c91af8fae13495707dcbbecc476aeb46d7",
+        "respondsToRequestKey": "playtest65-region-socal-inland-bungalow-neighborhood",
+        "canonicalAdmissionKey": null
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_sonoran_home_exterior_sept30",
+      "source": {
+        "kind": "sonoran-home-exterior",
+        "file": "art/authoring/sept30-team7/regional-exteriors/sonoran-home-exterior.png",
+        "sha256": "07b1ad12bd0b2705466d72f2a1ae735a8d60e3fe51380d32d8b412120f79d69d",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-exteriors/sonoran-home-exterior-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-sidewalk-suburban__midday.png",
+            "sha256": "0eedec9d6af7c180c49ea61da94f23ac545e82b51d0a128ff9bd6fde49209edc",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          },
+          {
+            "path": "/Users/lamontae/Documents/PG-LAND/art/families/regional-opening/env_regional_sonoran_desert_v1.png",
+            "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
+            "role": "landscape cues only",
+            "license": "undocumented in batch"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-399f3788-2756-4777-a34b-7cf6fb394d50.png",
+        "promptSummary": "Sonoran modest stucco house exterior seen from street, dry yard and mountains.",
+        "visualReview": "Exterior view and front path clear; garage dominates right; gravel texture remains heavier than master; no exact home identity.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "contactSha256": "575b06ffa3a86467eb83403ac055ffe34db85aab2c4ac24f8e4722175803ea18",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "canonicalAdmissionKey": null,
+        "geographicEligibility": "NOT VERIFIED; candidate for CTO bounded region, no selector change"
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_green_mountain_home_exterior_sept30",
+      "source": {
+        "kind": "green-mountain-home-exterior",
+        "file": "art/authoring/sept30-team7/regional-exteriors/green-mountain-home-exterior.png",
+        "sha256": "690f66629106f0864495cfb41f75874328c18f838f97008c96764e7affd748c3",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-exteriors/green-mountain-home-exterior-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-sidewalk-suburban__midday.png",
+            "sha256": "0eedec9d6af7c180c49ea61da94f23ac545e82b51d0a128ff9bd6fde49209edc",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-a0bc85b8-89d3-4ce0-bb90-a2b1cc84b1a3.png",
+        "promptSummary": "Northern NewEngland/Adirondack modest clapboard home exterior from street, forested hills.",
+        "visualReview": "Full facade and entry visible; dark contours and broad shadows; summer-only cues; exact home and eligibility not established.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "contactSha256": "0aada632d91d3683dfe3445a08ef269b714e9043eecd872e2914c4d9538b9e23",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "canonicalAdmissionKey": null,
+        "geographicEligibility": "NOT VERIFIED; candidate for CTO bounded region, no selector change"
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "env_team7_green_mountain_street_sept30",
+      "source": {
+        "kind": "green-mountain-street",
+        "file": "art/authoring/sept30-team7/regional-exteriors/green-mountain-street.png",
+        "sha256": "13786f7a95823078a5a66e3cafd78a62e12fc9c7923a4b15545654a1048f8515",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/regional-exteriors/green-mountain-street-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+            "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5dadc098-b6d3-4e93-856e-cdd35ac1212e.png",
+        "promptSummary": "Bounded northern NewEngland/Adirondack street with clapboard shops, gables and forested hills.",
+        "visualReview": "Clapboard/gable distinction visible; blank signs and clear sidewalk; summer view only; geographic eligibility and actor fit unverified.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "contactSha256": "218d598f16eea74cab65ec1b2b6e39e262d375547d72c807c450ea9290bf9352",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "canonicalAdmissionKey": null,
+        "intendedApprovedSlotKey": "opening-regional:green-mountain-forest:street:v1",
+        "geographicEligibility": "NOT VERIFIED; candidate for CTO bounded region, no selector change"
+      },
+      "target": "environment-plate"
+    },
+    {
+      "id": "ui_team7_tv_local_news_v2",
+      "source": {
+        "kind": "local-news",
+        "file": "art/authoring/sept29-team7/tv/local-news-v2.png",
+        "sha256": "48f3cb396676af5cec75bf08c5e6e40458e7c03b9f358c30819d4f39fc61c274",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "references": [
+          "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/local-news.png",
+          "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+        ],
+        "editParent": "art/authoring/sept29-team7/tv/local-news.png",
+        "editParentSha256": "30c13257cc528dd5bc0663caa946c7464a3d29794d2d8f040f5ef359cf0c5d96",
+        "generationReceipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json"
+      },
+      "target": "interface-graphic"
+    },
+    {
+      "id": "ui_team7_tv_debate_v2",
+      "source": {
+        "kind": "debate",
+        "file": "art/authoring/sept29-team7/tv/debate-v2.png",
+        "sha256": "36ea3eb7707ad65feb015adc9f3d2bf70f68f328d4d8dbdb818688dd6d5e98d9",
+        "dimensions": [
+          1671,
+          941
+        ],
+        "references": [
+          "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/debate.png",
+          "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+        ],
+        "editParent": "art/authoring/sept29-team7/tv/debate.png",
+        "editParentSha256": "c11d2ea48eb5dc33cdf431450577abcee31387657f16acae2753a6d200e8c030",
+        "generationReceipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json"
+      },
+      "target": "interface-graphic"
+    },
+    {
+      "id": "ui_team7_tv_cable_panel_v2",
+      "source": {
+        "kind": "cable-panel",
+        "file": "art/authoring/sept29-team7/tv/cable-panel-v2.png",
+        "sha256": "71166e9f2fcb076cfc1e99912e214e307d4c9f6a4d51345a6e3599150fb0de23",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "references": [
+          "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/cable-panel.png",
+          "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+        ],
+        "editParent": "art/authoring/sept29-team7/tv/cable-panel.png",
+        "editParentSha256": "15c52541b232b47ae6711643361e502882d3b12ef74557c91b38f97470270e37",
+        "generationReceipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json"
+      },
+      "target": "interface-graphic"
+    },
+    {
+      "id": "ui_team7_tv_press_briefing_v2",
+      "source": {
+        "kind": "press-briefing",
+        "file": "art/authoring/sept29-team7/tv/press-briefing-v2.png",
+        "sha256": "9dd50dde3e84ba4a373afc8334c81589d42ead0c520c28d9ef1081d70d592e59",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "references": [
+          "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/press-briefing.png",
+          "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+        ],
+        "editParent": "art/authoring/sept29-team7/tv/press-briefing.png",
+        "editParentSha256": "65222ce93f9146cef5a5d165190429e5ca7efa5e4b1eb8215d9cdbf556756386",
+        "generationReceipt": "art/authoring/sept29-team7/tv/generation-receipts-v2.json"
+      },
+      "target": "interface-graphic"
+    }
+  ],
+  "runtimeRelease": "unreleased; consumer integration separate",
+  "laterHighResolutionPass": true
+}

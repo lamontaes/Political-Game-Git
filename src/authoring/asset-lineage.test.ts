@@ -52,6 +52,47 @@ function codes(record: { findings: readonly { code: string }[] }): string[] {
 }
 
 describe("environment master intake", () => {
+  it("admits native display backgrounds at 1600 while retaining the print floor", () => {
+    const display = candidate(NATIVE_LINEAGE, {
+      resolutionProfile: "native-display",
+    });
+    expect(
+      evaluateEnvironmentMasterIntake(display, measured(1599)).disposition,
+    ).toBe("reject");
+    const accepted = evaluateEnvironmentMasterIntake(display, measured(1600));
+    expect(accepted.disposition).toBe("production");
+    expect(accepted.highResolutionPassRequired).toBe(true);
+    expect(codes(accepted)).toContain("later-high-resolution-pass");
+    expect(
+      evaluateEnvironmentMasterIntake(candidate(NATIVE_LINEAGE), measured(1600))
+        .disposition,
+    ).toBe("reject");
+    expect(
+      evaluateEnvironmentMasterIntake(display, measured(4608))
+        .highResolutionPassRequired,
+    ).toBe(false);
+  });
+
+  it("does not admit upscales or other asset classes through native display", () => {
+    const enlarged = candidate(
+      {
+        ...NATIVE_LINEAGE,
+        nativeDetail: { state: "declared-upscale", nativeDetailWidth: 800 },
+      },
+      { resolutionProfile: "native-display" },
+    );
+    expect(
+      evaluateEnvironmentMasterIntake(enlarged, measured(1600)).disposition,
+    ).toBe("reject");
+    const graphic = candidate(NATIVE_LINEAGE, {
+      resolutionProfile: "native-display",
+      targetClass: "interface-graphic",
+    });
+    expect(
+      evaluateEnvironmentMasterIntake(graphic, measured(1600)).disposition,
+    ).toBe("reject");
+  });
+
   it("accepts a native master that clears the recommended width", () => {
     const record = evaluateEnvironmentMasterIntake(
       candidate(NATIVE_LINEAGE),
@@ -210,7 +251,7 @@ describe("unverified and reference lineage", () => {
     expect(record.disposition).toBe("production");
   });
 
-  it("catalogs a reference asset without letting it ship", () => {
+  it("catalogues a reference asset without letting it ship", () => {
     const record = evaluateEnvironmentMasterIntake(
       candidate(
         {
@@ -298,7 +339,7 @@ describe("intake report determinism", () => {
  */
 describe("the environment master width floor", () => {
   /**
-   * `reference` is the one class that is cataloged and never painted. Every
+   * `reference` is the one class that is catalogued and never painted. Every
    * other class ships, and adding one must not quietly create a second
    * non-shipping state — the floor below is scoped on top of this.
    */
@@ -334,7 +375,7 @@ describe("the environment master width floor", () => {
         record.findings.map((f) => f.code),
         targetClass,
       ).not.toContain("master-width-below-minimum");
-      // It ships, so it is NOT cataloged away as reference-only.
+      // It ships, so it is NOT catalogued away as reference-only.
       expect(
         record.findings.map((f) => f.code),
         targetClass,
@@ -343,7 +384,7 @@ describe("the environment master width floor", () => {
     }
   });
 
-  it("keeps reference the one class that is cataloged and never painted", () => {
+  it("keeps reference the one class that is catalogued and never painted", () => {
     const record = evaluateEnvironmentMasterIntake(
       candidate(NATIVE_LINEAGE, { targetClass: "reference" }),
       measured(1_024),
