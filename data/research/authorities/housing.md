@@ -138,3 +138,7 @@ Unknown law/authority cells and “no sized evidence” are disclosed evidence g
 - [nyc-counsel2023: NYC certified LocalLaw20/2023 expands full representation to age60+](https://legistar.council.nyc.gov/View.ashx?GUID=F2D48501-6816-42D4-BF46-C895D39C6AC1&ID=11802978&M=F)
 - [nyc-counsel-code: NYC current official publisher administrative code26-1302](https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-47842)
 - [counsel-study2023: Cassidy Currie2023 published Journal of Public Economics222104844 Table3](https://miketcassidy.com/files/cassidy-currie-2023-evictions-jpube.pdf)
+
+## Superseding anchor rule
+
+Owner8:54/8:56 requires exact own-place legal values and all-game-place research for every non-law anchor, followed by realistic per-world variation and simulation evolution. Numeric study effects here are contextual results only until coverage is established; no runtime or seeded world parameter is implemented. One-place Manhattan/SFO/SanFrancisco/NYC evidence cannot become a national anchor. Existing compliant seeded estimates are retained. See Team6handback for exact fields,source coverage and unresolved gaps.

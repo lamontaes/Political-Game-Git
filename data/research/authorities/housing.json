@@ -850,7 +850,7 @@
                 "venue": "American Economic Review109(9)3365-3394"
               },
               "sources": ["sf-rent-study"],
-              "transferLimit": "Quasi-experimental estimate for that expansion; not automatically California/Oregon statewide-cap response. Mobility reduction and treated rental supply are separate outcomes; no numeric citywide rent effect admitted."
+              "transferLimit": "Quasi-experimental estimate for that expansion; not automatically California/Oregon statewide-cap response. Mobility reduction and treated rental supply are separate outcomes; no numeric citywide rent effect admitted. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             },
             {
               "measure": "Rental housing supply among treated landlords",
@@ -869,7 +869,7 @@
                 "venue": "American Economic Review109(9)3365-3394"
               },
               "sources": ["sf-rent-study"],
-              "transferLimit": "Quasi-experimental estimate for that expansion; not automatically California/Oregon statewide-cap response. Mobility reduction and treated rental supply are separate outcomes; no numeric citywide rent effect admitted."
+              "transferLimit": "Quasi-experimental estimate for that expansion; not automatically California/Oregon statewide-cap response. Mobility reduction and treated rental supply are separate outcomes; no numeric citywide rent effect admitted. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Limit permitted increases on eligible tenancies; actual rent charged, landlord receipts and tenant spending require recorded offers/payments, not an assumed market-wide reduction.",
@@ -2563,7 +2563,7 @@
                 "venue": "Journal of Public Economics222104844 Table3column2"
               },
               "sources": ["counsel-study2023"],
-              "transferLimit": "IV representation effect, not effect of law passage on all tenants. Address-fixed-effects estimate\u22125.8pp SE3.4; long-run landlord responses and informal moves unresolved. Do not apply an aggregate multiplier after a recorded case already uses counsel."
+              "transferLimit": "IV representation effect, not effect of law passage on all tenants. Address-fixed-effects estimate\u22125.8pp SE3.4; long-run landlord responses and informal moves unresolved. Do not apply an aggregate multiplier after a recorded case already uses counsel. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Appropriate actual provider funding and offer covered services; record whether a lawyer appears before computing a case outcome; law passage alone does not fill missing lawyer capacity.",
