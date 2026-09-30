@@ -158,6 +158,7 @@ function carryTheBill(seed: string): void {
       principleId: principle.id,
       formedAt: world.currentDate,
       stance: "endorses" as const,
+      strength: 1,
       conviction: "settled" as const,
       flexibility: "firm" as const,
       qualification: null,

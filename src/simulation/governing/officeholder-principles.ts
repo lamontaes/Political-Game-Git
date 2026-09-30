@@ -1,7 +1,6 @@
 import { indexFollowingAppends } from "../history-index";
 import { formPrinciplesFromLife } from "../principles-from-life";
 import type {
-  BeliefConviction,
   DecisionConsideration,
   EntityId,
   LegislativeMeasureRecord,
@@ -18,13 +17,6 @@ import type {
 
 export const OFFICEHOLDER_PRINCIPLES_VERSION = "officeholder-principles/v1";
 
-/** PLACEHOLDER: how much each conviction weighs when principles are summed. */
-const CONVICTION_WEIGHT: Readonly<Record<BeliefConviction, number>> = {
-  tentative: 1,
-  moderate: 2,
-  strong: 3,
-  settled: 4,
-};
 /**
  * PLACEHOLDER: the least summed weight at which a member's principles weigh
  * moderately, strongly and decisively on a vote.
@@ -122,7 +114,7 @@ export function principledLeaning(
     if (!held || held.stance === "conflicted") continue;
     const agrees =
       (held.stance === "endorses") === (bearing.bearing === "consistent-with");
-    score += (agrees ? 1 : -1) * CONVICTION_WEIGHT[held.conviction];
+    score += (agrees ? 1 : -1) * held.strength * 4;
     recordIds.push(held.id);
   }
   return { score, recordIds };
@@ -260,9 +252,7 @@ export function principleAgreement(
     const other = theirs.get(principleId);
     if (!other || mine.stance === "conflicted" || other.stance === "conflicted")
       continue;
-    score +=
-      (mine.stance === other.stance ? 1 : -1) *
-      CONVICTION_WEIGHT[mine.conviction];
+    score += (mine.stance === other.stance ? 1 : -1) * mine.strength * 4;
     recordIds.push(mine.id);
   }
   const size = Math.abs(score);
@@ -334,7 +324,7 @@ export function spendingPrincipleConsideration(
     if (!bearing) continue;
     const agrees =
       (held.stance === "endorses") === (bearing.bearing === "consistent-with");
-    score += (agrees ? 1 : -1) * CONVICTION_WEIGHT[held.conviction];
+    score += (agrees ? 1 : -1) * held.strength * 4;
     recordIds.push(held.id);
   }
   if (score === 0) return null;

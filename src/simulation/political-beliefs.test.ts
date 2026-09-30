@@ -422,6 +422,42 @@ describe("sparse political beliefs and principles", () => {
     ).toThrow(/supersession/i);
   });
 
+  it("rejects invalid continuous strength at writer and world validation", () => {
+    const world = createDemoWorld("principle-strength-validation");
+    const source = world.history.principles[0]!;
+    expect(source).toBeDefined();
+    for (const strength of [-0.1, 1.1, NaN, Infinity, -Infinity]) {
+      expect(() =>
+        recordPrinciple(world, {
+          ...source,
+          stableKey: "invalid-strength-fixture",
+          strength,
+          supersedesPrincipleRecordId: source.id,
+        }),
+      ).toThrow("Principle strength");
+      expect(() =>
+        assertWorldIntegrity({
+          ...world,
+          history: {
+            ...world.history,
+            principles: world.history.principles.map((row, index) =>
+              index === 0 ? { ...row, strength } : row,
+            ),
+          },
+        }),
+      ).toThrow(Number.isFinite(strength) ? "Principle strength" : /strength/);
+    }
+    for (const strength of [0, 0.37, 1]) {
+      const next = recordPrinciple(world, {
+        ...source,
+        stableKey: `valid-strength-fixture:${strength}`,
+        strength,
+        supersedesPrincipleRecordId: source.id,
+      });
+      expect(next.history.principles.at(-1)!.strength).toBe(strength);
+    }
+  });
+
   it("allows broad principles to conflict without generating proposition positions", () => {
     let world = createDemoWorld("principles-no-inference");
     const id = personId(world);
@@ -436,6 +472,7 @@ describe("sparse political beliefs and principles", () => {
         principleId,
         formedAt: livedDate(world, id),
         stance: "endorses",
+        strength: 0.75,
         conviction: "strong",
         flexibility: "conditional",
         qualification: "Other principles can matter in a concrete case.",
@@ -470,6 +507,7 @@ describe("sparse political beliefs and principles", () => {
       principleId: SYNTHETIC_POLICY_IDS.principles.institutionalStability,
       formedAt: livedDate(initial, id, 18),
       stance: "endorses" as const,
+      strength: 0.75,
       conviction: "strong" as const,
       flexibility: "conditional" as const,
       qualification: null,
@@ -575,6 +613,7 @@ describe("sparse political beliefs and principles", () => {
       principleId,
       formedAt: livedDate(world, id, 18),
       stance: "conflicted",
+      strength: 0.25,
       conviction: "tentative",
       flexibility: "open",
       qualification: null,
@@ -589,6 +628,7 @@ describe("sparse political beliefs and principles", () => {
       principleId,
       formedAt: livedDate(world, id, 19),
       stance: "endorses",
+      strength: 0.75,
       conviction: "strong",
       flexibility: "conditional",
       qualification: "Stability remains subject to democratic legitimacy.",

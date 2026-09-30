@@ -61,8 +61,9 @@ function pull(
   principle: string,
   toward: "endorses" | "rejects",
   weight: 1 | 2 | 3,
+  because = `a test pull ${toward} ${weight}`,
 ): PrinciplePull {
-  return { principle, toward, weight, because: "a test pull" };
+  return { principle, toward, weight, because };
 }
 
 describe("principles that form from a life", () => {
@@ -97,31 +98,72 @@ describe("principles that form from a life", () => {
     expect(principlesFromPulls(world, member!, cues)).toEqual([]);
   });
 
-  it("holds a principle as firmly as the pulls add up, and is torn when pulled both ways", () => {
+  it("combines agreeing life sources continuously and nets opposing sources", () => {
     const someone = adults[0]!;
     const held = (pulls: readonly PrinciplePull[]) =>
-      principlesFromPulls(world, someone, pulls).map((row) => [
-        row.stance,
-        row.conviction,
-      ]);
+      principlesFromPulls(world, someone, pulls).map((row) => ({
+        stance: row.stance,
+        strength: row.strength,
+      }));
     expect(held([pull("tradition", "endorses", 2)])).toEqual([
-      ["endorses", "tentative"],
+      { stance: "endorses", strength: 0.5 },
     ]);
     expect(
       held([
         pull("tradition", "endorses", 2),
         pull("tradition", "endorses", 1),
       ]),
-    ).toEqual([["endorses", "moderate"]]);
+    ).toEqual([{ stance: "endorses", strength: 0.625 }]);
     expect(
-      held([pull("tradition", "rejects", 2), pull("tradition", "rejects", 2)]),
-    ).toEqual([["rejects", "strong"]]);
+      held([
+        pull("tradition", "rejects", 2, "first recorded source"),
+        pull("tradition", "rejects", 2, "second recorded source"),
+      ]),
+    ).toEqual([{ stance: "rejects", strength: 0.75 }]);
     expect(
       held([pull("tradition", "endorses", 2), pull("tradition", "rejects", 1)]),
-    ).toEqual([["conflicted", "tentative"]]);
+    ).toEqual([]);
     expect(
       held([pull("tradition", "endorses", 3), pull("tradition", "rejects", 1)]),
-    ).toEqual([["endorses", "tentative"]]);
+    ).toEqual([{ stance: "endorses", strength: 0.5 }]);
+  });
+
+  it("weakens an existing life principle below the new-formation threshold", () => {
+    const retained = new Set(["tradition"]);
+    const weakening = principlesFromPulls(
+      world,
+      adults[0]!,
+      [pull("tradition", "endorses", 2), pull("tradition", "rejects", 1)],
+      retained,
+    );
+    expect(weakening).toMatchObject([{ stance: "endorses", strength: 0.25 }]);
+    const balanced = principlesFromPulls(
+      world,
+      adults[0]!,
+      [pull("tradition", "endorses", 2), pull("tradition", "rejects", 2)],
+      retained,
+    );
+    expect(balanced).toMatchObject([{ stance: "conflicted", strength: 0 }]);
+    expect(principlesFromPulls(world, adults[0]!, [], retained)).toEqual([]);
+  });
+
+  it("does not reinforce a life source when its canonical evidence is retold", () => {
+    const someone = adults[0]!;
+    const fact = factsForPerson(world.people[someone]!).find(
+      (row) => row.kind === "birth-date",
+    )!;
+    expect(fact).toBeDefined();
+    const original: PrinciplePull = {
+      ...pull("tradition", "endorses", 2, "recorded source"),
+      factIds: [fact.id],
+    };
+    const one = principlesFromPulls(world, someone, [original]);
+    const retold = principlesFromPulls(world, someone, [
+      original,
+      { ...original, because: "the same recorded source retold" },
+    ]);
+    expect(retold).toEqual(one);
+    expect(retold[0]!.pulls).toHaveLength(1);
   });
 
   it("lets a child grow up with what a parent held", () => {
@@ -137,6 +179,7 @@ describe("principles that form from a life", () => {
       principleId: tradition,
       formedAt: world.currentDate,
       stance: "rejects",
+      strength: 0.75,
       conviction: "strong",
       flexibility: "firm",
       qualification: null,
@@ -188,6 +231,44 @@ describe("principles that form from a life", () => {
     expect(formPrinciplesFromLife(settled, people)).toBe(settled);
   });
 
+  it("appends changed strength even when labels and source notes are unchanged", () => {
+    const original = [...world.history.principles]
+      .reverse()
+      .find(
+        (row) =>
+          row.personId !== player &&
+          row.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`),
+      )!;
+    expect(original).toBeDefined();
+    const stale = recordPrinciple(world, {
+      ...original,
+      stableKey: `${LIFE_PRINCIPLES_VERSION}:stale-strength-fixture`,
+      strength: original.strength / 2,
+      supersedesPrincipleRecordId: original.id,
+    });
+    const staleRow = stale.history.principles.at(-1)!;
+    const refreshed = formPrinciplesFromLife(stale, [original.personId], {
+      officeholders: true,
+    });
+    const latest = refreshed.history.principles
+      .filter(
+        (row) =>
+          row.personId === original.personId &&
+          row.principleId === original.principleId,
+      )
+      .at(-1)!;
+    expect(latest.strength).toBe(original.strength);
+    expect(latest.conviction).toBe(original.conviction);
+    expect(latest.stance).toBe(original.stance);
+    expect(latest.formation.note).toBe(original.formation.note);
+    expect(latest.supersedesPrincipleRecordId).toBe(staleRow.id);
+    expect(
+      formPrinciplesFromLife(refreshed, [original.personId], {
+        officeholders: true,
+      }),
+    ).toBe(refreshed);
+  });
+
   it("forms the same principles from the same life, with no draw", () => {
     const people = adults.slice(0, 200);
     const shape = (w: World) =>
@@ -219,6 +300,7 @@ describe("principles that form from a life", () => {
       principleId,
       formedAt: world.currentDate,
       stance: "endorses",
+      strength: 1,
       conviction: "settled",
       flexibility: "firm",
       qualification: null,
@@ -252,6 +334,7 @@ describe("principles that form from a life", () => {
       principleId: untouched,
       formedAt: world.currentDate,
       stance: "endorses",
+      strength: 1,
       conviction: "settled",
       flexibility: "firm",
       qualification: null,

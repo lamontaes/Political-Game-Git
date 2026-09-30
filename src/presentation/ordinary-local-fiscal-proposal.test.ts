@@ -133,6 +133,7 @@ describe("ordinary opening city and county fiscal proposals", () => {
           principleId: principle.id,
           formedAt: world.currentDate,
           stance: "endorses" as const,
+          strength: 1,
           conviction: "settled" as const,
           flexibility: "firm" as const,
           qualification: null,

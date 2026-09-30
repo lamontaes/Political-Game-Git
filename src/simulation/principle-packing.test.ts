@@ -33,6 +33,7 @@ function worldWithDrawnPrinciple(): World {
     principleId,
     formedAt: world.currentDate,
     stance: "endorses",
+    strength: 0.75,
     conviction: "strong",
     flexibility: "conditional",
     qualification: null,

@@ -8,6 +8,7 @@ import {
 import { searchLifePlaces } from "../index";
 import { createWorld } from "../world";
 import { principlePullsOf, principlesFromPulls } from "../principles-from-life";
+import { createFormationContext, recordPrinciple } from "../politics";
 import type {
   EntityId,
   LegislativeMeasureRecord,
@@ -17,7 +18,9 @@ import type {
 import {
   ensureOfficeholderPrinciples,
   principledLeaning,
+  principleAgreement,
   principleVoteConsideration,
+  spendingPrincipleConsideration,
 } from "./officeholder-principles";
 
 /**
@@ -94,6 +97,60 @@ function engaged(next: World): {
 }
 
 describe("officeholder principles", () => {
+  it("all three readers use fractional strength instead of categorical conviction", () => {
+    const principleId = world.policyCatalog.principleOrder.find((id) =>
+      world.policyCatalog.principles[id]!.stableKey.endsWith(
+        ":fiscal-restraint",
+      ),
+    )!;
+    expect(principleId).toBeDefined();
+    const personId = people[0]!;
+    const subjectId = people[1]!;
+    expect(subjectId).toBeDefined();
+    const input = {
+      stableKey: "fractional-strength:viewer",
+      personId,
+      principleId,
+      formedAt: world.currentDate,
+      stance: "endorses" as const,
+      strength: 0.37,
+      conviction: "settled" as const,
+      flexibility: "firm" as const,
+      qualification: null,
+      formation: createFormationContext("reflection:test", {
+        note: "Authored fractional-strength fixture, not a research estimate.",
+      }),
+      supersedesPrincipleRecordId: null,
+    };
+    let next = recordPrinciple(world, input);
+    next = recordPrinciple(next, {
+      ...input,
+      stableKey: "fractional-strength:subject",
+      personId: subjectId,
+      strength: 0.8,
+      conviction: "tentative",
+    });
+    const propositionId = next.policyCatalog.propositionOrder.find((id) =>
+      next.policyCatalog.propositions[id]!.principles?.some(
+        (bearing) => bearing.principleId === principleId,
+      ),
+    )!;
+    expect(propositionId).toBeDefined();
+    const bearing = next.policyCatalog.propositions[
+      propositionId
+    ]!.principles!.find((row) => row.principleId === principleId)!;
+    expect(principledLeaning(next, personId, propositionId).score).toBeCloseTo(
+      (bearing.bearing === "consistent-with" ? 1 : -1) * 1.48,
+    );
+    expect(principleAgreement(next, personId, subjectId).score).toBeCloseTo(
+      1.48,
+    );
+    expect(spendingPrincipleConsideration(next, personId)).toMatchObject({
+      optionKey: "vote-nay",
+      importance: "slight",
+    });
+  });
+
   it("forms catalog principles from recorded life", () => {
     expect(world.policyCatalog.principleOrder.length).toBeGreaterThan(0);
     expect(people.length).toBeGreaterThan(0);
