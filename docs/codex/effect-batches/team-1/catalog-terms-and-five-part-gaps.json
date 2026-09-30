@@ -1,0 +1,868 @@
+{
+  "team": 1,
+  "laws": [
+    {
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "parametersExisting": [],
+      "termsRequired": "Borrowing authorization and spending restrictions",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Borrowing authorization and spending restrictions",
+        "Federal program appropriations and state/local aid",
+        "Deficit, borrowing prices and program users",
+        "Public knowledge and later budget decisions"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:fiscal-restraint",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:collective-provision",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "parametersExisting": [],
+      "termsRequired": "Covered taxable income and marginal liability",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered taxable income and marginal liability",
+        "Payroll withholding and annual settlement",
+        "Disposable income, revenue and behavioral responses",
+        "Taxpayers noticing changed assessments"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:collective-provision",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:limited-government",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "parametersExisting": [],
+      "termsRequired": "Covered credit contracts and legal APR limits",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered credit contracts and legal APR limits",
+        "Interest bills, lender offers, credit access and substitution",
+        "Borrower balances and delinquency",
+        "Borrowers and lenders noticing enforcement"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:worker-protection",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:market-competition",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "parametersExisting": [],
+      "termsRequired": "Authorized and appropriated procurement",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Authorized and appropriated procurement",
+        "Contracts, supplier orders and covered employment",
+        "State output, earnings and federal deficit",
+        "Workers and contractors noticing awards"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:public-safety",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:fiscal-restraint",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "parametersExisting": [],
+      "termsRequired": "Covered appropriations and eligibility",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered appropriations and eligibility",
+        "Delivered aid and recipient services outside US",
+        "Federal deficit and borrowing costs",
+        "Recipients and taxpayers noticing"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:collective-provision",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:fiscal-restraint",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:trade.raise-tariffs",
+      "parametersExisting": [],
+      "termsRequired": "Product/origin-specific import duty and exemptions",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Product/origin-specific import duty and exemptions",
+        "Customs payments, import prices and substitution",
+        "Household purchases, firm inputs, employment and trade responses",
+        "Buyers and firms noticing prices"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:worker-protection",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:market-competition",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "parametersExisting": [],
+      "termsRequired": "Legal category admission caps and eligibility",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Legal category admission caps and eligibility",
+        "Actual admissions, households and residence",
+        "Labor participation, employment, services and tax base",
+        "Residents and receiving communities noticing"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:equal-opportunity",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:tradition",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "parametersExisting": [],
+      "termsRequired": "Selected-drug price and program rules",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Selected-drug price and program rules",
+        "Enrollee prescriptions, copays and access",
+        "Federal payments, manufacturer revenue and drug expenses",
+        "Enrollees noticing pharmacy costs"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:collective-provision",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:market-competition",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "parametersExisting": [],
+      "termsRequired": "Birth-cohort eligibility and benefit schedule",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Birth-cohort eligibility and benefit schedule",
+        "Benefit start dates and actual payments",
+        "Retirement/work decisions, poverty and health constraints",
+        "Older residents noticing eligibility changes"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:fiscal-restraint",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:worker-protection",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "parametersExisting": [],
+      "termsRequired": "Borrower/program eligibility and discharge rule",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Borrower/program eligibility and discharge rule",
+        "Principal cancellation and revised payment obligations",
+        "Delinquency, credit, consumption and family decisions",
+        "Borrowers noticing their revised balances"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:equal-opportunity",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:fiscal-restraint",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "parametersExisting": [],
+      "termsRequired": "Covered-worker legal wage floor and exemptions",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered-worker legal wage floor and exemptions",
+        "Work contract terms, paid wages and employer costs",
+        "Hiring, hours, prices and household poverty",
+        "Workers and employers noticing pay changes"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:worker-protection",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:market-competition",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "parametersExisting": [],
+      "termsRequired": "Eligibility, subsidy formula and landlord acceptance",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Eligibility, subsidy formula and landlord acceptance",
+        "Voucher issuance, rent subsidy payments and housing access",
+        "Homelessness, moves, household resources and supported child outcomes",
+        "Households and landlords noticing offers/payments"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:collective-provision",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:fiscal-restraint",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "parametersExisting": [],
+      "termsRequired": "Appropriations, project contracts and service availability",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Appropriations, project contracts and service availability",
+        "Construction, operations, routes, fares and trips",
+        "Rider access, travel substitution, jobs and place conditions",
+        "Riders and communities noticing service"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:environmental-stewardship",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:limited-government",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "parametersExisting": [],
+      "termsRequired": "Covered facilities, emissions limits and compliance dates",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered facilities, emissions limits and compliance dates",
+        "Plant dispatch, investment and emissions",
+        "Electricity costs, air quality, exposure and health",
+        "Customers and nearby residents noticing"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:environmental-stewardship",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:property-rights",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "parametersExisting": [],
+      "termsRequired": "Program/payment eligibility and appropriations",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Program/payment eligibility and appropriations",
+        "Actual farm payments and producer income",
+        "Land values, production, borrowing and federal spending",
+        "Farmers noticing changed payments"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:fiscal-restraint",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:collective-provision",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "parametersExisting": [],
+      "termsRequired": "Declaration/program-specific federal/state match rules",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Declaration/program-specific federal/state match rules",
+        "Repair authorizations and actual public payments",
+        "Fundable repair units, service restoration and state budgets",
+        "Affected households noticing recovery"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:local-control",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:collective-provision",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "parametersExisting": [],
+      "termsRequired": "Covered offense-specific minimums and exceptions",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered offense-specific minimums and exceptions",
+        "Prospective sentencing and explicitly authorized retroactive review",
+        "Custody end, released persons, family/work and prison budgets",
+        "Defendants/families noticing sentence reviews"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:personal-liberty",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:public-safety",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "parametersExisting": [],
+      "termsRequired": "Covered members/households/instruments and prohibited transactions",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered members/households/instruments and prohibited transactions",
+        "Divestment, permitted funds, disclosure and enforcement",
+        "Compliance expenses, fines, holdings and researched return comparison",
+        "Members and public noticing compliance"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:transparency",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:personal-liberty",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "parametersExisting": [],
+      "termsRequired": "Covered data processing, rights and exceptions",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Covered data processing, rights and exceptions",
+        "Consent/access/deletion and enforcement records",
+        "Business compliance expenses and consumer privacy outcomes",
+        "Consumers/firms noticing rights and enforcement"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:personal-liberty",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:local-control",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    },
+    {
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "parametersExisting": [],
+      "termsRequired": "Admission and transition legal rules",
+      "starting2026": null,
+      "missingStartingFigure": "Actual legal instrument-specific rule/amount, eligible cohort, operative date and exemptions; no yes/no-as-amount substitution.",
+      "allowedRange": null,
+      "rangeStatus": "Legally allowed policy range needs legal/source evidence; not a guessed empirical effect interval.",
+      "phaseIn": null,
+      "scope": "Congress federal instrument; state/local may have separate instruments, floors and preemption must be researched.",
+      "repeal": "Prospective rule reversal only; irreversible prior outcomes remain recorded.",
+      "effects": [
+        "Admission and transition legal rules",
+        "Congressional seats, electorate and representation",
+        "Program eligibility, taxation, federal aid and local institutions",
+        "Residents noticing representation and transition"
+      ],
+      "cost": {
+        "payer": "Affected federal program, taxpayer, recipient or covered private party according to actual instrument",
+        "perUnitRange": null,
+        "status": "Needs sourced unit/amount and matching appropriation/revenue/borrowing; no cash-balance substitution."
+      },
+      "ideology": {
+        "existingPrinciples": [
+          {
+            "principle": "us-policy-positions:equal-treatment",
+            "bearing": "consistent-with"
+          },
+          {
+            "principle": "us-policy-positions:tradition",
+            "bearing": "against"
+          }
+        ],
+        "continuousWeights": null,
+        "status": "Current categorical bearings preserved as source evidence. Continuous relevance values need explicit authored rationale/approval; no population-weight guessed.",
+        "interests": "Derive beneficiaries and obligated payers from exact eligibility/cost records; no fictitious organization position."
+      },
+      "proof": {
+        "nationwide": "NOT RUN",
+        "allFiveComplete": false
+      },
+      "integrationOwner": "coordinator catalog/map only"
+    }
+  ],
+  "completedFivePartLaws": 0,
+  "lawTotal": 20,
+  "status": "Explicit source gaps and required payload fields, not complete catalog parameter values."
+}
