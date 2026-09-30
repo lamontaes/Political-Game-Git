@@ -1,4 +1,5 @@
 import "./world-orientation.css";
+import "./opening-legislature.css";
 
 import {
   useMemo,
@@ -38,6 +39,10 @@ import {
   type OpeningFamilyMember,
 } from "../presentation/opening-story";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
+import {
+  openingLegislaturePeople,
+  openingTourStagedPeople,
+} from "../presentation/opening-tour-people";
 import {
   capitolPlaceFor,
   middayBackdropUrl,
@@ -189,7 +194,10 @@ export function WorldOrientationPanel({
                   ? "Your state's lawmakers, by party."
                   : "Your state's lawmakers.",
               lines: [...legislature.chambers, ...legislature.yours],
-              people: [],
+              people:
+                world && personId
+                  ? openingLegislaturePeople(world, personId)
+                  : [],
               chambers: [],
             },
           ]
@@ -343,6 +351,17 @@ export function WorldOrientationPanel({
     [officePlace, world, personId, step.people],
   );
   const officeStaged = officePlace !== null && officePeople.length > 0;
+  const legislatureStage = useRef<HTMLDivElement>(null);
+  const legislaturePeople = useMemo(
+    () =>
+      step.key === "legislature" &&
+      backdrop.kind === "place" &&
+      world &&
+      personId
+        ? openingTourStagedPeople(world, personId, backdrop.place, step.people)
+        : [],
+    [step.key, backdrop, world, personId, step.people],
+  );
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
@@ -449,6 +468,26 @@ export function WorldOrientationPanel({
                   ))}
                 </div>
               </div>
+            </div>
+          ) : step.key === "legislature" && legislaturePeople.length > 0 ? (
+            <div
+              ref={legislatureStage}
+              className="pg-orientation-backdrop pg-orientation-staged"
+              data-testid="opening-legislature-staged"
+              aria-label="Illustration of your recorded state representatives"
+            >
+              <SceneBackdrop backdrop={backdrop} />
+              <PlacePeopleLayer
+                people={legislaturePeople}
+                stageRef={legislatureStage}
+                nameplates
+                onSelectPerson={(id) => {
+                  const person = step.people.find(
+                    (entry) => entry.personId === id,
+                  );
+                  if (person) onOpenPerson(person.personId);
+                }}
+              />
             </div>
           ) : step.key === "locality" ? null : (
             <SceneBackdrop backdrop={backdrop} />
