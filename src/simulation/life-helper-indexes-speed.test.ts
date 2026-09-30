@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "./demo";
+import { makeIsoDate } from "./dates";
 import { buildHouseholdLocationRecord, createHousehold } from "./life";
 import { canonicalJson } from "./canonical-json";
 import type { EntityId, Household, World } from "./types";
@@ -67,7 +68,10 @@ describe("life helper indexed lookup compatibility", () => {
       ...world,
       history: {
         ...world.history,
-        households: [household, { ...household, formedAt: "2099-01-01" }],
+        households: [
+          household,
+          { ...household, formedAt: makeIsoDate("2099-01-01") },
+        ],
       },
     };
     expect(buildHouseholdLocationRecord(duplicated, location)).toEqual(
