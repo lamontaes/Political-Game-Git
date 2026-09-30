@@ -5663,6 +5663,690 @@
       "final_path": "art/authoring/sept29-team7/tv/press-briefing-v2.png",
       "hash": "9dd50dde3e84ba4a373afc8334c81589d42ead0c520c28d9ef1081d70d592e59",
       "requires_transparency": false
+    },
+    {
+      "asset_id": "kids_team7_boy_14_seated_reading_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_seated_reading_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-seated-reading-base.png",
+      "hash": "bdde90061053dafff08e1b135fff208308304b3a051558a126b25e36b5364abb",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_seated_reading_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_seated_reading_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-seated-reading-casual.png",
+      "hash": "578cedbb97f1878b41c2e2026e2d2ef900f0248f64ceebcf8f9bd10bab751307",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_seated_reading_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_seated_reading_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-seated-reading-everyday.png",
+      "hash": "8200920d474f54f40160cfa945f89fc4e9b6fa21d6738f70cf0ffed7c1b9846a",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_standing_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_standing_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-standing-base.png",
+      "hash": "e77718722c49a2c6b5f5b81a8962bb9c4d5e96d5a07352e9a970d92ca432dff0",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_standing_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_standing_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-standing-casual.png",
+      "hash": "a29fbdafc33502d137f49880dd9d2919a6f1d5136c4c471d243d9800dda74a5a",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_standing_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_standing_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-standing-everyday.png",
+      "hash": "0f9a94f3078d039046c0a672e1fd53585a195d41c8ae162528c71d2da776ed51",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_waving_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_waving_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-waving-base.png",
+      "hash": "c7418917bf202aee06c994c095bfcb4714f71131face1b3bca9aeecfb60d0f3b",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_waving_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_waving_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-waving-casual.png",
+      "hash": "0a61a10ee032f2d53818556c723c5dd156f0afc1d41ce006229ca31430cb125a",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_14_waving_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_14_waving_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-14-waving-everyday.png",
+      "hash": "a093f4814fa7c264a67c10e3d98ddf0d60880535f035794e20376b80f88f4eb1",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_seated_reading_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_seated_reading_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-seated-reading-base.png",
+      "hash": "379d5d54dffa3d5004cfa1eacfe437bf4e8791e6b1e62629205565ebc93440d7",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_seated_reading_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_seated_reading_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-seated-reading-casual.png",
+      "hash": "d79430561aa40c7a6462fda252c7e2e46e2b01b7e0e082670d14ba565db80d23",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_seated_reading_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_seated_reading_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-seated-reading-everyday.png",
+      "hash": "a88a25e767318c4c6341d940630203f3df55487f9178e8eec0307b66afcc7f0e",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_standing_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_standing_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-standing-base.png",
+      "hash": "98ed1d1043a4aba343b17b234c99a5fddc1e0a23cc74ae0d365482beab5d187e",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_standing_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_standing_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-standing-casual.png",
+      "hash": "19729c6dd41bc335a1aae06f6e34164903839ed8a73f3bca0f00d9c4532d53b3",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_standing_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_standing_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-standing-everyday.png",
+      "hash": "fd8751a1e927e58208ec9275dada9b0b391d42f76b2cdfe643c4952dccebded8",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_waving_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_waving_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-waving-base.png",
+      "hash": "bf047d3ffe26f566e7c1cab5c859eeaf93b35b8ff242151689545dad2d0b9e81",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_waving_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_waving_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-waving-casual.png",
+      "hash": "3007f013ef3db0df43f3b5cec8be282360f6c2cbae4ebd64ac7ac0163154d424",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_boy_8_waving_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_boy_8_waving_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/boy-8-waving-everyday.png",
+      "hash": "82a2609e8182f1f8f022065ffa05940838b69a150312822b66d5098de97a4c83",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_seated_reading_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_seated_reading_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-seated-reading-base.png",
+      "hash": "d3731bc592a39f1ef7a418549c8e0793de5606b6eaa74e169c82aaf6f8fb4968",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_seated_reading_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_seated_reading_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-seated-reading-casual.png",
+      "hash": "728c0e67164810e9b165eaaba2cbb7e5102b4be323dbb4b660d8dc3958ae8b24",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_seated_reading_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_seated_reading_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-seated-reading-everyday.png",
+      "hash": "0d4206a302b1cf605902aa5b8364a48695d6082356eae38616194268e5a40706",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_standing_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_standing_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-standing-base.png",
+      "hash": "03eca66c0def5ca0dd6ac74b8a5158f41e62adf9c99ce195972c04dcd7a3f768",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_standing_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_standing_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-standing-casual.png",
+      "hash": "8925f0b8ad8cd1a5b5634b123ba39e0d8318791bdf64c349e1c89aea3306cf59",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_standing_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_standing_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-standing-everyday.png",
+      "hash": "cb99b1250cd4d757959d42df4cf7d662f2f9c474ff1c41a65991b0673e25b5dc",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_waving_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_waving_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-waving-base.png",
+      "hash": "9ffc8a038bd6e8a9f17544e3d8a44bd4b2faf43fde5c7578d47447fb4ae84285",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_waving_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_waving_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-waving-casual.png",
+      "hash": "3284cdb920779e54a020f8ae75fdef5ad1fbf85d50ece9dca17b821612a89c2f",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_14_waving_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_14_waving_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-14-waving-everyday.png",
+      "hash": "0e914d6274354e8167dc8b660d56876ec6cf21b883c1a446becdcf3a8b9f0001",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_seated_reading_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_seated_reading_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-seated-reading-base.png",
+      "hash": "3c848a4a6f8fabf0a504afeb2360b8292dfdd44c606c08664cece9836bad1aea",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_seated_reading_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_seated_reading_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-seated-reading-casual.png",
+      "hash": "9861a74561195493322cd86f522aa56824cc6b43ac30e41df8cfc613d5305c93",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_seated_reading_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_seated_reading_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-seated-reading-everyday.png",
+      "hash": "8e95b5cb8776fe3d4af5cbe01ebb600084643f33043a558c0054b1d6ffb3e044",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_standing_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_standing_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-standing-base.png",
+      "hash": "e22089cf723dc1f6ef56a08e8388b4b7442eb58aa01cc673ea0d0d6dd2ec50e9",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_standing_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_standing_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-standing-casual.png",
+      "hash": "c5d7b44a6f6de446cf0a7c96044fbbdde06480600c3a82b611ce2e1a19a28786",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_standing_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_standing_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-standing-everyday.png",
+      "hash": "af1204659ef7b213230b9da207c4dc91e596e19dd8f0eb13717d374957fac1a6",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_waving_base",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_waving_base"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-waving-base.png",
+      "hash": "c85fb8007becbd6d5fb9e6a48237d9ed2d37c5476232599413c80bc54eb3a8d0",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_waving_casual",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_waving_casual"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-waving-casual.png",
+      "hash": "aebeb03013a5e62bbaacaf7e12bdc7502c4eb8e732c9f28b56bb0f0e546a4658",
+      "requires_transparency": true
+    },
+    {
+      "asset_id": "kids_team7_girl_8_waving_everyday",
+      "asset_type": "character-source-sheet",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_kids_team7_girl_8_waving_everyday"
+      ],
+      "rights_note": "Owner approval relayed by CTO12:36 September30 for every tile of four exact contact sheets. Reference rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Approved three-figure source sheet only. Cutting, body/pose measurements and runtime bindings pending; never a single canonical person.",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/authoring/sept29-team7/kids/girl-8-waving-everyday.png",
+      "hash": "76beadb6aecd03ef0d83334a013b10b1223e5946e53725aec35c8e8bd7f07fe5",
+      "requires_transparency": true
     }
   ]
 }

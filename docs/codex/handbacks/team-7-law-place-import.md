@@ -1,6 +1,6 @@
 # Approved pictures now pass native display intake
 
-Before: the ten approved law-place pictures failed the print-master width floor. After: the owner's native-display decision admits them without enlargement, together with eleven approved regional pictures and four TV screens. The default print-master minimum remains intact. Four kids sheets await exact docket identities; the larger kids bank is not presumed approved.
+Before: the ten approved law-place pictures failed the print-master width floor. After: the owner's native-display decision admits them without enlargement, together with eleven approved regional pictures and four TV screens. The default print-master minimum remains intact. The four kids contact sheets named by the CTO identify 36 approved source images. Their exact hashes and tile mappings are recorded; age-five images and separate revision sheets are excluded.
 
 ## 1. Why-chain
 
@@ -16,7 +16,7 @@ An explicit native-display profile admits environment backgrounds at least 1600 
 
 ## 4. Numbered parts
 
-1. Ten law-place and fifteen regional/TV canonical manifest and provenance entries.
+1. Ten law-place, fifteen regional/TV and 36 kids source-sheet manifest and provenance entries.
 2. Approval records, native intake requests and measured reports, preserving unknown reference rights.
 3. Focused admission-profile boundary tests and the documented display/print distinction.
 
@@ -30,4 +30,4 @@ Actor fit, scene geometry, geographic qualification, browser integration and ful
 
 ## 7. Worked example and next action
 
-The same county-board-room-v2 bytes that failed the old print profile pass native display intake. Its 1672-pixel width is preserved and its later high-resolution flag remains true. Next: exact four kids-sheet identities, their admission, and recorded-story newspaper variations with source-bound photographs or headshots. Normal scene/runtime integration remains a separate acceptance step.
+The same county-board-room-v2 bytes that failed the old print profile pass native display intake. Its 1672-pixel width is preserved and its later high-resolution flag remains true. The kids import verifies all four contact-sheet hashes and all 36 image hashes against the approved commit, plus dimensions and nine tile mappings per sheet. All 36 images pass source transparency presence checks. Inventory completed with duplicate-hash warnings. Kids source images remain QA pending until cutting and modular fit are measured. Next: recorded-story newspaper variations with source-bound photographs or headshots. Normal scene/runtime integration remains a separate acceptance step.

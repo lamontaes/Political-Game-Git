@@ -1,0 +1,2449 @@
+{
+  "schema_version": 1,
+  "tool": "built-in image_gen",
+  "status": "candidate-unapproved",
+  "source_delivery": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "child_prompt_recipe": {
+    "id": "child-pose-sheet-v1",
+    "template": "Use case: illustration-story. One candidate Our Civic Duty modular child pose sheet: exactly THREE {gender_word}, {age_description}. One row of three FULL BODY figures, LEFT TO RIGHT slim, average, broad body sizes. {action}. All three wear {clothing}. Completely blank featureless faces, bald heads, NO hair, eyes, eyebrows, nose, mouth or facial details. Fully clothed, neutral ordinary child anatomy. Adult reference is ONLY the three-column layout and drawn contour/cel rendering, NOT adult anatomy or scant clothing. Game painting binds style: clean dark charcoal outlines, muted natural colors, broad SOFT CEL SHADOW SHAPES, selective finer creases, no photographic texture or 3D gloss. Exactly three evenly spaced figures with matching pose and clothing, complete heads, hands and feet inside generous margins, aligned heads and feet, no overlap. GENUINE TRANSPARENT BACKGROUND: only figures opaque, empty space fully transparent, NO backdrop, shadows behind figures, halo, gradients or glow. Wide sheet, zero text or labels, no logos or extra objects besides the book for reading. Output {name}.png.",
+    "age_descriptions": {
+      "8": "children about age eight, larger heads relative to torso than adults, short child limbs, no adult musculature",
+      "14": "young teenagers about age fourteen, age-appropriate natural proportions, no adult musculature",
+      "toddler": "toddlers about age two, large toddler heads, short arms and legs and soft small-child proportions"
+    },
+    "clothing_descriptions": {
+      "base": "plain gray short-sleeve T-shirt and gray knee-length shorts, barefoot",
+      "casual": "muted teal T-shirt, full-length blue jeans and simple low white sneakers",
+      "everyday": "muted rust pullover hoodie, olive full-length casual trousers and simple low gray sneakers"
+    },
+    "action_descriptions": {
+      "standing": "standing front facing, arms resting by sides",
+      "waving": "standing front facing, ONE hand raised in an open-palm friendly wave, the other arm relaxed at side",
+      "seated-reading": "sitting front facing, knees bent naturally, holding an open blank book with BOTH hands, feet visible below; no chair, no furniture"
+    },
+    "gender_words": {
+      "boy": "boys",
+      "girl": "girls"
+    },
+    "exact_reconstruction_verified": 53
+  },
+  "prompts": {
+    "tv-local-news": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface local-news. Straight-on on-air shot of a local news desk in the reference studio, two empty anchor seats behind the desk. Camera is the broadcast camera looking AT the desk, do not show production cameras or the TV hardware. Background blank panel. Empty lower-third banner and station-logo rectangle. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "tv-debate": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface debate. Straight-on televised debate stage with EXACTLY TWO lecterns, symmetric spacing, wide enough to show both fully. No people. Match architectural/color language of provided TV reference. Blank backdrop, empty lower-third banner and empty station-logo box. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "tv-edit-debate": "Change ONLY the side edges: remove the two large production cameras and their stands at the left and right edges. Repaint those narrow areas as matching studio wall panels and floor. Preserve exactly TWO lecterns, microphones, backdrop, broadcast lower-third and blank station-logo shapes. This is an ON-AIR broadcast shot, the production cameras are behind the viewer, outside frame. No people, no text, no new objects. Keep the same illustration style.",
+    "tv-cable-panel": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface cable-panel. Television cable discussion broadcast layout with EXACTLY FOUR equal rectangular participant video windows arranged 2 by 2, blank neutral studio interiors inside each, no people. Graphical broadcast composition, empty lower third and blank station logo. No written content. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "tv-edit-cable-panel": "Change ONLY the interiors of the four equal participant windows. Replace the office, green room and news desk interiors with simple muted blue-gray studio backdrop gradients/panels, identical framing, for the game's four participant portrait overlays. Preserve four equal 2-by-2 boxes, border positions, all blank lower-thirds and bottom station-logo shape. No people, no furniture, no doors, no TV hardware inside the boxes. Clean illustrated broadcast surface with no letters or numbers. Keep the same muted contour/cel game style.",
+    "tv-press-briefing": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface press-briefing. Straight-on on-air press briefing view: single empty wood lectern centered against muted blue curtains, two slim microphones, no people, no insignia or seal text. Empty lower-third banner and blank station logo. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "newspaper-weekly": "Use case: illustration-story. Our Civic Duty candidate newspaper front-page surface: small-town weekly, compact three-column grid, modest broad masthead block, single small photo box, simple horizontal rules. Use supplied game newspaper on the table as visual reference for off-white newsprint, dark fine rules, crisp illustrated outlines, muted natural tones and simple newspaper structure. A SINGLE complete newspaper front viewed STRAIGHT ON, entire rectangular portrait page visible with small margin, no desk or environment, no folded stack. Masthead, date, headlines, photo boxes and body copy must ALL be plain EMPTY PLACEHOLDER RECTANGLES in very pale gray so the game overlays real words and world images. Absolutely NO letters, numbers, symbols, real or fake text, scribble, line clusters pretending to be type, masthead writing, illustrations inside photo boxes, people, logos or watermarks. Fine dark vertical column rules and horizontal separators are allowed; all story text areas are blank broad rectangles, not rows of tiny type. Match provided game's clean dark outlines, flat soft cel shading, muted newsprint color; no photo texture or 3D gloss. Functional layout source also supplied in news-screen-mockup-sept27.html: restrained newsprint, masthead band, lead article hierarchy and column-separated secondary stories. Generate ONE page of this size class only.",
+    "newspaper-midsize-daily": "Use case: illustration-story. Our Civic Duty candidate newspaper front-page surface: mid-size daily, four-column grid, one large lead headline block, one central photo box, secondary story blocks below. Use supplied game newspaper on the table as visual reference for off-white newsprint, dark fine rules, crisp illustrated outlines, muted natural tones and simple newspaper structure. A SINGLE complete newspaper front viewed STRAIGHT ON, entire rectangular portrait page visible with small margin, no desk or environment, no folded stack. Masthead, date, headlines, photo boxes and body copy must ALL be plain EMPTY PLACEHOLDER RECTANGLES in very pale gray so the game overlays real words and world images. Absolutely NO letters, numbers, symbols, real or fake text, scribble, line clusters pretending to be type, masthead writing, illustrations inside photo boxes, people, logos or watermarks. Fine dark vertical column rules and horizontal separators are allowed; all story text areas are blank broad rectangles, not rows of tiny type. Match provided game's clean dark outlines, flat soft cel shading, muted newsprint color; no photo texture or 3D gloss. Functional layout source also supplied in news-screen-mockup-sept27.html: restrained newsprint, masthead band, lead article hierarchy and column-separated secondary stories. Generate ONE page of this size class only.",
+    "newspaper-big-city-daily": "Use case: illustration-story. Our Civic Duty candidate newspaper front-page surface: big-city broadsheet daily, six-column grid, large lead headline block across columns, two photo boxes and clearly separated secondary stories. Use supplied game newspaper on the table as visual reference for off-white newsprint, dark fine rules, crisp illustrated outlines, muted natural tones and simple newspaper structure. A SINGLE complete newspaper front viewed STRAIGHT ON, entire rectangular portrait page visible with small margin, no desk or environment, no folded stack. Masthead, date, headlines, photo boxes and body copy must ALL be plain EMPTY PLACEHOLDER RECTANGLES in very pale gray so the game overlays real words and world images. Absolutely NO letters, numbers, symbols, real or fake text, scribble, line clusters pretending to be type, masthead writing, illustrations inside photo boxes, people, logos or watermarks. Fine dark vertical column rules and horizontal separators are allowed; all story text areas are blank broad rectangles, not rows of tiny type. Match provided game's clean dark outlines, flat soft cel shading, muted newsprint color; no photo texture or 3D gloss. Functional layout source also supplied in news-screen-mockup-sept27.html: restrained newsprint, masthead band, lead article hierarchy and column-separated secondary stories. Generate ONE page of this size class only.",
+    "initial-child-source": "Use case: illustration-story. Candidate modular child pose sheet for Our Civic Duty, ONE sheet with exactly THREE boys age about eight, left to right slim, average, broad body sizes. All three standing front facing, arms resting naturally by sides. Base outfit means fully clothed plain gray short-sleeve top and gray knee-length athletic shorts, barefoot. Blank featureless face, bald head, NO hair, NO facial features. Age-appropriate ordinary child anatomy, fully clothed, no adult muscle definition. Use supplied adult sheet ONLY for the three-column layout, proportions alignment and contour/cel rendering; change adults to children of age eight. Use supplied game painting for illustrated style: clean dark outlines, muted natural colors, broad soft cel shadows, no texture, no realism. Three full-body figures from head to feet, same head and foot alignment, equally spaced, no overlap, no cropping, no text or labels, no other objects. Wide sheet and genuine transparent background. Keep consistent pose and outfit across the three sizes. This is boy-8-standing-base.png."
+  },
+  "assets": [
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "seated-reading",
+      "outfit": "base",
+      "name": "boy-14-seated-reading-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-b09ecc01-c336-4df4-8a36-60dc1d2a18b0.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-seated-reading-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "bdde90061053dafff08e1b135fff208308304b3a051558a126b25e36b5364abb",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "bdde90061053dafff08e1b135fff208308304b3a051558a126b25e36b5364abb",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "seated-reading",
+      "outfit": "casual",
+      "name": "boy-14-seated-reading-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-9dee2511-bb15-4814-ad03-854b690c4796.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-seated-reading-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "578cedbb97f1878b41c2e2026e2d2ef900f0248f64ceebcf8f9bd10bab751307",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "578cedbb97f1878b41c2e2026e2d2ef900f0248f64ceebcf8f9bd10bab751307",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "seated-reading",
+      "outfit": "everyday",
+      "name": "boy-14-seated-reading-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-3735a426-b9c7-440a-9a65-f4a114f9ced0.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-seated-reading-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "8200920d474f54f40160cfa945f89fc4e9b6fa21d6738f70cf0ffed7c1b9846a",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "8200920d474f54f40160cfa945f89fc4e9b6fa21d6738f70cf0ffed7c1b9846a",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "standing",
+      "outfit": "base",
+      "name": "boy-14-standing-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-b7e86fc6-58d6-4038-9b22-04e95769fa7b.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-standing-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "e77718722c49a2c6b5f5b81a8962bb9c4d5e96d5a07352e9a970d92ca432dff0",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "e77718722c49a2c6b5f5b81a8962bb9c4d5e96d5a07352e9a970d92ca432dff0",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "standing",
+      "outfit": "casual",
+      "name": "boy-14-standing-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-1e2f0409-95dc-4447-8bc2-16618449a01e.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-standing-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "a29fbdafc33502d137f49880dd9d2919a6f1d5136c4c471d243d9800dda74a5a",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "a29fbdafc33502d137f49880dd9d2919a6f1d5136c4c471d243d9800dda74a5a",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "standing",
+      "outfit": "everyday",
+      "name": "boy-14-standing-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-50afb0b6-40b0-45eb-b8ec-c3b2aa4422cb.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-standing-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "0f9a94f3078d039046c0a672e1fd53585a195d41c8ae162528c71d2da776ed51",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "0f9a94f3078d039046c0a672e1fd53585a195d41c8ae162528c71d2da776ed51",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "waving",
+      "outfit": "base",
+      "name": "boy-14-waving-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-bb95396c-dd8d-4b23-840c-c4e3037230ac.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-waving-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "c7418917bf202aee06c994c095bfcb4714f71131face1b3bca9aeecfb60d0f3b",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "c7418917bf202aee06c994c095bfcb4714f71131face1b3bca9aeecfb60d0f3b",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "waving",
+      "outfit": "casual",
+      "name": "boy-14-waving-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5e410fab-99fb-424d-aed0-4028243d889a.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-waving-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "0a61a10ee032f2d53818556c723c5dd156f0afc1d41ce006229ca31430cb125a",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "0a61a10ee032f2d53818556c723c5dd156f0afc1d41ce006229ca31430cb125a",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "14",
+      "pose": "waving",
+      "outfit": "everyday",
+      "name": "boy-14-waving-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-9761406e-7609-43ed-901a-a154184d68f2.png",
+      "file": "art/authoring/sept29-team7/kids/boy-14-waving-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "a093f4814fa7c264a67c10e3d98ddf0d60880535f035794e20376b80f88f4eb1",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "a093f4814fa7c264a67c10e3d98ddf0d60880535f035794e20376b80f88f4eb1",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "seated-reading",
+      "outfit": "base",
+      "name": "boy-8-seated-reading-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-a1ab59ad-ec13-4a58-bc45-eb370d672e8b.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-seated-reading-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "379d5d54dffa3d5004cfa1eacfe437bf4e8791e6b1e62629205565ebc93440d7",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "379d5d54dffa3d5004cfa1eacfe437bf4e8791e6b1e62629205565ebc93440d7",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "seated-reading",
+      "outfit": "casual",
+      "name": "boy-8-seated-reading-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-e7811489-c38b-42cd-b667-96d1b88aa691.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-seated-reading-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "d79430561aa40c7a6462fda252c7e2e46e2b01b7e0e082670d14ba565db80d23",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "d79430561aa40c7a6462fda252c7e2e46e2b01b7e0e082670d14ba565db80d23",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "seated-reading",
+      "outfit": "everyday",
+      "name": "boy-8-seated-reading-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-e3dc7a39-60f2-4774-996c-77b86e1b687c.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-seated-reading-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "a88a25e767318c4c6341d940630203f3df55487f9178e8eec0307b66afcc7f0e",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "a88a25e767318c4c6341d940630203f3df55487f9178e8eec0307b66afcc7f0e",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "name": "boy-8-standing-base",
+      "gender": "boy",
+      "age": "8",
+      "pose": "standing",
+      "outfit": "base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-036d1275-87c1-4468-8cb5-15954140c9c6.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-standing-base.png",
+      "prompt_recipe": "initial-child-source",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "candidate_sha256": "98ed1d1043a4aba343b17b234c99a5fddc1e0a23cc74ae0d365482beab5d187e",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "98ed1d1043a4aba343b17b234c99a5fddc1e0a23cc74ae0d365482beab5d187e",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "standing",
+      "outfit": "casual",
+      "name": "boy-8-standing-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-19283c59-f393-4d5a-9f73-d44f8cf365b5.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-standing-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "19729c6dd41bc335a1aae06f6e34164903839ed8a73f3bca0f00d9c4532d53b3",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "19729c6dd41bc335a1aae06f6e34164903839ed8a73f3bca0f00d9c4532d53b3",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "standing",
+      "outfit": "everyday",
+      "name": "boy-8-standing-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-e5fa92ec-310f-47a3-8313-cfdd6953a01f.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-standing-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "fd8751a1e927e58208ec9275dada9b0b391d42f76b2cdfe643c4952dccebded8",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "fd8751a1e927e58208ec9275dada9b0b391d42f76b2cdfe643c4952dccebded8",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "waving",
+      "outfit": "base",
+      "name": "boy-8-waving-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-aa4d47a5-7b52-4e7e-be39-c25d3a65ee85.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-waving-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "bf047d3ffe26f566e7c1cab5c859eeaf93b35b8ff242151689545dad2d0b9e81",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "bf047d3ffe26f566e7c1cab5c859eeaf93b35b8ff242151689545dad2d0b9e81",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "waving",
+      "outfit": "casual",
+      "name": "boy-8-waving-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ea8d840c-507a-4ad5-81b3-44f4a107940c.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-waving-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "3007f013ef3db0df43f3b5cec8be282360f6c2cbae4ebd64ac7ac0163154d424",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "3007f013ef3db0df43f3b5cec8be282360f6c2cbae4ebd64ac7ac0163154d424",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "8",
+      "pose": "waving",
+      "outfit": "everyday",
+      "name": "boy-8-waving-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-058f892b-edf9-48bd-ac46-20f5fea2a039.png",
+      "file": "art/authoring/sept29-team7/kids/boy-8-waving-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "82a2609e8182f1f8f022065ffa05940838b69a150312822b66d5098de97a4c83",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "82a2609e8182f1f8f022065ffa05940838b69a150312822b66d5098de97a4c83",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "seated-reading",
+      "outfit": "base",
+      "name": "boy-toddler-seated-reading-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-f4965bae-b5ff-4854-9b2f-bf293d23d0a2.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-seated-reading-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "20ae14500d82a8c714286696e5f3c9bd1869cc72b32b1d821766beab7bb9fecc",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "20ae14500d82a8c714286696e5f3c9bd1869cc72b32b1d821766beab7bb9fecc",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "seated-reading",
+      "outfit": "casual",
+      "name": "boy-toddler-seated-reading-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-df5f16a8-2878-4fff-838b-6a9dc0898fd9.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-seated-reading-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "046811431b3ef559cbc73ca859dadc0eadd6141ae42e6179c09fe9e6f5f55233",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "046811431b3ef559cbc73ca859dadc0eadd6141ae42e6179c09fe9e6f5f55233",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "seated-reading",
+      "outfit": "everyday",
+      "name": "boy-toddler-seated-reading-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-da0f030c-b114-4f22-86b5-ad5ff20b32dd.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-seated-reading-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "ecebd8fd6f41d0d7ad01b89cdd0039d9c7d5f292d584b93a5045c1ba6e5dd051",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "ecebd8fd6f41d0d7ad01b89cdd0039d9c7d5f292d584b93a5045c1ba6e5dd051",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-seated-reading.png": "8b0598b95b7c4d38af6c6b9d0ebd67c854bf8743cf25cf627265c3ea253174b7",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "standing",
+      "outfit": "base",
+      "name": "boy-toddler-standing-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-f3dd30ed-adbe-482e-bf6d-6cc015971814.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-standing-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "6fde22694ec37a938baeeb226a7b47519cbfaced647fcac96d0cf96538354fb5",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "6fde22694ec37a938baeeb226a7b47519cbfaced647fcac96d0cf96538354fb5",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "standing",
+      "outfit": "casual",
+      "name": "boy-toddler-standing-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-2aecdea6-5c19-468f-a6bd-f26038d2ee4c.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-standing-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "8f9a4d493fecb3f7f6ca2f28a961a234ab4134a6653a5f68542b482ef59c85a4",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "8f9a4d493fecb3f7f6ca2f28a961a234ab4134a6653a5f68542b482ef59c85a4",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "standing",
+      "outfit": "everyday",
+      "name": "boy-toddler-standing-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-30855061-203e-482f-958b-4db15a101c0c.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-standing-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "7c8e59b8807690faedc5adddbddd6fdee52b3b76ad5d46dc58985aa22045334e",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "7c8e59b8807690faedc5adddbddd6fdee52b3b76ad5d46dc58985aa22045334e",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "waving",
+      "outfit": "base",
+      "name": "boy-toddler-waving-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-d8a1a44a-ad21-4a59-8ad9-61d72adc9307.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-waving-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "102c9c6435a5fa06fed0ccdb794a69540d7d65b54bf28152bc3fe01abc96fbb5",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "102c9c6435a5fa06fed0ccdb794a69540d7d65b54bf28152bc3fe01abc96fbb5",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "waving",
+      "outfit": "casual",
+      "name": "boy-toddler-waving-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8f297c71-887a-4b1e-9bba-512df31e4c47.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-waving-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "91aed1fa1ae9e6980452fdd20707e84de6279b34c0ef5089953be7bae5086d6e",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "91aed1fa1ae9e6980452fdd20707e84de6279b34c0ef5089953be7bae5086d6e",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "boy",
+      "age": "toddler",
+      "pose": "waving",
+      "outfit": "everyday",
+      "name": "boy-toddler-waving-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-90081330-c3f7-431f-90e4-95c979be2ccb.png",
+      "file": "art/authoring/sept29-team7/kids/boy-toddler-waving-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "0b8537ccc6057dc9cec7b46e174f398e05cc4bd206f00b15c18ea041c01332cb",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "0b8537ccc6057dc9cec7b46e174f398e05cc4bd206f00b15c18ea041c01332cb",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/m-bare-wave-test.png": "6aa00f9f9396e21a6dfa77f20405ed8b17c62a3cbb9011b6b370c0fbc44e0138",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "seated-reading",
+      "outfit": "base",
+      "name": "girl-14-seated-reading-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-16567bf8-5f2e-488a-ad24-1fa1345de5b1.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-seated-reading-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "d3731bc592a39f1ef7a418549c8e0793de5606b6eaa74e169c82aaf6f8fb4968",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "d3731bc592a39f1ef7a418549c8e0793de5606b6eaa74e169c82aaf6f8fb4968",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "seated-reading",
+      "outfit": "casual",
+      "name": "girl-14-seated-reading-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-4a1eca1c-8700-445d-8c3e-5dcb8789345d.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-seated-reading-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "728c0e67164810e9b165eaaba2cbb7e5102b4be323dbb4b660d8dc3958ae8b24",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "728c0e67164810e9b165eaaba2cbb7e5102b4be323dbb4b660d8dc3958ae8b24",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "seated-reading",
+      "outfit": "everyday",
+      "name": "girl-14-seated-reading-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-a765a469-0091-4899-aa78-26d48f7d3770.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-seated-reading-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "0d4206a302b1cf605902aa5b8364a48695d6082356eae38616194268e5a40706",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "0d4206a302b1cf605902aa5b8364a48695d6082356eae38616194268e5a40706",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "standing",
+      "outfit": "base",
+      "name": "girl-14-standing-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-d9c80bf6-afca-4df3-962b-7fbf801b5f79.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-standing-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "03eca66c0def5ca0dd6ac74b8a5158f41e62adf9c99ce195972c04dcd7a3f768",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "03eca66c0def5ca0dd6ac74b8a5158f41e62adf9c99ce195972c04dcd7a3f768",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "standing",
+      "outfit": "casual",
+      "name": "girl-14-standing-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-69bf8863-25b9-4382-90ac-30c2b517fa4f.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-standing-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "8925f0b8ad8cd1a5b5634b123ba39e0d8318791bdf64c349e1c89aea3306cf59",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "8925f0b8ad8cd1a5b5634b123ba39e0d8318791bdf64c349e1c89aea3306cf59",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "standing",
+      "outfit": "everyday",
+      "name": "girl-14-standing-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-b60f2204-1865-41dc-949c-b75a61a4d5f3.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-standing-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "cb99b1250cd4d757959d42df4cf7d662f2f9c474ff1c41a65991b0673e25b5dc",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "cb99b1250cd4d757959d42df4cf7d662f2f9c474ff1c41a65991b0673e25b5dc",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "waving",
+      "outfit": "base",
+      "name": "girl-14-waving-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-a86061df-a109-4149-80bd-a94f19adbc16.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-waving-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "9ffc8a038bd6e8a9f17544e3d8a44bd4b2faf43fde5c7578d47447fb4ae84285",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "9ffc8a038bd6e8a9f17544e3d8a44bd4b2faf43fde5c7578d47447fb4ae84285",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "waving",
+      "outfit": "casual",
+      "name": "girl-14-waving-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-dbe2e56e-9bc4-4096-a3d9-9168a3371edc.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-waving-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "3284cdb920779e54a020f8ae75fdef5ad1fbf85d50ece9dca17b821612a89c2f",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "3284cdb920779e54a020f8ae75fdef5ad1fbf85d50ece9dca17b821612a89c2f",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "14",
+      "pose": "waving",
+      "outfit": "everyday",
+      "name": "girl-14-waving-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-f754b108-605c-4d2f-877c-5be570bd9e22.png",
+      "file": "art/authoring/sept29-team7/kids/girl-14-waving-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "0e914d6274354e8167dc8b660d56876ec6cf21b883c1a446becdcf3a8b9f0001",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "0e914d6274354e8167dc8b660d56876ec6cf21b883c1a446becdcf3a8b9f0001",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "seated-reading",
+      "outfit": "base",
+      "name": "girl-8-seated-reading-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-94d89723-da54-439f-9a07-7eca8db74986.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-seated-reading-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "3c848a4a6f8fabf0a504afeb2360b8292dfdd44c606c08664cece9836bad1aea",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "3c848a4a6f8fabf0a504afeb2360b8292dfdd44c606c08664cece9836bad1aea",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "seated-reading",
+      "outfit": "casual",
+      "name": "girl-8-seated-reading-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8e930568-21f1-4fab-a54d-aa16ad242003.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-seated-reading-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "9861a74561195493322cd86f522aa56824cc6b43ac30e41df8cfc613d5305c93",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "9861a74561195493322cd86f522aa56824cc6b43ac30e41df8cfc613d5305c93",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "seated-reading",
+      "outfit": "everyday",
+      "name": "girl-8-seated-reading-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5445283f-aa9d-4ce8-bfd4-1fb4ec75805d.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-seated-reading-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "8e95b5cb8776fe3d4af5cbe01ebb600084643f33043a558c0054b1d6ffb3e044",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "8e95b5cb8776fe3d4af5cbe01ebb600084643f33043a558c0054b1d6ffb3e044",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "standing",
+      "outfit": "base",
+      "name": "girl-8-standing-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8c4c3c6d-c9cc-49a0-b0bb-26a6ecce6327.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-standing-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "e22089cf723dc1f6ef56a08e8388b4b7442eb58aa01cc673ea0d0d6dd2ec50e9",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "e22089cf723dc1f6ef56a08e8388b4b7442eb58aa01cc673ea0d0d6dd2ec50e9",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "standing",
+      "outfit": "casual",
+      "name": "girl-8-standing-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ad4d8911-4f42-4fdc-bdcf-7f4eb4b3bf60.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-standing-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "c5d7b44a6f6de446cf0a7c96044fbbdde06480600c3a82b611ce2e1a19a28786",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "c5d7b44a6f6de446cf0a7c96044fbbdde06480600c3a82b611ce2e1a19a28786",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "standing",
+      "outfit": "everyday",
+      "name": "girl-8-standing-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-3861eb27-c2cb-4eb4-bb83-fa34bb6505c9.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-standing-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "af1204659ef7b213230b9da207c4dc91e596e19dd8f0eb13717d374957fac1a6",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "af1204659ef7b213230b9da207c4dc91e596e19dd8f0eb13717d374957fac1a6",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "waving",
+      "outfit": "base",
+      "name": "girl-8-waving-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-35c183d7-e0b8-4b3f-a9e4-cb5d176c3397.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-waving-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "c85fb8007becbd6d5fb9e6a48237d9ed2d37c5476232599413c80bc54eb3a8d0",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "c85fb8007becbd6d5fb9e6a48237d9ed2d37c5476232599413c80bc54eb3a8d0",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "waving",
+      "outfit": "casual",
+      "name": "girl-8-waving-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-c67deccb-98a5-404e-92f2-187120e7475a.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-waving-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "aebeb03013a5e62bbaacaf7e12bdc7502c4eb8e732c9f28b56bb0f0e546a4658",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "aebeb03013a5e62bbaacaf7e12bdc7502c4eb8e732c9f28b56bb0f0e546a4658",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "8",
+      "pose": "waving",
+      "outfit": "everyday",
+      "name": "girl-8-waving-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-308481c0-814d-4b80-b4f9-183a0793a194.png",
+      "file": "art/authoring/sept29-team7/kids/girl-8-waving-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "76beadb6aecd03ef0d83334a013b10b1223e5946e53725aec35c8e8bd7f07fe5",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "76beadb6aecd03ef0d83334a013b10b1223e5946e53725aec35c8e8bd7f07fe5",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "seated-reading",
+      "outfit": "base",
+      "name": "girl-toddler-seated-reading-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-f0a0b7f0-9c09-453f-8c55-b9077e9cfadf.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-seated-reading-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "39b7289ab463fd38dfd639b9ac2dcf2d811e44f345cf7920e98f027749693178",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "39b7289ab463fd38dfd639b9ac2dcf2d811e44f345cf7920e98f027749693178",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "seated-reading",
+      "outfit": "casual",
+      "name": "girl-toddler-seated-reading-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-e29f1c68-9e78-430e-bede-f634d8dd1b60.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-seated-reading-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "7a743f9496345f6cac48acf592127425de4623c878a9fabe3e752c97d35d86d4",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "7a743f9496345f6cac48acf592127425de4623c878a9fabe3e752c97d35d86d4",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "seated-reading",
+      "outfit": "everyday",
+      "name": "girl-toddler-seated-reading-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8e9529bc-6b33-4748-b60d-54da73da9cf1.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-seated-reading-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "38ceae3a2df959e892bc21041835d4a6c56f7cce03024485b65f37a9888e120f",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "38ceae3a2df959e892bc21041835d4a6c56f7cce03024485b65f37a9888e120f",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-seated-reading.png": "87846ceadf9c5d9d146411e7b846753d9b57d3499c22b4805f8e62becbc24956",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "standing",
+      "outfit": "base",
+      "name": "girl-toddler-standing-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-05118b98-a9d0-4543-9c22-3d31d9c017a0.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-standing-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "77e8c306237385fae82908c625c5bacce61dcff30b4f39432d323b5ff6dd21ce",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "77e8c306237385fae82908c625c5bacce61dcff30b4f39432d323b5ff6dd21ce",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "standing",
+      "outfit": "casual",
+      "name": "girl-toddler-standing-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-a6643b22-e1d0-4b09-a2c4-cd3791ee4fcf.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-standing-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "422ee11d6a835881efc0ed5ae59657ed6ec1831b86b6726b00b43a42060d59c3",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "422ee11d6a835881efc0ed5ae59657ed6ec1831b86b6726b00b43a42060d59c3",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "standing",
+      "outfit": "everyday",
+      "name": "girl-toddler-standing-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-a1a9bc1d-4321-490e-a13f-d1a12c8512b1.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-standing-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "ad4018bb2fd3892dd35bfb9ad58cc3cc9a1ed272b996523f38e3947c91d0957e",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "ad4018bb2fd3892dd35bfb9ad58cc3cc9a1ed272b996523f38e3947c91d0957e",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "waving",
+      "outfit": "base",
+      "name": "girl-toddler-waving-base",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-7b82ddff-295b-43e1-83d1-a3b6420f4d4f.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-waving-base.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "4f78ab6db0966a6f2c3ed3dd8acd67eb05302d523f0055fa9c456b91f09d24be",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "4f78ab6db0966a6f2c3ed3dd8acd67eb05302d523f0055fa9c456b91f09d24be",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "waving",
+      "outfit": "casual",
+      "name": "girl-toddler-waving-casual",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-f953ca9d-2e3f-4e35-aaef-558cd522e34f.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-waving-casual.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "6370d76225f77e3d4aea7144a75a0ef338c3b7cf74359cb2a94d80b66d7c9dd8",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "6370d76225f77e3d4aea7144a75a0ef338c3b7cf74359cb2a94d80b66d7c9dd8",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "gender": "girl",
+      "age": "toddler",
+      "pose": "waving",
+      "outfit": "everyday",
+      "name": "girl-toddler-waving-everyday",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-92c0fa51-d7ff-4eca-9691-5c0900f5d5a3.png",
+      "file": "art/authoring/sept29-team7/kids/girl-toddler-waving-everyday.png",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "prompt_recipe": "child-pose-sheet-v1",
+      "candidate_sha256": "a2af3f4597a6cc0ff6caea2b4da332fad9c6a43bde976ad7a751bf36309889cd",
+      "width": 1536,
+      "height": 1024,
+      "native_source_sha256": "a2af3f4597a6cc0ff6caea2b4da332fad9c6a43bde976ad7a751bf36309889cd",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png": "dc017487c5000660010ea763ce30d26f5d6bcfea8e11a8bc264ad899d00f2ae2",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Source RGB includes color under transparency; alpha-aware contact review still pending."
+      },
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    {
+      "name": "big-city-daily",
+      "category": "newspapers",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8a817a5a-7c08-4b35-9d53-136bdeccda77.png",
+      "file": "art/authoring/sept29-team7/newspapers/big-city-daily.png",
+      "prompt_recipe": "newspaper-big-city-daily",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "layout_reference": "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/news-screen-mockup-sept27.html",
+      "candidate_sha256": "b3381201577337f03317aab7b1c296db678540ac1efcde1e433d7d3b9ad11910",
+      "width": 1024,
+      "height": 1536,
+      "native_source_sha256": "b3381201577337f03317aab7b1c296db678540ac1efcde1e433d7d3b9ad11910",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png": "37399c976835bb79323055ccbb0fdbce2e231d1539f73dab4ad472a3b5d4fe7e",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": "2:3",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "midsize-daily",
+      "category": "newspapers",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-dec0be69-26fd-48ef-9650-5c179332ad8a.png",
+      "file": "art/authoring/sept29-team7/newspapers/midsize-daily.png",
+      "prompt_recipe": "newspaper-midsize-daily",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "layout_reference": "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/news-screen-mockup-sept27.html",
+      "candidate_sha256": "203ae4504ffae659d8614a51e9c2354fc28c6cbadb6815f24d7602ae1387dcfb",
+      "width": 1024,
+      "height": 1536,
+      "native_source_sha256": "203ae4504ffae659d8614a51e9c2354fc28c6cbadb6815f24d7602ae1387dcfb",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png": "37399c976835bb79323055ccbb0fdbce2e231d1539f73dab4ad472a3b5d4fe7e",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": "2:3",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "weekly",
+      "category": "newspapers",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-c408010b-76a4-49b6-b0e2-c318833bde69.png",
+      "file": "art/authoring/sept29-team7/newspapers/weekly.png",
+      "prompt_recipe": "newspaper-weekly",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "layout_reference": "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/news-screen-mockup-sept27.html",
+      "candidate_sha256": "bfe8f0533d802aaeac3b2fa3dffcad35a9dafc83d9ecba910b28859f759295fb",
+      "width": 1062,
+      "height": 1482,
+      "native_source_sha256": "bfe8f0533d802aaeac3b2fa3dffcad35a9dafc83d9ecba910b28859f759295fb",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png": "37399c976835bb79323055ccbb0fdbce2e231d1539f73dab4ad472a3b5d4fe7e",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1062,
+        "height": 1482,
+        "aspectRatio": "177:247",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "cable-panel",
+      "category": "tv",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-aac47f6c-fe15-4990-9c28-8bf193d24c2a.png",
+      "file": "art/authoring/sept29-team7/tv/cable-panel.png",
+      "prompt_recipe": "tv-edit-cable-panel",
+      "references": [
+        "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5251fd37-a32d-4e43-8e7d-5723fd635059.png"
+      ],
+      "parent_generation": {
+        "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5251fd37-a32d-4e43-8e7d-5723fd635059.png",
+        "prompt_recipe": "tv-cable-panel",
+        "references": [
+          "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png",
+          "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png",
+          "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png"
+        ]
+      },
+      "candidate_sha256": "15c52541b232b47ae6711643361e502882d3b12ef74557c91b38f97470270e37",
+      "width": 1672,
+      "height": 941,
+      "native_source_sha256": "15c52541b232b47ae6711643361e502882d3b12ef74557c91b38f97470270e37",
+      "reference_sha256": {
+        "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5251fd37-a32d-4e43-8e7d-5723fd635059.png": "a22aa2c3e9384a1daa6eb7d3170814ebf8449b7c168ef3627e1c54ebea5b6cdc"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "debate",
+      "category": "tv",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-d3860bb2-459c-4865-906f-65dbe2639636.png",
+      "file": "art/authoring/sept29-team7/tv/debate.png",
+      "prompt_recipe": "tv-edit-debate",
+      "references": [
+        "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ad460876-95df-4792-bd04-bf3893fa0c43.png"
+      ],
+      "parent_generation": {
+        "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ad460876-95df-4792-bd04-bf3893fa0c43.png",
+        "prompt_recipe": "tv-debate",
+        "references": [
+          "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png",
+          "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png",
+          "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png"
+        ]
+      },
+      "candidate_sha256": "c11d2ea48eb5dc33cdf431450577abcee31387657f16acae2753a6d200e8c030",
+      "width": 1672,
+      "height": 941,
+      "native_source_sha256": "c11d2ea48eb5dc33cdf431450577abcee31387657f16acae2753a6d200e8c030",
+      "reference_sha256": {
+        "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ad460876-95df-4792-bd04-bf3893fa0c43.png": "99304e050ce6214b5ef2962de0ef66021d248eb7d96c0b4c374e68db09a6d59e"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "local-news",
+      "category": "tv",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-28295e2a-c364-4098-aa93-a03e04b44f3a.png",
+      "file": "art/authoring/sept29-team7/tv/local-news.png",
+      "prompt_recipe": "tv-local-news",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png"
+      ],
+      "parent_generation": null,
+      "candidate_sha256": "30c13257cc528dd5bc0663caa946c7464a3d29794d2d8f040f5ef359cf0c5d96",
+      "width": 1672,
+      "height": 941,
+      "native_source_sha256": "30c13257cc528dd5bc0663caa946c7464a3d29794d2d8f040f5ef359cf0c5d96",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png": "53f17cbeadee99ad169740fcf740f72b06be8924ae8628e555080e1c7424cc08",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png": "558b4fe1d4bfec5b68e75f45adc5aa29899f50ce3277bfeb8a32bd2b91bb38e3",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png": "5a1d1e21e95657f573b6db9a4fd22bc4b729e633ba3484c890a30fb333ba4837"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "press-briefing",
+      "category": "tv",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-de69641b-69df-45ec-a22b-542997c16b0f.png",
+      "file": "art/authoring/sept29-team7/tv/press-briefing.png",
+      "prompt_recipe": "tv-press-briefing",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png"
+      ],
+      "parent_generation": null,
+      "candidate_sha256": "65222ce93f9146cef5a5d165190429e5ca7efa5e4b1eb8215d9cdbf556756386",
+      "width": 1672,
+      "height": 941,
+      "native_source_sha256": "65222ce93f9146cef5a5d165190429e5ca7efa5e4b1eb8215d9cdbf556756386",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png": "53f17cbeadee99ad169740fcf740f72b06be8924ae8628e555080e1c7424cc08",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png": "558b4fe1d4bfec5b68e75f45adc5aa29899f50ce3277bfeb8a32bd2b91bb38e3",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png": "5a1d1e21e95657f573b6db9a4fd22bc4b729e633ba3484c890a30fb333ba4837"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    }
+  ],
+  "qa_status": "61 native images passed existing parseImageMetadata dimension/transparency-presence checks. All61 individually visually screened; alpha-aware aggregate kids, TV, newspaper and reference sheets inspected. No pixel approval, clean-alpha or runtime-fit claim.",
+  "claimed_paths": [
+    "art/authoring/sept29-team7/tags.json",
+    "art/authoring/sept29-team7/generation-receipts.json",
+    "art/authoring/sept29-team7/contact-sheets/input-places-01.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-02.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-03.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-04.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-05.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-06.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-07.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-08.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-09.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-places-10.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-01.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-02.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-03.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-04.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-05.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-06.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-07.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-08.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-09.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-10.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-11.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-12.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-people-13.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-capitols-01.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-capitols-02.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-capitols-03.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-campuses-01.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-ui-01.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-ui-02.jpg",
+    "art/authoring/sept29-team7/contact-sheets/input-other-01.jpg",
+    "art/authoring/sept29-team7/contact-sheets/references.jpg",
+    "docs/release/changes/sept29-team7-art-review.md",
+    "docs/codex/handbacks/team-7.md"
+  ],
+  "source_delivery_readme_sha256": "e66b0bb103f3358a798866c8e8e14a141eefb7aa772a2ffce830f7956ad60b5d",
+  "executed_checks": {
+    "commands": [
+      {
+        "command": "npm run storage -- run test -- python3 /private/tmp/team7-contact.py",
+        "exit_code": 0,
+        "result": "10 final sheets written"
+      },
+      {
+        "command": "npm run storage -- run test -- node --import tsx /private/tmp/team7-qa.mjs",
+        "exit_code": 0,
+        "native_assets": 61,
+        "failures": []
+      }
+    ],
+    "parser": "existing scripts/art-asset-factory/qa.ts parseImageMetadata",
+    "storage_override": false,
+    "limits": [
+      "Transparency presence only; no full alpha sanitation or modular fit",
+      "CTO and owner approval pending",
+      "Runtime import, browser proof and simulation tests not run"
+    ]
+  },
+  "contact_sheets": [
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-campuses-01.jpg",
+      "sha256": "ae83f29201668d0a1d74a94a824a9dc50d4f8f4f2e84c3505f162efb2a148ef1"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-capitols-01.jpg",
+      "sha256": "f32e28d74ce72e500f3a0b4518f0e24ac50b3527b7b13290bc176a6e02f19ca1"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-capitols-02.jpg",
+      "sha256": "0991eae191dae3fc091e21a145f9cdcf4469e2797709db255af53219e7db8f44"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-capitols-03.jpg",
+      "sha256": "3bbd5a36f77d05cb02005760c6c8832743d39d3ef7df24b5e42061f4e3ec4dde"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-other-01.jpg",
+      "sha256": "9814ee35662bb4d53b3a5f058d394170f1568f3dfe126d87d931a97e4d9e9412"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-01.jpg",
+      "sha256": "a992d7b81f1cfb8e08cc4b0eb1b701019b6c4723e3918302b5ea984304d811ee"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-02.jpg",
+      "sha256": "03115bc0cd7c91465f6e7c52976afd77b735d2cb0ca933e89366018d79ac838d"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-03.jpg",
+      "sha256": "cdb5df8008c6743a252748e8f445025fed2f08665144b2f65de79bde896fda42"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-04.jpg",
+      "sha256": "760236ec0f22c3192d022dd8883f6492225a8b849421509bc96654d4203525bb"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-05.jpg",
+      "sha256": "b692e75779db689ed08fdfb05b9d0da97f091e68fd8c8996e4e0463500c2c833"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-06.jpg",
+      "sha256": "d5296a16117fe6d7088a5f1539fb72523ccb68bbadd11e665838a449e1659d55"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-07.jpg",
+      "sha256": "8db7053fbcb0afefbfc3197a15e1925a8f2c03edd81ecd0420be06083f5ee070"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-08.jpg",
+      "sha256": "35b26b395e496ed25e2fa940369b1a15a81fff4c72ca7d69a524a43688ffa944"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-09.jpg",
+      "sha256": "90fe3907792e88d00642d294d163f7409707175d591edb1a6c36ffa2ae4c59ab"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-10.jpg",
+      "sha256": "a448f44c4318c8d195c3684ad7bdb4d3448b7046d5ebe23ae01ddb1dc6aad404"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-11.jpg",
+      "sha256": "5ec4e9578e1772af7d64acf9264c269e5a874b1fc5377b7bcd1c67bdb8f868e3"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-12.jpg",
+      "sha256": "7c59743994a50fe0d62ed46ba88c105367148f7241b4df6fcb16fc0d76d227e9"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-people-13.jpg",
+      "sha256": "37642528563a25769e61f1686f2b45e4e545e3fb2c22b3d534f6507983a24b36"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-01.jpg",
+      "sha256": "d2bd47e9ed3e7ea423cb401e52028e34def11f9f891b15233311274a933c7a33"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-02.jpg",
+      "sha256": "9350af376f1e1edfc2561681686559fea9a675662c46556b5d8882d7056768a2"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-03.jpg",
+      "sha256": "a0a8993b954a5e5540fa96aef040ab87c0a32782b2d13e4b5951726666a3349d"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-04.jpg",
+      "sha256": "462585a22d5900206bf4bb0a5a5e2c37a9006e2d80390cb1bfdb56a887f2f82a"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-05.jpg",
+      "sha256": "d6ecb768594db56b37913ef0e86e1511b2544ce3620757d53f6feff1163d1623"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-06.jpg",
+      "sha256": "1357b7a3cfc0193ea943d8640c0f355f9df1257fd6ecc7a4b7a5855fe2fb745f"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-07.jpg",
+      "sha256": "fe91b5c251472f0a550d4966fde370698ae06dd668b3b7edcecce945e789ba08"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-08.jpg",
+      "sha256": "b8322b46eea5801e5b171e8dba9c8d651b5073f5ab64a84877e77c23a67184fe"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-09.jpg",
+      "sha256": "5350121b9d231e8721344a49f0dd9081c2337df9a04a41af5175a54d3e45d5cf"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-places-10.jpg",
+      "sha256": "2bb0df561d384f37034916fa1d07fb544ad5f3af5a5ba5f2ae373a2f9ca7a72b"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-ui-01.jpg",
+      "sha256": "1abf29a5e4f13bd2e9218a8ed59b112c414aacfd1f2acf55d02678dfc64139ff"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/input-ui-02.jpg",
+      "sha256": "bd510bed02febca5f24c5e4014a5b741fd642c661cb700f284395f76942976c9"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-boy-14.jpg",
+      "sha256": "dd74836bab65a29151f81f95d8f3778af732a93d6969c87b7a5e047d12e4f7fe"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-boy-8.jpg",
+      "sha256": "39add08286b7465a8bca343543a0fbe85a11893c3f15d3079215a0c3290c2036"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-boy-toddler.jpg",
+      "sha256": "9045c0ce346b74c6c7b65277d29903a7b1913a134dc3b4ffe184a6aa0f3ba047"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-girl-14.jpg",
+      "sha256": "31077e105389e8992a541e0648e4b10f32936677339be4a6a1bbc5b30d9cad02"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-girl-8.jpg",
+      "sha256": "9dc1d34d33b43bf6321e1d8ffa43a3943ea6f9aa224fea70f65eeb858cb2622e"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-girl-toddler.jpg",
+      "sha256": "1fc9bd139ebfe219480f25e87f412bbd7e2d53fa34b521f748975769df05a2aa"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids.jpg",
+      "sha256": "1fdbcffda3825bc4273d50651df1e2b48046484a17eb1b3fbe968411026de49e"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/newspapers.jpg",
+      "sha256": "5ffe19febd3fec5daa82c5e8cc42ab50a360dd796bd74a2e4d3140b9767e8d25"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/references.jpg",
+      "sha256": "a8758f93d63bc4ee20e7b2e903c9d64b42e5a32039460250307dc56496585559"
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/tv.jpg",
+      "sha256": "b246984d9345f31aa9c5e274b2f5d1e44689dd85ac6ef622bcbf8e9fb4742d28"
+    }
+  ],
+  "split_sets": [
+    {
+      "category": "kids",
+      "files": [
+        "art/authoring/sept29-team7/kids/boy-14-seated-reading-base.png",
+        "art/authoring/sept29-team7/kids/boy-14-seated-reading-casual.png",
+        "art/authoring/sept29-team7/kids/boy-14-seated-reading-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-14-standing-base.png",
+        "art/authoring/sept29-team7/kids/boy-14-standing-casual.png",
+        "art/authoring/sept29-team7/kids/boy-14-standing-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-14-waving-base.png",
+        "art/authoring/sept29-team7/kids/boy-14-waving-casual.png",
+        "art/authoring/sept29-team7/kids/boy-14-waving-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-8-seated-reading-base.png",
+        "art/authoring/sept29-team7/kids/boy-8-seated-reading-casual.png",
+        "art/authoring/sept29-team7/kids/boy-8-seated-reading-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-8-standing-base.png",
+        "art/authoring/sept29-team7/kids/boy-8-standing-casual.png",
+        "art/authoring/sept29-team7/kids/boy-8-standing-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-8-waving-base.png",
+        "art/authoring/sept29-team7/kids/boy-8-waving-casual.png",
+        "art/authoring/sept29-team7/kids/boy-8-waving-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-seated-reading-base.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-seated-reading-casual.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-seated-reading-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-standing-base.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-standing-casual.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-standing-everyday.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-waving-base.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-waving-casual.png",
+        "art/authoring/sept29-team7/kids/boy-toddler-waving-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-14-seated-reading-base.png",
+        "art/authoring/sept29-team7/kids/girl-14-seated-reading-casual.png",
+        "art/authoring/sept29-team7/kids/girl-14-seated-reading-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-14-standing-base.png",
+        "art/authoring/sept29-team7/kids/girl-14-standing-casual.png",
+        "art/authoring/sept29-team7/kids/girl-14-standing-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-14-waving-base.png",
+        "art/authoring/sept29-team7/kids/girl-14-waving-casual.png",
+        "art/authoring/sept29-team7/kids/girl-14-waving-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-8-seated-reading-base.png",
+        "art/authoring/sept29-team7/kids/girl-8-seated-reading-casual.png",
+        "art/authoring/sept29-team7/kids/girl-8-seated-reading-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-8-standing-base.png",
+        "art/authoring/sept29-team7/kids/girl-8-standing-casual.png",
+        "art/authoring/sept29-team7/kids/girl-8-standing-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-8-waving-base.png",
+        "art/authoring/sept29-team7/kids/girl-8-waving-casual.png",
+        "art/authoring/sept29-team7/kids/girl-8-waving-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-seated-reading-base.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-seated-reading-casual.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-seated-reading-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-standing-base.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-standing-casual.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-standing-everyday.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-waving-base.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-waving-casual.png",
+        "art/authoring/sept29-team7/kids/girl-toddler-waving-everyday.png",
+        "art/authoring/sept29-team7/contact-sheets/kids.jpg",
+        "art/authoring/sept29-team7/contact-sheets/kids-boy-toddler.jpg",
+        "art/authoring/sept29-team7/contact-sheets/kids-boy-8.jpg",
+        "art/authoring/sept29-team7/contact-sheets/kids-boy-14.jpg",
+        "art/authoring/sept29-team7/contact-sheets/kids-girl-toddler.jpg",
+        "art/authoring/sept29-team7/contact-sheets/kids-girl-8.jpg",
+        "art/authoring/sept29-team7/contact-sheets/kids-girl-14.jpg",
+        "art/authoring/sept29-team7/kids/tags.json",
+        "art/authoring/sept29-team7/kids/generation-receipts.json",
+        "docs/release/changes/sept29-team7-kids.md",
+        "docs/codex/handbacks/team-7-kids.md"
+      ],
+      "pngs": 54,
+      "sheets": 7
+    },
+    {
+      "category": "tv",
+      "files": [
+        "art/authoring/sept29-team7/tv/cable-panel.png",
+        "art/authoring/sept29-team7/tv/debate.png",
+        "art/authoring/sept29-team7/tv/local-news.png",
+        "art/authoring/sept29-team7/tv/press-briefing.png",
+        "art/authoring/sept29-team7/contact-sheets/tv.jpg",
+        "art/authoring/sept29-team7/tv/tags.json",
+        "art/authoring/sept29-team7/tv/generation-receipts.json",
+        "docs/release/changes/sept29-team7-tv.md",
+        "docs/codex/handbacks/team-7-tv.md"
+      ],
+      "pngs": 4,
+      "sheets": 1
+    },
+    {
+      "category": "newspapers",
+      "files": [
+        "art/authoring/sept29-team7/newspapers/big-city-daily.png",
+        "art/authoring/sept29-team7/newspapers/midsize-daily.png",
+        "art/authoring/sept29-team7/newspapers/weekly.png",
+        "art/authoring/sept29-team7/contact-sheets/newspapers.jpg",
+        "art/authoring/sept29-team7/newspapers/tags.json",
+        "art/authoring/sept29-team7/newspapers/generation-receipts.json",
+        "docs/release/changes/sept29-team7-newspapers.md",
+        "docs/codex/handbacks/team-7-newspapers.md"
+      ],
+      "pngs": 3,
+      "sheets": 1
+    }
+  ],
+  "split_note": "Inventory PR holds 35 shared metadata/input-review files. Native PNGs and nine set sheets are delivered by three independent ready PRs. Their per-set tags and receipts preserve originals."
+}
