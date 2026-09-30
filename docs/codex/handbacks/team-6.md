@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 256 have source references and 1,592 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 264 have source references and 1,584 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -227,3 +227,11 @@ Own2025IURC annual report confirms acquisition incentives andSEA247/SEA426 updat
 ## Third state fuel-tax authority packet
 
 Ten own-state routes added NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK. Root readNevada conditional countygrant,NorthCarolina refundexceptions andOhio historicalSeptember2021municipalbar. Otherdetail helper-reported. NewYorklocal sales route differs fromgallonagegrant;NewMexico institutional explanation requirescurrentstatute;NewHampshirecontingent versions unresolved. National localcount remainsopen.
+
+## Fourth fuel-tax authority packet
+
+CA,DC,MI,OR,PA,RI,SC,SD,TN,TXroutes added. RootreadCAregionalgrant,SDsmallmunicipalitygrant,RIJanuary2026distribution andDCtax+surcharge. Remainingdetailhelper-reported. DCobsoletewholesaleformula excluded;TexasSchoolFundshare retained;Tennesseelocalgrant remainshistoricallead,notJanuaryacceptance. Oregonreferendum-sensitivecutoff remainsopen.
+
+## NACTO original report read and District law category
+
+Root downloaded NACTOMoveThatBus andreadp28–29/references50–51. Itsdedicated-lane range istravel-time reduction10–25%,notprompt5–15%speedrange;casecitationsdonotspanallplaces. OriginalNYCmonitoringstill403. No coefficientadmitted. Draftschema now namesDistrictstatute soDCcode is not misclassified asstateorordinance;first schemafailure was correctedbeforepublication.

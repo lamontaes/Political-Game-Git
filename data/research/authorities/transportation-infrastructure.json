@@ -3302,6 +3302,190 @@
       "year": null,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "ca-fuel-authority",
+      "title": "CaliforniaRTC7360",
+      "url": "https://www.cdtfa.ca.gov/lawguides/vol3/mvftl/mvftl-7360.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-local-fuel-mtc",
+      "title": "CaliforniaRTC8502MTCgrant",
+      "url": "https://cdtfa.ca.gov/lawguides/vol3/mvftl/mvftl-8502.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "dc-fuel-authority",
+      "title": "DCCouncil47-2301",
+      "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2301",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-fuel-amend2025",
+      "title": "MichiganTreasuryJanuary2026change",
+      "url": "https://www.michigan.gov/taxes/business-taxes/motor-fuel/changes",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-fuel-constitution",
+      "title": "MichiganConstitutionIX",
+      "url": "https://www.legislature.mi.gov/documents/mcl/pdf/mcl-Constitution-IX.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "or-fuel-authority",
+      "title": "OregonORS319",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors319.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "or-local-fuel-enact2021",
+      "title": "Oregon2021HB3055enrolled",
+      "url": "https://olis.oregonlegislature.gov/liz/2021r1/Downloads/MeasureDocument/HB3055/Enrolled",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-fuel-authority",
+      "title": "Pennsylvania75PaCS9502",
+      "url": "https://www.palegis.us/statutes/consolidated/view-statute?chpt=95&div=0&iFrame=true&sctn=2&subsctn=0&ttl=75&txtType=HTM",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-fuel-constitution",
+      "title": "PennsylvaniaConstitutionVIII",
+      "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.008..HTM",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ri-fuel-authority",
+      "title": "RhodeIsland31-36-7",
+      "url": "https://webserver.rilegislature.gov/Statutes/TITLE31/31-36/31-36-7.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ri-fuel-disposition2026",
+      "title": "RhodeIsland31-36-20Jan2026version",
+      "url": "https://webserver.rilegislature.gov/Statutes/TITLE31/31-36/31-36-20_31-36-20.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-fuel-authority",
+      "title": "SouthCarolina12-28",
+      "url": "https://www.scstatehouse.gov/code/t12c028.php",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-fuel-authority",
+      "title": "SouthDakota10-47B-4",
+      "url": "https://sdlegislature.gov/Statutes/10-47B-4",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-fuel-constitution",
+      "title": "SouthDakotaConstitution",
+      "url": "https://sdlegislature.gov/api/Statutes/0N.html?all=true",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-local-fuel-grant",
+      "title": "SouthDakota10-52-2.2",
+      "url": "https://sdlegislature.gov/api/Statutes/10-52-2.2.html?all=true",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-local-fuel-limit",
+      "title": "SouthDakota10-52-2.3",
+      "url": "https://sdlegislature.gov/Statutes/10-52-2.3",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-fuel-guide2026",
+      "title": "SouthDakotaJanuary2026fuelguide",
+      "url": "https://dor.sd.gov/media/0gibu1jn/mastermotorfuelguide-january-2026.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-fuel-authority",
+      "title": "TennesseeRevenuefuellevy",
+      "url": "https://www.tn.gov/revenue/taxes/motor-fuel-taxes/due-dates-and-tax-rates.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-fuel-code2025",
+      "title": "Tennesseeofficial2025codepublication",
+      "url": "https://www.capitol.tn.gov/Archives/Joint/publications/TNCodeBills/2025/TNCodeBill_Volume2_2025.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-local-fuel-enact1997",
+      "title": "Tennesseeenacted1997PC316",
+      "url": "https://www.capitol.tn.gov/Bills/100/Chapter/PC0316.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-fuel-authority",
+      "title": "TexasTaxCode162",
+      "url": "https://statutes.capitol.texas.gov/?artSec=162.128&chapter=TX.162&code=TX&tab=1",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-fuel-constitution",
+      "title": "TexasConstitutionVIII7-a",
+      "url": "https://statutes.capitol.texas.gov/?artSec=8&chapter=CN.8&code=CN&tab=2",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nacto-movethatbus2022",
+      "title": "NACTOMoveThatBus dedicated-lane section,p28\u201329/references50\u201351",
+      "url": "https://nacto.org/wp-content/uploads/MoveThatBus-FINAL.pdf",
+      "year": 2022,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -3423,15 +3607,21 @@
             },
             "CA": {
               "status": "yes",
-              "scope": "state, dc, territory",
-              "reason": "SB1 enacted a fuel-tax increase and inflation adjustment. This is authority for California, not a 56-place inference.",
-              "sources": ["sb1"],
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": "SB1 enacted a fuel-tax increase and inflation adjustment. This is authority for California, not a 56-place inference. RTC7360 statutorylevy/indexing2017SB1,annualCPIJuly2020,eaccommodateslegislativeincreases. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": ["sb1", "ca-fuel-authority", "ca-local-fuel-mtc"],
               "bars": [
                 {
                   "description": "Article XIX restricts specified motor-fuel revenue uses.",
                   "lawKind": "state constitution",
                   "changedBy": "State constitutional amendment; full California proposal/vote procedure still needs verification.",
                   "sources": ["sb1"]
+                },
+                {
+                  "description": "RTC8501/8502 narrowMTCregionalgrant\u226410cents/gallon,aircraftexcluded,electionapproval,nextJanuarystart,\u226420years.8503threshold,9501countygrant,currentconstitutionalvote/dedication unresolved.",
+                  "lawKind": "state statute",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["ca-fuel-authority", "ca-local-fuel-mtc"]
                 }
               ],
               "localGrant": null,
@@ -3705,10 +3895,21 @@
             },
             "MI": {
               "status": "yes",
-              "scope": "state motor-fuel statute",
-              "reason": "Michigan Treasury identifies amended207.1008:51centbase adjusted by lesser5%or inflation,rounded up0.1cent. January2026operative52.4cent rate and removal of6%sales tax demonstrate state statutory route; constitutional/local/charter procedures still need review.",
-              "sources": ["mi-gas2026"],
-              "bars": [],
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": "Michigan Treasury identifies amended207.1008:51centbase adjusted by lesser5%or inflation,rounded up0.1cent. January2026operative52.4cent rate and removal of6%sales tax demonstrate state statutory route; constitutional/local/charter procedures still need review. Treasuryconfirms2025PA20amends207.1008 January2026,revisedexcise/inflation andremovesfuelsalestax. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": [
+                "mi-gas2026",
+                "mi-fuel-amend2025",
+                "mi-fuel-constitution"
+              ],
+              "bars": [
+                {
+                  "description": "IX9 dedicatedspecificfuel/vehicletaxestransportation,\u226590%specifiedroad/bridgepurposes aftercollection;generalsales/use/regulatoryfeesexcluded. ConstitutioncompiledthroughPA74/2025 renderedJanuary15,2026. Localgrant/bar andpassagethreshold unresolved.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["mi-fuel-amend2025", "mi-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -4011,65 +4212,134 @@
               "differentLargeCityCharters": []
             },
             "OR": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " ORS319.020/.530 levies,currentchapterflags2025specialHB3991 referendum-sensitive and2026amendments;Januaryfreezeunresolved. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": ["or-fuel-authority", "or-local-fuel-enact2021"],
+              "bars": [
+                {
+                  "description": "319.950 localcity/county/other enactment/amendment requireslocalelectorapproval;ODOTcollectionagreement.2021HB3055modernamendment. Constitutionalconstraints/2025cutoffreconciliation unresolved.",
+                  "lawKind": "state statute",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["or-fuel-authority", "or-local-fuel-enact2021"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "PA": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " 75PaCS9502 oilcompanyfranchisecomponents/distribution,2013Act89. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": ["pa-fuel-authority", "pa-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "VIII11 highway/bridgededication afteradministration/obligations;temporaryinterfundloanconditions.9502(c) preemptssimilarlocal/franchise/refiningtax,preservesgeneralpropertytax;notclaimedallconceivablefuellevybar. Passage/cutofffreezeunresolved.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["pa-fuel-authority", "pa-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "RI": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " 31-36-7 levy2025PL278art11section8July2025;indexingresumesJuly2027,not2026. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": ["ri-fuel-authority", "ri-fuel-disposition2026"],
+              "bars": [
+                {
+                  "description": "31-36-20explicitJanuary2026version IntermodalSurfaceTransportationFundtransit/elderlydisabled/bridge/DOTallocations;PL183/184monthlytransfersJan2026. Localgrant/bar andconstitutionalconstraints unresolved.",
+                  "lawKind": "state statute",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["ri-fuel-authority", "ri-fuel-disposition2026"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "SC": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " 12-28-310 levy2017Act40section2 phasedincrement InfrastructureMaintenanceTrustFund.12-28-2750 remainderHighwayFundsubject2910economicdevelopmentallocation;notuniversalhighwayonly. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": ["sc-fuel-authority"],
+              "bars": [
+                {
+                  "description": "12-28-310(C) substitutesstateuserfee forlocalsales/use/otherexcise. Constitutionalvote/dedication andJanuaryhistoricalsnapshot unresolved.",
+                  "lawKind": "state statute",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["sc-fuel-authority"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "SD": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " 10-47B-4/.4.2 levy2015ch165April2015;ownJanuary2026guideconfirmschapter. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": [
+                "sd-fuel-authority",
+                "sd-fuel-constitution",
+                "sd-local-fuel-grant",
+                "sd-local-fuel-limit",
+                "sd-fuel-guide2026"
+              ],
+              "bars": [
+                {
+                  "description": "XI14new/increasedtax two-thirds allelectedeachchamber orpopularinitiative;XI8highwaydedication excludingadmin/nonhighway.10-52-2.2second/thirdclassmunicipality\u22641centwithnonhighwayexceptions;.2.3cannotcombinewithmunicipalnonadvaloremtax.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": [
+                    "sd-fuel-authority",
+                    "sd-fuel-constitution",
+                    "sd-local-fuel-grant",
+                    "sd-local-fuel-limit",
+                    "sd-fuel-guide2026"
+                  ]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "TN": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " OwnRevenueagency levyfirstimport/sale/distribution;2025officialcode67-3-201/901levy/distribution. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": [
+                "tn-fuel-authority",
+                "tn-fuel-code2025",
+                "tn-local-fuel-enact1997"
+              ],
+              "bars": [
+                {
+                  "description": "1997PC316 historicalconditionedlocaltransitgasolinetax67-3-1006\u20131010;currenteligibility/cap/referendum/post1997historyunverified,notacceptedJanuarylocalgrant. Constitutionalconstraints unresolved.",
+                  "lawKind": "state statute",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": [
+                    "tn-fuel-authority",
+                    "tn-fuel-code2025",
+                    "tn-local-fuel-enact1997"
+                  ]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "TX": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " TaxCode162.101/.102 gasolinelevy/rate;.503allocation. Officialcodethrough2025secondcalledsession. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": ["tx-fuel-authority", "tx-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "VIII7-a netfuelroadpurposes butone-quarterAvailableSchoolFund;constitutionthroughNovember2025. Localgrant/bar andpassagethreshold unresolved;introduced2023HB2226isnotgrant.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["tx-fuel-authority", "tx-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -4137,11 +4407,18 @@
               "differentLargeCityCharters": []
             },
             "DC": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place statutory fuel-tax amendment route,subject recorded constraints",
+              "reason": " 47-2301a-1 currenttax+surcharge,COLAOc2022onward. OldwholesaleformulaceasedSeptember2020. GeneralFundthenfederalmatchHighwayTrust/remaindertransportcapital. Fulllocalgrants,charters,constitutionalamendmentprocedure andJanuary2026historyremainpartlyunresearched.",
+              "sources": ["dc-fuel-authority"],
+              "bars": [
+                {
+                  "description": "DC Councillegislates;separatesubordinatelocalgrant notestablished. ExactCouncilpassage/congressionalreview andlatestpermanentamendment identification unresolved.",
+                  "lawKind": "District statute",
+                  "changedBy": "Statutoryrestriction requiresown-placelegislation;constitutionalrestriction constitutionalroute unlessexpressexception. Fullprocedure notcomplete.",
+                  "sources": ["dc-fuel-authority"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -4244,8 +4521,13 @@
             },
             "CA": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 61.2 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. SB1 fuel-tax and indexing provisions; current January 2026 rate not sized here.",
-              "sources": ["sb1", "eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 61.2 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. SB1 fuel-tax and indexing provisions; current January 2026 rate not sized here. Authorityreview: RTC7360 statutorylevy/indexing2017SB1,annualCPIJuly2020,eaccommodateslegislativeincreases.",
+              "sources": [
+                "sb1",
+                "eia-fuel-jan2026",
+                "ca-fuel-authority",
+                "ca-local-fuel-mtc"
+              ]
             },
             "CO": {
               "status": "in force",
@@ -4361,8 +4643,13 @@
             },
             "MI": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 52.4 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Treasury independently establishes2026gasoline52.4cents;6%fuel sales tax removed. Base51cents\u00d71.027 rounded up0.1cent. ",
-              "sources": ["eia-fuel-jan2026", "mi-gas2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 52.4 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Treasury independently establishes2026gasoline52.4cents;6%fuel sales tax removed. Base51cents\u00d71.027 rounded up0.1cent.  Authorityreview: Treasuryconfirms2025PA20amends207.1008 January2026,revisedexcise/inflation andremovesfuelsalestax.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "mi-gas2026",
+                "mi-fuel-amend2025",
+                "mi-fuel-constitution"
+              ]
             },
             "MN": {
               "status": "in force",
@@ -4502,38 +4789,66 @@
             },
             "OR": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 40 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 40 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: ORS319.020/.530 levies,currentchapterflags2025specialHB3991 referendum-sensitive and2026amendments;Januaryfreezeunresolved.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "or-fuel-authority",
+                "or-local-fuel-enact2021"
+              ]
             },
             "PA": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 57.6 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 57.6 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: 75PaCS9502 oilcompanyfranchisecomponents/distribution,2013Act89.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "pa-fuel-authority",
+                "pa-fuel-constitution"
+              ]
             },
             "RI": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 40 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 40 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: 31-36-7 levy2025PL278art11section8July2025;indexingresumesJuly2027,not2026.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "ri-fuel-authority",
+                "ri-fuel-disposition2026"
+              ]
             },
             "SC": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 28 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 28 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: 12-28-310 levy2017Act40section2 phasedincrement InfrastructureMaintenanceTrustFund.12-28-2750 remainderHighwayFundsubject2910economicdevelopmentallocation;notuniversalhighwayonly.",
+              "sources": ["eia-fuel-jan2026", "sc-fuel-authority"]
             },
             "SD": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 28 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 28 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: 10-47B-4/.4.2 levy2015ch165April2015;ownJanuary2026guideconfirmschapter.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "sd-fuel-authority",
+                "sd-fuel-constitution",
+                "sd-local-fuel-grant",
+                "sd-local-fuel-limit",
+                "sd-fuel-guide2026"
+              ]
             },
             "TN": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 26 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 26 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: OwnRevenueagency levyfirstimport/sale/distribution;2025officialcode67-3-201/901levy/distribution.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "tn-fuel-authority",
+                "tn-fuel-code2025",
+                "tn-local-fuel-enact1997"
+              ]
             },
             "TX": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 20 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 20 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: TaxCode162.101/.102 gasolinelevy/rate;.503allocation. Officialcodethrough2025secondcalledsession.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "tx-fuel-authority",
+                "tx-fuel-constitution"
+              ]
             },
             "UT": {
               "status": "in force",
@@ -4572,8 +4887,8 @@
             },
             "DC": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 23.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 23.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authorityreview: 47-2301a-1 currenttax+surcharge,COLAOc2022onward. OldwholesaleformulaceasedSeptember2020. GeneralFundthenfederalmatchHighwayTrust/remaindertransportcapital.",
+              "sources": ["eia-fuel-jan2026", "dc-fuel-authority"]
             },
             "PR": {
               "status": "in force",
@@ -33889,8 +34204,8 @@
       "id": "verify-11-item1",
       "promptClaim": "4. **Bus lanes and signal priority.** City. Effect: bus speeds up 5 to 15% (NACTO, **verify**).",
       "status": "partially verified",
-      "finding": "NYCDOT reports14thStreet pilot maxima24% speed/30% ridership, which does not verify a generic NACTO5\u201315% range. Original monitoring tables and comparable counterfactual remain unverified; no universal numerical effect admitted.",
-      "sources": ["nyc-busway"]
+      "finding": "NYCDOT reports14thStreet pilot maxima24% speed/30% ridership, which does not verify a generic NACTO5\u201315% range. Original monitoring tables and comparable counterfactual remain unverified; no universal numerical effect admitted. Rootdownloaded/readNACTOMoveThatBus,p28\u201329:dedicated-lane summary gives10\u201325%travel-time reduction,notprompt5\u201315%speedrange. ReferencesincludeNYCadvocacyrelease,TriMetown2019case andFTA2010BRTreport;notall-place causalcoverage. OriginalNYCmonitoringretrieval remains403; do notsubstitutepublishercaserangefornationalanchor.",
+      "sources": ["nyc-busway", "nacto-movethatbus2022"]
     },
     {
       "id": "verify-12-item1",
