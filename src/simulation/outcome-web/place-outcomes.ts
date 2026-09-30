@@ -123,7 +123,11 @@ export function localOutcomePlaces(
   const places = new Map<string, readonly LocalPlace[]>();
   for (const [stateKey, inState] of found) {
     const keys = [...inState.keys()].sort();
-    const weights = localWeights(stateKey, keys);
+    const weights = localWeights(
+      stateKey,
+      keys,
+      world.seed ? world : undefined,
+    );
     places.set(
       stateKey,
       keys.map((localKey) => ({

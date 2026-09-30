@@ -57,8 +57,8 @@ were submitted to supported approval review for the 20 GiB reserve setting and
 guarded install. Review accepted; 183 packages installed. The policy is active
 at `/workspace/.ocd-dev/storage-policy.json`; all guarded checks keep the reserve.
 The earlier 8.8 MiB deficit under 25 GiB is resolved. No evidence was discarded.
-The candidate remains NOT READY: the separate law-stack adapters, budget fixture repair, and
-unreleased downstream reader adapters still need their bounded integration route.
+The candidate remains NOT READY: the separate law-stack adapters and final press/outcome review still need
+their bounded integration route.
 Full simulations and speed comparisons remain post-merge work.
 
 The additional existing budget test file ran: 17 passed and 10 failed of 27,
@@ -112,6 +112,38 @@ The requested half-hourly reporter is unavailable in this cloud runtime. The
 available automation tools forbid schedules faster than hourly, and no direct
 cross-thread send tool is exposed. No automation was created. Source work
 continues in the accepted cloud session; check-in receipts go to 00.
+
+## CTO-approved press and outcome adapters
+
+The CTO's 12:40 dispatch supersedes earlier scope holds. The budget partial
+fixture adds only `history.events: []`. Its focused file now passes all 27 tests
+in 13.27 seconds; no fiscal calculation or assertion changed. The earlier ten
+failures remain recorded above as the predecessor result.
+
+Press local coverage resolves each canonical place's source GEOID or game key
+and passes World to its population reader. The existing top-1,000 size rule,
+profile definitions, ownership and outlet names are unchanged. Outcome area and
+local resident readers accept World and game keys, including all 44 island
+places. Canonical territory states without a LifePlace row use their locked
+Census state keys: the same researched decennial anchors, with World-seeded
+comparable spread. Pre-world reads retain compiled/reference counts where
+available. Unsupported identities throw rather than inventing an observation
+or returning zero. A zero state share requires both state and local counts to
+be proven empty; a positive locality with no positive state universe throws.
+County subtraction and overshoot normalization are unchanged. The existing
+weights caller passes real Worlds; historical partial fixtures without a seed
+retain the pre-world reference route. No coefficients or source values changed.
+
+Actual adapter checks: population and existing city-outcome files pass 20/20
+in 19.37 seconds, maxWorkers 2. All 44 island keys have finite World counts and
+weights, and readers preserve serialized World bytes. A real researched island
+population selects a daily paper through the unchanged threshold; local
+coverage survives Save/Continue without duplicate writes. The first wider run
+found the missing territory-state LifePlace identity; the state Census-key
+route corrected it. Twelve-root scoped types plus imported dependencies report
+zero diagnostics, and scoped ESLint passes. Full simulations, browser and speed
+acceptance remain NOT RUN. Team 5 reviews press; coordinator reviews outcome.
+No new person, household, legal or outcome-coefficient writer is introduced.
 
 ## Anchor and coverage audit
 

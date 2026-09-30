@@ -1,5 +1,7 @@
 # File claims
 
+CTO 12:40 additionally assigns Team 3 only `public-budgets/public-budgets.test.ts` partial `worldAt` fixture's missing `history.events` array; `press/outlets.ts` local population key/World reader seam and its existing caller; `outcome-web/place-outcome-store.ts` population reader key/World seams and the existing `place-outcomes.ts` weights call. Preserve press research/profile thresholds, outcome allocation logic, and all fiscal/legal values. Team 5 reviews press; coordinator reviews outcome adapters. Focused Census regression evidence remains on the owned population test path. No other writer scope is acquired.
+
 Team 1 additionally released only the required `ensurePopulationLayer` import and `ensureTownResidents` wrapper in `src/simulation/living-world/town-residents.ts`: record the canonical layer after changed seating within the existing deferred block. Unchanged seating retains identity; the final integrity assertion and current-opening caller guard remain intact. No person, household, materialization, pay, or law writer scope is acquired.
 
 Team 3 cloud also owns only `src/simulation/public-budgets/opening.ts` raw annual-source classification at the former lines 784/795 and its required import, released by the coordinator. Fiscal values and logic remain reserved. Team 2 explicitly released only the existing `placePopulation` import and CDP classification call in `src/simulation/principles-from-life.test.ts` to the observation reader; all other test and behavior hunks remain reserved.

@@ -113,6 +113,7 @@ function worldAt(
       ),
     },
     history: {
+      events: [],
       organizations: [],
       resourceFlows: [],
       resourceTransferOutcomes: [],

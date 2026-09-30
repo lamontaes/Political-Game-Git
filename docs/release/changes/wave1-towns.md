@@ -25,3 +25,8 @@ unchanged and already-seated legacy towns retain identity. Source-classification
 adapters preserve raw observation missingness. This continuation remains under
 review, with downstream adapters and runtime acceptance pending. Household evolution, the remaining law-stack
 adapters and income consumers follow separately.
+
+Canonical island game keys now supply World population to local press and
+place-outcome weights. Existing press size criteria and county/state allocation
+formulas remain intact; unavailable identities are distinct from proven empty
+places. The budget test fixture includes its missing event collection.

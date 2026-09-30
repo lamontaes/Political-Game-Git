@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { placeReferencePopulation } from "./place-population";
+import { placeReferencePopulation, populationAtRank } from "./place-population";
 import {
   censusDemographicObservation,
   censusDemographics,
@@ -16,7 +16,12 @@ import {
 
 import { createWorld, recordWorldEvent } from "../world";
 import { makeIsoDate } from "../dates";
-import { lifePlaceByKey, lifePlaceStateIdentities } from "../life-places";
+import {
+  lifePlaceByKey,
+  lifePlaceByJurisdictionId,
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import {
   ensureTownResidents,
@@ -24,6 +29,12 @@ import {
 } from "../living-world/town-residents";
 import { SeededRng } from "../rng";
 import { createStableId } from "../ids";
+import {
+  areaResidents,
+  localResidents,
+  localWeights,
+} from "../outcome-web/place-outcome-store";
+import { ensurePressLocalCoverage, mediaOutlets } from "../press/outlets";
 import {
   createExplicitGeographyLife,
   sampledProofLocalityForState,
@@ -100,6 +111,80 @@ describe("census counts distinguish represented residents from written samples",
 });
 
 describe("nationally researched per-world population", () => {
+  it("rejects unavailable population identities instead of inventing zero shares", () => {
+    expect(() => areaResidents("missing-area")).toThrow("population identity");
+    expect(() => localResidents("missing-locality")).toThrow(
+      "population identity",
+    );
+    expect(() => localWeights("missing-area", ["missing-locality"])).toThrow(
+      "population identity",
+    );
+  });
+  it("routes every island key and state outcome weight through finite World counts", () => {
+    for (const row of TERRITORY_POPULATION_ROWS) {
+      const place = lifePlaceByKey(row.key)!;
+      const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!;
+      const world = createWorld({
+        seed: `island-population-adapter:${row.key}`,
+        currentDate: makeIsoDate("2026-01-05"),
+        jurisdictions: [state, place.context.jurisdiction],
+        people: [],
+      });
+      const before = serializeWorld(world);
+      const population = representedPopulation(
+        world,
+        place.context.jurisdiction.id,
+      ).population;
+      const statePopulation = lifePlaceByJurisdictionId(state.id)
+        ? representedPopulation(world, state.id).population
+        : censusDemographics(
+            STATE_POPULATION_KEYS[place.stateJurisdictionKey!.slice(3)]!,
+            world,
+          ).counts.population;
+      expect(localResidents(row.key, world), row.key).toBe(population);
+      expect(areaResidents(place.stateJurisdictionKey!, world)).toBe(
+        statePopulation,
+      );
+      expect(Number.isFinite(localResidents(row.key))).toBe(true);
+      const weight = localWeights(
+        place.stateJurisdictionKey!,
+        [row.key],
+        world,
+      ).get(row.key)!;
+      expect(weight).toBe(
+        statePopulation > 0 ? Math.min(1, population / statePopulation) : 0,
+      );
+      expect(serializeWorld(world)).toBe(before);
+    }
+  });
+  it("uses a researched island population for the unchanged daily-paper size rule", () => {
+    const place = TERRITORY_POPULATION_ROWS.map((row) =>
+      lifePlaceByKey(row.key)!,
+    )
+      .filter((place) => !place.sourceGeoid)
+      .sort((a, b) => localResidents(b.key) - localResidents(a.key))[0]!;
+    const { game } = createExplicitGeographyLife({
+      placeKey: place.key,
+      seed: "island-press-population-adapter",
+      startAge: 8,
+    });
+    const before = serializeWorld(game.world);
+    const population = localResidents(place.key, game.world);
+    const floor = populationAtRank(1000)!;
+    expect(population, place.displayName).toBeGreaterThanOrEqual(floor);
+    const covered = ensurePressLocalCoverage(game.world, game.playerPersonId);
+    const outlet = mediaOutlets(covered).find(
+      (outlet) =>
+        outlet.scope === "local" &&
+        outlet.primaryJurisdictionIds.includes(place.context.jurisdiction.id),
+    )!;
+    expect(outlet.cadence).toBe("daily");
+    expect(serializeWorld(game.world)).toBe(before);
+    const restored = deserializeWorld(serializeWorld(covered));
+    expect(ensurePressLocalCoverage(restored, game.playerPersonId)).toBe(
+      restored,
+    );
+  });
   it("fills every game demographic cell while preserving missing source cells", () => {
     const keys = [
       ...Object.values(STATE_POPULATION_KEYS),

@@ -2,9 +2,16 @@ import bases from "../../../data/research/outcome-web/place-outcome-bases-2024.j
 import { countyGeoidsForPlace } from "../government-units";
 import {
   lifePlaceByJurisdictionId,
+  lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
+import {
+  censusDemographics,
+  populationKeyForPlace,
+  representedPopulation,
+} from "../nationwide-world/represented-population";
+import { STATE_POPULATION_KEYS } from "../nationwide-world/place-demographics.generated";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { AREA_RESIDENTS_ROWS } from "./area-residents.generated";
@@ -221,22 +228,40 @@ export function localOutcomeKey(jurisdictionId: EntityId): string | null {
 
 let residentsByArea: ReadonlyMap<string, number> | null = null;
 
-/** Residents of a state (`US-XX`) or county (5-digit GEOID), or null. */
-export function areaResidents(key: string): number | null {
+/** World residents for a state or county; reference counts before a World exists. */
+export function areaResidents(key: string, world?: World): number {
+  const state = stateJurisdictionForKey(key);
+  const place = state
+    ? lifePlaceByJurisdictionId(state.id)
+    : (lifePlaceByKey(key) ?? lifePlaceByKey(`county:${key}`));
+  if (place && world)
+    return representedPopulation(world, place.context.jurisdiction.id)
+      .population;
   residentsByArea ??= new Map(
     AREA_RESIDENTS_ROWS.split(";").map((pair): [string, number] => {
       const colon = pair.indexOf(":");
       return [pair.slice(0, colon), Number(pair.slice(colon + 1))];
     }),
   );
-  return residentsByArea.get(key) ?? null;
+  const reference = residentsByArea.get(key);
+  const stateKey = state ? STATE_POPULATION_KEYS[key.slice(3)] : undefined;
+  // Some canonical territory states have jurisdiction records but no LifePlace
+  // row. Their locked Census state key still supplies a researched anchor.
+  if (stateKey && world)
+    return censusDemographics(stateKey, world).counts.population;
+  if (reference !== undefined) return reference;
+  if (stateKey) return placePopulation(stateKey);
+  if (!place) throw new Error(`No researched population identity for ${key}`);
+  return placePopulation(populationKeyForPlace(place), world);
 }
 
-/** A city's or county's residents, or null where the game does not hold it. */
-export function localResidents(localKey: string): number | null {
+/** World residents for local game keys, including island places without GEOIDs. */
+export function localResidents(localKey: string, world?: World): number {
   if (localKey.startsWith("county:"))
-    return areaResidents(localKey.slice("county:".length));
-  return /^\d{7}$/.test(localKey) ? placePopulation(localKey) : null;
+    return areaResidents(localKey.slice("county:".length), world);
+  if (!lifePlaceByKey(localKey))
+    throw new Error(`No researched local population identity for ${localKey}`);
+  return placePopulation(localKey, world);
 }
 
 /**
@@ -244,14 +269,15 @@ export function localResidents(localKey: string): number | null {
  * own records in one state. A county's share leaves out the residents of any
  * city keeping its own record whose largest part lies in it, so no one is
  * counted twice. PLACEHOLDER: a city across several counties is placed whole
- * in its largest. Null where a count is unknown.
+ * in its largest. Missing counts use generated comparable anchors.
  */
 export function localWeights(
   stateKey: string,
   localKeys: readonly string[],
-): ReadonlyMap<string, number | null> {
-  const state = areaResidents(stateKey);
-  const weights = new Map<string, number | null>();
+  world?: World,
+): ReadonlyMap<string, number> {
+  const state = areaResidents(stateKey, world);
+  const weights = new Map<string, number>();
   const counties = new Set(
     localKeys.filter((key) => key.startsWith("county:")),
   );
@@ -260,18 +286,21 @@ export function localWeights(
     for (const key of localKeys) {
       if (key.startsWith("county:")) continue;
       const county = /^\d{7}$/.test(key) ? countyGeoidsForPlace(key)[0] : null;
-      const people = localResidents(key);
-      if (!county || people === null || !counties.has(`county:${county}`))
-        continue;
+      const people = localResidents(key, world);
+      if (!county || !counties.has(`county:${county}`)) continue;
       inCounty.set(county, (inCounty.get(county) ?? 0) + people);
     }
   }
   for (const key of localKeys) {
-    const people = localResidents(key);
-    if (state === null || state <= 0 || people === null) {
-      weights.set(key, null);
+    const people = localResidents(key, world);
+    if (state === 0 && people === 0) {
+      weights.set(key, 0);
       continue;
     }
+    if (!(state > 0))
+      throw new Error(
+        `No positive population universe for ${stateKey}: ${key}`,
+      );
     const own = key.startsWith("county:")
       ? Math.max(0, people - (inCounty.get(key.slice("county:".length)) ?? 0))
       : people;
@@ -280,12 +309,11 @@ export function localWeights(
   // Counts from different years can overshoot; the places never outweigh
   // their state.
   const total = [...weights.values()].reduce<number>(
-    (sum, weight) => sum + (weight ?? 0),
+    (sum, weight) => sum + weight,
     0,
   );
   if (total > 1)
-    for (const [key, weight] of weights)
-      if (weight !== null) weights.set(key, weight / total);
+    for (const [key, weight] of weights) weights.set(key, weight / total);
   return weights;
 }
 

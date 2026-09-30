@@ -385,9 +385,11 @@ const DAILY_TOWN_RANK = 1_000;
 const WEEKLY_PROFILE_INDEX = 1;
 const DAILY_PROFILE_INDEX = 2;
 
-function localProfileFor(placeId: EntityId): OutletProfile {
-  const geoid = lifePlaceByJurisdictionId(placeId)?.sourceGeoid;
-  const population = geoid ? placePopulation(geoid) : null;
+function localProfileFor(placeId: EntityId, world: World): OutletProfile {
+  const place = lifePlaceByJurisdictionId(placeId);
+  const population = place
+    ? placePopulation(place.sourceGeoid ?? place.key, world)
+    : null;
   const dailyFloor = populationAtRank(DAILY_TOWN_RANK);
   const daily =
     population !== null && dailyFloor !== null && population >= dailyFloor;
@@ -570,7 +572,7 @@ export function ensurePressLocalCoverage(
   if (!person || !place || place.kind.startsWith("state")) return world;
   const shortName = place.name.split(",")[0]!.trim();
   const slot = `local:${place.slug}`;
-  const profile = localProfileFor(place.id);
+  const profile = localProfileFor(place.id, world);
   const names =
     lifePlaceByJurisdictionId(place.id)?.stateJurisdictionKey ===
     PUERTO_RICO_KEY
