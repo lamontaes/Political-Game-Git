@@ -1,0 +1,57 @@
+{
+  "team": 9,
+  "request": "PR1247 federal current-law values and cost lane",
+  "sourceAsOf": "OLRC pages state laws in effect September29,2026",
+  "entries": [
+    {
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "primarySource": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title42-section5172&num=0&edition=prelim",
+      "sections": ["5172(a)", "5172(b)(1)-(3)"],
+      "coverage": "Eligible public and private nonprofit facility repair/restoration/reconstruction/replacement under this StaffordAct provision; not every disaster program or every private home.",
+      "minimumFederalShare": 0.75,
+      "reducedShareException": {
+        "minimumFederalShare": 0.25,
+        "conditions": "Facility damaged more than once in preceding10years by same event type and owner failed appropriate mitigation; requires implementing regulations."
+      },
+      "incentiveShare": {
+        "minimumMayIncreaseTo": 0.85,
+        "conditions": "Recognized state/tribal readiness and resilience investments; statute permits higher shares."
+      },
+      "unit": "Federal share of actual eligible project cost, not percent of all state damage",
+      "budgetUse": "Federal cost=actual eligible cost*applicable federal share; nonfederal remainder must follow actual state/local applicant allocation. Do not call remainder exclusively state spending without the allocation rule.",
+      "why": [
+        "Disaster damages an eligible facility.",
+        "Government approves eligible repair costs under the applicable assistance program.",
+        "The legal cost-share rule allocates those actual costs to federal and nonfederal payers."
+      ],
+      "rangeLimit": "75%,25%,85% are distinct statutory cases, not an empirical per-place draw range or universal upper ceiling.",
+      "missing": "Actual declaration/program share, state/local split, project scope and repair-unit cost evidence; no national universal repair amount invented."
+    },
+    {
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "primarySource": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title8-section1151&num=0&edition=prelim",
+      "sections": ["1151(b)", "1151(c)-(e)"],
+      "familySponsoredFormulaBase": 480000,
+      "familySponsoredFormulaFloor": 226000,
+      "familyFormula": "480000 minus prior-year immediate-relative and specified parole adjustments plus prior-year unused employment numbers; statutory floor226000.",
+      "employmentBasedFormulaBase": 140000,
+      "employmentFormula": "140000 plus unused prior-year family-sponsored numbers; not an exact FY2026total without prior-year inputs.",
+      "diversityStatutoryBase": 55000,
+      "coverage": "These are different legal permanent-immigration categories. Immediate relatives under1151(b)(2) are numerically exempt; eligibility/admissibility and country/category constraints still apply.",
+      "missing": "Actual FY2026 category allocation, carryover counts, diversity-program offsets, eligibility/admissibility, per-country constraints and issued/admitted counts. Admissions observations are not legislative authority.",
+      "rangeLimit": "140000/226000/480000/55000 are separate statutory formula components, not interchangeable ends of a policy interval. No universal additional-admissions amount inferred."
+    },
+    {
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "primarySource": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title31-section3101&num=0&edition=prelim",
+      "operativeInstrument": "PublicLaw119-21 titleVII section72001, July4,2025; statutory note to3101",
+      "increaseUsd": 5000000000000,
+      "coverage": "Increase to prior statutory limit as increased under PublicLaw118-5 section401(b), not an appropriation or a debt-outstanding amount.",
+      "criticalLimit": "3101(b) displayed14.294trillion is subject to later legal adjustments and must not be used as current2026ceiling. Five-trillion increase is verified; absolute current ceiling not yet independently verified from Treasury's reinstatement calculation.",
+      "missing": "Exact Treasury reinstated prior ceiling and current final ceiling; any required offset must come from an actual enactment or authored proposal, not assumed from debt-limit authority.",
+      "rangeLimit": "No fabricated selectable debt ceiling or required-spending offset bounds."
+    }
+  ],
+  "integrationOwner": "Coordinator shared catalog/links; respective runtime and budget owners",
+  "runtimeProof": "NOT RUN; these legal terms do not establish saved budget/person consequences."
+}
