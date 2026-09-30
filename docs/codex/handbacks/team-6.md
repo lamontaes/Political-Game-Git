@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 264 have source references and 1,584 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 277 have source references and 1,571 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -86,7 +86,7 @@ Each column refers to that decision’s January 2026 starting-law entry. `U` mea
 | ----- | -------- | --------------- | --------------- | ------------ | -------- | ---------------- |
 | AL    | F        | F               | U               | U            | U        | U                |
 | AK    | F        | U               | U               | U            | U        | U                |
-| AZ    | F        | U               | U               | U            | U        | U                |
+| AZ    | F        | F               | U               | U            | U        | U                |
 | AR    | F        | F               | U               | U            | U        | U                |
 | CA    | F        | F               | U               | U            | U        | U                |
 | CO    | F        | F               | U               | U            | U        | U                |
@@ -134,7 +134,7 @@ Each column refers to that decision’s January 2026 starting-law entry. `U` mea
 | WV    | F        | F               | U               | U            | U        | U                |
 | WI    | F        | F               | U               | U            | U        | U                |
 | WY    | F        | F               | U               | U            | U        | U                |
-| DC    | F        | U               | U               | U            | U        | U                |
+| DC    | F        | F               | U               | U            | U        | U                |
 | PR    | F        | U               | U               | U            | U        | U                |
 | GU    | F        | U               | U               | U            | U        | U                |
 | VI    | F        | U               | U               | U            | U        | U                |
@@ -235,3 +235,11 @@ CA,DC,MI,OR,PA,RI,SC,SD,TN,TXroutes added. RootreadCAregionalgrant,SDsmallmunici
 ## NACTO original report read and District law category
 
 Root downloaded NACTOMoveThatBus andreadp28–29/references50–51. Itsdedicated-lane range istravel-time reduction10–25%,notprompt5–15%speedrange;casecitationsdonotspanallplaces. OriginalNYCmonitoringstill403. No coefficientadmitted. Draftschema now namesDistrictstatute soDCcode is not misclassified asstateorordinance;first schemafailure was correctedbeforepublication.
+
+## Final continental fuel packet and remaining territories
+
+Nine authority cells added: UT,VT,VA,WA,WV,WI,WY,GU,PR. AS,MP,VI remain unknown pending own-government enacted fuel-specific law. Historical Guam and Puerto Rico routes do not establish a January2026 complete levy or absence of intervening waivers. Root independently read Utah's operative section,Washington's county voter route,Vermont3106,and Arizona/D.C. EV treatment;remaining final-packet detail is helper-reported. Wisconsin's current local bar is not established. D.C. discounted registration and Arizona grandfathered VLT treatment are admitted without claiming complete national RUC absence. No new active national EV surcharge count follows.
+
+## Official territory source retrieval
+
+Root retrieved and read CNMI4CMC1403PDF and AmericanSamoaPL30-05scannedpp5–6and10. Both historical own-place fuel routes are admitted withJanuary2026history gaps preserved. VirginIslands2019BIRbooklet is agency evidence only;statutory enactment route remains unknown. No national local-grant count is admitted.

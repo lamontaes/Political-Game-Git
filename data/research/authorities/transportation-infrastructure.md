@@ -1,6 +1,6 @@
 # Transportation rules need more jurisdiction evidence
 
-The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1584 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
+The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1571 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
 
 ## What the evidence establishes
 
@@ -16,7 +16,7 @@ Every admitted decision has 56 explicit availability cells and 56 separate start
 
 | Topic                                | Decisions | Sourced availability cells | Barred cells | Unresearched cells |
 | ------------------------------------ | --------: | -------------------------: | -----------: | -----------------: |
-| roads-and-bridges                    |         6 |                         95 |            5 |                236 |
+| roads-and-bridges                    |         6 |                        108 |            5 |                223 |
 | transit                              |         5 |                          5 |            0 |                275 |
 | rail                                 |         4 |                         11 |            0 |                213 |
 | airports-and-ports                   |         3 |                         58 |            0 |                110 |
@@ -31,8 +31,8 @@ Nine barred cells record two fluoride operator restrictions, five ordinary local
 
 ### Unresearched availability by decision
 
-- `fuel-tax`: `UT, VT, VA, WA, WV, WI, WY, PR, GU, VI, AS, MP`.
-- `ev-registration`: `AK, AZ, CT, ME, MA, NV, NY, DC, PR, GU, VI, AS, MP`.
+- `fuel-tax`: `VI`.
+- `ev-registration`: `AK, CT, ME, MA, NV, NY, PR, GU, VI, AS, MP`.
 - `congestion-toll`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `speed-camera`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, MD, MA, MI, MN, MS, MO, MT, NE, NV, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SD, TN, VT, VA, WA, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `local-speed`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.

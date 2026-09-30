@@ -3486,6 +3486,206 @@
       "year": 2022,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "ut-fuel-cutoff",
+      "title": "Utah 59-13-201 operative January2026 version",
+      "url": "https://le.utah.gov/xcode/Title59/Chapter13/C59-13-S201_2023050320230701.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-fuel-constitution",
+      "title": "Utah Constitution XIII5 2021 version",
+      "url": "https://le.utah.gov/xcode/ArticleXIII/UC_AXIII_S5_2020051220210101.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "vt-fuel-code",
+      "title": "Vermont23VSA3106",
+      "url": "https://legislature.vermont.gov/statutes/section/23/028/03106",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "vt-fuel-chapter",
+      "title": "Vermont23VSA28 fuel chapter",
+      "url": "https://legislature.vermont.gov/statutes/fullchapter/23/028",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "va-fuel-code",
+      "title": "Virginia58.1chapter22",
+      "url": "https://law.lis.virginia.gov/vacodefull/title58.1/chapter22/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "va-regional-fuel",
+      "title": "Virginia58.1-2295 regional levy",
+      "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter22.1/section58.1-2295/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-fuel-code",
+      "title": "Washington82.38",
+      "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=82.38&full=true",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-fuel-constitution",
+      "title": "Washington ConstitutionII40",
+      "url": "https://leg.wa.gov/state-laws-and-rules/washington-state-constitution?showall=true",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-local-fuel",
+      "title": "Washington82.80.010 county grant",
+      "url": "https://apps.leg.wa.gov/Rcw/default.aspx?cite=82.80.010",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wv-fuel-code",
+      "title": "WestVirginia11-14C-5",
+      "url": "https://code.wvlegislature.gov/email/11-14C-5/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wv-fuel-fund",
+      "title": "WestVirginia11-14C-47",
+      "url": "https://code.wvlegislature.gov/11-14C-47/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wv-fuel-constitution",
+      "title": "WestVirginia Constitution",
+      "url": "https://code.wvlegislature.gov/west-virginia-constitution/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-fuel-dor",
+      "title": "WisconsinDOR November2025 motor-fuel FAQ",
+      "url": "https://www.revenue.wi.gov/pages/faqs/ise-mofuel.aspx",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-fuel-act1993",
+      "title": "Wisconsin Bulletin83 enacted-law changes",
+      "url": "https://www.revenue.wi.gov/WisconsinTaxBulletin/083lawb.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wy-fuel-code",
+      "title": "WyomingTitle39",
+      "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wy-fuel-constitution",
+      "title": "Wyoming ConstitutionXV16",
+      "url": "https://wyoleg.gov/NXT/gateway.dll/2025%20Wyoming%20Statutes/2025%20Constitution/1/16",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "gu-fuel-code",
+      "title": "Guam11GCAchapter26",
+      "url": "https://guamcourts.org/compileroflaws/GCA/11gca/11gc026.PDF",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "gu-fuel-auditor",
+      "title": "Guam PublicAuditor fuel-tax history appendix",
+      "url": "https://www.opaguam.org/file/13927/download?token=scrAhON_",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pr-fuel-amend2015",
+      "title": "PuertoRico HaciendaCC15-06",
+      "url": "https://hacienda.pr.gov/node/2645",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pr-fuel-diesel2015",
+      "title": "PuertoRico HaciendaCC15-02",
+      "url": "https://hacienda.pr.gov/node/2587",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "az-ev-parity",
+      "title": "Arizona28-5805 alternative fuel valuation",
+      "url": "https://www.azleg.gov/ars/28/05805.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "dc-ev-schedule",
+      "title": "DC DMV dated registration schedule",
+      "url": "https://dmv.dc.gov/book/dmv-fees/vehicle-registration-fees",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "as-fuel-act2007",
+      "title": "AmericanSamoa enactedPL30-05",
+      "url": "https://www.osas.as/_files/ugd/4c56eb_7974e5e115e0483fa6ac6bbc8a21336e.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mp-fuel-code1403",
+      "title": "CNMI4CMC1403 fuel tax",
+      "url": "https://cnmilaw.org/pdf/cmc_section/T4/1403.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "vi-fuel-bir2019",
+      "title": "VirginIslandsBIR taxstructure2019",
+      "url": "https://bir.vi.gov/content/booklets/tax_Structure_2019-01-31.pdf",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -4344,65 +4544,130 @@
               "differentLargeCityCharters": []
             },
             "UT": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "59-13-201 version effective July 2023 and superseded May 2026 supplies rack-price percentage, indexed minimum/maximum and January publication. Transportation Fund disposition has boating/off-road and Navajo agreement qualifications. XIII5(6) specifies road, administration, enforcement, driver education and debt uses. XIII5(4) general local-tax authorization is not a fuel-tax grant. Local grant and vote threshold remain unknown.",
+              "sources": ["ut-fuel-cutoff", "ut-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "XIII5(6) specifies road, administration, enforcement, driver education and debt uses. XIII5(4) general local-tax authorization is not a fuel-tax grant. Local grant and vote threshold remain unknown.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": ["ut-fuel-cutoff", "ut-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "VT": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "23VSA3106 supplies gasoline levy and price assessments;3106a cleanup fee and aviation provisions are separate. 2025 compilation establishes statutory route,not a complete cutoff burden. Local grant,vote threshold,constitutional dedication and complete January amendment freeze remain unknown.",
+              "sources": ["vt-fuel-code", "vt-fuel-chapter"],
+              "bars": [
+                {
+                  "description": "Local grant,vote threshold,constitutional dedication and complete January amendment freeze remain unknown.",
+                  "lawKind": "state statute",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": ["vt-fuel-code", "vt-fuel-chapter"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "VA": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "58.1-2217 motor-fuel levy and annual adjustment;2020chapters1230/1275 amendment route. 58.1-2295 regional levy is state-imposed,not an optional local grant. Contingent versions,local power and constitutional freeze unresolved.",
+              "sources": ["va-fuel-code", "va-regional-fuel"],
+              "bars": [
+                {
+                  "description": "58.1-2295 regional levy is state-imposed,not an optional local grant. Contingent versions,local power and constitutional freeze unresolved.",
+                  "lawKind": "state statute",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": ["va-fuel-code", "va-regional-fuel"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WA": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "82.38.030 supplies enacted fuel levy. II40 dedicates to highway purposes including qualifying ferries,administration,refunds and debt.82.80.010 county legislative body plus majority of voters voting may impose10%of state fuel rate;strict transportation purposes and anti-stacking provisions. 2014c216section203 history. Election/start/collection conditions apply;full January history still incomplete.",
+              "sources": [
+                "wa-fuel-code",
+                "wa-fuel-constitution",
+                "wa-local-fuel"
+              ],
+              "bars": [
+                {
+                  "description": "II40 dedicates to highway purposes including qualifying ferries,administration,refunds and debt.82.80.010 county legislative body plus majority of voters voting may impose10%of state fuel rate;strict transportation purposes and anti-stacking provisions. 2014c216section203 history. Election/start/collection conditions apply;full January history still incomplete.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": [
+                    "wa-fuel-code",
+                    "wa-fuel-constitution",
+                    "wa-local-fuel"
+                  ]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WV": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "11-14C-5 flat/variable levy components;2017 extraordinary-session change effective July2017. 11-14C-47 remaining proceeds State Road Fund;VI52 highway/debt dedication after costs. Local grant,vote and January archive remain unknown.2026 proposed repeal is not enactment.",
+              "sources": [
+                "wv-fuel-code",
+                "wv-fuel-fund",
+                "wv-fuel-constitution"
+              ],
+              "bars": [
+                {
+                  "description": "11-14C-47 remaining proceeds State Road Fund;VI52 highway/debt dedication after costs. Local grant,vote and January archive remain unknown.2026 proposed repeal is not enactment.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": [
+                    "wv-fuel-code",
+                    "wv-fuel-fund",
+                    "wv-fuel-constitution"
+                  ]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WI": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "Own DOR FAQ November2025 identifies78.01/.07/.12 motor-fuel levy. Historical1993Act16 amendment of78.82 is evidence of statutory change only. Current78.82 bar was not obtained;no current local prohibition inferred. Constitution,vote and complete cutoff freeze unknown.",
+              "sources": ["wi-fuel-dor", "wi-fuel-act1993"],
+              "bars": [
+                {
+                  "description": "Historical1993Act16 amendment of78.82 is evidence of statutory change only. Current78.82 bar was not obtained;no current local prohibition inferred. Constitution,vote and complete cutoff freeze unknown.",
+                  "lawKind": "state statute",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": ["wi-fuel-dor", "wi-fuel-act1993"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WY": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "39-17-104/-204/-304 levy and39-17-111 distribution;2013chapter49 effective July2013. XV16 specified highway uses. County/municipal tax exclusion is not a grant. Local grant,vote threshold and full January history unknown.",
+              "sources": ["wy-fuel-code", "wy-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "XV16 specified highway uses. County/municipal tax exclusion is not a grant. Local grant,vote threshold and full January history unknown.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": ["wy-fuel-code", "wy-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -4423,46 +4688,60 @@
               "differentLargeCityCharters": []
             },
             "PR": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "HaciendaCC15-06 identifies2015Laws1/2 and29 amendments of3020.07/.07A petroleum levy;CC15-02 distinguishes diesel3020.06(a)(3). Historical enacted own-place amendment route,not complete January2026 gasoline burden. Current dedication,constitutional and municipal authority remain unknown.",
+              "sources": ["pr-fuel-amend2015", "pr-fuel-diesel2015"],
+              "bars": [
+                {
+                  "description": "Historical enacted own-place amendment route,not complete January2026 gasoline burden. Current dedication,constitutional and municipal authority remain unknown.",
+                  "lawKind": "territorial statute",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": ["pr-fuel-amend2015", "pr-fuel-diesel2015"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "GU": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
+              "reason": "11GCA26402/.403 historical fuel levy/rates;own judiciary compilation through June2022,2018 rate amendment. Public Auditor identifiesPL34-44 village-road increase andPL36-105 180day waiver. Historical enacted amendment route only. January2026 survival and intervening waivers remain unknown. No village grant inferred.",
+              "sources": ["gu-fuel-code", "gu-fuel-auditor"],
+              "bars": [
+                {
+                  "description": "Historical enacted amendment route only. January2026 survival and intervening waivers remain unknown. No village grant inferred.",
+                  "lawKind": "territorial statute",
+                  "changedBy": "Own-place legislative amendment for statutory rules;constitutional route for constitutional rules. Full procedures remain incomplete.",
+                  "sources": ["gu-fuel-code", "gu-fuel-auditor"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "VI": {
               "status": "unresearched",
               "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched. OwnBIR2019agencybooklet reports14cents/gallon withscope/exemptions;underlying enacted33VIC91andJanuary2026history notobtained. No nationalgrantcount orcurrentcutoffauthority inferred.",
+              "sources": ["vi-fuel-bir2019"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "AS": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "historical own-place enacted fuel-tax amendment route",
+              "reason": "PL30-05 section2 amends11.1002,approvedApril23,2007,effective immediately. PDFpp5\u20136:gasoline35cents/gallon,1.5centslaw enforcement/drivertraining and10roadmaintenance;diesel3.5cents withverifiedcommercialfishingcredit plus31.5centspoint-of-saleexcludingstationaryboilers/generators/marine. Historical statutory route only;January2026amendment history,local power and constitutional procedure unresolved.",
+              "sources": ["as-fuel-act2007"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "MP": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "historical own-place enacted fuel-tax amendment route",
+              "reason": "4CMC1403:liquidfuel15cents/gallon firstselling/distributing;aviation3%advalorem;CUCpower-generation exemption conditional8141(h),credit ifpaid. PL9-22January1995,PL10-36October1996,PL11-25August1998. FullPDFrootread. January2026continuation/dedicationoverrides/localauthority unresolved;1803cross-reference not independently established.",
+              "sources": ["mp-fuel-code1403"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -4852,38 +5131,60 @@
             },
             "UT": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 37.9 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 37.9 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 59-13-201 version effective July 2023 and superseded May 2026 supplies rack-price percentage, indexed minimum/maximum and January publication. Transportation Fund disposition has boating/off-road and Navajo agreement qualifications. XIII5(6) specifies road, administration, enforcement, driver education and debt uses. XIII5(4) general local-tax authorization is not a fuel-tax grant. Local grant and vote threshold remain unknown.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "ut-fuel-cutoff",
+                "ut-fuel-constitution"
+              ]
             },
             "VT": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 12.1 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 12.1 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 23VSA3106 supplies gasoline levy and price assessments;3106a cleanup fee and aviation provisions are separate. 2025 compilation establishes statutory route,not a complete cutoff burden. Local grant,vote threshold,constitutional dedication and complete January amendment freeze remain unknown.",
+              "sources": ["eia-fuel-jan2026", "vt-fuel-code", "vt-fuel-chapter"]
             },
             "VA": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 31.7 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 31.7 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 58.1-2217 motor-fuel levy and annual adjustment;2020chapters1230/1275 amendment route. 58.1-2295 regional levy is state-imposed,not an optional local grant. Contingent versions,local power and constitutional freeze unresolved.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "va-fuel-code",
+                "va-regional-fuel"
+              ]
             },
             "WA": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 55.4 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 55.4 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 82.38.030 supplies enacted fuel levy. II40 dedicates to highway purposes including qualifying ferries,administration,refunds and debt.82.80.010 county legislative body plus majority of voters voting may impose10%of state fuel rate;strict transportation purposes and anti-stacking provisions. 2014c216section203 history. Election/start/collection conditions apply;full January history still incomplete.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "wa-fuel-code",
+                "wa-fuel-constitution",
+                "wa-local-fuel"
+              ]
             },
             "WV": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 20.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 20.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 11-14C-5 flat/variable levy components;2017 extraordinary-session change effective July2017. 11-14C-47 remaining proceeds State Road Fund;VI52 highway/debt dedication after costs. Local grant,vote and January archive remain unknown.2026 proposed repeal is not enactment.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "wv-fuel-code",
+                "wv-fuel-fund",
+                "wv-fuel-constitution"
+              ]
             },
             "WI": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 30.9 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 30.9 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: Own DOR FAQ November2025 identifies78.01/.07/.12 motor-fuel levy. Historical1993Act16 amendment of78.82 is evidence of statutory change only. Current78.82 bar was not obtained;no current local prohibition inferred. Constitution,vote and complete cutoff freeze unknown.",
+              "sources": ["eia-fuel-jan2026", "wi-fuel-dor", "wi-fuel-act1993"]
             },
             "WY": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 39-17-104/-204/-304 levy and39-17-111 distribution;2013chapter49 effective July2013. XV16 specified highway uses. County/municipal tax exclusion is not a grant. Local grant,vote threshold and full January history unknown.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "wy-fuel-code",
+                "wy-fuel-constitution"
+              ]
             },
             "DC": {
               "status": "in force",
@@ -4892,13 +5193,17 @@
             },
             "PR": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 16 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 16 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: HaciendaCC15-06 identifies2015Laws1/2 and29 amendments of3020.07/.07A petroleum levy;CC15-02 distinguishes diesel3020.06(a)(3). Historical enacted own-place amendment route,not complete January2026 gasoline burden. Current dedication,constitutional and municipal authority remain unknown.",
+              "sources": [
+                "eia-fuel-jan2026",
+                "pr-fuel-amend2015",
+                "pr-fuel-diesel2015"
+              ]
             },
             "GU": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 11GCA26402/.403 historical fuel levy/rates;own judiciary compilation through June2022,2018 rate amendment. Public Auditor identifiesPL34-44 village-road increase andPL36-105 180day waiver. Historical enacted amendment route only. January2026 survival and intervening waivers remain unknown. No village grant inferred.",
+              "sources": ["eia-fuel-jan2026", "gu-fuel-code", "gu-fuel-auditor"]
             },
             "VI": {
               "status": "in force",
@@ -4907,13 +5212,13 @@
             },
             "AS": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 35 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 35 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  PL30-05 section2 amends11.1002,approvedApril23,2007,effective immediately. PDFpp5\u20136:gasoline35cents/gallon,1.5centslaw enforcement/drivertraining and10roadmaintenance;diesel3.5cents withverifiedcommercialfishingcredit plus31.5centspoint-of-saleexcludingstationaryboilers/generators/marine. Historical statutory route only;January2026amendment history,local power and constitutional procedure unresolved.",
+              "sources": ["eia-fuel-jan2026", "as-fuel-act2007"]
             },
             "MP": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  4CMC1403:liquidfuel15cents/gallon firstselling/distributing;aviation3%advalorem;CUCpower-generation exemption conditional8141(h),credit ifpaid. PL9-22January1995,PL10-36October1996,PL11-25August1998. FullPDFrootread. January2026continuation/dedicationoverrides/localauthority unresolved;1803cross-reference not independently established.",
+              "sources": ["eia-fuel-jan2026", "mp-fuel-code1403"]
             }
           }
         },
@@ -4970,10 +5275,10 @@
               "differentLargeCityCharters": []
             },
             "AZ": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "explicit own-place EV registration/VLT treatment",
+              "reason": "Initially registered afterDecember2022:ordinary28-5801VLT. Earlier registrations retain reduced valuation classes. Explicit parity concerns that tax only;complete additional RUC absence not established. Statutory amendment route;local grants and full constitutional procedure unresearched.",
+              "sources": ["az-ev-parity"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -5409,10 +5714,10 @@
               "differentLargeCityCharters": []
             },
             "DC": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "explicit own-place EV registration/VLT treatment",
+              "reason": "October2023 schedule precedes March2026 changes:new BEV passenger<5000lb36dollars annually first two years,then applicableClassI/II;qualifying BEV1000lb weight subtraction. Discounted treatment,not additional surcharge. Acquisition excise effective February2025 separate;complete additional RUC absence unverified. Statutory amendment route;local grants and full constitutional procedure unresearched.",
+              "sources": ["dc-ev-schedule"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -5497,9 +5802,9 @@
               "sources": []
             },
             "AZ": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Initially registered afterDecember2022:ordinary28-5801VLT. Earlier registrations retain reduced valuation classes. Explicit parity concerns that tax only;complete additional RUC absence not established.",
+              "sources": ["az-ev-parity"]
             },
             "AR": {
               "status": "in force",
@@ -5737,9 +6042,9 @@
               "sources": ["wy-ev-fees"]
             },
             "DC": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "October2023 schedule precedes March2026 changes:new BEV passenger<5000lb36dollars annually first two years,then applicableClassI/II;qualifying BEV1000lb weight subtraction. Discounted treatment,not additional surcharge. Acquisition excise effective February2025 separate;complete additional RUC absence unverified.",
+              "sources": ["dc-ev-schedule"]
             },
             "PR": {
               "status": "unresearched",
