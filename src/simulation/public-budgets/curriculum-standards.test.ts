@@ -9,7 +9,7 @@ import {
 } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { SeededRng } from "../rng";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 import {
   CURRICULUM_QUESTION,
   sponsorPolicyTerms,
@@ -21,6 +21,8 @@ import {
   BUDGET_SOURCES,
   type PublicBudgetGovernment,
 } from "./store";
+
+import { curriculumAdoptionEffect } from "./curriculum-standards";
 
 const catalog = createProductionPolicyCatalog();
 const proposition = Object.values(catalog.propositions).find(
@@ -160,9 +162,95 @@ function pair(stateKey: string, cents: number, months: number) {
       ).government;
     return budget;
   };
-  return { base, enacted, control: run(base), treated: run(enacted) };
+  return {
+    base,
+    enacted,
+    government,
+    control: run(base),
+    treated: run(enacted),
+  };
 }
 describe("curriculum materials reach school spending", () => {
+  it("keeps a plain yes/no law and its named pupils visible without inventing purchase costs", () => {
+    const { enacted, government } = pair(
+      new SeededRng("curriculum-consumer-records").pick(
+        lifePlaceStateIdentities(),
+      ).jurisdictionKey,
+      20_000,
+      24,
+    );
+    const plain = {
+      ...enacted,
+      history: {
+        ...enacted.history,
+        legislativeMeasures: (enacted.history.legislativeMeasures ?? []).map(
+          (row) => ({
+            ...row,
+            policyTerms: [],
+          }),
+        ),
+      },
+    };
+    const effect = curriculumAdoptionEffect(
+      plain,
+      government,
+      plain.currentDate,
+    )!;
+    expect(effect.law.measureId).toBe("measure_curriculum");
+    expect(effect.recipients).toHaveLength(120);
+    expect(effect.recipients[0]).toEqual({
+      personId: "person_0",
+      enrollmentIds: ["enrollment_0"],
+      organizationIds: ["organization_school"],
+    });
+    expect(effect.spendingDollars).toBeNull();
+    expect(effect.limit).toContain("No purchase amount");
+  });
+  it("does not purchase for not-yet-recorded pupils and counts overlapping enrollment once", () => {
+    const { enacted, government } = pair(
+      new SeededRng("curriculum-consumer-records").pick(
+        lifePlaceStateIdentities(),
+      ).jurisdictionKey,
+      20_000,
+      24,
+    );
+    const enrollment = enacted.history.educationEnrollments[0]!;
+    const world = {
+      ...enacted,
+      history: {
+        ...enacted.history,
+        educationEnrollments: [
+          ...enacted.history.educationEnrollments.map((row) =>
+            row.personId === "person_1"
+              ? { ...row, recordedAt: makeIsoDate("2026-02-01") }
+              : row,
+          ),
+          { ...enrollment, id: "enrollment_duplicate" as EntityId },
+        ],
+        educationEnrollmentStates: [
+          ...enacted.history.educationEnrollmentStates,
+          {
+            ...enacted.history.educationEnrollmentStates[0]!,
+            enrollmentId: "enrollment_duplicate" as EntityId,
+          },
+        ],
+      },
+    };
+    const effect = curriculumAdoptionEffect(
+      world,
+      government,
+      world.currentDate,
+    )!;
+    expect(effect.recipients).toHaveLength(119);
+    expect(
+      effect.recipients.find((row) => row.personId === "person_0")
+        ?.enrollmentIds,
+    ).toEqual(["enrollment_0", "enrollment_duplicate"]);
+    expect(effect.recipients.some((row) => row.personId === "person_1")).toBe(
+      false,
+    );
+    expect(effect.spendingDollars).toBe(992);
+  });
   it("moves curriculum authority and refuses local adoption under enacted state standards in all 56 places", () => {
     for (const place of lifePlaceStateIdentities()) {
       const { enacted } = pair(place.jurisdictionKey, 20_000, 24);
