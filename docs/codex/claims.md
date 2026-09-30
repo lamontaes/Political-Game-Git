@@ -41,3 +41,11 @@ reserved job-listing paths alone.
 Proposed new press habit/uptake record kinds and their integrity/index tests
 are not additional claims yet. Their exact paths and generation hooks are
 being coordinated with Teams 1, 2 and 4 before source edits.
+
+## Bounded dossier presence follow-up
+
+Team 5 owns `src/player/ShellDossier.tsx`,
+`src/player/PlayerSurfaceProvenance.test.tsx`, this claims file and the Team 5
+handback for the projected-presence adapter repair. Dedicated release path:
+`docs/release/changes/full-record-scene-presence.md`. Parent meeting head stays
+unchanged; no PlayerGame, contact writer, shared schema or scene renderer claim.

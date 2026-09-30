@@ -8,6 +8,10 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { World39News } from "./World39News";
+import { FullDossier } from "./ShellDossier";
+import { projectPersonDossier } from "../presentation/person-dossier";
+import { projectPersonContact } from "../presentation/person-contact";
+import { serializeWorld } from "../simulation/serialization";
 
 /*
  * No source or provenance reference reaches a player.
@@ -64,5 +68,42 @@ describe("a player surface names no source", () => {
     expect(markup).not.toContain("href=");
     expect(markup).not.toContain("Institutional source");
     expect(markup.toLowerCase()).not.toContain("http");
+  });
+});
+
+
+describe("full-record scene presence", () => {
+  it("offers Meet for the projected scene without changing the saved world", () => {
+    const { world, playerPersonId } = openingLife("full-record-scene-presence");
+    // The full record receives the caller's current scene projection. Its
+    // subject can be absent from the independently projected opening scene.
+    const personId = world.personOrder.find((id) => {
+      if (id === playerPersonId) return false;
+      const contact = projectPersonContact(world, playerPersonId, id);
+      return !contact.meet.available && !contact.meet.reason.endsWith("has died.");
+    })!;
+    expect(personId).toBeDefined();
+    const dossier = projectPersonDossier(world, playerPersonId, personId, {
+      presentNow: true,
+    })!;
+    const before = serializeWorld(world);
+    const markup = renderToStaticMarkup(
+      <FullDossier
+        world={world}
+        playerId={playerPersonId}
+        dossier={dossier}
+        pinned={false}
+        onTogglePin={() => {}}
+        onTalk={() => {}}
+        onMeet={() => {}}
+        talkUnavailable={null}
+        onOpenLink={() => {}}
+      />,
+    );
+    expect(markup).toContain("Here in the room with you.");
+    expect(markup).toContain('data-testid="person-meet"');
+    expect(markup).toContain("is in the room. Meet takes you back to that scene.");
+    expect(markup).not.toContain("No recorded location for");
+    expect(serializeWorld(world)).toBe(before);
   });
 });
