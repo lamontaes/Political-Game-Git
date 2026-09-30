@@ -21,6 +21,7 @@ for (const place of places)
   test(`live meeting normal route ${place.key} ${place.route}`, async ({
     page,
   }, info) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(`/?seed=team5-live-meeting:${place.key}`, {
       waitUntil: "domcontentloaded",
     });
@@ -32,6 +33,22 @@ for (const place of places)
       household: "shares-a-home",
     });
     await enterLife(page);
+    if (place.route === "journey") {
+      await page.getByTestId("shell-pass-day").click();
+      await expect(page.getByTestId("shell-nav-cluster")).toHaveAttribute(
+        "aria-label",
+        /January 6, 2026/,
+      );
+      const needed = page.getByTestId("shell-pass-until-needed");
+      await expect(needed).toBeEnabled();
+      await needed.focus();
+      await page.keyboard.press("Enter");
+      await expect(
+        page.getByRole("status").filter({
+          hasText: "It is time for Posted public meeting.",
+        }),
+      ).toBeVisible();
+    }
     await goTo(page, "nav-calendar");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     if (place.route === "calendar") {
