@@ -2,6 +2,11 @@ import { describe, expect, it } from "vitest";
 import { requireLifePlace } from "../../src/simulation/life-places";
 import { createDemoWorld } from "../../src/simulation/demo";
 import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../src/presentation/opening-life";
+import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
+import {
   addDays,
   ageOnDate,
   simulationMomentOnLocalDate,
@@ -39,11 +44,13 @@ import {
 import { recordRelationshipInteraction } from "../../src/simulation/records";
 import type { EntityId, World } from "../../src/simulation/types";
 
-function fixture() {
-  let world = createDemoWorld("eviction-destination-fixture");
-  const personId = world.personOrder.find(
-    (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
-  )!;
+function fixture(initialWorld?: World, selectedPersonId?: EntityId) {
+  let world = initialWorld ?? createDemoWorld("eviction-destination-fixture");
+  const personId =
+    selectedPersonId ??
+    world.personOrder.find(
+      (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
+    )!;
   const town = world.people[personId]!.homeJurisdictionId;
   const provenance = {
     kind: "authored" as const,
@@ -314,6 +321,46 @@ describe("same-day eviction destination from actual housing stock", () => {
       ),
     );
     assertWorldIntegrity(next);
+  });
+  it("keeps the former home excluded after canonical entity sorting and a later ordinary home review", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "team2-law-proof-20260930-a",
+        placeKey: "4911440",
+        startAge: 24,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    const f = fixture(game.world, game.playerPersonId);
+    const evicted = outcome(f);
+    const destination = evicted.history.events.at(-1)!;
+    // The history writer sorts IDs: a dwelling precedes a household.
+    expect(destination.involvedEntityIds[0]).toBe(f.formerId);
+    expect(destination.involvedEntityIds).toContain(f.householdId);
+    const saved = JSON.parse(JSON.stringify(evicted)) as World;
+    for (const days of [3]) {
+      const date = addDays(saved.currentDate, days);
+      const reviewed = reviewTownHomes(
+        {
+          ...saved,
+          currentDate: date,
+          currentMoment: simulationMomentOnLocalDate(saved.currentMoment, date),
+        },
+        f.town,
+        `canonical-eviction-${days}`,
+      );
+      const placements = activeDwellingOccupanciesAt(reviewed).filter(
+        (row) =>
+          row.occupant.kind === "household" &&
+          row.occupant.householdId === f.householdId,
+      );
+      expect(placements.map((row) => row.dwellingId)).not.toContain(f.formerId);
+      // There is no affordable recorded offer or consenting host in this fixture.
+      expect(placements).toHaveLength(0);
+      expect(reviewed.history.dwellings).toEqual(saved.history.dwellings);
+      assertWorldIntegrity(reviewed);
+    }
   });
   it("records no fixed home when there is only an unpriced vacancy and no consenting host", () => {
     const f = fixture();

@@ -999,6 +999,7 @@ export function recordEvictionDestination(
 
 /** Former homes stay excluded even after the quarterly recent-eviction window. */
 function excludedEvictionHomes(world: World): Map<EntityId, Set<EntityId>> {
+  const householdIds = new Set(world.history.households.map((row) => row.id));
   const byHousehold = new Map<EntityId, Set<EntityId>>();
   for (const row of world.history.events) {
     if (
@@ -1006,7 +1007,10 @@ function excludedEvictionHomes(world: World): Map<EntityId, Set<EntityId>> {
       row.occurredAt > world.currentDate
     )
       continue;
-    const householdId = row.involvedEntityIds[0];
+    // Event entity IDs are canonically sorted, not ordered by participant role.
+    const householdId = row.involvedEntityIds.find((id) =>
+      householdIds.has(id),
+    );
     if (!householdId) continue;
     const excluded = byHousehold.get(householdId) ?? new Set<EntityId>();
     for (const tag of row.tags)

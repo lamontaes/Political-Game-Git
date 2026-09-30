@@ -49,41 +49,47 @@
     "privacyPlaceLint": "PASS",
     "privacyPlaceZeroDice": "exit1_zero_new_three_inherited_gone",
     "hostDestinationTests": {
-      "passed": 10,
-      "total": 10,
-      "log": "/workspace/scratch/team3-host-reasons-tests.log"
+      "passed": 11,
+      "total": 11,
+      "log": "/workspace/scratch/team3-exclusion-final-tests.log"
     },
     "hostCourtTests": {
       "passed": 7,
       "total": 7,
-      "log": "/workspace/scratch/team3-host-final-tests.log"
+      "log": "/workspace/scratch/team3-exclusion-green.log"
     },
     "hostHousingRentTests": {
       "passed": 22,
       "total": 22,
-      "log": "/workspace/scratch/team3-host-housing-regression.log",
-      "note": "31 total in that run:9 direct host tests plus22 existinghousing/rent. Directhost later10/10afterevent/reasonchanges."
+      "log": "/workspace/scratch/team3-exclusion-green.log",
+      "note": "22 housing/rent and 7 court tests passed on repaired production source. Combined first run39/40: generated120dayfixture skippedscheduledtransition; corrected3dayfixture then11/11directtestsPASS. No productionguardrelaxed."
     },
     "hostTypes": {
       "roots": 2,
       "diagnostics": 0,
-      "log": "/workspace/scratch/team3-host-types.log"
+      "log": "/workspace/scratch/team3-exclusion-final-types.log"
     },
     "hostLint": "PASS",
     "hostZeroDice": "exit1_zero_new_three_inherited_gone",
     "hostReport": "0_errors_0_warnings_independent_PASS",
     "privacyReport": "0_errors_0_warnings_independent_PASS",
-    "lawDraftReport": "0_errors_0_warnings_independent_PASS_not_primary_or_runtime_acceptance"
+    "lawDraftReport": "0_errors_0_warnings_independent_PASS_not_primary_or_runtime_acceptance",
+    "exclusionRegressionBeforeFix": {
+      "status": "FAIL_reproduced_former_home_return",
+      "log": "/workspace/scratch/team3-exclusion-red.log"
+    },
+    "hostLintLog": "/workspace/scratch/team3-exclusion-final-lint.log",
+    "hostZeroDiceLog": "/workspace/scratch/team3-exclusion-zero-dice.log"
   },
   "notRun": [
     "full_build",
-    "watched_world_proof",
+    "after_repair_watched_eviction_proof",
     "birth_decision_writer",
     "birth_timing",
     "runtime_law_repeal_authority_proof"
   ],
   "researchReceipt": "2b7db15fd6c26e490f4f63f72adb41a489a779b2",
-  "localOnly": ["team-3-why-chains.md"],
+  "localOnly": [],
   "noMerge": true,
   "birthSourceComparison": {
     "handoffBase": "54930d427555034f3a92f335064586247985784d",
@@ -97,7 +103,7 @@
   },
   "evictionCheckpointHead": "b3ced35fa23776e7192ec1e75c9d8513479a75ca",
   "birthCheckpointScope": "design and pure reader only; seeded town birth block remains unchanged",
-  "hostFirstStatus": "SOURCE_CHECKED_DRAFT_Team2_proof_missing_NOT_READY",
+  "hostFirstStatus": "SOURCE_CHECKED_REPAIR_PRIOR_WATCHED_FAIL_NEW_REPLAY_NOT_RUN_NOT_READY",
   "connections": {
     "eviction": "order->datedhostanswers->hostedoccupancy_or_no_fixed_home->permanentformerhomeexclusion",
     "privacy": "nationalenactment->stableworld/placeestimate->businesscash;workeroutcome_not_traced",
@@ -122,5 +128,17 @@
     "coordinatorownedcompassionconnectionregistrycorrection",
     "primarylegalauthorityandlawtraceverification",
     "landlordconsent/screening/offerproducer;school/travelpolicylimits"
-  ]
+  ],
+  "watchedEvictionReceipt": {
+    "head": "054f09153287308e33c217a10f238393df0c7e69",
+    "path": "docs/codex/handbacks/team-2-host-replay.json",
+    "productPin": "3ffad216e1c567eb3f396b65e1b40cd7665e6b52",
+    "status": "FAIL_permanent_exclusion",
+    "evicted": 3,
+    "noFixedHome": 3,
+    "hostAnswers": 0,
+    "formerHomeReturns": 1,
+    "saveReopenMatched": true,
+    "retainedWorldIndependentlyLoadedHere": false
+  }
 }

@@ -1,6 +1,6 @@
 # An evicted family asks people it knows before losing its home
 
-The eviction repair now asks recorded relatives and close friends before recording no fixed home. It records host answers and writes occupancy only after acceptance. Ten direct tests pass; no watched household outcome is claimed. The draft remains unaccepted and needs Team 2's eviction proof before it can be ready. Shelter capacity still awaits research. Unknown money, compassion, prices and hosting costs remain explicit rather than becoming invented resources or rates.
+The eviction repair now asks recorded relatives and close friends before recording no fixed home. It records host answers and writes occupancy only after acceptance. Eleven direct tests pass. Team 2's completed replay found a former-home return on the earlier product pin; this source repairs that exclusion lookup and awaits a new replay. The draft remains unaccepted and needs Team 2's eviction proof before it can be ready. Shelter geography, allocation and admission still await evidence. Unknown money, compassion, prices and hosting costs remain explicit rather than becoming invented resources or rates.
 
 ## 1. Why-chain
 
@@ -40,20 +40,34 @@ Measured in source: `src/simulation/living-world/town-homes.ts:1296` continues q
 
 SIMULATED, measured in fixtures: a crowded closest host refuses, the next host accepts, recorded compassion changes an answer, and a warmer estranged relative follows a genuinely close friend. Future interactions do not determine an earlier host answer.
 
-RECORDS, source finding: the writer records host answers, hosting occupancy, unresolved movement and the final destination. Every former eviction dwelling stays excluded. A replay or save continuation does not duplicate the order's destination.
+RECORDS, source finding: the writer records host answers, hosting occupancy, unresolved movement and the final destination. The repaired lookup identifies the recorded household among canonically sorted event entity IDs. The earlier positional lookup failed in Team 2's replay; exclusion after repair is source-checked, not watched acceptance. A replay or save continuation does not duplicate the order's destination.
 
 WORLD PIECES: existing people, relationships, homes and money records. All occupants count toward capacity. Missing costs remain unavailable. No shelter, car or payable motel is supplied by this repair.
 
-CHECKS, measured in `docs/codex/handbacks/team-3-replacement-checks.json`: 10 of 10 direct host/destination tests pass. The directly affected existing housing/rent tests pass 22 of 22, and court-record tests pass 7 of 7. Scoped types and lint are recorded in the receipt. Full build, browser and watched eviction proof are NOT RUN. Fixture results do not establish a real household's destination, costs or legal acceptance.
+CHECKS, measured in `docs/codex/handbacks/team-3-replacement-checks.json`: 11 of 11 direct host/destination tests pass. The new generated Cedar Hills regression failed by returning to the former home before the lookup repair and now passes at three days; the existing 120-day test is retained. The directly affected existing housing/rent tests pass 22 of 22, and court-record tests pass 7 of 7. Scoped types and lint are recorded in the receipt. Full build, browser and after-repair watched eviction proof are NOT RUN. Fixture results do not establish a real household's destination, costs or legal acceptance.
 
 The why-chain terminal is recorded host choice and occupancy, with explicit unresolved cases. Shelter admission, landlord consent, travel costs and further school policy remain unbuilt or unverified.
 
 ## 6. Random-place proof
 
-NOT RUN here. Team 2 owns the watched eviction report. It must identify the actual order, family, candidates in ask order, answers and their cited records, same-day occupancy or no fixed home, actual costs and missing inputs. A proof line from that report is required before ready status.
+Team 2 published the completed Cedar Hills year in [team-2-host-replay.md](https://github.com/lamontaes/Political-Game-Git/blob/054f09153287308e33c217a10f238393df0c7e69/docs/codex/handbacks/team-2-host-replay.md) at product pin `3ffad216e1c567eb3f396b65e1b40cd7665e6b52`. It reports three evictions, three no-fixed-home records, zero host answers and one later former-home return. Save/reopen matched. That is a failure receipt; the accepted-host route was not exercised.
+
+Measured in source: `src/simulation/history.ts:412` sorts event entity IDs. The former exclusion lookup assumed the first ID was the household, but the failed event's dwelling sorted first. The repair in `src/simulation/living-world/town-homes.ts:1001` matches actual household IDs. The new ordinary-review regression reproduced the return before repair. An initial 120-day jump in the generated fixture hit its scheduled-transition guard; the generated regression now covers the observed three-day path without relaxing that guard.
+
+After-repair watched proof is NOT RUN. Team 2 must replay the checked new head, retain household/order/destination/occupancy records and check every subsequent former-home occupancy. READY still requires that proof line.
 
 ## 7. Named worked example
 
-NOT RUN. No watched family, host, spare bedroom or cash balance is invented. The first example must come from the actual report, including refusals or no fixed home when that is the recorded result.
+Team 2 reports Deborah and David Carlson's January 1, 2027 eviction and January 4 return. The destination record said no fixed home. Its published companion JSON supplies these exact records; Team 3 has not independently loaded the retained world.
+
+| Record                    | ID                                          |
+| ------------------------- | ------------------------------------------- |
+| Eviction order            | `event_51906a25e30cbfd4`                    |
+| Former dwelling           | `dwelling_975e0a35ec698e8c`                 |
+| No-fixed-home destination | `event_70baa1b2e3f9e6ee`                    |
+| Later primary occupancy   | `dwelling-occupancy_2364643ff7231484`       |
+| Later occupancy state     | `dwelling-occupancy-state_d1d784bfb83c0a75` |
+
+The $4,807 in the order is unpaid rent debt, not a court or moving fee. Those costs remain unavailable. No host acceptance, spare bedroom, shelter, car, motel or cost outcome is inferred from this case.
 
 Method: CTO4:40 read on September 30, 2026. Feature-walkthrough invoked. The design preceded the source repair. Independent source review found and corrected secondary-occupancy counting, closeness ordering and missing estrangement reasons. Source checks are separate from CTO acceptance; only Merge may follow exact approval.
