@@ -1,8 +1,11 @@
 ---
 id: continuous-principle-strength
-impact: none
+impact: minor
+section: Changed
+title: Recorded principle strength carries continuously into decisions
 ---
 
-Adds the tested arithmetic for combining recorded principle pulls. This held
-continuation has no runtime caller yet; record and reader integration remains
-pending shared-file ownership clearance.
+Recorded life pulls reinforce or contradict continuous principle strength.
+Agenda, agreement and spending decisions read that strength instead of an
+integer conviction label. Repeated evidence does not reinforce a principle,
+and rereading an unchanged life writes no new principle row.
