@@ -98,3 +98,7 @@ Leave these entries until their source is actually received. They are outside th
 ## Latest executed checks
 
 The pre-batch helper suite passed 44 tests across 7 files. After incumbent batching, the date, another-term, month-comparison and historical suites passed 34 tests across 6 files. Final changed-file TypeScript, ESLint, formatting, zero-dice and release declarations passed. The state-opening/turnover integration run was broader than the priority gate: it was stopped after verifying owned runner/worker PIDs, and exited 143. Its preserved log is `/private/tmp/team4-state-batch-integration.log`; no integration result is claimed. That suite remains pending after the bounded proof. No assertions, test timeouts or exclusions were changed.
+
+## Completed month comparison
+
+Baseline: 131.788 seconds at c43e03e16baf8e4e8a8ba1c57c038758ecd8b653. Candidate: 107.994 seconds at 1f37a53c57398fdfee3f199b2fec372ecf484ae1, under resumed load. Both completed January 5 through February 4. Comparison errors: zero. All 15,024 people, 9,227 decisions and 20,049 events match after excluding recorded history positions. Exactly 2,883 decision sequence/cutoff positions changed and are listed in candidate-month.json.comparison.json. Full saved-world fingerprints differ. The command exited 1 solely because 107.994 exceeds the 15-second target. Timing is finished; no Team 4 pause remains. Ready PR publication follows under the 8:10 shipping instruction.

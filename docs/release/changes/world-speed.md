@@ -1,6 +1,8 @@
 ---
 id: world-speed
-impact: none
+impact: patch
+section: Improved
+title: Faster state legislative intake
 ---
 
-Adds watched-year timing, saved-world fingerprint comparisons and a bounded local gate. Reuses proven history and people append relationships to avoid repeated candidate and lineage scans. The priority proof requires a watched month below 15 seconds, with identical people, decisions and recorded results. Accepted history-position changes are reported explicitly. No simulation rules or player controls are intentionally changed; the full identity proof remains required before acceptance.
+State legislative intake reuses existing history and candidate lookups and prepares incumbent traits together, reducing repeated work while preserving the people and decisions in the watched month.
