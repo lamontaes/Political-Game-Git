@@ -1,0 +1,90 @@
+{
+  "schema": "team7-image-edit-receipts/v1",
+  "tool": "image_gen.imagegen",
+  "edits": [
+    {
+      "kind": "local-news",
+      "output": "art/authoring/sept29-team7/tv/local-news-v2.png",
+      "sha256": "48f3cb396676af5cec75bf08c5e6e40458e7c03b9f358c30819d4f39fc61c274",
+      "nativeGeneration": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-801fdc39-30c6-434c-850b-2f9f5b1ef83f.png",
+      "nativeGenerationSha256": "48f3cb396676af5cec75bf08c5e6e40458e7c03b9f358c30819d4f39fc61c274",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/local-news.png",
+          "sha256": "30c13257cc528dd5bc0663caa946c7464a3d29794d2d8f040f5ef359cf0c5d96",
+          "role": "edit target"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "role": "style authority"
+        }
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target, Image 2 is style authority only. Change ONLY station/set palette: replace bright navy and blue panels and broadcast chrome with muted deep teal, warm ivory and restrained copper accents for a distinct local-news station. Keep camera, framing, canvas aspect ratio, desk/chair positions, light rigs, studio screens, blank lower-third shapes and blank logo square unchanged. Preserve polished illustrated game style: charcoal outlines, broad soft cel shadows, muted colors, no photographic texture. No people, text, letters, numbers or logo design. The second image must not introduce a person or any garment into the scene. Opaque full-frame broadcast picture.",
+      "approval": "pending-cto-and-owner"
+    },
+    {
+      "kind": "debate",
+      "output": "art/authoring/sept29-team7/tv/debate-v2.png",
+      "sha256": "36ea3eb7707ad65feb015adc9f3d2bf70f68f328d4d8dbdb818688dd6d5e98d9",
+      "nativeGeneration": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-84924af2-bc5a-40bd-9c04-f58a9d4cdb1b.png",
+      "nativeGenerationSha256": "36ea3eb7707ad65feb015adc9f3d2bf70f68f328d4d8dbdb818688dd6d5e98d9",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/debate.png",
+          "sha256": "c11d2ea48eb5dc33cdf431450577abcee31387657f16acae2753a6d200e8c030",
+          "role": "edit target"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "role": "style authority"
+        }
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 edit target, Image 2 style reference only. Palette correction ONLY: give this debate broadcast station a distinct muted burgundy, warm stone and antique brass palette, replacing navy/blue wall screens, floor and lower-third accents. Keep exact original composition, two lecterns, microphones, lighting rig, perspective, blank lower-third and blank logo square. Illustrated political RPG style: dark charcoal outlines, broad soft cel shadows, no photographic texture or shiny CGI. No people, readable text, letters, numbers or logo design. Preserve opaque full-frame 1672:941 aspect ratio. Do not transfer the woman's content from Image 2.",
+      "approval": "pending-cto-and-owner"
+    },
+    {
+      "kind": "cable-panel",
+      "output": "art/authoring/sept29-team7/tv/cable-panel-v2.png",
+      "sha256": "71166e9f2fcb076cfc1e99912e214e307d4c9f6a4d51345a6e3599150fb0de23",
+      "nativeGeneration": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-d8e37cc3-31d5-4bd7-bf33-57f3558c0974.png",
+      "nativeGenerationSha256": "71166e9f2fcb076cfc1e99912e214e307d4c9f6a4d51345a6e3599150fb0de23",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/cable-panel.png",
+          "sha256": "15c52541b232b47ae6711643361e502882d3b12ef74557c91b38f97470270e37",
+          "role": "edit target"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "role": "style authority"
+        }
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 edit target, Image 2 style authority only. Change ONLY broadcast station palette to muted plum, pale warm gray and restrained lavender accents. Replace blue/navy panels and all blue lower-third elements. Preserve exactly the four equal empty panel boxes, white borders, perspective, blank name bars inside each panel, large blank lower-third and circular blank logo area; preserve original 1672:941 frame. Match illustrated game style: controlled charcoal outlines, broad soft cel shadows, restrained matte colors. No text, numbers, letters, people, photos, logo artwork. Do not add the person from the style reference.",
+      "approval": "pending-cto-and-owner"
+    },
+    {
+      "kind": "press-briefing",
+      "output": "art/authoring/sept29-team7/tv/press-briefing-v2.png",
+      "sha256": "9dd50dde3e84ba4a373afc8334c81589d42ead0c520c28d9ef1081d70d592e59",
+      "nativeGeneration": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-fe8f81bf-c320-4330-9038-4aa9368475c5.png",
+      "nativeGenerationSha256": "9dd50dde3e84ba4a373afc8334c81589d42ead0c520c28d9ef1081d70d592e59",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/PG-LAND/art/authoring/sept29-team7/tv/press-briefing.png",
+          "sha256": "65222ce93f9146cef5a5d165190429e5ca7efa5e4b1eb8215d9cdbf556756386",
+          "role": "edit target"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "role": "style authority"
+        }
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 is edit target; Image 2 is style reference only. Change ONLY broadcast station palette: muted olive curtain, warm parchment lower-third, charcoal trim, restrained ochre accent shapes. Remove all blue/navy colors. Preserve exact framing, single wooden lectern, two microphones, curtain pleats, floor, blank lower-third and blank logo square; keep 1672:941 full-frame aspect ratio. Preserve clean dark illustrated outlines and broad soft cel shading with muted natural colors. No people, text, letters, numbers, symbols or logo design. Do not transfer the style reference person's identity, clothing or pose.",
+      "approval": "pending-cto-and-owner"
+    }
+  ]
+}
