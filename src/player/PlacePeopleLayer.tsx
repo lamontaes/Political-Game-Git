@@ -1,4 +1,10 @@
-import { useEffect, useState, type CSSProperties, type RefObject } from "react";
+import {
+  Fragment,
+  useEffect,
+  useState,
+  type CSSProperties,
+  type RefObject,
+} from "react";
 import { EngineFigure } from "./EnginePerson";
 import {
   BACKDROP_ASPECT,
@@ -17,14 +23,22 @@ export function PlacePeopleLayer({
   stageRef,
   onSelectPerson,
   selectedPersonId = null,
+  nameplates = false,
 }: {
   readonly people: readonly BackdropPerson[];
   readonly stageRef: RefObject<HTMLDivElement | null>;
   readonly onSelectPerson?: (personId: string) => void;
   readonly selectedPersonId?: string | null;
+  /** Show each person's name and title on a plate over their head. */
+  readonly nameplates?: boolean;
 }) {
   const rect = useCoverRect(stageRef);
   if (!rect || people.length === 0) return null;
+  // The picture is centered and may be wider than the stage (a phone), so a
+  // plate is kept inside the part of the picture that shows.
+  const shownFrom = Math.max(0, -rect.left);
+  const shownTo = rect.width - shownFrom;
+  const plateHalf = Math.min(170, (shownTo - shownFrom) * 0.22);
   return (
     <div
       className="scene-place-people"
@@ -61,7 +75,7 @@ export function PlacePeopleLayer({
           person.clipBelowPercent === null || band
             ? person.heightPercent
             : Math.max(0, person.clipBelowPercent - person.topPercent);
-        return (
+        const button = (
           <button
             key={person.personId}
             type="button"
@@ -110,6 +124,40 @@ export function PlacePeopleLayer({
               />
             </span>
           </button>
+        );
+        if (!nameplates) return button;
+        return (
+          <Fragment key={person.personId}>
+            {button}
+            <span
+              className="scene-place-nameplate"
+              data-testid="scene-place-nameplate"
+              style={
+                {
+                  position: "absolute",
+                  left: `${Math.min(
+                    Math.max(
+                      ((person.leftPercent + person.widthPercent / 2) / 100) *
+                        rect.width,
+                      shownFrom + plateHalf + 4,
+                    ),
+                    shownTo - plateHalf - 4,
+                  )}px`,
+                  maxWidth: `${plateHalf * 2}px`,
+                  // Over the head, where a panel over the lower picture
+                  // never covers it.
+                  top: `${Math.max(person.topPercent, 4)}%`,
+                } satisfies CSSProperties
+              }
+            >
+              <span className="scene-place-nameplate-name">{person.name}</span>
+              {person.title ? (
+                <span className="scene-place-nameplate-title">
+                  {person.title}
+                </span>
+              ) : null}
+            </span>
+          </Fragment>
         );
       })}
     </div>
