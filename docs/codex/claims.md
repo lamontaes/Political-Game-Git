@@ -735,3 +735,11 @@ Coordinator owns town-pay.ts raiseTownPayToMinimum attribution hunk only; resour
 - Team 7: art/authoring/sept30-team7/approved-import/ — CTO12:18 regional/TV/kids exact approved import records.
 
 - Team 7: docs/systems/art-assets.md — CTO12:18 native-display versus print-master contract paragraph only.
+
+## September 30, 12:30 coordinator integration ownership
+
+CTO 12:18 explicitly assigns coordinator elasticity shape in src/simulation/outcome-web/index.ts and its focused test, plus each ideology payload integration into shared policy packs. Published elasticity PR1265 owns only shape/type calculation and test. Coordinator retains shared catalog and outcome-map edits; teams submit bounded payloads. Existing minimum-wage ownership remains restricted to raiseTownPayToMinimum, ResourceFlowTermsRecord/ResourceTransferOutcome stamp fields, and resource paid-transfer propagation. Teacher and other owners' unrelated hunks remain theirs.
+
+## September 30, 12:36 budget-row sequence
+
+CTO grants Team 8 the public-budgets/month.ts settled-row age-verification cost attribution hunk first, its new age-verification-cost module/test, and store.ts optional cost attribution field. Team 5 receives the parks settled-row hunk only after Team 8 publishes and explicitly releases the first hunk. Team 5 can prepare disjoint research and code meanwhile. Coordinator records the handoff; no concurrent writer of the row.

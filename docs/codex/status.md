@@ -1,3 +1,29 @@
+## September 30, 12:45 counts and 12:51 publications
+
+Pinned main for counts: `6a9740db5f23c3f1313868e2738a3ee18a527d1c`.
+
+| Part | Verified count out of 92 | Limit |
+| --- | --- | --- |
+| Terms | 92 declarations; 0 complete usable-term routes certified | Not legal-bound or reader proof |
+| Effects | 5 named bounded stamped writers | Coverage, cannabis, privacy, withholding, teacher; not full effect webs |
+| Cost | 1 compliance-cost writer | Federal privacy; cannabis receipt excluded |
+| Ideology | 9 stored weighted questions; 0 weighted decision consumers verified | Main-source count; consumer under test |
+| Watched proof | 0 complete five-part proofs | Audit and collector coverage pending |
+
+### MERGED
+Elasticity #1265 and teacher stamp #1266 verified on main, in addition to the earlier listed landings.
+
+### CONNECTIONS TABLE
+All 92 questions now have tested, separately published ideology batches: health #1262, education #1263, federal #1268, government #1269, infrastructure #1270, justice #1272, fiscal/labor #1278 and housing/business #1279. Only health was merged at the count pin. Team 2 owns the actual decision reader. Source coverage is not used ideology.
+
+Wage attribution #1267 passed five saved-payment fixtures. Police shape #1277 changes only two links, with a passing test that both remain inactive without their recorded cause.
+
+### BLOCKED
+Audit reader misses nested business-book stamps; existing owner now has a focused collector repair. Police town staffing cannot stand in for statewide officer density. Budget-row sequence is Team 8 then Team 5. Team 7 imported 61 approved sources; newspaper photos require the missing original save and actual media bindings.
+
+### EFFECTS
+No completion percentage is estimated. Published code, bounded writer tests, merged source and full law proof remain separately counted. Continuing reader and source connections.
+
 ## September 30, 12:30 integration checkpoint
 
 ### MERGED
