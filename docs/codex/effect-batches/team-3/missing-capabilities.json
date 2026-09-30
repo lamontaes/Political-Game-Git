@@ -10,10 +10,7 @@
   "laws": [
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "catalogParameterKeys": [
-        "rate",
-        "threshold"
-      ],
+      "catalogParameterKeys": ["rate", "threshold"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -93,9 +90,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "catalogParameterKeys": [
-        "brackets"
-      ],
+      "catalogParameterKeys": ["brackets"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -175,9 +170,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
-      "catalogParameterKeys": [
-        "cap"
-      ],
+      "catalogParameterKeys": ["cap"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -201,9 +194,7 @@
           },
           "onRepeal": "Future assessments use the remaining statutory rules; repeal does not automatically undo past protected valuations or paid bills.",
           "evidence": {
-            "sources": [
-              "src/simulation/policy-pack-us-policy-positions.ts"
-            ],
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
             "why": [
               "A statutory cap limits a legally covered bill or base.",
               "The taxpayer owns a recorded taxable property.",
@@ -231,10 +222,7 @@
               "parentExposureRequired": true,
               "existingTarget": "school.math-proficient-pct",
               "existingSource": "Figlio 1997, Journal of Public Economics 65(3); Downes and Figlio 1997, IRP DP 1142-97",
-              "existingRange": [
-                -0.11,
-                0
-              ],
+              "existingRange": [-0.11, 0],
               "existingUnit": "law in force says yes (1) rather than no (0)",
               "existingLagMonths": 60,
               "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -245,10 +233,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "catalogParameterKeys": [
-        "exempt",
-        "coverage"
-      ],
+      "catalogParameterKeys": ["exempt", "coverage"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -272,9 +257,7 @@
           },
           "onRepeal": "Future covered purchases follow the remaining law; preserve paid invoices and historical taxes.",
           "evidence": {
-            "sources": [
-              "src/simulation/policy-pack-us-policy-positions.ts"
-            ],
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
             "why": [
               "The law exempts a defined product category.",
               "A purchase invoice records the actual covered base.",
@@ -313,10 +296,7 @@
               "parentExposureRequired": true,
               "existingTarget": "household.food-insecurity",
               "existingSource": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
-              "existingRange": [
-                -0.035,
-                -0.005
-              ],
+              "existingRange": [-0.035, -0.005],
               "existingUnit": "law in force says yes (1) rather than no (0)",
               "existingLagMonths": 6,
               "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -327,10 +307,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
-      "catalogParameterKeys": [
-        "required",
-        "scope"
-      ],
+      "catalogParameterKeys": ["required", "scope"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -373,9 +350,7 @@
             "aboutZero": false,
             "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
           },
-          "existingHandler": [
-            "src/simulation/public-appropriation-balance.ts"
-          ],
+          "existingHandler": ["src/simulation/public-appropriation-balance.ts"],
           "missingCapabilities": [
             "Catalog law-specific constraint admission to actual budget decision handler unproved.",
             "No automatic service cut or invented revenue level."
@@ -387,10 +362,7 @@
               "parentExposureRequired": true,
               "existingTarget": "gov.borrowing-cost",
               "existingSource": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)",
-              "existingRange": [
-                -20,
-                0
-              ],
+              "existingRange": [-20, 0],
               "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
               "existingLagMonths": 12,
               "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -401,9 +373,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
-      "catalogParameterKeys": [
-        "contribution"
-      ],
+      "catalogParameterKeys": ["contribution"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -427,9 +397,7 @@
           },
           "onRepeal": "Future required contributions follow the remaining law; accrued benefits and already paid contributions are preserved.",
           "evidence": {
-            "sources": [
-              "src/simulation/policy-pack-us-policy-positions.ts"
-            ],
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
             "why": [
               "The law requires a contribution against the plan liability.",
               "The plan valuation supplies the actual actuarial contribution.",
@@ -457,10 +425,7 @@
               "parentExposureRequired": true,
               "existingTarget": "gov.borrowing-cost",
               "existingSource": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
-              "existingRange": [
-                -8,
-                0
-              ],
+              "existingRange": [-8, 0],
               "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
               "existingLagMonths": 36,
               "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -471,9 +436,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
-      "catalogParameterKeys": [
-        "floor"
-      ],
+      "catalogParameterKeys": ["floor"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -497,9 +460,7 @@
           },
           "onRepeal": "Remove only the prospective statutory floor when lawful; preserve held assets, debts and completed withdrawals.",
           "evidence": {
-            "sources": [
-              "src/simulation/policy-pack-us-policy-positions.ts"
-            ],
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
             "why": [
               "The law sets a minimum reserve as a share of a real spending base.",
               "A reserve consists of recorded government resources.",
@@ -515,9 +476,7 @@
             "aboutZero": false,
             "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
           },
-          "existingHandler": [
-            "src/simulation/public-appropriation-balance.ts"
-          ],
+          "existingHandler": ["src/simulation/public-appropriation-balance.ts"],
           "missingCapabilities": [
             "Dedicated actual reserve-fund balance and law-specific constraint admission unproved.",
             "No drawn reserve level or automatically chosen cut."
@@ -529,10 +488,7 @@
               "parentExposureRequired": true,
               "existingTarget": "gov.borrowing-cost",
               "existingSource": "Pew Charitable Trusts 2017; Wagner 2004",
-              "existingRange": [
-                -6,
-                0
-              ],
+              "existingRange": [-6, 0],
               "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
               "existingLagMonths": 24,
               "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -543,9 +499,7 @@
     },
     {
       "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
-      "catalogParameterKeys": [
-        "target"
-      ],
+      "catalogParameterKeys": ["target"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -604,9 +558,7 @@
     },
     {
       "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
-      "catalogParameterKeys": [
-        "target"
-      ],
+      "catalogParameterKeys": ["target"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -665,10 +617,7 @@
     },
     {
       "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
-      "catalogParameterKeys": [
-        "authorized",
-        "coverage"
-      ],
+      "catalogParameterKeys": ["authorized", "coverage"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -711,9 +660,7 @@
             "aboutZero": false,
             "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
           },
-          "existingHandler": [
-            "src/simulation/minimum-wage.ts"
-          ],
+          "existingHandler": ["src/simulation/minimum-wage.ts"],
           "missingCapabilities": [
             "Independent authority provenance through actual binding floor needs shared engine contract.",
             "No permission-to-pay causal proof inferred."
@@ -724,10 +671,7 @@
     },
     {
       "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
-      "catalogParameterKeys": [
-        "duration",
-        "replacement"
-      ],
+      "catalogParameterKeys": ["duration", "replacement"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -828,9 +772,7 @@
             "aboutZero": false,
             "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
           },
-          "existingHandler": [
-            "src/simulation/paid-leave-benefits.ts"
-          ],
+          "existingHandler": ["src/simulation/paid-leave-benefits.ts"],
           "missingCapabilities": [
             "Premium rate/cap/eligibility/waiting-period terms exceed current duration/replacement declarations.",
             "Inherited estimated premium/replacement level draws require repair."
@@ -907,10 +849,7 @@
     },
     {
       "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-      "catalogParameterKeys": [
-        "authorized",
-        "coverage"
-      ],
+      "catalogParameterKeys": ["authorized", "coverage"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -934,9 +873,7 @@
           },
           "onRepeal": "Prospective bargaining authority follows remaining law; existing contracts and vested rights follow applicable savings/contract rules.",
           "evidence": {
-            "sources": [
-              "src/simulation/policy-pack-us-policy-positions.ts"
-            ],
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
             "why": [
               "The statute confers a covered employee right and corresponding public-employer duty.",
               "Employees and employer must take recorded bargaining actions.",
@@ -975,10 +912,7 @@
               "parentExposureRequired": true,
               "existingTarget": "labor.median-earnings",
               "existingSource": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
-              "existingRange": [
-                -0.02,
-                0
-              ],
+              "existingRange": [-0.02, 0],
               "existingUnit": "law in force says yes (1) rather than no (0)",
               "existingLagMonths": 180,
               "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -989,10 +923,7 @@
     },
     {
       "questionKey": "us-policy-positions:labor-workforce.right-to-work",
-      "catalogParameterKeys": [
-        "fee-prohibition",
-        "coverage"
-      ],
+      "catalogParameterKeys": ["fee-prohibition", "coverage"],
       "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
       "consequences": [
         {
@@ -1017,9 +948,7 @@
           },
           "onRepeal": "Prospective compulsory-condition legality follows remaining law; repeal does not itself require union membership or a fee without a lawful actual agreement.",
           "evidence": {
-            "sources": [
-              "src/simulation/policy-pack-us-policy-positions.ts"
-            ],
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
             "why": [
               "The statute limits legally permitted employment conditions.",
               "An actual employer/contract must impose the covered compulsory condition.",
@@ -1048,10 +977,7 @@
               "parentExposureRequired": true,
               "existingTarget": "voting.turnout-pct",
               "existingSource": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
-              "existingRange": [
-                -0.046,
-                -0.015
-              ],
+              "existingRange": [-0.046, -0.015],
               "existingUnit": "law in force says yes (1) rather than no (0)",
               "existingLagMonths": 12,
               "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
