@@ -205,7 +205,6 @@ import {
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
-import { StorySceneDayPanel } from "./StorySceneDayPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -2569,11 +2568,6 @@ function PlayingScreen({
               !showOrientation &&
               !conversation ? (
                 <>
-                  <StorySceneDayPanel
-                    world={session.world}
-                    personId={session.personId}
-                    onOpenEntity={openEntity}
-                  />
                   <OrdinaryMeetingPanel
                     world={session.world}
                     personId={session.personId}

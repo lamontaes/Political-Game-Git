@@ -452,7 +452,33 @@
       "anchor": "-10.8% premature, -11.8% low birth weight",
       "source": "Currie and Walker 2011",
       "from": "env.traffic-congestion-near-home",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "exposure-and-outcome-definition-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "area": "environment-health",
+        "linkId": "congestion-to-premature-births",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w15413/w15413.pdf",
+        "version": "October2009workingpaper;finalpublishedversioncomparisonopen",
+        "access": "PreservedprimaryfulltextTable3read.",
+        "estimate": -0.0086,
+        "standardError": 0.0034,
+        "derivedNormal95CI": [-0.015264, -0.001936],
+        "table": "3,panel1,column2,p33",
+        "unit": "Absolute premature-birth probability difference for mothers residingwithin2km of tollplaza after E-ZPass adoption versus comparison exposure;not per congestion index point.",
+        "outcomeDefinition": "Study defines prematurity as gestation less than38weeks,not interchangeable with standardless-than37weeks without outcome reconciliation.",
+        "population": "NewJersey/Pennsylvaniabirthsnearbusyroadways/tollplazas;405802observationsinprematurityregression.",
+        "lag": "Prenatalexposure andbirthoutcome after adoption;not universal immediate monthly change.",
+        "conditions": [
+          "Within2km treateddistance;comparison2–10km in studydesign.",
+          "Electroniccollectionreduces tollboothcongestion/pollution;not a measuredgenerictraffic elasticity.",
+          "Maternalcontrols andtoll/year/monthfixed effects retained."
+        ],
+        "rangeMeaning": "Calculatednormal95CIfromreportedSE,not placevariance or drawn birthrate.",
+        "missingConversion": "A generic runtime congestion measure must define equivalent change in exposure. No measured E-ZPass-to-congestion-index dose conversion supplied. Birthoutcomedefinition also must match.",
+        "aboutZero": false,
+        "runtimeActivation": "NOTRUN;coordinatorownssharedmap."
+      }
     },
     {
       "key": "birth-year-pollution-to-adult-earnings",
@@ -1482,10 +1508,44 @@
       "lagMonths": 0,
       "group": "tenants, esp. women and Black tenants",
       "owner": "M",
-      "anchor": "More homelessness, hospital visits, lower earnings and credit for 2 years",
+      "anchor": "Emergency shelter use rises in year 1 for marginal eviction-order tenants; year 2 estimate is uncertain.",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "unit-and-exposure-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "sourceVersion": "August2022revisedJuly2023workingpaper",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "estimates": [
+          {
+            "linkId": "eviction-to-homelessness",
+            "outcome": "Emergency shelter use indicator",
+            "followUpAfterFiling": "Year1",
+            "estimate": 0.034,
+            "standardError": 0.017,
+            "derivedNormal95CI": [0.00068, 0.06732]
+          },
+          {
+            "linkId": "eviction-to-homelessness",
+            "outcome": "Emergency shelter use indicator",
+            "followUpAfterFiling": "Year2",
+            "estimate": -0.001,
+            "standardError": 0.013,
+            "derivedNormal95CI": [-0.02648, 0.02448]
+          }
+        ],
+        "exposure": "Evictionorderamong marginal filed-case tenants,judge-stringencyinstrument. Not every residentialmove or eviction filing.",
+        "unit": "Shelter:absoluteprobabilitydifference. Hospital:additionalvisitcountpercoveredtenantduringfollow-up. Neitherrelativepopulationrate.",
+        "rangeMeaning": "Calculatednormal95CIfromreportedclusteredSE;not across-placeaverage spread or conditions bound.",
+        "runtimeGap": "Needmatchingevictionorderexposure,coveredtenantsandseparatefollow-uprecords/outcomeunits. Do notdividebywholecountyhomelessbaseline or apply perratepoint.",
+        "conditions": [
+          "Shelterrecordcapturesobservedemergencyshelterstay,not allunshelteredhomelessness.",
+          "Hospitaloutcomeexcludespregnancy-relatedvisits.",
+          "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
+          "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
+        ]
+      }
     },
     {
       "key": "eviction-to-hospital-visits",
@@ -1499,10 +1559,44 @@
       "lagMonths": 0,
       "group": "tenants",
       "owner": "F",
-      "anchor": "Up in the first 2 years",
+      "anchor": "Nonpregnancy hospital visits rise in quarters 1–4 in the New York sample; quarters 5–8 estimate is uncertain.",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "unit-and-exposure-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "sourceVersion": "August2022revisedJuly2023workingpaper",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "estimates": [
+          {
+            "linkId": "eviction-to-hospital-visits",
+            "outcome": "Nonpregnancyhospitalvisitcount",
+            "followUpAfterFiling": "Quarters1–4",
+            "estimate": 0.188,
+            "standardError": 0.094,
+            "derivedNormal95CI": [0.00376, 0.37224]
+          },
+          {
+            "linkId": "eviction-to-hospital-visits",
+            "outcome": "Nonpregnancyhospitalvisitcount",
+            "followUpAfterFiling": "Quarters5–8",
+            "estimate": -0.113,
+            "standardError": 0.142,
+            "derivedNormal95CI": [-0.39132, 0.16532]
+          }
+        ],
+        "exposure": "Evictionorderamong marginal filed-case tenants,judge-stringencyinstrument. Not every residentialmove or eviction filing.",
+        "unit": "Shelter:absoluteprobabilitydifference. Hospital:additionalvisitcountpercoveredtenantduringfollow-up. Neitherrelativepopulationrate.",
+        "rangeMeaning": "Calculatednormal95CIfromreportedclusteredSE;not across-placeaverage spread or conditions bound.",
+        "runtimeGap": "Needmatchingevictionorderexposure,coveredtenantsandseparatefollow-uprecords/outcomeunits. Do notdividebywholecountyhomelessbaseline or apply perratepoint.",
+        "conditions": [
+          "Shelterrecordcapturesobservedemergencyshelterstay,not allunshelteredhomelessness.",
+          "Hospitaloutcomeexcludespregnancy-relatedvisits.",
+          "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
+          "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
+        ]
+      }
     },
     {
       "key": "home-prices-to-owner-births",
