@@ -1,0 +1,3915 @@
+{
+  "schemaVersion": 1,
+  "area": "housing-land-use",
+  "baseline": "31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4",
+  "researchedAt": "2026-09-29",
+  "status": "research draft",
+  "places": [
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+    "DC",
+    "PR",
+    "GU",
+    "VI",
+    "AS",
+    "MP"
+  ],
+  "sources": [
+    {
+      "id": "ca-cap2019",
+      "title": "California AB1482 enacted Chapter597",
+      "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=201920200AB1482",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-tenant2023",
+      "title": "California SB567 enacted Chapter290 operative April2024",
+      "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB567",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-cap-code",
+      "title": "California Civil Code1947.12; chapter history identifies SB567 operative2024",
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1947.12.",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-local-code",
+      "title": "California Civil Code1954.52 Costa-Hawkins limitations",
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1954.52.",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "or-cap2019",
+      "title": "Oregon SB608 enacted2019 Chapter1",
+      "url": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "or-cap2023",
+      "title": "Oregon SB611 enacted2023 Chapter226",
+      "url": "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2023orlaw0226.pdf",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "or-cap2026",
+      "title": "Oregon DAS published2026 rent-stabilization percentages",
+      "url": "https://apps.oregon.gov/oregon-newsroom/OR/DAS/Posts/Post/2026-Rent-Stabilization-Percentages",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "or-local-gap",
+      "title": "Oregon ORS91.225 current official chapter indexed; full retrieval failed",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors091.html",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-rentbar",
+      "title": "Massachusetts General Laws40P4 voluntary compensated exception",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P/Section4",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-rentpreempt",
+      "title": "Massachusetts General Laws40P5 statewide preemption",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P/Section5",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-prop33",
+      "title": "California Legislative Analyst2024 Proposition33 ballot analysis",
+      "url": "https://lao.ca.gov/BallotAnalysis/Proposition?number=33&year=2024",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sf-rent-study",
+      "title": "Diamond McQuade Qian2019 original AER rent-control evaluation",
+      "url": "https://www.aeaweb.org/articles?id=10.1257/aer.20181289",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    },
+    {
+      "id": "sf-rent-manuscript",
+      "title": "Diamond McQuade Qian author manuscript March2019; not final-paper table proof",
+      "url": "https://web.stanford.edu/~diamondr/DMQ.pdf",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    },
+    {
+      "id": "hud-fairhousing",
+      "title": "HUD Fair Housing Act overview; federal discrimination protections, not local rent grant",
+      "url": "https://www.hud.gov/helping-americans/fair-housing-act-overview",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "de-initial-rent",
+      "title": "German BGB556d rent at start and Land designation",
+      "url": "https://www.gesetze-im-internet.de/bgb/__556d.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "de-rent-exemptions",
+      "title": "German BGB556f new construction and modernization exceptions",
+      "url": "https://www.gesetze-im-internet.de/bgb/__556f.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "de-existing-rent",
+      "title": "German BGB558 comparative-rent and three-year cap",
+      "url": "https://www.gesetze-im-internet.de/bgb/__558.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nyc-counsel2017",
+      "title": "NYC certified LocalLaw136/2017 enacted August11",
+      "url": "https://legistar.council.nyc.gov/View.ashx?GUID=EDE65522-DA06-469F-9892-7932B89B757B&ID=5809782&M=F",
+      "year": 2017,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nyc-counsel2023",
+      "title": "NYC certified LocalLaw20/2023 expands full representation to age60+",
+      "url": "https://legistar.council.nyc.gov/View.ashx?GUID=F2D48501-6816-42D4-BF46-C895D39C6AC1&ID=11802978&M=F",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nyc-counsel-code",
+      "title": "NYC current official publisher administrative code26-1302",
+      "url": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-47842",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "counsel-study2023",
+      "title": "Cassidy Currie2023 published Journal of Public Economics222104844 Table3",
+      "url": "https://miketcassidy.com/files/cassidy-currie-2023-evictions-jpube.pdf",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    }
+  ],
+  "topics": [
+    {
+      "topicKey": "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
+      "catalogLevels": ["state", "county", "municipality"],
+      "dialIds": ["rent-rules"],
+      "proposedDials": [],
+      "authorities": [
+        {
+          "level": "state",
+          "body": "State legislature and responsible housing agencies",
+          "does": "Enact rent and tenancy rules, limits and delegated enforcement.",
+          "legalSource": "California AB1482/SB567 and Oregon SB608/SB611 examples; no national inference",
+          "sources": [
+            "ca-cap2019",
+            "ca-tenant2023",
+            "or-cap2019",
+            "or-cap2023"
+          ],
+          "organizationRequirement": "Research requirement only: model real governing members and staff with at least one staff job even when inactive. No organization or roster is created by this research."
+        },
+        {
+          "level": "city",
+          "body": "NewYorkCity council and Office of Civil Justice",
+          "does": "Fund and administer enacted legal-services program with designated nonprofit providers.",
+          "legalSource": "NYC LocalLaw136/2017 and20/2023",
+          "sources": ["nyc-counsel2017", "nyc-counsel2023"],
+          "organizationRequirement": "Research requirement only: model real governing members and staff with at least one staff job even when inactive. No organization or roster is created by this research."
+        }
+      ],
+      "interactions": [
+        {
+          "chain": ["federal", "state", "city"],
+          "pattern": "federal floor",
+          "settings": [
+            "federal discrimination protections; local rent authority separately required"
+          ],
+          "sources": ["hud-fairhousing"]
+        },
+        {
+          "chain": ["state", "city"],
+          "pattern": "state preemption of local action",
+          "settings": [
+            "protected property",
+            "vacancy rules",
+            "more-protective local tenancy provisions"
+          ],
+          "sources": ["ca-local-code", "ca-tenant2023", "ma-rentpreempt"]
+        }
+      ],
+      "decisions": [
+        {
+          "id": "annual-rent-limit",
+          "question": "What annual rent cap, coverage, vacancy rule and enforcement should apply?",
+          "levels": ["state", "dc", "territory"],
+          "terms": [
+            "cap formula and inflation series",
+            "covered homes and exemptions",
+            "vacancy reset",
+            "notice and frequency",
+            "enforcement and sunset"
+          ],
+          "examples": [
+            {
+              "place": "California",
+              "measure": "AB1482 Chapter597",
+              "year": 2019,
+              "status": "enacted",
+              "sources": ["ca-cap2019"]
+            },
+            {
+              "place": "Oregon",
+              "measure": "SB608 Chapter1",
+              "year": 2019,
+              "status": "enacted",
+              "sources": ["or-cap2019"]
+            },
+            {
+              "place": "Oregon",
+              "measure": "SB611 Chapter226",
+              "year": 2023,
+              "status": "enacted",
+              "sources": ["or-cap2023"]
+            }
+          ],
+          "availability": {
+            "AL": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CA": {
+              "status": "yes",
+              "scope": "state, dc, territory",
+              "reason": "State cap lesser of5%+applicable CPI or10%; two increments maximum in12months for same tenant; vacancy reset and statutory exemptions. Valid stricter local limits retain Costa-Hawkins constraints.",
+              "sources": ["ca-cap2019", "ca-tenant2023", "ca-cap-code"],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OR": {
+              "status": "yes",
+              "scope": "state, dc, territory",
+              "reason": "State statute caps eligible rents;2019 original7%+CPI amended2023 to lesser of10% or7%+CPI. Exemptions and tenancy types differ.",
+              "sources": ["or-cap2019", "or-cap2023", "or-cap2026"],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "scope": "state, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            }
+          },
+          "effects": [
+            {
+              "measure": "Downstream behavioral effect",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "No universal lag established",
+              "affectedGroup": "Covered tenants, landlords and households",
+              "study": null,
+              "sources": [],
+              "transferLimit": "No numerical effect is supplied for this mechanism; statutory amounts and actual expenditures remain separate direct accounting."
+            },
+            {
+              "measure": "Mobility among covered incumbent tenants",
+              "size": -20,
+              "range": {
+                "low": -20,
+                "high": -20,
+                "unit": "percent relative change",
+                "kind": "final abstract point estimate; confidence interval not retrieved"
+              },
+              "lag": "SanFrancisco1994 expansion; subsequent historical follow-up, not a one-year universal lag",
+              "affectedGroup": "Tenants and landlords affected by SF1994 expansion in small pre1980 multifamily buildings",
+              "study": {
+                "authors": "Diamond McQuade Qian",
+                "year": 2019,
+                "venue": "American Economic Review109(9)3365-3394"
+              },
+              "sources": ["sf-rent-study"],
+              "transferLimit": "Quasi-experimental estimate for that expansion; not automatically California/Oregon statewide-cap response. Mobility reduction and treated rental supply are separate outcomes; no numeric citywide rent effect admitted."
+            },
+            {
+              "measure": "Rental housing supply among treated landlords",
+              "size": -15,
+              "range": {
+                "low": -15,
+                "high": -15,
+                "unit": "percent relative change",
+                "kind": "final abstract point estimate; confidence interval not retrieved"
+              },
+              "lag": "SanFrancisco1994 expansion; subsequent historical follow-up, not a one-year universal lag",
+              "affectedGroup": "Tenants and landlords affected by SF1994 expansion in small pre1980 multifamily buildings",
+              "study": {
+                "authors": "Diamond McQuade Qian",
+                "year": 2019,
+                "venue": "American Economic Review109(9)3365-3394"
+              },
+              "sources": ["sf-rent-study"],
+              "transferLimit": "Quasi-experimental estimate for that expansion; not automatically California/Oregon statewide-cap response. Mobility reduction and treated rental supply are separate outcomes; no numeric citywide rent effect admitted."
+            }
+          ],
+          "directMechanism": "Limit permitted increases on eligible tenancies; actual rent charged, landlord receipts and tenant spending require recorded offers/payments, not an assumed market-wide reduction.",
+          "startingLaw": {
+            "AL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CA": {
+              "status": "in force",
+              "detail": "State formula lesser of5%+applicable CPI or10%, not one statewide percentage. For increases beforeAugust2026 use applicableApril2025/April2024 CPI orMarch fallback. Original SB567 sunsetJanuary2030; covered-unit eligibility and valid local caps require individual checks.",
+              "sources": ["ca-tenant2023", "ca-cap-code"]
+            },
+            "CO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OR": {
+              "status": "in force",
+              "detail": "DAS published2026 standard eligible-tenancy maximum9.5%; manufactured-dwelling/marina facilities over30spaces6%,30or fewer standard formula.15year new-construction and regulated affordable-housing exemptions require eligibility review.",
+              "sources": ["or-cap2019", "or-cap2023", "or-cap2026"]
+            },
+            "PA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            }
+          }
+        },
+        {
+          "id": "just-cause-eviction",
+          "question": "Which reasons and remedies govern termination of an eligible tenancy?",
+          "levels": ["state", "county", "city", "dc", "territory"],
+          "terms": [
+            "eligibility duration",
+            "at-fault and no-fault grounds",
+            "owner occupancy",
+            "substantial remodel",
+            "relocation and remedies",
+            "stricter local protection"
+          ],
+          "examples": [
+            {
+              "place": "California",
+              "measure": "SB567 Chapter290",
+              "year": 2023,
+              "status": "enacted",
+              "sources": ["ca-tenant2023"]
+            },
+            {
+              "place": "Oregon",
+              "measure": "SB608 Chapter1",
+              "year": 2019,
+              "status": "enacted",
+              "sources": ["or-cap2019"]
+            }
+          ],
+          "availability": {
+            "AL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CA": {
+              "status": "only some localities",
+              "scope": "state rule and valid county/city ordinances",
+              "reason": "State just-cause restrictions and local more-protective alternatives with required findings; separate exemptions and ownership conditions.",
+              "sources": ["ca-tenant2023"],
+              "bars": [],
+              "localGrant": {
+                "description": "Civil Code1946.2(i) preserves specified valid local ordinances and sets more-protective criteria; not blanket authority over excluded homes.",
+                "lawKind": "state statute",
+                "changedBy": "State legislative amendment; full local enactment and charter procedures remain unresearched.",
+                "sources": ["ca-tenant2023"]
+              },
+              "differentLargeCityCharters": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OR": {
+              "status": "yes",
+              "scope": "state",
+              "reason": "SB608 restricts specified no-cause terminations after first tenancy year with qualifying landlord reasons, notice and relocation provisions; current2026 amendments/complete exemptions still require review.",
+              "sources": ["or-cap2019"],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            }
+          },
+          "effects": [
+            {
+              "measure": "Downstream behavioral effect",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "No universal lag established",
+              "affectedGroup": "Covered tenants, landlords and households",
+              "study": null,
+              "sources": [],
+              "transferLimit": "No numerical effect is supplied for this mechanism; statutory amounts and actual expenditures remain separate direct accounting."
+            }
+          ],
+          "directMechanism": "Check the recorded tenancy, stated termination ground, notices and remedies before allowing termination; a lawful proposal does not mean the tenant has moved.",
+          "startingLaw": {
+            "AL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CA": {
+              "status": "in force",
+              "detail": "SB567 operativeApril2024: covered-tenancy just cause, owner/family move-in within90days and12months continuous primary residence; qualifying substantial remodel requires30consecutive vacant days. Local more-protective findings and exemption/ownership checks remain necessary.",
+              "sources": ["ca-tenant2023"]
+            },
+            "CO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            }
+          }
+        },
+        {
+          "id": "eviction-counsel",
+          "question": "Who receives eviction counsel, through which providers and appropriation?",
+          "levels": ["state", "county", "city", "dc", "territory"],
+          "terms": [
+            "income or age eligibility",
+            "brief advice versus full representation",
+            "appropriation and capacity",
+            "court or administrative proceeding",
+            "provider contract and reporting"
+          ],
+          "examples": [
+            {
+              "place": "NewYorkCity",
+              "measure": "LocalLaw136",
+              "year": 2017,
+              "status": "enacted",
+              "sources": ["nyc-counsel2017"]
+            },
+            {
+              "place": "NewYorkCity",
+              "measure": "LocalLaw20",
+              "year": 2023,
+              "status": "enacted",
+              "sources": ["nyc-counsel2023"]
+            }
+          ],
+          "availability": {
+            "AL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NY": {
+              "status": "only some localities",
+              "scope": "NewYorkCity",
+              "reason": "NYC local program only; no statewide entitlement inferred. Subject to appropriation, eligible full representation and broader brief advice.",
+              "sources": ["nyc-counsel2017", "nyc-counsel2023"],
+              "bars": [],
+              "localGrant": {
+                "description": "NYC LocalLaw136 amends AdministrativeCode26-1301/1302; other counties/cities require separate enabling review.",
+                "lawKind": "ordinance",
+                "changedBy": "NYC local legislation subject to governing charter/state authority; full procedure remains unresearched.",
+                "sources": ["nyc-counsel2017", "nyc-counsel2023"]
+              },
+              "differentLargeCityCharters": [
+                {
+                  "city": "NewYorkCity",
+                  "rule": "City-specific enacted program; full charter powers and other250000+city routes remain unresearched.",
+                  "sources": ["nyc-counsel2017", "nyc-counsel2023"]
+                }
+              ]
+            },
+            "NC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            }
+          },
+          "effects": [
+            {
+              "measure": "Downstream behavioral effect",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "No universal lag established",
+              "affectedGroup": "Covered tenants, landlords and households",
+              "study": null,
+              "sources": [],
+              "transferLimit": "No numerical effect is supplied for this mechanism; statutory amounts and actual expenditures remain separate direct accounting."
+            },
+            {
+              "measure": "Executed formal eviction probability for tenants gaining representation through rollout",
+              "size": -8.4,
+              "range": {
+                "low": -12.516,
+                "high": -4.284,
+                "unit": "percentage points",
+                "kind": "approximate95% interval calculated as\u22128.4\u00b11.96\u00d72.1 reported ZIP-clustered SE; not paper-reported CI"
+              },
+              "lag": "Petitions2016\u20132019, observed through2021; no generic six-month lag",
+              "affectedGroup": "NYC tenants whose representation changed because of program rollout",
+              "study": {
+                "authors": "Cassidy Currie",
+                "year": 2023,
+                "venue": "Journal of Public Economics222104844 Table3column2"
+              },
+              "sources": ["counsel-study2023"],
+              "transferLimit": "IV representation effect, not effect of law passage on all tenants. Address-fixed-effects estimate\u22125.8pp SE3.4; long-run landlord responses and informal moves unresolved. Do not apply an aggregate multiplier after a recorded case already uses counsel."
+            }
+          ],
+          "directMechanism": "Appropriate actual provider funding and offer covered services; record whether a lawyer appears before computing a case outcome; law passage alone does not fill missing lawyer capacity.",
+          "startingLaw": {
+            "AL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NY": {
+              "status": "in force",
+              "detail": "NYC law2017 as amended2023: full-representation eligibility age60+ OR gross household income\u2264200%FPG; brief assistance for covered tenants subject to appropriation. Housing-court and NYCHA proceedings separately specified. Original2022deadline later advanced; no claim all eligible tenants actually received counsel.",
+              "sources": [
+                "nyc-counsel2017",
+                "nyc-counsel2023",
+                "nyc-counsel-code"
+              ]
+            },
+            "NC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            }
+          }
+        }
+      ],
+      "federalLink": [
+        {
+          "topicKey": "us-federal:justice-rights.civil-rights",
+          "program": "Fair Housing Act protection and remedies",
+          "match": "Civil-rights floor; no universal matching percentage or local rent-setting grant.",
+          "conditions": [
+            "Covered discrimination and statutory exemptions/remedies require separate scope review.",
+            "HUD current enforcement guidance is not a universal expansion of state/local authority."
+          ],
+          "sources": ["hud-fairhousing"]
+        }
+      ],
+      "systemRedesigns": [
+        {
+          "id": "rent-protection-design",
+          "question": "How should rental-price protection, termination rules, enforcement and representation fit together?",
+          "pieces": [
+            {
+              "name": "Price reference and adjustment",
+              "terms": [
+                "inflation formula",
+                "market comparison",
+                "initial rent versus existing rent"
+              ],
+              "decisionIds": ["annual-rent-limit"]
+            },
+            {
+              "name": "Coverage and exit",
+              "terms": [
+                "new construction",
+                "owner use",
+                "vacancy reset",
+                "remodel"
+              ],
+              "decisionIds": ["annual-rent-limit", "just-cause-eviction"]
+            },
+            {
+              "name": "Enforcement and representation",
+              "terms": [
+                "provider appropriation",
+                "private/public enforcement",
+                "excess-rent remedies"
+              ],
+              "decisionIds": ["eviction-counsel", "annual-rent-limit"]
+            }
+          ],
+          "usExamples": [
+            {
+              "place": "California",
+              "measure": "AB1482 andSB567",
+              "year": 2019,
+              "status": "enacted",
+              "sources": ["ca-cap2019", "ca-tenant2023"]
+            },
+            {
+              "place": "Oregon",
+              "measure": "SB608 andSB611",
+              "year": 2019,
+              "status": "enacted",
+              "sources": ["or-cap2019", "or-cap2023"]
+            }
+          ],
+          "internationalModels": [
+            {
+              "place": "Germany",
+              "system": "BGB556d allows initial rent at most10% above local comparable rent in Land-designated tense markets;556fnew use/rental afterOctober2014andfirstpost-comprehensive-modernizationexceptions.558existing-tenancy increases to comparable rent with20%over3years,15%indesignatedareas, timing rules. Initial and existing-rent rules are distinct; noU.S.local authority inferred.",
+              "sources": [
+                "de-initial-rent",
+                "de-rent-exemptions",
+                "de-existing-rent"
+              ]
+            }
+          ],
+          "effects": [
+            {
+              "measure": "Outcome of the combined redesigned protection system",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "No universal lag established",
+              "affectedGroup": "Covered tenants, landlords and households",
+              "study": null,
+              "sources": [],
+              "transferLimit": "No numerical effect is supplied for this mechanism; statutory amounts and actual expenditures remain separate direct accounting."
+            }
+          ]
+        }
+      ],
+      "gameToday": {
+        "questions": [
+          "housing-land-use.rent-stabilization",
+          "housing-land-use.right-to-counsel-in-eviction"
+        ],
+        "coverage": [
+          "Question keys found at inspected main; presence is not runtime or law/effect acceptance."
+        ],
+        "sourceAtHead": "31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4:src/simulation/policy-pack-us-policy-positions.ts"
+      },
+      "remainingWork": [
+        "Complete remaining housing recurring decisions, all56current grants/bars/amendment routes andJanuary2026baselines.",
+        "Inspect differing charters for every250000+city; no blanket state-local inference.",
+        "Study-backed estimates retain original populations, units and uncertainty; outcome code integration belongs toTeam1."
+      ]
+    },
+    {
+      "topicKey": "us-state-and-local:housing-land-use.state-housing-preemption",
+      "catalogLevels": ["state", "county", "municipality"],
+      "dialIds": ["rent-rules", "local-preemption"],
+      "proposedDials": [],
+      "authorities": [
+        {
+          "level": "state",
+          "body": "State legislature and responsible housing agencies",
+          "does": "Enact rent and tenancy rules, limits and delegated enforcement.",
+          "legalSource": "California AB1482/SB567 and Oregon SB608/SB611 examples; no national inference",
+          "sources": [
+            "ca-cap2019",
+            "ca-tenant2023",
+            "or-cap2019",
+            "or-cap2023"
+          ],
+          "organizationRequirement": "Research requirement only: model real governing members and staff with at least one staff job even when inactive. No organization or roster is created by this research."
+        },
+        {
+          "level": "city",
+          "body": "NewYorkCity council and Office of Civil Justice",
+          "does": "Fund and administer enacted legal-services program with designated nonprofit providers.",
+          "legalSource": "NYC LocalLaw136/2017 and20/2023",
+          "sources": ["nyc-counsel2017", "nyc-counsel2023"],
+          "organizationRequirement": "Research requirement only: model real governing members and staff with at least one staff job even when inactive. No organization or roster is created by this research."
+        }
+      ],
+      "interactions": [
+        {
+          "chain": ["federal", "state", "city"],
+          "pattern": "federal floor",
+          "settings": [
+            "federal discrimination protections; local rent authority separately required"
+          ],
+          "sources": ["hud-fairhousing"]
+        },
+        {
+          "chain": ["state", "city"],
+          "pattern": "state preemption of local action",
+          "settings": [
+            "protected property",
+            "vacancy rules",
+            "more-protective local tenancy provisions"
+          ],
+          "sources": ["ca-local-code", "ca-tenant2023", "ma-rentpreempt"]
+        }
+      ],
+      "decisions": [
+        {
+          "id": "local-rent-preemption",
+          "question": "Should state law preserve, relax or repeal limits on local rent regulation?",
+          "levels": ["state", "county", "city", "dc", "territory"],
+          "terms": [
+            "local annual cap and vacancy control",
+            "new construction",
+            "separately alienable homes",
+            "state override",
+            "voluntary compensated exception"
+          ],
+          "examples": [
+            {
+              "place": "California",
+              "measure": "Proposition33 initiative statute to repeal Costa-Hawkins",
+              "year": 2024,
+              "status": "went to voters",
+              "sources": ["ca-prop33"]
+            },
+            {
+              "place": "California",
+              "measure": "AB1482 preserves Costa-Hawkins limitations",
+              "year": 2019,
+              "status": "enacted",
+              "sources": ["ca-cap2019"]
+            }
+          ],
+          "availability": {
+            "AL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CA": {
+              "status": "only some localities",
+              "scope": "county/city within statutory property scope",
+              "reason": "State statute limits local rent regulation; a city/county may not simply override the protected-property and vacancy rules. Proposition33 proposed repeal, not an enacted local rent cap.",
+              "sources": ["ca-local-code", "ca-prop33", "ca-cap-code"],
+              "bars": [
+                {
+                  "description": "Costa-Hawkins statutory limits on local rent regulation and vacancy control.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislative amendment or initiative statute; Proposition33 was a2024 repeal proposal. Full passage/proposal procedure remains unresearched.",
+                  "sources": ["ca-local-code", "ca-prop33"]
+                }
+              ],
+              "localGrant": {
+                "description": "CivilCode1954.52 and1947.12 recognize valid local regulation subject to Costa-Hawkins; exact municipal/county grant and250000+charters still need full review.",
+                "lawKind": "state statute",
+                "changedBy": "State legislative amendment; full local enactment and charter procedures remain unresearched.",
+                "sources": ["ca-local-code", "ca-prop33", "ca-cap-code"]
+              },
+              "differentLargeCityCharters": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MA": {
+              "status": "no",
+              "scope": "city/town mandatory private-property rent control",
+              "reason": "Mandatory city/town rent control is barred; voluntary uncoerced compensated program is a narrow exception after sixmonths. Less than10owned units and rents above$400excluded; no occupancy/services/eviction/conversion regulation through this exception.",
+              "sources": ["ma-rentbar", "ma-rentpreempt"],
+              "bars": [
+                {
+                  "description": "Chapter40P4/5 statutory prohibition and statewide preemption; narrow voluntary compensation exception remains.",
+                  "lawKind": "state statute",
+                  "changedBy": "Amend or repeal state statute through legislature or eligible statewide initiative; exact Massachusetts procedure remains unresearched.",
+                  "sources": ["ma-rentbar", "ma-rentpreempt"]
+                }
+              ],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "OR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "scope": "state, county, city, dc, territory",
+              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions remain unresearched.",
+              "sources": [],
+              "bars": [],
+              "localGrant": null,
+              "differentLargeCityCharters": []
+            }
+          },
+          "effects": [
+            {
+              "measure": "Downstream behavioral effect",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "No universal lag established",
+              "affectedGroup": "Covered tenants, landlords and households",
+              "study": null,
+              "sources": [],
+              "transferLimit": "No numerical effect is supplied for this mechanism; statutory amounts and actual expenditures remain separate direct accounting."
+            }
+          ],
+          "directMechanism": "Change which local rent rules can validly be enacted; a preemption repeal does not itself enact a local cap or change an actual rent.",
+          "startingLaw": {
+            "AL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AZ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "CT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "FL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "HI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ID": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IL": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "IA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "KY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "LA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ME": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MO": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NE": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NJ": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NM": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "NC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "ND": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OH": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OK": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "OR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "PA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "RI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "SD": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TN": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "TX": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "UT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VT": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WA": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WV": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "WY": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "DC": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "PR": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "GU": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "VI": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "AS": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            },
+            "MP": {
+              "status": "unresearched",
+              "detail": "January1,2026 starting law not established for this place.",
+              "sources": []
+            }
+          }
+        }
+      ],
+      "federalLink": [
+        {
+          "topicKey": "us-federal:justice-rights.civil-rights",
+          "program": "Fair Housing Act protection and remedies",
+          "match": "Civil-rights floor; no universal matching percentage or local rent-setting grant.",
+          "conditions": [
+            "Covered discrimination and statutory exemptions/remedies require separate scope review.",
+            "HUD current enforcement guidance is not a universal expansion of state/local authority."
+          ],
+          "sources": ["hud-fairhousing"]
+        }
+      ],
+      "systemRedesigns": [],
+      "gameToday": {
+        "questions": [],
+        "coverage": [
+          "Question keys found at inspected main; presence is not runtime or law/effect acceptance."
+        ],
+        "sourceAtHead": "31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4:src/simulation/policy-pack-us-policy-positions.ts"
+      },
+      "remainingWork": [
+        "Complete remaining housing recurring decisions, all56current grants/bars/amendment routes andJanuary2026baselines.",
+        "Inspect differing charters for every250000+city; no blanket state-local inference.",
+        "Study-backed estimates retain original populations, units and uncertainty; outcome code integration belongs toTeam1."
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "id": "housing-01",
+      "promptClaim": "About31states preempt local rent control.",
+      "status": "unresearched",
+      "finding": "No national count admitted. Current scope depends on statutory exceptions; two bounded state routes do not establish nationwide count.",
+      "sources": []
+    },
+    {
+      "id": "housing-02",
+      "promptClaim": "A rent-control study supplies a general law coefficient.",
+      "status": "corrected",
+      "finding": "SF1994expansion estimates apply to affected tenants/landlords. No universal one-year lag or statewide-cap extrapolation admitted.",
+      "sources": ["sf-rent-study"]
+    },
+    {
+      "id": "housing-03",
+      "promptClaim": "All eviction-law effects can be applied to every tenant after passage.",
+      "status": "corrected",
+      "finding": "Representation IV estimate is conditional on gaining counsel through rollout, with actual service capacity and case effects separate; avoid duplicate aggregate application.",
+      "sources": ["counsel-study2023"]
+    }
+  ],
+  "remainingWork": [
+    "Eight housing catalog topics and further recurring tenancy/preemption decisions are not delivered in this increment.",
+    "Most56place legal availability and starting-law cells remain unresearched.",
+    "Current OR91.225full exceptions, statewide rent-preemption count, amendment procedures and large-city charters require research.",
+    "Team1 owns outcome-web links and passable-law integration; no game code or watched world changed."
+  ]
+}
