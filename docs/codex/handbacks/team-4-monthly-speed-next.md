@@ -67,6 +67,10 @@ Baseline: 28.844403281 seconds, FAIL 15. Profile: 30.260028615 seconds, identica
 
 The exact outside-claim proposal is confidants.ts lines 70–74, which scans every household membership, and lines 77–82, which scans every relationship interaction. An indexed replacement would need to retain the original row order and historical inclusion. Its measured 2.405089-second caller cost includes descendants; neither loop has an isolated timing. Coordinator should assign the reader owner before implementation. No central claim is changed by this report.
 
+The continued read-only equivalence probe narrows that proposal to the interaction loop at lines 76–82 and an existing recordsByKey import. Naive household grouping changed interleaved source order from a,b,c to a,c,b, so that replacement is rejected. The existing multi-key reader preserved interaction order, record identity, repeated person IDs, independent appended branches and an earlier snapshot in synthetic fixtures. This is not a production equivalence proof.
+
+Eager indexing also changed error precedence in a malformed synthetic list: the original loop reached an earlier reader error, while the index reached a later null row first. Falling back to the original full loop when index construction throws preserved that earlier error in this fixture. Any released candidate must keep that fallback and undergo actual regression and paired monthly validation. No source hunk was edited. The existing helper would use a dedicated grouping name and the record's existing personIds; it adds no helper or behavioral rule.
+
 The released context-copy and append-transaction hunks remain Team 4's limits. Shared adoption/validation/index hunks, wider batches and Team 1/2 bill filing are untouched. PR 1219 fixes test progression only; it establishes no production filing or monthly speed gain.
 
 ## Method and evidence

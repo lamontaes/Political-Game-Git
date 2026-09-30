@@ -385,6 +385,64 @@
       "path": "test-results/speed/monthly-next-roster-unroll-screen.json",
       "bytes": 1140,
       "sha256": "b5f71a64c8106ac75ae8083291bff60d9a39bfd4896a9c7bf6eb42cdfb021f25"
+    },
+    {
+      "path": "test-results/speed/monthly-next-confidants-equivalence.json",
+      "bytes": 1549,
+      "sha256": "2c92d7f134ae3e2a52473d49611dc97f340edf8dcbf9ba3adf65ea95f1feba4f"
     }
-  ]
+  ],
+  "continuedReadOnlyProbe": {
+    "kind": "read-only existing-helper equivalence probe; synthetic fixtures, no runtime or monthly gain",
+    "sourceHead": "b99761aa570fd3f9c0633509145ac2675dff5d08",
+    "householdGlobalOrder": {
+      "original": ["a", "b", "c"],
+      "naiveGrouped": ["a", "c", "b"],
+      "equal": false
+    },
+    "interactionDuplicateIds": {
+      "linear": ["i1", "i2"],
+      "indexed": ["i1", "i2"]
+    },
+    "append": {
+      "linear": ["i1", "i2", "i4"],
+      "indexed": ["i1", "i2", "i4"]
+    },
+    "branch": {
+      "linear": ["i1", "i2", "i5"],
+      "indexed": ["i1", "i2", "i5"]
+    },
+    "oldAfterGrowth": {
+      "linear": ["i1", "i2"],
+      "indexed": ["i1", "i2"]
+    },
+    "malformedHouseholdShortCircuit": {
+      "original": {
+        "value": ["found"]
+      },
+      "indexed": {
+        "value": ["found"]
+      }
+    },
+    "sparseInteractions": {
+      "linear": {
+        "error": "Cannot read properties of undefined (reading 'personIds')"
+      },
+      "indexed": {
+        "error": "Cannot read properties of undefined (reading 'personIds')"
+      }
+    },
+    "errorPrecedence": {
+      "original": {
+        "error": "earlier usable reader failure"
+      },
+      "naiveIndex": {
+        "error": "Cannot read properties of null (reading 'personIds')"
+      },
+      "fallback": {
+        "error": "earlier usable reader failure"
+      }
+    },
+    "recordIdentity": true
+  }
 }
