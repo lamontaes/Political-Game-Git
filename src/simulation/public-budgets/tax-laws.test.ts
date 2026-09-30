@@ -22,6 +22,7 @@ import { settleGovernmentMonth, type MonthFlows } from "./month";
 import {
   CANNABIS_FIRST_SALE_LAG_MONTHS,
   CANNABIS_TAX_PER_RESIDENT,
+  cannabisTaxPerResident,
 } from "./cannabis-sales-tax";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 
@@ -292,7 +293,11 @@ describe("tax laws reach state budgets", () => {
     expect(selective(legal, "2027-01-01"), legalNote).toBe(
       selective(without, "2027-01-01"),
     );
-    const added = CANNABIS_TAX_PER_RESIDENT * legal.population;
+    const added =
+      cannabisTaxPerResident(
+        worldWith(legalizing, []),
+        legal.lawJurisdictionId,
+      ) * legal.population;
     expect(
       selective(legal, "2027-02-01") / selective(without, "2027-02-01"),
       legalNote,
@@ -313,7 +318,9 @@ describe("tax laws reach state budgets", () => {
     expect(selective(banned, "2026-03-01"), banNote).toBe(
       selective(asBegun, "2026-03-01"),
     );
-    const lost = CANNABIS_TAX_PER_RESIDENT * banned.population;
+    const lost =
+      cannabisTaxPerResident(worldWith(banning, []), banned.lawJurisdictionId) *
+      banned.population;
     expect(
       selective(banned, "2026-04-01") / selective(asBegun, "2026-04-01"),
       banNote,

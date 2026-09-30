@@ -4,7 +4,7 @@ import type { EntityId, IsoDate, World } from "../types";
 import {
   CANNABIS_FIRST_SALE_LAG_MONTHS,
   CANNABIS_SALES_QUESTION,
-  CANNABIS_TAX_PER_RESIDENT,
+  cannabisTaxPerResident,
 } from "./cannabis-sales-tax";
 import type { PublicBudgetGovernment } from "./store";
 import { propositionIdFor } from "./fiscal";
@@ -28,8 +28,8 @@ export interface CannabisSalesRevenueReading {
 /**
  * Reads the existing cannabis budget model as an amount, so a zero opening
  * selective-tax base cannot suppress an adoption. Unknown opening law is not
- * treated as a ban. The inherited fixed tax average and retail lag remain
- * calibration gaps; this reader does not introduce a new effect size.
+ * treated as a ban. Each world/state has a stable researched-range fiscal
+ * size. The inherited fixed retail lag remains a separate calibration gap.
  */
 export function cannabisSalesRevenueChange(
   world: World,
@@ -64,7 +64,9 @@ export function cannabisSalesRevenueChange(
   );
   if (!current) return unchanged("current-law-not-established");
   if (current.answer === began) return unchanged("same-answer");
-  const annualRevenue = CANNABIS_TAX_PER_RESIDENT * government.population;
+  const annualRevenue =
+    cannabisTaxPerResident(world, government.lawJurisdictionId) *
+    government.population;
   if (current.answer === "no") {
     return {
       reason: "sales-ended",
