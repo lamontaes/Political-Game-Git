@@ -1,3 +1,7 @@
+# Local law stories reach actual residents
+
+The new candidate connects published law-effect stories to the people living in the story's place. Current household records determine that reach, including moves and ended residences. Personal news attention still needs an owner-approved input. The existing News test repair is published. Meeting controls remain a separate draft with unresolved test failures, and Claude owns browser acceptance and merges.
+
 # MERGED
 
 No Team 5 product changes have merged. The routing table is ready for review. Both product pull requests are READY for the CTO gate. The assignment remains incomplete.
@@ -213,3 +217,47 @@ The actual playtest-copy branch contains the removal of News's repeated officeho
 The changed test and all five product source files pass the scoped typecheck: 6 files, zero selected-file diagnostics. The program also reported 5 diagnostics outside the selected files; this is not a full-project typecheck pass. The one-file provenance test passes 1/1. ESLint, Prettier and whitespace checks pass for the repair. The dispatched test path was claimed under the restored atomic mkdir protocol, after rechecking current ownership while held. No renderer source was edited.
 
 The News repair source checkpoint is `06ae82173aece9e148fec43f27621d68b821ada0` on the actual `codex/team-5-playtest-copy` branch. Logs are `/private/tmp/team5-news-provenance-rerun.log` and `/private/tmp/team5-playtest-copy-typecheck.log`. The test took 195.98 seconds including imports; its test body took 20.39 seconds. This is a focused markup proof, not browser acceptance.
+
+The News repair is published at `eabf92a1ace26365c38802c4f56b8701827b25ff` on the actual playtest-copy branch, READY and unmerged when verified.
+
+The focused test log is `/private/tmp/team5-news-provenance-rerun.log`. It reports 195.98 seconds total and 20.39 seconds in the test body. This is a markup proof, not browser acceptance.
+
+The scoped typecheck log is `/private/tmp/team5-playtest-copy-typecheck.log`. Six selected files have zero diagnostics; five outside-scope diagnostics were reported.
+
+The targeted DC/Tafuna regression selection completed with 3 failures: one roster assertion expected zero although the event recorded 13 DC officers, and two 60-second timeouts. The assertion was using the retired municipal chair helper to locate the district roster; it now uses the actual recorded chair ID. No roster assertion or timeout was removed. The two timeout causes remain unmeasured. Source checkpoint: `654a26cd4b1cf102daed7f937d3da948e37bf41b`.
+
+The separate meeting-controls candidate is draft PR #1149. It is not READY. The latest completed regression output is `/private/tmp/team5-dc-tafuna-regression.log`. The basic law-news resident-reach change is explicitly assigned to Team 5; differentiated attention remains an identified semantic gap. Claude owns renderer repair and browser acceptance; the merged renderer source will be reused during integration.
+
+## Current law-reader change
+
+The resident-reader baseline is main `411cb972ea91bc54d53ebc6ecc7caa065c6cbcd8`.
+
+The registered Team 5 workspace is `/private/tmp/wt-gate-1121`. Its branch is `codex/team-5-law-news-readers`. Only the claimed law reader, its test, its release declaration and this owned handback are changed.
+
+The reader in `src/simulation/press/law-effect-news.ts` uses current canonical household memberships and household locations. It adds living residents for public law-effect records whose occurrence and recording dates are available today. It uses the existing place-to-state identity for statewide stories. It does not fall back to the person's possibly stale home field. It preserves direct subjects, sponsors and recorded local floor voters and returns deduplicated IDs. The reader leaves the world and clock untouched.
+
+The existing publication path in `src/simulation/press/desk.ts:1215` writes accurate media knowledge for each reader after publication. This static trace establishes the connection to the knowledge writer. A browser or saved-world publication walk is NOT RUN; Claude retains acceptance ownership.
+
+The test fixture uses real Carson City and Reno identities, canonical household writers and explicit authored law/vote records. It does not generate a whole opening life. The complete law-news test file passes 9/9 at source checkpoint `4e57bf160ba89ec34638fc1d58aaeb65f383c1b8`. Seven resident-reader tests cover current residence, moves, ended membership, death, statewide reach, publication boundaries and preserved reader roles. Both existing outcome tests also pass. Duration is 79.13 seconds, with 10.56 seconds in test bodies.
+
+ESLint, Prettier and whitespace checks pass. The release declaration check passes over the exact baseline-to-source range. The final changed-file typecheck passes 2 selected files with zero selected or transitive diagnostics. This is not a full-project typecheck pass.
+
+The completed behavior log is `/private/tmp/team5-law-readers-final-head.log`. The release log is `/private/tmp/team5-law-readers-final-head-release.log`.
+
+The final scoped typecheck log is `/private/tmp/team5-law-readers-final-head-types.log`. Earlier fixture setup failures are preserved in separate logs; no failed assertion, exclusion or timeout was weakened.
+
+## Missing personal attention input
+
+The proposal is posted in 00 NEEDS LAMONTAE/Claude. Correction to an earlier Team 5 description: the existing attention field describes workload in TimeDemandProfile, including reporter work roles. It is not a subscription or news-reading habit. No canonical personal law-story attention input was found in the traced publication route.
+
+An explicit generation-time public-affairs habit or attention input needs research covering all game places and an owner-defined contract. Recorded law exposures, work/resource-flow stakes and civic-group interests could inform differentiated uptake under that contract. They do not independently establish a general reading habit. Basic resident reach proceeds without this secondary input, a subscription gate or a roll.
+
+## Current ownership and remaining anchors
+
+The current claims protocol is atomic mkdir on `/private/tmp/ocd-wave1-claims.lock`. Team 5 claimed the reader, test and release declaration only after rereading the table while holding its own lock. The earlier lock migration entries above are historical; no flock handle or queued acquisition remains. Claude owns the renderer paths, which Team 5 never edited.
+
+The newest estimates ruling requires implementation within existing ownership. This reader change introduces no empirical estimate, coefficient or legal threshold. Geographic coverage comes from canonical household location and the existing national place/state crosswalk. The older fixed 90-day archive window lacks empirical coverage. The inherited age-18 meeting cutoff lacks exact place-specific legal coverage. Those two gaps remain explicit; no research or coefficients are invented. The effects map remains coordinator-owned.
+
+## Published companion candidates
+
+The ready record-backed-content candidate remains PR #1134 at `bafe58994f5f73aa92e4982ddd85b63b01d14f21`. The ready playtest-copy and provenance repair remains PR #1135 at `eabf92a1ace26365c38802c4f56b8701827b25ff`. The meeting-controls candidate remains draft PR #1149 at `256759bb88b54b92f8e4c61d74f41586b5880f16`. Its roster assertion repair is not behavior-verified, and its two measured timeouts have unresolved causes. No Team 5 candidate is merged by Codex.
