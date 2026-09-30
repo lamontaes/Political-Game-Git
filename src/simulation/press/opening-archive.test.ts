@@ -69,7 +69,7 @@ describe("the opening paper's recorded archive", () => {
       },
     };
     expect(
-      publishOpeningPublicRecords(hidden).history.publications?.some(
+      (publishOpeningPublicRecords(hidden).history.publications ?? []).some(
         (entry) => entry.sourceEventId === event.id,
       ),
     ).toBe(false);
@@ -85,7 +85,7 @@ describe("the opening paper's recorded archive", () => {
       },
     };
     expect(
-      publishOpeningPublicRecords(synthetic).history.publications?.some(
+      (publishOpeningPublicRecords(synthetic).history.publications ?? []).some(
         (entry) => entry.sourceEventId === event.id,
       ),
     ).toBe(false);
