@@ -59,7 +59,10 @@ import {
 import type { NominationPlan } from "../nominations/nomination-rules";
 import { generalCandidatesFromField } from "../nominations/party-nominations";
 import { STATE_LEGISLATURE_KEYS } from "./state-legislature-opening";
-import { recordByStableKey } from "../history-index";
+import {
+  recordByStableKey,
+  withHistoryAppendTransaction,
+} from "../history-index";
 
 export const STATE_LEGISLATURE_CANDIDATE_VERSION =
   "state-legislature-candidates/v1";
@@ -692,14 +695,21 @@ export function prepareStateCandidateSlates(
           personId,
         );
       if (!satisfiesKnownQualifications(next, plan, personId)) continue;
-      const decision = decideSelfStarterRun(next, {
-        stableKey: `${entryKey}:${personId}`,
-        decisionType: "election.consider-state-legislative-run",
-        personId,
-        seatKey,
-        intakeDate: plan.intakeDate,
-      });
-      next = decision.world;
+      let decision!: ReturnType<typeof decideSelfStarterRun>;
+      next = withHistoryAppendTransaction(
+        next,
+        ["personalityTendencies"],
+        (prepared) => {
+          decision = decideSelfStarterRun(prepared, {
+            stableKey: `${entryKey}:${personId}`,
+            decisionType: "election.consider-state-legislative-run",
+            personId,
+            seatKey,
+            intakeDate: plan.intakeDate,
+          });
+          return decision.world;
+        },
+      );
       if (!decision.runs) continue;
       const partyId = livingWorldOrganizationId(
         next,

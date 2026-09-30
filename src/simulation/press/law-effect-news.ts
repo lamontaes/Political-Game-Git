@@ -1,7 +1,7 @@
 import { addDays, spokenDate } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
 import { recordsByStringField } from "../history-index";
-import { householdMembershipsAt } from "../life-queries";
+import { currentLifeCutoff, householdMembershipsAt } from "../life-queries";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -17,6 +17,7 @@ import {
   type PlaceOutcomeMeasureBase,
 } from "../outcome-web/place-outcome-store";
 import { measureAnswersAt } from "../vote-bundle";
+import { isPersonAliveAt } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
 import { mediaOutlets } from "./outlets";
 import { LAW_EFFECT_EVENT_TYPE } from "./shared";
@@ -609,16 +610,11 @@ function valueText(definition: PlaceOutcomeMeasureBase, value: number): string {
 }
 
 /**
- * Who reads a story about a law's effect, each for a reason the world
- * records:
- * 1. the people the law reached in the town, because it was their own pay,
- *    rent or tax;
- * 2. the law's sponsor, because it is their law;
- * 3. the members whose floor vote on it is recorded and who live in the
- *    story's place (its town, or the state a state paper covers), because it
- *    is news of their own vote from home.
- * Nobody else learns of it from this: who else reads a paper is not yet
- * modeled.
+ * Published law-effect stories reach living residents of the story's place
+ * through current household residence records, without a subscription gate.
+ * Direct subjects, sponsors and recorded local floor voters retain their
+ * existing reader route. This is basic resident reach, not differentiated
+ * personal attention or interest, which the world does not yet record.
  */
 export function lawNewsReaders(
   world: World,
@@ -628,6 +624,25 @@ export function lawNewsReaders(
   const readers = new Set<EntityId>();
   for (const id of event.involvedEntityIds)
     if (world.people[id]) readers.add(id);
+  const place = event.jurisdictionId;
+  if (
+    place &&
+    event.visibility === "public" &&
+    event.occurredAt <= world.currentDate &&
+    event.recordedAt <= world.currentDate
+  ) {
+    const cutoff = currentLifeCutoff(world);
+    for (const person of Object.values(world.people)) {
+      const local = householdMembershipsAt(world, person.id, cutoff).some(
+        ({ location }) =>
+          location &&
+          (location.jurisdictionId === place ||
+            stateOf(location.jurisdictionId) === place),
+      );
+      if (local && isPersonAliveAt(world, person.id, cutoff))
+        readers.add(person.id);
+    }
+  }
   const measureId = event.tags
     .find((tag) => tag.startsWith(LAW_EFFECT_MEASURE_TAG))
     ?.slice(LAW_EFFECT_MEASURE_TAG.length);
@@ -637,7 +652,6 @@ export function lawNewsReaders(
   if (!measure) return [...readers].sort();
   if (measure.sponsorPersonId && world.people[measure.sponsorPersonId])
     readers.add(measure.sponsorPersonId);
-  const place = event.jurisdictionId;
   for (const vote of world.history.legislativeVotes ?? []) {
     if (vote.measureId !== measure.id || vote.forum.kind !== "chamber")
       continue;

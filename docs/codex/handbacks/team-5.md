@@ -4,6 +4,10 @@ The coordinator accepted the cloud transfer and archived the local predecessor w
 
 The resident-reader candidate connects published law-effect stories to the people living in the story's place. Current household records determine that reach, including moves and ended residences. The News test repair is published. Meeting controls remain a separate draft with unresolved tests. The cloud Merge session alone handles approved current heads; Team 5 does not merge.
 
+# Local law stories reach actual residents
+
+The new candidate connects published law-effect stories to the people living in the story's place. Current household records determine that reach, including moves and ended residences. Personal news attention still needs an owner-approved input. The existing News test repair is published. Meeting controls remain a separate draft with unresolved test failures, and Claude owns browser acceptance and merges.
+
 # MERGED
 
 GitHub verifies that the canned-news retirement and recorded-history PR #1134
@@ -221,6 +225,9 @@ The preserved full-file rerun was stopped by Team 5 with SIGINT on its identifie
 The actual playtest-copy branch contains the removal of News's repeated officeholder section. Its provenance test still required “In office” and “Office details.” Team 5 replaced those stale positive expectations with negative checks for both removed strings. It also checks that the public overview, public-institution content and recent-events heading actually rendered. All existing outbound-link, institutional-source and URL exclusions remain.
 
 The changed test and all five product source files pass the scoped typecheck: 6 files, zero selected-file diagnostics. The program also reported 5 diagnostics outside the selected files; this is not a full-project typecheck pass. The one-file provenance test passes 1/1. ESLint, Prettier and whitespace checks pass for the repair. The dispatched test path was claimed under the restored atomic mkdir protocol, after rechecking current ownership while held. No renderer source was edited.
+
+
+The News repair source checkpoint is `06ae82173aece9e148fec43f27621d68b821ada0` on the actual `codex/team-5-playtest-copy` branch. Logs are `/private/tmp/team5-news-provenance-rerun.log` and `/private/tmp/team5-playtest-copy-typecheck.log`. The test took 195.98 seconds including imports; its test body took 20.39 seconds. This is a focused markup proof, not browser acceptance.
 
 The News repair is published at `eabf92a1ace26365c38802c4f56b8701827b25ff` on the actual playtest-copy branch, READY and unmerged when verified.
 
@@ -615,3 +622,4 @@ incorrect. Source checks remain tied to their exact recorded heads: behavioral
 This documentation update publishes through the Contents API to the same
 actual PR source branch. PR head and pull ref must be verified separately
 before current-head approval; no merge or newer-head runtime pass is inferred.
+

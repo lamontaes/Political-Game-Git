@@ -26,6 +26,8 @@ import { isTerritoryUsps } from "../simulation/state-reference";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
 import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
+import { PlacePeopleLayer } from "./PlacePeopleLayer";
+import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { SceneChapterTransition } from "./SceneChapterTransition";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
 import {
@@ -313,6 +315,34 @@ export function WorldOrientationPanel({
       ? (chapter?.actors ?? [])
       : [];
   const executiveWithoutPlate = step.key === "executive" && !plate;
+  // In the painted Oval Office the President and Vice President stand in
+  // front of the desk on the room's measured spots, facing each other, at
+  // the room's own scale and in a natural stance, like people in any other
+  // painted place.
+  const officeStage = useRef<HTMLDivElement>(null);
+  const officePlace =
+    executiveWithoutPlate &&
+    !establishingPlate &&
+    backdrop.kind === "place" &&
+    world &&
+    personId
+      ? backdrop.place
+      : null;
+  const officePeople = useMemo(
+    () =>
+      officePlace && world && personId
+        ? placeBackdropPeople(
+            world,
+            personId,
+            officePlace,
+            world.currentMoment,
+            step.people,
+            { standing: true },
+          )
+        : [],
+    [officePlace, world, personId, step.people],
+  );
+  const officeStaged = officePlace !== null && officePeople.length > 0;
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
@@ -352,10 +382,19 @@ export function WorldOrientationPanel({
               : undefined
           }
         >
-          {step.key === "executive" && !plate && !establishingPlate ? (
+          {officeStaged ? (
+            <div
+              ref={officeStage}
+              className="pg-orientation-backdrop pg-orientation-staged"
+              data-testid="opening-office-staged"
+            >
+              <SceneBackdrop backdrop={backdrop} />
+              <PlacePeopleLayer people={officePeople} stageRef={officeStage} />
+            </div>
+          ) : step.key === "executive" && !plate && !establishingPlate ? (
             <SceneBackdrop backdrop={backdrop} />
           ) : null}
-          {step.key === "executive" ? (
+          {officeStaged ? null : step.key === "executive" ? (
             <div
               className="pg-white-house-presentation"
               data-has-plate={Boolean(plate)}

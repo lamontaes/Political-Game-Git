@@ -54,6 +54,61 @@ describe("batched context-person writer", () => {
     expect(createCharacterHistoryContextPeople(once, inputs)).toBe(once);
   });
 
+  it("validates existing inputs without copying the people table", () => {
+    const once = createCharacterHistoryContextPeople(base.world, inputs);
+    let enumerations = 0;
+    const people = new Proxy(once.people, {
+      ownKeys() {
+        enumerations += 1;
+        if (enumerations > 1)
+          throw new Error(
+            "An existing-only batch must not copy the people table",
+          );
+        return Reflect.ownKeys(once.people);
+      },
+    });
+    const existing = { ...once, people };
+    expect(createCharacterHistoryContextPeople(existing, inputs)).toBe(
+      existing,
+    );
+    // The first enumeration determines the uncached appearance lineage.
+    expect(enumerations).toBe(1);
+    expect(() =>
+      createCharacterHistoryContextPeople(existing, [
+        { ...inputs[0]!, givenName: "" },
+      ]),
+    ).toThrow("Context-person given name");
+  });
+
+  it("preserves mixed batch order and duplicates without mutating its source", () => {
+    const once = createCharacterHistoryContextPeople(base.world, [inputs[0]!]);
+    const mixed = [inputs[0]!, inputs[1]!, inputs[1]!, inputs[2]!, inputs[0]!];
+    const before = canonicalJson(once);
+    let single = once;
+    for (const input of mixed)
+      single = createCharacterHistoryContextPerson(single, input);
+    const batch = createCharacterHistoryContextPeople(once, mixed);
+    expect(canonicalJson(batch)).toBe(canonicalJson(single));
+    expect(canonicalJson(once)).toBe(before);
+    expect(batch.personOrder).toEqual(single.personOrder);
+    expect(Object.keys(batch.people)).toEqual(Object.keys(single.people));
+  });
+
+  it("preserves people table order when a reloaded table differs from person order", () => {
+    const once = createCharacterHistoryContextPeople(base.world, [inputs[0]!]);
+    const reloaded = {
+      ...once,
+      people: Object.fromEntries(Object.entries(once.people).reverse()),
+    };
+    const before = Object.keys(reloaded.people);
+    const batch = createCharacterHistoryContextPeople(reloaded, [inputs[1]!]);
+    const single = createCharacterHistoryContextPerson(reloaded, inputs[1]!);
+    expect(Object.keys(batch.people)).toEqual(Object.keys(single.people));
+    expect(Object.keys(batch.people).slice(0, before.length)).toEqual(before);
+    expect(canonicalJson(batch)).toBe(canonicalJson(single));
+    expect(Object.keys(reloaded.people)).toEqual(before);
+  });
+
   it("recomputes lineage after an external appearance edit", () => {
     const once = createCharacterHistoryContextPeople(base.world, [inputs[0]!]);
     const changed = {
