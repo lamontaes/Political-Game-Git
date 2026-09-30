@@ -18,7 +18,7 @@ Each listed surface has one team owner. Confirmed cloud transfers below replace 
 | Team 1 | `data/research/laws/library-materials.json` | 2026-09-29T21:35:29.602109+00:00 |
 | Team 1 | `data/research/laws/lobbying-cooling-off.json` | 2026-09-29T21:35:29.602111+00:00 |
 | Team 1 | `data/research/laws/voter-photo-identification.json` | 2026-09-29T21:35:29.602114+00:00 |
-| Team 9 | `data/research/outcome-web/links.json` | September 30: Team 1 explicit release, comment 5912880494; no unpublished hunks |
+| Coordinator | `data/research/outcome-web/links.json` | CTO September 30 10:45: receive Team 9 current batch before integration; sole map writer |
 | Team 1 | `docs/codex/handbacks/team-1.md` | 2026-09-29T21:35:29.602119+00:00 |
 | Team 1 | `docs/evidence/laws-proof-2026-09-29.md` | 2026-09-29T21:35:29.602125+00:00 |
 | Team 1 | `docs/release/changes/congressional-investments.md` | 2026-09-29T21:35:29.602132+00:00 |
@@ -690,3 +690,7 @@ Team 2 owns shared law-effect provenance type/helper and audit consumer; exact e
 ## Confirmed producer handoffs, September 30
 
 Team 6 owns only month.ts local cannabisSalesFactor (published line 451), selectiveSalesTaxes call site (319-324), and required amount-reader import. Team 1 confirmed no unpublished overlap in comments 5913501098 and 5913512228. Team 3 public-land adapter release is published in 1189 comment 5913349735. Team 5 curriculum monthly import/schools-addition release remains requested; no budget-wide transfer. Team 1 held module source is 0d64e106a5c49645bc6904952c514e30d5919b96. Shared attribution field waits for Team 2 single contract.
+
+## Binding laws-only allocation, CTO September 30 10:45
+
+Supersedes earlier policy splits. Team 1: 20 federal laws. Team 2: 8 government/election laws plus sole stamp helper and audit. Team 3: 13 budget/tax/labor laws. Team 4: 10 housing/business laws; speed paused. Team 5: 12 education/civil laws including parks. Team 6: 14 transport/environment/agriculture laws. Team 8: 9 health/technology laws plus noticing. Team 9: 6 justice laws plus ten-minute research desk. Team 7 art unchanged. Existing unpublished bytes must be handed off before a new writer edits overlapping files. Each team owns docs/codex/effect-batches/team-N/ for map proposals; coordinator alone integrates links.json. Shared record schema belongs to Team 2. Existing unrelated work is preserved and paused, not deleted.

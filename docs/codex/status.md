@@ -2,6 +2,20 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 10:45 laws-only dispatch
+
+Every team except art now works only on laws. The coordinator owns integrating map batches; Team 2 owns shared attribution and the nationwide audit. The new policy split in claims supersedes earlier federal and housing allocations. Speed, feature designs, county, eviction and meeting follow-ups are paused with work preserved.
+
+### CONNECTIONS TABLE
+
+Each law batch must join its direct writer, sourced map link, next causal link, named-person record and noticing consumer. Teams submit separate map payloads; coordinator integrates links.json without overlapping writers. Team 2 provides the single law-effect stamp contract. Team 8 consumes provenance for noticing. Team 9 answers exact missing figures within ten minutes.
+
+### BLOCKED
+This shared local checkout does not contain the current effects map or audit runner. Coordinator requested the current runnable source and command from Team 2; no old-checkout run will be labeled current. Team 9 current unpublished map work must be received before coordinator integration. Quarter-hour nationwide runs are required at 11:00, 11:15, 11:30 and 11:45; results remain NOT RUN until executed on the appropriate source.
+
+### EFFECTS
+Nationwide means every enacted law at every simulated government level, grouped by state with zero-enactment explanations, and at least five watched starts in different states including an unincorporated place. Existing three-world, 12-step results do not satisfy this requirement. No numeric effects are invented to meet the deadline.
+
 ## September 30, 10:35 a.m. checkpoint
 
 The CTO now requires governing-law provenance on every law-effect record and a 24-month audit. Existing owners are receiving the contract work; new feature designs follow primary work and cannot introduce code before owner approval.
