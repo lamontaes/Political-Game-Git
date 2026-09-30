@@ -349,8 +349,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the state equalize per-student funding so that a district's wealth does not determine what its schools spend?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-opportunity", bearing: "consistent-with" },
-        { principle: "local-control", bearing: "against" },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.45,
+        },
       ],
     },
     {
@@ -365,10 +393,46 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should public money follow a student to a private school their family chooses?",
       tags: ["contested"],
       principles: [
-        { principle: "personal-liberty", bearing: "consistent-with" },
-        { principle: "market-competition", bearing: "consistent-with" },
-        { principle: "collective-provision", bearing: "against" },
-        { principle: "equal-opportunity", bearing: "against" },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "market-competition",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.5,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "transparency",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.65,
+        },
       ],
     },
     {
@@ -379,8 +443,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state set a minimum salary for teachers above the current floor?",
       principles: [
-        { principle: "worker-protection", bearing: "consistent-with" },
-        { principle: "local-control", bearing: "against" },
+        {
+          principle: "worker-protection",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -395,9 +487,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the state fund preschool for every child whose family wants a place?",
       tags: ["contested"],
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "equal-opportunity", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "worker-protection",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.5,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.5,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -410,8 +534,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Freeze public college tuition",
       question: "Should tuition at public colleges be frozen?",
       principles: [
-        { principle: "equal-opportunity", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.5,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -426,8 +578,46 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the state set curriculum standards that every district must follow?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "local-control", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.95,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.5,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.45,
+        },
       ],
     },
     {
@@ -1239,8 +1429,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should state law bar discrimination in housing and employment on grounds it does not currently cover?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "worker-protection",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -1252,8 +1475,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       parameters: [{ key: "general-limit", value: "weeks-of-pregnancy" }],
       tags: ["contested"],
       principles: [
-        { principle: "tradition", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.95,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.4,
+        },
       ],
     },
     {
@@ -1267,8 +1523,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state guarantee a funding floor for public libraries?",
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -1283,8 +1567,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should decisions about which materials a library carries rest with local boards?",
       tags: ["contested"],
       principles: [
-        { principle: "local-control", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.35,
+        },
       ],
     },
     {
@@ -1298,8 +1615,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should a fixed share of revenue be dedicated to parks and recreation?",
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.5,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.4,
+        },
       ],
     },
     {
@@ -1454,9 +1804,51 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the city bar discrimination in housing and employment on grounds state law does not cover?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "local-control", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "worker-protection",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.4,
+        },
       ],
     },
     {
