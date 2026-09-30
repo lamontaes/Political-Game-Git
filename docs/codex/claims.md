@@ -927,3 +927,6 @@ Team7 owns isolated current-main patch blobs only: appearance-lifecycle.ts suppo
 
 ## September30 CTO3:09/3:19 one law engine
 Coordinator solely owns enacted-law-effects.ts orchestration, law-consequence-types.ts schema, catalog validation and links integration. STOP new per-law month.ts/index.ts claims; pending Team5 curriculum index release is superseded. Team2 assigned generic pay adapter in existing town-pay.ts, pending Team3 exact overlap release; test preparation allowed. All other teams convert law data rows after shared schema, finish existing3:30stamp batches. No new engine or duplicate per-law writer.
+
+## September30 3:32 approved unified contract implementation
+Coordinator owns law-consequence-types.ts, law-consequence-amount.ts/test and existing enacted-law-effects.ts/catalog integration. Team3 released only NEW applyLawPayConsequence export in living-world/town-pay.ts and its tests to Team2; preserve existing pay/teacher/compensation functions. Team3 retains state-wage-enacted-stamp.test.ts. No new per-law month/index grants; Team6 mileage caller request superseded. All other teams convert only their owned consequence payloads to shared schema, explicit missing capabilities routed Audit.

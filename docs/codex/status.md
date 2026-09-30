@@ -1,3 +1,21 @@
+## September30 shared contract released after CTO3:32 approval
+
+### MERGED
+No additional merge claimed in this collection. Merge has1304 release-declaration repair8ecf57c3a0b63c4ab7c25e5e9f090488882b7080; parser reported pass, fullrelease NOTRUN.
+
+### CONNECTIONS TABLE
+| Producer | Consumer | Actual delivery |
+| --- | --- | --- |
+| Coordinator shared type | Team2 pay adapter |1305 source66080657e91e79d139050f6d02cd56d7a03c7114 delivered; Team3 narrow town-pay export release confirmed |
+| Shared schema | Teams1/4/5/6/8/9 data | Existing-law conversion dispatched to owned payloads; missing capabilities explicit, no invented runnable rows |
+| Audit divergence | Coordinator engine | Exact starting/enacted entrypoint request active; D9 audit stands until pay-engine merge per CTO3:32 |
+
+### BLOCKED
+Team2 old release/type blockers cleared by published source and explicit release. Team5 live-board/tuition producer facts remain missing. Team6 per-law month request superseded, redirected to shared data. Teams1/4/6/8/9 were observed idle before bounded conversion dispatch; delivery is not execution proof. PR attachment UI rejects over100 attachments; PRs exist on GitHub.
+
+### EFFECTS
+Shared schema and amount evaluator work are not runtime migration. No new law complete or named-person proof claimed. First pay proof still requires starting/enacted, actual payments, amendment/repeal, canonical Save/Continue and mod row. Team2 stamp1294 reports15/15; Team3 state payment5/5 with20receipts; these remain separate from shared-engine proof.
+
 ## Team7 Firefly handoff and calibration received
 
 Team7 reports additive1257 head b9e177a52db3d73cb355204177f42565a97a6b6a published. Firefly source brief: art/authoring/sept30-team7/kids-runtime/firefly-head-batch.json, with four crop IDs/native hashes/source hashes/head-neck frames and style-master hash. CDC raw CSV and stature-calibration.json accompany it; Team7 reports six medians recalculated and source SHA verified. Earlier source-README wording is stale: calibration is present and fresh Butte child repro authorized.
