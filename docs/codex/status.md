@@ -2,6 +2,32 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 10:35 a.m. checkpoint
+
+The CTO now requires governing-law provenance on every law-effect record and a 24-month audit. Existing owners are receiving the contract work; new feature designs follow primary work and cannot introduce code before owner approval.
+
+### MERGED
+Meeting entry #1221 verified at 8c085849bd91d2e0b0d761d1645590fce15c28cb. Family #1213 landing remains supported by Merge's receipt. No new law-effect landing claimed.
+
+### CONNECTIONS TABLE
+
+| Output → consumer | Owner and concrete work | Current evidence |
+| --- | --- | --- |
+| Governing law → effect record → audit | Team 2 shared stamp type/helper; Teams 1/3/5/6 stamp touched writers | New CTO assignment; contract not published yet |
+| Rural transit records → attribution | Team 6 canonical authority/service/payment mapping → Team 2 adapter | 19 of 21 Floral laws are rural transit; three tables published in #1225 |
+| Federal sentence reduction → custody | Team 1 consuming recorded reduction, historical dates preserved | Team reports five focused tests passed; not yet published |
+| Cannabis amount → monthly revenue | Team 6 independent reader; Team 1 call-site release requested | Uncommitted code, startup restriction stopped tests; no pass |
+| Confidants index → identical monthly advance | Team 4 measured reader optimization | Team reports five compatibility tests passed; paired months pending |
+| Regional contract → candidate art | Team 8 wrappers; Team 7 exterior/region follow-through | CTO approved two street keys and exterior home; owner pixels still pending |
+
+### BLOCKED
+Shared stamp contract needs Team 2 publication. Cannabis call-site handoff remains requested. Exact new admission-wrapper paths requested from Team 8 before grant. Research conversions without source support remain explicit gaps; first Team 9 batch due 11:00.
+
+### EFFECTS
+First three 12-step audit tables are published at 8dabb887396666bc2c3ea477a7fa40353554d140, runtime source 48739fb370b945bd5b599e25a913a765145a2856. Floral 21 laws, Eakly 20, Reidland 21; no proven firing rows in incomplete adapters. These do not establish no world effects. New stamped 24-month runs are not yet executed.
+
+Secondary design ownership: Team 2 primaries and smaller political steps; Team 3 unions and sole business design writer; Team 5 entertainment/media/sports and business entry-flow contribution; Team 8 movements. No feature implementation before design approval. Military deferred.
+
 ## September 30 execution correction after owner escalation
 
 Five working teams had ended their turns. Teams 1, 3 and 6 cited the audit dependency despite the CTO instruction to continue known missing effects. Concrete continuation tasks were sent to Teams 1, 3, 4, 6 and 9. Delivery does not prove implementation resumed.

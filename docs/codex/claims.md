@@ -670,3 +670,13 @@ Team 8 owns the single WorldOrientationPanel.tsx import conflict in PR1213 addit
 ## September 30 execution correction
 
 Team 5 explicitly released both law-effect-news files without unpublished hunks; Team 8 is now the writer. Team 3 owns reader implementation for shared federal top-income tax, loan cap, Medicare, retirement, minimum wage, vouchers and privacy rows; Team 1 retains sponsor/current-law input work. This functional split does not release other shared schemas. Team 3 retains canonical housing/work/eligibility readers; Team 5 owns education/civil consumers. Team 6 public-land handoff requested from Team 1, preserving Team 3 nearbyPublicLandAcres adapter. Team 4 may optimize its measured read-only confidants reader; Article V setup release remains requested from Team 2 and Team 1. No timeout or assertion weakening authorized.
+
+- Team 7: art/authoring/sept30-team7/regional-streets/ — four existing packet street-request candidates, reference contacts and lineage; no admission.
+
+- Team 7: docs/codex/handbacks/team-7-regional-streets.md — four packet street candidates review only.
+
+- Team 7: docs/release/changes/team-7-regional-streets.md — four packet street candidates review only.
+
+## CTO 10:35 shared contract and design allocation
+
+Team 2 owns shared law-effect provenance type/helper and audit consumer; exact existing-schema hunks must be named before overlap. Teams 1/3/5/6 retain their writers and consume this single contract. Team 8 admission-wrapper paths are requested, not yet granted. Team 3 is the sole business-design file writer; Team 5 supplies its entry/career/player-flow section. Other secondary designs remain with their assigned teams, with no implementation approval.

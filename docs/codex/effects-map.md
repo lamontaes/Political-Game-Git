@@ -625,3 +625,7 @@ The scene resolver now has a landed day/meeting consumer in #1208; opening work 
 ## September 30, 9:30 observed bill gap
 
 Team 1 reports the complete Floral year at runtime ef64da2c4d932fc78c13203d1ff78c3968d0e0c6 produced zero typed enactments among fourteen total. Named-person paycheck, rent or tax effect was not demonstrated. Structured sponsor-term production remains the named missing connection; exact record/writer proposal requested. This is team-reported run evidence, not a claim that all catalog effects are absent.
+
+## CTO 10:35 attribution requirement
+
+Every applied-law effect record must identify the governing measure or starting-law key and effect kind. Team 2 supplies the shared stamp and audit reader; existing producer owners add it as they touch writers. Extend audit to 24 months for future-effective rows. Prior missing attribution is an explicit repair requirement, not a fabricated claim that no underlying effect occurred.
