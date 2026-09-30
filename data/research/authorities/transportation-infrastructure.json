@@ -753,8 +753,8 @@
     },
     {
       "id": "jenn2018",
-      "title": "Jenn, Assessing Alternatives to California EV Registration Fee, pp15,30\u201331",
-      "url": "https://escholarship.org/content/qt62f72449/qt62f72449.pdf",
+      "title": "Alan Jenn December2018 UC-ITS-2018-02 final report, p15 and AppendixA3 pp30\u201331",
+      "url": "https://escholarship.org/content/qt62f72449/qt62f72449_noSplash_be2fd111c6e464f7dd4c71ae46512dbe.pdf",
       "year": 2018,
       "accessed": "2026-09-29",
       "kind": "study"
@@ -2598,6 +2598,230 @@
       "year": 2025,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "va-fmv-code2020",
+      "title": "Virginia56-90.2 water/sewer valuation authority",
+      "url": "https://law.lis.virginia.gov/vacode/title56/chapter5/section56-90.2/",
+      "year": 2020,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "oh-fmv-code2025",
+      "title": "Ohio4909.052 effectiveAugust2025 acquisition valuation",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-4909.052",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-fmv-code2025",
+      "title": "Missouri393.320 effectiveAugust2025 small water acquisition",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?section=393.320",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ky-water-valuation2021",
+      "title": "Kentucky278.295 acquired water/sewer assets ratemaking",
+      "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=51613",
+      "year": 2021,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "oh-fmv-definitions2019",
+      "title": "Ohio4909.051 statutory acquirer definitions",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-4909.051",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-fmv-code1997",
+      "title": "California PUC2720 primary statute effectiveJanuary1998",
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=2720.&lawCode=PUC",
+      "year": 1997,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "fhwa-toll-six2015",
+      "title": "USDOT2015 national evaluation at six congestion-pricing sites",
+      "url": "https://rosap.ntl.bts.gov/view/dot/3555",
+      "year": 2015,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    },
+    {
+      "id": "ntia-btop2014",
+      "title": "NTIA/ASR September2014 BTOP final original evaluation",
+      "url": "https://www2.ntia.doc.gov/files/asr_final_report.pdf",
+      "year": 2014,
+      "accessed": "2026-09-29",
+      "kind": "study"
+    },
+    {
+      "id": "ak-fuel-authority",
+      "title": "Alaska DOR2023 revenue sources legal authority",
+      "url": "https://dor.alaska.gov/docs/default-source/homepage-documents/revenue-sources-book---fall-2023.pdf?sfvrsn=de4f90fe_1",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ak-fuel-constitution",
+      "title": "AK officialconstitutional fuel/revenueconstraints",
+      "url": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "co-fuel-authority",
+      "title": "Colorado Legislative Council motor fuel tax handbook",
+      "url": "https://content.leg.colorado.gov/agencies/legislative-council-staff/motor-fuel-tax%C2%A0",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "co-fuel-constitution",
+      "title": "CO officialconstitutional fuel/revenueconstraints",
+      "url": "https://olls.info/crs/crs2024-title-00.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ct-fuel-authority",
+      "title": "Connecticut current chapter221 motor fuel levy",
+      "url": "https://prdext3.cga.ct.gov/current/pub/chap_221.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ct-fuel-constitution",
+      "title": "CT officialconstitutional fuel/revenueconstraints",
+      "url": "https://www.cga.ct.gov/asp/Content/constitutions/Constitution_State_CT.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "de-fuel-authority",
+      "title": "Delaware30DelC5110 state motor fuel levy",
+      "url": "https://www.delcode.delaware.gov/title30/c051/sc01/index.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "de-fuel-constitution",
+      "title": "DE officialconstitutional fuel/revenueconstraints",
+      "url": "https://www.delcode.delaware.gov/constitution/constitution-09.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ga-fuel-authority2015",
+      "title": "Georgia enactedHB1702015 motor fuel levy amendments",
+      "url": "https://www.legis.ga.gov/legislation/20152016/153458.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ga-fuel-constitution",
+      "title": "GA officialconstitutional fuel/revenueconstraints",
+      "url": "https://sos.ga.gov/georgia-constitution-revised-2025",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "hi-fuel-authority",
+      "title": "HawaiiHRS243-4 statefuellevy",
+      "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0243/HRS_0243-0004.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "id-fuel-authority",
+      "title": "Idaho Tax Commission own fuel tax analysis",
+      "url": "https://tax.idaho.gov/document-mngr/pubs_epr00094/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "id-fuel-constitution",
+      "title": "ID officialconstitutional fuel/revenueconstraints",
+      "url": "https://sos.idaho.gov/elect/STCON/Idaho_State_Constitution.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "il-fuel-authority",
+      "title": "Illinois MotorFuelTaxAct505/2 and8",
+      "url": "https://ilga.gov/Legislation/ILCS/Articles?ActID=610&Chapter=REVENUE&ChapterID=8&MajorTopic=GOVERNMENT",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "il-fuel-constitution",
+      "title": "IL officialconstitutional fuel/revenueconstraints",
+      "url": "https://ilga.gov/commission/lrb/con9.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "in-fuel-authority",
+      "title": "IndianaDORNotice43 statutory2017 indexing authority",
+      "url": "https://www.in.gov/dor/reference/files/dn43.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ia-fuel-authority2026",
+      "title": "Iowa2026 chapter452A statutoryfuellevy",
+      "url": "https://www.legis.iowa.gov/DOCS/ACO/IC/LINC/Chapter.452A.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ia-fuel-constitution",
+      "title": "IA officialconstitutional fuel/revenueconstraints",
+      "url": "https://www.legis.iowa.gov/docs/publications/ICV/1518076.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "hi-county-fuel-grant",
+      "title": "HawaiiHRS243-5 expresscountyfueldelegation",
+      "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0243/HRS_0243-0005.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ia-local-fuel-sales2026",
+      "title": "Iowa2026 423B.5 localfuelsalesexclusion",
+      "url": "https://www.legis.iowa.gov/docs/code/2026/423B.5.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -2677,11 +2901,18 @@
               "differentLargeCityCharters": []
             },
             "AK": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "AS43.40.010 levy amended by statelegislation. Currentfull expendituretext retrieval failed. No independentlocalgallonagegrantverified. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["ak-fuel-authority", "ak-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "II14majoritymembership eachhouse;IX7 prohibitsstate-taxdedication with permanentfund,federalprogram,grandfatheredexceptions. Statutoryhighwayaccount is not absoluteconstitutionallockbox.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["ak-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -2727,29 +2958,50 @@
               "differentLargeCityCharters": []
             },
             "CO": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "CRS39-27-102 statelevy amended bylegislation. Localfuelspecificgrantunresolved;TABORdoesnotcreatetaxingauthority. SB260enterprisefees not unrestrictedfueltax. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["co-fuel-authority", "co-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "X20(4)(a) advancevoterapproval new/increasedtax andspecifiednetrevenuepolicychanges,subjectexceptions;X18 liquid highway-fuelnetexcise exclusivelyhighways,aviationtaxaviation.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["co-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "CT": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "CGS12-458 levy amendedbylegislature;13b-61/61astatutoryfunddeposits. Localgrant and exhaustivespecialvotereview unresolved. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["ct-fuel-authority", "ct-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "III19added2018 STFperpetual solelytransportation/debt;creditedrevenuesremaincreditedwhilelegallyauthorizedcollectioncontinues.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["ct-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "DE": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "5110(c) fixedstatutoryrate untilstatechanges; cannotdecreasewhilepledgedTransportationAuthoritybonds unpaid. Localgrantunresolved. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["de-fuel-authority", "de-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "VIII2Houseoriginrevenuebills;10/11newandincreasedtax3/5allmemberseachhouse,debtdefaultexceptions.12TTFmotorfuelcommitment;otherpurpose3/4eachhouseseparateact,notannualbudget/bond/grantsact.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["de-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -2772,56 +3024,88 @@
               "differentLargeCityCharters": []
             },
             "GA": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "OCGA48-9-3 amendedby2015HB170.2015enactedlocalgallonagefee/exciseban retainsbusinesslicensetaxesandspecifiedfuellocalsalestaxes; currentconsolidatedlateramendmentsunverified. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["ga-fuel-authority2015", "ga-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "III V V majorityentiremembership eachhouse;III IX VI(b) prior-yearnetstatefuelreceipt-equivalentappropriation publicroads/bridges. Dedicationchange requiresconstitutionalroute.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["ga-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "HI": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "HRS243-4 legislatureamendsstatelevy. Current248-8/9fullroutingexceptions and constitutionalspecialvotereview unresolved. Expresscountygrant separatelycited243-5;notuniversalmunicipalpower. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched. County/citycounty councilresolution afterpublichearing;noticedtwicewithin30days,effectivefirstdaysecondmonth,DOTAXnoticewithin10days. Notnewstandalonecitydecision.",
+              "sources": ["hi-fuel-authority", "hi-county-fuel-grant"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "ID": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "IC63-2402statutorylevy identifiedbyagency,directcurrenttextfailed.63-2431localpreemptioncandidate notfullyread,no localbarconclusioninferred. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["id-fuel-authority", "id-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "III14\u201315revenueHouseorigin,majoritymemberspresentpassage;VII17highway-fuelnettax highwayconstruction/repair/maintenance/trafficsupervision andrelateddebt,nodiversion.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["id-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "IL": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "35ILCS505/2levyand/8statutoryallocations. Fuel-specificspecialvotereviewunresolved.2023handbooklocalgrants includehomerule,fivecollarcounties,Cookmunicipalities,>100000referendum;currentcaps/amendmentsnotfrozen. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["il-fuel-authority", "il-fuel-constitution"],
+              "bars": [
+                {
+                  "description": "IX11adopted2016 permits specifiedtransportationuses includinghighways,transit,passengerrail,ports,airports;not highwayonly.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["il-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "IN": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "IC6-6-1.1-201/6-6-1.6 asamendedHEA1002-2017. May2026notice supports2017authority,notJanuaryrate. Distribution/useconstraintsstatutory;constitutional/exhaustivevote/localgrantreviewunresolved. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched.",
+              "sources": ["in-fuel-authority"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "IA": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state statutory fuel-tax route,subject recordedconstitutionalconstraints",
+              "reason": "452A.3statelevy legislatureamends. Cities364.3(4)/counties331.301(7)needspecifictaxgrant.423B.5 excludes taxednonrefundable highwayfuel fromlocalsales; separategallonagegrantunverified. FullJanuary2026lawhistory,constitutionalamendmentproposal/electionprocedure andlocalcharters remainpartlyunresearched. Localsalesexcludesmotor/special/electricfuel consumedhighway/watercraft/aircraft whenfueltaxpaidandrefundunavailable.",
+              "sources": [
+                "ia-fuel-authority2026",
+                "ia-fuel-constitution",
+                "ia-local-fuel-sales2026"
+              ],
+              "bars": [
+                {
+                  "description": "VII8netmotor-fuelrevenue exclusivelyhighwayconstruction/maintenance/supervisionandhighwaybonddebt;exhaustivefuel-specificpassagereviewunresolved.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Changeconstitutionalconstraint through own-state amendmentroute; fullproposal/electionprocedure notyetresearched. Ordinarylevyamendmentdoesnoteraseconstraint.",
+                  "sources": ["ia-fuel-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -3229,8 +3513,8 @@
             },
             "AK": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 8 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 8 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: AS43.40.010 levy amended by statelegislation. Currentfull expendituretext retrieval failed. No independentlocalgallonagegrantverified.",
+              "sources": ["eia-fuel-jan2026", "ak-fuel-authority"]
             },
             "AZ": {
               "status": "in force",
@@ -3253,18 +3537,18 @@
             },
             "CO": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 22 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 22 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: CRS39-27-102 statelevy amended bylegislation. Localfuelspecificgrantunresolved;TABORdoesnotcreatetaxingauthority. SB260enterprisefees not unrestrictedfueltax.",
+              "sources": ["eia-fuel-jan2026", "co-fuel-authority"]
             },
             "CT": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 25 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 25 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: CGS12-458 levy amendedbylegislature;13b-61/61astatutoryfunddeposits. Localgrant and exhaustivespecialvotereview unresolved.",
+              "sources": ["eia-fuel-jan2026", "ct-fuel-authority"]
             },
             "DE": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: 5110(c) fixedstatutoryrate untilstatechanges; cannotdecreasewhilepledgedTransportationAuthoritybonds unpaid. Localgrantunresolved.",
+              "sources": ["eia-fuel-jan2026", "de-fuel-authority"]
             },
             "FL": {
               "status": "in force",
@@ -3278,33 +3562,33 @@
             },
             "GA": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 33.3 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 33.3 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: OCGA48-9-3 amendedby2015HB170.2015enactedlocalgallonagefee/exciseban retainsbusinesslicensetaxesandspecifiedfuellocalsalestaxes; currentconsolidatedlateramendmentsunverified.",
+              "sources": ["eia-fuel-jan2026", "ga-fuel-authority2015"]
             },
             "HI": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 16 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 16 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: HRS243-4 legislatureamendsstatelevy. Current248-8/9fullroutingexceptions and constitutionalspecialvotereview unresolved. Expresscountygrant separatelycited243-5;notuniversalmunicipalpower.",
+              "sources": ["eia-fuel-jan2026", "hi-fuel-authority"]
             },
             "ID": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 32 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 32 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: IC63-2402statutorylevy identifiedbyagency,directcurrenttextfailed.63-2431localpreemptioncandidate notfullyread,no localbarconclusioninferred.",
+              "sources": ["eia-fuel-jan2026", "id-fuel-authority"]
             },
             "IL": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 48.3 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 48.3 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: 35ILCS505/2levyand/8statutoryallocations. Fuel-specificspecialvotereviewunresolved.2023handbooklocalgrants includehomerule,fivecollarcounties,Cookmunicipalities,>100000referendum;currentcaps/amendmentsnotfrozen.",
+              "sources": ["eia-fuel-jan2026", "il-fuel-authority"]
             },
             "IN": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 36 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 36 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: IC6-6-1.1-201/6-6-1.6 asamendedHEA1002-2017. May2026notice supports2017authority,notJanuaryrate. Distribution/useconstraintsstatutory;constitutional/exhaustivevote/localgrantreviewunresolved.",
+              "sources": ["eia-fuel-jan2026", "in-fuel-authority"]
             },
             "IA": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 30 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 30 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Stateauthorityreview: 452A.3statelevy legislatureamends. Cities364.3(4)/counties331.301(7)needspecifictaxgrant.423B.5 excludes taxednonrefundable highwayfuel fromlocalsales; separategallonagegrantunverified.",
+              "sources": ["eia-fuel-jan2026", "ia-fuel-authority2026"]
             },
             "KS": {
               "status": "in force",
@@ -4074,7 +4358,7 @@
               "study": {
                 "authors": "Alan Jenn",
                 "year": 2018,
-                "venue": "UC Davis ITS Research Report18-27, p15 and AppendixA3"
+                "venue": "UC-ITS-2018-02 final report, p15 and AppendixA3 pp30\u201331"
               },
               "sources": ["jenn2018"],
               "transferLimit": "Observational fixed-effects model. Enactment coefficient\u22120.00238 (p<.05); implementation\u22120.00160 is not statistically significant. Do not assign universal causal response or extrapolate linearly to arbitrary fees. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
@@ -20676,10 +20960,10 @@
               "differentLargeCityCharters": []
             },
             "CA": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state commission water/sewer acquisition valuation",
+              "reason": "PUC2720 mandates fair-market-value standard for acquired public-water distribution rate base; seweracquisitions included. Excess over reproductioncost permitted only if commission finds reasonable based reliability,healthcompliance,economies and customer effects. Sections851/852powers retained.1997ch675section1 effectiveJanuary1998;legislatureamends2720. This is not automatic rateincrease. Constitutional/localcharter and fullsaleprocedurereview incomplete.",
+              "sources": ["ca-fmv-code1997"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -20784,10 +21068,10 @@
               "differentLargeCityCharters": []
             },
             "KY": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state commission-reviewed water/sewer acquisition valuation",
+              "reason": "2021Acts191section1 effectiveJune29. Commission fixes qualifying assets between net original cost and actual acquisition price after arm\u2019s-length negotiation,economies,no material adverse rate/cost impact and financial/service-benefit findings. Declaratoryorder60days or good-cause150,or firstbaseratecase; notices/intervention. This acquisition-premium route is not automatically same three-appraisal FMV classification. Legislature amends278.295. Constitutional/municipal charter and full sale procedure review remain incomplete.",
+              "sources": ["ky-water-valuation2021"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -20856,10 +21140,10 @@
               "differentLargeCityCharters": []
             },
             "MO": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state commission-reviewed water/sewer acquisition valuation",
+              "reason": "2025SB4 amends2010/2013 route: large>8000connections acquires small\u22648000. Atleasttwo certified disinterested appraisers,joint valuation. Lesser price/appraisal plus prudent costs; previouslyrate-regulated seller permits intermediate prior-rate-base selection. Independent public-interest/CCN determination remains,ratepayer vote not substitute. Appraisal\u22645million has six-month decision,good-cause30dayextension. Legislature amends393.320. Constitutional/municipal charter and full sale procedure review remain incomplete.",
+              "sources": ["mo-fmv-code2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -20946,10 +21230,10 @@
               "differentLargeCityCharters": []
             },
             "OH": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state commission-reviewed water/sewer acquisition valuation",
+              "reason": "2019HB422 route amended2025HB15 effectiveAugust14. Large company acquiring municipal water/sewer needs just/reasonable cost finding; three independent appraisals average and licensed-engineer assessment. Lesser purchase price/FMV accepted original cost. Large defined annual operating revenue\u2265250000dollars under4909.051. Legislature amends4909.052,commission review remains. Constitutional/municipal charter and full sale procedure review remain incomplete.",
+              "sources": ["oh-fmv-code2025", "oh-fmv-definitions2019"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -21045,10 +21329,10 @@
               "differentLargeCityCharters": []
             },
             "VA": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state commission-reviewed water/sewer acquisition valuation",
+              "reason": "2020chapters518/519 establish governmental water/sewer acquisition valuation; commission rules requiredJanuary2021. Three qualified appraisals average,engineer assessment and five-year benefit/rate analysis. Rate base approved costs plus lesser arm\u2019s-length price/FMV,not automatic price increase. Just/reasonable service duty retained. Legislature amends56-90.2,commission administers. Constitutional/municipal charter and full sale procedure review remain incomplete.",
+              "sources": ["va-fmv-code2020"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -21179,9 +21463,9 @@
               "sources": []
             },
             "CA": {
-              "status": "unresearched",
-              "detail": "January1,2026 starting-law consolidation not established.",
-              "sources": []
+              "status": "in force",
+              "detail": "PUC2720 mandates fair-market-value standard for acquired public-water distribution rate base; seweracquisitions included. Excess over reproductioncost permitted only if commission finds reasonable based reliability,healthcompliance,economies and customer effects. Sections851/852powers retained.1997ch675section1 effectiveJanuary1998;legislatureamends2720. This is not automatic rateincrease.",
+              "sources": ["ca-fmv-code1997"]
             },
             "CO": {
               "status": "unresearched",
@@ -21239,9 +21523,9 @@
               "sources": []
             },
             "KY": {
-              "status": "unresearched",
-              "detail": "January1,2026 starting-law consolidation not established.",
-              "sources": []
+              "status": "in force",
+              "detail": "2021Acts191section1 effectiveJune29. Commission fixes qualifying assets between net original cost and actual acquisition price after arm\u2019s-length negotiation,economies,no material adverse rate/cost impact and financial/service-benefit findings. Declaratoryorder60days or good-cause150,or firstbaseratecase; notices/intervention. This acquisition-premium route is not automatically same three-appraisal FMV classification. Legislature amends278.295.",
+              "sources": ["ky-water-valuation2021"]
             },
             "LA": {
               "status": "unresearched",
@@ -21279,9 +21563,9 @@
               "sources": []
             },
             "MO": {
-              "status": "unresearched",
-              "detail": "January1,2026 starting-law consolidation not established.",
-              "sources": []
+              "status": "in force",
+              "detail": "2025SB4 amends2010/2013 route: large>8000connections acquires small\u22648000. Atleasttwo certified disinterested appraisers,joint valuation. Lesser price/appraisal plus prudent costs; previouslyrate-regulated seller permits intermediate prior-rate-base selection. Independent public-interest/CCN determination remains,ratepayer vote not substitute. Appraisal\u22645million has six-month decision,good-cause30dayextension. Legislature amends393.320.",
+              "sources": ["mo-fmv-code2025"]
             },
             "MT": {
               "status": "unresearched",
@@ -21329,9 +21613,9 @@
               "sources": []
             },
             "OH": {
-              "status": "unresearched",
-              "detail": "January1,2026 starting-law consolidation not established.",
-              "sources": []
+              "status": "in force",
+              "detail": "2019HB422 route amended2025HB15 effectiveAugust14. Large company acquiring municipal water/sewer needs just/reasonable cost finding; three independent appraisals average and licensed-engineer assessment. Lesser purchase price/FMV accepted original cost. Large defined annual operating revenue\u2265250000dollars under4909.051. Legislature amends4909.052,commission review remains.",
+              "sources": ["oh-fmv-code2025", "oh-fmv-definitions2019"]
             },
             "OK": {
               "status": "unresearched",
@@ -21384,9 +21668,9 @@
               "sources": []
             },
             "VA": {
-              "status": "unresearched",
-              "detail": "January1,2026 starting-law consolidation not established.",
-              "sources": []
+              "status": "in force",
+              "detail": "2020chapters518/519 establish governmental water/sewer acquisition valuation; commission rules requiredJanuary2021. Three qualified appraisals average,engineer assessment and five-year benefit/rate analysis. Rate base approved costs plus lesser arm\u2019s-length price/FMV,not automatic price increase. Just/reasonable service duty retained. Legislature amends56-90.2,commission administers.",
+              "sources": ["va-fmv-code2020"]
             },
             "WA": {
               "status": "unresearched",
@@ -32938,8 +33222,17 @@
       "id": "verify-24-item1",
       "promptClaim": "- **State:** primacy agency; the utility commission regulates **investor-owned** water utilities' rates; state law on privatization. **Fair-market-value laws** in about 15 states (for example Pennsylvania's Act 12 of 2016, **verify** count) let private utilities buy public systems at appraised value, which raises customer rates.",
       "status": "partially verified",
-      "finding": "NARUC 2021 review lists 12 enacted-policy states; Florida added a 2023 law. These 13 named states across dated evidence do not establish an exhaustive 2026 count. Rate consequences need study-specific sizing. Florida2025 codification establishes the optional eligible-acquirer process and PSC review; an enacted acquisition valuation route does not itself establish a causal bill increase. Original May2024 Cornell thesis independently reports thirteen states asof2024; this is not the final journal article or exhaustive January2026count. NC and Iowa own statutes now establish bounded valuation routes; no universal causal rate-increase coefficient follows.",
-      "sources": ["naruc-water", "fl-fmv", "fl-fmv-enactment", "fmv-thesis2024"]
+      "finding": "NARUC 2021 review lists 12 enacted-policy states; Florida added a 2023 law. These 13 named states across dated evidence do not establish an exhaustive 2026 count. Rate consequences need study-specific sizing. Florida2025 codification establishes the optional eligible-acquirer process and PSC review; an enacted acquisition valuation route does not itself establish a causal bill increase. Original May2024 Cornell thesis independently reports thirteen states asof2024; this is not the final journal article or exhaustive January2026count. NC and Iowa own statutes now establish bounded valuation routes; no universal causal rate-increase coefficient follows. Virginia2020,OhioAugust2025,MissouriAugust2025 and Kentucky2021 own statutes now distinguish commission valuation safeguards. Kentucky has net-original-cost/acquisition-price treatment rather than assumed three-appraisal FMV classification; exhaustive count remains open.",
+      "sources": [
+        "naruc-water",
+        "fl-fmv",
+        "fl-fmv-enactment",
+        "fmv-thesis2024",
+        "va-fmv-code2020",
+        "oh-fmv-code2025",
+        "mo-fmv-code2025",
+        "ky-water-valuation2021"
+      ]
     },
     {
       "id": "verify-25-item1",

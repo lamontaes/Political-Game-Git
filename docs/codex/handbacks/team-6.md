@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 216 have source references and 1,632 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 231 have source references and 1,617 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -193,3 +193,17 @@ Scope: only Team6research JSON/Markdown and handback; no outcome-map/link author
 ## Fourth EV baseline packet
 
 Twelve own-state EV charge authority cells added from helper primary-source packet. Root independent reread remains pending for this packet. CTpassenger-base parity does not prove completelevyabsence. SouthCarolina amount is biennial; SouthDakota laterJuly2026increase is excluded; Utah180component excludesindexed14andhybridamountsunknown; Delaware6000lbboundary remains unresolved; Wyomingplug-indefinition needsread. Legalfees remain exactown-place rules,notworldspreadanchors.
+
+## Additional water acquisition valuation routes
+
+Root read Virginia2020,OhioAugust2025,MissouriAugust2025 and Kentucky2021 primary statutes. Four own-place authority cells added. Each keeps commission findings and its valuation ceiling; Kentucky’s acquisition-price interval is distinguished from three-appraisal FMV models. National count and causal rate effect remain unresolved. No generated anchor or game integration.
+
+## Broader study coverage checked
+
+Root read Jenn’s AppendixA3: the registration-fee regression explicitly covers50states,January2010–June2018,8874observations; six nonstate places remain outside that stated region. Corrected report identifier toUC-ITS-2018-02 from front matter. Root read USDOT’s2015evaluation record: six metros in five states,with bundled tolling/transit/TDM/technology; its national label does not mean everyplacecoverage. Root read NTIA’s2014BTOP evaluation:408counties in12selectedgrants; analysis explicitly excludes Alaska,Hawaii,outlyingareas. No new numeric world anchor admitted from either. Brons author record gives short/longrun meanelasticities but not verified all-placecoverage.
+
+California’s official PUC2720 text was recovered by curl after browser failure and establishes a fifth additional water valuation cell. Illinois official retrieval stillfailed; no cell inferred from secondary copies.
+
+## State fuel-tax authority packet
+
+Tenown-state statutoryfuel-taxroute cellsadded. Constitutionalconditions recordedseparately fromstatutoryallocations: Delaware3/5taxthreshold and3/4separateactdiversionexception,ColoradoTABORvoterapproval,Alaskanon-dedication,Illinoisbroadertransportationuses. RootreadDelawareconstitution,Hawaiicountygrant,Iowalocalsalesexclusion; remainingdetailhelper-reportedwithretrieval/cutoffgaps. Stateauthoritydoesnotcomplete everylocalgrant or56placeconstitutionalreview.
