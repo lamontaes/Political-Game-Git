@@ -1,0 +1,177 @@
+{
+  "status": "held-for-owner-style-and-game-scale-review",
+  "previousAttempt": {
+    "status": "rejected-for-admission; revision-needed",
+    "sourceGeneratedPath": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-c57fad35-f7df-4168-8535-0a3f96c54243.png",
+    "candidateFile": "art/authoring/sept29-team7/kids/boy-14-standing-base-v2.png",
+    "sha256": "9295478a36fcf514da462a71016b18e06e02e3e2fbef7949e61815753010927f",
+    "qa": {
+      "mode": "RGBA",
+      "size": [
+        1536,
+        1024
+      ],
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "alphaZeroPixels": 950357
+    },
+    "visualFinding": "Background haze remains visible; clean transparent cutout not established. Longer-limb intent does not establish common-scale age separation.",
+    "approval": "none",
+    "runtimeImport": "NOT RUN",
+    "remainingAge14Sheets": 17
+  },
+  "attempt3": {
+    "candidateFile": "art/authoring/sept29-team7/kids/boy-14-standing-base-v3.png",
+    "sourceGeneratedPath": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-448c1e4d-634a-411c-abcb-a8d2e7b63f6a.png",
+    "sha256": "54341f026e8d3db71907e52b2f19067c100ca9efc54b817bf898116e08ff4095",
+    "qa": {
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "alphaZeroPixels": 945695,
+      "opaquePixels": 0
+    },
+    "visualFinding": "White alpha composite reviewed: no broad background haze visible. Raw preview shows hidden RGB and is not sufficient evidence of a composited halo. Full opacity remains absent.",
+    "prompt": "Background extraction only; remove haze; preserve figures, proportions, clothing, spacing, framing; alpha zero outside, opaque interiors, narrow antialiasing; no shadow/glow/text.",
+    "tool": "built-in image_gen"
+  },
+  "correctionToPriorFinding": "Prior raw-preview haze claim needs alpha-composite verification; do not treat hidden RGB as visible background.",
+  "approval": "none",
+  "runtimeImport": "NOT RUN",
+  "commonScaleAgeComparison": {
+    "status": "native-pixel contact reviewed; in-game common physical scale NOT RUN",
+    "contact": "art/authoring/sept29-team7/kids/age14-native-scale-comparison.jpg",
+    "measurements": [
+      {
+        "file": "boy-8-standing-base.png",
+        "sha256": "98ed1d1043a4aba343b17b234c99a5fddc1e0a23cc74ae0d365482beab5d187e",
+        "alpha128Bounds": [
+          {
+            "boundsInThird": [
+              168,
+              70,
+              478,
+              964
+            ],
+            "heightPx": 894
+          },
+          {
+            "boundsInThird": [
+              84,
+              73,
+              512,
+              964
+            ],
+            "heightPx": 891
+          },
+          {
+            "boundsInThird": [
+              0,
+              73,
+              384,
+              965
+            ],
+            "heightPx": 892
+          }
+        ]
+      },
+      {
+        "file": "boy-14-standing-base.png",
+        "sha256": "e77718722c49a2c6b5f5b81a8962bb9c4d5e96d5a07352e9a970d92ca432dff0",
+        "alpha128Bounds": [
+          {
+            "boundsInThird": [
+              202,
+              47,
+              494,
+              975
+            ],
+            "heightPx": 928
+          },
+          {
+            "boundsInThird": [
+              85,
+              45,
+              512,
+              978
+            ],
+            "heightPx": 933
+          },
+          {
+            "boundsInThird": [
+              0,
+              45,
+              352,
+              977
+            ],
+            "heightPx": 932
+          }
+        ]
+      },
+      {
+        "file": "boy-14-standing-base-v3.png",
+        "sha256": "54341f026e8d3db71907e52b2f19067c100ca9efc54b817bf898116e08ff4095",
+        "alpha128Bounds": [
+          {
+            "boundsInThird": [
+              170,
+              18,
+              481,
+              991
+            ],
+            "heightPx": 973
+          },
+          {
+            "boundsInThird": [
+              79,
+              17,
+              422,
+              991
+            ],
+            "heightPx": 974
+          },
+          {
+            "boundsInThird": [
+              0,
+              17,
+              387,
+              991
+            ],
+            "heightPx": 974
+          }
+        ]
+      }
+    ],
+    "finding": "V3 has longer visible lower legs and smaller head relative to overall figure than age8. The three sheets use equal native canvas sizes; this does not establish world stature. V3 still has pronounced muscle/shading detail, so style and age acceptance remain held.",
+    "alphaInterpretation": "All three sheets max at254. This is a measured encoding property, not by itself evidence of visible transparency failure. White composites show no broad haze. No pixel approval inferred."
+  },
+  "remainingAge14Sheets": 17,
+  "attempt4": {
+    "candidateFile": "art/authoring/sept29-team7/kids/boy-14-standing-base-v4.png",
+    "sourceGeneratedPath": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-385309e6-f223-4783-9cf1-dda0b4a50172.png",
+    "sha256": "c2c7c1e87d6812c25e68fc8485013177db7fdbf4c48cf1341ec172723c1d21e1",
+    "size": [
+      1536,
+      1024
+    ],
+    "alphaExtrema": [
+      0,
+      254
+    ],
+    "tool": "built-in image_gen",
+    "prompt": "Preserve v3 figures and adolescent proportions; simplify muscle definition and garment creases using attached owner master; transparent background.",
+    "styleReferenceSha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+    "status": "composite reviewed; candidate for owner style review, no approval",
+    "visualFinding": "White composite has no broad haze. Shirt creases are fewer and broader than v3; calf shading is reduced but knees remain strongly defined. Three builds, blank bald heads, modest gray outfit and long-limb stance retained. Actual game-scale fit NOT RUN.",
+    "reviewContact": "art/authoring/sept29-team7/kids/age14-v4-master-review.jpg",
+    "reviewContactSha256": "44c0195592ef1171cdcc6ded17572e0d083d076937869808c002ed59cdf3b8ee"
+  }
+}
