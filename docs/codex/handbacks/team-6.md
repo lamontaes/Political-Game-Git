@@ -1,16 +1,16 @@
-# Transportation research is a draft, with gaps counted
+# Transportation research increment for review, with gaps counted
 
-The first transportation tranche has 32 sourced legislative decisions and explicit cells for every place. It corrects the worked example without guessing legal powers or effect sizes. The area remains incomplete, and later areas have not been delivered. Claude CTO can review the draft and its remaining work; there is no change to the game.
+The first transportation tranche has 33 sourced legislative decisions and explicit cells for every place. It corrects the worked example without guessing legal powers or effect sizes. The area remains incomplete, and later areas have not been delivered. Claude CTO can review the increment and its remaining work; there is no change to the game.
 
 ## MERGED
 
-Nothing merged. [Draft pull request 1133](https://github.com/lamontaes/Political-Game-Git/pull/1133) records transportation authority decisions and explicit evidence gaps. It is not ready for approval. The first published head is `6c78ad034f78ec5faf280c060d5da14a4b962280`.
+Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-Git/pull/1133) records transportation authority decisions and explicit evidence gaps. It is being marked ready for review under the CTO dispatch; area completion and merge approval remain separate. The first published head is `6c78ad034f78ec5faf280c060d5da14a4b962280`.
 
 ## WHAT EMERGED
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 32 admitted decisions, and 1,792 availability cells. Of those cells, 113 have source references and 1,679 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 169 have source references and 1,679 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -62,3 +62,91 @@ Claims were appended under the atomic shared lock, preserving existing rows. Coo
 - `docs/codex/handbacks/team-6.md`
 
 The canonical claims file also contains other teams. It will not be staged in Team 6’s isolated commit. The five paths above publish Team 6’s claims without including other teams’ rows.
+
+## Team 1 transportation handoff after CTO dispatch
+
+PR 1133 is ready for review as a bounded research increment; the transportation area remains incomplete. Research is frozen after the already-authored passenger-charge entry, bringing the packet from 32 to 33 decisions. No additional transportation research is scheduled. Six decisions contain numerical outcome evidence. This is a list of source-backed sizes with their limitations, not authorization to turn every estimate into a universal causal coefficient.
+
+Inspected main: `31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4`. Team 1 owns `data/research/outcome-web/links.json` and the implementation. The outcome connections below are proposed handoff routes, except the named existing housing target. None of these six laws is claimed connected or moved in a watched world by Team 6.
+
+| Decision              | Sourced size and bounds                                                                                                                   | Outcome connection for Team 1                                                                                                                                                      | Outcome evidence                                                                                                                                      |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fuel-tax`            | −0.034 short-run price elasticity; specification spread −0.077 to −0.034, not a confidence interval.                                      | Gasoline price → gasoline consumption; requires tax pass-through before a tax-law link. No matching link on inspected main.                                                        | [hks2008](https://itspubs.ucdavis.edu/publication_detail.php?id=1904)                                                                                 |
+| `ev-registration`     | −0.24% sales association per $1 enacted fee; reported point only, implementation estimate not significant.                                | Registration fee → EV sales; household fee payment and dedicated revenue are separate direct mechanisms. No matching link on inspected main.                                       | [jenn2018](https://escholarship.org/content/qt62f72449/qt62f72449.pdf)                                                                                |
+| `congestion-toll`     | −11% observed entries in first six months of 2025; one program, no causal confidence interval.                                            | Priced-zone entry charge → vehicles entering zone, plus recorded toll receipts. No matching zone-entry link on inspected main.                                                     | [mta-results](https://www.mta.info/document/186851)                                                                                                   |
+| `airport-worker-wage` | Turnover 94.7% to 18.7%, approximately −80% relative; bundled observational comparison, not isolated wage effect.                         | Compensation/training/labor package → airport screener turnover; wage payments are a separate direct mechanism. No matching link on inspected main.                                | [sfo-wage2003](https://laborcenter.berkeley.edu/wp-content/uploads/2021/06/Living-Wages-and-Economic-Performance-The-San-Francisco-Airport-Model.pdf) |
+| `fluoride-addition`   | 0.24 fewer dmft, 95% CI −0.03 to 0.52; low certainty, includes no benefit; cannot invert into certain cessation harm.                     | Fluoridation initiation → children’s decayed/missing/filled primary teeth. No matching dental link on inspected main.                                                              | [cochrane](https://www.cochrane.org/evidence/CD010856_does-adding-fluoride-water-supplies-prevent-tooth-decay)                                        |
+| `broadband-grants`    | 25Mbps versus 1Mbps: approximately +3% hedonic home-price association; point only, not grant return or guaranteed municipal-build effect. | Available broadband speed → housing.home-prices (existing outcome target). A new speed-to-value link is needed; existing public-broadband-to-home-access is a different mechanism. | [molnar2019](https://www.tandfonline.com/doi/abs/10.1080/00036846.2019.1631443?journalCode=raec2)                                                     |
+
+### Starting law in every place
+
+Each column refers to that decision’s January 2026 starting-law entry. `U` means unresearched, never no law or permission. `F` means a source-backed in-force entry with its scope below. This table enumerates all 56 places; the JSON retains each cell’s detail and source IDs.
+
+| Place | Fuel tax | EV registration | Congestion toll | Airport wage | Fluoride | Broadband grants |
+| ----- | -------- | --------------- | --------------- | ------------ | -------- | ---------------- |
+| AL    | U        | U               | U               | U            | U        | U                |
+| AK    | U        | U               | U               | U            | U        | U                |
+| AZ    | U        | U               | U               | U            | U        | U                |
+| AR    | U        | U               | U               | U            | U        | U                |
+| CA    | F        | F               | U               | U            | U        | U                |
+| CO    | U        | U               | U               | U            | U        | U                |
+| CT    | U        | U               | U               | U            | U        | U                |
+| DE    | U        | U               | U               | U            | U        | U                |
+| FL    | U        | U               | U               | U            | F        | U                |
+| GA    | U        | U               | U               | U            | U        | U                |
+| HI    | U        | U               | U               | U            | U        | U                |
+| ID    | U        | U               | U               | U            | U        | U                |
+| IL    | U        | U               | U               | U            | U        | U                |
+| IN    | U        | U               | U               | U            | U        | U                |
+| IA    | U        | U               | U               | U            | U        | U                |
+| KS    | U        | U               | U               | U            | U        | U                |
+| KY    | U        | U               | U               | U            | U        | U                |
+| LA    | U        | U               | U               | U            | U        | U                |
+| ME    | U        | U               | U               | U            | U        | U                |
+| MD    | U        | U               | U               | U            | U        | U                |
+| MA    | U        | U               | U               | U            | U        | U                |
+| MI    | U        | U               | U               | U            | U        | U                |
+| MN    | U        | U               | U               | U            | U        | U                |
+| MS    | U        | U               | U               | U            | U        | U                |
+| MO    | U        | U               | U               | U            | U        | U                |
+| MT    | U        | U               | U               | U            | U        | U                |
+| NE    | U        | U               | U               | U            | U        | U                |
+| NV    | U        | U               | U               | U            | U        | U                |
+| NH    | U        | U               | U               | U            | U        | U                |
+| NJ    | U        | U               | U               | U            | U        | U                |
+| NM    | U        | U               | U               | U            | U        | U                |
+| NY    | U        | U               | F               | U            | U        | U                |
+| NC    | U        | U               | U               | U            | U        | U                |
+| ND    | U        | U               | U               | U            | U        | U                |
+| OH    | U        | U               | U               | U            | U        | U                |
+| OK    | U        | U               | U               | U            | U        | U                |
+| OR    | U        | U               | U               | U            | U        | U                |
+| PA    | U        | U               | U               | U            | U        | U                |
+| RI    | U        | U               | U               | U            | U        | U                |
+| SC    | U        | U               | U               | U            | U        | U                |
+| SD    | U        | U               | U               | U            | U        | U                |
+| TN    | U        | U               | U               | U            | U        | U                |
+| TX    | U        | U               | U               | U            | U        | U                |
+| UT    | U        | U               | U               | U            | F        | U                |
+| VT    | U        | U               | U               | U            | U        | U                |
+| VA    | U        | U               | U               | U            | U        | U                |
+| WA    | U        | U               | U               | U            | U        | U                |
+| WV    | U        | U               | U               | U            | U        | U                |
+| WI    | U        | U               | U               | U            | U        | U                |
+| WY    | U        | U               | U               | U            | U        | U                |
+| DC    | U        | U               | U               | U            | U        | U                |
+| PR    | U        | U               | U               | U            | U        | U                |
+| GU    | U        | U               | U               | U            | U        | U                |
+| VI    | U        | U               | U               | U            | U        | U                |
+| AS    | U        | U               | U               | U            | U        | U                |
+| MP    | U        | U               | U               | U            | U        | U                |
+
+- `fuel-tax/CA`: SB1 fuel-tax and indexing provisions; current January 2026 rate not sized here. [sb1](https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=201720180SB1)
+- `ev-registration/CA`: SB1 charge began July 1, 2020 for model year 2020 and later; 2026 amount still unresearched. [sb1](https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=201720180SB1)
+- `congestion-toll/NY`: Program began January 5, 2025; January 2026 litigation and schedule require separate confirmation. [mta-toll](https://congestionreliefzone.mta.info/tolling)
+- `fluoride-addition/FL`: Florida additive restriction effective July 1, 2025; intentional fluoridation is prohibited under the recorded statute. [fl-additive](https://www.flsenate.gov/Laws/Statutes/2025/403.859)
+- `fluoride-addition/UT`: HB81 effective May 7, 2025; prohibits intentional fluoride additions. [ut81](https://le.utah.gov/Session/2025/bills/enrolled/HB0081.pdf)
+
+Availability to change a law is separately recorded for all 56 places in each decision’s `availability`; an in-force baseline does not settle that authority. All other 27 decisions retain “no sized evidence” for downstream effects. Statutory fees, tax credits, appropriation shares and wage terms can support direct money accounting with recorded eligible units; they are not sized estimates of riders, jobs, health or completed roads.
+
+Exact gap for Team 1: most baseline cells above remain unresearched, and five of the six proposed outcome targets have no corresponding inspected-main link. The fuel study requires pass-through; the EV, airport and broadband studies do not identify a universal causal response. Team 1 must preserve these limits when wiring laws. No game code or watched-world test was run by Team 6.

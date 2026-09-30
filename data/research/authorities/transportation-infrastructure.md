@@ -1,6 +1,6 @@
 # Transportation rules need more jurisdiction evidence
 
-The first transportation research tranche records 32 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1679 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
+The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1679 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
 
 ## What the evidence establishes
 
@@ -19,7 +19,7 @@ Every admitted decision has 56 explicit availability cells and 56 separate start
 | roads-and-bridges                    |         6 |                         12 |            5 |                319 |
 | transit                              |         5 |                          5 |            0 |                275 |
 | rail                                 |         4 |                         11 |            0 |                213 |
-| airports-and-ports                   |         2 |                          2 |            0 |                110 |
+| airports-and-ports                   |         3 |                         58 |            0 |                110 |
 | water-and-sewer                      |         4 |                          4 |            2 |                218 |
 | stormwater                           |         2 |                          3 |            0 |                109 |
 | broadband                            |         2 |                         59 |            0 |                 53 |
@@ -48,6 +48,7 @@ Nine barred cells record two fluoride operator restrictions, five ordinary local
 - `rail-crew-minimum`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `airport-lease`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, GU, VI, AS, MP`.
 - `airport-worker-wage`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `airport-passenger-charge`: `none`.
 - `water-shutoff`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `fluoride-addition`: `AL, AK, AZ, AR, CA, CO, CT, DE, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `water-acquisition-valuation`: `AL, AK, AZ, AR, CA, CO, CT, DE, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.

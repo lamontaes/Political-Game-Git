@@ -2070,6 +2070,54 @@
       "year": null,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "pfc-law2018",
+      "title": "FAA ReauthorizationAct2018 PL115-254 section121 modernization",
+      "url": "https://www.govinfo.gov/content/pkg/PLAW-115publ254/html/PLAW-115publ254.htm",
+      "year": 2018,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pfc-law2024",
+      "title": "FAA ReauthorizationAct2024 PL118-63 section776 current PFC numbering",
+      "url": "https://www.govinfo.gov/content/pkg/PLAW-118publ63/html/PLAW-118publ63.htm",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pfc-current-statute",
+      "title": "Official49USC40117 compilation: eligible airport agency, charges and project conditions",
+      "url": "https://www.govinfo.gov/link/uscode/49/40117",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pfc-definitions2024",
+      "title": "49USC47102(20)/(27): public agency and all56 place geography",
+      "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title49/html/USCODE-2024-title49-subtitleVII-partB-chap471-subchapI-sec47102.htm",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pfc-regulation",
+      "title": "14CFR158: FAA authorization, trip limits, exemptions, applications and governing-body resolution",
+      "url": "https://www.ecfr.gov/current/title-14/chapter-I/subchapter-I/part-158",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pfc-streamlined2020",
+      "title": "FAA January22,2020 streamlined processing memo; no application procedure change",
+      "url": "https://www.faa.gov/sites/faa.gov/files/airports/pfc/pfc_updates/pfc_73_20_streamlined_procedures.pdf",
+      "year": 2020,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -16601,6 +16649,1685 @@
               "sources": []
             }
           }
+        },
+        {
+          "id": "airport-passenger-charge",
+          "question": "Should the controlling public airport agency collect a passenger facility charge, at which authorized level, and for which eligible projects?",
+          "levels": [
+            "federal",
+            "state",
+            "county",
+            "city",
+            "special-district",
+            "territory",
+            "dc",
+            "tribal"
+          ],
+          "terms": [
+            "authorized charge level",
+            "eligible airport projects",
+            "project debt service",
+            "collection period",
+            "consultation and public comment",
+            "trip and passenger exemptions"
+          ],
+          "examples": [
+            {
+              "place": "United States",
+              "measure": "PL115-254 section121 enactedOctober5,2018: removes additional statutory higher-rate findings and nonhub-only streamlined-program limit; does not raise$4.50cap",
+              "year": 2018,
+              "status": "enacted",
+              "sources": ["pfc-law2018", "pfc-streamlined2020"]
+            },
+            {
+              "place": "United States",
+              "measure": "PL118-63 section776 enacted2024 consolidates authorized amounts in40117(b)(1) and deletes former(b)(4); rewrites subsection(l) as streamlining with FAA receipt/objection procedures",
+              "year": 2024,
+              "status": "enacted",
+              "sources": ["pfc-law2024", "pfc-current-statute"]
+            }
+          ],
+          "availability": {
+            "AL": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "AK": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "AZ": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "AR": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "CA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "CO": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "CT": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "DE": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "FL": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "GA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "HI": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "ID": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "IL": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "IN": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "IA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "KS": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "KY": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "LA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "ME": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MD": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MI": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MN": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MS": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MO": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MT": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "NE": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "NV": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "NH": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "NJ": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "NM": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "NY": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "NC": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "ND": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "OH": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "OK": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "OR": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "PA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "RI": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "SC": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "SD": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "TN": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "TX": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "UT": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "VT": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "VA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "WA": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "WV": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "WI": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "WY": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "DC": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "PR": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "GU": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "VI": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "AS": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            },
+            "MP": {
+              "status": "only some localities",
+              "scope": "eligible public agency controlling a commercial-service airport under federal law",
+              "reason": "49USC47102 explicitly includes all50states, DC and five territories in this program geography. Only qualifying public agencies with airport control and commercial-service eligibility may use the applicable federal authorization or statutory streamlined notice process; project legal authority, governing-body action and required procedures still apply. Actual qualifying airports and local project powers in this place are unresearched. This specific federal charge route does not establish general municipal taxation.",
+              "sources": [
+                "pfc-current-statute",
+                "pfc-definitions2024",
+                "pfc-regulation",
+                "pfc-law2024"
+              ],
+              "bars": [],
+              "localGrant": {
+                "description": "49USC40117 supplies an eligible agency\u2019s project-specific PFC route, including statutory streamlining under(l). Other state/local authorities may not regulate or prohibit its PFC; project legal authority and governing-body action remain required.",
+                "lawKind": "federal statute",
+                "changedBy": "Congress amends federal rules; FAA administers ordinary authorization or streamlined notice/objection. Airport agency acts within applicable project and amount conditions, never above the statutory ceiling.",
+                "sources": [
+                  "pfc-current-statute",
+                  "pfc-definitions2024",
+                  "pfc-regulation",
+                  "pfc-law2024"
+                ]
+              },
+              "differentLargeCityCharters": []
+            }
+          },
+          "effects": [
+            {
+              "measure": "Passenger demand, completed airport capacity, competition and noise after PFC-financed projects",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "Project delivery and behavioral lag not established",
+              "affectedGroup": "Eligible airport passengers, carriers and neighboring residents",
+              "study": null,
+              "sources": [],
+              "transferLimit": "Statutory charge amounts and approval ceilings are direct financial mechanisms, not estimated behavioral effects."
+            }
+          ],
+          "directMechanism": "A qualifying controlling public agency using ordinary FAA approval or the statutory streamlined notice route may collect one of$1/$2/$3/$4/$4.50 for eligible airport projects or their debt service. Charges are capped by boardings/trip and subject to passenger exemptions. Revenue authority is project-specific; collection approval does not prove completed construction, demand change or general local tax permission.",
+          "startingLaw": {
+            "AL": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "AK": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "AZ": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "AR": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "CA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "CO": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "CT": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "DE": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "FL": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "GA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "HI": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "ID": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "IL": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "IN": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "IA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "KS": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "KY": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "LA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "ME": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MD": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MI": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MN": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MS": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MO": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MT": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "NE": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "NV": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "NH": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "NJ": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "NM": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "NY": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "NC": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "ND": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "OH": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "OK": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "OR": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "PA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "RI": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "SC": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "SD": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "TN": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "TX": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "UT": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "VT": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "VA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "WA": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "WV": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "WI": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "WY": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "DC": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "PR": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "GU": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "VI": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "AS": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            },
+            "MP": {
+              "status": "in force",
+              "detail": "Federal enabling program as amended2018/2024 predatesJanuary1,2026. This establishes a conditional airport-agency route, not a local approval, active charge or project completion. Place-specific airport control and approval records remain unresearched.",
+              "sources": ["pfc-law2018", "pfc-law2024", "pfc-definitions2024"]
+            }
+          }
         }
       ],
       "federalLink": [
@@ -16610,6 +18337,24 @@
           "match": "PFC is passenger revenue, not a federal matching grant.",
           "conditions": ["FAA project approval and revenue restrictions"],
           "sources": ["faa-pfc", "faa-lease"]
+        },
+        {
+          "topicKey": "us-federal:transport-water.aviation-maritime",
+          "program": "Passenger Facility Charge authorization",
+          "match": "No federal matching percentage inherent in a PFC; airport collects approved passenger charges. Separate AIP funding conditions require their own treatment.",
+          "conditions": [
+            "Ordinary FAA approval or statutory streamlined notice/objection procedures and eligible airport/project conditions; maximum$4.50per boarding with two boardings per one-way trip/each round-trip direction and exemptions.",
+            "Current40117(b)(1) follows2024 consolidation. Older158.17 higher-rate findings must be reconciled with changed2018/2024 statute before implementation.",
+            "All56place geographic inclusion is statutory; actual airport control, local project power and charge approvals are separate unresearched facts.",
+            "2024section776 rewrites40117(l):FAA acknowledges notice and indicates objection within60days, with specified allowed/prohibited objections. Ordinary prior affirmative approval cannot be assumed for every statutory streamlining case."
+          ],
+          "sources": [
+            "pfc-current-statute",
+            "pfc-definitions2024",
+            "pfc-regulation",
+            "pfc-law2018",
+            "pfc-law2024"
+          ]
         }
       ],
       "systemRedesigns": [],
@@ -18104,7 +19849,7 @@
             },
             "FL": {
               "status": "in force",
-              "detail": "Utah effective May 7, 2025; Florida broader additive restriction effective July 1, 2025.",
+              "detail": "Florida additive restriction effective July 1, 2025; intentional fluoridation is prohibited under the recorded statute.",
               "sources": ["fl-additive"]
             },
             "GA": {
