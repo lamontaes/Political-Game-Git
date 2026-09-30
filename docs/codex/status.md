@@ -1,3 +1,13 @@
+## September 30, 2:57 actual-turn collection
+
+Observed idle: Teams1,5,6,8 and Merge. Specific continuations dispatched: Team1 federal batch; Team5 tuition/curriculum/library while pre-K contract waits; Team6 remaining stamp batch with1283 merge correction; Team8 mark CTO-approved1298 ready; Merge process approved1295/1298 and standing-category1290. Delivery is not resumed execution proof.
+
+Observed commands: Team2 fixture process checks; Team3 current-main integration and canonical enacted-wage test construction; Audit oldfd4925e6 campaign exited143 and current-main fetch/1297 ancestry passed. Restart launch NOT verified. Teams4/9 active without a new command in latest turn snapshot; no progress inferred.
+
+Team7 reports1257 crop upload completed at977b91bcca7658037bc1991b382b6a4d4f83a185:108 native crops, four contacts,36 originals unchanged, RGBA/dimension/hash checks passed. CDC/Firefly brief additive work active. Seated contacts unaccepted; child rendering unchanged; Butte/browser/Save-Continue NOT RUN. Firefly owner sign-in pending.
+
+Coordinator1300 shared state-tax/premium source507a9fe17c9156115b0a9e8172b5f062726f98ec awaits Team3 focused payment integration checks; no runtime pass claimed.1297 mergedb0fb2464 preserves saved-event attribution; downstream law batches still require their own proof.
+
 ## Owner Firefly docket — child heads, faces and hair
 
 AUTHORIZED by CTO September30 child-art ruling. Owner sign-in pending. Team7 owns one missing-source batch matched to the approved kids sheets: child heads, faces and hair. Exact crop IDs, hashes and source brief pending from Team7. Generation has NOT started and pixels are NOT approved. No child renders until required heads exist.
