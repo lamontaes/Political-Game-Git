@@ -112,9 +112,11 @@ export function principledLeaning(
   for (const bearing of proposition.principles) {
     const held = latest.get(bearing.principleId);
     if (!held || held.stance === "conflicted") continue;
+    const weight = bearing.weight ?? 1;
+    if (weight === 0) continue;
     const agrees =
       (held.stance === "endorses") === (bearing.bearing === "consistent-with");
-    score += (agrees ? 1 : -1) * held.strength * 4;
+    score += (agrees ? 1 : -1) * held.strength * 4 * weight;
     recordIds.push(held.id);
   }
   return { score, recordIds };

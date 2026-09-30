@@ -20,6 +20,7 @@ import {
   principledLeaning,
   principleAgreement,
   principleVoteConsideration,
+  principleView,
   spendingPrincipleConsideration,
 } from "./officeholder-principles";
 
@@ -97,6 +98,103 @@ function engaged(next: World): {
 }
 
 describe("officeholder principles", () => {
+  it("weights competing law arguments by the person's continuous strength and changes the actual vote reason", () => {
+    const personId = people[0]!;
+    const [supportId, oppositionId] = world.policyCatalog.principleOrder;
+    const propositionId = world.policyCatalog.propositionOrder[0]!;
+    expect(supportId).toBeDefined();
+    expect(oppositionId).toBeDefined();
+    const record = (next: World, principleId: EntityId, strength: number) =>
+      recordPrinciple(next, {
+        stableKey: `law-weight:${principleId}`,
+        personId,
+        principleId,
+        formedAt: world.currentDate,
+        stance: "endorses",
+        strength,
+        conviction: "settled",
+        flexibility: "firm",
+        qualification: null,
+        formation: createFormationContext("reflection:test", {
+          note: "Authored law-weight fixture, not a measured political preference.",
+        }),
+        supersedesPrincipleRecordId: null,
+      });
+    const next = record(record(world, supportId!, 0.75), oppositionId!, 0.5);
+    const withWeights = (support?: number, opposition?: number): World => ({
+      ...next,
+      policyCatalog: {
+        ...next.policyCatalog,
+        propositions: {
+          ...next.policyCatalog.propositions,
+          [propositionId]: {
+            ...next.policyCatalog.propositions[propositionId]!,
+            principles: [
+              {
+                principleId: supportId!,
+                bearing: "consistent-with",
+                ...(support === undefined ? {} : { weight: support }),
+              },
+              {
+                principleId: oppositionId!,
+                bearing: "against",
+                ...(opposition === undefined ? {} : { weight: opposition }),
+              },
+            ],
+          },
+        },
+      },
+    });
+    const legacy = withWeights();
+    expect(principledLeaning(legacy, personId, propositionId).score).toBe(1);
+    expect(
+      principleVoteConsideration(
+        legacy,
+        personId,
+        billAnswering(propositionId, "yes"),
+      )?.optionKey,
+    ).toBe("vote-yea");
+    const weighted = withWeights(0.2, 0.9);
+    const before = JSON.stringify(weighted);
+    expect(
+      principledLeaning(weighted, personId, propositionId).score,
+    ).toBeCloseTo(-1.2);
+    expect(
+      principleVoteConsideration(
+        weighted,
+        personId,
+        billAnswering(propositionId, "yes"),
+      )?.optionKey,
+    ).toBe("vote-nay");
+    expect(
+      principleVoteConsideration(
+        weighted,
+        personId,
+        billAnswering(propositionId, "no"),
+      )?.optionKey,
+    ).toBe("vote-yea");
+    expect(principleView(weighted, personId, propositionId)?.answer).toBe("no");
+    expect(JSON.stringify(weighted)).toBe(before);
+    const zero = withWeights(0, 0);
+    expect(principledLeaning(zero, personId, propositionId)).toEqual({
+      score: 0,
+      recordIds: [],
+    });
+    expect(
+      principleVoteConsideration(
+        zero,
+        personId,
+        billAnswering(propositionId, "yes"),
+      ),
+    ).toBeNull();
+    expect(principleView(zero, personId, propositionId)).toBeNull();
+    const one = withWeights(0, 1);
+    expect(principledLeaning(one, personId, propositionId).score).toBe(-2);
+    expect(
+      principledLeaning(one, personId, propositionId).recordIds,
+    ).toHaveLength(1);
+  });
+
   it("all three readers use fractional strength instead of categorical conviction", () => {
     const principleId = world.policyCatalog.principleOrder.find((id) =>
       world.policyCatalog.principles[id]!.stableKey.endsWith(
