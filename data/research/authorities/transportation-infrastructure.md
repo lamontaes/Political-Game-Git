@@ -1,6 +1,6 @@
 # Transportation rules need more jurisdiction evidence
 
-The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1665 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
+The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1654 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
 
 ## What the evidence establishes
 
@@ -16,7 +16,7 @@ Every admitted decision has 56 explicit availability cells and 56 separate start
 
 | Topic                                | Decisions | Sourced availability cells | Barred cells | Unresearched cells |
 | ------------------------------------ | --------: | -------------------------: | -----------: | -----------------: |
-| roads-and-bridges                    |         6 |                         26 |            5 |                305 |
+| roads-and-bridges                    |         6 |                         37 |            5 |                294 |
 | transit                              |         5 |                          5 |            0 |                275 |
 | rail                                 |         4 |                         11 |            0 |                213 |
 | airports-and-ports                   |         3 |                         58 |            0 |                110 |
@@ -31,12 +31,12 @@ Nine barred cells record two fluoride operator restrictions, five ordinary local
 
 ### Unresearched availability by decision
 
-- `fuel-tax`: `AK, CO, CT, DE, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
-- `ev-registration`: `AK, AZ, CT, DE, FL, HI, IL, IN, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NY, ND, OH, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `fuel-tax`: `AK, CO, CT, DE, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `ev-registration`: `AK, AZ, CT, DE, ME, MA, MT, NE, NV, NH, NY, ND, OH, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `congestion-toll`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `speed-camera`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, MD, MA, MI, MN, MS, MO, MT, NE, NV, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SD, TN, VT, VA, WA, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `local-speed`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
-- `per-mile-charge`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `per-mile-charge`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `transit-sales-tax`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `transit-near-housing`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `transit-aid`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
@@ -145,3 +145,7 @@ This increment adds state-specific fuel-tax authority in Alabama,Arizona,Arkansa
 All56fuel-tax starting cells now record the place’s gasoline state-tax component from EIA’s archived January2026 sheet,revisedMarch2026. This does not establish total taxes,price effects or authority to change a law. Ten additional EV authority cells use own-state primary records. Kansas’s January2026 replacement category fee differs from an extra surcharge; Kentucky’s adjusted rate and Oklahoma’s combined collectible total stay unknown. Colorado’s test-domain adjustment table remains qualified. Root and sole-helper evidence are distinguished in the handback.
 
 [Archived EIA January2026 sheet](https://www.eia.gov/petroleum/marketing/monthly/archive/2026/2026_03/xls/fueltaxes.xlsx). EV source IDs and direct primary links are retained in the JSON; no game code changed.
+
+## Further own-state EV authority
+
+Nine additional EV-treatment cells and Hawaii’s limited per-mile route use their own state sources. Florida statutory parity is a sourced absence of an extra license-tax increment,not a grant to any local government. Massachusetts’s cutoff absence remains unknown. Minnesota formulas retain MSRP/age floors; Hawaii avoids adding its replacement charge twice; Missouri retains decal collection. Maryland and Mississippi amounts stay qualified. Michigan Treasury separately establishes its January2026fuel-rate amendment.

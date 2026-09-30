@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 183 have source references and 1,665 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 194 have source references and 1,654 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -80,7 +80,7 @@ Inspected main: `31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4`. Team 1 owns `data/re
 
 ### Starting law in every place
 
-Each column refers to that decision’s January 2026 starting-law entry. `U` means unresearched, never no law or permission. `F` means a source-backed in-force entry with its scope below. This table enumerates all 56 places; the JSON retains each cell’s detail and source IDs.
+Each column refers to that decision’s January 2026 starting-law entry. `U` means unresearched, never no law or permission. `F` means a source-backed in-force entry with its scope below;`N` means a sourced not-in-force entry,with ordinary fees and other rules still separate. This table enumerates all 56 places; the JSON retains each cell’s detail and source IDs.
 
 | Place | Fuel tax | EV registration | Congestion toll | Airport wage | Fluoride | Broadband grants |
 | ----- | -------- | --------------- | --------------- | ------------ | -------- | ---------------- |
@@ -92,23 +92,23 @@ Each column refers to that decision’s January 2026 starting-law entry. `U` mea
 | CO    | F        | F               | U               | U            | U        | U                |
 | CT    | F        | U               | U               | U            | U        | U                |
 | DE    | F        | U               | U               | U            | U        | U                |
-| FL    | F        | U               | U               | U            | F        | U                |
+| FL    | F        | N               | U               | U            | F        | U                |
 | GA    | F        | F               | U               | U            | U        | U                |
-| HI    | F        | U               | U               | U            | U        | U                |
+| HI    | F        | F               | U               | U            | U        | U                |
 | ID    | F        | U               | U               | U            | U        | U                |
-| IL    | F        | U               | U               | U            | U        | U                |
-| IN    | F        | U               | U               | U            | U        | U                |
+| IL    | F        | F               | U               | U            | U        | U                |
+| IN    | F        | F               | U               | U            | U        | U                |
 | IA    | F        | F               | U               | U            | U        | U                |
 | KS    | F        | F               | U               | U            | U        | U                |
 | KY    | F        | F               | U               | U            | U        | U                |
 | LA    | F        | F               | U               | U            | U        | U                |
 | ME    | F        | U               | U               | U            | U        | U                |
-| MD    | F        | U               | U               | U            | U        | U                |
+| MD    | F        | F               | U               | U            | U        | U                |
 | MA    | F        | U               | U               | U            | U        | U                |
-| MI    | F        | U               | U               | U            | U        | U                |
-| MN    | F        | U               | U               | U            | U        | U                |
-| MS    | F        | U               | U               | U            | U        | U                |
-| MO    | F        | U               | U               | U            | U        | U                |
+| MI    | F        | F               | U               | U            | U        | U                |
+| MN    | F        | F               | U               | U            | U        | U                |
+| MS    | F        | F               | U               | U            | U        | U                |
+| MO    | F        | F               | U               | U            | U        | U                |
 | MT    | F        | U               | U               | U            | U        | U                |
 | NE    | F        | U               | U               | U            | U        | U                |
 | NV    | F        | U               | U               | U            | U        | U                |
@@ -162,3 +162,7 @@ Four fuel-tax authority cells now cite their own Alabama,Arizona,Arkansas and Fl
 The EIA archived workbook’s first sheet is January2026,revisedMarch2026. All56place fuel starting-law cells now record that place’s own gasoline state-tax component. This is a bounded baseline component,not an all-in fuel burden or a new local grant. Full indexing,exemptions and other taxes still need statutory records. [Archived EIA sheet](https://www.eia.gov/petroleum/marketing/monthly/archive/2026/2026_03/xls/fueltaxes.xlsx).
 
 Ten more EV authority cells cite own-state records. Seven passenger amounts are established. Colorado’s adjusted base requires a production-source check; Kentucky’s2026adjustment and Oklahoma’s combined collectible total remain unknown. Oklahoma’s2021component is recorded separately. Kansas category license fees must not be added as surcharges. Root independently read AL,AR,GA,IA,KS,KY,LA,NC primary texts and Oklahoma’s invalidation announcement; COandOKcurrent fee text remain helper-reported. Handoff remains held pending job13.
+
+## Further EV and road usage findings
+
+Nine more state EV-treatment authority cells and Hawaii’s per-mile route are admitted. Florida has explicit license-tax parity; Massachusetts’s complete January2026levy absence remains unknown. Minnesota’s2026charges are MSRP/age formulas with floors; Hawaii’s EV-only per-mile/flat charge replaces its former surcharge; Missouri uses a fuel decal. Maryland’s cutoff adjustment and Mississippi’s amount remain unknown. Root independently read Florida2025parity,Indiana dated fee chart,Minnesota enacted formula,Hawaii dated fact sheet,Missouri dated schedule and Michigan’s Treasury rate. Illinois,Maryland,Mississippi and Michigan EVfee detail remain helper-reported. No game code or integration authorization.
