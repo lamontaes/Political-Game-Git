@@ -33,6 +33,8 @@ import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { previewTimeCommand, submitTimeCommand } from "./time-command";
 import { observerPlace } from "./observer-world";
 import { activeOrganizationParticipationsAt } from "../simulation/life-queries";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { sittingLocalOfficers } from "../simulation/living-world/local-government-seats";
 import { personName } from "../simulation/people";
 
 function start(placeKey: string) {
@@ -189,10 +191,27 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
         expect(scene.caption).toContain("The discussion ended without a vote.");
       if (councilChair) expect(scene.actors[0]!.personId).toBe(councilChair);
       expect(scene.agendaText).toContain("one extra evening each week");
-      expect(scene.actors).toHaveLength(3);
-      expect(scene.actors.slice(1).every((actor) => actor.spokenLine)).toBe(
-        true,
+      const units = homeLocalGovernmentUnits(completed, personId);
+      const unit = [
+        ...units.municipal,
+        ...units.townships,
+        ...units.counties,
+      ].find((candidate) =>
+        sittingLocalOfficers(completed, candidate).some(
+          (seat) => seat.personId === councilChair,
+        ),
       );
+      const officerIds = unit
+        ? sittingLocalOfficers(completed, unit)
+            .map((seat) => seat.personId)
+            .filter((id) => id !== personId)
+        : [];
+      expect(scene.actors.map((actor) => actor.personId).sort()).toEqual(
+        [...new Set(officerIds)].sort(),
+      );
+      expect(
+        scene.actors.slice(1).every((actor) => actor.spokenLine === null),
+      ).toBe(true);
       expect(
         recorded.people[scene.actors[0]!.personId]!.homeJurisdictionId,
       ).toBe(activity.location.jurisdictionId);
@@ -288,7 +307,7 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
   // Places drawn by the watched-run rule: Hammond, Indiana and Tafuna,
   // American Samoa.
   it.each(["build-25:meeting:1", "build-25:meeting:2"])(
-    "seats neighbors who belong most at the meeting in a watched place (%s)",
+    "records the seated council at the meeting in a watched place (%s)",
     (seed) => {
       const place = observerPlace(seed);
       const { world, personId, activity } = start(place.key);
@@ -326,10 +345,30 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       expect(recorded.personOrder).toEqual(completed.personOrder);
       for (const actor of scene.actors)
         expect(completed.people[actor.personId]!.homeJurisdictionId).toBe(town);
-      const speakers = scene.actors
-        .slice(1)
-        .map((actor) => belongs(actor.personId));
-      expect([...speakers].sort((a, b) => b - a)).toEqual(speakers);
+      const units = homeLocalGovernmentUnits(completed, personId);
+      const chairId = scene.actors[0]!.personId;
+      const unit = [
+        ...units.municipal,
+        ...units.townships,
+        ...units.counties,
+      ].find((candidate) =>
+        sittingLocalOfficers(completed, candidate).some(
+          (seat) => seat.personId === chairId,
+        ),
+      );
+      const officers = unit ? sittingLocalOfficers(completed, unit) : [];
+      expect(scene.actors.map((actor) => actor.personId).sort()).toEqual(
+        [
+          ...new Set(
+            officers
+              .map((seat) => seat.personId)
+              .filter((id) => id !== personId),
+          ),
+        ].sort(),
+      );
+      expect(scene.actors.every((actor) => actor.spokenLine === null)).toBe(
+        true,
+      );
     },
   );
 
