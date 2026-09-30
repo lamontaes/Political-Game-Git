@@ -44,12 +44,50 @@ import {
 } from "./income-tax-withholding";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import { SeededRng } from "./rng";
+import { lawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
 import type { EntityId, IsoDate, World } from "./types";
 
 export const ADOPT_STATE_INCOME_TAX_QUESTION =
   "us-policy-positions:fiscal.adopt-income-tax";
 export const GRADUATED_STATE_INCOME_TAX_QUESTION =
   "us-policy-positions:fiscal.graduated-income-tax";
+
+/** The same tax-year law selection as the schedule, on a saved assessment. */
+export function stateIncomeTaxEffectStamps(
+  world: World,
+  stateKey: string,
+  paidAt: IsoDate,
+  lawMeasureIds: readonly EntityId[],
+  sourceRecordIds: readonly EntityId[],
+): readonly LawEffectStamp[] {
+  const state = chiefExecutiveJurisdiction(stateKey.slice(3));
+  if (!state) return [];
+  const taxYearStart = `${paidAt.slice(0, 4)}-01-01` as IsoDate;
+  return [
+    ADOPT_STATE_INCOME_TAX_QUESTION,
+    GRADUATED_STATE_INCOME_TAX_QUESTION,
+  ].flatMap((questionKey) => {
+    const proposition = Object.values(
+      world.policyCatalog?.propositions ?? {},
+    ).find((definition) => definition.stableKey === questionKey);
+    const law = proposition
+      ? lawInForce(world, state.id, proposition.id, taxYearStart)
+      : null;
+    if (
+      !law ||
+      (lawMeasureIds.length > 0 && !lawMeasureIds.includes(law.measureId))
+    )
+      return [];
+    const stamp = lawEffectStamp(law, {
+      effectKind: "state-income-tax-assessment",
+      questionKey,
+      jurisdictionId: state.id,
+      appliedAt: paidAt,
+      sourceRecordIds,
+    });
+    return stamp ? [stamp] : [];
+  });
+}
 
 type TaxShape = "flat" | "graduated";
 
