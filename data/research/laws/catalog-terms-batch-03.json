@@ -1,0 +1,778 @@
+{
+  "batch": "coordinator-terms-03",
+  "status": "parameter-declarations-with-explicit-research-gaps",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+      "parameters": [
+        {
+          "key": "cap",
+          "unit": "usd-per-award",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "disclosure",
+          "unit": "required-award-disclosures",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for disclosure; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": null,
+        "status": "missing-starting-row-research-required",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "parameters": [
+        {
+          "key": "authorized",
+          "unit": "yes-or-no",
+          "selectableRange": {
+            "values": ["yes", "no"]
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-localities",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:labor-workforce.local-minimum-wage-authority",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "parameters": [
+        {
+          "key": "duration",
+          "unit": "weeks-of-paid-leave",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for duration; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "replacement",
+          "unit": "share-of-covered-weekly-wages",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for replacement; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:labor-workforce.paid-family-leave",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "parameters": [
+        {
+          "key": "authorized",
+          "unit": "yes-or-no",
+          "selectableRange": {
+            "values": ["yes", "no"]
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-public-employee-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+      "parameters": [
+        {
+          "key": "fee-prohibition",
+          "unit": "yes-or-no",
+          "selectableRange": {
+            "values": ["yes", "no"]
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-employment-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:labor-workforce.right-to-work",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "parameters": [
+        {
+          "key": "price",
+          "unit": "usd-per-tonne-co2-equivalent",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for price; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-emissions",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:environment-energy.price-carbon",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "parameters": [
+        {
+          "key": "prohibited",
+          "unit": "yes-or-no",
+          "selectableRange": {
+            "values": ["yes", "no"]
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-new-building-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:environment-energy.ban-new-gas-hookups",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "parameters": [
+        {
+          "key": "risk-threshold",
+          "unit": "flood-risk-classification",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for risk-threshold; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-development-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": null,
+        "status": "missing-starting-row-research-required",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "parameters": [
+        {
+          "key": "deposit",
+          "unit": "usd-per-container",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for deposit; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-container-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:environment-energy.bottle-deposit",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "parameters": [
+        {
+          "key": "cap",
+          "unit": "water-volume-per-permit-period",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-aquifers-and-users",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "parameters": [
+        {
+          "key": "appropriation",
+          "unit": "usd-per-budget-year",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "eligible-parcels-and-easements",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+      "parameters": [
+        {
+          "key": "access",
+          "unit": "permitted-recreation-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for access; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-public-parcels",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": null,
+        "status": "missing-starting-row-research-required",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "parameters": [
+        {
+          "key": "protected-grounds",
+          "unit": "protected-characteristic-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for protected-grounds; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-housing-and-employment",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+      "parameters": [
+        {
+          "key": "floor",
+          "unit": "annual-usd-per-library-service-population",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for floor; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "eligible-public-library-systems",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": null,
+        "status": "missing-starting-row-research-required",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+      "parameters": [
+        {
+          "key": "authority",
+          "unit": "collection-decision-body",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for authority; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-library-systems",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": null,
+        "status": "missing-starting-row-research-required",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "parameters": [
+        {
+          "key": "share",
+          "unit": "share-of-designated-revenue",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for share; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "eligible-parks-and-recreation-programs",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:civil-family-community.dedicated-parks-funding",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "parameters": [
+        {
+          "key": "rights",
+          "unit": "covered-consumer-data-rights",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for rights; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-data-and-businesses",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:technology-privacy.consumer-data-privacy-law",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "parameters": [
+        {
+          "key": "restrictions",
+          "unit": "permitted-and-prohibited-use-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for restrictions; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-government-agencies",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "parameters": [
+        {
+          "key": "minimum-age",
+          "unit": "years-of-age",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for minimum-age; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-platform-and-user-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": "questions.us-policy-positions:technology-privacy.age-verification-for-social-media",
+        "status": "present",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "parameters": [
+        {
+          "key": "protected-grounds",
+          "unit": "protected-characteristic-categories",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for protected-grounds; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-local-housing-and-employment",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": null,
+        "status": "missing-starting-row-research-required",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    }
+  ]
+}
