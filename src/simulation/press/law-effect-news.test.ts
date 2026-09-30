@@ -595,7 +595,11 @@ describe("actual stamped coverage reaches resident news", () => {
       )!;
       expect(proposition).toBeDefined();
       const fixtureLaw = ordinance(
-        state.id, "coverage-news", "yes", date, base.history.nextSequence,
+        state.id,
+        "coverage-news",
+        "yes",
+        date,
+        base.history.nextSequence,
       );
       const law = {
         ...fixtureLaw,
@@ -612,16 +616,18 @@ describe("actual stamped coverage reaches resident news", () => {
           ],
         },
       };
-      const governingLawKey = origin === "enacted"
-        ? law.measure.id
-        : `starting-law:US-NV:${questionKey}` as EntityId;
+      const governingLawKey =
+        origin === "enacted"
+          ? law.measure.id
+          : (`starting-law:US-NV:${questionKey}` as EntityId);
       let world: World = {
         ...base,
         policyCatalog: catalog,
         jurisdictions: { ...base.jurisdictions, [state.id]: state },
         history: {
           ...base.history,
-          nextSequence: base.history.nextSequence + (origin === "enacted" ? 2 : 0),
+          nextSequence:
+            base.history.nextSequence + (origin === "enacted" ? 2 : 0),
           legislativeMeasures: origin === "enacted" ? [law.measure] : [],
           legislativeEnactments: origin === "enacted" ? [law.enactment] : [],
         },
@@ -691,9 +697,11 @@ describe("actual stamped coverage reaches resident news", () => {
       expect(both[1]!.summary).toContain("coverage ended for 1 resident");
       coverage(true, "coverage-restored");
       world = reportLawEffects(world, 0);
-      expect(world.history.events.filter((event) =>
-        event.tags.includes("law-effect:reach:health-coverage"),
-      )).toHaveLength(3);
+      expect(
+        world.history.events.filter((event) =>
+          event.tags.includes("law-effect:reach:health-coverage"),
+        ),
+      ).toHaveLength(3);
       coverage(false, "unstamped", false);
       expect(reportLawEffects(world, 0)).toBe(world);
     },
