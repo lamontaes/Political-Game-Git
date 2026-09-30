@@ -1,0 +1,356 @@
+{
+  "status": "completed-year",
+  "seed": "team2-law-proof-20260930-a",
+  "place": "Cedar Hills, Utah",
+  "placeKey": "4911440",
+  "sourceHead": "aa6575a9b03175e46b342d35cdffcea72543c958",
+  "sourceDirty": false,
+  "collectorHead": "01b41ffa9d8418fe1df8b70374e23f1cd8b38443:system-only-path-adapter+dated-checkpoints",
+  "collectorDirty": false,
+  "days": 365,
+  "requestedYears": 1,
+  "openingMs": 2459.2862219999997,
+  "elapsedMs": 553840.5640349999,
+  "save": {
+    "saveMs": 82180.94393100002,
+    "saveCpuMs": 85269.453,
+    "reopenMs": 74663.56510200002,
+    "reopenCpuMs": 79479.06,
+    "saveBytes": 23,
+    "reopenedMatches": true
+  },
+  "problem": null,
+  "targetDate": "2027-01-05",
+  "period": {
+    "from": "2026-01-05",
+    "through": "2027-01-05",
+    "openingSequence": 44573
+  },
+  "counts": {
+    "filings": 3,
+    "evictions": 2,
+    "noFixedHomeDestinations": 2,
+    "hostAnswers": 0,
+    "formerHomeReturns": 0,
+    "open": 1
+  },
+  "cases": [
+    {
+      "filingId": "event_6797ce4508df4c9a",
+      "leaseFlowId": "resource-flow_562b0ea4f1e27e00",
+      "filedOn": "2026-07-01",
+      "jurisdictionId": "jurisdiction_4755d93317a19092",
+      "filingReason": "Amanda Liu filed to evict the Carlson household for $3,473 in unpaid rent.",
+      "people": [
+        {
+          "id": "person_14c18c4167c81702",
+          "name": "Deborah Carlson"
+        },
+        {
+          "id": "person_14c18d4167c818b5",
+          "name": "David Carlson"
+        }
+      ],
+      "landlord": {
+        "kind": "person",
+        "personId": "person_44f9353522a1b2a3",
+        "label": "Amanda Liu"
+      },
+      "resolutionId": "event_1f90df492f3953df",
+      "outcome": "housing.evicted",
+      "resolvedOn": "2026-08-01",
+      "reason": "The Carlson household was evicted from their 2-bedroom home for $4,789 in unpaid rent: Judge Christian McDaniel ruled for the landlord.",
+      "immediateDestination": [],
+      "laterDestination": null,
+      "evictedFrom": "dwelling_1c79cadea3fe2241",
+      "returnedToEvictedHome": false,
+      "caseProjectionAvailable": true,
+      "publicCourtRecordId": "event_faf1a6ec0eb9d726",
+      "linkedHousingRecords": [
+        {
+          "id": "event_87df9853fd581675",
+          "stableKey": "town-rent-v1:lease:housing-tenure_f1bf42a74ad9f4d7:person_14c18d4167c818b5:housing.evicted:2026-08-01:destination",
+          "sequence": 325247,
+          "type": "housing.eviction-destination",
+          "occurredAt": "2026-08-01",
+          "recordedAt": "2026-08-01",
+          "jurisdictionId": "jurisdiction_4755d93317a19092",
+          "involvedEntityIds": [
+            "dwelling_1c79cadea3fe2241",
+            "household_078485f4aa020dc2",
+            "person_14c18c4167c81702",
+            "person_14c18d4167c818b5"
+          ],
+          "participants": [
+            {
+              "personId": "person_14c18c4167c81702",
+              "role": "focus:subject",
+              "detail": "The Carlson household was evicted from their 2-bedroom home for $4,789 in unpaid rent: Judge Christian McDaniel ruled for the landlord."
+            },
+            {
+              "personId": "person_14c18d4167c818b5",
+              "role": "focus:subject",
+              "detail": "The Carlson household was evicted from their 2-bedroom home for $4,789 in unpaid rent: Judge Christian McDaniel ruled for the landlord."
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "eviction:former-home:dwelling_1c79cadea3fe2241",
+            "eviction:order:event_1f90df492f3953df",
+            "housing:destination-cost-unavailable",
+            "housing:no-fixed-home",
+            "life.home"
+          ],
+          "summary": "Carlson household had no fixed home after the eviction.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "formerHomeReturns": [],
+      "costs": null,
+      "costEvidence": "No linked court or moving-cost transaction contract in the inspected rent records. Unpaid rent in the reason is debt, not case cost."
+    },
+    {
+      "filingId": "event_9114738dcb4f3350",
+      "leaseFlowId": "resource-flow_6f4bc1a7d9c8f290",
+      "filedOn": "2026-12-01",
+      "jurisdictionId": "jurisdiction_4755d93317a19092",
+      "filingReason": "Thomas Goodwin filed to evict the Gonzalez household for $6,313 in unpaid rent.",
+      "people": [
+        {
+          "id": "person_fbcaf1aee5cbd612",
+          "name": "Brandon Gonzalez"
+        },
+        {
+          "id": "person_fbcaf2aee5cbd7c5",
+          "name": "Bo Gonzalez"
+        }
+      ],
+      "landlord": {
+        "kind": "person",
+        "personId": "person_7d899806072b2783",
+        "label": "Thomas Goodwin"
+      },
+      "resolutionId": "event_22513d3d964cc4a9",
+      "outcome": "housing.evicted",
+      "resolvedOn": "2027-01-01",
+      "reason": "The Gonzalez household was evicted from their 3-bedroom home for $8,991 in unpaid rent: Judge Christian McDaniel ruled for the landlord.",
+      "immediateDestination": [],
+      "laterDestination": null,
+      "evictedFrom": "dwelling_152cd0d8e725b8cb",
+      "returnedToEvictedHome": false,
+      "caseProjectionAvailable": true,
+      "publicCourtRecordId": "event_a996452da3f317b0",
+      "linkedHousingRecords": [
+        {
+          "id": "event_1dcb268f5804ac03",
+          "stableKey": "town-rent-v1:lease:housing-tenure_494dc5f4c76734b1:person_fbcaf2aee5cbd7c5:housing.evicted:2027-01-01:destination",
+          "sequence": 404802,
+          "type": "housing.eviction-destination",
+          "occurredAt": "2027-01-01",
+          "recordedAt": "2027-01-01",
+          "jurisdictionId": "jurisdiction_4755d93317a19092",
+          "involvedEntityIds": [
+            "dwelling_152cd0d8e725b8cb",
+            "household_e1a81c8a353ff51f",
+            "person_fbcaf1aee5cbd612",
+            "person_fbcaf2aee5cbd7c5"
+          ],
+          "participants": [
+            {
+              "personId": "person_fbcaf1aee5cbd612",
+              "role": "focus:subject",
+              "detail": "The Gonzalez household was evicted from their 3-bedroom home for $8,991 in unpaid rent: Judge Christian McDaniel ruled for the landlord."
+            },
+            {
+              "personId": "person_fbcaf2aee5cbd7c5",
+              "role": "focus:subject",
+              "detail": "The Gonzalez household was evicted from their 3-bedroom home for $8,991 in unpaid rent: Judge Christian McDaniel ruled for the landlord."
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "eviction:former-home:dwelling_152cd0d8e725b8cb",
+            "eviction:order:event_22513d3d964cc4a9",
+            "housing:destination-cost-unavailable",
+            "housing:no-fixed-home",
+            "life.home"
+          ],
+          "summary": "Gonzalez household had no fixed home after the eviction.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "formerHomeReturns": [],
+      "costs": null,
+      "costEvidence": "No linked court or moving-cost transaction contract in the inspected rent records. Unpaid rent in the reason is debt, not case cost."
+    },
+    {
+      "filingId": "event_a91e144c8ab6682c",
+      "leaseFlowId": "resource-flow_118bfa3bdd2c72f3",
+      "filedOn": "2027-01-01",
+      "jurisdictionId": "jurisdiction_4755d93317a19092",
+      "filingReason": "Norris Real Estate filed to evict the Spence household for $3,402 in unpaid rent.",
+      "people": [
+        {
+          "id": "person_3c57d785c57ed280",
+          "name": "Amanda Spence"
+        },
+        {
+          "id": "person_3c57d885c57ed433",
+          "name": "Jason Spence"
+        }
+      ],
+      "landlord": {
+        "kind": "organization",
+        "organizationId": "organization_309799f7edefbbd3",
+        "label": "Norris Real Estate"
+      },
+      "resolutionId": null,
+      "outcome": "open",
+      "resolvedOn": null,
+      "reason": null,
+      "immediateDestination": null,
+      "laterDestination": null,
+      "evictedFrom": "dwelling_5a4b9fca34231d0e",
+      "returnedToEvictedHome": false,
+      "caseProjectionAvailable": true,
+      "publicCourtRecordId": null,
+      "linkedHousingRecords": [],
+      "formerHomeReturns": [],
+      "costs": null,
+      "costEvidence": "No linked court or moving-cost transaction contract in the inspected rent records. Unpaid rent in the reason is debt, not case cost."
+    }
+  ],
+  "baseline": {
+    "sourceHead": "3ffad216e1c567eb3f396b65e1b40cd7665e6b52",
+    "counts": {
+      "filings": 4,
+      "evictions": 3,
+      "formerHomeReturns": 1
+    },
+    "priorFailureCase": {
+      "filingId": "event_58d058d9eac51213",
+      "leaseFlowId": "resource-flow_c6381bd36214fa6b",
+      "filedOn": "2026-12-01",
+      "jurisdictionId": "jurisdiction_4755d93317a19092",
+      "filingReason": "Norris Real Estate filed to evict the Carlson household for $3,205 in unpaid rent.",
+      "people": [
+        {
+          "id": "person_14c18c4167c81702",
+          "name": "Deborah Carlson"
+        },
+        {
+          "id": "person_14c18d4167c818b5",
+          "name": "David Carlson"
+        }
+      ],
+      "landlord": {
+        "kind": "organization",
+        "organizationId": "organization_309799f7edefbbd3",
+        "label": "Norris Real Estate"
+      },
+      "resolutionId": "event_51906a25e30cbfd4",
+      "outcome": "housing.evicted",
+      "resolvedOn": "2027-01-01",
+      "reason": "The Carlson household was evicted from their 2-bedroom home for $4,807 in unpaid rent: Judge Christian McDaniel ruled for the landlord.",
+      "immediateDestination": [],
+      "laterDestination": [
+        {
+          "occupancyId": "dwelling-occupancy_2364643ff7231484",
+          "dwellingId": "dwelling_975e0a35ec698e8c",
+          "startedAt": "2027-01-04",
+          "kind": "residence:rented-home",
+          "location": "An apartment in Cedar Hills, Utah",
+          "jurisdictionId": "jurisdiction_4755d93317a19092"
+        }
+      ],
+      "evictedFrom": "dwelling_975e0a35ec698e8c",
+      "returnedToEvictedHome": true,
+      "caseProjectionAvailable": true,
+      "publicCourtRecordId": "event_c8788076d8f135a5",
+      "linkedHousingRecords": [
+        {
+          "id": "event_70baa1b2e3f9e6ee",
+          "stableKey": "town-rent-v1:lease:housing-tenure_fed8a7c313b73bd6:person_14c18d4167c818b5:housing.evicted:2027-01-01:destination",
+          "sequence": 404824,
+          "type": "housing.eviction-destination",
+          "occurredAt": "2027-01-01",
+          "recordedAt": "2027-01-01",
+          "jurisdictionId": "jurisdiction_4755d93317a19092",
+          "involvedEntityIds": [
+            "dwelling_975e0a35ec698e8c",
+            "household_078485f4aa020dc2",
+            "person_14c18c4167c81702",
+            "person_14c18d4167c818b5"
+          ],
+          "participants": [
+            {
+              "personId": "person_14c18c4167c81702",
+              "role": "focus:subject",
+              "detail": "The Carlson household was evicted from their 2-bedroom home for $4,807 in unpaid rent: Judge Christian McDaniel ruled for the landlord."
+            },
+            {
+              "personId": "person_14c18d4167c818b5",
+              "role": "focus:subject",
+              "detail": "The Carlson household was evicted from their 2-bedroom home for $4,807 in unpaid rent: Judge Christian McDaniel ruled for the landlord."
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "eviction:former-home:dwelling_975e0a35ec698e8c",
+            "eviction:order:event_51906a25e30cbfd4",
+            "housing:destination-cost-unavailable",
+            "housing:no-fixed-home",
+            "life.home"
+          ],
+          "summary": "Carlson household had no fixed home after the eviction.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "formerHomeReturns": [
+        {
+          "occupancyId": "dwelling-occupancy_2364643ff7231484",
+          "stateId": "dwelling-occupancy-state_d1d784bfb83c0a75",
+          "effectiveAt": "2027-01-04",
+          "kind": "residence:rented-home"
+        }
+      ],
+      "costs": null,
+      "costEvidence": "No linked court or moving-cost transaction contract in the inspected rent records. Unpaid rent in the reason is debt, not case cost."
+    },
+    "priorFailingOrderReproduced": false
+  },
+  "canonicalWorldBytes": 297356093,
+  "rejectedSaveBytesCounter": 23,
+  "collectorManifest": {
+    "sourceCommit": "01b41ffa9d8418fe1df8b70374e23f1cd8b38443",
+    "description": "Existing system-only runner adapter plus read-only dated partial checkpoints; no simulation copy or mutation",
+    "sha256": {
+      "run.ts": "27fba38a972314b95e50d5c258dc37ba6f23ac66a8731c00a9453fc918e8521e",
+      "systems.ts": "20a8c750858214591cc9f296635fded7a38bab2109f8974fc007f3085a63f5a5"
+    }
+  }
+}
