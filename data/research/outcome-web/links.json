@@ -124,10 +124,9 @@
       "to": "crime.violent",
       "strength": "moderate",
       "shape": {
-        "kind": "diminishing",
-        "scale": 1.0
+        "kind": "elasticity"
       },
-      "size": null,
+      "size": -0.34,
       "per": "1% more officers: -0.34% violent crime",
       "lagMonths": 0,
       "group": "place",
@@ -142,20 +141,21 @@
         "normal95Interval": [-0.536, -0.144],
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
-        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "blocked-runtime-unit-conversion",
-        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
-      }
+        "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+        "status": "shape-connected-cause-reader-missing",
+        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+      },
+      "range": [-0.536, -0.144],
+      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
     },
     {
       "key": "police-to-property-crime",
       "to": "crime.property",
       "strength": "moderate",
       "shape": {
-        "kind": "diminishing",
-        "scale": 1.0
+        "kind": "elasticity"
       },
-      "size": null,
+      "size": -0.17,
       "per": "1% more officers: -0.17% property crime",
       "lagMonths": 0,
       "group": "place",
@@ -170,10 +170,12 @@
         "normal95Interval": [-0.3464, 0.0064],
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
-        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "blocked-runtime-unit-conversion",
-        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
-      }
+        "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+        "status": "shape-connected-cause-reader-missing",
+        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+      },
+      "range": [-0.3464, 0.0064],
+      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
     },
     {
       "key": "police-to-low-level-arrests",
@@ -336,17 +338,17 @@
         "Legal rule: statutory protection for qualifying public-place self-defense; physical fact: lethal force can kill. Actual behavioral mediation is not identified by this study."
       ],
       "conditions": {
-        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%–33.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
+        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%\u201333.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
         "rangeMeaning": "[0.03,0.13] is the published95%interval around the pooled firearm-homicide rate ratio minus1. It is not a distribution of local effects, not a bound on every state, and not a territory transport estimate.",
         "transportMissing": "Numerical firearm-only state-specific estimates and their intervals fromFigure3/supplement, plus evidence for later-adopting and excluded places. No universal state-specific effect is claimed.",
         "mediationLimit": "The legal treatment and aggregate association are measured in the paper. The psychological pathway is an authors-discussed hypothesis, not measured person-level mediation or proof of a particular encounter."
       },
       "reverseOnRepeal": {
         "answer": "Not established.",
-        "reason": "The treatment analyzed is adoption during2000–2016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
+        "reason": "The treatment analyzed is adoption during2000\u20132016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
       },
       "who": {
-        "studyPopulation": "Forty-one US states during1999–2017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
+        "studyPopulation": "Forty-one US states during1999\u20132017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
         "exclusions": "Nine states excluded:Utah/Iowa lacked sufficient timing/data;seven had case-law stand-your-ground principles, contaminating comparison. No territory, county-specific, township-specific or individual exposed-defendant estimate.",
         "legalCoverage": "People in qualifying public-place self-defense encounters under operative law; the study definition is not a grant of authority to local governments or proof every homicide involved a self-defense claim."
       },
