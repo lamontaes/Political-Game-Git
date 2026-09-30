@@ -12,7 +12,7 @@ The dependency is Team8's approved resolver at `98b333c9e19448f76267ec2fefc4026b
 
 ## 3. Revisions
 
-The day selects canonical activity, current opening-event, or household IDs. A place label never establishes attendance. The new roster excludes expected people and returns no panel without a resolved present roster. Existing meeting rendering handles its own filtered roster, avoiding a second meeting list.
+The day selects canonical activity, current opening-event, workplace, or household IDs. A recorded work arrival selects an active employment relationship and its organization and jurisdiction. Missing canonical IDs leave the request absent. The workplace resolver still reports expectations only; no present roster is invented. A place label never establishes attendance. The new roster excludes expected people and returns no panel without a resolved present roster. Existing meeting rendering handles its own filtered roster, avoiding a second meeting list.
 
 The existing speech labels and words are retained. Full option records include evidence, snapshot, intent, hearing, listeners, and words. A changed request or snapshot rejects an old offer. The entry writer keeps its existing reader because the resolver offers no entry option; its runner also rejects a changed snapshot.
 
@@ -37,13 +37,15 @@ CHECKS: React roster output, nonmutation, invitation without choices, canonical 
 
 Executed: nine day-mount cases passed across Dyer, Nevada; Lunenburg, Massachusetts; and Picuris Pueblo, New Mexico, in 44.21 seconds. The third is selected only from places with no municipality/township and a recorded county government in the place catalog. Each checks React roster output, invitation expectations, and entered-meeting speech/revalidation. This selection does not certify tribal or county legal authority.
 
+After the dependency landed, the repaired caller passed twelve cases in 47.35 seconds on current main. Three added cases select recorded workplace IDs while keeping the expected-only roster out of the panel. Explicit nullable-ID guards repaired four new type diagnostics; the final strict check reported zero diagnostics and changed-path lint passed. The existing visibility guard remains unchanged relative to main.
+
 Selection seed: `team5-day-mount:places`. World seeds use the prefix team5-day-mount and the place key: 3220700, 2537385, or 3556810.
 
 The entered-meeting fixtures explicitly add a recorded chair to the original known notice. They do not claim generated meetings naturally supplied that chair. Original notice IDs, dates, and source order remain unchanged. The actual existing entry/speech writers then run.
 
 Earlier combined adapter/resolver/day run passed 25 cases, but its first place selection repeated Lexington. It did not satisfy three distinct places. The corrected nine-case run above does. Six adapter and ten resolver tests from that combined run remain valid receipts for unchanged files. Strict types returned zero diagnostics over changed source/tests and the full PlayerGame import graph. Scoped ESLint passed.
 
-Browser interaction, visual acceptance, full suite, first-morning work placement, and a saved-player action-runner click were NOT RUN. React output and canonical writer checks do not establish those results.
+Browser interaction, visual acceptance, full suite, first-morning placement through a player click, and a saved-player action-runner click were NOT RUN. React output and canonical writer checks do not establish those results.
 
 ## 7. Worked example
 
@@ -53,6 +55,6 @@ No dollar or month-by-month outcome follows from this display adapter. The next 
 
 ## Method and exact scope
 
-This replaces the unmounted adapter draft1201; its branch and tested source remain preserved. The new piece is based on approved resolver98b333c9e19448f76267ec2fefc4026b60c33b6b and changes no resolver files. Until that dependency lands, the pull request is stacked on its branch.
+This replaces the unmounted adapter draft1201; its branch and tested source remain preserved. The new piece is based on approved resolver98b333c9e19448f76267ec2fefc4026b60c33b6b and changes no resolver files. The dependency has landed and the pull request now targets main. Retargeting exposed the already landed visibility guard; the repair retains that guard and adds only the day import and sibling mount.
 
 Existing hunks: OrdinaryMeetingPanel imports, projection, entry callback, speech callback; PlayerGame one import and one sibling mount beside the existing meeting panel. New files: story-scene-day projection/test, StorySceneDayPanel, and the preserved player-options adapter/test. Two dedicated documentation files complete the piece. No opening card, life-so-far wording, actor art, authority/effects map, simulation writer, or central claims edit.

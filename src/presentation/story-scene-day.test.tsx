@@ -1,6 +1,12 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
-import { serializeWorld, type EntityId, type World } from "../simulation";
+import {
+  activeWorkRelationshipsAt,
+  recordWorldEvent,
+  serializeWorld,
+  type EntityId,
+  type World,
+} from "../simulation";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -92,6 +98,63 @@ describe.each(selected)(
         scene.presentPeople.find((person) => person.personId === viewer)!.name,
       );
       expect(serializeWorld(world)).toBe(before);
+    });
+
+    it("selects a recorded work arrival without inferring a coworker roster", () => {
+      const job = activeWorkRelationshipsAt(world, viewer)[0]!;
+      expect(job).toBeDefined();
+      const organizationId = job.relationship.organizationId;
+      if (!organizationId)
+        throw new Error("Fixture employment has no organization");
+      const arrived = recordWorldEvent(world, {
+        stableKey: `day-mount:work-arrival:${viewer}`,
+        type: "life.scene.arrived",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: job.role.locationJurisdictionId,
+        involvedEntityIds: [viewer, job.relationship.id, organizationId],
+        participants: [
+          {
+            personId: viewer,
+            role: "presence:participant",
+            detail: "Recorded fixture work arrival",
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["fixture:work-arrival"],
+        summary: "You are at your recorded workplace.",
+        context: {
+          location: {
+            jurisdictionId: job.role.locationJurisdictionId,
+            label: "Fixture employer",
+            setting: "work",
+          },
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      expect(currentStorySceneRequest(arrived, viewer)?.place).toMatchObject({
+        kind: "workplace",
+        organizationId: job.relationship.organizationId,
+        jurisdictionId: job.role.locationJurisdictionId,
+      });
+      const result = projectStorySceneDay(arrived, viewer)!;
+      expect(result.status).toBe("resolved");
+      expect(result.presentPeople).toEqual([]);
+      expect(result.options).toEqual([]);
+      expect(
+        renderToStaticMarkup(
+          <StorySceneDayPanel
+            world={arrived}
+            personId={viewer}
+            onOpenEntity={() => undefined}
+          />,
+        ),
+      ).toBe("");
     });
 
     it("keeps an invitation expected and shows no invited roster or choices", () => {

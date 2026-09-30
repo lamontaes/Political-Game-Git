@@ -1,8 +1,10 @@
 import {
+  activeWorkRelationshipsAt,
   householdMembershipsAt,
   type EntityId,
   type World,
 } from "../simulation";
+import { workSchedulesFor } from "../simulation/living-world/work-schedules";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import { completedActivityHere } from "./scene-venues";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
@@ -40,6 +42,33 @@ export function currentStorySceneRequest(
     )
     .at(-1);
   if (latest?.type === "life.scene.arrived") {
+    if (latest.context.location?.setting === "work") {
+      const work = activeWorkRelationshipsAt(world, viewerPersonId).find(
+        (job) =>
+          latest.involvedEntityIds.includes(job.relationship.id) &&
+          job.relationship.organizationId !== null &&
+          latest.involvedEntityIds.includes(job.relationship.organizationId) &&
+          job.role.locationJurisdictionId ===
+            latest.context.location?.jurisdictionId,
+      );
+      const schedule =
+        work &&
+        workSchedulesFor(world, viewerPersonId).find(
+          (entry) => entry.workRelationshipId === work.relationship.id,
+        );
+      const organizationId = work?.relationship.organizationId;
+      const jurisdictionId = work?.role.locationJurisdictionId;
+      if (!schedule || !organizationId || !jurisdictionId) return null;
+      return {
+        ...basis,
+        place: {
+          kind: "workplace",
+          organizationId,
+          jurisdictionId,
+          workPlaceCategory: schedule.place,
+        },
+      };
+    }
     const activity = world.history.scheduledActivities.find(
       (entry) =>
         entry.kind !== "travel" && latest.involvedEntityIds.includes(entry.id),
