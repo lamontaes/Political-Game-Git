@@ -80,6 +80,23 @@ describe("principles that form from a life", () => {
     ).toEqual([]);
   });
 
+  it("does not form views from a seated member's public party cues alone", () => {
+    const member = adults.find((id) =>
+      principlePullsOf(world, id).some((row) =>
+        row.because.startsWith("they serve under the "),
+      ),
+    );
+    expect(
+      member,
+      "a sitting member with recorded public party cues",
+    ).toBeDefined();
+    const cues = principlePullsOf(world, member!).filter((row) =>
+      row.because.startsWith("they serve under the "),
+    );
+    expect(cues.length).toBeGreaterThan(0);
+    expect(principlesFromPulls(world, member!, cues)).toEqual([]);
+  });
+
   it("holds a principle as firmly as the pulls add up, and is torn when pulled both ways", () => {
     const someone = adults[0]!;
     const held = (pulls: readonly PrinciplePull[]) =>

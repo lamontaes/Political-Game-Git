@@ -84,11 +84,11 @@ export interface PrinciplePull {
  * between Republicans and Democrats in the Pew Research Center's surveys of
  * values (Partisan divides over values, 2024; views of government's role,
  * 2023 and 2024). A principle the parties do not divide on is left out. For
- * someone who only leans toward a party it is one slight pull, so the label
- * alone never makes a principle (D-093: the party does not decide for its
- * members). For someone who carries the party's name in public life it
- * weighs strongly: people active in politics hold their side's principles far
- * more consistently and firmly than the public does.
+ * every person it is one slight pull, including a seated member or party
+ * officer. A public party cue alone never makes a principle (D-093: the
+ * party does not decide for its members; CTO, September 30, 3:05 a.m.).
+ * Greater consistency among politically active people is a population check,
+ * not evidence that the party label decided an individual's view.
  */
 const PARTY_CUES: Readonly<
   Record<
@@ -369,9 +369,8 @@ export function principlePullsOf(
               : `someone they talk to ${toward === "endorses" ? "holds" : "rejects"} it`,
         });
 
-  // Party: the principles their party stands for, as a cue. Someone who
-  // carries the party's name in public life, as a seated member or a party
-  // officer, takes that cue harder than someone who only leans that way.
+  // Party is one slight pull among life records. Public service under a
+  // party's name is not sufficient evidence to form its principles alone.
   const party = partyKey(world, personId);
   const publicLife = party !== null && carriesPartyName(world, personId);
   if (party)
@@ -379,7 +378,7 @@ export function principlePullsOf(
       pulls.push({
         principle,
         toward,
-        weight: publicLife ? 3 : 1,
+        weight: 1,
         because: publicLife
           ? `they serve under the ${party === "democratic" ? "Democrats'" : "Republicans'"} name, and the party stands for it`
           : `their party, the ${party === "democratic" ? "Democrats" : "Republicans"}, stands for it`,
