@@ -1,3 +1,23 @@
+## September 30, 1:30 active coordination
+
+Current CTO document: [00b](https://docs.google.com/document/d/1CdLLy4zFAmr0dmDNp9wEEemyA-fBdHthNCX4gZcv4R0/edit). Old 00 reached its size limit. All existing sessions and both coordinator automations now point to 00b.
+
+### MERGED
+Merge reports the full 92-law ideology stack landed through 1279, plus police elasticity 1277 and coverage news 1235. Actual police links remain inactive without a matching officer-count base. No full law completion follows from catalog coverage.
+
+### CONNECTIONS TABLE
+- Weighted catalog to votes: Team 2 reports 76 present-to-yea changes in 12,240 decisions, zero yea/nay reversals; Cameron Salas is the named example. Exact published receipt requested.
+- Federal wage to paid transfer: 1267 repaired at ab2a5e691f68a708dc9f49a8e2c8d7d651cfc83d, five payment tests pass; renewed approval pending.
+- Police links and unsupported zero removal: 1281 repaired at 0c683638d82108c220e70e389526b6d632200a12, every retained link and research contract preserved; renewal pending.
+- Paid leave to budget: Team 3 reports 19 preservation tests pass; its zero-sign fixture correction and partial-payment cases remain active. Team 8 needs only the disjoint age/cannabis repair hunks.
+- The design for capacity, trust and crowding is in effects-mechanism-design.md, for CTO review only. No code added.
+
+### BLOCKED
+Team 5 reports an exec handshake failure after publishing curriculum head7239906f5e5b141a2796e41d6000b8363a1afa64; library edits must be preserved on recovery. Team 4 needs sourced buyer/spending/legal-share inputs. Team 7 remains explicitly held on missing newspaper source/media and owner Firefly sign-in. Police state denominator remains a research dependency.
+
+### EFFECTS
+Drawn-level inventories identify privacy's expense-share draw, cannabis draw/fixed shortcut, parks per-resident draw, transit hourly-cost shortcut, defense fixed-growth shortcut and automatic drafting multipliers. Existing owners received mechanism rebuild instructions; precise compiler ownership is being reconciled. Full five-part completed laws remain unverified; no percentage estimated. National audit is all 56 jurisdictions, not five states.
+
 ## September 30, 1:15 active integration
 
 ### MERGED
