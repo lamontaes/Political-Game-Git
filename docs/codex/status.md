@@ -2,6 +2,28 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 8:00 a.m. check-in
+
+### MERGED
+Five further landings verified in the 7:55 live GitHub collection: #1209 state chamber people, #1211 school-history prose, #1210 opening work location, #1208 current scene presence and meeting revalidation, #1212 grandparent surnames. Main was 6bfc6f42719d36fdc74ca04c22004f8cba88a6bd. Browser acceptance was not performed by the coordinator.
+
+### CONNECTIONS TABLE
+
+| Connection | Current receipt | Action |
+| --- | --- | --- |
+| Sponsor terms → automatic filing | Team 2 compiler candidate 5ab3c57f1fa31fa26eacf7fa0a7c505b75adc3f4 reports 9 focused tests passed | Direct ordinary-state-service-cash failure routed to Teams 1/2; combined after-run waits for coherent repair |
+| Household identity → eviction exclusions | #1189 aa6575a9b03175e46b342d35cdffcea72543c958 verified published; team reports 11 eviction, 22 rent, 7 court tests passed | Exact Cedar Hills replay pin sent to Team 2; watched result pending behind bill pipeline |
+| Recorded scene → day and meetings | #1208 and #1210 landed | Team 5 source assignments complete; no browser or saved-player clicks claimed |
+| Real legislative setup → bounded holder fixture | Team 4 candidate a1e382b4a4b8b7de16c31868e51c38c53c01f073 reports full file 4/4 in 37.017 seconds | Publish bounded fixture repair; this does not prove production monthly speed or filing correctness |
+| School naming/history → opening prose | Team 8 reports five naming checks passed and publication in progress | Work-history reader next; no invented intervening employment |
+| Research → law terms | Team 6 #1133 e675f89c7af0dc674bea454d3179b1e955c14436; Team 9 #1188 ff3384b8d35fda5039e3ffc14c5a43f8fa0f1909 verified | Receiving-fund routing and numbering rules remain research gaps |
+
+### BLOCKED
+#1199 is still open at d1bd238454d9c3e05af13b0807075a92b71ac272 and needs renewed CTO approval. Merge reports 101 passing cases and one local-agenda failure reproduced on clean main. Compiler direct caller failure is unresolved; agenda batch ended at its 180-second bound, NO RESULT. #1174 remains no-retry after automatic approval-review rejection. Team 7 awaits owner candidate review. No new Team 1 exact sponsor-repair head was available at this checkpoint; requested directly.
+
+### EFFECTS
+No new watched bill/person-money result. Team 4's baseline ended at 900.013 seconds without completion; candidate 37.017 seconds is team-reported fixture evidence with assertions/timeouts retained. Team 7 reports newspaper packet/render integrity, not producer causality or pixel approval. Team 5's landed source connections are distinguished from executed browser acceptance. All reported checks retain their named heads.
+
 ## September 30, 7:30 a.m. check-in
 
 ### MERGED

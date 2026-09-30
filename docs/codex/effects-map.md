@@ -610,3 +610,7 @@ Team 9 receives these exact keys for primary-source size/range/unit/lag research
 ## September 30, 7:30 terms producer finding
 
 Team 2's published Floral inventory at 054f09153287308e33c217a10f238393df0c7e69 accounts for 56 enactments: 41 state fallback filings, 11 council bypasses, one local fallback, two authored scenarios and one typed bill. Team 1 reports no observed terms loss at enactment. The immediate broken connection is filing to typed operative terms. Team 1 owns the largest producer repair; Team 2 owns the released compiler-selection hunks. Same-seed after-run and a named-person effect are pending. This does not establish that every catalog effect is absent.
+
+## September 30, 8:00 connection update
+
+The scene resolver now has a landed day/meeting consumer in #1208; opening work location is landed in #1210. Source tests do not establish browser acceptance. Typed bill production remains open: the compiler candidate passes nine focused cases but a direct service-cash caller fails. Teams 1/2 are resolving that integration before the same-seed law/person-money proof. No new causal rate or personal outcome is inferred.
