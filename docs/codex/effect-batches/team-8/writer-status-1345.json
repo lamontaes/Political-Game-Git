@@ -1,0 +1,97 @@
+{
+  "schema": "team-8-saved-writer-counts/v1",
+  "deadlineEastern": "2026-09-30 13:45",
+  "assignedLaws": 9,
+  "savedEffectWriters": {
+    "mainVerifiedKeys": [
+      "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "us-policy-positions:health-human-services.medicaid-work-requirement"
+    ],
+    "count": "2/9 verified on main",
+    "pr": 1244,
+    "sourceHead": "217a8de539acb2dd13e3b7b627a78dfc91677eba",
+    "mainLanding": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+    "scope": "Saved coverage changes with canonical law attribution; not every effect of these laws."
+  },
+  "costWriters": {
+    "mainVerifiedKeys": [],
+    "mainCount": "0/9 verified",
+    "branchVerifiedKeys": [
+      "us-policy-positions:technology-privacy.age-verification-for-social-media"
+    ],
+    "branchCount": "1/9 existing modeled component",
+    "pr": 1274,
+    "publishedHead": "f6cc284c74dc888fb4690906452033cdaa0e2f99",
+    "preparedRepairTree": "73dd1ab79313568aa8270e0e263af3b162eb996e",
+    "checks": "Repaired local composition:5/5PASS12.50s,4 strict roots0diagnostics,lint/formatPASS. No published repair commit:automatic review rejected creation pending explicit CTO integration permission.",
+    "completeResearchedCostPart": "0/9",
+    "limits": "Inherited fiscal projection, not fully researched operative2026 appropriation/workload."
+  },
+  "news": {
+    "pr": 1235,
+    "mainLanding": "7943c61ea8fa06650592616d6f48dc3856268f76",
+    "mergeReportedTests": "14/14PASS14.89s",
+    "producerLawCountIncrement": 0,
+    "counts": "Unique persons from actual saved changed coverage records; no population extrapolation or invented percentage."
+  },
+  "remainingPlan": [
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "plan": "Retain checked coverage producer; trace actual enrollee services/claims and payment/funding terms before adding government cost. Missing claims are not zero expense.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "plan": "Retain checked work-rule coverage producer; trace recorded work/exemption/reporting facts and actual administrative work/payment base. No universal churn or paperwork-loss rate.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "plan": "Trace actual assistance receipt/eligibility and work/exemption records; direct recipient change must be saved/stamped before news. Require actual program payment/administrative cost records.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "plan": "Trace actual crisis requests, responder staff/available hours, completed response/service and payments. Queue/capacity may bend outcomes; absent records require a producer, not a guessed response rate.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "plan": "Trace actual services delivered, supplies/provider contracts and exposed people. Naloxone legal availability alone does not prove use, overdose rescue or budget expense.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "plan": "Receive existing housing-first source ownership; trace actual occupied beds, household placement and completed service/rent payments. Housing stability/community counts are different outcomes.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "plan": "Apply the released privacy source mechanism only after law coverage, actual firm processing workload, completed compliance tasks and matched unit effort/contracts exist. Federal1261 is a delegated dependency and is not counted as this assigned state law.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "plan": "Finish precise age/cannabis repair after automatic-review integration authorization; retain source/stamps. Replace inherited fiscal benchmark only when filed funding/workload terms and actual enforcement base are available. Four platform/access/privacy/legal contracts remain unsized.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "plan": "Trace actual government deployments, person encounters, lawful permissions and real procurement/operator records. A legal restriction alone does not create a person encounter or vendor cost.",
+      "unknownStatus": "Additional nationwide saved writers/costs not verified by Team8; not an absence claim."
+    }
+  ],
+  "allFiveComplete": "0/9 verified",
+  "separateLaterWork": "After current costs: coverage/health and crisis-capacity bending mechanism/record/study list, design-only due3:00. Opinion-contact trace with Team2 after laws.",
+  "sharedHandoff": {
+    "team3Head": "b2475773a5374482551cdcb61fb78225cef2d2af",
+    "release": "Age/cannabis conflict hunks only; paid-leave map/filter/append and optional stamp seam retained byTeam3. Exact sources preserved in ignored folder; remoteTeam3branch unchanged."
+  },
+  "notRun": [
+    "Published repaired-head test",
+    "Full current-main dependency graph checkout",
+    "Nationwide audit",
+    "Watched proof",
+    "Privacy mechanism implementation"
+  ]
+}
