@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 194 have source references and 1,654 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 204 have source references and 1,644 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -109,20 +109,20 @@ Each column refers to that decision’s January 2026 starting-law entry. `U` mea
 | MN    | F        | F               | U               | U            | U        | U                |
 | MS    | F        | F               | U               | U            | U        | U                |
 | MO    | F        | F               | U               | U            | U        | U                |
-| MT    | F        | U               | U               | U            | U        | U                |
-| NE    | F        | U               | U               | U            | U        | U                |
+| MT    | F        | F               | U               | U            | U        | U                |
+| NE    | F        | F               | U               | U            | U        | U                |
 | NV    | F        | U               | U               | U            | U        | U                |
-| NH    | F        | U               | U               | U            | U        | U                |
+| NH    | F        | F               | U               | U            | U        | U                |
 | NJ    | F        | U               | U               | U            | U        | U                |
 | NM    | F        | U               | U               | U            | U        | U                |
 | NY    | F        | U               | F               | U            | U        | U                |
 | NC    | F        | F               | U               | U            | U        | U                |
-| ND    | F        | U               | U               | U            | U        | U                |
-| OH    | F        | U               | U               | U            | U        | U                |
+| ND    | F        | F               | U               | U            | U        | U                |
+| OH    | F        | F               | U               | U            | U        | U                |
 | OK    | F        | F               | U               | U            | U        | U                |
-| OR    | F        | U               | U               | U            | U        | U                |
-| PA    | F        | U               | U               | U            | U        | U                |
-| RI    | F        | U               | U               | U            | U        | U                |
+| OR    | F        | F               | U               | U            | U        | U                |
+| PA    | F        | F               | U               | U            | U        | U                |
+| RI    | F        | F               | U               | U            | U        | U                |
 | SC    | F        | U               | U               | U            | U        | U                |
 | SD    | F        | U               | U               | U            | U        | U                |
 | TN    | F        | U               | U               | U            | U        | U                |
@@ -166,3 +166,7 @@ Ten more EV authority cells cite own-state records. Seven passenger amounts are 
 ## Further EV and road usage findings
 
 Nine more state EV-treatment authority cells and Hawaii’s per-mile route are admitted. Florida has explicit license-tax parity; Massachusetts’s complete January2026levy absence remains unknown. Minnesota’s2026charges are MSRP/age formulas with floors; Hawaii’s EV-only per-mile/flat charge replaces its former surcharge; Missouri uses a fuel decal. Maryland’s cutoff adjustment and Mississippi’s amount remain unknown. Root independently read Florida2025parity,Indiana dated fee chart,Minnesota enacted formula,Hawaii dated fact sheet,Missouri dated schedule and Michigan’s Treasury rate. Illinois,Maryland,Mississippi and Michigan EVfee detail remain helper-reported. No game code or integration authorization.
+
+## Third EV batch and water valuation
+
+Eight additional own-state EV charge cells admitted; Nevada and New York remain unknown rather than inferred zero. Root read Montana2025 statute,North Dakota dated2026 chart,Rhode Island December2025 effective notice and Ohio2025 statute; Nebraska,New Hampshire and Oregon detailed fee packet remains helper-reported; root also read Pennsylvania’s fee table/exemptions. Oregon figure is a total fee and calculated difference,not145dollars total. North Carolina and Iowa water valuation routes now use root-read primary statutes. May2024 Cornell thesis corroborates a dated thirteen-state list only; January2026count and universal rate effect remain unresolved. Transportation continues; Team1handoff remains HELD for ownerjob13.
