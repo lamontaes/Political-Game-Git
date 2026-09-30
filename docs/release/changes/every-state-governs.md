@@ -26,3 +26,5 @@ The watched-system runner completed a recorded year and preserves actual case, b
 A separate clean-main watched year now preserves its zero-case and zero-money observations. Source law traces distinguish catalog path counts, effect units, individual consumers and remaining dice or missing readers.
 
 The draft collector can follow a named observer resident for longer periods. It preserves monthly events and transferred versus attempted money, excludes household payments outside recorded residency, and retains large worlds through the existing chunk-capable serializer.
+
+The draft preserves an incomplete four-year watched-life receipt, an authority repair proposal and source-only campaign/governor action traces. None establishes completed five-year or new law-effect acceptance.

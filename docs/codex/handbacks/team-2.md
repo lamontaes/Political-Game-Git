@@ -2296,3 +2296,681 @@ No recorded run stop.
 ## 7. Named worked example
 
 The named case, law and sponsor records above are the worked examples. When a section has none, no example was generated to fill it. Amounts are saved currency/minor-unit amounts, not estimated losses or unobserved causal effects.
+
+## Oracle life receipt and shared-hunk release
+
+The watched life ended before the requested five years. It preserves one resident’s recorded months and a successful Save/Continue comparison. The runtime’s advance limit stopped the run; the result is incomplete and does not satisfy five-year acceptance.
+
+Released to Team 1: combination, evidence deduplication and changed-row append in `src/simulation/principles-from-life.ts`, plus associated continuous-strength fixtures in `src/simulation/principles-from-life.test.ts`. Team 2 has no active conflicting hunks. Team 3 retains its separate population-reader/CDP seam. Team 2 retains authority, numbering and proof scope; coordinator maintains central claims.
+
+Exact source: clean main `24492950ece69558155e07e9b276ed59c5eb8c75`. Exported collector: `d9ba10901a49a0e6ce684799fcacb3ac7a0d11d3:system-only-path-adapter`, clean, absolute-import adapter only. Oracle, Arizona was selected by seed `team2-life-20260930-c`, place `0451180`.
+
+Requested five years, actual January 5, 2026 through January 11, 2030, 1,467 Day presses; target January 5, 2031. Exit 1: the 30-minute advance bound was reached. Total elapsed including collection/save/reopen: 2,753.768 seconds.
+
+Naomi Perkins, canonical person `person_880038bb3004a3f9`, has 49 reported calendar months, 126 canonical events and 48 personal or resident-household transfer outcomes. Household transfers are not personal income. Opening rental was a house; closing rental was an apartment, occupied since October 5, 2026. No missing motive, moving cost or health event is reconstructed. Save took 476.965 seconds and reopen 472.158 seconds; date/history counts matched. Reported `saveBytes: 23` is rejected as the known counter defect. No retained full-world output was requested, so no resumable world is claimed.
+
+Executed: actual bounded life run, Save/Continue comparison, report check 0 errors/0 warnings. Existing reader fixtures 9/9 and scoped types/lint/format passed at the earlier published reader head; they were not rerun for this receipt. NOT RUN: accepted five-year life, browser walk, full suite, independent civic reviewer (no-new-helper instruction). The next concrete checkpoint is the authorized data allocator plus actual Congress/three-random-state month, in this same checkout. The unknown-authority repair remains an exact-path proposal pending shared claim reconciliation.
+
+### Portable Oracle records
+
+The generated report below is preserved unchanged. Its generic research paragraph says “A single year”; the actual span above is more than four years and remains one watched place.
+
+# Watched Oracle, Arizona: incomplete
+
+Seed team2-life-20260930-c; place 0451180; January 5, 2026 through January 11, 2030; 1467 actual Day presses.
+
+## 1. Why-chain
+
+The existing world produced the following records. Saved reasons are quoted; missing reasons, destinations and money links are findings, not reconstructed explanations.
+
+## 2. Source research
+
+This is an observation report, not a new causal rate. Eviction research checks require Team 9's place-type breadth evidence and exposed/comparison cohorts; case shares alone do not estimate the causal increase in shelter use or moves.
+
+## 3. Revisions and breadth
+
+No simulation changes. The selected place is seeded; each listed law/bill retains its own jurisdiction. A single year does not establish national calibration.
+
+## 4. Numbered HELD parts
+
+### Watched life: Naomi Perkins
+
+Person person_880038bb3004a3f9; born July 20, 1990.
+Opening home: A house in Oracle, Arizona (residence:rented-home, occupancy dwelling-occupancy_93216d360d27c788, started January 5, 2026)
+Closing home: An apartment in Oracle, Arizona (residence:rented-home, occupancy dwelling-occupancy_4ef7bdff965496ef, started October 5, 2026)
+Canonical person events and personal or resident-household transfers only. Missing health, work, motives or moves are not reconstructed. Household money is not personal income.
+
+**Month beginning January 1, 2026**
+
+January 9, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_81a5a92cecc1ed7b.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 12, 2026: health.episode-began; "Became acutely unwell."; event event_b249517e1842f690.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 12, 2026: person.capacity-changed; "Able to work with limits during a health episode."; event event_601e393588493689.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 12, 2026: epidemic.illness-caught; "Naomi Perkins came down sick with the illness going around Oracle, which had just reached town."; event event_e5ce9b3f9e7c9a5b.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 19, 2026: epidemic.illness-caught; "Jessica Steele came down sick with the illness going around Oracle, after Naomi Perkins had it at home."; event event_f824e43767a3c590.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 20, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_1e1a97479552a740.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+**Month beginning February 1, 2026**
+
+February 2, 2026: person.capacity-changed; "Able to carry out ordinary work again."; event event_c6e70105423e4be6.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+February 18, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_8f9059b0b80884cd.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+February 1, 2026: Naomi Perkins → Shannon McIntosh; $0.00 transferred of $3,741.00 attempted; missed; record resource-transfer-outcome_aae4baee6b47a0b2.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_85523cc240457f29"}}
+
+**Month beginning March 1, 2026**
+
+March 1, 2026: housing.eviction-filed; "Shannon McIntosh filed to evict Naomi Perkins's household for $7,482 in unpaid rent."; event event_3e7a9f50546f0657.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+March 3, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_711777b2718bb792.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+March 1, 2026: Naomi Perkins → Shannon McIntosh; $0.00 transferred of $3,741.00 attempted; missed; record resource-transfer-outcome_ca4ebaf556ca5ebb.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_85523cc240457f29"}}
+
+**Month beginning April 1, 2026**
+
+April 1, 2026: housing.evicted; "Naomi Perkins's household was evicted from their 2-bedroom home for $11,223 in unpaid rent: Judge Vincent Walls ruled for the landlord."; event event_cc7d1a1f700877f8.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 1, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_761e7624962bb96f.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 6, 2026: life.moved-into-home; "Naomi Perkins's household moved into an apartment: they were evicted from their last home."; event event_cf6f6a65959c9af2.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 1, 2026: Naomi Perkins → Shannon McIntosh; $0.00 transferred of $3,741.00 attempted; missed; record resource-transfer-outcome_ea9832bc65a93cec.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_85523cc240457f29"}}
+
+**Month beginning May 1, 2026**
+
+May 7, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_fe569d363b208d41.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 29, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_6d3ca8c7d1ebec7b.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,438.00 attempted; missed; record resource-transfer-outcome_858bdc8344285327.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_5ebfe9ed80f3238e"}}
+
+**Month beginning June 1, 2026**
+
+June 1, 2026: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $4,876 in unpaid rent."; event event_b279b63bb2582ee0.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 22, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_9044c4796085fa3f.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,438.00 attempted; missed; record resource-transfer-outcome_0264dc68c3337a54.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_5ebfe9ed80f3238e"}}
+
+**Month beginning July 1, 2026**
+
+July 1, 2026: housing.evicted; "Naomi Perkins's household was evicted from their 1-bedroom home for $7,314 in unpaid rent: Judge Vincent Walls ruled for the landlord."; event event_a7ed2999121fd069.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 4, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_7b27594b9d3283cd.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 6, 2026: life.moved-into-home; "Naomi Perkins's household moved into an apartment: they were evicted from their last home."; event event_757fbb6227ee67db.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,438.00 attempted; missed; record resource-transfer-outcome_909fd4710f3cd7d5.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_5ebfe9ed80f3238e"}}
+
+**Month beginning August 1, 2026**
+
+August 3, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_c5f9494cbffbad4c.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 13, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_89fbc15fe4c05550.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,485.00 attempted; missed; record resource-transfer-outcome_e5d1575dc2aec3b0.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_fc8dc93ca931e3d1"}}
+
+**Month beginning September 1, 2026**
+
+September 1, 2026: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $4,970 in unpaid rent."; event event_a0e8a82dac80ead1.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 11, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_679ed7ae0e09948b.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 20, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_e9ed9cd1204a8c41.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,485.00 attempted; missed; record resource-transfer-outcome_4a1a2f64d514a531.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_fc8dc93ca931e3d1"}}
+
+**Month beginning October 1, 2026**
+
+October 1, 2026: housing.evicted; "Naomi Perkins's household was evicted from their 1-bedroom home for $7,455 in unpaid rent: Judge Vincent Walls ruled for the landlord."; event event_e9e27b5d2270cfb3.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 5, 2026: life.moved-into-home; "Naomi Perkins's household moved into an apartment: they were evicted from their last home."; event event_d659c0a4a78938a4.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 5, 2026: health.episode-began; "Became acutely unwell."; event event_b3d984791dd9768a.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 5, 2026: person.capacity-changed; "Able to work with limits during a health episode."; event event_fef0745de6ded333.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 5, 2026: epidemic.illness-caught; "Naomi Perkins came down sick with the illness going around Oracle, which had just reached town."; event event_e9c1ffd708471935.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 10, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_256335e089858be2.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 12, 2026: epidemic.illness-caught; "Jessica Steele came down sick with the illness going around Oracle, after Naomi Perkins had it at home."; event event_23085c3ba3d37be5.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 26, 2026: person.capacity-changed; "Able to carry out ordinary work again."; event event_6a963a3bec759548.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,485.00 attempted; missed; record resource-transfer-outcome_b728274f11f1013b.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_fc8dc93ca931e3d1"}}
+
+**Month beginning November 1, 2026**
+
+November 3, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_da24c00897447b8a.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+November 25, 2026: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_ce8bea9fa6ee2adc.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+November 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_f52fd9bc23f235a5.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning December 1, 2026**
+
+December 1, 2026: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $3,894 in unpaid rent."; event event_d8b3b934fec7e788.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 6, 2026: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_e8b2f90a3169884e.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 1, 2026: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_5febc1c45ba36a8e.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning January 1, 2027**
+
+January 1, 2027: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $5,841: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_2e59761b58b012ba.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 14, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_599ee2af9e5b66d8.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 27, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_575689c44ccb6d12.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_3fe8a780a81aedc1.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning February 1, 2027**
+
+February 24, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_d2e1990eacc1993b.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+February 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_d648cf8a1adfb68a.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning March 1, 2027**
+
+March 3, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_b1de861bf24ed3ca.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+March 16, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_36552a800e02950c.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+March 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_20116f924061e8f3.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning April 1, 2027**
+
+April 1, 2027: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $11,682 in unpaid rent."; event event_5c5d51f029e0c362.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 13, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_39ae146ff1496ae5.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 25, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_641aa76916eb87f6.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_ec0a0756db9da064.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning May 1, 2027**
+
+May 1, 2027: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $13,629: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_93818dfb12989f7e.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_a656bf6063183d25.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning June 1, 2027**
+
+June 6, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_0459a95970925cc0.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 16, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_c5f01c17ab57e688.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_1112a7689ac9720e.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning July 1, 2027**
+
+July 5, 2027: life.attended-public-meeting; "A resident attended a public meeting of the town's government."; event event_535759de49c5a690.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 17, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_6ba5e8968b6f9277.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_70e407715e040db7.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning August 1, 2027**
+
+August 1, 2027: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $19,470 in unpaid rent."; event event_0b8ada110c3ed4fe.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 17, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_ca99f2f1ac588c95.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_52789f36969bc948.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning September 1, 2027**
+
+September 1, 2027: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $21,417: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_e45405da303a8de2.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 26, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_bd608dc20869fcb1.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $1,947.00 attempted; missed; record resource-transfer-outcome_e120973ee301f8a9.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning October 1, 2027**
+
+October 4, 2027: life.started-dating; "Micah Michael and Naomi Perkins started dating."; event event_f9910bab1d2bc3d1.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 4, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_2df55a7ae39777fa.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 4, 2027: health.episode-began; "Became acutely unwell."; event event_1092ff176089c986.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 4, 2027: person.capacity-changed; "Able to work with limits during a health episode."; event event_ce0758eeb4870c3f.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 4, 2027: epidemic.illness-caught; "Naomi Perkins came down sick with the illness going around Oracle, which had just reached town."; event event_2d3e2a858adb73b9.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 11, 2027: epidemic.illness-caught; "Jessica Steele came down sick with the illness going around Oracle, after Naomi Perkins had it at home."; event event_8562db635192735f.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 25, 2027: person.capacity-changed; "Able to carry out ordinary work again."; event event_482165e59b69ff44.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 30, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_7b44729d2d707531.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_2404ab822c8dfa83.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning November 1, 2027**
+
+November 17, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_cf144d7652545326.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+November 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_064dcb7b427d075a.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning December 1, 2027**
+
+December 1, 2027: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $27,459 in unpaid rent."; event event_a76ed213566cacbb.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 16, 2027: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_0cb60e1687521415.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 27, 2027: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_853c47a6f9619b6a.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 1, 2027: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_9a4be37309b70fd1.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning January 1, 2028**
+
+January 1, 2028: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $29,473: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_e249bd4a5a271173.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_4d4a6080ebe08454.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning February 1, 2028**
+
+February 4, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_a908a173cc506111.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+February 27, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_6496be188b800eee.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+February 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_d071609b6cd55d27.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning March 1, 2028**
+
+March 15, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_553f0c7d3967dabf.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+March 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_72528092ab0b7c7e.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning April 1, 2028**
+
+April 1, 2028: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $35,515 in unpaid rent."; event event_a45fad58c8e87b63.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 6, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_18b2a668eaafbf2c.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_a12880aab85cf831.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning May 1, 2028**
+
+May 1, 2028: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $37,529: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_331c552977c93637.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 1, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_ea5d7de462676c62.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 15, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_11b1fafc516664ff.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_3cdfa8a3a5f716b0.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning June 1, 2028**
+
+June 9, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_98e94e236362c068.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 21, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_d3c73062264ce251.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_8151c8bc50a4cce3.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning July 1, 2028**
+
+July 23, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_97dbe11285a379bb.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 31, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_7b16449d58d3d64b.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_0d2a68b2f122efba.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning August 1, 2028**
+
+August 1, 2028: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $43,571 in unpaid rent."; event event_3eb334f3aaeb24ef.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 29, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_fb4f7283e6e4758c.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_918008480f74935d.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning September 1, 2028**
+
+September 1, 2028: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $45,585: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_4386ed06bdb26d7b.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 10, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_626f6941ab49119d.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,014.00 attempted; missed; record resource-transfer-outcome_d879b03e890f5c5c.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning October 1, 2028**
+
+October 2, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_3c84f0885d8e8faf.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 2, 2028: health.episode-began; "Became acutely unwell."; event event_ac2994934ab9b565.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 2, 2028: person.capacity-changed; "Able to work with limits during a health episode."; event event_024cf9fa5904222e.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 2, 2028: epidemic.illness-caught; "Naomi Perkins came down sick with the illness going around Oracle, which had just reached town."; event event_7aedc6076cd0fa58.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 9, 2028: epidemic.illness-caught; "Jessica Steele came down sick with the illness going around Oracle, after Naomi Perkins had it at home."; event event_5abb3fc0e0d14043.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 23, 2028: person.capacity-changed; "Able to carry out ordinary work again."; event event_b3268c59879bc4a7.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 25, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_f115ace94fef595e.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_6b6bb8544c330052.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning November 1, 2028**
+
+November 16, 2028: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_c93d7e0c867ea981.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+November 24, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_ca8332daba6bddd2.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+November 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_df93385dabb513db.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning December 1, 2028**
+
+December 1, 2028: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $51,609 in unpaid rent."; event event_3f5a2511a84654ee.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 27, 2028: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_a84260c3f90a0bfb.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 1, 2028: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_5bffb8432a6442a8.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning January 1, 2029**
+
+January 1, 2029: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $53,617: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_a9ede2f4edd0fa98.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 3, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_b8f4e944a62a3bca.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_d9cc425d2dcb308f.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning February 1, 2029**
+
+February 9, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_fe9608c43e436b87.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+February 14, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_cd24e71163b70bb6.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+February 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_94ed224482c0a87c.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning March 1, 2029**
+
+March 7, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_189a02b764318f18.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+March 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_f935fa4b952689fd.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning April 1, 2029**
+
+April 1, 2029: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $59,641 in unpaid rent."; event event_20366aa69c40b9c4.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 2, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_24f354cd4768abc1.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 12, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_d87d0ff37959780a.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+April 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_2adb6a754e603b02.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning May 1, 2029**
+
+May 1, 2029: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $61,649: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_f90d5ad40a01547c.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 5, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_152a7804be629b0a.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 13, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_9640202505b85f53.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+May 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_74a3aa7d73e1ca4b.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning June 1, 2029**
+
+June 12, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_3bc19d93c0448dbd.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 20, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_659b64bb84199225.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+June 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_45cdaa6566904e98.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning July 1, 2029**
+
+July 2, 2029: life.broke-up; "Micah Michael and Naomi Perkins broke up."; event event_7fb49bf4fa1525a7.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 17, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_71f4d28fb5e972eb.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+July 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_aa16e26c78f6d339.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning August 1, 2029**
+
+August 1, 2029: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $67,673 in unpaid rent."; event event_30348283e1cdf8a8.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 19, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_774a3dc1738d30c2.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 22, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_52c373013db775c8.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+August 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_dbbbf296322fe11e.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning September 1, 2029**
+
+September 1, 2029: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $69,681: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_0a695336b45c2750.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 17, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_4391ca70ca36e071.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+September 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,008.00 attempted; missed; record resource-transfer-outcome_39da529ef3f8e847.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning October 1, 2029**
+
+October 1, 2029: health.episode-began; "Became acutely unwell."; event event_c4de90dd616ddcaf.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 1, 2029: person.capacity-changed; "Able to work with limits during a health episode."; event event_2cd8e5d580a48af0.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 1, 2029: epidemic.illness-caught; "Naomi Perkins came down sick with the illness going around Oracle, which had just reached town."; event event_813555e4349992da.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 8, 2029: epidemic.illness-caught; "Jessica Steele came down sick with the illness going around Oracle, after Naomi Perkins had it at home."; event event_5dbcf429be65be3f.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 22, 2029: person.capacity-changed; "Able to carry out ordinary work again."; event event_227fb0313d4f1a51.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 31, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_2f666752f496489f.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+October 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,061.00 attempted; missed; record resource-transfer-outcome_d5be6288b9fffe89.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning November 1, 2029**
+
+November 13, 2029: party.chapter-meeting-invited; "Erica Adams invited Naomi Perkins to the Pinal County Democrats open meeting."; event event_c3040728f00d3dc3.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+November 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,061.00 attempted; missed; record resource-transfer-outcome_4716ea806d9aa8a8.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning December 1, 2029**
+
+December 1, 2029: housing.eviction-filed; "Spencer Property Management filed to evict Naomi Perkins's household for $75,864 in unpaid rent."; event event_755d4aeb6fc6ae31.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 11, 2029: party.chapter-meeting-invited; "George Gallegos invited Naomi Perkins to the Pinal County Republicans open meeting."; event event_e19e4f023acd7bd5.
+Saved context: {"location":{"jurisdictionId":"jurisdiction_ed4026da92c36d60","label":"Community room","setting":"community room"},"socialContext":"An open chapter meeting; anyone may come.","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 31, 2029: life.attended-public-meeting; "A resident attended a public meeting of the town's government."; event event_25aaa5955cc2d9a9.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+December 1, 2029: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,061.00 attempted; missed; record resource-transfer-outcome_caaa6a9aeeeb79db.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+**Month beginning January 1, 2030**
+
+January 1, 2030: housing.eviction-settled; "Naomi Perkins's household kept their 1-bedroom home, still owing Spencer Property Management $77,925: Judge Vincent Walls accepted a plan to pay it off over 6 months."; event event_72b542fffee5bc72.
+Saved context: {"location":null,"socialContext":null,"pressure":null,"choice":null,"motivation":null,"immediateReaction":null}
+
+January 1, 2030: Naomi Perkins → Spencer Property Management; $0.00 transferred of $2,061.00 attempted; missed; record resource-transfer-outcome_fd9350c76db3b8fd.
+Saved reason: {"reason":"capacity:insufficient-funds","note":"Rent.","basis":{"kind":"housing","housingTenureId":"housing-tenure_00ae284409d90f74"}}
+
+## 5. SIMULATED / RECORDS / WORLD PIECES / CHECKS
+
+SIMULATED: real observer Day path. RECORDS: canonical case, occupancy, legislative and money history. WORLD PIECES: unrecorded court/moving costs and absent destination capacity remain missing; no shelter/car/motel is inferred from absent occupancy. CHECKS: none-case is retained; blocked money is not a successful payment; debt, authority and commitments are not actual cost or transfer.
+
+## 6. Random-place proof
+
+Runtime source 24492950ece69558155e07e9b276ed59c5eb8c75; runtime source dirty: false; status incomplete.
+Collector d9ba10901a49a0e6ce684799fcacb3ac7a0d11d3:system-only-path-adapter; collector dirty: false.
+Save/Continue result: {"saveMs":476964.67749000015,"saveCpuMs":479216.516,"reopenMs":472157.99820000026,"reopenCpuMs":483062.376,"saveBytes":23,"reopenedMatches":true}.
+Run stopped: Time bound 30 minutes reached.. The requested watched period was not completed.
+
+## 7. Named worked example
+
+The named case, law and sponsor records above are the worked examples. When a section has none, no example was generated to fill it. Amounts are saved currency/minor-unit amounts, not estimated losses or unobserved causal effects.
