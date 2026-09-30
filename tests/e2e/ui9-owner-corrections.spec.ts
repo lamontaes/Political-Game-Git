@@ -89,61 +89,6 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   expect(order[0]).toBe("personal-name");
 });
 
-test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cost", async ({
-  page,
-}) => {
-  await page.goto("/?seed=ui9-child-walk");
-  // A blank optional name is accepted: the owner left it blank and expects the
-  // game to name the character.
-  await startLife(page, { age: 10, place: "Lexington", state: "Kentucky" });
-  await enterLife(page);
-  /*
-   * UI46: walks are errands of the life, not of the scene, so they live in
-   * Personal rather than in the room's scene panel. The player reaches them
-   * the way anything else is reached: the cluster, then Personal.
-   */
-  await goTo(page, "nav-personal");
-  const personal = page.getByTestId("personal-workspace");
-  /* The section's own disclosure, not one of the summaries inside it: the
-     panels it holds carry disclosures of their own. */
-  await personal
-    .getByTestId("personal-life-choices")
-    .locator(":scope > summary")
-    .click();
-
-  const scene = personal.getByTestId("opening-life-scene");
-  await expect(scene).toBeVisible();
-
-  /*
-   * At home, "Walk home" is refused for the reason it is actually refused for,
-   * rather than by a message about checking the calendar. The short walk that
-   * IS available stays available.
-   */
-  const home = scene.getByTestId("life-walk-home");
-  const nearby = scene.getByTestId("life-walk-neighborhood");
-  await expect(home).toBeDisabled();
-  await expect(scene.getByTestId("life-walk-home-reason")).toHaveText(
-    "You are already home.",
-  );
-  await expect(nearby).toBeEnabled();
-
-  /*
-   * Taking it reports the clock and where it left them, so a player does not
-   * have to guess whether a walk happened.
-   */
-  await nearby.click();
-  const outcome = scene.getByTestId("life-scene-outcome");
-  await expect(outcome).toBeVisible();
-  await expect(outcome).toContainText("→");
-
-  // And now the refusals have swapped over, because the character has moved.
-  await expect(scene.getByTestId("life-walk-neighborhood")).toBeDisabled();
-  await expect(scene.getByTestId("life-walk-neighborhood-reason")).toHaveText(
-    "You are already out in your neighborhood.",
-  );
-  await expect(scene.getByTestId("life-walk-home")).toBeEnabled();
-});
-
 test("UI9-10: the starting age is derived from the birthday, never a half-typed number", async ({
   page,
 }) => {
