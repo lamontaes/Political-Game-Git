@@ -71,7 +71,7 @@
     },
     {
       "head": "fe2e3d408b50cd176a4c0690fb058dedf2ee2031",
-      "files": ["src/simulation/governing/measure-numbering.ts"],
+      "files": ["src/simulation/measure-numbering.ts"],
       "reason": "Session/chamber/type designation allocator, not an economic or policy-effect level."
     }
   ],
