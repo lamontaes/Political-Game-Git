@@ -1,0 +1,213 @@
+{
+  "schema": "team7-newspaper-reference-study/v1",
+  "review": "candidate",
+  "count": 20,
+  "rights": "Links and original design observations only. No publisher logos, article prose or photographs copied into kit.",
+  "limits": [
+    "This is a design sample, not a representative national survey or measured circulation classification.",
+    "Eight community front pages include five issues of one weekly.",
+    "Several weekly PDF/display routes failed and are excluded from the studied count."
+  ],
+  "references": [
+    {
+      "id": "R01",
+      "title": "New York Times",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/new-york-times/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Large photo spans four columns; two tall right news columns; traditional blackletter nameplate."
+    },
+    {
+      "id": "R02",
+      "title": "Wall Street Journal",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/wall-street-journal/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Narrow summary rail at left; broad central photo; central lead below photo; vertical right story."
+    },
+    {
+      "id": "R03",
+      "title": "Los Angeles Times",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/los-angeles-times/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Photo upper left; lead stacked in right rail; many thin body columns; secondary photo below."
+    },
+    {
+      "id": "R04",
+      "title": "Washington Post",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/washington-post/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Central photo flanked by narrow stories; horizontal story below; bottom index strip."
+    },
+    {
+      "id": "R05",
+      "title": "Boston Globe",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/boston-globe/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Wide central photo; headline below photo; narrow right story rail; lower separate features."
+    },
+    {
+      "id": "R06",
+      "title": "Houston Chronicle",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/houston-chronicle/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Wide lead headline at top; photo-led center feature; right story rail; smaller lower photo."
+    },
+    {
+      "id": "R07",
+      "title": "USA Today",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/usa-today/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Teaser ears above sans nameplate; dominant visual feature; left news rail; chart at bottom."
+    },
+    {
+      "id": "R08",
+      "title": "New York Post",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/new-york-post/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Tabloid photo and enormous headline over image; contrasting bottom reverse-ink panel."
+    },
+    {
+      "id": "R09",
+      "title": "Philadelphia Inquirer",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/philadelphia-inquirer/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Top teaser strip; main photo plus large headline below; narrow right story; lower split stories."
+    },
+    {
+      "id": "R10",
+      "title": "Minnesota Star Tribune",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/minnesota-star-tribune/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Wide lead headline above photo; compact right stories; lower photo and profile."
+    },
+    {
+      "id": "R11",
+      "title": "Arizona Republic",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/arizona-republic/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Large left feature photo; right stacked stories; small inset photo beside body."
+    },
+    {
+      "id": "R12",
+      "title": "Tampa Bay Times",
+      "date": "2026-07-20",
+      "type": "daily-front-page",
+      "classification": "regional/metropolitan design reference; circulation not researched",
+      "url": "https://www.thepaperboy.com/front-page/tampa-bay-times/2026-07-20",
+      "method": "Native browser detail-page full-size modal screenshot inspected",
+      "observations": "Condensed headline top; broad photo centered; large secondary headline; lower split features."
+    },
+    {
+      "id": "R13",
+      "title": "The Colebrook Chronicle",
+      "date": "2026-01-02",
+      "type": "community-weekly-front-page",
+      "url": "https://colebrookchronicle.weebly.com/2026.html",
+      "imageUrl": "https://colebrookchronicle.weebly.com/uploads/3/8/0/3/38039373/jan-2-2026_orig.jpg",
+      "method": "Publisher image inspected in browser at native preview resolution",
+      "observations": "Broad serif nameplate, tight folio rule, left two-thirds photo, right stacked briefs, italic feature headings."
+    },
+    {
+      "id": "R14",
+      "title": "The Colebrook Chronicle",
+      "date": "2026-01-09",
+      "type": "community-weekly-front-page",
+      "url": "https://colebrookchronicle.weebly.com/2026.html",
+      "imageUrl": "https://colebrookchronicle.weebly.com/uploads/3/8/0/3/38039373/jan-9-2026_orig.jpg",
+      "method": "Publisher image inspected in browser at native preview resolution",
+      "observations": "Paired team photos at left, two-column article at right, smaller photo between briefs."
+    },
+    {
+      "id": "R15",
+      "title": "The Colebrook Chronicle",
+      "date": "2026-01-16",
+      "type": "community-weekly-front-page",
+      "url": "https://colebrookchronicle.weebly.com/2026.html",
+      "imageUrl": "https://colebrookchronicle.weebly.com/uploads/3/8/0/3/38039373/jan-16-2026_orig.jpg",
+      "method": "Publisher image inspected in browser at native preview resolution",
+      "observations": "Two top photos under one headline, portrait inset at right, italic lower feature heading."
+    },
+    {
+      "id": "R16",
+      "title": "The Colebrook Chronicle",
+      "date": "2026-01-23",
+      "type": "community-weekly-front-page",
+      "url": "https://colebrookchronicle.weebly.com/2026.html",
+      "imageUrl": "https://colebrookchronicle.weebly.com/uploads/3/8/0/3/38039373/jan-23-2026_orig.jpg",
+      "method": "Publisher image inspected in browser at native preview resolution",
+      "observations": "Landscape lead photo; secondary multi-photo group at lower left; right campaign portrait."
+    },
+    {
+      "id": "R17",
+      "title": "The Colebrook Chronicle",
+      "date": "2026-01-30",
+      "type": "community-weekly-front-page",
+      "url": "https://colebrookchronicle.weebly.com/2026.html",
+      "imageUrl": "https://colebrookchronicle.weebly.com/uploads/3/8/0/3/38039373/jan-30-2026_orig.jpg",
+      "method": "Publisher image inspected in browser at native preview resolution",
+      "observations": "Team photo above italic feature title; narrow right news blocks; large lower entertainment photo."
+    },
+    {
+      "id": "R18",
+      "title": "The Lakeville Journal",
+      "date": "2026-04-02",
+      "type": "community-weekly-front-page",
+      "url": "https://lakevillejournal.com/digital-edition",
+      "imageUrl": "https://lakevillejournal.com/media-library/image.jpg?coordinates=0%2C0%2C0%2C0&height=800&id=65443851&quality=50&width=800",
+      "method": "Publisher preview image inspected in browser",
+      "observations": "Teaser strip above blackletter nameplate; colored tagline bar; narrow text lead left and wide photo right; headline below image."
+    },
+    {
+      "id": "R19",
+      "title": "Sullivan County Democrat",
+      "date": "2023-10-17",
+      "type": "community-front-page",
+      "url": "https://www.scdemocratonline.com/eeditions/",
+      "imageUrl": "https://alpha.creativecirclecdn.com/scdemocrat/original/20231016-160025-20231016-160014-01A1017_eEdition.pdf.jpg",
+      "method": "Publisher CDN preview inspected in browser",
+      "observations": "Advertising strip above colored nameplate; two principal columns; inset portrait; dense body columns; bottom story across page."
+    },
+    {
+      "id": "R20",
+      "title": "Statesman-Examiner",
+      "date": "2025-08-13",
+      "type": "community-weekly-front-page",
+      "url": "https://www.statesmanexaminer.com/subscribe",
+      "imageUrl": "https://static.wixstatic.com/media/cb4111_43e9d2a3de1342408f2d75b2536a6888~mv2.jpg/v1/fill/w_736%2Ch_1380%2Cfp_0.36_0.92%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/SE%20Newspaper%208-13-2025.jpg",
+      "method": "Publisher preview inspected in browser",
+      "observations": "Blue italic nameplate; blue folio band; broad photo and lower headline; narrow right rail; display ad at bottom."
+    }
+  ]
+}
