@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 204 have source references and 1,644 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 216 have source references and 1,632 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -91,7 +91,7 @@ Each column refers to that decision’s January 2026 starting-law entry. `U` mea
 | CA    | F        | F               | U               | U            | U        | U                |
 | CO    | F        | F               | U               | U            | U        | U                |
 | CT    | F        | U               | U               | U            | U        | U                |
-| DE    | F        | U               | U               | U            | U        | U                |
+| DE    | F        | F               | U               | U            | U        | U                |
 | FL    | F        | N               | U               | U            | F        | U                |
 | GA    | F        | F               | U               | U            | U        | U                |
 | HI    | F        | F               | U               | U            | U        | U                |
@@ -123,17 +123,17 @@ Each column refers to that decision’s January 2026 starting-law entry. `U` mea
 | OR    | F        | F               | U               | U            | U        | U                |
 | PA    | F        | F               | U               | U            | U        | U                |
 | RI    | F        | F               | U               | U            | U        | U                |
-| SC    | F        | U               | U               | U            | U        | U                |
-| SD    | F        | U               | U               | U            | U        | U                |
-| TN    | F        | U               | U               | U            | U        | U                |
-| TX    | F        | U               | U               | U            | U        | U                |
-| UT    | F        | U               | U               | U            | F        | U                |
-| VT    | F        | U               | U               | U            | U        | U                |
-| VA    | F        | U               | U               | U            | U        | U                |
-| WA    | F        | U               | U               | U            | U        | U                |
-| WV    | F        | U               | U               | U            | U        | U                |
-| WI    | F        | U               | U               | U            | U        | U                |
-| WY    | F        | U               | U               | U            | U        | U                |
+| SC    | F        | F               | U               | U            | U        | U                |
+| SD    | F        | F               | U               | U            | U        | U                |
+| TN    | F        | F               | U               | U            | U        | U                |
+| TX    | F        | F               | U               | U            | U        | U                |
+| UT    | F        | F               | U               | U            | F        | U                |
+| VT    | F        | F               | U               | U            | U        | U                |
+| VA    | F        | F               | U               | U            | U        | U                |
+| WA    | F        | F               | U               | U            | U        | U                |
+| WV    | F        | F               | U               | U            | U        | U                |
+| WI    | F        | F               | U               | U            | U        | U                |
+| WY    | F        | F               | U               | U            | U        | U                |
 | DC    | F        | U               | U               | U            | U        | U                |
 | PR    | F        | U               | U               | U            | U        | U                |
 | GU    | F        | U               | U               | U            | U        | U                |
@@ -170,3 +170,26 @@ Nine more state EV-treatment authority cells and Hawaii’s per-mile route are a
 ## Third EV batch and water valuation
 
 Eight additional own-state EV charge cells admitted; Nevada and New York remain unknown rather than inferred zero. Root read Montana2025 statute,North Dakota dated2026 chart,Rhode Island December2025 effective notice and Ohio2025 statute; Nebraska,New Hampshire and Oregon detailed fee packet remains helper-reported; root also read Pennsylvania’s fee table/exemptions. Oregon figure is a total fee and calculated difference,not145dollars total. North Carolina and Iowa water valuation routes now use root-read primary statutes. May2024 Cornell thesis corroborates a dated thirteen-state list only; January2026count and universal rate effect remain unresolved. Transportation continues; Team1handoff remains HELD for ownerjob13.
+
+## Owner8:54/8:56 anchor compliance audit
+
+This supersedes earlier8:27 calibration wording. Research values set by law remain exact own-place starting rules; non-law values require all-game-place research before a realistic per-world spread and simulation evolution. These PRs implement neither runtime anchors nor seeded generation. Numeric `effects[].size` entries retain original study results as contextual evidence, not admitted world anchors. No compliant existing seeded estimate was removed.
+
+| Exact file / decision field                                          | Source coverage                                                            | Fixed versus seeded status                                                     | Gap / disposition                                                                                           |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `transportation-infrastructure.json` / `fuel-tax.effects[0]`         | `hks2008`: historical US aggregate gasoline demand                         | Fixed published study result; no runtime/seeded parameter                      | Territory/place calibration, current response and separate tax pass-through unverified; contextual only     |
+| Same / `ev-registration.effects[0]`                                  | `jenn2018`:50states,2010–2018                                              | Fixed observational study result; no runtime/seeded parameter                  | Six nonstate places, current response, implementation significance and transfer unresolved; contextual only |
+| Same / `congestion-toll.effects[0]`                                  | `mta-results`:Manhattan2025                                                | Fixed observed program result; no runtime/seeded parameter                     | One-place evidence cannot anchor all places; contextual only                                                |
+| Same / `airport-worker-wage.effects[1]`                              | `sfo-wage2003`:SanFrancisco airport                                        | Fixed observed bundled-policy turnover result; no runtime/seeded parameter     | One-place evidence cannot anchor all airports; contextual only                                              |
+| Same / `fluoride-addition.effects[0]`                                | `cochrane`:two contemporary studies,2908children                           | Fixed published pooled estimate/interval; no runtime/seeded parameter          | Not all-game-place evidence; no certain cessation inversion; contextual only                                |
+| Same / `broadband-grants.effects[1]`                                 | `molnar2019`:sampled US single-family neighborhoods                        | Fixed hedonic association; no runtime/seeded parameter                         | All-state/territory coverage and grant-to-deployment causal route unverified; contextual only               |
+| `housing.json` / `annual-rent-limit.effects[1]` and`[2]`             | `sf-rent-study`:SanFrancisco1994expansion                                  | Fixed study mobility/supply results; no runtime/seeded parameter               | One-place evidence cannot anchor all housing markets; contextual only                                       |
+| `housing.json` / `eviction-counsel.effects[1]`                       | `counsel-study2023`:NYCrollout                                             | Fixed IVrepresentation effect/calculated interval; no runtime/seeded parameter | One-place evidence cannot anchor all courts; contextual only                                                |
+| `transportation-infrastructure.json` / `fuel-tax.startingLaw[place]` | `eia-fuel-jan2026`:all56own-place January2026gasoline state-tax components | Legal component exact; no spread                                               | Component is not total burden; unknown authority remains unresearched                                       |
+| Both JSON files / other`startingLaw[place]` andavailabilitycells     | Cited own-place statutes/agency records,with explicit cutoff limitations   | Legal rule exact,not sampled                                                   | Incomplete amount/history/procedure remains a research gap; no peer law imported                            |
+
+Scope: only Team6research JSON/Markdown and handback; no outcome-map/link authoring or game-code change. Next bounded deliverable: finish own-state EV baseline packet and source coverage audit of six transportation effects. Blockers: all-place non-law evidence,13worked-example verification questions,remaining availability research; Team1integration remains ownerjob13held. Housing expansion remains parked; this audit corrects its handoff eligibility only.
+
+## Fourth EV baseline packet
+
+Twelve own-state EV charge authority cells added from helper primary-source packet. Root independent reread remains pending for this packet. CTpassenger-base parity does not prove completelevyabsence. SouthCarolina amount is biennial; SouthDakota laterJuly2026increase is excluded; Utah180component excludesindexed14andhybridamountsunknown; Delaware6000lbboundary remains unresolved; Wyomingplug-indefinition needsread. Legalfees remain exactown-place rules,notworldspreadanchors.

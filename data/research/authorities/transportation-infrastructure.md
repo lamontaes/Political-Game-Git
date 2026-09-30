@@ -1,6 +1,6 @@
 # Transportation rules need more jurisdiction evidence
 
-The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1644 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
+The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1632 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
 
 ## What the evidence establishes
 
@@ -16,7 +16,7 @@ Every admitted decision has 56 explicit availability cells and 56 separate start
 
 | Topic                                | Decisions | Sourced availability cells | Barred cells | Unresearched cells |
 | ------------------------------------ | --------: | -------------------------: | -----------: | -----------------: |
-| roads-and-bridges                    |         6 |                         45 |            5 |                286 |
+| roads-and-bridges                    |         6 |                         57 |            5 |                274 |
 | transit                              |         5 |                          5 |            0 |                275 |
 | rail                                 |         4 |                         11 |            0 |                213 |
 | airports-and-ports                   |         3 |                         58 |            0 |                110 |
@@ -32,7 +32,7 @@ Nine barred cells record two fluoride operator restrictions, five ordinary local
 ### Unresearched availability by decision
 
 - `fuel-tax`: `AK, CO, CT, DE, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
-- `ev-registration`: `AK, AZ, CT, DE, ME, MA, NV, NY, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `ev-registration`: `AK, AZ, CT, ME, MA, NV, NY, DC, PR, GU, VI, AS, MP`.
 - `congestion-toll`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `speed-camera`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, MD, MA, MI, MN, MS, MO, MT, NE, NV, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SD, TN, VT, VA, WA, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `local-speed`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, PA, RI, SC, SD, TN, TX, UT, VT, VA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
@@ -153,3 +153,7 @@ Nine additional EV-treatment cells and Hawaii’s limited per-mile route use the
 ## Third EV batch and bounded water valuation
 
 Eight further EV charge routes admitted with future amendments excluded; Nevada/New York remain unknown. Own North Carolina and Iowa statutes establish commission-reviewed acquisition valuation with ceilings and safeguards,not automatic sale or price increase. The original Cornell2024thesis provides dated count corroboration; January2026national completeness remains open.
+
+## Superseding anchor rule
+
+Owner8:54/8:56 requires exact own-place legal values and all-game-place research for every non-law anchor, followed by realistic per-world variation and simulation evolution. Numeric study effects here are contextual results only until coverage is established; no runtime or seeded world parameter is implemented. One-place Manhattan/SFO/SanFrancisco/NYC evidence cannot become a national anchor. Existing compliant seeded estimates are retained. See Team6handback for exact fields,source coverage and unresolved gaps.

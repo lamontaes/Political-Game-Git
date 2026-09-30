@@ -2494,6 +2494,110 @@
       "year": 2024,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "de-ev-fees2025",
+      "title": "Delaware DMV alternative fuel vehicle fees effectiveOctober2025",
+      "url": "https://dmv.de.gov/Common/DMVFees/index.shtml",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-ev-code",
+      "title": "South Carolina56-3-645 operative2018/amended2021",
+      "url": "https://www.scstatehouse.gov/code/t56c003.php",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-ev-rate2026",
+      "title": "South Dakota Revenue Spring2026 dated change notice",
+      "url": "https://dor.sd.gov/media/rcbdyish/dor-newsletter-spring-2026-final.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-ev-rate",
+      "title": "Tennessee Revenue electric/hybrid registration guide",
+      "url": "https://revenue.support.tn.gov/hc/en-us/articles/360060541291-VR-5-Registration-Fees-for-Hybrid-or-Electric-Vehicles",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-ev-rate2026",
+      "title": "Texas Comptroller fiscal2026 electric motor vehicle revenue authority",
+      "url": "https://fmcpa.cpa.state.tx.us/fiscalmoa/rev.jsp?id=31418",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-ruc-brief2025",
+      "title": "Utah September2025 legislative RUC brief",
+      "url": "https://le.utah.gov/interim/2025/pdf/Road_Usage_Charge_Program.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "vt-ev-code2025",
+      "title": "Vermont23VSA361 infrastructure fee",
+      "url": "https://legislature.vermont.gov/statutes/section/23/007/00361",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "va-ev-rate2025",
+      "title": "Virginia DMV July2025\u2013June2026 highway use fee chart",
+      "url": "https://www.dmv.virginia.gov/sites/default/files/documents/HUF-fee-2025.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-ev-code",
+      "title": "WashingtonRCW46.17.323 registration renewal fees",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=46.17.323",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wv-ev-code",
+      "title": "West Virginia official fulltitle17A with17A-10-3c",
+      "url": "https://code.wvlegislature.gov/email/17A/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-ev-fees",
+      "title": "Wisconsin DOT own fuel surcharge guidance",
+      "url": "https://www.wisconsindot.gov/Pages/dmv/vehicles/title-plates/fuelfee.aspx",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wy-ev-fees",
+      "title": "Wyoming DOT electric vehicle infrastructure FAQ",
+      "url": "https://dot.state.wy.us/home/planning_projects/electric-vehicle-infrastructure/frequently-asked-questions-%28faq%29.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ct-ev-base2025",
+      "title": "Connecticut DMV own passenger registration fee schedule",
+      "url": "https://portal.ct.gov/dmv/resources/dmv-fees",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -3109,7 +3213,7 @@
                 "venue": "Energy Journal29(1),113\u2013134"
               },
               "sources": ["hks2008"],
-              "transferLimit": "Gasoline price response, not directly a tax response. Requires separately sourced tax pass-through; historical coefficient cannot be assumed current or universal. No long-run coefficient admitted. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
+              "transferLimit": "Gasoline price response, not directly a tax response. Requires separately sourced tax pass-through; historical coefficient cannot be assumed current or universal. No long-run coefficient admitted. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Collect the enacted charge on taxable fuel and allocate actual revenue.",
@@ -3507,10 +3611,10 @@
               "differentLargeCityCharters": []
             },
             "DE": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 21DelC2151A /HB164. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["de-ev-fees2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3802,100 +3906,100 @@
               "differentLargeCityCharters": []
             },
             "SC": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 56-3-645. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["sc-ev-code"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "SD": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 32-5-188. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["sd-ev-rate2026"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "TN": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 2023PublicChapter159;codesectionunverified. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["tn-ev-rate"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "TX": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under Transportation502.360 /2023SB505. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["tx-ev-rate2026"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "UT": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 41-1a-1206 and72-1-213.1 /2022HB186. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["ut-ruc-brief2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "VT": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 23VSA361 /2024Act148section36. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["vt-ev-code2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "VA": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 46.2-772/773 /2020ch1230and1275. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["va-ev-rate2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WA": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 46.17.323/324. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["wa-ev-code"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WV": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 17A-10-3c. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["wv-ev-code"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WI": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 341.25(1)(L). Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["wi-ev-fees"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "WY": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-state EV statutory charge; no local levy grant inferred",
+              "reason": "Primary own-state record establishes legislated charge under 31-3-102(a)(xxiii) /2019ch121HB166. Legislature amends the route,agencycalculates/collects within it. Constitutional/local/charterreview remains incomplete.",
+              "sources": ["wy-ev-fees"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3973,7 +4077,7 @@
                 "venue": "UC Davis ITS Research Report18-27, p15 and AppendixA3"
               },
               "sources": ["jenn2018"],
-              "transferLimit": "Observational fixed-effects model. Enactment coefficient\u22120.00238 (p<.05); implementation\u22120.00160 is not statistically significant. Do not assign universal causal response or extrapolate linearly to arbitrary fees. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
+              "transferLimit": "Observational fixed-effects model. Enactment coefficient\u22120.00238 (p<.05); implementation\u22120.00160 is not statistically significant. Do not assign universal causal response or extrapolate linearly to arbitrary fees. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Charge eligible registered vehicles; allocate proceeds.",
@@ -4010,13 +4114,13 @@
             },
             "CT": {
               "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "detail": "Own DMVregular electricpassenger120dollarbase matchesordinarypassengerbase;associatedchargesdiffer. This is not exhaustiveJanuary2026no-levyproof.14-49operativecodetextfailedretrieval;nozero inferred.",
+              "sources": ["ct-ev-base2025"]
             },
             "DE": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Annual BEV/FCEV110/150/260/900dollars;PHEV85/115/200/600;HEV60/80/140/480 across DMVweight bands,electricmotorcycle15. First band<6000,next6001\u201310000 leaves exact6000boundary unresolved. EffectiveOctober2025,nonrefundable/nontransferable.",
+              "sources": ["de-ev-fees2025"]
             },
             "FL": {
               "status": "not in force",
@@ -4174,59 +4278,59 @@
               "sources": ["ri-ev-rate2026"]
             },
             "SC": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Additional BEV/alternative fuel120andhybrid60dollars BIENNIALLY,not annually. Exclusiveelectric/hydrogen/nonmotorfuel outsidefuel-user tax; mixedpropulsionhybrid.2017Act40section6.AJanuary2018;2021Act70section2May2021titlecollection.",
+              "sources": ["sc-ev-code"]
             },
             "SD": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026annual50dollars for noncommercial batteryEVs,motorcyclesordinarylicenseexempt. Notice saysHB1227 raises50to100July2026;later100mustnotbackdate.2021HB1053origin,exactoriginaldayunverified.",
+              "sources": ["sd-ev-rate2026"]
             },
             "TN": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "AnnualadditionalBEV200/HEV-PHEV100dollars,ordinary26.50separate. BEV200Jan2024\u2013Dec2026,274starts2027;hybrid100through2027. Inflation2028future,notbaseline.",
+              "sources": ["tn-ev-rate"]
             },
             "TX": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "BEV200dollars/year or400initialtwo-yearnewregistration. Fullyelectriccars/trucks\u226410000lbGVW;hybridsexcluded. EffectiveSeptember2023.",
+              "sources": ["tx-ev-rate2026"]
             },
             "UT": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026BEV180dollarstatutorycomponent or1.25cent/mile capped180. Combinedextra registrationtotalunknown: separate2023extra14indexednotincluded;2026PHEV/HEVamountsunknown,64/25projectionsestimated. NewRUCenrollmentsBEVonlysince2023,olderhybridparticipantsmayremain.",
+              "sources": ["ut-ruc-brief2025"]
             },
             "VT": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Pleasurecar additionalBEV89annual/178biennial;PHEV44.50/89dollars. Ordinary89/163separate,BEVtotal178/341. EffectiveJanuary2025;trucksseparate.2027mileagetransitionlater,notbaseline.",
+              "sources": ["vt-ev-code2025"]
             },
             "VA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "AnnualBEV131.88dollarsJul2025\u2013Jun2026;fuel-efficientothersvarybyMPG,voluntarymileagealternative. Motorcycles/mopeds/autocycles,>10000lb,government,IRPexempt;low-speed25. Statutory85%fuelcomparisonformula annuallyupdatedJuly.",
+              "sources": ["va-ev-rate2025"]
             },
             "WA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Annualrenewal150plus75=225dollars,externallyrechargeable\u226530batterymilesand>35mph. Otherhybrid/alternativefuel75;electricmotorcyclesseparate30. Renewalscope,notblanketinitialregistration.2012ch74,2016increment,2019ch287electrification.",
+              "sources": ["wa-ev-code"]
             },
             "WV": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "AnnualadditionalBEV200,mixedelectricity-petrochemical100,hydrogen/naturalgas200dollars. Government/specifiedcharitable-veteran exemptionsseparate.2017articleJuly2017;originatingbillunverified.DirectsectionURLbadredirect,fulltitleused.",
+              "sources": ["wv-ev-code"]
             },
             "WI": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "AnnualadditionalBEV175/hybrid75dollars for automobile/lighttruck\u22648000lbexceptdual-purposefarm. Hybridincludesplug/nonplug.2019Act9hybridOctober2019;2023Act19BEV175October2023.",
+              "sources": ["wi-ev-fees"]
             },
             "WY": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026annualplug-inelectricdecal/roadmaintenance200dollars. PrecisePHEVdefinitionunverified;notclaimedBEVonly. Later2026HB145amendmentnotfullyread,excludedfrombaseline.",
+              "sources": ["wy-ev-fees"]
             },
             "DC": {
               "status": "unresearched",
@@ -4804,7 +4908,7 @@
                 "venue": "MTA board reporting"
               },
               "sources": ["mta-results"],
-              "transferLimit": "Observed program result, not a transportable causal coefficient; no confidence interval supplied. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
+              "transferLimit": "Observed program result, not a transportable causal coefficient; no confidence interval supplied. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Collect tolls on liable entries and dedicate revenue to the statutory program.",
@@ -16782,7 +16886,7 @@
                 "venue": "UC Berkeley Institute of Industrial Relations original airport report pp35,54,65"
               },
               "sources": ["sfo-wage2003"],
-              "transferLimit": "Turnover94.7% to18.7%; annual wages13400 to20800 byJan2001. Observational bundled-policy comparison, not isolated wage-law causal effect. Selected employment7339 to8484(+15.6%) is headcount growth, not jobs caused. No transfer to SeaTac or current airports. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
+              "transferLimit": "Turnover94.7% to18.7%; annual wages13400 to20800 byJan2001. Observational bundled-policy comparison, not isolated wage-law causal effect. Selected employment7339 to8484(+15.6%) is headcount growth, not jobs caused. No transfer to SeaTac or current airports. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Sets covered employment standards. Airport enforcement allowed by2015 court decision; projected coverage is not observed wage or headcount effect.",
@@ -20220,7 +20324,7 @@
                 "venue": "Cochrane Database of Systematic Reviews"
               },
               "sources": ["cochrane"],
-              "transferLimit": "Low-certainty initiation evidence; confidence interval includes no benefit. Cannot invert into a certain cessation harm. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
+              "transferLimit": "Low-certainty initiation evidence; confidence interval includes no benefit. Cannot invert into a certain cessation harm. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Permit or prohibit intentional additives; natural fluoride is a separate condition.",
@@ -25804,7 +25908,7 @@
                 "venue": "Applied Economics51(55),5923\u20135936"
               },
               "sources": ["molnar2019"],
-              "transferLimit": "Published model controls potential endogeneity and reports about$5977 overall,$5099 rural premium. Measures available speed, not adoption or a guaranteed municipal-build causal return. No effect assigned to grant amount or current market prices. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
+              "transferLimit": "Published model controls potential endogeneity and reports about$5977 overall,$5099 rural premium. Measures available speed, not adoption or a guaranteed municipal-build causal return. No effect assigned to grant amount or current market prices. Owner8:54/8:56 superseding rule: values set by law are read exactly for each place. Non-law world values need researched anchors covering every game place, adjusted for kind/size, generated with a realistic per-world spread, then carried by simulation. Existing compliant seeded estimates stay. This numeric study result is contextual evidence only until that coverage is established; no world anchor or seeded runtime parameter is implemented by this research PR. Integration remains HELD pending job13."
             }
           ],
           "directMechanism": "Award appropriated program funds to eligible deployment projects under statutory and current program conditions.",
