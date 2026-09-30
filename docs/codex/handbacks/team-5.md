@@ -1,6 +1,6 @@
 # MERGED
 
-No Team 5 product changes have merged. The routing table is ready for review. Two product candidates await checks in the coordinator's queued validation slots. The assignment remains incomplete.
+No Team 5 product changes have merged. The routing table is ready for review. Both product pull requests are READY for the CTO gate. The assignment remains incomplete.
 
 # WHAT EMERGED
 
@@ -23,7 +23,7 @@ Both entries name src/simulation/pressure/events.ts, Build 19, count 1:
 - Kind fixed-share; code `chanceCap: 0.9,`.
 - Kind roll; code `draw(next, ["international", matter, ordinal]) >=`.
 
-The corresponding source removal is in commit `f99e10b48b17efb31a0f32fde7eb8631a01052c5`, draft PR #1134.
+The corresponding source removal is in commit `f99e10b48b17efb31a0f32fde7eb8631a01052c5`, READY PR #1134.
 
 Item 51 has a grounding blocker: day-opening English uses roommate and household IDs to claim home or next-room presence without location evidence. These lines are not a presence producer. Item 43 now uses “your roommate” in the canonical relationship reader and succession fallback. Source commit: `4fc83de4442ec72561e3cabd7bed8724877cd6a7`. ESLint, Prettier and whitespace checks passed; browser proof remains NOT RUN.
 
@@ -34,12 +34,12 @@ Meeting attendees, agenda-driven speech, full pre-play leader history, and most 
 - Routing: 149 unique numbered items, 1 through 149. Report check: 0 errors and 0 warnings. Prettier passed.
 - Two focused notice/opener tests passed before the host restriction. They tested the earlier notice-only candidate, before subsequent news and dossier changes.
 - An earlier three-file canned-news test run was interrupted by Team 5 with exit 130 at the coordinator's request. NO RESULT.
-- Changed-file typecheck: passed for 18 files. Current candidate behavior tests: running. Full project typecheck, release check, zero-dice, watched worlds and timing: NOT RUN.
-- The resumed eight-file default-loader invocation produced no test results and was interrupted by Team 5, exit 130, NO RESULT. The same files are running with the runner config loader; no exclusions or timeout changes.
+- Changed-file typecheck: passed for 18 files. Separate bounded behavior results are listed below. Full project typecheck, release check, zero-dice, watched worlds and timing: NOT RUN.
+- The resumed eight-file default-loader invocation produced no test results and was interrupted by Team 5, exit 130, NO RESULT. The runner invocation finished; its final result is below. No exclusions or timeout changes.
 - Browser and GitHub validation: NOT RUN locally, per the latest direction assigning these to Claude.
 - Current bounded behavior results: dossier 3 tests passed; archive 2 tests passed after an absent-collection fixture repair; guard and headline 2 tests passed after removal of an obsolete comment caption. These are separate invocations, not a passing eight-file suite.
-- Original eight-file suite: 3 meeting failures among 10 meeting tests observed. Cause unresolved pending assertion/stack output. The failed entries are local-chair attendance in 2743000, and explicit entry/staying through the remaining meeting in 2743000 and 1150000. Full file duration: 551,217 ms. No timeout or exclusion change.
-- Dossier date-guard increment: ESLint, Prettier and whitespace checks passed. The behavior run is still pending. Changed-file typecheck now passes for 18 files with zero diagnostics after fixture ID/date repairs. The repair commit is `658af24ed0b411734500a77de485d706e7d245ea`.
+- Original eight-file suite: 3 meeting failures among 10 meeting tests observed. The final assertion text reports timeouts; the underlying cause is unresolved. The failed entries are local-chair attendance in 2743000, and explicit entry/staying through the remaining meeting in 2743000 and 1150000. Full file duration: 551,217 ms. No timeout or exclusion change.
+- Dossier date-guard increment: ESLint, Prettier and whitespace checks passed. The separate dossier behavior run passes 3 tests. Changed-file typecheck now passes for 18 files with zero diagnostics after fixture ID/date repairs. The repair commit is `658af24ed0b411734500a77de485d706e7d245ea`.
 - Report agent review: NOT RUN. The wave permits one source-research helper only; no reviewer helper was started.
 
 ## Candidate before and after
@@ -54,9 +54,9 @@ The separate small-copy candidate addresses items 3, 85, 95, 125, 130, 142 and 1
 
 ## Source and workspace
 
-The small-copy [draft PR #1135](https://github.com/lamontaes/Political-Game-Git/pull/1135) repairs place selection and developer wording. Its source checkpoint is `acf6d17d99f900db4de61c49bf24d8ec83f54e4a`, on `codex/team-5-playtest-copy`. This branch starts from main and is independent of the larger candidate.
+The small-copy [READY PR #1135](https://github.com/lamontaes/Political-Game-Git/pull/1135) repairs place selection and developer wording. Its source checkpoint is `acf6d17d99f900db4de61c49bf24d8ec83f54e4a`, on `codex/team-5-playtest-copy`. This branch starts from main and is independent of the larger candidate.
 
-The unvalidated [draft PR #1134](https://github.com/lamontaes/Political-Game-Git/pull/1134) retires canned news and exposes record-backed history. Its original product checkpoint is `f99e10b48b17efb31a0f32fde7eb8631a01052c5`. The dossier source-date guard is in `1211def515e239254e1a578c98ef00664d24f268`; it withholds biography whose source event has not yet been recorded. It is stacked on the routing branch and must remain unmerged until its required checks and dependency review pass.
+The unvalidated [READY PR #1134](https://github.com/lamontaes/Political-Game-Git/pull/1134) retires canned news and exposes record-backed history. Its original product checkpoint is `f99e10b48b17efb31a0f32fde7eb8631a01052c5`. The dossier source-date guard is in `1211def515e239254e1a578c98ef00664d24f268`; it withholds biography whose source event has not yet been recorded. It is stacked on the routing branch and must remain unmerged until its required checks and dependency review pass.
 
 The routing-only [PR #1132](https://github.com/lamontaes/Political-Game-Git/pull/1132) assigns every September 29 playtest item to a job. It does not mark any defect fixed.
 
@@ -142,3 +142,25 @@ No new product decision is required for the candidate. The owner granted standin
 # PLACEHOLDERS
 
 The 90-day opening archive window is an authored editorial limit. Retired synthetic entry points remain until the owners of their callers merge. No missing historical occurrence is replaced with a stand-in.
+
+## Completed focused checks and original suite result
+
+The retirement fixture now schedules its synthetic transition for the following day. The previous fixture used today, which the scheduler correctly rejected. The unchanged cancellation assertions pass: 1 test passed. Its changed-file typecheck reports zero diagnostics. Source repair: `520bfd610998328e4bb8c8e0a6f16c8fa28e19de`.
+
+The original eight-file invocation completed with exit 1: 4 tests failed and 17 passed, with one worker error. It began at `e8d7e60bbe15875d8e6011b1309ff77e474833d2`; sources changed while it ran, so this is not immutable-head acceptance. One failure was the retirement fixture repaired above. The three meeting failures each report `Error: Test timed out in 60000ms.`:
+
+- `records a local chair only on successful attendance in 2743000`, reported at ordinary-meeting-scene.test.ts:153:34.
+- `enters explicitly then stays through the remaining meeting exactly once in 2743000`, reported at ordinary-meeting-scene.test.ts:239:34.
+- The same explicit-entry test in 1150000, reported at ordinary-meeting-scene.test.ts:239:34.
+
+The underlying meeting cause remains unmeasured. No timeout or exclusion was changed. The pressure test includes a 910-day simulation. Under the owner's post-merge full-simulation rule, Team 5 interrupted only its identified worker; that scenario has NO RESULT. The parent reported the worker exit. The saved assertion output is `/private/tmp/team5-original-suite-final.log`. The fixture rerun is `/private/tmp/team5-retirement-fixture-rerun.log`.
+
+The separate meeting-controls branch records eligible sitting council officers and explicit recorded participants. It removes group-ranked filler and manufactured NPC speeches, and hides controls without a working callback. Four changed files pass the scoped typecheck. Its direct card and opening tests pass 6 tests. Meeting tests and browser screenshots remain pending. Its saved head is `c13cf80b8d9d96efa6665b3914a2b5985b753c8a`.
+
+Team 2 should read canonical history through `factsForPerson(world.people[id])`.
+
+Resolve each fact source event through `eventById(world, id)`.
+
+New plans use `applyCharacterHistoryPlan(world, plan)` and its returned world. The dossier is an access-aware presentation reader.
+
+The shared claim lock is now a regular file, so atomic directory acquisition refuses. Team 5 has not bypassed it. The scene presentation source remains unclaimed and unedited. Existing claimed paths remain available for this work.
