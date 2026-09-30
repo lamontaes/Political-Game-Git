@@ -1,3 +1,9 @@
+## September 30, 2:37 repair checkpoint
+
+Coordinator #1297 now c349cde25be54d5147522c0ee0136230e3e117d4. Merge ran canonical Save/Continue1/1PASS10.04s,3roots0,format/whitespacePASS at predecessor0bb59d17; lint caught one unused test binding. Only that binding repaired; current-head rerun pending. No production changes in repair.
+
+Team7 received the completed Audit child-stage/crop/room-pose diagnosis and was directed to continue approved import with exact claims. Team8 privacy1298 current7e61ea718d9078148b869a95745605aeeaad26f8 has shared-month review requested in00b; no standing approval inferred. Audit first per-law partial requested now from sealed worlds; do not wait for all56. Team9 next juvenile-court-age entrypoint requested from Audit. Team3 paid-leave conflict repair remains active.
+
 ## September 30, 2:30 active build and collection
 
 ### MERGED
