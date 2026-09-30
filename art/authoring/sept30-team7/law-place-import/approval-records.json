@@ -1,0 +1,503 @@
+{
+  "records": [
+    {
+      "asset_id": "env_team7_law_courtroom_sept30",
+      "kind": "courtroom",
+      "source": {
+        "kind": "courtroom",
+        "file": "art/authoring/sept30-team7/law-places/courtroom.png",
+        "sha256": "3d9e4ce3be756abab935b9c043ada047d6a7c2dd234b10bd7357ed1015cd1017",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/courtroom-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/county-courtroom__midday.jpg",
+            "sha256": "b7ac03ffe87e512da2f6959ead72f77768f700baef10770e8b643f4049fdc2f2",
+            "license": "not documented; owner-supplied project reference, no independent rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "not documented; owner-supplied project reference, no independent rights certification"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-178e1a0a-03f9-4b9b-8936-53839d318b3e.png",
+        "promptSummary": "Empty first-person county courtroom; judge/clerk/witness/jury/counsel/gallery; clear aisle, muted wood and cream, charcoal outlines and broad cel shading; no text/people. Existing courtroom layout and owner master rendering references attached.",
+        "visualReview": "Native candidate viewed: empty room, clear center aisle, no readable lettering observed; style and layout candidate only.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated using owner-supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "04617848536bc1e67bd900373720799f7bf291b49f016552de131bfca6ee02ca"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_county_board_room_v2_sept30",
+      "kind": "county-board-room-v2",
+      "source": {
+        "kind": "county-board-room-v2",
+        "file": "art/authoring/sept30-team7/law-places/county-board-room-v2.png",
+        "sha256": "daf8268d617fae2f0b895a937b45d14accd93c164e985a3e02db8d7ddb53aad4",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/county-board-room-v2-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/council-chamber__midday.jpg",
+            "sha256": "c46d312419bcc56c6aebc4e31d9270f3301684fefcfa1f1a6781273749c520cb",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-d5ccceea-7583-48ef-830c-942f250a2fb5.png",
+        "promptSummary": "Targeted edit of county-board-room.png: add missing far-left dais chair; preserve layout.",
+        "visualReview": "Native review: five visible dais chairs now align with five nameplates. Candidate only; stage access and actor fit NOT RUN.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "5924edbbd6ffd49a4cbd97c373e641f9d9f77cb2b89396e26963450ec1031ac5",
+        "editParent": "art/authoring/sept30-team7/law-places/county-board-room.png",
+        "editParentSha256": "9f2227c361aaf9e2e2f87f5ce0a44f1495b09adf2095b289de7e0cbeb690163e"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_polling_place_sept30",
+      "kind": "polling-place",
+      "source": {
+        "kind": "polling-place",
+        "file": "art/authoring/sept30-team7/law-places/polling-place.png",
+        "sha256": "ba4abda92ad6c6d991390563343b3e44eefbe7951ce646abfc6ab7049446da03",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/polling-place-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/polling-place__midday.jpg",
+            "sha256": "b24ca8d406600c37e5e9c12f9a82fd4227f3f1d76b14361436f1ef00348c5195",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ed53d5c2-6128-4e0d-b54a-fb702fc18728.png",
+        "promptSummary": "Empty school gym polling place; blank booths/check-in/scanner, clear floor, charcoal contours, muted cel shading.",
+        "visualReview": "Native review: no readable lettering or people; open foreground. Low booth visible, accessibility dimensions NOT measured.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "1b08d5225708d312a72da28b60b34376904c994b6a1ae5e2aa14b803fa4c5b69"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_public_library_sept30",
+      "kind": "public-library",
+      "source": {
+        "kind": "public-library",
+        "file": "art/authoring/sept30-team7/law-places/public-library.png",
+        "sha256": "22a8dee9fa1debcad933765edf242575fe1ed589ffebc5e4cfdbd92047f22992",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/public-library-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/public-library__midday.jpg",
+            "sha256": "afac024c670e6a3964daa30a4c1489d625647b9d48f4e8035d915efd65beccff",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-49630c7e-8f26-482e-8abb-c7fb3a3e82e7.png",
+        "promptSummary": "Empty library, desk right tables left, clear foreground, blank books, broad cel shadows and simplified surfaces.",
+        "visualReview": "Native review: no readable text or people; clear foreground; furniture contact and actor fit NOT RUN.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "d5c5501134dcdd4ab16f63587f11c352f06a914c004428fffe581dacf35e23dc"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_school_classroom_sept30",
+      "kind": "school-classroom",
+      "source": {
+        "kind": "school-classroom",
+        "file": "art/authoring/sept30-team7/law-places/school-classroom.png",
+        "sha256": "2aa552d5a5cef3dbe3a7cad418d135df305ef8fd9a408684de345c6c122f9fb7",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/school-classroom-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/classroom__midday.jpg",
+            "sha256": "9ff619cc8607ae5bc129e7c19cbf5ce6e054a03e748eb7ffb2b7c0740e5bd429",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-f0fdf2b9-3126-4cd3-ae42-083d28361919.png",
+        "promptSummary": "Empty classroom, central aisle, teacher desk offset left, blank whiteboard, blue chairs, muted illustrated style.",
+        "visualReview": "Native review: blank whiteboard, no people or readable lettering. Center aisle visible; desk contacts and actor fit untested.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "72b5802815d73ca1a9f3ea9ad04556a86a9f3950fde3e659eab4dad71b60f1a5"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_clinic_sept30",
+      "kind": "clinic",
+      "source": {
+        "kind": "clinic",
+        "file": "art/authoring/sept30-team7/law-places/clinic.png",
+        "sha256": "098b8eb4c5855d89f43570c85148a23be5a4ad935f822a0186c7e7031b50597d",
+        "dimensions": [
+          1681,
+          936
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/clinic-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-hospital-waiting-room__mi.png",
+            "sha256": "db0c2115471b11c33f15bc77d1832bbcfe9f24ed7fa2a16f501c4ca37e879fb0",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-9f160c75-25ee-4174-92b5-4b83e785ba18.png",
+        "promptSummary": "Community clinic reception, blue chairs left, lower counter right, two exam doors, cream/sage, no text/people.",
+        "visualReview": "Native review: clear floor and blank notices, no people. Accessible-section dimensions and actor contacts not measured.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "df823bc642877da665668db1cd71c2ac1db01e79f034ba5e92bbe0799a6d933b"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_homeless_shelter_sept30",
+      "kind": "homeless-shelter",
+      "source": {
+        "kind": "homeless-shelter",
+        "file": "art/authoring/sept30-team7/law-places/homeless-shelter.png",
+        "sha256": "686b787bf7ba2699bd4aef7b7485476032fab16fa0fef0e5359c742ab9048135",
+        "dimensions": [
+          1681,
+          936
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/homeless-shelter-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-emergency-shelter-gym__mi.png",
+            "sha256": "716fd11663786fefca975a6136381d563ef974004c500d086d570a752e07681a",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-25d75bbe-6e83-4116-9408-0d25eb42599e.png",
+        "promptSummary": "Permanent shelter dormitory, beds/lockers/privacy partitions, clear aisle, empty, muted illustrated style, no text.",
+        "visualReview": "Native review: clear aisle, no people/readable text; floor retains soft texture, owner style review required. Depicted beds do not establish simulation capacity.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "73a74f155a75f6dccc7251bdf5428a848d030dac83883742c3df5794d5d7c974"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_jail_visiting_room_v2_sept30",
+      "kind": "jail-visiting-room-v2",
+      "source": {
+        "kind": "jail-visiting-room-v2",
+        "file": "art/authoring/sept30-team7/law-places/jail-visiting-room-v2.png",
+        "sha256": "223f6e8113142cb73bc43a33e5734058a1addaf164a50806842681ad5d358a7b",
+        "dimensions": [
+          1681,
+          936
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/jail-visiting-room-v2-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-jail-visiting-room__midda.png",
+            "sha256": "5005ecec8c38a4216508da069bc42e247dd310d304440c62d164168f5744f534",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-65ad99d6-e7ef-47f4-a7fc-05244e178b80.png",
+        "promptSummary": "Correct prior candidate to straight row of five booths, one handset and stool each, door at right, clear foreground.",
+        "visualReview": "Native review: five coherent near-side booths and clear door approach. Opposite-side room/seating not depicted; review limitation, no operational-layout approval.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "ffe8ecca5f6f59a8d994b5fd53e19faba634aab79ecd17e65abdbd277a2bb968",
+        "editParent": "art/authoring/sept30-team7/law-places/jail-visiting-room.png",
+        "editParentSha256": "8fdb98e0f11f6a7208b9d4ea143003bd1136a4c80ccd303a8bbd182e5425444a"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_state_agency_counter_sept30",
+      "kind": "state-agency-counter",
+      "source": {
+        "kind": "state-agency-counter",
+        "file": "art/authoring/sept30-team7/law-places/state-agency-counter.png",
+        "sha256": "525d4a453f5b75d69de89d5ea17fea272bea7acbc5d3f17adfeca9f2a009e22d",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/state-agency-counter-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/dmv-office__midday.jpg",
+            "sha256": "e98cd8219e10223c72e86144d12b7bfc5a61905ed1584ffe8cdef021a8af316f",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ae849ab0-295c-4773-ae20-6c6510d36929.png",
+        "promptSummary": "Generic state service counter, central aisle and blank displays, muted blue/cream, no text/people.",
+        "visualReview": "Native review: blank displays, open aisle, no readable lettering. Counter count differs from prompt; no mandated office capacity inferred. Actor fit untested.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "7190f1002853726fb7ade0b8974fb4a4931173c2669761e96deb3fd705b74566"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    },
+    {
+      "asset_id": "env_team7_law_union_hall_sept30",
+      "kind": "union-hall",
+      "source": {
+        "kind": "union-hall",
+        "file": "art/authoring/sept30-team7/law-places/union-hall.png",
+        "sha256": "a26911e4c11b569f6be3eec7c46017c1705588a0f953a3ba3a2b8453b001079b",
+        "dimensions": [
+          1672,
+          941
+        ],
+        "contact": "art/authoring/sept30-team7/law-places/union-hall-contact.jpg",
+        "references": [
+          {
+            "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/union-hall__midday.jpg",
+            "sha256": "0619be3bd87a9c6bdb88f89361edd202a2e3f569c1ca24fb65bed60a412333a0",
+            "license": "not documented; owner-supplied project reference, no rights certification"
+          },
+          {
+            "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+            "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+            "license": "owner-supplied style master; no standalone license documented"
+          }
+        ],
+        "generationTool": "built-in image_gen",
+        "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-1ba9bf2d-dc3b-4d7c-a00e-e3f9f704ae52.png",
+        "promptSummary": "Empty union hall, folding chairs replacing pews, three-seat table and lectern, clear aisle, blank boards, illustrated style.",
+        "visualReview": "Native review: no readable lettering or people; clear aisle and folding chairs. Platform access/actor fit NOT RUN.",
+        "approved_for_game": "no",
+        "runtime_release_status": "candidate",
+        "actorFit": "NOT RUN",
+        "license": "AI-generated from supplied references; no standalone license grant asserted",
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "contactSha256": "4297e65cd8c3b609aa216556ef72ec36e4c9979a1291fdc04712c9d68ef9f346"
+      },
+      "approval": {
+        "documentId": "1jakd6cgW5v2nQbSikQ6xis1ZChuBmYzVfwq1tHfyYkA",
+        "time": "2026-09-30T11:48:00-04:00",
+        "statement": "Team 7's ten law-place pictures (#1223): APPROVED. Team 7: prepare the import (admission records and manifest) as a ready PR.",
+        "sourcePR": 1223,
+        "sourceHead": "71dd645634b38b77ec6eafd794a4f30e9a921364"
+      },
+      "admission": "blocked-native-width",
+      "geometry": "unresolved",
+      "runtimeRelease": "unreleased"
+    }
+  ],
+  "excluded": [
+    "county-board-room",
+    "jail-visiting-room"
+  ],
+  "regionalApproval": "not granted"
+}
