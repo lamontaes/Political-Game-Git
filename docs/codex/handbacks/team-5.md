@@ -25,7 +25,7 @@ Both entries name src/simulation/pressure/events.ts, Build 19, count 1:
 
 The corresponding source removal is in commit `f99e10b48b17efb31a0f32fde7eb8631a01052c5`, draft PR #1134.
 
-Item 51 has a grounding blocker: day-opening English uses roommate and household IDs to claim home or next-room presence without location evidence. These lines are not a presence producer. Item 43 has a prepared canonical roommate wording patch.
+Item 51 has a grounding blocker: day-opening English uses roommate and household IDs to claim home or next-room presence without location evidence. These lines are not a presence producer. Item 43 now uses “your roommate” in the canonical relationship reader and succession fallback. Source commit: `4fc83de4442ec72561e3cabd7bed8724877cd6a7`. ESLint, Prettier and whitespace checks passed; browser proof remains NOT RUN.
 
 Meeting attendees, agenda-driven speech, full pre-play leader history, and most items routed to Job 09 remain open. The candidate records each public comment listener in the comment event and gives each listener direct knowledge. It does not yet produce an attendee-specific reply. Neither a five-year story count nor a three-year speed comparison has been run. No watched-world outcome is claimed.
 
@@ -121,8 +121,8 @@ Claimed paths were appended under the atomic shared lock before edits. Only Team
 - `src/player/SetupScreen.tsx`
 - `src/presentation/day-opening-english.ts` (claimed; unedited)
 - `src/presentation/day-opening-english.test.ts` (claimed; unedited)
-- `src/simulation/person-context.ts` (claimed; wording patch prepared)
-- `src/presentation/people-continuation.ts` (claimed; wording patch prepared)
+- `src/simulation/person-context.ts` (roommate wording repaired)
+- `src/presentation/people-continuation.ts` (roommate wording repaired)
 
 # NEEDS LAMONTAE
 
