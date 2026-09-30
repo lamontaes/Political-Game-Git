@@ -1,6 +1,6 @@
-# Mileage budget attribution is tested; its caller is pending
+# Mileage attribution checkpoint is preserved for the shared law path
 
-The mileage helper preserves the law identity for the existing modeled budget source. Five sampled states pass the attribution and absence checks. The shared monthly caller still needs its narrow ownership release. This checkpoint adds no saved production stamp and proves no driver payment or ride. The existing rural and fare-relief payment cost writers are merged.
+The mileage helper preserves the law identity for the existing modeled budget source. Five sampled states pass the attribution and absence checks. The owner-authorized shared law contract supersedes the monthly caller request. The preserved patch must not be applied. This checkpoint adds no saved production stamp and proves no driver payment or ride. The existing rural and fare-relief payment cost writers are merged.
 
 ## 1. Why-chain
 

@@ -1,0 +1,27 @@
+{
+  "typeSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+  "preservedStampSourceHead": "599bcd0837670f0788aa8173a517d16a0e5370f0",
+  "assignedCanonicalQuestions": 14,
+  "missingCapabilityEntries": 14,
+  "disabledTypedCostProposals": 2,
+  "admittedRows": 0,
+  "typeErrors": 0,
+  "runtimeProof": "NOT RUN",
+  "format": "PASS",
+  "scriptSyntax": "PASS",
+  "reportCheck": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "reproduce": [
+    "git show 66080657e91e79d139050f6d02cd56d7a03c7114:src/simulation/law-consequence-types.ts > test-results/team6-stamps/law-consequence-types-66080657.ts",
+    "node --max-old-space-size=3072 docs/codex/effect-batches/team-6/check-consequence-inputs.cjs test-results/team6-stamps/law-consequence-types-66080657.ts"
+  ],
+  "limits": [
+    "Exact source field names in disabled proposals are references, not engine registry keys.",
+    "No selector/action capability was invented or registered by this conversion.",
+    "No runnable migration or new saved law effect is claimed.",
+    "Existing two merged transit cost examples remain historical receipts, not shared-handler proof."
+  ],
+  "dependency": "Coordinator/Audit supplies admitted price-cost subject/action/record/guard keys and payment activity; actual service/person exposure requires independent records."
+}

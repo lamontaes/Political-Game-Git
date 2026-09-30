@@ -1,0 +1,472 @@
+{
+  "version": 1,
+  "team": 6,
+  "contract": {
+    "typeSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+    "typeSourcePath": "src/simulation/law-consequence-types.ts",
+    "designSourceHead": "1e44b588",
+    "designSourcePath": "docs/codex/one-law-consequence-contract.md",
+    "typeSourceSha256": "c11bbb877c66e652f0a675fb17725980b3c25f057e39df4569199d3f817e4675"
+  },
+  "rowsPath": "docs/codex/effect-batches/team-6/consequence-rows.json",
+  "assignedLaws": 14,
+  "admittedRows": 0,
+  "admittedLaws": 0,
+  "status": "MISSING_BINDINGS_NOT_ZERO_EFFECTS",
+  "scope": "Current14laws only. ParksTeam5; cannabisTeam4. No new per-law month/index callers.",
+  "missingCapabilities": [
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Budget allocation shifts from highway work to transit.",
+        "Transit operator funding can change capacity and scheduled service.",
+        "Changed service can change trips and work access; these require separate records.",
+        "Highway resources and maintenance trade-offs may change."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Filed reallocation terms \u00d7 existing authorized highway/transit budget lines and actual available funds; admitted budget/program selector and allocation action.",
+        "Actual commitment/completed-payment IDs and operator capacity; highway foregone work/service cannot be inferred from a budget flag.",
+        "Delivered service and named rider exposure before trips/work-access onward rows."
+      ],
+      "requestedKinds": ["institution-rule", "price-cost", "service-delivered"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Covered riders cease paying the specified fare.",
+        "Operator fare revenue falls; replacement funding or service changes require a government budget record.",
+        "Demand and trips can change subject to coverage and capacity.",
+        "A rider's payment and trip must reach their saved record."
+      ],
+      "knownInputs": [
+        {
+          "source": "src/simulation/governing/public-program-transit.ts:recordPaidTransitProgramService",
+          "sourceHead": "cc6da21a8d5445ce2e6e1cf77ff5c874a9b669e1",
+          "mergeHead": "23bf22b81a30a9f4847b6373b273ce39988dc131",
+          "recordChain": [
+            "appropriation.sourceMeasureId",
+            "commitment.appropriationId",
+            "commitment.installments[installment.installmentIndex]",
+            "installment.commitmentId",
+            "installment.resourceFlowId",
+            "outcome.resourceFlowId"
+          ],
+          "units": "Exact installment-plan amount and matching completed transfer amount in currency minor units; matching currency required.",
+          "activity": "Posted installment on its saved recordedAt; canonical source measure must be operative then.",
+          "scope": "appropriation.jurisdictionId; government.outlays segmentKey:null; installment date interval.",
+          "purpose": "Operating purpose required for rural hours; fare-relief family is separately checked.",
+          "actualCost": "The cash transfer is already posted. Preserve and attribute this payment without debiting again.",
+          "repeal": "Completed payment history retained; later payment authority must be resolved prospectively."
+        },
+        {
+          "source": "docs/codex/effect-batches/team-6/fare-relief-cost-proof.json",
+          "namedReceipt": {
+            "usps": "OH",
+            "measureId": "legislative-measure_d78257556e122bf7",
+            "installmentId": "public-program-record_c87617175a447f36",
+            "outcomeId": "resource-transfer-outcome_85da873b3594a395",
+            "paidMinorUnits": 266666666,
+            "operativeAt": "2026-04-19",
+            "paidAt": "2026-04-30"
+          },
+          "use": "Receipt identity only, not a constant amount in a consequence expression."
+        }
+      ],
+      "missingCapabilities": [
+        "Registry-admitted selector for saved public-program posted installments and its exact subject/activity IDs; type and design do not name one.",
+        "Registry-admitted price-cost action that attributes an already-completed government outlay without another debit, budget amount or transfer.",
+        "Admitted term and record bindings for filed appropriation authority, installment-plan money, completed-transfer money/currency and remaining authorization; exact-chain and operative-law predicates.",
+        "Price-cost activity contract for a posted expenditure: when=service must not assert delivered transport; no standalone payment activity exists in the approved type.",
+        "Saved actual operator labor/fuel/vehicle costs, delivered service and named rider trip/payment/exposure bindings before any service-delivered or onward row.",
+        "Filed fare/coverage terms and actual eligible boarding/fare transactions; the replacement government payment is not a rider fare.",
+        "Register exact source-measure, profile/purpose, payment-chain, currency, completed-outcome and operative-date predicates before admission; proposed conditions/predicates are empty because no admitted keys were supplied.",
+        "Migrate the existing callback to the shared handler or disable it for this row; preserve stable installment budget-cost idempotence and prior stamps. Never apply both paths or pay again."
+      ],
+      "requestedKinds": ["price-cost", "service-delivered"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet.",
+      "proofSource": "docs/codex/effect-batches/team-6/fare-relief-cost-proof.json",
+      "proposedRowEnabled": false,
+      "proposedRowBindingStatus": "Source record type, writer and field names below are exact existing references for coordinator binding. They are NOT registry capability keys or executable object paths. The proposal stays in missing-capabilities, outside runnable rows.",
+      "proposedRow": {
+        "id": "us-policy-positions:transportation-infrastructure.fare-free-transit:completed-government-payment-cost:v1",
+        "kind": "price-cost",
+        "when": "service",
+        "who": {
+          "selector": "PublicProgramInstallmentRecord",
+          "predicates": []
+        },
+        "what": "recordPaidTransitProgramService",
+        "amount": {
+          "op": "record",
+          "key": "outcome.transferredAmount.minorUnits",
+          "unit": "minor"
+        },
+        "conditions": [],
+        "lag": {
+          "days": 0,
+          "sourceIds": [
+            "src/simulation/governing/public-program-transit.ts:recordPaidTransitProgramService"
+          ]
+        },
+        "onRepeal": "preserve-completed",
+        "evidence": {
+          "sourceIds": [
+            "docs/codex/effect-batches/team-6/fare-relief-cost-proof.json",
+            "23bf22b81a30a9f4847b6373b273ce39988dc131:src/simulation/governing/public-program-transit.ts"
+          ],
+          "population": "Actual saved appropriation payer and completed installment recipient; not riders or eligible boardings.",
+          "scope": "Only matching saved measure/appropriation/commitment/installment/flow/completed outcome and currency at the canonical operative payment date. Rural operating purpose or supported fare-relief family as applicable.",
+          "why": "The saved authorized commitment fixes the planned amount. The completed cash outcome must equal that plan in amount and currency. The already-posted government outlay is an actual cost. Its bookkeeping attribution does not deliver service or create another debit.",
+          "uncertainty": "Registry selector/action/record/guard bindings and a payment-activity contract are absent from the supplied type/design. This disabled shape proposal cannot be admitted or applied. No service quantity or person exposure is inferred."
+        }
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Appropriation authorizes spending.",
+        "Executive commitment selects operating or maintenance installments.",
+        "Completed transfers pay the recorded recipient.",
+        "Actual service availability, use and rider decisions require separate evidence.",
+        "Knowledge and noticing require saved person or press records."
+      ],
+      "knownInputs": [
+        {
+          "source": "src/simulation/governing/public-program-transit.ts:recordPaidTransitProgramService",
+          "sourceHead": "cc6da21a8d5445ce2e6e1cf77ff5c874a9b669e1",
+          "mergeHead": "23bf22b81a30a9f4847b6373b273ce39988dc131",
+          "recordChain": [
+            "appropriation.sourceMeasureId",
+            "commitment.appropriationId",
+            "commitment.installments[installment.installmentIndex]",
+            "installment.commitmentId",
+            "installment.resourceFlowId",
+            "outcome.resourceFlowId"
+          ],
+          "units": "Exact installment-plan amount and matching completed transfer amount in currency minor units; matching currency required.",
+          "activity": "Posted installment on its saved recordedAt; canonical source measure must be operative then.",
+          "scope": "appropriation.jurisdictionId; government.outlays segmentKey:null; installment date interval.",
+          "purpose": "Operating purpose required for rural hours; fare-relief family is separately checked.",
+          "actualCost": "The cash transfer is already posted. Preserve and attribute this payment without debiting again.",
+          "repeal": "Completed payment history retained; later payment authority must be resolved prospectively."
+        }
+      ],
+      "missingCapabilities": [
+        "Registry-admitted selector for saved public-program posted installments and its exact subject/activity IDs; type and design do not name one.",
+        "Registry-admitted price-cost action that attributes an already-completed government outlay without another debit, budget amount or transfer.",
+        "Admitted term and record bindings for filed appropriation authority, installment-plan money, completed-transfer money/currency and remaining authorization; exact-chain and operative-law predicates.",
+        "Price-cost activity contract for a posted expenditure: when=service must not assert delivered transport; no standalone payment activity exists in the approved type.",
+        "Saved actual operator labor/fuel/vehicle costs, delivered service and named rider trip/payment/exposure bindings before any service-delivered or onward row.",
+        "Register exact source-measure, profile/purpose, payment-chain, currency, completed-outcome and operative-date predicates before admission; proposed conditions/predicates are empty because no admitted keys were supplied.",
+        "Migrate the existing callback to the shared handler or disable it for this row; preserve stable installment budget-cost idempotence and prior stamps. Never apply both paths or pay again."
+      ],
+      "requestedKinds": ["price-cost", "service-delivered"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet.",
+      "supersededInput": "The old effect list claimed authored paid hours from payments.1283 removed that inference; no payment-derived hours or rider reaction may be converted.",
+      "proofSource": "docs/codex/effect-batches/team-6/stamp-batch-status.json: five-state rural cost fixtures; historical counts superseded by verified1283 merge.",
+      "proposedRowEnabled": false,
+      "proposedRowBindingStatus": "Source record type, writer and field names below are exact existing references for coordinator binding. They are NOT registry capability keys or executable object paths. The proposal stays in missing-capabilities, outside runnable rows.",
+      "proposedRow": {
+        "id": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours:completed-government-payment-cost:v1",
+        "kind": "price-cost",
+        "when": "service",
+        "who": {
+          "selector": "PublicProgramInstallmentRecord",
+          "predicates": []
+        },
+        "what": "recordPaidTransitProgramService",
+        "amount": {
+          "op": "record",
+          "key": "outcome.transferredAmount.minorUnits",
+          "unit": "minor"
+        },
+        "conditions": [],
+        "lag": {
+          "days": 0,
+          "sourceIds": [
+            "src/simulation/governing/public-program-transit.ts:recordPaidTransitProgramService"
+          ]
+        },
+        "onRepeal": "preserve-completed",
+        "evidence": {
+          "sourceIds": [
+            "docs/codex/effect-batches/team-6/stamp-batch-status.json: five-state rural cost fixtures; historical counts superseded by verified1283 merge.",
+            "23bf22b81a30a9f4847b6373b273ce39988dc131:src/simulation/governing/public-program-transit.ts"
+          ],
+          "population": "Actual saved appropriation payer and completed installment recipient; not riders or eligible boardings.",
+          "scope": "Only matching saved measure/appropriation/commitment/installment/flow/completed outcome and currency at the canonical operative payment date. Rural operating purpose or supported fare-relief family as applicable.",
+          "why": "The saved authorized commitment fixes the planned amount. The completed cash outcome must equal that plan in amount and currency. The already-posted government outlay is an actual cost. Its bookkeeping attribution does not deliver service or create another debit.",
+          "uncertainty": "Registry selector/action/record/guard bindings and a payment-activity contract are absent from the supplied type/design. This disabled shape proposal cannot be admitted or applied. No service quantity or person exposure is inferred."
+        }
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Rate, taxable miles, exemptions and credit rules determine driver liability.",
+        "Fuel-tax replacement changes government collections and road funding.",
+        "Metering and administration impose compliance costs and privacy consequences.",
+        "Vehicle and travel choices require a person's actual records."
+      ],
+      "knownInputs": [
+        {
+          "source": "docs/codex/effect-batches/team-6/mileage-stamp-checkpoint.json",
+          "sourceHead": "599bcd0837670f0788aa8173a517d16a0e5370f0",
+          "actualRecord": "Existing settled budget row revenue[selectiveSalesTaxes], including other taxes.",
+          "limit": "Tested helper has no production caller; modeled aggregate tax factor is not actual driver mileage, liability or collected payment."
+        }
+      ],
+      "missingCapabilities": [
+        "Filed per-mile rate, actual taxable miles, exemptions/credits, payer and currency-compatible tax terms; no per-mile unit is declared in LawAmountUnit.",
+        "Admitted driver/activity selector and assessment action on an actual mileage record; collected transfer and prospective repeal must remain distinct.",
+        "Saved administration/metering/privacy workload and actual cost inputs; selective-tax source total cannot supply them."
+      ],
+      "requestedKinds": ["tax", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet.",
+      "supersededInput": "Per-law month.ts caller request is superseded. Preserve1303 source/patch as historical checkpoint; do not apply it."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Legal authority and capital or operating funding enable public service.",
+        "Coverage, enrollment, price and eligibility determine access.",
+        "Household payments and business or employment consequences require readers.",
+        "Management and compliance costs reach the appropriate public budget."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Actual public-provider authority/ownership and filed capital/operating terms; existing generic broadband subsidy does not establish public ownership.",
+        "Admitted provider/household selectors, actual coverage/enrollment and service-capacity records; authorized funding is not a connection.",
+        "Actual service/purchase/payment and operating-cost records before price-cost or employment onward rows; study contrasts cannot supply individual wages or hours."
+      ],
+      "requestedKinds": [
+        "right-permission",
+        "coverage-eligibility",
+        "service-delivered",
+        "price-cost"
+      ],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Project prioritization changes repair versus expansion spending.",
+        "Procurement and maintenance determine road condition and available capacity.",
+        "Road condition may change driver vehicle costs and travel conditions.",
+        "Budget trade-offs and household effects require saved records."
+      ],
+      "knownInputs": [
+        {
+          "source": "Audit/Systems writer table in00b",
+          "sourceHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+          "savedSeam": "legislation-local-fiscal-families.ts:159 operative appropriation \u2192 program-governing.ts:225",
+          "limit": "Conditional filed local profile, not universal yes/no priority or a named road repair; profile capacity/cost assumptions are fictional."
+        }
+      ],
+      "missingCapabilities": [
+        "Admitted selector/action and operative filed terms for the supported appropriation profile; completed procurement/payment IDs before cost attribution.",
+        "Actual road/project condition, repair/expansion candidates, resource capacity and prioritization decision before an institution-rule row.",
+        "Actual work completion and road-condition records before driver-cost or travel exposure onward rows; fictional unit cost cannot become empirical terms."
+      ],
+      "requestedKinds": ["institution-rule", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Covered generators or utilities must meet the specified clean-generation rule.",
+        "Compliance changes investment, generation mix and enforcement.",
+        "Costs can change utility prices and household bills.",
+        "Emissions and particulate exposure can change; health effects require separate exposure and person readers."
+      ],
+      "knownInputs": [
+        {
+          "source": "Audit/Systems writer table in00b",
+          "sourceHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+          "existingEvidence": "Aggregate price/particulate candidates; existing target parameter declaration is share-by-year.",
+          "limit": "No actual procurement/compliance/electricity transaction certified; declaration is not filed usable numeric terms."
+        }
+      ],
+      "missingCapabilities": [
+        "Filed clean-share schedule, covered utility/generator identity, actual electricity output/procurement basis and admitted compliance action.",
+        "Actual compliance inputs, invoice prices/quantities and household energy purchase records before price-cost rows; no drawn utility bill.",
+        "Actual generation/emission/exposure records and person reader before pollution/health onward rows; aggregate candidate does not prove exposure."
+      ],
+      "requestedKinds": ["institution-rule", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Covered emissions create liability at the specified rate.",
+        "Payments create government revenue and business or household burdens.",
+        "Prices and incentives can change fuel use and emissions.",
+        "Particulate exposure and health require downstream records."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Filed carbon-price instrument/rate/coverage and actual measured covered emissions with compatible units; emissions quantity/rate units are absent from the published amount-unit list.",
+        "Admitted emitter/activity selector and assessed/collected-tax records; monetary cost must use the filed rate and actual emissions, not a sampled level.",
+        "Actual fuel/production/price/exposure records before emission/health onward rows; no guessed elasticity."
+      ],
+      "requestedKinds": ["tax", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "The rule constrains covered new connections or permits subject to actual authority and preemption.",
+        "Building equipment and conversion choices incur costs.",
+        "Utility demand, prices and household energy bills can change.",
+        "Indoor exposure and health must distinguish installation from observed exposure."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Real authority/preemption and filed scope/exemptions applied to actual new-connection/building applications; admitted permission action and applicant selector.",
+        "Actual alternative equipment/conversion quantities, supplier prices and paid invoices before cost or household energy rows.",
+        "Actual installation/use/exposure before indoor-health onward rows."
+      ],
+      "requestedKinds": ["right-permission", "institution-rule", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Permits and land-use rules constrain covered development.",
+        "Development supply and prices can change.",
+        "Exposure to flooding and later losses can change.",
+        "Damage, displacement and household costs require actual event and person records."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Real permitting authority, filed flood-zone scope and actual parcel/application/hazard records; admitted permit/land selector and permission action.",
+        "Actual affected development and transactions before supply/price rows; exact protected existing rights must be retained on repeal.",
+        "Actual hazard events, parcel/person exposure and recorded losses before damage/displacement cost rows."
+      ],
+      "requestedKinds": ["right-permission", "institution-rule", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Covered container purchases incur the statutory deposit.",
+        "Eligible returns generate refunds; dealers and producers incur handling and compliance obligations.",
+        "Unredeemed deposits follow jurisdiction-specific ownership rules.",
+        "Collection and recycling can change; litter and prices require distinct map links."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Filed deposit/refund/handling terms, covered container purchases and actual return counts; admitted purchaser/dealer/return selectors and actions.",
+        "Container count \u00d7 filed minor-unit deposit, compatible currency, completed deposit/refund payments and actual jurisdiction unredeemed-funds ownership.",
+        "Actual processing workload/costs, collection and litter records before compliance or recycling onward rows; no assumed redemption rate."
+      ],
+      "requestedKinds": ["price-cost", "tax", "right-permission"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Actual water-rights and agency authority determine permit, metering and withdrawal limits.",
+        "Pumping and monitoring change under those limits.",
+        "Irrigation, crops and land use may change.",
+        "Farmer costs, enforcement and water conditions require saved records."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Real water rights/agency authority, filed withdrawal/permit/monitoring terms and actual well/withdrawal records with volume/time units; these units are not declared in1305.",
+        "Admitted well/right-holder selectors and limit action; actual water capacity/availability before capacity expressions.",
+        "Actual pumping/monitoring work, equipment prices, crop/irrigation records and payments before farmer-cost/production onward rows."
+      ],
+      "requestedKinds": ["right-permission", "institution-rule", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Acquisition or easements incur public costs and constrain development rights.",
+        "Protected land and conversion can change.",
+        "Landowners and farm operations face actual contract terms and opportunity costs.",
+        "Repeal does not automatically extinguish a permanent easement."
+      ],
+      "knownInputs": [],
+      "missingCapabilities": [
+        "Actual parcel ownership, filed protection instrument, executed easement/acquisition contract and covered development rights; admitted parcel/owner selectors and restriction action.",
+        "Contract terms \u00d7 actual acquired parcel/right units and completed purchase/payment before cost rows; acreage units are absent from1305.",
+        "Actual conversion/application records and preserved permanent easement rights on repeal; no automatic extinguishment or guessed opportunity cost."
+      ],
+      "requestedKinds": ["right-permission", "institution-rule", "price-cost"],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+      "admission": "NO_ADMITTED_ROWS",
+      "basis": "Existing owned trace and saved evidence only; no renewed engine investigation.",
+      "effectInputs": [
+        "Actual ownership and legal access govern entry, closures and permitted activities.",
+        "Permits, fees and management costs change for covered visitors and agencies.",
+        "Visits and nearby business spending require actual use and transaction readers.",
+        "Federal ownership remains Team1's legal-source connection; jurisdiction cannot be inferred from nearby acreage."
+      ],
+      "knownInputs": [
+        {
+          "source": "docs/codex/handbacks/team-6-law-traces.md",
+          "connection": "Team1 federal ownership source; Team3 preserved public-land adapter handoff.",
+          "limit": "Published release is not evidence of an admitted shared selector or saved actual visit."
+        }
+      ],
+      "missingCapabilities": [
+        "Actual federal/state/local owner, parcel/access instrument, closures and permitted activity terms; admitted land/visitor selector and permission action. Nearby acreage cannot establish jurisdiction.",
+        "Actual permit, visit/exposure, fee transactions and land-management work records before service/cost/onward business spending rows.",
+        "Exact inherited access/easement rights preserved prospectively on repeal; legal permission is not a completed visit."
+      ],
+      "requestedKinds": [
+        "right-permission",
+        "coverage-eligibility",
+        "service-delivered",
+        "price-cost"
+      ],
+      "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
+    }
+  ],
+  "sharedDependencies": {
+    "owner": "Coordinator engine/catalog; Audit/Systems capability verification; Team2 pay handler",
+    "request": "Publish admitted selector/action/predicate/term/record keys and activity contract for exact completed public-program cash costs first.",
+    "typeLimitation": "LawConsequenceRow does not itself define registry names. No runnable names have been guessed.",
+    "capacityExposure": "Only actual saved capacity/exposure may bind; none certified for transit riders in this input."
+  },
+  "actualEvidenceCounts": {
+    "existingMergedCostWritersWithPriorExecutedExamples": 2,
+    "newSharedEngineFiringLaws": 0,
+    "nationwideProof": "NOT RUN"
+  },
+  "repealRule": "Do not reverse or delete completed payments/service or permanent protected rights; prospective authority and individual contract terms determine later effects.",
+  "disabledTypedCostProposals": 2
+}

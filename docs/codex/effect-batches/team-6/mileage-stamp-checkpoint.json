@@ -1,6 +1,6 @@
 {
   "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-  "status": "HELPER_TESTED_CALLER_NOT_APPLIED",
+  "status": "HELPER_TESTED_CALLER_SUPERSEDED",
   "baseHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
   "seed": "team6-mileage-stamp-five-state-20260930",
   "sampledStates": ["OR", "NH", "ID", "OH", "MO"],
@@ -45,7 +45,7 @@
   ],
   "productionCaller": "src/simulation/public-budgets/month.ts",
   "callerPatch": "docs/codex/effect-batches/team-6/mileage-caller.patch",
-  "callerOwnership": "Narrow stamp import/calculation/row append requested through00b and1137; receipt/release not yet verified. Production caller untouched.",
+  "callerOwnership": "Superseded by owner-authorized CTO3:32 one-law contract. No new per-law month/index grants; preserved caller patch must not be applied. Coordinator owns shared engine/catalog.",
   "proofLimits": [
     "Helper exercised against actual settled monthly source; helper is not called by production.",
     "Authored legal-change fixture, not a natural passage.",
@@ -67,5 +67,10 @@
     "cleanElectricity": "Audit aggregate projections only; exact domain build contract requested."
   },
   "operatorLinkage": "Deferred until after3:30; payment never implies a rider trip.",
-  "preservedNewMainConsumer": "appendConsumerPrivacyCostToMonth retains the row stamps; no consumer-privacy changes."
+  "preservedNewMainConsumer": "appendConsumerPrivacyCostToMonth retains the row stamps; no consumer-privacy changes.",
+  "supersededBy": {
+    "typeSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+    "typePR": 1305,
+    "conversionPath": "docs/codex/effect-batches/team-6/consequence-rows.json"
+  }
 }
