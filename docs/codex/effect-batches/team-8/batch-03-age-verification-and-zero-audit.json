@@ -191,6 +191,30 @@
       "why": "No study measured this graduation effect. Court injunctions cannot establish a zero schooling response.",
       "aboutZero": false,
       "missingFigure": "No matched near-zero estimate/CI for this exact source, outcome and population."
+    },
+    {
+      "linkKey": "recession-to-total-mortality",
+      "existingLink": {
+        "key": "recession-to-total-mortality",
+        "to": "health.mortality-all",
+        "strength": "about-zero",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0,
+        "per": "point of unemployment",
+        "lagMonths": 0,
+        "group": "place",
+        "owner": "F",
+        "anchor": "Now unrelated to the cycle overall",
+        "source": "Ruhm 2000, 2015",
+        "from": "labor.unemployment-pct",
+        "evidence": "about-zero"
+      },
+      "decision": "MEASURED_ASSOCIATION_WITH_TIME_VARIATION_NEEDS_CI",
+      "aboutZero": false,
+      "why": "Older and newer period estimates differ. The inherited 'now unrelated' summary lacks the period-specific estimate and CI needed to call this near-zero in the present model.",
+      "missingFigure": "Ruhm2015 total-mortality unemployment coefficient and CI for the exact time period/population; retain older cyclical findings as different evidence, not zero."
     }
   ],
   "replacements": [
@@ -346,10 +370,27 @@
   ],
   "checks": {
     "jsonParsed": true,
-    "auditedLinks": 5,
+    "auditedLinks": 6,
     "unsupportedZeroClaims": 3,
-    "measuredNondetectionNeedingCI": 2,
+    "measuredNondetectionNeedingCI": 3,
     "newLinksActivated": 0,
     "courtPreemptionConflated": false
-  }
+  },
+  "otherOwnersToNotify": [
+    {
+      "team": 4,
+      "linkKey": "cannabis-sales-to-youth-use",
+      "gap": "Existing anchor and source say 'to confirm'; require measured estimate/CI."
+    },
+    {
+      "team": 3,
+      "linkKey": "income-tax-to-out-migration",
+      "gap": "Millionaire mobility estimates do not establish universal near-zero migration."
+    },
+    {
+      "team": 3,
+      "linkKey": "graduated-income-tax-to-out-migration",
+      "gap": "Same population/estimate/CI gate."
+    }
+  ]
 }
