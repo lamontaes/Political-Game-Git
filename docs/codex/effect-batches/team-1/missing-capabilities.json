@@ -1,0 +1,881 @@
+{
+  "team": 1,
+  "status": "unsupported-bindings-not-runnable",
+  "sharedTypeHead": "15f70129854ba05b6f0b966a1b1ca0b1846ec071",
+  "capabilityPolicy": "Only coordinator-registered selectors, actions, predicates and operand bindings can enter runnable consequences. Descriptive labels below are not registry names. No partial guessed row is executable.",
+  "laws": [
+    {
+      "id": "team-1-federal-01",
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "kind": "institution-rule",
+      "when": "effective",
+      "actionIntent": "Borrowing and spending authority",
+      "requiredLegalTerms": "Written debt authority and program restrictions",
+      "actualRecordBase": "Actual outstanding debt and program commitments",
+      "termsTimesActualRecords": "Apply the legal ceiling/restriction to each actual obligation; authority does not create money",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Prospective borrowing/program restrictions; completed obligations remain recorded",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Federal program appropriations and state/local aid",
+        "Deficit, borrowing prices and program users",
+        "Public knowledge and later budget decisions"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-02",
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "kind": "tax",
+      "when": "assessment",
+      "actionIntent": "Federal marginal income liability",
+      "requiredLegalTerms": "Written tax brackets, marginal rates and effective tax period",
+      "actualRecordBase": "Actual covered taxable income and existing withholding/assessment records",
+      "termsTimesActualRecords": "Apply each written marginal rate to its covered actual income slice, then reconcile paid withholding",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Prospective period-specific liability; earned and paid history preserved",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Payroll withholding and annual settlement",
+        "Disposable income, revenue and behavioral responses",
+        "Taxpayers noticing changed assessments"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-03",
+      "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "kind": "price-cost",
+      "when": "renewal",
+      "actionIntent": "Consumer loan interest limit",
+      "requiredLegalTerms": "Written APR cap, covered contract classes and exemptions",
+      "actualRecordBase": "Actual covered loan balance, contractual APR and accrual period",
+      "termsTimesActualRecords": "Minimum of actual contractual rate and written legal cap, applied to the actual covered balance/period",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Prospective lawful contract repricing; prior paid interest preserved",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Interest bills, lender offers, credit access and substitution",
+        "Borrower balances and delinquency",
+        "Borrowers and lenders noticing enforcement"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-04",
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "kind": "price-cost",
+      "when": "service",
+      "actionIntent": "Defense procurement payment",
+      "requiredLegalTerms": "Filed appropriation/contract quantity, price and delivery terms",
+      "actualRecordBase": "Actual supported supplier contract, delivered units and completed payment",
+      "termsTimesActualRecords": "Actual accepted delivered units times recorded contractual unit price, constrained by authority",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed deliveries/payments preserved; prospective commitments governed by legal contract",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Contracts, supplier orders and covered employment",
+        "State output, earnings and federal deficit",
+        "Workers and contractors noticing awards"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:defense.grow-defense-spending",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:defense.grow-defense-spending",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-05",
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "kind": "service-delivered",
+      "when": "service",
+      "actionIntent": "Delivered foreign aid",
+      "requiredLegalTerms": "Filed appropriation, recipient/program eligibility and operative dates",
+      "actualRecordBase": "Actual qualifying recipient/service and posted program installments",
+      "termsTimesActualRecords": "Written unit benefit or accepted contract terms times actual eligible/delivered units; completed payments journaled once",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed aid preserved; future eligibility and commitments follow lawful repeal",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Delivered aid and recipient services outside US",
+        "Federal deficit and borrowing costs",
+        "Recipients and taxpayers noticing"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-06",
+      "questionKey": "us-federal-positions:trade.raise-tariffs",
+      "kind": "tax",
+      "when": "assessment",
+      "actionIntent": "Import duty",
+      "requiredLegalTerms": "Written product/origin-specific duty, valuation rule and exemptions",
+      "actualRecordBase": "Actual imported item value/origin/quantity and customs transaction",
+      "termsTimesActualRecords": "Written applicable duty times the actual legally assessed customs base",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Prospective imports recomputed; completed assessments/payments preserved",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Customs payments, import prices and substitution",
+        "Household purchases, firm inputs, employment and trade responses",
+        "Buyers and firms noticing prices"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:trade.raise-tariffs",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:trade.raise-tariffs",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-07",
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "kind": "coverage-eligibility",
+      "when": "effective",
+      "actionIntent": "Immigration admission",
+      "requiredLegalTerms": "Written legal category, quota, eligibility and operative dates",
+      "actualRecordBase": "Actual applicant/category/case decision and receiving household record",
+      "termsTimesActualRecords": "Apply legal eligibility and remaining actual processing/admission capacity to an actual application; no population draw",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed lawful admissions preserved; future eligibility follows the legal rule",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Actual admissions, households and residence",
+        "Labor participation, employment, services and tax base",
+        "Residents and receiving communities noticing"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-08",
+      "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "kind": "price-cost",
+      "when": "service",
+      "actionIntent": "Medicare negotiated drug transaction",
+      "requiredLegalTerms": "Written covered-drug negotiated price and program eligibility",
+      "actualRecordBase": "Actual selected-drug prescription, dispensed units and covered purchase",
+      "termsTimesActualRecords": "Actual dispensed covered units times the legally operative negotiated transaction price",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed dispensing/payment preserved; prospective transactions follow applicable legal price",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Enrollee prescriptions, copays and access",
+        "Federal payments, manufacturer revenue and drug expenses",
+        "Enrollees noticing pharmacy costs"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-09",
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "kind": "coverage-eligibility",
+      "when": "effective",
+      "actionIntent": "Social Security eligibility",
+      "requiredLegalTerms": "Written birth-cohort retirement eligibility and effective schedule",
+      "actualRecordBase": "Actual person birth date/cohort and benefit eligibility/application",
+      "termsTimesActualRecords": "Compare actual cohort/age and recorded application with operative cohort schedule; no invented benefit amount",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Existing earned/paid history preserved; prospective eligibility follows lawful cohort protection",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Benefit start dates and actual payments",
+        "Retirement/work decisions, poverty and health constraints",
+        "Older residents noticing eligibility changes"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-10",
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "kind": "legal-outcome",
+      "when": "assessment",
+      "actionIntent": "Student loan discharge",
+      "requiredLegalTerms": "Written qualifying program/borrower eligibility and discharge cap/rule",
+      "actualRecordBase": "Actual qualifying student-loan balance and borrower/program record",
+      "termsTimesActualRecords": "Minimum of written discharge cap and actual eligible outstanding balance, recorded as discharge",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed legal discharge preserved; future applications follow eligibility",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Principal cancellation and revised payment obligations",
+        "Delinquency, credit, consumption and family decisions",
+        "Borrowers noticing their revised balances"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:education.forgive-student-loans",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:education.forgive-student-loans",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-11",
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "kind": "pay",
+      "when": "payroll",
+      "actionIntent": "Federal hourly floor",
+      "requiredLegalTerms": "Written covered-worker hourly wage floor and exemptions",
+      "actualRecordBase": "Actual person/work/pay-flow IDs, prospective hourly terms and worked pay period",
+      "termsTimesActualRecords": "Maximum of actual contractual hourly rate and operative written floor; existing payday writer pays actual covered work",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Earned and paid amounts preserved; prospective wage terms follow lawful floor/contract",
+      "missingBindings": {
+        "selector": "active-work-payflows is named by the shared fixture; production registration and actual covered-worker/jurisdiction/exemption selection remain unverified.",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "hourlyMinor is named by the shared fixture; actual starting/enacted legal hourly term, effective date, amendments and exemptions must be forwarded by the shared engine.",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Work contract terms, paid wages and employer costs",
+        "Hiring, hours, prices and household poverty",
+        "Workers and employers noticing pay changes"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved",
+      "knownContractNames": {
+        "sourceHead": "15f70129854ba05b6f0b966a1b1ca0b1846ec071",
+        "source": "src/simulation/law-consequence-validation.test.ts",
+        "selector": "active-work-payflows",
+        "action": "raise-hourly-floor",
+        "termKey": "hourlyMinor",
+        "status": "Explicit shared validation-fixture names; production registry/covered-worker/current-law term admission not verified"
+      },
+      "proposedConsequenceRow": {
+        "id": "team-1-federal-minimum-wage-hourly-floor",
+        "kind": "pay",
+        "when": "payroll",
+        "who": {
+          "selector": "active-work-payflows",
+          "predicates": []
+        },
+        "what": "raise-hourly-floor",
+        "amount": {
+          "op": "term",
+          "key": "hourlyMinor",
+          "unit": "minor/hour"
+        },
+        "conditions": [],
+        "lag": {
+          "days": 0,
+          "sourceIds": [
+            "docs/codex/one-law-consequence-contract.md#first-pay-proof"
+          ]
+        },
+        "onRepeal": "preserve-completed",
+        "evidence": {
+          "sourceIds": [
+            "15f70129854ba05b6f0b966a1b1ca0b1846ec071:src/simulation/law-consequence-validation.test.ts",
+            "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json#us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+          ],
+          "population": "Actual legally covered workers with existing person/work/pay-flow records; selector coverage/exemptions still require production binding",
+          "scope": "Operative federal floor, jurisdiction resolved by shared engine; existing state/local rights and earned contract terms preserved",
+          "why": "A legally covered employer must meet the operative hourly wage floor for actual work; the existing pay terms and completed transfer establish the person reached.",
+          "uncertainty": "No numeric wage supplied. Row is a typed proposal in the unsupported list until actual current-law term, covered-worker selection and production capability bindings are admitted."
+        }
+      }
+    },
+    {
+      "id": "team-1-federal-12",
+      "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "kind": "coverage-eligibility",
+      "when": "assessment",
+      "actionIntent": "Housing voucher eligibility and payment",
+      "requiredLegalTerms": "Written qualifying household/income/rent rules and subsidy formula",
+      "actualRecordBase": "Actual household eligibility, lawful rent/lease, landlord acceptance and paid assistance",
+      "termsTimesActualRecords": "Apply written subsidy formula and legal caps to actual covered rent/income; no eligibility inferred from appropriation",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed paid assistance preserved; future eligibility and contracts follow lawful rules",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Voucher issuance, rent subsidy payments and housing access",
+        "Homelessness, moves, household resources and supported child outcomes",
+        "Households and landlords noticing offers/payments"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-13",
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "kind": "service-delivered",
+      "when": "service",
+      "actionIntent": "Passenger rail service and paid contract",
+      "requiredLegalTerms": "Filed appropriation, project/operator contract and actual service terms",
+      "actualRecordBase": "Actual completed installment/source authority exists in1289; actual route/service/rider record still required",
+      "termsTimesActualRecords": "Journal actual completed program payment once; actual delivered service follows contractual units/capacity, not a projected rider percent",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed payments/services preserved; future contract/service governed prospectively",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Construction, operations, routes, fares and trips",
+        "Rider access, travel substitution, jobs and place conditions",
+        "Riders and communities noticing service"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved",
+      "existingBoundedProof": {
+        "pr": 1289,
+        "head": "e3695038d52da1ba4319e4a456c4d9830221baad",
+        "path": "docs/codex/effect-batches/team-1/federal-cost-batch-progress.md",
+        "limit": "One controlled actual100000USD payment; fixture amount never becomes a production constant"
+      }
+    },
+    {
+      "id": "team-1-federal-14",
+      "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "kind": "right-permission",
+      "when": "renewal",
+      "actionIntent": "Power plant emissions compliance",
+      "requiredLegalTerms": "Written covered-facility emissions limit and compliance date",
+      "actualRecordBase": "Actual facility output/emissions, compliance attempt and recorded investment price",
+      "termsTimesActualRecords": "Apply written emissions rule to actual covered production/emissions; real compliance purchase units times actual prices",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed investment preserved; prospective permission follows operative rule",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Plant dispatch, investment and emissions",
+        "Electricity costs, air quality, exposure and health",
+        "Customers and nearby residents noticing"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-15",
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "kind": "coverage-eligibility",
+      "when": "assessment",
+      "actionIntent": "Farm program payment",
+      "requiredLegalTerms": "Written program coverage, payment formula/cap and appropriation",
+      "actualRecordBase": "Actual qualifying farm/beneficiary activity, covered entitlement and completed payment",
+      "termsTimesActualRecords": "Written benefit/cap applied to actual eligible recipient/base; no historical21percent blanket cut",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed payment preserved; future program entitlement follows lawful terms",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Actual farm payments and producer income",
+        "Land values, production, borrowing and federal spending",
+        "Farmers noticing changed payments"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-16",
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "kind": "price-cost",
+      "when": "service",
+      "actionIntent": "Disaster repair cost share",
+      "requiredLegalTerms": "Written declaration/program federal/state match and legally eligible repair units",
+      "actualRecordBase": "Actual damaged units, accepted repair, supplier contract prices and posted government payments",
+      "termsTimesActualRecords": "Actual accepted repaired units times actual supplier unit price times the written government share",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed repairs/payments preserved; future commitments follow lawful allocation",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Repair authorizations and actual public payments",
+        "Fundable repair units, service restoration and state budgets",
+        "Affected households noticing recovery"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-17",
+      "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "kind": "legal-outcome",
+      "when": "effective",
+      "actionIntent": "Federal sentence review and custody end",
+      "requiredLegalTerms": "Written covered offense-specific minimum, exceptions and review applicability",
+      "actualRecordBase": "Actual original sentence, qualifying federal review and historical custody dates",
+      "termsTimesActualRecords": "Apply operative legal sentence/review rule to the actual qualifying sentence; preserve original history and prior custody",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Original sentence/history and completed custody remain; future legal custody follows valid review",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Prospective sentencing and explicitly authorized retroactive review",
+        "Custody end, released persons, family/work and prison budgets",
+        "Defendants/families noticing sentence reviews"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-18",
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "kind": "right-permission",
+      "when": "renewal",
+      "actionIntent": "Congressional securities restriction",
+      "requiredLegalTerms": "Written covered member/household, instrument, prohibited trade and exceptions",
+      "actualRecordBase": "Actual covered member holding/trade/disclosure attempt and enforcement record",
+      "termsTimesActualRecords": "Apply written legal prohibition to an actual covered transaction; compliance work uses actual recorded units/costs",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Prior recorded holdings/trades preserved; future permission follows lawful restrictions",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Divestment, permitted funds, disclosure and enforcement",
+        "Compliance expenses, fines, holdings and researched return comparison",
+        "Members and public noticing compliance"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-19",
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "kind": "price-cost",
+      "when": "service",
+      "actionIntent": "Federal data privacy compliance work",
+      "requiredLegalTerms": "Written statutory processing/retention/access obligations and exceptions",
+      "actualRecordBase": "Actual firm data workload/exposure, recorded compliance work and unit cost; Team8 amount rebuild",
+      "termsTimesActualRecords": "Written obligation applied to actual processing/workload times actual sourced work cost; existing saved production-cost/cash record carries stamp",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed compliance work/cost and prior lawful records preserved; future obligations recomputed",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Consent/access/deletion and enforcement records",
+        "Business compliance expenses and consumer privacy outcomes",
+        "Consumers/firms noticing rights and enforcement"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved"
+    },
+    {
+      "id": "team-1-federal-20",
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "kind": "institution-rule",
+      "when": "effective",
+      "actionIntent": "DC voting-seat tenure",
+      "requiredLegalTerms": "Written admission/transition rules and legal seat allocation",
+      "actualRecordBase": "Existing actual named person/chamber/tenure events proved1301; actual election/certification missing",
+      "termsTimesActualRecords": "Written legal seat allocation applied to actual admitted jurisdiction and person/chamber tenure records; legal count is not a sampled effect level",
+      "lag": {
+        "days": null,
+        "reason": "Need binding to the actual operative date/activity/delivery; no invented fixed study lag."
+      },
+      "repealRequirement": "Completed tenure/history preserved; statehood is legally irreversible and generic repeal cannot silently revoke admission",
+      "missingBindings": {
+        "selector": "Confirmed registered selector over the described actual subjects and jurisdiction",
+        "action": "Confirmed allowlisted kind-handler action; existing writer existence alone is not registry admission",
+        "termOperands": "Registered keys/units for the written law terms; absent values are not zero or authored defaults",
+        "recordOperands": "Registered keys/units preserving the actual cause/person/activity/payment/tenure IDs",
+        "conditions": "Registered eligibility/date/exposure/capacity predicates for this instrument",
+        "onward": "Registered saved-parent-record exposure and actual person consumer; no binary law multiplier or second application"
+      },
+      "onwardRequirements": [
+        "Congressional seats, electorate and representation",
+        "Program eligibility, taxation, federal aid and local institutions",
+        "Residents noticing representation and transition"
+      ],
+      "evidence": [
+        {
+          "source": "docs/codex/effect-batches/team-1/catalog-terms-and-five-part-gaps.json",
+          "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+          "scope": "Previously published effect/input inventory; not evidence all capabilities exist"
+        },
+        {
+          "source": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+          "scope": "Previously published mechanism and missing-base findings; not a runnable amount"
+        }
+      ],
+      "integrationOwner": "coordinator shared engine/catalog; Team2 pay; existing domain writer ownership preserved",
+      "existingBoundedProof": {
+        "pr": 1301,
+        "head": "b58f29224b1d33cf681b9d7290e43de8b401e1cc",
+        "path": "docs/codex/effect-batches/team-1/statehood-five-place-stamps-proof.json",
+        "limit": "15namedtenures/five controlled observerstates; authored law/inherited integrity mock, not ordinary election or cost proof"
+      }
+    }
+  ]
+}
