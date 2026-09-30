@@ -731,20 +731,6 @@
       "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0"
     },
     {
-      "file": "src/simulation/governing/officeholder-principles.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": "roll < PRINCIPLE_DRAW.endorses"
-    },
-    {
-      "file": "src/simulation/governing/officeholder-principles.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ": roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects"
-    },
-    {
       "file": "src/simulation/governing/question-authority.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
