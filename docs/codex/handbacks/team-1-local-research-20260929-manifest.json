@@ -1,0 +1,214 @@
+{
+  "status": "RESEARCH_WIP_NOT_RUNTIME_ACCEPTED",
+  "sourceHead": "a8dfa63bac8d6921944b4bdbb65b59423635def5",
+  "sourceDirectory": "/private/tmp/team1-lobbying-research-20260929",
+  "files": [
+    {
+      "path": "additional-territory-executive-evidence.json",
+      "bytes": 194547,
+      "sha256": "43046e0cc92de185912edca4356284bee7933d7595ce2bdf6ef49dd87c4c7bd8"
+    },
+    {
+      "path": "broad-curriculum-followup.json",
+      "bytes": 17962,
+      "sha256": "ae9b687f19646ee8f0b8837719d62e59b22206faa6a76bf0384ba4b4fa2e5b0d"
+    },
+    {
+      "path": "broad-estimates-family1.json",
+      "bytes": 40579,
+      "sha256": "530d1f6aa0e67cdedabd2089d1e3fb3fd42d3f79539a8de19008c74a3b68b81d"
+    },
+    {
+      "path": "broad-estimates-family2.json",
+      "bytes": 108309,
+      "sha256": "f0fe0e8a5337e8f864b33b22d1a75d02a280ac30dad85c2e835230a45ac1c901"
+    },
+    {
+      "path": "broad-estimates-family3.json",
+      "bytes": 43462,
+      "sha256": "1204669535c8fcf0352f97f0f3308a90a555725522c2e2f3a686382f09a7d766"
+    },
+    {
+      "path": "compensation-search-evidence-all56.json",
+      "bytes": 517224,
+      "sha256": "e9cf718f8d5c4252aa10dae3c02be084117a1bb52afe78c5855869527c2e30f0"
+    },
+    {
+      "path": "executive-additional-evidence-part10.json",
+      "bytes": 184824,
+      "sha256": "85a8859b5e48f703346cb50384fe6644cd074b3cd567ddfcb4f303f4429e6b83"
+    },
+    {
+      "path": "executive-additional-evidence-part2.json",
+      "bytes": 106826,
+      "sha256": "5131cc12bc40f9b7c0cedae6a6e7a94c6802c826767b7b3b32fe704849a5478b"
+    },
+    {
+      "path": "executive-additional-evidence-part3.json",
+      "bytes": 36061,
+      "sha256": "ecfe41e47e765ea0a7c9332e36cba6a6a1554cb0adfa22bb5786e53b408b81c5"
+    },
+    {
+      "path": "executive-additional-evidence-part4.json",
+      "bytes": 62381,
+      "sha256": "cf8ffb03de0d33b4de328f8c7b2507964e8bfe4af07779bca4a9a37139655f42"
+    },
+    {
+      "path": "executive-additional-evidence-part5.json",
+      "bytes": 151708,
+      "sha256": "2eafca5880d9bcb78fb557fa9e506ed4eb1cd55cf0412f2e7b95f03fefdd947b"
+    },
+    {
+      "path": "executive-additional-evidence-part6.json",
+      "bytes": 42665,
+      "sha256": "660542aee0f9a9da69fa2a83e7358eff3ec70bc73a51e52e602f3b678bfe63ea"
+    },
+    {
+      "path": "executive-additional-evidence-part8.json",
+      "bytes": 113526,
+      "sha256": "a63c62a9ea376aa442f8843e17ca98adb03d928e68aadc362892d348aa5af994"
+    },
+    {
+      "path": "executive-additional-evidence-part9.json",
+      "bytes": 450052,
+      "sha256": "e9baf983c65f034cff230062b5c5e3ea10e6a6bbeb80cb4652122fae02aa6465"
+    },
+    {
+      "path": "executive-additional-evidence.json",
+      "bytes": 105366,
+      "sha256": "15e565cb43634eb3e0e4cb99a7f424a4963bc3fcc310981563f58fa168841b92"
+    },
+    {
+      "path": "executive-search-evidence-all56.json",
+      "bytes": 535503,
+      "sha256": "92463662dcb3b6e68894181854190008f2ea62c241af3c88363ec5a2ee0d23f1"
+    },
+    {
+      "path": "executive-search-evidence-part1.json",
+      "bytes": 269878,
+      "sha256": "61b60df99f112865bbd19f2e584a4d2271be48cb101a186a01e3df5558787d00"
+    },
+    {
+      "path": "executive-targeted-evidence.json",
+      "bytes": 281079,
+      "sha256": "393650a310362c99cdc763d55570c64642498ebd2cb1344c975a6787857247b5"
+    },
+    {
+      "path": "jurisdiction-evidence-v1.json",
+      "bytes": 46083,
+      "sha256": "3c370ae33868abe65750a471af8e66a1663a4398cb714b32203d4e1166f347cd"
+    },
+    {
+      "path": "jurisdiction-evidence-v10.json",
+      "bytes": 130160,
+      "sha256": "6a400c7c02b2d408970d3c738129d1be0d164df28c1fb31fcdcfa3c19758310b"
+    },
+    {
+      "path": "jurisdiction-evidence-v11.json",
+      "bytes": 133186,
+      "sha256": "1f1c572a68f7d799e48554bbb606a369660ef19a2807883d1ec11e912b72f250"
+    },
+    {
+      "path": "jurisdiction-evidence-v12.json",
+      "bytes": 135137,
+      "sha256": "dd6b36c135cde2813547b2b317095268cda8c06d44c5e438a0b11b375e84df6c"
+    },
+    {
+      "path": "jurisdiction-evidence-v13.json",
+      "bytes": 138600,
+      "sha256": "f6f7b2895d78a6382518f512a9dff2ed4d663724f7714cfde0a383304489a87d"
+    },
+    {
+      "path": "jurisdiction-evidence-v14.json",
+      "bytes": 139904,
+      "sha256": "ca94569777f7fe22a83a11af58565774e12cacf5f724ffe161b66148ba498773"
+    },
+    {
+      "path": "jurisdiction-evidence-v2.json",
+      "bytes": 58844,
+      "sha256": "e288430bc1a3391bcc5b183dc53471d9ea5f9cd33672ed5470a93dff3504b583"
+    },
+    {
+      "path": "jurisdiction-evidence-v3.json",
+      "bytes": 57386,
+      "sha256": "412d13134c992c354542d50a1184eac722aa37e2ab6a1332683d0536a7649bb5"
+    },
+    {
+      "path": "jurisdiction-evidence-v4.json",
+      "bytes": 63516,
+      "sha256": "983bd574f21e83c584dad02d4a985a0c656e6fc39853039be670acdf57509d1b"
+    },
+    {
+      "path": "jurisdiction-evidence-v5.json",
+      "bytes": 67465,
+      "sha256": "42e2db69e55d21518627138c14a47039b0ce8df5e0553373d6b7278e80d2514e"
+    },
+    {
+      "path": "jurisdiction-evidence-v6.json",
+      "bytes": 71206,
+      "sha256": "1ceaed617d0c38779de598f983ee4db15f0c027080c30ed5cc2ce245fef820b6"
+    },
+    {
+      "path": "jurisdiction-evidence-v7.json",
+      "bytes": 124225,
+      "sha256": "c801630c0d04a22b3c09e6f8de67799a3e4c28c397d2e2f741ffb885e9d1407b"
+    },
+    {
+      "path": "jurisdiction-evidence-v8.json",
+      "bytes": 126925,
+      "sha256": "2c4aab84e76c59ca18be05c107305d8c649d35bc3ce2696269e799bf434d4c8c"
+    },
+    {
+      "path": "jurisdiction-evidence-v9.json",
+      "bytes": 129281,
+      "sha256": "986039c7b0d2acae7319cd23719a228051f40a1df2015dacdc490a2453e33c15"
+    },
+    {
+      "path": "national-and-executive-evidence-part7.json",
+      "bytes": 305280,
+      "sha256": "6c455d6d2cdfd3fd830e9eafa6840803671c97768fcdb11eb69c5c0626fe00de"
+    },
+    {
+      "path": "national-firm-capacity-gap.json",
+      "bytes": 933,
+      "sha256": "59e6b9723ced5d3150457c61cc3cdf955541ef7a9092a437cbde38ca2df9f945"
+    },
+    {
+      "path": "national-firm-final-search.json",
+      "bytes": 38770,
+      "sha256": "d762a0ead3bee3393eee6d4261df999d3bbfa995dd7b55bb549f7d239df758f4"
+    },
+    {
+      "path": "national-lobbyist-pay-candidate.json",
+      "bytes": 2062,
+      "sha256": "55107410ec0d1b9e9ccf7082c06c7f78128508d1c97cc2abb09a9a3492d8f7bc"
+    },
+    {
+      "path": "national-registry-historical-anchor.json",
+      "bytes": 6822,
+      "sha256": "aa23ae002118314b28f70a38577517eccce812e30e1856c74cea356c7cf430c2"
+    },
+    {
+      "path": "registry-compensation-additional-evidence.json",
+      "bytes": 225824,
+      "sha256": "f6f149d98e13809a500ce6d14657bcb6675ff1dfb1fd80d00b1ec07da584dbf7"
+    },
+    {
+      "path": "registry-enumeration-evidence.json",
+      "bytes": 318797,
+      "sha256": "4919c09eaf3b6890a4b5aa4f8f31a769ac6a315396c00c34f3e64ef60453d7c2"
+    },
+    {
+      "path": "registry-search-evidence.json",
+      "bytes": 486548,
+      "sha256": "763337df82332df8b8ca067522d56ea83fe3318aecf625ee308248cfd90327bd"
+    },
+    {
+      "path": "verified-source-open-evidence.json",
+      "bytes": 420921,
+      "sha256": "2d9e092e3824cf69f7ef6fa9fc854b8d051ce3db77c32af98033a8708306bd49"
+    }
+  ],
+  "archiveSha256": "7f39b0ba901e921fe6613d11baa71996ecc8ba6c109ed85d14c734584e2d9e15",
+  "archiveBytes": 1466299
+}
