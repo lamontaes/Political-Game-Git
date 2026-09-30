@@ -1,5 +1,7 @@
 import { propositionIdFor } from "../simulation/public-budgets/fiscal";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import { recordPaidTransitProgramService } from "../simulation/governing/public-program-transit";
+import { SeededRng } from "../simulation/rng";
 import {
   isLawEffectStamp,
   type LawEffectStampedRecord,
@@ -209,7 +211,10 @@ function enactedTransitBill(stateUsps: string) {
   };
 }
 
-function paidService(stateUsps: string) {
+function paidService(
+  stateUsps: string,
+  purpose: "operating" | "maintenance" = "operating",
+) {
   const enacted = enactedTransitBill(stateUsps);
   let { world } = enacted;
   const programKey = `transit:${stateUsps.toLowerCase()}`;
@@ -257,13 +262,19 @@ function paidService(stateUsps: string) {
   const choice = {
     appropriationId: appropriation.id,
     alternative: {
-      key: "one-paid-vehicle-hour",
-      title: "Pay one modeled vehicle-service hour",
+      key:
+        purpose === "operating"
+          ? "one-paid-vehicle-hour"
+          : "maintenance-payment",
+      title:
+        purpose === "operating"
+          ? "Pay one modeled vehicle-service hour"
+          : "Pay modeled maintenance",
       installments: [
         {
           afterDays: 0,
           amount: money(10_000, "USD"),
-          purpose: "operating" as const,
+          purpose,
         },
       ],
       deliveryLeadDays: null,
@@ -304,6 +315,10 @@ function paidService(stateUsps: string) {
       row.type === "transit.program-paid-service-hours" &&
       row.involvedEntityIds.includes(enacted.measureId),
   );
+  if (purpose === "maintenance") {
+    expect(service).toHaveLength(0);
+    return saved;
+  }
   expect(service).toHaveLength(1);
   expect(service[0]?.summary).toContain("1 vehicle-service hour");
   const servicePlace = service[0]?.jurisdictionId
@@ -336,6 +351,98 @@ function paidService(stateUsps: string) {
 }
 
 describe("same fictional state transit bill reaches exact paid service", () => {
+  it("saved maintenance stays distinct from operating hours and mismatched payment chains", () => {
+    const seed = "team6-transit-payment-purpose-20260930";
+    const usps =
+      US_STATE_USPS[new SeededRng(seed).integer(0, US_STATE_USPS.length - 1)]!;
+    const maintained = paidService(usps, "maintenance");
+    const outturn = maintained.history.publicProgramRecords!.find(
+      (row) => row.kind === "capacity-outturn",
+    );
+    expect(outturn, `${seed}: ${usps}`).toBeDefined();
+    if (!outturn || outturn.kind !== "capacity-outturn")
+      throw new Error("Missing maintenance outturn.");
+    expect(outturn.restoredUnits).toBe(0);
+    const installment = maintained.history.publicProgramRecords!.find(
+      (row) => row.kind === "installment" && row.id === outturn.installmentId,
+    );
+    expect(installment?.kind).toBe("installment");
+    if (!installment || installment.kind !== "installment")
+      throw new Error("Missing maintenance installment.");
+    const commitment = maintained.history.publicProgramRecords!.find(
+      (row) => row.kind === "commitment" && row.id === installment.commitmentId,
+    );
+    if (!commitment || commitment.kind !== "commitment")
+      throw new Error("Missing maintenance commitment.");
+    expect(commitment.installments[installment.installmentIndex]?.purpose).toBe(
+      "maintenance",
+    );
+    expect(outturn.commitmentId).toBe(commitment.id);
+    expect(
+      maintained.history.metricStates.filter(
+        (row) =>
+          row.value.kind === "quantity" &&
+          row.value.quantity.unit === "duration:vehicle-service-hour",
+      ),
+    ).toHaveLength(0);
+
+    const operated = paidService(usps);
+    const records = operated.history.publicProgramRecords!;
+    const paid = records.find((row) => row.kind === "installment")!;
+    if (paid.kind !== "installment")
+      throw new Error("Missing operating installment.");
+    const decision = records.find(
+      (row) => row.kind === "commitment" && row.id === paid.commitmentId,
+    )!;
+    if (decision.kind !== "commitment")
+      throw new Error("Missing operating commitment.");
+    const authority = records.find(
+      (row) =>
+        row.kind === "appropriation" && row.id === decision.appropriationId,
+    )!;
+    if (authority.kind !== "appropriation")
+      throw new Error("Missing operating appropriation.");
+    expect(() =>
+      recordPaidTransitProgramService(
+        operated,
+        authority,
+        { ...decision, appropriationId: operated.id },
+        paid,
+      ),
+    ).toThrow("saved appropriation payment chain");
+    expect(() =>
+      recordPaidTransitProgramService(operated, authority, decision, {
+        ...paid,
+        commitmentId: operated.id,
+      }),
+    ).toThrow("saved appropriation payment chain");
+    const differentCurrency: World = {
+      ...operated,
+      history: {
+        ...operated.history,
+        resourceTransferOutcomes: operated.history.resourceTransferOutcomes.map(
+          (row) =>
+            row.resourceFlowId === paid.resourceFlowId
+              ? {
+                  ...row,
+                  transferredAmount: money(
+                    row.transferredAmount.minorUnits,
+                    "CAD",
+                  ),
+                }
+              : row,
+        ),
+      },
+    };
+    expect(() =>
+      recordPaidTransitProgramService(
+        differentCurrency,
+        authority,
+        decision,
+        paid,
+      ),
+    ).toThrow("exact posted payment");
+  });
   it.each(US_STATE_USPS)(
     "%s: enacted authority pays one saved hour",
     (usps) => {

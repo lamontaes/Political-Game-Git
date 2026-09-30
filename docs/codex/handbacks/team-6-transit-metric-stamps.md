@@ -21,6 +21,7 @@ Metric attribution uses the canonical operative law and all payment-chain IDs. E
 1. Save state-spending and paid-service provenance on the paid-service metric.
 2. Verify that serialization and reopening retain those stamps.
 3. Publish exact national payment evidence and the fourteen-law effect list for the coordinator.
+4. Reject an operating payment if its appropriation, commitment and installment IDs do not form the saved chain, or its completed currency differs from the plan.
 
 Event-stamp persistence remains a Team 2 shared-writer dependency. No direct shared catalog or map edits are included.
 
@@ -37,6 +38,8 @@ CHECKS: Saved metric provenance must survive reopening and match its source meas
 ## 6. Proof run
 
 Earlier randomly selected Iowa fixture seed: team6-transit-stamp-20260930. One test passed, 51 skipped. Targeted operating fixtures for the four reported jurisdictions passed: four tests, 48 skipped. These are authored law/payment fixtures, not a watched nationwide production run. The manual filing fixture explicitly supplies a catalog answer because the filing writer omits it; automatic production laws already save answers.
+
+The purpose/chain fixture used seed team6-transit-payment-purpose-20260930, selecting Hawaii. It passed, with 52 other cases skipped. The actual $100 maintenance installment posted and saved a capacity outturn with zero restored units; it wrote no operating-hours metric. The fixture also rejected mismatched appropriation/commitment IDs and currency. The published audit-handoff payload supplies an exact proposed adapter replacement to Team 2; the adapter itself remains untouched.
 
 Strict source and test diagnostics: zero. Scoped lint and formatting passed. Zero-dice: zero new, five removed baseline entries, exit 1. Release check has a pre-existing missing-header failure on the baseline. Speed checks remain paused by the owner dispatch. Independent review and national rerun were not run.
 

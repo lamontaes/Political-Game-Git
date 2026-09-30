@@ -60,6 +60,13 @@ export function recordPaidTransitProgramService(
     !appropriation.sourceMeasureId
   )
     return world;
+  if (
+    commitment.appropriationId !== appropriation.id ||
+    installment.commitmentId !== commitment.id
+  )
+    throw new Error(
+      "Transit service requires the saved appropriation payment chain.",
+    );
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === appropriation.sourceMeasureId,
   );
@@ -83,7 +90,8 @@ export function recordPaidTransitProgramService(
   );
   if (
     !outcome ||
-    outcome.transferredAmount.minorUnits !== plan.amount.minorUnits
+    outcome.transferredAmount.minorUnits !== plan.amount.minorUnits ||
+    outcome.transferredAmount.currency !== plan.amount.currency
   )
     throw new Error("Transit service hours require the exact posted payment.");
   const propositionId = propositionIdFor(world, STATE_TRANSIT_SERVICE_QUESTION);
