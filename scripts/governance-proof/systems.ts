@@ -293,12 +293,24 @@ export function evictionProof(
         ].includes(event.type),
     );
     const observation = observations?.get(row.filingId);
+    const destination = row.linkedHousingRecords.find(
+      (event) => event.type === "housing.eviction-destination",
+    );
+    // Canonical event IDs are sorted, so their position does not identify
+    // the household. Resolve a unique recorded household instead.
+    const recordedHouseholds = destination
+      ? world.history.households.filter(
+          (household) =>
+            household.formedAt <= destination.occurredAt &&
+            destination.involvedEntityIds.includes(household.id),
+        )
+      : [];
     const householdId =
       observation?.lease.state === "observed"
         ? observation.lease.householdId
-        : (row.linkedHousingRecords.find(
-            (event) => event.type === "housing.eviction-destination",
-          )?.involvedEntityIds[0] ?? null);
+        : recordedHouseholds.length === 1
+          ? recordedHouseholds[0]!.id
+          : null;
     const people = new Set(row.people.map((person) => person.id));
     const formerOccupancies = new Set(
       world.history.dwellingOccupancies

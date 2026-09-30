@@ -562,6 +562,163 @@ describe("canonical watched-system report evidence", () => {
     expect(row.formerHomeReturns[0]!.effectiveAt).toBe(date("2026-05-01"));
     expect(row.returnedToEvictedHome).toBe(true);
   });
+  it("resolves fallback household identity from records rather than event ID order", () => {
+    const { person, world: base } = fixture();
+    const filed = event(
+      base,
+      person.id,
+      "housing.eviction-filed",
+      date("2026-02-01"),
+      "fallback-file",
+    );
+    const resolved = event(
+      filed,
+      person.id,
+      "housing.evicted",
+      date("2026-03-01"),
+      "fallback-order",
+    );
+    const order = resolved.history.events.at(-1)!;
+    const householdId = id("household-after-dwelling");
+    const dwellingId = id("dwelling-before-household");
+    const destination = {
+      ...order,
+      id: id("fallback-destination"),
+      stableKey: "fallback-destination",
+      sequence: 20,
+      type: "housing.eviction-destination" as EventType,
+      involvedEntityIds: [dwellingId, householdId],
+      tags: [`eviction:order:${order.id}`, "housing:no-fixed-home"],
+    };
+    const world: World = {
+      ...resolved,
+      history: {
+        ...resolved.history,
+        events: [...resolved.history.events, destination],
+        households: [
+          {
+            id: householdId,
+            stableKey: "fallback-household",
+            sequence: 5,
+            formedAt: period.from,
+            label: "Fixture household",
+            provenance,
+          },
+        ],
+        housingTenures: [
+          {
+            id: id("tenure"),
+            stableKey: "fallback-tenure",
+            sequence: 6,
+            holder: { kind: "household", householdId },
+            dwellingId,
+            startedAt: period.from,
+            kind: "lease:residential",
+            provenance,
+          },
+        ],
+        resourceFlows: [
+          {
+            id: id("lease-a"),
+            stableKey: "fallback-flow",
+            sequence: 7,
+            source: { kind: "household", householdId },
+            recipient: { kind: "person", personId: person.id },
+            recordedAt: period.from,
+            startsAt: period.from,
+            basisKind: "housing:rent",
+            basisReference: { kind: "housing", housingTenureId: id("tenure") },
+            restrictionKind: null,
+            jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+            provenance,
+          },
+        ],
+        dwellingOccupancies: [
+          {
+            id: id("fallback-occupancy"),
+            stableKey: "fallback-occupancy",
+            sequence: 21,
+            occupant: { kind: "household", householdId },
+            dwellingId,
+            startedAt: date("2026-03-04"),
+            provenance,
+          },
+        ],
+        dwellingOccupancyStates: [
+          {
+            id: id("fallback-primary"),
+            stableKey: "fallback-primary",
+            sequence: 22,
+            dwellingOccupancyId: id("fallback-occupancy"),
+            effectiveAt: date("2026-03-04"),
+            status: "active",
+            residenceRole: "primary",
+            kind: "residence:rented-home",
+            reason: null,
+            provenance,
+            supersedesStateId: null,
+          },
+        ],
+      },
+    };
+    const before = JSON.stringify(world);
+    const row = evictionProof(world, period)[0]!;
+    expect(row.caseProjectionAvailable).toBe(false);
+    expect(row.evictedFrom).toBe(dwellingId);
+    expect(row.formerHomeReturns.map((state) => state.stateId)).toEqual([
+      id("fallback-primary"),
+    ]);
+    expect(row.returnedToEvictedHome).toBe(true);
+    expect(JSON.stringify(world)).toBe(before);
+    // An unrecorded or ambiguous identity is not guessed from the ID list.
+    expect(
+      evictionProof(
+        { ...world, history: { ...world.history, households: [] } },
+        period,
+      )[0]!.formerHomeReturns,
+    ).toEqual([]);
+    expect(
+      evictionProof(
+        {
+          ...world,
+          history: {
+            ...world.history,
+            households: [
+              { ...world.history.households[0]!, formedAt: date("2027-01-01") },
+            ],
+          },
+        },
+        period,
+      )[0]!.formerHomeReturns,
+    ).toEqual([]);
+    const another = {
+      ...world.history.households[0]!,
+      id: id("another-household"),
+    };
+    expect(
+      evictionProof(
+        {
+          ...world,
+          history: {
+            ...world.history,
+            households: [...world.history.households, another],
+            events: [
+              ...resolved.history.events,
+              {
+                ...destination,
+                involvedEntityIds: [
+                  ...destination.involvedEntityIds,
+                  another.id,
+                ],
+              },
+            ],
+          },
+        },
+        period,
+      )[0]!.formerHomeReturns,
+    ).toEqual([]);
+  });
+
   it("does not reconstruct a sponsor motive from the current world", () => {
     const { person, world: base } = fixture();
     const world = introduceMeasure(base, {
