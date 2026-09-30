@@ -393,8 +393,8 @@ describe("law story resident readers", () => {
       stableKey: "reader:death",
       personId: people[0]!.id,
       diedAt: world.currentDate,
-      causeKey: "custom:fixture",
-      sourceEntityIds: [],
+      causeKey: "cause:external-fixture",
+      sourceEntityIds: [world.id],
       summary: "An authored fixture death.",
       provenance,
     });
