@@ -2,6 +2,16 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 10:05 a.m. collection amendment
+
+Eight teams now explicitly acknowledge the daily assignment: Teams 1, 3, 4, 5, 6, 7, 8 and 9. Team 2 acknowledgment remains pending. Current report requests are being delivered to all eight cloud teams and Merge.
+
+Team 1 released links.json with no unpublished hunks; Team 9 now owns it. Team 9 reports 221 links: 94 nonzero, 41 labeled about-zero, one other zero and 85 null. These are source counts, not runtime activity.
+
+Team 4 reports a 28.761-second Floral month on c240f91c3779034fe77d2eb3bed05671a7ed1e2b, failing the 15-second target. Its profile preserved the full fingerprint. The turn later failed; exact error and process state requested. No completed second-place run is inferred.
+
+Team 5 reports #1221 ready, three tested entry routes live, browser 3/3 and source 9/9. Desktop captures were 1280x720; required 1280x800 and separate stop-route proof remain pending. These checks are team-reported. Team 8 reports regional packet in #1222; exact admission gaps are being routed to Team 7. Team 3 reports 0/35 watched-law audit, 0/12 feature readers merged and 1/3 eviction proof places received.
+
 ## September 30, 10:00 a.m. check-in
 
 The new daily assignments put actual law effects first. All nine document links were delivered. Teams 3, 7 and 8 explicitly acknowledged reading them; acknowledgments from Teams 1, 2, 4, 5, 6 and 9 remain pending in the latest compact reads.

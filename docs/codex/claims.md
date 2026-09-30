@@ -4,7 +4,7 @@ The daily assignments now center on measured law effects. Existing work remains 
 
 ## September 30 daily assignment handoffs
 
-Team 2 owns scripts/law-audit/ for the new audit. Team 9 links.json transfer from Team 1 is requested, not complete. Team 8 law-effect-news.ts/test transfer from Team 5 is requested, not complete. Existing writers retain ownership pending exact handoff. Team 7 reports candidate-only ownership of art/authoring/sept30-team7/law-places; no admission or renderer ownership. Shared law rows require narrow releases before editing.
+Team 2 owns scripts/law-audit/ for the new audit. Team 9 links.json transfer is complete following Team 1 explicit release in comment 5912880494. Team 8 law-effect-news.ts/test transfer from Team 5 is requested, not complete. Existing writers retain ownership pending exact handoff. Team 7 reports candidate-only ownership of art/authoring/sept30-team7/law-places; no admission or renderer ownership. Shared law rows require narrow releases before editing.
 
 
 Each listed surface has one team owner. Confirmed cloud transfers below replace the local writer while preserving the same team scope.
@@ -18,7 +18,7 @@ Each listed surface has one team owner. Confirmed cloud transfers below replace 
 | Team 1 | `data/research/laws/library-materials.json` | 2026-09-29T21:35:29.602109+00:00 |
 | Team 1 | `data/research/laws/lobbying-cooling-off.json` | 2026-09-29T21:35:29.602111+00:00 |
 | Team 1 | `data/research/laws/voter-photo-identification.json` | 2026-09-29T21:35:29.602114+00:00 |
-| Team 1 | `data/research/outcome-web/links.json` | 2026-09-29T21:35:29.602116+00:00 |
+| Team 9 | `data/research/outcome-web/links.json` | September 30: Team 1 explicit release, comment 5912880494; no unpublished hunks |
 | Team 1 | `docs/codex/handbacks/team-1.md` | 2026-09-29T21:35:29.602119+00:00 |
 | Team 1 | `docs/evidence/laws-proof-2026-09-29.md` | 2026-09-29T21:35:29.602125+00:00 |
 | Team 1 | `docs/release/changes/congressional-investments.md` | 2026-09-29T21:35:29.602132+00:00 |
