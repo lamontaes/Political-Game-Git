@@ -641,3 +641,7 @@ September30 7:00 coordinator owns docs/codex/law-table-7am.md, pinned evidence s
 ## September 30, 7:30 compiler handoff
 
 Team 2 is the sole writer for `src/simulation/governing/automatic-legislation.ts`, `compileAutomaticLawDraft`: configuration selection using `selectionRng`, authored-default amount multipliers, service-window and other enumerated parameter selection. Team 1 explicitly released these hunks and reports no conflicting edit (PR1199 comment 5910314342). Authority resolution, effect validation and provision writers remain outside this release. This narrow grant supersedes earlier overlapping entries.
+
+## September 30, 9:25 family integration handoff
+
+Team 8 owns the single WorldOrientationPanel.tsx import conflict in PR1213 additive main integration. Preserve both opening-family.css and projectLifeSoFarEnglish imports. Publish the integrated head for renewed CTO approval. Team 8 also supplies exact regional street/home picture coverage keys; Team 7 reconciles existing tagged sources before any proposed new generation. This assigns no overlapping renderer or new art implementation.

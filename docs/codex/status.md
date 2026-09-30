@@ -2,6 +2,27 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 9:30 a.m. check-in
+
+### MERGED
+#1219 verified at 4b864f22ba721548436b70761d759d40de30d361; #1218 verified at c240f91c3779034fe77d2eb3bed05671a7ed1e2b. #1213 remains blocked on the single import conflict assigned to Team 8. No new family landing inferred.
+
+### CONNECTIONS TABLE
+
+| Connection | Current result | Action |
+| --- | --- | --- |
+| Sponsor terms → enacted effects | Team 1 reports full Floral year at ef64da2c4d932fc78c13203d1ff78c3968d0e0c6: 0 typed / 14 enactments | Requested precise existing record/writer proposal and missing inputs; escalate source decision to CTO; no person-money acceptance |
+| Eviction repair → permanent exclusion | Team 2 reports 3 filings, 2 evictions, 2 no-fixed-home destinations, 0 returns; Save/reopen equality | Team 3 notified to verify original Carlson case; previous run had 4 filings/3 evictions, so aggregate zero is insufficient |
+| Today/calendar → visible meeting | Team 5 thread active; screenshots not received at deadline | Requested immediate partial browser result or exact blocker |
+| Family imports → landed scene | Team 8 owns preserving both imports in #1213 | New head and renewal pending |
+| Missing regional art → source-bank reuse | Team 8 coverage keys requested for Team 7 | Reconcile existing 825 tags before generation; no guessed gaps |
+
+### BLOCKED
+Structured sponsor-term source remains missing according to Team 1. Full Floral year demonstrated no typed enactments; source PRs #1215/#1217 remain HELD. Meeting screenshot deadline has arrived without a receipt. Exact earlier eviction case reproduction is pending. Art approval, county evidence, shelter and fertility gaps remain. #1174 no retry; setup morning-list only.
+
+### EFFECTS
+Floral named-person paycheck/rent/tax result NOT DEMONSTRATED; Team 1 Save/Continue and speed checks NOT RUN. Team 2's separate housing replay must not be confused with the Floral year. Evidence head reported by Team 1 is 1eceb7b0b785c1b315aa7a2b1421c0e85f4b2ff6. Final runtime-to-repair composition and evidence path requested. No positive causal claim is inferred.
+
 ## September 30, 9:00 a.m. check-in
 
 ### MERGED

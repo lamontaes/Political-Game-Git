@@ -614,3 +614,7 @@ Team 2's published Floral inventory at 054f09153287308e33c217a10f238393df0c7e69 
 ## September 30, 8:00 connection update
 
 The scene resolver now has a landed day/meeting consumer in #1208; opening work location is landed in #1210. Source tests do not establish browser acceptance. Typed bill production remains open: the compiler candidate passes nine focused cases but a direct service-cash caller fails. Teams 1/2 are resolving that integration before the same-seed law/person-money proof. No new causal rate or personal outcome is inferred.
+
+## September 30, 9:30 observed bill gap
+
+Team 1 reports the complete Floral year at runtime ef64da2c4d932fc78c13203d1ff78c3968d0e0c6 produced zero typed enactments among fourteen total. Named-person paycheck, rent or tax effect was not demonstrated. Structured sponsor-term production remains the named missing connection; exact record/writer proposal requested. This is team-reported run evidence, not a claim that all catalog effects are absent.
