@@ -1,0 +1,149 @@
+{
+  "schema": "ocd-newspaper-parts/v1",
+  "status": "candidate-review-only",
+  "coordinates": "normalized page-edge fractions",
+  "selection": "Job08/consumer must persist one outlet design identity; no per-render reroll is implemented here.",
+  "nameplates": [
+    {
+      "id": "heritage",
+      "font": "serif",
+      "case": "title",
+      "weight": 700,
+      "align": "center"
+    },
+    {
+      "id": "condensed",
+      "font": "sans-serif",
+      "case": "upper",
+      "weight": 800,
+      "align": "left"
+    },
+    {
+      "id": "italic-local",
+      "font": "serif",
+      "case": "title",
+      "weight": 700,
+      "align": "left"
+    },
+    {
+      "id": "stacked",
+      "font": "serif",
+      "case": "title",
+      "weight": 700,
+      "align": "center"
+    },
+    {
+      "id": "modern",
+      "font": "sans-serif",
+      "case": "upper",
+      "weight": 700,
+      "align": "center"
+    },
+    {
+      "id": "restrained",
+      "font": "serif",
+      "case": "title",
+      "weight": 400,
+      "align": "center"
+    }
+  ],
+  "rules": [
+    {
+      "id": "hairline",
+      "width": 0.0009
+    },
+    {
+      "id": "double",
+      "width": 0.0012,
+      "gap": 0.002
+    },
+    {
+      "id": "heavy-light",
+      "width": 0.003,
+      "secondaryWidth": 0.0008,
+      "gap": 0.003
+    }
+  ],
+  "grids": [
+    4,
+    5,
+    6
+  ],
+  "photoTreatments": [
+    "warm-halftone",
+    "muted-color",
+    "monochrome",
+    "duotone"
+  ],
+  "folios": [
+    "thin-rule",
+    "accent-band",
+    "split-date-location",
+    "date-above-nameplate"
+  ],
+  "palettes": [
+    {
+      "id": "warm-newsprint",
+      "paper": "#eee8d7",
+      "ink": "#302b25",
+      "accent": "#6c473b"
+    },
+    {
+      "id": "blue-local",
+      "paper": "#f1ebda",
+      "ink": "#292d30",
+      "accent": "#345763"
+    },
+    {
+      "id": "olive-weekly",
+      "paper": "#eee7d2",
+      "ink": "#353126",
+      "accent": "#69704c"
+    },
+    {
+      "id": "neutral-city",
+      "paper": "#f1eee3",
+      "ink": "#292725",
+      "accent": "#595b57"
+    }
+  ],
+  "type": {
+    "headline": "system serif or sans family selected per outlet; no proprietary font bundled",
+    "body": "serif",
+    "caption": "serif italic",
+    "headlineMin": 0.016,
+    "headlineMax": 0.055,
+    "bodySize": 0.012,
+    "leading": 1.16
+  },
+  "contentBindings": {
+    "nameplate": "recorded outlet name",
+    "folio": "recorded edition/date/location; hide missing fields",
+    "story": "assembled English-engine packet only",
+    "photos": "recorded/context-compatible approved assets only",
+    "advertisement": "recorded ad only; omit when absent"
+  },
+  "overflow": "Reflow longer heads, omit absent photo/caption, continue body at measured word boundary; no invented filler or stretched glyphs.",
+  "sources": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R20"
+  ]
+}

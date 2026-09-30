@@ -1,0 +1,280 @@
+{
+  "provenance": {
+    "sourceHead": "1864116231b4ec069c14c8fd333ccd53025387a8",
+    "projectionSourceHead": "1864116231b4ec069c14c8fd333ccd53025387a8",
+    "saveFile": "month-3-world.json",
+    "saveSha256": "f38b18d11778ad0fda1e8f9d5a8539daefcde0ecadb6205e575d48da1b8f1663",
+    "originalSaveFile": "initial-world.json",
+    "originalSaveSha256": "0bd7be05b420ffc580be39880e9322650c27df50059658b2cff3dea24d3d82a7",
+    "originalBrowserRecord": "initial-browser-record.json",
+    "originalBrowserSaveId": "save_27c94d9c7186f26a_11d7cc11e19088a4eb103d9bc20e72b3",
+    "worldId": "world_9430d5a5795d6f05",
+    "worldSeed": "setup-v3:4132a532a11dd437:{\"v\":3,\"seed\":\"team8-newspaper-2026-09-30\",\"placeKey\":\"1959475\",\"startAge\":24,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Maya\",\"familyName\":\"Rivera\",\"gender\":\"female\",\"pronouns\":\"she-her\"}|gen-v1:1:1",
+    "place": "Orange City, Iowa",
+    "placeKey": "1959475",
+    "homeJurisdictionId": "jurisdiction_19bd95e09fa82415",
+    "homeJurisdictionName": "Orange City, Iowa",
+    "startedAt": "2026-01-05",
+    "currentDate": "2026-04-05",
+    "elapsedDays": 90,
+    "method": "ONE UI-created life, 12 questionnaire answers, initial browser save exported; canonical passOrdinaryDays checkpoints; read-only exact publication projection",
+    "readOnlyVerified": true,
+    "storyPublicationAndEventIdsVerified": true
+  },
+  "recordedOutlet": {
+    "stableKey": "press46:outlet:local:us-place-1959475",
+    "organizationId": "organization_e668738cdb9046be",
+    "name": "The Orange City Sentinel",
+    "product": "general-newspaper",
+    "scope": "local",
+    "primaryJurisdictionIds": [
+      "jurisdiction_19bd95e09fa82415"
+    ],
+    "mediums": [
+      "text",
+      "digital"
+    ],
+    "beats": [
+      "local-government",
+      "public-safety",
+      "business-economy",
+      "campaigns"
+    ],
+    "resourceTier": "small",
+    "cadence": "periodic",
+    "acceptsDeepBackground": false,
+    "establishedAt": "2026-01-05",
+    "policyVersion": "crunch46-provisional-v1",
+    "provenanceNote": "PRESS46 authored fictional media seed pack (crunch46-provisional-v1). Names, staffing, beats and capacity are game-authored, not a real outlet, journalist, audience or measured newsroom.",
+    "kind": "media-outlet",
+    "id": "press-record_1ece826f97191349",
+    "sequence": 42686,
+    "recordedAt": "2026-01-05"
+  },
+  "assembly": {
+    "mode": "publication",
+    "mastheads": [
+      {
+        "outletKey": "civic-ledger",
+        "outletName": "Civic Ledger",
+        "storyCount": 3,
+        "style": 0
+      },
+      {
+        "outletKey": "media:press-record_29147e630643b33d",
+        "outletName": "The Iowa Herald",
+        "storyCount": 34,
+        "style": 2
+      },
+      {
+        "outletKey": "media:press-record_1ece826f97191349",
+        "outletName": "The Orange City Sentinel",
+        "storyCount": 7,
+        "style": 3
+      },
+      {
+        "outletKey": "media:press-record_3b254a08e9d91ac1",
+        "outletName": "The Continental Register",
+        "storyCount": 9,
+        "style": 0
+      }
+    ],
+    "outlet": {
+      "outletKey": "media:press-record_1ece826f97191349",
+      "outletName": "The Orange City Sentinel",
+      "storyCount": 7,
+      "style": 3
+    },
+    "lead": {
+      "id": "publication_8057851b8a1517a3",
+      "sourceEventId": "event_03d8ecd1fa8b433e",
+      "sourceRecordIds": [
+        "press-record_74e57d4627808194"
+      ],
+      "headline": "Kyle Park, the principal, reopened Pine Valley High School now that 0 of its 16 students and staff were out sick.",
+      "readerHeadline": "Kyle Park, the principal, reopened Pine Valley High School now that 0 of its 16 students and staff were out sick.",
+      "body": "Kyle Park declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "outletKey": "media:press-record_1ece826f97191349",
+      "outletName": "The Orange City Sentinel",
+      "publishedAt": "2026-03-18",
+      "place": "Orange City, Iowa",
+      "national": false,
+      "people": [
+        {
+          "personId": "person_e937bef99ccb8050",
+          "label": "Kyle Park"
+        },
+        {
+          "personId": "person_f7116364e176e891",
+          "label": "Vincent Washington"
+        }
+      ],
+      "laws": []
+    },
+    "stories": [
+      {
+        "id": "publication_fff950504eedb508",
+        "sourceEventId": "event_4533a1d8b3be4ba1",
+        "sourceRecordIds": [
+          "press-record_4c6a94d227d51a9b"
+        ],
+        "headline": "Kyle Park, the principal, closed Pine Valley High School because 10 of its 16 students and staff were out sick.",
+        "readerHeadline": "Kyle Park, the principal, closed Pine Valley High School because 10 of its 16 students and staff were out sick.",
+        "body": "Kyle Park declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+        "outletKey": "media:press-record_1ece826f97191349",
+        "outletName": "The Orange City Sentinel",
+        "publishedAt": "2026-03-11",
+        "place": "Orange City, Iowa",
+        "national": false,
+        "people": [
+          {
+            "personId": "person_e937bef99ccb8050",
+            "label": "Kyle Park"
+          },
+          {
+            "personId": "person_f7116364e176e891",
+            "label": "Vincent Washington"
+          }
+        ],
+        "laws": []
+      },
+      {
+        "id": "publication_a123988806804639",
+        "sourceEventId": "event_c81a6eada7370fa8",
+        "sourceRecordIds": [
+          "press-record_42b890a1398349f6"
+        ],
+        "headline": "Police in Orange City arrested Donna Herrera in a home burglary reported last month.",
+        "readerHeadline": "Police in Orange City arrested Donna Herrera in a home burglary reported last month.",
+        "body": "Donna Herrera declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+        "outletKey": "media:press-record_1ece826f97191349",
+        "outletName": "The Orange City Sentinel",
+        "publishedAt": "2026-03-04",
+        "place": "Orange City, Iowa",
+        "national": false,
+        "people": [
+          {
+            "personId": "person_042cba7f6a9a2c1d",
+            "label": "Donna Herrera"
+          },
+          {
+            "personId": "person_f7116364e176e891",
+            "label": "Vincent Washington"
+          }
+        ],
+        "laws": []
+      },
+      {
+        "id": "publication_eb22a3d689a964e4",
+        "sourceEventId": "event_1ca8364ba4ca377d",
+        "sourceRecordIds": [
+          "press-record_961cc83aa4d369ef"
+        ],
+        "headline": "Amanda Carter, the principal, closed Cedar Grove Middle School because 4 of its 16 students and staff were out sick.",
+        "readerHeadline": "Amanda Carter, the principal, closed Cedar Grove Middle School because 4 of its 16 students and staff were out sick.",
+        "body": "Amanda Carter declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+        "outletKey": "media:press-record_1ece826f97191349",
+        "outletName": "The Orange City Sentinel",
+        "publishedAt": "2026-02-25",
+        "place": "Orange City, Iowa",
+        "national": false,
+        "people": [
+          {
+            "personId": "person_30ffcac091901c71",
+            "label": "Amanda Carter"
+          },
+          {
+            "personId": "person_f7116364e176e891",
+            "label": "Vincent Washington"
+          }
+        ],
+        "laws": []
+      },
+      {
+        "id": "publication_17ecdc72c9dc95c3",
+        "sourceEventId": "event_8e06fd264ab59866",
+        "sourceRecordIds": [
+          "press-record_738dbe325b0c98f8"
+        ],
+        "headline": "Amanda Carter, the principal, reopened Cedar Grove Middle School now that 0 of its 16 students and staff were out sick.",
+        "readerHeadline": "Amanda Carter, the principal, reopened Cedar Grove Middle School now that 0 of its 16 students and staff were out sick.",
+        "body": "Amanda Carter declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+        "outletKey": "media:press-record_1ece826f97191349",
+        "outletName": "The Orange City Sentinel",
+        "publishedAt": "2026-02-11",
+        "place": "Orange City, Iowa",
+        "national": false,
+        "people": [
+          {
+            "personId": "person_30ffcac091901c71",
+            "label": "Amanda Carter"
+          },
+          {
+            "personId": "person_f7116364e176e891",
+            "label": "Vincent Washington"
+          }
+        ],
+        "laws": []
+      },
+      {
+        "id": "publication_71542ff2e111286a",
+        "sourceEventId": "event_50f4e15fde2d2673",
+        "sourceRecordIds": [
+          "press-record_dbd6822a5242920d"
+        ],
+        "headline": "Amanda Carter, the principal, closed Cedar Grove Middle School because 7 of its 16 students and staff were out sick.",
+        "readerHeadline": "Amanda Carter, the principal, closed Cedar Grove Middle School because 7 of its 16 students and staff were out sick.",
+        "body": "Amanda Carter declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+        "outletKey": "media:press-record_1ece826f97191349",
+        "outletName": "The Orange City Sentinel",
+        "publishedAt": "2026-02-04",
+        "place": "Orange City, Iowa",
+        "national": false,
+        "people": [
+          {
+            "personId": "person_30ffcac091901c71",
+            "label": "Amanda Carter"
+          },
+          {
+            "personId": "person_f7116364e176e891",
+            "label": "Vincent Washington"
+          }
+        ],
+        "laws": []
+      },
+      {
+        "id": "publication_6bfe349079ec0e5f",
+        "sourceEventId": "event_52409f0e4fd75cae",
+        "sourceRecordIds": [
+          "press-record_8ad2735e468a5fbc"
+        ],
+        "headline": "Harper Wright, the principal, closed Orange City Elementary School because 17 of its 23 students and staff were out sick.",
+        "readerHeadline": "Harper Wright, the principal, closed Orange City Elementary School because 17 of its 23 students and staff were out sick.",
+        "body": "Harper Wright declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+        "outletKey": "media:press-record_1ece826f97191349",
+        "outletName": "The Orange City Sentinel",
+        "publishedAt": "2026-01-28",
+        "place": "Orange City, Iowa",
+        "national": false,
+        "people": [
+          {
+            "personId": "person_19b4e06ede9295e8",
+            "label": "Harper Wright"
+          },
+          {
+            "personId": "person_f7116364e176e891",
+            "label": "Vincent Washington"
+          }
+        ],
+        "laws": []
+      }
+    ],
+    "empty": null
+  },
+  "notes": [
+    "Locality validated from saved media-outlet scope/product/primaryJurisdictionIds, not a display-name comparison.",
+    "Raw runner locality criterion used an incorrect display-name comparison and is retained as raw harness evidence; this verified projection supplies acceptance.",
+    "These are actual fictional-world publications, not real reported news; no new headlines, bodies, dates, places, source IDs or photographs were invented for layout.",
+    "Original save and all completed checkpoints remain preserved."
+  ]
+}

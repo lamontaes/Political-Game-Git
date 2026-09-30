@@ -1,0 +1,484 @@
+{
+  "schema": "team7-newspaper-sample-packet/v1",
+  "status": "Owner-supplied fictional mockup only; not canonical saved-world output.",
+  "source": "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/news-screen-mockup-sept27.html",
+  "sha256": "72b54fdfc9c0c2d556d5222bf348c91be34c1a7ef85610c7167a2fcd0b9deb23",
+  "papers": [
+    {
+      "id": "gazette",
+      "cls": "p-gazette",
+      "name": "The Columbus Gazette",
+      "kind": "Your local daily",
+      "tagline": "Serving Franklin County",
+      "ears": [
+        [
+          "Weather",
+          "54\u00b0 and cloudy. Rain after 6 p.m., clearing Wednesday."
+        ],
+        [
+          "Council filing",
+          "Closes April 11 at 4 p.m. That's 12 days away."
+        ]
+      ],
+      "folio": [
+        "Vol. 197 \u00b7 No. 89",
+        "Tuesday, March 30, 2027",
+        "Columbus, Ohio",
+        "$2.00"
+      ],
+      "index": [
+        "Business B4",
+        "Obituaries B6",
+        "Opinion A9",
+        "Sports C1",
+        "Legal notices B8"
+      ],
+      "stories": {
+        "lead": {
+          "id": "g-lead",
+          "matter": "hb214",
+          "kicker": "Statehouse",
+          "photo": "statehouse",
+          "hl": "Transit fund clears House committee, 7\u20134",
+          "deck": "Ferrante's bill would send $38 million over two years to city and county bus systems. Rural members want a bigger share before any floor vote.",
+          "by": [
+            "oyelaran",
+            "Statehouse bureau"
+          ],
+          "caption": "<b>Room 313.</b> The House Transportation Committee voted Monday after a two-hour hearing.",
+          "body": [
+            "COLUMBUS \u2014 A bill that would put $38 million over two years into Ohio's city and county bus systems cleared the House Transportation Committee on Monday, 7\u20134.",
+            "The measure, House Bill 214, now goes to the Rules and Reference Committee, which decides when bills reach the floor. It needs 50 votes in the 99-member House.",
+            "Rep. Marcus Ferrante, the sponsor, said the money would let the city's bus system and 26 smaller ones restore evening service cut two years ago. \"People work second shift,\" he said. \"The bus stops at ten.\"",
+            "Rep. Glenn Arbaugh voted no. \"Two-thirds of this money follows ridership, and ridership is in three cities,\" he said. \"Mercer County pays the same gas tax as Franklin County.\""
+          ],
+          "more": [
+            "Committee chair Dana Whitlock voted yes after an amendment capped any one system's share at 30 percent. She had held the bill for three weeks.",
+            "The money would come from the state's share of motor-fuel taxes, not the general fund. A fiscal note from the Legislative Service Commission puts the cost at $19 million a year for two years.",
+            "No date is set for a floor vote. Ferrante said he would not ask for one until he has the votes."
+          ],
+          "know": [
+            "The committee vote was 7\u20134.",
+            "Whitlock voted yes after the 30 percent cap was added.",
+            "Arbaugh voted no over the rural share.",
+            "The bill needs 50 votes on the floor."
+          ]
+        },
+        "second": {
+          "id": "g-second",
+          "matter": "sd20",
+          "kicker": "Obituary \u00b7 Statehouse",
+          "hl": "Sen. Harold Bexley, 81, dies; 20th District seat opens",
+          "body": [
+            "Harold Bexley, who represented the 20th Senate District for 32 years and chaired the Finance Committee through two recessions, died Sunday at his home in Zanesville. He was 81.",
+            "Senate Republicans will choose someone to serve the rest of his term. Two names came up Monday: Sen. Paula Kessler's chief of staff and Muskingum County Commissioner Daniel Moyo.",
+            "Bexley's vote was the last one Ferrante had counted on in the Senate."
+          ],
+          "more": [
+            "Visitation is Thursday at the Muskingum County Courthouse. The Senate will not meet Wednesday."
+          ],
+          "know": [
+            "Bexley died Sunday, March 28.",
+            "Senate Republicans pick his replacement.",
+            "Moyo is one of the names mentioned."
+          ]
+        },
+        "below": [
+          {
+            "id": "g-b1",
+            "matter": "buses",
+            "kicker": "Near East Side",
+            "there": true,
+            "photo": "bus",
+            "hl": "Residents ask council to keep buses running past 10 p.m.",
+            "body": [
+              "About 40 people filled the Olde Towne East branch library last Monday to ask the City Council to extend evening bus service.",
+              "Among the speakers was Jason Ware, 34, a warehouse supervisor, who said three people on his second-shift crew walk home after 11. \"They're not asking for a new route,\" Ware said. \"They're asking for the old one back.\"",
+              "Council Member Tom Reinholt said the city could not pay for it alone. A council aide said the money in House Bill 214 would cover about half."
+            ],
+            "more": [
+              "The council will take up the request again April 5."
+            ],
+            "know": [
+              "The Gazette printed your quote about the second shift.",
+              "Reinholt said the city can't pay for it alone.",
+              "HB 214 would cover about half."
+            ]
+          },
+          {
+            "id": "g-b2",
+            "matter": "reinholt",
+            "kicker": "Gazette review",
+            "hl": "Councilman's campaign paid firm run by his brother-in-law",
+            "body": [
+              "Council Member Tom Reinholt's campaign paid $61,400 over three years to Keystone Civic Strategies, whose only officer is married to Reinholt's sister, campaign filings show.",
+              "The payments were reported. Reinholt said the firm did real work. \"Voters can judge that,\" he said.",
+              "Two other council members said they had not known about the relationship."
+            ],
+            "more": [
+              "Keystone did not respond to three requests for comment. Its filings list an address in Grove City."
+            ],
+            "know": [
+              "Reinholt's campaign paid Keystone $61,400.",
+              "Keystone's officer is married to Reinholt's sister.",
+              "The payments were reported."
+            ]
+          }
+        ],
+        "rail": {
+          "calendar": [
+            [
+              "Tue 9:30",
+              "Senate Finance: hearing on school transportation (HB 88)"
+            ],
+            [
+              "Wed 1:00",
+              "House Rules and Reference: sets the floor calendar"
+            ],
+            [
+              "Thu 10:00",
+              "House session"
+            ]
+          ],
+          "notices": [
+            "Columbus City Council will hold a public hearing on rezoning 1100\u20131180 Oak St. from light industrial to mixed use. Monday, April 5, 6 p.m., City Hall.",
+            "Candidates for City Council must file petitions with the Franklin County Board of Elections by April 11, 4 p.m."
+          ],
+          "deaths": "Harold Bexley, 81, Zanesville \u00b7 Ruth Amankwah, 77, Columbus \u00b7 Dale Kinney, 63, Grove City",
+          "correction": "A story Saturday misstated the city's snow-removal budget. It is $4.1 million."
+        }
+      }
+    },
+    {
+      "id": "ledger",
+      "cls": "p-ledger",
+      "name": "The Ohio Ledger",
+      "kind": "State paper",
+      "tagline": "Ohio's statewide newspaper",
+      "ears": [
+        [
+          "Statehouse",
+          "House in session Thursday. Senate returns next week."
+        ],
+        [
+          "Inside",
+          "Who has filed for the 20th District seat, A6."
+        ]
+      ],
+      "folio": [
+        "No. 31,208",
+        "Tuesday, March 30, 2027",
+        "Columbus",
+        "$2.50"
+      ],
+      "index": [
+        "Statehouse A2",
+        "Counties A6",
+        "Business B1",
+        "Obituaries B5"
+      ],
+      "stories": {
+        "lead": {
+          "id": "l-lead",
+          "matter": "hb214",
+          "kicker": "Transit",
+          "photo": "bus",
+          "hl": "Rural counties press for bigger cut of $38M transit fund",
+          "deck": "A committee vote shows a split inside the majority over who rides the bus and who pays the gas tax.",
+          "by": [
+            null,
+            "By Caleb Nwosu \u00b7 Ledger staff"
+          ],
+          "caption": "<b>Evening service.</b> Twenty-seven Ohio bus systems stop before 10 p.m. on weekdays.",
+          "body": [
+            "Four of the eleven members of the House Transportation Committee voted Monday against a bill that would fund city and county bus systems. Three of the four represent counties with no fixed-route bus at all.",
+            "Rep. Glenn Arbaugh wants half the money set aside for rural demand-response vans. Rep. Marcus Ferrante said that would \"cut the evening shift in half to fund a van that runs twice a week.\""
+          ],
+          "more": [
+            "Committee chair Dana Whitlock said the 30 percent cap was the most she could add without losing the bill."
+          ],
+          "know": [
+            "Three of the four no votes represent counties without fixed-route buses.",
+            "Arbaugh wants half the money set aside for rural vans."
+          ]
+        },
+        "second": {
+          "id": "l-second",
+          "matter": "sd20",
+          "kicker": "Senate",
+          "hl": "Finance chair's death leaves budget talks without their oldest hand",
+          "body": [
+            "Harold Bexley wrote the last three state budgets' transportation sections himself, staff members said.",
+            "His successor will be chosen by Senate Republicans. Commissioner Daniel Moyo said Monday he would \"listen if asked.\""
+          ],
+          "more": [],
+          "know": [
+            "Bexley wrote the transportation sections of three budgets.",
+            "Moyo said he would listen if asked."
+          ]
+        },
+        "below": [
+          {
+            "id": "l-b1",
+            "kicker": "Counties",
+            "hl": "Auditor finds 11 counties late on transit reports",
+            "body": [
+              "Eleven counties filed their public transit reports more than 60 days late last year. The state auditor's office said late reports can hold up grant money."
+            ],
+            "more": [],
+            "know": [
+              "Eleven counties filed transit reports late."
+            ]
+          },
+          {
+            "id": "l-b2",
+            "matter": "sd20",
+            "kicker": "Primary calendar",
+            "hl": "Who has filed, and who is thinking about it",
+            "body": [
+              "No one has filed for the 20th District seat for next year's primary. Three people have said they are considering it, including Daniel Moyo."
+            ],
+            "more": [],
+            "know": [
+              "No one has filed for the 20th District yet."
+            ]
+          }
+        ],
+        "rail": {
+          "calendar": [
+            [
+              "Thu 10:00",
+              "House session"
+            ],
+            [
+              "Apr 6",
+              "Senate returns"
+            ]
+          ],
+          "notices": [
+            "The Ohio Department of Transportation will take public comment on its rural transit plan through April 20."
+          ],
+          "deaths": "Harold Bexley, 81, Zanesville",
+          "correction": ""
+        }
+      }
+    },
+    {
+      "id": "dispatch",
+      "cls": "p-dispatch",
+      "name": "The Meridian Dispatch",
+      "kind": "National paper",
+      "tagline": "News of the nation",
+      "ears": [
+        [
+          "Markets",
+          "Treasury yields steady. Oil down 1.2%."
+        ],
+        [
+          "Washington",
+          "Spending deadline: April 8."
+        ]
+      ],
+      "folio": [
+        "Vol. 88 \u00b7 No. 30,114",
+        "Tuesday, March 30, 2027",
+        "Washington",
+        "$3.00"
+      ],
+      "index": [
+        "Nation A3",
+        "World A8",
+        "Business B1",
+        "Opinion A18"
+      ],
+      "stories": {
+        "lead": {
+          "id": "d-lead",
+          "matter": "federal",
+          "kicker": "Congress",
+          "photo": "capitol",
+          "hl": "Senate leaders trade offers with nine days until the spending deadline",
+          "deck": "The House plan cuts transit grants to states by 12 percent. Senate negotiators want them held level.",
+          "by": [
+            null,
+            "By Miriam Castellanos and Jae-won Park"
+          ],
+          "caption": "<b>The Capitol, Monday.</b> Negotiators met twice without an agreement.",
+          "body": [
+            "WASHINGTON \u2014 Senate leaders exchanged spending offers twice on Monday. Both sides said they were closer on defense than on domestic grants.",
+            "The House-passed plan would cut formula transit grants to states by 12 percent. State transportation directors in 31 states signed a letter asking Congress to hold them level."
+          ],
+          "more": [
+            "A short-term extension is possible if talks stall, aides in both parties said."
+          ],
+          "know": [
+            "The House plan cuts transit grants to states by 12 percent.",
+            "The deadline is April 8."
+          ]
+        },
+        "second": {
+          "id": "d-second",
+          "kicker": "The courts",
+          "hl": "Justices agree to hear dispute over redrawn districts in two states",
+          "body": [
+            "The Supreme Court agreed Monday to hear challenges to new legislative maps in two states. Arguments are expected in the fall."
+          ],
+          "more": [],
+          "know": [
+            "The Supreme Court will hear the map cases in the fall."
+          ]
+        },
+        "below": [
+          {
+            "id": "d-b1",
+            "matter": "sd20",
+            "kicker": "Ohio",
+            "hl": "A veteran lawmaker's death opens a safe seat",
+            "body": [
+              "Harold Bexley, 81, served 32 years in the Ohio Senate. His party will pick his replacement."
+            ],
+            "more": [],
+            "know": [
+              "Bexley's seat is considered safe for his party."
+            ]
+          },
+          {
+            "id": "d-b2",
+            "kicker": "Economy",
+            "hl": "Factory orders rise for a third month",
+            "body": [
+              "New orders for manufactured goods rose 0.8 percent in February, led by transportation equipment."
+            ],
+            "more": [],
+            "know": [
+              "Factory orders rose 0.8 percent in February."
+            ]
+          }
+        ],
+        "rail": {
+          "calendar": [
+            [
+              "Apr 8",
+              "Federal spending deadline"
+            ],
+            [
+              "Apr 12",
+              "House returns"
+            ]
+          ],
+          "notices": [],
+          "deaths": "",
+          "correction": ""
+        }
+      }
+    },
+    {
+      "id": "quorum",
+      "cls": "p-quorum",
+      "name": "Quorum Call",
+      "kind": "Statehouse weekly",
+      "tagline": "Weekly \u00b7 For the people who count votes",
+      "ears": [
+        [
+          "This week",
+          "Whip counts on HB 214 and the school bus bill."
+        ],
+        [
+          "Subscribers",
+          "Member by member, page 3."
+        ]
+      ],
+      "folio": [
+        "Week 13",
+        "March 30, 2027",
+        "Columbus",
+        "Subscribers only"
+      ],
+      "index": [
+        "Whip counts 3",
+        "Lobbying 6",
+        "Personnel 8"
+      ],
+      "stories": {
+        "lead": {
+          "id": "q-lead",
+          "matter": "hb214",
+          "kicker": "Whip count",
+          "photo": "chamber",
+          "hl": "HB 214 has 47 yes votes. It needs 50.",
+          "deck": "Three Republicans from the northwest are the swing. Our count, member by member, is inside.",
+          "by": [
+            null,
+            "Quorum Call staff"
+          ],
+          "caption": "<b>The House floor.</b> Ferrante has not asked Rules for a date.",
+          "body": [
+            "Our count has 47 members for House Bill 214, 38 against and 14 undecided. Most of the undecided want the rural share raised.",
+            "Three members from the northwest, including Rep. Glenn Arbaugh, have told colleagues they would vote yes if rural vans get a fixed amount."
+          ],
+          "more": [
+            "Rep. Marcus Ferrante has said he won't bring the bill to the floor without 50 votes."
+          ],
+          "know": [
+            "Quorum Call counts 47 yes, 38 no and 14 undecided.",
+            "The northwest Republicans want a fixed amount for rural vans."
+          ]
+        },
+        "second": {
+          "id": "q-second",
+          "matter": "sd20",
+          "kicker": "Personnel",
+          "hl": "Who wants Bexley's seat",
+          "body": [
+            "Caucus insiders name three. Daniel Moyo is the favorite of county officials. Sen. Paula Kessler's office is backing her chief of staff."
+          ],
+          "more": [],
+          "know": [
+            "Kessler's office backs her chief of staff for the seat."
+          ]
+        },
+        "below": [
+          {
+            "id": "q-b1",
+            "kicker": "Rules and Reference",
+            "hl": "What moves this week",
+            "body": [
+              "Rules meets Wednesday at 1 p.m. Expect the school bus bill (HB 88) on Thursday's calendar. HB 214 will not be on it."
+            ],
+            "more": [],
+            "know": [
+              "HB 214 won't be on Thursday's calendar."
+            ]
+          },
+          {
+            "id": "q-b2",
+            "kicker": "Lobbying",
+            "hl": "Transit coalition spent $212,000 in the first quarter",
+            "body": [
+              "The Ohio Transit Coalition reported $212,000 in lobbying spending, its most in any quarter. The rural counties' association reported $64,000."
+            ],
+            "more": [],
+            "know": [
+              "The transit coalition spent $212,000 on lobbying in Q1."
+            ]
+          }
+        ],
+        "rail": {
+          "calendar": [
+            [
+              "Wed 1:00",
+              "Rules and Reference"
+            ],
+            [
+              "Thu 10:00",
+              "House session"
+            ]
+          ],
+          "notices": [],
+          "deaths": "",
+          "correction": ""
+        }
+      }
+    }
+  ]
+}
