@@ -139,6 +139,8 @@ export interface OpeningLawEstimates {
   readonly parkVisitsPerAcre: number;
   readonly parkVisitorSpendingCents: number;
   readonly libraryStaffHourlyCents: number;
+  /** Absent only in saves created before the communications-pay estimate. */
+  readonly publicRelationsAnnualPayCents?: number;
 }
 export function createOpeningLawEstimates(
   seed: string,
@@ -153,6 +155,15 @@ export function createOpeningLawEstimates(
       return low + ((high - low) * (rng.next() + rng.next())) / 2;
     };
     result[stateKey] = {
+      // Preserve the existing employer draw and researched national wage;
+      // changing when it is saved must not change seeded opening pay.
+      publicRelationsAnnualPayCents: Math.round(
+        lobbying.annualNonLobbyPayMedian *
+          100 *
+          (0.75 +
+            new SeededRng(seed).fork(`lobbying-employers:${stateKey}`).next() *
+              0.5),
+      ),
       parkVisitsPerAcre:
         land.visitsPerAcreAnnual *
         draw("park-visits", land.nearbySpread[0]!, land.nearbySpread[1]!),
@@ -170,6 +181,24 @@ export function createOpeningLawEstimates(
     };
   }
   return result;
+}
+/** Fill absent legacy estimates once without replacing any saved values. */
+export function ensureOpeningLawEstimates(world: World): World {
+  const generated = createOpeningLawEstimates(world.seed);
+  const estimates: Record<string, OpeningLawEstimates> = {
+    ...world.openingLawEstimates,
+  };
+  for (const [stateKey, row] of Object.entries(generated)) {
+    const saved = estimates[stateKey];
+    estimates[stateKey] = {
+      ...row,
+      ...saved,
+      publicRelationsAnnualPayCents:
+        saved?.publicRelationsAnnualPayCents ??
+        row.publicRelationsAnnualPayCents,
+    };
+  }
+  return { ...world, openingLawEstimates: estimates };
 }
 /** Legacy reads stay pure; new worlds retain these opening draws in their saves. */
 export function openingLawEstimates(

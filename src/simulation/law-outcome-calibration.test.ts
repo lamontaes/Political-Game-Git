@@ -19,6 +19,12 @@ describe("law research is an opening calibration, not an outcome writer", () => 
     );
     expect(Object.keys(first.lawOutcomeCalibration!)).toHaveLength(3);
     expect(Object.keys(first.openingLawEstimates!)).toHaveLength(56);
+    for (const row of Object.values(first.openingLawEstimates!)) {
+      expect(Number.isSafeInteger(row.publicRelationsAnnualPayCents)).toBe(
+        true,
+      );
+      expect(row.publicRelationsAnnualPayCents).toBeGreaterThan(0);
+    }
     expect(second.openingLawEstimates).not.toEqual(first.openingLawEstimates);
     expect(deserializeWorld(serializeWorld(first)).openingLawEstimates).toEqual(
       first.openingLawEstimates,

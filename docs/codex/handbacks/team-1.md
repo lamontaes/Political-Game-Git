@@ -126,6 +126,66 @@ The narrow Team3 job04 roster release is recorded in canonical claims under the 
 
 Continue the noncompliant-anchor replacements within existing ownership and resolve the research gaps already listed. Full paired and watched proof belongs on main after Claude's authorized merge. Claude retains merge and browser-validation authority. Keep this local chat and workspace recoverable until the cloud reports its first working checkpoint; do not archive from this handoff alone.
 
+## Cloud continuation: communications salaries stay saved
+
+Communications vacancies now use the saved opening salary estimate. The
+existing national wage anchor and opening variation produce the same pay.
+Older saves keep their recorded estimates and vacancies when the new salary
+field is filled.
+
+### MERGED
+
+Not merged. This bounded repair is ready for review on
+`codex/team1-opening-communications-pay`, based on preserved law head
+`bb6b08b7ff85aab7e066945887e25380499bf93c`. The independent readable-date
+repair remains preserved in PR1164.
+
+### WHAT EMERGED
+
+HARDWIRED: opening communications pay is now stored by
+`src/simulation/law-outcome-calibration.ts` and read by the actual capital
+vacancy writer in `src/simulation/post-office-careers.ts`. The existing
+national public-relations wage anchor is $69,780 per year. The existing seeded
+spread remains 0.75 to 1.25; it is authored opening variation, not a measured
+confidence interval or an actor decision.
+
+Measured in the bounded vacancy regression: a deliberately distinct saved pay
+value was posted by the actual communications employer and survived save/load.
+A legacy record acquired the same salary as the former calculation. Its other
+saved estimates remained intact. Repeated materialization retained the same
+opening records. This is fixture evidence, not a nationwide watched life.
+
+### Wider effects and missing links
+
+The source anchor now reaches the saved opening estimate and actual vacancy.
+The existing application and compensation regression still passes. No new
+firm-capacity, revenue, legal, library-review, ID or curriculum coefficients
+were added. Exact remaining cells and units were routed to Team9 in 00.
+Team5 received the knowledge-consumer boundary response: epistemic confidence
+remains distinct from attention and uptake.
+
+Team3's money and population seams, Team2's officeholder caller, and Team4's
+speed hunks remain released. Federal money, tax-gap and transportation work
+remain held for approved research and queue eligibility.
+
+### VITAL STATISTICS
+
+Two changed test files passed five tests in 14.80 seconds, with 574 milliseconds
+in test bodies and at most two workers. Scoped strict TypeScript passed with no
+diagnostics. Final lint, formatting, release and zero-dice receipts accompany
+the published pull request. No browser or full simulation was run. The 92-law
+proof remains a post-merge main task; the preserved incomplete proof is not a
+pass. No independent report reviewer was run under the owner's helper limit.
+
+### Method and reporting limit
+
+One registered cloud checkout was reused. No historical research or proof was
+replaced. Recurring reporting at :25 and :55 America/New_York could not be set:
+the exposed automation tools cap execution at once per hour. No automation ID
+exists. This runtime also exposes no hostlocal cross-thread sender. The exact
+limitations were posted and read back in 00; that post is not scheduled or
+direct thread delivery. Authorized law work continued after that checkpoint.
+
 ## Cloud continuation: readable lobbying eligibility dates
 
 The cloud has the final preserved local work and a passing eligibility/pay
