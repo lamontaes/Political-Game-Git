@@ -23,7 +23,10 @@ import {
   committeeMembers,
   dispositionsFromCounts,
 } from "../simulation/legislation-scenarios";
-import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../simulation/national-election-geography";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { currentPublicOfficeholders } from "./opening-officeholders";
@@ -91,7 +94,7 @@ describe("the people who govern a home are named", () => {
       note: "Authored votes for signer-name coverage; not a forecast or law proof.",
       sourceEntityIds: [world.id],
     };
-    let later = introduceMeasure(world, {
+    let later = introduceMeasure(ensureNationalElectionJurisdiction(world), {
       stableKey: "named-holders:signature-fixture",
       jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
       rulePackId: US_CONGRESS_PACK_ID,
