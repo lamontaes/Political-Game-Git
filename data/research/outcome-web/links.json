@@ -135,7 +135,17 @@
       "anchor": "Elasticity -0.34 violent, -0.17 property",
       "source": "Chalfin and McCrary 2017-18",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "estimate": -0.34,
+        "standardError": 0.1,
+        "normal95Interval": [-0.536, -0.144],
+        "unit": "elasticity: percent outcome change per percent officer change",
+        "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
+        "status": "blocked-runtime-unit-conversion",
+        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
+      }
     },
     {
       "key": "police-to-property-crime",
@@ -153,7 +163,17 @@
       "anchor": "Elasticity -0.17",
       "source": "Chalfin and McCrary 2017-18",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "estimate": -0.17,
+        "standardError": 0.09,
+        "normal95Interval": [-0.3464, 0.0064],
+        "unit": "elasticity: percent outcome change per percent officer change",
+        "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
+        "status": "blocked-runtime-unit-conversion",
+        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
+      }
     },
     {
       "key": "police-to-low-level-arrests",
@@ -298,15 +318,44 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": 0.08,
+      "per": "adoption of statutory public-place stand-your-ground law versus no such adoption in the controlled pooled study",
       "lagMonths": 0,
       "group": "place",
       "owner": "O",
       "anchor": "Increases firearm homicides (RAND: supportive)",
-      "source": "RAND Science of Gun Policy, 5th ed.",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/",
       "from": "law.stand-your-ground",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0.03, 0.13],
+      "why": [
+        "The study associates statutory stand-your-ground adoption with higher monthly firearm-homicide rates after controlling for comparison states, seasonality and long-term trends.",
+        "Its treatment is an extension of legal immunity for lethal self-defense outside the home to places where a person has a legal right to be.",
+        "That legal change can alter the perceived legal consequences of choosing lethal force. The authors describe possible encouragement of otherwise avoidable deadly encounters; deterrence is the competing explanation.",
+        "A person chooses whether to use lethal force in a particular encounter from the situation and their own record. A firearm discharge can physically kill another person. The aggregate estimate does not choose that action or victim.",
+        "Legal rule: statutory protection for qualifying public-place self-defense; physical fact: lethal force can kill. Actual behavioral mediation is not identified by this study."
+      ],
+      "conditions": {
+        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%–33.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
+        "rangeMeaning": "[0.03,0.13] is the published95%interval around the pooled firearm-homicide rate ratio minus1. It is not a distribution of local effects, not a bound on every state, and not a territory transport estimate.",
+        "transportMissing": "Numerical firearm-only state-specific estimates and their intervals fromFigure3/supplement, plus evidence for later-adopting and excluded places. No universal state-specific effect is claimed.",
+        "mediationLimit": "The legal treatment and aggregate association are measured in the paper. The psychological pathway is an authors-discussed hypothesis, not measured person-level mediation or proof of a particular encounter."
+      },
+      "reverseOnRepeal": {
+        "answer": "Not established.",
+        "reason": "The treatment analyzed is adoption during2000–2016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
+      },
+      "who": {
+        "studyPopulation": "Forty-one US states during1999–2017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
+        "exclusions": "Nine states excluded:Utah/Iowa lacked sufficient timing/data;seven had case-law stand-your-ground principles, contaminating comparison. No territory, county-specific, township-specific or individual exposed-defendant estimate.",
+        "legalCoverage": "People in qualifying public-place self-defense encounters under operative law; the study definition is not a grant of authority to local governments or proof every homicide involved a self-defense claim."
+      },
+      "lagWhy": {
+        "measured": "Methods model a step change in monthly statewide rates at statutory enactment, adjusted for seasonality and state trends, with at least12months before/after for included adopters.",
+        "lagInterpretation": "lagMonths0 describes that monthly aggregate model specification; it is not a measured immediate personal reaction or zero procedural delay. No separate distributed-lag coefficient is supplied."
+      },
+      "aboutZero": false,
+      "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader."
     },
     {
       "key": "min-age-to-youth-gun-suicide",
@@ -340,7 +389,17 @@
       "anchor": "Each added reported crime: about 1 fewer city resident, mostly moving to the suburbs",
       "source": "Cullen and Levitt 1999 (REStat)",
       "from": "crime.reported-per-capita",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "estimate": 1.18,
+        "standardError": 0.57,
+        "normal95Interval": [0.0628, 2.2972],
+        "unit": "out-migration probability change per change in reported crimes per resident over five years",
+        "source": "https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf",
+        "location": "Table 6a column 2, household controls; coefficient -1.18 on staying, sign reversed for leaving",
+        "status": "blocked-runtime-unit-and-time-conversion",
+        "requiredConnection": "Need recorded migration baseline and five-year exposure interval before proportional rate multiplier. This is not an immediate monthly multiplier or an observed individual move."
+      }
     },
     {
       "key": "speed-limit-to-traffic-deaths",
