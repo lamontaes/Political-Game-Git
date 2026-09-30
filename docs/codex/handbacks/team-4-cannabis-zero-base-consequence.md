@@ -2,6 +2,8 @@
 
 A state that began with zero selective sales taxes now records the inherited cannabis revenue amount after retail opens. The saved budget month identifies the governing law. Fiscal rollover counts the amount once, and operative repeal removes it. This repairs a budget calculation; the full cannabis law record still needs researched terms, costs, individual retail consequences and national proof.
 
+## Status
+
 MERGED: This repair is not merged. The shared stamp is merged; its transferred source is byte-identical to the merged helper.
 
 WHAT EMERGED: HARDWIRED: the inherited revenue model uses $40.7 per resident per year and an eleven-month retail delay. The new calculation records that amount instead of losing it through a zero denominator. No business opening or person's purchase decision was simulated by this repair.
@@ -44,4 +46,14 @@ The controlled fixture enacts legalization on March 1, 2026. Its inherited retai
 
 ## Source and recovery
 
-Transferred cannabis source: `6e33158bf8e94cd9befbcfe674dd8c7584e8e637`. Shared helper source: `205c598a5adb7f77eeed69af8f3745e5cbe64ce1`, identical to merged `b2d0bf43794ce9ccb497b4c3eb4e2c678eb70d71`. Original tested local head `5885a2dc882394f5b5cad6009b36bde74324a0b0` is preserved on `codex/team-4-cannabis-pre-recovery-5885a2dc`. Recovery changed commit ancestry to retain independently published documentation; the tested production and test files have no difference from that checkpoint. Team 4 does not merge.
+Transferred cannabis source: `6e33158bf8e94cd9befbcfe674dd8c7584e8e637`.
+
+Shared helper source: `205c598a5adb7f77eeed69af8f3745e5cbe64ce1`. Its bytes match the merged helper.
+
+Merged helper head: `b2d0bf43794ce9ccb497b4c3eb4e2c678eb70d71`.
+
+Original tested local head: `5885a2dc882394f5b5cad6009b36bde74324a0b0`.
+
+Preserved checkpoint branch: `codex/team-4-cannabis-pre-recovery-5885a2dc`.
+
+Recovery changed commit ancestry to retain independently published documentation; the tested production and test files have no difference from that checkpoint. Team 4 does not merge.
