@@ -144,6 +144,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
   propositions: [
     {
       key: "fiscal.adopt-income-tax",
+      parameters: [
+        { key: "rate", value: "share-of-taxable-income" },
+        { key: "threshold", value: "annual-taxable-income-usd" },
+      ],
       issue: "us-state-and-local:fiscal.income-tax",
       name: "Adopt a state income tax",
       question: "Should the state levy a personal income tax?",
@@ -155,6 +159,9 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "fiscal.graduated-income-tax",
+      parameters: [
+        { key: "brackets", value: "income-thresholds-and-marginal-rates" },
+      ],
       issue: "us-state-and-local:fiscal.income-tax",
       name: "Graduated income tax",
       question:
@@ -181,6 +188,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "fiscal.exempt-groceries-from-sales-tax",
+      parameters: [
+        { key: "exempt", value: "yes-or-no" },
+        { key: "coverage", value: "covered-food-categories" },
+      ],
       issue: "us-state-and-local:fiscal.sales-tax",
       name: "Exempt groceries from sales tax",
       question: "Should groceries be exempt from the general sales tax?",
@@ -191,6 +202,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "fiscal.balanced-operating-budget",
+      parameters: [
+        { key: "required", value: "yes-or-no" },
+        { key: "scope", value: "covered-operating-funds" },
+      ],
       issue: "us-state-and-local:fiscal.operating-budget",
       name: "Require a balanced operating budget",
       question:
@@ -202,6 +217,12 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "fiscal.fund-pensions-to-schedule",
+      parameters: [
+        {
+          key: "contribution",
+          value: "share-of-actuarially-determined-contribution",
+        },
+      ],
       issue: "us-state-and-local:fiscal.public-pensions",
       name: "Fund pensions on schedule",
       question:
@@ -226,6 +247,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.independent-redistricting",
+      parameters: [
+        { key: "authority", value: "district-drawing-body" },
+        { key: "coverage", value: "covered-district-types" },
+      ],
       issue: "us-state-and-local:government-operations.redistricting",
       name: "Independent redistricting commission",
       question:
@@ -239,6 +264,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.require-photo-id-to-vote",
+      parameters: [
+        { key: "required", value: "yes-or-no" },
+        { key: "accepted-documents", value: "document-categories" },
+        { key: "exceptions", value: "voter-exemption-categories" },
+      ],
       issue: "us-state-and-local:government-operations.election-rules",
       name: "Require photo identification to vote",
       question:
@@ -251,6 +281,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.automatic-voter-registration",
+      parameters: [
+        { key: "enabled", value: "yes-or-no" },
+        { key: "agencies", value: "covered-agencies" },
+        { key: "opt-out", value: "registration-opt-out-process" },
+      ],
       issue: "us-state-and-local:government-operations.election-administration",
       name: "Automatic voter registration",
       question:
@@ -288,6 +323,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.broaden-local-authority",
+      parameters: [
+        { key: "subjects", value: "delegated-local-subjects" },
+        { key: "reserved-subjects", value: "state-reserved-subjects" },
+      ],
       issue: "us-state-and-local:government-operations.state-local-powers",
       name: "Broaden local authority",
       question:
@@ -300,6 +339,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "education.equalize-school-funding",
+      parameters: [
+        { key: "floor", value: "annual-usd-per-pupil" },
+        { key: "formula", value: "district-allocation-rule" },
+      ],
       issue: "us-state-and-local:education.school-funding",
       name: "Equalize school funding across districts",
       question:
@@ -312,6 +355,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "education.public-funds-for-private-schooling",
+      parameters: [
+        { key: "award", value: "annual-usd-per-student" },
+        { key: "eligibility", value: "eligible-student-and-school-categories" },
+      ],
       issue: "us-state-and-local:education.school-choice",
       name: "Public funds for private schooling",
       question:
@@ -326,6 +373,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "education.raise-teacher-minimum-salary",
+      parameters: [{ key: "floor", value: "annual-usd-per-full-time-teacher" }],
       issue: "us-state-and-local:education.teacher-workforce",
       name: "Raise the teacher salary floor",
       question:
@@ -337,6 +385,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "education.universal-preschool",
+      parameters: [
+        { key: "eligible-ages", value: "years-of-age" },
+        { key: "funding", value: "annual-usd-per-enrollee" },
+      ],
       issue: "us-state-and-local:education.early-childhood",
       name: "Universal preschool",
       question:
@@ -350,6 +402,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "education.freeze-public-tuition",
+      parameters: [
+        { key: "cap", value: "annual-tuition-usd" },
+        { key: "coverage", value: "public-institution-and-student-categories" },
+      ],
       issue: "us-state-and-local:education.higher-education-tuition-and-aid",
       name: "Freeze public college tuition",
       question: "Should tuition at public colleges be frozen?",
@@ -360,6 +416,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "education.state-curriculum-standards",
+      parameters: [
+        { key: "authority", value: "standards-adopting-body" },
+        { key: "coverage", value: "covered-grades-and-subjects" },
+      ],
       issue: "us-state-and-local:education.curriculum-and-standards",
       name: "Set curriculum at the state level",
       question:
@@ -372,6 +432,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "health-human-services.expand-medicaid-eligibility",
+      parameters: [
+        { key: "income-limit", value: "share-of-federal-poverty-level" },
+        { key: "eligibility", value: "covered-person-categories" },
+      ],
       issue: "us-state-and-local:health-human-services.medicaid",
       name: "Expand Medicaid eligibility",
       question:
@@ -384,6 +448,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "health-human-services.medicaid-work-requirement",
+      parameters: [
+        { key: "hours", value: "qualifying-hours-per-month" },
+        { key: "exemptions", value: "exempt-person-categories" },
+      ],
       issue: "us-state-and-local:health-human-services.medicaid",
       name: "Work requirement for Medicaid",
       question:
@@ -397,6 +465,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "health-human-services.work-requirement-for-assistance",
+      parameters: [
+        { key: "hours", value: "qualifying-hours-per-month" },
+        { key: "coverage", value: "covered-assistance-programs" },
+        { key: "exemptions", value: "exempt-person-categories" },
+      ],
       issue:
         "us-state-and-local:health-human-services.food-and-income-assistance",
       name: "Work requirement for assistance",
@@ -411,6 +484,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "health-human-services.fund-behavioral-health-crisis-response",
+      parameters: [
+        { key: "appropriation", value: "usd-per-budget-year" },
+        { key: "coverage", value: "covered-service-area-and-responses" },
+      ],
       issue: "us-state-and-local:health-human-services.behavioral-health",
       name: "Fund a behavioral health crisis response",
       question:
@@ -423,6 +500,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "health-human-services.harm-reduction-services",
+      parameters: [
+        { key: "appropriation", value: "usd-per-budget-year" },
+        { key: "services", value: "authorized-service-categories" },
+      ],
       issue: "us-state-and-local:health-human-services.substance-use",
       name: "Harm reduction services",
       question:
