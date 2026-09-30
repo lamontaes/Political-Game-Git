@@ -11,7 +11,6 @@ import {
   stateTransitAutomaticLawContext,
 } from "../simulation/governing/automatic-legislation";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
-import { lawInForce } from "../simulation/governing/law-in-force";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
 import type { World } from "../simulation";
@@ -148,7 +147,7 @@ describe("a member files a bill of their own", () => {
 
     const territoryIds = ["US-PR", "US-DC"]
       .map((key) => stateJurisdictionForKey(key)?.id)
-      .filter((id): id is string => id !== undefined);
+      .filter((id) => id !== undefined);
     for (const jurisdictionId of territoryIds)
       expect(stateTransitAutomaticLawContext(world, jurisdictionId)).toBeNull();
 
@@ -208,7 +207,7 @@ describe("a member files a bill of their own", () => {
         expect(pendingQuestions.has(row.propositionId)).toBe(false);
   });
 
-  it("files a position or repeal bill only where it changes the law in force", () => {
+  it("refuses unsupported position bills and gives every new filing a typed draft", () => {
     const before = world.history.legislativeMeasures?.length ?? 0;
     const laterIntake = fileMemberAgendaBill(world, {
       jurisdictionId: colorado,
@@ -221,18 +220,19 @@ describe("a member files a bill of their own", () => {
           (lineage) => lineage.measureId === bill.id,
         ),
     );
-    expect(positionBills.length).toBeGreaterThan(0);
-    for (const bill of positionBills) {
-      const { propositionId, answer } = bill.propositionAnswers![0]!;
-      const law = lawInForce(world, colorado, propositionId)?.answer ?? null;
-      // Enacting it must move the recorded answer.
-      expect(law).not.toBe(answer);
-      if (answer === "no") expect(law).toBe("yes");
-      // A question with a registered money writer is never a position bill.
-      const stableKey =
-        world.policyCatalog.propositions[propositionId]!.stableKey;
-      expect(automaticLawMappingFor(stableKey, "yes", "state")).toBeNull();
-      expect(automaticLawMappingFor(stableKey, "no", "state")).toBeNull();
+    expect(positionBills).toHaveLength(0);
+    for (const bill of added) {
+      expect(
+        laterIntake.history.legislativeDraftLineages?.some(
+          (lineage) => lineage.measureId === bill.id,
+        ),
+      ).toBe(true);
+      expect(
+        laterIntake.history.legislativeProvisions?.some(
+          (provision) =>
+            provision.measureId === bill.id && provision.operativeEffect,
+        ),
+      ).toBe(true);
     }
   });
 

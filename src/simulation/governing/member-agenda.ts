@@ -64,8 +64,8 @@ import {
 
 /**
  * MEMBER AGENDA — a sitting member files supported legislation on questions
- * their own saved principles press hardest. Mapped proposals carry their World
- * effects; unmapped answers still change the recorded law in force.
+ * their own saved principles press hardest. A proposal without a supported
+ * operative draft cannot be filed.
  */
 
 export const MEMBER_AGENDA_VERSION = "member-agenda/v2";
@@ -271,6 +271,7 @@ export function fileMemberAgendaBills(
           effectKeys.has(proposition.stableKey) &&
           automaticLawMappingFor(proposition.stableKey, answer)
             ?.governmentLevel === "state";
+        if (!mapped) continue;
         const numbering = nextMeasureNumbering(next, {
           jurisdictionId: input.jurisdictionId,
           originChamber: chamber,
@@ -356,33 +357,6 @@ export function fileMemberAgendaBills(
       });
       if (!introduced) continue;
       next = scheduleInstitutionStep(introduced.world, introduced.measureId);
-    } else {
-      next = introduceMeasure(next, {
-        stableKey,
-        jurisdictionId: input.jurisdictionId,
-        rulePackId: pack.packId,
-        ...numbering,
-        shortTitle:
-          best.answer === "yes"
-            ? proposition.name
-            : `Repeal: ${proposition.name}`,
-        summary:
-          best.answer === "yes"
-            ? `${proposition.question} This bill says yes.`
-            : `${proposition.question} This bill repeals the law that says yes.`,
-        origin: "member-introduction",
-        subjectClass: "general-policy",
-        sponsorPersonId: sponsor.personId,
-        originChamberKey: chamber.chamberKey,
-        propositionIds: [best.propositionId],
-        propositionAnswers: [
-          { propositionId: best.propositionId, answer: best.answer },
-        ],
-      });
-      next = scheduleInstitutionStep(
-        next,
-        next.history.legislativeMeasures!.at(-1)!.id,
-      );
     }
     open.set(best.propositionId, false);
   }
