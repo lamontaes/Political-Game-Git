@@ -58,7 +58,8 @@ it("preserves event law attribution through the canonical writer and Save/Contin
   expect(restored.history.events.find((row) => row.id === event.id)).toEqual(
     event,
   );
-  const { lawEffectStamps: _stamps, ...unstamped } = input;
+  const unstamped = { ...input };
+  delete unstamped.lawEffectStamps;
   const legacy = recordWorldEvent(restored, {
     ...unstamped,
     stableKey: "unstamped-event",
