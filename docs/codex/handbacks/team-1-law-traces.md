@@ -314,6 +314,23 @@ Team 3 retains wage, housing, tax and benefit consumers; Team 2 retains courts/g
 
 Read-only inventories completed at both source heads: twenty-five distinct questions, twenty federal, ten held assignment slots with five overlaps. Fifteen federal questions have counted paths on main; twenty do on the held branch. No production source or numeric value changed. Report/format checks are recorded with publication; independent review and runtime acceptance remain separate.
 
+## Per-world ranges: source verification
+
+The held catalog contains 28 distinct outcome links: 12 built, 11 about-zero,
+three calibration-only and two with no size. Ten built links specify ranges.
+Borrowing costs use 18.75–31.25 basis points per percentage point of GDP;
+defense earnings use 0.01125–0.01875 per the catalog's stated input unit.
+These two bands come from the existing researched ±25% default, not a new
+empirical confidence interval. Every link's units and effective band are in
+the JSON beside its status.
+
+The existing reader draws a stable size for each world seed, link key and
+jurisdiction. It respects explicit ranges or evidence-class default spreads;
+seedless fixtures use the central value. About-zero links remain inert;
+missing sizes and calibration targets are not counted as working effects.
+This verifies the source path only. No law-money run was executed, and no
+production coefficient or effects link changed.
+
 ## Method and exact source
 
 Pinned main: `54930d427555034f3a92f335064586247985784d`. Held law source: `d6f8b2798d0fdf1acad3ca936ad0d0169640ca76`, PR1131.

@@ -54,7 +54,18 @@
           "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
           "floor": -19,
           "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [18.75, 31.25],
+            "units": "percentage point of GDP the federal deficit changes, in basis points",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0.25,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -75,7 +86,18 @@
           "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
           "floor": -19,
           "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [18.75, 31.25],
+            "units": "percentage point of GDP the federal deficit changes, in basis points",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0.25,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -124,7 +146,18 @@
           "evidence": "about-zero",
           "anchor": "The official poverty measure uses money income before taxes, and the top rate reaches no one near the line",
           "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -144,7 +177,18 @@
           "evidence": "about-zero",
           "anchor": "The official poverty measure uses money income before taxes, and the top rate reaches no one near the line",
           "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -199,7 +243,18 @@
             "effectAtFull": -1,
             "mode": "scale"
           },
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.61, -0.2],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -225,7 +280,18 @@
             "effectAtFull": -1,
             "mode": "scale"
           },
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.61, -0.2],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -274,7 +340,18 @@
           "evidence": "researched",
           "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
           "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.01125, 0.01875],
+            "units": "percent of what the state produces that extra defense contracts add",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0.25,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -294,7 +371,18 @@
           "evidence": "researched",
           "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
           "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.01125, 0.01875],
+            "units": "percent of what the state produces that extra defense contracts add",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0.25,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -344,7 +432,18 @@
           "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
           "floor": -19,
           "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [18.75, 31.25],
+            "units": "percentage point of GDP the federal deficit changes, in basis points",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0.25,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -365,7 +464,18 @@
           "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
           "floor": -19,
           "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [18.75, 31.25],
+            "units": "percentage point of GDP the federal deficit changes, in basis points",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0.25,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -415,7 +525,18 @@
           "from": "law:us-federal-positions:trade.raise-tariffs",
           "to": "household.prices",
           "range": [0.005, 0.01],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.005, 0.01],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -436,7 +557,18 @@
           "from": "law:us-federal-positions:trade.raise-tariffs",
           "to": "household.prices",
           "range": [0.005, 0.01],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.005, 0.01],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -479,7 +611,10 @@
           "evidence": "to-confirm",
           "from": "law:us-federal-positions:immigration.admit-more-immigrants",
           "to": "labor.workforce",
-          "status": "size-not-set"
+          "status": "size-not-set",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "immigration-to-crime",
@@ -497,7 +632,18 @@
           "evidence": "about-zero",
           "anchor": "Across all 50 states and D.C., 1990 to 2014, undocumented immigration did not increase violent crime; the relationship was generally negative and not always significant",
           "source": "Light and Miller 2018 (Criminology); Ousey and Kubrin 2018 (Annual Review of Criminology)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -525,7 +671,10 @@
             "bandBasis": "Authored opening spread of 25 percent around the provisional study benchmark, not a published confidence interval; audit actual covered-person outcomes without forcing them.",
             "limitation": "The cited study population and measure are comparison proxies. A watched comparison outside the band fails calibration; it never rewrites people or their results."
           },
-          "status": "calibration-only"
+          "status": "calibration-only",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "immigration-to-crime",
@@ -543,12 +692,23 @@
           "evidence": "about-zero",
           "anchor": "Across all 50 states and D.C., 1990 to 2014, undocumented immigration did not increase violent crime; the relationship was generally negative and not always significant",
           "source": "Light and Miller 2018 (Criminology); Ousey and Kubrin 2018 (Annual Review of Criminology)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
         "enactment": "HELD ONLY: immigration-admissions-law.ts:51 applyImmigrationAdmissions; public-budgets/index.ts calls it.",
-        "directEffects": "An authored default adds 11,729 admissions yearly, one percent of 1,172,910 observed 2023 admissions. Largest-remainder allocation uses recent-entry distribution, then materializes dated households in each state’s largest inhabited locality. Rent effects use a Saiz metro elasticity of 1; employment is counted from actual jobs, checked against 66.5 percent participation. Crime is an inert catalog finding.",
+        "directEffects": "An authored default adds 11,729 admissions yearly, one percent of 1,172,910 observed 2023 admissions. Largest-remainder allocation uses recent-entry distribution, then materializes dated households in each state\u2019s largest inhabited locality. Rent effects use a Saiz metro elasticity of 1; employment is counted from actual jobs, checked against 66.5 percent participation. Crime is an inert catalog finding.",
         "jurisdictionAndReversal": "Congress controls federal admission/status. State/local governments provide services and regulate housing within their powers, not federal admission counts. D.C. and all five territories are distribution rows, with four unread island areas estimated. No stops new modeled arrivals; it must not delete admitted people.",
         "terminal": "Actual added household records, with authored admission/default location and metro rent adaptation.",
         "gap": "Needs research: town destinations, legal-status/cohort composition and rent range. Coordinator must compose the Census contract preserving authoredSkeleton/jobRound. Never force employment to match the calibration."
@@ -593,7 +753,18 @@
           "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
           "to": "health.drug-out-of-pocket",
           "range": [-0.1, -0.06],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.1, -0.06],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -614,14 +785,25 @@
           "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
           "to": "health.drug-out-of-pocket",
           "range": [-0.1, -0.06],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.1, -0.06],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
         "enactment": "outcome-web/index.ts outcomeFactor for health.drug-out-of-pocket.",
         "directEffects": "The aggregate out-of-pocket adjustment below adapts first-ten-drug savings of about $1.5 billion against $18.9 billion Part D spending. Individual drug eligibility, pharmacy/plan payments, federal savings, manufacturer behavior and adherence are not all delivered by this denominator.",
         "jurisdictionAndReversal": "Congress sets Medicare negotiation authority; CMS implements federal terms. States can regulate other coverage and purchasing within federal limits, not rewrite Medicare. D.C./territorial coverage must follow actual program eligibility. No stops the modeled change; signed purchasing commitments need their own records.",
-        "terminal": "A provisional aggregate price adjustment, not a named enrollee’s bill.",
+        "terminal": "A provisional aggregate price adjustment, not a named enrollee\u2019s bill.",
         "gap": "Needs research: population/drug denominator and budget effects. Needs a feature: drug/plan/patient transaction records where absent."
       },
       "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
@@ -674,7 +856,18 @@
           "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
           "to": "labor.older-employment",
           "range": [0.04, 0.22],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.04, 0.22],
+            "units": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "retirement-age-to-poverty",
@@ -693,7 +886,18 @@
           "evidence": "provisional",
           "anchor": "A one-year rise cuts benefits 6.7% at any claiming age (5/9 of 1% a month); elderly poverty moves about one for one with benefits; people 65 and older were 6.1 million of the 35.9 million poor people in 2024 (17.0%), so each year of rise raises the poverty rate about 1.1% of itself",
           "source": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.011, 0.034],
+            "units": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -714,7 +918,18 @@
           "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
           "to": "labor.older-employment",
           "range": [0.04, 0.22],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.04, 0.22],
+            "units": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "retirement-age-to-poverty",
@@ -733,7 +948,18 @@
           "evidence": "provisional",
           "anchor": "A one-year rise cuts benefits 6.7% at any claiming age (5/9 of 1% a month); elderly poverty moves about one for one with benefits; people 65 and older were 6.1 million of the 35.9 million poor people in 2024 (17.0%), so each year of rise raises the poverty rate about 1.1% of itself",
           "source": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)",
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.011, 0.034],
+            "units": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -776,7 +1002,10 @@
           "evidence": "to-confirm",
           "from": "law:us-federal-positions:education.forgive-student-loans",
           "to": "finance.past-due-debt",
-          "status": "size-not-set"
+          "status": "size-not-set",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "student-loan-forgiveness-to-poverty",
@@ -794,7 +1023,18 @@
           "evidence": "about-zero",
           "anchor": "Debt relief is not money income, which is what the official poverty measure counts",
           "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -822,7 +1062,10 @@
             "bandBasis": "Authored opening spread of 25 percent around the provisional study benchmark, not a published confidence interval; audit actual covered-person outcomes without forcing them.",
             "limitation": "The cited study population and measure are comparison proxies. A watched comparison outside the band fails calibration; it never rewrites people or their results."
           },
-          "status": "calibration-only"
+          "status": "calibration-only",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "student-loan-forgiveness-to-poverty",
@@ -840,13 +1083,24 @@
           "evidence": "about-zero",
           "anchor": "Debt relief is not money income, which is what the official poverty measure counts",
           "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
         "enactment": "HELD ONLY: student-debt-relief-law.ts:142 applyStudentDebtRelief and :191 studentDebtReliefOutlay; household-loans.ts and legislation.ts call it.",
-        "directEffects": "The authored proposal caps relief at $10,000 per borrower with annual income at most $125,000. Actual eligible federal balances limit discharge; missing income grants no eligibility. Relief records reduce debt and feed federal monthly outlays. Other-account default is only a −12 percent comparison proxy; official pre-tax poverty is inert. Opening loans use a $22,500 SHED midpoint and financing proxies.",
-        "jurisdictionAndReversal": "Congress can change federal student-loan liabilities; state/local programs can fund their own aid, not discharge this creditor’s debt. Federal-loan eligibility also governs D.C./territorial borrowers. No stops new relief; already recorded discharge is not reversed into invented debt.",
+        "directEffects": "The authored proposal caps relief at $10,000 per borrower with annual income at most $125,000. Actual eligible federal balances limit discharge; missing income grants no eligibility. Relief records reduce debt and feed federal monthly outlays. Other-account default is only a \u221212 percent comparison proxy; official pre-tax poverty is inert. Opening loans use a $22,500 SHED midpoint and financing proxies.",
+        "jurisdictionAndReversal": "Congress can change federal student-loan liabilities; state/local programs can fund their own aid, not discharge this creditor\u2019s debt. Federal-loan eligibility also governs D.C./territorial borrowers. No stops new relief; already recorded discharge is not reversed into invented debt.",
         "terminal": "Canonical debt-relief records, plus authored financing/eligibility proposals; calibration never assigns defaults.",
         "gap": "Needs research: financing/cohort spread and other-debt mechanism. Proof must show actual borrower balance, creditor and fiscal record; relief is not a cash transfer to the borrower."
       },
@@ -905,7 +1159,18 @@
             "mode": "only-when"
           },
           "range": [-0.045, -0.02],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.045, -0.02],
+            "units": "a raise to about $15",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "federal-minimum-wage-to-low-wage-jobs",
@@ -923,7 +1188,10 @@
           "evidence": "contested",
           "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
           "to": "labor.low-wage-jobs",
-          "status": "size-not-set"
+          "status": "size-not-set",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         }
       ],
       "heldLinks": [
@@ -949,7 +1217,18 @@
             "mode": "only-when"
           },
           "range": [-0.045, -0.02],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.045, -0.02],
+            "units": "a raise to about $15",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "federal-minimum-wage-to-low-wage-jobs",
@@ -967,12 +1246,15 @@
           "evidence": "contested",
           "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
           "to": "labor.low-wage-jobs",
-          "status": "size-not-set"
+          "status": "size-not-set",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         }
       ],
       "trace": {
         "enactment": "minimum-wage.ts federalMinimumSchedule, federalMinimumHourlyMinorAt and minimumWageSettingAt; payroll readers consume the highest applicable floor.",
-        "directEffects": "Paycheck floors change through the filed schedule; the poverty link and unset low-wage-job link are listed below. CTO requires pay, hours, prices, small-firm hiring, teen employment, poverty and benefit use. The federal question’s existing two links do not establish all seven mechanisms or their ranges/delays.",
+        "directEffects": "Paycheck floors change through the filed schedule; the poverty link and unset low-wage-job link are listed below. CTO requires pay, hours, prices, small-firm hiring, teen employment, poverty and benefit use. The federal question\u2019s existing two links do not establish all seven mechanisms or their ranges/delays.",
         "jurisdictionAndReversal": "Federal wage law provides a floor for covered employment; state and authorized local floors may exceed it. State preemption controls local authority. D.C./territorial and occupation exemptions need actual coverage data. Repeal removes the new floor, not higher surviving floors or earned pay.",
         "terminal": "Direct wage floor plus a place-level poverty factor; several reactions remain missing or unset.",
         "gap": "Needs research/wiring with Team 3: every wage reaction, coverage and state/local preemption. Do not copy a federal $15 comparison onto every local increase or actor."
@@ -1017,7 +1299,18 @@
           "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
           "to": "housing.homelessness",
           "range": [-0.5, -0.15],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.5, -0.15],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "housing-vouchers-to-graduation",
@@ -1035,7 +1328,18 @@
           "evidence": "about-zero",
           "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
           "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "housing-vouchers-to-crime",
@@ -1053,7 +1357,18 @@
           "evidence": "about-zero",
           "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
           "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1074,7 +1389,18 @@
           "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
           "to": "housing.homelessness",
           "range": [-0.5, -0.15],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.5, -0.15],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "housing-vouchers-to-graduation",
@@ -1092,7 +1418,18 @@
           "evidence": "about-zero",
           "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
           "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "housing-vouchers-to-crime",
@@ -1110,7 +1447,18 @@
           "evidence": "about-zero",
           "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
           "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -1160,7 +1508,18 @@
           "anchor": "A federal law that pays to expand passenger rail funds the plan Amtrak asked Congress for: 62.5% more riders over 15 years, with the first added service 30 months in (src/simulation/federal-passenger-rail.ts). Rail ridership forecasts come true only in part: across 25 rail projects, actual traffic averaged 51.4% below forecast, with a standard deviation of 28.1 points. So each percent the plan projects adds 0.486% more riders, and each world draws between 0.205% and 0.767%, one standard deviation either way. The same share reaches every place Amtrak serves. The timing is the plan's own, so the link acts in the month the plan's riders arrive. Provisional: the projection is Amtrak's, not a measured result of a past federal law.",
           "source": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026",
           "range": [0.00205, 0.00767],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.00205, 0.00767],
+            "units": "percent more intercity rail riders a federal expansion plan projects",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1181,7 +1540,18 @@
           "anchor": "A federal law that pays to expand passenger rail funds the plan Amtrak asked Congress for: 62.5% more riders over 15 years, with the first added service 30 months in (src/simulation/federal-passenger-rail.ts). Rail ridership forecasts come true only in part: across 25 rail projects, actual traffic averaged 51.4% below forecast, with a standard deviation of 28.1 points. So each percent the plan projects adds 0.486% more riders, and each world draws between 0.205% and 0.767%, one standard deviation either way. The same share reaches every place Amtrak serves. The timing is the plan's own, so the link acts in the month the plan's riders arrive. Provisional: the projection is Amtrak's, not a measured result of a past federal law.",
           "source": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026",
           "range": [0.00205, 0.00767],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [0.00205, 0.00767],
+            "units": "percent more intercity rail riders a federal expansion plan projects",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -1230,7 +1600,10 @@
           "evidence": "to-confirm",
           "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
           "to": "env.emissions",
-          "status": "size-not-set"
+          "status": "size-not-set",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "power-plant-carbon-to-particulates",
@@ -1249,7 +1622,18 @@
           "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
           "to": "env.particulates",
           "range": [-0.015, -0.001],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.015, -0.001],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1269,7 +1653,10 @@
           "evidence": "to-confirm",
           "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
           "to": "env.emissions",
-          "status": "size-not-set"
+          "status": "size-not-set",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "power-plant-carbon-to-particulates",
@@ -1288,7 +1675,18 @@
           "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
           "to": "env.particulates",
           "range": [-0.015, -0.001],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.015, -0.001],
+            "units": "law in force",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -1338,7 +1736,18 @@
           "anchor": "Each $1 of government payments per acre is worth $13 to $30 per acre of farmland value; the middle is $21.50. A payments cut equal to 1% of a state's farm real estate value each year lowers its land values by 21.5%, and the spread is the paper's own. Land values move as land trades, so the lag is one year, the interval of the land value survey. Owners, not operators, hold most of the loss.",
           "source": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026",
           "range": [-0.3, -0.13],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.3, -0.13],
+            "units": "percent of the state's farm real estate value that the payments cut removes each year",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1359,12 +1768,23 @@
           "anchor": "Each $1 of government payments per acre is worth $13 to $30 per acre of farmland value; the middle is $21.50. A payments cut equal to 1% of a state's farm real estate value each year lowers its land values by 21.5%, and the spread is the paper's own. Land values move as land trades, so the lag is one year, the interval of the land value survey. Owners, not operators, hold most of the loss.",
           "source": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026",
           "range": [-0.3, -0.13],
-          "status": "built"
+          "status": "built",
+          "worldRangeAudit": {
+            "bounds": [-0.3, -0.13],
+            "units": "percent of the state's farm real estate value that the payments cut removes each year",
+            "basis": "explicit link range",
+            "defaultSpread": null,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "built",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
         "enactment": "federal-farm-subsidy-law.ts:36 farmPaymentsCutAt and :60 farmPaymentsCutPctOfLandValue.",
-        "directEffects": "The fixed default cuts payments 21.18 percent, the historical median decrease. Payments/land-value ratios vary by place; capitalization of $1 per acre is $13–$30 per acre of land value. Operators, landlords, credit, production and actual farm payments need distinct records; land-price capitalization does not itself debit a farmer.",
+        "directEffects": "The fixed default cuts payments 21.18 percent, the historical median decrease. Payments/land-value ratios vary by place; capitalization of $1 per acre is $13\u2013$30 per acre of land value. Operators, landlords, credit, production and actual farm payments need distinct records; land-price capitalization does not itself debit a farmer.",
         "jurisdictionAndReversal": "Congress sets federal farm payments. State/local grants and conservation instruments are separate; the question cannot remove their funds. D.C./territorial missing ratios use the declared national estimate. No restores the modeled flow; already lost income or traded land is not rewritten.",
         "terminal": "Aggregate land-value capitalization with a fixed payment-cut default.",
         "gap": "Needs research/wiring with Team 6: payment-cut range and operator/owner split. Needs a feature for absent farm-program recipient/payment records."
@@ -1389,7 +1809,7 @@
       "heldLinks": [],
       "trace": {
         "enactment": "HELD ONLY: governing/disaster-cost-sharing.ts:29 fundDeclaredDisasterRepair; crisis/disaster.ts consumes funded physical units; monthly books read :104 disasterRepairExpenseDollars.",
-        "directEffects": "The ordinary federal share is 75 percent; the authored proposal is 50 percent. An estimated repair unit is $129,986 with a 0.5–1.5 spread, derived from 2019 project obligations. Available state cash caps repair units; saved expenses divide federal/state cents exactly. Service restoration follows physical repairs. Household/Public Assistance eligibility and current construction costs are not established by this proxy.",
+        "directEffects": "The ordinary federal share is 75 percent; the authored proposal is 50 percent. An estimated repair unit is $129,986 with a 0.5\u20131.5 spread, derived from 2019 project obligations. Available state cash caps repair units; saved expenses divide federal/state cents exactly. Service restoration follows physical repairs. Household/Public Assistance eligibility and current construction costs are not established by this proxy.",
         "jurisdictionAndReversal": "Congress can alter federal cost-sharing statutes; disaster declarations and project rules also matter. States/territories/D.C. and eligible local applicants participate under Stafford Act rules. State/local own relief is separate. No stops new terms; prior expense records and completed repairs remain.",
         "terminal": "Actual funded unit/expense records, priced by an explicitly provisional project-equivalent.",
         "gap": "Needs research: eligible projects/applicants, current dollar basis and repair unit mapping. Proof must separate transfers, government expense and household money; no unrecorded household grant."
@@ -1427,7 +1847,10 @@
           "evidence": "to-confirm",
           "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
           "to": "justice.incarcerated-per-100k",
-          "status": "size-not-set"
+          "status": "size-not-set",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "federal-mandatory-minimums-to-crime",
@@ -1445,7 +1868,18 @@
           "evidence": "about-zero",
           "anchor": "Drug offenders released early under the 2014 retroactive cut reoffended no more than those who served full terms (27.9% vs 30.5% in three years); federal prisoners are a small share of all prisoners",
           "source": "U.S. Sentencing Commission 2020 (Drugs Minus Two recidivism); BJS Prisoners in 2023",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1473,7 +1907,10 @@
             "bandBasis": "Authored opening spread of 25 percent around the provisional study benchmark, not a published confidence interval; audit actual covered-person outcomes without forcing them.",
             "limitation": "The cited study population and measure are comparison proxies. A watched comparison outside the band fails calibration; it never rewrites people or their results."
           },
-          "status": "calibration-only"
+          "status": "calibration-only",
+          "worldRangeAudit": {
+            "status": "NO SIZE: not a numeric built-effect claim"
+          }
         },
         {
           "key": "federal-mandatory-minimums-to-crime",
@@ -1491,7 +1928,18 @@
           "evidence": "about-zero",
           "anchor": "Drug offenders released early under the 2014 retroactive cut reoffended no more than those who served full terms (27.9% vs 30.5% in three years); federal prisoners are a small share of all prisoners",
           "source": "U.S. Sentencing Commission 2020 (Drugs Minus Two recidivism); BJS Prisoners in 2023",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -1534,7 +1982,18 @@
           "evidence": "about-zero",
           "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
           "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force says yes (1) rather than no (0)",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1554,12 +2013,23 @@
           "evidence": "about-zero",
           "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
           "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force says yes (1) rather than no (0)",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
         "enactment": "HELD ONLY: congress-stock-trading-law.ts:390 applyCongressStockBan and :508 scheduleCongressStockDeadline; enactment schedules the filed deadline.",
-        "directEffects": "The authored default allows 120 days and a $14,500 fine. Members’ own principles and traits decide conversion versus retention. Actual paid/assessed fines, remaining obligations, finite clearing cash and diversified-fund fees are recorded. The fee is 3 basis points yearly. Opening stock ownership uses wealth/risk proxies; about-zero abnormal market returns does not mean no compliance costs.",
+        "directEffects": "The authored default allows 120 days and a $14,500 fine. Members\u2019 own principles and traits decide conversion versus retention. Actual paid/assessed fines, remaining obligations, finite clearing cash and diversified-fund fees are recorded. The fee is 3 basis points yearly. Opening stock ownership uses wealth/risk proxies; about-zero abnormal market returns does not mean no compliance costs.",
         "jurisdictionAndReversal": "Congress legislates restrictions on its members; states/localities govern their own officials, not Congress. D.C./territorial delegates need explicit scope, not guessed membership. No cancels prospective ban enforcement; existing fund holdings/fees, assessed fines and transfers remain historical facts.",
         "terminal": "Recorded compliance/money with a hard decision boundary and authored portfolio initialization.",
         "gap": "Needs research: delegate/spouse/dependent scope, covered instruments, fee spread and fine authority. Fix stale catalog wording claiming no holdings; record the difference between assessed and paid fines."
@@ -1622,7 +2092,7 @@
       "trace": {
         "enactment": "governing/statehood-admission.ts statehoodAdmittedOn; living-world/statehood-seats.ts congressSeatsIn; public-budgets/statehood-funds.ts.",
         "directEffects": "D.C. gains one voting House seat and two Senate seats. The source sums 60/30/90-day bill allowances into 180 days and skips the first-election duration. The delegate is promoted and Senate occupants/caucuses are authored. Federal/local fiscal responsibilities also change; seats alone do not prove all statehood effects.",
-        "jurisdictionAndReversal": "Congress’s admission power and District Clause govern, with constitutional questions requiring legal research. D.C. cannot admit itself; states/counties/cities cannot repeal admission. Admission is irreversible, but statehoodAdmittedOn currently rereads the latest yes/no and returns null after no. That can remove projected seats/funds despite earlier admission. Other territories require their own admission terms.",
+        "jurisdictionAndReversal": "Congress\u2019s admission power and District Clause govern, with constitutional questions requiring legal research. D.C. cannot admit itself; states/counties/cities cannot repeal admission. Admission is irreversible, but statehoodAdmittedOn currently rereads the latest yes/no and returns null after no. That can remove projected seats/funds despite earlier admission. Other territories require their own admission terms.",
         "terminal": "Authored admission/election timing, seat assignment and fiscal changes; no actual admission-election decisions proved.",
         "gap": "Needs research with Team 2: constitutional/23rd Amendment process, elections and persistent admission semantics. Small repair for Team 2: persist completed admission independently of subsequent yes/no. Never remove admitted people or seats merely because a later answer is no."
       },
@@ -1659,7 +2129,18 @@
           "source": "Cantoni and Pons 2021 (QJE)",
           "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
           "evidence": "about-zero",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "voter-id-to-registration",
@@ -1677,7 +2158,18 @@
           "evidence": "about-zero",
           "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
           "to": "voting.registration",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1697,7 +2189,18 @@
           "source": "Cantoni and Pons 2021 (QJE)",
           "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
           "evidence": "about-zero",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         },
         {
           "key": "voter-id-to-registration",
@@ -1715,7 +2218,18 @@
           "evidence": "about-zero",
           "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
           "to": "voting.registration",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
@@ -1723,7 +2237,7 @@
         "directEffects": "Appointments, work conflicts, actual card receipt/cost, provisional ballots, timely returns and canvass timing are recorded. Existing anchors are 89.5 percent ownership, $2.63 card cost, five cents outreach/adult and an 87-minute trip. These include NC/VA proxies. Turnout and registration are inert study findings, not permission to manufacture every personal result.",
         "jurisdictionAndReversal": "States administer identification rules subject to federal election/civil-rights constraints; local administrators do not acquire independent blanket authority. D.C. and territories have their own legal rules. The generic seven-day cure remains a research fallback; confirmed absence must be legal data. No stops future ID requirements, preserving issued cards and cast ballots.",
         "terminal": "Recorded appointment/card/ballot actions, with single-place unit-cost/service proxies and incomplete cure law.",
-        "gap": "Needs research: national card/outreach/service anchors and 23 cure cells. Use Team 9 evidence, ±25 percent researched or ±50 percent estimated opening spread; no invented cure deadlines."
+        "gap": "Needs research: national card/outreach/service anchors and 23 cure cells. Use Team 9 evidence, \u00b125 percent researched or \u00b150 percent estimated opening spread; no invented cure deadlines."
       },
       "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
     },
@@ -1745,10 +2259,10 @@
       "heldLinks": [],
       "trace": {
         "enactment": "HELD ONLY: lobbying-cooling-off.ts:59 lobbyingBar; post-office-careers.ts ensureCapitalEmployers and reviewPostOfficeCareer.",
-        "directEffects": "Actual departed work dates and legal waiting periods gate vacancies; eligible employment can produce actual funded payroll. Default proposals use 24 months. Firm capacity uses Pennsylvania’s 161 firms/13,078,751 residents and revenue uses a PR-industry proxy. National lobbyist pay and saved communications pay exist; those do not validate firm counts/revenue.",
+        "directEffects": "Actual departed work dates and legal waiting periods gate vacancies; eligible employment can produce actual funded payroll. Default proposals use 24 months. Firm capacity uses Pennsylvania\u2019s 161 firms/13,078,751 residents and revenue uses a PR-industry proxy. National lobbyist pay and saved communications pay exist; those do not validate firm counts/revenue.",
         "jurisdictionAndReversal": "States set restrictions for their officials, alongside federal and local ethics rules within their authority. Legislature/executive rules and target/matter scope differ. D.C./territories need their recorded rules. Missing term/session/client facts require confirmation; no invented restriction. No permits future applications only where surviving law allows.",
         "terminal": "Actual eligibility/job/payroll records, plus single-place employer capacity and unrelated-industry revenue proxies.",
-        "gap": "Needs research: national capacity/revenue, 14 executive jurisdictions and clients/targets. Use Team 9’s compatible units and approved spreads; do not convert people or PR firms into lobbying firms without labeling the proxy."
+        "gap": "Needs research: national capacity/revenue, 14 executive jurisdictions and clients/targets. Use Team 9\u2019s compatible units and approved spreads; do not convert people or PR firms into lobbying firms without labeling the proxy."
       },
       "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
     },
@@ -1784,7 +2298,18 @@
           "evidence": "about-zero",
           "anchor": "College- and career-ready standards brought no gain in the first seven years; estimates were mostly negative and not significant",
           "source": "Song, Garet and Yang 2022 (IES C-SAIL, ERIC ED620442)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force says yes (1) rather than no (0)",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1804,13 +2329,24 @@
           "evidence": "about-zero",
           "anchor": "College- and career-ready standards brought no gain in the first seven years; estimates were mostly negative and not significant",
           "source": "Song, Garet and Yang 2022 (IES C-SAIL, ERIC ED620442)",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force says yes (1) rather than no (0)",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
         "enactment": "HELD ONLY: public-budgets/curriculum-standards.ts:17 curriculumAdoptionSpending; public-budgets/month.ts books schools spending.",
-        "directEffects": "The filed amount/phase-in applies to distinct active recorded pupils. Defaults use $200 per pupil over 24 months, derived from California’s 2013 $1.25 billion appropriation for materials, training and technology. This is not national incremental adoption cost. Math proficiency is an inert catalog finding. Content, training, workload and replacement purchasing need separate trace.",
-        "jurisdictionAndReversal": "States/territorial equivalents set their standards, with district/local authority as their law grants; Congress’s funding conditions are not general federal curriculum authority. D.C. requires its own education governance. No stops the future standards-cycle spending; past purchases remain.",
+        "directEffects": "The filed amount/phase-in applies to distinct active recorded pupils. Defaults use $200 per pupil over 24 months, derived from California\u2019s 2013 $1.25 billion appropriation for materials, training and technology. This is not national incremental adoption cost. Math proficiency is an inert catalog finding. Content, training, workload and replacement purchasing need separate trace.",
+        "jurisdictionAndReversal": "States/territorial equivalents set their standards, with district/local authority as their law grants; Congress\u2019s funding conditions are not general federal curriculum authority. D.C. requires its own education governance. No stops the future standards-cycle spending; past purchases remain.",
         "terminal": "An enrollment-counted budget charge priced by a California appropriation proxy.",
         "gap": "Needs research: compatible national one-time versus annual incremental materials/training cost, not total instructional spending relabeled as adoption. Team 5 retains education decisions/content."
       },
@@ -1834,7 +2370,7 @@
       "heldLinks": [],
       "trace": {
         "enactment": "HELD ONLY: public-land-access-law.ts nearbyPublicLandAcres, publicLandVisitorSales and publicLandManagementSpending; town-finances.ts reads visitor sales.",
-        "directEffects": "The default expands access on 10 percent of estimated acres and prices annual management at $35.24/acre. National state-park data yield 41.286809 visits/acre; NPS gateway spending yields $87.39/visit. Opening visits/spending use 0.5–1.5 spread, not a causal marginal-acre effect. Existing businesses receive weighted visitor sales; recreation, congestion, habitat and access decisions are not all recorded.",
+        "directEffects": "The default expands access on 10 percent of estimated acres and prices annual management at $35.24/acre. National state-park data yield 41.286809 visits/acre; NPS gateway spending yields $87.39/visit. Opening visits/spending use 0.5\u20131.5 spread, not a causal marginal-acre effect. Existing businesses receive weighted visitor sales; recreation, congestion, habitat and access decisions are not all recorded.",
         "jurisdictionAndReversal": "Each owner controls its land under applicable law: federal, state, county, municipal and tribal powers differ. The question maps only state/county; management spending checks state only, so county authority is not a complete county effect. D.C./territory acreage gaps remain estimates. No stops new access/sales increment, preserving actual transactions.",
         "terminal": "Estimated geography/visitor demand and business sales; incomplete county management and personal visit decisions.",
         "gap": "Needs research/wiring with Team 6: ownership, municipal/tribal scope, county budget reader and marginal visitation range. Preserve the Team 3 Census roster seam."
@@ -1873,7 +2409,18 @@
           "evidence": "about-zero",
           "anchor": "Leaving the choice to local boards changes which titles stay on the shelf: challenges reached 4,240 titles nationwide in 2023, a small share of any library's collection, and no study links removals to reading scores. What moves reading is money for the library itself, a different question",
           "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force says yes (1) rather than no (0)",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "heldLinks": [
@@ -1893,7 +2440,18 @@
           "evidence": "about-zero",
           "anchor": "Leaving the choice to local boards changes which titles stay on the shelf: challenges reached 4,240 titles nationwide in 2023, a small share of any library's collection, and no study links removals to reading scores. What moves reading is money for the library itself, a different question",
           "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
-          "status": "about-zero"
+          "status": "about-zero",
+          "worldRangeAudit": {
+            "bounds": [0, 0],
+            "units": "law in force says yes (1) rather than no (0)",
+            "basis": "existing evidence-class default spread",
+            "defaultSpread": 0,
+            "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
+            "stableKey": "world seed + link key + jurisdiction ID",
+            "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          }
         }
       ],
       "trace": {
