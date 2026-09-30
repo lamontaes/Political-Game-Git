@@ -1,3 +1,7 @@
+import {
+  censusDemographics,
+  decennialPopulation,
+} from "./represented-population";
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import {
   PLACE_POPULATION_META,
@@ -63,7 +67,8 @@ const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
 >;
 
 /** Which published figure a town's reference population comes from. */
-export type PlacePopulationSource = "census-estimate-2025" | "acs-2020-2024";
+export type PlacePopulationSource =
+  "census-estimate-2025" | "acs-2020-2024" | "decennial-census-2020";
 
 /**
  * A town's reference population from the best figure the Census Bureau
@@ -82,6 +87,15 @@ export function placeReferencePopulation(
   const estimate = placePopulation(placeGeoid);
   if (estimate !== null)
     return { value: estimate, source: "census-estimate-2025" };
-  const acs = ACS_PLACE_POPULATION[placeGeoid];
+  const acs =
+    censusDemographics(placeGeoid)?.counts.population ??
+    ACS_PLACE_POPULATION[placeGeoid];
+  if (acs !== undefined && acs > 0)
+    return { value: acs, source: "acs-2020-2024" };
+  // A rolling survey zero does not erase residents enumerated by the Census.
+  // A published annual zero above remains a real zero.
+  const enumerated = decennialPopulation(placeGeoid)?.[0];
+  if (enumerated !== undefined && Number.isFinite(enumerated) && enumerated > 0)
+    return { value: enumerated, source: "decennial-census-2020" };
   return acs === undefined ? null : { value: acs, source: "acs-2020-2024" };
 }
