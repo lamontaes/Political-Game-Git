@@ -47,5 +47,13 @@
     "limits": "Derived normal confidence intervals are sampling uncertainty, not empirical place-heterogeneity ranges. Not a direct coefficient per officer per1000."
   },
   "baselineResearch": "No matching nationwide jurisdiction baseline verified in this packet. FBI police employee tables are a research lead, not a claimed fetched source or universal number.",
-  "runtimeActivation": "NOT RUN; source producer absent. Coordinator owns elasticity engine and shared map."
+  "runtimeActivation": "NOT RUN; source producer absent. Coordinator owns elasticity engine and shared map.",
+  "jurisdictionTrace": {
+    "fundingGovernment": "Own place budget if present; otherwise servingGovernment resolves county, township, consolidated county or state. Missing linkage returns null.",
+    "staffingKey": "town + program + governmentKey",
+    "countSelection": "fundedStaff always restricts employee homeJurisdictionId to town, even when funder is county or state.",
+    "populationSelection": "Budget opening uses real government population sources; townResidents returns modeled living working-age people, not all residents.",
+    "safeConnection": "No justified direct density reader from current records. A represented-jobs change could be a separately labeled model signal but is not empirically calibrated full officer density.",
+    "producerNeeded": "Store full departmental sworn staffing with matching service geography and date, or a documented representative expansion factor with validation; neither found."
+  }
 }

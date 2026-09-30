@@ -1,0 +1,45 @@
+{
+  "team": 9,
+  "audit": "CTO12:45 about-zero review",
+  "sourceHead": "c99e37a7757fbaf549a08d23abad3dfe6bb3e6b0",
+  "sourceAccess": "Inherited map records inspected; cited studies not newly fetched for this audit.",
+  "rows": [
+    {
+      "linkId": "incarceration-to-crime",
+      "finding": "Review-level offset claim, not an exact measured near-zero estimate with equivalence interval.",
+      "missingFigure": "Need underlying study estimates by incapacitation/post-release outcome, exposure unit, horizon and uncertainty; cannot presume cancellation at every place.",
+      "measuredNearZeroVerified": false,
+      "action": "Research hold or explicitly scoped structural absence; coordinator decides shared map correction."
+    },
+    {
+      "linkId": "pretrial-detention-to-future-crime",
+      "finding": "Reported nondetection does not prove exact zero.",
+      "missingFigure": "Need final published rearrest/future-crime estimate, SE/CI, follow-up horizon and marginal-defendant dose; crime types and horizons remain separate.",
+      "measuredNearZeroVerified": false,
+      "action": "Research hold or explicitly scoped structural absence; coordinator decides shared map correction."
+    },
+    {
+      "linkId": "juvenile-court-age-to-crime",
+      "finding": "Connecticut covered teen finding cannot establish zero statewide violent crime everywhere.",
+      "missingFigure": "Need exact study outcome definition, treated ages, estimates/CI, comparison jurisdictions and follow-up; legal age change is distinct from crime rate exposure.",
+      "measuredNearZeroVerified": false,
+      "action": "Research hold or explicitly scoped structural absence; coordinator decides shared map correction."
+    },
+    {
+      "linkId": "end-cash-bail-to-violent-crime",
+      "finding": "NJ rearrest and general violent-crime outcomes cannot be substituted.",
+      "missingFigure": "Need original report comparison design and exact violent-crime estimate/CI; a reported roughly2-point pretrial rearrest difference is not a zero violent-crime coefficient.",
+      "measuredNearZeroVerified": false,
+      "action": "Research hold or explicitly scoped structural absence; coordinator decides shared map correction."
+    },
+    {
+      "linkId": "restore-voting-to-turnout",
+      "finding": "Default zero means already-covered eligibility in inherited map, not measured near-zero effect.",
+      "missingFigure": "Verify each starting legal eligibility and eligible electorate denominator; no eligible people newly restored may make a scoped legal increment absent. Do not extrapolate turnout-rate dilution to ballot count or individual turnout propensity.",
+      "measuredNearZeroVerified": false,
+      "action": "Research hold or explicitly scoped structural absence; coordinator decides shared map correction."
+    }
+  ],
+  "runtimeEdits": 0,
+  "limits": "No study absence interpreted as zero; no crossing-zero CI interpreted as equivalence. This audit does not supply replacement guessed coefficients."
+}
