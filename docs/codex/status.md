@@ -2,6 +2,27 @@
 
 Cloud teams are preserving their work for the account transfer. Eight final handoffs are received; Team 4 is finishing its receipt.
 
+## September 30, 3:30 a.m. check-in
+
+### MERGED
+No new merge verified. Current heads1191–1195 independently read on GitHub; all remain open.
+
+### CONNECTIONS TABLE
+| Connection | Current evidence | Action |
+| --- | --- | --- |
+| Build types and boundary guard |1194 e330c0682c86130bdd39c65e0e77c2f8dfda3bde ready; Team8 build/type PASS and Merge5/5 scoped gate | CTO approval pending |
+| Meeting/dossier → daily notes |1193 f49a4bbdd51dd302c20184291cfc2db20b19eb6f draft; Team5 reports2/2 | Preserve narrow guard scope |
+| Law source → all effects |1195 8923e96fca78787d7d61672e5d4adde07c070187 draft;11Team5 traces | Research/wiring remains unproven |
+| Transit → rider experience |1133 be2c8d47d20149785ef88de8e110003ce5a3d9f8 Team6 source findings | Authored reaction and territory gap recorded |
+| Eviction → actual destination | Team3 former-home/destination seam claimed centrally | Finish bounded gap, preserve actual resources |
+| Scene world → options | Teams8/5 asked for exact resolver/integration paths | Contract and disjoint ownership pending |
+
+### BLOCKED
+1191 renewed approval b442cfe95fdc89080b1a51a0c4160beba5a1d77d and1183 browser disposition pending.1192 companion skills91d0a452d475a92e9a030f50b491f1e39d94c3a4 awaits review. Team8 evidence upload awaits exact destination approval. Team7 candidate failed alpha QA; no propagation or approval.
+
+### EFFECTS
+No new runtime chain verified by coordinator. Team4 reports25.582514seconds with matching fingerprint, still fails15seconds. Team5 fixed-size findings and Team6 transit findings are source audit results; no new causal proof claimed.
+
 ## Current cloud sessions — September 30 account replacement
 
 Host: durable. These replace the prior account sessions; do not wake predecessors.

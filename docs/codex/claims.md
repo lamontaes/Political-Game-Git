@@ -601,3 +601,12 @@ September 30, 1:00: CTO12:40 assigns Team3 press localProfileFor/caller and outc
 
 | Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/proposed-corrections.json` | Barbershop standing point candidate correction |
 | Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/barbershop-spot-06-review.jpg` | Barbershop standing point candidate correction |
+
+| Team 7 | `art/authoring/sept29-team7/kids/boy-14-standing-base-v2.png` | Authorized age14 longer-limb correction candidate |
+| Team 7 | `art/authoring/sept29-team7/kids/age14-correction-receipts.json` | Authorized age14 longer-limb correction candidate |
+
+## September 30, 3:30 a.m. bounded replacement claims
+
+Team 3 exclusively owns town-homes.ts eviction-household former-home exclusion and same-day destination selection seam, plus directly affected tests, for CTO2:15's existing-system gap repair only. No other current town-homes claim found in central ledger. Preserve other housing policy and population behavior; no invented beds/cars/rooms, school expansion or new housing system. Exact function details must be returned for integration.
+
+Team 8 owns only backdrop-people.ts existing clipBandEndPercent interface declaration and boundary.test.ts lexical browser-global detection for PR1194. This supersedes the older Team5 backdrop claim only for the declaration; all placement behavior remains with its owner. Team5 PlayerGame recap/morning-thought guard only per CTO3:05. Story-engine claims await exact proposed paths.
