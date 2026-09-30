@@ -635,3 +635,5 @@ Team2 exclusively claims new scripts/governance-proof/measure-numbers.ts, docs/c
 - Team 7: docs/codex/handbacks/team-7-age14-correction.md — age14 correction review evidence only.
 
 September30 5:55 Team1 exclusive strength round-trip repair: src/simulation/principle-packing.ts packed row type/keys, pack writer, unpack constructor/validation; src/simulation/principle-packing.test.ts strength round-trip fixtures. No competing central claim found. Preserve lossless records and existing rejection behavior; no old categorical-value inference or other packing changes.
+
+September30 7:00 coordinator owns docs/codex/law-table-7am.md, pinned evidence synthesis only; no product writes or legal certification.
