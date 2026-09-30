@@ -1,0 +1,17 @@
+{
+  "baseMain": "2df795cd79e15ec7da9b0d97a3f9789c7760a303",
+  "owner": "coordinator",
+  "paths": [
+    "src/simulation/statutory-tax.ts",
+    "src/simulation/tax-types.ts"
+  ],
+  "ownDependency": "stateIncomeTaxEffectStamps in state-income-tax-law.ts",
+  "hunks": [
+    "paycheckLiabilities final state-income-tax assessment return",
+    "withholdTo positive allocated actual state tax payment",
+    "StatutoryTaxPaymentRecord optional stamp contract"
+  ],
+  "sharedFilesEdited": false,
+  "runtimeWithPayload": "NOT RUN",
+  "scope": "state income tax only; preserve federal assessment/payment additions"
+}
