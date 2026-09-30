@@ -8,9 +8,13 @@ Saved principles select a proposal. For 41 exact state directions the registered
 
 ## 2. Source research
 
-Original runtime `54930d427555034f3a92f335064586247985784d`, seed `team2-main-proof-20260930-b`, Floral, Arkansas (`0524070`). All measure, catalog, jurisdiction, provision and enactment records come from the retained canonical world. Exact registry queries used each saved question/answer/level. The JSON verifies identical git blobs at that runtime and inspected `3ffad216e1c567eb3f396b65e1b40cd7665e6b52` for the registry, all five imported banks, both filing producers, legislation history and effect reader.
+Original runtime `54930d427555034f3a92f335064586247985784d`, seed team2-main-proof-20260930-b, Floral, Arkansas (0524070). All measure, catalog, jurisdiction, provision and enactment records come from the retained canonical world. Exact registry queries used each saved question/answer/level.
 
-`src/simulation/governing/member-agenda.ts` skips mapped proposals whose compiler returns null, but files unmapped state proposals through `introduceMeasure`. Its local position fallback excludes directions mapped at county or municipality. `src/simulation/living-world/local-council-meetings.ts` introduces plain measures without querying or invoking typed drafting. `recordEnactment` appends history without deleting provisions.
+The JSON verifies identical git blobs at that runtime and inspected `3ffad216e1c567eb3f396b65e1b40cd7665e6b52` for the registry, all five imported banks, both filing producers, legislation history and effect reader.
+
+`src/simulation/governing/member-agenda.ts` skips mapped proposals whose compiler returns null, but files unmapped state proposals through `introduceMeasure`. Its local position fallback excludes directions mapped at county or municipality.
+
+`src/simulation/living-world/local-council-meetings.ts` introduces plain measures without querying or invoking typed drafting. `recordEnactment` appends history without deleting provisions.
 
 ## 3. Revisions and breadth
 
