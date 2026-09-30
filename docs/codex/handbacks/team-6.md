@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 243 have source references and 1,605 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 256 have source references and 1,592 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -215,3 +215,15 @@ Root read Maryland2018chapter219 andcurrent2026RSarticle,NewJersey2015chapter18e
 ## Second state fuel-tax authority packet
 
 Ten own-state authority cells added: KS,KY,LA,ME,MD,MA,MN,MS,MO,MT. Root read Louisiana constitutional local prohibition,Missouri fuel-specific two-thirds local vote and Montana express three-fifths diversion exception. Other detail is helper-reported,including Kansas exact local statutory restriction whose root retrieval failed. January2026 history,local enabling laws and constitutional amendment procedure gaps remain explicit; no nationwide local-tax count closure.
+
+## Illinois and Texas enacted valuation routes
+
+Root read IllinoisPA102-149 PDF andTexasHB3542 enrolled text. TexasPUC adoption record independently corroborates enacted13.305; consolidated current text retrieval still failed. Two bounded availability cells added, withfull January2026 amendment history gaps. Illinois income-linked interim bill condition is statutory,not a generated outcome anchor. National count and downstream causal rate effect remain open.
+
+## Indiana regulator acquisition update
+
+Own2025IURC annual report confirms acquisition incentives andSEA247/SEA426 updates. Bounded state authority cell added from agency record; exact consolidated statute andsale-procedure review remain incomplete. Its historical purchase-price averages do not establish causal customer-rate effects. Allthirteen states named in2024thesis now have own-place evidence,withadditionalKYroute; this is not an exhaustive January2026count.
+
+## Third state fuel-tax authority packet
+
+Ten own-state routes added NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK. Root readNevada conditional countygrant,NorthCarolina refundexceptions andOhio historicalSeptember2021municipalbar. Otherdetail helper-reported. NewYorklocal sales route differs fromgallonagegrant;NewMexico institutional explanation requirescurrentstatute;NewHampshirecontingent versions unresolved. National localcount remainsopen.
