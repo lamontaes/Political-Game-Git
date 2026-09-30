@@ -40,7 +40,12 @@ export function majorityAgendaChoice<T extends AgendaMember, P>(
   readonly caucusBackers: number;
   readonly chamberBackers: number;
 } | null {
-  for (const candidate of proposals) {
+  const ordered = [...proposals].sort(
+    (a, b) =>
+      b.pressure - a.pressure ||
+      a.sponsor.personId!.localeCompare(b.sponsor.personId!),
+  );
+  for (const candidate of ordered) {
     const caucusBackers = caucus.filter((m) =>
       supports(m, candidate.proposal),
     ).length;

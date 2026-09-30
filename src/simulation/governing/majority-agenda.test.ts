@@ -40,6 +40,18 @@ describe("a majority's agenda", () => {
       ),
     ).toBeNull();
   });
+  it("gives the same backed bill to the member pressing hardest", () => {
+    const selected = majorityAgendaChoice(
+      members,
+      agendaCaucus(members),
+      [
+        { sponsor: members[0]!, proposal: "tax", pressure: 3 },
+        { sponsor: members[2]!, proposal: "tax", pressure: 8 },
+      ],
+      supports,
+    );
+    expect(selected?.sponsor.personId).toBe(members[2]!.personId);
+  });
   it("lets a nonpartisan body weigh its members without inventing a party", () => {
     const nonpartisan = members.map((m) => ({ ...m, partyKey: null }));
     expect(agendaCaucus(nonpartisan)).toEqual(nonpartisan);
