@@ -83,9 +83,8 @@ describe.each(selected)(
       const before = serializeWorld(world);
       const scene = projectStorySceneDay(world, viewer)!;
       expect(scene.status).toBe("resolved");
-      expect(
-        scene.presentPeople.some((person) => person.personId === viewer),
-      ).toBe(true);
+      const atWork =
+        currentStorySceneRequest(world, viewer)?.place.kind === "workplace";
       const html = renderToStaticMarkup(
         <StorySceneDayPanel
           world={world}
@@ -93,10 +92,19 @@ describe.each(selected)(
           onOpenEntity={() => undefined}
         />,
       );
-      expect(html).toContain('data-testid="story-scene-day"');
-      expect(html).toContain(
-        scene.presentPeople.find((person) => person.personId === viewer)!.name,
-      );
+      if (atWork) {
+        expect(scene.presentPeople).toEqual([]);
+        expect(html).toBe("");
+      } else {
+        expect(
+          scene.presentPeople.some((person) => person.personId === viewer),
+        ).toBe(true);
+        expect(html).toContain('data-testid="story-scene-day"');
+        expect(html).toContain(
+          scene.presentPeople.find((person) => person.personId === viewer)!
+            .name,
+        );
+      }
       expect(serializeWorld(world)).toBe(before);
     });
 

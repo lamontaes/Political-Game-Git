@@ -39,6 +39,8 @@ Executed: nine day-mount cases passed across Dyer, Nevada; Lunenburg, Massachuse
 
 After the dependency landed, the repaired caller passed twelve cases in 47.35 seconds on current main. Three added cases select recorded workplace IDs while keeping the expected-only roster out of the panel. Explicit nullable-ID guards repaired four new type diagnostics; the final strict check reported zero diagnostics and changed-path lint passed. The existing visibility guard remains unchanged relative to main.
 
+The fetched repaired head also passed twelve cases in 53.81 seconds with zero type diagnostics, lint, formatting, whitespace and report checks passing. A final integration check combined this day caller with the separate first-morning piece over current main: 51 cases across four files passed in 60.93 seconds and both strict source/test graphs reported zero diagnostics. The day test now checks a home present roster or a work expected-only empty panel according to the recorded place. This compatibility change belongs to the day test; the morning source head stays unchanged.
+
 Selection seed: `team5-day-mount:places`. World seeds use the prefix team5-day-mount and the place key: 3220700, 2537385, or 3556810.
 
 The entered-meeting fixtures explicitly add a recorded chair to the original known notice. They do not claim generated meetings naturally supplied that chair. Original notice IDs, dates, and source order remain unchanged. The actual existing entry/speech writers then run.
