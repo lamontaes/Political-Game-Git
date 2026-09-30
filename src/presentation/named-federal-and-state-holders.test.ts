@@ -1,9 +1,32 @@
 import { describe, expect, it } from "vitest";
-import {
-  adultLifeIn,
-  passUntil,
-} from "../../tests/fixtures/state-executive-entry";
+import { adultLifeIn } from "../../tests/fixtures/state-executive-entry";
 import { personName, recordPersonDeath } from "../simulation";
+import {
+  US_CONGRESS_PACK_ID,
+  US_CONGRESS_RULE_PACK,
+} from "../simulation/congress-rule-pack";
+import { presidentDesk } from "../simulation/governing/congress-lawmaking";
+import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import {
+  enrollMeasure,
+  introduceMeasure,
+  measurePosition,
+  placeMeasureOnCalendar,
+  presentMeasureToExecutive,
+  recordCommitteeDisposition,
+  requireMeasure,
+  referMeasure,
+  takeFloorVote,
+  transmitMeasure,
+} from "../simulation/legislation";
+import {
+  committeeMembers,
+  dispositionsFromCounts,
+} from "../simulation/legislation-scenarios";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../simulation/national-election-geography";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { currentPublicOfficeholders } from "./opening-officeholders";
@@ -59,8 +82,87 @@ describe("the people who govern a home are named", () => {
       chambers.reduce((sum, entry) => sum + (entry.roster?.length ?? 0), 0),
     ).toBe(members.length);
 
-    // A bill the President signs names the President who signed it.
-    const later = passUntil(world, "2027-06-01");
+    // Authored procedure fixture: this checks signer naming, not whether
+    // autonomous Congress produces a bill during seventeen months of play.
+    // Keep the generated President and all public legislative writers.
+    const presidentBefore = currentPublicOfficeholders(world).find(
+      (record) => record.officeKey === "us-president",
+    );
+    expect(presidentBefore).toBeDefined();
+    const provenance = {
+      method: "authored-fixture" as const,
+      note: "Authored votes for signer-name coverage; not a forecast or law proof.",
+      sourceEntityIds: [world.id],
+    };
+    let later = introduceMeasure(ensureNationalElectionJurisdiction(world), {
+      stableKey: "named-holders:signature-fixture",
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      rulePackId: US_CONGRESS_PACK_ID,
+      designation: "H.R. named-holder fixture",
+      shortTitle: "Signer-name fixture",
+      summary: "Authored measure for the generated President's recorded name.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+    });
+    const measureId = later.history.legislativeMeasures!.at(-1)!.id;
+    for (const chamber of US_CONGRESS_RULE_PACK.chambers) {
+      const body = seatedCongressChamber(later, chamber.chamberKey)!.body;
+      const committee = chamber.committees[0]!;
+      const prefix = `named-holders:${chamber.chamberKey}`;
+      later = referMeasure(later, {
+        stableKey: `${prefix}:referral`,
+        measureId,
+        committeeKey: committee.committeeKey,
+      });
+      later = recordCommitteeDisposition(later, {
+        stableKey: `${prefix}:committee`,
+        measureId,
+        recommendation: "favorable",
+        dispositions: dispositionsFromCounts(
+          committeeMembers(body, committee.appointedMembers),
+          { yea: committee.appointedMembers },
+        ),
+        rationale: "Authored committee votes for the signer-name fixture.",
+        provenance,
+      });
+      later = placeMeasureOnCalendar(later, {
+        stableKey: `${prefix}:calendar`,
+        measureId,
+      });
+      for (const stage of chamber.floorStages) {
+        later = takeFloorVote(later, {
+          stableKey: `${prefix}:${stage.stageKey}`,
+          measureId,
+          dispositions: dispositionsFromCounts(body.members, {
+            yea: body.members.length,
+          }),
+          presentMembers: body.members.length,
+          electedMembers: body.members.length,
+          provenance,
+        });
+      }
+      if (chamber.chamberKey === "house")
+        later = transmitMeasure(later, {
+          stableKey: "named-holders:transmit",
+          measureId,
+        });
+    }
+    later = enrollMeasure(later, {
+      stableKey: "named-holders:enroll",
+      measureId,
+    });
+    later = presentMeasureToExecutive(later, {
+      stableKey: "named-holders:present",
+      measureId,
+    });
+    expect(measurePosition(later, measureId).phase).toBe("awaiting-executive");
+    // The real executive seam selects the seated President, decides, and
+    // supplies the actor to the signature writer. Do not pass an actor here:
+    // that would miss a regression where the production caller lost the name.
+    later = presidentDesk(later, requireMeasure(later, measureId));
+    expect(later.currentDate).toBe(world.currentDate);
+    expect(later.personOrder).toEqual(world.personOrder);
     const signed = later.history.events.filter(
       (event) =>
         event.type === "legislation.measure-signed" &&
@@ -70,6 +172,7 @@ describe("the people who govern a home are named", () => {
     for (const event of signed) {
       const signer = event.participants[0]?.personId;
       expect(signer).toBeDefined();
+      expect(signer).toBe(presidentBefore!.personId);
       expect(event.summary).toContain(personName(later.people[signer!]!));
     }
     const president = currentPublicOfficeholders(later).find(
