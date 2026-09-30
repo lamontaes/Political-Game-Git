@@ -141,7 +141,7 @@
         "normal95Interval": [-0.536, -0.144],
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
-        "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
         "status": "shape-connected-cause-reader-missing",
         "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
@@ -170,7 +170,7 @@
         "normal95Interval": [-0.3464, 0.0064],
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
-        "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
         "status": "shape-connected-cause-reader-missing",
         "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
@@ -338,17 +338,17 @@
         "Legal rule: statutory protection for qualifying public-place self-defense; physical fact: lethal force can kill. Actual behavioral mediation is not identified by this study."
       ],
       "conditions": {
-        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%\u201333.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
+        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%–33.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
         "rangeMeaning": "[0.03,0.13] is the published95%interval around the pooled firearm-homicide rate ratio minus1. It is not a distribution of local effects, not a bound on every state, and not a territory transport estimate.",
         "transportMissing": "Numerical firearm-only state-specific estimates and their intervals fromFigure3/supplement, plus evidence for later-adopting and excluded places. No universal state-specific effect is claimed.",
         "mediationLimit": "The legal treatment and aggregate association are measured in the paper. The psychological pathway is an authors-discussed hypothesis, not measured person-level mediation or proof of a particular encounter."
       },
       "reverseOnRepeal": {
         "answer": "Not established.",
-        "reason": "The treatment analyzed is adoption during2000\u20132016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
+        "reason": "The treatment analyzed is adoption during2000–2016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
       },
       "who": {
-        "studyPopulation": "Forty-one US states during1999\u20132017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
+        "studyPopulation": "Forty-one US states during1999–2017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
         "exclusions": "Nine states excluded:Utah/Iowa lacked sufficient timing/data;seven had case-law stand-your-ground principles, contaminating comparison. No territory, county-specific, township-specific or individual exposed-defendant estimate.",
         "legalCoverage": "People in qualifying public-place self-defense encounters under operative law; the study definition is not a grant of authority to local governments or proof every homicide involved a self-defense claim."
       },
@@ -1482,10 +1482,44 @@
       "lagMonths": 0,
       "group": "tenants, esp. women and Black tenants",
       "owner": "M",
-      "anchor": "More homelessness, hospital visits, lower earnings and credit for 2 years",
+      "anchor": "Emergency shelter use rises in year 1 for marginal eviction-order tenants; year 2 estimate is uncertain.",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "unit-and-exposure-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "sourceVersion": "August2022revisedJuly2023workingpaper",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "estimates": [
+          {
+            "linkId": "eviction-to-homelessness",
+            "outcome": "Emergency shelter use indicator",
+            "followUpAfterFiling": "Year1",
+            "estimate": 0.034,
+            "standardError": 0.017,
+            "derivedNormal95CI": [0.00068, 0.06732]
+          },
+          {
+            "linkId": "eviction-to-homelessness",
+            "outcome": "Emergency shelter use indicator",
+            "followUpAfterFiling": "Year2",
+            "estimate": -0.001,
+            "standardError": 0.013,
+            "derivedNormal95CI": [-0.02648, 0.02448]
+          }
+        ],
+        "exposure": "Evictionorderamong marginal filed-case tenants,judge-stringencyinstrument. Not every residentialmove or eviction filing.",
+        "unit": "Shelter:absoluteprobabilitydifference. Hospital:additionalvisitcountpercoveredtenantduringfollow-up. Neitherrelativepopulationrate.",
+        "rangeMeaning": "Calculatednormal95CIfromreportedclusteredSE;not across-placeaverage spread or conditions bound.",
+        "runtimeGap": "Needmatchingevictionorderexposure,coveredtenantsandseparatefollow-uprecords/outcomeunits. Do notdividebywholecountyhomelessbaseline or apply perratepoint.",
+        "conditions": [
+          "Shelterrecordcapturesobservedemergencyshelterstay,not allunshelteredhomelessness.",
+          "Hospitaloutcomeexcludespregnancy-relatedvisits.",
+          "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
+          "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
+        ]
+      }
     },
     {
       "key": "eviction-to-hospital-visits",
@@ -1499,10 +1533,44 @@
       "lagMonths": 0,
       "group": "tenants",
       "owner": "F",
-      "anchor": "Up in the first 2 years",
+      "anchor": "Nonpregnancy hospital visits rise in quarters 1–4 in the New York sample; quarters 5–8 estimate is uncertain.",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "status": "unit-and-exposure-adapter-required",
+        "sourcePacketHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+        "sourceVersion": "August2022revisedJuly2023workingpaper",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "estimates": [
+          {
+            "linkId": "eviction-to-hospital-visits",
+            "outcome": "Nonpregnancyhospitalvisitcount",
+            "followUpAfterFiling": "Quarters1–4",
+            "estimate": 0.188,
+            "standardError": 0.094,
+            "derivedNormal95CI": [0.00376, 0.37224]
+          },
+          {
+            "linkId": "eviction-to-hospital-visits",
+            "outcome": "Nonpregnancyhospitalvisitcount",
+            "followUpAfterFiling": "Quarters5–8",
+            "estimate": -0.113,
+            "standardError": 0.142,
+            "derivedNormal95CI": [-0.39132, 0.16532]
+          }
+        ],
+        "exposure": "Evictionorderamong marginal filed-case tenants,judge-stringencyinstrument. Not every residentialmove or eviction filing.",
+        "unit": "Shelter:absoluteprobabilitydifference. Hospital:additionalvisitcountpercoveredtenantduringfollow-up. Neitherrelativepopulationrate.",
+        "rangeMeaning": "Calculatednormal95CIfromreportedclusteredSE;not across-placeaverage spread or conditions bound.",
+        "runtimeGap": "Needmatchingevictionorderexposure,coveredtenantsandseparatefollow-uprecords/outcomeunits. Do notdividebywholecountyhomelessbaseline or apply perratepoint.",
+        "conditions": [
+          "Shelterrecordcapturesobservedemergencyshelterstay,not allunshelteredhomelessness.",
+          "Hospitaloutcomeexcludespregnancy-relatedvisits.",
+          "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
+          "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
+        ]
+      }
     },
     {
       "key": "home-prices-to-owner-births",
