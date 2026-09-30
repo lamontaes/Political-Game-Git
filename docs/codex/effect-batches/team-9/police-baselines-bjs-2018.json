@@ -1,0 +1,336 @@
+{
+  "area": "police-staffing-baseline",
+  "primarySource": "https://bjs.ojp.gov/media/67846/download",
+  "publication": "Census of State and Local Law Enforcement Agencies,2018 Statistical Tables,October2022",
+  "table": "3,pages5\u20136",
+  "pdfSha256": "f465d060505898aa9bd30d2d702ce056b61fa3f97ffd0136d6fe2fbce07ee3fc",
+  "access": "Primary report downloaded and table read.",
+  "observationDate": "2018-06-30",
+  "populationSource": "U.S.Census Annual Estimates of Resident Population2018,as cited under Table3.",
+  "national": {
+    "fullTimeSworn": 787565,
+    "swornPer100000": 241,
+    "swornPer1000": 2.41
+  },
+  "observedStateSpreadPer1000": [1.55, 3.86],
+  "rangeMeaning": "Observed2018cross-state density spread,not aCI,not a2026starting range,not a causal effect range. DC is separate6.32per1000.",
+  "coverage": "State and local agencies with at least1FTE sworn officer with general arrest powers; includes local,sheriff,primary state,tribal,special-jurisdiction,constable/marshal categories. Federally operated agencies excluded.",
+  "rows": [
+    {
+      "state": "Alabama",
+      "fullTimeSworn": 12127,
+      "swornPer100000": 248,
+      "swornPer1000": 2.48
+    },
+    {
+      "state": "Alaska",
+      "fullTimeSworn": 1457,
+      "swornPer100000": 198,
+      "swornPer1000": 1.98
+    },
+    {
+      "state": "Arizona",
+      "fullTimeSworn": 13715,
+      "swornPer100000": 192,
+      "swornPer1000": 1.92
+    },
+    {
+      "state": "Arkansas",
+      "fullTimeSworn": 7342,
+      "swornPer100000": 244,
+      "swornPer1000": 2.44
+    },
+    {
+      "state": "California",
+      "fullTimeSworn": 79038,
+      "swornPer100000": 200,
+      "swornPer1000": 2.0
+    },
+    {
+      "state": "Colorado",
+      "fullTimeSworn": 13120,
+      "swornPer100000": 231,
+      "swornPer1000": 2.31
+    },
+    {
+      "state": "Connecticut",
+      "fullTimeSworn": 7843,
+      "swornPer100000": 220,
+      "swornPer1000": 2.2
+    },
+    {
+      "state": "Delaware",
+      "fullTimeSworn": 2196,
+      "swornPer100000": 227,
+      "swornPer1000": 2.27
+    },
+    {
+      "state": "District of Columbia",
+      "fullTimeSworn": 4436,
+      "swornPer100000": 632,
+      "swornPer1000": 6.32
+    },
+    {
+      "state": "Florida",
+      "fullTimeSworn": 47177,
+      "swornPer100000": 222,
+      "swornPer1000": 2.22
+    },
+    {
+      "state": "Georgia",
+      "fullTimeSworn": 27949,
+      "swornPer100000": 266,
+      "swornPer1000": 2.66
+    },
+    {
+      "state": "Hawaii",
+      "fullTimeSworn": 3486,
+      "swornPer100000": 245,
+      "swornPer1000": 2.45
+    },
+    {
+      "state": "Idaho",
+      "fullTimeSworn": 3209,
+      "swornPer100000": 183,
+      "swornPer1000": 1.83
+    },
+    {
+      "state": "Illinois",
+      "fullTimeSworn": 38539,
+      "swornPer100000": 303,
+      "swornPer1000": 3.03
+    },
+    {
+      "state": "Indiana",
+      "fullTimeSworn": 13835,
+      "swornPer100000": 207,
+      "swornPer1000": 2.07
+    },
+    {
+      "state": "Iowa",
+      "fullTimeSworn": 6106,
+      "swornPer100000": 194,
+      "swornPer1000": 1.94
+    },
+    {
+      "state": "Kansas",
+      "fullTimeSworn": 7927,
+      "swornPer100000": 272,
+      "swornPer1000": 2.72
+    },
+    {
+      "state": "Kentucky",
+      "fullTimeSworn": 8131,
+      "swornPer100000": 182,
+      "swornPer1000": 1.82
+    },
+    {
+      "state": "Louisiana",
+      "fullTimeSworn": 18004,
+      "swornPer100000": 386,
+      "swornPer1000": 3.86
+    },
+    {
+      "state": "Maine",
+      "fullTimeSworn": 2831,
+      "swornPer100000": 211,
+      "swornPer1000": 2.11
+    },
+    {
+      "state": "Maryland",
+      "fullTimeSworn": 16459,
+      "swornPer100000": 273,
+      "swornPer1000": 2.73
+    },
+    {
+      "state": "Massachusetts",
+      "fullTimeSworn": 19578,
+      "swornPer100000": 284,
+      "swornPer1000": 2.84
+    },
+    {
+      "state": "Michigan",
+      "fullTimeSworn": 18193,
+      "swornPer100000": 182,
+      "swornPer1000": 1.82
+    },
+    {
+      "state": "Minnesota",
+      "fullTimeSworn": 10349,
+      "swornPer100000": 185,
+      "swornPer1000": 1.85
+    },
+    {
+      "state": "Mississippi",
+      "fullTimeSworn": 7810,
+      "swornPer100000": 262,
+      "swornPer1000": 2.62
+    },
+    {
+      "state": "Missouri",
+      "fullTimeSworn": 15215,
+      "swornPer100000": 249,
+      "swornPer1000": 2.49
+    },
+    {
+      "state": "Montana",
+      "fullTimeSworn": 2275,
+      "swornPer100000": 214,
+      "swornPer1000": 2.14
+    },
+    {
+      "state": "Nebraska",
+      "fullTimeSworn": 4035,
+      "swornPer100000": 210,
+      "swornPer1000": 2.1
+    },
+    {
+      "state": "Nevada",
+      "fullTimeSworn": 6565,
+      "swornPer100000": 217,
+      "swornPer1000": 2.17
+    },
+    {
+      "state": "New Hampshire",
+      "fullTimeSworn": 3096,
+      "swornPer100000": 229,
+      "swornPer1000": 2.29
+    },
+    {
+      "state": "New Jersey",
+      "fullTimeSworn": 30261,
+      "swornPer100000": 341,
+      "swornPer1000": 3.41
+    },
+    {
+      "state": "New Mexico",
+      "fullTimeSworn": 5272,
+      "swornPer100000": 252,
+      "swornPer1000": 2.52
+    },
+    {
+      "state": "New York",
+      "fullTimeSworn": 68810,
+      "swornPer100000": 352,
+      "swornPer1000": 3.52
+    },
+    {
+      "state": "North Carolina",
+      "fullTimeSworn": 25557,
+      "swornPer100000": 246,
+      "swornPer1000": 2.46
+    },
+    {
+      "state": "North Dakota",
+      "fullTimeSworn": 1870,
+      "swornPer100000": 247,
+      "swornPer1000": 2.47
+    },
+    {
+      "state": "Ohio",
+      "fullTimeSworn": 25669,
+      "swornPer100000": 220,
+      "swornPer1000": 2.2
+    },
+    {
+      "state": "Oklahoma",
+      "fullTimeSworn": 9560,
+      "swornPer100000": 243,
+      "swornPer1000": 2.43
+    },
+    {
+      "state": "Oregon",
+      "fullTimeSworn": 6706,
+      "swornPer100000": 160,
+      "swornPer1000": 1.6
+    },
+    {
+      "state": "Pennsylvania",
+      "fullTimeSworn": 26914,
+      "swornPer100000": 210,
+      "swornPer1000": 2.1
+    },
+    {
+      "state": "Rhode Island",
+      "fullTimeSworn": 2762,
+      "swornPer100000": 261,
+      "swornPer1000": 2.61
+    },
+    {
+      "state": "South Carolina",
+      "fullTimeSworn": 12517,
+      "swornPer100000": 246,
+      "swornPer1000": 2.46
+    },
+    {
+      "state": "South Dakota",
+      "fullTimeSworn": 1972,
+      "swornPer100000": 224,
+      "swornPer1000": 2.24
+    },
+    {
+      "state": "Tennessee",
+      "fullTimeSworn": 17544,
+      "swornPer100000": 259,
+      "swornPer1000": 2.59
+    },
+    {
+      "state": "Texas",
+      "fullTimeSworn": 69504,
+      "swornPer100000": 243,
+      "swornPer1000": 2.43
+    },
+    {
+      "state": "Utah",
+      "fullTimeSworn": 5302,
+      "swornPer100000": 168,
+      "swornPer1000": 1.68
+    },
+    {
+      "state": "Vermont",
+      "fullTimeSworn": 1264,
+      "swornPer100000": 202,
+      "swornPer1000": 2.02
+    },
+    {
+      "state": "Virginia",
+      "fullTimeSworn": 23742,
+      "swornPer100000": 279,
+      "swornPer1000": 2.79
+    },
+    {
+      "state": "Washington",
+      "fullTimeSworn": 11645,
+      "swornPer100000": 155,
+      "swornPer1000": 1.55
+    },
+    {
+      "state": "West Virginia",
+      "fullTimeSworn": 3559,
+      "swornPer100000": 197,
+      "swornPer1000": 1.97
+    },
+    {
+      "state": "Wisconsin",
+      "fullTimeSworn": 13431,
+      "swornPer100000": 231,
+      "swornPer1000": 2.31
+    },
+    {
+      "state": "Wyoming",
+      "fullTimeSworn": 1661,
+      "swornPer100000": 288,
+      "swornPer1000": 2.88
+    }
+  ],
+  "limits": [
+    "All50states+DC; no territory table coverage verified.",
+    "Full-time sworn counts are not all personnel and not FTE including part-time officers.",
+    "State totals include agencies with custody/special responsibilities; not identical to city policing sample in ChalfinMcCrary.",
+    "2018figures cannot be labeled current2026; exact matching updated counts/population still needed.",
+    "Published density rounded per100000; do not backsolve an exact population from rounded rates.",
+    "Historical static baseline does not produce current runtime staffing changes.",
+    "No lag/causal coefficient supplied by this descriptive census."
+  ],
+  "integration": "Coordinator owns producer/outcome index/map; no runtime writes in this packet."
+}
