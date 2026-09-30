@@ -5,6 +5,7 @@ import { observerPlace, observerSetup } from "./observer-world";
 import { projectGovernmentBrowser } from "./politics-government";
 import {
   openingLegislaturePeople,
+  openingCountyScene,
   openingTourStagedPeople,
 } from "./opening-tour-people";
 import { SeededRng } from "../simulation/rng";
@@ -12,7 +13,11 @@ import {
   lifePlaceStateIdentities,
   searchLifePlaces,
 } from "../simulation/life-places";
-import { placeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import {
+  placeLocalGovernmentUnits,
+  homeLocalGovernmentUnits,
+} from "../simulation/nationwide-world/local-governments";
+import { sittingLocalOfficers } from "../simulation/living-world/local-government-seats";
 
 function unincorporatedPlace(seed: string) {
   const rng = new SeededRng(seed);
@@ -78,6 +83,30 @@ describe("recorded representatives on the opening legislature card", () => {
         expect(person.title).toBe(
           people.find((record) => record.personId === person.personId)!.title,
         );
+      const county = openingCountyScene(world, playerPersonId);
+      const units = homeLocalGovernmentUnits(world, playerPersonId);
+      if (units.municipal.length || units.townships.length)
+        expect(county).toBeNull();
+      else {
+        expect(county?.people.map((person) => person.personId)).toEqual(
+          units.counties.flatMap((unit) =>
+            sittingLocalOfficers(world, unit).map((seat) => seat.personId),
+          ),
+        );
+        expect(county?.people.length).toBeGreaterThan(0);
+        expect(
+          county?.people.some((person) =>
+            /your district|supervisor/i.test(person.title),
+          ),
+        ).toBe(false);
+      }
+      expect(openingCountyScene(JSON.parse(before), playerPersonId)).toEqual(
+        county,
+      );
+      writeFileSync(
+        `test-results/team8/${seed}-county.json`,
+        JSON.stringify({ game, county, seed, placeKey: place.key }),
+      );
       expect(JSON.stringify(world)).toBe(before);
       writeFileSync(
         `test-results/team8/${seed}.json`,
