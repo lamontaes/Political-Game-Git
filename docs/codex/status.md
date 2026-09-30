@@ -1,3 +1,21 @@
+## September 30, 1:50 report collection
+
+### MERGED
+Merge verified audit collector1284 at9788c93136430c8ecacea80cd04446c2a69d290c. Receipt delivered to AUDIT/SYSTEMS, superseding its earlier open-PR read. National simulation has not yet been confirmed started.
+
+### CONNECTIONS TABLE
+- Audit launch: final process/checkpoint/lease release requested from previous audit; its1:47 report says no world started. Driver/selection source1285 e53aef86b300a78d3abb1248696b57a279cabd4f was delivered to the new owner.
+- Team1 reports a controlled100,000-dollar rail transfer plus four Treasury regressions passed; exact publication receipt requested.
+- Team2 reports13 compiler checks passed, saved terms and explicit sponsor changes preserved; starting-law numeric parameter gap remains explicit.
+- Team3 has switched its clean existing workspace to the repaired1267 source and is building state/local wage attribution.
+- Team4 is publishing its tested tax-term reader and routing missing producer questions to AUDIT/SYSTEMS.
+
+### BLOCKED
+Team5 recovery preflight succeeded: library source hash f4dae1eca1257d1ef753687638d01b9ca55d6d822a9776ea0721f0bc206a5258 preserved, test file confirmed absent. It resumes bounded builds. Team5/6 engine questions were relayed to AUDIT/SYSTEMS.1283 currenthead7b6b99bed differs from approveded126407 and needs renewal; no stale approval inferred.1274 exact prepared integration commit still needs explicit action approval after automatic-review rejection.
+
+### EFFECTS
+Team3 paid-leave source003dfcb9421583363f1bed17c724c4679c359da3 reports five-state20-case payment/budget evidence and19 preservation tests; not national proof. Team8 remains two saved coverage writers, news consumer separate. All reports are team-reported unless independently stated.2:00 stamped/firing/unread counts remain due.
+
 ## September 30, 1:45 new workflow receipt
 
 AUDIT/SYSTEMS is the existing durable session `01a0f364-0f5e-7172-b8a5-3792039aa0dc`, Sol6.1 High. Its acknowledgment of the ordered queue and production read-only boundary was observed at1:45:49 Eastern. It reports Git network access recovered and1284 still unmerged; no national run started. First action: post takeover and request prior runner process/checkpoint/lease handoff. First national partials due2:30; shared-kind table due2:15.
