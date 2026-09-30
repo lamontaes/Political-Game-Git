@@ -431,6 +431,18 @@ describe("the council term-limit saved restriction", () => {
           }),
         ]);
       }
+      const named = restrictions[0]!;
+      const personId = named.involvedEntityIds.find((id) => filed.people[id])!;
+      console.log(
+        JSON.stringify({
+          seed,
+          place: place.displayName,
+          person: personName(filed.people[personId]!),
+          eventId: named.id,
+          summary: named.summary,
+          stamps: named.lawEffectStamps,
+        }),
+      );
     },
   );
 });
@@ -457,13 +469,15 @@ describe("the state legislative term-limit saved restriction", () => {
         "yes",
       );
       // Existing service records are unchanged; this is a later-date unit context.
-      world = atFixtureDate(world, makeIsoDate("2042-10-01"));
+      world = atFixtureDate(world, makeIsoDate("2042-01-13"));
+      const intakeSequence = world.history.nextSequence;
       world = writeWithWorldIntegrityOnce(world, () =>
-        applyStateLegislatureTurnover(makeIsoDate("2041-12-31"), world),
+        applyStateLegislatureTurnover(makeIsoDate("2042-01-05"), world),
       );
       const barred = world.history.events.filter(
         (row) =>
           row.type === "election.state-legislative-candidacy-intent" &&
+          row.sequence >= intakeSequence &&
           row.tags.includes("barred:term-limit"),
       );
       expect(barred.length).toBeGreaterThan(0);
@@ -489,6 +503,21 @@ describe("the state legislative term-limit saved restriction", () => {
           }),
         ]);
       }
+      const named = barred[0]!;
+      const personId = named.involvedEntityIds.find((id) => world.people[id])!;
+      console.log(
+        JSON.stringify({
+          seed,
+          openingPlace: place.displayName,
+          governingJurisdictions: new Set(
+            barred.map((row) => row.jurisdictionId),
+          ).size,
+          person: personName(world.people[personId]!),
+          eventId: named.id,
+          summary: named.summary,
+          stamps: named.lawEffectStamps,
+        }),
+      );
     },
   );
 });

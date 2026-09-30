@@ -1,6 +1,6 @@
 # Government events retain their governing law
 
-The saved ward maps now retain the law that assigned the drawing power. Council retirement restrictions also retain their governing term-limit law. Five cases of each pass. State candidacy attribution is not yet certified, so this batch remains held. The changes add attribution to existing consequences; they introduce no money, rate or decision rule.
+The saved ward maps now retain the law that assigned the drawing power. Council retirement restrictions also retain their governing term-limit law. State candidacy restrictions retain both enacted and starting-law attribution. All fifteen controlled cases pass. The changes add attribution to existing consequences; they introduce no money, rate or decision rule.
 
 MERGED: the shared history preservation fix is on main. This government writer batch is not merged.
 
@@ -39,26 +39,26 @@ No budget cost, registration, ballot rejection, lobbying restriction or statewid
 
 ## 6. Proof run
 
-Five ward cases and five council restriction cases pass on the repaired fixture. Ward cases cover enactment, repeal, no-law behavior and canonical Save/Continue. The state cases are pending on the corrected 2042 election cycle. Earlier state assertions mixed jurisdictions or selected a cycle with only Louisiana intake; those failures remain separate from product proof.
+Measured: all fifteen cases pass. Five ward cases cover enactment, repeal, no-law behavior and canonical Save/Continue. Five council cases retain enacted-law stamps on named restrictions. Five state worlds retain stamps on newly saved barred intents in 16, 15, 15, 15 and 16 governing jurisdictions. Every state assertion matches the saved event's own canonical law, jurisdiction and date. Earlier fixture failures remain separate from this result.
 
-VITAL STATISTICS: two of eight assigned law keys have controlled saved-stamp proof so far. Four of eight remain unread assignments. No cost writer is certified. This is not a countrywide audit or a five-part law-record acceptance.
+VITAL STATISTICS: three of eight assigned law keys have controlled saved-stamp proof. Four of eight remain unread assignments. No cost writer is certified. This is not a countrywide audit or a five-part law-record acceptance.
 
 ## 7. Worked example
 
 Hampstead, Maryland, opens with five council wards. An explicitly approved fixture ordinance assigns drawing to an independent commission. Its saved event says: "5 council wards were drawn by an independent commission, the independent ward commission law took effect; the largest and smallest differ by 0.0% of an even ward."
 
-Measured: the saved event carries the ordinance's stamp. Its cuts match the opening cuts, so no boundary change is inferred. Repeal restores the council as drawer at the fixture's census review. Save/Continue retains that repeal stamp. There is no new payment or named-person money example in this attribution patch.
+Measured: the saved event carries the ordinance's stamp. Its cuts match the opening cuts, so no boundary change is inferred. Repeal restores the council as drawer at the fixture's census review. Save/Continue retains that repeal stamp. In Iola, Kansas, Ella Davenport's saved restriction says: "Ella Davenport may not run again for seat 1 on the Iola City Council: they have served 14 years in a row on the council, and the town's limit is 2 consecutive terms of 4 years." The event retains the actual enacted law. In the Idaho intake fixture, Jared Jordan's newly saved candidacy restriction carries its enacted term-limit law. These are explicit later-date contexts, not ordinary years of play. No payment is created.
 
 ## What happens next
 
-Finish the state restriction check, integrate latest main and publish the checked head. Merge retains landing authority under the stamp-only rule. Audit/Systems retains the four unread rule contracts and broader-local-authority writer investigation. No national audit is run here.
+Merge receives this ready stamp-only batch and retains landing authority. Team 2 next builds the first pay adapter and focused tests against the coordinator's shared consequence contract. The coordinator owns engine orchestration and schema exclusively; Team 3's compensation changes remain preserved. Audit/Systems owns the starting/enacted divergence and law-kind mapping. No national audit is run here.
 
 ## Method
 
-Branch: codex/team2-government-stamp-batch. Shared preservation merge: b0fb2464f682f72e6a970a87b353074fa530034f. Current main fetched: d9e4b8689b24470af29262d5b38affcc9dbb360a.
+Branch: codex/team2-government-stamp-batch. Shared preservation merge: b0fb2464f682f72e6a970a87b353074fa530034f. Integrated main: d9e4b8689b24470af29262d5b38affcc9dbb360a. Final strengthened fifteen-case run passed in 121.23 seconds, with 101.72 seconds in tests.
 
-Ward seeds: build-5:ward-commission:1:0 through :4. Logged places: Hampstead, Maryland; Selawik, Alaska; Sugar City, Idaho; Central Point, Oregon; Anthony, New Mexico. Hampstead's saved event is event_c77b8f86b30f4f2d.
+Ward seeds: build-5:ward-commission:1:0 through :4. Logged places: Hampstead, Maryland; Selawik, Alaska; Sugar City, Idaho; Central Point, Oregon; Anthony, New Mexico. Hampstead's saved event is event_c77b8f86b30f4f2d. Council seeds are team2-council-stamp:0 through :4; state seeds are team2-state-term-stamp:0 through :4. Ella's event is event_1a6520c884a2c0ac. Jared's is event_759d8101f667f909.
 
 Four scoped roots report zero type diagnostics. Lint, formatting and whitespace pass. Release checking fails on main's inherited team-7-remove-here-panel.md missing section. Zero-dice reports zero new findings and five stale removed findings; the allowlist is untouched.
 
-Earlier long runs were stopped with no result. No timeout was raised. No full suite, browser, natural multiyear sponsor run or national audit is claimed. No independent reviewer was spawned under the owner's no-new-helper instruction.
+Earlier long runs were stopped with no result. The final state call uses an isolated January 2042 intake week and rejects preexisting history as firing evidence. No timeout was raised. No full suite, browser, natural multiyear sponsor run or national audit is claimed. No independent reviewer was spawned under the owner's no-new-helper instruction.
