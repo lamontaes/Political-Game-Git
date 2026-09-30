@@ -1,6 +1,7 @@
 ---
-release: patch
-type: Changed
+id: team-8-opening-family
+impact: patch
+section: Changed
 title: Show saved parents and guardians in their home region
 ---
 
