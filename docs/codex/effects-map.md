@@ -1,5 +1,12 @@
 # Effects map
 
+The daily assignments now center on measured law effects. Existing work remains preserved while the named owners coordinate their handoffs.
+
+## September 30 actual-effects audit correction
+
+Team 2 now audits every supported effect of each changed enacted law, including duties, services, eligibility, money, place conditions and noticing. Missing typed terms alone does not prove missing effects. Teams 1, 3, 5 and 6 repair measured causes; Team 8 connects noticing; Team 9 researches unsized links. Counts remain pending. Researched about-zero is distinct from missing evidence.
+
+
 The current outcome catalog contains conditions whose changes stop before reaching another condition. This map identifies the missing connections and their current owners. September 29, 2026.
 
 ## Evidence boundary

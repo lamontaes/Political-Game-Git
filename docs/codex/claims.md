@@ -1,5 +1,12 @@
 # File claims
 
+The daily assignments now center on measured law effects. Existing work remains preserved while the named owners coordinate their handoffs.
+
+## September 30 daily assignment handoffs
+
+Team 2 owns scripts/law-audit/ for the new audit. Team 9 links.json transfer from Team 1 is requested, not complete. Team 8 law-effect-news.ts/test transfer from Team 5 is requested, not complete. Existing writers retain ownership pending exact handoff. Team 7 reports candidate-only ownership of art/authoring/sept30-team7/law-places; no admission or renderer ownership. Shared law rows require narrow releases before editing.
+
+
 Each listed surface has one team owner. Confirmed cloud transfers below replace the local writer while preserving the same team scope.
 
 | Team | Files | Claimed at |
@@ -645,3 +652,5 @@ Team 2 is the sole writer for `src/simulation/governing/automatic-legislation.ts
 ## September 30, 9:25 family integration handoff
 
 Team 8 owns the single WorldOrientationPanel.tsx import conflict in PR1213 additive main integration. Preserve both opening-family.css and projectLifeSoFarEnglish imports. Publish the integrated head for renewed CTO approval. Team 8 also supplies exact regional street/home picture coverage keys; Team 7 reconciles existing tagged sources before any proposed new generation. This assigns no overlapping renderer or new art implementation.
+
+- Team 7: art/authoring/sept30-team7/law-places/ — ten law-place candidate sets, contacts and lineage under September30 daily job; no admission/runtime edits.

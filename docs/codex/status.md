@@ -2,6 +2,29 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 10:00 a.m. check-in
+
+The new daily assignments put actual law effects first. All nine document links were delivered. Teams 3, 7 and 8 explicitly acknowledged reading them; acknowledgments from Teams 1, 2, 4, 5, 6 and 9 remain pending in the latest compact reads.
+
+### MERGED
+No new merge verified this checkpoint. Live GitHub shows #1213 OPEN at a606af9230dd708da180c50fc89131d319ac3feb. Merge was notified to inspect the integration and obtain current-head approval.
+
+### CONNECTIONS TABLE
+
+| Connection | Owner and action | Evidence limit |
+| --- | --- | --- |
+| Law audit → repairs | Team 2 produces law-by-effect rows; Teams 1, 3, 5 and 6 fix measured gaps | New firing/missing counts not received |
+| Researched sizes → outcome links | Team 9 has the new assignment; requested Team 1's existing links.json handoff | Research can proceed; overlapping writes await release |
+| Fired effects → noticing | Team 8 accepted; requested Team 5 release law-effect-news.ts and its test | No noticed/fired count yet |
+| Regional gaps → reused art | Team 8 reports packet published; requested exact path/head for Team 7 | Team 7 reports one courtroom set prepared locally, zero of ten posted |
+| Housing effects → law audit | Team 3 accepted all 35 rows and resolved its feature count to 12 | Source inventory does not prove effects |
+
+### BLOCKED
+Two ownership handoffs are requested: Team 1 to Team 9 for links.json, and Team 5 to Team 8 for law-effect-news.ts/test. Existing writers retain their files until handoff. Team 7 needs the exact regional packet. Family approval must match its new head. Six cloud acknowledgments remain unconfirmed; running turns are not acknowledgments.
+
+### EFFECTS
+Correction to earlier reports: zero typed terms does not establish zero law effects. Plain yes/no laws can already activate readers. #1215 and #1217 remain held pending the audit. The CTO reports 85 unsized links of 221; this checkpoint did not independently recount them. No new effects, meeting-entry or monthly-speed pass is claimed. New daily work supersedes the stale research-only restriction on Team 6.
+
 ## September 30, 9:30 a.m. check-in
 
 ### MERGED
