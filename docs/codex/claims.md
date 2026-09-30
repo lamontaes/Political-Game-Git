@@ -706,3 +706,6 @@ Team 5: town-pay.ts raiseTeacherPayToFloor stamp hunk; month.ts curriculum impor
 ## CTO 11:31 coordinator implementation allocation
 
 Coordinator owns federal top-income-tax to withholding, federal minimum wage to paychecks, and retirement-age eligibility connections. Team 1 retains the other seventeen federal questions. Exact shared tax/pay/schema hunks must preserve Team 3 compensation and Team 5 teacher-pay work. Federal privacy accounting belongs to Team 1 only; Team 4 retains other business/cannabis hunks. Team 2 audit recovery task 01a0f2f3-3efe-72ee-bc13-0038a02cf0dc is the sole CTO-authorized fresh audit executor, Sol 6.1 High; original Team 2 retains eight government laws.
+
+## September 30, 11:45 federal writer boundary
+Coordinator owns federal-top-income-tax-law.ts/test, statutory-tax.ts federal assessment hunk, and tax-types.ts optional stamp interface. Team3 state tax/paidleave payloads must be handed to coordinator for these two shared files; Team3 retains state-income-tax-law.ts, state-paid-leave-law.ts and paid-leave-benefits.ts. No concurrent shared-file writes.
