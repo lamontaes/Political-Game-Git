@@ -4,7 +4,7 @@
   "heldLawHead": "d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
   "officeholderHandoffHead": "d28a19740fddb940ce5d43041d88ad8b7c7e96f1",
   "scope": "20 federal questions + 10 held laws; 5 overlap, 25 distinct questions",
-  "execution": "Read-only imports and exact source inspection; no world advancement, enactment, behavioral test or money proof.",
+  "execution": "Read-only source/import inventory plus consumption of exact published Team 2 main-year report. No Team 1 advancing law proof, enactment, money or repeal test.",
   "records": [
     {
       "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
@@ -116,7 +116,7 @@
         "terminal": "A fixed deal-derived aid factor and an aggregate borrowing-cost adjustment.",
         "gap": "Needs research: replace the universal default size with approved national ranges and identify which appropriations change. Needs a feature: person/program-specific discretionary cuts."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
@@ -212,7 +212,7 @@
         "terminal": "Actual payroll withholding, with a fixed historic proposed rate and tax-year simplification.",
         "gap": "Needs research: audit territory/source-income coverage and behavioral responses before widening the federal tax consumer. Keep distinct state/local tax instruments."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
@@ -324,7 +324,7 @@
         "terminal": "A place-level high-cost-borrowing measure. The generic loan cap helper is not proof that this policy reaches people.",
         "gap": "Needs research: covered products, bank/tribal exceptions, state preemption and substitution effects. Needs a feature if lender offer decisions or capped contract terms are absent."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:defense.grow-defense-spending",
@@ -424,7 +424,7 @@
         "terminal": "Researched regional output evidence adapted into aggregate earnings; no named contract award proved.",
         "gap": "Needs research: ranges for buildup/default duration and translation from output to wages. Needs a feature: actual procurement contracts and recipient decisions."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
@@ -526,7 +526,7 @@
         "terminal": "A fixed historical budget increment and an aggregate interest-rate mechanism.",
         "gap": "Needs research: range and program-specific obligations. Needs a feature: foreign recipients and overseas consequences; do not invent domestic benefits."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:trade.raise-tariffs",
@@ -628,7 +628,7 @@
         "terminal": "A place-level price factor from a particular tariff episode.",
         "gap": "Needs research: tariff schedule/exposure and customs-area treatment. Needs a feature: commodity/import transaction and retaliation records if absent."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
@@ -773,7 +773,7 @@
         "terminal": "Actual added household records, with authored admission/default location and metro rent adaptation.",
         "gap": "Needs research: town destinations, legal-status/cohort composition and rent range. Coordinator must compose the Census contract preserving authoredSkeleton/jobRound. Never force employment to match the calibration."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
@@ -875,7 +875,7 @@
         "terminal": "A provisional aggregate price adjustment, not a named enrollee\u2019s bill.",
         "gap": "Needs research: population/drug denominator and budget effects. Needs a feature: drug/plan/patient transaction records where absent."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
@@ -1056,7 +1056,7 @@
         "terminal": "Aggregate employment/poverty factors instead of recorded retirement and benefit decisions.",
         "gap": "Needs research: cohort transition, claiming-age schedule, benefit/labor mechanisms and territory coverage. Needs a feature for missing benefit entitlements or retirement decisions."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:education.forgive-student-loans",
@@ -1201,7 +1201,7 @@
         "terminal": "Canonical debt-relief records, plus authored financing/eligibility proposals; calibration never assigns defaults.",
         "gap": "Needs research: financing/cohort spread and other-debt mechanism. Proof must show actual borrower balance, creditor and fiscal record; relief is not a cash transfer to the borrower."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
@@ -1370,7 +1370,7 @@
         "terminal": "Direct wage floor plus a place-level poverty factor; several reactions remain missing or unset.",
         "gap": "Needs research/wiring with Team 3: every wage reaction, coverage and state/local preemption. Do not copy a federal $15 comparison onto every local increase or actor."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
@@ -1598,7 +1598,7 @@
         "terminal": "An aggregate homelessness factor with no named voucher payment/move shown here.",
         "gap": "Needs research/wiring with Team 3: all supported voucher effects and market supply. Needs a feature for missing allocation, landlord or lease/subsidy records."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
@@ -1700,7 +1700,7 @@
         "terminal": "A projected aggregate ridership path with a forecast-error range.",
         "gap": "Needs research/wiring with Team 6: actual service geography, costs, route timing and persistence after repeal. Needs a feature for missing passenger/route records."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
@@ -1849,7 +1849,7 @@
         "terminal": "A provisional aggregate co-pollutant factor; the headline carbon mechanism is unset.",
         "gap": "Needs research/wiring with Team 6: legal standard/version, place exposure, emissions and every supported reaction. Do not treat unknown emissions as zero."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
@@ -1951,7 +1951,7 @@
         "terminal": "Aggregate land-value capitalization with a fixed payment-cut default.",
         "gap": "Needs research/wiring with Team 6: payment-cut range and operator/owner split. Needs a feature for absent farm-program recipient/payment records."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
@@ -1976,7 +1976,7 @@
         "terminal": "Actual funded unit/expense records, priced by an explicitly provisional project-equivalent.",
         "gap": "Needs research: eligible projects/applicants, current dollar basis and repair unit mapping. Proof must separate transfers, government expense and household money; no unrecorded household grant."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
@@ -2121,7 +2121,7 @@
         "terminal": "Actual minimum/review records for a narrow offense model; broader sentencing effects are absent.",
         "gap": "Needs research with Team 2: safety valve, assistance, priors, other drugs, retroactivity and imprisonment costs. Preserve the unknown/no-federal-facts case; no inferred guilt."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
@@ -2211,7 +2211,7 @@
         "terminal": "Recorded compliance/money with a hard decision boundary and authored portfolio initialization.",
         "gap": "Needs research: delegate/spouse/dependent scope, covered instruments, fee spread and fine authority. Fix stale catalog wording claiming no holdings; record the difference between assessed and paid fines."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:science-communications.national-data-privacy",
@@ -2242,7 +2242,7 @@
         "terminal": "A business-cost proxy from European evidence; privacy behavior remains unproved.",
         "gap": "Needs research: American business cost/exposure and precise preemption. Needs a feature for missing data-right exercise or firm compliance decisions."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
@@ -2273,7 +2273,7 @@
         "terminal": "Authored admission/election timing, seat assignment and fiscal changes; no actual admission-election decisions proved.",
         "gap": "Needs research with Team 2: constitutional/23rd Amendment process, elections and persistent admission semantics. Small repair for Team 2: persist completed admission independently of subsequent yes/no. Never remove admitted people or seats merely because a later answer is no."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
@@ -2426,7 +2426,7 @@
         "terminal": "Recorded appointment/card/ballot actions, with single-place unit-cost/service proxies and incomplete cure law.",
         "gap": "Needs research: national card/outreach/service anchors and 23 cure cells. Use Team 9 evidence, \u00b125 percent researched or \u00b150 percent estimated opening spread; no invented cure deadlines."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
@@ -2451,7 +2451,7 @@
         "terminal": "Actual eligibility/job/payroll records, plus single-place employer capacity and unrelated-industry revenue proxies.",
         "gap": "Needs research: national capacity/revenue, 14 executive jurisdictions and clients/targets. Use Team 9\u2019s compatible units and approved spreads; do not convert people or PR firms into lobbying firms without labeling the proxy."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-policy-positions:education.state-curriculum-standards",
@@ -2542,7 +2542,7 @@
         "terminal": "An enrollment-counted budget charge priced by a California appropriation proxy.",
         "gap": "Needs research: compatible national one-time versus annual incremental materials/training cost, not total instructional spending relabeled as adoption. Team 5 retains education decisions/content."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
@@ -2567,7 +2567,7 @@
         "terminal": "Estimated geography/visitor demand and business sales; incomplete county management and personal visit decisions.",
         "gap": "Needs research/wiring with Team 6: ownership, municipal/tribal scope, county budget reader and marginal visitation range. Preserve the Team 3 Census roster seam."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     },
     {
       "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
@@ -2658,7 +2658,7 @@
         "terminal": "Recorded concern/ballot/collection/expense with authored title samples, council body and review-hour proxy.",
         "gap": "Needs research with Teams 5/9: national review-hours estimate, correct trustees/body and speech/access limits. Do not treat absence of a reading study as universal inert library behavior."
       },
-      "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
+      "proof": "NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers."
     }
   ],
   "cto345DirectModuleFindings": [
@@ -2729,5 +2729,31 @@
     ],
     "ownerAction": "Coordinator route shared governance gate and research-data repair to Team2; no Team1 source write",
     "runtimeProof": "NOT RUN"
+  },
+  "consumedMainYearReport": {
+    "status": "CONSUMED PUBLISHED REPORT; not independently repeated or question-specific acceptance",
+    "publishedHead": "ede2bdfbd6cdc77296248640476f17d41d0f2a21",
+    "path": "docs/codex/handbacks/team-2-why-chains.md",
+    "sourceSha256": "c1668e22802be6362df06d758e4d311f129e4ac377e54e249c3be73f15c15cd7",
+    "simulationMain": "54930d427555034f3a92f335064586247985784d",
+    "collectorSource": "c0a23ba19b6e03ac6dd871818e9894d0e240d1c8",
+    "adapter": "system-only path adapter; report states simulation source unchanged",
+    "seed": "team2-main-proof-20260930-b",
+    "place": "Floral, Arkansas",
+    "start": "2026-01-05",
+    "end": "2027-01-05",
+    "observerDayPresses": 365,
+    "enactedLaws": 56,
+    "lawsWithTypedOperativeEffect": 1,
+    "filings": 134,
+    "linkedLawMoneyTransfers": 0,
+    "separateSponsorMotives": 0,
+    "evictions": 0,
+    "statehoodEnactment": "none reported",
+    "saveContinue": "date and history counts matched",
+    "savedWorldBytes": 271453706,
+    "invalidInheritedBytes": 23,
+    "questionSpecificProof": false,
+    "notMixed": "Earlier 58 laws/154 filings/3 evictions are a different run."
   }
 }

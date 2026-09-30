@@ -32,7 +32,7 @@ The current authority reader ranks higher laws and checks question powers. That 
 2. Completed: six-line source traces, including legal-scope findings, inert reactions, calibration-only checks, none-cases and smallest repairs.
 3. Open: national cost/capacity replacements and unresolved cure/executive law cells, using Team 9 evidence.
 4. Open: coordinator ownership/composition for shared effects and Census readers. Team 1 does not edit central claims or other lanes’ source.
-5. Open: executed Team 2 law-money proof; every proof line is explicitly NOT RUN.
+5. Open: question-specific person and law-money proof. The consumed main-year report records no linked law-money transfers; its totals do not establish these laws.
 6. Open: separate #1184 coverage/monthly-filing comparison and party-only fix, followed by the authorized continuous-strength PR after shared-hunk routing.
 
 ## 5. Simulated, records, world pieces and checks
@@ -80,7 +80,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress sets federal borrowing and appropriations; states/counties/cities may set their own budgets but cannot change the federal debt limit. D.C. and territories receive federal rules with program-specific eligibility. The controlling no stops the modeled cuts; this does not repay historical aid.
 4. Terminal: A fixed deal-derived aid factor and an aggregate borrowing-cost adjustment.
 5. Gap/smallest repair: Needs research: replace the universal default size with approved national ranges and identify which appropriations change. Needs a feature: person/program-specific discretionary cuts.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 2. us-federal-positions:tax.raise-top-income-tax-rate
 
@@ -89,7 +89,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress changes the federal schedule. States and legally authorized localities set separate taxes, not this federal bracket. Territorial federal-income-tax liability needs an explicit applicability audit. January 1 law governs the whole tax year; a later no restores the ordinary schedule prospectively.
 4. Terminal: Actual payroll withholding, with a fixed historic proposed rate and tax-year simplification.
 5. Gap/smallest repair: Needs research: audit territory/source-income coverage and behavioral responses before widening the federal tax consumer. Keep distinct state/local tax instruments.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 3. us-federal-positions:monetary-financial.cap-consumer-loan-interest
 
@@ -98,7 +98,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress may regulate covered consumer credit. States retain usury authority subject to bank preemption and federal exceptions; some local rules concern licensing or conduct. The question is federal-only in question-powers.json. A generic federal-over-local rank cannot establish every lender/product floor or ceiling.
 4. Terminal: An aggregate borrowing adjustment, not proof that each lender and borrower decided from their own records.
 5. Gap/smallest repair: Needs research: covered products, bank/tribal exceptions, state preemption and substitution effects. Needs a feature if lender offer decisions or capped contract terms are absent.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 4. us-federal-positions:defense.grow-defense-spending
 
@@ -107,7 +107,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress controls federal defense appropriations; states/localities cannot change the federal program. Their own procurement and land-use powers remain separate. Later no removes the modeled boost; already executed contracts need separate commitments.
 4. Terminal: Researched regional output evidence adapted into aggregate earnings; no named contract award proved.
 5. Gap/smallest repair: Needs research: ranges for buildup/default duration and translation from output to wages. Needs a feature: actual procurement contracts and recipient decisions.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 5. us-federal-positions:foreign-affairs.increase-foreign-aid
 
@@ -116,7 +116,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress appropriates federal foreign aid. State/local international activities do not control this appropriation. Federal deficit effects reach D.C./territorial books only through their applicable borrowing readers. A controlling no stops the future modeled increment.
 4. Terminal: A fixed historical budget increment and an aggregate interest-rate mechanism.
 5. Gap/smallest repair: Needs research: range and program-specific obligations. Needs a feature: foreign recipients and overseas consequences; do not invent domestic benefits.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 6. us-federal-positions:trade.raise-tariffs
 
@@ -125,7 +125,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Federal tariff authority follows Article I and delegated federal statutes. States/counties/cities cannot impose this federal tariff. Customs-territory exceptions require data for Puerto Rico and island areas; geography alone does not establish identical tariff exposure. No resets the prospective modeled link after its lag.
 4. Terminal: A place-level price factor from a particular tariff episode.
 5. Gap/smallest repair: Needs research: tariff schedule/exposure and customs-area treatment. Needs a feature: commodity/import transaction and retaliation records if absent.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 7. us-federal-positions:immigration.admit-more-immigrants
 
@@ -134,7 +134,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress controls federal admission/status. State/local governments provide services and regulate housing within their powers, not federal admission counts. D.C. and all five territories are distribution rows, with four unread island areas estimated. No stops new modeled arrivals; it must not delete admitted people.
 4. Terminal: Actual added household records, with authored admission/default location and metro rent adaptation.
 5. Gap/smallest repair: Needs research: town destinations, legal-status/cohort composition and rent range. Coordinator must compose the Census contract preserving authoredSkeleton/jobRound. Never force employment to match the calibration.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 8. us-federal-positions:health.medicare-drug-price-negotiation
 
@@ -143,7 +143,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress sets Medicare negotiation authority; CMS implements federal terms. States can regulate other coverage and purchasing within federal limits, not rewrite Medicare. D.C./territorial coverage must follow actual program eligibility. No stops the modeled change; signed purchasing commitments need their own records.
 4. Terminal: A provisional aggregate price adjustment, not a named enrollee’s bill.
 5. Gap/smallest repair: Needs research: population/drug denominator and budget effects. Needs a feature: drug/plan/patient transaction records where absent.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 9. us-federal-positions:social-insurance.raise-retirement-age
 
@@ -152,7 +152,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress sets Social Security retirement terms. State/local pensions and assistance are separate programs. D.C. and territorial applicability follows Social Security coverage, not a generic state column. No ends the modeled link after lag; cohort rights and already paid benefits need explicit treatment.
 4. Terminal: Aggregate employment/poverty factors instead of recorded retirement and benefit decisions.
 5. Gap/smallest repair: Needs research: cohort transition, claiming-age schedule, benefit/labor mechanisms and territory coverage. Needs a feature for missing benefit entitlements or retirement decisions.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 10. us-federal-positions:education.forgive-student-loans
 
@@ -161,7 +161,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress can change federal student-loan liabilities; state/local programs can fund their own aid, not discharge this creditor’s debt. Federal-loan eligibility also governs D.C./territorial borrowers. No stops new relief; already recorded discharge is not reversed into invented debt.
 4. Terminal: Canonical debt-relief records, plus authored financing/eligibility proposals; calibration never assigns defaults.
 5. Gap/smallest repair: Needs research: financing/cohort spread and other-debt mechanism. Proof must show actual borrower balance, creditor and fiscal record; relief is not a cash transfer to the borrower.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 11. us-federal-positions:labor-commerce.raise-federal-minimum-wage
 
@@ -170,7 +170,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Federal wage law provides a floor for covered employment; state and authorized local floors may exceed it. State preemption controls local authority. D.C./territorial and occupation exemptions need actual coverage data. Repeal removes the new floor, not higher surviving floors or earned pay.
 4. Terminal: Direct wage floor plus a place-level poverty factor; several reactions remain missing or unset.
 5. Gap/smallest repair: Needs research/wiring with Team 3: every wage reaction, coverage and state/local preemption. Do not copy a federal $15 comparison onto every local increase or actor.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 12. us-federal-positions:housing.vouchers-for-every-eligible-family
 
@@ -179,7 +179,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress funds federal vouchers; HUD and administering agencies implement them. State/local housing aid is a separate instrument with fair-housing and land-use limits. Territory/D.C. eligibility and local administrative supply must be read from actual program rules. No stops modeled support; it does not erase existing leases or moves.
 4. Terminal: An aggregate homelessness factor with no named voucher payment/move shown here.
 5. Gap/smallest repair: Needs research/wiring with Team 3: all supported voucher effects and market supply. Needs a feature for missing allocation, landlord or lease/subsidy records.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 13. us-federal-positions:transport-water.expand-passenger-rail
 
@@ -188,7 +188,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress funds this federal expansion. States/localities can fund their own services and participate subject to rail/federal authority. Places without service have no supported rider gain. D.C./territorial coverage follows the service data. No stops the modeled expansion but does not logically demolish built rail.
 4. Terminal: A projected aggregate ridership path with a forecast-error range.
 5. Gap/smallest repair: Needs research/wiring with Team 6: actual service geography, costs, route timing and persistence after repeal. Needs a feature for missing passenger/route records.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 14. us-federal-positions:energy-environment.limit-power-plant-carbon
 
@@ -197,7 +197,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Federal Clean Air Act authority and state implementation coexist; section 116 generally preserves stronger state/local standards subject to exceptions. The specific question is federal-only. D.C./territories require relevant plant/air-program data. No ends this modeled link; actual permits and investments need separate persistence.
 4. Terminal: A provisional aggregate co-pollutant factor; the headline carbon mechanism is unset.
 5. Gap/smallest repair: Needs research/wiring with Team 6: legal standard/version, place exposure, emissions and every supported reaction. Do not treat unknown emissions as zero.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 15. us-federal-positions:agriculture.cut-farm-subsidies
 
@@ -206,7 +206,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress sets federal farm payments. State/local grants and conservation instruments are separate; the question cannot remove their funds. D.C./territorial missing ratios use the declared national estimate. No restores the modeled flow; already lost income or traded land is not rewritten.
 4. Terminal: Aggregate land-value capitalization with a fixed payment-cut default.
 5. Gap/smallest repair: Needs research/wiring with Team 6: payment-cut range and operator/owner split. Needs a feature for absent farm-program recipient/payment records.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 16. us-federal-positions:emergencies.states-share-disaster-costs
 
@@ -215,7 +215,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress can alter federal cost-sharing statutes; disaster declarations and project rules also matter. States/territories/D.C. and eligible local applicants participate under Stafford Act rules. State/local own relief is separate. No stops new terms; prior expense records and completed repairs remain.
 4. Terminal: Actual funded unit/expense records, priced by an explicitly provisional project-equivalent.
 5. Gap/smallest repair: Needs research: eligible projects/applicants, current dollar basis and repair unit mapping. Proof must separate transfers, government expense and household money; no unrecorded household grant.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 17. us-federal-positions:justice-rights.reduce-mandatory-minimums
 
@@ -224,7 +224,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress changes federal minima and retroactivity. State/local governments cannot shorten federal sentences; their offenses are separate. Federal venue/offense facts govern D.C./territories, whose local criminal law is not identical. Repeal can change future minima; it must not undo a completed lawful release without authority.
 4. Terminal: Actual minimum/review records for a narrow offense model; broader sentencing effects are absent.
 5. Gap/smallest repair: Needs research with Team 2: safety valve, assistance, priors, other drugs, retroactivity and imprisonment costs. Preserve the unknown/no-federal-facts case; no inferred guilt.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 18. us-federal-positions:government.ban-congressional-stock-trading
 
@@ -233,7 +233,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress legislates restrictions on its members; states/localities govern their own officials, not Congress. D.C./territorial delegates need explicit scope, not guessed membership. No cancels prospective ban enforcement; existing fund holdings/fees, assessed fines and transfers remain historical facts.
 4. Terminal: Recorded compliance/money with a hard decision boundary and authored portfolio initialization.
 5. Gap/smallest repair: Needs research: delegate/spouse/dependent scope, covered instruments, fee spread and fine authority. Fix stale catalog wording claiming no holdings; record the difference between assessed and paid fines.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 19. us-federal-positions:science-communications.national-data-privacy
 
@@ -242,7 +242,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress can regulate covered data commerce; existing state privacy laws may coexist unless the enacted federal law preempts them. City/county authority depends on home rule and state law. No blanket ceiling follows from the generic federal rank. D.C./territory applicability requires statutory scope. No stops future modeled costs.
 4. Terminal: A business-cost proxy from European evidence; privacy behavior remains unproved.
 5. Gap/smallest repair: Needs research: American business cost/exposure and precise preemption. Needs a feature for missing data-right exercise or firm compliance decisions.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 20. us-federal-positions:territories-culture.statehood-for-dc
 
@@ -251,7 +251,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Congress’s admission power and District Clause govern, with constitutional questions requiring legal research. D.C. cannot admit itself; states/counties/cities cannot repeal admission. Admission is irreversible, but statehoodAdmittedOn currently rereads the latest yes/no and returns null after no. That can remove projected seats/funds despite earlier admission. Other territories require their own admission terms.
 4. Terminal: Authored admission/election timing, seat assignment and fiscal changes; no actual admission-election decisions proved.
 5. Gap/smallest repair: Needs research with Team 2: constitutional/23rd Amendment process, elections and persistent admission semantics. Small repair for Team 2: persist completed admission independently of subsequent yes/no. Never remove admitted people or seats merely because a later answer is no.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 21. us-policy-positions:government-operations.require-photo-id-to-vote
 
@@ -260,7 +260,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: States administer identification rules subject to federal election/civil-rights constraints; local administrators do not acquire independent blanket authority. D.C. and territories have their own legal rules. The generic seven-day cure remains a research fallback; confirmed absence must be legal data. No stops future ID requirements, preserving issued cards and cast ballots.
 4. Terminal: Recorded appointment/card/ballot actions, with single-place unit-cost/service proxies and incomplete cure law.
 5. Gap/smallest repair: Needs research: national card/outreach/service anchors and 23 cure cells. Use Team 9 evidence, ±25 percent researched or ±50 percent estimated opening spread; no invented cure deadlines.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 22. us-policy-positions:government-operations.ban-lobbying-after-office
 
@@ -269,7 +269,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: States set restrictions for their officials, alongside federal and local ethics rules within their authority. Legislature/executive rules and target/matter scope differ. D.C./territories need their recorded rules. Missing term/session/client facts require confirmation; no invented restriction. No permits future applications only where surviving law allows.
 4. Terminal: Actual eligibility/job/payroll records, plus single-place employer capacity and unrelated-industry revenue proxies.
 5. Gap/smallest repair: Needs research: national capacity/revenue, 14 executive jurisdictions and clients/targets. Use Team 9’s compatible units and approved spreads; do not convert people or PR firms into lobbying firms without labeling the proxy.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 23. us-policy-positions:education.state-curriculum-standards
 
@@ -278,7 +278,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: States/territorial equivalents set their standards, with district/local authority as their law grants; Congress’s funding conditions are not general federal curriculum authority. D.C. requires its own education governance. No stops the future standards-cycle spending; past purchases remain.
 4. Terminal: An enrollment-counted budget charge priced by a California appropriation proxy.
 5. Gap/smallest repair: Needs research: compatible national one-time versus annual incremental materials/training cost, not total instructional spending relabeled as adoption. Team 5 retains education decisions/content.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 24. us-policy-positions:agriculture-natural-resources.expand-public-land-access
 
@@ -287,7 +287,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: Each owner controls its land under applicable law: federal, state, county, municipal and tribal powers differ. The question maps only state/county; management spending checks state only, so county authority is not a complete county effect. D.C./territory acreage gaps remain estimates. No stops new access/sales increment, preserving actual transactions.
 4. Terminal: Estimated geography/visitor demand and business sales; incomplete county management and personal visit decisions.
 5. Gap/smallest repair: Needs research/wiring with Team 6: ownership, municipal/tribal scope, county budget reader and marginal visitation range. Preserve the Team 3 Census roster seam.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ### 25. us-policy-positions:civil-family-community.local-control-of-library-materials
 
@@ -296,11 +296,33 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 3. Authority/reversal: The state question decides local versus state control; boards/trustees must have actual delegated power and constitutional limits. County/city/township governing structures vary, including D.C./territories. Unknown authority or no local voters leaves the challenge unresolved. No restores future authority, not past title decisions automatically.
 4. Terminal: Recorded concern/ballot/collection/expense with authored title samples, council body and review-hour proxy.
 5. Gap/smallest repair: Needs research with Teams 5/9: national review-hours estimate, correct trustees/body and speech/access limits. Do not treat absence of a reading study as universal inert library behavior.
-6. Proof: NOT RUN: no executed Team 2 law-money receipt consumed.
+6. Proof: NOT ESTABLISHED: no question-specific person/money receipt. The consumed main-year report records no linked law-money transfers.
 
 ## 6. Proof run
 
-NOT RUN. No seed/place is presented as an advancing-world proof. The read-only import inventory returned the current registered paths and statuses; it did not enact laws, move money or verify repeal. No Team 2 proof receipt was available to this audit. No full suite, browser, year-speed or calibration acceptance was run.
+Team 1 has not advanced a law-proof world. The source inventory establishes
+paths and statuses, without enacting laws, moving money or verifying repeal.
+The separately published Team 2 main-year receipt has now been consumed.
+
+That report uses seed team2-main-proof-20260930-b in Floral, Arkansas, on main
+54930d427555034f3a92f335064586247985784d. It reports 365 actual observer Day
+presses from January 5, 2026, to January 5, 2027. The year contains 56 enacted
+laws, one typed operative effect and 134 filings. It records no linked
+law-money transfers, separate sponsor motives or evictions. Its statehood
+trace reports no statehood enactment. These are the report's observations,
+not an independently repeated Team 1 run or proof that every law is inert.
+
+Published receipt source: Team 2 handback ede2bdfbd6cdc77296248640476f17d41d0f2a21,
+docs/codex/handbacks/team-2-why-chains.md, current-main one-year footer.
+Collector source c0a23ba19b6e03ac6dd871818e9894d0e240d1c8 used a system-only
+path adapter and reports unchanged simulation source. Save/Continue matched
+the date and history counts. The inherited 23-byte metric is invalid; the
+retained saved world is 271,453,706 bytes. Earlier 58-law, 154-filing and
+three-eviction counts belong to a different run and are not mixed here.
+
+Question-specific enactment, named-person outcomes, actual money receipt and
+repeal/preemption cases remain unproved. No full suite, browser, year-speed
+or calibration acceptance was run for this law audit.
 
 ## 7. Worked example
 
@@ -370,4 +392,14 @@ Pinned main: `54930d427555034f3a92f335064586247985784d`. Held law source: `d6f8b
 
 Accepted officeholder handoff: `d28a19740fddb940ce5d43041d88ad8b7c7e96f1`, PR1184. The same checkout was reused; source branches and transfer evidence are preserved.
 
-New report claims: `docs/codex/handbacks/team-1-law-traces.md` and `.json` only. Central claims were not edited. Feature-walkthrough was read from approved PR1191’s published skill; its main integration remains a Merge dependency. No helper, extra team, unsupported schedule retry or self-merge occurred.
+New report claims: `docs/codex/handbacks/team-1-law-traces.md` and `.json` only. Central claims were not edited. Feature-walkthrough was invoked from PR1191’s published skill and rechecked on current main, where the skill is now landed. No helper, extra team, unsupported schedule retry or self-merge occurred.
+
+## Latest dependency checkpoint
+
+Continuous-strength measurements are published separately on PR1199 head
+79d6b14af81bb219663f71ef9c62fb5d33d8106e. The month includes the three
+reader changes as working-tree evidence, but variation and filing acceptance
+remain unmet. This is not law-money proof. Shared record/reader integration
+is preserved locally at 32d3379f75021d7bc62565aee9154d290ce2a51c; packing
+requires an exact central claim before its bounded compatibility repair.
+The latest central grant does not name that source seam.
