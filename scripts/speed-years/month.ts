@@ -123,6 +123,12 @@ async function main() {
   const began = performance.now();
   const next = advanceObservedWorld(world, 30);
   const seconds = (performance.now() - began) / 1000;
+  if (
+    (Date.parse(next.currentDate) - Date.parse(world.currentDate)) /
+      86400000 !==
+    30
+  )
+    throw new Error("The observer did not complete all 30 days");
   console.log(`30 days: ${seconds.toFixed(3)}s through ${next.currentDate}`);
   const hash = (value: unknown) =>
     createHash("sha256").update(canonicalJson(value)).digest("hex");
