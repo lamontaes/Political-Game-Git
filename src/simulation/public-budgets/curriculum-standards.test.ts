@@ -1,3 +1,5 @@
+import type { LawEffectStampedRecord } from "../law-effect-stamp";
+import { isLawEffectStamp } from "../law-effect-stamp";
 import { describe, expect, it } from "vitest";
 import { contentDecisionAuthority } from "../governing/question-authority";
 import { recordCurriculumDecision } from "../governing/curriculum-decisions";
@@ -310,6 +312,16 @@ describe("curriculum materials reach school spending", () => {
       }),
     );
     expect(moved).toBe(12_000);
+    for (const month of treated.months) {
+      const stamps = (month as typeof month & LawEffectStampedRecord)
+        .lawEffectStamps;
+      expect(stamps).toHaveLength(1);
+      expect(isLawEffectStamp(stamps![0])).toBe(true);
+      expect(stamps![0]!.governingLawKey).toBe("measure_curriculum");
+      expect(stamps![0]!.effectKind).toBe("state-spending");
+      expect(stamps![0]!.sourceRecordIds).toContain("person_0");
+      expect(stamps![0]!.sourceRecordIds).toContain("enrollment_0");
+    }
     expect(control.balance - treated.balance).toBe(12_000);
   });
   it("reads each bill's amount and phase-in and stops charging after the cycle", () => {

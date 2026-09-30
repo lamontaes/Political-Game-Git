@@ -1,3 +1,8 @@
+import { createStableId } from "../../src/simulation/ids";
+import {
+  isLawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../../src/simulation/law-effect-stamp";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -157,10 +162,19 @@ function runPaydays(start: World, until: IsoDate): World {
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
-      world = paydayHandler(world, {
-        stableKey: `town-pay-v2:payday:${paidThrough}`,
+      const key = `town-pay-v2:payday:${paidThrough}`;
+      const due: FutureDueItem = {
+        id: createStableId("future-due-item", key),
+        stableKey: key,
+        sequence: world.history.nextSequence,
+        scheduledAt: paidThrough,
+        dueAt: payday,
         transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+        entityIds: [],
+        jurisdictionId: null,
+        provenance: { kind: "authored", note: "Controlled payday fixture." },
+      };
+      world = paydayHandler(world, due).world;
       paidThrough = payday;
     }
   });
@@ -292,6 +306,13 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
 
     const lines: string[] = [];
     for (const raise of raises) {
+      const stamp = (raise as typeof raise & LawEffectStampedRecord)
+        .lawEffectStamps?.[0];
+      expect(isLawEffectStamp(stamp)).toBe(true);
+      expect(stamp?.governingLawKey).toBe("measure_teacher_floor_1");
+      expect(stamp?.effectKind).toBe("teacher-pay");
+      expect(stamp?.appliedAt).toBe(raise.effectiveAt);
+      expect(stamp?.sourceRecordIds).toContain(raise.resourceFlowId);
       const before = world.history.resourceFlowTerms.find(
         (terms) => terms.id === raise.supersedesTermsId,
       )!;
@@ -346,15 +367,15 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
         (role.timeDemand.expectedWeekly.minimumHours +
           role.timeDemand.expectedWeekly.maximumHours) /
         2;
+      const periods: Readonly<Record<string, number>> = {
+        "schedule:town-weekly": 52,
+        "schedule:town-biweekly-0": 26,
+        "schedule:town-biweekly-1": 26,
+        "schedule:town-semimonthly": 24,
+        "schedule:town-monthly": 12,
+      };
       const perYear =
-        (latest.amount.minorUnits / 100) *
-        ({
-          "schedule:town-weekly": 52,
-          "schedule:town-biweekly-0": 26,
-          "schedule:town-biweekly-1": 26,
-          "schedule:town-semimonthly": 24,
-          "schedule:town-monthly": 12,
-        }[latest.cadenceKind] ?? 0);
+        (latest.amount.minorUnits / 100) * (periods[latest.cadenceKind] ?? 0);
       expect(perYear / (weekly / 40)).toBeGreaterThanOrEqual(floor - 60);
     }
     console.info(

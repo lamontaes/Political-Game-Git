@@ -1,3 +1,5 @@
+import { lawEffectStamp } from "./law-effect-stamp";
+import { lawInForce } from "./governing/law-in-force";
 import { openingLawEstimates } from "./law-outcome-calibration";
 import { personName } from "./people";
 import { recordedPrinciplesForPerson } from "./governing/officeholder-principles";
@@ -138,12 +140,20 @@ export function resolveLibraryChallenges(
         ?.terms?.values
     : null;
   if (!stateKey) return next;
+  const proposition = Object.values(next.policyCatalog.propositions).find(
+    (row) => row.stableKey === LIBRARY_QUESTION,
+  );
+  const law =
+    state && proposition
+      ? lawInForce(next, state.id, proposition.id, next.currentDate)
+      : null;
   const hourlyCents =
     terms?.staffHourlyCents ??
     openingLawEstimates(next, stateKey).libraryStaffHourlyCents;
   for (const challenge of next.libraryMaterials?.challenges ?? []) {
     if (
       challenge.townId !== townId ||
+      challenge.filedOn > next.currentDate ||
       next.libraryMaterials!.decisions.some(
         (d) => d.challengeKey === challenge.key,
       )
@@ -168,6 +178,26 @@ export function resolveLibraryChallenges(
     const staffHours = terms?.staffReviewHours ?? research.staffHoursMean;
     const legalHours =
       authority.level === "local" ? (terms?.legalReviewHours ?? 0) : 0;
+    const context = {
+      questionKey: LIBRARY_QUESTION,
+      jurisdictionId: townId,
+      appliedAt: next.currentDate,
+      sourceRecordIds: [
+        challenge.personId,
+        ...challenge.principleRecordIds,
+        ...challenge.faithParticipationIds,
+      ],
+    };
+    const stamps = [
+      lawEffectStamp(law, {
+        ...context,
+        effectKind: "library.collection-decision",
+      }),
+      lawEffectStamp(law, {
+        ...context,
+        effectKind: "library.challenge-review-cost",
+      }),
+    ].filter((stamp) => stamp !== null);
     const decision = {
       challengeKey: challenge.key,
       meetingKey,
@@ -179,6 +209,7 @@ export function resolveLibraryChallenges(
       staffHours,
       legalHours,
       expenseCents: Math.round((staffHours + legalHours) * hourlyCents),
+      ...(stamps.length ? { lawEffectStamps: stamps } : {}),
     };
     next = {
       ...next,

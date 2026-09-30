@@ -1,9 +1,10 @@
+import { lawEffectStamp } from "../law-effect-stamp";
 import { libraryChallengeExpenseDollars } from "../library-materials-law";
 import { voterIdExpenseDollars } from "../voter-photo-identification-law";
 import { publicLandManagementSpending } from "../public-land-access-law";
 import { disasterRepairExpenseDollars } from "../governing/disaster-cost-sharing";
 import { makeIsoDate } from "../dates";
-import { curriculumAdoptionSpending } from "./curriculum-standards";
+import { curriculumAdoptionEffect } from "./curriculum-standards";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -621,11 +622,24 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
-  spending[BUDGET_PROGRAMS.indexOf("schools")]! += curriculumAdoptionSpending(
-    world,
-    government,
-    month,
-  );
+  const curriculum = curriculumAdoptionEffect(world, government, month);
+  spending[BUDGET_PROGRAMS.indexOf("schools")]! +=
+    curriculum?.spendingDollars ?? 0;
+  const curriculumStamp =
+    curriculum && (curriculum.spendingDollars ?? 0) > 0
+      ? lawEffectStamp(curriculum.law, {
+          effectKind: "state-spending",
+          questionKey:
+            "us-policy-positions:education.state-curriculum-standards",
+          jurisdictionId: government.lawJurisdictionId,
+          appliedAt: month,
+          sourceRecordIds: curriculum.recipients.flatMap((pupil) => [
+            pupil.personId,
+            ...pupil.enrollmentIds,
+            ...pupil.organizationIds,
+          ]),
+        })
+      : null;
   spending[BUDGET_PROGRAMS.indexOf("naturalResources")]! +=
     publicLandManagementSpending(world, government, month);
   if (government.level === "state")
@@ -749,6 +763,7 @@ export function settleGovernmentMonth(
   }
 
   const row: BudgetMonthRow = {
+    ...(curriculumStamp ? { lawEffectStamps: [curriculumStamp] } : {}),
     month,
     revenue,
     spending,
