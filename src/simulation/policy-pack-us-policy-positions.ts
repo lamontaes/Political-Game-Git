@@ -1250,8 +1250,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should money currently dedicated to highways be available for transit?",
       tags: ["contested"],
       principles: [
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.45,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.35,
+        },
       ],
     },
     {
@@ -1266,9 +1294,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the state appropriate money for additional rural transit service hours?",
       tags: ["contested", "appropriation"],
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.35,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.4,
+        },
       ],
     },
     {
@@ -1282,8 +1337,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should local transit be free to ride?",
       tags: ["contested"],
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -1298,9 +1376,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should a per-mile road charge replace the fuel tax?",
       tags: ["contested"],
       principles: [
-        { principle: "fiscal-restraint", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
-        { principle: "environmental-stewardship", bearing: "against" },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "environmental-stewardship",
+          bearing: "against",
+          weight: 0.4,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.35,
+        },
       ],
     },
     {
@@ -1315,8 +1420,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should local governments be allowed to build and sell broadband service?",
       tags: ["contested"],
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "market-competition", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -1332,8 +1465,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should maintenance of existing infrastructure be funded before new construction?",
       tags: ["local-fiscal-effect:public-program-appropriation"],
       principles: [
-        { principle: "fiscal-restraint", bearing: "consistent-with" },
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.4,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.3,
+        },
       ],
     },
     {
@@ -1483,8 +1639,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       parameters: [{ key: "target", value: "share-by-year" }],
       tags: ["contested"],
       principles: [
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "market-competition", bearing: "against" },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "worker-protection",
+          bearing: "consistent-with",
+          weight: 0.5,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
@@ -1498,8 +1682,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should the state put a price on carbon emissions?",
       tags: ["contested"],
       principles: [
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "limited-government", bearing: "against" },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "market-competition",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.4,
+        },
       ],
     },
     {
@@ -1514,8 +1726,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should new buildings be barred from connecting to natural gas?",
       tags: ["contested"],
       principles: [
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.5,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.7,
+        },
       ],
     },
     {
@@ -1529,9 +1769,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should new construction be restricted in areas at high risk of flooding?",
       principles: [
-        { principle: "public-safety", bearing: "consistent-with" },
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.5,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.45,
+        },
       ],
     },
     {
@@ -1544,8 +1811,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Container deposit",
       question: "Should beverage containers carry a refundable deposit?",
       principles: [
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "limited-government", bearing: "against" },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.35,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -1560,8 +1850,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should groundwater withdrawals be metered and limited?",
       tags: ["contested"],
       principles: [
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -1575,9 +1893,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Protect farmland from development",
       question: "Should the state pay to keep farmland from being developed?",
       principles: [
-        { principle: "tradition", bearing: "consistent-with" },
-        { principle: "environmental-stewardship", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -1590,9 +1935,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Expand public land access",
       question: "Should public land be opened to more recreational access?",
       principles: [
-        { principle: "personal-liberty", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
-        { principle: "environmental-stewardship", bearing: "against" },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "environmental-stewardship",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
