@@ -560,3 +560,7 @@ These are current catalog declarations, not freshly verified research estimates.
 - inclusionary-to-homelessness: size 0; range not supplied; lag 0 months; shape {"kind": "linear"}; source Schuetz, Meltzer and Been 2011, Urban Studies.
 
 No outgoing homelessness link is declared. Therefore homelessness → county spending → next budget vote has no established numeric size/range/lag or watched result here. Team 1 owns the link evidence review, Team 3 named housing/work records, Team 2 the concern/vote consumer. The catalog includes Auckland, Boston/San Francisco and trial-to-universal extrapolations: these require the current all-place anchor audit, not automatic admission. Rent thresholds22/32 and absent slope are not a completed sliding-scale person model. Several simultaneous housing/transport/family-income pressures have not been shown blending on one named person.
+
+## September 29, 11:30 p.m. evidence update
+
+Team 9 published homelessness source packet #1166 at 4b674cc3fadcfd13f90134ea11906efcd0ac1899. CTO source approval is pending. HUD family service-cost ranges are not personal universal charges; follow-up windows are not onset lags. No runtime links changed and no three-step chain was proved. Team 1 and coordinator retain the outgoing homelessness gap; implementing coefficients and person blending remain unapproved.

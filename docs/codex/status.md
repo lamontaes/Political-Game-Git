@@ -313,3 +313,32 @@ Team 9 has a verified cloud checkout and two authorized Low researchers. Outgoin
 Lamontae requires every team and Merge to set one report automation on its existing chat for :25 and :55 Eastern. Each sends its current task, actual activity, exact head and PR, checks, blockers, next action and changed system connections to the coordinator. Automation confirmations are pending.
 
 At :00 and :30, the coordinator reads the newest replies, verifies reports against current CTO assignments and the ownership ledger, resolves blockers, and reports system integration. A completed checkpoint does not end an unfinished assignment. CTO approval has explicitly delegated owner authority.
+
+## September 29, 11:30 p.m. check-in
+
+### MERGED
+GitHub confirms #1134 on main at a18f22a76b2b41c01ff030026024eb940ccefbef. No additional main merge is confirmed. Speed integration #1165 is open at 0b739f88be83fda9ba4a911adaa2330eaca4ad9c; #1162 was superseded with history preserved. Agenda integration #1163 remains open at ae992a095d44adcd443525dbfb1c457f3a964d93.
+
+### CONNECTIONS TABLE
+
+| Link | Actual work and owner | Remaining boundary |
+| --- | --- | --- |
+| Laws → knowledge uptake | Team 1 reviewing Team 5 request and supported estimate gaps | Saved uptake must not redefine confidence. |
+| People generation → news habit | Team 2 tracing opening inputs; Team 4 supplied appended-ID hook plan | Missing education is not a low category; no rerolls. |
+| Census → town population | Team 3 editing released reader/adapters | Held #1143 must avoid runtime nulls. |
+| State intake → speed | Team 4 profiling next bounded copy cost | Last measured 26.951 seconds fails 15-second target. |
+| Meetings → real controls | Team 5 reviewing #1149 with current main | Dependency installation capacity unresolved. |
+| Legal research → exact starting rules | Team 6 actively reading state transport and parks laws | No game code; source gaps remain explicit. |
+| Scene metadata → art import | Team 7 reviewing batch 2 overlays | 35 images, 977 candidate spots, 25 faces; 712 away-facing seats blocked from import. |
+| Listings → grounded English | Team 8 browser audit and Jobs migration | 31 focused tests pass by team report; final checks/publication pending. |
+| Research → next assignments | Team 9 active on bill numbers and bring-first queue | Research goes to CTO for approval before builds. |
+
+### BLOCKED
+Merge is idle for a valid reason: #1165, #1163, #1135 and #1156 need current approvals. Conflict-resolved heads do not qualify for the clean-main-merge exception. Their changed-file tests passed according to Merge; coordinator did not rerun them.
+
+Teams 1–9 are active by thread inspection and current Doc replies. Cloud reporting cannot use the requested native schedule: its tools cap frequency at hourly and lack local-thread messaging. Local collector our-civic-duty-team-report-collection is ACTIVE at :25/:55 Eastern. Team 7's own reporter is confirmed. The collector requests and reads cloud reports; the coordinator's :00/:30 check-in verifies assignments and integration.
+
+Team 8 resolved browser admission with a supported bounded 256 MiB reservation, without changing the reserve. Team 7 local admission now passes. Team 3/5 installation deficits remain pending the CTO's cloud-only reserve decision. No override has been applied.
+
+### EFFECTS
+Runtime links added: 0. Runtime links changed: 0. Newly proved three-step chains: 0. The existing map has 40 conditions and 221 links, with 10 priority catalog gaps. Homelessness research #1166 is ready for source review, not approved calibration. Team 1/coordinator retain the outgoing housing chain; no numeric blend or onset lag was invented.
