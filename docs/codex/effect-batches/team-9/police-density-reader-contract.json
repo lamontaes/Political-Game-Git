@@ -1,0 +1,51 @@
+{
+  "status": "missing-full-population-producer",
+  "sourceHead": "f1f68420b5dc1d0f3825f462c29bb010a2b40e9a",
+  "cause": "police.officers-per-1000",
+  "existingRecords": [
+    {
+      "path": "src/simulation/public-budgets/staffing.ts",
+      "reader": "fundedStaff(world,town,policeStaffedProgram)",
+      "records": [
+        "history.workRelationships",
+        "history.workStatuses",
+        "history.workRoles"
+      ],
+      "coverage": "Active modeled residents of this town employed as Police officer by service:police organizations. Excludes officers residing outside town; not all sworn officers serving jurisdiction."
+    },
+    {
+      "path": "src/simulation/public-budgets/store.ts",
+      "record": "StaffingBaseline.headcount",
+      "coverage": "First-day modeled town funded staff count; not empirical department baseline."
+    },
+    {
+      "path": "src/simulation/public-budgets/store.ts",
+      "record": "PublicBudgetGovernment.population",
+      "coverage": "Serving government population; cannot automatically pair with modeled town resident officers."
+    }
+  ],
+  "requiredContract": {
+    "numerator": "Full sworn officer count serving precisely the covered jurisdiction, with source date and employment definition.",
+    "denominator": "Same geographic population and date; must reconcile municipal/county/state overlapping services.",
+    "density": "1000 * fullOfficerCount / matchedPopulation",
+    "baseline": "Positive same-unit initial density; missing or zero baseline must not invent relative growth."
+  },
+  "elasticity": {
+    "study": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
+    "table": "5",
+    "violent": {
+      "estimate": -0.34,
+      "standardError": 0.1,
+      "derivedNormal95CI": [-0.536, -0.144]
+    },
+    "property": {
+      "estimate": -0.17,
+      "standardError": 0.09,
+      "derivedNormal95CI": [-0.3464, 0.0064]
+    },
+    "unit": "Percent crime change per one percent sworn officer change.",
+    "limits": "Derived normal confidence intervals are sampling uncertainty, not empirical place-heterogeneity ranges. Not a direct coefficient per officer per1000."
+  },
+  "baselineResearch": "No matching nationwide jurisdiction baseline verified in this packet. FBI police employee tables are a research lead, not a claimed fetched source or universal number.",
+  "runtimeActivation": "NOT RUN; source producer absent. Coordinator owns elasticity engine and shared map."
+}
