@@ -1,0 +1,990 @@
+{
+  "schemaStatus": "PROPOSED_INPUT_TO_COORDINATOR_CONTRACT_NOT_ADMITTED_ENGINE_DATA",
+  "contractSource": "1137@1e44b58863169f42b70dbd488bd3df6964751f36:docs/codex/one-law-consequence-contract.md",
+  "sourceHead": "1977620ff0c00e1148055693e511e1d95ebede4b",
+  "owner": "Team3",
+  "assigned": 13,
+  "runtimeMigrated": 0,
+  "noNewProductionClaim": true,
+  "noGuessedNumbers": true,
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "catalogParameterKeys": ["rate", "threshold"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:fiscal.adopt-income-tax:direct",
+          "kind": "tax",
+          "when": "Existing paycheck assessment and payment activity.",
+          "who": "Named wage recipients covered by the operative state law and filing category.",
+          "what": "Assess actual taxable wages and allocate withholding to the actual state public account.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Operative marginal rates applied to covered annual taxable wage brackets; payment = actual allocated amount bounded by held payer cash.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Canonical resident state and operative law.",
+            "Actual filing category, wages, deduction/exemption and prior withheld amounts must exist."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Recompute prospective liabilities under the remaining operative law; preserve assessed and paid history, subject to actual refund law.",
+          "evidence": {
+            "sources": [
+              "data/research/money/state-income-tax-2026.json",
+              "docs/codex/effect-batches/team-3/state-tax-payment-check-receipt.json"
+            ],
+            "why": [
+              "The law creates a liability on covered taxable income.",
+              "A paycheck supplies the actual wage base.",
+              "A transfer cannot pay more than the payer holds."
+            ],
+            "who": "Named wage recipients covered by the operative state law and filing category.",
+            "conditions": [
+              "Canonical resident state and operative law.",
+              "Actual filing category, wages, deduction/exemption and prior withheld amounts must exist."
+            ],
+            "reverseOnRepeal": "Recompute prospective liabilities under the remaining operative law; preserve assessed and paid history, subject to actual refund law.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": [
+            "src/simulation/state-income-tax-law.ts",
+            "src/simulation/statutory-tax.ts"
+          ],
+          "missingCapabilities": [
+            "Newly enacted law terms need binding to the actual schedule, not a declaration alone.",
+            "Inherited estimated rate/deduction level draws require repair by shared engine owner."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "income-tax-to-poverty",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "household.poverty-pct",
+              "existingSource": "Census official poverty definition; Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+              "existingRange": null,
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 0,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            },
+            {
+              "existingLinkKey": "income-tax-to-out-migration",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "population.out-migration",
+              "existingSource": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+              "existingRange": null,
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 0,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "catalogParameterKeys": ["brackets"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:fiscal.graduated-income-tax:direct",
+          "kind": "tax",
+          "when": "Existing paycheck assessment and payment activity.",
+          "who": "The same covered state taxpayers, using their own taxable income.",
+          "what": "Apply marginal brackets to actual wages; stamp allocated state payments.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Sum each covered bracket portion multiplied by its operative marginal rate, then reconcile actual prior withholding.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Adoption and bracket law both operative.",
+            "Bracket units, thresholds and filer deductions must be resolved; no assumed rise for every taxpayer."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Use the remaining lawful schedule for future assessments; preserve completed payments and historical assessment records.",
+          "evidence": {
+            "sources": [
+              "data/research/money/state-income-tax-2026.json",
+              "docs/codex/effect-batches/team-3/state-tax-payment-check-receipt.json"
+            ],
+            "why": [
+              "Each marginal rate applies only to income within its bracket.",
+              "A higher bracket does not retroactively tax all lower-bracket income at the higher rate.",
+              "Actual cash allocation determines the payment."
+            ],
+            "who": "The same covered state taxpayers, using their own taxable income.",
+            "conditions": [
+              "Adoption and bracket law both operative.",
+              "Bracket units, thresholds and filer deductions must be resolved; no assumed rise for every taxpayer."
+            ],
+            "reverseOnRepeal": "Use the remaining lawful schedule for future assessments; preserve completed payments and historical assessment records.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": [
+            "src/simulation/state-income-tax-law.ts",
+            "src/simulation/statutory-tax.ts"
+          ],
+          "missingCapabilities": [
+            "Operative amended bracket terms must reach the canonical calculation.",
+            "No inferred revenue or universal taxpayer increase."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "graduated-income-tax-to-poverty",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "household.poverty-pct",
+              "existingSource": "Census official poverty definition",
+              "existingRange": null,
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 0,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            },
+            {
+              "existingLinkKey": "graduated-income-tax-to-out-migration",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "population.out-migration",
+              "existingSource": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+              "existingRange": null,
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 0,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "catalogParameterKeys": ["cap"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:fiscal.cap-property-tax-growth:direct",
+          "kind": "tax",
+          "when": "Actual annual property assessment/billing activity.",
+          "who": "Actual taxable-property owners with prior bills and a covered taxing jurisdiction.",
+          "what": "Constrain a covered property-tax bill, retaining statutory exceptions and actual recipient government.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Minimum of uncapped lawful bill and prior covered bill multiplied by one plus the operative growth cap; use only if the statute caps bills and the property satisfies its exceptions.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Distinguish bill cap from levy/assessment cap.",
+            "Actual prior bill, valuation, exemptions, reassessment triggers and new construction rules required."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Future assessments use the remaining statutory rules; repeal does not automatically undo past protected valuations or paid bills.",
+          "evidence": {
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
+            "why": [
+              "A statutory cap limits a legally covered bill or base.",
+              "The taxpayer owns a recorded taxable property.",
+              "Exceptions change what the cap legally covers."
+            ],
+            "who": "Actual taxable-property owners with prior bills and a covered taxing jurisdiction.",
+            "conditions": [
+              "Distinguish bill cap from levy/assessment cap.",
+              "Actual prior bill, valuation, exemptions, reassessment triggers and new construction rules required."
+            ],
+            "reverseOnRepeal": "Future assessments use the remaining statutory rules; repeal does not automatically undo past protected valuations or paid bills.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": null,
+          "missingCapabilities": [
+            "Actual property assessment/bill producer and cap category missing.",
+            "Jurisdiction-specific exceptions need researched operative data."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "property-tax-cap-to-math",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "school.math-proficient-pct",
+              "existingSource": "Figlio 1997, Journal of Public Economics 65(3); Downes and Figlio 1997, IRP DP 1142-97",
+              "existingRange": [-0.11, 0],
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 60,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "catalogParameterKeys": ["exempt", "coverage"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:fiscal.exempt-groceries-from-sales-tax:direct",
+          "kind": "tax",
+          "when": "Actual purchase invoice and tax settlement.",
+          "who": "Actual purchasers and sellers of covered food in the operative taxing jurisdiction.",
+          "what": "Remove only the covered sales-tax component from actual eligible purchases.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Eligible purchase taxable base multiplied by the remaining applicable rate; excluded grocery categories and other jurisdictions remain separately assessed.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Product classification and purchaser/seller jurisdiction known.",
+            "State exemption does not silently exempt independent local taxes."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Future covered purchases follow the remaining law; preserve paid invoices and historical taxes.",
+          "evidence": {
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
+            "why": [
+              "The law exempts a defined product category.",
+              "A purchase invoice records the actual covered base.",
+              "Removing that tax component changes the amount charged and remitted."
+            ],
+            "who": "Actual purchasers and sellers of covered food in the operative taxing jurisdiction.",
+            "conditions": [
+              "Product classification and purchaser/seller jurisdiction known.",
+              "State exemption does not silently exempt independent local taxes."
+            ],
+            "reverseOnRepeal": "Future covered purchases follow the remaining law; preserve paid invoices and historical taxes.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": null,
+          "missingCapabilities": [
+            "Actual product-category sales-tax invoice and remittance handler missing.",
+            "State/local grocery coverage and operative rate data required."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "grocery-exemption-to-poverty",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "household.poverty-pct",
+              "existingSource": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+              "existingRange": null,
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 0,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            },
+            {
+              "existingLinkKey": "grocery-exemption-to-food-insecurity",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "household.food-insecurity",
+              "existingSource": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+              "existingRange": [-0.035, -0.005],
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 6,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+      "catalogParameterKeys": ["required", "scope"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:fiscal.balanced-operating-budget:direct",
+          "kind": "institution-rule",
+          "when": "Budget proposal/adoption and legally specified execution checks.",
+          "who": "The actual government and covered operating funds under the operative legal requirement.",
+          "what": "Validate a proposed operating budget against its legal revenue/spending balance.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Covered lawful revenues plus legally admitted financing minus covered appropriations; enforce the legal balance constraint, not a fabricated spending cut.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Covered funds and permissible financing specified.",
+            "Actual revenue, appropriation and cash records required; borrowing exceptions are legal terms."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Future budgets lose this constraint only where repeal is legally effective; existing appropriations and obligations persist.",
+          "evidence": {
+            "sources": [
+              "src/simulation/policy-pack-us-policy-positions.ts",
+              "src/simulation/public-appropriation-balance.ts"
+            ],
+            "why": [
+              "The legal rule constrains which budget may be adopted.",
+              "Actual revenues and obligations determine the balance.",
+              "An official must choose a lawful tax, cut or financing action; the rule alone does not select it."
+            ],
+            "who": "The actual government and covered operating funds under the operative legal requirement.",
+            "conditions": [
+              "Covered funds and permissible financing specified.",
+              "Actual revenue, appropriation and cash records required; borrowing exceptions are legal terms."
+            ],
+            "reverseOnRepeal": "Future budgets lose this constraint only where repeal is legally effective; existing appropriations and obligations persist.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": ["src/simulation/public-appropriation-balance.ts"],
+          "missingCapabilities": [
+            "Catalog law-specific constraint admission to actual budget decision handler unproved.",
+            "No automatic service cut or invented revenue level."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "balanced-budget-to-borrowing-cost",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "gov.borrowing-cost",
+              "existingSource": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)",
+              "existingRange": [-20, 0],
+              "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
+              "existingLagMonths": 12,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "catalogParameterKeys": ["contribution"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:fiscal.fund-pensions-to-schedule:direct",
+          "kind": "price-cost",
+          "when": "Actual pension contribution due date and budget settlement.",
+          "who": "The recorded public employer/pension plan and government covered by the statute.",
+          "what": "Record the required pension contribution and actual funded transfer as distinct records.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Operative contribution share multiplied by the actual actuarially determined contribution; paid amount bounded by actual available funding.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Plan and employee coverage identified.",
+            "Actual actuarial contribution, accrued liability and due date required."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Future required contributions follow the remaining law; accrued benefits and already paid contributions are preserved.",
+          "evidence": {
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
+            "why": [
+              "The law requires a contribution against the plan liability.",
+              "The plan valuation supplies the actual actuarial contribution.",
+              "Government cash and lawful appropriations determine what can be transferred."
+            ],
+            "who": "The recorded public employer/pension plan and government covered by the statute.",
+            "conditions": [
+              "Plan and employee coverage identified.",
+              "Actual actuarial contribution, accrued liability and due date required."
+            ],
+            "reverseOnRepeal": "Future required contributions follow the remaining law; accrued benefits and already paid contributions are preserved.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": null,
+          "missingCapabilities": [
+            "Actual pension-plan actuarial valuation/contribution/transfer records missing.",
+            "No invented pension liability or contribution dollars."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "pension-funding-to-borrowing-cost",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "gov.borrowing-cost",
+              "existingSource": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
+              "existingRange": [-8, 0],
+              "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
+              "existingLagMonths": 36,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "catalogParameterKeys": ["floor"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:fiscal.minimum-reserve-balance:direct",
+          "kind": "institution-rule",
+          "when": "Budget adoption and actual reserve-withdrawal activity.",
+          "who": "The government and covered reserve fund under its operative law.",
+          "what": "Record required reserve and evaluate actual available reserves before a proposed draw.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Operative reserve share multiplied by actual covered annual spending; compare with actual reserve balance.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Covered expenditure base and withdrawal exceptions specified.",
+            "Actual reserve ownership and balance required."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Remove only the prospective statutory floor when lawful; preserve held assets, debts and completed withdrawals.",
+          "evidence": {
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
+            "why": [
+              "The law sets a minimum reserve as a share of a real spending base.",
+              "A reserve consists of recorded government resources.",
+              "A draw below that floor requires a lawful exception or different budget choice."
+            ],
+            "who": "The government and covered reserve fund under its operative law.",
+            "conditions": [
+              "Covered expenditure base and withdrawal exceptions specified.",
+              "Actual reserve ownership and balance required."
+            ],
+            "reverseOnRepeal": "Remove only the prospective statutory floor when lawful; preserve held assets, debts and completed withdrawals.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": ["src/simulation/public-appropriation-balance.ts"],
+          "missingCapabilities": [
+            "Dedicated actual reserve-fund balance and law-specific constraint admission unproved.",
+            "No drawn reserve level or automatically chosen cut."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "reserve-balance-to-borrowing-cost",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "gov.borrowing-cost",
+              "existingSource": "Pew Charitable Trusts 2017; Wagner 2004",
+              "existingRange": [-6, 0],
+              "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
+              "existingLagMonths": 24,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "catalogParameterKeys": ["target"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:labor-workforce.raise-minimum-wage:direct",
+          "kind": "pay",
+          "when": "Prospective pay-period term revision and existing payday settlement.",
+          "who": "Named employees with recorded work/pay relationships covered by the state floor.",
+          "what": "Raise prospective covered compensation terms and preserve attribution on actual payday transfers.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Maximum of existing protected compensation and the legally binding hourly floor multiplied by actual covered hours for the pay period.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Resolve each setting at its own jurisdiction.",
+            "Actual coverage, exceptions, higher floors and local preemption required.",
+            "Completed pay periods remain historical."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Use remaining legal floors for future terms; preserve earned/payments and independently protected compensation. Repeal does not automatically authorize a contractual pay cut.",
+          "evidence": {
+            "sources": [
+              "src/simulation/minimum-wage.ts",
+              "docs/codex/effect-batches/team-3/state-wage-enacted-check-receipt.json"
+            ],
+            "why": [
+              "The law forbids covered compensation below its floor.",
+              "Recorded work hours determine the covered period amount.",
+              "Actual employer resources determine completed cash transfer."
+            ],
+            "who": "Named employees with recorded work/pay relationships covered by the state floor.",
+            "conditions": [
+              "Resolve each setting at its own jurisdiction.",
+              "Actual coverage, exceptions, higher floors and local preemption required.",
+              "Completed pay periods remain historical."
+            ],
+            "reverseOnRepeal": "Use remaining legal floors for future terms; preserve earned/payments and independently protected compensation. Repeal does not automatically authorize a contractual pay cut.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": [
+            "src/simulation/living-world/town-pay.ts:raiseTownPayToMinimum",
+            "src/simulation/resources.ts"
+          ],
+          "missingCapabilities": [
+            "Shared generic pay handler migration must avoid double application.",
+            "Starting and enacted law same-engine proof pending."
+          ],
+          "onward": []
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
+      "catalogParameterKeys": ["target"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:labor-workforce.city-minimum-wage:direct",
+          "kind": "pay",
+          "when": "Prospective pay-period term revision and existing payday settlement.",
+          "who": "Named employees with recorded work/pay relationships covered by the city floor.",
+          "what": "Raise prospective covered compensation terms and preserve attribution on actual payday transfers.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Maximum of existing protected compensation and the legally binding hourly floor multiplied by actual covered hours for the pay period.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Resolve each setting at its own jurisdiction.",
+            "Actual coverage, exceptions, higher floors and local preemption required.",
+            "Completed pay periods remain historical."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Use remaining legal floors for future terms; preserve earned/payments and independently protected compensation. Repeal does not automatically authorize a contractual pay cut.",
+          "evidence": {
+            "sources": [
+              "src/simulation/minimum-wage.ts",
+              "docs/codex/effect-batches/team-3/state-local-wage-checks.json"
+            ],
+            "why": [
+              "The law forbids covered compensation below its floor.",
+              "Recorded work hours determine the covered period amount.",
+              "Actual employer resources determine completed cash transfer."
+            ],
+            "who": "Named employees with recorded work/pay relationships covered by the city floor.",
+            "conditions": [
+              "Resolve each setting at its own jurisdiction.",
+              "Actual coverage, exceptions, higher floors and local preemption required.",
+              "Completed pay periods remain historical."
+            ],
+            "reverseOnRepeal": "Use remaining legal floors for future terms; preserve earned/payments and independently protected compensation. Repeal does not automatically authorize a contractual pay cut.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": [
+            "src/simulation/living-world/town-pay.ts:raiseTownPayToMinimum",
+            "src/simulation/resources.ts"
+          ],
+          "missingCapabilities": [
+            "Shared generic pay handler migration must avoid double application.",
+            "Starting and enacted law same-engine proof pending."
+          ],
+          "onward": []
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "catalogParameterKeys": ["authorized", "coverage"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:labor-workforce.local-minimum-wage-authority:direct",
+          "kind": "right-permission",
+          "when": "Local legislative authority validation and pay-floor resolution.",
+          "who": "Covered local governments and their proposed wage-floor acts.",
+          "what": "Determine whether the locality may lawfully set the proposed floor.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "No payment amount: permission is an operative legal rule; a separately enacted binding local floor supplies compensation terms.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Actual locality, state authority and preemption terms required.",
+            "Permission alone does not enact a floor or raise anyone's wages."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Apply remaining authority/preemption prospectively; treatment of existing local acts follows the actual repeal/savings terms.",
+          "evidence": {
+            "sources": [
+              "data/research/powers-catalog/question-powers.json",
+              "src/simulation/minimum-wage.ts"
+            ],
+            "why": [
+              "A higher government defines whether local government has this authority.",
+              "A local act must also be enacted and operative.",
+              "Only a binding floor can change a covered employee compensation term."
+            ],
+            "who": "Covered local governments and their proposed wage-floor acts.",
+            "conditions": [
+              "Actual locality, state authority and preemption terms required.",
+              "Permission alone does not enact a floor or raise anyone's wages."
+            ],
+            "reverseOnRepeal": "Apply remaining authority/preemption prospectively; treatment of existing local acts follows the actual repeal/savings terms.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": ["src/simulation/minimum-wage.ts"],
+          "missingCapabilities": [
+            "Independent authority provenance through actual binding floor needs shared engine contract.",
+            "No permission-to-pay causal proof inferred."
+          ],
+          "onward": []
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "catalogParameterKeys": ["duration", "replacement"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:labor-workforce.paid-family-leave:premium",
+          "kind": "tax",
+          "when": "Actual paycheck assessment and withholding payment.",
+          "who": "Named covered wage recipients whose operative program is collecting contributions.",
+          "what": "Assess actual employee program premiums and stamp positive allocated payments.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Actual covered wages remaining under the annual cap multiplied by the operative employee premium rate; payment is the actual allocated transfer bounded by payer cash.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Contribution/benefit start dates, covered reason and waiting period separately resolved.",
+            "Actual employee coverage and wage history required.",
+            "Employer share cannot be assumed without employer coverage/headcount."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "End/recompute prospective premiums and eligibility as the actual repeal terms require; preserve accrued entitlements, assessed premiums and paid benefits.",
+          "evidence": {
+            "sources": [
+              "data/research/money/state-paid-leave-premiums-2026.json",
+              "data/research/money/state-paid-leave-benefits-2026.json",
+              "docs/codex/effect-batches/team-3/state-tax-payment-check-receipt.json",
+              "PR1295 paid-leave-main-repair-receipt.json"
+            ],
+            "why": [
+              "The law establishes covered contributions and leave entitlements.",
+              "Recorded lost work/pay supplies the individual benefit base.",
+              "The government pays through actual resources and the saved transfer provides the budget cost."
+            ],
+            "who": "Named covered wage recipients whose operative program is collecting contributions.",
+            "conditions": [
+              "Contribution/benefit start dates, covered reason and waiting period separately resolved.",
+              "Actual employee coverage and wage history required.",
+              "Employer share cannot be assumed without employer coverage/headcount."
+            ],
+            "reverseOnRepeal": "End/recompute prospective premiums and eligibility as the actual repeal terms require; preserve accrued entitlements, assessed premiums and paid benefits.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": [
+            "src/simulation/state-paid-leave-law.ts",
+            "src/simulation/statutory-tax.ts"
+          ],
+          "missingCapabilities": [
+            "Premium rate/cap/eligibility/waiting-period terms exceed current duration/replacement declarations.",
+            "Inherited estimated premium/replacement level draws require repair."
+          ],
+          "onward": []
+        },
+        {
+          "id": "team-3:labor-workforce.paid-family-leave:eligibility",
+          "kind": "coverage-eligibility",
+          "when": "Existing payroll assessment, eligible leave claim and benefit settlement.",
+          "who": "Named covered workers with actual eligible leave, lost pay and operative program.",
+          "what": "Record an actual covered leave claim and eligibility under operative program terms.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "No payment at eligibility determination; record actual covered leave days and covered wage loss from the individual work/health/household records.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Contribution/benefit start dates, covered reason and waiting period separately resolved.",
+            "Actual employee coverage and wage history required.",
+            "Employer share cannot be assumed without employer coverage/headcount."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "End/recompute prospective premiums and eligibility as the actual repeal terms require; preserve accrued entitlements, assessed premiums and paid benefits.",
+          "evidence": {
+            "sources": [
+              "data/research/money/state-paid-leave-premiums-2026.json",
+              "data/research/money/state-paid-leave-benefits-2026.json",
+              "docs/codex/effect-batches/team-3/state-tax-payment-check-receipt.json",
+              "PR1295 paid-leave-main-repair-receipt.json"
+            ],
+            "why": [
+              "The law establishes covered contributions and leave entitlements.",
+              "Recorded lost work/pay supplies the individual benefit base.",
+              "The government pays through actual resources and the saved transfer provides the budget cost."
+            ],
+            "who": "Named covered workers with actual eligible leave, lost pay and operative program.",
+            "conditions": [
+              "Contribution/benefit start dates, covered reason and waiting period separately resolved.",
+              "Actual employee coverage and wage history required.",
+              "Employer share cannot be assumed without employer coverage/headcount."
+            ],
+            "reverseOnRepeal": "End/recompute prospective premiums and eligibility as the actual repeal terms require; preserve accrued entitlements, assessed premiums and paid benefits.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": ["src/simulation/paid-leave-benefits.ts"],
+          "missingCapabilities": [
+            "Premium rate/cap/eligibility/waiting-period terms exceed current duration/replacement declarations.",
+            "Inherited estimated premium/replacement level draws require repair."
+          ],
+          "onward": []
+        },
+        {
+          "id": "team-3:labor-workforce.paid-family-leave:benefit",
+          "kind": "price-cost",
+          "when": "Actual eligible benefit settlement and government month close.",
+          "who": "Named covered workers with actual eligible leave, lost pay and operative program.",
+          "what": "Pay the actual eligible benefit from the state account and stamp actual government expenditure.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "Covered lost pay multiplied by the operative replacement schedule subject to actual cap/duration; completed payment is bounded by state-account cash. Budget cost equals actual transferred amount in the budget record unit.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Contribution/benefit start dates, covered reason and waiting period separately resolved.",
+            "Actual employee coverage and wage history required.",
+            "Employer share cannot be assumed without employer coverage/headcount."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "End/recompute prospective premiums and eligibility as the actual repeal terms require; preserve accrued entitlements, assessed premiums and paid benefits.",
+          "evidence": {
+            "sources": [
+              "data/research/money/state-paid-leave-premiums-2026.json",
+              "data/research/money/state-paid-leave-benefits-2026.json",
+              "docs/codex/effect-batches/team-3/state-tax-payment-check-receipt.json",
+              "PR1295 paid-leave-main-repair-receipt.json"
+            ],
+            "why": [
+              "The law establishes covered contributions and leave entitlements.",
+              "Recorded lost work/pay supplies the individual benefit base.",
+              "The government pays through actual resources and the saved transfer provides the budget cost."
+            ],
+            "who": "Named covered workers with actual eligible leave, lost pay and operative program.",
+            "conditions": [
+              "Contribution/benefit start dates, covered reason and waiting period separately resolved.",
+              "Actual employee coverage and wage history required.",
+              "Employer share cannot be assumed without employer coverage/headcount."
+            ],
+            "reverseOnRepeal": "End/recompute prospective premiums and eligibility as the actual repeal terms require; preserve accrued entitlements, assessed premiums and paid benefits.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": [
+            "src/simulation/paid-leave-benefits.ts",
+            "src/simulation/public-budgets/month.ts"
+          ],
+          "missingCapabilities": [
+            "Premium rate/cap/eligibility/waiting-period terms exceed current duration/replacement declarations.",
+            "Inherited estimated premium/replacement level draws require repair."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "paid-leave-to-mothers-work",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "labor.mothers-participation",
+              "existingSource": "to confirm",
+              "existingRange": null,
+              "existingUnit": "law in force",
+              "existingLagMonths": 12,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "catalogParameterKeys": ["authorized", "coverage"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:labor-workforce.public-sector-collective-bargaining:direct",
+          "kind": "right-permission",
+          "when": "Actual representation/bargaining request and employer response.",
+          "who": "Actual public employees and public employers within legally covered categories.",
+          "what": "Record the right to bargain and the covered employer legal duty; actual bargaining decisions remain separate.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "No automatic wage amount. Actual agreement terms and covered work/pay base determine any later pay change.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Actual public employment and category coverage required.",
+            "Subjects, procedures, exclusions and federal/state authority must be researched; no universal strike right."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Prospective bargaining authority follows remaining law; existing contracts and vested rights follow applicable savings/contract rules.",
+          "evidence": {
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
+            "why": [
+              "The statute confers a covered employee right and corresponding public-employer duty.",
+              "Employees and employer must take recorded bargaining actions.",
+              "A negotiated agreement, not permission alone, supplies any pay change."
+            ],
+            "who": "Actual public employees and public employers within legally covered categories.",
+            "conditions": [
+              "Actual public employment and category coverage required.",
+              "Subjects, procedures, exclusions and federal/state authority must be researched; no universal strike right."
+            ],
+            "reverseOnRepeal": "Prospective bargaining authority follows remaining law; existing contracts and vested rights follow applicable savings/contract rules.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": null,
+          "missingCapabilities": [
+            "Actual bargaining request/representation/response/agreement writer missing.",
+            "Kind-B admitted legal contract and jurisdiction-specific coverage required."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "public-bargaining-to-graduation",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "school.graduation-pct",
+              "existingSource": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
+              "existingRange": null,
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 0,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            },
+            {
+              "existingLinkKey": "public-bargaining-to-earnings",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "labor.median-earnings",
+              "existingSource": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
+              "existingRange": [-0.02, 0],
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 180,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+      "catalogParameterKeys": ["fee-prohibition", "coverage"],
+      "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
+      "consequences": [
+        {
+          "id": "team-3:labor-workforce.right-to-work:direct",
+          "kind": "right-permission",
+          "when": "Actual employment-condition or compulsory-fee assessment/enforcement activity.",
+          "who": "Actual employees and employers whose union-security arrangements fall within lawful covered categories.",
+          "what": "Prohibit an otherwise covered compulsory union-fee employment condition; preserve voluntary membership/dues.",
+          "amount": {
+            "status": "SYMBOLIC_BINDINGS_FOR_SHARED_SCHEMA",
+            "expression": "No automatic wage amount or zeroing of all dues. Actual prohibited compulsory condition and any recorded payment/remedy determine an individual financial consequence.",
+            "noOutcomeLevelDraw": true
+          },
+          "conditions": [
+            "Actual employment category and union-security contract required.",
+            "Federal limitations and separate public/private employment rules remain applicable.",
+            "Voluntary membership is distinct from compulsory payment."
+          ],
+          "lag": {
+            "legal": "Operative effective date and the actual activity date; no invented implementation lag.",
+            "empirical": null
+          },
+          "onRepeal": "Prospective compulsory-condition legality follows remaining law; repeal does not itself require union membership or a fee without a lawful actual agreement.",
+          "evidence": {
+            "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
+            "why": [
+              "The statute limits legally permitted employment conditions.",
+              "An actual employer/contract must impose the covered compulsory condition.",
+              "Voluntary payments are a worker choice and do not become prohibited merely from this rule."
+            ],
+            "who": "Actual employees and employers whose union-security arrangements fall within lawful covered categories.",
+            "conditions": [
+              "Actual employment category and union-security contract required.",
+              "Federal limitations and separate public/private employment rules remain applicable.",
+              "Voluntary membership is distinct from compulsory payment."
+            ],
+            "reverseOnRepeal": "Prospective compulsory-condition legality follows remaining law; repeal does not itself require union membership or a fee without a lawful actual agreement.",
+            "lagWhy": "A legal rule governs the covered activity only when operative. Existing earned, assessed or paid records retain historical law attribution.",
+            "aboutZero": false,
+            "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
+          },
+          "existingHandler": null,
+          "missingCapabilities": [
+            "Actual union-security condition/dues/decision/remedy records missing.",
+            "Jurisdiction coverage and federal exceptions need approved operative legal data."
+          ],
+          "onward": [
+            {
+              "existingLinkKey": "right-to-work-to-turnout",
+              "status": "REFERENCE_ONLY_NOT_ACTIVATED",
+              "parentExposureRequired": true,
+              "existingTarget": "voting.turnout-pct",
+              "existingSource": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
+              "existingRange": [-0.046, -0.015],
+              "existingUnit": "law in force says yes (1) rather than no (0)",
+              "existingLagMonths": 12,
+              "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
