@@ -546,3 +546,5 @@ Team 1 local writer is stopped and archived. Existing Team 1 claims transfer to 
 Team 4 claims transfer to cloud chat 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 after its actual current-main month profile and working receipt. Local Team 4 chat is archived; evidence remains preserved. Team 5 claims transfer to cloud chat 01a0f030-4338-73d2-9537-17649ef680fb after published checkpoint bc28a855c01eed87dcbea6d89323dcff0c2671a0. Local Team 5 is archived; no shared-schema release is implied.
 
 Team 8 cloud owns src/player/JobListingsPanel.tsx, src/presentation/job-listings-english.ts, its new test and docs/release/changes/team-8-jobs-english.md for one grounded screen migration. Proposed calendar claims are released without edits. Team 3 job-market and Team 5 callers remain separately owned.
+
+Team 3 owns only src/simulation/public-budgets/opening.ts raw Census source classification at the reported lines 784/795 and required observation-reader import. Preserve fiscal values and budget behavior. Team 2 retains principles-from-life.test.ts until its narrow release is acknowledged.
