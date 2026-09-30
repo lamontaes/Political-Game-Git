@@ -1,6 +1,6 @@
 import { confidantsOf } from "./confidants";
 import { ageOnDate } from "./dates";
-import { eventIndexOf } from "./event-index";
+import { eventById, eventIndexOf } from "./event-index";
 import { recordsByStringField } from "./history-index";
 import { personOwnsHome } from "./home-purchase";
 import { lifePlaceByJurisdictionId } from "./life-places";
@@ -20,7 +20,7 @@ import {
 import { affiliationAt } from "./living-world/party-evolution";
 import { TOWN_JOB_END_REASONS } from "./living-world/town-labor-market";
 import { placeReferencePopulation } from "./nationwide-world/place-population";
-import { personName } from "./people";
+import { factsForPerson, personName } from "./people";
 import { parentsOf } from "./people-family";
 import { personTrait } from "./people-traits";
 import { createFormationContext, recordPrinciples } from "./politics";
@@ -75,6 +75,7 @@ export interface PrinciplePull {
   /** Plain words for the formation note: what in their life pulls. */
   readonly because: string;
   readonly eventIds?: readonly EntityId[];
+  readonly factIds?: readonly EntityId[];
 }
 
 /**
@@ -220,14 +221,9 @@ function latestPrinciples(
   return latest;
 }
 
-/**
- * The stable-key prefix of the officeholder draw (governing/
- * officeholder-principles.ts). A seated officeholder's principles still come
- * from it: seated members have no recorded life yet (no home, family, work or
- * faith), so forming theirs from life would leave only the party (measured:
- * a Congress formed that way voted on party lines and enacted nothing in 200
- * days). This file leaves seated officeholders, and anyone the draw reached,
- * as they are.
+/** Legacy seeded rows remain intact when an old save is read. The ordinary
+ * life pass skips seated officials; the explicit officeholder pass forms new
+ * principles from their recorded lives and affiliations.
  */
 const OFFICEHOLDER_DRAW = "officeholder-principles/v1:";
 
@@ -256,8 +252,7 @@ function crimesAgainst(world: World, personId: EntityId): readonly EntityId[] {
     index = built;
   }
   return (index.get(personId) ?? []).filter(
-    (id) =>
-      (eventIndexOf(events).get(id)?.occurredAt ?? "") <= world.currentDate,
+    (id) => (eventById(world, id)?.occurredAt ?? "") <= world.currentDate,
   );
 }
 
@@ -391,13 +386,21 @@ export function principlePullsOf(
       });
 
   // The times they grew up in.
-  const born = Number(person.birthDate.slice(0, 4));
+  const facts = factsForPerson(person);
+  const birth = facts.find((fact) => fact.kind === "birth-date");
+  const born = Number((birth?.occurredAt ?? person.birthDate).slice(0, 4));
   for (const [principle, toward, because] of born <= COHORTS.olderThrough
     ? COHORTS.older
     : born >= COHORTS.youngerFrom
       ? COHORTS.younger
       : [])
-    pulls.push({ principle, toward, weight: 1, because });
+    pulls.push({
+      principle,
+      toward,
+      weight: 1,
+      because,
+      factIds: birth ? [birth.id] : [],
+    });
 
   // Faith and the other bodies they belong to.
   const memberships = activeOrganizationParticipationsAt(world, personId).map(
@@ -419,8 +422,17 @@ export function principlePullsOf(
     });
 
   // Place: the size of the town they live in.
-  const home = householdMembershipsAt(world, personId)[0]?.location
-    ?.jurisdictionId;
+  const residence = facts.find(
+    (fact) =>
+      fact.kind === "residence" &&
+      fact.endedAt === null &&
+      fact.occurredAt <= world.currentDate,
+  );
+  const home =
+    householdMembershipsAt(world, personId)[0]?.location?.jurisdictionId ??
+    residence?.jurisdictionId;
+  const residenceFacts =
+    residence && residence.jurisdictionId === home ? [residence.id] : [];
   const geoid = home ? lifePlaceByJurisdictionId(home)?.sourceGeoid : null;
   const population = geoid
     ? (placeReferencePopulation(geoid)?.value ?? null)
@@ -431,12 +443,14 @@ export function principlePullsOf(
       toward: "endorses",
       weight: 1,
       because: "they live in a small town",
+      factIds: residenceFacts,
     });
     pulls.push({
       principle: "tradition",
       toward: "endorses",
       weight: 1,
       because: "they live in a small town",
+      factIds: residenceFacts,
     });
   } else if (population !== null && population >= BIG_CITY_FROM)
     pulls.push({
@@ -444,6 +458,7 @@ export function principlePullsOf(
       toward: "endorses",
       weight: 1,
       because: "they live in a big city",
+      factIds: residenceFacts,
     });
 
   // Work and money.
@@ -632,6 +647,7 @@ function note(formed: FormedPrinciple): string {
 export function formPrinciplesFromLife(
   world: World,
   personIds: readonly EntityId[],
+  options: { readonly officeholders?: boolean } = {},
 ): World {
   const catalog = world.policyCatalog;
   const idForKey = new Map<string, EntityId>();
@@ -657,10 +673,11 @@ export function formPrinciplesFromLife(
     if (personId === controlled) return;
     const before = latestRows(world, personId);
     if (
-      seatedOfficeholder(world, personId) ||
-      [...before.values()].some((row) =>
-        row.stableKey.startsWith(OFFICEHOLDER_DRAW),
-      )
+      !options.officeholders &&
+      (seatedOfficeholder(world, personId) ||
+        [...before.values()].some((row) =>
+          row.stableKey.startsWith(OFFICEHOLDER_DRAW),
+        ))
     )
       return;
     const formed = principlesFromPulls(
@@ -697,6 +714,9 @@ export function formPrinciplesFromLife(
         formation: createFormationContext("experience:life", {
           relevantEventIds: [
             ...new Set(principle.pulls.flatMap((pull) => pull.eventIds ?? [])),
+          ].sort(),
+          sourceFactIds: [
+            ...new Set(principle.pulls.flatMap((pull) => pull.factIds ?? [])),
           ].sort(),
           note: note(principle),
         }),
