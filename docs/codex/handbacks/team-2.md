@@ -1,10 +1,12 @@
 # Nationwide lawmaking still needs its watched proof
 
-The candidate makes a chamber bring up a bill supported by its majority caucus and a chamber majority. Its sponsor is the member whose recorded principles press hardest. Cross-party cosponsors follow their own principles, and the party cue follows the sponsor. These changes have not established the requested nationwide result. The watched runs follow code merge under the latest dispatch. Senate integration, life-formed officeholder integration, and seat calibration await the law team's overlapping files.
+Majority-backed agendas, strongest-pressure sponsorship and principle-based cosponsors are merged. Their nationwide watched result is still unmeasured. Life formation remains ready on the law team's stack. Midterm weights, Senate integration and opening-seat calibration remain unfinished. The cloud continuation has received the final local handoff and can continue within its declared paths.
 
 ## MERGED
 
-Nothing from Team 2 is merged. [Draft PR 1136](https://github.com/lamontaes/Political-Game-Git/pull/1136) preserves the candidate checkpoint at `1a17afe59090e12e011cbf5cb9427cd52d031e3e`. It is not ready for acceptance. Claude retains merge authority and GitHub/browser validation.
+Live GitHub verifies three merges: [PR #1146](https://github.com/lamontaes/Political-Game-Git/pull/1146) brings up majority-backed agendas; [PR #1147](https://github.com/lamontaes/Political-Game-Git/pull/1147) chooses the member with the strongest recorded pressure to sponsor; [PR #1150](https://github.com/lamontaes/Political-Game-Git/pull/1150) makes cosponsors judge bills from their principles. Their merge commits are `97ff010685a63835098fd007a23bc49c6da7a599`, `cc4d2798933693ceadaff9f87865dbb23bd7ae05` and `d12f2d4862bb1db48ec6aa7fe0273459b966932c`.
+
+[PR #1152](https://github.com/lamontaes/Political-Game-Git/pull/1152) forms officeholder principles from recorded lives. It remains open at `0a13f1393f0225d4f238b109064923c4c4023abb`, following the open law PR #1131. [Draft PR #1136](https://github.com/lamontaes/Political-Game-Git/pull/1136) preserves unfinished candidates and research. The historical sections below retain their original receipts; this section and the final cloud checkpoint establish the current transfer state. Only cloud Merge may merge after Claude CTO's current-head approval.
 
 ## WHAT EMERGED
 
@@ -192,10 +194,38 @@ All owned source and research are preserved for the cloud replacement. Local imp
 
 Registered local workspace: `/Users/lamontae/.codex/worktrees/succession-complete/PG-LAND`, owner OCD-SUCCESSION. Final checkout: `codex/wave1-state-governing`. The preceding published checkpoint is `22cec62c8e7a70049b48bf4dfa2a45543ba05724`; the final migration commit adds only preserved research receipts and this handoff. Its exact published head is in the coordinator's final receipt and draft PR #1136.
 
-Ready code heads are unchanged: #1146 `ad175689597a3971f93e1384fd36f4470e3ca3c4`; #1147 `c40adfb0a92789bde5e34e245b0917ab25a07c04`; #1150 `49eca5208d7c6a96a84885308117a7c05dea5815`; #1152 `0a13f1393f0225d4f238b109064923c4c4023abb`. Main-line order is #1146, #1147, #1150. Life follows Team 1's #1131 on its law branch. Check live merge state before resuming; these heads' scoped checks are recorded above.
+Ready code heads at local handoff were unchanged:
+
+- Majority agenda #1146: `ad175689597a3971f93e1384fd36f4470e3ca3c4`.
+- Strongest-pressure sponsorship #1147: `c40adfb0a92789bde5e34e245b0917ab25a07c04`.
+- Principle cosponsors #1150: `49eca5208d7c6a96a84885308117a7c05dea5815`.
+- Recorded-life formation #1152: `0a13f1393f0225d4f238b109064923c4c4023abb`.
+
+Main-line order was #1146, #1147, #1150. Life follows Team 1's #1131 on its law branch. These heads' scoped checks are recorded above. The current MERGED section supersedes their historical merge status.
 
 The separate mood branch `codex/wave1-smooth-midterms` at `7b8920ca13a59fe8a55453edb9bdfef0691e61a6` is preserved as WIP, not ready code. Its unsupported response coefficients must not be accepted. The draft candidate also preserves unfinished reconciliation/unanimous-consent wiring, chamber calibration and nationwide stage-count proof. No direct assignment of source seat totals is authorized. The missing model evidence has been posted for the standing research queue.
 
 Cloud-readable copies of the five public research receipts are now in `data/research/midterm-calibration.json`, under `migrationResearchReceipts`, with original local paths and SHA-256 hashes. The original temporary evidence remains on the Mac. Prior focused test/typecheck receipts and interrupted-world limits are preserved above. No new implementation or tests began for this migration.
 
 At final handoff inspection, the workspace had no dirty or untracked paths. Process metadata showed no owned Node/npm task with this workspace as its working directory, and no running command naming Team 2 task scripts. The single research helper is completed. No lock is held or queued. The workspace, evidence, other owners' work, protected play folder, saves and port remain untouched. Local chat archival waits for the cloud working checkpoint.
+
+## Cloud transfer checkpoint
+
+The coordinator released the final local writer. This single registered cloud checkout received the final local handoff at `ba9808194210fe9f49c4f24e46ef778a13546406` by fast-forward, on `codex/wave1-state-governing`. The final handback and all five preserved public research receipts were read.
+
+The separate `codex/wave1-smooth-midterms` ref remains WIP at `7b8920ca13a59fe8a55453edb9bdfef0691e61a6`. Its coefficients remain unsupported.
+
+Measured here on the final handoff source: four focused files passed, 22/22 cases, in 18.36 seconds, with at most two workers:
+
+- Bill-stage collector: `scripts/governance-proof/stages.test.ts`.
+- Senate procedure reader: `src/simulation/governing/congress-procedure.test.ts`.
+- Midterm reader: `src/simulation/national-mood.test.ts`.
+- Chamber calibration: `src/simulation/nationwide-world/state-chamber-calibration.test.ts`.
+
+These fixtures do not establish statewide outcomes, supported coefficients or parliamentary completeness. Scoped TypeScript, source lint, zero-dice, full simulations and browser checks were NOT RUN in this cloud checkpoint. Earlier receipts retain their named heads.
+
+Workspace preflight passed. The first dependency install failed because npm's default cache was outside the writable workspace. The guarded retry used `/workspace/.npm-cache` and installed 183 packages. The generic 1 GiB fixture reservation was refused with 838 MiB usable. A bounded 64 MiB reservation covered these four fixture files and their log, preserving the unchanged 25 GiB reserve until the command ended. No policy override or cleanup occurred.
+
+The exact active continuation paths are listed in this branch's `docs/codex/claims.md`. Core law files, the Team 1 officeholder caller and Team 3 population readers are excluded. The coordinator must reconcile the central claim record. No helper or new project copy was created. The stopped local workspace and original evidence remain preserved.
+
+Next: inspect the preserved Senate route against its source authority, identify the exact law-writer and clock seams, and request only those ownership releases needed for a small ready piece. The unsupported mood model remains with the standing research queue. No researched coefficient, source seat total or watched outcome will be fabricated. Five-year watched proofs remain post-merge work on main. Independent report-agent review remains NOT RUN under the explicit helper limit.
