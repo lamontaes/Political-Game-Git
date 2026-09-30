@@ -446,7 +446,7 @@ export function WorldOrientationPanel({
                 </div>
               </div>
             </div>
-          ) : (
+          ) : step.key === "locality" ? null : (
             <SceneBackdrop backdrop={backdrop} />
           )}
           <div className="pg-orientation-scrim" aria-hidden="true" />
