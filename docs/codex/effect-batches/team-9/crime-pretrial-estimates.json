@@ -1,0 +1,50 @@
+{
+  "area": "crime-justice",
+  "primarySource": "https://www.nber.org/system/files/working_papers/w22511/w22511.pdf",
+  "version": "Previously downloaded/read working paper; finalAER comparison remains open.",
+  "population": "Marginal Philadelphia and Miami-Dade defendants whose pretrial release changes with assigned judge; formal employment from tax records.",
+  "rows": [
+    {
+      "linkId": "pretrial-detention-to-conviction",
+      "table": "4,column7",
+      "exposure": "Pretrial release versus detention,judge-instrumented local effect.",
+      "followUp": "Case disposition",
+      "estimateProbabilityDifference": -0.156,
+      "standardError": 0.034,
+      "derivedNormal95CI": [-0.22264, -0.08936],
+      "detentionContrastEstimate": 0.156,
+      "detentionContrastDerivedCI": [0.08936, 0.22264],
+      "contrastLimit": "Sign reversal expresses same binary comparison,not measured repeal or effect for every defendant."
+    },
+    {
+      "linkId": "pretrial-detention-to-employment",
+      "table": "7,column7",
+      "exposure": "Pretrial release versus detention,judge-instrumented local effect.",
+      "followUp": "Years1\u20132",
+      "estimateProbabilityDifference": 0.037,
+      "standardError": 0.043,
+      "derivedNormal95CI": [-0.04728, 0.12128],
+      "detentionContrastEstimate": -0.037,
+      "detentionContrastDerivedCI": [-0.12128, 0.04728],
+      "contrastLimit": "Sign reversal expresses same binary comparison,not measured repeal or effect for every defendant."
+    },
+    {
+      "linkId": "pretrial-detention-to-employment",
+      "table": "7,column7",
+      "exposure": "Pretrial release versus detention,judge-instrumented local effect.",
+      "followUp": "Years3\u20134",
+      "estimateProbabilityDifference": 0.102,
+      "standardError": 0.053,
+      "derivedNormal95CI": [-0.00188, 0.20588],
+      "detentionContrastEstimate": -0.102,
+      "detentionContrastDerivedCI": [-0.20588, 0.00188],
+      "contrastLimit": "Sign reversal expresses same binary comparison,not measured repeal or effect for every defendant."
+    }
+  ],
+  "rangeMeaning": "Normal95intervals calculated from reported SE,not reported study CI or across-place heterogeneity.",
+  "unit": "Absolute probability differences per release-versus-detention contrast; not relative percent or per detention-rate percentage point.",
+  "lagLimits": "Employment years1\u20132 and3\u20134 remain separate. Conviction at actual case disposition; no instant universal lag established.",
+  "missingRuntimeContract": "Covered marginal exposure records and baseline outcome among that covered population; cannot divide by whole detained mean or apply city-wide coefficient.",
+  "aboutZero": false,
+  "runtimeActivation": "NOT RUN; no sharedmap edits."
+}
