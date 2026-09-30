@@ -1,27 +1,21 @@
+import {
+  censusDemographicObservation,
+  decennialPopulation,
+  populationReference,
+  censusDemographics,
+  representedPopulation,
+} from "./represented-population";
+import { lifePlaceByKey } from "../life-places";
+import type { World } from "../types";
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import {
   PLACE_POPULATION_META,
   PLACE_POPULATION_ROWS,
 } from "./place-population.generated";
 
-/**
- * A town's population, where the game holds it.
- *
- * The Census Bureau's Vintage 2025 estimate for July 1, 2025, for every
- * incorporated place in the fifty states and D.C., keyed by 7-digit place
- * GEOID (research answer `place-population-today`). A place with no estimate
- * reads null, never 0; the few places the Census Bureau itself counts as 0
- * read 0.
- *
- * This is the reference figure the world starts from, not a live count. The
- * owner decided on 2026-09-23 that the game applies realistic drift at start
- * and then lets its own people and events move a town's size; how much drift
- * is not set yet, so no drift is applied here. Never show this number to the
- * player as the town's exact population today.
- *
- * Not covered: Urban Honolulu, a census-designated place, and Puerto Rico,
- * which has no incorporated places (its municipios are not game governments).
- */
+/** Annual incorporated-place observations stay separate from the game's
+ * generated counts. CDPs, counties and territories use their own reference
+ * sources and broad comparable distributions at the game reader boundary. */
 let table: ReadonlyMap<string, number> | null = null;
 
 function load(): ReadonlyMap<string, number> {
@@ -35,8 +29,17 @@ function load(): ReadonlyMap<string, number> {
   return table;
 }
 
-/** The town's reference population, or null where the game does not hold it. */
-export function placePopulation(placeGeoid: string): number | null {
+/** World-aware count when available; otherwise a researched reference anchor.
+ * Missing observations use the national comparable distribution, never zero. */
+export function placePopulation(placeGeoid: string, world?: World): number {
+  const place = world ? lifePlaceByKey(placeGeoid) ?? lifePlaceByKey(`county:${placeGeoid}`) : null;
+  if (place && world) return representedPopulation(world, place.context.jurisdiction.id).population;
+  return load().get(placeGeoid) ?? populationReference(placeGeoid).population ?? censusDemographics(placeGeoid, world).counts.population!;
+}
+
+/** Raw annual observation, for source classification and pre-world fixtures.
+ * A missing observation is not an empty place or a generated population. */
+export function placePopulationObservation(placeGeoid: string): number | null {
   return load().get(placeGeoid) ?? null;
 }
 
@@ -63,11 +66,12 @@ const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
 >;
 
 /** Which published figure a town's reference population comes from. */
-export type PlacePopulationSource = "census-estimate-2025" | "acs-2020-2024";
+export type PlacePopulationSource =
+  "census-estimate-2025" | "acs-2020-2024" | "decennial-census-2020" | "island-census-2020" | "researched-calibration-anchor" | "researched-comparable-distribution";
 
 /**
- * A town's reference population from the best figure the Census Bureau
- * publishes for it, or null where the game holds none.
+ * A town's reference population from its published figure or a labeled
+ * comparable-distribution anchor where no observation exists.
  *
  * The Vintage 2025 estimate covers incorporated places only. A
  * census-designated place, such as Kittery, Maine, Urban Honolulu or East Los
@@ -78,10 +82,20 @@ export type PlacePopulationSource = "census-estimate-2025" | "acs-2020-2024";
  */
 export function placeReferencePopulation(
   placeGeoid: string,
-): { readonly value: number; readonly source: PlacePopulationSource } | null {
-  const estimate = placePopulation(placeGeoid);
-  if (estimate !== null)
+): { readonly value: number; readonly source: PlacePopulationSource } {
+  const estimate = load().get(placeGeoid);
+  if (estimate !== undefined)
     return { value: estimate, source: "census-estimate-2025" };
-  const acs = ACS_PLACE_POPULATION[placeGeoid];
-  return acs === undefined ? null : { value: acs, source: "acs-2020-2024" };
+  const acs =
+    censusDemographicObservation(placeGeoid)?.counts.population ??
+    ACS_PLACE_POPULATION[placeGeoid];
+  if (acs !== undefined && acs > 0)
+    return { value: acs, source: "acs-2020-2024" };
+  // A rolling survey zero does not erase residents enumerated by the Census.
+  // A published annual zero above remains a real zero.
+  const enumerated = decennialPopulation(placeGeoid)?.[0];
+  if (enumerated !== undefined && Number.isFinite(enumerated) && enumerated > 0)
+    return { value: enumerated, source: "decennial-census-2020" };
+  const reference = populationReference(placeGeoid);
+  return { value: reference.population ?? censusDemographics(placeGeoid).counts.population!, source: reference.source === "unknown" ? "researched-comparable-distribution" : reference.source };
 }

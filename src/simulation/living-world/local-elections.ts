@@ -1034,7 +1034,7 @@ function countVotes(
   // A ward seat's voters are its ward's residents (`town-wards.ts`).
   const plan = councilWardPlan(unit);
   const map = townWardMap(world, unit);
-  const roster = townRoster(town);
+  const roster = townRoster(town, world);
   const [from, to] =
     map && isWardSeat(plan, seat)
       ? wardRange(map, seatWard(map, seat))
