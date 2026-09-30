@@ -1,4 +1,5 @@
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
+import { recordOpeningWorkLocation } from "./opening-work-location";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import {
@@ -249,7 +250,11 @@ function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
     openingData === "playtest65-v2" ||
     openingData === "playtest65-v3";
   const placed = versionedOpening
-    ? establishOpeningLocation(economic, game.playerPersonId)
+    ? establishOpeningLocation(
+        economic,
+        game.playerPersonId,
+        session.setup.openingWorkLocationVersion,
+      )
     : economic;
   const staffed = establishOpeningOfficeholders(placed, game.playerPersonId, {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
@@ -572,7 +577,11 @@ export function createOpeningLifeController(setup: NewGameSetup) {
 }
 
 /** Canonical initial placement; orientation itself never opens an encounter. */
-function establishOpeningLocation(world: World, personId: EntityId): World {
+function establishOpeningLocation(
+  world: World,
+  personId: EntityId,
+  version?: "schedule-v1",
+): World {
   if (
     world.history.events.some(
       (event) =>
@@ -581,6 +590,10 @@ function establishOpeningLocation(world: World, personId: EntityId): World {
     )
   )
     return world;
+  if (version === "schedule-v1" && pressOpeningApplies(world)) {
+    const scheduled = recordOpeningWorkLocation(world, personId);
+    if (scheduled !== world) return scheduled;
+  }
   const membership = householdMembershipsAt(world, personId).find(
     (item) => item.state.residenceRole === "primary",
   );

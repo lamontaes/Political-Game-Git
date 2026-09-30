@@ -12,6 +12,7 @@ import {
 } from "../simulation";
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
+import { openingWorkLocation } from "./opening-work-location";
 import {
   currentOpeningLifeScene,
   openingLifeLocation,
@@ -119,6 +120,17 @@ export function resolveOpeningPlaySceneContext(
       { presentPeople },
       activityVenue,
     );
+
+  const workArrival = openingWorkLocation(world, personId);
+  if (workArrival?.context.location?.setting === "work")
+    return {
+      purpose: "activity",
+      locationKey: "life-circumstance:covered-shift",
+      sceneId: null,
+      reason: workArrival.summary,
+      placeLabel: workArrival.context.location.label,
+      presentPeople: [],
+    };
 
   if (setting === "neighborhood" || setting === null)
     return {

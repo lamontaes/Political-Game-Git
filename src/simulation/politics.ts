@@ -251,6 +251,12 @@ function checkPrincipleInput(world: World, input: PrincipleRecordInput): void {
     input.personId,
   );
   assertMember(PRINCIPLE_STANCES, input.stance, "principle stance");
+  if (
+    !Number.isFinite(input.strength) ||
+    input.strength < 0 ||
+    input.strength > 1
+  )
+    throw new Error("Principle strength must be finite and in [0, 1].");
   assertMember(CONVICTIONS, input.conviction, "principle conviction");
   assertMember(FLEXIBILITIES, input.flexibility, "principle flexibility");
   assertOptional(input.qualification, "Principle qualification");

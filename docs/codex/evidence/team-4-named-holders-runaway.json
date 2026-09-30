@@ -1,0 +1,231 @@
+{
+  "status": "Full changed test file PASS; fixture setup repair only, no production speed or filing fix",
+  "baseline": {
+    "head": "727c9dc85246f07f225aa1139a13aa28a73ca13d",
+    "seconds": 900.0130538660001,
+    "exitCode": 124,
+    "signal": null,
+    "error": null,
+    "command": "timeout 900s npx vitest run src/presentation/named-federal-and-state-holders.test.ts --maxWorkers=1 --reporter=verbose"
+  },
+  "failedFirstCandidate": {
+    "head": "90ad2e74b48690544d1082c7605a47dfd6180cad",
+    "seconds": 35.798162229,
+    "exitCode": 1,
+    "signal": null,
+    "error": null,
+    "command": "timeout 900s npx vitest run src/presentation/named-federal-and-state-holders.test.ts --maxWorkers=1 --reporter=verbose"
+  },
+  "failedFirstCandidateReason": "Missing canonical national jurisdiction; preserved source commit 90ad2e74b48690544d1082c7605a47dfd6180cad",
+  "correctedCandidate": {
+    "head": "a1e382b4a4b8b7de16c31868e51c38c53c01f073",
+    "seconds": 37.016716722999995,
+    "exitCode": 0,
+    "signal": null,
+    "error": null,
+    "command": "timeout 900s npx vitest run src/presentation/named-federal-and-state-holders.test.ts --maxWorkers=1 --reporter=verbose"
+  },
+  "vitestDurationSeconds": 36.08,
+  "vitestTestsSeconds": 14.89,
+  "tests": {
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "perCaseSeconds": [4.176, 3.619, 3.335, 3.759]
+  },
+  "contract": {
+    "originalCasesPreserved": 4,
+    "originalAssertionsPreserved": true,
+    "timeoutsUnchanged": true,
+    "timeoutLiterals": ["900_000", "900_000", "900_000"],
+    "deepGuardUnchanged": true,
+    "productionFilesChanged": 0,
+    "sharedPassUntilChanged": false
+  },
+  "partialProgressTrace": {
+    "guard": "CLI outside Vitest deep guard; not a full-file timing",
+    "stoppedIntentionally": true,
+    "completedPasses": 11,
+    "opening": {
+      "kind": "opening",
+      "seconds": 2.4402202020000003,
+      "date": "2026-01-05",
+      "people": 9393,
+      "events": 672
+    },
+    "lastCompletedPass": {
+      "kind": "pass",
+      "step": 10,
+      "seconds": 165.038135121,
+      "from": "2026-11-01",
+      "date": "2026-12-01",
+      "people": 18249,
+      "events": 48577,
+      "decisions": 15078,
+      "sameWorld": false,
+      "signed": 0
+    }
+  },
+  "workedFixture": {
+    "kind": "authored procedural fixture; not ordinary bill-production or a watched-law proof",
+    "sourceHead": "a1e382b4a4b8b7de16c31868e51c38c53c01f073",
+    "seed": "named-holders",
+    "fixtureState": "AK",
+    "date": "2026-01-05",
+    "peopleBefore": 9393,
+    "peopleAfter": 9393,
+    "presidentId": "person_c234e060e1dc323f",
+    "presidentName": "Kai Morse",
+    "measureId": "legislative-measure_b400d7fb7f4bb25c",
+    "eventId": "event_0077c2f09d87c3bb",
+    "eventSummary": "President Kai Morse signed H.R. named-holder fixture.",
+    "participants": [
+      {
+        "personId": "person_c234e060e1dc323f",
+        "role": "focus:subject",
+        "detail": "President"
+      }
+    ],
+    "rationale": "The President's party raised no objection to the bill.",
+    "phase": "awaiting-enactment"
+  },
+  "checks": {
+    "fullFile": "4/4 PASS, 0 skipped, maxWorkers1",
+    "strictTypes": "1 root, 1099 files, 0 diagnostics",
+    "lint": "PASS",
+    "format": "PASS",
+    "whitespace": "PASS",
+    "release": "FAIL unchanged wave1-playtest-copy header; reproduced on clean pinned main",
+    "zeroDice": "FAIL 0 new/3 stale; reproduced on clean pinned main",
+    "spelling": "FAIL four quoted examples; reproduced on clean pinned main"
+  },
+  "mainGateResults": {
+    "release": {
+      "exitCode": 1,
+      "error": null
+    },
+    "zeroDice": {
+      "exitCode": 1,
+      "error": null
+    },
+    "spelling": {
+      "exitCode": 1,
+      "error": null
+    }
+  },
+  "notRun": [
+    "full suite",
+    "browser",
+    "game year/month speed",
+    "ordinary Congress introduction/signature proof",
+    "random-place acceptance",
+    "independent reviewer"
+  ],
+  "artifacts": [
+    {
+      "path": "test-results/speed/named-holders-before-time.json",
+      "bytes": 278,
+      "sha256": "e4512a7119d1c74644b87e22fe77cb3a2f17c53a7506069598ab74e0b84d0471"
+    },
+    {
+      "path": "test-results/speed/named-holders-before.log",
+      "bytes": 5606,
+      "sha256": "7109215802d2972b1810cdcb761290428f66ce1bd4dc7447f0d8ffd023fa0317"
+    },
+    {
+      "path": "test-results/speed/named-holders-after-time.json",
+      "bytes": 271,
+      "sha256": "1b94469db9dc4c6d8179ee36a2b5560837a7fa05567675936df3fcdee4ce3661"
+    },
+    {
+      "path": "test-results/speed/named-holders-after.log",
+      "bytes": 7496,
+      "sha256": "185e0502c5fdd6a1fb91e434ff27b5bae7ae7be6a627ecba4d3fb5e8cdbc2dd5"
+    },
+    {
+      "path": "test-results/speed/named-holders-after-fixed-time.json",
+      "bytes": 277,
+      "sha256": "7a3b709be8d274c978bb8a69ff42190ddc42a02d581b80f7d98896b53364c204"
+    },
+    {
+      "path": "test-results/speed/named-holders-after-fixed.log",
+      "bytes": 6615,
+      "sha256": "2a7944a3e158c95bffc9a236cbc13fc41005661a76e95c61a27262b1ff06db51"
+    },
+    {
+      "path": "test-results/speed/named-holders-progress.ts",
+      "bytes": 1379,
+      "sha256": "407a8f83bda4c8e44991a773de524fa48b5168e31aa857d955a2ab8b372898ba"
+    },
+    {
+      "path": "test-results/speed/named-holders-progress.log",
+      "bytes": 2035,
+      "sha256": "6f5d38b5e08718b7f9bd9353ea22f517da1b361a48586d9987e76c26d559ca8e"
+    },
+    {
+      "path": "test-results/speed/named-holders-file-timing.mjs",
+      "bytes": 839,
+      "sha256": "8163674f97c145ff9275d7e9bb21c502a4d18d8cbd297d617ada0fd13bff0bdc"
+    },
+    {
+      "path": "test-results/speed/named-holders-worked-fixture.json",
+      "bytes": 771,
+      "sha256": "392dc99f64a99c09c6a5840a0d77a74eb1be4986d5020ceba7485f58c1af8050"
+    },
+    {
+      "path": "test-results/speed/named-holders-worked-fixture.log",
+      "bytes": 761,
+      "sha256": "7f63650b48b9d90318f91f1df47445499af51ddb2b60d411628761ec7c7c8448"
+    },
+    {
+      "path": "test-results/speed/named-holders-types.log",
+      "bytes": 33,
+      "sha256": "e53aacc4b85fff40ec7efdce77a79d27830fb896284d51140c428986881d3fd6"
+    },
+    {
+      "path": "test-results/speed/named-holders-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-results/speed/named-holders-format.log",
+      "bytes": 66,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "test-results/speed/named-holders-release.log",
+      "bytes": 477,
+      "sha256": "245f7744cdbd76f6779887a5f22c16d7e829cb9da4db69155d50a04ac0eab0ca"
+    },
+    {
+      "path": "test-results/speed/named-holders-zero-dice.log",
+      "bytes": 619,
+      "sha256": "050d6a46e5f45fff490927011f7ae00e785bc30602af583a7a2b3e8fa0a4f86a"
+    },
+    {
+      "path": "test-results/speed/named-holders-spelling.log",
+      "bytes": 631,
+      "sha256": "5de2a2d8b5ec4169a6b81c300baecceaa8e3ce83efeeb2c8c6776068d3fa966c"
+    },
+    {
+      "path": "test-results/speed/named-holders-main-gates.json",
+      "bytes": 176,
+      "sha256": "d387f8997d9a47a38bde355c5d793e65bd1e074d3fb29d7d0260acd77ee288ed"
+    },
+    {
+      "path": "test-results/speed/named-holders-main-release.log",
+      "bytes": 477,
+      "sha256": "245f7744cdbd76f6779887a5f22c16d7e829cb9da4db69155d50a04ac0eab0ca"
+    },
+    {
+      "path": "test-results/speed/named-holders-main-zeroDice.log",
+      "bytes": 827,
+      "sha256": "b8ca0e04ee4d077b7ceecae108a665ad481ae8c5b59bb178c89d7152f57e7b12"
+    },
+    {
+      "path": "test-results/speed/named-holders-main-spelling.log",
+      "bytes": 631,
+      "sha256": "5de2a2d8b5ec4169a6b81c300baecceaa8e3ce83efeeb2c8c6776068d3fa966c"
+    }
+  ]
+}

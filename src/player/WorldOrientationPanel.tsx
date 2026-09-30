@@ -1,6 +1,7 @@
 import "./world-orientation.css";
 import "./opening-legislature.css";
 import "./opening-family.css";
+import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
   useMemo,
@@ -248,17 +249,10 @@ export function WorldOrientationPanel({
         title: "Your life so far",
         // Parents are on the family screen, so they are not named twice; and
         // an empty household is left unsaid rather than reported as a record.
-        summary: (
-          snapshot.beats.find((beat) => beat.key === "your-life")?.facts ?? []
-        )
-          .filter(
-            (fact) =>
-              !/^No one else is recorded/.test(fact) &&
-              !(family?.parents ?? []).some((parent) =>
-                fact.startsWith(parent.introduction.split(",")[0]!),
-              ),
-          )
-          .join(" "),
+        summary:
+          world && personId
+            ? projectLifeSoFarEnglish(world, personId).sentences.join(" ")
+            : "",
         people: [],
         chambers: [],
       },
