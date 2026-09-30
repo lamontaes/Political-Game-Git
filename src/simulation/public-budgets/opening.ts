@@ -19,7 +19,7 @@ import {
   primaryReading,
 } from "../municipal-government";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { placePopulation } from "../nationwide-world/place-population";
+import { placePopulationObservation } from "../nationwide-world/place-population";
 import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
@@ -781,7 +781,7 @@ function localOpening(
       ? (COUNTY_POPULATION[candidate.geoid!] ??
         ACS_MUNICIPIO_POPULATION[candidate.geoid!] ??
         null)
-      : (placePopulation(candidate.geoid!) ??
+      : (placePopulationObservation(candidate.geoid!) ??
         acsPopulation ??
         ACS_TOWN_POPULATION[candidate.geoid!] ??
         null);
@@ -792,7 +792,7 @@ function localOpening(
       ? COUNTY_POPULATION[candidate.geoid!] !== undefined
         ? "BEA 2024"
         : "ACS 2020-2024 five-year"
-      : placePopulation(candidate.geoid!) !== null
+      : placePopulationObservation(candidate.geoid!) !== null
         ? "Census 2025"
         : "ACS 2020-2024 five-year";
   const scale = population * BUDGET_CALIBRATION;

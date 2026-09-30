@@ -54,7 +54,10 @@ import { householdMixForJurisdiction } from "../household-mix";
 import type { HouseholdShape } from "../household-mix";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
-import { representedPopulation, populationKeyForPlace } from "../nationwide-world/represented-population";
+import {
+  representedPopulation,
+  populationKeyForPlace,
+} from "../nationwide-world/represented-population";
 import { recordRelationshipInteraction } from "../records";
 import {
   ensureTownEmployment,
@@ -233,12 +236,18 @@ export function townRoster(town: EntityId, world?: World): TownRoster {
   if (!place) throw new Error(`No place identity for town roster ${town}`);
   if (world) {
     const generated = representedPopulation(world, town);
-    return { town, referencePopulation: generated.referencePopulation,
-      population: generated.population, households: generated.households };
+    return {
+      town,
+      referencePopulation: generated.referencePopulation,
+      population: generated.population,
+      households: generated.households,
+    };
   }
   // A census-designated place has no annual estimate but has the five-year
   // survey's count, which is still a Census figure, not a stand-in.
-  const reference = placeReferencePopulation(populationKeyForPlace(place)).value;
+  const reference = placeReferencePopulation(
+    populationKeyForPlace(place),
+  ).value;
   const population = reference;
   return {
     town,

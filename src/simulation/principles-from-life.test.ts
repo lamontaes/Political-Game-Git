@@ -10,7 +10,7 @@ import { stableHash } from "./ids";
 import acsPlaces from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import { lifePlaceByKey } from "./life-places";
 import {
-  placePopulation,
+  placePopulationObservation,
   placeReferencePopulation,
 } from "./nationwide-world/place-population";
 import { parentsOf } from "./people-family";
@@ -219,7 +219,7 @@ describe("principles that form from a life", () => {
     // Community Survey count. One is drawn from every such place under 10,000
     // people in all 56 jurisdictions.
     const unincorporated = Object.keys(acsPlaces.places).filter((geoid) => {
-      if (placePopulation(geoid) !== null) return false;
+      if (placePopulationObservation(geoid) !== null) return false;
       const reference = placeReferencePopulation(geoid);
       return (
         reference !== null &&

@@ -32,9 +32,17 @@ function load(): ReadonlyMap<string, number> {
 /** World-aware count when available; otherwise a researched reference anchor.
  * Missing observations use the national comparable distribution, never zero. */
 export function placePopulation(placeGeoid: string, world?: World): number {
-  const place = world ? lifePlaceByKey(placeGeoid) ?? lifePlaceByKey(`county:${placeGeoid}`) : null;
-  if (place && world) return representedPopulation(world, place.context.jurisdiction.id).population;
-  return load().get(placeGeoid) ?? populationReference(placeGeoid).population ?? censusDemographics(placeGeoid, world).counts.population!;
+  const place = world
+    ? (lifePlaceByKey(placeGeoid) ?? lifePlaceByKey(`county:${placeGeoid}`))
+    : null;
+  if (place && world)
+    return representedPopulation(world, place.context.jurisdiction.id)
+      .population;
+  return (
+    load().get(placeGeoid) ??
+    populationReference(placeGeoid).population ??
+    censusDemographics(placeGeoid, world).counts.population!
+  );
 }
 
 /** Raw annual observation, for source classification and pre-world fixtures.
@@ -67,7 +75,12 @@ const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
 
 /** Which published figure a town's reference population comes from. */
 export type PlacePopulationSource =
-  "census-estimate-2025" | "acs-2020-2024" | "decennial-census-2020" | "island-census-2020" | "researched-calibration-anchor" | "researched-comparable-distribution";
+  | "census-estimate-2025"
+  | "acs-2020-2024"
+  | "decennial-census-2020"
+  | "island-census-2020"
+  | "researched-calibration-anchor"
+  | "researched-comparable-distribution";
 
 /**
  * A town's reference population from its published figure or a labeled
@@ -80,9 +93,10 @@ export type PlacePopulationSource =
  * `data/research/money/place-population-acs-2024.json`, the table the public
  * budgets already size those places by). The estimate wins where both exist.
  */
-export function placeReferencePopulation(
-  placeGeoid: string,
-): { readonly value: number; readonly source: PlacePopulationSource } {
+export function placeReferencePopulation(placeGeoid: string): {
+  readonly value: number;
+  readonly source: PlacePopulationSource;
+} {
   const estimate = load().get(placeGeoid);
   if (estimate !== undefined)
     return { value: estimate, source: "census-estimate-2025" };
@@ -97,5 +111,12 @@ export function placeReferencePopulation(
   if (enumerated !== undefined && Number.isFinite(enumerated) && enumerated > 0)
     return { value: enumerated, source: "decennial-census-2020" };
   const reference = populationReference(placeGeoid);
-  return { value: reference.population ?? censusDemographics(placeGeoid).counts.population!, source: reference.source === "unknown" ? "researched-comparable-distribution" : reference.source };
+  return {
+    value:
+      reference.population ?? censusDemographics(placeGeoid).counts.population!,
+    source:
+      reference.source === "unknown"
+        ? "researched-comparable-distribution"
+        : reference.source,
+  };
 }

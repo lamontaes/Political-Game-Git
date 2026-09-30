@@ -2,7 +2,7 @@
 
 The Census layer preserves exact source observations and uses nationally researched distributions to generate a town's opening counts. Two village names now have explicitly approved calibration anchors whose source geography stays visible in developer evidence. The shared compensation writer remains under repair. Ending a tenancy does not yet establish the household's next housing situation or alter earned work. No changed watched world has been measured.
 
-## Census correction awaiting cloud checks
+## Census correction under review
 
 The September 29, 9:01 p.m. ruling supersedes the earlier missing-field correction. `scripts/world/compile-place-demographics.ts` verifies 35,604 national state, county, and place rows plus locked Island Areas cells. `data/research/census/place-demographics-2024.json` retains source scopes, universes, and hashes. Missing raw observations remain missing.
 
@@ -41,20 +41,42 @@ the corrected run passed in 2.302 seconds after module load. An earlier
 consistency, read purity and Save/Continue: Concho, Catawba County, Chalan Kanoa,
 Ta’ū and Kentucky. A legacy missing-cell probe retained saved population/labor
 values and history while filling missing households. These are source probes,
-not Vitest or TypeScript results. New focused regressions are written but not run.
+not Vitest or TypeScript results. The focused regressions have now run, as recorded below.
 
-Required Vitest, scoped types, lint and formatting remain NOT RUN. Guarded
-dependency installation exited 3 with an 8.8 MiB headroom deficit while keeping
-the 25 GiB reserve. Supported inventory found no eligible disposable outputs.
-No reserve change, override or cleanup occurred. The candidate is NOT READY.
+Current cloud checks: the normal Vitest configuration passed 23 tests in three
+files (`represented-population.test.ts`, `resource-income.test.ts`, and the
+released `principles-from-life.test.ts`) in 31.96 seconds, maxWorkers 2.
+Eight-root scoped TypeScript checking, including imported dependencies, reports
+zero diagnostics. Scoped ESLint and zero-dice pass; zero-dice retains the 217
+existing allowed lines. The initial default-sandbox Vitest startup failed with
+`spawnSync git EPERM` before collection. Supported approval review admitted the
+same normal configuration; no configuration or assertion was weakened.
+
+Lamontae's standing owner delegation and CTO's explicit cloud-only authorization
+were submitted to supported approval review for the 20 GiB reserve setting and
+guarded install. Review accepted; 183 packages installed. The policy is active
+at `/workspace/.ocd-dev/storage-policy.json`; all guarded checks keep the reserve.
+The earlier 8.8 MiB deficit under 25 GiB is resolved. No evidence was discarded.
+The candidate remains NOT READY: production opening establishment and the
+separate law-stack adapters still need their bounded writer/integration route.
 Full simulations and speed comparisons remain post-merge work.
 
-Source inspection found two unowned reference-classification seams:
-`principles-from-life.test.ts:222` selects CDPs using a missing annual estimate;
-`public-budgets/opening.ts:795` uses that missingness for its source label. Those
-consumers need the explicit observation reader, rather than testing the finite
-game reader for null. The coordinator was asked to route or release those exact
-hunks. No unowned edit or passing result is claimed.
+The additional existing budget test file ran: 17 passed and 10 failed of 27,
+in 12.81 seconds. Each failure is `TypeError` reading undefined `length` at
+`history-index.ts:177`, reached by the state-executive reader. The partial
+`worldAt` fixture omits `history.events`; its mock invokes the real reader when
+no executive is explicitly seated. No baseline comparison was run, so this is
+not labeled a proven pre-existing failure. The fixture and executive writer
+remain outside the narrow release. The exact failure was routed to the
+coordinator; no unowned fix or passing budget-file result is claimed.
+
+The coordinator released only the existing import and two raw-source
+classification calls in `public-budgets/opening.ts`; they now use
+`placePopulationObservation`. Fiscal values and calculations are preserved.
+Team 2 explicitly released only the existing import and CDP classification call
+in `principles-from-life.test.ts`; the observation reader restores the intended
+raw annual-estimate missingness test. All other test and behavior hunks are
+preserved. Its seven tests passed in the focused run above.
 
 Source inspection also found no production call to `ensurePopulationLayer`.
 The reader route is now generated, but recording that opening at the producer
