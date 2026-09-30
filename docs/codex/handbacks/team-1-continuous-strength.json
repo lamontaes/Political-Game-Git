@@ -1,9 +1,9 @@
 {
-  "status": "HELD: runtime readers integrated; paired measurement executed; variation and filing acceptance unmet; packing claim pending",
+  "status": "SOURCE INTEGRATION COMPLETE: three runtime readers and paired measurement built; focused packing/type checks pass. Variation and filing acceptance remain HELD.",
   "baseBranch": "codex/team1-officeholder-life-main",
   "baseHead": "88a87c49db31dd448180c0f8c8e34220f38f0f03",
   "branch": "codex/team1-continuous-strength",
-  "sourceTestIdentity": "Candidate executed at parent HEAD29ff plus uncommitted approved integration; source hashes identify runtime source. Baseline repaired receipt is reused after source-hash verification against base88. Neither is an exact-head runtime run.",
+  "sourceTestIdentity": "Candidate executed at parent HEAD29ff plus uncommitted approved integration; source hashes identify runtime source. Baseline repaired receipt is reused after source-hash verification against base88. Neither is an exact-head runtime run. Runtime-file hashes still match source32d3379f after the separate lossless packing repair at1e9d1b269; the month is retained as source-hash evidence, not relabeled as an exact-head replay.",
   "sourceSha256": {
     "src/presentation/constitutional-subjects.test.ts": "6ada74692915635e9a4666c5934e07ba86f2eeb46bb5af171340ee19ec6c5840",
     "src/presentation/ordinary-local-fiscal-proposal.test.ts": "df69e5284294f8bac5ad2f806ba4a9a80e426b763fe08b4da725d3f27c99b3c4",
@@ -23,14 +23,15 @@
     "src/simulation/living-world/political-reflection.test.ts": "1c1960304bd1da1097097dd09afdd3cb944889eabc79d138d2886057977f984f",
     "src/simulation/political-beliefs.test.ts": "585a12bc4fd4781f4ae8cd7a1320027201130501531a5319c7beed43360faaab",
     "src/simulation/politics.ts": "d914e0e2a635e4679872c98acffe8387cd03d4e15fc7f5b17c612d101abd8ef9",
-    "src/simulation/principle-packing.test.ts": "7cee2d780b90f98c17e679eb805de17480529a172cd0b755a46bc2fcac508229",
+    "src/simulation/principle-packing.test.ts": "68b4191ae41f90a18b9371561494e261b6ab94ebad1697be78dc6f0573ec9920",
     "src/simulation/principles-from-life.test.ts": "0deab6d4f4d2ed74cce633bc16cb056666fda19d8f83ecb10cb5ed8fc3319f54",
     "src/simulation/principles-from-life.ts": "8ec2d09eefd0cf960e10b940722e094dc44ec7a6ba2771c031cd081372fb51a3",
     "src/simulation/subjective-belief-formation.test.ts": "fb8756b3d35d4e94bf86731ccf1311816e2f539dc9bbecfa0c10309e88ab1969",
     "src/simulation/types.ts": "f3e7bba2edc3b07cba56b5983a60a2900c1adb2853630c168a70c85d78382920",
     "src/simulation/world.ts": "a1a496d9fa54b0df885f6130de82663e96d2090e2b3e0ac40a1c63e1ab2496d1",
     "src/simulation/principle-strength.ts": "e32335d5f03af2f2fc08ee3acd726e032010a8544e1194ab2e2c38284c125808",
-    "src/simulation/principle-strength.test.ts": "6d88ff4d9c7495546712d55c0ea5df9f6bde556a3630395a1d51472b2b1fd1d6"
+    "src/simulation/principle-strength.test.ts": "6d88ff4d9c7495546712d55c0ea5df9f6bde556a3630395a1d51472b2b1fd1d6",
+    "src/simulation/principle-packing.ts": "0c7e0062941ccd1566b067c5e8a6c6695f5e44bc5672ae70898d6604befcd62a"
   },
   "baselineSourceVerification": {
     "path": "src/simulation/principles-from-life.ts",
@@ -894,14 +895,108 @@
     },
     {
       "command": "storage run test -- thirteen changed fixture files --maxWorkers=2",
-      "result": "RUNNING",
-      "log": "/tmp/team1-strength-fixtures.log"
+      "result": "Original batch stopped after synchronous appointment advancement exceeded declared 600-second timeout; no complete result.",
+      "log": "/tmp/team1-strength-fixtures.log",
+      "exitCode": 143
     },
     {
       "command": "storage run test -- node --max-old-space-size=8192 --import tsx /tmp/team1-principle-month.mts after-continuous-strength",
       "result": "EXECUTED: 30 days, zero Congress and sampled-state filings; acceptance unmet",
       "exitCode": 0,
       "log": "/tmp/team1-continuous-month.log"
+    },
+    {
+      "command": "storage run test -- ten changed fixture files --maxWorkers=2",
+      "exitCode": 1,
+      "result": "Nine files / 34 tests PASS; article-v.test.ts worker interrupted after 323.09 seconds total; four tests incomplete. NOT full pass.",
+      "log": "/tmp/team1-strength-small-fixtures.log"
+    },
+    {
+      "command": "storage run test -- npx vitest run src/simulation/governing/supreme-court-appointments.test.ts -t \"a senator of the other party\" --maxWorkers=1",
+      "exitCode": 0,
+      "result": "Changed strength fixture 1/1 PASS; two unrelated long cases skipped.",
+      "log": "/tmp/team1-strength-appointment-fixture.log"
+    },
+    {
+      "command": "storage run test -- npx vitest run src/simulation/principle-packing.test.ts --maxWorkers=1",
+      "exitCode": 1,
+      "result": "4/4 FAIL on integration; 4/4 PASS on base88. Confirmed new packing shape regression; source seam not granted or edited.",
+      "log": "/tmp/team1-strength-packing.log",
+      "baselineLog": "/tmp/team1-strength-parent-packing.log"
+    },
+    {
+      "command": "storage run test -- local-member-agenda-integration.test.ts -t \"files a general-policy\" --maxWorkers=1",
+      "result": "Same yes/no assertion fails on integration, base88, and current main1d45; inherited, expectation unchanged.",
+      "candidateLog": "/tmp/team1-strength-local-failure.log",
+      "parentLog": "/tmp/team1-strength-parent-local.log",
+      "mainLog": "/tmp/team1-strength-main-local.log"
+    },
+    {
+      "command": "storage run test -- political-reflection-roll-call.test.ts --maxWorkers=1",
+      "exitCode": 1,
+      "result": "Main1d45 also exceeds existing 30-second timeout: test body58.34 seconds, total69.66 seconds. Candidate batch body62.958 seconds. No timeout/expectation edits.",
+      "mainLog": "/tmp/team1-strength-main-roll-call.log",
+      "candidateLog": "/tmp/team1-strength-fixtures.log"
+    },
+    {
+      "command": "npm run report:check -- docs/codex/handbacks/team-1-continuous-strength.md",
+      "exitCode": 0,
+      "result": "Published packet zero errors/warnings"
+    },
+    {
+      "command": "npm run release:check -- --mode pr",
+      "exitCode": 1,
+      "result": "Inherited wave1-playtest-copy header failure reproduced in current main source",
+      "log": "/tmp/team1-strength-integration-release.log"
+    },
+    {
+      "command": "npm run zero-dice",
+      "exitCode": 1,
+      "result": "0 new, 5 stale inherited allowances; shared allowlist untouched",
+      "log": "/tmp/team1-strength-integration-zero-dice.log"
+    },
+    {
+      "command": "storage run test -- npx vitest run src/simulation/principle-packing.test.ts --maxWorkers=2",
+      "exitCode": 0,
+      "result": "4/4 PASS including noncategorical0.37 round trip and invalid packed-strength rejection",
+      "durationSeconds": 14.73,
+      "log": "/tmp/team1-strength-packing-final.log"
+    },
+    {
+      "command": "npx tsc -p test-results/team1/continuous-integration-tsconfig.json --noEmit",
+      "exitCode": 0,
+      "result": "All changed TypeScript roots/dependencies: zero diagnostics",
+      "log": "/tmp/team1-strength-integration-types-final.log"
+    },
+    {
+      "command": "npx eslint src/simulation/principle-packing.ts src/simulation/principle-packing.test.ts",
+      "exitCode": 0,
+      "result": "PASS",
+      "log": "/tmp/team1-strength-packing-lint.log"
+    },
+    {
+      "command": "npx eslint $(git diff --name-only 88a87c49db31dd448180c0f8c8e34220f38f0f03 -- '*.ts')",
+      "exitCode": 0,
+      "result": "Final all changed TypeScript files PASS",
+      "log": "/tmp/team1-strength-final-lint.log"
+    },
+    {
+      "command": "npx prettier --check $(git diff --name-only 88a87c49db31dd448180c0f8c8e34220f38f0f03)",
+      "exitCode": 0,
+      "result": "Final all changed files PASS",
+      "log": "/tmp/team1-strength-final-format.log"
+    },
+    {
+      "command": "npm run release:check -- --mode pr",
+      "exitCode": 1,
+      "result": "Final only inherited wave1-playtest-copy header failure",
+      "log": "/tmp/team1-strength-final-release.log"
+    },
+    {
+      "command": "npm run zero-dice",
+      "exitCode": 1,
+      "result": "Final zero new findings, five stale inherited allowances; allowlist untouched",
+      "log": "/tmp/team1-strength-final-zero-dice.log"
     }
   ],
   "notRun": [
@@ -910,7 +1005,9 @@
     "full test suite",
     "exclusive-host three-year speed comparison",
     "law-money proof",
-    "independent helper review (no-new-helper instruction)"
+    "independent helper review (no-new-helper instruction)",
+    "completed article-v changed-fixture file",
+    "two unrelated long appointment cases (original interrupted batch has no completed result)"
   ],
   "connections": {
     "personReaders": [
@@ -921,8 +1018,22 @@
     "canonicalRecordsChanged": true,
     "sharedValidatorsChanged": true,
     "moneyOutcomesMeasured": false,
-    "packingSourceEdited": false
+    "packingSourceEdited": true,
+    "lawTablePublished": "PR1131 b432b0e54ec8b0bac79720e1e74988e8bea20018; consumed main-year report still has no law-linked money transfers."
   },
   "replayHarness": "import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';\nimport { createHash } from 'node:crypto';\nimport { performance } from 'node:perf_hooks';\nimport { execFileSync } from 'node:child_process';\nimport { openWatchedWorld } from '/workspace/Political-Game-Git/scripts/dev-lab/world-aging.ts';\nimport { observerPlace, advanceObservedWorld } from '/workspace/Political-Game-Git/src/presentation/observer-world.ts';\nimport { lifePlaceStateIdentities, stateJurisdictionForKey } from '/workspace/Political-Game-Git/src/simulation/life-places.ts';\nimport { legislatureForState } from '/workspace/Political-Game-Git/src/simulation/legislature-game-profile.ts';\nimport { stateLegislators } from '/workspace/Political-Game-Git/src/simulation/nationwide-world/state-legislature-opening.ts';\nimport { projectCongress, publicPartyAffiliation } from '/workspace/Political-Game-Git/src/simulation/living-world/congress.ts';\nimport { currentPublicOfficeholders } from '/workspace/Political-Game-Git/src/presentation/opening-officeholders.ts';\nimport { activeWorkRelationshipsAt } from '/workspace/Political-Game-Git/src/simulation/life-queries.ts';\nimport { personName } from '/workspace/Political-Game-Git/src/simulation/people.ts';\nimport { SeededRng } from '/workspace/Political-Game-Git/src/simulation/rng.ts';\nimport type { EntityId, World } from '/workspace/Political-Game-Git/src/simulation/types.ts';\n\nconst seed='team1-principle-month-20260930';\nconst place=observerPlace(seed);\nconst identities=lifePlaceStateIdentities();\nconst available=identities.flatMap(s=>{const pack=legislatureForState(s.jurisdictionKey);return pack?[{key:s.jurisdictionKey,packId:pack.packId,name:s.name}]:[]});\nconst pool=[...available];\nconst rng=new SeededRng(seed).fork('three-legislatures');\nconst selected=Array.from({length:3},()=>pool.splice(rng.integer(0,pool.length),1)[0]!);\nfunction officeholders(world:World){\n const ids=new Set<EntityId>(currentPublicOfficeholders(world).map(h=>h.personId));\n for(const state of available)for(const holder of stateLegislators(world,state.packId))ids.add(holder.personId);\n const congress=projectCongress(world);\n for(const chamber of congress?[congress.house,congress.senate]:[])for(const seat of chamber.seats)if(seat.occupant.kind==='member')ids.add(seat.occupant.member.personId);\n for(const id of world.personOrder)if(activeWorkRelationshipsAt(world,id).some(job=>['service:elected-legislator','occupation:elected-official'].includes(job.role.occupationClassification??'')))ids.add(id);\n return [...ids].sort();\n}\nfunction snapshot(world:World){\n const ids=officeholders(world);const latest=new Map<EntityId,Map<EntityId,typeof world.history.principles[number]>>();\n for(const row of world.history.principles){if(row.formedAt>world.currentDate)continue;let byPrinciple=latest.get(row.personId);if(!byPrinciple){byPrinciple=new Map();latest.set(row.personId,byPrinciple);}const previous=byPrinciple.get(row.principleId);if(!previous||previous.sequence<row.sequence)byPrinciple.set(row.principleId,row);}\n const rows=ids.map(id=>({personId:id,name:personName(world.people[id]!),party:publicPartyAffiliation(world,id),principles:[...(latest.get(id)?.values()??[])].map(row=>({id:row.id,principleId:row.principleId,stance:row.stance,strength:row.strength,conviction:row.conviction,formation:row.formation})).sort((a,b)=>a.principleId.localeCompare(b.principleId))}));\n const counts=rows.map(r=>r.principles.length);const withPrinciples=counts.filter(n=>n>0).length;const total=counts.reduce((a,b)=>a+b,0);\n const partyNames=[...new Set(rows.map(r=>r.party??'no-public-party'))];\n const parties=partyNames.map(party=>{const members=rows.filter(r=>(r.party??'no-public-party')===party);const signatures=new Map<string,typeof members[number]>();for(const member of members){const signature=JSON.stringify(member.principles.map(p=>[p.principleId,p.stance,p.conviction,p.strength??null]));if(!signatures.has(signature))signatures.set(signature,member);}const opposing=[...new Set(members.flatMap(m=>m.principles.map(p=>p.principleId)))].flatMap(id=>{const stances=new Set(members.flatMap(m=>m.principles.filter(p=>p.principleId===id).map(p=>p.stance)));return stances.has('endorses')&&stances.has('rejects')?[id]:[]});return {party,members:members.length,distinctProfiles:signatures.size,principlesWithBothDirections:opposing.length,examples:[...signatures.values()].slice(0,2)};});\n return {date:world.currentDate,officeholders:ids.length,withAtLeastOne:withPrinciples,principleCount:total,meanIncludingZero:ids.length?total/ids.length:0,meanAmongHolders:withPrinciples?total/withPrinciples:0,parties,rows};\n}\nconst label=process.argv[2];if(!label)throw Error('label required');\nconst sourceHashes=Object.fromEntries(['src/simulation/principles-from-life.ts','src/simulation/principle-strength.ts','src/simulation/governing/officeholder-principles.ts','src/simulation/politics.ts','src/simulation/world.ts'].map(path=>[path,createHash('sha256').update(readFileSync('/workspace/Political-Game-Git/'+path)).digest('hex')]));\nconst head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();\nconsole.log(JSON.stringify({label,head,seed,place:place.key,placeName:place.displayName,selected,available:available.length,all56:identities.length}));\nconst openedAt=performance.now();const initial=openWatchedWorld(seed,place.key).world;const openingSeconds=(performance.now()-openedAt)/1000;\nconst before=snapshot(initial);const initialMeasures=new Set((initial.history.legislativeMeasures??[]).map(m=>m.id));\nconsole.log(JSON.stringify({phase:'opening',date:before.date,officeholders:before.officeholders,withAtLeastOne:before.withAtLeastOne,mean:before.meanIncludingZero,openingSeconds}));\nconst began=performance.now();const world=advanceObservedWorld(initial,30);const monthSeconds=(performance.now()-began)/1000;const after=snapshot(world);\nconst filed=(world.history.legislativeMeasures??[]).filter(m=>!initialMeasures.has(m.id)&&m.introducedAt>=initial.currentDate&&m.introducedAt<=world.currentDate);\nconst jurisdictionIds=selected.map(s=>({state:s.key,name:s.name,jurisdictionId:stateJurisdictionForKey(s.key)!.id}));\nconst congress=projectCongress(world);\nconst congressRulePacks=new Set(['us-congress']);\nconst congressBills=filed.filter(m=>m.originChamberKey==='house'||m.originChamberKey==='senate');\nconst filings={congress:congressBills.length,states:jurisdictionIds.map(s=>({...s,count:filed.filter(m=>m.jurisdictionId===s.jurisdictionId).length})),all:filed.length,measures:filed.map(m=>({id:m.id,introducedAt:m.introducedAt,jurisdictionId:m.jurisdictionId,originChamberKey:m.originChamberKey,subjectClass:m.subjectClass,origin:m.origin,sponsorPersonId:m.sponsorPersonId,designation:m.designation}))};\nconst receipt={sourceHashes,dirty:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}),profileIncludesStrength:true,status:'EXECUTED SAME-SEED MONTH; not year/all-law/browser acceptance',label,head,seed,placeKey:place.key,placeName:place.displayName,start:initial.currentDate,end:world.currentDate,days:30,openingSeconds,monthSeconds,all56:identities.length,availableLegislatures:available.length,excludedNoPack:identities.filter(s=>!available.some(a=>a.key===s.jurisdictionKey)).map(s=>s.jurisdictionKey),selectedStates:selected,before,after,filings,people:world.personOrder.length,events:world.history.events.length,decisions:world.history.decisionTraces.length};\nmkdirSync('/workspace/Political-Game-Git/test-results/team1',{recursive:true});\nwriteFileSync(`/workspace/Political-Game-Git/test-results/team1/${label}.json`,JSON.stringify(receipt,null,2)+'\\n');\nconsole.log(JSON.stringify({label,head,seed,placeKey:place.key,placeName:place.displayName,start:receipt.start,end:receipt.end,openingSeconds,monthSeconds,opening:{total:before.officeholders,withAtLeastOne:before.withAtLeastOne,mean:before.meanIncludingZero},month:{total:after.officeholders,withAtLeastOne:after.withAtLeastOne,mean:after.meanIncludingZero,party:after.parties.map(({party,members,distinctProfiles,principlesWithBothDirections})=>({party,members,distinctProfiles,principlesWithBothDirections}))},filings:{congress:filings.congress,states:filings.states,all:filings.all}}));\n",
-  "next": "Finish changed-file fixtures and centrally clear packing seam; publish measured integration while retaining variation/filing hold."
+  "next": "Publish source and measured handback for CTO review. No merge authorization; inherited failures and incomplete ArticleV/year-speed checks are explicit. Variation/filing acceptance and sparse individual evidence remain findings.",
+  "localIntegrationHead": "1e9d1b2697795f057ffa7d0a0242514dfe96715f",
+  "publishedPacketHead": "79d6b14af81bb219663f71ef9c62fb5d33d8106e",
+  "runtimeHashesMatchLocalIntegrationCommit": true,
+  "currentMainVerified": "1d45a8a45d3823c80cac917525b444984deca591",
+  "focusedPassingDistinctTests": 99,
+  "confirmedNewBlocker": {
+    "path": "src/simulation/principle-packing.ts",
+    "centralGrant": "Coordinator5:55 exact exclusive row/key/pack/unpack and round-trip fixture grant",
+    "sourceEdited": true,
+    "resolved": true,
+    "repair": "Numeric strength stored and restored losslessly. Old five-field packed rows rejected; no categorical inference.",
+    "tests": "Four round-trip/rejection tests PASS in14.73 seconds; scoped strict types zero diagnostics."
+  }
 }

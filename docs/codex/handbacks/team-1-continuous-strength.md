@@ -57,8 +57,8 @@ this integration does not establish per-incident reinforcement there.
    spendingPrincipleConsideration, with a fractional-strength reader fixture.
 4. Keep changed-row append and regressions for rereads, weakening and balance.
 5. Keep the paired measurement; hold individual variation and filing acceptance.
-6. Complete the exact packing seam after central ownership clearance. Its
-   unpack constructor remains untouched and causes one scoped type error.
+6. Keep lossless strength packing and finite-range unpack validation. Old
+   tuples without strength are rejected; no categorical strength is inferred.
 
 ## 5. Simulated, records, world pieces, checks
 
@@ -99,8 +99,22 @@ The 32.052-second candidate month is diagnostic timing, not an exclusive-host
 year-speed comparison.
 
 Focused arithmetic, formation and reader files passed 28 tests. The corrected
-validation file passed 32 tests. Changed-fixture checks are still running.
-Lint passed; scoped types found the one packing error. Browser, full suite,
+validation file passed 32 tests. Nine more changed fixture files passed 34 tests;
+the changed appointment fixture passed one. The lossless packing fixture adds four passing tests, for 99 distinct passing
+tests across the focused checks.
+The article-v worker was interrupted after a 323.09-second batch; its four
+tests are incomplete. An earlier batch exceeded the appointment case's
+600-second allowance and was also stopped. Neither batch is a complete pass.
+
+The initial integration failed four packing tests that passed on the parent.
+The coordinator granted the exact packing hunks at 5:55. The bounded repair
+stores and restores numeric strength directly, including a 0.37 fixture.
+All four round-trip/rejection tests now pass, and scoped types have zero
+diagnostics. Old five-field tuples are rejected without inferred conversion. The local-agenda
+assertion fails identically on the integration, parent and current main.
+The roll-call test also exceeds its existing 30-second timeout on current
+main, with a 58.34-second body. These two failures are inherited; their
+expectations and timeouts are unchanged. Lint passed. Browser, full suite,
 year-speed and law-money proof are NOT RUN. No helper review was launched under
 the coordinator's no-new-helper constraint.
 
@@ -119,13 +133,21 @@ These are saved records, not invented biographies. No dollars were measured.
 The branch is codex/team1-continuous-strength, draft PR1199, based on
 codex/team1-officeholder-life-main at 88a87c49db31dd448180c0f8c8e34220f38f0f03.
 The accepted replacement handoff remains d28a19740fddb940ce5d43041d88ad8b7c7e96f1,
-PR1184 held. The companion JSON retains hashes, commands, receipts and harness.
-The latest END00 read includes CTO5:08. Finish fixture checks and the packing
-seam once its exact claim is released, then publish this measured integration.
+PR1184 held. The companion JSON retains hashes, commands, receipts and harness. Source integration is committed at
+1e9d1b2697795f057ffa7d0a0242514dfe96715f. Its measured runtime-file hashes
+still match the original integration at
+32d3379f75021d7bc62565aee9154d290ce2a51c. The separate packing repair changes
+save compatibility, not the measured formation or reader source. The month
+is retained as hash-identified evidence and is not relabeled an exact-head run.
+The latest END00 read includes CTO5:37. Its Congress introduction defect
+belongs to Team 2. The requested packing/type gates passed; publish the
+integration and paired measurement for CTO review with the inherited failures
+and interrupted Article V check stated explicitly. Variation and filing
+acceptance remain held.
 Teams never merge their own work.
 
 Separate law traces are published at PR1131 head
-e02d098a2fd6d7b2d040c195d7f1b0f22d2a65cc in
+b432b0e54ec8b0bac79720e1e74988e8bea20018 in
 team-1-law-traces.md and its JSON. All twelve aggregate links terminate at
 “no person feels this yet.” Team 2 owns the unknown-authority finding, Team 3
 the GDPR place caller, and Team 6's transport clauses retain the distinction
