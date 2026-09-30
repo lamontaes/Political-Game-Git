@@ -604,3 +604,14 @@ fragment missing its header; it now has the required player-facing declaration,
 and the exact main-to-head PR range passes. Spelling reports only four existing
 quoted British examples in unchanged plain-american-wording.md; no owned path
 flagged. Browser verification still belongs to Claude and is NOT RUN here.
+
+## PR publication verification correction
+
+The Git branch ref reached d863a465c38900af59ea5efd6d5045f53e4e8de8,
+but PR 1149 and its pull head ref still reported the ancestor 91ac721f.
+The earlier report treated branch publication as PR publication; that was
+incorrect. Source checks remain tied to their exact recorded heads: behavioral
+10/10 on 91ac721f, final formatting/types/release on the verified d863 tree.
+This documentation update publishes through the Contents API to the same
+actual PR source branch. PR head and pull ref must be verified separately
+before current-head approval; no merge or newer-head runtime pass is inferred.
