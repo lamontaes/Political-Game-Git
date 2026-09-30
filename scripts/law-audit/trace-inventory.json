@@ -1,0 +1,92 @@
+[
+  {
+    "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Aggregate turnout multiplier, not an actual state district-map producer. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Commission boundaries and competitive-district exposure need their own records; a full new map producer belongs on the morning list."
+  },
+  {
+    "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Research-marked zero aggregate links; no identification check in this runtime. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Team 1 owns the separate voter-identification branch. Its producer is absent here; do not relabel inert turnout evidence as identification enforcement."
+  },
+  {
+    "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Aggregate multiplier; no per-person agency registration transaction is demonstrated. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Separate registration from actual voting, and research eligible-person exposure and the front-end/back-end distinction before wiring another effect."
+  },
+  {
+    "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Recorded service plus legal eligibility; fallback eight consecutive years per chamber is an authored estimate. No additional personal consequence is inferred beyond the named legal gate or record. Next: Read counts and grandfathering from the enacted terms; verify constitutional amendment routes before treating a statute as repeal of a constitutional limit."
+  },
+  {
+    "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "No former-official lobbying enforcement consumer was found. No additional personal consequence is inferred beyond the named legal gate or record. Next: Research each covered body, official, period and exception. A missing lobbying-act producer is a new-feature boundary, not an invented enforcement rate."
+  },
+  {
+    "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "A recorded state answer gates local powers; unresolved power cells remain unresolved. No additional personal consequence is inferred beyond the named legal gate or record. Next: The blanket home-rule/Dillon distinction loses subject and locality exceptions. Team 9 should supply organic-act and enabling-law cells; coordinator owns shared authority wiring."
+  },
+  {
+    "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Defendant cash and case records feed the decision; importance scales and fallback bail amounts remain stand-ins. Person-level reader: justice/prosecution.ts reads pretrialLawAt; court-reasoning.ts records the defendant detention decision. Null aggregate detention is distinct from this legal reader. Next: Preserve no-money-bail release decisions without treating a null detention link as zero. Research detained-person exposure, deposits, refundable principal, fees and lost work separately."
+  },
+  {
+    "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Recorded offense/repeat history can force the jail option; this is not a researched statutory sentence duration. Person-level reader: justice/court-reasoning.ts, evaluateSentence, reaches a defendant through recorded case and sentencing decisions; it does not supply an offense-specific minimum duration. Next: Read offense-specific minimum duration and exceptions from legal terms. Team 1 owns federal sentence effects on its separate law branch."
+  },
+  {
+    "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Aggregate crime multiplier; the studied board powers are not independent complaint/investigation records. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: Distinguish investigation/sanction boards from review-only boards. Complaint outcomes, discipline and trust require separate supported mechanisms; no new rate is authored here."
+  },
+  {
+    "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Contested aggregate proxy from right-to-carry studies, not an actual permit decision. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: The study contrasts shall-issue and may-issue, not every permit/no-permit law. Keep the proxy limitation and request wider evidence before adding effects."
+  },
+  {
+    "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Age 17 versus 18 redirects adult charging; juvenile court itself is not played. Person-level reader: justice/juvenile-court.ts, adultCourtAgeAt, changes the adult charging boundary; no separate played juvenile-court outcome is established. Next: Research transfer exceptions and offense-specific jurisdiction. The existing budget path is distinct from juvenile proceedings and personal outcomes; do not infer either from its amount."
+  },
+  {
+    "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Place-specific eligible-population adjustment; restored-person turnout 0.12\u20130.22 is a research assumption, not an individual vote roll. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Keep eligible-denominator changes separate from ballot counts. Current zero places mean no post-sentence population to restore, not universal proof of no individual consequences."
+  },
+  {
+    "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Contested aggregate association, not a police evidence/recognition decision. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: Research privacy, identification error, policing exposure and board authority separately. None is established by the one crime link."
+  },
+  {
+    "questionKey": "us-policy-positions:government-operations.council-term-limits",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "Recorded council service; two consecutive terms and a 31-day break are stand-ins. No additional personal consequence is inferred beyond the named legal gate or record. Next: Consume the local charter terms and amendment authority instead of one modal limit. Do not treat repeal as permission to override a state constitutional ceiling."
+  },
+  {
+    "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
+    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
+    "trace": "A recorded map can pair incumbents; home/ward eligibility is read from records. No additional personal consequence is inferred beyond the named legal gate or record. Next: Verify each charter and commission procedure. The independent state redistricting turnout proxy is not evidence for every local ward map."
+  }
+]
