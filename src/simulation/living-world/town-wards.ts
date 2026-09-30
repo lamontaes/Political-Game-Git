@@ -7,6 +7,10 @@ import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { lawInForce } from "../governing/law-in-force";
+import {
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
@@ -434,7 +438,32 @@ export function redrawTownWards(
     input.drawnBy === "commission"
       ? "an independent commission"
       : "the council";
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === WARD_COMMISSION_QUESTION,
+  );
+  const governingLaw = question
+    ? lawInForce(world, input.town, question.id, world.currentDate)
+    : null;
+  const lawfulDrawer =
+    governingLaw?.answer === "yes"
+      ? "commission"
+      : governingLaw?.answer === "no"
+        ? "council"
+        : null;
+  const stamp =
+    lawfulDrawer === input.drawnBy
+      ? lawEffectStamp(governingLaw, {
+          effectKind: "local.wards-drawn",
+          questionKey: WARD_COMMISSION_QUESTION,
+          jurisdictionId: input.town,
+          appliedAt: world.currentDate,
+        })
+      : null;
+  const attribution: LawEffectStampedRecord = stamp
+    ? { lawEffectStamps: [stamp] }
+    : {};
   return recordWorldEvent(world, {
+    ...attribution,
     stableKey: `town-wards:${input.unit.id}:${world.currentDate}:${input.drawnBy}`,
     type: WARDS_DRAWN,
     occurredAt: world.currentDate,

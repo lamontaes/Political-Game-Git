@@ -21,6 +21,7 @@ import {
 import { placeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
 import { SeededRng } from "../simulation/rng";
+import type { LawEffectStampedRecord } from "../simulation/law-effect-stamp";
 import type { EntityId, IsoDate, World } from "../simulation/types";
 import { observerSetup, openObserverWorld } from "./observer-world";
 
@@ -40,11 +41,15 @@ import { observerSetup, openObserverWorld } from "./observer-world";
 const SEED = "build-5:ward-commission:1";
 
 /** A random town under 60,000 people whose council elects by ward. */
-function wardTown(seed: string): LifePlace {
+function wardTown(
+  seed: string,
+  excludedStates: ReadonlySet<string>,
+): LifePlace {
   const rng = new SeededRng(`ward-town:${seed}`);
   const states = [...lifePlaceStateIdentities()];
   while (states.length > 0) {
     const state = states.splice(rng.integer(0, states.length), 1)[0]!;
+    if (excludedStates.has(state.jurisdictionKey)) continue;
     const places = searchLifePlaces("", 5000, {
       stateJurisdictionKey: state.jurisdictionKey,
       scope: "locality",
@@ -120,60 +125,94 @@ function withOrdinance(
 }
 
 describe("an independent ward commission law", { timeout: 600_000 }, () => {
-  it(`takes the map from the council and a repeal gives it back (${SEED})`, () => {
-    const place = wardTown(SEED);
-    const opened = openObserverWorld(observerSetup(SEED, place.key));
-    let world = opened.world;
-    const unit = placeLocalGovernmentUnits(place).municipal[0]!;
-    const opening = townWardMap(world, unit)!;
-    const town = world.history.events.find(
-      (event) =>
-        event.type === "local.wards-drawn" &&
-        event.tags.includes(`unit:${unit.id}`),
-    )!.jurisdictionId!;
+  const selectedStates = new Set<string>();
+  it.each([0, 1, 2, 3, 4])(
+    `takes the map from the council and stamps its repeal (${SEED}:%i)`,
+    (caseNumber) => {
+      const seed = `${SEED}:${caseNumber}`;
+      const place = wardTown(seed, selectedStates);
+      expect(place.stateJurisdictionKey).not.toBeNull();
+      selectedStates.add(place.stateJurisdictionKey!);
+      const opened = openObserverWorld(observerSetup(seed, place.key));
+      let world = opened.world;
+      const unit = placeLocalGovernmentUnits(place).municipal[0]!;
+      const opening = townWardMap(world, unit)!;
+      const town = world.history.events.find(
+        (event) =>
+          event.type === "local.wards-drawn" &&
+          event.tags.includes(`unit:${unit.id}`),
+      )!.jurisdictionId!;
 
-    // 1. No law: the council draws, and nothing is redrawn early.
-    expect(opening.drawnBy).toBe("council");
-    expect(wardDrawerInForce(world, unit, town)).toBe("council");
-    expect(redistrictForWardCommission(world, unit, town)).toBe(world);
+      // 1. No law: the council draws, and nothing is redrawn early.
+      expect(opening.drawnBy).toBe("council");
+      const openingEvent = world.history.events.find(
+        (event) =>
+          event.type === "local.wards-drawn" &&
+          event.tags.includes(`unit:${unit.id}`),
+      )!;
+      expect(
+        (openingEvent as LawEffectStampedRecord).lawEffectStamps,
+      ).toBeUndefined();
+      expect(wardDrawerInForce(world, unit, town)).toBe("council");
+      expect(redistrictForWardCommission(world, unit, town)).toBe(world);
 
-    // 2. The ordinance takes effect; the next yearly review redraws.
-    world = withOrdinance(world, town, "yes", world.currentDate);
-    expect(wardDrawerInForce(world, unit, town)).toBe("commission");
-    world = redistrictForWardCommission(world, unit, town);
-    const commission = townWardMap(world, unit)!;
-    expect(commission.drawnBy).toBe("commission");
-    expect(commission.cuts).toEqual(
-      drawWardCuts(opening.households, opening.wards, "commission", []),
-    );
-    const drawn = world.history.events.at(-1)!;
-    expect(drawn.summary).toMatch(
-      /drawn by an independent commission, the independent ward commission law took effect/,
-    );
-    // Its map holds until the next redistricting; a second review is a no-op.
-    expect(redistrictForWardCommission(world, unit, town)).toBe(world);
+      // 2. The ordinance takes effect; the next yearly review redraws.
+      world = withOrdinance(world, town, "yes", world.currentDate);
+      expect(wardDrawerInForce(world, unit, town)).toBe("commission");
+      world = redistrictForWardCommission(world, unit, town);
+      const commission = townWardMap(world, unit)!;
+      expect(commission.drawnBy).toBe("commission");
+      expect(commission.cuts).toEqual(
+        drawWardCuts(opening.households, opening.wards, "commission", []),
+      );
+      const drawn = world.history.events.at(-1)!;
+      expect((drawn as LawEffectStampedRecord).lawEffectStamps).toEqual([
+        expect.objectContaining({
+          governingLawKey: "measure_ward_commission_yes",
+          source: "enacted",
+          effectKind: "local.wards-drawn",
+          questionKey: WARD_COMMISSION_QUESTION,
+          jurisdictionId: town,
+          appliedAt: world.currentDate,
+        }),
+      ]);
+      expect(drawn.summary).toMatch(
+        /drawn by an independent commission, the independent ward commission law took effect/,
+      );
+      // Its map holds until the next redistricting; a second review is a no-op.
+      expect(redistrictForWardCommission(world, unit, town)).toBe(world);
 
-    // 3. A repeal hands the census-year redraw back to the council.
-    const repealAt = makeIsoDate(
-      `${Number(world.currentDate.slice(0, 4)) + 1}-02-01`,
-    );
-    world = withOrdinance(world, town, "no", repealAt);
-    world = { ...world, currentDate: makeIsoDate("2031-03-01") };
-    expect(wardDrawerInForce(world, unit, town)).toBe("council");
-    const members = sittingLocalOfficers(world, unit).length;
-    expect(members).toBeGreaterThan(0);
-    world = redistrictAfterCensus(world, unit, town);
-    expect(townWardMap(world, unit)!.drawnBy).toBe("council");
+      // 3. A repeal hands the census-year redraw back to the council.
+      const repealAt = makeIsoDate(
+        `${Number(world.currentDate.slice(0, 4)) + 1}-02-01`,
+      );
+      world = withOrdinance(world, town, "no", repealAt);
+      world = { ...world, currentDate: makeIsoDate("2031-03-01") };
+      expect(wardDrawerInForce(world, unit, town)).toBe("council");
+      const members = sittingLocalOfficers(world, unit).length;
+      expect(members).toBeGreaterThan(0);
+      world = redistrictAfterCensus(world, unit, town);
+      expect(townWardMap(world, unit)!.drawnBy).toBe("council");
+      const repealed = world.history.events.at(-1)!;
+      expect((repealed as LawEffectStampedRecord).lawEffectStamps).toEqual([
+        expect.objectContaining({
+          governingLawKey: "measure_ward_commission_no",
+        }),
+      ]);
+      expect(JSON.parse(JSON.stringify(repealed)).lawEffectStamps).toHaveLength(
+        1,
+      );
 
-    console.log(
-      JSON.stringify({
-        seed: SEED,
-        place: `${place.displayName} (${place.key})`,
-        opening: opening.cuts,
-        commission: commission.cuts,
-        paired: commission.paired.length,
-        summary: drawn.summary,
-      }),
-    );
-  });
+      console.log(
+        JSON.stringify({
+          seed,
+          place: `${place.displayName} (${place.key})`,
+          opening: opening.cuts,
+          commission: commission.cuts,
+          paired: commission.paired.length,
+          summary: drawn.summary,
+        }),
+      );
+    },
+  );
 });
