@@ -1,5 +1,28 @@
 # Wave 1 status
 
+The owner-created cloud teams have their assignments. Their local predecessors remain preserved while repository access and final handoffs are confirmed.
+
+## Current cloud transfer
+
+Lamontae created cloud Teams 1–6, 8 and 9 and authorized their assignments and local chat archival. All eight assignments were delivered; working checkout confirmations are pending. Team 7 and the coordinator stay local. Preserve every local workspace and its evidence.
+
+| Team | Model / effort | Cloud chat ID | Transfer state |
+| --- | --- | --- | --- |
+| 1 | Sol 6.1 Medium | 01a0f02e-e6f1-71bc-968b-a74bc4c920dc | Final local handoff requested; cloud setup active. |
+| 2 | Sol 6.1 High | 01a0f02f-580d-75fb-8495-9b7cb80ae0d1 | Final local handoff requested; cloud setup active. |
+| 3 | Sol 6.1 Medium | 01a0f02f-b5e1-72f4-aa6d-04bb752e50ec | Preserve fairness candidate before source transfer. |
+| 4 | Sol 6.1 Medium | 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 | PR #1160 handoff delivered; cloud setup active. |
+| 5 | Sol 6.1 Medium | 01a0f030-4338-73d2-9537-17649ef680fb | Published continuation packet delivered; cloud setup active. |
+| 6 | Sol 6.1 Medium | 01a0f030-a052-773a-9258-ca86c99570f5 | Final research handoff requested; cloud setup active. |
+| 8 | Sol 6.1 Medium | 01a0f031-01c1-7471-89e5-b592f54830f3 | English engine assignment delivered. |
+| 9 | Sol 6.1 Low | 01a0f031-51fd-71b1-a8d5-feb9e66270d6 | Standing research assignment delivered; two Low research helpers authorized. |
+
+Only cloud Merge standby, 01a0f020-2e60-76e4-b23b-2e01263690c7, may merge. It requires the exact current-head Claude CTO approval comment, additive main integration, and only changed test files. Changed heads require renewed approval. No full suite. Local chats are archived after a cloud working checkpoint; their workspaces are retained.
+
+Cloud teams claim files on their branches and coordinate central ownership. Local claims remain until each transfer is confirmed. Historical entries below describe their stated times and do not override these rules.
+
+## Historical startup record
+
 Seven authorized teams have started. File conflicts wait for the owning team's pull request to merge. Claude reviews and merges; no Codex team merges.
 
 ## Team receipts
