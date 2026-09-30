@@ -354,7 +354,15 @@ No coefficient, source range or authority grant was invented.
 
 Unknown authority remains a research gap. The most-common arrangement needs
 an explicit developer-data flag; territory organic-act powers and township
-powers need their real jurisdiction research. No permissive fallback was added.
+powers need their real jurisdiction research. No permissive fallback was added
+by this audit.
+
+Current main was fetched and inspected separately. At head
+`2855854ca3537a1eacf5e1dd7591e593154c31bd`, the existing
+question-authority helper permits every verdict except no, including unknown.
+Agenda, law-in-force, fiscal and judicial-review callers use it. This conflicts
+with the latest instruction and is routed to the shared Team 2 governance lane.
+It is a source finding; no enactment case was executed.
 
 ## Method and exact source
 

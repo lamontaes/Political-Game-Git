@@ -2711,5 +2711,23 @@
       "reader": "living-world/town-finances.ts monthBusinesses reads business costs; Team3 owns the caller seam"
     }
   ],
-  "authorityDisposition": "CTO3:45: unknown authority is not permission. No permissive runtime fallback introduced. Territory organic-act and state-specific township authority require Team9 research; common-arrangement stand-ins must be flagged developer data."
+  "authorityDisposition": "CTO3:45: unknown authority is not permission. No permissive runtime fallback introduced. Territory organic-act and state-specific township authority require Team9 research; common-arrangement stand-ins must be flagged developer data.",
+  "latestAuthoritySourceFinding": {
+    "head": "2855854ca3537a1eacf5e1dd7591e593154c31bd",
+    "path": "src/simulation/governing/question-authority.ts",
+    "symbol": "mayAnswerQuestion",
+    "line": 413,
+    "observedExpression": "questionAuthority(world, jurisdictionId, propositionId, onDate).may !== \"no\"",
+    "finding": "unknown is currently permitted, contrary to CTO3:45",
+    "callers": [
+      "governing/member-agenda.ts",
+      "governing/law-in-force.ts",
+      "public-budgets/fiscal.ts",
+      "judiciary/judicial-review.ts",
+      "dc-council-sittings.ts",
+      "living-world/local-council-meetings.ts"
+    ],
+    "ownerAction": "Coordinator route shared governance gate and research-data repair to Team2; no Team1 source write",
+    "runtimeProof": "NOT RUN"
+  }
 }
