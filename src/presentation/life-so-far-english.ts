@@ -2,6 +2,8 @@ import {
   educationEnrollmentHistoryForPerson,
   educationEnrollmentStateAt,
   organizationProfileAt,
+  workRelationshipHistoryForPerson,
+  workStatusAt,
   type EntityId,
   type World,
 } from "../simulation";
@@ -89,18 +91,89 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
   // The preceding family card and each person's dossier carry kinship detail.
   // This short overview follows schooling and work, rather than listing every
   // extended relative again as a series of isolated record sentences.
-  const other = life.grounding.filter((fact) => fact.kind === "work");
+  const work = workRelationshipHistoryForPerson(world, personId)
+    .filter(
+      (record) =>
+        record.startedAt <= world.currentDate && record.organizationId !== null,
+    )
+    .flatMap((record) => {
+      const organizationId = record.organizationId;
+      const name = organizationId
+        ? organizationProfileAt(world, organizationId)?.name
+        : null;
+      return name && organizationId
+        ? [
+            {
+              record,
+              name,
+              organizationId,
+              active: workStatusAt(world, record.id)?.status === "active",
+            },
+          ]
+        : [];
+    })
+    .sort(
+      (a, b) =>
+        Number(b.active) - Number(a.active) ||
+        a.record.startedAt.localeCompare(b.record.startedAt),
+    );
+  const workSentences = work.flatMap((entry) => {
+    const sourceRecordIds = [entry.record.id, entry.organizationId];
+    const facts = {
+      "work-name": { text: entry.name, sourceRecordIds },
+      "work-year": {
+        text: entry.record.startedAt.slice(0, 4),
+        sourceRecordIds,
+      },
+    };
+    const bank: ComposedLineBank = {
+      key: "opening-recorded-work",
+      version: "1",
+      surface: "scene",
+      act: "tell",
+      parts: {
+        core: {
+          variants: [
+            {
+              key: entry.active ? "current-start" : "earlier-start",
+              kind: "template",
+              text: entry.active
+                ? "Since {{work-year}}, you've worked at {{work-name}}."
+                : "You started work at {{work-name}} in {{work-year}}.",
+            },
+          ],
+        },
+      },
+    };
+    const packet: GroundedEnglishPacket = {
+      surface: "scene",
+      momentKey: `life-so-far:work:${personId}:${world.currentDate}:${entry.record.id}`,
+      worldSeed: world.seed,
+      bankVersion: "1",
+      stage: "opening",
+      sourceRecordIds,
+      facts,
+      viewer: { personId, traits: {} },
+      knowledge: Object.keys(facts).map((factKey) => ({
+        personId,
+        factKey,
+        sourceRecordIds,
+      })),
+    };
+    const line = composeGroundedLine(packet, bank);
+    return line.kind === "rendered" ? [line.text] : [];
+  });
   return {
     sentences: [
       ...life.sentences.filter(
         (sentence) => !/^No one else is recorded/.test(sentence),
       ),
       ...schoolSentences,
-      ...other.map((fact) => fact.text),
+      ...workSentences,
     ],
     sourceRecordIds: [
       ...schooling.flatMap((school) => school.sourceRecordIds),
-      ...other.map((fact) => fact.basis),
+      ...work.flatMap((entry) => [entry.record.id, entry.organizationId]),
     ],
   };
 }
