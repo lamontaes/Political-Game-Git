@@ -77,3 +77,12 @@ contract before weight implementation. Merge reviews the independent draw
 removal with its own changed-file gate and exact-head approval. Team9 retains
 the research gaps; Team2 retains unrelated governance work. No unsupported
 automation retry, helper, force-push, extra checkout or self-merge occurred.
+
+## Overnight scope supersedes the earlier next action
+
+CTO's 1:40 correction replaces further exhaustive numeric inventory with
+why-chains. The ledger remains supporting historical evidence. The 2:05 plan
+keeps the combined continuous-strength feature HELD; PR1184 is now draft.
+The seven-heading continuation is `team-1-why-chains.md`. Draw removal's prior
+source checks remain valid at their named source head; they do not establish
+continuous strength or runtime acceptance. No Merge action is requested.

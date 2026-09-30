@@ -33,3 +33,15 @@ head is unchanged by this branch. The narrow Team 2 and Team 3 releases posted
 in 00 remain in force; CTO's events-only budget fixture ruling supersedes the
 older broader fixture release. Continuous schema and weight implementation
 waits for the numbered design decision and exact shared writer claims.
+
+### Updated overnight scope
+
+CTO's 1:40 correction replaces further numerical inventory with one page of
+why-chains; the existing ledger remains historical supporting evidence.
+The 2:05 plan assigns continuous life-derived strength as a HELD draft.
+Team 1 additionally claims `docs/codex/handbacks/team-1-why-chains.md`
+`docs/codex/handbacks/team-1-principle-example.json`,
+and ignored `test-results/team1/principle-life-example.ts` for a read-only
+named example. No additional shared source hunks are claimed by this update.
+The continuous design's evidence contract can be refined without coding
+unapproved weights. PR1184 is now draft; original PR1152 remains preserved.

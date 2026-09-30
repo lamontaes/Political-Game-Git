@@ -83,3 +83,41 @@ law branch; an independent replacement branch avoids rewriting that history.
 This design is proposed. Continuous-strength implementation and runtime
 acceptance are NOT RUN. Existing pull weights, formation thresholds and
 conviction steps remain authored values pending the decisions above.
+
+## HELD evidence contract after the overnight correction
+
+The 1:40 correction replaces further numeric inventory with why-chains.
+The 2:05 plan keeps the combined feature HELD for review. These refinements
+are contract proposals; no shared schema or strength equation is implemented.
+
+1. **Decision evidence differs from circumstance.** An actual principle choice
+   or a decision trace can establish a person's recorded view. Birth, residence,
+   party membership and occupation establish circumstances. They must not be
+   relabeled as decisions. Existing group-to-person pulls are stand-ins, even
+   when the underlying birth or residence fact is real in the saved world.
+2. **Date every exposure.** Identify the source record and its effective interval,
+   then intersect that interval with the historical read cutoff. A dated birth
+   fact does not establish years of political exposure. An undated participation
+   cannot supply duration. Preserve missing inputs without treating them as zero.
+3. **Name depth and stakes.** Record what the person actually did, paid, lost,
+   experienced or decided. A job title or town-size label alone cannot establish
+   depth. Evidence must retain its original unit; dollars and days cannot be
+   added into strength without a reviewed conversion.
+4. **Deduplicate causal episodes.** Event, story, knowledge and conversation
+   records can describe the same occurrence. Keep their provenance but count
+   one underlying episode once. A second exposure to the same report is not
+   automatically independent reinforcement. No confidence-as-attention shortcut.
+5. **Retain opposition and unsupported cases.** Preserve evidence on both sides
+   and the person's recorded qualification. Conflict must not silently erase
+   either side. No eligible personal decision or supported mechanism means no
+   new inferred belief. Historical rows and controlled-player choices survive.
+6. **Keep scoring separate.** This evidence contract provides inputs, not a
+   numeric strength. CTO must resolve domain, combination, opposition and
+   legacy semantics before a writer or consumer changes. Team 2 retains agenda,
+   filing and consent thresholds. Shared schema and validation need exact claims.
+
+The missing research cells sent to Team 9 are strength measurement and unit;
+exposure duration; measured depth or stakes; distinct reinforcement and opposing
+experience response; response lag; population and place coverage; and causal
+versus descriptive identification. Research aggregates will check results,
+not decide an actor's belief. No invented response curve fills these cells.
