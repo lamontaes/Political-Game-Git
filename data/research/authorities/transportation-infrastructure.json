@@ -2182,6 +2182,110 @@
       "year": 2025,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "al-ev-memo2023",
+      "title": "Alabama dated EV registration memo",
+      "url": "https://www.revenue.alabama.gov/wp-content/uploads/2023/06/230606_MVD_MEMO_2023-002.pdf",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ar-ev-schedule",
+      "title": "Arkansas DFA EV registration schedule",
+      "url": "https://www.dfa.arkansas.gov/wp-content/uploads/Schedule-Fee-Part-1-002.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "co-ev-act2021",
+      "title": "Colorado signed SB21-260 fee schedules",
+      "url": "https://content.leg.colorado.gov/sites/default/files/2021a_260_signed.pdf",
+      "year": 2021,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ga-ev-rate2025",
+      "title": "Georgia2025 alternative fuel licensing bulletin",
+      "url": "https://dor.georgia.gov/document/document/2025-alternative-fuel-vehicles-annual-licensing-fees/download",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ia-ev-code2026",
+      "title": "Iowa Code2026 section321.116",
+      "url": "https://www.legis.iowa.gov/docs/code/2026/321.116.pdf",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ks-ev-act2025",
+      "title": "Kansas HB2122 enrolled January2026 fee amendment",
+      "url": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year1/ready_for_publication/hb_2122/hb2122_enrolled.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ky-ev-code2025",
+      "title": "Kentucky138.475 plug-in vehicle ownership fees",
+      "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=55787",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "la-ev-code",
+      "title": "Louisiana32:461 EV/hybrid road usage levy",
+      "url": "https://legis.la.gov/legis/Law.aspx?d=1294995",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-ev-code",
+      "title": "North Carolina20-87 EV/PHEV registration fees",
+      "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_20/GS_20-87.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ok-ev-code2021",
+      "title": "Oklahoma68-6511 effective throughJune2026 fee schedule",
+      "url": "https://govt.westlaw.com/okjc/Document/N0C948DE0EF4B11EBAF68B896D3EC91AC?contextData=%28sc.Default%29&originationContext=documenttoc&transitionType=CategoryPageItem&viewType=FullText",
+      "year": 2021,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "co-ev-test-table",
+      "title": "Colorado state test-domain indexed DMV fee table; production retrieval unavailable",
+      "url": "https://dmv.test.colorado.gov/taxes-and-fees",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ok-ev-invalid2017",
+      "title": "Oklahoma Governor2017 Supreme Court fee invalidation announcement",
+      "url": "https://content.govdelivery.com/accounts/OKGOV/bulletins/1bfb9d3",
+      "year": 2017,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "eia-fuel-jan2026",
+      "title": "EIA archived January2026 motor-fuel tax sheet revisedMarch2026",
+      "url": "https://www.eia.gov/petroleum/marketing/monthly/archive/2026/2026_03/xls/fueltaxes.xlsx",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -2804,287 +2908,296 @@
           "startingLaw": {
             "AL": {
               "status": "in force",
-              "detail": "Gasoline30cents/gallon and undyed diesel31cents effectiveJuly1,2025; next scheduled biennial index adjustmentJuly2027. Exemptions/refunds and local levies need separate records.",
-              "sources": ["al-gas-law2019", "al-gas-rate2025"]
+              "detail": "January2026 EIA gasoline state-tax component: 30 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. Gasoline30cents/gallon and undyed diesel31cents effectiveJuly1,2025; next scheduled biennial index adjustmentJuly2027. Exemptions/refunds and local levies need separate records.",
+              "sources": [
+                "al-gas-law2019",
+                "al-gas-rate2025",
+                "eia-fuel-jan2026"
+              ]
             },
             "AK": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 8 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "AZ": {
-              "status": "unresearched",
-              "detail": "Current28-5606 imposes18cents/gallon motor vehicle fuel,26cents use-class vehicle use fuel,18cents light-class use fuel; alternative-fuel and exempt-use-class exceptions apply. January2026 amendment history remains to be reconciled; starting-law status remains unknown.",
-              "sources": ["az-gas-current", "az-revenue-vote"]
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 18 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": [
+                "az-gas-current",
+                "az-revenue-vote",
+                "eia-fuel-jan2026"
+              ]
             },
             "AR": {
               "status": "in force",
-              "detail": "Dated notice appliesOctober1,2025\u2013September30,2026: gasoline24.7cents/gallon,clear diesel28.5cents,plus0.3cent Petroleum Environment Assurance Fee. Gasoline border zones have different published rates.",
-              "sources": ["ar-gas-rate2025"]
+              "detail": "January2026 EIA gasoline state-tax component: 24.7 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. Dated notice appliesOctober1,2025\u2013September30,2026: gasoline24.7cents/gallon,clear diesel28.5cents,plus0.3cent Petroleum Environment Assurance Fee. Gasoline border zones have different published rates.",
+              "sources": ["ar-gas-rate2025", "eia-fuel-jan2026"]
             },
             "CA": {
               "status": "in force",
-              "detail": "SB1 fuel-tax and indexing provisions; current January 2026 rate not sized here.",
-              "sources": ["sb1"]
+              "detail": "January2026 EIA gasoline state-tax component: 61.2 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. SB1 fuel-tax and indexing provisions; current January 2026 rate not sized here.",
+              "sources": ["sb1", "eia-fuel-jan2026"]
             },
             "CO": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 22 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "CT": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 25 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "DE": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "FL": {
               "status": "in force",
-              "detail": "January2026 chart: gasoline4cent state excise+18cent state sales tax,0.125cent inspection fee,6cent minimum local option,9.9cent SCETS;38.025cent statewide collection minimum. County additional local option/ninth-cent vary; county totals need their own cells,not a single statewide all-in tax.",
+              "detail": "January2026 EIA gasoline state-tax component: 22 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. January2026 chart: gasoline4cent state excise+18cent state sales tax,0.125cent inspection fee,6cent minimum local option,9.9cent SCETS;38.025cent statewide collection minimum. County additional local option/ninth-cent vary; county totals need their own cells,not a single statewide all-in tax.",
               "sources": [
                 "fl-gas-law2025",
                 "fl-local-gas2025",
-                "fl-gas-rate2026"
+                "fl-gas-rate2026",
+                "eia-fuel-jan2026"
               ]
             },
             "GA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 33.3 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "HI": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 16 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "ID": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 32 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "IL": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 48.3 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "IN": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 36 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "IA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 30 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "KS": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 24 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "KY": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 25 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "LA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 20 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "ME": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 30 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MD": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 33 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 24 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MI": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 52.4 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MN": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 32.6 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MS": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 21 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MO": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 29.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MT": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 33 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "NE": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 31.8 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "NV": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "NH": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 22.2 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "NJ": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 10.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "NM": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 17 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "NY": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 8 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "NC": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 41 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "ND": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "OH": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 38.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "OK": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 19 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "OR": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 40 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "PA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 57.6 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "RI": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 40 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "SC": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 28 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "SD": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 28 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "TN": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 26 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "TX": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 20 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "UT": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 37.9 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "VT": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 12.1 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "VA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 31.7 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "WA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 55.4 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "WV": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 20.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "WI": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 30.9 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "WY": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 23 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "DC": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 23.5 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "PR": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 16 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "GU": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "VI": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 14 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "AS": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 35 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             },
             "MP": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
+              "sources": ["eia-fuel-jan2026"]
             }
           }
         },
@@ -3123,10 +3236,10 @@
           ],
           "availability": {
             "AL": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: Act2019-2 /40-12-242. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["al-ev-memo2023"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3150,10 +3263,10 @@
               "differentLargeCityCharters": []
             },
             "AR": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: 27-14-614. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["ar-ev-schedule"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3168,10 +3281,10 @@
               "differentLargeCityCharters": []
             },
             "CO": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: 42-3-304. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["co-ev-act2021"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3204,10 +3317,10 @@
               "differentLargeCityCharters": []
             },
             "GA": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: HB170/2015 statutory alternative-fuel licensing fee. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["ga-ev-rate2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3249,37 +3362,37 @@
               "differentLargeCityCharters": []
             },
             "IA": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: 321.116\u2013321.117. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["ia-ev-code2026"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "KS": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: 8-143 and8-145. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["ks-ev-act2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "KY": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: 138.475 /138.477 indexing. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["ky-ev-code2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "LA": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: R.S.32:461. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["la-ev-code"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3411,10 +3524,10 @@
               "differentLargeCityCharters": []
             },
             "NC": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: 20-87 /20-4.02 statutory adjustment. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["nc-ev-code"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -3438,11 +3551,18 @@
               "differentLargeCityCharters": []
             },
             "OK": {
-              "status": "unresearched",
-              "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state legislated EV fee categories; no local fee grant inferred",
+              "reason": "Own-state primary record establishes an enacted fee route: 68-6511. Legislative amendment of that statute changes its schedule; agency adjustment only within enacted formula. Full constitutional procedural,local-grant and charter review remains incomplete.",
+              "sources": ["ok-ev-code2021"],
+              "bars": [
+                {
+                  "description": "Original2017HB1449 electric/hybrid fee was struck down; mere printed47-1132.7 text cannot establish collectible fee. Operative2021route recorded separately.",
+                  "lawKind": "state statute",
+                  "changedBy": "A constitutionally valid enacted fee is required; no curing reenactment established for the2017component.",
+                  "sources": ["ok-ev-invalid2017", "ok-ev-code2021"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -3651,9 +3771,9 @@
           "directMechanism": "Charge eligible registered vehicles; allocate proceeds.",
           "startingLaw": {
             "AL": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Additional annual BEV203/PHEV103 dollars fromJuly2023; public-highway vehicles; next3dollar increaseJuly2027. Ordinary registration separate; full exemptions unresearched.",
+              "sources": ["al-ev-memo2023"]
             },
             "AK": {
               "status": "unresearched",
@@ -3666,9 +3786,9 @@
               "sources": []
             },
             "AR": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "BEV200/PHEV100/nonplug-in hybrid50 dollars annually in official schedule.2021Act376 change operativeJanuary2022; specialty-plate,low-speed,golf-cart and motorcycle exceptions need codified cross-reference review.",
+              "sources": ["ar-ev-schedule"]
             },
             "CA": {
               "status": "in force",
@@ -3676,9 +3796,9 @@
               "sources": ["sb1"]
             },
             "CO": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Enacted plug-in-vehicle base fee and phased road-usage schedule. Helper indexed state test-domain table reportsFY2025\u201326 base60.05 dollars plusBEV16/PHEV11. Production retrieval and exact adjusted base remain unverified; do not use this as a settled January2026 total.",
+              "sources": ["co-ev-act2021", "co-ev-test-table"]
             },
             "CT": {
               "status": "unresearched",
@@ -3696,9 +3816,9 @@
               "sources": []
             },
             "GA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "July2025\u2013June2026 annual noncommercial234.97/commercial352.56/low-speed109.95 dollars. Electric-only regardless of plate; PHEV/flex-fuel only with elected alternative-fuel plate. Nonplug-in hybrids and CNG/LNG/LPG excluded. Indexed fuel-efficiency/CPI adjustment.",
+              "sources": ["ga-ev-rate2025"]
             },
             "HI": {
               "status": "unresearched",
@@ -3721,24 +3841,24 @@
               "sources": []
             },
             "IA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Additional annual BEV130/PHEV65 dollars for covered public-highway vehicles under321.109(1)(a). Statutory definitions require rechargeable drivetrain; ordinary nonplug-in hybrid excluded.2019Acts151/2023Acts66; motorcycle category separate.",
+              "sources": ["ia-ev-code2026"]
             },
             "KS": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January1,2026 annual passenger LICENSE FEE BEV165/PHEV100/nonplug-in hybrid70 dollars; electric motorcycle30. These replace the category license fee,not an additional surcharge. Trucks\u226412000lbBEV200/hybrid125; exclusive-government2dollar category subject to statutory scope.",
+              "sources": ["ks-ev-act2025"]
             },
             "KY": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Fee law in force fromJanuary2024,2024amendment fromJanuary2025. Plug-in120/electric motorcycle60 dollar base floors; annual rounded index.2025actual126/63 is not a verified2026rate. Nonplug-in hybrids excluded; 2026adjustment notice still needed.",
+              "sources": ["ky-ev-code2025"]
             },
             "LA": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Electric110/hybrid60 dollars PER YEAR; highway vehicles required to register. Hybrid includes nonplug-in gasoline/diesel/special fuel+electric propulsion. Student-transport school buses exempt. Collection for registration period must retain annual duration.2022Act578 effectiveJanuary2023;2024Act155 effectiveMay2024.",
+              "sources": ["la-ev-code"]
             },
             "ME": {
               "status": "unresearched",
@@ -3811,9 +3931,9 @@
               "sources": []
             },
             "NC": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Additional BEV214.50/PHEV107.25 dollars initial registration/renewal,July2024adjustment. BEV rule excludes low-speed and nonelectric power source; state research/demonstration exemption.2023SL13441.14D changed categories. Full adjustment/specialty provisions remain to be reconciled.",
+              "sources": ["nc-ev-code"]
             },
             "ND": {
               "status": "unresearched",
@@ -3826,9 +3946,9 @@
               "sources": []
             },
             "OK": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "2021ch157\u00a711 effectiveNovember2021: BEV/PHEV110/82 dollars gross weight<6000lb; higher weight classes separate. Combined collectible total unresolved: older47-1132.7 printed100/30fee was invalidated2017. No automatic210/112sum or unverified reenactment.",
+              "sources": ["ok-ev-code2021", "ok-ev-invalid2017"]
             },
             "OR": {
               "status": "unresearched",
@@ -32307,7 +32427,7 @@
       "id": "verify-05-item1",
       "promptClaim": "3. **Electric vehicle registration fee.** State. More than 30 states charge one, typically $50 to $200 a year. Effect: a small drop in electric vehicle sales (**verify** study).",
       "status": "partially verified",
-      "finding": "Jenn2018 fixed-effects observational model reports0.24% lower EV sales per$1 enacted fee over2010\u2013June2018 data. Implementation coefficient is smaller and statistically nonsignificant. This is study-specific, not universal causation. January2026 fee count remains unresolved. NCSLJuly2026 reports at least42states and35hybrid-fee states but includes future NM2027 and NJ2028 schedule amounts. Primary NM2026 act confirms delayed2027 start; primary NJMVC schedule exceeds$200 already byJan2026. This survey is not an active-Jan2026 count.",
+      "finding": "Jenn2018 fixed-effects observational model reports0.24% lower EV sales per$1 enacted fee over2010\u2013June2018 data. Implementation coefficient is smaller and statistically nonsignificant. This is study-specific, not universal causation. January2026 fee count remains unresolved. NCSLJuly2026 reports at least42states and35hybrid-fee states but includes future NM2027 and NJ2028 schedule amounts. Primary NM2026 act confirms delayed2027 start; primary NJMVC schedule exceeds$200 already byJan2026. This survey is not an active-Jan2026 count. Own-state primary batch establishes ten more enacted fee routes; KSJanuary2026 passenger165/100/70 are category fees,not extra charges. KY2026adjustment and OKcombined collectible total unresolved; COadjustedbase production retrieval unverified. National active-fee count remains unresolved.",
       "sources": [
         "jenn2018",
         "ev-fees",
@@ -32315,7 +32435,11 @@
         "nm-ev-law2026",
         "nm-ev-final2026",
         "nj-ev-admin",
-        "id-ev-code"
+        "id-ev-code",
+        "ks-ev-act2025",
+        "ky-ev-code2025",
+        "ok-ev-code2021",
+        "ok-ev-invalid2017"
       ]
     },
     {
