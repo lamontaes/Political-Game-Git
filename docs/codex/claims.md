@@ -918,3 +918,6 @@ Team 9 owns only its additive row on this branch. The prior homelessness/Wave 2 
 ## September 30, 2:05 closed budget transfers
 
 Team3 verified no unpublished month.ts/store.ts bytes at ab2a5e691f68a708dc9f49a8e2c8d7d651cfc83d. Team5 owns ONLY tuition chargesAndFees stamp append and curriculum saved-row append in public-budgets/month.ts. Team8 owns disjoint privacy append. Team3 retains paidLeave MonthFlows field, outgoing payment filter and settleGovernmentMonth paid-leave append. Preserve every other array and optional field. Dispatch delivered to both receiving teams.
+
+## September 30, 2:19 CTO shared event preservation
+Coordinator exclusively owns history.ts HistoricalEventInput/appendHistoricalEvent, types.ts HistoricalEvent optional LawEffectStampedRecord extension, and history-law-stamps.test.ts. Existing event amounts and all other history/types fields remain unchanged. CTO pre-approved this fix contingent on canonical save/reload check. Team2 term-limited local-election event hunk and Team4 rent saved stamp hunks explicitly released by Team1, no unpublished overlap.

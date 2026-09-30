@@ -1,3 +1,23 @@
+## September 30, 2:30 active build and collection
+
+### MERGED
+Merge verified1283→23bf22b81a30a9f4847b6373b273ce39988dc131,1292→2df795cd79e15ec7da9b0d97a3f9789c7760a303,1274→77ea065fafa51dc024a7ed1c701c2c26b3332749,1289→2b8e6e21930bad84593ceede04d264115bca7dcd. Transit fare qualifies only NM in the five-state window; no five-state fare firing claim. Here-panel removal has static checks, browser NOT RUN. Merge federal changed tests25/25, distinct from producer29.
+
+### CONNECTIONS TABLE
+| Link | Action / evidence | Next owner |
+| --- | --- | --- |
+| Event writer → saved law stamps | Coordinator published1297 0bb59d17f7412d000e9ccec5e51ed7d3e14a2933; optional types and cloned stamp/source IDs; new canonical Save/Continue test | Merge executes test under CTO preapproval; Team2 integrates afterward |
+| Team1 rent hunk → Team4 housing stamps | Explicit no-unpublished-overlap release dispatched | Team4 builds production caller |
+| Team1 local-election event → Team2 | Exact release confirmed; fixture repair active | Team2 |
+| Paid leave → shared monthly budget |1295 conflicts after1274; additive repair routed preserving both stamp arrays | Team3 |
+| National audit → law evidence | AUDIT/SYSTEMS reports actual1:56:46 launch, fd4925e6, PID2519; six sealed24-month worlds, three workers | Per-law partial results pending |
+
+### BLOCKED
+1295 tests NOT RUN at Merge because month/store integration conflicts. Team7 waits on Audit ghost/pose diagnosis; priority relay sent. Team9 was idle after1290: directed to mark ready under new stamp-only rule and continue next bounded build. No duplicate audit or invented next mechanism.
+
+### EFFECTS
+1297 repairs discarded attribution only; it creates no new world consequence. Runtime test pending with Merge, not passed yet. Audit sealed places include RockfordAL, KobukAK, Ta'uAS, SierraVistaAZ, JeffersonCountyAR and NorcoCA; do not equate sealed world with per-law firing. CTO2:25 standing merge categories now apply; numbers/new mechanisms/shared core/UI/art still need approval except the explicit history fix.
+
 ## September 30, 2:05 integration actions
 
 ### MERGED
