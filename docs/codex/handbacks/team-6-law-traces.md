@@ -4,7 +4,7 @@ This first source-audit batch identifies two working aggregate paths and their u
 
 The replacement session accepted the published account-transfer checkpoint. All fifteen assigned catalog questions now have a first source-reader trace. The coverage inventory records their direct and inspected downstream effects. Fourteen noncatalog variants have a compiled-clause inventory. Full legal/effect breadth and watched proof are unfinished. No fix or runtime acceptance is claimed.
 
-## Why-chain
+## 1. Why-chain (five whys, to bedrock)
 
 The audit reads main `54930d427555034f3a92f335064586247985784d`. The replacement accepted PR1133 at `f0735b3809f37ef4733660bf7661e7f7ce0cef89`, which preserves the earlier legal publication and transfer evidence.
 
@@ -28,7 +28,7 @@ The September 30, 2:15 a.m. CTO dispatch supersedes the overnight work order: tr
 5. **Gap/fix:** classify the aggregate projection and fixed lag as estimates, retain their sources, and request broad newer fleet/revenue evidence. Individual road-charge assessments would require world records and are a feature unless an existing canonical producer is found. No automatic driver payment may be inferred from this factor.
 6. **Proof:** Team 2 law-money runner line PENDING; no observed named payer or public-account movement in this audit.
 
-## Source research
+## 2. Research
 
 These entries distinguish source citations embedded in code from primary sources newly inspected. CBO, Census and parks-yield citations above are inherited code evidence; this batch has not reread their original tables. The published primary-law packet is separate and retains its operative-version/cutoff gaps. No new causal rate was admitted.
 
@@ -350,6 +350,34 @@ Read END00 through CTO3:45. Each catalog trace names a person-level writer or ex
 
 The direct parks and mileage modules still use fixed shared estimates. CTO3:45 requires their existing owners to use a stable per-world/place draw within a researched range; Team 6 changes no product coefficient. Unknown authority is not permission. State/local/territorial legal gaps remain open, and actual or explicitly marked common-arrangement devdata belongs with the existing authority owner. Township powers cannot be inferred from a city answer. These routes add no overlapping file claim.
 
+## Coordinator law-table contribution for 7:00 a.m.
+
+This table is Team 6's source contribution, not the coordinator's central table or an acceptance claim. Each row points to its six-line trace above; the fifteen-row effects inventory supplies inherited sizes, ranges, units and delays, and the downstream section supplies missing/inert-evidence distinctions. No effect was newly calibrated. All fifteen watched proof lines are **NOT RUN**. Federal legal ownership remains Team 1; territorial organic-act breadth remains Team 9.
+
+"Scope" below means the current game's catalog mapping, **not** researched legal permission. D.C. and territorial generic mappings do not establish their real powers; townships and special districts are not admitted without evidence. Real state/local authority, preemption, floors, ceilings and repeal must be proved for the actual place and operative date. No unresolved authority row is permission.
+
+| Law and detailed trace                                                  | Catalog scope     | Person-level terminal in inspected path          | Legal/repeal boundary requiring follow-through                                                                                                                                               |
+| ----------------------------------------------------------------------- | ----------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Highway funds to transit](#shift-highway-funds-to-transit)             | State/county/city | no person feels this yet                         | Actual fund ownership, transfer restrictions and service contracts; physical service does not reverse instantly. Federal grants cross-link Team 1.                                           |
+| [Fare-free transit](#fare-free-transit)                                 | State/county/city | no person feels this yet                         | Actual operator fare-setting power, dedicated revenue and contracts; no refund transaction established.                                                                                      |
+| [Rural transit appropriation](#rural-transit-appropriation-and-service) | State             | HARDWIRED rider memory in paid-transit writer    | Fifty-state profile excludes D.C./territories; federal Section 5311 match conditions are separate; automatic and sponsor repeal routes need actual records.                                  |
+| [Mileage replaces fuel tax](#mileage-fee-replaces-fuel-tax)             | State             | no person feels this yet                         | Actual fee/tax enactment power and billing; revenue-factor reversal does not prove driver liability or refund. Fixed estimate requires owner range fix.                                      |
+| [Municipal broadband permission](#permit-municipal-broadband)           | State             | no person feels this yet                         | State restrictions, provider ownership and local charter; federal communications seam stays Team 1. Permission is not a network or subscription.                                             |
+| [Fix it first](#fix-it-first)                                           | State/county/city | no person feels this yet                         | Actual asset/fund ownership, inspection and repair authority; repaired assets persist after repeal.                                                                                          |
+| [Clean electricity](#clean-electricity-standard)                        | State             | no person feels this yet                         | California retail-seller rule is read; other utility/regulator powers and federal seams remain distinct. Procurement and exposure persist independently of answer reversal.                  |
+| [Carbon price](#price-carbon)                                           | State             | no person feels this yet                         | Operative carbon statute was not admitted from the version selector; actual taxable activity, payer and federal limits remain open. Atmospheric effects do not unwind on repeal day.         |
+| [New gas hookups](#ban-new-natural-gas-hookups)                         | State/county/city | no person feels this yet                         | EPCA exceptions and Ninth Circuit Berkeley holding require actual rule/product analysis; exposure in existing homes is separate.                                                             |
+| [Flood-zone construction](#restrict-construction-in-flood-zones)        | State/county/city | HARDWIRED damage/injury/death in disaster writer | Federal NFIP minimum permits stricter rules; actual local zoning grants/maps remain open. Avoided construction persists; seeded damage is not a permit decision.                             |
+| [Bottle deposit](#beverage-container-deposit)                           | State/county/city | no person feels this yet                         | Oregon primary chapter retrieval failed; operative deposit/refund authority and preemption remain open. Returning an answer does not settle existing deposits.                               |
+| [Groundwater metering/limits](#meter-and-limit-groundwater-withdrawals) | State             | no person feels this yet                         | California GSA powers are read; allocation, well rights, county delegation and actual plans remain distinct. Kansas intervention source remains unverified; water conserved is not reversed. |
+| [Farmland protection](#pay-to-protect-farmland-from-development)        | State             | no person feels this yet                         | Federal ACEP cost-share is separate from state/local acquisition authority; recorded permanent easements persist after repeal.                                                               |
+| [Public-land access](#expand-public-land-access)                        | State/county      | no person feels this yet                         | No counted producer; federal forest ownership, closure orders and delegated authority are read, not overridden by county permission.                                                         |
+| [Dedicated parks funding](#dedicated-parks-funding)                     | State/county/city | no person feels this yet                         | Inspected spending writer acts only for states; actual earmarking and local budgets remain separate. Fixed spending estimate requires owner range fix; budget is not a visitor decision.     |
+
+The fourteen noncatalog variants remain in their separate detailed inventory: four actual appropriating clauses, six authorization-only ceilings and four regulatory duties. The four funding paths stop before their distinct personal benefits; the six ceilings require a later law; duties require actual coverage and compliance records. A named executive's governing decision does not establish an eligible beneficiary's service. The corrected family adapter route supersedes the earlier blanket missing-key proposal.
+
+CTO5:08 seven-heading receipt: the seven numbered headings in this file carry the why-chain, research, revisions, proposed parts, simulation/record distinction, explicit unrun proof and unobserved worked example. The chain terminates at aggregate storage, contractual/account bookkeeping, authored rider memory, seeded disaster outcomes or no producer, as each row states. This is a completed source handback, not complete primary legal breadth or runtime proof. Nine inspected law/payment/person-reader files were compared with fetched main `1d45a8a45d3823c80cac917525b444984deca591` and were byte-identical. No main-only behavior is claimed without that comparison.
+
 ## Replacement-session checks and next bounded action
 
 Accepted transfer head: `f0735b3809f37ef4733660bf7661e7f7ce0cef89`, branch `codex/team-6-transportation-research`, PR1133 open and unmerged. Live main was independently read as `54930d427555034f3a92f335064586247985784d`. The one existing checkout was reused. No reset, stash, cleanup, extra tree, product edit, central-claims edit, helper or merge occurred.
@@ -360,25 +388,25 @@ SIMULATED: no new watched run. RECORDS: financial transfer, paid-hour, publicati
 
 Next bounded step: obtain an actual later-law lineage and original cap/term for the six authorization cases, plus the four family appropriation cases' account, recipient and service lines from Team 2. Close primary legal/effect gaps with Team 9. Coordinator should route the authored rider reaction, fifty-state transit profile, rank-only preemption and repeal-persistence findings to their existing owners. Team 2 supplies actual law-money lines; Team 9 supplies missing effect breadth and sizes. No new overlapping claim is requested by this source-only report.
 
-## Revisions and breadth
+## 3. Revisions
 
 The obsolete exhaustive-number task is replaced by why-chains and six-line law traces. The first reader pass covers six transportation questions, five environment/energy questions, three agriculture/resources questions and parks. Full primary-source breadth and watched proof remain open. Federal twenty-question entries stay Team 1-owned; Team 6 reports cross-links and area modules rather than a competing federal writer. The held law branch must be compared explicitly before describing branch-only effects as main behavior.
 
-## Numbered HELD parts
+## 4. What gets built, in numbered parts
 
 1. Preserve published primary-law evidence and historical checks.
 2. Finish source traces for every assigned key and noncatalog area module.
 3. Ask Team 9 for missing broad sizes; do not invent calibration.
 4. Route small wiring gaps to named existing owners; new systems go to the morning feature list. Team 6 claims no product path.
 
-## SIMULATED / RECORDS / WORLD PIECES / CHECKS
+## 5. Simulated, records, world pieces, checks
 
 SIMULATED: none in this audit. RECORDS: law readers and budget stores exist in source; actual case-specific law and money records have not been extracted. WORLD PIECES: budget population, opening/current answers and spending bases are inputs to the inspected functions. Drivers' mileage/payment records and individual park outcomes were not established. NONE CASE: missing source evidence is unknown; no enacted delta is not zero real-world activity. Local parks budget consumer explicitly yields no delta. CHECKS: the replacement-session prose checks are recorded in its receipt; no runtime, product types, tests or browser run. Prior PR1133 source checks remain scoped to its identical published tree.
 
-## Random-place proof
+## 6. Proof run
 
 NOT RUN. Team 2 owns the watched-year runner. A code path and a research source do not substitute for its logged named-place proof.
 
-## Named worked example
+## 7. Worked example
 
 NOT OBSERVED. Do not invent a resident, driver or public transaction. A source-only illustration is a state changing its parks answer from no to yes: this function adds population times the shared annual estimate divided by twelve. It is not a named family's actual park use. The initial rural-transit and catalog reader audits are now saved above. Next obtain the runner's actual transaction lines and resolve the named legal and adapter gaps through their owners.
