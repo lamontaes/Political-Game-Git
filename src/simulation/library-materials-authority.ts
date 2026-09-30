@@ -1,0 +1,46 @@
+import { lawInForce } from "./governing/law-in-force";
+import { questionAuthority } from "./governing/question-authority";
+import { LIBRARY_QUESTION } from "./education-civil-law-terms";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "./life-places";
+import type { EntityId, IsoDate, World } from "./types";
+
+/** Allocation of collection authority is not a decision to remove any title. */
+export function libraryMaterialsAuthority(
+  world: World,
+  townId: EntityId,
+  onDate: IsoDate = world.currentDate,
+) {
+  const stateKey = lifePlaceByJurisdictionId(townId)?.stateJurisdictionKey;
+  const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === LIBRARY_QUESTION,
+  );
+  if (!state || !proposition)
+    return {
+      level: "unknown" as const,
+      law: null,
+      reason: "The place or library authority question is not recorded.",
+    };
+  const authority = questionAuthority(world, state.id, proposition.id, onDate);
+  if (authority.may !== "yes")
+    return {
+      level: "unknown" as const,
+      law: null,
+      reason: authority.reason,
+    };
+  const law = lawInForce(world, state.id, proposition.id, onDate);
+  if (!law || (law.answer !== "yes" && law.answer !== "no"))
+    return {
+      level: "unknown" as const,
+      law: null,
+      reason: "No operative law records who controls library materials.",
+    };
+  return {
+    level: law.answer === "yes" ? ("local" as const) : ("state" as const),
+    law,
+    reason: `${LIBRARY_QUESTION}: ${law.answer}, law ${law.measureId}, operative ${law.operativeAt}.`,
+  };
+}
