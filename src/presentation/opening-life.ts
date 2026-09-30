@@ -1,3 +1,4 @@
+import { ensureStudentDebt } from "../simulation/student-debt-relief-law";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
@@ -360,7 +361,7 @@ function completeOpeningLife(
   const withCrime = ensureCrimeProduction(withHazards);
   const withEpidemics = ensureEpidemicProduction(withCrime);
   const withOutcomes = ensurePlaceOutcomes(withEpidemics);
-  const withBudgets = ensurePublicBudgets(withOutcomes);
+  const withBudgets = ensurePublicBudgets(ensureStudentDebt(withOutcomes));
   const withMortality = ensureOpeningMortality(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,

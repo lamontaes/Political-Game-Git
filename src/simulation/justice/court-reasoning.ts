@@ -1,3 +1,8 @@
+import {
+  federalMinimumMonths,
+  isFederalOffense,
+  type FederalOffenseFacts,
+} from "./federal-mandatory-minimums";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
 import { lawInForce } from "../governing/law-in-force";
@@ -66,6 +71,7 @@ const PUBLIC_TRUST_OFFENSES = new Set(["campaign-funds-personal-use"]);
 
 /** The case as every decider in it sees it. */
 export interface CourtCase {
+  readonly federalOffense?: FederalOffenseFacts | null;
   readonly caseKey: string;
   readonly defendantId: EntityId;
   readonly offenseKey: string;
@@ -433,7 +439,13 @@ export function sentencingJudge(
   if (!state) return null;
   const judges: EntityId[] = [];
   const courts = courtsForJurisdiction(world, state.id)
-    .filter((court) => court.level === "local-general-trial")
+    .filter(
+      (court) =>
+        court.level ===
+        (isFederalOffense(courtCase.federalOffense)
+          ? "federal-district"
+          : "local-general-trial"),
+    )
     .sort((a, b) => a.courtId.localeCompare(b.courtId));
   for (const court of courts)
     for (const seat of seatsForCourt(world, court.courtId)) {
@@ -477,6 +489,9 @@ export function mandatoryJailUnderLaw(
   world: World,
   courtCase: CourtCase,
 ): string | null {
+  const federal = federalMinimumMonths(world, courtCase.federalOffense);
+  if (federal !== null && federal > 0)
+    return `The recorded federal drug and firearm conduct requires at least ${federal} months in jail.`;
   if (!courtCase.venueJurisdictionId) return null;
   const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
   const repeat = sentencesOf(world, courtCase.defendantId).length > 0;

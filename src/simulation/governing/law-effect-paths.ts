@@ -62,6 +62,7 @@ export type LawEffectPathKind =
   | "paycheck"
   | "state-revenue"
   | "state-spending"
+  | "local-spending"
   | "rent-and-eviction"
   | "home-prices"
   | "seat-turnover"
@@ -79,6 +80,62 @@ export interface LawEffectPath {
 
 /** Modules that read the law in force and change the world from it. */
 const DIRECT_PATHS: readonly LawEffectPath[] = [
+  {
+    questionKey:
+      "us-policy-positions:government-operations.require-photo-id-to-vote",
+    kind: "state-spending",
+    via: "src/simulation/voter-photo-identification-law.ts",
+  },
+  {
+    questionKey:
+      "us-policy-positions:government-operations.ban-lobbying-after-office",
+    kind: "paycheck",
+    via: "src/simulation/post-office-careers.ts",
+  },
+  {
+    questionKey:
+      "us-policy-positions:civil-family-community.local-control-of-library-materials",
+    kind: "local-spending",
+    via: "src/simulation/library-materials-law.ts",
+  },
+  {
+    questionKey:
+      "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+    kind: "court-and-jail",
+    via: "src/simulation/justice/federal-mandatory-minimums.ts",
+  },
+  {
+    questionKey: "us-federal-positions:immigration.admit-more-immigrants",
+    kind: "rent-and-eviction",
+    via: "src/simulation/immigration-admissions-law.ts",
+  },
+  {
+    questionKey:
+      "us-federal-positions:government.ban-congressional-stock-trading",
+    kind: "business-costs",
+    via: "src/simulation/congress-stock-trading-law.ts",
+  },
+  {
+    questionKey: "us-federal-positions:emergencies.states-share-disaster-costs",
+    kind: "state-spending",
+    via: "src/simulation/governing/disaster-cost-sharing.ts",
+  },
+  {
+    questionKey:
+      "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+    kind: "business-costs",
+    via: "src/simulation/public-land-access-law.ts",
+  },
+  {
+    questionKey: "us-federal-positions:education.forgive-student-loans",
+    kind: "paycheck",
+    via: "src/simulation/student-debt-relief-law.ts",
+  },
+  {
+    questionKey: "us-policy-positions:education.state-curriculum-standards",
+    kind: "state-spending",
+    via: "src/simulation/public-budgets/curriculum-standards.ts",
+  },
   {
     questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
     kind: "paycheck",

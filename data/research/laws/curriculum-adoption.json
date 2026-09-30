@@ -1,0 +1,14 @@
+{
+  "asOf": "2026-09-29",
+  "source": "https://www.cde.ca.gov/re/cc/ccssfaqs.asp",
+  "costSource": "https://www.cde.ca.gov/fg/aa/ca/commoncore.asp",
+  "basis": "California appropriated $1.25 billion in 2013, approximately $200 per pupil, for materials, professional development and technology. ESTIMATED FROM AVERAGE: adoption cycle priced from that appropriation; sponsor chooses amount and phase-in. This is not a claim that the appropriation measured actual costs in every place.",
+  "defaults": {
+    "materialsPerPupilCents": 20000,
+    "phaseInMonths": 24
+  },
+  "bounds": {
+    "materialsPerPupilCents": [10000, 40000],
+    "phaseInMonths": [12, 36]
+  }
+}

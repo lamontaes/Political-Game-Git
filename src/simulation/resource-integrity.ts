@@ -57,6 +57,7 @@ export function resourceHousingHistoryRecords(world: World): readonly {
     ...h.housingTenureStates,
     ...(h.loanTerms ?? []),
     ...(h.debtCharges ?? []),
+    ...(h.debtReliefs ?? []),
     ...(h.debtStandings ?? []),
   ];
 }
@@ -483,6 +484,12 @@ export function assertResourceHousingIntegrity(
         for (const charge of charges)
           if (charge.sequence < outcome.sequence)
             owed += charge.amount.minorUnits;
+        for (const relief of h.debtReliefs ?? [])
+          if (
+            relief.resourceObligationId === obligation.id &&
+            relief.sequence < outcome.sequence
+          )
+            owed -= relief.amount.minorUnits;
         if (!Number.isSafeInteger(paid) || paid > owed) {
           throw new Error(`Resource obligation is overpaid: ${obligation.id}`);
         }

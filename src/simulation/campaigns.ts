@@ -1,3 +1,12 @@
+import { completePhotoIdentification } from "./voter-photo-identification-law";
+import {
+  POST_OFFICE_CAREER_KEY,
+  postOfficeCareerHandler,
+} from "./post-office-careers";
+import {
+  CONGRESS_STOCK_DEADLINE_KEY,
+  congressStockDeadlineHandler,
+} from "./congress-stock-trading-law";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
@@ -2240,6 +2249,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         // CRUNCH46 CHANGE: canonical macro history closes each month once.
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
         [HOUSEHOLD_LOAN_MONTH_KEY, householdLoanMonthHandler],
+        [CONGRESS_STOCK_DEADLINE_KEY, congressStockDeadlineHandler],
+        [POST_OFFICE_CAREER_KEY, postOfficeCareerHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
@@ -2436,6 +2447,7 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       }
     },
     afterActivityCompleted(world, activityId) {
+      world = completePhotoIdentification(world, activityId);
       const activity = world.history.scheduledActivities.find(
         (candidate) => candidate.id === activityId,
       );

@@ -105,6 +105,8 @@ export interface TownMarketBooks {
   readonly kind: string;
   readonly openedAt: IsoDate;
   readonly annualSales: number;
+  /** Annual guest spending already included from the public-land law; removed before chaining resident demand. */
+  readonly publicLandVisitorSales?: number;
   /** The businesses whose books shared it last quarter. */
   readonly members: readonly EntityId[];
   /** Town jobs held when it was last read. */

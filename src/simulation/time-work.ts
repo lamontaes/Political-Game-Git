@@ -1,3 +1,5 @@
+import { isPersonAliveAt } from "./vitality-integrity";
+import { jailTermOn, heldBeforeTrialOn } from "./justice/jail-terms";
 import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
@@ -68,6 +70,7 @@ export interface CreateScheduledActivityInput {
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
   readonly participantPersonIds: readonly EntityId[];
+  readonly backgroundCompletion?: boolean;
   readonly responsiblePersonId: EntityId | null;
   readonly location: ScheduledActivityRecord["location"];
   readonly sourceEntityIds: readonly EntityId[];
@@ -387,6 +390,14 @@ export function createScheduledActivity(
   input: CreateScheduledActivityInput,
 ): World {
   assertWorldIntegrity(world);
+  if (
+    (input.backgroundCompletion !== undefined &&
+      typeof input.backgroundCompletion !== "boolean") ||
+    (input.backgroundCompletion === true && input.responsiblePersonId === null)
+  )
+    throw Error(
+      "Background completion requires a boolean flag and an actual responsible participant.",
+    );
   requireText(input.stableKey, "Scheduled activity stable key");
   requireText(input.title, "Scheduled activity title");
   requireText(input.summary, "Scheduled activity summary");
@@ -462,6 +473,7 @@ export function createScheduledActivity(
     kind: input.kind,
     participantPersonIds,
     responsiblePersonId: input.responsiblePersonId,
+    ...(input.backgroundCompletion ? { backgroundCompletion: true } : {}),
     location: { ...input.location },
     sourceEntityIds,
     flexibility: cloneFlexibility(input.flexibility),
@@ -1570,6 +1582,32 @@ function advanceCanonicalMinutes(
       completedEffortMinutes: progress.completedEffortMinutes,
     });
   }
+  for (const activity of inputWorld.history.scheduledActivities) {
+    if (
+      !activity.backgroundCompletion ||
+      !activity.responsiblePersonId ||
+      (inputWorld.control.kind === "person" &&
+        inputWorld.control.personId === activity.responsiblePersonId)
+    )
+      continue;
+    const state = latestActivityStateUnchecked(inputWorld, activity.id);
+    if (
+      !state ||
+      state.status !== "scheduled" ||
+      compareSimulationMoments(state.end, start) <= 0 ||
+      compareSimulationMoments(state.end, target) > 0
+    )
+      continue;
+    transitions.push({
+      at: state.end,
+      priority: 2,
+      creationSequence: activity.sequence,
+      stableId: activity.id,
+      kind: "activity-completion",
+      entityId: activity.id,
+      completedEffortMinutes: null,
+    });
+  }
   if (completedActivityId !== null) {
     const activity = inputWorld.history.scheduledActivities.find(
       (candidate) => candidate.id === completedActivityId,
@@ -1634,16 +1672,35 @@ function advanceCanonicalMinutes(
       transition.entityId
     ) {
       world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
-      world = completeActivity(
-        world,
-        transition.entityId,
-        inputWorld.actionSequence,
-      );
-      if (transitionHandlers.routine)
-        world = transitionHandlers.routine.afterActivityCompleted(
+      const appointment = world.history.scheduledActivities.find(
+        (a) => a.id === transition.entityId,
+      )!;
+      const responsible = appointment.responsiblePersonId;
+      const unavailable =
+        appointment.backgroundCompletion &&
+        responsible &&
+        (!isPersonAliveAt(world, responsible, {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: world.history.nextSequence,
+        }) ||
+          jailTermOn(world, responsible, world.currentDate) ||
+          heldBeforeTrialOn(world, responsible, world.currentDate));
+      const latestState = latestActivityStateUnchecked(world, appointment.id);
+      if (latestState?.status !== "scheduled") continue;
+      if (unavailable) {
+        world = cancelScheduledActivity(world, appointment.id);
+      } else {
+        world = completeActivity(
           world,
           transition.entityId,
+          inputWorld.actionSequence,
         );
+        if (transitionHandlers.routine)
+          world = transitionHandlers.routine.afterActivityCompleted(
+            world,
+            transition.entityId,
+          );
+      }
     }
   }
   world = setCurrentMomentWithDue(world, target, transitionHandlers);
@@ -1970,6 +2027,7 @@ function setCurrentMomentWithDue(
   moment: SimulationMoment,
   transitionHandlers: FutureTransitionHandlerRegistry,
 ): World {
+  if (sameSimulationMoment(world.currentMoment, moment)) return world;
   if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
   const crossedFrom = world.currentDate;
   return setCurrentMoment(
@@ -2280,6 +2338,15 @@ export function assertTimeWorkIntegrity(
 
   const activityById = new Map<EntityId, ScheduledActivityRecord>();
   for (const activity of world.history.scheduledActivities) {
+    if (
+      (activity.backgroundCompletion !== undefined &&
+        typeof activity.backgroundCompletion !== "boolean") ||
+      (activity.backgroundCompletion === true &&
+        activity.responsiblePersonId === null)
+    )
+      throw Error(
+        "Background completion requires a boolean flag and an actual responsible participant.",
+      );
     assertIdentity(ids, world, activity, "scheduled-activity");
     assertSimulationMoment(activity.createdAt);
     if (compareSimulationMoments(activity.createdAt, world.currentMoment) > 0) {

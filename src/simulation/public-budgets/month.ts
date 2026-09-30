@@ -1,4 +1,9 @@
+import { libraryChallengeExpenseDollars } from "../library-materials-law";
+import { voterIdExpenseDollars } from "../voter-photo-identification-law";
+import { publicLandManagementSpending } from "../public-land-access-law";
+import { disasterRepairExpenseDollars } from "../governing/disaster-cost-sharing";
 import { makeIsoDate } from "../dates";
+import { curriculumAdoptionSpending } from "./curriculum-standards";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -616,6 +621,27 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
+  spending[BUDGET_PROGRAMS.indexOf("schools")]! += curriculumAdoptionSpending(
+    world,
+    government,
+    month,
+  );
+  spending[BUDGET_PROGRAMS.indexOf("naturalResources")]! +=
+    publicLandManagementSpending(world, government, month);
+  if (government.level === "state")
+    spending[BUDGET_PROGRAMS.indexOf("otherPrograms")]! +=
+      disasterRepairExpenseDollars(world, month, government.stateKey);
+  if (government.level === "state")
+    spending[BUDGET_PROGRAMS.indexOf("otherPrograms")]! +=
+      voterIdExpenseDollars(
+        world,
+        government.stateKey,
+        month,
+        government.population,
+      );
+  if (government.level === "city")
+    spending[BUDGET_PROGRAMS.indexOf("otherPrograms")]! +=
+      libraryChallengeExpenseDollars(world, government.jurisdictionId, month);
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
   let debt = government.debt;

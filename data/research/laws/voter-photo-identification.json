@@ -1,0 +1,85 @@
+{
+  "asOf": "2026-09-29",
+  "adultIdOwnershipMean": 0.895,
+  "idCostCents": 263,
+  "annualOutreachPerAdultCents": 5,
+  "tripMinutesMean": 87,
+  "sources": {
+    "ownership": "https://www.gao.gov/products/gao-14-634",
+    "production": "https://www.ncleg.net/Sessions/2013/FiscalNotes/House/PDF/HFN0589v7.pdf",
+    "outreach": "https://ncleg.gov/Sessions/2011/FiscalNotes/Senate/PDF/SIN0595v1.pdf",
+    "service": "https://jlarc.virginia.gov/pdfs/reports/Rpt474.pdf",
+    "travel": "https://www.census.gov/topics/employment/commuting/guidance/acs-1yr.html",
+    "startingLaw": "data/research/laws/starting-law-2026.json",
+    "adultShare": "https://data.census.gov/table/ACSDP1Y2024.DP05",
+    "unreadWealth": "https://www.federalreserve.gov/publications/files/scf23.pdf",
+    "cure": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-166.16.html"
+  },
+  "basis": "ESTIMATED FROM AVERAGE: GAO registered-voter ID ownership range 84-95 percent has midpoint 89.5 percent. NC 2013 production 2.12 plus postage 0.51 is 2.63 dollars. NC 2011 campaign average 312500 dollars divided by roughly 6.4 million registered voters gives about five cents outreach per adult. Trip uses Virginia FY2014 wait 24 plus service 9 plus twice national 2024 commuting 27.2, rounded to 87 minutes. These are historical cross-place proxies, not observed 2026 personal facts or prices. Adult outreach population is estimated as 78.5 percent from ACS 2024 under-18 share 21.5 percent. Unread liquid wealth ranks use SCF 2022 transaction-account median 8000 dollars, not zero. Unread hourly shifts use the ACS 2024 B08302 grouped-midpoint departure mean plus the recorded 27.2-minute national commute, with a stable world spread of plus or minus 30 minutes; actual posted weekly hours determine duration. Unread earnings use CPS 2024 full-time year-round median 63360 dollars; earnings and cash ranks are separately normalized against their own benchmarks.",
+  "placeholders": [
+    "ID availability is a ranked descriptive opening estimate from recorded age and money; the world has no driver-license or vehicle-ownership record. Neither is invented.",
+    "Voting intent uses recorded civic contacts, meeting attendance, voting and policy principles as engagement evidence; absence of these records does not prove nonparticipation.",
+    "Historical ID costs, outreach and service/travel time apply across all 56 places with a stable world-level descriptive spread.",
+    "Starting-law exceptions require an explicit verification record; no signature match, supporting document, registration, poll-worker acquaintance or disability is inferred. Cure calendars beyond the recorded Arkansas, Ohio and North Carolina deadlines use a labeled seven-day proposal proxy until read. Aggregate election tallies represent the unrepresented electorate; explicit individual ballots are added to them.",
+    "Unread hourly work shifts are ESTIMATED FROM AVERAGE and recorded before booking an ID visit, using the national grouped departure-time mean plus commute and the job's actual expected weekly hours over the existing five-weekday payroll profile. Individual night work, flexible schedules and remote work remain unread; existing dated shifts take precedence."
+  ],
+  "adultPopulationShare": 0.785,
+  "unreadLiquidBalanceCents": 800000,
+  "startingExceptionKinds": {
+    "US-AL": ["poll-worker-identification"],
+    "US-FL": ["signature-match"],
+    "US-ID": ["affidavit"],
+    "US-KY": ["reasonable-impediment"],
+    "US-LA": ["affidavit"],
+    "US-MI": ["affidavit"],
+    "US-MO": ["signature-match"],
+    "US-NC": ["reasonable-impediment"],
+    "US-NE": ["reasonable-impediment"],
+    "US-RI": ["signature-match"],
+    "US-SC": ["reasonable-impediment"],
+    "US-SD": ["affidavit"],
+    "US-TX": ["reasonable-impediment"],
+    "US-WV": ["poll-worker-identification"]
+  },
+  "startingCureRules": {
+    "US-OH": {
+      "kind": "calendar-days",
+      "days": 4
+    },
+    "US-AR": {
+      "kind": "next-weekday",
+      "weekday": 1
+    },
+    "US-NC": {
+      "kind": "business-days",
+      "days": 3
+    }
+  },
+  "startingCureFallback": {
+    "kind": "calendar-days",
+    "days": 7,
+    "basis": "PLACEHOLDER: seven-day cross-place cure window where the January 2026 statutory deadline has not been read."
+  },
+  "estimatedShiftStartMinuteMean": 537,
+  "shiftStartSource": {
+    "url": "https://data.census.gov/table/ACSDT1Y2024.B08302?q=B08302",
+    "table": "ACS 1-year 2024 B08302 United States; workers not working at home",
+    "workers": 143334079,
+    "departureBinWorkers": [
+      7832096, 5705523, 6941250, 12290124, 13506133, 20508803, 17036786,
+      16646217, 8147945, 10092143, 4392235, 2073899, 9579338, 8581587
+    ],
+    "departureBinMidpointMinutes": [
+      149.5, 314.5, 344.5, 374.5, 404.5, 434.5, 464.5, 494.5, 524.5, 569.5,
+      629.5, 689.5, 839.5, 1199.5
+    ],
+    "weightedDepartureMinutes": 509.50932782356665,
+    "commuteMinutes": 27.2,
+    "basis": "Grouped-midpoint descriptive mean departure plus national mean commute. A clock-time mean is an estimate, not an observed shift. Recorded job hours govern duration; the existing five-weekday payroll convention governs daily shares."
+  },
+  "unreadAnnualEarningsCents": 6336000,
+  "unreadEarningsSource": {
+    "url": "https://www.census.gov/content/dam/Census/library/visualizations/2025/demo/p60-286/figure4.pdf",
+    "basis": "CPS 2024 median full-time year-round earnings, 63360 dollars. A cross-person proxy for unread earnings, not proof an adult works full time."
+  }
+}

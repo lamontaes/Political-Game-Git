@@ -1,3 +1,13 @@
+import {
+  federalOffenseFacts,
+  federalMinimumMonths,
+  isFederalOffense,
+  type FederalOffenseFacts,
+} from "./federal-mandatory-minimums";
+import {
+  NATIONAL_ELECTION_JURISDICTION,
+  ensureNationalElectionJurisdiction,
+} from "../national-election-geography";
 import { addDays } from "../dates";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
@@ -119,6 +129,7 @@ const OUTCOME_TAG = "justice.outcome:";
 export type CaseOutcome = "dismissed" | "acquitted" | "plea" | "convicted";
 
 export interface ProsecutionReferralInput {
+  readonly federalOffense?: FederalOffenseFacts;
   readonly stableKey: string;
   readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId | null;
@@ -240,50 +251,70 @@ export function referForProsecution(
   if (existing) return { world, referralId: existing.id };
   const subject = world.people[input.subjectPersonId];
   if (!subject) throw new Error("A referral names somebody not in the world.");
-  const next = recordWorldEvent(world, {
-    stableKey,
-    type: PROSECUTION_REFERRED_EVENT,
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: input.jurisdictionId,
-    involvedEntityIds: [input.subjectPersonId],
-    participants: [
-      {
-        personId: input.subjectPersonId,
-        role: "focus:subject",
-        detail: "Referred to prosecutors",
+  const federal = isFederalOffense(input.federalOffense);
+  const next = recordWorldEvent(
+    federal ? ensureNationalElectionJurisdiction(world) : world,
+    {
+      stableKey,
+      type: PROSECUTION_REFERRED_EVENT,
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: federal
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : input.jurisdictionId,
+      involvedEntityIds: [input.subjectPersonId],
+      participants: [
+        {
+          personId: input.subjectPersonId,
+          role: "focus:subject",
+          detail: "Referred to prosecutors",
+        },
+        ...(input.referredBy.personId
+          ? [
+              {
+                personId: input.referredBy.personId,
+                role: "other:referred-by" as const,
+                detail: input.referredBy.label,
+              },
+            ]
+          : []),
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [
+        UNRESEARCHED_PROSECUTION.version,
+        ...(input.federalOffense
+          ? [
+              `justice.cocaine-grams:${input.federalOffense.cocaineGrams}`,
+              ...(input.federalOffense.trafficking
+                ? ["justice.drug-trafficking"]
+                : []),
+              ...(input.federalOffense.interstateConduct
+                ? ["justice.interstate-conduct"]
+                : []),
+              ...(input.federalOffense.firearmInFurtherance
+                ? ["justice.firearm-in-furtherance"]
+                : []),
+            ]
+          : []),
+        `${OFFENSE_TAG}${input.offenseKey}`,
+        `${EVIDENCE_TAG}${input.evidence}`,
+        `${STANDING_TAG}${input.standingFindings}`,
+        `justice.referred-by:${input.referredBy.kind}`,
+        // Events are not entities, so what the case rests on rides as tags.
+        ...input.basisEventIds.map((id) => `justice.basis-event:${id}`),
+      ],
+      summary: `The ${input.referredBy.label} referred ${personName(subject)} to prosecutors for ${offenseLabel(input.offenseKey)}.`,
+      context: {
+        location: null,
+        socialContext: input.referredBy.label,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
       },
-      ...(input.referredBy.personId
-        ? [
-            {
-              personId: input.referredBy.personId,
-              role: "other:referred-by" as const,
-              detail: input.referredBy.label,
-            },
-          ]
-        : []),
-    ],
-    personFactConstraints: [],
-    visibility: "private",
-    tags: [
-      UNRESEARCHED_PROSECUTION.version,
-      `${OFFENSE_TAG}${input.offenseKey}`,
-      `${EVIDENCE_TAG}${input.evidence}`,
-      `${STANDING_TAG}${input.standingFindings}`,
-      `justice.referred-by:${input.referredBy.kind}`,
-      // Events are not entities, so what the case rests on rides as tags.
-      ...input.basisEventIds.map((id) => `justice.basis-event:${id}`),
-    ],
-    summary: `The ${input.referredBy.label} referred ${personName(subject)} to prosecutors for ${offenseLabel(input.offenseKey)}.`,
-    context: {
-      location: null,
-      socialContext: input.referredBy.label,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
     },
-  });
+  );
   return { world: next, referralId: next.history.events.at(-1)!.id };
 }
 
@@ -362,7 +393,16 @@ function followUp(
       UNRESEARCHED_PROSECUTION.version,
       `${REFERRAL_TAG}${referral.id}`,
       `justice.follows-event:${after.id}`,
-      ...referral.tags.filter((tag) => tag.startsWith(OFFENSE_TAG)),
+      ...referral.tags.filter(
+        (tag) =>
+          tag.startsWith(OFFENSE_TAG) ||
+          tag.startsWith("justice.cocaine-grams:") ||
+          [
+            "justice.drug-trafficking",
+            "justice.interstate-conduct",
+            "justice.firearm-in-furtherance",
+          ].includes(tag),
+      ),
       ...(detail.extraTags ?? []),
     ],
     summary: detail.summary,
@@ -427,8 +467,14 @@ function courtCaseOf(
 ): CourtCase {
   const offenseKey = tagValue(referral, OFFENSE_TAG) ?? "";
   const venue = referral.jurisdictionId;
-  const stateKey = venue ? stateKeyOf(world, venue) : null;
+  const home = world.people[subjectId]?.homeJurisdictionId;
+  const stateKey = home
+    ? stateKeyOf(world, home)
+    : venue
+      ? stateKeyOf(world, venue)
+      : null;
   return {
+    federalOffense: federalOffenseFacts(referral.tags),
     caseKey: referral.stableKey,
     defendantId: subjectId,
     offenseKey,
@@ -682,7 +728,12 @@ export function advanceProsecutions(world: World): World {
         ? `No judge on the state's trial court could hear the case. ${bound}`
         : "No judge on the state's trial court could hear the case, so the court gave the lesser sentence.";
     }
-    const months = termMonths(kind, courtCase.standingFindings);
+    const federalMinimum = federalMinimumMonths(next, courtCase.federalOffense);
+    if (federalMinimum !== null && federalMinimum > 0) kind = "jail";
+    const months = Math.max(
+      termMonths(kind, courtCase.standingFindings),
+      federalMinimum ?? 0,
+    );
     next = followUp(next, ended, referral, PROSECUTION_SENTENCED_EVENT, {
       summary:
         kind === "jail"

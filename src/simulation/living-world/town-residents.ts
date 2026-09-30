@@ -445,9 +445,11 @@ export function materializeTownHousehold(
   world: World,
   town: EntityId,
   index: number,
+  authoredSkeleton?: TownHouseholdSkeleton,
 ): World {
   if (townHouseholdMaterialized(world, town, index)) return world;
-  const skeleton = townHouseholdSkeleton(world, town, index);
+  const skeleton =
+    authoredSkeleton ?? townHouseholdSkeleton(world, town, index);
   const inputs = namedMembers(world, town, skeleton);
   let next = createCharacterHistoryContextPeople(world, inputs);
   const today = next.currentDate;
@@ -627,15 +629,17 @@ export function materializeSettledTownHousehold(
   world: World,
   town: EntityId,
   index: number,
+  authoredSkeleton?: TownHouseholdSkeleton,
+  jobRound: string | null = null,
 ): World {
   if (townHouseholdMaterialized(world, town, index)) return world;
   let next = enrollWrittenChildren(
-    materializeTownHousehold(world, town, index),
+    materializeTownHousehold(world, town, index, authoredSkeleton),
     town,
   );
   const members = new Set(
-    townHouseholdSkeleton(next, town, index).members.map((_, m) =>
-      townResidentId(next, town, index, m),
+    (authoredSkeleton ?? townHouseholdSkeleton(next, town, index)).members.map(
+      (_, m) => townResidentId(next, town, index, m),
     ),
   );
   const working = new Set(
@@ -647,7 +651,7 @@ export function materializeSettledTownHousehold(
       !working.has(resident.personId) &&
       laborStatus(next, resident) === "employed",
   );
-  next = fillTownJobs(next, town, open, { round: null });
+  next = fillTownJobs(next, town, open, { round: jobRound });
   return ensureTownHomes(next, town);
 }
 

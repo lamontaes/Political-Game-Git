@@ -1,3 +1,18 @@
+import {
+  ensureCapitalEmployers,
+  reviewPostOfficeCareers,
+} from "../post-office-careers";
+import { applyVoterIdentification } from "../voter-photo-identification-law";
+import { reviewFederalMinimumSentences } from "../justice/federal-mandatory-minimums";
+import { applyImmigrationAdmissions } from "../immigration-admissions-law";
+import {
+  applyCongressStockBan,
+  ensureCongressInvestments,
+} from "../congress-stock-trading-law";
+import {
+  applyStudentDebtRelief,
+  ensureStudentDebt,
+} from "../student-debt-relief-law";
 import { makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import type {
@@ -103,9 +118,10 @@ export function ensurePublicBudgets(world: World): World {
     unknown: [],
     federal: openFederalTreasury(today),
   };
+  const employers = ensureCapitalEmployers(world);
   const opened: World = {
-    ...world,
-    publicBudgets: withOpenedBudgets(world, empty, today),
+    ...employers,
+    publicBudgets: withOpenedBudgets(employers, empty, today),
   };
   const dueAt = firstOfNextMonth(today);
   return scheduleFutureDueItem(opened, {
@@ -119,7 +135,25 @@ export function ensurePublicBudgets(world: World): World {
 }
 
 /** Settles the month just ended for every government. */
-export function settlePublicBudgets(start: World, month: IsoDate): World {
+export function settlePublicBudgets(initial: World, month: IsoDate): World {
+  if (!initial.publicBudgets) return initial;
+  // A budget-only read has no resident ledger. Do not infer debt, IDs or careers from its absence.
+  const start =
+    initial.people && initial.personOrder
+      ? reviewPostOfficeCareers(
+          applyVoterIdentification(
+            reviewFederalMinimumSentences(
+              applyImmigrationAdmissions(
+                applyCongressStockBan(
+                  ensureCongressInvestments(
+                    applyStudentDebtRelief(ensureStudentDebt(initial)),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+      : initial;
   const store = start.publicBudgets;
   if (!store) return start;
   // A state's governor decides what its budget does with money laws gained

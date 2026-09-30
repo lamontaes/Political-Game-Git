@@ -1,3 +1,12 @@
+import {
+  assertLawOutcomeCalibration,
+  createLawOutcomeCalibration,
+  createOpeningLobbyistPay,
+} from "./law-outcome-calibration";
+import { assertLibraryMaterialsIntegrity } from "./library-materials-integrity";
+import { assertVoterIdentificationIntegrity } from "./voter-identification-integrity";
+import { assertImmigrationAdmissionIntegrity } from "./immigration-admission-integrity";
+import { assertCongressInvestmentIntegrity } from "./congress-investment-integrity";
 import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
@@ -75,6 +84,7 @@ import {
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import { assertTownFinanceIntegrity } from "./living-world/town-finances";
+import { assertDisasterCostSharingIntegrity } from "./governing/disaster-cost-sharing";
 import { assertPressureIntegrity } from "./pressure/integrity";
 import {
   assertCausalEffectIntegrity,
@@ -521,6 +531,8 @@ export function createWorld(input: CreateWorldInput): World {
     generatorVersion: LINEAGE_GENERATOR_VERSION[lineage],
     id: worldId,
     seed,
+    lawOutcomeCalibration: createLawOutcomeCalibration(seed),
+    openingLobbyistAnnualPayCents: createOpeningLobbyistPay(seed),
     startedAt: currentDate,
     currentDate,
     currentMoment,
@@ -740,6 +752,13 @@ function validateWorldIntegrity(
   if (delta) assertAppendedJsonSafe(delta.changed);
   assertJsonSafe(world, "world");
   if (
+    !previous ||
+    previous.lawOutcomeCalibration !== world.lawOutcomeCalibration ||
+    previous.openingLobbyistAnnualPayCents !==
+      world.openingLobbyistAnnualPayCents
+  )
+    assertLawOutcomeCalibration(world);
+  if (
     world.contentPacks !== undefined &&
     (!previous || previous.contentPacks !== world.contentPacks)
   )
@@ -875,6 +894,11 @@ function validateWorldIntegrity(
   if (!checkedChanges) validateHistoryIntegrity(world, delta, previous);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
   assertTownFinanceIntegrity(world);
+  assertDisasterCostSharingIntegrity(world);
+  assertCongressInvestmentIntegrity(world);
+  assertImmigrationAdmissionIntegrity(world);
+  assertLibraryMaterialsIntegrity(world);
+  assertVoterIdentificationIntegrity(world);
   if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
 

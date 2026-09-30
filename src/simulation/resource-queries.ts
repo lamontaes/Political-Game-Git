@@ -263,8 +263,16 @@ export function outstandingDebtAt(
     )
       charged = addExact(charged, charge.amount.minorUnits);
   }
+  let relieved = 0;
+  for (const relief of world.history.debtReliefs ?? []) {
+    if (
+      relief.resourceObligationId === obligation.id &&
+      availableOn(relief, relief.relievedAt, cutoff)
+    )
+      relieved = addExact(relieved, relief.amount.minorUnits);
+  }
   return money(
-    Math.max(0, obligation.principal.minorUnits + charged - paid),
+    Math.max(0, obligation.principal.minorUnits + charged - paid - relieved),
     obligation.principal.currency,
   );
 }

@@ -1,3 +1,4 @@
+import { recordsByStringField } from "./history-index";
 import { eventById } from "./event-index";
 import { ageOnDate, makeIsoDate } from "./dates";
 import {
@@ -376,7 +377,11 @@ export function personalityTendencyHistory(
   cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
 ): readonly PersonalityTendencyRecord[] {
   validateHistoricalCutoff(world, personId, cutoff);
-  return world.history.personalityTendencies
+  return recordsByStringField(
+    world.history.personalityTendencies,
+    "personId",
+    personId,
+  )
     .filter(
       (record) =>
         record.personId === personId &&

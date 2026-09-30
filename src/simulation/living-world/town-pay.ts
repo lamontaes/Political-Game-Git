@@ -1,3 +1,4 @@
+import { jailTermOn, heldBeforeTrialOn } from "../justice/jail-terms";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -1099,6 +1100,19 @@ export function payTownPaydays(
   const inputs: RecordResourceTransferOutcomeInput[] = [];
   const claims: PaidLeaveClaim[] = [];
   const recipients = new Set<EntityId>();
+  const defendants = new Set(
+    world.history.events
+      .filter(
+        (e) =>
+          e.type === "justice.sentenced" ||
+          e.type === "justice.held-before-trial",
+      )
+      .flatMap((e) =>
+        e.participants
+          .filter((p) => p.role === "focus:defendant")
+          .map((p) => p.personId),
+      ),
+  );
   // Days missed to the illness, read once per pay period.
   const absencesByWindow = new Map<
     string,
@@ -1153,16 +1167,70 @@ export function payTownPaydays(
         recipientId,
       );
       const workdays = workdaysBetween(window.startsAt, window.endsAt);
-      const unpaidDays =
+      let jailedDays = 0;
+      if (defendants.has(recipientId))
+        for (
+          let date = window.startsAt;
+          date <= window.endsAt;
+          date = addDays(date, 1)
+        ) {
+          if (
+            workdaysBetween(date, date) > 0 &&
+            (jailTermOn(world, recipientId, date) ||
+              heldBeforeTrialOn(world, recipientId, date))
+          )
+            jailedDays += 1;
+        }
+      const sickUnpaidDays =
         absence && workdays > 0 && !jobPaysSickLeave(world, workId)
           ? Math.min(absence.missedDays, workdays)
           : 0;
+      const unpaidDays = Math.min(workdays, jailedDays + sickUnpaidDays);
+      const hiringStep = (world.history.jobApplicationSteps ?? []).find(
+        (s) => s.workRelationshipId === workId,
+      );
+      const application = hiringStep
+        ? (world.history.jobApplications ?? []).find(
+            (a) => a.id === hiringStep.applicationId,
+          )
+        : null;
+      const opening = application
+        ? (world.history.jobOpenings ?? []).find(
+            (o) => o.id === application.openingId,
+          )
+        : null;
+      const hourly = opening
+        ? opening.pay.basis === "hourly"
+        : flow.stableKey.startsWith(PAY_KEY_PREFIX) &&
+          "note" in flow.provenance &&
+          flow.provenance.note?.includes("an hour") === true;
+      const idTripMinutes = (
+        hourly ? (world.voterIdentification?.trips ?? []) : []
+      )
+        .filter(
+          (trip) => trip.on >= window.startsAt && trip.on <= window.endsAt,
+        )
+        .flatMap((trip) => trip.missedWork)
+        .filter((missed) => missed.workRelationshipId === workId)
+        .reduce((sum, missed) => sum + missed.minutes, 0);
+      const role = latestRoles(world).get(workId);
+      const paidMinutes = role
+        ? (weeklyHoursOf(role) * 60 * workdays) / 5
+        : null;
+      const idTripFraction =
+        paidMinutes && paidMinutes > 0
+          ? Math.min(
+              (workdays - unpaidDays) / workdays,
+              idTripMinutes / paidMinutes,
+            )
+          : 0;
       const amount =
-        unpaidDays === 0
+        unpaidDays === 0 && idTripFraction === 0
           ? terms.amount
           : money(
               Math.round(
-                (terms.amount.minorUnits * (workdays - unpaidDays)) / workdays,
+                terms.amount.minorUnits *
+                  ((workdays - unpaidDays) / workdays - idTripFraction),
               ),
               terms.amount.currency,
             );
@@ -1171,8 +1239,11 @@ export function payTownPaydays(
       // A state paid leave program in force replaces part of the pay lost
       // to a serious illness, the worker's own or a child's.
       const coveredDays =
-        absence && unpaidDays > 0
-          ? paidLeaveCoveredDays(absence, unpaidDays)
+        absence && sickUnpaidDays > 0
+          ? paidLeaveCoveredDays(
+              absence,
+              Math.min(sickUnpaidDays, workdays - jailedDays),
+            )
           : 0;
       const stateKey =
         coveredDays > 0 ? residenceStateKey(world, recipientId) : null;
@@ -1201,7 +1272,7 @@ export function payTownPaydays(
         periodEndsAt: window.endsAt,
         occurredAt: payday,
         status:
-          unpaidDays === 0
+          unpaidDays === 0 && idTripFraction === 0
             ? "completed"
             : amount.minorUnits > 0
               ? "partial"
@@ -1209,15 +1280,21 @@ export function payTownPaydays(
         attemptedAmount: terms.amount,
         transferredAmount: amount,
         reasonKind:
-          unpaidDays === 0
+          unpaidDays === 0 && idTripFraction === 0
             ? null
-            : caring
-              ? "custom:unpaid-days-home-with-sick-child"
-              : "custom:unpaid-sick-days",
+            : idTripFraction > 0
+              ? "custom:unpaid-voter-id-trip"
+              : jailedDays > 0
+                ? "custom:unpaid-days-in-custody"
+                : caring
+                  ? "custom:unpaid-days-home-with-sick-child"
+                  : "custom:unpaid-sick-days",
         note:
-          unpaidDays === 0
+          unpaidDays === 0 && idTripFraction === 0
             ? "Pay for the period."
-            : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${caring ? "home with a sick child" : "out sick"}.`,
+            : idTripFraction > 0
+              ? `Pay less ${idTripMinutes} recorded minutes spent obtaining voter identification and ${unpaidDays} other unpaid days.`
+              : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${jailedDays > 0 ? "in custody or otherwise absent" : caring ? "home with a sick child" : "out sick"}.`,
         provenance: flow.provenance,
       });
       recipients.add((flow.recipient as { personId: EntityId }).personId);

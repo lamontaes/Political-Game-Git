@@ -1,3 +1,5 @@
+import { lobbyingBar } from "./lobbying-cooling-off";
+import { jailTermOn, heldBeforeTrialOn } from "./justice/jail-terms";
 import {
   addDays,
   ageOnDate,
@@ -428,6 +430,23 @@ function append<K extends Field>(
       ],
     },
   };
+}
+
+/** Records a researched employer vacancy through the canonical job-opening ledger. */
+export function recordJobOpening(
+  world: World,
+  input: Omit<JobOpeningRecord, "id" | "sequence">,
+): World {
+  if (
+    !world.jurisdictions[input.jurisdictionId] ||
+    !world.history.organizations.some((o) => o.id === input.organizationId) ||
+    input.closesAt < input.opensAt ||
+    input.opensAt > world.currentDate ||
+    !Number.isSafeInteger(input.pay.amount.minorUnits) ||
+    input.pay.amount.minorUnits < 0
+  )
+    throw Error("Invalid employer opening");
+  return append(world, "jobOpenings", "job-opening", input);
 }
 
 function weekIndex(date: IsoDate): number {
@@ -895,6 +914,8 @@ function openingBlocked(
   const opening = jobOpening(world, openingId);
   if (!opening || !openingTakesApplications(world, opening))
     return "This opening is no longer taking applications.";
+  const cooling = lobbyingBar(world, personId, opening.organizationId);
+  if (cooling) return cooling;
   const played = isPlayed(world, personId);
   if (
     applicationsFor(world, personId).some(
@@ -1391,6 +1412,10 @@ function startRefusal(
   const opening = jobOpening(world, application.openingId);
   if (opening && organizationClosingAt(world, opening.organizationId))
     return `${organizationName(world, opening.organizationId)} has closed.`;
+  const cooling = opening
+    ? lobbyingBar(world, application.personId, opening.organizationId)
+    : null;
+  if (cooling) return cooling;
   const startAt = expectedStart(world, applicationId)!;
   if (world.currentDate < startAt)
     return isPlayed(world, application.personId)
@@ -2048,15 +2073,91 @@ function settleWeeklyRecordedPay(
       });
       if (terms?.status !== "active" || terms.cadenceKind !== "schedule:weekly")
         break;
+      const periodEndsAt = addDays(dueOn, -1);
+      let workdays = 0;
+      let custodyDays = 0;
+      // The existing weekly job profile has hours but no dated shifts. Like
+      // town pay, its bounded accounting convention is five weekday shares.
+      for (
+        let date = periodStartsAt;
+        date <= periodEndsAt;
+        date = addDays(date, 1)
+      ) {
+        const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
+        if (weekday === 0 || weekday === 6) continue;
+        workdays += 1;
+        if (
+          jailTermOn(next, personId, date) ||
+          heldBeforeTrialOn(next, personId, date)
+        )
+          custodyDays += 1;
+      }
+      const hiring = (next.history.jobApplicationSteps ?? []).find(
+        (s) => s.workRelationshipId === work.id,
+      );
+      const application = hiring
+        ? (next.history.jobApplications ?? []).find(
+            (a) => a.id === hiring.applicationId,
+          )
+        : null;
+      const opening = application
+        ? jobOpening(next, application.openingId)
+        : null;
+      const hourly = opening
+        ? opening.pay.basis === "hourly"
+        : "note" in flow.provenance && flow.provenance.note.includes("an hour");
+      const role = activeRole(next, work);
+      const hours = role
+        ? (role.timeDemand.expectedWeekly.minimumHours +
+            role.timeDemand.expectedWeekly.maximumHours) /
+          2
+        : null;
+      const missedMinutes = hourly
+        ? (next.voterIdentification?.trips ?? [])
+            .filter(
+              (trip) =>
+                trip.on >= periodStartsAt &&
+                trip.on <= periodEndsAt &&
+                !jailTermOn(next, personId, trip.on) &&
+                !heldBeforeTrialOn(next, personId, trip.on),
+            )
+            .flatMap((trip) => trip.missedWork)
+            .filter((missed) => missed.workRelationshipId === work.id)
+            .reduce((sum, missed) => sum + missed.minutes, 0)
+        : 0;
+      const paidFraction = Math.max(
+        0,
+        1 -
+          (workdays ? custodyDays / workdays : 0) -
+          (hours && hours > 0 ? missedMinutes / (hours * 60) : 0),
+      );
+      const transferredAmount = money(
+        Math.round(terms.amount.minorUnits * paidFraction),
+        terms.amount.currency,
+      );
       next = resolveWorkCompensationPeriod(next, {
         stableKey: `${flow.stableKey}:${periodStartsAt}`,
         workRelationshipId: work.id,
         periodStartsAt,
-        periodEndsAt: addDays(dueOn, -1),
+        periodEndsAt,
         occurredAt: dueOn,
-        status: "completed",
-        reasonKind: null,
-        note: "Pay for the week.",
+        status:
+          paidFraction === 1
+            ? "completed"
+            : transferredAmount.minorUnits > 0
+              ? "partial"
+              : "missed",
+        transferredAmount,
+        reasonKind:
+          paidFraction === 1
+            ? null
+            : custodyDays > 0
+              ? "custom:unpaid-days-in-custody"
+              : "custom:unpaid-voter-id-trip",
+        note:
+          paidFraction === 1
+            ? "Pay for the week."
+            : `Weekly pay less ${custodyDays} weekdays in custody and ${missedMinutes} recorded minutes obtaining voter identification.`,
         provenance: flow.provenance,
       });
     }

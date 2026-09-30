@@ -1,0 +1,305 @@
+{
+  "asOf": "2026-09-29",
+  "sources": {
+    "states": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b05005.dat",
+    "puertoRico": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b05005pr.dat",
+    "admissions": "https://ohss.dhs.gov/sites/default/files/2024-09/2024_0906_plcy_lawful_permanent_residents_fy2023.pdf",
+    "workforce": "https://www.bls.gov/news.release/archives/forbrn_05202025.htm",
+    "population": "data/research/money/public-budget-bases.json",
+    "rents": "https://www.sciencedirect.com/science/article/pii/S009411900600074X"
+  },
+  "recentEntryDefinition": "Foreign-born residents who entered in 2010 or later, observed in 2020-2024 ACS. This is a distribution proxy, not the current-year flow or legal-status count.",
+  "observedAdmissions2023": 1172910,
+  "proposalAdditionalAdmissions": 11729,
+  "foreignBornLaborForceParticipation": 0.665,
+  "places": {
+    "US-AK": {
+      "recentForeignBorn": 18999,
+      "population": 740133,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-AL": {
+      "recentForeignBorn": 80613,
+      "population": 5157699,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-AR": {
+      "recentForeignBorn": 57436,
+      "population": 3088354,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-AZ": {
+      "recentForeignBorn": 264566,
+      "population": 7582384,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-CA": {
+      "recentForeignBorn": 2463057,
+      "population": 39431263,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-CO": {
+      "recentForeignBorn": 183104,
+      "population": 5957493,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-CT": {
+      "recentForeignBorn": 179422,
+      "population": 3675069,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-DC": {
+      "recentForeignBorn": 37011,
+      "population": 702250,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-DE": {
+      "recentForeignBorn": 40066,
+      "population": 1051917,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-FL": {
+      "recentForeignBorn": 1795552,
+      "population": 23372215,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-GA": {
+      "recentForeignBorn": 432042,
+      "population": 11180878,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-HI": {
+      "recentForeignBorn": 68652,
+      "population": 1446146,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-IA": {
+      "recentForeignBorn": 83794,
+      "population": 3241488,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-ID": {
+      "recentForeignBorn": 35054,
+      "population": 2001619,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-IL": {
+      "recentForeignBorn": 502423,
+      "population": 12710158,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-IN": {
+      "recentForeignBorn": 189584,
+      "population": 6924275,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-KS": {
+      "recentForeignBorn": 77207,
+      "population": 2970606,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-KY": {
+      "recentForeignBorn": 108634,
+      "population": 4588372,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-LA": {
+      "recentForeignBorn": 104889,
+      "population": 4597740,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-MA": {
+      "recentForeignBorn": 504698,
+      "population": 7136171,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-MD": {
+      "recentForeignBorn": 358359,
+      "population": 6263220,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-ME": {
+      "recentForeignBorn": 23814,
+      "population": 1405012,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-MI": {
+      "recentForeignBorn": 279498,
+      "population": 10140459,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-MN": {
+      "recentForeignBorn": 186269,
+      "population": 5793151,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-MO": {
+      "recentForeignBorn": 108438,
+      "population": 6245466,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-MS": {
+      "recentForeignBorn": 29970,
+      "population": 2943045,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-MT": {
+      "recentForeignBorn": 8848,
+      "population": 1137233,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-NC": {
+      "recentForeignBorn": 363316,
+      "population": 11046024,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-ND": {
+      "recentForeignBorn": 21177,
+      "population": 796568,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-NE": {
+      "recentForeignBorn": 72059,
+      "population": 2005465,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-NH": {
+      "recentForeignBorn": 29434,
+      "population": 1409032,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-NJ": {
+      "recentForeignBorn": 744826,
+      "population": 9500851,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-NM": {
+      "recentForeignBorn": 52000,
+      "population": 2130256,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-NV": {
+      "recentForeignBorn": 149484,
+      "population": 3267467,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-NY": {
+      "recentForeignBorn": 1325284,
+      "population": 19867248,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-OH": {
+      "recentForeignBorn": 269727,
+      "population": 11883304,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-OK": {
+      "recentForeignBorn": 90692,
+      "population": 4095393,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-OR": {
+      "recentForeignBorn": 120112,
+      "population": 4272371,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-PA": {
+      "recentForeignBorn": 393033,
+      "population": 13078751,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-PR": {
+      "recentForeignBorn": 26365,
+      "population": 3184835,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-RI": {
+      "recentForeignBorn": 57418,
+      "population": 1112308,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-SC": {
+      "recentForeignBorn": 115415,
+      "population": 5478831,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-SD": {
+      "recentForeignBorn": 17964,
+      "population": 924669,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-TN": {
+      "recentForeignBorn": 186197,
+      "population": 7227750,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-TX": {
+      "recentForeignBorn": 1868090,
+      "population": 31290831,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-UT": {
+      "recentForeignBorn": 109559,
+      "population": 3503613,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-VA": {
+      "recentForeignBorn": 394994,
+      "population": 8811195,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-VT": {
+      "recentForeignBorn": 9703,
+      "population": 648493,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-WA": {
+      "recentForeignBorn": 443562,
+      "population": 7958180,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-WI": {
+      "recentForeignBorn": 105113,
+      "population": 5960975,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-WV": {
+      "recentForeignBorn": 12427,
+      "population": 1769979,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-WY": {
+      "recentForeignBorn": 6630,
+      "population": 587618,
+      "basis": "2020-2024 ACS B05005 E004, entered 2010 or later; PR uses B05005PR E004."
+    },
+    "US-AS": {
+      "recentForeignBorn": 2202,
+      "population": 49710,
+      "basis": "ESTIMATED FROM AVERAGE: unread territory uses observed 52-place recent-entry count per resident, scaled by Census 2020 island population in data/research/money/public-budget-bases.json."
+    },
+    "US-GU": {
+      "recentForeignBorn": 6814,
+      "population": 153836,
+      "basis": "ESTIMATED FROM AVERAGE: unread territory uses observed 52-place recent-entry count per resident, scaled by Census 2020 island population in data/research/money/public-budget-bases.json."
+    },
+    "US-MP": {
+      "recentForeignBorn": 2096,
+      "population": 47329,
+      "basis": "ESTIMATED FROM AVERAGE: unread territory uses observed 52-place recent-entry count per resident, scaled by Census 2020 island population in data/research/money/public-budget-bases.json."
+    },
+    "US-VI": {
+      "recentForeignBorn": 3860,
+      "population": 87146,
+      "basis": "ESTIMATED FROM AVERAGE: unread territory uses observed 52-place recent-entry count per resident, scaled by Census 2020 island population in data/research/money/public-budget-bases.json."
+    }
+  },
+  "placeholders": [
+    "Four unread territories use the observed per-resident recent-entry average.",
+    "Within-state arrivals concentrate in the largest recorded inhabited locality, pending recent-entry counts by town.",
+    "Added admissions proposal is an authored one-percent increase over the observed 2023 LPR count, not starting 2026 law.",
+    "Resident family and age mix use the existing town household generator until a recent-arrival cohort generator is sourced.",
+    "Rent elasticity: Saiz (2007) U.S. metropolitan inflow elasticity, used as a proxy for all localities and 2026; one percent added population raises new and renewed market rents one percent."
+  ],
+  "rentElasticity": 1
+}

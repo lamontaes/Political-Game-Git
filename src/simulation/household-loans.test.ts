@@ -43,7 +43,18 @@ function newLife(seed: string, openingMinor = 500_000) {
     USD,
   );
   const world = existing
-    ? created.world
+    ? {
+        ...created.world,
+        history: {
+          ...created.world.history,
+          resourcePositions: created.world.history.resourcePositions.map(
+            (position) =>
+              position.id === existing.positionId
+                ? { ...position, openingBalance: money(openingMinor, "USD") }
+                : position,
+          ),
+        },
+      }
     : createResourcePosition(created.world, {
         stableKey: `test-cash:${seed}`,
         owner: { kind: "person", personId },

@@ -100,6 +100,8 @@ function lifeEntry(world: World, id: EntityId): AvailabilityEntry | undefined {
         sequence: record.sequence,
       };
   }
+  const opening = recordById(h.jobOpenings ?? [], id);
+  if (opening) return { date: opening.opensAt, sequence: opening.sequence };
   const household = recordById(h.households, id);
   if (household)
     return { date: household.formedAt, sequence: household.sequence };

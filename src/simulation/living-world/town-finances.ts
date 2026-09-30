@@ -1,3 +1,4 @@
+import { publicLandVisitorSales } from "../public-land-access-law";
 /**
  * The town's businesses and banks keep books (Build 19: "businesses close
  * when their cash runs out, not at a flat 11.6% a year"; "real banks in each
@@ -883,13 +884,16 @@ export function stepTownFinances(
     const key = `${town}:${kind}`;
     const now = members.get(kind) ?? [];
     const market = markets[key];
+    // Markets and pay are in constant dollars; the visitor benchmark is too.
+    const visitorSales = publicLandVisitorSales(world, town, kind);
     if (!market) {
       markets[key] = {
         town,
         kind,
         openedAt: world.currentDate,
+        publicLandVisitorSales: visitorSales,
         annualSales: round2(
-          now.reduce((sum, id) => sum + books[id]!.capacity, 0),
+          now.reduce((sum, id) => sum + books[id]!.capacity, 0) + visitorSales,
         ),
         members: now,
         townJobs,
@@ -934,7 +938,12 @@ export function stepTownFinances(
       stayed.length > 0 && lastRealPrice > 0
         ? (nowRealPrice / lastRealPrice) ** (1 - elasticity)
         : 1;
-    let sales = market.annualSales * demandGrowth * incomeFactor * priceFactor;
+    let sales =
+      (market.annualSales - (market.publicLandVisitorSales ?? 0)) *
+        demandGrowth *
+        incomeFactor *
+        priceFactor +
+      visitorSales;
     for (const id of now)
       if (!before.has(id)) {
         sales +=
@@ -950,6 +959,7 @@ export function stepTownFinances(
     markets[key] = {
       ...market,
       annualSales: round2(Math.max(0, sales)),
+      publicLandVisitorSales: visitorSales,
       members: now,
       townJobs,
       townPay,

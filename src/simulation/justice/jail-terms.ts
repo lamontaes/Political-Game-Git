@@ -120,8 +120,20 @@ export function sentencesOf(
     const clemencyKind = grant?.tags
       .find((tag) => tag.startsWith(CLEMENCY_KIND_TAG))
       ?.slice(CLEMENCY_KIND_TAG.length) as ClemencyKind | undefined;
+    const reduction = eventsOfType(world, "justice.federal-sentence-reduced")
+      .filter((r) => r.tags.includes(`justice.reduced-sentence:${event.id}`))
+      .map(
+        (r) =>
+          r.tags
+            .find((t) => t.startsWith("justice.reduced-until:"))
+            ?.slice("justice.reduced-until:".length) as IsoDate | undefined,
+      )
+      .filter((d): d is IsoDate => !!d)
+      .sort()[0];
+    const legalEnd =
+      reduction && reduction < handedDown ? reduction : handedDown;
     const endedEarly =
-      grant && clemencyKind && grant.occurredAt < handedDown
+      grant && clemencyKind && grant.occurredAt < legalEnd
         ? grant.occurredAt
         : null;
     return [
@@ -129,7 +141,7 @@ export function sentencesOf(
         sentencedEventId: event.id,
         kind,
         from: event.occurredAt,
-        until: endedEarly ?? handedDown,
+        until: endedEarly ?? legalEnd,
         months,
         clemency:
           grant && clemencyKind

@@ -285,6 +285,8 @@ export interface StaffingBaseline {
 
 export interface PublicBudgetStore {
   readonly version: typeof PUBLIC_BUDGETS_VERSION;
+  /** Paid disaster work; the physical queue remains owned by CRISIS. Cents, not dollars. */
+  readonly disasterRepairs?: readonly DisasterRepairExpense[];
   /** How far the history's resource flows and outcomes have been read. */
   readonly cursor: { readonly flows: number; readonly outcomes: number };
   readonly governments: readonly PublicBudgetGovernment[];
@@ -306,6 +308,19 @@ export interface PublicBudgetStore {
     readonly jurisdictionId: EntityId;
     readonly reason: string;
   }[];
+}
+
+export interface DisasterRepairExpense {
+  readonly key: string;
+  readonly episodeId: EntityId;
+  readonly stateKey: string;
+  readonly paidOn: IsoDate;
+  readonly units: number;
+  readonly costPerUnitCents: number;
+  readonly federalCents: number;
+  readonly stateCents: number;
+  readonly measureId: EntityId | null;
+  readonly reason: string;
 }
 
 export function publicBudgetGovernments(

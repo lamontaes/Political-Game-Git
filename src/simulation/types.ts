@@ -1,3 +1,7 @@
+import type { LawOutcomeCalibration } from "./law-outcome-calibration";
+import type { LibraryMaterialsStore } from "./library-materials-types";
+import type { VoterIdentificationStore } from "./voter-identification-types";
+import type { ImmigrationAdmission } from "./immigration-admission-types";
 import type { CrisisRecord } from "./crisis/types";
 import type {
   CampaignLifeActivityRecord,
@@ -28,6 +32,7 @@ import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
 import type { TownFinanceStore } from "./living-world/town-finance-types";
 import type { PublicBudgetStore } from "./public-budgets/store";
+import type { CongressionalInvestmentStore } from "./congress-investment-types";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -95,6 +100,7 @@ export type EntityKind =
   | "statutory-tax-payment"
   | "loan-terms"
   | "debt-charge"
+  | "debt-relief"
   | "debt-standing"
   | "law-exposure"
   | "official-view"
@@ -2735,6 +2741,8 @@ export interface ScheduledActivityRecord {
   readonly summary: string;
   readonly kind: ScheduledActivityKind;
   readonly participantPersonIds: readonly EntityId[];
+  /** Explicit NPC appointments completed by the canonical clock; absent on old saves. */
+  readonly backgroundCompletion?: boolean;
   readonly responsiblePersonId: EntityId | null;
   readonly location: AuthoredActivityLocation;
   readonly sourceEntityIds: readonly EntityId[];
@@ -3263,6 +3271,19 @@ export interface DebtChargeRecord {
   readonly kind: "interest" | "late-fee";
   readonly amount: MoneyAmount;
   readonly loanTermsId: EntityId;
+}
+
+/** A creditor's lawful cancellation of debt, distinct from a borrower payment. */
+export interface DebtReliefRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly relievedAt: IsoDate;
+  readonly amount: MoneyAmount;
+  readonly measureId: EntityId;
+  readonly reason: string;
 }
 
 export type DebtStanding =
@@ -4284,6 +4305,7 @@ export interface HistoryStore {
   readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
   readonly loanTerms?: readonly LoanTermsRecord[];
   readonly debtCharges?: readonly DebtChargeRecord[];
+  readonly debtReliefs?: readonly DebtReliefRecord[];
   readonly debtStandings?: readonly DebtStandingRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
@@ -4490,7 +4512,16 @@ export interface LegislativeMeasureNumberingSession {
   readonly fullDesignation: string;
 }
 
+/** Numeric policy terms are filed with the bill, never chosen by its consumer. */
+export interface PolicyBillTerms {
+  readonly questionKey: string;
+  readonly values: Readonly<Record<string, number>>;
+  readonly reason: string;
+  readonly principleRecordIds: readonly EntityId[];
+}
+
 export interface LegislativeMeasureRecord {
+  readonly policyTerms?: readonly PolicyBillTerms[];
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -5482,6 +5513,11 @@ export interface World {
   readonly generatorVersion: WorldGeneratorVersion;
   readonly id: EntityId;
   readonly seed: string;
+  /** Opening-only development calibration targets, never outcome multipliers. */
+  readonly openingLobbyistAnnualPayCents?: Readonly<Record<string, number>>;
+  readonly lawOutcomeCalibration?: Readonly<
+    Record<string, LawOutcomeCalibration>
+  >;
   readonly startedAt: IsoDate;
   readonly currentDate: IsoDate;
   readonly currentMoment: SimulationMoment;
@@ -5522,6 +5558,10 @@ export interface World {
    * and additive: a world written before it existed keeps no budgets.
    */
   readonly publicBudgets?: PublicBudgetStore;
+  readonly libraryMaterials?: LibraryMaterialsStore;
+  readonly voterIdentification?: VoterIdentificationStore;
+  readonly immigrationAdmissions?: readonly ImmigrationAdmission[];
+  readonly congressInvestments?: CongressionalInvestmentStore;
   /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.

@@ -374,7 +374,7 @@ export function setFutureDueItemTerminalState(
       event.recordedAt > effectiveAt
     ) {
       throw new Error(
-        "Future due-item outcome event is unavailable or mismatched.",
+        `Future due-item outcome event is unavailable or mismatched. Item ${dueItem.stableKey} (${dueItem.transitionKey}), due ${dueItem.dueAt}; event ${input.outcomeEventId}, occurred ${event?.occurredAt ?? "missing"}, recorded ${event?.recordedAt ?? "missing"}.`,
       );
     }
   }

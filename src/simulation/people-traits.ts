@@ -345,7 +345,7 @@ export function ensurePeopleTraits(
    * decision dated in the past (a field filed before the game opened) reads
    * the temperament the person already had then. Never before their birth.
    */
-  onDate: IsoDate = world.currentDate,
+  onDate: IsoDate | ReadonlyMap<EntityId, IsoDate> = world.currentDate,
 ): World {
   // Each record's writer checks the whole World; seeding one person writes a
   // record per trait, so the batch is checked once, against its input.
@@ -357,7 +357,7 @@ export function ensurePeopleTraits(
 function seedPeopleTraits(
   world: World,
   personIds: readonly EntityId[],
-  onDate: IsoDate,
+  onDate: IsoDate | ReadonlyMap<EntityId, IsoDate>,
 ): World {
   let next = world;
   for (const personId of personIds) {
@@ -365,6 +365,10 @@ function seedPeopleTraits(
     if (next.control.kind === "person" && next.control.personId === personId) {
       continue;
     }
+    const personDate =
+      typeof onDate === "string" ? onDate : onDate.get(personId);
+    if (personDate === undefined)
+      throw new Error(`Missing trait seed date: ${personId}`);
     for (const trait of PEOPLE_TRAITS) {
       if (personTrait(next, personId, trait).recordId !== null) continue;
       next = ensurePeopleTraitCatalog(next);
@@ -373,7 +377,7 @@ function seedPeopleTraits(
         stableKey: `${PEOPLE_MIND_VERSION}:${personId}:${trait}:seed`,
         personId,
         tendencyId: peopleTraitId(trait),
-        recordedAt: laterOf(next.people[personId]!.birthDate, onDate),
+        recordedAt: laterOf(next.people[personId]!.birthDate, personDate),
         ...encode(trait, value),
         confidence: "medium",
         scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
@@ -384,9 +388,9 @@ function seedPeopleTraits(
       });
     }
     for (const trait of registeredSeededTraits(next)) {
-      next = seedRegisteredTrait(next, personId, trait, onDate);
+      next = seedRegisteredTrait(next, personId, trait, personDate);
     }
-    next = seedSalientQualities(next, personId, onDate);
+    next = seedSalientQualities(next, personId, personDate);
   }
   return next;
 }

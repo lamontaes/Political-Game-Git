@@ -1,4 +1,5 @@
 import { addDays, daysBetween } from "../dates";
+import { fundDeclaredDisasterRepair } from "../governing/disaster-cost-sharing";
 import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
@@ -928,6 +929,21 @@ export const disasterRepairCycleHandler: FutureTransitionHandler = (
   let capacity = policy.local + (federal ? policy.federalAssisted : 0);
   let next = world;
   const cycle = itemIndex(item);
+  if (federal) {
+    const remaining = disasterRepairQueue(world, episode.id).reduce(
+      (sum, entry) => sum + entry.remainingUnits,
+      0,
+    );
+    const funded = fundDeclaredDisasterRepair(
+      world,
+      episode.id,
+      episode.stateUsps,
+      cycle,
+      Math.min(capacity, remaining),
+    );
+    next = funded.world;
+    capacity = funded.units;
+  }
   for (const entry of disasterRepairQueue(world, episode.id)) {
     if (capacity <= 0) break;
     const applied = Math.min(capacity, entry.remainingUnits);
