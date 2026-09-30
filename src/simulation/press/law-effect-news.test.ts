@@ -10,6 +10,7 @@ import {
 } from "../life";
 import { createWorld, createWorldId, recordWorldEvent } from "../world";
 import { recordPersonDeath } from "../vitality";
+import { recordLawExposure } from "../law-exposure";
 import {
   localOutcomeKey,
   placeOutcomeAt,
@@ -31,6 +32,7 @@ import {
   LAW_EFFECT_MEASURE_TAG,
   lawNewsReaders,
   lawOutcomeFindings,
+  reportLawEffects,
 } from "./law-effect-news";
 
 /*
@@ -92,6 +94,98 @@ function ordinance(
 }
 
 type Law = ReturnType<typeof ordinance>;
+
+describe("separate recorded non-money law effects", () => {
+  it.each([
+    ["Quantico", "US-MD"],
+    ["Rockland", "US-ID"],
+    ["Tab", "US-IN"],
+  ])("keeps later sections attributable in %s", (query, stateKey) => {
+    const town = searchLifePlaces(query).find(
+      (place) => place.stateJurisdictionKey === stateKey,
+    )!;
+    expect(town).toBeDefined();
+    const seed = `non-money-news:${town.context.jurisdiction.id}`;
+    const date = makeIsoDate("2026-03-01");
+    const person = createLightweightPerson({
+      worldId: createWorldId(seed),
+      worldSeed: seed,
+      index: 0,
+      currentDate: date,
+      homeJurisdictionId: town.context.jurisdiction.id,
+    });
+    let world = createWorld({
+      seed,
+      currentDate: date,
+      jurisdictions: [town.context.jurisdiction],
+      people: [person],
+    });
+    const law = ordinance(town.context.jurisdiction.id, seed, "yes", date, 1);
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeMeasures: [law.measure],
+        legislativeEnactments: [law.enactment],
+      },
+    };
+    for (const channel of [
+      "job-rule",
+      "business-rule",
+      "public-service",
+    ] as const) {
+      for (const section of ["first", "second"]) {
+        world = recordWorldEvent(world, {
+          stableKey: `${channel}:${section}:fixture`,
+          type: "test.recorded-law-effect",
+          occurredAt: date,
+          recordedAt: date,
+          jurisdictionId: town.context.jurisdiction.id,
+          involvedEntityIds: [person.id],
+          participants: [],
+          personFactConstraints: [],
+          visibility: "private",
+          tags: [],
+          summary: "An explicitly authored non-money effect fixture.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        const source = world.history.events.at(-1)!;
+        world = recordLawExposure(world, {
+          stableKey: `${channel}:${section}:exposure`,
+          personId: person.id,
+          measureId: law.measure.id,
+          sectionKey: section,
+          channel,
+          direction: "none",
+          amount: null,
+          cadence: null,
+          sourceRecordId: source.id,
+          includeFamily: false,
+        });
+        world = reportLawEffects(world, 0);
+        const stories = world.history.events.filter(
+          (event) =>
+            event.type === LAW_EFFECT_EVENT_TYPE &&
+            event.tags.includes(`law-effect:reach:${channel}`),
+        );
+        expect(stories).toHaveLength(section === "first" ? 1 : 2);
+        const story = stories.at(-1)!;
+        expect(story.tags).toContain(`law-effect:section:${section}`);
+        expect(story.tags).toContain(`law-effect:source:${source.id}`);
+        expect(story.summary).not.toContain("$");
+        expect(story.involvedEntityIds).toContain(person.id);
+        expect(reportLawEffects(world, 0)).toBe(world);
+      }
+    }
+  });
+});
 
 function worldWith(
   laws: readonly Law[],

@@ -93,6 +93,8 @@ interface Touch {
   readonly movedMinor: number | null;
   readonly step: string;
   readonly reason: string | null;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly sectionKey: string | null;
 }
 
 /**
@@ -193,6 +195,8 @@ function flowTermTouches(
       movedMinor: null,
       step: String(earlier),
       reason: row.reason,
+      sourceRecordIds: [row.id],
+      sectionKey: null,
     });
   }
   return touches;
@@ -241,8 +245,15 @@ function exposureTouches(world: World, sinceSequence: number): Touch[] {
           ? -row.amount.minorUnits
           : row.amount.minorUnits
         : null,
-      step: "0",
+      // Separate actual non-money sections. Repeated exposure to the same
+      // section remains one story; money lanes retain their existing keys.
+      step:
+        row.direction === "none" && row.sectionKey !== null
+          ? `section:${row.sectionKey}`
+          : "0",
       reason: null,
+      sourceRecordIds: [row.id, row.sourceRecordId],
+      sectionKey: row.sectionKey,
     });
   }
   return touches;
@@ -311,6 +322,18 @@ function recordLawEffect(
       `${LAW_EFFECT_STEP_TAG}${first.step}`,
       `law-effect:reach:${first.reach}`,
       `law-effect:people:${count}`,
+      ...[...new Set(group.flatMap((touch) => touch.sourceRecordIds))]
+        .sort()
+        .map((id) => `law-effect:source:${id}`),
+      ...[
+        ...new Set(
+          group
+            .map((touch) => touch.sectionKey)
+            .filter((key): key is string => key !== null),
+        ),
+      ]
+        .sort()
+        .map((key) => `law-effect:section:${key}`),
       "importance:notable",
     ],
     summary,
