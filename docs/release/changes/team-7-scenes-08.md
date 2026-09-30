@@ -3,4 +3,4 @@ id: team-7-scenes-08
 impact: none
 ---
 
-Add candidate surface disposition and numbered review sheets for 20 existing midday originals. No runtime import or staging changes.
+Add candidate surface disposition and unchanged canonical spot excerpts with numbered overlays for 20 existing midday originals. No runtime import or canonical staging changes.
