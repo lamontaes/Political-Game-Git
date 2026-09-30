@@ -1,0 +1,368 @@
+{
+  "handoffVersion": 1,
+  "team": 5,
+  "ownerOrder": "CTO September 30 3:19; unified direct and onward consequence data",
+  "status": "Coordinator schema input only; NOT a runtime declaration, activation or proof.",
+  "sharedWriters": {
+    "engine": "Coordinator and Team2",
+    "catalog": "Coordinator",
+    "links": "Coordinator"
+  },
+  "limits": [
+    "No new per-law month.ts/index.ts claims. Existing stamp batch1302 remains separate first-version source.",
+    "No numeric outcome default, drawn level, pooled study coefficient or invented unit cost.",
+    "Existing map link references are inventory, not endorsement or fresh activation; about-zero and units require exact study review.",
+    "Real government jurisdiction/preemption/operative dates and actual saved beneficiaries are required.",
+    "Repeal changes prospective legal obligations/service according to operative terms; it does not undo paid transfers, completed education or past case outcomes."
+  ],
+  "rows": [
+    {
+      "questionKey": "us-policy-positions:education.equalize-school-funding",
+      "who": "Named pupils with actual dated enrollment at covered schools; actual school beneficiaries of a filed allocation.",
+      "what": ["service delivered", "price or cost"],
+      "howMuch": {
+        "binding": "Filed allocation formula and actual pupil/need base; authorized actual payment and delivered instruction remain separate.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [],
+      "writerStatus": "No supplied beneficiary/service adapter.",
+      "onwardLinks": [
+        {
+          "linkKey": "equalized-funding-to-spending",
+          "to": "school.spending-per-student"
+        },
+        {
+          "linkKey": "equalized-funding-to-math-proficiency",
+          "to": "school.math-proficient-pct"
+        },
+        {
+          "linkKey": "equalized-funding-to-graduation",
+          "to": "school.graduation-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "who": "Named applicants and pupils whose actual institution/program is covered by filed choice-program terms.",
+      "what": ["coverage or eligibility", "price or cost", "service delivered"],
+      "howMuch": {
+        "binding": "Actual authorized grant or tuition payment limited by filed eligibility, amount and capacity; no automatic private-school enrollment.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [],
+      "writerStatus": "No supplied eligibility/payment/service adapter.",
+      "onwardLinks": [
+        {
+          "linkKey": "vouchers-to-math-proficiency",
+          "to": "school.math-proficient-pct"
+        },
+        {
+          "linkKey": "vouchers-to-graduation",
+          "to": "school.graduation-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "who": "Named paid teachers in actual covered public-school work roles.",
+      "what": ["pay", "price or cost"],
+      "howMuch": {
+        "binding": "Operative filed salary floor compared with actual compensation terms; actual positive paid work transfer, not an assumed raise.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/living-world/town-pay.ts",
+        "src/simulation/teacher-salary-floor.ts"
+      ],
+      "writerStatus": "Existing teacher pay/terms producer; inherited drawn floor is not accepted as filed terms.",
+      "onwardLinks": [
+        {
+          "linkKey": "teacher-minimum-salary-to-graduation",
+          "to": "school.graduation-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "who": "Actual eligible child applicants, delivered preschool attendance, and their recorded parents; no selection from population totals.",
+      "what": ["coverage or eligibility", "service delivered", "price or cost"],
+      "howMuch": {
+        "binding": "Filed eligibility/place/schedule/fee terms applied to actual enrollment, delivered hours, capacity and actual paid care; parent job and work schedule are separate records.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/governing/program-governing.ts"
+      ],
+      "writerStatus": "Kind-A funded program exists; child attendance/parent-care integration contract remains absent.",
+      "onwardLinks": [
+        {
+          "linkKey": "universal-childcare-to-mothers-work",
+          "to": "labor.mothers-participation"
+        },
+        {
+          "linkKey": "universal-prek-to-graduation",
+          "to": "school.graduation-pct"
+        },
+        {
+          "linkKey": "universal-prek-to-math-proficiency",
+          "to": "school.math-proficient-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:education.freeze-public-tuition",
+      "who": "Named students at actual covered public institutions with accepted offers or tuition obligations.",
+      "what": ["price or cost"],
+      "howMuch": {
+        "binding": "Operative filed freeze/cap and recorded institutional tuition baseline applied to actual new obligations; retain existing immutable accepted terms and paid amounts.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/public-budgets/tuition-freeze.ts",
+        "src/simulation/public-budgets/tuition-freeze-stamps.ts"
+      ],
+      "writerStatus": "Existing government revenue reader; no assigned student invoice contract.",
+      "onwardLinks": [
+        {
+          "linkKey": "tuition-freeze-to-college-completion",
+          "to": "school.college-completion-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:education.state-curriculum-standards",
+      "who": "Actual covered schools and named actively enrolled pupils; actual records establish coverage and timing.",
+      "what": ["rule on an institution", "price or cost"],
+      "howMuch": {
+        "binding": "Filed curriculum requirements and purchase terms applied to actual school/pupil base; a budget allocation is not delivered materials or a taught lesson.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/public-budgets/curriculum-standards.ts"
+      ],
+      "writerStatus": "Branch materials-cost reader and stamped budget component; institution/lesson application contract absent.",
+      "onwardLinks": [
+        {
+          "linkKey": "curriculum-standards-to-math",
+          "to": "school.math-proficient-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "who": "Named covered workers, job applicants, housing applicants and complainants, only from recorded facts and actual cases.",
+      "what": [
+        "right or permission",
+        "coverage or eligibility",
+        "pay",
+        "legal outcome"
+      ],
+      "howMuch": {
+        "binding": "Filed protected grounds/scope and operative authority constrain actual employer/housing/case decisions; no study-wide automatic personal pay adjustment.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/fairness-pay-law.ts",
+        "src/simulation/living-world/town-pay.ts"
+      ],
+      "writerStatus": "Existing narrow partner/pay reader; broader work/housing/enforcement contract absent; inherited fixed pay-gap mechanism held.",
+      "onwardLinks": [
+        {
+          "linkKey": "anti-discrimination-to-poverty",
+          "to": "household.poverty-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "who": "Named covered workers/applicants/complainants inside the actual ordinance jurisdiction, subject to lawful state preemption.",
+      "what": [
+        "right or permission",
+        "coverage or eligibility",
+        "pay",
+        "legal outcome"
+      ],
+      "howMuch": {
+        "binding": "Filed protected grounds/scope, local authority and actual application/case/work records; do not duplicate state and local compensation changes.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/fairness-pay-law.ts",
+        "src/simulation/living-world/town-pay.ts"
+      ],
+      "writerStatus": "Existing narrow partner/pay reader; broader ordinance enforcement contract absent; inherited fixed pay-gap mechanism held.",
+      "onwardLinks": [
+        {
+          "linkKey": "city-anti-discrimination-to-poverty",
+          "to": "household.poverty-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "who": "Named people with an actual care request and actual providers/cases, under operative gestational, exception and jurisdiction terms.",
+      "what": [
+        "right or permission",
+        "coverage or eligibility",
+        "legal outcome",
+        "price or cost"
+      ],
+      "howMuch": {
+        "binding": "Filed legal restrictions/exceptions and actual clinical/date/authority records determine the service or disposition; aggregate births/mortality are checks, not forced person outcomes.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [],
+      "writerStatus": "No supplied qualifying care/enforcement writer contract.",
+      "onwardLinks": [
+        {
+          "linkKey": "abortion-ban-to-births",
+          "to": "births.rate"
+        },
+        {
+          "linkKey": "abortion-ban-to-infant-deaths",
+          "to": "health.infant-mortality"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+      "who": "Actual libraries receiving authorized payments and named patrons using recorded delivered services.",
+      "what": ["price or cost", "service delivered"],
+      "howMuch": {
+        "binding": "Filed appropriation/source and actual commitments/payments/work determine services; no patron or learning gain is inferred from library spending.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/governing/program-governing.ts"
+      ],
+      "writerStatus": "Kind-A funding route exists; patron service contract absent.",
+      "onwardLinks": [
+        {
+          "linkKey": "library-funding-to-math",
+          "to": "school.math-proficient-pct"
+        },
+        {
+          "linkKey": "library-funding-to-reading",
+          "to": "school.reading-proficient-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+      "who": "Actual challenged title, named filer, and members of the actual held board; known jurisdictional allocation is required.",
+      "what": [
+        "right or permission",
+        "rule on an institution",
+        "legal outcome"
+      ],
+      "howMuch": {
+        "binding": "Filed/operative allocation of collection authority plus actual challenge and recorded member reasons; save vote and its law; do not claim physical removal or paid review.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": [
+        "src/simulation/library-materials-authority.ts",
+        "src/simulation/library-materials-law.ts"
+      ],
+      "writerStatus": "Branch saved decision and canonical named-person history writer; live held-board caller absent.",
+      "onwardLinks": [
+        {
+          "linkKey": "library-materials-to-reading",
+          "to": "school.reading-proficient-pct"
+        }
+      ],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "who": "Actual named-source government collections, parks/payees and named patrons of delivered facilities/services.",
+      "what": ["price or cost", "service delivered"],
+      "howMuch": {
+        "binding": "Filed revenue dedication/share multiplied by actual collections, or filed authorized appropriation; earmark is separate from authorized actual payment and park service.",
+        "numericDefault": null,
+        "termsSource": "Same canonical law catalog entry and operative law; do not invent missing filed values."
+      },
+      "existingProducerPaths": ["src/simulation/public-budgets/rules.ts"],
+      "writerStatus": "Existing modeled budget proxy; held drawn-per-resident proposal is excluded; actual paid/service contract absent.",
+      "onwardLinks": [],
+      "proof": {
+        "nationwide": "UNMEASURED",
+        "fivePartsComplete": false
+      }
+    }
+  ],
+  "preK": {
+    "evidenceHead": "a82a04fc079783e460e1867d5ccd59f83b90c8cb",
+    "evidencePath": "docs/codex/effect-batches/team-9/prek-outcomes-pass.json",
+    "outcomes": [
+      "literacy",
+      "school-readiness",
+      "special-education-placement",
+      "grade-retention",
+      "later-graduation",
+      "parents-work-hours",
+      "child-care-spending"
+    ],
+    "limits": [
+      "Boston intervals are lottery-complier sampling uncertainty, not world/place draws.",
+      "Tulsa test points/control SD do not mean percent literate; uncertainty absent.",
+      "Tennessee table estimates and correction unverified.",
+      "Chicago continuing services cannot be attributed to pre-K alone.",
+      "Parent work-hour and child-care spending estimates/intervals still absent.",
+      "Actual enrollment/attendance, assessments, decisions, parent job schedules and paid care must precede a named-person record."
+    ]
+  }
+}
