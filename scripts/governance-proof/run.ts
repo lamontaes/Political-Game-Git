@@ -150,7 +150,9 @@ if (systemOption) {
     systemOption as ProofSystem,
     effects.enactedLawsWithEffects,
     readCases,
-    systemOption === "life" ? watched.anchorPersonId : undefined,
+    systemOption === "life" || systemOption === "all"
+      ? watched.anchorPersonId
+      : undefined,
   );
   let save: unknown = null;
   try {

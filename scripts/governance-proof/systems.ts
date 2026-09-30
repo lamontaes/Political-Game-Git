@@ -625,7 +625,7 @@ export function plainSystemReport(
     "",
     "## 3. Revisions and breadth",
     "",
-    "No simulation changes. The selected place is seeded; each listed law/bill retains its own jurisdiction. A single year does not establish national calibration.",
+    "No simulation changes. The selected place is seeded; each listed law/bill retains its own jurisdiction. One watched place does not establish national calibration.",
     "",
     "## 4. Numbered HELD parts",
     "",

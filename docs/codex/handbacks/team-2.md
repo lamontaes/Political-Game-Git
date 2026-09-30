@@ -2974,3 +2974,9 @@ Run stopped: Time bound 30 minutes reached.. The requested watched period was no
 ## 7. Named worked example
 
 The named case, law and sponsor records above are the worked examples. When a section has none, no example was generated to fill it. Amounts are saved currency/minor-unit amounts, not estimated losses or unobserved causal effects.
+
+## Next five-year proof preserves the whole observed system
+
+The next exact-main attempt will retain the full world and use a 60-minute advance bound. All-system mode now also follows the opening resident’s monthly canonical records. Case, law and filing observations remain alongside that timeline. A successful completed five years is still pending; the incomplete Oracle receipt above is unchanged. The renderer now says one watched place does not establish national calibration, covering longer periods accurately.
+
+The numbering batch is separately preserved at `b26329cc5d73da058a00fdf759d94981cbb027b8`, draft #1200. Its three-state actual designation proof passed; Congress remained empty. Team 3’s host-first candidate is still a pending exact-head dependency, not an observed result.

@@ -28,3 +28,5 @@ A separate clean-main watched year now preserves its zero-case and zero-money ob
 The draft collector can follow a named observer resident for longer periods. It preserves monthly events and transferred versus attempted money, excludes household payments outside recorded residency, and retains large worlds through the existing chunk-capable serializer.
 
 The draft preserves an incomplete four-year watched-life receipt, an authority repair proposal and source-only campaign/governor action traces. None establishes completed five-year or new law-effect acceptance.
+
+The all-system draft report includes the watched resident’s monthly records alongside cases, law effects and filings. Long-period reports keep their observation limits explicit.
