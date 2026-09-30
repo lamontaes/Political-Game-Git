@@ -11,6 +11,7 @@ function Metric({ metric }: { readonly metric: MapDemographyMetric }) {
     <div>
       <dt>{metric.label}</dt>
       <dd>
+        {metric.estimated ? "About " : ""}
         {metric.value.toLocaleString("en-US", { maximumFractionDigits: 1 })}
         {metric.unit === "Number of persons" ? " people" : ` ${metric.unit}`}
         {" · "}
