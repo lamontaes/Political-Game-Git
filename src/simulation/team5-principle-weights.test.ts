@@ -492,7 +492,11 @@ it("retains all twelve education and civil law arguments in the canonical catalo
     expect(p.principles).toHaveLength(l.rows.length);
     for (const r of l.rows) {
       const id = c.principles.find((p) => p.stableKey === r.key)!.id;
-      expect(p.principles!.find((p) => p.principleId === id && p.bearing === r.bearing)).toMatchObject({
+      expect(
+        p.principles!.find(
+          (p) => p.principleId === id && p.bearing === r.bearing,
+        ),
+      ).toMatchObject({
         bearing: r.bearing,
         weight: r.weight,
       });
