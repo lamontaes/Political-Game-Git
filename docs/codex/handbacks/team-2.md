@@ -106,3 +106,52 @@ The research helper's bounded heading inventory found 73 numbered Acts, contiguo
 The single-file run at the published checkpoint finished eight cases: six passed and two failed. Both failures rejected a metric tag containing a colon and entity-ID underscore; metric catalog tags require dotted content keys. The production reader and fixture now encode the President tag as `person.<hyphenated entity id>`. The date and national-scope assertions remain intact. The final single-file run passed all eight cases. Poll tests use explicit fixture lineage, with canonical people and a recorded fictional presidency; the production catalog boundary remains intact. The prior nine-file command was interrupted after 25 minutes without a reported case result; it proves neither pass nor failure.
 
 The final national-mood run passed 8/8 on the preserved candidate plus the owned fixture repair: 188.69 seconds total, 301 ms in tests. Formatting, ESLint and whitespace passed on the final two mood files. A prior two-root typecheck passed with 1,098 source/declaration files and zero diagnostics; the final fixture receives a fresh check on the separate code-only branch.
+
+Two bounded agenda changes are ready. The source trace distinguishes existing named-person law feedback from the missing general condition-to-concern connection. The mood candidate still lacks supported response coefficients and remains unfinished.
+
+## Current dispatch and ready code
+
+The owner’s later correction permits the NCSL composition dataset as calibration only. Opening seats must follow simulated pre-game history that produces plausible nearby counts; direct seat assignment to the research totals is not accepted. The earlier research hold and caller-release request in this historical checkpoint are superseded.
+
+The life-formation piece is authorized on a new branch based on Team 1’s `codex/wire-last-ten-laws`, carrying its caller change and merging after the law PR. The other small pieces have main lineage. Claude retains merge authority. Watched worlds and speed comparisons follow merge and do not gate ready code. Only Team 4’s bounded timing window may pause full simulations.
+
+The majority-backed agenda piece is READY in [PR #1146](https://github.com/lamontaes/Political-Game-Git/pull/1146), head `ad175689597a3971f93e1384fd36f4470e3ca3c4`. Five focused cases passed, including actual state and Congress filing producers. The scoped typecheck covered six roots and 800 files with zero diagnostics. Changed-file lint, formatting, whitespace and the committed release range passed.
+
+Strongest-pressure sponsorship is READY in [PR #1147](https://github.com/lamontaes/Political-Game-Git/pull/1147), head `c40adfb0a92789bde5e34e245b0917ab25a07c04`, stacked on the majority piece. Six cases passed. The scoped typecheck covered two roots and 799 files with zero diagnostics; changed-file and committed release checks passed. Neither ready piece has merged or received watched-world acceptance.
+
+The claims migration release was received. No old handles remain held or queued. Future edits use atomic `mkdir` acquisition and `rmdir` only the directory this writer acquired, in `finally`.
+
+## Bounded condition, concern, filing and vote trace
+
+Measured source trace at the main-based code lineage:
+
+- Named family, confidants, party, faith, residence, work, homeownership, job loss and crime-victim evidence supply life pulls. There is no general aggregate-condition input in `src/simulation/principles-from-life.ts`.
+- Life formation writes principle rows; the leaning reader combines them with a proposition’s recorded bearings in `src/simulation/governing/officeholder-principles.ts`.
+- The actual state and Congress filing producers consume those leanings. Backing thresholds and pressure order choose among proposals in `src/simulation/governing/majority-agenda.ts`.
+
+An existing narrower path must be preserved:
+
+- Town payday processing calls the law-pay-change reader, which converts law-attributed resource-flow terms into named law exposures in `src/simulation/law-effects-noticed.ts`.
+- Named tax effects also produce law exposures in `src/simulation/tax-policy.ts`.
+- Scheduled reflection writes credit or blame of officials and can form a law-interest group in `src/simulation/living-world/official-views.ts`.
+- A member deciding whether to retain or change a law consumes those saved views and group membership in `src/simulation/legislative-member-decisions.ts`.
+
+This is an operational named-person feedback path, not proof that every catalog condition reaches a person.
+
+`constituentsConsideration` separately reads eligible residents’ held views through `whoCaresAbout`, with existing issue salience weights. That path does not derive the views from generic condition deltas either. Political reflection reads an encountered proposition and recorded principles; it does not supply the missing condition-to-concern producer.
+
+The exact remaining connection is a sourced operational writer that maps an identified condition change into named-person experience, encounter or concern evidence before these existing consumers run. No new link, size or lag was authored. Each proposed link still needs broad coverage and researched magnitude/delay, followed by Claude’s merged-head law → first condition → downstream named effect → subsequent concern/budget/vote proof. That watched proof is NOT RUN. The coordinator’s effects map was read, not edited.
+
+## Numerical anchor audit of the small pieces
+
+| File and field                                                                   | Coverage and source                                                                                                          | Fixed or seeded                                                                        | Remaining gap                                                                       |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `majority-agenda.ts`: majority thresholds and pressure ordering                  | Assigned game rule; input pressure is recorded principle score                                                               | Deterministic reader; no new real-world value or draw                                  | Watched filing/vote proof after merge                                               |
+| `member-agenda.ts` and `congress-lawmaking.ts`: candidate backing                | Existing per-person principles and proposition bearings                                                                      | Deterministic reader; intake cadence and ordinal filing threshold retained             | Existing cadence/threshold remain disclosed game assumptions                        |
+| `chamber-votes.ts`: seated party key and sponsor-only cue                        | Actual saved seat affiliation and measure sponsor/cosponsor history                                                          | Deterministic reader; no new anchor                                                    | Existing ordinal cue weights are not measured empirical effects                     |
+| `national-mood.ts`: approval fallback and five response weights on preserved WIP | Gallup national tenure-average cohort and Brookings national midterm swing cohort support historical calibration spread only | Candidate fallback/weights are fixed; generation-time saved calibration not integrated | Candidate .45/.6/.35/.2/2 weights have no verified support and are not READY        |
+| `governance-calibration-2024.json`: chamber composition                          | NCSL January 31, 2025 sitting composition covers all 50 states and six additional jurisdictions                              | Research snapshot; unwired calibration candidate                                       | Pre-game history integration must produce nearby counts, never assign them directly |
+
+The reused research helper verified national approval and midterm calibration cohorts and found Tufte’s published national response model. That model uses September approval, eight preceding House-election averages, and a change in real disposable income per person in 1958 dollars. It cannot justify substituting saved GDP growth, unemployment or inflation, or combining its intercept with the independent historical swing mean. Residual standard deviation and an integration-ready modern specification remain unresolved. No guessed coefficient or spread was added. The helper packets are `/private/tmp/team2-midterm-calibration-sources.md` and `/private/tmp/team2-midterm-response-model-sources.md`; independent parent replication of their full numeric tables was not run.
+
+The cosponsor piece is READY in [PR #1150](https://github.com/lamontaes/Political-Game-Git/pull/1150), head `49eca5208d7c6a96a84885308117a7c05dea5815`, stacked on #1147. Eight cases across three files passed, including actual filing, every qualifying cross-party signature and an unsigned opposition member’s ballot. Its three-root typecheck covered 799 files with zero diagnostics. Changed-file lint, formatting, whitespace and the exact committed release range passed. The Team 4 zero-dice allowlist delta remains named above.
