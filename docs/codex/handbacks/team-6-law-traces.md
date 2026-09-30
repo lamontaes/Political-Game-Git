@@ -492,3 +492,114 @@ NOT RUN. Team 2 owns the watched-year runner. A code path and a research source 
 ## 7. Worked example
 
 NOT OBSERVED. Do not invent a resident, driver or public transaction. A source-only illustration is a state changing its parks answer from no to yes: this function adds population times the shared annual estimate divided by twelve. It is not a named family's actual park use. The initial rural-transit and catalog reader audits are now saved above. Next obtain the runner's actual transaction lines and resolve the named legal and adapter gaps through their owners.
+
+## Daily assignment: five newly owned laws
+
+The daily assignment adds five laws to the fifteen existing traces. This source pass finds revenue, spending, outcome and judicial-review readers. It does not establish that any effect fired in a watched world. Legal coverage, individual compliance and repeal persistence remain open. Each new row is **needs research**; a missing personal mechanism is **needs a feature** until the measured audit identifies a bounded repair.
+
+### 1. Why-chain (five whys, to bedrock)
+
+An enacted answer can change a reader because the measure answers a catalog question. That answer governs because `law-in-force.ts` applies effective dates, authority, starting law and court disposition. A consumer changes a budget or outcome because it compares the current answer with its opening answer. That comparison produces an aggregate because the inspected consumers use government population, a tax base or a place outcome. The chain ends at bookkeeping or an aggregate, not an observed resident's decision. Judicial review separately reads a justice's recorded principles and precedent considerations; its actual decision is unobserved here.
+
+Source baseline is fetched main `c240f91c3779034fe77d2eb3bed05671a7ed1e2b`. The candidate before this batch is `0d23db9e7448b5eb45317fbc1cb16aa9d3dc6523`. Coordinator claims and the central table were read at `a947ee492f1d8603763d1d00fefd80c982d5d816`. The central table is absent from this fetched main; its coordinator version still calls these five rows unowned. The owner-authorized daily assignment now gives them to Team 6.
+
+### 2. Research
+
+Primary pages were fetched on September 30, 2026. Raw responses and a receipt remain in the existing ignored research scratch. A successful statute read establishes its text, not current enforceability, another jurisdiction's authority or an effect size.
+
+| Primary page                                                                                      | Read result and limited finding                                                                                                                                                                                           | Response SHA-256                                                   |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [Ohio Revised Code 4798.02](https://codes.ohio.gov/ohio-revised-code/section-4798.02)             | HTTP 200. Least restrictive regulation protects against present, significant, substantiated harms. Inspections, insurance, registration, certification and limited licensing remain distinct tools.                       | `3264b09d72dba0ffc058b6caf71336fb4d45429fe15d4e5c351fe21f8773f793` |
+| [Virginia 59.1-577](https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577/)     | HTTP 200. Authenticated access, correction, deletion, portability and opt-out requests; response within 45 days, with one justified 45-day extension.                                                                     | `20ca51285be1475fb05778286be5a2ee386570eb79f0debefa74fb9a514399c8` |
+| [Virginia 59.1-584](https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-584/)     | HTTP 200. Exclusive Attorney General enforcement, 30-day notice/cure, up to $7,500 per violation, designated treasury fund and no private right of action. This is not a general local-preemption clause.                 | `3107fee25571f13e4e00c56d1c4c5b3f8dc1e56bfeaac1cfb26c06af137da2d3` |
+| [Virginia 59.1-577.1](https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577.1/) | HTTP 200. Under-16 definition, commercially reasonable age determination, one hour per day per service/application with parental adjustment, purpose-limited age data and specified protections against degraded service. | `ba248189fadbb4c7fe0256dbd97fc5ea2f8d2bfdcda413e89c4141eebfcdab86` |
+| [New York General Municipal Law 859-A](https://www.nysenate.gov/legislation/laws/GMU/859-A)       | HTTP 403. No incentive-authority text admitted.                                                                                                                                                                           | No admitted response                                               |
+| [Colorado marijuana laws and regulations](https://sbg.colorado.gov/med/laws-and-regulations)      | HTTP 403. No licensing, sales or repeal text admitted.                                                                                                                                                                    | No admitted response                                               |
+
+The existing link citations and budget comments below are inspected repository evidence. Their studies and fiscal notes were not independently reread in this batch. Legal dollar caps and deadlines are legal terms, not empirical rates or permission to apply them everywhere.
+
+### Five six-line traces
+
+All question IDs below carry the prefix `us-policy-positions:`. The shared law reader's missing answer means unknown, never permission. Its rank-only conflict model does not establish actual floors, ceilings, local delegation or territorial powers. Existing starting-law estimates require explicit developer-data review; they are not researched authority.
+
+#### Reduce occupational licensing
+
+Question: `business-commerce.reduce-occupational-licensing`.
+
+1. **Enactment:** a state answer enters the shared effective-law reader. The catalog does not name occupations or amend their individual licensing rules. No dedicated budget reader was found by the exact-key search.
+2. **Effects:** `links.json:licensing-reform-to-poverty` supplies a provisional relative place-poverty effect of -0.003, range -0.006 to 0, after 12 months. Its own anchor says no study measures that poverty change. This is an inherited scaled estimate, not admitted causal calibration. Occupational eligibility, fees, training, entry, hiring, consumer safety and board enforcement are distinct missing or unverified effects. No person feels this yet in the inspected path.
+3. **Authority:** the catalog maps state only. Ohio 4798.02 requires tailored alternatives and preserves specified licensing cases; it does not repeal every license. Federal safety requirements remain a Team 1 cross-link. County, city, township and territorial authority are not established by that Ohio policy. Repeal must distinguish future licensing from existing credentials and accrued liabilities; end-to-end repeal is unproved.
+4. **Terminal:** an aggregate poverty link, with a source-admitted extrapolation. `outcome-web/index.ts:drawnLinkSize` draws stably by world/link/place within the supplied range; the range's scientific justification remains open.
+5. **Gap/fix:** first obtain Team 2's actual path and missing-effect reasons. Resolve occupation coverage and an existing eligibility reader before proposing a license or employment system. Team 9 owns new empirical sizing.
+6. **Proof:** source read only. Watched enactment, eligibility, fees, safety, repeal and unincorporated-place cases NOT RUN.
+
+#### Legalize cannabis sales
+
+Question: `business-commerce.legalize-cannabis-sales`.
+
+1. **Enactment:** a state answer reaches both the outcome web and `public-budgets/month.ts:cannabisSalesFactor`. A plain yes/no answer can activate this revenue reader without a new typed term.
+2. **Effects:** the revenue reader uses $40.70 per resident per year and an 11-month adoption lag. Its comments list ten mature-state tax observations from $26.70 to $62.00 and six opening lags from 0 to 21 months. Those observed bounds are not an approved universal draw distribution. The overdose link has inherited size -0.05, range -0.20 to +0.10, lag 11 months and contested evidence. Violent crime is an inherited about-zero link after 12 months. Youth use has null size and evidence `to-confirm`, so it is not established about-zero. Sales eligibility, stores, licenses, purchases, tax remittance, enforcement, consumption and resident health are separate unverified effects.
+3. **Authority:** catalog state only; a town's refusal of stores is a different question. The starting-law file covers this question and notes the D.C. sales rider, but this batch does not independently validate all 56 entries. Colorado's attempted primary read failed. Federal controlled-substance restrictions and congressional D.C. authority remain Team 1 seams. No local or territorial permission is inferred. Repeal liability, inventory and contracts remain unresolved.
+4. **Terminal:** HARDWIRED fixed per-resident revenue and lag in `public-budgets/cannabis-sales-tax.ts`, then budget-factor bookkeeping. The factor checks a past law answer; it does not establish an actual first store opening or customer's purchase. It removes modeled revenue immediately on repeal of an opening yes. No person-level overdose reader was established by this targeted pass.
+5. **Gap/fix:** distinguish delayed revenue from absent sales/compliance records in Team 2's audit. Team 9 researches applicable tax and opening ranges. Do not transfer the fixed average into a personal purchase or death probability.
+6. **Proof:** source read only. Actual collections, stores, purchasers, enforcement, health, court restrictions and repeal NOT RUN.
+
+#### Cap development incentives
+
+Question: `business-commerce.cap-development-incentives`.
+
+1. **Enactment:** the catalog maps state/county/city. `public-budgets/rules.ts` has two non-null revenue effects read by the monthly budget path; the broad poverty link alone would miss them.
+2. **Effects:** the state corporate-tax factor adds 1.75/46.01 on adoption and subtracts the same share on reversal. Comments cite one California estimate of $1.7–$1.8 billion annually from fiscal year 2027–28. The county/city property-tax factor uses half of $15.5 billion divided by $649.03 billion, extrapolating California's credit reduction to local abatements. Neither direct factor draws within a researched place range. Poverty is an inherited about-zero link; that does not mean zero budget, disclosure, employer or worker effects. No employer deal, disclosure or person's hiring reader was established.
+3. **Authority:** a catalog mapping does not establish a government's power over another body's abatements. New York's attempted primary section returned 403. State enabling acts, local development bodies, constitutional constraints, federal incentive ownership and territorial/township delegation remain research. Repeal cannot silently cancel vested contracts or recapture already awarded credits.
+4. **Terminal:** HARDWIRED tax-base multipliers in `public-budgets/rules.ts`, then public-budget records; no person feels this yet in the inspected incentive path. The state note's magnitude and date do not establish a universal law's scope or timing.
+5. **Gap/fix:** ask the measured audit for actual state/local revenue rows and same-law baselines. Repair an existing revenue consumer only when the measured reason and released hunk are known. Research deal coverage, disclosure and vested obligations separately.
+6. **Proof:** source read only. State/county/city collections, disclosed awards, employer conduct and repeal NOT RUN.
+
+#### Consumer data privacy law
+
+Question: `technology-privacy.consumer-data-privacy-law`.
+
+1. **Enactment:** a state answer reaches `public-budgets/month.ts:lawSpendingForMonth`. On an opening no becoming yes, the reader adds population times the annual per-resident estimate divided by 12. An opening yes becoming no uses its negative; an unknown opening answer produces no such delta.
+2. **Effects:** administration spending uses the fixed mean of $0.0551 and $0.0379 per resident annually. Comments cite Colorado and Virginia staffing fiscal notes; this pass does not prove staff are hired. Median earnings is an inherited about-zero link, not evidence of absent rights or compliance costs. Virginia's read statute specifies authenticated requests, access/correction/deletion/portability/opt-out, responses, appeals and enforcement. No request, controller compliance, investigation, fine, business transaction or resident decision was established by the targeted key search.
+3. **Authority:** catalog state only; starting-law entries include estimates and preemption labels needing jurisdiction-specific verification. Virginia 59.1-584 assigns its Attorney General exclusive enforcement and excludes a private action. It does not settle all local legislative preemption. Federal national privacy belongs to Team 1; its business-cost module is a different question. Coverage thresholds, exemptions, federal conflict, all territorial powers and repeal treatment of pending requests remain open.
+4. **Terminal:** HARDWIRED fiscal-note mean and budget bookkeeping. No person feels this yet in the inspected state privacy path. Earnings about-zero does not justify omitting consumers' rights.
+5. **Gap/fix:** audit the real administration-spending record first. Then identify existing business/data-request readers, with coverage and deadlines from actual law. Request new product hunks centrally; do not overwrite the federal privacy owner's module.
+6. **Proof:** source read only. Spending, staffing, authenticated requests, compliance, penalties, appeal and repeal NOT RUN.
+
+#### Age verification for social media
+
+Question: `technology-privacy.age-verification-for-social-media`.
+
+1. **Enactment:** a state answer reaches administration spending and the precedent-driven judicial-review system. Review can prevent a law from governing; the registry's budget path is not the complete supported-effect inventory.
+2. **Effects:** spending uses a fixed $0.0645 per resident annually from an old Utah fiscal-note comment. Graduation is an inherited about-zero link; no measured graduation response to these checks is established by its anchor. Virginia's current statutory text separately addresses under-16 age determination, daily limits, parental adjustment, age-data purposes and service protections. Platform operation, age records, consent, usage and compliance are unverified readers. A court effect must be counted separately from spending and student outcomes.
+3. **Authority:** catalog state only. The game's precedent table includes Ohio/Arkansas age-and-consent cases, a neighboring sexual-material case and a later Ohio ruling described as stayed. The actual decisions and stay scope were not independently reread here; the neighboring case is not universal permission for social media checks. Virginia's statute text alone does not prove operative enforceability. Federal constitutional and communications-law seams remain Team 1-owned. Local/territorial authority, injunctions and repeal obligations remain research.
+4. **Terminal:** HARDWIRED fiscal estimate for spending; judicial review reads precedent considerations and a justice's principles. An actual justice's reason and resulting enactment disposition are unobserved. No platform user feels this yet in the inspected compliance path.
+5. **Gap/fix:** Team 2 must separate an operative-law block or same opening answer from missing spending and missing platform readers. Do not bypass judicial review to obtain a nonzero budget result. Refresh the Utah/Virginia law and litigation scope before proposing compliance behavior.
+6. **Proof:** source read only. Judicial disposition, spending, platform coverage, age determination, consent, usage, data handling and repeal NOT RUN.
+
+### 3. Revisions
+
+Only supplied outcome ranges are described as current world/place draws. Fixed fiscal averages, legal deadlines, observed study bounds and authored terms remain distinct. No new rate or link is introduced. Each about-zero applies only to its named outcome and evidence status. Unknown authority, an unread starting law and a blocked primary source remain gaps rather than permission or proof of no effect.
+
+### 4. What gets built, in numbered parts
+
+1. Publish these five source traces and their exact question IDs in the existing owned handback.
+2. Obtain Team 2's law/effect rows, actual records and counted missing reasons for all twenty assigned laws.
+3. Fix the most common measured reason within a centrally released product hunk; rerun the same audit before and after.
+4. Design public-land access across ownership, activities, fees and enforcement from real jurisdiction research. Preserve Team 3's claimed `nearbyPublicLandAcres` roster adapter.
+
+### 5. Simulated, records, world pieces, checks
+
+SIMULATED: no new watched world or observed actor decision. RECORDS: effective answers, monthly budgets, place outcomes and court disposition readers exist on inspected main. WORLD PIECES: actual occupations, stores, deals, data requests and platform usage were not established by this targeted pass. The no-store, no-controller, no-service, no-authority and unknown-opening-law cases require explicit audit reasons. CHECKS: numerical counts of fired/missing effects remain NOT RUN; source paths are not those counts.
+
+### 6. Proof run
+
+NOT RUN. Team 2 owns the measured audit, including three watched-year places and one unincorporated place under the daily assignment. This batch does not reuse an older money-only count as proof of all effects. Tests, product typechecks, browser, three-year speed measurements and independent reviewer are NOT RUN for these documentation-only additions. The owner prohibits new teams, so no reviewer helper is spawned.
+
+### 7. Worked example
+
+NOT OBSERVED. No person, transaction or court result is invented. A source illustration is a state with a researched opening no adopting privacy legislation: the spending reader adds its population times the fixed estimate divided by 12. That entry does not show a resident requesting deletion or a business complying. Team 2's actual records must supply the worked example.
+
+Daily ownership exclusions: Team 2 owns the measured audit and released compiler-selection hunks. Team 1 owns sponsor-term and federal authority seams. Team 3 owns the public-land roster adapter. Team 9 owns empirical sizing batches. Coordinator owns central claims and the central law table. This batch changes only Team 6's handback and its release entry; it does not claim those product files.
+
+Publication receipt: fetched main advanced to `b921f76393a153067840624e1b395f5bc474bbaf`. All eleven inspected law-reader and data files were unchanged from the pinned source baseline. Scoped report checks passed with zero errors and warnings; formatting, American spelling/date and whitespace checks passed. Zero-dice found no new lines and 217 inherited allowances. Committed release checks and remote publication are reported separately after execution.
