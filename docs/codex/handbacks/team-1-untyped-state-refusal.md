@@ -39,6 +39,16 @@ All eight tests in the changed state agenda file passed. The file took 171.81 se
 
 Candidate same-seed year, named-person effect, browser, full suite and exclusive-host year-speed check: NOT RUN. Team2's original Floral baseline has one typed enactment out of 56 and zero measured law-linked money. No candidate ratio is inferred by subtracting refused baseline bills: procedural and actor choices may change.
 
+The sponsor-term review inspected Team2's published compiler at `5ab3c57f1fa31fa26eacf7fa0a7c505b75adc3f4`. It replaces random/default selection with an enacted current-law source. Its nine focused passing tests remain Team2's attributed receipt; Team1 has not rerun them.
+
+Three source findings remain. First, `positionBillAnswer` refuses a supportive yes proposal when current law already says yes. That governing law can supply the compiler's valid source terms while preventing a funding proposal from reaching it. Team2 owns filing under CTO 7:38; the interaction was delivered in PR1215 comment5910810124.
+
+Second, the compiler's source-clause comparison checks text, money and effect kind, but omits independently recorded beneficiary and fiscal period. It may reconstruct those omitted fields from the bank. This is a guard inspection, not an observed corrupted world or an executed mutation fixture. Team2 received the precise comparison finding in PR1215 comment5910839953.
+
+Third, the source check compiles at the original introduction date; the new draft compiles at the current date. Saved duration and phase rules may be reused, but the absolute old start is not copied. Intentional timing rebasing needs an explicit contract and fixture. No start, amount or outcome was invented in this review.
+
+CTO 7:38 assigns filing/introduction to Team2 and sponsor terms to Team1. Team1 has handed over this exact filing candidate without further source edits; compiler configuration and parameter-selection ownership remains Team2. The next proof needs agreed source pins and a complete sponsor-term contract.
+
 Feature-walkthrough invoked before this handback. No new helper or team was created. No merge approval is inferred.
 
 ## 7. Worked example
