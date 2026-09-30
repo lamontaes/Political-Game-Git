@@ -1,4 +1,6 @@
 import { addDays, spokenDate } from "../dates";
+import { crisisRecords } from "../crisis/records";
+import { isLawEffectStamp, type LawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { recordsByStringField } from "../history-index";
 import { currentLifeCutoff, householdMembershipsAt } from "../life-queries";
@@ -80,7 +82,8 @@ type Reach =
   | "paycheck"
   | "job-rule"
   | "business-rule"
-  | "public-service";
+  | "public-service"
+  | "health-coverage";
 
 interface Touch {
   readonly measureId: EntityId;
@@ -95,6 +98,8 @@ interface Touch {
   readonly reason: string | null;
   readonly sourceRecordIds: readonly EntityId[];
   readonly sectionKey: string | null;
+  readonly lawStamp?: LawEffectStamp;
+  readonly coverage?: boolean;
 }
 
 /**
@@ -103,10 +108,10 @@ interface Touch {
  */
 export function reportLawEffects(world: World, sinceSequence: number): World {
   const enactments = enactmentsByEvent(world);
-  if (enactments.size === 0) return world;
   const touches = [
     ...flowTermTouches(world, sinceSequence, enactments),
     ...exposureTouches(world, sinceSequence),
+    ...healthCoverageTouches(world, sinceSequence),
   ];
   if (touches.length === 0) return world;
   const groups = new Map<string, Touch[]>();
@@ -259,6 +264,62 @@ function exposureTouches(world: World, sinceSequence: number): Touch[] {
   return touches;
 }
 
+
+/** Read changed coverage, never infer a consequence from a stamp alone. */
+function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
+  const touches: Touch[] = [];
+  const prior = new Map<EntityId, boolean>();
+  for (const row of crisisRecords(world)) {
+    if (
+      row.kind !== "health-coverage" ||
+      row.effectiveAt > world.currentDate ||
+      row.recordedAt > world.currentDate
+    ) continue;
+    const before = prior.get(row.personId);
+    prior.set(row.personId, row.covered);
+    // Initial non-coverage and a new reason without a coverage change are
+    // not gained/lost coverage. Old unstamped rows still establish the prior.
+    if (
+      row.sequence <= sinceSequence ||
+      before === row.covered ||
+      (before === undefined && !row.covered) ||
+      !world.people[row.personId]
+    ) continue;
+    const stamps =
+      "lawEffectStamps" in row && Array.isArray(row.lawEffectStamps)
+        ? row.lawEffectStamps.filter(isLawEffectStamp)
+        : [];
+    const residences = householdMembershipsAt(world, row.personId, {
+      asOfDate: row.effectiveAt,
+      historySequenceExclusive: row.sequence + 1,
+    });
+    const towns = [...new Set(residences
+      .map(({ location }) => location?.jurisdictionId)
+      .filter((id): id is EntityId => id !== undefined))].sort();
+    for (const stamp of stamps) {
+      if (
+        stamp.effectKind !== "health-coverage" ||
+        stamp.appliedAt !== row.effectiveAt
+      ) continue;
+      for (const town of towns) touches.push({
+        measureId: stamp.governingLawKey,
+        town,
+        personIds: [row.personId],
+        reach: "health-coverage",
+        changeMinor: null,
+        movedMinor: null,
+        step: `coverage:${row.effectiveAt}:${row.covered ? "began" : "ended"}`,
+        reason: null,
+        sourceRecordIds: [row.id, ...(stamp.sourceRecordIds ?? [])],
+        sectionKey: stamp.questionKey,
+        lawStamp: stamp,
+        coverage: row.covered,
+      });
+    }
+  }
+  return touches;
+}
+
 function peopleOf(world: World, endpoint: ResourceEndpoint): EntityId[] {
   if (endpoint.kind === "person")
     return world.people[endpoint.personId] ? [endpoint.personId] : [];
@@ -295,15 +356,23 @@ function recordLawEffect(
   const measure = world.history.legislativeMeasures?.find(
     (row) => row.id === first.measureId,
   );
-  if (!measure) return world;
+  const stamp = first.lawStamp;
+  const startingDefinition = stamp?.source === "in-force-at-start"
+    ? Object.values(world.policyCatalog?.propositions ?? {}).find(
+        (definition) => definition.stableKey === stamp.questionKey,
+      )
+    : undefined;
+  if (!measure && !startingDefinition) return world;
   const enactment = world.history.legislativeEnactments?.find(
     (row) => row.measureId === first.measureId,
   );
   const people = new Set(group.flatMap((touch) => touch.personIds));
   const count = people.size;
-  const law = enactment?.actDesignation ?? measure.designation;
+  const law = enactment?.actDesignation ?? measure?.designation ?? startingDefinition!.name;
   // The place is the record's own; a paper adds it where its readers need it.
-  const summary = `${law} ${effectPhrase(group, count)}.`;
+  const summary = first.reach === "health-coverage"
+    ? `Under ${law}, ${effectPhrase(group, count)}.`
+    : `${law} ${effectPhrase(group, count)}.`;
   const detail = detailSentence(world, group, enactment);
   return recordWorldEvent(world, {
     stableKey,
@@ -322,6 +391,7 @@ function recordLawEffect(
       `${LAW_EFFECT_STEP_TAG}${first.step}`,
       `law-effect:reach:${first.reach}`,
       `law-effect:people:${count}`,
+      ...(stamp ? [`law-effect:origin:${stamp.source}`] : []),
       ...[...new Set(group.flatMap((touch) => touch.sourceRecordIds))]
         .sort()
         .map((id) => `law-effect:source:${id}`),
@@ -396,6 +466,8 @@ function effectPhrase(group: readonly Touch[], count: number): string {
       return `changed the rules at work for ${plural(count, "resident", "residents")}`;
     case "business-rule":
       return `changed the rules for ${plural(count, "local business owner", "local business owners")}`;
+    case "health-coverage":
+      return `recorded public health coverage ${group[0]!.coverage ? "began" : "ended"} for ${plural(count, "resident", "residents")}`;
     case "public-service":
       return `changed a public service for ${plural(count, "resident", "residents")}`;
   }
@@ -411,6 +483,10 @@ function detailSentence(
   enactment: LegislativeEnactmentRecord | undefined,
 ): string {
   const parts: string[] = [];
+  const stamp = group[0]!.lawStamp;
+  if (stamp) parts.push(
+    `Coverage records changed on ${spokenDate(stamp.appliedAt)} under the governing rule. This attribution does not establish that a new enactment alone caused the change.`,
+  );
   const reasons = new Map<string, number>();
   for (const touch of group)
     if (touch.reason)
