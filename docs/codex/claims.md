@@ -680,3 +680,13 @@ Team 5 explicitly released both law-effect-news files without unpublished hunks;
 ## CTO 10:35 shared contract and design allocation
 
 Team 2 owns shared law-effect provenance type/helper and audit consumer; exact existing-schema hunks must be named before overlap. Teams 1/3/5/6 retain their writers and consume this single contract. Team 8 admission-wrapper paths are requested, not yet granted. Team 3 is the sole business-design file writer; Team 5 supplies its entry/career/player-flow section. Other secondary designs remain with their assigned teams, with no implementation approval.
+
+- Team 7: art/authoring/sept30-team7/regional-exteriors/ — CTO10:35 Sonoran/GreenMountain home exteriors and qualified street candidate follow-through; no wrappers/import.
+
+- Team 7: docs/codex/handbacks/team-7-regional-exteriors.md — CTO10:35 exterior candidate follow-through only.
+
+- Team 7: docs/release/changes/team-7-regional-exteriors.md — CTO10:35 exterior candidate follow-through only.
+
+## Confirmed producer handoffs, September 30
+
+Team 6 owns only month.ts local cannabisSalesFactor (published line 451), selectiveSalesTaxes call site (319-324), and required amount-reader import. Team 1 confirmed no unpublished overlap in comments 5913501098 and 5913512228. Team 3 public-land adapter release is published in 1189 comment 5913349735. Team 5 curriculum monthly import/schools-addition release remains requested; no budget-wide transfer. Team 1 held module source is 0d64e106a5c49645bc6904952c514e30d5919b96. Shared attribution field waits for Team 2 single contract.
