@@ -1,7 +1,8 @@
 {
   "team": 4,
   "status": "helper checkpoint; production callsite pending ownership grant",
-  "sourceBase": "7c24983ff3320129f257d66ee497831e29d53cfc",
+  "sourceBase": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "preservedOriginalHead": "7ad1126b5ade9177609822de0b7831726f684f3e",
   "ownedFunction": "src/simulation/living-world/housing-market.ts::withHousingSupplyLawStamps",
   "requestedCallsite": "src/simulation/outcome-web/place-outcomes.ts::placeOutcomesForMonth final housing.new-large-buildings row decoration/import only",
   "requestComment": "https://github.com/lamontaes/Political-Game-Git/pull/1137#issuecomment-5914810437",
@@ -13,12 +14,13 @@
   "checks": {
     "newHousingTests": "6/6 PASS",
     "existingPriceModelTests": "6/6 PASS",
-    "twoFileSeconds": 11.39,
+    "twoFileSeconds": 10.78,
     "strictRoots": 2,
     "typeDiagnostics": 0,
     "eslint": "PASS",
     "prettier": "PASS",
-    "whitespace": "PASS"
+    "whitespace": "PASS",
+    "handbackReport": "0 errors, 0 warnings"
   },
   "notRun": [
     "production handler with helper callsite",
