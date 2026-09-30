@@ -1,0 +1,74 @@
+{
+  "team": 3,
+  "assignment": "CTO11:16",
+  "lawCount": 13,
+  "laws": [
+    {
+      "law": "Adopt state income tax",
+      "effects": "Worker withholding and take-home pay; government receipts; zero direct arithmetic on official pretax poverty; migration needs cohort evidence."
+    },
+    {
+      "law": "Graduated income tax",
+      "effects": "Earnings/filing-status distribution of withholding; actual schedule receipts; zero direct pretax-poverty arithmetic; migration needs evidence."
+    },
+    {
+      "law": "Cap property-tax growth",
+      "effects": "Legal assessment/levy growth limit with exemptions; owner tax bills; government revenue; school spending and achievement within studied cohort/horizon."
+    },
+    {
+      "law": "Exempt groceries from sales tax",
+      "effects": "Shopper tax and spending; government receipts; food insecurity for studied households; zero direct pretax-poverty arithmetic."
+    },
+    {
+      "law": "Balanced operating budget",
+      "effects": "Legal balance constraint; actual tax/spending/borrowing adjustments; borrowing costs within fiscal-rule evidence; services through actual program outturn."
+    },
+    {
+      "law": "Fund pensions to schedule",
+      "effects": "Scheduled government contributions; pension funding and worker obligations; borrowing response needs contribution-law evidence, not investment-loss substitution."
+    },
+    {
+      "law": "Minimum reserve balance",
+      "effects": "Reserve target/deposit rule; actual transfer and operating resources; borrowing response; program consequences through actual outturn."
+    },
+    {
+      "law": "Raise minimum wage",
+      "effects": "Covered worker compensation/paycheck; employer payroll costs; poverty response through wage-change measure; low-wage employment within evidence. Employment map link exists but its cause is not registered by the current question alias."
+    },
+    {
+      "law": "City minimum wage",
+      "effects": "Local worker floor/paycheck; employer cost; actual federal/state floors and preemption; locally covered employment/poverty response."
+    },
+    {
+      "law": "Local minimum-wage authority",
+      "effects": "City power to set a floor; operative ordinance applicability; paycheck consequences only through a real governing ordinance."
+    },
+    {
+      "law": "Paid family leave",
+      "effects": "Covered worker premiums; qualifying absence and benefit payment; statutory return/job protection where applicable; maternal employment within program/cohort evidence."
+    },
+    {
+      "law": "Public-sector bargaining",
+      "effects": "Public worker rights and employer duties; actual agreements/employment terms; graduation null limited to studied school cohort; adult-earnings evidence is not current public-worker wage evidence."
+    },
+    {
+      "law": "Right to work",
+      "effects": "Private worker union-security obligations; personal union/payment decisions; political contact and voter participation; turnout study requires percentage-point/baseline conversion."
+    }
+  ],
+  "completion": {
+    "linksAdded": 0,
+    "linksActivated": 0,
+    "directEffectWriterKindsAdded": 1,
+    "directEffectsRuntimeProven": 0,
+    "newCostsWired": 0,
+    "ideologyCompleted": 0,
+    "fivePartLawsComplete": 0
+  },
+  "sourceReceipt": {
+    "effectListComment": "https://github.com/lamontaes/Political-Game-Git/pull/1189#issuecomment-5914425738",
+    "paymentWriterSource": "a5302d4f586b996b8ba95a16c28afc9adcd53c8b",
+    "tests": "NOT RUN: cloud executor failed"
+  },
+  "limit": "No five-part completion or nationwide effect inferred from source wiring."
+}
