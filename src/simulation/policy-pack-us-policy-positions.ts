@@ -1058,9 +1058,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should release before trial be decided without money bail?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "consistent-with" },
-        { principle: "public-safety", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.45,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -1076,9 +1103,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the law set minimum sentences that a judge may not go below?",
       tags: ["contested"],
       principles: [
-        { principle: "public-safety", bearing: "consistent-with" },
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.45,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -1093,8 +1147,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should a civilian board have authority to investigate complaints against police?",
       tags: ["contested"],
       principles: [
-        { principle: "transparency", bearing: "consistent-with" },
-        { principle: "public-safety", bearing: "against" },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "worker-protection",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.4,
+        },
       ],
     },
     {
@@ -1108,8 +1190,26 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should carrying a concealed firearm require a permit?",
       tags: ["contested"],
       principles: [
-        { principle: "public-safety", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.45,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.75,
+        },
       ],
     },
     {
@@ -1120,8 +1220,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should older teenagers be handled in juvenile rather than adult court?",
       parameters: [{ key: "age", value: "upper-age-of-juvenile-jurisdiction" }],
       principles: [
-        { principle: "equal-opportunity", bearing: "consistent-with" },
-        { principle: "public-safety", bearing: "against" },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.45,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.4,
+        },
       ],
     },
     {
@@ -1136,8 +1264,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should voting rights be restored automatically once a sentence is complete?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.35,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.3,
+        },
       ],
     },
     {
