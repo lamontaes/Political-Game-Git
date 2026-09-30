@@ -1,6 +1,6 @@
 # Saved pretrial decisions name the law they applied
 
-The first justice writer now attaches the governing law to a defendant's saved release or detention event. The focused case test measured one consequence, one valid stamp, preserved attribution after serialization, and no duplicate on a repeated prosecution step. This repairs attribution; it does not prove that the existing decision implements every jurisdiction's legal exceptions.
+The first justice writer now attaches the governing law to a defendant's saved release or detention event. Five focused historical-case fixtures measured five named defendants, one valid stamp per consequence, preserved attribution after canonical world reload, and no duplicate on a repeated prosecution step. This repairs attribution; it does not prove that the existing decision implements every jurisdiction's legal exceptions.
 
 ## Before
 
@@ -12,7 +12,7 @@ A prosecution reaches its charge decision and applies the operative bail law at 
 
 ## Why
 
-Measured: the writer in `src/simulation/justice/prosecution.ts:413` attaches the canonical stamp to the actual saved pretrial consequence. The terminal reason is the operative legal rule constraining the court's release decision. The stamp identifies that rule; it does not independently decide detention.
+Measured: the writer in `src/simulation/justice/prosecution.ts:412` attaches the canonical stamp to the actual saved pretrial consequence. The terminal reason is the operative legal rule constraining the court's release decision. The stamp identifies that rule; it does not independently decide detention.
 
 ## Person and place
 
@@ -20,7 +20,7 @@ The saved event retains the named defendant. The stamp retains the venue, referr
 
 ## Repeal and timing
 
-Measured: `src/simulation/justice/pretrial.ts:86` reads the operative law at application. A changed law governs future consequences; this patch does not revise old events or undo detention. Measured: `src/simulation/justice/pretrial.test.ts:126` tests enactment and repeal.
+Measured: `src/simulation/justice/pretrial.ts:87` reads the operative law at application. A changed law governs future consequences; this patch does not revise old events or undo detention. Measured: `src/simulation/justice/pretrial.test.ts:126` tests enactment and repeal.
 
 ## Connections and gaps
 
@@ -28,8 +28,8 @@ Inferred: the audit can inspect these saved stamps without reconstructing attrib
 
 ## Next step
 
-Record and consume the legal findings required for conditional release, and verify the exact place in the test output before a nationwide claim.
+Record and consume the legal findings required for conditional release, and run the national audit after integration.
 
 ## Method
 
-Focused tests: 8 passed across the saved-consequence test and existing pretrial law tests. ESLint passed for changed justice files. Seed: `team9-pretrial-stamp-20260930`. Stamp source copied byte-for-byte from main, with no helper changes.
+Focused tests: 12 passed across the five saved-consequence fixtures and existing pretrial law tests. ESLint passed for changed justice files. Base seed: `team9-pretrial-stamp-20260930-five`. Places: Massachusetts, Colorado, Michigan, Idaho and Arizona; exact place keys and people are in `pretrial-five-state-proof.json`. Stamp source copied byte-for-byte from main, with no helper changes.

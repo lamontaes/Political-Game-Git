@@ -6,7 +6,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import { passOrdinaryDays } from "../../presentation/ordinary-life";
+import { addDays } from "../dates";
 import { isLawEffectStamp } from "../law-effect-stamp";
 import type { LawEffectStampedRecord } from "../law-effect-stamp";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
@@ -59,10 +59,26 @@ describe("saved pretrial law attribution", () => {
         evidence: "testimony",
         standingFindings: 0,
       });
-      const world = passOrdinaryDays(
-        referral.world,
-        UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
-      );
+      // An authored historical referral is due today. Keep canonical time
+      // untouched: this focused writer fixture does not advance every other
+      // person's life for sixty days or skip their scheduled transitions.
+      const world = {
+        ...referral.world,
+        history: {
+          ...referral.world.history,
+          events: referral.world.history.events.map((event) =>
+            event.id === referral.referralId
+              ? {
+                  ...event,
+                  occurredAt: addDays(
+                    referral.world.currentDate,
+                    -UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+                  ),
+                }
+              : event,
+          ),
+        },
+      };
       const law = pretrialGoverningLawAt(world, jurisdictionId);
       expect(law).not.toBeNull();
       const after = advanceProsecutions(world);
