@@ -485,6 +485,294 @@
       "accessed": "2026-09-29",
       "readBy": "lead",
       "kind": "primary"
+    },
+    {
+      "id": "nj-session-constitution",
+      "title": "nj session constitution",
+      "url": "https://www.njleg.gov/constitution",
+      "vintage": "Amendment effective December 3, 1968; applies from 1970",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-session-constitution2025",
+      "title": "nm session constitution2025",
+      "url": "https://www.sos.nm.gov/wp-content/uploads/2025/01/NM_Constitution_-2025-for-SOS.pdf",
+      "vintage": "January 2025 edition through 2024 amendments; section 5 amended November 3, 1964",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-session-day-report",
+      "title": "nm session day report",
+      "url": "https://www.nmlegis.gov/publications/Studies_Research_Reports/Legislative%20Structure%20and%20Process%20Study%20Task%20Force%20Final%20Report%20%282007%20interim%29.pdf",
+      "vintage": "2007 official report printed page 3 confirms calendar-day count",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ny-session-constitution",
+      "title": "ny session constitution",
+      "url": "https://www.nysenate.gov/legislation/laws/CNS/A13S4",
+      "vintage": "Revision September 22, 2014",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ny-session-rules2025",
+      "title": "ny session rules2025",
+      "url": "https://www.nysenate.gov/legislation/laws/CMS",
+      "vintage": "Senate rules revision January 17, 2025",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nd-session-constitution",
+      "title": "nd session constitution",
+      "url": "https://ndlegis.gov/constit/a04.pdf",
+      "vintage": "Current constitution",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nd-session-code",
+      "title": "nd session code",
+      "url": "https://ndlegis.gov/api/cencode/t54c03.pdf",
+      "vintage": "Current code pages 19-20",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nh-session-court-filing",
+      "title": "nh session court filing",
+      "url": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/inline-documents/sonh/20200414_hoellmemooflaw.pdf",
+      "vintage": "2020 litigant memorandum page 5, hosted by judiciary; not authoritative constitutional publication",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nh-session-organization",
+      "title": "nh session organization",
+      "url": "https://gc.nh.gov/rsa/html/I/14/14-2-b.htm",
+      "vintage": "Last amendment 1997; effective August 8",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nv-session-constitution",
+      "title": "nv session constitution",
+      "url": "https://www.leg.state.nv.us/Const/NVConst.html",
+      "vintage": "Current page revised April 2026; section 2 amendments 1998 and 2012",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "vt-parks-code2025",
+      "title": "vt parks code2025",
+      "url": "https://legislature.vermont.gov/statutes/fullchapter/10/015",
+      "vintage": "Includes actions of2025 session; agency labels compilation unofficial convenience",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "hi-parks-fund-code",
+      "title": "hi parks fund code",
+      "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol03_Ch0121-0200D/HRS0173A/HRS_0173A-0005.htm",
+      "vintage": "Current statute, history latest2025Act236",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "hi-parks-report2025",
+      "title": "hi parks report2025",
+      "url": "https://data.capitol.hawaii.gov/sessions/session2025/Bills/DC117_.pdf",
+      "vintage": "January2025 FY2024report",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-parks-mtas2026",
+      "title": "tn parks mtas2026",
+      "url": "https://www.mtas.tennessee.edu/reference/recreation-grants",
+      "vintage": "Agency guidance reviewedAugust6,2026",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-session-constitution",
+      "title": "pa session constitution",
+      "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.002..HTM",
+      "vintage": "Section4 amendments1959/1967",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-session-journal2022",
+      "title": "pa session journal2022",
+      "url": "https://www.palegis.us/house/session/journals?pdfName=20221130.pdf&sessInd=0&sessYr=2022",
+      "vintage": "November30,2022House journal",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ri-session-constitution",
+      "title": "ri session constitution",
+      "url": "https://www.rilegislature.gov/riconstitution/Constitution/ConstFull.aspx",
+      "vintage": "Current own constitution",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-session-code",
+      "title": "sc session code",
+      "url": "https://www.scstatehouse.gov/code/t02c001.php",
+      "vintage": "Current code still shows2016baseline",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-session-enactment2016",
+      "title": "sc session enactment2016",
+      "url": "https://www.scstatehouse.gov/Acts%26JointResolutions/2016/2016Acts%26JointResolutionsVolumeI.pdf",
+      "vintage": "Act199approvedJune3,2016; applied nextannual session",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-session-constitution2025",
+      "title": "sd session constitution2025",
+      "url": "https://www.sdsos.gov/2025%20South%20Dakota%20Constitution%2020250919.pdf",
+      "vintage": "2025edition; uniform40days approved2008",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "sd-session-lrc",
+      "title": "sd session lrc",
+      "url": "https://mylrc.sdlegislature.gov/api/Documents/127103.pdf",
+      "vintage": "Own LRC reference explains practice counts formal-session days",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-session-manual2009",
+      "title": "tn session manual2009",
+      "url": "https://www.capitol.tn.gov/Archives/Senate/106GA/publications/Legislative%20Manual.pdf",
+      "vintage": "106thAssembly2009-2010manual pages246-248",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-session-overview",
+      "title": "tn session overview",
+      "url": "https://www.capitol.tn.gov/about/",
+      "vintage": "Current own overview says ninety days",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-session-constitution",
+      "title": "tx session constitution",
+      "url": "https://statutes.capitol.texas.gov/?artSec=&chapter=CN.3&code=CN&tab=1",
+      "vintage": "Primary indexed text through2025secondcalled session",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-session-start",
+      "title": "tx session start",
+      "url": "https://statutes.capitol.texas.gov/Docs/GV/pdf/GV.301.pdf",
+      "vintage": "Primary indexed operative statute",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-session-lrl",
+      "title": "tx session lrl",
+      "url": "https://lrl.texas.gov/genInfo/FAQ.cfm",
+      "vintage": "Own LRL confirms calendar days",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ar-session-constitution2025",
+      "title": "ar session constitution2025",
+      "url": "https://www.sos.arkansas.gov/uploads/elections/Arkansas_Election_Laws_and_Constitution_2025_Edition.pdf",
+      "vintage": "2025SOSedition; amendment86effectiveJanuary1,2009",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "az-session-faq",
+      "title": "az session faq",
+      "url": "https://www.azleg.gov/FAQ/",
+      "vintage": "Current own agency FAQ",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "co-session-rules2025",
+      "title": "co session rules2025",
+      "url": "https://content.leg.colorado.gov/sites/default/files/colorado-legislative-rules-2025-accessible.pdf",
+      "vintage": "UpdatedNovember2025; constitutional excerpts and currentrules",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ga-session-constitution2025",
+      "title": "ga session constitution2025",
+      "url": "https://sos.ga.gov/sites/default/files/forms/Georgia%20Constitution.pdf",
+      "vintage": "RevisedJuly2025",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "il-session-cached-constitution",
+      "title": "il session cached constitution",
+      "url": "https://www.ilga.gov/commission/lrb/con4.htm",
+      "vintage": "Own-source cached constitutionasOfSeptember6,2026",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ok-session-constitution",
+      "title": "ok session constitution",
+      "url": "https://oksenate.gov/sites/default/files/2019-12/oc5.pdf",
+      "vintage": "OwnSenatePDF; section26history1966andMarch14,1989",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
     }
   ],
   "sessionEndLaw": {
@@ -552,9 +840,14 @@
       ]
     },
     "US-AZ": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "rule-duration-unresolved",
+        "citation": "Arizona legislature FAQ",
+        "duration": null,
+        "detail": "Own agency FAQ describes100-day rule with extensions and unpredictable ending date; operative joint-rule mechanics not retrieved."
+      },
+      "sources": ["az-session-faq"],
       "priorCandidateRow": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
         "cite": "Ariz. Const. art. 4, pt. 2, \u00a7 3",
@@ -571,13 +864,27 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current operative constitution/joint rules and January2026 archival comparison pending. HCR2005proposedApril30deadline aftercutoff excluded."
       ]
     },
     "US-AR": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "regular-fiscal-calendar-duration",
+        "citation": "Arkansas Constitution article5 section17",
+        "regularLimit": {
+          "count": 60,
+          "unit": "calendar days"
+        },
+        "regularExtension": "Two-thirds elected eachhouse extends beyond60; three-fourths elected eachhouse required beyond75.",
+        "fiscalLimit": {
+          "count": 30,
+          "unit": "calendar days"
+        },
+        "fiscalExtension": "Once, at most15calendar days, with three-fourths elected eachhouse.",
+        "exception": "Pending impeachments"
+      },
+      "sources": ["ar-session-constitution2025"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -615,7 +922,7 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Opening statute and detailed recess provision not read; no automatic parity assumption where constitution permits altered dates."
       ]
     },
     "US-CA": {
@@ -635,13 +942,26 @@
       ]
     },
     "US-CO": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "calendar-duration-with-disaster-rule",
+        "citation": "Colorado Constitution articleV sections7,15; joint rules23(d),44",
+        "start": "10a.m.no later than second Wednesday in January annually",
+        "limits": [
+          {
+            "count": 120,
+            "unit": "calendar days"
+          }
+        ],
+        "dayDefinition": "Joint rule23(d)ordinarily counts consecutive calendar days.",
+        "exception": "Joint rule44disaster-emergency temporary adjournment overthree calendar days excludes temporary adjournment days from120count; resumes next legislative day.",
+        "recess": "Other house consent beyondthree days or elsewhere."
+      },
+      "sources": ["co-session-rules2025"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "No ordinary extension vote established; full constitutional amendment history not separately audited. Disaster-rule conditions are not general recess exclusions."
       ]
     },
     "US-CT": {
@@ -740,13 +1060,25 @@
       "gaps": ["Full January 2026 amendment exclusion not separately audited."]
     },
     "US-GA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "aggregate-day-cap",
+        "citation": "Georgia Constitution articleIII sectionIV paragraphI",
+        "start": "Second Monday inJanuary annually unlessotherwise provided bylaw",
+        "limits": [
+          {
+            "count": 40,
+            "unit": "days in aggregate eachyear"
+          }
+        ],
+        "recess": "Concurrent resolution may recess/reconvene; other house consent beyondthree days or elsewhere.",
+        "exception": "Pending impeachment: Houseadjourns,Senatecontinuesuntiltrialends."
+      },
+      "sources": ["ga-session-constitution2025"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Precise counted-day definition and regular extension mechanism beyond cited paragraph not established; no calendar-day substitution."
       ]
     },
     "US-HI": {
@@ -820,13 +1152,19 @@
       ]
     },
     "US-IL": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "continuous-body-term",
+        "citation": "Illinois Constitution articleIV section5",
+        "start": "Second Wednesday inJanuary annually",
+        "end": "Continuous body during term for which Housemembers elected",
+        "duration": null
+      },
+      "sources": ["il-session-cached-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Live retrieval failed. Cached SHA25659c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198; complete end/term statutory and January2026 inventory unresolved."
       ]
     },
     "US-IN": {
@@ -1254,39 +1592,92 @@
       ]
     },
     "US-NV": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "biennial-calendar-duration",
+        "citation": "Nevada Constitution article IV sections 2,2A and 15",
+        "start": "First Monday in February after Assembly election",
+        "limits": [
+          {
+            "count": 120,
+            "unit": "consecutive calendar days, commencement included"
+          }
+        ],
+        "end": "Midnight actually observed Pacific time on one-hundred-twentieth day; clock fiction prohibited.",
+        "detail": "Late regular-session actions void; special-session actions distinct.",
+        "specialLimit": {
+          "count": 20,
+          "unit": "consecutive calendar days, commencement included"
+        },
+        "specialException": "Impeachment/removal or legislative expulsion",
+        "recess": "Other house consent beyond three days."
+      },
+      "sources": ["nv-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Cited section histories precede cutoff, but separate archival comparison remains pending; special call is not a regular extension."
       ]
     },
     "US-NH": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "constitutional-dissolution-lead",
+        "citation": "Constitution part II article 3 quoted in court-hosted litigant filing; RSA14:2-b",
+        "start": "First Wednesday following first Tuesday in January; organization first Wednesday December in even years.",
+        "dissolutionLead": "12:01 a.m. first Wednesday December in even years",
+        "duration": null
+      },
+      "sources": ["nh-session-court-filing", "nh-session-organization"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Own constitutional URLs failed. Current constitutional and cutoff verification pending; no annual day cap or extension/prorogation conclusively established."
       ]
     },
     "US-NJ": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "annual-boundary",
+        "citation": "New Jersey Constitution article IV section I paragraph 3; section IV paragraph 5",
+        "start": "Noon second Tuesday in January",
+        "end": "Noon on the same January boundary in the following year, unless earlier sine die; second annual session ends next January boundary.",
+        "carryover": "First annual session business carries forward.",
+        "recess": "Other house consent beyond three days."
+      },
+      "sources": ["nj-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Detailed complete statutory inventory not audited; constitutional annual boundary is not a summer cutoff."
       ]
     },
     "US-NM": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-calendar-duration",
+        "citation": "New Mexico Constitution article IV sections 5-6 and 14",
+        "start": "Noon third Tuesday in January annually",
+        "oddYearLimits": [
+          {
+            "count": 60,
+            "unit": "calendar days"
+          }
+        ],
+        "evenYearLimits": [
+          {
+            "count": 30,
+            "unit": "calendar days"
+          }
+        ],
+        "specialLimit": {
+          "count": 30,
+          "unit": "days"
+        },
+        "recess": "Other house consent beyond three days.",
+        "exception": "Extraordinary self-convened thirty-day session has pending impeachment-trial exception."
+      },
+      "sources": ["nm-session-constitution2025", "nm-session-day-report"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -1324,17 +1715,23 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Full extension inventory beyond cited sections not audited; 2026 proposed HJR7 excluded."
       ]
     },
     "US-NY": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "compulsory-end-unresolved",
+        "citation": "New York Constitution article XIII section 4",
+        "start": "First Wednesday after first Monday in January annually",
+        "duration": null,
+        "detail": "June petition deadlines and Senate sine-die conditions do not establish a fixed legal duration."
+      },
+      "sources": ["ny-session-constitution", "ny-session-rules2025"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Complete constitutional/statutory end inventory unresolved; current Assembly rules contain January 2026 amendments and cannot be frozen automatically."
       ]
     },
     "US-NC": {
@@ -1353,13 +1750,31 @@
       ]
     },
     "US-ND": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "biennial-natural-day-cap",
+        "citation": "North Dakota Constitution article IV section 7; code 54-03-02 and 54-03-02.1",
+        "limits": [
+          {
+            "count": 80,
+            "unit": "natural days per biennium, nonconsecutive permitted"
+          }
+        ],
+        "dayDefinition": "Natural day is twenty-four consecutive hours.",
+        "exclusions": [
+          "Organizational meeting",
+          "Governor-called sessions",
+          "Impeachment days"
+        ],
+        "start": "Odd-year January: default noon first Tuesday after January 3, or Legislative Management-selected January 2 through 11; December even-year organization separate.",
+        "reconvening": "May reconvene after sine die using remaining eighty-day allowance.",
+        "recess": "Other house consent beyond three days."
+      },
+      "sources": ["nd-session-constitution", "nd-session-code"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Precise amendment history and archival January 2026 text not established."
       ]
     },
     "US-OH": {
@@ -1379,9 +1794,16 @@
       ]
     },
     "US-OK": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "fixed-annual-date",
+        "citation": "Oklahoma Constitution articleV sections26,30",
+        "start": "Noon first Monday inFebruary annually",
+        "end": "5p.m.lastFriday inMay annually",
+        "organization": "Noon first Tuesday afterfirstMonday inJanuary oddyears; organization-only sessionrecesses5p.m.samedayuntilFebruaryopening.",
+        "recess": "Otherhouseconsentbeyondthreedaysorelsewhere."
+      },
+      "sources": ["ok-session-constitution"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -1417,7 +1839,7 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current2025constitutionlinkfailed; post2019publication amendment comparison and extension inventory remainpending."
       ]
     },
     "US-OR": {
@@ -1450,59 +1872,114 @@
       ]
     },
     "US-PA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "biennial-boundary",
+        "citation": "Pennsylvania Constitution article II sections 2-4 and14",
+        "start": "Noon first Tuesday in January annually",
+        "end": "General Assembly continues during two-year House term starting December1 following election; November30 even-year boundary corroborated by2022House journal.",
+        "recess": "Other house consent beyond three days or elsewhere."
+      },
+      "sources": ["pa-session-constitution", "pa-session-journal2022"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "No annual day-count cap established; direct operative7.21 retrieval failed."
       ]
     },
     "US-RI": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "compulsory-end-unresolved",
+        "citation": "Rhode Island Constitution article VI sections3,9;IX sections6-7",
+        "start": "First Tuesday in January annually at Providence",
+        "recess": "Other house consent beyond two days or elsewhere.",
+        "duration": null,
+        "detail": "Sixty-day provision is legacy compensation/pension election for pre1994members, not session-duration cap."
+      },
+      "sources": ["ri-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Fixed annual end/day cap and independent archived cutoff edition unverified."
       ]
     },
     "US-SC": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "fixed-date-with-conditional-extensions",
+        "citation": "South CarolinaCode2-1-180 as amended2016Act199",
+        "end": "5p.m.second Thursday in May annually",
+        "extension": "Late House budget third reading afterMarch31adds one statewide day per statewide day; postApril10revenue forecast reduction allows up to two weeks with chamber leaders agreement; predeadline concurrent resolution adopted by two-thirds bothhouses may extend.",
+        "extendedBusiness": "Limited to matters approved by two-thirds concurrent resolution."
+      },
+      "sources": ["sc-session-code", "sc-session-enactment2016"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Exclude S238budget recall amendment enacted by veto overridesJune25,2026, afterJanuaryfreeze. Complete interhouse recess and historical comparison pending."
       ]
     },
     "US-SD": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "legislative-day-cap",
+        "citation": "South Dakota Constitution article III sections6,7,16",
+        "start": "Noon second Tuesday in January annually",
+        "limits": [
+          {
+            "count": 40,
+            "unit": "legislative days every year"
+          }
+        ],
+        "exclusions": ["Sundays", "Holidays", "Legislative recess"],
+        "exception": "Impeachment",
+        "recess": "Other house consent beyond three days or elsewhere."
+      },
+      "sources": ["sd-session-constitution2025", "sd-session-lrc"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "No ordinary extension vote identified. Legislative day lacks specific constitutional/statutory definition; saved days allow veto consideration inside ceiling."
       ]
     },
     "US-TN": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "compulsory-end-unresolved",
+        "citation": "Tennessee Constitution article II sections8,16,23",
+        "organization": "Second Tuesday in January after House election, at most fifteen consecutive calendar days; no final passage.",
+        "start": "First Tuesday after organization unless joint resolution sets earlier date",
+        "duration": null,
+        "detail": "Ninety regular/thirty extraordinary legislative days insection23cap expense/travel payments; no express termination in that text.",
+        "recess": "Joint resolution sets times; other house consent beyond three days."
+      },
+      "sources": ["tn-session-manual2009", "tn-session-overview"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current constitution link404; operative current legal-duration inventory unresolved. No blanket unlimited assertion."
       ]
     },
     "US-TX": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "biennial-calendar-duration",
+        "citation": "Texas Constitution article III sections5,17,24(b); GovernmentCode301.001",
+        "start": "Noon second Tuesday in January oddyears",
+        "limits": [
+          {
+            "count": 140,
+            "unit": "calendar days"
+          }
+        ],
+        "recess": "Other house consent beyond three days or elsewhere."
+      },
+      "sources": [
+        "tx-session-constitution",
+        "tx-session-start",
+        "tx-session-lrl"
+      ],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -1522,7 +1999,7 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Direct code URLs redirected to generic interface. Section24amendment history and ordinary-extension inventory not established; special governor call distinct."
       ]
     },
     "US-UT": {
@@ -1829,15 +2306,21 @@
       ]
     },
     "US-HI": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-route",
+      "proposedAnswer": true,
+      "legalRoute": {
+        "citation": "HRS173A-5 and referenced247-7; official FY2024 LegacyLand report",
+        "revenue": "Land conservation fund receives a conveyance-tax distribution. January2025 report records10percent subject to$5.1million cap and FY2024$5.1million receipts.",
+        "scope": "Mixed conservation land acquisition expressly includes parks and recreation; grants may go to state/counties/nonprofits. No park-only fraction.",
+        "conditions": "County/nonprofit recipients provide at least25percent project match. Statute limits administration and eligible operation/maintenance to5percent each of prior-year annual revenue.",
+        "detail": "Current173A-5 history includes2025Act236 section17;247-7 operative retrieval failed, so2024cap is historical observation, not automatically January2026 rate."
+      },
+      "sources": ["hi-parks-fund-code", "hi-parks-report2025"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Retrieve operative247-7 and2025 amendments/effective dates before freezing cap or allocation. Mixed fund is not dedicated entirely to parks operations."
       ]
     },
     "US-ID": {
@@ -2237,15 +2720,20 @@
       ]
     },
     "US-TN": {
-      "status": "unresearched",
+      "status": "partial-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "TCA67-4-409(a),(i), agency interpretation",
+        "revenue": "University municipal technical-assistance service reports37cents per$100realty tax and1.75cents allocated to local parks acquisition fund.",
+        "scope": "Local matching acquisition/capital grants for parks, natural areas and greenways.",
+        "detail": "ReviewedAugust6,2026 agency guidance; current operative code and January2026 appropriation conditions not read. Historical legislative text makes allocation subject to general appropriations."
+      },
+      "sources": ["tn-parks-mtas2026"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Current operative statute/enactment and January2026 budget condition must be read; no definitive yes/no from agency description alone."
       ]
     },
     "US-TX": {
@@ -2273,15 +2761,20 @@
       ]
     },
     "US-VT": {
-      "status": "unresearched",
+      "status": "scope-review",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "10 V.S.A. sections 302,303,312",
+        "revenue": "Fifty percent of property-transfer-tax revenue under title32 chapter231 credited to housing/conservation trust fund, with appropriations and other receipts.",
+        "scope": "Housing and mixed conservation, expressly including outdoor public recreation lands; no fixed park-only share established.",
+        "detail": "Current own-legislature 2025-session compilation; section312 history latest1999Act49 section79. Proposed 2024 sixty-percent wording was not adopted as operative evidence."
+      },
+      "sources": ["vt-parks-code2025"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Question-fit of mixed housing/conservation fund requires codeowner decision; annual appropriation overrides and complete January2026 history not read."
       ]
     },
     "US-VA": {
