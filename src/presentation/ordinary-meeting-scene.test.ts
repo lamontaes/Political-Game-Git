@@ -284,6 +284,13 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       const scene = projectOrdinaryMeetingScene(entered, personId)!;
       expect(scene.phase).toBe("active");
       expect(scene.caption).toContain("chairs the meeting.");
+      const entryRecord = entered.history.events.find(
+        (event) => event.id === scene.eventId,
+      )!;
+      const seatTags = entryRecord.tags.filter((tag) =>
+        tag.startsWith("attendance-seat:"),
+      );
+      expect(seatTags.length).toBeGreaterThan(0);
       expect(enterOrdinaryMeeting(entered, personId, activity.id)).toBe(
         entered,
       );
@@ -296,6 +303,17 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       const after = projectOrdinaryMeetingScene(completed, personId)!;
       expect(after.phase).toBe("immediate-aftermath");
       expect(after.actors[0]!.personId).toBe(scene.actors[0]!.personId);
+      const attendanceRecord = completed.history.events.find(
+        (event) => event.id === after.eventId,
+      )!;
+      expect(
+        attendanceRecord.tags.filter((tag) => tag.startsWith("attendance-seat:")),
+      ).toEqual(seatTags);
+      const reloaded = deserializeWorld(serializeWorld(completed));
+      expect(
+        reloaded.history.events.find((event) => event.id === attendanceRecord.id)
+          ?.tags,
+      ).toEqual(attendanceRecord.tags);
       expect(completed.personOrder).toEqual(entered.personOrder);
       expect(performVenueActivity(completed, personId, activity.id)).toBe(
         completed,

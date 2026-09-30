@@ -9,3 +9,8 @@ Separate focused checks pass; the original meeting suite reported three timeouts
 The meeting follow-up records seated officers as attendees and stores their office-participation IDs on the presence event. It removes generic group-ranked neighbors and their canned speeches. Entry is offered only when a recorded or seated chair exists. Dossiers omit unavailable Talk and connection controls without a navigation callback.
 
 The follow-up browser route lists the recorded officers and completes public comment, but NPC figures do not render in the room. Visual acceptance remains open.
+
+The cloud follow-up keeps the office-participation provenance recorded on
+meeting entry when the player stays until the meeting ends. Regression
+assertions cover continuity through the existing save/reload route. This
+increment is draft: its behavior, scoped types and browser checks have not run.

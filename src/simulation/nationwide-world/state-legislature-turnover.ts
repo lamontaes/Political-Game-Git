@@ -1,3 +1,4 @@
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { nationalMoodDemocraticShift } from "../national-mood";
 import { candidacyPackById } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
@@ -255,7 +256,73 @@ function prepareStateIntake(
   );
   const campaignHolders = campaignSeatHolders(world, packId);
   const plans: StateCandidateSeatPlan[] = [];
-  let next = world;
+  // Seed once before the decision loop, keeping each actor's original date.
+  // Only actors whose original route would ask for a decision are included.
+  const seedDates = new Map<EntityId, IsoDate>();
+  for (const row of due) {
+    const localKey = `${row.officeKey}|${row.ordinal}`;
+    const seat = seats.get(localKey);
+    if (contested.has(localKey) || !seat) continue;
+    const through = campaignHolders
+      .filter(
+        (holder) =>
+          holder.officeKey === row.officeKey && holder.ordinal === row.ordinal,
+      )
+      .reduce<IsoDate | null>(
+        (latest, holder) =>
+          latest === null || holder.endsAt > latest ? holder.endsAt : latest,
+        null,
+      );
+    if (through !== null && through > termStartOf(row.officeKey, electionDay))
+      continue;
+    const seatKey = stateCandidateSeatKey(packId, row.officeKey, row.ordinal);
+    if (stateCandidateSlate(world, seatKey, year)) continue;
+    const id = seat.member?.personId;
+    if (
+      !id ||
+      !world.people[id] ||
+      (world.control.kind === "person" && world.control.personId === id)
+    )
+      continue;
+    if (
+      recordsWithFieldValue(world.history.personDeaths, "personId", id).some(
+        (death) => death.diedAt <= row.intakeDate,
+      )
+    )
+      continue;
+    const term = legislativeTermDates(row.officeKey, electionDay);
+    if (
+      term &&
+      legislativeTermLimitBar(world, {
+        stateUsps: pack.jurisdictionKey.replace(/^US-/, ""),
+        packId,
+        officeKey: row.officeKey,
+        personId: id,
+        termStartsAt: term.startsAt,
+        termEndsAt: term.endsAt,
+      }) !== null
+    )
+      continue;
+    if (
+      recordByStableKey(
+        world.history.decisionTraces,
+        `${stateIntentKey(seatKey, year)}:decision:trace`,
+      )
+    )
+      continue;
+    if (!seedDates.has(id))
+      seedDates.set(
+        id,
+        row.intakeDate < world.currentDate ? row.intakeDate : world.currentDate,
+      );
+  }
+  let next = seedDates.size
+    ? ensurePeopleTraits(
+        ensurePeopleTraitCatalog(world),
+        [...seedDates.keys()],
+        seedDates,
+      )
+    : world;
   for (const row of due) {
     const localKey = `${row.officeKey}|${row.ordinal}`;
     if (contested.has(localKey)) continue;
@@ -308,6 +375,7 @@ function prepareStateIntake(
       const key = `${stateIntentKey(seatKey, year)}:decision`;
       const decided = decideAnotherTerm(next, {
         personId: incumbent.id,
+        traitsPrepared: seedDates.has(incumbent.id),
         stableKey: key,
         subjectKey: seatKey,
         decisionType: "election.consider-another-state-legislative-term",

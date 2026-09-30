@@ -374,7 +374,7 @@ export function openOrdinaryLifeRecords(
   // Existing saves retain their original meeting; only new notices get this leg.
   next = createScheduledActivity(next, {
     stableKey: `${PUBLIC_MEETING_KEY}:journey`,
-    title: "Journey to the public meeting",
+    title: "Trip to the public meeting",
     summary: "About twenty minutes to get to the meeting room.",
     kind: "travel",
     start: momentAt(world, 18, 10, addDays(world.currentDate, 1)),

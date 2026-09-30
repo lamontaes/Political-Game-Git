@@ -473,7 +473,10 @@ function writePresence(
       available(actor.personId),
   );
   const residents = recordedResidents ?? [];
-  const attendanceSourceIds: EntityId[] = [];
+  // Finishing the same meeting keeps the office provenance recorded on entry;
+  // it does not reconstruct attendance from any later change to the roster.
+  const attendanceSourceTags =
+    earlierEntry?.tags.filter((tag) => tag.startsWith("attendance-seat:")) ?? [];
   if (!earlierEntry) {
     // This is the council's prospective meeting writer. Its seated officers
     // attend in their recorded official capacity; unrelated residents are not
@@ -489,10 +492,11 @@ function writePresence(
       ),
     );
     const officers = unit ? sittingLocalOfficers(completed, unit) : [];
-    attendanceSourceIds.push(
+    attendanceSourceTags.push(
       ...officers
         .map((seat) => seat.participationId)
-        .filter((id): id is EntityId => id !== undefined),
+        .filter((id): id is EntityId => id !== undefined)
+        .map((id) => `attendance-seat:${id}`),
     );
     const participantIds = new Set([
       ...officers.map((seat) => seat.personId),
@@ -571,7 +575,7 @@ function writePresence(
       `notice:${notice.id}`,
       ...(lateArrival ? ["attendance:late-entry"] : []),
       ...(outcome ? [`completion:${outcome.id}`] : []),
-      ...attendanceSourceIds.map((id) => `attendance-seat:${id}`),
+      ...attendanceSourceTags,
       ...(councilVote ? [`council-vote:${councilVote.vote.id}`] : []),
     ],
     summary:
