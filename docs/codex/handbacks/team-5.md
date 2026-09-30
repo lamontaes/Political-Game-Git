@@ -25,16 +25,19 @@ Both entries name src/simulation/pressure/events.ts, Build 19, count 1:
 
 The corresponding source removal is in commit `f99e10b48b17efb31a0f32fde7eb8631a01052c5`, draft PR #1134.
 
+Item 51 has a grounding blocker: day-opening English uses roommate and household IDs to claim home or next-room presence without location evidence. These lines are not a presence producer. Item 43 has a prepared canonical roommate wording patch.
+
 Meeting attendees, agenda-driven speech, full pre-play leader history, and most items routed to Job 09 remain open. The candidate records each public comment listener in the comment event and gives each listener direct knowledge. It does not yet produce an attendee-specific reply. Neither a five-year story count nor a three-year speed comparison has been run. No watched-world outcome is claimed.
 
 # VITAL STATISTICS
 
 - Routing: 149 unique numbered items, 1 through 149. Report check: 0 errors and 0 warnings. Prettier passed.
 - Two focused notice/opener tests passed before the host restriction. They tested the earlier notice-only candidate, before subsequent news and dossier changes.
-- The later three-file canned-news test run was interrupted by Team 5 with exit 130 at the coordinator's request. NO RESULT.
-- Typecheck, current candidate tests, release check, zero-dice, watched worlds and timing: NOT RUN after the host restriction.
+- An earlier three-file canned-news test run was interrupted by Team 5 with exit 130 at the coordinator's request. NO RESULT.
+- Changed-file typecheck: passed for 18 files. Current candidate behavior tests: running. Full project typecheck, release check, zero-dice, watched worlds and timing: NOT RUN.
+- The resumed eight-file default-loader invocation produced no test results and was interrupted by Team 5, exit 130, NO RESULT. The same files are running with the runner config loader; no exclusions or timeout changes.
 - Browser and GitHub validation: NOT RUN locally, per the latest direction assigning these to Claude.
-- Dossier date-guard increment: ESLint, Prettier and whitespace checks passed. The added public/private/future/missing-source regression is NOT RUN.
+- Dossier date-guard increment: ESLint, Prettier and whitespace checks passed. The behavior run is still pending. Changed-file typecheck now passes for 18 files with zero diagnostics after fixture ID/date repairs. The repair commit is `658af24ed0b411734500a77de485d706e7d245ea`.
 - Report agent review: NOT RUN. The wave permits one source-research helper only; no reviewer helper was started.
 
 ## Candidate before and after
@@ -116,10 +119,14 @@ Claimed paths were appended under the atomic shared lock before edits. Only Team
 - `src/player/CampaignWorkspace.tsx`
 - `docs/release/changes/wave1-playtest-copy.md`
 - `src/player/SetupScreen.tsx`
+- `src/presentation/day-opening-english.ts` (claimed; unedited)
+- `src/presentation/day-opening-english.test.ts` (claimed; unedited)
+- `src/simulation/person-context.ts` (claimed; wording patch prepared)
+- `src/presentation/people-continuation.ts` (claimed; wording patch prepared)
 
 # NEEDS LAMONTAE
 
-No new product decision is required for the candidate. The owner granted standing approval for coordinator updates. The wave-wide hold is lifted. Team 5 requested a focused eight-file Vitest slot after Teams 1, 2 and 3; no slot has been granted. Team 4 retains its speed priority.
+No new product decision is required for the candidate. The owner granted standing approval for coordinator updates. The latest CTO correction makes focused tests and changed-file typecheck immediately eligible. Team 5 is running both. Full simulations and speed timing remain subject to the heavy-job rule. No merge is authorized.
 
 # PLACEHOLDERS
 
