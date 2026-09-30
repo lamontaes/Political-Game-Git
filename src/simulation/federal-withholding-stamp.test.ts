@@ -72,6 +72,7 @@ describe("federal law attribution on a saved paycheck", () => {
             measureId: id,
             origin: "enacted",
             level: "federal-statute",
+            operativeBasis: "enacted-date",
             operativeAt,
           },
         }),
