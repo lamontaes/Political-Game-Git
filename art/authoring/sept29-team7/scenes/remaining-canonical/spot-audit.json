@@ -1,0 +1,7848 @@
+{
+  "schema": "team7-inherited-spot-audit/v1",
+  "sourceHead": "54930d427555034f3a92f335064586247985784d",
+  "sourceStagingSha256": "38d699e8babd4166eefcf5e96c46aa615f9406b03d3385d6b96766a0e01e11a0",
+  "status": "candidate-reviewed-at-reduced-display; actor-contact-unaccepted",
+  "images": [
+    {
+      "key": "appellate-courtroom",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/appellate-courtroom__midday.jpg",
+      "sourceSha256": "41caa2f3c7218b3138e4cd01193f78744db14a62fca1746240854edb86bc4d88",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 46,
+            "y": 74,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            769.12,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 43.214
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 58,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 41.8,
+            "audience": "viewer"
+          },
+          "footPx": [
+            836.0,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 26.35
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 36,
+            "y": 41,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 29.5,
+            "seatY": 31.7,
+            "group": "bench",
+            "floor": "bench"
+          },
+          "footPx": [
+            601.92,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 29.92
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 50,
+            "y": 41,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 29.5,
+            "seatY": 31.7,
+            "group": "bench",
+            "floor": "bench"
+          },
+          "footPx": [
+            836.0,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 29.92
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 64,
+            "y": 41,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 29.5,
+            "seatY": 31.7,
+            "group": "bench",
+            "floor": "bench"
+          },
+          "footPx": [
+            1070.08,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 29.92
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 57,
+            "y": 67,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            953.04,
+            630.47
+          ],
+          "inheritedStandingHeightPercent": 35.836
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 40.5,
+            "y": 61,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            677.16,
+            574.01
+          ],
+          "inheritedStandingHeightPercent": 29.512
+        }
+      ],
+      "overlayReview": "Reduced sheet and native annotated image inspected",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "barbershop",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/barbershop__midday.jpg",
+      "sourceSha256": "07b8a2c4811c0c840a890d78d171b29930faae2c7d55f4154a0b356ce2ee4b66",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 46,
+            "y": 62.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            769.12,
+            588.12
+          ],
+          "inheritedStandingHeightPercent": 31.093
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 41,
+            "y": 91,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            685.52,
+            856.31
+          ],
+          "inheritedStandingHeightPercent": 61.132
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 22,
+            "y": 75,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 3,
+            "seatY": 66
+          },
+          "footPx": [
+            367.84,
+            705.75
+          ],
+          "inheritedStandingHeightPercent": 44.268
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 12,
+            "y": 85,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 73
+          },
+          "footPx": [
+            200.64,
+            799.85
+          ],
+          "inheritedStandingHeightPercent": 54.808
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 27,
+            "y": 73,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 2,
+            "seatY": 64.5
+          },
+          "footPx": [
+            451.44,
+            686.93
+          ],
+          "inheritedStandingHeightPercent": 42.16
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 64,
+            "y": 80,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1070.08,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 49.538
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 53,
+            "y": 66,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            886.16,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 34.782
+        }
+      ],
+      "overlayReview": "Reduced sheet and native annotated image inspected",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": [
+        "Spot 6 standing foot point (64%,80%) overlaps the painted foreground barber-chair seat. Candidate move to (51%,80%) is on the visible aisle; actor fit remains NOT RUN."
+      ]
+    },
+    {
+      "key": "campaign-storefront",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/campaign-storefront__midday.jpg",
+      "sourceSha256": "2df3b8b2b9cd6c81b3b478fe7ea3c6b1dc0585abdc32b6c05a5823483134dfa4",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 35,
+            "y": 56,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            585.2,
+            526.96
+          ],
+          "inheritedStandingHeightPercent": 20.196
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 44,
+            "y": 49.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 48
+          },
+          "footPx": [
+            735.68,
+            465.8
+          ],
+          "inheritedStandingHeightPercent": 15.334
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 36,
+            "y": 86,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            601.92,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 42.636
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 30,
+            "y": 65,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            501.6,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 26.928
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 7,
+            "y": 87,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 7,
+            "seatY": 75.5,
+            "group": "front-desk"
+          },
+          "footPx": [
+            117.04,
+            818.67
+          ],
+          "inheritedStandingHeightPercent": 43.384
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 42,
+            "y": 76,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 4,
+            "seatY": 65.5,
+            "group": "long-table"
+          },
+          "footPx": [
+            702.24,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 35.156
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 56.5,
+            "y": 99.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 8,
+            "seatY": 83,
+            "group": "long-table"
+          },
+          "footPx": [
+            944.68,
+            936.29
+          ],
+          "inheritedStandingHeightPercent": 52.734
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 60,
+            "y": 61,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "clipBelowY": 55,
+            "seatY": 53.5,
+            "group": "long-table"
+          },
+          "footPx": [
+            1003.2,
+            574.01
+          ],
+          "inheritedStandingHeightPercent": 23.936
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 28,
+            "y": 78,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            468.16,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 36.652
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "church-supper-hall",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/church-supper-hall__midday.jpg",
+      "sourceSha256": "403dda979c43fb94c64fd926e9e113610a8d50d5267013c440d0326927b1854e",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 45,
+            "y": 41,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "floor": "kitchen"
+          },
+          "footPx": [
+            752.4,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 17.595
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 55,
+            "y": 41,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "floor": "kitchen"
+          },
+          "footPx": [
+            919.6,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 17.595
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 50,
+            "y": 60,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            836.0,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 34.272
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 36,
+            "y": 82,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            601.92,
+            771.62
+          ],
+          "inheritedStandingHeightPercent": 61.2
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 44,
+            "y": 46,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            735.68,
+            432.86
+          ],
+          "inheritedStandingHeightPercent": 17.136
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 58,
+            "y": 70,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            969.76,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 46.512
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 30.5,
+            "y": 65,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            509.96,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 40.392
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 71,
+            "y": 66,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1187.12,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 41.616
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "city-hall-exterior",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/city-hall-exterior__midday.jpg",
+      "sourceSha256": "86e0433fdd9918049eac5203398c98614eb9cb5198a8079163152106d971b09d",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 42,
+            "y": 78,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            702.24,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 26.928
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 56.5,
+            "y": 56.8,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "floor": "landing"
+          },
+          "footPx": [
+            944.68,
+            534.49
+          ],
+          "inheritedStandingHeightPercent": 7.378
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 63,
+            "y": 66,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            1053.36,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 13.464
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 30,
+            "y": 70,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            501.6,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 17.952
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 12,
+            "y": 67,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "seatY": 64,
+            "group": "bench-left"
+          },
+          "footPx": [
+            200.64,
+            630.47
+          ],
+          "inheritedStandingHeightPercent": 14.586
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 90,
+            "y": 67.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 3,
+            "seatY": 64.5,
+            "group": "bench-right"
+          },
+          "footPx": [
+            1504.8,
+            635.17
+          ],
+          "inheritedStandingHeightPercent": 15.147
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 19.5,
+            "y": 70.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            326.04,
+            663.4
+          ],
+          "inheritedStandingHeightPercent": 18.513
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "classroom",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/classroom__midday.jpg",
+      "sourceSha256": "9ff619cc8607ae5bc129e7c19cbf5ce6e054a03e748eb7ffb2b7c0740e5bd429",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 68,
+            "y": 57.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 44.4
+          },
+          "footPx": [
+            1136.96,
+            541.08
+          ],
+          "inheritedStandingHeightPercent": 33.3795
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 60,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            836.0,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 36.652
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 53.5,
+            "y": 75,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            894.52,
+            705.75
+          ],
+          "inheritedStandingHeightPercent": 56.287
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 46.5,
+            "y": 53,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 43.2,
+            "seatY": 44.5,
+            "group": "desk"
+          },
+          "footPx": [
+            777.48,
+            498.73
+          ],
+          "inheritedStandingHeightPercent": 27.489
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 58.5,
+            "y": 59,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            978.12,
+            555.19
+          ],
+          "inheritedStandingHeightPercent": 35.343
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "clerk-counter",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/clerk-counter__midday.jpg",
+      "sourceSha256": "9612fd68a6f56f9a257c200197c24028fe8578cb774523853e5554367e8c7513",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 60,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 45.2,
+            "seatY": 50.5,
+            "group": "counter"
+          },
+          "footPx": [
+            836.0,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 31.11
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 36,
+            "y": 58,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 40.2,
+            "group": "counter"
+          },
+          "footPx": [
+            601.92,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 29.036
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 44,
+            "y": 80,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            735.68,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 51.85
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 64,
+            "y": 58,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 40.2,
+            "group": "counter"
+          },
+          "footPx": [
+            1070.08,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 29.036
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 62,
+            "y": 73,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            1036.64,
+            686.93
+          ],
+          "inheritedStandingHeightPercent": 44.591
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 27,
+            "y": 75,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            451.44,
+            705.75
+          ],
+          "inheritedStandingHeightPercent": 46.665
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 95,
+            "y": 85,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 6,
+            "seatY": 67,
+            "group": "waiting-bench"
+          },
+          "footPx": [
+            1588.4,
+            799.85
+          ],
+          "inheritedStandingHeightPercent": 57.035
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 15.5,
+            "y": 70,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            259.16,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 41.48
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "college-quad",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/college-quad__midday.jpg",
+      "sourceSha256": "f22427541cca9f9b55d493adfb661a8264669ba2c3281689811b028c533cf6dc",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 84,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 36.72
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 10,
+            "y": 76,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "seatY": 68,
+            "group": "bench-left"
+          },
+          "footPx": [
+            167.2,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 28.56
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 95,
+            "y": 77,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 3,
+            "seatY": 69,
+            "group": "bench-right"
+          },
+          "footPx": [
+            1588.4,
+            724.57
+          ],
+          "inheritedStandingHeightPercent": 29.58
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 26,
+            "y": 80,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            434.72,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 32.64
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 73,
+            "y": 79,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1220.56,
+            743.39
+          ],
+          "inheritedStandingHeightPercent": 31.62
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 21,
+            "y": 57.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            351.12,
+            541.08
+          ],
+          "inheritedStandingHeightPercent": 9.69
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 78,
+            "y": 57,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1304.16,
+            536.37
+          ],
+          "inheritedStandingHeightPercent": 9.18
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 88,
+            "y": 57.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            1471.36,
+            541.08
+          ],
+          "inheritedStandingHeightPercent": 9.69
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "community-room",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/community-room__midday.jpg",
+      "sourceSha256": "bfda3310962c6f297f8b3bac61de863355b9a83cc268f1592b4ae5fcc153d9dd",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 55,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            836.0,
+            517.55
+          ],
+          "inheritedStandingHeightPercent": 22.134
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 40,
+            "y": 64,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            668.8,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 31.62
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 62,
+            "y": 60,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            1036.64,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 27.404
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 44,
+            "y": 80,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 7,
+            "hero": true
+          },
+          "footPx": [
+            735.68,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 48.484
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 50,
+            "y": 38.5,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 29,
+            "audience": "viewer",
+            "floor": "stage"
+          },
+          "footPx": [
+            836.0,
+            362.29
+          ],
+          "inheritedStandingHeightPercent": 16.065
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 10,
+            "y": 72,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 60.3,
+            "group": "circle-left"
+          },
+          "footPx": [
+            167.2,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 40.052
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 19.5,
+            "y": 74,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 6,
+            "seatY": 61.5,
+            "group": "circle-left"
+          },
+          "footPx": [
+            326.04,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 42.16
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 80,
+            "y": 74,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 6,
+            "seatY": 61.5,
+            "group": "circle-right"
+          },
+          "footPx": [
+            1337.6,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 42.16
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 90,
+            "y": 72,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 5,
+            "seatY": 60,
+            "group": "circle-right"
+          },
+          "footPx": [
+            1504.8,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 40.052
+        },
+        {
+          "index": 10,
+          "sourceSpot": {
+            "x": 30,
+            "y": 48.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            501.6,
+            456.38
+          ],
+          "inheritedStandingHeightPercent": 15.283
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "construction-site",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/construction-site__midday.jpg",
+      "sourceSha256": "6bb2c4ab8f19d4041da9c7c3f69b808641160f63ef4a867b81d0adacb3387bf2",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 78,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 36.414
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 44.5,
+            "y": 60,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            744.04,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 17.136
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 35,
+            "y": 65,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            585.2,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 22.491
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 69,
+            "y": 66,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1153.68,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 23.562
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 30.5,
+            "y": 84,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            509.96,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 42.84
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 83,
+            "y": 86,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            1387.76,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 44.982
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "convention-hall",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/convention-hall__midday.jpg",
+      "sourceSha256": "5f66b3b4e28353a98934918fe72b7bca167515426d1d30b87da43a083e2adac3",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 45,
+            "y": 82,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            752.4,
+            771.62
+          ],
+          "inheritedStandingHeightPercent": 41.65
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 43,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 37,
+            "audience": "viewer",
+            "floor": "stage"
+          },
+          "footPx": [
+            836.0,
+            404.63
+          ],
+          "inheritedStandingHeightPercent": 12.155
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 39,
+            "y": 43.8,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1,
+            "floor": "stage"
+          },
+          "footPx": [
+            652.08,
+            412.16
+          ],
+          "inheritedStandingHeightPercent": 13.039
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 61,
+            "y": 43.8,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1,
+            "floor": "stage"
+          },
+          "footPx": [
+            1019.92,
+            412.16
+          ],
+          "inheritedStandingHeightPercent": 13.039
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 44,
+            "y": 55,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            735.68,
+            517.55
+          ],
+          "inheritedStandingHeightPercent": 19.159
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 56,
+            "y": 64,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            936.32,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 26.656
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 62.5,
+            "y": 76,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1045.0,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 36.652
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "council-chamber",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/council-chamber__midday.jpg",
+      "sourceSha256": "c46d312419bcc56c6aebc4e31d9270f3301684fefcfa1f1a6781273749c520cb",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 80,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 38.556
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 66.8,
+            "y": 48,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 40,
+            "audience": "viewer"
+          },
+          "footPx": [
+            1116.9,
+            451.68
+          ],
+          "inheritedStandingHeightPercent": 15.708
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 25.8,
+            "y": 42.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            431.38,
+            400.87
+          ],
+          "inheritedStandingHeightPercent": 22.576
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 33.8,
+            "y": 42.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            565.14,
+            400.87
+          ],
+          "inheritedStandingHeightPercent": 22.576
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 41.8,
+            "y": 42.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            698.9,
+            400.87
+          ],
+          "inheritedStandingHeightPercent": 22.576
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 49.8,
+            "y": 42.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            832.66,
+            400.87
+          ],
+          "inheritedStandingHeightPercent": 22.576
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 57.8,
+            "y": 42.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            966.42,
+            400.87
+          ],
+          "inheritedStandingHeightPercent": 22.576
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 65.8,
+            "y": 42.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            1100.18,
+            400.87
+          ],
+          "inheritedStandingHeightPercent": 22.576
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 74,
+            "y": 42.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            1237.28,
+            400.87
+          ],
+          "inheritedStandingHeightPercent": 22.576
+        },
+        {
+          "index": 10,
+          "sourceSpot": {
+            "x": 50,
+            "y": 49,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            836.0,
+            461.09
+          ],
+          "inheritedStandingHeightPercent": 16.422
+        },
+        {
+          "index": 11,
+          "sourceSpot": {
+            "x": 55,
+            "y": 66,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            919.6,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 28.56
+        },
+        {
+          "index": 12,
+          "sourceSpot": {
+            "x": 40.5,
+            "y": 70,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            677.16,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 31.416
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "county-commission",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/county-commission__midday.jpg",
+      "sourceSha256": "bdd2fd6884378a8058ed8d77efe5b84bec40517362d1f1fe514695cf66eebce0",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 82,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            771.62
+          ],
+          "inheritedStandingHeightPercent": 45.968
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 20.5,
+            "y": 46.5,
+            "pose": "podium",
+            "facing": "right",
+            "depth": 1,
+            "clipBelowY": 35.5,
+            "audience": "right",
+            "floor": "platform"
+          },
+          "footPx": [
+            342.76,
+            437.56
+          ],
+          "inheritedStandingHeightPercent": 22.44
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 31.5,
+            "y": 43.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 33.5,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            526.68,
+            409.33
+          ],
+          "inheritedStandingHeightPercent": 25.4745
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 40.2,
+            "y": 43.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 33.5,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            672.14,
+            409.33
+          ],
+          "inheritedStandingHeightPercent": 25.4745
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 49.5,
+            "y": 43.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 33.5,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            827.64,
+            409.33
+          ],
+          "inheritedStandingHeightPercent": 25.4745
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 59.2,
+            "y": 43.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 33.5,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            989.82,
+            409.33
+          ],
+          "inheritedStandingHeightPercent": 25.4745
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 68.2,
+            "y": 43.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 33.5,
+            "seatY": 35.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            1140.3,
+            409.33
+          ],
+          "inheritedStandingHeightPercent": 25.4745
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 45,
+            "y": 54,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            752.4,
+            508.14
+          ],
+          "inheritedStandingHeightPercent": 21.216
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 55,
+            "y": 62,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            919.6,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 28.288
+        },
+        {
+          "index": 10,
+          "sourceSpot": {
+            "x": 60,
+            "y": 72,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1003.2,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 37.128
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "county-courthouse",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/county-courthouse__midday.jpg",
+      "sourceSha256": "8fec8d34c9656aaf193af60e0710339d510e6a326340032f2799fca10ee99972",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 42,
+            "y": 94,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            702.24,
+            884.54
+          ],
+          "inheritedStandingHeightPercent": 23.715
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 46.5,
+            "y": 81.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            777.48,
+            766.91
+          ],
+          "inheritedStandingHeightPercent": 10.54
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 55.5,
+            "y": 86,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            927.96,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 15.283
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 24,
+            "y": 91,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            401.28,
+            856.31
+          ],
+          "inheritedStandingHeightPercent": 20.553
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 77,
+            "y": 92,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            1287.44,
+            865.72
+          ],
+          "inheritedStandingHeightPercent": 21.607
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 52.5,
+            "y": 78.8,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "seatY": 76.3,
+            "group": "steps"
+          },
+          "footPx": [
+            877.8,
+            741.51
+          ],
+          "inheritedStandingHeightPercent": 7.6942
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 7.5,
+            "y": 78.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 0
+          },
+          "footPx": [
+            125.4,
+            738.69
+          ],
+          "inheritedStandingHeightPercent": 7.378
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "county-courtroom",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/county-courtroom__midday.jpg",
+      "sourceSha256": "b7ac03ffe87e512da2f6959ead72f77768f700baef10770e8b643f4049fdc2f2",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 80,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 9,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 39.27
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 54.5,
+            "y": 64,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 7
+          },
+          "footPx": [
+            911.24,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 27.846
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 50,
+            "y": 49,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            836.0,
+            461.09
+          ],
+          "inheritedStandingHeightPercent": 17.136
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 88,
+            "y": 47,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1471.36,
+            442.27
+          ],
+          "inheritedStandingHeightPercent": 15.708
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 20.5,
+            "y": 51.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            342.76,
+            484.62
+          ],
+          "inheritedStandingHeightPercent": 18.921
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 56,
+            "y": 50.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            936.32,
+            475.2
+          ],
+          "inheritedStandingHeightPercent": 18.207
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 49.8,
+            "y": 35.1,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 23.2,
+            "seatY": 27.6,
+            "group": "bench",
+            "floor": "bench"
+          },
+          "footPx": [
+            832.66,
+            330.29
+          ],
+          "inheritedStandingHeightPercent": 22.8361
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 67.2,
+            "y": 39.4,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 1,
+            "clipBelowY": 29.4,
+            "seatY": 33.8,
+            "group": "witness",
+            "floor": "witness-stand"
+          },
+          "footPx": [
+            1123.58,
+            370.75
+          ],
+          "inheritedStandingHeightPercent": 17.136
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 9.7,
+            "y": 46,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 2,
+            "clipBelowY": 41.6,
+            "seatY": 40.0,
+            "group": "jury",
+            "floor": "jury-box"
+          },
+          "footPx": [
+            162.18,
+            432.86
+          ],
+          "inheritedStandingHeightPercent": 18.207
+        },
+        {
+          "index": 10,
+          "sourceSpot": {
+            "x": 44.5,
+            "y": 73,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 8
+          },
+          "footPx": [
+            744.04,
+            686.93
+          ],
+          "inheritedStandingHeightPercent": 34.272
+        }
+      ],
+      "overlayReview": "Reduced sheet and native annotated image inspected",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "county-party-office",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/county-party-office__midday.jpg",
+      "sourceSha256": "579316bd2b64f6a1027390cd529b78e81eed82ec7d23b7630358910911ffec38",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 62,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            836.0,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 34.68
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 40,
+            "y": 58,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            668.8,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 28.9
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 60.5,
+            "y": 51.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 43.8,
+            "seatY": 45.2,
+            "group": "table"
+          },
+          "footPx": [
+            1011.56,
+            484.62
+          ],
+          "inheritedStandingHeightPercent": 19.5075
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 46,
+            "y": 55,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 1,
+            "seatY": 47.4,
+            "group": "table"
+          },
+          "footPx": [
+            769.12,
+            517.55
+          ],
+          "inheritedStandingHeightPercent": 24.565
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 14,
+            "y": 75,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 5,
+            "clipBelowY": 53.5,
+            "seatY": 58.4,
+            "group": "desk"
+          },
+          "footPx": [
+            234.08,
+            705.75
+          ],
+          "inheritedStandingHeightPercent": 53.465
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 69.5,
+            "y": 61,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1162.04,
+            574.01
+          ],
+          "inheritedStandingHeightPercent": 33.235
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 58,
+            "y": 76,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            969.76,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 54.91
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "courthouse-hallway",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/courthouse-hallway__midday.jpg",
+      "sourceSha256": "0276bcf418a0551dc81a324c2a343b1f894425b57c7bb5550ac2befbff155904",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 30,
+            "y": 58,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 0,
+            "seatY": 49.2
+          },
+          "footPx": [
+            501.6,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 33.32
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 68,
+            "y": 63,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 1,
+            "seatY": 52.6
+          },
+          "footPx": [
+            1136.96,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 39.27
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 50,
+            "y": 68,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            836.0,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 45.22
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 50,
+            "y": 88,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 69.02
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 22,
+            "y": 80,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            367.84,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 59.5
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 80,
+            "y": 78,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1337.6,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 57.12
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "debate-stage",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/debate-stage__midday.jpg",
+      "sourceSha256": "0be51f098db779cf7bb412e01e6179139a83aad00c9d7d7aa829d4e3ae98641e",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 29.5,
+            "y": 41,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 16.5,
+            "audience": "viewer",
+            "floor": "stage",
+            "hero": true
+          },
+          "footPx": [
+            493.24,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 34.0
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 70,
+            "y": 41,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 16.5,
+            "audience": "viewer",
+            "floor": "stage"
+          },
+          "footPx": [
+            1170.4,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 34.0
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 50,
+            "y": 41,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "floor": "stage"
+          },
+          "footPx": [
+            836.0,
+            385.81
+          ],
+          "inheritedStandingHeightPercent": 34.0
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 40,
+            "y": 60,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            668.8,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 31.161
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 52,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            869.44,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 39.151
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 47,
+            "y": 90,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            785.84,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 55.131
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 63.5,
+            "y": 76,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1061.72,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 43.945
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "diner",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/diner__midday.jpg",
+      "sourceSha256": "24d0a720bba07f89c262fed7a9466b087bcb33583d5bd70dbd19123da1b8a753",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 47,
+            "y": 62,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            785.84,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 28.458
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 56,
+            "y": 56,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            936.32,
+            526.96
+          ],
+          "inheritedStandingHeightPercent": 22.134
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 44,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            735.68,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 36.89
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 21,
+            "y": 65,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 4,
+            "clipBelowY": 54,
+            "seatY": 55.2,
+            "group": "booth"
+          },
+          "footPx": [
+            351.12,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 31.62
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 68.5,
+            "y": 60.0,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 2,
+            "seatY": 52,
+            "group": "counter"
+          },
+          "footPx": [
+            1145.32,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 26.35
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 75.5,
+            "y": 68.8,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 58,
+            "group": "counter"
+          },
+          "footPx": [
+            1262.36,
+            647.41
+          ],
+          "inheritedStandingHeightPercent": 35.6252
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 64,
+            "y": 52,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 0
+          },
+          "footPx": [
+            1070.08,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 17.918
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "dmv-office",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/dmv-office__midday.jpg",
+      "sourceSha256": "e98cd8219e10223c72e86144d12b7bfc5a61905ed1584ffe8cdef021a8af316f",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 41,
+            "y": 50.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 46.5
+          },
+          "footPx": [
+            685.52,
+            475.2
+          ],
+          "inheritedStandingHeightPercent": 7.956
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 58,
+            "y": 50.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 46.5
+          },
+          "footPx": [
+            969.76,
+            475.2
+          ],
+          "inheritedStandingHeightPercent": 7.956
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 76,
+            "y": 50.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2,
+            "clipBelowY": 46.5
+          },
+          "footPx": [
+            1270.72,
+            475.2
+          ],
+          "inheritedStandingHeightPercent": 7.956
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 50,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5
+          },
+          "footPx": [
+            836.0,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 31.824
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 50,
+            "y": 90,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 56.304
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 17,
+            "y": 60,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            284.24,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 19.584
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 91,
+            "y": 63,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1521.52,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 23.256
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "door-knocking-rural",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/door-knocking-rural__midday.jpg",
+      "sourceSha256": "49a89569766617fcc070f113254147964f4cf3eff33fe8f6c13c66a6ced6bce9",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 54.6,
+            "y": 45.3,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "floor": "porch"
+          },
+          "footPx": [
+            912.91,
+            426.27
+          ],
+          "inheritedStandingHeightPercent": 10.4533
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 59.5,
+            "y": 45.3,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 0,
+            "floor": "porch"
+          },
+          "footPx": [
+            994.84,
+            426.27
+          ],
+          "inheritedStandingHeightPercent": 10.4533
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 51.5,
+            "y": 51.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            861.08,
+            484.62
+          ],
+          "inheritedStandingHeightPercent": 12.138
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 45,
+            "y": 68,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2,
+            "hero": true
+          },
+          "footPx": [
+            752.4,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 31.212
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 62,
+            "y": 84,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1036.64,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 49.708
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 18.5,
+            "y": 84,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            309.32,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 49.708
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "door-knocking-suburban",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/door-knocking-suburban__midday.jpg",
+      "sourceSha256": "e3e350296d7e19f7b6ecacf9d8a40f0b8e20e3a6d40c7a2ccae84b18599d85ad",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 23,
+            "y": 51.3,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "floor": "porch"
+          },
+          "footPx": [
+            384.56,
+            482.73
+          ],
+          "inheritedStandingHeightPercent": 19.38
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 16.5,
+            "y": 51.6,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 1,
+            "floor": "porch"
+          },
+          "footPx": [
+            275.88,
+            485.56
+          ],
+          "inheritedStandingHeightPercent": 20.91
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 26.5,
+            "y": 61.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            443.08,
+            578.72
+          ],
+          "inheritedStandingHeightPercent": 27.37
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 31,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            518.32,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 43.9875
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 80,
+            "y": 63,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1337.6,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 30.3025
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 87,
+            "y": 62.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1454.64,
+            588.12
+          ],
+          "inheritedStandingHeightPercent": 29.325
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 7,
+            "y": 72,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            117.04,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 47.8975
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 68,
+            "y": 84,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 7
+          },
+          "footPx": [
+            1136.96,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 71.3575
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "door-knocking-urban",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/door-knocking-urban__midday.jpg",
+      "sourceSha256": "3d9524658af910646813f06c6747e891d6034058c37664dc7d09d961822dfc9b",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 21,
+            "y": 60.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 2,
+            "floor": "stoop"
+          },
+          "footPx": [
+            351.12,
+            569.31
+          ],
+          "inheritedStandingHeightPercent": 51.0969
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 52,
+            "y": 74,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            869.44,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 41.2896
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 66,
+            "y": 60,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            1103.52,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 19.3936
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 72,
+            "y": 53,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1203.84,
+            498.73
+          ],
+          "inheritedStandingHeightPercent": 8.4456
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 59.5,
+            "y": 63.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            994.84,
+            597.53
+          ],
+          "inheritedStandingHeightPercent": 24.8676
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 36,
+            "y": 86,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            601.92,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 60.0576
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "election-night-venue",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/election-night-venue__midday.jpg",
+      "sourceSha256": "f9908298fdc4ad326ab9e429719d94f95d4bc883adf848f504089799793e7a4d",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50.5,
+            "y": 43.3,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 31.6,
+            "audience": "viewer",
+            "floor": "stage"
+          },
+          "footPx": [
+            844.36,
+            407.45
+          ],
+          "inheritedStandingHeightPercent": 16.932
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 42,
+            "y": 44,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1,
+            "floor": "stage"
+          },
+          "footPx": [
+            702.24,
+            414.04
+          ],
+          "inheritedStandingHeightPercent": 18.36
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 40,
+            "y": 58,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            668.8,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 26.979
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 61,
+            "y": 62,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            1019.92,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 31.671
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 50,
+            "y": 74,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 7,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 45.747
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 23.5,
+            "y": 69.5,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 5,
+            "seatY": 57.5,
+            "group": "table-left"
+          },
+          "footPx": [
+            392.92,
+            654.0
+          ],
+          "inheritedStandingHeightPercent": 40.4685
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 77.5,
+            "y": 70.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 6,
+            "seatY": 58.1,
+            "group": "table-right"
+          },
+          "footPx": [
+            1295.8,
+            663.4
+          ],
+          "inheritedStandingHeightPercent": 41.6415
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 34.5,
+            "y": 53,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            576.84,
+            498.73
+          ],
+          "inheritedStandingHeightPercent": 21.114
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "factory-floor",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/factory-floor__midday.jpg",
+      "sourceSha256": "e3fc1fb4da7ebe3e95cf678e949c069cc7cd90c44d6a916d91c1bba18bbd45ef",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 78,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 39.9075
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 44,
+            "y": 64,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            735.68,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 22.0575
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 55,
+            "y": 57,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            919.6,
+            536.37
+          ],
+          "inheritedStandingHeightPercent": 13.1325
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 31.5,
+            "y": 68.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            526.68,
+            644.59
+          ],
+          "inheritedStandingHeightPercent": 27.795
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 67.5,
+            "y": 74,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            1128.6,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 34.8075
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 21,
+            "y": 88,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            351.12,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 52.6575
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "fire-station",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/fire-station__midday.jpg",
+      "sourceSha256": "32163ce8f01850a0099710036a3d54f0ecec8b8e5543e2183434de65583155c4",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 56,
+            "y": 72,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            936.32,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 20.91
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 27,
+            "y": 74,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            451.44,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 22.304
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 64,
+            "y": 80,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1070.08,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 26.486
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 42,
+            "y": 90,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            702.24,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 33.456
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 88,
+            "y": 66,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1471.36,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 16.728
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "governor-office",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/governor-office__midday.jpg",
+      "sourceSha256": "01833d6da4be7a85855a4defd7c89c79a6fe38836df385ca927676860e823bfc",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 30,
+            "y": 53.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 40.5,
+            "seatY": 43.3,
+            "group": "desk",
+            "hero": true
+          },
+          "footPx": [
+            501.6,
+            501.55
+          ],
+          "inheritedStandingHeightPercent": 29.9506
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 66,
+            "y": 56.1,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "seatY": 45.5,
+            "group": "sofa"
+          },
+          "footPx": [
+            1103.52,
+            527.9
+          ],
+          "inheritedStandingHeightPercent": 32.1402
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 92,
+            "y": 64.2,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 4,
+            "seatY": 51.5,
+            "group": "sofa"
+          },
+          "footPx": [
+            1538.24,
+            604.12
+          ],
+          "inheritedStandingHeightPercent": 38.4744
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 50,
+            "y": 52,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            836.0,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 28.934
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 48,
+            "y": 62,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            802.56,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 36.754
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 62,
+            "y": 66,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            1036.64,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 39.882
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 40,
+            "y": 70,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 6
+          },
+          "footPx": [
+            668.8,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 43.01
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 55,
+            "y": 76,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 7
+          },
+          "footPx": [
+            919.6,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 47.702
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "hospital-hallway",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/hospital-hallway__midday.jpg",
+      "sourceSha256": "daf8cd939e3e1c96e3979936d5a5ae759c768bd799353fd0c641730be4038dd6",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 66,
+            "y": 52,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 43
+          },
+          "footPx": [
+            1103.52,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 20.468
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 45,
+            "y": 58,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            752.4,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 29.24
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 56,
+            "y": 66,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            936.32,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 40.936
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 38,
+            "y": 64,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            635.36,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 38.012
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 11.3,
+            "y": 68.9,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 54,
+            "group": "waiting"
+          },
+          "footPx": [
+            188.94,
+            648.35
+          ],
+          "inheritedStandingHeightPercent": 45.1758
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 52,
+            "y": 48,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            869.44,
+            451.68
+          ],
+          "inheritedStandingHeightPercent": 14.62
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 79,
+            "y": 71,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 6
+          },
+          "footPx": [
+            1320.88,
+            668.11
+          ],
+          "inheritedStandingHeightPercent": 48.246
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "hotel-ballroom",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/hotel-ballroom__midday.jpg",
+      "sourceSha256": "699d68135972a8eafef42e9be4cf3eaf226b9c990000859024a35b5cf2384773",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 50,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "floor": "stage",
+            "audience": "viewer"
+          },
+          "footPx": [
+            836.0,
+            470.5
+          ],
+          "inheritedStandingHeightPercent": 18.36
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 64,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            836.0,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 25.432
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 24,
+            "y": 72,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            401.28,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 30.056
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 76,
+            "y": 72,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            1270.72,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 30.056
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 50,
+            "y": 88,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 39.304
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "large-house",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/large-house__midday.jpg",
+      "sourceSha256": "755816035dc2068d24ddea0d7f54602b443fae490147bc25fe581ff8ca289285",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 62,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 50.0735
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 84.8,
+            "y": 61,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 5,
+            "seatY": 48,
+            "group": "sofa-right"
+          },
+          "footPx": [
+            1417.86,
+            574.01
+          ],
+          "inheritedStandingHeightPercent": 47.7445
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 19,
+            "y": 59.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 4,
+            "seatY": 47,
+            "group": "sofa-left"
+          },
+          "footPx": [
+            317.68,
+            559.89
+          ],
+          "inheritedStandingHeightPercent": 44.251
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 72.3,
+            "y": 53.8,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "seatY": 45.1,
+            "group": "armchair"
+          },
+          "footPx": [
+            1208.86,
+            506.26
+          ],
+          "inheritedStandingHeightPercent": 30.9757
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 33,
+            "y": 53,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            551.76,
+            498.73
+          ],
+          "inheritedStandingHeightPercent": 29.1125
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 58,
+            "y": 55,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            969.76,
+            517.55
+          ],
+          "inheritedStandingHeightPercent": 33.7705
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 64.5,
+            "y": 51.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1078.44,
+            484.62
+          ],
+          "inheritedStandingHeightPercent": 25.619
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "main-street",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+      "sourceSha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 48,
+            "y": 88,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            802.56,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 41.31
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 80.5,
+            "y": 85,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 4,
+            "seatY": 74.5,
+            "group": "bench"
+          },
+          "footPx": [
+            1345.96,
+            799.85
+          ],
+          "inheritedStandingHeightPercent": 36.72
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 29,
+            "y": 79,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            484.88,
+            743.39
+          ],
+          "inheritedStandingHeightPercent": 27.54
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 55,
+            "y": 72,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            919.6,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 16.83
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 62,
+            "y": 66,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            1036.64,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 7.65
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 67,
+            "y": 78,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1120.24,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 26.01
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "mobile-home",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/mobile-home__midday.jpg",
+      "sourceSha256": "7792137d5f32684d2bf45416a23a298d815a7b8f3137063895044fbe8b1a4ec2",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 52,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            869.44,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 45.22
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 45,
+            "y": 58.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            752.4,
+            550.49
+          ],
+          "inheritedStandingHeightPercent": 30.362
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 61,
+            "y": 63,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1019.92,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 36.176
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 40,
+            "y": 80,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            668.8,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 58.14
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 69.5,
+            "y": 56.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1162.04,
+            531.66
+          ],
+          "inheritedStandingHeightPercent": 27.778
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 21,
+            "y": 78,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 60.8,
+            "group": "sofa"
+          },
+          "footPx": [
+            351.12,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 55.556
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 84,
+            "y": 77,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 4,
+            "seatY": 59.5,
+            "group": "armchair"
+          },
+          "footPx": [
+            1404.48,
+            724.57
+          ],
+          "inheritedStandingHeightPercent": 54.264
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "newsroom",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/newsroom__midday.jpg",
+      "sourceSha256": "c57b5cdcc684eb78dc570bd5fec1bc8b89220f4b217099f622b11f352096c8a5",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 38,
+            "y": 68,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            635.36,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 32.164
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 54,
+            "y": 57,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            902.88,
+            536.37
+          ],
+          "inheritedStandingHeightPercent": 16.082
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 80,
+            "y": 76,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1337.6,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 43.86
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 58,
+            "y": 90,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            969.76,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 64.328
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 91,
+            "y": 70,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1521.52,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 35.088
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "office",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/office__midday.jpg",
+      "sourceSha256": "a54e53964060df187691f1bb6277b2cd9705c3573fbe1d7e8c57faf600727bfc",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 22,
+            "y": 66,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            367.84,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 33.32
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 24,
+            "y": 58.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 0
+          },
+          "footPx": [
+            401.28,
+            550.49
+          ],
+          "inheritedStandingHeightPercent": 24.395
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 37,
+            "y": 78,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            618.64,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 47.6
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 29.5,
+            "y": 59.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 1,
+            "seatY": 52,
+            "group": "table"
+          },
+          "footPx": [
+            493.24,
+            559.89
+          ],
+          "inheritedStandingHeightPercent": 25.585
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 48,
+            "y": 88,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            802.56,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 59.5
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 8,
+            "y": 78,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            133.76,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 47.6
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "oval-office",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/oval-office__midday.jpg",
+      "sourceSha256": "62704c6370b5388590ac05d714e01b4e203249ffe04b8567143f746e3389338f",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 52,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 43.5,
+            "seatY": 43.5,
+            "group": "desk",
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 28.458
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 41,
+            "y": 63,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            685.52,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 40.052
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 59,
+            "y": 63,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            986.48,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 40.052
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 32,
+            "y": 70,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            535.04,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 47.43
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 14,
+            "y": 88,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 67.5,
+            "group": "sofas"
+          },
+          "footPx": [
+            234.08,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 66.402
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 86,
+            "y": 88,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 5,
+            "seatY": 67.5,
+            "group": "sofas"
+          },
+          "footPx": [
+            1437.92,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 66.402
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 29.5,
+            "y": 53,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            493.24,
+            498.73
+          ],
+          "inheritedStandingHeightPercent": 29.512
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 67,
+            "y": 55,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1120.24,
+            517.55
+          ],
+          "inheritedStandingHeightPercent": 31.62
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "park",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/park__midday.jpg",
+      "sourceSha256": "d0ea4ebe20829efc17b289f51e4a544382899299fa4f841bd4b17003543025de",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 60,
+            "y": 87,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            1003.2,
+            818.67
+          ],
+          "inheritedStandingHeightPercent": 30.668
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 35,
+            "y": 69,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            585.2,
+            649.29
+          ],
+          "inheritedStandingHeightPercent": 17.204
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 21,
+            "y": 59,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 0
+          },
+          "footPx": [
+            351.12,
+            555.19
+          ],
+          "inheritedStandingHeightPercent": 9.724
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 13,
+            "y": 85,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            217.36,
+            799.85
+          ],
+          "inheritedStandingHeightPercent": 29.172
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 38.5,
+            "y": 60,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "seatY": 56.5,
+            "group": "table-1"
+          },
+          "footPx": [
+            643.72,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 10.472
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 64,
+            "y": 64.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "seatY": 61,
+            "group": "pavilion"
+          },
+          "footPx": [
+            1070.08,
+            606.95
+          ],
+          "inheritedStandingHeightPercent": 13.838
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 72.5,
+            "y": 69.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            1212.2,
+            654.0
+          ],
+          "inheritedStandingHeightPercent": 17.578
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "party-headquarters",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/party-headquarters__midday.jpg",
+      "sourceSha256": "773294e7b47f11f16a41d47932d6e963cf2961d5d562c107883dfeae9d65b80d",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 70,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            1170.4,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 30.6
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 52,
+            "y": 90,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            869.44,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 51.0
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 88,
+            "y": 64,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 58
+          },
+          "footPx": [
+            1471.36,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 24.48
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 62,
+            "y": 66,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            1036.64,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 26.52
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 40,
+            "y": 78,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            668.8,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 38.76
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "phone-bank-room",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/phone-bank-room__midday.jpg",
+      "sourceSha256": "2295a270778347dbd25f97b815c46e28c00e666c5c5d443ce3d7dfa43d77b40f",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 74,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 50.694
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 47.5,
+            "y": 58,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            794.2,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 31.382
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 57,
+            "y": 63,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            953.04,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 37.417
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 38,
+            "y": 84,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 8
+          },
+          "footPx": [
+            635.36,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 62.764
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 33,
+            "y": 69.5,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 4,
+            "seatY": 55.5,
+            "group": "desk-left"
+          },
+          "footPx": [
+            551.76,
+            654.0
+          ],
+          "inheritedStandingHeightPercent": 45.2625
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 27,
+            "y": 80,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 7,
+            "seatY": 62,
+            "group": "desk-left"
+          },
+          "footPx": [
+            451.44,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 57.936
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 68.5,
+            "y": 68,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 3,
+            "seatY": 54.5,
+            "group": "desk-right"
+          },
+          "footPx": [
+            1145.32,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 43.452
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 72.5,
+            "y": 78.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 6,
+            "seatY": 61,
+            "group": "desk-right"
+          },
+          "footPx": [
+            1212.2,
+            738.69
+          ],
+          "inheritedStandingHeightPercent": 56.1255
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 40,
+            "y": 53.5,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            668.8,
+            503.44
+          ],
+          "inheritedStandingHeightPercent": 25.9505
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "police-station",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/police-station__midday.jpg",
+      "sourceSha256": "be0b351ce7bc80442924a666cf080d14d37ea22944770574b823dc43e018452b",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 40,
+            "y": 61,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 55
+          },
+          "footPx": [
+            668.8,
+            574.01
+          ],
+          "inheritedStandingHeightPercent": 11.475
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 54,
+            "y": 61,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 55
+          },
+          "footPx": [
+            902.88,
+            574.01
+          ],
+          "inheritedStandingHeightPercent": 11.475
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 21,
+            "y": 85,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 76
+          },
+          "footPx": [
+            351.12,
+            799.85
+          ],
+          "inheritedStandingHeightPercent": 42.075
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 62,
+            "y": 75,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            1036.64,
+            705.75
+          ],
+          "inheritedStandingHeightPercent": 29.325
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 58,
+            "y": 90,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            969.76,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 48.45
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 78,
+            "y": 68,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            1304.16,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 20.4
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 93,
+            "y": 72,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1554.96,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 25.5
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "polling-place",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/polling-place__midday.jpg",
+      "sourceSha256": "b24ca8d406600c37e5e9c12f9a82fd4227f3f1d76b14361436f1ef00348c5195",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 77,
+            "y": 53,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 1,
+            "seatY": 46.8
+          },
+          "footPx": [
+            1287.44,
+            498.73
+          ],
+          "inheritedStandingHeightPercent": 23.069
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 10,
+            "y": 52,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 0,
+            "seatY": 46
+          },
+          "footPx": [
+            167.2,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 22.066
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 60,
+            "y": 62,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            1003.2,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 32.096
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 50,
+            "y": 88,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 58.174
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 90,
+            "y": 67,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1504.8,
+            630.47
+          ],
+          "inheritedStandingHeightPercent": 37.111
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 32,
+            "y": 58,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            535.04,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 28.084
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 66,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5
+          },
+          "footPx": [
+            1103.52,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 40.12
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "public-library",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/public-library__midday.jpg",
+      "sourceSha256": "afac024c670e6a3964daa30a4c1489d625647b9d48f4e8035d915efd65beccff",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 36,
+            "y": 76.5,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 3,
+            "seatY": 65.9,
+            "group": "table"
+          },
+          "footPx": [
+            601.92,
+            719.87
+          ],
+          "inheritedStandingHeightPercent": 34.034
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 56.8,
+            "y": 69.1,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "seatY": 61.6,
+            "group": "table"
+          },
+          "footPx": [
+            949.7,
+            650.23
+          ],
+          "inheritedStandingHeightPercent": 27.4924
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 88.5,
+            "y": 66,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 0,
+            "clipBelowY": 61,
+            "seatY": 59,
+            "group": "desk"
+          },
+          "footPx": [
+            1479.72,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 24.752
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 60,
+            "y": 88,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            1003.2,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 44.2
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 45,
+            "y": 84,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5
+          },
+          "footPx": [
+            752.4,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 40.664
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 52,
+            "y": 78,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            869.44,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 35.36
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 62,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            1036.64,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 28.288
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "public-meeting-room",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/public-meeting-room__midday.jpg",
+      "sourceSha256": "5dd851a4e89e7bad9dd4cabfead0c5420c4cb979564f2ca13621abd990d352ba",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 68,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 44.064
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 48,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 2,
+            "clipBelowY": 34.5,
+            "audience": "viewer"
+          },
+          "footPx": [
+            836.0,
+            451.68
+          ],
+          "inheritedStandingHeightPercent": 19.584
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 42.5,
+            "y": 47.7,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 39,
+            "seatY": 41.8,
+            "group": "table",
+            "clipBandEndY": 40.4
+          },
+          "footPx": [
+            710.6,
+            448.86
+          ],
+          "inheritedStandingHeightPercent": 19.2168
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 57.5,
+            "y": 47.7,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 39,
+            "seatY": 41.8,
+            "group": "table",
+            "clipBandEndY": 40.4
+          },
+          "footPx": [
+            961.4,
+            448.86
+          ],
+          "inheritedStandingHeightPercent": 19.2168
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 44,
+            "y": 55,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            735.68,
+            517.55
+          ],
+          "inheritedStandingHeightPercent": 28.152
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 56,
+            "y": 58,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            936.32,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 31.824
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 26,
+            "y": 84,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            434.72,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 63.648
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 21,
+            "y": 46,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 44.2
+          },
+          "footPx": [
+            351.12,
+            432.86
+          ],
+          "inheritedStandingHeightPercent": 17.136
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "radio-booth",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/radio-booth__midday.jpg",
+      "sourceSha256": "a9b000029cfd02935229a27573a64df1aaa64258121a76848dfa0e3c0c02d81c",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 71,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 44.5,
+            "seatY": 53.5,
+            "group": "table",
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            668.11
+          ],
+          "inheritedStandingHeightPercent": 58.548
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 28,
+            "y": 85.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 2,
+            "seatY": 61,
+            "group": "table"
+          },
+          "footPx": [
+            468.16,
+            804.56
+          ],
+          "inheritedStandingHeightPercent": 78.761
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 71.5,
+            "y": 85.5,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 2,
+            "seatY": 61,
+            "group": "table"
+          },
+          "footPx": [
+            1195.48,
+            804.56
+          ],
+          "inheritedStandingHeightPercent": 78.761
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 89,
+            "y": 67,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1488.08,
+            630.47
+          ],
+          "inheritedStandingHeightPercent": 52.972
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 13,
+            "y": 93,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            217.36,
+            875.13
+          ],
+          "inheritedStandingHeightPercent": 89.216
+        }
+      ],
+      "overlayReview": "Reduced sheet and native annotated image inspected",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "rally-stage",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/rally-stage__midday.jpg",
+      "sourceSha256": "0b4ebd4ae74fb4dd4d2f6806bdd21a864f0ef1c418443cd987dc474020444231",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 25.5,
+            "y": 62.8,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 38.5,
+            "audience": "viewer",
+            "floor": "stage",
+            "hero": true
+          },
+          "footPx": [
+            426.36,
+            590.95
+          ],
+          "inheritedStandingHeightPercent": 39.6576
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 42,
+            "y": 62.2,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 0,
+            "floor": "stage"
+          },
+          "footPx": [
+            702.24,
+            585.3
+          ],
+          "inheritedStandingHeightPercent": 37.4544
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 55,
+            "y": 80,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            919.6,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 40.936
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 72,
+            "y": 74,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1203.84,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 32.164
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 38,
+            "y": 90,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            635.36,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 55.556
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 88,
+            "y": 72.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1471.36,
+            682.23
+          ],
+          "inheritedStandingHeightPercent": 29.971
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "rowhouse",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/rowhouse__midday.jpg",
+      "sourceSha256": "8941ee5e46c08cd6b5bac841ad56a063055436c312621844af1c496774bbdde8",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 57,
+            "y": 68,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            953.04,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 51.765
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 63,
+            "y": 58,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1053.36,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 33.915
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 75,
+            "y": 64,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1254.0,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 44.625
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 40,
+            "y": 80,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            668.8,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 73.185
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 22,
+            "y": 66,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 3,
+            "seatY": 52,
+            "group": "sofa"
+          },
+          "footPx": [
+            367.84,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 48.195
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 29.5,
+            "y": 61.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 1,
+            "seatY": 49.5,
+            "group": "sofa"
+          },
+          "footPx": [
+            493.24,
+            578.72
+          ],
+          "inheritedStandingHeightPercent": 40.1625
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 91,
+            "y": 77,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            1521.52,
+            724.57
+          ],
+          "inheritedStandingHeightPercent": 67.83
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "rural-farmhouse",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/rural-farmhouse__midday.jpg",
+      "sourceSha256": "5e1618ea67eea76cf469a43a9fd7db7fa7baa0d68aa860ca0d8bbe3a9cc9d209",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 46,
+            "y": 68,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            769.12,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 52.632
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 57,
+            "y": 57.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            953.04,
+            541.08
+          ],
+          "inheritedStandingHeightPercent": 37.281
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 75,
+            "y": 72,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            1254.0,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 58.48
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 38.5,
+            "y": 74,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            643.72,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 61.404
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 67.5,
+            "y": 59,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            1128.6,
+            555.19
+          ],
+          "inheritedStandingHeightPercent": 39.474
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 14.5,
+            "y": 63,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "clipBelowY": 41,
+            "seatY": 49.5,
+            "group": "table"
+          },
+          "footPx": [
+            242.44,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 45.322
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 22,
+            "y": 63,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "clipBelowY": 41,
+            "seatY": 49.5,
+            "group": "table"
+          },
+          "footPx": [
+            367.84,
+            592.83
+          ],
+          "inheritedStandingHeightPercent": 45.322
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 29.5,
+            "y": 65,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 3,
+            "seatY": 50.7,
+            "group": "table"
+          },
+          "footPx": [
+            493.24,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 48.246
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "school-board-room",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/school-board-room__midday.jpg",
+      "sourceSha256": "7401cadb4fcd3a639b6a1fcaaa3f3f24fb752024208ef9edfed497f89f5d6d8e",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 33,
+            "y": 43,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 33.2,
+            "seatY": 38.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            551.76,
+            404.63
+          ],
+          "inheritedStandingHeightPercent": 14.586
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 43,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 33.2,
+            "seatY": 38.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            836.0,
+            404.63
+          ],
+          "inheritedStandingHeightPercent": 14.586
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 67,
+            "y": 43,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "clipBelowY": 33.2,
+            "seatY": 38.6,
+            "group": "dais",
+            "floor": "dais"
+          },
+          "footPx": [
+            1120.24,
+            404.63
+          ],
+          "inheritedStandingHeightPercent": 14.586
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 66.4,
+            "y": 59.3,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 4,
+            "audience": "away"
+          },
+          "footPx": [
+            1110.21,
+            558.01
+          ],
+          "inheritedStandingHeightPercent": 30.3841
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 25,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5
+          },
+          "footPx": [
+            418.0,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 41.48
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 82,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6
+          },
+          "footPx": [
+            1371.04,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 41.48
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 40,
+            "y": 85,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 7,
+            "hero": true
+          },
+          "footPx": [
+            668.8,
+            799.85
+          ],
+          "inheritedStandingHeightPercent": 57.035
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 6,
+            "y": 58,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            100.32,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 29.036
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "school-gym-town-hall",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/school-gym-town-hall__midday.jpg",
+      "sourceSha256": "fe3c3c67a7a14b058f66d1fd1c0d4fc1d4e682d87b2a25abc690eab803cabc93",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 70,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 42.7125
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 44.5,
+            "y": 37.6,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 29.8,
+            "audience": "viewer",
+            "floor": "stage"
+          },
+          "footPx": [
+            744.04,
+            353.82
+          ],
+          "inheritedStandingHeightPercent": 12.2247
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 53,
+            "y": 37.2,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32.6,
+            "seatY": 33.8,
+            "group": "dais",
+            "floor": "stage"
+          },
+          "footPx": [
+            886.16,
+            350.05
+          ],
+          "inheritedStandingHeightPercent": 11.2659
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 56,
+            "y": 37.2,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 32.6,
+            "seatY": 33.8,
+            "group": "dais",
+            "floor": "stage"
+          },
+          "footPx": [
+            936.32,
+            350.05
+          ],
+          "inheritedStandingHeightPercent": 11.2659
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 39.5,
+            "y": 37.2,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 0,
+            "floor": "stage"
+          },
+          "footPx": [
+            660.44,
+            350.05
+          ],
+          "inheritedStandingHeightPercent": 11.2659
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 41.5,
+            "y": 43.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            693.88,
+            409.33
+          ],
+          "inheritedStandingHeightPercent": 12.529
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 24,
+            "y": 80,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            401.28,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 54.1025
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 76,
+            "y": 80,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1270.72,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 54.1025
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "small-apartment",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/small-apartment__midday.jpg",
+      "sourceSha256": "95965b136cfcfc2b2a630e0492bd876ac56a6bb619674cfec6993520635bfe5e",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 48,
+            "y": 67,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            802.56,
+            630.47
+          ],
+          "inheritedStandingHeightPercent": 51.68
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 43,
+            "y": 58.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            718.96,
+            550.49
+          ],
+          "inheritedStandingHeightPercent": 37.9525
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 60,
+            "y": 62,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            1003.2,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 43.605
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 34,
+            "y": 76,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            568.48,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 66.215
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 19,
+            "y": 76,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 5,
+            "seatY": 55.5,
+            "group": "sofa"
+          },
+          "footPx": [
+            317.68,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 66.215
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 72.5,
+            "y": 64,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 2,
+            "seatY": 49.5,
+            "group": "armchair"
+          },
+          "footPx": [
+            1212.2,
+            602.24
+          ],
+          "inheritedStandingHeightPercent": 46.835
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 87.5,
+            "y": 68,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1463.0,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 53.295
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "state-legislative-chamber-bicameral",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-legislative-chamber-bicameral__midday.jpg",
+      "sourceSha256": "ae6f8dcfb37ef4e9e5ab8fb0a73a26fded52fcf6c9c40a6fba9c3992ac1a02ac",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 80,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 37.74
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 55.4,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 45.8,
+            "audience": "viewer",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            836.0,
+            521.31
+          ],
+          "inheritedStandingHeightPercent": 17.2856
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 40.3,
+            "y": 55.8,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 47.8,
+            "seatY": 51.1,
+            "group": "rostrum",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            673.82,
+            525.08
+          ],
+          "inheritedStandingHeightPercent": 17.8432
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 59.7,
+            "y": 55.8,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 47.8,
+            "seatY": 51.1,
+            "group": "rostrum",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            998.18,
+            525.08
+          ],
+          "inheritedStandingHeightPercent": 17.8432
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 24.7,
+            "y": 68,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 4,
+            "clipBelowY": 60.3,
+            "seatY": 61.2,
+            "group": "members-left"
+          },
+          "footPx": [
+            412.98,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 25.5
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 75.3,
+            "y": 68,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 4,
+            "clipBelowY": 60.3,
+            "seatY": 61.2,
+            "group": "members-right"
+          },
+          "footPx": [
+            1259.02,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 25.5
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 43,
+            "y": 66,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            718.96,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 23.46
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 37,
+            "y": 75,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            618.64,
+            705.75
+          ],
+          "inheritedStandingHeightPercent": 32.64
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 59.5,
+            "y": 67.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            994.84,
+            635.17
+          ],
+          "inheritedStandingHeightPercent": 24.99
+        },
+        {
+          "index": 10,
+          "sourceSpot": {
+            "x": 67,
+            "y": 90,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 7
+          },
+          "footPx": [
+            1120.24,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 47.94
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "state-legislative-chamber-unicameral",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-legislative-chamber-unicameral__midday.jpg",
+      "sourceSha256": "01c1a5a68c9701f6380c8b9195a31ad0b6b61a56715ed60ad91314a1b20e12ad",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 82,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            771.62
+          ],
+          "inheritedStandingHeightPercent": 41.412
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 50.2,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 38.7,
+            "audience": "viewer",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            836.0,
+            472.38
+          ],
+          "inheritedStandingHeightPercent": 22.542
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 55,
+            "y": 56.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            919.6,
+            531.66
+          ],
+          "inheritedStandingHeightPercent": 16.269
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 59.5,
+            "y": 65,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            994.84,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 24.65
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 43.5,
+            "y": 70.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            727.32,
+            663.4
+          ],
+          "inheritedStandingHeightPercent": 30.073
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 16,
+            "y": 86,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 6,
+            "clipBelowY": 66,
+            "seatY": 74,
+            "group": "members-left"
+          },
+          "footPx": [
+            267.52,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 45.356
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 84,
+            "y": 86,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 6,
+            "clipBelowY": 66,
+            "seatY": 74,
+            "group": "members-right"
+          },
+          "footPx": [
+            1404.48,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 45.356
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 36.5,
+            "y": 79,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            610.28,
+            743.39
+          ],
+          "inheritedStandingHeightPercent": 38.454
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 72,
+            "y": 96,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 7
+          },
+          "footPx": [
+            1203.84,
+            903.36
+          ],
+          "inheritedStandingHeightPercent": 55.216
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "store",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/store__midday.jpg",
+      "sourceSha256": "71373b84ed634f4ea33e7de984b262befb6fa3b2f139c0d5195e93edbb9c2aea",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 68,
+            "y": 50,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 43,
+            "group": "counter"
+          },
+          "footPx": [
+            1136.96,
+            470.5
+          ],
+          "inheritedStandingHeightPercent": 17.34
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 42,
+            "y": 60,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            702.24,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 28.9
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 50,
+            "y": 73,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            686.93
+          ],
+          "inheritedStandingHeightPercent": 43.928
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 57,
+            "y": 62,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            953.04,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 31.212
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 35,
+            "y": 51.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            585.2,
+            484.62
+          ],
+          "inheritedStandingHeightPercent": 19.074
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 26.5,
+            "y": 77,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            443.08,
+            724.57
+          ],
+          "inheritedStandingHeightPercent": 48.552
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 78.5,
+            "y": 88,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 6
+          },
+          "footPx": [
+            1312.52,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 61.268
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "suburban-house",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/suburban-house__midday.jpg",
+      "sourceSha256": "857ffa02ebc7f124f63b3f83e7a980eebb68a6f361998a90a865489c559334e9",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 45,
+            "y": 75,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            752.4,
+            705.75
+          ],
+          "inheritedStandingHeightPercent": 50.49
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 35.5,
+            "y": 52,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 47.6,
+            "seatY": 44.3,
+            "group": "sofa"
+          },
+          "footPx": [
+            593.56,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 24.684
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 71.8,
+            "y": 52,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 1,
+            "seatY": 45.5,
+            "group": "dining-table"
+          },
+          "footPx": [
+            1200.5,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 24.684
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 53,
+            "y": 52,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            886.16,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 24.684
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 60,
+            "y": 60,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1003.2,
+            564.6
+          ],
+          "inheritedStandingHeightPercent": 33.66
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 67,
+            "y": 51.8,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1120.24,
+            487.44
+          ],
+          "inheritedStandingHeightPercent": 24.4596
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 77.5,
+            "y": 60.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1295.8,
+            569.31
+          ],
+          "inheritedStandingHeightPercent": 34.221
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 22,
+            "y": 86,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            367.84,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 62.832
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "supreme-courtroom",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/supreme-courtroom__midday.jpg",
+      "sourceSha256": "7dbffdcaf6f3b331318d3a8fda7f22cb9fdf91ec236965e8ce044b632e6598d7",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 43.5,
+            "y": 80,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            727.32,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 52.53
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 40.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 31,
+            "seatY": 34,
+            "group": "bench",
+            "floor": "bench"
+          },
+          "footPx": [
+            836.0,
+            379.22
+          ],
+          "inheritedStandingHeightPercent": 23.8714
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 33.5,
+            "y": 40.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 31,
+            "seatY": 34,
+            "group": "bench",
+            "floor": "bench"
+          },
+          "footPx": [
+            560.12,
+            379.22
+          ],
+          "inheritedStandingHeightPercent": 23.8714
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 66.5,
+            "y": 40.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 31,
+            "seatY": 34,
+            "group": "bench",
+            "floor": "bench"
+          },
+          "footPx": [
+            1111.88,
+            379.22
+          ],
+          "inheritedStandingHeightPercent": 23.8714
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 50,
+            "y": 65,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 2,
+            "audience": "away"
+          },
+          "footPx": [
+            836.0,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 37.23
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 58.5,
+            "y": 59.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            978.12,
+            559.89
+          ],
+          "inheritedStandingHeightPercent": 31.62
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 37.5,
+            "y": 95,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            627.0,
+            893.95
+          ],
+          "inheritedStandingHeightPercent": 67.83
+        }
+      ],
+      "overlayReview": "Reduced sheet and native annotated image inspected",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "tv-studio",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/tv-studio__midday.jpg",
+      "sourceSha256": "7c169958f7456d3f504ecccd0fbccbbb9fc4274832746ed55642534290004f61",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 37.5,
+            "y": 54.5,
+            "pose": "sit",
+            "facing": "right",
+            "depth": 0,
+            "seatY": 43.5,
+            "group": "set",
+            "floor": "stage"
+          },
+          "footPx": [
+            627.0,
+            512.85
+          ],
+          "inheritedStandingHeightPercent": 32.895
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 62.5,
+            "y": 54.5,
+            "pose": "sit",
+            "facing": "left",
+            "depth": 0,
+            "seatY": 43.5,
+            "group": "set",
+            "floor": "stage",
+            "hero": true
+          },
+          "footPx": [
+            1045.0,
+            512.85
+          ],
+          "inheritedStandingHeightPercent": 32.895
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 25,
+            "y": 55,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1,
+            "floor": "stage"
+          },
+          "footPx": [
+            418.0,
+            517.55
+          ],
+          "inheritedStandingHeightPercent": 33.626
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 30,
+            "y": 72,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            501.6,
+            677.52
+          ],
+          "inheritedStandingHeightPercent": 46.24
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 72,
+            "y": 70,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1203.84,
+            658.7
+          ],
+          "inheritedStandingHeightPercent": 43.928
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 92.5,
+            "y": 62,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1546.6,
+            583.42
+          ],
+          "inheritedStandingHeightPercent": 34.68
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 84,
+            "y": 86,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            1404.48,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 62.424
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "union-hall",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/union-hall__midday.jpg",
+      "sourceSha256": "0619be3bd87a9c6bdb88f89361edd202a2e3f569c1ca24fb65bed60a412333a0",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 53,
+            "y": 58,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4
+          },
+          "footPx": [
+            886.16,
+            545.78
+          ],
+          "inheritedStandingHeightPercent": 25.432
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 47,
+            "y": 66,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            785.84,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 34.68
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 41.5,
+            "y": 44.3,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 2,
+            "clipBelowY": 31,
+            "audience": "viewer",
+            "floor": "stage"
+          },
+          "footPx": [
+            693.88,
+            416.86
+          ],
+          "inheritedStandingHeightPercent": 19.0485
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 51,
+            "y": 43.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 36.6,
+            "seatY": 38.9,
+            "group": "head-table",
+            "floor": "stage"
+          },
+          "footPx": [
+            852.72,
+            407.45
+          ],
+          "inheritedStandingHeightPercent": 16.7535
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 56,
+            "y": 43.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 36.6,
+            "seatY": 38.9,
+            "group": "head-table",
+            "floor": "stage"
+          },
+          "footPx": [
+            936.32,
+            407.45
+          ],
+          "inheritedStandingHeightPercent": 16.7535
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 61.1,
+            "y": 43.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 36.6,
+            "seatY": 38.9,
+            "group": "head-table",
+            "floor": "stage"
+          },
+          "footPx": [
+            1021.59,
+            407.45
+          ],
+          "inheritedStandingHeightPercent": 16.7535
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 32,
+            "y": 44,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1,
+            "floor": "stage"
+          },
+          "footPx": [
+            535.04,
+            414.04
+          ],
+          "inheritedStandingHeightPercent": 18.36
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 44,
+            "y": 52,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            735.68,
+            489.32
+          ],
+          "inheritedStandingHeightPercent": 18.496
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 36.5,
+            "y": 93,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            610.28,
+            875.13
+          ],
+          "inheritedStandingHeightPercent": 65.892
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "us-capitol-exterior",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/us-capitol-exterior__midday.jpg",
+      "sourceSha256": "016d3c91f829c637f3c79c7c60f32d5b23b04b0417c6c8103d0ead6aa8be84ca",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 96,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            903.36
+          ],
+          "inheritedStandingHeightPercent": 32.674
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 29,
+            "y": 88,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            484.88,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 24.242
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 71,
+            "y": 89,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1187.12,
+            837.49
+          ],
+          "inheritedStandingHeightPercent": 25.296
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 43,
+            "y": 73.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 0
+          },
+          "footPx": [
+            718.96,
+            691.63
+          ],
+          "inheritedStandingHeightPercent": 8.959
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 57,
+            "y": 74,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            953.04,
+            696.34
+          ],
+          "inheritedStandingHeightPercent": 9.486
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 12,
+            "y": 76,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            200.64,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 11.594
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 88.5,
+            "y": 76,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1479.72,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 11.594
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "us-house-floor",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/us-house-floor__midday.jpg",
+      "sourceSha256": "a0b355ec43678e763e0d40f065a82880bdb0753b1342350d95bea56d4393f13f",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 90,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 41.31
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 45.4,
+            "pose": "podium",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 38.2,
+            "audience": "viewer",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            836.0,
+            427.21
+          ],
+          "inheritedStandingHeightPercent": 15.0212
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 50,
+            "y": 38.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 34,
+            "seatY": 34.9,
+            "group": "speaker",
+            "floor": "speaker"
+          },
+          "footPx": [
+            836.0,
+            360.4
+          ],
+          "inheritedStandingHeightPercent": 12.903
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 41.5,
+            "y": 45.4,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 40.2,
+            "seatY": 41.4,
+            "group": "rostrum",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            693.88,
+            427.21
+          ],
+          "inheritedStandingHeightPercent": 15.0212
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 58.5,
+            "y": 45.4,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 40.2,
+            "seatY": 41.4,
+            "group": "rostrum",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            978.12,
+            427.21
+          ],
+          "inheritedStandingHeightPercent": 15.0212
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 55.5,
+            "y": 57.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            927.96,
+            541.08
+          ],
+          "inheritedStandingHeightPercent": 16.4475
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 54,
+            "y": 66,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            902.88,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 22.95
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 45.5,
+            "y": 71,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            760.76,
+            668.11
+          ],
+          "inheritedStandingHeightPercent": 26.775
+        },
+        {
+          "index": 9,
+          "sourceSpot": {
+            "x": 56,
+            "y": 79,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            936.32,
+            743.39
+          ],
+          "inheritedStandingHeightPercent": 32.895
+        }
+      ],
+      "overlayReview": "Reduced contact sheet inspected; individual native zoom NOT RUN",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    },
+    {
+      "key": "us-senate-floor",
+      "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/us-senate-floor__midday.jpg",
+      "sourceSha256": "429d9437a6df60588b189b9a43d747aae02c18e2eeda8566e23eaae5645b22d6",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 84,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 49.368
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 50,
+            "y": 43.7,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "clipBelowY": 38.2,
+            "seatY": 39.7,
+            "group": "presiding",
+            "floor": "presiding"
+          },
+          "footPx": [
+            836.0,
+            411.22
+          ],
+          "inheritedStandingHeightPercent": 15.096
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 38.2,
+            "y": 46.4,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 41.2,
+            "seatY": 42.4,
+            "group": "rostrum",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            638.7,
+            436.62
+          ],
+          "inheritedStandingHeightPercent": 15.1232
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 62.2,
+            "y": 46.4,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "clipBelowY": 41.2,
+            "seatY": 42.4,
+            "group": "rostrum",
+            "floor": "rostrum"
+          },
+          "footPx": [
+            1039.98,
+            436.62
+          ],
+          "inheritedStandingHeightPercent": 15.1232
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 57,
+            "y": 53.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            953.04,
+            503.44
+          ],
+          "inheritedStandingHeightPercent": 15.147
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 44,
+            "y": 60.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            735.68,
+            569.31
+          ],
+          "inheritedStandingHeightPercent": 23.001
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 60.5,
+            "y": 77,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1011.56,
+            724.57
+          ],
+          "inheritedStandingHeightPercent": 41.514
+        },
+        {
+          "index": 8,
+          "sourceSpot": {
+            "x": 37.5,
+            "y": 91,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 6
+          },
+          "footPx": [
+            627.0,
+            856.31
+          ],
+          "inheritedStandingHeightPercent": 57.222
+        }
+      ],
+      "overlayReview": "Reduced sheet and native annotated image inspected",
+      "actorContactAndOcclusion": "NOT RUN",
+      "otherLightingVariants": "NOT CHECKED",
+      "findings": []
+    }
+  ],
+  "limits": [
+    "Only named native midday images are bound to this review.",
+    "Scale and hidden foot positions are inherited artistic assumptions.",
+    "These are geometric guides, not rendered character acceptance.",
+    "No canonical staging, art original or game code changed."
+  ]
+}
