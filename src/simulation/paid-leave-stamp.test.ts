@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import premiums from "../../data/research/money/state-paid-leave-premiums-2026.json" with { type: "json" };
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
@@ -9,7 +10,7 @@ import {
   isLawEffectStamp,
   type LawEffectStampedRecord,
 } from "./law-effect-stamp";
-import { simulationMomentOnLocalDate } from "./dates";
+import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import { searchLifePlaces } from "./life-places";
 import {
   enterLifePath,
@@ -31,6 +32,18 @@ import {
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { PAID_LEAVE_QUESTION } from "./state-paid-leave-law";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
+import { openGovernmentBudget } from "./public-budgets/opening";
+import {
+  readMonthFlows,
+  settleGovernmentMonth,
+  type MonthFlows,
+} from "./public-budgets/month";
+import {
+  BUDGET_PROGRAMS,
+  PUBLIC_BUDGETS_VERSION,
+  type PublicBudgetStore,
+} from "./public-budgets/store";
+import type { World } from "./types";
 
 // Five states selected from read programs collecting at the game's start,
 // before observing any payment. Claims and funding are authored fixtures;
@@ -47,7 +60,7 @@ const states = Object.entries(premiums.places)
   .map(([key]) => key);
 
 describe.each(states)("saved paid-leave payment in %s", (stateKey) => {
-  it("debits the actual state account, stamps the transfer, and survives canonical save/reopen", () => {
+  it("records completed, partial and blocked paid-leave payments on the state budget and survives canonical save/reopen", () => {
     const place = searchLifePlaces("", 5000, {
       stateJurisdictionKey: stateKey,
     }).find((entry) => entry.scope !== "state")!;
@@ -173,6 +186,185 @@ describe.each(states)("saved paid-leave payment in %s", (stateKey) => {
     });
     expect(stamps![0]!.sourceRecordIds).toContain(account.id);
     expect(stamps![0]!.sourceRecordIds).toContain(payment.resourceFlowId);
+    const government = openGovernmentBudget(
+      world,
+      {
+        key: stateKey,
+        jurisdictionId: state.id,
+        lawJurisdictionId: state.id,
+        level: "state",
+        name: stateKey,
+        stateKey,
+        geoid: null,
+      },
+      world.currentDate,
+    );
+    if (typeof government === "string") throw new Error(government);
+    const empty: MonthFlows = {
+      withheld: new Map(),
+      represented: new Map(),
+      levies: new Map(),
+      payments: new Map(),
+    };
+    const month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
+    const baseline = settleGovernmentMonth(
+      world,
+      government,
+      month,
+      empty,
+    ).government;
+    const checkBudget = (
+      source: World,
+      result: World,
+      expectedMinor: number,
+      expectedStamp = expectedMinor > 0,
+    ) => {
+      const store: PublicBudgetStore = {
+        version: PUBLIC_BUDGETS_VERSION,
+        cursor: {
+          flows: source.history.resourceFlows.length,
+          outcomes: source.history.resourceTransferOutcomes.length,
+        },
+        governments: [government],
+        adjustments: [],
+        unknown: [],
+      };
+      const reading = readMonthFlows(result, store);
+      const book = settleGovernmentMonth(
+        result,
+        government,
+        month,
+        reading.flows,
+      ).government;
+      const row = book.months.at(-1)!;
+      const prior = baseline.months.at(-1)!;
+      const at = BUDGET_PROGRAMS.indexOf("otherPrograms");
+      expect(row.spending[at]! - prior.spending[at]!).toBe(
+        Math.round(expectedMinor / 100),
+      );
+      expect(row.revenue).toEqual(prior.revenue);
+      expect(
+        row.balance +
+          row.reserve -
+          row.debt -
+          (prior.balance + prior.reserve - prior.debt),
+      ).toBe(-Math.round(expectedMinor / 100) || 0);
+      const last = result.history.resourceTransferOutcomes.at(-1)!;
+      const costs = (row.lawEffectStamps ?? []).filter(
+        (stamp) => stamp.effectKind === "paid-leave-budget-cost",
+      );
+      expect(costs).toHaveLength(expectedStamp ? 1 : 0);
+      if (expectedStamp) {
+        expect(isLawEffectStamp(costs[0])).toBe(true);
+        expect(costs[0]!.jurisdictionId).toBe(state.id);
+        expect(costs[0]!.sourceRecordIds).toContain(last.id);
+        expect(costs[0]!.sourceRecordIds).toContain(last.resourceFlowId);
+      }
+      expect(
+        settleGovernmentMonth(result, book, month, reading.flows).government,
+      ).toBe(book);
+      const repeated = readMonthFlows(result, {
+        ...store,
+        cursor: reading.cursor,
+      });
+      expect(repeated.flows.payments.size).toBe(0);
+      expect(repeated.flows.paidLeavePaymentStamps?.size).toBe(0);
+      const saved = deserializeWorld(
+        serializeWorld({
+          ...result,
+          publicBudgets: {
+            ...store,
+            governments: [book],
+            cursor: reading.cursor,
+          },
+        }),
+      );
+      expect(saved.publicBudgets!.governments[0]!.months.at(-1)).toEqual(row);
+      mkdirSync("test-results/team-3-paid-leave-budget", { recursive: true });
+      writeFileSync(
+        `test-results/team-3-paid-leave-budget/${stateKey}-${last.status}-${expectedStamp}.json`,
+        JSON.stringify(
+          {
+            stateKey,
+            playerPersonId: life.playerPersonId,
+            person: world.people[life.playerPersonId],
+            governmentKey: government.key,
+            paymentId: last.id,
+            flowId: last.resourceFlowId,
+            paymentStatus: last.status,
+            attemptedMinor: last.attemptedAmount.minorUnits,
+            transferredMinor: last.transferredAmount.minorUnits,
+            actualBudgetDeltaUsd: row.spending[at]! - prior.spending[at]!,
+            netBooksDeltaUsd:
+              row.balance +
+              row.reserve -
+              row.debt -
+              (prior.balance + prior.reserve - prior.debt),
+            costStamps: costs,
+            savedBudgetRowEqual: true,
+            settlementIdempotent: true,
+            limits:
+              "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof.",
+          },
+          null,
+          2,
+        ) + "\n",
+      );
+    };
+    checkBudget(world, paid, fundingMinor);
+    const partial = payPaidLeaveClaims(world, [
+      {
+        personId: life.playerPersonId,
+        stateKey,
+        paycheckKey: `fixture:partial:${stateKey}`,
+        coveredDays: 1,
+        caring: true,
+        amountMinor: before + 1000,
+        rate: rate!,
+      },
+    ]);
+    expect(partial.history.resourceTransferOutcomes.at(-1)!.status).toBe(
+      "partial",
+    );
+    expect(
+      partial.history.resourceTransferOutcomes.at(-1)!.transferredAmount
+        .minorUnits,
+    ).toBe(before);
+    checkBudget(world, partial, before);
+    const { lawEffectStamps: _legacyStamp, ...legacyOutcome } =
+      partial.history.resourceTransferOutcomes.at(-1)! as typeof payment &
+        LawEffectStampedRecord;
+    expect(_legacyStamp).toHaveLength(1);
+    const legacyPartial: World = {
+      ...partial,
+      history: {
+        ...partial.history,
+        resourceTransferOutcomes: [
+          ...partial.history.resourceTransferOutcomes.slice(0, -1),
+          legacyOutcome,
+        ],
+      },
+    };
+    checkBudget(world, legacyPartial, before, false);
+    const blocked = payPaidLeaveClaims(partial, [
+      {
+        personId: life.playerPersonId,
+        stateKey,
+        paycheckKey: `fixture:blocked:${stateKey}`,
+        coveredDays: 1,
+        caring: true,
+        amountMinor: 1000,
+        rate: rate!,
+      },
+    ]);
+    expect(blocked.history.resourceTransferOutcomes.at(-1)!.status).toBe(
+      "blocked",
+    );
+    expect(
+      blocked.history.resourceTransferOutcomes.at(-1)!.transferredAmount
+        .minorUnits,
+    ).toBe(0);
+    checkBudget(partial, blocked, 0);
     const restored = deserializeWorld(serializeWorld(paid));
     expect(
       restored.history.resourceTransferOutcomes.find(
