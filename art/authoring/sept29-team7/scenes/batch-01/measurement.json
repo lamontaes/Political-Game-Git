@@ -1,0 +1,635 @@
+{
+  "schema": "team7-scene-measurements/v1",
+  "coordinateOrigin": "upper-left",
+  "coordinateUnit": "source-image-edge pixels",
+  "approval": "pending-cto-and-owner",
+  "baseHead": "411cb972ea91bc54d53ebc6ecc7caa065c6cbcd8",
+  "sourceRoot": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "sourceGroups": 20,
+  "images": [
+    {
+      "sourceKey": "place-airport-terminal__midday",
+      "file": "places/place-airport-terminal__midday.png",
+      "kind": "airport-terminal",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "2d431aec84cdd904e8cc02f8c904dde87e0e6369148c5494497c6782a49ce890",
+      "group": "place-airport-terminal",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter front: top142px, floor214px; assume painted counter1.0m for candidate scale.",
+      "unresolved": [
+        "Chairs face away: facing is deliberately omitted; current consumer would default to viewer, so these seats must remain import-blocked until CTO/importer resolves back-facing poses.",
+        "Seat cushions are hidden behind backs; seatY and foot points are inferred from chair legs, not visible cushions."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-airport-terminal__morning",
+      "file": "places/place-airport-terminal__morning.png",
+      "kind": "airport-terminal",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "842953e71fe6b29bc258e0b3a58f0a224db6398a1cc05305041899f508e6d391",
+      "group": "place-airport-terminal",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter front: top142px, floor214px; assume painted counter1.0m for candidate scale.",
+      "unresolved": [
+        "Chairs face away: facing is deliberately omitted; current consumer would default to viewer, so these seats must remain import-blocked until CTO/importer resolves back-facing poses.",
+        "Seat cushions are hidden behind backs; seatY and foot points are inferred from chair legs, not visible cushions."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-airport-terminal__night",
+      "file": "places/place-airport-terminal__night.png",
+      "kind": "airport-terminal",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "b3ee4c805a06e0f2d2fe4b133eb07e1f0a30f7c37123fbde205a9657e7cc9fe2",
+      "group": "place-airport-terminal",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter front: top142px, floor214px; assume painted counter1.0m for candidate scale.",
+      "unresolved": [
+        "Chairs face away: facing is deliberately omitted; current consumer would default to viewer, so these seats must remain import-blocked until CTO/importer resolves back-facing poses.",
+        "Seat cushions are hidden behind backs; seatY and foot points are inferred from chair legs, not visible cushions."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-airport-terminal__rain",
+      "file": "places/place-airport-terminal__rain.png",
+      "kind": "airport-terminal",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "257fcb5cd6106bad1fdd019f25aa38fa0c114adbe51ca35de5c00a6648b639c0",
+      "group": "place-airport-terminal",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter front: top142px, floor214px; assume painted counter1.0m for candidate scale.",
+      "unresolved": [
+        "Chairs face away: facing is deliberately omitted; current consumer would default to viewer, so these seats must remain import-blocked until CTO/importer resolves back-facing poses.",
+        "Seat cushions are hidden behind backs; seatY and foot points are inferred from chair legs, not visible cushions."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-kitchen__midday",
+      "file": "places/place-apartment-kitchen__midday.png",
+      "kind": "apartment-kitchen",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "61624f21134c6de0b58f4f157ed9e071b64936557a7e7fd748af7c1d31e3dd72",
+      "group": "place-apartment-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Kitchen counter top167px, floor225px; assume painted counter0.9m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-kitchen__mornin",
+      "file": "places/place-apartment-kitchen__mornin.png",
+      "kind": "apartment-kitchen",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "2755749ff6f6827d11074f0b97732a0fbcd1511ca5993c85e7975d42bedc9917",
+      "group": "place-apartment-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Kitchen counter top167px, floor225px; assume painted counter0.9m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-kitchen__night",
+      "file": "places/place-apartment-kitchen__night.png",
+      "kind": "apartment-kitchen",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "cc4eb71c0be6db93dd5044563add03b0be1dcee021fd0bc9f9c87c4fd6302163",
+      "group": "place-apartment-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Kitchen counter top167px, floor225px; assume painted counter0.9m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-kitchen__rain",
+      "file": "places/place-apartment-kitchen__rain.png",
+      "kind": "apartment-kitchen",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "b7e156ed8b4310b930a721c65adfe4f98dba8e34c9fc671c9653c173eac5a105",
+      "group": "place-apartment-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Kitchen counter top167px, floor225px; assume painted counter0.9m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-nice-living__mi",
+      "file": "places/place-apartment-nice-living__mi.png",
+      "kind": "apartment-nice-living-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "22fe5a47019868bb95dac03a93cfc6a0d7d312a45e7a6fe31a5fa7bb51d3fcd4",
+      "group": "place-apartment-nice-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sectional cushion187px, floor229px; assume seat0.45m.",
+      "unresolved": [
+        "Paper is only17px wide at preview resolution; full-size import must verify its edge and legibility."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-nice-living__mo",
+      "file": "places/place-apartment-nice-living__mo.png",
+      "kind": "apartment-nice-living-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "152aa5d0a93ce4e765771bcaac4d14eb897a5ad251e651f51ca7293542c16832",
+      "group": "place-apartment-nice-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sectional cushion187px, floor229px; assume seat0.45m.",
+      "unresolved": [
+        "Paper is only17px wide at preview resolution; full-size import must verify its edge and legibility."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-nice-living__ni",
+      "file": "places/place-apartment-nice-living__ni.png",
+      "kind": "apartment-nice-living-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "9412f5c8beb762d781677f61a36246d4838d72b4bb83b7bfb2a8c46a4a4447ab",
+      "group": "place-apartment-nice-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sectional cushion187px, floor229px; assume seat0.45m.",
+      "unresolved": [
+        "Paper is only17px wide at preview resolution; full-size import must verify its edge and legibility."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-nice-living__ra",
+      "file": "places/place-apartment-nice-living__ra.png",
+      "kind": "apartment-nice-living-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "cd3dc65d02dabdbd780592aea98a6e5bc3b94a39ea60e6cee7c65a77180fdc47",
+      "group": "place-apartment-nice-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sectional cushion187px, floor229px; assume seat0.45m.",
+      "unresolved": [
+        "Paper is only17px wide at preview resolution; full-size import must verify its edge and legibility."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-rundown-living_",
+      "file": "places/place-apartment-rundown-living_.png",
+      "kind": "apartment-rundown-living-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "52706091b72ee89a4c846b75542acc1496b96847af490ed607c37b5e046c8109",
+      "group": "place-apartment-rundown-living_",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion188px, floor224px; assume seat0.45m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-rundown-living_--2",
+      "file": "places/place-apartment-rundown-living_--2.png",
+      "kind": "apartment-rundown-living-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "9d40bf2ba41d1e669f3b38f45792c35eb2b2fc2467756af4dd04171da543e1a4",
+      "group": "place-apartment-rundown-living_--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion188px, floor224px; assume seat0.45m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-rundown-living_--3",
+      "file": "places/place-apartment-rundown-living_--3.png",
+      "kind": "apartment-rundown-living-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "32a092e0d726ee7e80ed4b457f36dd3e31f16ca6a85525f16c9c1e842059aa7c",
+      "group": "place-apartment-rundown-living_--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion188px, floor224px; assume seat0.45m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-rundown-living_--4",
+      "file": "places/place-apartment-rundown-living_--4.png",
+      "kind": "apartment-rundown-living-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "1bc2cf51f38cb8066cd778b859f719ad6031cf8d2e1a53c8485edb786350b08b",
+      "group": "place-apartment-rundown-living_--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion188px, floor224px; assume seat0.45m.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-starter-living_",
+      "file": "places/place-apartment-starter-living_.png",
+      "kind": "apartment-starter-living-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "526e5e5d94c7163d2ee20530d65959f525ed1968407e8a78983716e251cbfc4a",
+      "group": "place-apartment-starter-living_",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair cushion238px, floor270px; assume seat0.45m.",
+      "unresolved": [
+        "TV face is highly oblique and small; full-size verification required."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-starter-living_--2",
+      "file": "places/place-apartment-starter-living_--2.png",
+      "kind": "apartment-starter-living-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "8c15d38ff78e47dc16a241d69b8193fac9b565ca73d345181ff3e7d67758c130",
+      "group": "place-apartment-starter-living_--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair cushion238px, floor270px; assume seat0.45m.",
+      "unresolved": [
+        "TV face is highly oblique and small; full-size verification required."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-starter-living_--3",
+      "file": "places/place-apartment-starter-living_--3.png",
+      "kind": "apartment-starter-living-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "939a70e82853bb8aabea52138386854a802142c8272859a349592dadee8f6add",
+      "group": "place-apartment-starter-living_--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair cushion238px, floor270px; assume seat0.45m.",
+      "unresolved": [
+        "TV face is highly oblique and small; full-size verification required."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-apartment-starter-living_--4",
+      "file": "places/place-apartment-starter-living_--4.png",
+      "kind": "apartment-starter-living-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "7e29773f40039deeea8a96a4a5ddf36d4041b383cdbbbd1ed0f1be9a00806a92",
+      "group": "place-apartment-starter-living_--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Folding-chair cushion238px, floor270px; assume seat0.45m.",
+      "unresolved": [
+        "TV face is highly oblique and small; full-size verification required."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bank-lobby__midday",
+      "file": "places/place-bank-lobby__midday.png",
+      "kind": "bank-lobby",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "30c0a0557f4a948b6bff1a155075a4539a2feab0f25899a474d1c19e9a82ff82",
+      "group": "place-bank-lobby",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest counter top185px, floor257px; assume counter1.0m.",
+      "unresolved": [
+        "Seats behind desk or facing away: side-profile candidate directions pending importer review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bank-lobby__morning",
+      "file": "places/place-bank-lobby__morning.png",
+      "kind": "bank-lobby",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "5dff0ddef94f2cb74e26a44a71b6d4e1448572297b0f8ff9f3d58cad6fc61261",
+      "group": "place-bank-lobby",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest counter top185px, floor257px; assume counter1.0m.",
+      "unresolved": [
+        "Seats behind desk or facing away: side-profile candidate directions pending importer review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bank-lobby__night",
+      "file": "places/place-bank-lobby__night.png",
+      "kind": "bank-lobby",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "5d48545232e6370476cca06feb88d40309d8a5faacc5353d868a21d6d181348f",
+      "group": "place-bank-lobby",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest counter top185px, floor257px; assume counter1.0m.",
+      "unresolved": [
+        "Seats behind desk or facing away: side-profile candidate directions pending importer review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bank-lobby__rain",
+      "file": "places/place-bank-lobby__rain.png",
+      "kind": "bank-lobby",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "cb6d613a5502f50b0ca0165216e62516d18bfc7314ef3efd052f9df07892d764",
+      "group": "place-bank-lobby",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest counter top185px, floor257px; assume counter1.0m.",
+      "unresolved": [
+        "Seats behind desk or facing away: side-profile candidate directions pending importer review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bedroom__midday--2",
+      "file": "places/place-bedroom__midday--2.png",
+      "kind": "bedroom",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "5316d6452993135de15a730bc7f14950afed68c3100ad298138bb4c44b978fe2",
+      "group": "place-bedroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bed top229px, floor271px; assume bed0.5m.",
+      "unresolved": [
+        "Bed-edge seated contact is inferred; no actor composite tested."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bedroom__midday",
+      "file": "places/place-bedroom__midday.png",
+      "kind": "bedroom",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "6361783bc64c6dfa4c65fb22fe9ba8344fc01a74d2acd955b058a8b5502fa201",
+      "group": "place-bedroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bed cushion352px, floor403px on600x600 image; assume bed0.5m, scale candidate only.",
+      "unresolved": [
+        "Different camera from other bedroom variants; independent staging."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bedroom__morning",
+      "file": "places/place-bedroom__morning.png",
+      "kind": "bedroom",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "2689a70559628daae9ca1cdd1a076575b25f13847cfcbaf6ce612915a1745e71",
+      "group": "place-bedroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bed top229px, floor271px; assume bed0.5m.",
+      "unresolved": [
+        "Bed-edge seated contact is inferred; no actor composite tested."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bedroom__night",
+      "file": "places/place-bedroom__night.png",
+      "kind": "bedroom",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "8fd71dc213bfa9c41d2cdfe07892b1409f45be583b615bfb2b6e0b874f6b1e43",
+      "group": "place-bedroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bed top229px, floor271px; assume bed0.5m.",
+      "unresolved": [
+        "Bed-edge seated contact is inferred; no actor composite tested."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bedroom__rain",
+      "file": "places/place-bedroom__rain.png",
+      "kind": "bedroom",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "7391e9f931ac05ef0f2a419f9dd7e181375cf9ece56023fd2fcbc2a8b9155aa0",
+      "group": "place-bedroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bed top229px, floor271px; assume bed0.5m.",
+      "unresolved": [
+        "Bed-edge seated contact is inferred; no actor composite tested."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-big-city-elections-office",
+      "file": "places/place-big-city-elections-office.png",
+      "kind": "big-city-elections-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "ad6cc2e684bf3b02a868f24ef2e445f429680956d6ce98acbb9fc59a3a6c1256",
+      "group": "place-big-city-elections-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest desk top245px, floor302px; assume desk0.75m.",
+      "unresolved": [
+        "Task chairs face away: facing omitted and seats import-blocked; direction and hidden foot contact require importer ruling.",
+        "Rear desktop screens and papers are too small to identify every face at600px; unresolved, not claimed complete."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-big-city-elections-office--2",
+      "file": "places/place-big-city-elections-office--2.png",
+      "kind": "big-city-elections-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "66e473aefcab22b887b53c6e74952e2563b55748611ec78ca3740fc6a8a9e331",
+      "group": "place-big-city-elections-office--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest desk top245px, floor302px; assume desk0.75m.",
+      "unresolved": [
+        "Task chairs face away: facing omitted and seats import-blocked; direction and hidden foot contact require importer ruling.",
+        "Rear desktop screens and papers are too small to identify every face at600px; unresolved, not claimed complete."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-big-city-elections-office--3",
+      "file": "places/place-big-city-elections-office--3.png",
+      "kind": "big-city-elections-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "5d028e870a5604cc039719c5afbeb528b4f59dc3ae836cb31581aaaad29e13bd",
+      "group": "place-big-city-elections-office--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest desk top245px, floor302px; assume desk0.75m.",
+      "unresolved": [
+        "Task chairs face away: facing omitted and seats import-blocked; direction and hidden foot contact require importer ruling.",
+        "Rear desktop screens and papers are too small to identify every face at600px; unresolved, not claimed complete."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-big-city-elections-office--4",
+      "file": "places/place-big-city-elections-office--4.png",
+      "kind": "big-city-elections-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "984d2633a98cb6a86e86e5fdcdaf109e9cee272fb9028f791ef10a7c1b9e9fde",
+      "group": "place-big-city-elections-office--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest desk top245px, floor302px; assume desk0.75m.",
+      "unresolved": [
+        "Task chairs face away: facing omitted and seats import-blocked; direction and hidden foot contact require importer ruling.",
+        "Rear desktop screens and papers are too small to identify every face at600px; unresolved, not claimed complete."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bus-stop__midday",
+      "file": "places/place-bus-stop__midday.png",
+      "kind": "bus-stop",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "b877fc79d10f8ffa9206a39d7fd38aaf9f4214dc742a58df9f7b46a61ce3add8",
+      "group": "place-bus-stop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Shelter bench cushion257px, pavement296px; assume seat0.45m.",
+      "unresolved": [
+        "Existing painted route text requires full-size/CTO review before overlay."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bus-stop__morning",
+      "file": "places/place-bus-stop__morning.png",
+      "kind": "bus-stop",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "4281456a586de4ca4c155bbefb883b30c032390f911fce718060b85658255a4d",
+      "group": "place-bus-stop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Shelter bench cushion257px, pavement296px; assume seat0.45m.",
+      "unresolved": [
+        "Existing painted route text requires full-size/CTO review before overlay."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bus-stop__night",
+      "file": "places/place-bus-stop__night.png",
+      "kind": "bus-stop",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "602ebe6e32091b6d026c4703cb2c3571aa758810bd9b676668f9e60616556cc2",
+      "group": "place-bus-stop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Shelter bench cushion257px, pavement296px; assume seat0.45m.",
+      "unresolved": [
+        "Existing painted route text requires full-size/CTO review before overlay."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-bus-stop__rain",
+      "file": "places/place-bus-stop__rain.png",
+      "kind": "bus-stop",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "45d09cfddefe3e9efc95f1fb1f61af5978be9c1a2ba910f5230522bde3cd2226",
+      "group": "place-bus-stop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Shelter bench cushion257px, pavement296px; assume seat0.45m.",
+      "unresolved": [
+        "Existing painted route text requires full-size/CTO review before overlay."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-office-storefron",
+      "file": "places/place-campaign-office-storefron.png",
+      "kind": "campaign-office-storefront",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "106033b48dd81069d49e5d95910156078a755d1cf8c46cd4eb96617efae0019e",
+      "group": "place-campaign-office-storefron",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Table top199px, floor267px; assume folding table0.75m.",
+      "unresolved": [
+        "Laptop display faces are away or edge-on; no live surface is assigned to their backs.",
+        "Night/rain inputs continue in next batch; no cross-camera assertion for uninspected files."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-campaign-office-storefron--2",
+      "file": "places/place-campaign-office-storefron--2.png",
+      "kind": "campaign-office-storefront",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "7f016f18fa2fed08105eab354bc745249ec971fb1d0fcafd42282599603d7de6",
+      "group": "place-campaign-office-storefron--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Table top199px, floor267px; assume folding table0.75m.",
+      "unresolved": [
+        "Laptop display faces are away or edge-on; no live surface is assigned to their backs.",
+        "Night/rain inputs continue in next batch; no cross-camera assertion for uninspected files."
+      ],
+      "approval": "pending"
+    }
+  ],
+  "limits": [
+    "No actual actor composites tested.",
+    "Hidden seat cushion and foot points are estimated from furniture; annotated as candidates.",
+    "No staging variant support exists in current v2 consumer; independent source keys must be mapped by job08.",
+    "No geometry claim about missing or full-size versions."
+  ]
+}

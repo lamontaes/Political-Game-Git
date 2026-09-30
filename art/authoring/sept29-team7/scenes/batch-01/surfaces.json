@@ -1,0 +1,3055 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate quads in each source image native pixels, TL/TR/BR/BL. Independent source keys prevent accidental sharing across changed cameras. No enlargement. Job08 must remeasure full-size rasters or apply exact source mapping.",
+  "places": {
+    "place-airport-terminal__midday": {
+      "checked": [
+        "place-airport-terminal__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Gate monitor shows its rear housing, not a drawable screen.",
+        "Window panes are glass, not content panels."
+      ]
+    },
+    "place-airport-terminal__morning": {
+      "checked": [
+        "place-airport-terminal__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Gate monitor shows its rear housing, not a drawable screen.",
+        "Window panes are glass, not content panels."
+      ]
+    },
+    "place-airport-terminal__night": {
+      "checked": [
+        "place-airport-terminal__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Gate monitor shows its rear housing, not a drawable screen.",
+        "Window panes are glass, not content panels."
+      ]
+    },
+    "place-airport-terminal__rain": {
+      "checked": [
+        "place-airport-terminal__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Gate monitor shows its rear housing, not a drawable screen.",
+        "Window panes are glass, not content panels."
+      ]
+    },
+    "place-apartment-kitchen__midday": {
+      "checked": [
+        "place-apartment-kitchen__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Appliance fronts, cabinet doors and windows are not content panels.",
+        "No visible paper, TV, board or notice face."
+      ]
+    },
+    "place-apartment-kitchen__mornin": {
+      "checked": [
+        "place-apartment-kitchen__mornin.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Appliance fronts, cabinet doors and windows are not content panels.",
+        "No visible paper, TV, board or notice face."
+      ]
+    },
+    "place-apartment-kitchen__night": {
+      "checked": [
+        "place-apartment-kitchen__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Appliance fronts, cabinet doors and windows are not content panels.",
+        "No visible paper, TV, board or notice face."
+      ]
+    },
+    "place-apartment-kitchen__rain": {
+      "checked": [
+        "place-apartment-kitchen__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Appliance fronts, cabinet doors and windows are not content panels.",
+        "No visible paper, TV, board or notice face."
+      ]
+    },
+    "place-apartment-nice-living__mi": {
+      "checked": [
+        "place-apartment-nice-living__mi.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-nice-living__mi-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Small paper on the coffee table",
+          "quad": [
+            [
+              329,
+              188
+            ],
+            [
+              346,
+              190
+            ],
+            [
+              344,
+              196
+            ],
+            [
+              327,
+              194
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Books and decorative shelf objects retain painted art.",
+        "Windows are glass."
+      ]
+    },
+    "place-apartment-nice-living__mo": {
+      "checked": [
+        "place-apartment-nice-living__mo.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-nice-living__mo-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Small paper on the coffee table",
+          "quad": [
+            [
+              329,
+              188
+            ],
+            [
+              346,
+              190
+            ],
+            [
+              344,
+              196
+            ],
+            [
+              327,
+              194
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Books and decorative shelf objects retain painted art.",
+        "Windows are glass."
+      ]
+    },
+    "place-apartment-nice-living__ni": {
+      "checked": [
+        "place-apartment-nice-living__ni.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-nice-living__ni-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Small paper on the coffee table",
+          "quad": [
+            [
+              329,
+              188
+            ],
+            [
+              346,
+              190
+            ],
+            [
+              344,
+              196
+            ],
+            [
+              327,
+              194
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Books and decorative shelf objects retain painted art.",
+        "Windows are glass."
+      ]
+    },
+    "place-apartment-nice-living__ra": {
+      "checked": [
+        "place-apartment-nice-living__ra.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-nice-living__ra-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Small paper on the coffee table",
+          "quad": [
+            [
+              329,
+              188
+            ],
+            [
+              346,
+              190
+            ],
+            [
+              344,
+              196
+            ],
+            [
+              327,
+              194
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Books and decorative shelf objects retain painted art.",
+        "Windows are glass."
+      ]
+    },
+    "place-apartment-rundown-living_": {
+      "checked": [
+        "place-apartment-rundown-living_.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-rundown-living_-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Front face of small television",
+          "quad": [
+            [
+              419,
+              163
+            ],
+            [
+              444,
+              166
+            ],
+            [
+              443,
+              187
+            ],
+            [
+              418,
+              184
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Window air conditioner is an appliance, not a screen.",
+        "Ceiling damage and wall marks are not notices."
+      ]
+    },
+    "place-apartment-rundown-living_--2": {
+      "checked": [
+        "place-apartment-rundown-living_--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-rundown-living_--2-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Front face of small television",
+          "quad": [
+            [
+              419,
+              163
+            ],
+            [
+              444,
+              166
+            ],
+            [
+              443,
+              187
+            ],
+            [
+              418,
+              184
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Window air conditioner is an appliance, not a screen.",
+        "Ceiling damage and wall marks are not notices."
+      ]
+    },
+    "place-apartment-rundown-living_--3": {
+      "checked": [
+        "place-apartment-rundown-living_--3.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-rundown-living_--3-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Front face of small television",
+          "quad": [
+            [
+              419,
+              163
+            ],
+            [
+              444,
+              166
+            ],
+            [
+              443,
+              187
+            ],
+            [
+              418,
+              184
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Window air conditioner is an appliance, not a screen.",
+        "Ceiling damage and wall marks are not notices."
+      ]
+    },
+    "place-apartment-rundown-living_--4": {
+      "checked": [
+        "place-apartment-rundown-living_--4.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-rundown-living_--4-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Front face of small television",
+          "quad": [
+            [
+              419,
+              163
+            ],
+            [
+              444,
+              166
+            ],
+            [
+              443,
+              187
+            ],
+            [
+              418,
+              184
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Window air conditioner is an appliance, not a screen.",
+        "Ceiling damage and wall marks are not notices."
+      ]
+    },
+    "place-apartment-starter-living_": {
+      "checked": [
+        "place-apartment-starter-living_.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-starter-living_-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Narrow oblique face of television",
+          "quad": [
+            [
+              393,
+              137
+            ],
+            [
+              410,
+              140
+            ],
+            [
+              411,
+              192
+            ],
+            [
+              394,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Curtains and window blinds are not boards."
+      ]
+    },
+    "place-apartment-starter-living_--2": {
+      "checked": [
+        "place-apartment-starter-living_--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-starter-living_--2-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Narrow oblique face of television",
+          "quad": [
+            [
+              393,
+              137
+            ],
+            [
+              410,
+              140
+            ],
+            [
+              411,
+              192
+            ],
+            [
+              394,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Curtains and window blinds are not boards."
+      ]
+    },
+    "place-apartment-starter-living_--3": {
+      "checked": [
+        "place-apartment-starter-living_--3.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-starter-living_--3-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Narrow oblique face of television",
+          "quad": [
+            [
+              393,
+              137
+            ],
+            [
+              410,
+              140
+            ],
+            [
+              411,
+              192
+            ],
+            [
+              394,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Curtains and window blinds are not boards."
+      ]
+    },
+    "place-apartment-starter-living_--4": {
+      "checked": [
+        "place-apartment-starter-living_--4.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-apartment-starter-living_--4-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Narrow oblique face of television",
+          "quad": [
+            [
+              393,
+              137
+            ],
+            [
+              410,
+              140
+            ],
+            [
+              411,
+              192
+            ],
+            [
+              394,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Curtains and window blinds are not boards."
+      ]
+    },
+    "place-bank-lobby__midday": {
+      "checked": [
+        "place-bank-lobby__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Teller computers and desk monitors present backs or edge-on housings; no drawable front face.",
+        "Wall rectangles are framed architectural decoration, not unambiguously notices.",
+        "Glass teller partitions and clock retain paint."
+      ]
+    },
+    "place-bank-lobby__morning": {
+      "checked": [
+        "place-bank-lobby__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Teller computers and desk monitors present backs or edge-on housings; no drawable front face.",
+        "Wall rectangles are framed architectural decoration, not unambiguously notices.",
+        "Glass teller partitions and clock retain paint."
+      ]
+    },
+    "place-bank-lobby__night": {
+      "checked": [
+        "place-bank-lobby__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Teller computers and desk monitors present backs or edge-on housings; no drawable front face.",
+        "Wall rectangles are framed architectural decoration, not unambiguously notices.",
+        "Glass teller partitions and clock retain paint."
+      ]
+    },
+    "place-bank-lobby__rain": {
+      "checked": [
+        "place-bank-lobby__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Teller computers and desk monitors present backs or edge-on housings; no drawable front face.",
+        "Wall rectangles are framed architectural decoration, not unambiguously notices.",
+        "Glass teller partitions and clock retain paint."
+      ]
+    },
+    "place-bedroom__midday--2": {
+      "checked": [
+        "place-bedroom__midday--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall medallion, blinds, bedding and nightstand objects are decoration.",
+        "No visible TV or paper face."
+      ]
+    },
+    "place-bedroom__midday": {
+      "checked": [
+        "place-bedroom__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "No visible screen, paper or board face."
+      ]
+    },
+    "place-bedroom__morning": {
+      "checked": [
+        "place-bedroom__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall medallion, blinds, bedding and nightstand objects are decoration.",
+        "No visible TV or paper face."
+      ]
+    },
+    "place-bedroom__night": {
+      "checked": [
+        "place-bedroom__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall medallion, blinds, bedding and nightstand objects are decoration.",
+        "No visible TV or paper face."
+      ]
+    },
+    "place-bedroom__rain": {
+      "checked": [
+        "place-bedroom__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wall medallion, blinds, bedding and nightstand objects are decoration.",
+        "No visible TV or paper face."
+      ]
+    },
+    "place-big-city-elections-office": {
+      "checked": [
+        "place-big-city-elections-office.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-big-city-elections-office-wall-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Left rear wall screen",
+          "quad": [
+            [
+              221,
+              108
+            ],
+            [
+              258,
+              108
+            ],
+            [
+              258,
+              126
+            ],
+            [
+              221,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office-wall-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Right rear wall screen",
+          "quad": [
+            [
+              277,
+              100
+            ],
+            [
+              322,
+              100
+            ],
+            [
+              322,
+              126
+            ],
+            [
+              277,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office-wall-near-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Nearest left wall screen",
+          "quad": [
+            [
+              88,
+              83
+            ],
+            [
+              108,
+              88
+            ],
+            [
+              105,
+              106
+            ],
+            [
+              86,
+              102
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office-wall-far-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Far left wall screen",
+          "quad": [
+            [
+              166,
+              101
+            ],
+            [
+              175,
+              103
+            ],
+            [
+              173,
+              114
+            ],
+            [
+              165,
+              112
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              17,
+              201
+            ],
+            [
+              56,
+              201
+            ],
+            [
+              56,
+              224
+            ],
+            [
+              17,
+              224
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              202
+            ],
+            [
+              165,
+              202
+            ],
+            [
+              165,
+              225
+            ],
+            [
+              126,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              446,
+              202
+            ],
+            [
+              484,
+              202
+            ],
+            [
+              484,
+              225
+            ],
+            [
+              446,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-4",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              550,
+              202
+            ],
+            [
+              588,
+              202
+            ],
+            [
+              588,
+              225
+            ],
+            [
+              550,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-5",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              62,
+              168
+            ],
+            [
+              82,
+              168
+            ],
+            [
+              82,
+              181
+            ],
+            [
+              62,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-6",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              168
+            ],
+            [
+              147,
+              168
+            ],
+            [
+              147,
+              181
+            ],
+            [
+              126,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-7",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              197,
+              167
+            ],
+            [
+              216,
+              167
+            ],
+            [
+              216,
+              181
+            ],
+            [
+              197,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-8",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              393,
+              168
+            ],
+            [
+              414,
+              168
+            ],
+            [
+              414,
+              181
+            ],
+            [
+              393,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-9",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              459,
+              168
+            ],
+            [
+              480,
+              168
+            ],
+            [
+              480,
+              181
+            ],
+            [
+              459,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-10",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              525,
+              168
+            ],
+            [
+              545,
+              168
+            ],
+            [
+              545,
+              181
+            ],
+            [
+              525,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-11",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              149,
+              150
+            ],
+            [
+              163,
+              150
+            ],
+            [
+              163,
+              159
+            ],
+            [
+              149,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-12",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              183,
+              150
+            ],
+            [
+              196,
+              150
+            ],
+            [
+              196,
+              159
+            ],
+            [
+              183,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-13",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              232,
+              150
+            ],
+            [
+              245,
+              150
+            ],
+            [
+              245,
+              158
+            ],
+            [
+              232,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office-desk-screen-14",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              204,
+              139
+            ],
+            [
+              216,
+              139
+            ],
+            [
+              216,
+              146
+            ],
+            [
+              204,
+              146
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Other tiny desktop faces are retained in measurement unresolvedSurfaces until a full-size source distinguishes corners.",
+        "Storage cages, drawer faces and window panes are not screens."
+      ]
+    },
+    "place-big-city-elections-office--2": {
+      "checked": [
+        "place-big-city-elections-office--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-big-city-elections-office--2-wall-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Left rear wall screen",
+          "quad": [
+            [
+              221,
+              108
+            ],
+            [
+              258,
+              108
+            ],
+            [
+              258,
+              126
+            ],
+            [
+              221,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--2-wall-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Right rear wall screen",
+          "quad": [
+            [
+              277,
+              100
+            ],
+            [
+              322,
+              100
+            ],
+            [
+              322,
+              126
+            ],
+            [
+              277,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--2-wall-near-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Nearest left wall screen",
+          "quad": [
+            [
+              88,
+              83
+            ],
+            [
+              108,
+              88
+            ],
+            [
+              105,
+              106
+            ],
+            [
+              86,
+              102
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--2-wall-far-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Far left wall screen",
+          "quad": [
+            [
+              166,
+              101
+            ],
+            [
+              175,
+              103
+            ],
+            [
+              173,
+              114
+            ],
+            [
+              165,
+              112
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              17,
+              201
+            ],
+            [
+              56,
+              201
+            ],
+            [
+              56,
+              224
+            ],
+            [
+              17,
+              224
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              202
+            ],
+            [
+              165,
+              202
+            ],
+            [
+              165,
+              225
+            ],
+            [
+              126,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              446,
+              202
+            ],
+            [
+              484,
+              202
+            ],
+            [
+              484,
+              225
+            ],
+            [
+              446,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-4",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              550,
+              202
+            ],
+            [
+              588,
+              202
+            ],
+            [
+              588,
+              225
+            ],
+            [
+              550,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-5",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              62,
+              168
+            ],
+            [
+              82,
+              168
+            ],
+            [
+              82,
+              181
+            ],
+            [
+              62,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-6",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              168
+            ],
+            [
+              147,
+              168
+            ],
+            [
+              147,
+              181
+            ],
+            [
+              126,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-7",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              197,
+              167
+            ],
+            [
+              216,
+              167
+            ],
+            [
+              216,
+              181
+            ],
+            [
+              197,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-8",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              393,
+              168
+            ],
+            [
+              414,
+              168
+            ],
+            [
+              414,
+              181
+            ],
+            [
+              393,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-9",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              459,
+              168
+            ],
+            [
+              480,
+              168
+            ],
+            [
+              480,
+              181
+            ],
+            [
+              459,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-10",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              525,
+              168
+            ],
+            [
+              545,
+              168
+            ],
+            [
+              545,
+              181
+            ],
+            [
+              525,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-11",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              149,
+              150
+            ],
+            [
+              163,
+              150
+            ],
+            [
+              163,
+              159
+            ],
+            [
+              149,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-12",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              183,
+              150
+            ],
+            [
+              196,
+              150
+            ],
+            [
+              196,
+              159
+            ],
+            [
+              183,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-13",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              232,
+              150
+            ],
+            [
+              245,
+              150
+            ],
+            [
+              245,
+              158
+            ],
+            [
+              232,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--2-desk-screen-14",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              204,
+              139
+            ],
+            [
+              216,
+              139
+            ],
+            [
+              216,
+              146
+            ],
+            [
+              204,
+              146
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Other tiny desktop faces are retained in measurement unresolvedSurfaces until a full-size source distinguishes corners.",
+        "Storage cages, drawer faces and window panes are not screens."
+      ]
+    },
+    "place-big-city-elections-office--3": {
+      "checked": [
+        "place-big-city-elections-office--3.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-big-city-elections-office--3-wall-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Left rear wall screen",
+          "quad": [
+            [
+              221,
+              108
+            ],
+            [
+              258,
+              108
+            ],
+            [
+              258,
+              126
+            ],
+            [
+              221,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--3-wall-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Right rear wall screen",
+          "quad": [
+            [
+              277,
+              100
+            ],
+            [
+              322,
+              100
+            ],
+            [
+              322,
+              126
+            ],
+            [
+              277,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--3-wall-near-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Nearest left wall screen",
+          "quad": [
+            [
+              88,
+              83
+            ],
+            [
+              108,
+              88
+            ],
+            [
+              105,
+              106
+            ],
+            [
+              86,
+              102
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--3-wall-far-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Far left wall screen",
+          "quad": [
+            [
+              166,
+              101
+            ],
+            [
+              175,
+              103
+            ],
+            [
+              173,
+              114
+            ],
+            [
+              165,
+              112
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              17,
+              201
+            ],
+            [
+              56,
+              201
+            ],
+            [
+              56,
+              224
+            ],
+            [
+              17,
+              224
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              202
+            ],
+            [
+              165,
+              202
+            ],
+            [
+              165,
+              225
+            ],
+            [
+              126,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              446,
+              202
+            ],
+            [
+              484,
+              202
+            ],
+            [
+              484,
+              225
+            ],
+            [
+              446,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-4",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              550,
+              202
+            ],
+            [
+              588,
+              202
+            ],
+            [
+              588,
+              225
+            ],
+            [
+              550,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-5",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              62,
+              168
+            ],
+            [
+              82,
+              168
+            ],
+            [
+              82,
+              181
+            ],
+            [
+              62,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-6",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              168
+            ],
+            [
+              147,
+              168
+            ],
+            [
+              147,
+              181
+            ],
+            [
+              126,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-7",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              197,
+              167
+            ],
+            [
+              216,
+              167
+            ],
+            [
+              216,
+              181
+            ],
+            [
+              197,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-8",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              393,
+              168
+            ],
+            [
+              414,
+              168
+            ],
+            [
+              414,
+              181
+            ],
+            [
+              393,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-9",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              459,
+              168
+            ],
+            [
+              480,
+              168
+            ],
+            [
+              480,
+              181
+            ],
+            [
+              459,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-10",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              525,
+              168
+            ],
+            [
+              545,
+              168
+            ],
+            [
+              545,
+              181
+            ],
+            [
+              525,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-11",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              149,
+              150
+            ],
+            [
+              163,
+              150
+            ],
+            [
+              163,
+              159
+            ],
+            [
+              149,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-12",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              183,
+              150
+            ],
+            [
+              196,
+              150
+            ],
+            [
+              196,
+              159
+            ],
+            [
+              183,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-13",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              232,
+              150
+            ],
+            [
+              245,
+              150
+            ],
+            [
+              245,
+              158
+            ],
+            [
+              232,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--3-desk-screen-14",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              204,
+              139
+            ],
+            [
+              216,
+              139
+            ],
+            [
+              216,
+              146
+            ],
+            [
+              204,
+              146
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Other tiny desktop faces are retained in measurement unresolvedSurfaces until a full-size source distinguishes corners.",
+        "Storage cages, drawer faces and window panes are not screens."
+      ]
+    },
+    "place-big-city-elections-office--4": {
+      "checked": [
+        "place-big-city-elections-office--4.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-big-city-elections-office--4-wall-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Left rear wall screen",
+          "quad": [
+            [
+              221,
+              108
+            ],
+            [
+              258,
+              108
+            ],
+            [
+              258,
+              126
+            ],
+            [
+              221,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--4-wall-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Right rear wall screen",
+          "quad": [
+            [
+              277,
+              100
+            ],
+            [
+              322,
+              100
+            ],
+            [
+              322,
+              126
+            ],
+            [
+              277,
+              126
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results",
+            "news"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--4-wall-near-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Nearest left wall screen",
+          "quad": [
+            [
+              88,
+              83
+            ],
+            [
+              108,
+              88
+            ],
+            [
+              105,
+              106
+            ],
+            [
+              86,
+              102
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--4-wall-far-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Far left wall screen",
+          "quad": [
+            [
+              166,
+              101
+            ],
+            [
+              175,
+              103
+            ],
+            [
+              173,
+              114
+            ],
+            [
+              165,
+              112
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "results"
+          ]
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-1",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              17,
+              201
+            ],
+            [
+              56,
+              201
+            ],
+            [
+              56,
+              224
+            ],
+            [
+              17,
+              224
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-2",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              202
+            ],
+            [
+              165,
+              202
+            ],
+            [
+              165,
+              225
+            ],
+            [
+              126,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-3",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              446,
+              202
+            ],
+            [
+              484,
+              202
+            ],
+            [
+              484,
+              225
+            ],
+            [
+              446,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-4",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              550,
+              202
+            ],
+            [
+              588,
+              202
+            ],
+            [
+              588,
+              225
+            ],
+            [
+              550,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-5",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              62,
+              168
+            ],
+            [
+              82,
+              168
+            ],
+            [
+              82,
+              181
+            ],
+            [
+              62,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-6",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              126,
+              168
+            ],
+            [
+              147,
+              168
+            ],
+            [
+              147,
+              181
+            ],
+            [
+              126,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-7",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              197,
+              167
+            ],
+            [
+              216,
+              167
+            ],
+            [
+              216,
+              181
+            ],
+            [
+              197,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-8",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              393,
+              168
+            ],
+            [
+              414,
+              168
+            ],
+            [
+              414,
+              181
+            ],
+            [
+              393,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-9",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              459,
+              168
+            ],
+            [
+              480,
+              168
+            ],
+            [
+              480,
+              181
+            ],
+            [
+              459,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-10",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              525,
+              168
+            ],
+            [
+              545,
+              168
+            ],
+            [
+              545,
+              181
+            ],
+            [
+              525,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-11",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              149,
+              150
+            ],
+            [
+              163,
+              150
+            ],
+            [
+              163,
+              159
+            ],
+            [
+              149,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-12",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              183,
+              150
+            ],
+            [
+              196,
+              150
+            ],
+            [
+              196,
+              159
+            ],
+            [
+              183,
+              159
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-13",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              232,
+              150
+            ],
+            [
+              245,
+              150
+            ],
+            [
+              245,
+              158
+            ],
+            [
+              232,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-big-city-elections-office--4-desk-screen-14",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Visible desktop display face; private work remains painted",
+          "quad": [
+            [
+              204,
+              139
+            ],
+            [
+              216,
+              139
+            ],
+            [
+              216,
+              146
+            ],
+            [
+              204,
+              146
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Other tiny desktop faces are retained in measurement unresolvedSurfaces until a full-size source distinguishes corners.",
+        "Storage cages, drawer faces and window panes are not screens."
+      ]
+    },
+    "place-bus-stop__midday": {
+      "checked": [
+        "place-bus-stop__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-bus-stop__midday-route-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Route and timetable panel inside shelter",
+          "quad": [
+            [
+              78,
+              130
+            ],
+            [
+              130,
+              127
+            ],
+            [
+              130,
+              222
+            ],
+            [
+              78,
+              228
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Shelter glass and streetlamp are not content faces."
+      ]
+    },
+    "place-bus-stop__morning": {
+      "checked": [
+        "place-bus-stop__morning.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-bus-stop__morning-route-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Route and timetable panel inside shelter",
+          "quad": [
+            [
+              78,
+              130
+            ],
+            [
+              130,
+              127
+            ],
+            [
+              130,
+              222
+            ],
+            [
+              78,
+              228
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Shelter glass and streetlamp are not content faces."
+      ]
+    },
+    "place-bus-stop__night": {
+      "checked": [
+        "place-bus-stop__night.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-bus-stop__night-route-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Route and timetable panel inside shelter",
+          "quad": [
+            [
+              78,
+              130
+            ],
+            [
+              130,
+              127
+            ],
+            [
+              130,
+              222
+            ],
+            [
+              78,
+              228
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Shelter glass and streetlamp are not content faces."
+      ]
+    },
+    "place-bus-stop__rain": {
+      "checked": [
+        "place-bus-stop__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-bus-stop__rain-route-board",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Route and timetable panel inside shelter",
+          "quad": [
+            [
+              78,
+              130
+            ],
+            [
+              130,
+              127
+            ],
+            [
+              130,
+              222
+            ],
+            [
+              78,
+              228
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Shelter glass and streetlamp are not content faces."
+      ]
+    },
+    "place-campaign-office-storefron": {
+      "checked": [
+        "place-campaign-office-storefron.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-office-storefron-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "Rear whiteboard",
+          "quad": [
+            [
+              266,
+              81
+            ],
+            [
+              398,
+              81
+            ],
+            [
+              398,
+              151
+            ],
+            [
+              266,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans",
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron-easel",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Standing blank panel",
+          "quad": [
+            [
+              209,
+              158
+            ],
+            [
+              246,
+              158
+            ],
+            [
+              243,
+              186
+            ],
+            [
+              207,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron-leaning-panel1",
+          "kind": "board",
+          "finish": "panel",
+          "what": "First leaning campaign panel",
+          "quad": [
+            [
+              384,
+              194
+            ],
+            [
+              411,
+              208
+            ],
+            [
+              401,
+              246
+            ],
+            [
+              372,
+              232
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron-leaning-panel2",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Middle leaning campaign panel",
+          "quad": [
+            [
+              484,
+              251
+            ],
+            [
+              511,
+              266
+            ],
+            [
+              499,
+              316
+            ],
+            [
+              469,
+              305
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron-leaning-panel3",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Right leaning campaign panel",
+          "quad": [
+            [
+              520,
+              261
+            ],
+            [
+              578,
+              255
+            ],
+            [
+              594,
+              322
+            ],
+            [
+              533,
+              327
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Tiny paper edges in cartons require full-size corner review.",
+        "Laptop backs and edge-on panels retain paint."
+      ]
+    },
+    "place-campaign-office-storefron--2": {
+      "checked": [
+        "place-campaign-office-storefron--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-campaign-office-storefron--2-whiteboard",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "Rear whiteboard",
+          "quad": [
+            [
+              266,
+              81
+            ],
+            [
+              398,
+              81
+            ],
+            [
+              398,
+              151
+            ],
+            [
+              266,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans",
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--2-easel",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Standing blank panel",
+          "quad": [
+            [
+              209,
+              158
+            ],
+            [
+              246,
+              158
+            ],
+            [
+              243,
+              186
+            ],
+            [
+              207,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--2-leaning-panel1",
+          "kind": "board",
+          "finish": "panel",
+          "what": "First leaning campaign panel",
+          "quad": [
+            [
+              384,
+              194
+            ],
+            [
+              411,
+              208
+            ],
+            [
+              401,
+              246
+            ],
+            [
+              372,
+              232
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--2-leaning-panel2",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Middle leaning campaign panel",
+          "quad": [
+            [
+              484,
+              251
+            ],
+            [
+              511,
+              266
+            ],
+            [
+              499,
+              316
+            ],
+            [
+              469,
+              305
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "place-campaign-office-storefron--2-leaning-panel3",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Right leaning campaign panel",
+          "quad": [
+            [
+              520,
+              261
+            ],
+            [
+              578,
+              255
+            ],
+            [
+              594,
+              322
+            ],
+            [
+              533,
+              327
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "candidates"
+          ]
+        }
+      ],
+      "skipped": [
+        "Tiny paper edges in cartons require full-size corner review.",
+        "Laptop backs and edge-on panels retain paint."
+      ]
+    }
+  }
+}
