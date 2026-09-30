@@ -61,7 +61,10 @@ function openingWorld(seed: string): World {
       startAge: 40,
     }),
   ).game!;
-  return openOrdinaryLife(game.world, game.playerPersonId);
+  const opened = openOrdinaryLife(game.world, game.playerPersonId);
+  if (process.env.ARTICLE_V_SETUP_TRACE)
+    console.info("Article V setup opened", seed, performance.now());
+  return opened;
 }
 
 /** A question the national government decides that principles bear on. */
@@ -183,6 +186,8 @@ function passTo(world: World, date: string): World {
  * writer, so no missing handler or overdue item is hidden by dropping records.
  */
 function passArticleVDays(world: World, days: number): World {
+  if (process.env.ARTICLE_V_SETUP_TRACE)
+    console.info("Article V calendar entered", days, performance.now());
   const through = addDays(world.currentDate, days);
   const registry = createFutureTransitionHandlerRegistry([
     [ARTICLE_V_REVIEW, articleVReviewHandler],
