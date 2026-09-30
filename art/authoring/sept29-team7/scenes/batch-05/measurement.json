@@ -1,0 +1,958 @@
+{
+  "schema": "team7-scene-measurements/v1",
+  "coordinateOrigin": "upper-left",
+  "coordinateUnit": "source-image-edge pixels",
+  "approval": "pending-cto-and-owner",
+  "baseHead": "a18f22a76b2b41c01ff030026024eb940ccefbef",
+  "sourceRoot": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "sourceGroups": 20,
+  "images": [
+    {
+      "sourceKey": "place-funeral-home-viewing-room--7",
+      "file": "places/place-funeral-home-viewing-room--7.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "f47cc164f5936432696c3af4ad4dd200b1de37a5b3b143a5f5e6ab82abaddd8d",
+      "group": "place-funeral-home-viewing-room--7",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front seat287px, floor330px; assume0.45m seat.",
+      "unresolved": [
+        "Audience seats face away; newer camera independently inspected."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-viewing-room--8",
+      "file": "places/place-funeral-home-viewing-room--8.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "5b6948d3ac98b4b587d4e2940901563624c92aab9ebc3c9bac91d2e3fffd7370",
+      "group": "place-funeral-home-viewing-room--8",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front seat287px, floor330px; assume0.45m seat.",
+      "unresolved": [
+        "Audience seats face away; newer camera independently inspected."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-gas-station__midday--2",
+      "file": "places/place-gas-station__midday--2.png",
+      "kind": "gas-station",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "393c049c0aac26d39d3a89b73426a871c40256b5c87382b3a6d2385d5c2609ba",
+      "group": "place-gas-station",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top158px to pavement226px; assume2.0m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-gas-station__midday",
+      "file": "places/place-gas-station__midday.png",
+      "kind": "gas-station",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "ae368c391976e3ef960e926cafefcebfe0376dfb5244b9b2dc1d975b008acec5",
+      "group": "place-gas-station",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Shop door291px to pavement365px on600x600 camera; assume2.0m door.",
+      "unresolved": [
+        "Independent square roadside camera."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-gas-station__morning",
+      "file": "places/place-gas-station__morning.png",
+      "kind": "gas-station",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "0eba1461d7d097060df1ff0c46d2df85c206e861cc6219f284572980c5f0419b",
+      "group": "place-gas-station",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top158px to pavement226px; assume2.0m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-gas-station__night",
+      "file": "places/place-gas-station__night.png",
+      "kind": "gas-station",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "f4efcef376fb42ea019895f108e9bd168ee35577eeda86d71878adb855dc77d9",
+      "group": "place-gas-station",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top158px to pavement226px; assume2.0m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-gas-station__rain",
+      "file": "places/place-gas-station__rain.png",
+      "kind": "gas-station",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "a481f098646070bb689187950b42bdb04b37688a78f00bf5a45b74820eb37b92",
+      "group": "place-gas-station",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top158px to pavement226px; assume2.0m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-governor-office__midday",
+      "file": "places/place-governor-office__midday.png",
+      "kind": "governor-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "b2cf55fd24c9b86fd485c83ca8087e6d2cf23b3650c1084edcb7f1165351f40d",
+      "group": "place-governor-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa227px to floor262px; assume0.45m seat.",
+      "unresolved": [
+        "Visitor chairs face away and remain import-blocked; cropped front feet unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-grocery-store__midday",
+      "file": "places/place-grocery-store__midday.png",
+      "kind": "grocery-store",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "be8433b6ef0b2b1d66efb259f3ac3ed05c079b5985859e81d541804daa563fe8",
+      "group": "place-grocery-store",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout counter147px to floor165px; assume0.9m counter; far depth candidate.",
+      "unresolved": [
+        "Register-facing content not visible; no branded product data created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-grocery-store__morning",
+      "file": "places/place-grocery-store__morning.png",
+      "kind": "grocery-store",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "f64ea5a02700112e908bbb625dc4289de92cb87003f1c39581751511879cfa66",
+      "group": "place-grocery-store",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout counter147px to floor165px; assume0.9m counter; far depth candidate.",
+      "unresolved": [
+        "Register-facing content not visible; no branded product data created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-grocery-store__night",
+      "file": "places/place-grocery-store__night.png",
+      "kind": "grocery-store",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "eccad2e23e0385af9d060211b36cf5d3e91b4c350f10422d314cf8b5834868ac",
+      "group": "place-grocery-store",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout counter147px to floor165px; assume0.9m counter; far depth candidate.",
+      "unresolved": [
+        "Register-facing content not visible; no branded product data created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-grocery-store__rain",
+      "file": "places/place-grocery-store__rain.png",
+      "kind": "grocery-store",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "89a017660154f34065504ce46ad07e6ad83b637217d11b7c050f4f17e3d327c0",
+      "group": "place-grocery-store",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout counter147px to floor165px; assume0.9m counter; far depth candidate.",
+      "unresolved": [
+        "Register-facing content not visible; no branded product data created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__--2",
+      "file": "places/place-hardware-store-interior__--2.png",
+      "kind": "hardware-store-interior",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "bb669ac4ffb1d8a5d165f2e7e52b013ad61ef7d6ce64796d72161daaeba387b0",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near checkout245px to floor326px; assume1.0m counter.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__--3",
+      "file": "places/place-hardware-store-interior__--3.png",
+      "kind": "hardware-store-interior",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "cf3982040c8db17a47153c4ae47ec2f78af99baf5871c21ad54ab781eab3df74",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near checkout245px to floor326px; assume1.0m counter.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__--4",
+      "file": "places/place-hardware-store-interior__--4.png",
+      "kind": "hardware-store-interior",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "91e7d3a130684dba685768ffe277d2fc88fd038d620d98182112f638d601922a",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near checkout245px to floor326px; assume1.0m counter.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__--5",
+      "file": "places/place-hardware-store-interior__--5.png",
+      "kind": "hardware-store-interior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "087167a42cdef2853eb669cc2aa99a0b0ab03e5e3b15aefb76793befacd8d83f",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout193px to floor253px; assume1.0m counter.",
+      "unresolved": [
+        "Different newer checkout and shelving arrangement."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__--6",
+      "file": "places/place-hardware-store-interior__--6.png",
+      "kind": "hardware-store-interior",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "0c27442ed72ee195a1ced30329c64689348b778e11b453342744473636e5b274",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout193px to floor253px; assume1.0m counter.",
+      "unresolved": [
+        "Different newer checkout and shelving arrangement."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__--7",
+      "file": "places/place-hardware-store-interior__--7.png",
+      "kind": "hardware-store-interior",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "157d8423d53d700c0fe89a0c6c4a452b1934c0b3c1cda829ea000bf32ac688bc",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout193px to floor253px; assume1.0m counter.",
+      "unresolved": [
+        "Different newer checkout and shelving arrangement."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__--8",
+      "file": "places/place-hardware-store-interior__--8.png",
+      "kind": "hardware-store-interior",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "ee7d61d056b3dcded828329ad50ea9ebf99e0eeff9c1c52e357a83d6f4772e20",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout193px to floor253px; assume1.0m counter.",
+      "unresolved": [
+        "Different newer checkout and shelving arrangement."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hardware-store-interior__",
+      "file": "places/place-hardware-store-interior__.png",
+      "kind": "hardware-store-interior",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "bd9353a4db59a5f370efd99d5ef902f7d1b250c89ec5d7c685f262c16f849405",
+      "group": "place-hardware-store-interior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Checkout383px to floor547px on600x600 camera; assume1.0m counter.",
+      "unresolved": [
+        "Independent square camera."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-high-school-exterior__mid",
+      "file": "places/place-high-school-exterior__mid.png",
+      "kind": "high-school-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "7cf4a3667c4b7b79e642a8963ca6bf50e2a9528e9261452fa7b952bbe325978e",
+      "group": "place-high-school-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School entrance165px to ground222px; assume2.1m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-high-school-exterior__mor",
+      "file": "places/place-high-school-exterior__mor.png",
+      "kind": "high-school-exterior",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "67727dd539d682cffae80ece6ea3f832d4d4a9ce8ff6c99d006109f579c735fa",
+      "group": "place-high-school-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School entrance165px to ground222px; assume2.1m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-high-school-exterior__nig",
+      "file": "places/place-high-school-exterior__nig.png",
+      "kind": "high-school-exterior",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "e32fc1d5f1cda1a915f11cfedb8c8e7d8e04da6ef9d4cc50ecae4f56bb51fe0f",
+      "group": "place-high-school-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School entrance165px to ground222px; assume2.1m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-high-school-exterior__rai",
+      "file": "places/place-high-school-exterior__rai.png",
+      "kind": "high-school-exterior",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "8e629bf733144925be1b24538e068a173e6aa4e661b2a4f3e318e9e0ea81f824",
+      "group": "place-high-school-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School entrance165px to ground222px; assume2.1m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-emergency-waitin",
+      "file": "places/place-hospital-emergency-waitin.png",
+      "kind": "hospital-emergency-waiting-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "caf1bc5ca97c28af62c3203a965d1b59f356bdb99cdc61f657906e8bd2822960",
+      "group": "place-hospital-emergency-waitin",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair280px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away and remains import-blocked; reception feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-emergency-waitin--2",
+      "file": "places/place-hospital-emergency-waitin--2.png",
+      "kind": "hospital-emergency-waiting-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "700b30e94ba11e46eb59369ebffa4942990e219ba81eebbe4079b77dedf7bad4",
+      "group": "place-hospital-emergency-waitin--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair280px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away and remains import-blocked; reception feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-emergency-waitin--3",
+      "file": "places/place-hospital-emergency-waitin--3.png",
+      "kind": "hospital-emergency-waiting-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "e0c603268546efd60496dbb601518c68b02b11f8c70eb8fd5ea40eb5a58a7328",
+      "group": "place-hospital-emergency-waitin--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair280px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away and remains import-blocked; reception feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-emergency-waitin--4",
+      "file": "places/place-hospital-emergency-waitin--4.png",
+      "kind": "hospital-emergency-waiting-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "d9ec2c00ea831fcc7b71be5af5f6ae9d863f0ca94fcfca83b2a202b3c321499a",
+      "group": "place-hospital-emergency-waitin--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair280px to floor326px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away and remains import-blocked; reception feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__mi--2",
+      "file": "places/place-hospital-patient-room__mi--2.png",
+      "kind": "hospital-patient-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "5b86bad883a8cf3acf91720d3dc910cc27c4d0ed5b6a26c213097edfd2752240",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor cushion214px to floor254px; assume0.45m seat.",
+      "unresolved": [
+        "Bed/reclined contacts unresolved; no ordinary seated or lying patient manufactured."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__mi",
+      "file": "places/place-hospital-patient-room__mi.png",
+      "kind": "hospital-patient-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "3e72da9957f05c8dc8481a91e62e988f90da11b9626d1da0b6690a1d859c17fe",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor365px to floor412px on600x600 camera; assume0.45m seat.",
+      "unresolved": [
+        "Independent square camera; bed pose unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__mo--2",
+      "file": "places/place-hospital-patient-room__mo--2.png",
+      "kind": "hospital-patient-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "6df2c6c1ae87197ef5f2ad01a3d5e1250672ec4b292376e15c8d78f234f9ccf9",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor cushion214px to floor254px; assume0.45m seat.",
+      "unresolved": [
+        "Bed/reclined contacts unresolved; no ordinary seated or lying patient manufactured."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__mo",
+      "file": "places/place-hospital-patient-room__mo.png",
+      "kind": "hospital-patient-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "c82f88f421fe125257e9e87e263e7bd6330f64484dfbfbf0574eb615a41c11a3",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor cushion217px to floor252px; assume0.45m seat.",
+      "unresolved": [
+        "Bed pose remains unresolved; no lying actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__ni--2",
+      "file": "places/place-hospital-patient-room__ni--2.png",
+      "kind": "hospital-patient-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "6c3b15b0c622ebe7a9e30e995ad4d827fa9ab31381d13217293a06f5919a6295",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor cushion214px to floor254px; assume0.45m seat.",
+      "unresolved": [
+        "Bed/reclined contacts unresolved; no ordinary seated or lying patient manufactured."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__ni",
+      "file": "places/place-hospital-patient-room__ni.png",
+      "kind": "hospital-patient-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "dc62b6549a204e92545ff848af0f8c345b2ef4c8ea1e87a9614027fd7287b6d8",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor cushion217px to floor252px; assume0.45m seat.",
+      "unresolved": [
+        "Bed pose remains unresolved; no lying actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__ra--2",
+      "file": "places/place-hospital-patient-room__ra--2.png",
+      "kind": "hospital-patient-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "7a31e5fd2940a9d79fcda3418e9936a2a95ae3fca9ff98005ac33825522ea840",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor cushion214px to floor254px; assume0.45m seat.",
+      "unresolved": [
+        "Bed/reclined contacts unresolved; no ordinary seated or lying patient manufactured."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-patient-room__ra",
+      "file": "places/place-hospital-patient-room__ra.png",
+      "kind": "hospital-patient-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "b400df530d9e708c9770a5c116661ecb455cd1eff396acb9d507bd88c585a557",
+      "group": "place-hospital-patient-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor cushion217px to floor252px; assume0.45m seat.",
+      "unresolved": [
+        "Bed pose remains unresolved; no lying actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-hospital-waiting-room__mi",
+      "file": "places/place-hospital-waiting-room__mi.png",
+      "kind": "hospital-waiting-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "db0c2115471b11c33f15bc77d1832bbcfe9f24ed7fa2a16f501c4ca37e879fb0",
+      "group": "place-hospital-waiting-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Center cushion265px to floor308px; assume0.45m seat.",
+      "unresolved": [
+        "Partial edge chairs require crop fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-rural-kitchen__midd",
+      "file": "places/place-house-rural-kitchen__midd.png",
+      "kind": "house-rural-kitchen",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "13f0ffdde981b5d576c87a95cc566f60fbe502be61dfe57b14b0191cdbba02b9",
+      "group": "place-house-rural-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair285px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Near chair faces away; hidden far cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-rural-kitchen__morn",
+      "file": "places/place-house-rural-kitchen__morn.png",
+      "kind": "house-rural-kitchen",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "efe5c00b6bf24f44d0e624e912849951fbcdee8f8f894506dedff24fc550c31b",
+      "group": "place-house-rural-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair285px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Near chair faces away; hidden far cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-rural-kitchen__nigh",
+      "file": "places/place-house-rural-kitchen__nigh.png",
+      "kind": "house-rural-kitchen",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "d06cf742629f16e95e9904d04c75c2015055d6b00d2d488a3714191fecd7d0e1",
+      "group": "place-house-rural-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair285px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Near chair faces away; hidden far cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-rural-kitchen__rain",
+      "file": "places/place-house-rural-kitchen__rain.png",
+      "kind": "house-rural-kitchen",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "9d618ea9a3b46f69563bab1973a7e3c60ed0e7648d7a7d61b73b5554da9c6b58",
+      "group": "place-house-rural-kitchen",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair285px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Near chair faces away; hidden far cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-suburban-living__mi",
+      "file": "places/place-house-suburban-living__mi.png",
+      "kind": "house-suburban-living-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "d6ee89a12efd3a3fbb8ee42cb17a69d069930b926c4f1d898a7413a4b911258b",
+      "group": "place-house-suburban-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Recliner202px to floor239px; assume0.45m seat.",
+      "unresolved": [
+        "Recliner uses ordinary sit candidate; actual angle fitting pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-suburban-living__mo",
+      "file": "places/place-house-suburban-living__mo.png",
+      "kind": "house-suburban-living-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "482e9baca521dd5829f212fca5587be5a1361f89bfc49f3ce1de19c96f198465",
+      "group": "place-house-suburban-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Recliner202px to floor239px; assume0.45m seat.",
+      "unresolved": [
+        "Recliner uses ordinary sit candidate; actual angle fitting pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-suburban-living__ni",
+      "file": "places/place-house-suburban-living__ni.png",
+      "kind": "house-suburban-living-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "0f26172d4f59899fd51a9a82459ef78b54c75cff57a07d48feeb47f0a54472f4",
+      "group": "place-house-suburban-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Recliner202px to floor239px; assume0.45m seat.",
+      "unresolved": [
+        "Recliner uses ordinary sit candidate; actual angle fitting pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-house-suburban-living__ra",
+      "file": "places/place-house-suburban-living__ra.png",
+      "kind": "house-suburban-living-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "489cd7346ff6ec813758664577443b6ade599cf4d4803d6769b54975e6d0731e",
+      "group": "place-house-suburban-living",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Recliner202px to floor239px; assume0.45m seat.",
+      "unresolved": [
+        "Recliner uses ordinary sit candidate; actual angle fitting pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-jail-visiting-room__midda",
+      "file": "places/place-jail-visiting-room__midda.png",
+      "kind": "jail-visiting-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "5005ecec8c38a4216508da069bc42e247dd310d304440c62d164168f5744f534",
+      "group": "place-jail-visiting-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool245px to floor292px; assume0.6m stool.",
+      "unresolved": [
+        "Glass partitions are not drawable display faces.",
+        "Seating does not create access or visiting authority."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-jail-visiting-room__morni",
+      "file": "places/place-jail-visiting-room__morni.png",
+      "kind": "jail-visiting-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "a82d6f479fbd9ce1589fc2c25c9b286c8449da3334eabac9e2efa735be1004ad",
+      "group": "place-jail-visiting-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool245px to floor292px; assume0.6m stool.",
+      "unresolved": [
+        "Glass partitions are not drawable display faces.",
+        "Seating does not create access or visiting authority."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-jail-visiting-room__night",
+      "file": "places/place-jail-visiting-room__night.png",
+      "kind": "jail-visiting-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "8ad351ee630e76f8297162fae99db4f01b0e84436777d915a7ff7c1e87c90db6",
+      "group": "place-jail-visiting-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool245px to floor292px; assume0.6m stool.",
+      "unresolved": [
+        "Glass partitions are not drawable display faces.",
+        "Seating does not create access or visiting authority."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-jail-visiting-room__rain",
+      "file": "places/place-jail-visiting-room__rain.png",
+      "kind": "jail-visiting-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "7749b2cc7c9ba7fc22bb67fcb99c638b3b943dfb22b0f6edea36d2505e172002",
+      "group": "place-jail-visiting-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool245px to floor292px; assume0.6m stool.",
+      "unresolved": [
+        "Glass partitions are not drawable display faces.",
+        "Seating does not create access or visiting authority."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-jury-room__midday",
+      "file": "places/place-jury-room__midday.png",
+      "kind": "jury-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "47bc3c1d47f25af05f1b658e53a34ef4396bec8ad68a876070e570a99af52f37",
+      "group": "place-jury-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair280px to floor332px; assume0.45m seat.",
+      "unresolved": [
+        "Juror notes and deliberation remain private; no verdict facts created.",
+        "Near chairs face away."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-lawyer-office__midday--2",
+      "file": "places/place-lawyer-office__midday--2.png",
+      "kind": "lawyer-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "51f46476dbfceb9cfbd17405ecccd0a15cdc038de878ed9e0858361c00db4c2b",
+      "group": "place-lawyer-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor259px to floor308px; assume0.45m seat.",
+      "unresolved": [
+        "Visitor seats face away; private desk foot hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-lawyer-office__midday",
+      "file": "places/place-lawyer-office__midday.png",
+      "kind": "lawyer-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "a0c5e01f244c01c216d771039d510c056177ece4786448c0650dd1b3f279357f",
+      "group": "place-lawyer-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor448px to floor505px on600x600 camera; assume0.45m seat.",
+      "unresolved": [
+        "Independent square camera; visitor seats face away."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-lawyer-office__morning",
+      "file": "places/place-lawyer-office__morning.png",
+      "kind": "lawyer-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "b33ac6707f8c7ecfe7f60c562a4955a881c5f88d1828ddbf3211c63026c373f9",
+      "group": "place-lawyer-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor259px to floor308px; assume0.45m seat.",
+      "unresolved": [
+        "Visitor seats face away; private desk foot hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-lawyer-office__night",
+      "file": "places/place-lawyer-office__night.png",
+      "kind": "lawyer-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "e128a051cf1800998b4c9452c0f5fbc01f6fa82dda0570204be7044b110a7f39",
+      "group": "place-lawyer-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor259px to floor308px; assume0.45m seat.",
+      "unresolved": [
+        "Visitor seats face away; private desk foot hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-lawyer-office__rain",
+      "file": "places/place-lawyer-office__rain.png",
+      "kind": "lawyer-office",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "7ac946d7188f7c032e669cbfee3fa9487443fb49c5797593b3fe3764be49ba8c",
+      "group": "place-lawyer-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor259px to floor308px; assume0.45m seat.",
+      "unresolved": [
+        "Visitor seats face away; private desk foot hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-main-street-small-town__m",
+      "file": "places/place-main-street-small-town__m.png",
+      "kind": "main-street-small-town",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "c451b239eabc8ab3f7f215a0d2487db6420abe4dc8675057e4cf42c7fb255f2e",
+      "group": "place-main-street-small-town",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Shop door163px to pavement267px; assume2.1m door.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-mayor-office__midday",
+      "file": "places/place-mayor-office__midday.png",
+      "kind": "mayor-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "846e4b16637791a3b16f47f31547f20676c739ae08eae17ef258230820fc9fa9",
+      "group": "place-mayor-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor246px to floor285px; assume0.45m seat.",
+      "unresolved": [
+        "Desktop paper corners and hidden desk chair contact need full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-mayor-office__morning",
+      "file": "places/place-mayor-office__morning.png",
+      "kind": "mayor-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "f00ca2bf158c732aad43abda7f435e19d48277c0937902616dc6f2ae79a290d3",
+      "group": "place-mayor-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor246px to floor285px; assume0.45m seat.",
+      "unresolved": [
+        "Desktop paper corners and hidden desk chair contact need full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-mayor-office__night",
+      "file": "places/place-mayor-office__night.png",
+      "kind": "mayor-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "520e04d6a68a6f748720f9684d3de95e460c1bdfb788debb5aa45aec5ae0fbb5",
+      "group": "place-mayor-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor246px to floor285px; assume0.45m seat.",
+      "unresolved": [
+        "Desktop paper corners and hidden desk chair contact need full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-mayor-office__rain",
+      "file": "places/place-mayor-office__rain.png",
+      "kind": "mayor-office",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "625770c7f2b662e6177e11d9603839ef7f26e57002d8ffb9374468afd9bf9610",
+      "group": "place-mayor-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Visitor246px to floor285px; assume0.45m seat.",
+      "unresolved": [
+        "Desktop paper corners and hidden desk chair contact need full-size review."
+      ],
+      "approval": "pending"
+    }
+  ],
+  "limits": [
+    "No actual actor composites tested.",
+    "Hidden seat cushion and foot points are estimated from furniture; annotated as candidates.",
+    "No staging variant support exists in current v2 consumer; independent source keys must be mapped by job08.",
+    "No geometry claim about missing or full-size versions."
+  ]
+}
