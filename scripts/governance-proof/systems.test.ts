@@ -410,6 +410,158 @@ describe("canonical watched-system report evidence", () => {
       false,
     );
   });
+  it("quotes only housing records linked to the observed order and cutoff", () => {
+    const { person, world: base } = fixture();
+    const filed = event(
+      base,
+      person.id,
+      "housing.eviction-filed",
+      date("2026-02-01"),
+      "host-case",
+    );
+    const resolved = event(
+      filed,
+      person.id,
+      "housing.evicted",
+      date("2026-03-01"),
+      "host-order",
+    );
+    const order = resolved.history.events.at(-1)!;
+    const answer = {
+      ...order,
+      id: id("host-answer"),
+      stableKey: "host-answer",
+      sequence: resolved.history.nextSequence,
+      type: "housing.eviction-host-answer" as EventType,
+      tags: [
+        `eviction:order:${order.id}`,
+        "housing:host-accepted",
+        "housing:host-money-unknown",
+        "housing:bedrooms-estimated",
+      ],
+      summary: "Explicit authored host-answer reader fixture.",
+    };
+    const world: World = {
+      ...resolved,
+      history: {
+        ...resolved.history,
+        events: [
+          ...resolved.history.events,
+          answer,
+          {
+            ...answer,
+            id: id("unrelated"),
+            stableKey: "unrelated",
+            sequence: answer.sequence + 1,
+            tags: ["eviction:order:another-order"],
+          },
+          {
+            ...answer,
+            id: id("future-answer"),
+            stableKey: "future-answer",
+            sequence: answer.sequence + 2,
+            occurredAt: date("2027-01-01"),
+            recordedAt: date("2027-01-01"),
+          },
+        ],
+      },
+    };
+    const before = JSON.stringify(world);
+    const row = evictionProof(world, period)[0]!;
+    expect(row.linkedHousingRecords.map((record) => record.id)).toEqual([
+      answer.id,
+    ]);
+    expect(row.linkedHousingRecords[0]!.tags).toContain(
+      "housing:host-money-unknown",
+    );
+    expect(row.linkedHousingRecords[0]!.tags).toContain(
+      "housing:bedrooms-estimated",
+    );
+    expect(JSON.stringify(world)).toBe(before);
+  });
+  it("detects a later return after a different first destination without reading future states", () => {
+    const { person, world: base } = fixture();
+    const filed = event(
+      base,
+      person.id,
+      "housing.eviction-filed",
+      date("2026-02-01"),
+      "return-case",
+    );
+    const resolved = event(
+      filed,
+      person.id,
+      "housing.evicted",
+      date("2026-03-01"),
+      "return-order",
+    );
+    const filing = resolved.history.events[0]!;
+    const world: World = {
+      ...resolved,
+      history: {
+        ...resolved.history,
+        dwellings: ["different-home", "former-home"].map((key, index) => ({
+          id: id(key),
+          stableKey: key,
+          sequence: 10 + index,
+          establishedAt: period.from,
+          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+          locationLabel: key,
+          classification: "residential:house",
+          provenance,
+        })),
+        dwellingOccupancies: ["different-home", "former-home"].map(
+          (key, index) => ({
+            id: id(`occupancy-${index}`),
+            stableKey: `occupancy-${index}`,
+            sequence: 12 + index,
+            occupant: { kind: "person", personId: person.id },
+            dwellingId: id(key),
+            startedAt: date(index === 0 ? "2026-04-01" : "2026-05-01"),
+            provenance,
+          }),
+        ),
+        dwellingOccupancyStates: [0, 1, 2].map((index) => ({
+          id: id(`state-${index}`),
+          stableKey: `state-${index}`,
+          sequence: 14 + index,
+          dwellingOccupancyId: id(`occupancy-${Math.min(index, 1)}`),
+          effectiveAt: date(
+            index === 0
+              ? "2026-04-01"
+              : index === 1
+                ? "2026-05-01"
+                : "2027-01-01",
+          ),
+          status: "active",
+          residenceRole: "primary",
+          kind: "residence:home",
+          reason: null,
+          provenance,
+          supersedesStateId: null,
+        })),
+      },
+    };
+    const observation: EvictionObservation = {
+      caseId: filing.id,
+      leaseFlowId: "lease-a",
+      filedOn: filing.occurredAt,
+      filing,
+      lease: {
+        state: "observed",
+        householdId: id("household"),
+        dwellingId: id("former-home"),
+        townId: id("town"),
+      },
+      resolution: { state: "resolved", event: resolved.history.events.at(-1)! },
+      publicCourtRecord: { state: "unavailable" },
+    };
+    const row = evictionProof(world, period, () => [observation])[0]!;
+    expect(row.laterDestination?.[0]?.dwellingId).toBe(id("different-home"));
+    expect(row.formerHomeReturns).toHaveLength(1);
+    expect(row.formerHomeReturns[0]!.effectiveAt).toBe(date("2026-05-01"));
+    expect(row.returnedToEvictedHome).toBe(true);
+  });
   it("does not reconstruct a sponsor motive from the current world", () => {
     const { person, world: base } = fixture();
     const world = introduceMeasure(base, {

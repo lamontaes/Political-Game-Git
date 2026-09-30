@@ -157,6 +157,13 @@ export function evictionProof(
     returnedToEvictedHome: boolean;
     caseProjectionAvailable: boolean;
     publicCourtRecordId: EntityId | null;
+    linkedHousingRecords: HistoricalEvent[];
+    formerHomeReturns: {
+      occupancyId: EntityId;
+      stateId: EntityId;
+      effectiveAt: IsoDate;
+      kind: string;
+    }[];
     costs: null;
     costEvidence: string;
   }[] = [];
@@ -215,6 +222,8 @@ export function evictionProof(
           observation?.publicCourtRecord.state === "observed"
             ? observation.publicCourtRecord.eventId
             : null,
+        linkedHousingRecords: [],
+        formerHomeReturns: [],
         costs: null,
         costEvidence:
           "No linked court or moving-cost transaction contract in the inspected rent records. Unpaid rent in the reason is debt, not case cost.",
@@ -260,6 +269,69 @@ export function evictionProof(
         );
       unresolved.delete(flowId);
     }
+  }
+  for (const row of cases) {
+    if (
+      row.outcome !== "housing.evicted" ||
+      !row.resolutionId ||
+      !row.resolvedOn
+    )
+      continue;
+    const order = world.history.events.find(
+      (event) => event.id === row.resolutionId,
+    )!;
+    row.linkedHousingRecords = world.history.events.filter(
+      (event) =>
+        event.occurredAt >= row.resolvedOn! &&
+        event.occurredAt <= period.through &&
+        event.recordedAt <= period.through &&
+        event.tags.includes(`eviction:order:${row.resolutionId}`) &&
+        [
+          "housing.eviction-host-answer",
+          "housing.eviction-host-move-unresolved",
+          "housing.eviction-destination",
+        ].includes(event.type),
+    );
+    const observation = observations?.get(row.filingId);
+    const householdId =
+      observation?.lease.state === "observed"
+        ? observation.lease.householdId
+        : (row.linkedHousingRecords.find(
+            (event) => event.type === "housing.eviction-destination",
+          )?.involvedEntityIds[0] ?? null);
+    const people = new Set(row.people.map((person) => person.id));
+    const formerOccupancies = new Set(
+      world.history.dwellingOccupancies
+        .filter(
+          (occupancy) =>
+            occupancy.dwellingId === row.evictedFrom &&
+            occupancy.startedAt <= period.through &&
+            (occupancy.occupant.kind === "person"
+              ? people.has(occupancy.occupant.personId)
+              : occupancy.occupant.kind === "household" &&
+                householdId !== null &&
+                occupancy.occupant.householdId === householdId),
+        )
+        .map((occupancy) => occupancy.id),
+    );
+    row.formerHomeReturns = world.history.dwellingOccupancyStates
+      .filter(
+        (state) =>
+          formerOccupancies.has(state.dwellingOccupancyId) &&
+          state.status === "active" &&
+          state.residenceRole === "primary" &&
+          state.effectiveAt <= period.through &&
+          (state.effectiveAt > row.resolvedOn! ||
+            (state.effectiveAt === row.resolvedOn &&
+              state.sequence > order.sequence)),
+      )
+      .map((state) => ({
+        occupancyId: state.dwellingOccupancyId,
+        stateId: state.id,
+        effectiveAt: state.effectiveAt,
+        kind: state.kind,
+      }));
+    row.returnedToEvictedHome ||= row.formerHomeReturns.length > 0;
   }
   return cases.filter(
     (row) =>
@@ -694,6 +766,24 @@ export function plainSystemReport(
         `Public court record: ${row.publicCourtRecordId ?? (row.caseProjectionAvailable ? "unavailable in the case projection" : "case projection unavailable in this runtime")}.`,
         `Destination on outcome day: ${row.immediateDestination === null ? "Not applicable: unresolved case." : placeText(row.immediateDestination)}`,
         `First later recorded destination: ${placeText(row.laterDestination)}`,
+        ...(row.outcome === "housing.evicted"
+          ? [
+              ...row.linkedHousingRecords.map(
+                (event) =>
+                  `${proseDate(event.occurredAt)} linked ${event.type}: ${JSON.stringify(event.summary)}; event ${event.id}; tags ${event.tags.join(", ")}.`,
+              ),
+              ...(row.linkedHousingRecords.length
+                ? []
+                : [
+                    "No linked host-answer or eviction-destination records in this runtime.",
+                  ]),
+              `Later active returns to the former home through observation end: ${row.formerHomeReturns.length}. This checks the observed interval, not all future years.`,
+              ...row.formerHomeReturns.map(
+                (state) =>
+                  `${proseDate(state.effectiveAt)} return: occupancy ${state.occupancyId}; state ${state.stateId}; ${state.kind}.`,
+              ),
+            ]
+          : []),
         ...(row.returnedToEvictedHome
           ? [
               "Finding: the recorded destination is the home this household was evicted from.",

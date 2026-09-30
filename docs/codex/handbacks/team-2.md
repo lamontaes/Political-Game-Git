@@ -2980,3 +2980,41 @@ The named case, law and sponsor records above are the worked examples. When a se
 The next exact-main attempt will retain the full world and use a 60-minute advance bound. All-system mode now also follows the opening resident’s monthly canonical records. Case, law and filing observations remain alongside that timeline. A successful completed five years is still pending; the incomplete Oracle receipt above is unchanged. The renderer now says one watched place does not establish national calibration, covering longer periods accurately.
 
 The numbering batch is separately preserved at `b26329cc5d73da058a00fdf759d94981cbb027b8`, draft #1200. Its three-state actual designation proof passed; Congress remained empty. Team 3’s host-first candidate is still a pending exact-head dependency, not an observed result.
+
+# Host-first proof reader preserves answers and later returns
+
+The eviction report now quotes records linked to each actual eviction order: host answers, blocked host moves and same-day destinations. It checks all later primary occupancy states through the observed end date for a return to the former dwelling. This changes evidence collection only. The exact Team 3 replay remains NOT RUN at this reader checkpoint.
+
+## 1. Why-chain
+
+The earlier report could show the first later destination while missing a second move back to the former home. It only searched for the first new occupancy. Checking the full observed interval requires the household or named person, former dwelling and later active primary states. Host consent and no-fixed-home outcomes require actual linked event records, not an inferred description of an empty occupancy list. Terminal: canonical event and occupancy history. The reader does not decide whom to ask, whether to accept or where to move.
+
+## 2. Research
+
+Team 3 product source `3ffad216e1c567eb3f396b65e1b40cd7665e6b52` writes host answers, unresolved moves and destination records tagged with the exact eviction order ID. Its owned-home bedroom values are flagged estimates; absent money and hosting costs remain unknown. The reader preserves those tags rather than presenting estimates as measured capacity or missing money as zero. This batch supplies no new housing rate or legal authority.
+
+## 3. Revisions
+
+Linked records must name the exact order and fall within the observation cutoff. A return must be an active primary occupancy in the former dwelling after the order, belonging to the observed household or named person. All later matching states are examined, not only the first later move. A finite watched interval cannot prove all future years. Unknown costs and source availability remain explicit.
+
+## 4. Numbered built parts
+
+1. The already-owned `scripts/governance-proof/systems.ts` preserves complete linked host/destination event records and subsequent return state IDs.
+2. Its report quotes source tags, including unknown finances and estimated bedrooms, and states the observed return count and cutoff.
+3. Its test adds wrong-order/future-event exclusion, read-only evidence preservation and a return after a different first destination, excluding a future state.
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: Team 3's existing host decisions and canonical movement, unchanged here. RECORDS: the collector reads events, case projection and primary occupancy history. WORLD PIECES: actual people, relationships, households and homes must come from the runtime source. CHECKS: exact order links, cutoff, raw occupancy kind, absence of invented consent, no return through the observed interval. No person feels a new effect from the collector. A missing event remains missing; no shelter, car or motel is inferred.
+
+## 6. Proof run
+
+Reader tests passed 11/11 in 11.00 seconds. Strict scoped types cover three proof roots with zero diagnostics. Scoped lint, formatting and whitespace pass. The host-first watched year is NOT RUN. Next proof pins Team 3 product source `3ffad216e1c567eb3f396b65e1b40cd7665e6b52` in this same checkout and replays seed `team2-law-proof-20260930-a`, whose logged random place is Cedar Hills, Utah. The earlier year at source `98a173d3cfcaaa1cda6b5902fb1819b027151d33` had three eviction orders, but the new year must establish its own cases. Source/test receipts do not predict that count. Browser/full suite/independent review NOT RUN under the no-new-helper constraint.
+
+## 7. Worked example
+
+The earlier observed Carlson case had an August 1 order, no same-day active destination in the old source and a later October 5 occupancy. That earlier record does not prove host answers or a no-fixed-home state. The new reader will quote those only when the exact candidate's runtime records supply them. Its authored fixture demonstrates a different April home followed by a May return to the former dwelling; that is a reader check, not a watched case.
+
+Connection to completed Congress checkpoint: draft #1200 publishes both full watched-year receipts at `f31545c0f6fd86a293bcb7475d3dddfedaa9e2a6`, `docs/codex/handbacks/team-2-numbering.md`. Both 365-day years completed with zero introductions and zero referrals; false filed summaries fell twelve to zero. Majority decisions were unchanged. Full positive Congress designation and five-year life acceptance remain unmet.
+
+The 15-question compilation table is `docs/codex/handbacks/team-2-law-table.md`, derived exactly from the published detailed trace batch. Congress producer root cause remains the top unresolved assignment; the summary fix does not discharge it. The host reader batch is complete, while the watched host-first replay is deferred until that producer trace.

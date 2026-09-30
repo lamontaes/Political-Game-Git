@@ -30,3 +30,5 @@ The draft collector can follow a named observer resident for longer periods. It 
 The draft preserves an incomplete four-year watched-life receipt, an authority repair proposal and source-only campaign/governor action traces. None establishes completed five-year or new law-effect acceptance.
 
 The all-system draft report includes the watched resident’s monthly records alongside cases, law effects and filings. Long-period reports keep their observation limits explicit.
+
+Watched eviction reports retain linked host answers and destination records, and check later recorded primary occupancy for returns to a former home through the observed end date.
