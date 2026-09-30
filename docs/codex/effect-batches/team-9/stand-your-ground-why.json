@@ -1,0 +1,59 @@
+{
+  "team": 9,
+  "linkId": "stand-your-ground-to-homicide",
+  "question": "Justice scope transfer: source why answers only; no matrix or runtime write",
+  "primarySource": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/",
+    "doi": "10.1001/jamanetworkopen.2022.0077",
+    "title": "Analysis of Stand Your Ground Self-defense Laws and Statewide Rates of Homicides and Firearm Homicides",
+    "localFullTextSha256": "364cbb9b4266d3f859415b2f1fef16044791105673a6082bae6df6b8e8d6694f"
+  },
+  "size": 0.08,
+  "range": [
+    0.03,
+    0.13
+  ],
+  "per": "adoption of statutory public-place stand-your-ground law versus no such adoption in the controlled pooled study",
+  "lagMonths": 0,
+  "evidence": "researched; observational controlled interrupted time series",
+  "whyAnswers": {
+    "whyDoesThisHappen": {
+      "chain": [
+        "The study associates statutory stand-your-ground adoption with higher monthly firearm-homicide rates after controlling for comparison states, seasonality and long-term trends.",
+        "Its treatment is an extension of legal immunity for lethal self-defense outside the home to places where a person has a legal right to be.",
+        "That legal change can alter the perceived legal consequences of choosing lethal force. The authors describe possible encouragement of otherwise avoidable deadly encounters; deterrence is the competing explanation.",
+        "A person chooses whether to use lethal force in a particular encounter from the situation and their own record. A firearm discharge can physically kill another person. The aggregate estimate does not choose that action or victim."
+      ],
+      "terminal": "Legal rule: statutory protection for qualifying public-place self-defense; physical fact: lethal force can kill. Actual behavioral mediation is not identified by this study.",
+      "identifiedVsHypothesized": "The legal treatment and aggregate association are measured in the paper. The psychological pathway is an authors-discussed hypothesis, not measured person-level mediation or proof of a particular encounter."
+    },
+    "isReverseTrueOnRepeal": {
+      "answer": "Not established.",
+      "reason": "The treatment analyzed is adoption during2000\u20132016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
+    },
+    "whoExactly": {
+      "studyPopulation": "Forty-one US states during1999\u20132017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
+      "exclusions": "Nine states excluded:Utah/Iowa lacked sufficient timing/data;seven had case-law stand-your-ground principles, contaminating comparison. No territory, county-specific, township-specific or individual exposed-defendant estimate.",
+      "legalCoverage": "People in qualifying public-place self-defense encounters under operative law; the study definition is not a grant of authority to local governments or proof every homicide involved a self-defense claim."
+    },
+    "howFast": {
+      "measured": "Methods model a step change in monthly statewide rates at statutory enactment, adjusted for seasonality and state trends, with at least12months before/after for included adopters.",
+      "lagInterpretation": "lagMonths0 describes that monthly aggregate model specification; it is not a measured immediate personal reaction or zero procedural delay. No separate distributed-lag coefficient is supplied."
+    },
+    "doesItDifferByPlace": {
+      "answer": "Yes; the Results section reports substantial state heterogeneity.",
+      "reported": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%\u201333.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
+      "rangeMeaning": "[0.03,0.13] is the published95%interval around the pooled firearm-homicide rate ratio minus1. It is not a distribution of local effects, not a bound on every state, and not a territory transport estimate.",
+      "exactMissingFigure": "Numerical firearm-only state-specific estimates and their intervals fromFigure3/supplement, plus evidence for later-adopting and excluded places. No universal state-specific effect is claimed."
+    },
+    "isItReallyAboutZero": {
+      "answer": "No about-zero conclusion for the pooled firearm-homicide association.",
+      "measured": "Main pooled IRR1.08,95%CI1.03\u20131.13,P=.002. Suicide negative controls are separate outcomes; their near-null results cannot zero firearm homicide.",
+      "limits": "Nonsignificance for a particular state or demographic subgroup does not establish equivalence to zero. Low counts and confounding limit inference. No person-level risk coefficient is supplied."
+    }
+  },
+  "conversion": "IRR1.08 -> proportional change0.08;95%IRRinterval[1.03,1.13] ->[0.03,0.13]. No made-up spread.",
+  "lawScopeConflict": "This source concerns stand-your-ground, outside the newly assigned six-justice policy list. Preserve as requested transfer research; do not expand Team9 production-law scope.",
+  "reader": "Measured query on8dd29dfe: cause-not-recorded. No person feels this through this link yet; no firing proof.",
+  "checks": "Primary full article, Methods, Results, State-SpecificAssociations and Limitations read. No case-law, repeal, mediation, or watched-world proof invented."
+}
