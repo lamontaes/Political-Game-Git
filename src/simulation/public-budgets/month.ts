@@ -1,5 +1,8 @@
 import { ageVerificationCostForMonth } from "./age-verification-cost";
 import { stateJurisdictionForKey } from "../life-places";
+import { CURRICULUM_QUESTION } from "../education-civil-law-terms";
+import { curriculumAdoptionEffect } from "./curriculum-standards";
+import { tuitionFreezeRevenueStamps } from "./tuition-freeze-stamps";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
 import { publicOrganizationKey } from "../tax-policy";
@@ -716,6 +719,36 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
+  const curriculum = curriculumAdoptionEffect(world, government, month);
+  const curriculumCost = curriculum?.spendingDollars ?? 0;
+  if (curriculumCost > 0)
+    spending[BUDGET_PROGRAMS.indexOf("schools")]! += curriculumCost;
+  const curriculumStamp =
+    curriculum && curriculumCost > 0
+      ? lawEffectStamp(curriculum.law, {
+          effectKind: "state-spending",
+          questionKey: CURRICULUM_QUESTION,
+          jurisdictionId: government.lawJurisdictionId,
+          appliedAt: month,
+          sourceRecordIds: curriculum.recipients.flatMap((row) => [
+            row.personId,
+            ...row.enrollmentIds,
+            ...row.organizationIds,
+          ]),
+        })
+      : null;
+  const tuitionStamps = tuitionFreezeRevenueStamps(
+    world,
+    government,
+    month,
+    revenue[BUDGET_SOURCES.indexOf("chargesAndFees")]!,
+  );
+  const savedLawStamps = [
+    ...cannabisStamps,
+    ...tuitionStamps,
+    ...(curriculumStamp ? [curriculumStamp] : []),
+  ];
+
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
   let debt = government.debt;
@@ -851,10 +884,10 @@ export function settleGovernmentMonth(
       ? { cannabisRevenue }
       : {}),
     ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length || ageVerificationCost
+    ...(savedLawStamps.length || ageVerificationCost
       ? {
           lawEffectStamps: [
-            ...cannabisStamps,
+            ...savedLawStamps,
             ...(ageVerificationCost?.lawEffectStamps ?? []),
           ],
         }
