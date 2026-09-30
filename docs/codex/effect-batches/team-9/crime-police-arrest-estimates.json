@@ -1,0 +1,77 @@
+{
+  "area": "crime-justice",
+  "linkId": "police-to-low-level-arrests",
+  "status": "source estimate supplied; runtime denominator unresolved",
+  "primarySource": "https://www.nber.org/system/files/working_papers/w28202/w28202.pdf",
+  "version": "NBER w28202 December2020 working paper; final2022 journal PDF403",
+  "table": "2,page26",
+  "population": "242large U.S.cities; model-specific samples differ; city-clustered SE and1980population weights.",
+  "unit": "Additional annual quality-of-life arrest counts per additional sworn officer, not per one density unit or individual arrest probability.",
+  "models": [
+    {
+      "model": "ASG IV",
+      "period": "1981\u20132018",
+      "estimates": [
+        {
+          "group": "all",
+          "annualArrestsPerAdditionalOfficer": 7.32,
+          "standardError": 0.88,
+          "derivedNormal95CI": [5.5952, 9.0448]
+        },
+        {
+          "group": "Black",
+          "annualArrestsPerAdditionalOfficer": 2.28,
+          "standardError": 0.53,
+          "derivedNormal95CI": [1.2412, 3.3188]
+        },
+        {
+          "group": "white",
+          "annualArrestsPerAdditionalOfficer": 5.1,
+          "standardError": 0.48,
+          "derivedNormal95CI": [4.1592, 6.0408]
+        }
+      ]
+    },
+    {
+      "model": "COPS IV",
+      "period": "1990\u20132018",
+      "estimates": [
+        {
+          "group": "all",
+          "annualArrestsPerAdditionalOfficer": 21.88,
+          "standardError": 5,
+          "derivedNormal95CI": [12.08, 31.68]
+        },
+        {
+          "group": "Black",
+          "annualArrestsPerAdditionalOfficer": 8.1,
+          "standardError": 1.6,
+          "derivedNormal95CI": [4.964, 11.236]
+        },
+        {
+          "group": "white",
+          "annualArrestsPerAdditionalOfficer": 13.95,
+          "standardError": 3.42,
+          "derivedNormal95CI": [7.2468, 20.6532]
+        }
+      ]
+    }
+  ],
+  "studySpecificationSpread": [7.32, 21.88],
+  "rangeMeaning": "Across two IV designs and differing time windows; not aplace-heterogeneity bound. Each derivedCI separately denotes sampling uncertainty.",
+  "lag": "Annual city outcomes; study does not establish immediate monthly lag or persistence after repeal.",
+  "conversion": "If density d is officers/1000 and matched population P fixed, delta officer count = delta d*P/1000. Multiply count coefficient by that delta for annual arrests; rate-per1000 effect becomes coefficient*delta d. Proportional outcome needs its measured baseline.",
+  "conditions": [
+    "Only matched staffing and arrest geography; no state baseline substituted for city department.",
+    "Race-group count coefficients require race-specific denominators for per-capita disparity; white arrest category includes Hispanic residents in UCR.",
+    "Quality-of-life arrests are not violent crimes or all convictions; categories require source matching."
+  ],
+  "missing": [
+    "Current runtime full officer density producer and arrest outcome unit/baseline.",
+    "Final published table comparison.",
+    "Validated monthly timing and jurisdiction transport beyond sampled cities."
+  ],
+  "aboutZero": false,
+  "runtimeActivation": "NOT RUN; coordinator owns integration.",
+  "pdfSha256": "78ab0c7e6b409e3b31bb401ffc3cc19ea1f3e99ef8ffc9587033ac617c1eb813"
+}
