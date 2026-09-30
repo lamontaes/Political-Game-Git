@@ -610,3 +610,7 @@ September 30, 1:00: CTO12:40 assigns Team3 press localProfileFor/caller and outc
 Team 3 exclusively owns town-homes.ts eviction-household former-home exclusion and same-day destination selection seam, plus directly affected tests, for CTO2:15's existing-system gap repair only. No other current town-homes claim found in central ledger. Preserve other housing policy and population behavior; no invented beds/cars/rooms, school expansion or new housing system. Exact function details must be returned for integration.
 
 Team 8 owns only backdrop-people.ts existing clipBandEndPercent interface declaration and boundary.test.ts lexical browser-global detection for PR1194. This supersedes the older Team5 backdrop claim only for the declaration; all placement behavior remains with its owner. Team5 PlayerGame recap/morning-thought guard only per CTO3:05. Story-engine claims await exact proposed paths.
+
+- Team 7: art/authoring/sept29-team7/kids/boy-14-standing-base-v3.png — local alpha-extraction candidate; no runtime import.
+
+September 30, 4:00: Team8 exclusively owns new src/presentation/story-scene-resolver.ts and .test.ts, pure resolveStoryScene(world, request) projection and exported StorySceneRequest/StorySceneResolution types, CTO2:30 part1. Team5 consumer integration only; exact consumer paths pending, no shared resolver writes.

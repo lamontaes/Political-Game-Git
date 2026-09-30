@@ -2,6 +2,25 @@
 
 Cloud teams are preserving their work for the account transfer. Eight final handoffs are received; Team 4 is finishing its receipt.
 
+## September 30, 4:00 a.m. check-in
+
+### MERGED
+GitHub verifies #1191 at6c3a470c68907d65dc92a8da17a395febf708763 and build repair #1194 at24492950ece69558155e07e9b276ed59c5eb8c75. The feature walkthrough is landed; the missing clipping-field type and browser-global boundary detection are repaired. No fresh player proof claimed.
+
+### CONNECTIONS TABLE
+| Connection | Evidence | Action |
+| --- | --- | --- |
+| World records → scene resolver |1196 contract5aef858396673c04557e298dd4d1a23fdb9dd963 | Team8 new resolver/test exclusively released; Team5 consumer paths pending |
+| Law effects → annual report |Team2 reports main-year report published, headede2bdfbd6cdc77296248640476f17d41d0f2a21 | Longer-life reader9/9reported; five-year run not yet launched |
+| Eviction → destination |1189 nowb3ced35fa23776e7192ec1e75c9d8513479a75ca | Published head verified; final repair evidence needs review |
+| Continuous principles → lawmakers |1184 now33e6fe5850c28957556814d66db1929309018cc8 | Team1 reports16tests but filing/variation acceptance unmet |
+
+### BLOCKED
+1195 moved to f6d51a446b38d7392e995df092ff2c792bd23bdd after approval of8923e96; renewal required.1192 nowce6815d6c5786b48075419991d5233d5578e197c while Merge integrates; no stale-head approval inferred. Team8 exact scene-file ownership cleared. EvidenceZIP and Team7 draft authentication remain unresolved.
+
+### EFFECTS
+No new watched causal chain verified by coordinator. CTO3:45 per-world ranges, household birth-decision design/research and person-reader requirements relayed. Team7 corrected its halo claim: white composite is clean, alpha/age review still held, no propagation.
+
 ## September 30, 3:30 a.m. check-in
 
 ### MERGED
