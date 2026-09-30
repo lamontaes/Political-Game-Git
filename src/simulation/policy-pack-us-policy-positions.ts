@@ -257,9 +257,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should district lines be drawn by an independent commission rather than by the legislature?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "transparency", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.3,
+        },
       ],
     },
     {
@@ -275,8 +302,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should a voter be required to present photo identification at the polls?",
       tags: ["contested"],
       principles: [
-        { principle: "public-safety", bearing: "consistent-with" },
-        { principle: "equal-treatment", bearing: "against" },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.45,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -292,8 +352,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should eligible residents be registered to vote automatically when they deal with a state agency?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-opportunity", bearing: "consistent-with" },
-        { principle: "limited-government", bearing: "against" },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "transparency",
+          bearing: "against",
+          weight: 0.45,
+        },
       ],
     },
     {
@@ -305,8 +398,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       parameters: [{ key: "limit", value: "consecutive-terms" }],
       tags: ["contested"],
       principles: [
-        { principle: "limited-government", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.45,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -317,8 +438,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should former officials be barred from lobbying their old body for a set period?",
       parameters: [{ key: "period", value: "years-after-leaving" }],
       principles: [
-        { principle: "transparency", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.95,
+        },
+        {
+          principle: "worker-protection",
+          bearing: "against",
+          weight: 0.45,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "against",
+          weight: 0.35,
+        },
       ],
     },
     {
@@ -333,8 +482,41 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should localities be free to act on matters the state has not expressly reserved to itself?",
       tags: ["home-rule", "contested"],
       principles: [
-        { principle: "local-control", bearing: "consistent-with" },
-        { principle: "equal-treatment", bearing: "against" },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.5,
+        },
       ],
     },
     {
@@ -1860,8 +2042,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       parameters: [{ key: "limit", value: "consecutive-terms" }],
       tags: ["contested"],
       principles: [
-        { principle: "limited-government", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "local-control",
+          bearing: "consistent-with",
+          weight: 0.45,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -1876,9 +2086,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the city's council districts be drawn by an independent commission rather than by the council?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "transparency", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.35,
+        },
       ],
     },
   ],
