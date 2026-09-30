@@ -1,0 +1,1659 @@
+{
+  "schemaVersion": 1,
+  "team": 1,
+  "sourceHead": "8c085849bd91d2e0b0d761d1645590fce15c28cb",
+  "sourceBankSha256": "c62effaca4619dbe25633c446c9df89b29c2e19dffd91d850198c3a87865054d",
+  "coordinatorOnlyWritesLinksJson": true,
+  "scope": "CTO10:45 all20 federal laws",
+  "lawCount": 20,
+  "lawEffects": [
+    {
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "effectsToTrace": [
+        "Borrowing authorization and spending restrictions",
+        "Federal program appropriations and state/local aid",
+        "Deficit, borrowing prices and program users",
+        "Public knowledge and later budget decisions"
+      ],
+      "sourceTrace": {
+        "enactment": "federal-outlay-laws.ts:63 federalOutlayChangeAt and :90 federalAidFactor; public-budgets/month.ts reads the aid factor.",
+        "directEffects": "Federal outlays fall by $150 billion a year; state/local federal aid falls 2.14 percent. These fixed default terms spread one 2023 deal over ten years. Borrowing costs follow the deficit link below; no named program or beneficiary cut is recorded here.",
+        "jurisdictionAndReversal": "Congress sets federal borrowing and appropriations; states/counties/cities may set their own budgets but cannot change the federal debt limit. D.C. and territories receive federal rules with program-specific eligibility. The controlling no stops the modeled cuts; this does not repay historical aid.",
+        "terminal": "A fixed deal-derived aid factor and an aggregate borrowing-cost adjustment.",
+        "gap": "Needs research: replace the universal default size with approved national ranges and identify which appropriations change. Needs a feature: person/program-specific discretionary cuts."
+      },
+      "existingLinkIds": ["federal-deficit-to-borrowing-cost"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "kind": "outcome-web",
+          "via": "federal-deficit-to-borrowing-cost"
+        },
+        {
+          "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "kind": "state-revenue",
+          "via": "src/simulation/federal-outlay-laws.ts"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "kind": "outcome-web",
+          "via": "federal-deficit-to-borrowing-cost"
+        },
+        {
+          "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "kind": "state-revenue",
+          "via": "src/simulation/federal-outlay-laws.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "effectsToTrace": [
+        "Covered taxable income and marginal liability",
+        "Payroll withholding and annual settlement",
+        "Disposable income, revenue and behavioral responses",
+        "Taxpayers noticing changed assessments"
+      ],
+      "sourceTrace": {
+        "enactment": "federal-top-income-tax-law.ts:58 federalIncomeTaxUnderLaw; income-tax-withholding consumers read its schedule.",
+        "directEffects": "The top marginal rate becomes 39.6 percent rather than 37 percent; the 2026 filing-status thresholds stay fixed. A statutory rate is a bill term, not a random response coefficient. Withholding changes only the amount above the top threshold. Official pre-tax poverty is inert in the catalog.",
+        "jurisdictionAndReversal": "Congress changes the federal schedule. States and legally authorized localities set separate taxes, not this federal bracket. Territorial federal-income-tax liability needs an explicit applicability audit. January 1 law governs the whole tax year; a later no restores the ordinary schedule prospectively.",
+        "terminal": "Actual payroll withholding, with a fixed historic proposed rate and tax-year simplification.",
+        "gap": "Needs research: audit territory/source-income coverage and behavioral responses before widening the federal tax consumer. Keep distinct state/local tax instruments."
+      },
+      "existingLinkIds": ["top-income-tax-rate-to-poverty"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+          "kind": "paycheck",
+          "via": "src/simulation/federal-top-income-tax-law.ts"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+          "kind": "paycheck",
+          "via": "src/simulation/federal-top-income-tax-law.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "effectsToTrace": [
+        "Covered credit contracts and legal APR limits",
+        "Interest bills, lender offers, credit access and substitution",
+        "Borrower balances and delinquency",
+        "Borrowers and lenders noticing enforcement"
+      ],
+      "sourceTrace": {
+        "enactment": "outcome-web/index.ts outcomeFactor produces finance.high-cost-loans. household-loans.ts openHouseholdLoan accepts a caller-supplied cap, but no policy reader connects this aggregate effect to the borrower.",
+        "directEffects": "The catalog reduces aggregate high-cost borrowing by the linked range below. The source compares payday restrictions, not every consumer product or a national randomized cap. Loan availability, substitution, lender response and borrower payment consequences are not all established by this one link.",
+        "jurisdictionAndReversal": "Congress may regulate covered consumer credit. States retain usury authority subject to bank preemption and federal exceptions; some local rules concern licensing or conduct. The question is federal-only in question-powers.json. A generic federal-over-local rank cannot establish every lender/product floor or ceiling.",
+        "terminal": "A place-level high-cost-borrowing measure. The generic loan cap helper is not proof that this policy reaches people.",
+        "gap": "Needs research: covered products, bank/tribal exceptions, state preemption and substitution effects. Needs a feature if lender offer decisions or capped contract terms are absent."
+      },
+      "existingLinkIds": ["federal-loan-cap-to-high-cost-loans"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+          "kind": "outcome-web",
+          "via": "federal-loan-cap-to-high-cost-loans"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+          "kind": "outcome-web",
+          "via": "federal-loan-cap-to-high-cost-loans"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "effectsToTrace": [
+        "Authorized and appropriated procurement",
+        "Contracts, supplier orders and covered employment",
+        "State output, earnings and federal deficit",
+        "Workers and contractors noticing awards"
+      ],
+      "sourceTrace": {
+        "enactment": "federal-defense-spending.ts defenseBuildUpShare and defenseBoostPct; outcome-web/index.ts reads federal.defense-boost-pct.",
+        "directEffects": "The modeled buildup is 6.94 percent real growth yearly for at most five years, allocated from fiscal-year 2024 contracts by place. The relative output multiplier is 1.5; assuming median earnings move with output is an additional stand-in. Contract awards, firms, jobs, wages and federal payments are not equivalent records.",
+        "jurisdictionAndReversal": "Congress controls federal defense appropriations; states/localities cannot change the federal program. Their own procurement and land-use powers remain separate. Later no removes the modeled boost; already executed contracts need separate commitments.",
+        "terminal": "Researched regional output evidence adapted into aggregate earnings; no named contract award proved.",
+        "gap": "Needs research: ranges for buildup/default duration and translation from output to wages. Needs a feature: actual procurement contracts and recipient decisions."
+      },
+      "existingLinkIds": ["defense-contracts-to-earnings"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:defense.grow-defense-spending",
+          "kind": "outcome-web",
+          "via": "defense-contracts-to-earnings"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:defense.grow-defense-spending",
+          "kind": "outcome-web",
+          "via": "defense-contracts-to-earnings"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "effectsToTrace": [
+        "Covered appropriations and eligibility",
+        "Delivered aid and recipient services outside US",
+        "Federal deficit and borrowing costs",
+        "Recipients and taxpayers noticing"
+      ],
+      "sourceTrace": {
+        "enactment": "federal-outlay-laws.ts federalOutlayChangeAt and federalDeficitChangePctOfGdp.",
+        "directEffects": "The default adds $3,035,808,305 yearly, a 6.72 percent historic median increase on fiscal-year 2025 International Affairs spending. Borrowing costs change through the deficit link. The source records no measured domestic-place benefit; that is a stated evidence limit, not proof of zero overseas effects.",
+        "jurisdictionAndReversal": "Congress appropriates federal foreign aid. State/local international activities do not control this appropriation. Federal deficit effects reach D.C./territorial books only through their applicable borrowing readers. A controlling no stops the future modeled increment.",
+        "terminal": "A fixed historical budget increment and an aggregate interest-rate mechanism.",
+        "gap": "Needs research: range and program-specific obligations. Needs a feature: foreign recipients and overseas consequences; do not invent domestic benefits."
+      },
+      "existingLinkIds": ["federal-deficit-to-borrowing-cost"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+          "kind": "outcome-web",
+          "via": "federal-deficit-to-borrowing-cost"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+          "kind": "outcome-web",
+          "via": "federal-deficit-to-borrowing-cost"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:trade.raise-tariffs",
+      "effectsToTrace": [
+        "Product/origin-specific import duty and exemptions",
+        "Customs payments, import prices and substitution",
+        "Household purchases, firm inputs, employment and trade responses",
+        "Buyers and firms noticing prices"
+      ],
+      "sourceTrace": {
+        "enactment": "outcome-web/index.ts outcomeFactor and household.prices place-outcome readers.",
+        "directEffects": "Consumer prices follow the 2025-tariff estimate below. Importer payments, customs receipts, exporter retaliation, firm input costs, product substitution and heterogeneous household baskets are not proven by a single price link.",
+        "jurisdictionAndReversal": "Federal tariff authority follows Article I and delegated federal statutes. States/counties/cities cannot impose this federal tariff. Customs-territory exceptions require data for Puerto Rico and island areas; geography alone does not establish identical tariff exposure. No resets the prospective modeled link after its lag.",
+        "terminal": "A place-level price factor from a particular tariff episode.",
+        "gap": "Needs research: tariff schedule/exposure and customs-area treatment. Needs a feature: commodity/import transaction and retaliation records if absent."
+      },
+      "existingLinkIds": ["tariffs-to-prices"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:trade.raise-tariffs",
+          "kind": "outcome-web",
+          "via": "tariffs-to-prices"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:trade.raise-tariffs",
+          "kind": "outcome-web",
+          "via": "tariffs-to-prices"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "effectsToTrace": [
+        "Legal category admission caps and eligibility",
+        "Actual admissions, households and residence",
+        "Labor participation, employment, services and tax base",
+        "Residents and receiving communities noticing"
+      ],
+      "sourceTrace": {
+        "enactment": "HELD ONLY: immigration-admissions-law.ts:51 applyImmigrationAdmissions; public-budgets/index.ts calls it.",
+        "directEffects": "An authored default adds 11,729 admissions yearly, one percent of 1,172,910 observed 2023 admissions. Largest-remainder allocation uses recent-entry distribution, then materializes dated households in each state\u2019s largest inhabited locality. Rent effects use a Saiz metro elasticity of 1; employment is counted from actual jobs, checked against 66.5 percent participation. Crime is an inert catalog finding.",
+        "jurisdictionAndReversal": "Congress controls federal admission/status. State/local governments provide services and regulate housing within their powers, not federal admission counts. D.C. and all five territories are distribution rows, with four unread island areas estimated. No stops new modeled arrivals; it must not delete admitted people.",
+        "terminal": "Actual added household records, with authored admission/default location and metro rent adaptation.",
+        "gap": "Needs research: town destinations, legal-status/cohort composition and rent range. Coordinator must compose the Census contract preserving authoredSkeleton/jobRound. Never force employment to match the calibration."
+      },
+      "existingLinkIds": [
+        "more-immigration-to-workforce",
+        "immigration-to-crime"
+      ],
+      "directPathsAtHistoricalTrace": [],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+          "kind": "rent-and-eviction",
+          "via": "src/simulation/immigration-admissions-law.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "effectsToTrace": [
+        "Selected-drug price and program rules",
+        "Enrollee prescriptions, copays and access",
+        "Federal payments, manufacturer revenue and drug expenses",
+        "Enrollees noticing pharmacy costs"
+      ],
+      "sourceTrace": {
+        "enactment": "outcome-web/index.ts outcomeFactor for health.drug-out-of-pocket.",
+        "directEffects": "The aggregate out-of-pocket adjustment below adapts first-ten-drug savings of about $1.5 billion against $18.9 billion Part D spending. Individual drug eligibility, pharmacy/plan payments, federal savings, manufacturer behavior and adherence are not all delivered by this denominator.",
+        "jurisdictionAndReversal": "Congress sets Medicare negotiation authority; CMS implements federal terms. States can regulate other coverage and purchasing within federal limits, not rewrite Medicare. D.C./territorial coverage must follow actual program eligibility. No stops the modeled change; signed purchasing commitments need their own records.",
+        "terminal": "A provisional aggregate price adjustment, not a named enrollee\u2019s bill.",
+        "gap": "Needs research: population/drug denominator and budget effects. Needs a feature: drug/plan/patient transaction records where absent."
+      },
+      "existingLinkIds": ["drug-negotiation-to-out-of-pocket"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+          "kind": "outcome-web",
+          "via": "drug-negotiation-to-out-of-pocket"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+          "kind": "outcome-web",
+          "via": "drug-negotiation-to-out-of-pocket"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "effectsToTrace": [
+        "Birth-cohort eligibility and benefit schedule",
+        "Benefit start dates and actual payments",
+        "Retirement/work decisions, poverty and health constraints",
+        "Older residents noticing eligibility changes"
+      ],
+      "sourceTrace": {
+        "enactment": "outcome-web/index.ts outcomeFactor for older employment and poverty.",
+        "directEffects": "Two linked aggregate effects assume a two-year full-retirement-age rise, 67 to 69. Employment is inferred from retirement-age studies; poverty adapts benefit reductions and the elderly share of poverty. A 6.7 percent benefit reduction per year is not an actor employment draw. Claiming, disability, lifetime benefits and household finances require their own records.",
+        "jurisdictionAndReversal": "Congress sets Social Security retirement terms. State/local pensions and assistance are separate programs. D.C. and territorial applicability follows Social Security coverage, not a generic state column. No ends the modeled link after lag; cohort rights and already paid benefits need explicit treatment.",
+        "terminal": "Aggregate employment/poverty factors instead of recorded retirement and benefit decisions.",
+        "gap": "Needs research: cohort transition, claiming-age schedule, benefit/labor mechanisms and territory coverage. Needs a feature for missing benefit entitlements or retirement decisions."
+      },
+      "existingLinkIds": [
+        "retirement-age-to-older-work",
+        "retirement-age-to-poverty"
+      ],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+          "kind": "outcome-web",
+          "via": "retirement-age-to-older-work"
+        },
+        {
+          "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+          "kind": "outcome-web",
+          "via": "retirement-age-to-poverty"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+          "kind": "outcome-web",
+          "via": "retirement-age-to-older-work"
+        },
+        {
+          "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+          "kind": "outcome-web",
+          "via": "retirement-age-to-poverty"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "effectsToTrace": [
+        "Borrower/program eligibility and discharge rule",
+        "Principal cancellation and revised payment obligations",
+        "Delinquency, credit, consumption and family decisions",
+        "Borrowers noticing their revised balances"
+      ],
+      "sourceTrace": {
+        "enactment": "HELD ONLY: student-debt-relief-law.ts:142 applyStudentDebtRelief and :191 studentDebtReliefOutlay; household-loans.ts and legislation.ts call it.",
+        "directEffects": "The authored proposal caps relief at $10,000 per borrower with annual income at most $125,000. Actual eligible federal balances limit discharge; missing income grants no eligibility. Relief records reduce debt and feed federal monthly outlays. Other-account default is only a \u221212 percent comparison proxy; official pre-tax poverty is inert. Opening loans use a $22,500 SHED midpoint and financing proxies.",
+        "jurisdictionAndReversal": "Congress can change federal student-loan liabilities; state/local programs can fund their own aid, not discharge this creditor\u2019s debt. Federal-loan eligibility also governs D.C./territorial borrowers. No stops new relief; already recorded discharge is not reversed into invented debt.",
+        "terminal": "Canonical debt-relief records, plus authored financing/eligibility proposals; calibration never assigns defaults.",
+        "gap": "Needs research: financing/cohort spread and other-debt mechanism. Proof must show actual borrower balance, creditor and fiscal record; relief is not a cash transfer to the borrower."
+      },
+      "existingLinkIds": [
+        "student-debt-relief-to-finances",
+        "student-loan-forgiveness-to-poverty"
+      ],
+      "directPathsAtHistoricalTrace": [],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:education.forgive-student-loans",
+          "kind": "paycheck",
+          "via": "src/simulation/student-debt-relief-law.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "effectsToTrace": [
+        "Covered-worker legal wage floor and exemptions",
+        "Work contract terms, paid wages and employer costs",
+        "Hiring, hours, prices and household poverty",
+        "Workers and employers noticing pay changes"
+      ],
+      "sourceTrace": {
+        "enactment": "minimum-wage.ts federalMinimumSchedule, federalMinimumHourlyMinorAt and minimumWageSettingAt; payroll readers consume the highest applicable floor.",
+        "directEffects": "Paycheck floors change through the filed schedule; the poverty link and unset low-wage-job link are listed below. CTO requires pay, hours, prices, small-firm hiring, teen employment, poverty and benefit use. The federal question\u2019s existing two links do not establish all seven mechanisms or their ranges/delays.",
+        "jurisdictionAndReversal": "Federal wage law provides a floor for covered employment; state and authorized local floors may exceed it. State preemption controls local authority. D.C./territorial and occupation exemptions need actual coverage data. Repeal removes the new floor, not higher surviving floors or earned pay.",
+        "terminal": "Direct wage floor plus a place-level poverty factor; several reactions remain missing or unset.",
+        "gap": "Needs research/wiring with Team 3: every wage reaction, coverage and state/local preemption. Do not copy a federal $15 comparison onto every local increase or actor."
+      },
+      "existingLinkIds": [
+        "federal-minimum-wage-to-poverty",
+        "federal-minimum-wage-to-low-wage-jobs"
+      ],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "kind": "outcome-web",
+          "via": "federal-minimum-wage-to-poverty"
+        },
+        {
+          "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "kind": "paycheck",
+          "via": "src/simulation/minimum-wage.ts"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "kind": "outcome-web",
+          "via": "federal-minimum-wage-to-poverty"
+        },
+        {
+          "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "kind": "paycheck",
+          "via": "src/simulation/minimum-wage.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "effectsToTrace": [
+        "Eligibility, subsidy formula and landlord acceptance",
+        "Voucher issuance, rent subsidy payments and housing access",
+        "Homelessness, moves, household resources and supported child outcomes",
+        "Households and landlords noticing offers/payments"
+      ],
+      "sourceTrace": {
+        "enactment": "outcome-web/index.ts outcomeFactor for housing.homelessness.",
+        "directEffects": "The built homelessness adjustment and two inert schooling/arrest links appear below. Permanent-subsidy trial effects cover families already in shelter; universal-scale adaptation is authored. Rents, moves, school stability, landlord choices, subsidy payments and fiscal costs need separate tracing; inert graduation is not inert school stability.",
+        "jurisdictionAndReversal": "Congress funds federal vouchers; HUD and administering agencies implement them. State/local housing aid is a separate instrument with fair-housing and land-use limits. Territory/D.C. eligibility and local administrative supply must be read from actual program rules. No stops modeled support; it does not erase existing leases or moves.",
+        "terminal": "An aggregate homelessness factor with no named voucher payment/move shown here.",
+        "gap": "Needs research/wiring with Team 3: all supported voucher effects and market supply. Needs a feature for missing allocation, landlord or lease/subsidy records."
+      },
+      "existingLinkIds": [
+        "housing-vouchers-to-homelessness",
+        "housing-vouchers-to-graduation",
+        "housing-vouchers-to-crime"
+      ],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+          "kind": "outcome-web",
+          "via": "housing-vouchers-to-homelessness"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+          "kind": "outcome-web",
+          "via": "housing-vouchers-to-homelessness"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "effectsToTrace": [
+        "Appropriations, project contracts and service availability",
+        "Construction, operations, routes, fares and trips",
+        "Rider access, travel substitution, jobs and place conditions",
+        "Riders and communities noticing service"
+      ],
+      "sourceTrace": {
+        "enactment": "federal-passenger-rail.ts:45 railExpansionPct; outcome-web/index.ts reads federal.rail-expansion-pct.",
+        "directEffects": "A plan projects 62.5 percent more riders over fifteen years, beginning after thirty months. The link discounts forecasts using 25 international rail projects, not a measured U.S. federal-law effect. Capital spending, routes, fares, access, travel substitution and operating costs are not all proved by ridership.",
+        "jurisdictionAndReversal": "Congress funds this federal expansion. States/localities can fund their own services and participate subject to rail/federal authority. Places without service have no supported rider gain. D.C./territorial coverage follows the service data. No stops the modeled expansion but does not logically demolish built rail.",
+        "terminal": "A projected aggregate ridership path with a forecast-error range.",
+        "gap": "Needs research/wiring with Team 6: actual service geography, costs, route timing and persistence after repeal. Needs a feature for missing passenger/route records."
+      },
+      "existingLinkIds": ["federal-rail-expansion-to-riders"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+          "kind": "outcome-web",
+          "via": "federal-rail-expansion-to-riders"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+          "kind": "outcome-web",
+          "via": "federal-rail-expansion-to-riders"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "effectsToTrace": [
+        "Covered facilities, emissions limits and compliance dates",
+        "Plant dispatch, investment and emissions",
+        "Electricity costs, air quality, exposure and health",
+        "Customers and nearby residents noticing"
+      ],
+      "sourceTrace": {
+        "enactment": "outcome-web/index.ts outcomeFactor for fine particles; emissions link remains unset.",
+        "directEffects": "Fine-particle effects and the unresolved carbon-emissions effect appear below. The national coal PM2.5 average differs from coal-heavy places. Electricity prices, dispatch, plant investment/retirement, employment and health are not all established by the fine-particle link.",
+        "jurisdictionAndReversal": "Federal Clean Air Act authority and state implementation coexist; section 116 generally preserves stronger state/local standards subject to exceptions. The specific question is federal-only. D.C./territories require relevant plant/air-program data. No ends this modeled link; actual permits and investments need separate persistence.",
+        "terminal": "A provisional aggregate co-pollutant factor; the headline carbon mechanism is unset.",
+        "gap": "Needs research/wiring with Team 6: legal standard/version, place exposure, emissions and every supported reaction. Do not treat unknown emissions as zero."
+      },
+      "existingLinkIds": [
+        "power-plant-carbon-to-emissions",
+        "power-plant-carbon-to-particulates"
+      ],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+          "kind": "outcome-web",
+          "via": "power-plant-carbon-to-particulates"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+          "kind": "outcome-web",
+          "via": "power-plant-carbon-to-particulates"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "effectsToTrace": [
+        "Program/payment eligibility and appropriations",
+        "Actual farm payments and producer income",
+        "Land values, production, borrowing and federal spending",
+        "Farmers noticing changed payments"
+      ],
+      "sourceTrace": {
+        "enactment": "federal-farm-subsidy-law.ts:36 farmPaymentsCutAt and :60 farmPaymentsCutPctOfLandValue.",
+        "directEffects": "The fixed default cuts payments 21.18 percent, the historical median decrease. Payments/land-value ratios vary by place; capitalization of $1 per acre is $13\u2013$30 per acre of land value. Operators, landlords, credit, production and actual farm payments need distinct records; land-price capitalization does not itself debit a farmer.",
+        "jurisdictionAndReversal": "Congress sets federal farm payments. State/local grants and conservation instruments are separate; the question cannot remove their funds. D.C./territorial missing ratios use the declared national estimate. No restores the modeled flow; already lost income or traded land is not rewritten.",
+        "terminal": "Aggregate land-value capitalization with a fixed payment-cut default.",
+        "gap": "Needs research/wiring with Team 6: payment-cut range and operator/owner split. Needs a feature for absent farm-program recipient/payment records."
+      },
+      "existingLinkIds": ["farm-payments-cut-to-land-values"],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+          "kind": "outcome-web",
+          "via": "farm-payments-cut-to-land-values"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+          "kind": "outcome-web",
+          "via": "farm-payments-cut-to-land-values"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "effectsToTrace": [
+        "Declaration/program-specific federal/state match rules",
+        "Repair authorizations and actual public payments",
+        "Fundable repair units, service restoration and state budgets",
+        "Affected households noticing recovery"
+      ],
+      "sourceTrace": {
+        "enactment": "HELD ONLY: governing/disaster-cost-sharing.ts:29 fundDeclaredDisasterRepair; crisis/disaster.ts consumes funded physical units; monthly books read :104 disasterRepairExpenseDollars.",
+        "directEffects": "The ordinary federal share is 75 percent; the authored proposal is 50 percent. An estimated repair unit is $129,986 with a 0.5\u20131.5 spread, derived from 2019 project obligations. Available state cash caps repair units; saved expenses divide federal/state cents exactly. Service restoration follows physical repairs. Household/Public Assistance eligibility and current construction costs are not established by this proxy.",
+        "jurisdictionAndReversal": "Congress can alter federal cost-sharing statutes; disaster declarations and project rules also matter. States/territories/D.C. and eligible local applicants participate under Stafford Act rules. State/local own relief is separate. No stops new terms; prior expense records and completed repairs remain.",
+        "terminal": "Actual funded unit/expense records, priced by an explicitly provisional project-equivalent.",
+        "gap": "Needs research: eligible projects/applicants, current dollar basis and repair unit mapping. Proof must separate transfers, government expense and household money; no unrecorded household grant."
+      },
+      "existingLinkIds": [],
+      "directPathsAtHistoricalTrace": [],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+          "kind": "state-spending",
+          "via": "src/simulation/governing/disaster-cost-sharing.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "effectsToTrace": [
+        "Covered offense-specific minimums and exceptions",
+        "Prospective sentencing and explicitly authorized retroactive review",
+        "Custody end, released persons, family/work and prison budgets",
+        "Defendants/families noticing sentence reviews"
+      ],
+      "sourceTrace": {
+        "enactment": "HELD ONLY: justice/federal-mandatory-minimums.ts:39 federalMinimumMonths and :92 reviewFederalMinimumSentences; prosecution.ts and court-reasoning.ts read the minima.",
+        "directEffects": "Recorded cocaine trafficking thresholds are 500 and 5,000 grams, with 60/120-month drug minima and a 60-month consecutive firearm minimum. The authored proposal halves these and enables retroactive review. Sentence reductions preserve original sentencing events; only recorded federal conduct qualifies. Crime is an inert comparison; 17.7 percent guideline reduction is a check, not a sentencing roll.",
+        "jurisdictionAndReversal": "Congress changes federal minima and retroactivity. State/local governments cannot shorten federal sentences; their offenses are separate. Federal venue/offense facts govern D.C./territories, whose local criminal law is not identical. Repeal can change future minima; it must not undo a completed lawful release without authority.",
+        "terminal": "Actual minimum/review records for a narrow offense model; broader sentencing effects are absent.",
+        "gap": "Needs research with Team 2: safety valve, assistance, priors, other drugs, retroactivity and imprisonment costs. Preserve the unknown/no-federal-facts case; no inferred guilt."
+      },
+      "existingLinkIds": [
+        "mandatory-minimum-cut-to-federal-prisoners",
+        "federal-mandatory-minimums-to-crime"
+      ],
+      "directPathsAtHistoricalTrace": [],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "kind": "court-and-jail",
+          "via": "src/simulation/justice/federal-mandatory-minimums.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "effectsToTrace": [
+        "Covered members/households/instruments and prohibited transactions",
+        "Divestment, permitted funds, disclosure and enforcement",
+        "Compliance expenses, fines, holdings and researched return comparison",
+        "Members and public noticing compliance"
+      ],
+      "sourceTrace": {
+        "enactment": "HELD ONLY: congress-stock-trading-law.ts:390 applyCongressStockBan and :508 scheduleCongressStockDeadline; enactment schedules the filed deadline.",
+        "directEffects": "The authored default allows 120 days and a $14,500 fine. Members\u2019 own principles and traits decide conversion versus retention. Actual paid/assessed fines, remaining obligations, finite clearing cash and diversified-fund fees are recorded. The fee is 3 basis points yearly. Opening stock ownership uses wealth/risk proxies; about-zero abnormal market returns does not mean no compliance costs.",
+        "jurisdictionAndReversal": "Congress legislates restrictions on its members; states/localities govern their own officials, not Congress. D.C./territorial delegates need explicit scope, not guessed membership. No cancels prospective ban enforcement; existing fund holdings/fees, assessed fines and transfers remain historical facts.",
+        "terminal": "Recorded compliance/money with a hard decision boundary and authored portfolio initialization.",
+        "gap": "Needs research: delegate/spouse/dependent scope, covered instruments, fee spread and fine authority. Fix stale catalog wording claiming no holdings; record the difference between assessed and paid fines."
+      },
+      "existingLinkIds": ["congress-stock-ban-to-member-returns"],
+      "directPathsAtHistoricalTrace": [],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+          "kind": "business-costs",
+          "via": "src/simulation/congress-stock-trading-law.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "effectsToTrace": [
+        "Covered data processing, rights and exceptions",
+        "Consent/access/deletion and enforcement records",
+        "Business compliance expenses and consumer privacy outcomes",
+        "Consumers/firms noticing rights and enforcement"
+      ],
+      "sourceTrace": {
+        "enactment": "federal-data-privacy-law.ts:43 dataPrivacyCostOn; town-finances.ts business cost reader.",
+        "directEffects": "Firm production costs rise by a stable world draw in [0.001, 0.006], adapted from European GDPR evidence. This is a national world draw, not a place-specific draw. State enforcement, consumer privacy, market exit, product choice and data-use behavior are not all demonstrated by that cost adjustment.",
+        "jurisdictionAndReversal": "Congress can regulate covered data commerce; existing state privacy laws may coexist unless the enacted federal law preempts them. City/county authority depends on home rule and state law. No blanket ceiling follows from the generic federal rank. D.C./territory applicability requires statutory scope. No stops future modeled costs.",
+        "terminal": "A business-cost proxy from European evidence; privacy behavior remains unproved.",
+        "gap": "Needs research: American business cost/exposure and precise preemption. Needs a feature for missing data-right exercise or firm compliance decisions."
+      },
+      "existingLinkIds": [],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+          "kind": "business-costs",
+          "via": "src/simulation/federal-data-privacy-law.ts"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+          "kind": "business-costs",
+          "via": "src/simulation/federal-data-privacy-law.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    },
+    {
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "effectsToTrace": [
+        "Admission and transition legal rules",
+        "Congressional seats, electorate and representation",
+        "Program eligibility, taxation, federal aid and local institutions",
+        "Residents noticing representation and transition"
+      ],
+      "sourceTrace": {
+        "enactment": "governing/statehood-admission.ts statehoodAdmittedOn; living-world/statehood-seats.ts congressSeatsIn; public-budgets/statehood-funds.ts.",
+        "directEffects": "D.C. gains one voting House seat and two Senate seats. The source sums 60/30/90-day bill allowances into 180 days and skips the first-election duration. The delegate is promoted and Senate occupants/caucuses are authored. Federal/local fiscal responsibilities also change; seats alone do not prove all statehood effects.",
+        "jurisdictionAndReversal": "Congress\u2019s admission power and District Clause govern, with constitutional questions requiring legal research. D.C. cannot admit itself; states/counties/cities cannot repeal admission. Admission is irreversible, but statehoodAdmittedOn currently rereads the latest yes/no and returns null after no. That can remove projected seats/funds despite earlier admission. Other territories require their own admission terms.",
+        "terminal": "Authored admission/election timing, seat assignment and fiscal changes; no actual admission-election decisions proved.",
+        "gap": "Needs research with Team 2: constitutional/23rd Amendment process, elections and persistent admission semantics. Small repair for Team 2: persist completed admission independently of subsequent yes/no. Never remove admitted people or seats merely because a later answer is no."
+      },
+      "existingLinkIds": [],
+      "directPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+          "kind": "seat-turnover",
+          "via": "src/simulation/living-world/statehood-seats.ts"
+        }
+      ],
+      "heldPathsAtHistoricalTrace": [
+        {
+          "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+          "kind": "seat-turnover",
+          "via": "src/simulation/living-world/statehood-seats.ts"
+        }
+      ],
+      "researchCompleteness": "Configured trace and known missing mechanisms; not exhaustive primary-source acceptance",
+      "effectsHappeningNationwide": "NOT RUN",
+      "effectsMissingNationwide": "NOT RUN",
+      "directStampedWrites": 0
+    }
+  ],
+  "existingLinkWhyPatches": [
+    {
+      "stableLinkId": "federal-deficit-to-borrowing-cost",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "federal.deficit-change-pct-of-gdp",
+      "to": "gov.borrowing-cost",
+      "existingSize": 25,
+      "existingRange": null,
+      "per": "percentage point of GDP the federal deficit changes, in basis points",
+      "lagMonths": 0,
+      "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
+      "evidence": "researched",
+      "whyAnswers": {
+        "why": "Markets price projected fiscal borrowing, and actual debt issuance pays the resulting financing price. This aggregate response is not a household transfer.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "state governments",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "top-income-tax-rate-to-poverty",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:tax.raise-top-income-tax-rate",
+      "to": "household.poverty-pct",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Household earned and benefit income is compared with the applicable poverty denominator. Changed cash flows must precede any household classification.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "The official poverty measure uses money income before taxes, and the top rate reaches no one near the line",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "federal-loan-cap-to-high-cost-loans",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "to": "finance.high-cost-loans",
+      "existingSize": -0.32,
+      "existingRange": [-0.61, -0.2],
+      "per": "law in force",
+      "lagMonths": 12,
+      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "Borrowers face legally restricted offers; lenders change covered products. Actual contract and lender decisions are required, not a borrowing-rate roll.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "borrowers",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial. Enforced loan limits in Dallas and Austin cut payday loan volume 44% and 61% (Wang and Burke 2021, NBER w28765), inside the range; the effect began when enforcement began",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "defense-contracts-to-earnings",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "federal.defense-boost-pct",
+      "to": "labor.median-earnings",
+      "existingSize": 0.015,
+      "existingRange": null,
+      "per": "percent of what the state produces that extra defense contracts add",
+      "lagMonths": 0,
+      "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026",
+      "evidence": "researched",
+      "whyAnswers": {
+        "why": "Procurement reaches suppliers and work offers before paid earnings. The output multiplier is not a wage change or hiring record.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "workers in the states that get the contracts",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "tariffs-to-prices",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:trade.raise-tariffs",
+      "to": "household.prices",
+      "existingSize": 0.008,
+      "existingRange": [0.005, 0.01],
+      "per": "law in force",
+      "lagMonths": 12,
+      "source": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)",
+      "evidence": "researched",
+      "whyAnswers": {
+        "why": "Import duties enter covered product costs; seller pass-through and buyers actual baskets determine spending. A national index cannot choose a purchase.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "households",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "The 2025 tariffs raised consumer prices between 0.5% and 1%",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "more-immigration-to-workforce",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:immigration.admit-more-immigrants",
+      "to": "labor.workforce",
+      "existingSize": null,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 12,
+      "source": "to confirm",
+      "evidence": "to-confirm",
+      "whyAnswers": {
+        "why": "Admitted residents with recorded work authorization, age and circumstances may seek employment; admission is not an automatic hire.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "(to confirm)",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "immigration-to-crime",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:immigration.admit-more-immigrants",
+      "to": "crime.rate-index",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "Light and Miller 2018 (Criminology); Ousey and Kubrin 2018 (Annual Review of Criminology)",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Count actual exposure, conduct and victimization under the applicable supported mechanism; do not convert a population null result into a person outcome.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Across all 50 states and D.C., 1990 to 2014, undocumented immigration did not increase violent crime; the relationship was generally negative and not always significant",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "drug-negotiation-to-out-of-pocket",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
+      "to": "health.drug-out-of-pocket",
+      "existingSize": -0.08,
+      "existingRange": [-0.1, -0.06],
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "Covered enrollees purchase selected drugs under negotiated program prices and cost-sharing rules. Drug, coverage and pharmacy payment records are required.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "Medicare enrollees",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Negotiated prices for the first ten drugs save enrollees about $1.5 billion in 2026, against $18.9 billion of out-of-pocket Part D spending in 2023 (7.9%)",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "retirement-age-to-older-work",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
+      "to": "labor.older-employment",
+      "existingSize": 0.1,
+      "existingRange": [0.04, 0.22],
+      "per": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+      "lagMonths": 12,
+      "source": "Mastrobuoni 2009 (JPubE)",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "Residents compare eligibility, benefit income, work offers and health constraints. A population association cannot choose a resident employment outcome.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "people 62 to 67",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "The mean retirement age of the affected cohorts rose about half as much as the full retirement age; the employment share at 62 to 66 is inferred from that",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "retirement-age-to-poverty",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
+      "to": "household.poverty-pct",
+      "existingSize": 0.02,
+      "existingRange": [0.011, 0.034],
+      "per": "law in force (a two-year rise in the full retirement age, 67 to 69)",
+      "lagMonths": 60,
+      "source": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "Household earned and benefit income is compared with the applicable poverty denominator. Changed cash flows must precede any household classification.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "people 65 and older",
+        "howFastMonths": 60,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "A one-year rise cuts benefits 6.7% at any claiming age (5/9 of 1% a month); elderly poverty moves about one for one with benefits; people 65 and older were 6.1 million of the 35.9 million poor people in 2024 (17.0%), so each year of rise raises the poverty rate about 1.1% of itself",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "student-debt-relief-to-finances",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:education.forgive-student-loans",
+      "to": "finance.past-due-debt",
+      "existingSize": null,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "to confirm",
+      "evidence": "to-confirm",
+      "whyAnswers": {
+        "why": "Legally discharged balances change borrower obligations; dated payments and arrears determine delinquency, not a benchmark rate.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "borrowers",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "(to confirm)",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "student-loan-forgiveness-to-poverty",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:education.forgive-student-loans",
+      "to": "household.poverty-pct",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Household earned and benefit income is compared with the applicable poverty denominator. Changed cash flows must precede any household classification.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Debt relief is not money income, which is what the official poverty measure counts",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "federal-minimum-wage-to-poverty",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "to": "household.poverty-pct",
+      "existingSize": -0.035,
+      "existingRange": [-0.045, -0.02],
+      "per": "a raise to about $15",
+      "lagMonths": 24,
+      "source": "CBO 2019, The Effects on Employment and Family Income of Increasing the Federal Minimum Wage",
+      "evidence": "researched",
+      "whyAnswers": {
+        "why": "Household earned and benefit income is compared with the applicable poverty denominator. Changed cash flows must precede any household classification.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "families at the bottom",
+        "howFastMonths": 24,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "CBO: $15 by 2025 lifts about 1.3 million people out of poverty, about -3.5% of the poor. Scaled by how far the state's own minimum sits below $15; a state already at $15 is not moved.",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "federal-minimum-wage-to-low-wage-jobs",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "to": "labor.low-wage-jobs",
+      "existingSize": null,
+      "existingRange": null,
+      "per": "a raise to about $15",
+      "lagMonths": 24,
+      "source": "CBO 2019; Cengiz et al. 2019",
+      "evidence": "contested",
+      "whyAnswers": {
+        "why": "Employers compare payroll costs, demand and available workers before changing offers, hours or hires. CBO totals cannot select layoffs.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "teens, least skilled",
+        "howFastMonths": 24,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "CBO median: about 1.3 million fewer jobs in a typical week (range from none to 3.7 million); bunching studies find little job loss at moderate levels",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "housing-vouchers-to-homelessness",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "housing.homelessness",
+      "existingSize": -0.3,
+      "existingRange": [-0.5, -0.15],
+      "per": "law in force",
+      "lagMonths": 12,
+      "source": "HUD Family Options Study, three-year impacts (2016)",
+      "evidence": "researched",
+      "whyAnswers": {
+        "why": "Eligible households receive usable offers and rent assistance, then decide from resources, housing opportunities and obligations. A voucher count cannot select a household outcome.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "families who qualify",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "A national program reaches more than the families already in shelter, so this uses CLOUD B's universal-scale size (Claude CTO, Sept. 28). Homeless families offered a permanent subsidy had less than half as many later episodes of homelessness over 37 months (-0.5)",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "housing-vouchers-to-graduation",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "school.graduation-pct",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Students face resources, attendance and educational opportunities. A household law cannot directly award graduation.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "children in families who qualify",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "housing-vouchers-to-crime",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "to": "crime.rate-index",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Count actual exposure, conduct and victimization under the applicable supported mechanism; do not convert a population null result into a person outcome.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "children in families who qualify",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Same lottery: effects on arrests mostly statistically insignificant",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "federal-rail-expansion-to-riders",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "federal.rail-expansion-pct",
+      "to": "rail.intercity-ridership",
+      "existingSize": 0.00486,
+      "existingRange": [0.00205, 0.00767],
+      "per": "percent more intercity rail riders a federal expansion plan projects",
+      "lagMonths": 0,
+      "source": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "Funded service creates feasible journeys; residents decide trips from destination, fare, time and alternatives. A forecast cannot choose a rider.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "A federal law that pays to expand passenger rail funds the plan Amtrak asked Congress for: 62.5% more riders over 15 years, with the first added service 30 months in (src/simulation/federal-passenger-rail.ts). Rail ridership forecasts come true only in part: across 25 rail projects, actual traffic averaged 51.4% below forecast, with a standard deviation of 28.1 points. So each percent the plan projects adds 0.486% more riders, and each world draws between 0.205% and 0.767%, one standard deviation either way. The same share reaches every place Amtrak serves. The timing is the plan's own, so the link acts in the month the plan's riders arrive. Provisional: the projection is Amtrak's, not a measured result of a past federal law.",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "power-plant-carbon-to-emissions",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "to": "env.emissions",
+      "existingSize": null,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 24,
+      "source": "to confirm",
+      "evidence": "to-confirm",
+      "whyAnswers": {
+        "why": "Covered plant generation and compliance alter measured emissions; a legal standard alone is not a measured ton reduction.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 24,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "(to confirm)",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "power-plant-carbon-to-particulates",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "to": "env.particulates",
+      "existingSize": -0.005,
+      "existingRange": [-0.015, -0.001],
+      "per": "law in force",
+      "lagMonths": 72,
+      "source": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "Covered power-plant operation changes physical emissions and local exposure. Facility location, dispatch and exposure records are required.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "people downwind of coal plants",
+        "howFastMonths": 72,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Coal plants now add only about 0.07 micrograms of PM2.5 nationally (2.34 in 1999), so carbon limits cut fine particles by well under 1% on average, more in coal-heavy states",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "farm-payments-cut-to-land-values",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "federal.farm-payments-cut-pct-of-land-value",
+      "to": "farmland.value-per-acre",
+      "existingSize": -0.215,
+      "existingRange": [-0.3, -0.13],
+      "per": "percent of the state's farm real estate value that the payments cut removes each year",
+      "lagMonths": 12,
+      "source": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026",
+      "evidence": "researched",
+      "whyAnswers": {
+        "why": "Expected farm-payment income is capitalized into land bids and rents. Actual parcel valuation or transaction readers are required.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "farmland owners",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Each $1 of government payments per acre is worth $13 to $30 per acre of farmland value; the middle is $21.50. A payments cut equal to 1% of a state's farm real estate value each year lowers its land values by 21.5%, and the spread is the paper's own. Land values move as land trades, so the lag is one year, the interval of the land value survey. Owners, not operators, hold most of the loss.",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "mandatory-minimum-cut-to-federal-prisoners",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "to": "justice.incarcerated-per-100k",
+      "existingSize": null,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 12,
+      "source": "to confirm",
+      "evidence": "to-confirm",
+      "whyAnswers": {
+        "why": "Recorded lawful sentence reductions change actual custody end dates; incarceration totals count persons currently in custody.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "federal prisoners",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Shorter federal minimums lower the federal prison count (to confirm); crime is about unchanged (see incarceration-to-crime)",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "federal-mandatory-minimums-to-crime",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "to": "crime.rate-index",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "law in force",
+      "lagMonths": 0,
+      "source": "U.S. Sentencing Commission 2020 (Drugs Minus Two recidivism); BJS Prisoners in 2023",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Count actual exposure, conduct and victimization under the applicable supported mechanism; do not convert a population null result into a person outcome.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Drug offenders released early under the 2014 retroactive cut reoffended no more than those who served full terms (27.9% vs 30.5% in three years); federal prisoners are a small share of all prisoners",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "congress-stock-ban-to-member-returns",
+      "operation": "merge-why-answers",
+      "role": "law-effect",
+      "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
+      "to": "government.member-market-returns",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "law in force says yes (1) rather than no (0)",
+      "lagMonths": 0,
+      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Returns require held assets and observed prices. An about-zero empirical trading advantage is distinct from legal compliance duties.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
+        "proof": "NOT RUN"
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "poverty-to-math-proficiency",
+      "operation": "merge-why-answers",
+      "role": "one-step",
+      "from": "household.poverty-pct",
+      "to": "school.math-proficient-pct",
+      "existingSize": -0.01,
+      "existingRange": [-0.02, 0],
+      "per": "point of poverty above the state's start",
+      "lagMonths": 12,
+      "source": "Dahl and Lochner 2012 (AER)",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "More family income raises children's scores (about +0.06 SD per $1,000); a point more poverty lowers a state's proficient share about 1% (to confirm).",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "children",
+        "howFastMonths": 12,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "More family income raises children's scores (about +0.06 SD per $1,000); a point more poverty lowers a state's proficient share about 1% (to confirm).",
+        "proof": "NOT RUN",
+        "upstreamLinkIds": [
+          "top-income-tax-rate-to-poverty",
+          "retirement-age-to-poverty",
+          "student-loan-forgiveness-to-poverty",
+          "federal-minimum-wage-to-poverty"
+        ]
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "graduation-to-turnout",
+      "operation": "merge-why-answers",
+      "role": "one-step",
+      "from": "school.graduation-pct",
+      "to": "voting.turnout-pct",
+      "existingSize": 0.002,
+      "existingRange": [0, 0.004],
+      "per": "point of graduation above the state's start",
+      "lagMonths": 60,
+      "source": "Sondheimer and Green 2010; Berinsky and Lenz 2011",
+      "evidence": "contested",
+      "whyAnswers": {
+        "why": "Experiments that raised graduation raised graduates' turnout a lot (Sondheimer and Green 2010); draft-era college found none (Berinsky and Lenz 2011). About +0.2% of a state's turnout per point of graduation, as graduates reach voting age; from none to twice that.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "graduates",
+        "howFastMonths": 60,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Experiments that raised graduation raised graduates' turnout a lot (Sondheimer and Green 2010); draft-era college found none (Berinsky and Lenz 2011). About +0.2% of a state's turnout per point of graduation, as graduates reach voting age; from none to twice that.",
+        "proof": "NOT RUN",
+        "upstreamLinkIds": ["housing-vouchers-to-graduation"]
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "graduation-to-poverty",
+      "operation": "merge-why-answers",
+      "role": "one-step",
+      "from": "school.graduation-pct",
+      "to": "household.poverty-pct",
+      "existingSize": -0.004,
+      "existingRange": [-0.008, -0.001],
+      "per": "point of graduation above the state's start",
+      "lagMonths": 120,
+      "source": "Jackson, Johnson and Persico 2016 (QJE)",
+      "evidence": "provisional",
+      "whyAnswers": {
+        "why": "Household earned and benefit income is compared with the applicable poverty denominator. Changed cash flows must precede any household classification.",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "adults, years later",
+        "howFastMonths": 120,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": false,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "More schooling lowers adult poverty (+0.31 years of school: -3.2 points of adult poverty for low-income children); a state's graduation gain reaches poverty a decade on (to confirm).",
+        "proof": "NOT RUN",
+        "upstreamLinkIds": ["housing-vouchers-to-graduation"]
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    },
+    {
+      "stableLinkId": "incarceration-to-crime",
+      "operation": "merge-why-answers",
+      "role": "one-step",
+      "from": "justice.incarcerated-per-100k",
+      "to": "crime.all",
+      "existingSize": 0,
+      "existingRange": null,
+      "per": "prisoner at today's levels",
+      "lagMonths": 0,
+      "source": "Roodman review 2017/2020",
+      "evidence": "about-zero",
+      "whyAnswers": {
+        "why": "Crime prevented while locked up is offset by more after release",
+        "bedrock": "Legal rules/physical exposure/recorded choices described above; current reader may be missing.",
+        "reverse": "Prospective reversal must follow controlling law and operative date. Completed payments, admissions, debt cancellation and served custody are not undone. Empirical symmetry is not established by a forward estimate.",
+        "who": "place",
+        "howFastMonths": 0,
+        "placeDifferences": "Apply legal scope and source population; a stable per-world/place response draw does not establish universal empirical validity.",
+        "aboutZero": true,
+        "personReader": "NOT ESTABLISHED in this batch; inspect the named historical trace and canonical downstream record.",
+        "sourceLimits": "Crime prevented while locked up is offset by more after release",
+        "proof": "NOT RUN",
+        "upstreamLinkIds": ["mandatory-minimum-cut-to-federal-prisoners"]
+      },
+      "numericMutation": null,
+      "readyToSwitchOn": false,
+      "disposition": "Preserve existing numeric value; no new figure inferred."
+    }
+  ],
+  "lawsWithoutDirectLawSourceLink": [
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+    "us-federal-positions:defense.grow-defense-spending",
+    "us-federal-positions:foreign-affairs.increase-foreign-aid",
+    "us-federal-positions:transport-water.expand-passenger-rail",
+    "us-federal-positions:agriculture.cut-farm-subsidies",
+    "us-federal-positions:emergencies.states-share-disaster-costs",
+    "us-federal-positions:science-communications.national-data-privacy",
+    "us-federal-positions:territories-culture.statehood-for-dc"
+  ],
+  "missingMapLinks": [
+    {
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "proposedStableLinkId": "team1-budget-pay-for-a-higher-debt-limit-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    },
+    {
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "proposedStableLinkId": "team1-defense-grow-defense-spending-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    },
+    {
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "proposedStableLinkId": "team1-foreign-affairs-increase-foreign-aid-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    },
+    {
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "proposedStableLinkId": "team1-transport-water-expand-passenger-rail-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    },
+    {
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "proposedStableLinkId": "team1-agriculture-cut-farm-subsidies-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    },
+    {
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "proposedStableLinkId": "team1-emergencies-states-share-disaster-costs-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    },
+    {
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "proposedStableLinkId": "team1-science-communications-national-data-privacy-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    },
+    {
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "proposedStableLinkId": "team1-territories-culture-statehood-for-dc-to-recorded-effects",
+      "status": "NOT INSERTABLE; exact causal target, size/unit, lag and study required. Direct legal records must not be replaced by a guessed aggregate multiplier."
+    }
+  ],
+  "missingNumbers": [
+    {
+      "stableLinkId": "federal-deficit-to-borrowing-cost",
+      "cause": "federal.deficit-change-pct-of-gdp",
+      "result": "gov.borrowing-cost",
+      "missingFigure": "Causal response size and supported low/high range with denominator, eligible population, time horizon and geographic limits. Existing default spread is not study uncertainty.",
+      "existingAnchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
+      "existingSource": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
+      "requestTo": "Team9 numbers desk",
+      "status": "REQUESTED; no replacement number supplied"
+    },
+    {
+      "stableLinkId": "defense-contracts-to-earnings",
+      "cause": "federal.defense-boost-pct",
+      "result": "labor.median-earnings",
+      "missingFigure": "Causal response size and supported low/high range with denominator, eligible population, time horizon and geographic limits. Existing default spread is not study uncertainty.",
+      "existingAnchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
+      "existingSource": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026",
+      "requestTo": "Team9 numbers desk",
+      "status": "REQUESTED; no replacement number supplied"
+    },
+    {
+      "stableLinkId": "more-immigration-to-workforce",
+      "cause": "law:us-federal-positions:immigration.admit-more-immigrants",
+      "result": "labor.workforce",
+      "missingFigure": "Causal response size and supported low/high range with denominator, eligible population, time horizon and geographic limits. Existing default spread is not study uncertainty.",
+      "existingAnchor": "(to confirm)",
+      "existingSource": "to confirm",
+      "requestTo": "Team9 numbers desk",
+      "status": "REQUESTED; no replacement number supplied"
+    },
+    {
+      "stableLinkId": "student-debt-relief-to-finances",
+      "cause": "law:us-federal-positions:education.forgive-student-loans",
+      "result": "finance.past-due-debt",
+      "missingFigure": "Causal response size and supported low/high range with denominator, eligible population, time horizon and geographic limits. Existing default spread is not study uncertainty.",
+      "existingAnchor": "(to confirm)",
+      "existingSource": "to confirm",
+      "requestTo": "Team9 numbers desk",
+      "status": "REQUESTED; no replacement number supplied"
+    },
+    {
+      "stableLinkId": "federal-minimum-wage-to-low-wage-jobs",
+      "cause": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "result": "labor.low-wage-jobs",
+      "missingFigure": "Causal response size and supported low/high range with denominator, eligible population, time horizon and geographic limits. Existing default spread is not study uncertainty.",
+      "existingAnchor": "CBO median: about 1.3 million fewer jobs in a typical week (range from none to 3.7 million); bunching studies find little job loss at moderate levels",
+      "existingSource": "CBO 2019; Cengiz et al. 2019",
+      "requestTo": "Team9 numbers desk",
+      "status": "REQUESTED; no replacement number supplied"
+    },
+    {
+      "stableLinkId": "power-plant-carbon-to-emissions",
+      "cause": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "result": "env.emissions",
+      "missingFigure": "Causal response size and supported low/high range with denominator, eligible population, time horizon and geographic limits. Existing default spread is not study uncertainty.",
+      "existingAnchor": "(to confirm)",
+      "existingSource": "to confirm",
+      "requestTo": "Team9 numbers desk",
+      "status": "REQUESTED; no replacement number supplied"
+    },
+    {
+      "stableLinkId": "mandatory-minimum-cut-to-federal-prisoners",
+      "cause": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "result": "justice.incarcerated-per-100k",
+      "missingFigure": "Causal response size and supported low/high range with denominator, eligible population, time horizon and geographic limits. Existing default spread is not study uncertainty.",
+      "existingAnchor": "Shorter federal minimums lower the federal prison count (to confirm); crime is about unchanged (see incarceration-to-crime)",
+      "existingSource": "to confirm",
+      "requestTo": "Team9 numbers desk",
+      "status": "REQUESTED; no replacement number supplied"
+    }
+  ],
+  "primarySourceFreshRead": false,
+  "newLinksAdded": 0,
+  "linksSwitchedOn": 0,
+  "directEffectsStamped": 0,
+  "nationwideEffectsHappening": "NOT RUN",
+  "nationwideEffectsMissing": "NOT RUN",
+  "claims": "No links.json edit, no new size, no runtime acceptance."
+}
