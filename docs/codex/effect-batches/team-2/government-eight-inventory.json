@@ -1,0 +1,2727 @@
+{
+  "team": 2,
+  "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+  "lawCount": 8,
+  "lawsWithAllFiveParts": 0,
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {
+        "source": "NCSL redistricting commission summaries (legislative and congressional), Ballotpedia redistricting procedures and commissions pages, Brennan Center 'Who Draws the Maps?', state constitutions (AK, MT, PR, CNMI), Ballotpedia on California Prop 50 (11/2025), Utah Prop 4 litigation (11/2025) and Virginia's April 2026 amendment; searched 9/28/2026.",
+        "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+        "answers": {
+          "US-AK": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Alaska Const. art. VI, \u00a7 8",
+            "source": "https://codes.findlaw.com/ak/the-constitution-of-the-state-of-alaska/ak-const-art-6-sect-8.html/",
+            "note": "The five-member Redistricting Board, whose members may not be public employees or officials, adopts the legislative maps with final authority; Alaska has one congressional district. It lacks an independent screening panel, so the Brennan Center's stricter test is not fully met."
+          },
+          "US-AL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-AR": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Ark. Const. art. 8, \u00a7 1",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The Board of Apportionment (governor, secretary of state, attorney general) draws legislative maps, which is a politician commission; the legislature draws the congressional map."
+          },
+          "US-AS": {
+            "answer": "no",
+            "preempts": true,
+            "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 4 territories read for this question (3 answer no), because this place's own law could not be read.",
+            "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+          },
+          "US-AZ": {
+            "answer": "yes",
+            "operativeAt": "2000-11-07",
+            "preempts": true,
+            "cite": "Ariz. Const. art. 4, pt. 2, \u00a7 1",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+            "note": "The Independent Redistricting Commission draws both congressional and legislative maps with final authority (Proposition 106)."
+          },
+          "US-CA": {
+            "answer": "yes",
+            "operativeAt": "2008-11-04",
+            "preempts": true,
+            "cite": "Cal. Const. art. XXI",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The Citizens Redistricting Commission draws the legislative and Board of Equalization maps with final authority. Proposition 50 (approved 11/4/2025) substitutes a legislature-drawn congressional map for the 2026, 2028 and 2030 elections, and the commission resumes congressional redistricting in 2031."
+          },
+          "US-CO": {
+            "answer": "yes",
+            "operativeAt": "2018-11-06",
+            "preempts": true,
+            "cite": "Colo. Const. art. V, \u00a7\u00a7 44-48",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+            "note": "Separate independent congressional and legislative commissions draw the maps with final authority, subject to state supreme court review (Amendments Y and Z)."
+          },
+          "US-CT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+            "note": "The legislature draws maps; a backup commission of legislative-leader appointees acts only if it fails, and the Supreme Court acts after that."
+          },
+          "US-DC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://redistricting.lls.edu/redistricting-101/who-draws-the-lines/",
+            "note": "The D.C. Council redraws ward boundaries by legislation; there is no independent commission."
+          },
+          "US-DE": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws the legislative map; Delaware has one congressional district."
+          },
+          "US-FL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-GA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-GU": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://en.wikipedia.org/wiki/Legislature_of_Guam",
+            "note": "Guam's 15 senators are elected at large; there are no districts and no redistricting commission."
+          },
+          "US-HI": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Haw. Const. art. IV, \u00a7 2",
+            "source": "https://en.wikipedia.org/wiki/Redistricting_commission",
+            "note": "The nine-member Reapportionment Commission is appointed by legislative leaders and has no bar on officials serving, so national sources class it as a politician commission, although it has final authority over both maps."
+          },
+          "US-IA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "Nonpartisan Legislative Services Agency staff prepare plans, but the legislature must approve them."
+          },
+          "US-ID": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Idaho Const. art. III, \u00a7 2",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The Commission for Reapportionment, whose members may not be elected officials, draws both congressional and legislative maps with final authority (1994 amendment)."
+          },
+          "US-IL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws maps; a backup commission including legislators acts only if the legislature fails on the legislative map."
+          },
+          "US-IN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws maps; a backup politician commission acts only for congressional maps if the legislature fails."
+          },
+          "US-KS": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-KY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-LA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-MA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-MD": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The legislature draws maps; the governor's redistricting advisory commission only recommends."
+          },
+          "US-ME": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The legislature enacts the maps (by two-thirds vote); the apportionment commission is advisory, with the supreme court as backup."
+          },
+          "US-MI": {
+            "answer": "yes",
+            "operativeAt": "2018-11-06",
+            "preempts": true,
+            "cite": "Mich. Const. art. IV, \u00a7 6",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+            "note": "The Independent Citizens Redistricting Commission draws both congressional and legislative maps with final authority (Proposal 2 of 2018)."
+          },
+          "US-MN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps, with courts acting when it deadlocks."
+          },
+          "US-MO": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Mo. Const. art. III, \u00a7\u00a7 3, 7",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The legislature draws the congressional map; legislative maps are drawn by bipartisan commissions nominated by party committees and appointed by the governor (Amendment 3 of 2020), which the Brennan Center treats as a political commission, not an independent one."
+          },
+          "US-MP": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "N. Mar. I. Const. art. II, \u00a7 4",
+            "source": "https://cnmileg.net/resources/files/constitutionarticleii.pdf",
+            "note": "The legislature reapportions the House of Representatives, and the governor acts if it fails; there is no independent commission."
+          },
+          "US-MS": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-MT": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mont. Const. art. V, \u00a7 14",
+            "source": "https://leg.mt.gov/bills/mca/CONSTITUTION/V/14.htm",
+            "note": "The Districting and Apportionment Commission files final congressional and legislative plans; the legislature may only recommend changes to the legislative plan."
+          },
+          "US-NC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps, not subject to governor veto."
+          },
+          "US-ND": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws the legislative map; North Dakota has one congressional district."
+          },
+          "US-NE": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The unicameral legislature draws congressional and legislative maps."
+          },
+          "US-NH": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-NJ": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+            "note": "Congressional and legislative maps are drawn by commissions appointed by party leaders on which elected officials may serve, which national sources class as politician commissions."
+          },
+          "US-NM": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The legislature draws maps; the Citizen Redistricting Committee created in 2021 is advisory only."
+          },
+          "US-NV": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-NY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The Independent Redistricting Commission is advisory; the legislature may reject its plans and draw its own."
+          },
+          "US-OH": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Ohio Const. arts. XI, XIX",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "Legislative maps are drawn by the Ohio Redistricting Commission of statewide officials and legislators (a politician commission), and the legislature draws congressional maps first; Issue 1 to create a citizen commission failed in 2024."
+          },
+          "US-OK": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws maps; a politician backup commission acts only if it fails on legislative maps."
+          },
+          "US-OR": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws maps; the secretary of state acts as backup for legislative maps."
+          },
+          "US-PA": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Pa. Const. art. II, \u00a7 17",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The Legislative Reapportionment Commission of four legislative leaders plus a chair draws legislative maps (a politician commission); the legislature draws the congressional map."
+          },
+          "US-PR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "P.R. Const. art. III, \u00a7 4",
+            "source": "https://ballotpedia.org/Article_III,_Puerto_Rico_Constitution",
+            "note": "Senatorial and representative districts are revised after each census by a board of the Chief Justice and two governor-appointed members of different parties, not legislators; national classifications do not cover Puerto Rico, which has no voting congressional districts."
+          },
+          "US-RI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The legislature draws maps; any commission is advisory."
+          },
+          "US-SC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-SD": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws the legislative map; South Dakota has one congressional district."
+          },
+          "US-TN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-TX": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws maps; the Legislative Redistricting Board of statewide officials acts as backup for legislative maps."
+          },
+          "US-UT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/Utah_Proposition_4,_Independent_Advisory_Commission_on_Redistricting_Initiative_(2018)",
+            "note": "The legislature draws the maps; the Independent Redistricting Commission from Proposition 4 (2018) is advisory. On 11/10/2025 a state district court rejected the legislature's congressional map under Proposition 4 and imposed a court-chosen map, but that did not give the commission final authority."
+          },
+          "US-VA": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Va. Const. art. II, \u00a7 6-A",
+            "source": "https://ballotpedia.org/Virginia_Use_of_Legislative_Congressional_Redistricting_Map_Amendment_(April_2026)",
+            "note": "The 2020 Virginia Redistricting Commission is half legislators, and the maps go to the General Assembly and then to the state supreme court if the commission fails. An 4/21/2026 referendum that would have let the legislature redraw congressional maps was voided by the state supreme court on 5/8/2026."
+          },
+          "US-VI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/Legislature_of_the_Virgin_Islands",
+            "note": "Legislative districts are fixed by the Revised Organic Act and territorial law (St. Croix; St. Thomas/St. John; St. John at-large seat); there is no redistricting commission."
+          },
+          "US-VT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+            "note": "The legislature draws the legislative map with an advisory apportionment board; Vermont has one congressional district."
+          },
+          "US-WA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Wash. Const. art. II, \u00a7 43",
+            "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+            "note": "The Washington State Redistricting Commission draws both congressional and legislative maps; the legislature may amend an adopted plan only by a two-thirds vote, affecting no more than 2 percent of a district's population."
+          },
+          "US-WI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps, subject to governor veto."
+          },
+          "US-WV": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws congressional and legislative maps."
+          },
+          "US-WY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+            "note": "The legislature draws the legislative map; Wyoming has one congressional district."
+          }
+        }
+      },
+      "existingLinks": [
+        {
+          "key": "independent-redistricting-to-turnout",
+          "from": "law:us-policy-positions:government-operations.independent-redistricting",
+          "to": "voting.turnout-pct",
+          "strength": "weak",
+          "shape": {
+            "kind": "linear"
+          },
+          "size": 0.005,
+          "per": "law in force says yes (1) rather than no (0)",
+          "lagMonths": 24,
+          "group": "place",
+          "owner": "F-cloud",
+          "evidence": "provisional",
+          "anchor": "From 2018 to 2022, turnout rose about 1 point in districts drawn by long-standing commissions and 5 points in court-drawn ones, and being drawn into a competitive district added about 3 points; the comparison is descriptive, not a controlled study, and presidential turnout is barely touched by district lines",
+          "source": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)",
+          "range": [0, 0.015]
+        }
+      ],
+      "completion": "0/5 complete",
+      "effectsList": "Commission selection, conflict exclusions and the authority to draw legislative/congressional districts; district assignment and equal-population/legal review; actual competition, representation and incumbents drawn out; turnout/knowledge only as supported by the study.",
+      "existingOrHeldReaders": [
+        "src/simulation/living-world/town-wards.ts is local, not a state district producer"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 56,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "Commission selection, conflict exclusions and the authority to draw legislative/congressional districts; district assignment and equal-population/legal review; actual competition, representation and incumbents drawn out; turnout/knowledge only as supported by the study."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Commission staffing, mapping/hearings, public review and litigation cost per district/decennial cycle; national causal turnout breadth remains unverified.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "Commission selection, conflict exclusions and the authority to draw legislative/congressional districts; district assignment and equal-population/legal review; actual competition, representation and incumbents drawn out; turnout/knowledge only as supported by the study.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {
+        "source": "NCSL Voter ID Laws (updated 07/02/2025) and ncsl.org/elections-and-campaigns/voter-id; Ballotpedia voter ID pages and 10/2025 amendment roundup; state statutes and election offices (Ohio R.C. 3505.18, N.C.G.S. 163-166.16, W.Va. HB 3016, N.H. HB 1569, Neb. LB 514, Ky. SB 2); law in force 01/01/2026.",
+        "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+        "answers": {
+          "US-AK": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Alaska Stat. \u00a7 15.15.225",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict non-photo ID."
+          },
+          "US-AL": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ala. Code \u00a7 17-9-30",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter without photo ID may vote a regular ballot if two poll workers identify the voter."
+          },
+          "US-AR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ark. Const. amend. 99; Ark. Code \u00a7 7-5-305",
+            "source": "https://www.washingtoncountyar.gov/government/departments-a-e/election-commission/new-voter-id-law",
+            "note": "Strict photo: Act 249 of 2021 removed the affidavit fail-safe, so a voter without photo ID votes provisionally and must show ID by noon the Monday after the election."
+          },
+          "US-AS": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "A.S.C.A. \u00a7\u00a7 6.0706, 6.0214",
+            "source": "https://asbar.org/code-annotated/6-0706-signature-required-identification/",
+            "note": "At the polls a voter signs the poll book and gives identification only if a district official asks, with no photo requirement (photo ID is required once, when registering)."
+          },
+          "US-AZ": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Ariz. Rev. Stat. \u00a7 16-579",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict non-photo: photo ID or two non-photo documents with name and address."
+          },
+          "US-CA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls (first-time voters under federal law excepted)."
+          },
+          "US-CO": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Colo. Rev. Stat. \u00a7 1-1-104(19.5)",
+            "source": "https://news.ballotpedia.org/2025/10/17/10-states-have-amended-their-voter-id-laws-so-far-this-year/",
+            "note": "Non-photo ID accepted; 2025 SB 1 added more non-photo IDs."
+          },
+          "US-CT": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Conn. Gen. Stat. \u00a7 9-261",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict non-photo ID; a voter may sign an affidavit."
+          },
+          "US-DC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-DE": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Del. Code tit. 15, \u00a7 4937",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict non-photo ID; a voter may sign an affidavit."
+          },
+          "US-FL": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Fla. Stat. \u00a7 101.043",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter without photo ID casts a provisional ballot that counts if the signature matches the registration record."
+          },
+          "US-GA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "O.C.G.A. \u00a7 21-2-417",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict photo; 2025 HB 296 requires a driver's license used for voting to be a physical card."
+          },
+          "US-GU": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://gec.guam.gov/early-in-office-absentee-voting/",
+            "note": "The Guam Election Commission states voters must present a photo ID issued by a federal, state, Guam school or government of Guam entity to vote; the exact 3 GCA section was not confirmed."
+          },
+          "US-HI": {
+            "answer": "no",
+            "operativeAt": "2019-06-25",
+            "preempts": true,
+            "source": "https://ballotpedia.org/Voter_ID_in_Hawaii",
+            "note": "Act 136 of 2019 repealed the rule that voters show ID on request; no ID is required except as federal law requires."
+          },
+          "US-IA": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Iowa Code \u00a7 49.78",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict non-photo: the non-photo Iowa voter ID card is accepted."
+          },
+          "US-ID": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Idaho Code \u00a7\u00a7 34-1113, 34-1114",
+            "source": "https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH11/SECT34-1114/",
+            "note": "Non-strict photo: a voter without ID may sign an affidavit and vote; 2023 HB 124 removed student IDs, and 2026 SB 1322 (effective 07/01/2026) adds verification data to the affidavit."
+          },
+          "US-IL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-IN": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ind. Code \u00a7 3-11-8-25.1",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict photo."
+          },
+          "US-KS": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Kan. Stat. \u00a7 25-2908",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict photo."
+          },
+          "US-KY": {
+            "answer": "yes",
+            "operativeAt": "2020-07-15",
+            "preempts": true,
+            "cite": "KRS 117.227",
+            "source": "https://elect.ky.gov/Frequently-Asked-Questions/Documents/SB%202%20FAQ.pdf",
+            "note": "Non-strict photo: a voter without photo ID may sign a reasonable impediment declaration and show a secondary ID; SB 154 later narrows the accepted secondary IDs starting in 2026."
+          },
+          "US-LA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "La. R.S. 18:562",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter without photo ID may sign an affidavit and vote a regular ballot."
+          },
+          "US-MA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-MD": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-ME": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls; a voter ID ballot question failed in November 2025."
+          },
+          "US-MI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mich. Comp. Laws \u00a7 168.523",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter without photo ID may sign an affidavit and vote a regular ballot."
+          },
+          "US-MN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-MO": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mo. Rev. Stat. \u00a7 115.427",
+            "source": "https://revisor.mo.gov/main/OneSection.aspx?section=115.427",
+            "note": "Non-strict photo in part: 2022 HB 1878 removed non-photo alternatives; a voter without photo ID votes provisionally, and the ballot counts if the signature matches or the voter returns with ID."
+          },
+          "US-MP": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "1 CMC \u00a7 6218 (early voting)",
+            "source": "https://www.votecnmi.gov.mp/downloads/Voters_Pamphlet.pdf",
+            "note": "The Commonwealth Election Commission pamphlet says a pictured ID is required to be issued a ballot at the polls; the statute located covers early voting."
+          },
+          "US-MS": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Miss. Const. art. 12, \u00a7 249A; Miss. Code \u00a7 23-15-563",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict photo."
+          },
+          "US-MT": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Mont. Code \u00a7 13-13-114",
+            "source": "https://ballotpedia.org/Voter_ID_in_Montana",
+            "note": "Non-strict non-photo: a utility bill or other document with name and address is accepted; the 2024 Montana Supreme Court ruling kept student IDs."
+          },
+          "US-NC": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.C. Gen. Stat. \u00a7 163-166.16",
+            "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-166.16.html",
+            "note": "Photo ID in force since the 2023 municipal elections; a voter without one may sign a reasonable impediment declaration and cast a provisional ballot that counts unless the declaration is found false."
+          },
+          "US-ND": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "N.D. Cent. Code \u00a7 16.1-01-04.1",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict non-photo: ID must show a residential address but need not bear a photo."
+          },
+          "US-NE": {
+            "answer": "yes",
+            "operativeAt": "2024-05-14",
+            "preempts": true,
+            "cite": "Neb. Const. art. I, \u00a7 22 (LB 514 of 2023)",
+            "source": "https://sos.nebraska.gov/voter-id",
+            "note": "Strict photo with a reasonable impediment certification for voters who cannot obtain ID. Signed 6/1/2023 (LB 514); first applied at the 5/14/2024 primary."
+          },
+          "US-NH": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.H. Rev. Stat. \u00a7 659:13",
+            "source": "https://www.sos.nh.gov/sites/g/files/ehbemt561/files/documents/2024-11/hb-1569-memorandum-11.08.24.pdf",
+            "note": "Photo ID has been asked for years; HB 1569 made it strict by removing the ID affidavit effective 11/11/2024, and HB 323 drops student IDs effective 06/02/2026."
+          },
+          "US-NJ": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-NM": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls; a voter may state identifying information verbally."
+          },
+          "US-NV": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://news.ballotpedia.org/2025/06/16/nevada-gov-lombardo-vetoes-bills-to-require-voter-id-and-open-primaries-to-unaffiliated-voters/",
+            "note": "No document required; AB 499 (photo ID) was vetoed on 06/12/2025, and a photo ID constitutional amendment faces its second vote in November 2026."
+          },
+          "US-NY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-OH": {
+            "answer": "yes",
+            "operativeAt": "2023-04-07",
+            "preempts": true,
+            "cite": "Ohio Rev. Code \u00a7 3505.18",
+            "source": "https://codes.ohio.gov/ohio-revised-code/section-3505.18",
+            "note": "Strict photo under HB 458; a voter without photo ID votes provisionally and must show ID within four days."
+          },
+          "US-OK": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Okla. Stat. tit. 26, \u00a7 7-114",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict non-photo: the non-photo voter identification card is accepted."
+          },
+          "US-OR": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "All-mail voting; no document required."
+          },
+          "US-PA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required except for first-time voters at a polling place."
+          },
+          "US-PR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "P.R. Laws tit. 16, \u00a7 4573 (C\u00f3digo Electoral de 2020)",
+            "source": "https://law.justia.com/codes/puerto-rico/2020/titulo-16/subtitulo-7/capitulo-424/4573/",
+            "note": "The 2020 Electoral Code names the photo electoral ID card or other listed photo IDs as the identification valid for voting; the fallback for a voter with none was not confirmed."
+          },
+          "US-RI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "R.I. Gen. Laws \u00a7 17-19-24.2",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter without photo ID casts a provisional ballot that counts if the signature matches."
+          },
+          "US-SC": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "S.C. Code \u00a7 7-13-710",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter with a reasonable impediment may sign an affidavit, show the non-photo registration card and vote provisionally."
+          },
+          "US-SD": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "S.D. Codified Laws \u00a7 12-18-6.1",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter without photo ID may sign an affidavit and vote a regular ballot."
+          },
+          "US-TN": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Tenn. Code \u00a7 2-7-112",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict photo."
+          },
+          "US-TX": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Tex. Elec. Code \u00a7 63.001",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict photo: a voter who cannot reasonably obtain photo ID may sign a reasonable impediment declaration and show a supporting document."
+          },
+          "US-UT": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Utah Code \u00a7 20A-1-102",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-photo documents accepted in person; 2025 HB 300 changes mail-ballot ID, not the in-person photo question."
+          },
+          "US-VA": {
+            "answer": "no",
+            "operativeAt": "2020-07-01",
+            "preempts": true,
+            "cite": "Va. Code \u00a7 24.2-643",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Non-strict non-photo since the 2020 repeal of photo ID."
+          },
+          "US-VI": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "18 V.I.C. (not read); vivote.gov voting process",
+            "source": "https://vivote.gov/voters/voters-rights-responsibilities/",
+            "note": "The Election System says a voter gives an election officer identification at the polls but, without proper identification, signs an affidavit and votes, and it names no photo requirement."
+          },
+          "US-VT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "No document required at the polls."
+          },
+          "US-WA": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Rev. Code Wash. \u00a7 29A.40.160",
+            "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=29A.40.160",
+            "note": "A voting-center voter may either provide ID or sign a ballot declaration, so no document is required."
+          },
+          "US-WI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Wis. Stat. \u00a7 6.79(2); Wis. Const. art. III, \u00a7 1",
+            "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+            "note": "Strict photo; voters constitutionalized the requirement in April 2025."
+          },
+          "US-WV": {
+            "answer": "yes",
+            "operativeAt": "2025-07-11",
+            "preempts": true,
+            "cite": "W. Va. Code \u00a7 3-1-34",
+            "source": "https://ballotpedia.org/Voter_ID_in_West_Virginia",
+            "note": "Non-strict photo: HB 3016 replaced non-photo ID with photo ID effective 07/11/2025; a poll worker who has known the voter for six months may vouch, and others vote provisionally after an affidavit."
+          },
+          "US-WY": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Wyo. Stat. \u00a7 22-1-102",
+            "source": "https://sos.wyo.gov/Elections/VoterID/",
+            "note": "Strict non-photo per NCSL: the 2021 law (HB 75) mostly lists photo IDs but also accepts Medicare and Medicaid cards."
+          }
+        }
+      },
+      "existingLinks": [
+        {
+          "key": "voter-id-to-turnout",
+          "to": "voting.turnout-pct",
+          "strength": "about-zero",
+          "shape": {
+            "kind": "linear"
+          },
+          "size": 0,
+          "per": "law in force",
+          "lagMonths": 0,
+          "group": "every group",
+          "owner": "C",
+          "anchor": "-0.1 points, not significant, for every group",
+          "source": "Cantoni and Pons 2021 (QJE)",
+          "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+          "evidence": "about-zero"
+        },
+        {
+          "key": "voter-id-to-registration",
+          "strength": "about-zero",
+          "shape": {
+            "kind": "linear"
+          },
+          "size": 0,
+          "per": "law in force",
+          "lagMonths": 0,
+          "group": "every group",
+          "owner": "C",
+          "anchor": "No effect on registration either, for any group",
+          "source": "Cantoni and Pons 2021 (QJE)",
+          "evidence": "about-zero",
+          "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+          "to": "voting.registration"
+        }
+      ],
+      "completion": "0/5 complete",
+      "effectsList": "Accepted document types, exemptions, free-ID eligibility and actual issuance; ballot admission, provisional ballot and cure decisions; voter time/travel and agency costs; observed aggregate registration/turnout may remain about-zero.",
+      "existingOrHeldReaders": [
+        "Existing held voter-photo-identification-law.ts needs exact Team1 source handoff"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 56,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "Accepted document types, exemptions, free-ID eligibility and actual issuance; ballot admission, provisional ballot and cure decisions; voter time/travel and agency costs; observed aggregate registration/turnout may remain about-zero."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Verified per free-card issuance, replacement, travel/document acquisition and provisional cure administration cost ranges, payer and coverage; study uncertainty bounds for about-zero links.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "Accepted document types, exemptions, free-ID eligibility and actual issuance; ballot admission, provisional ballot and cure decisions; voter time/travel and agency costs; observed aggregate registration/turnout may remain about-zero.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {
+        "source": "NCSL Automatic Voter Registration summary (2025) and Brennan Center History of AVR & Implementation Dates, checked against state election-office releases (DE 2023, ME 2022, MN 2024, NM 2025, PA 2023, VA 2020) and the Voting Rights Lab tracker; searched 09/2026.",
+        "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+        "answers": {
+          "US-AK": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Approved by 2016 ballot measure (Measure 1); eligible Permanent Fund Dividend applicants are registered with a mailed opt-out notice (back-end), in operation since 2017."
+          },
+          "US-AL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-AR": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-AS": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "A.S.C.A. \u00a7 6.0214",
+            "source": "https://asbar.org/code-annotated/6-0214-application-to-register/",
+            "note": "A person is registered only by appearing before an election officer with government photo identification and signing a sworn application, with no automatic registration."
+          },
+          "US-AZ": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-CA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Cal. Elec. Code \u00a7 2260 et seq.",
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "California New Motor Voter Program, enacted 2015 and in operation at the DMV since 2018."
+          },
+          "US-CO": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.congress.gov/crs-product/R46406",
+            "note": "Front-end AVR at the DMV from 2017, converted to back-end AVR (mailed opt-out) in 2020."
+          },
+          "US-CT": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://tracker.votingrightslab.org/issues/automatic-voter-registration",
+            "note": "Administrative DMV system from 2016, codified and expanded to other agencies by 2021 law; applicants must decline at the transaction (front-end, hard-stop design)."
+          },
+          "US-DC": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Automatic Voter Registration Amendment Act passed by the Council on 11/01/2016; implemented at the DMV."
+          },
+          "US-DE": {
+            "answer": "yes",
+            "operativeAt": "2023-06-21",
+            "preempts": true,
+            "source": "https://news.delaware.gov/2023/06/20/automatic-voter-registration-at-dmv/",
+            "note": "Enacted 2021 (back-end at the DMV); in operation from 06/21/2023 for voters not already registered."
+          },
+          "US-FL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-GA": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Adopted administratively (opt-out at the Department of Driver Services) in fall 2016, not by a separate AVR statute."
+          },
+          "US-GU": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "3 GCA \u00a7\u00a7 3102, 3102.1",
+            "source": "https://col.guamcourts.gov/sites/default/files/03gc003.pdf",
+            "note": "A Guam voter is registered only by the person's own sworn affidavit or online application with proof of citizenship, with no automatic registration through an agency."
+          },
+          "US-HI": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Haw. Rev. Stat. \u00a7 11-15.7",
+            "source": "https://law.justia.com/codes/hawaii/title-2/chapter-11/section-11-15-7/",
+            "note": "Hawaii's 2021 'automatic registration' law registers a license applicant only if the applicant chooses to register on the form (mandatory choice, not opt-out); a 2026 bill (HB 2132) proposed expanding it."
+          },
+          "US-IA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-ID": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among AVR states; registration is by the person's own application (Idaho is exempt from the NVRA's motor-voter requirement)."
+          },
+          "US-IL": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Signed 08/2017 (unanimous legislature); implemented at the Secretary of State driver facilities and other agencies from 2018."
+          },
+          "US-IN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-KS": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-KY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-LA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-MA": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Enacted 08/2018 and implemented at the RMV and MassHealth from 2020 (back-end with mailed opt-out)."
+          },
+          "US-MD": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Secure and Accessible Registration Act signed 04/2018; implemented at the MVA and other agencies."
+          },
+          "US-ME": {
+            "answer": "yes",
+            "operativeAt": "2022-06-21",
+            "preempts": true,
+            "source": "https://www.maine.gov/sos/news/2022/AutomaticvoterregistrationtobeunveiledatBMVlocations.html",
+            "note": "Enacted 2019; implemented at the Bureau of Motor Vehicles on 06/21/2022, with the decline offered on the service-window pin pad (front-end)."
+          },
+          "US-MI": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Adopted by 2018 ballot Proposal 3 (Mich. Const. art. 2, \u00a7 4); implemented at Secretary of State branch offices."
+          },
+          "US-MN": {
+            "answer": "yes",
+            "operativeAt": "2024-04-29",
+            "preempts": true,
+            "cite": "Minn. Stat. \u00a7 201.161",
+            "source": "https://sos.minnesota.gov/about-the-office/news-room/update-on-automatic-voter-registration-system/",
+            "note": "Enacted 2023; in operation from 04/29/2024, with a 20-day opt-out after processing."
+          },
+          "US-MO": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-MP": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "1 CMC \u00a7 6205",
+            "source": "https://cnmilaw.gov/docs/cmc_section/T1/6205.pdf",
+            "note": "A voter is registered only by signing an affidavit of registration with a registration clerk or by mail, with no automatic registration through an agency."
+          },
+          "US-MS": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-MT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-NC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-ND": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "North Dakota has no voter registration at all, so there is no automatic registration."
+          },
+          "US-NE": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-NH": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among AVR states; registration is by the person's own application (New Hampshire is exempt from the NVRA's motor-voter requirement)."
+          },
+          "US-NJ": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Signed 04/2018; implemented at the Motor Vehicle Commission (front-end opt-out)."
+          },
+          "US-NM": {
+            "answer": "yes",
+            "operativeAt": "2025-07-01",
+            "preempts": true,
+            "source": "https://www.sos.nm.gov/2025/07/10/successful-launch-of-automatic-voter-registration-sees-thousands-of-new-mexico-voters-registered-in-first-week/",
+            "note": "Enacted in the 2023 New Mexico Voting Rights Act (HB 4); AVR at the Motor Vehicle Division took effect 07/01/2025."
+          },
+          "US-NV": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://en.wikipedia.org/wiki/2024_Nevada_Question_7",
+            "note": "Adopted by 2018 ballot Question 5; back-end AVR at the DMV in operation since 2020."
+          },
+          "US-NY": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.Y. Election Law \u00a7\u00a7 5-900 to 5-906 (art. 5, title 9)",
+            "source": "https://www.nysenate.gov/legislation/laws/ELN/5-900",
+            "note": "Designated agencies, starting with the Department of Motor Vehicles, must send each applicant's voter registration information to the state board, and the applicant is registered unless he or she checks the box declining; the exact start date was not read (Brennan Center: enacted 2020)."
+          },
+          "US-OH": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-OK": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-OR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Or. Rev. Stat. \u00a7 247.017",
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Oregon Motor Voter Act (2015), first state in operation in 2016; back-end with mailed opt-out."
+          },
+          "US-PA": {
+            "answer": "yes",
+            "operativeAt": "2023-09-19",
+            "preempts": true,
+            "source": "https://www.pa.gov/governor/newsroom/2023-press-releases/governor-shapiro-implements-automatic-voter-registration-in-penn",
+            "note": "Executive action, not statute: since 09/2023 PennDOT takes eligible license and ID customers through registration unless they opt out; legislative Republicans dispute the governor's authority."
+          },
+          "US-PR": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Ley 58-2020, Art. 5.9 (16 L.P.R.A. \u00a7 4569)",
+            "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/58-2020.pdf",
+            "note": "A person joins the voter rolls only by filing a sworn registration application with the State Elections Commission, and agencies only supply data to update the rolls, so registration is not automatic."
+          },
+          "US-RI": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Signed by Gov. Raimondo 07/2017; implemented at the Division of Motor Vehicles."
+          },
+          "US-SC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-SD": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-TN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-TX": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-UT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among the states NCSL lists with automatic voter registration; registration is by the person's own application, including the ordinary motor-voter offer."
+          },
+          "US-VA": {
+            "answer": "yes",
+            "operativeAt": "2020-07-01",
+            "preempts": true,
+            "source": "https://www.elections.virginia.gov/media/electionadministration/electionlaw/2020-Changes-to-Virginia-Election-Laws.pdf",
+            "note": "2020 law made DMV registration front-end opt-out; a workgroup has studied moving to back-end AVR."
+          },
+          "US-VI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://vivote.gov/voters/register-to-vote/",
+            "note": "Weak: the Election System says a person registers by applying online or in person with a birth certificate, passport, DD214 or naturalization certificate, with no automatic registration through an agency."
+          },
+          "US-VT": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Signed 04/2016; in operation at the DMV since 01/01/2017."
+          },
+          "US-WA": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://www.brennancenter.org/our-work/research-reports/history-avr-implementation-dates",
+            "note": "Signed 03/2018; implemented at the Department of Licensing (and Health Benefit Exchange) from 2019."
+          },
+          "US-WI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among AVR states; registration is by the person's own application (Wisconsin's DMV does not offer motor-voter registration because the state is exempt from the NVRA)."
+          },
+          "US-WV": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://tracker.votingrightslab.org/states/west-virginia",
+            "note": "Enacted 04/2016; implementation was repeatedly delayed (statutory deadline 2021) and the front-end opt-out system is now in effect at the DMV; exact start date not found."
+          },
+          "US-WY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+            "note": "Not among AVR states; registration is by the person's own application (Wyoming is exempt from the NVRA's motor-voter requirement)."
+          }
+        }
+      },
+      "existingLinks": [
+        {
+          "key": "automatic-registration-to-turnout",
+          "strength": "weak",
+          "shape": {
+            "kind": "linear"
+          },
+          "size": 0.015,
+          "range": [0.005, 0.055],
+          "per": "law in force: about +1 point on a turnout near 66% of eligible voters",
+          "lagMonths": 12,
+          "group": "place",
+          "owner": "C",
+          "anchor": "AVR raises registration a lot; the new registrants vote less often than others, but enough of them vote to raise the eligible turnout rate, and the effect builds the longer AVR is in place. Front-end registration (at the agency visit) raised turnout 1.1 points and back-end registration (a notice after the visit) 3.3 points, as Data for Progress quotes the paper; the front-end size is used, with the back-end one as the top of the range. For people whose registration AVR updated when they moved, turnout rose 5.8 points (Orange County, California), which bounds it from above.",
+          "source": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)",
+          "evidence": "provisional",
+          "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+          "to": "voting.turnout-pct"
+        }
+      ],
+      "completion": "0/5 complete",
+      "effectsList": "Eligible agency transaction produces registration/update with citizenship/age/residency eligibility and opt-out; records front-end/back-end notice/correction; maintaining existing voter records does not itself cause a vote; any turnout change is separate.",
+      "existingOrHeldReaders": [
+        "src/simulation/outcome-web/automatic-registration.test.ts tests only place multiplier"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 56,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "Eligible agency transaction produces registration/update with citizenship/age/residency eligibility and opt-out; records front-end/back-end notice/correction; maintaining existing voter records does not itself cause a vote; any turnout change is separate."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Real 2026 front-end/back-end/agency opt-out/citizenship and implementation dates for each jurisdiction; per transaction and fixed agency IT costs; source-compatible registration and turnout ranges.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "Eligible agency transaction produces registration/update with citizenship/age/residency eligibility and opt-out; records front-end/back-end notice/correction; maintaining existing voter records does not itself cause a vote; any turnout change is separate.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {
+        "source": "NCSL term-limited states and constitutional/statutory provisions pages (current 2025-2026); Ballotpedia state legislatures with term limits and measure pages (2012-2026); state constitution/code pages.",
+        "note": "Every place is answered.",
+        "answers": {
+          "US-AK": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-AL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-AR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ark. Const. amend. 73, \u00a7 2",
+            "source": "https://ballotpedia.org/Arkansas_Issue_2,_Change_State_Legislative_Term_Limits_Amendment_(2020)",
+            "note": "Twelve consecutive years total in the General Assembly for members first elected on or after 1/1/2021, eligible again after a four-year break; earlier members use a 16-year aggregate (2014 and 2020 amendments, 2020 Issue 2)."
+          },
+          "US-AS": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/American_Samoa_Fono",
+            "note": "Fono senators and representatives are not subject to term limits."
+          },
+          "US-AZ": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ariz. Const. art. 4, pt. 2, \u00a7 21",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Eight years (four two-year terms) in each chamber, consecutive; adopted 1992."
+          },
+          "US-CA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Cal. Const. art. IV, \u00a7 2(a)",
+            "source": "https://ballotpedia.org/California_Proposition_28,_Change_in_State_Legislative_Term_Limits_Initiative_(June_2012)",
+            "note": "Twelve years total in either or both chambers, lifetime (2012 Proposition 28, approved 6/5/2012)."
+          },
+          "US-CO": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Colo. Const. art. V, \u00a7 3",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Eight years in each chamber (four House terms, two Senate terms), consecutive; adopted 1990."
+          },
+          "US-CT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-DC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://guides.loc.gov/law-us-washington-dc/legislative",
+            "note": "D.C. Councilmembers serve four-year terms with no limit."
+          },
+          "US-DE": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-FL": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Fla. Const. art. VI, \u00a7 4(b)",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Eight years in each chamber, consecutive; adopted 1992."
+          },
+          "US-GA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-GU": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/Legislature_of_Guam",
+            "note": "Guam senators serve two-year terms without term limits; proposed bills were not enacted."
+          },
+          "US-HI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-IA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-ID": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+            "note": "Voters adopted limits in 1994, but the legislature repealed them in 2002."
+          },
+          "US-IL": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-IN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-KS": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-KY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-LA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "La. Const. art. III, \u00a7 4(E)",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Three consecutive terms (12 years) in each chamber, consecutive; adopted 1995."
+          },
+          "US-MA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+            "note": "A 1994 statutory limit was struck down by the Supreme Judicial Court in 1997."
+          },
+          "US-MD": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-ME": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Me. Rev. Stat. tit. 21-A, \u00a7 553",
+            "source": "https://www.mainelegislature.org/legis/statutes/21-a/title21-Asec553.html",
+            "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; statutory, adopted 1993."
+          },
+          "US-MI": {
+            "answer": "yes",
+            "operativeAt": "2022-12-23",
+            "preempts": true,
+            "cite": "Mich. Const. art. IV, \u00a7 54",
+            "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IV-54",
+            "note": "Twelve years total in the House and Senate combined, lifetime (2022 Proposal 1, replacing the 1992 six-year House and eight-year Senate limits)."
+          },
+          "US-MN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-MO": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mo. Const. art. III, \u00a7 8",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Eight years in each chamber and 16 years total, lifetime; adopted 1992."
+          },
+          "US-MP": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/Northern_Mariana_Islands_Commonwealth_Legislature",
+            "note": "Commonwealth Legislature senators and representatives serve without term limits."
+          },
+          "US-MS": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-MT": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mont. Const. art. IV, \u00a7 8",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Eight years in each chamber within any 16-year period; adopted 1992."
+          },
+          "US-NC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-ND": {
+            "answer": "yes",
+            "operativeAt": "2023-01-01",
+            "preempts": true,
+            "cite": "N.D. Const. art. XV",
+            "source": "https://ballotpedia.org/North_Dakota_Constitutional_Measure_1,_Term_Limits_for_Governor_and_State_Legislators_Initiative_(2022)",
+            "note": "Eight years in each chamber (16 total), lifetime, for service after 1/1/2023 (2022 Measure 1). A legislatively referred 2026 amendment on the 11/3/2026 ballot would allow four four-year terms regardless of chamber."
+          },
+          "US-NE": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Neb. Const. art. III, \u00a7 12",
+            "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-12",
+            "note": "Two consecutive four-year terms (eight years), then four years out (2000 Initiative 415). A 2026 ballot amendment (LR19CA) would allow three consecutive terms; not in force on 1/1/2026."
+          },
+          "US-NH": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-NJ": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-NM": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-NV": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Nev. Const. art. 4, \u00a7\u00a7 3, 4",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Twelve years in each chamber, lifetime; adopted 1994 and 1996."
+          },
+          "US-NY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-OH": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ohio Const. art. II, \u00a7 2",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Eight years (four House terms, two Senate terms) in each chamber, consecutive; adopted 1992."
+          },
+          "US-OK": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Okla. Const. art. V, \u00a7 17A",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Twelve years total in the House and Senate combined, lifetime; adopted 1990."
+          },
+          "US-OR": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+            "note": "The 1992 limits were ruled unconstitutional by the Oregon Supreme Court in 2002."
+          },
+          "US-PA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-PR": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/Puerto_Rico_House_of_Representatives",
+            "note": "Legislative Assembly members serve four-year terms with no term limits; proposals have not been adopted."
+          },
+          "US-RI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-SC": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-SD": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "S.D. Const. art. III, \u00a7 6",
+            "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
+            "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; adopted 1992."
+          },
+          "US-TN": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-TX": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-UT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+            "note": "Statutory limits adopted in 1994 were repealed by the legislature in 2003."
+          },
+          "US-VA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-VI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/Legislature_of_the_Virgin_Islands",
+            "note": "Virgin Islands senators serve two-year terms without term limits."
+          },
+          "US-VT": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-WA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://ballotpedia.org/State_legislatures_with_term_limits",
+            "note": "The 1992 statutory limits were voided by the Washington Supreme Court in 1998."
+          },
+          "US-WI": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-WV": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+            "note": "No term limit for state legislators."
+          },
+          "US-WY": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://law.justia.com/cases/wyoming/supreme-court/2004/438880.html",
+            "note": "The 1992 initiative limits were held unconstitutional in Cathcart v. Meyer (Wyo. 2004)."
+          }
+        }
+      },
+      "existingLinks": [
+        {
+          "key": "term-limits-to-turnout",
+          "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+          "to": "voting.turnout-pct",
+          "strength": "about-zero",
+          "shape": {
+            "kind": "linear"
+          },
+          "size": 0,
+          "per": "law in force says yes (1) rather than no (0)",
+          "lagMonths": 0,
+          "group": "place",
+          "owner": "F-cloud",
+          "evidence": "about-zero",
+          "anchor": "California's term limits brought no rise, and perhaps a fall, in legislative-race turnout; nothing shows a statewide change",
+          "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)"
+        }
+      ],
+      "completion": "0/5 complete",
+      "effectsList": "Actual chamber/combined service, counting window, grandfathering and break rules bar or permit the named candidate; seat turnover then follows an actual filing/election; loss of experience/party opportunities require distinct evidence; aggregate turnout link is about-zero.",
+      "existingOrHeldReaders": [
+        "src/simulation/nationwide-world/state-legislative-term-limits.ts",
+        "src/simulation/nationwide-world/state-legislature-turnover.ts"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 56,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "Actual chamber/combined service, counting window, grandfathering and break rules bar or permit the named candidate; seat turnover then follows an actual filing/election; loss of experience/party opportunities require distinct evidence; aggregate turnout link is about-zero."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Correct grandfathering, consecutive/lifetime/rolling counts and constitutional/statutory adoption/repeal route; actual administrative/compliance cost per candidate review, not elected salary lost inferred as cost.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "Actual chamber/combined service, counting window, grandfathering and break rules bar or permit the named candidate; seat turnover then follows an actual filing/election; loss of experience/party opportunities require distinct evidence; aggregate turnout link is about-zero.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {
+        "source": "State code and constitution pages on legislature sites (current versions fetched 9/28/2026, checked for changes after 1/1/2026) plus state ethics or lobbying commission publications for AR (2020 rules), GA (2022 Campaign Finance Act compilation), HI (Ethics Commission guide), IN (Lobby Registration Commission Q&A), LA (2025 Ethics Board summary), NY (Legislative Ethics Commission guidance), OK (2025 annotated ethics rules) and TN (January 2024 ethics laws compilation). NCSL and Ballotpedia were not used (refused).",
+        "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+        "answers": {
+          "US-AK": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Alaska Stat. \u00a7 24.45.121(c)",
+            "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=24.45.121&secEnd=24.45.121",
+            "note": "One year: a former legislator may not lobby the legislature for one year after leaving."
+          },
+          "US-AL": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ala. Code \u00a7 36-25-13(a)-(b)",
+            "source": "https://alison.legislature.state.al.us/code-of-alabama?section=36-25-13",
+            "note": "Two years after the elected term: a former legislator may not lobby for a fee before the legislative body he or she served for two years after the term of office ends, even if he or she left early."
+          },
+          "US-AR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ark. Ethics Comm'n Rules on Lobbyist Registration and Reporting \u00a7 517(b) (Ark. Code Ann. \u00a7 21-8-601 et seq.)",
+            "source": "https://www.arkansasethics.com/wp-content/uploads/2020/01/05-FINAL-RULE-Rules-on-Lobbyist-Registration-and-Reporting.pdf",
+            "note": "Two years after the term ends: a former member of the General Assembly elected on or after 11/4/2014 may not register as a lobbyist until two years after the end of the term (source is the Ethics Commission rule text revised 1/31/2020)."
+          },
+          "US-AS": {
+            "answer": "no",
+            "preempts": false,
+            "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer no), because this place's own law could not be read.",
+            "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+          },
+          "US-AZ": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Ariz. Rev. Stat. \u00a7 38-504(A); \u00a7\u00a7 41-1231 to 41-1239",
+            "source": "https://www.azleg.gov/ars/38/00504.htm",
+            "note": "No cooling-off period on lobbying the Legislature: the 12-month post-service bar covers only matters decided through administrative discretion, and the lobbying article (\u00a7\u00a7 41-1231 to 41-1239) has no section on former legislators."
+          },
+          "US-CA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Cal. Gov. Code \u00a7 87406(b)",
+            "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=87406",
+            "note": "One year: a former Member of the Legislature may not lobby the Legislature for pay for one year after leaving office (a member who resigns is barred until one year after that session adjourns)."
+          },
+          "US-CO": {
+            "answer": "yes",
+            "operativeAt": "2006-12-31",
+            "preempts": true,
+            "cite": "Colo. Const. art. XXIX, \u00a7 4",
+            "source": "https://olls.info/crs/crs2025-title-00.htm",
+            "note": "Two years: a former member of the General Assembly may not represent others for pay before any member of the General Assembly or statewide elected officeholder for two years after leaving office."
+          },
+          "US-CT": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Conn. Gen. Stat. \u00a7 1-84b",
+            "source": "https://www.cga.ct.gov/current/pub/chap_010.htm",
+            "note": "No cooling-off period for legislators: the one-year post-service bar covers former executive branch and quasi-public officials; a former legislator is barred from lobbying only after a corruption-related felony conviction."
+          },
+          "US-DC": {
+            "answer": "no",
+            "preempts": false,
+            "cite": "D.C. Code \u00a7\u00a7 1-1162.27 to 1-1162.32",
+            "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1162.31",
+            "note": "The lobbying part of the Ethics Act only bars a public official from being a lobbyist while in office, and it sets no waiting period for former Councilmembers."
+          },
+          "US-DE": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Del. Code tit. 29, \u00a7 5837",
+            "source": "https://delcode.delaware.gov/title29/c058/sc04/index.html",
+            "note": "One year: a former member of the General Assembly may not lobby for pay for one year after leaving office (79 Del. Laws c. 427)."
+          },
+          "US-FL": {
+            "answer": "yes",
+            "operativeAt": "2022-12-31",
+            "preempts": true,
+            "cite": "Fla. Const. art. II, \u00a7 8(e), (f)(3)",
+            "source": "https://www.flsenate.gov/Laws/Constitution",
+            "note": "Six years: a former legislator may not lobby the Legislature or any state agency for pay for six years after leaving office (the older two-year bar on representing others before one's former body also remains)."
+          },
+          "US-GA": {
+            "answer": "yes",
+            "operativeAt": "2007-01-08",
+            "preempts": true,
+            "cite": "Ga. Code Ann. \u00a7 21-5-75(a); \u00a7 21-5-3(22)(D)",
+            "source": "https://ethics.ga.gov/wp-content/uploads/2022/06/Campaign-Finance-Act.pdf",
+            "note": "One year: a former member of the General Assembly may not register as a lobbyist or lobby for one year after leaving office, unless he or she stays employed in state government."
+          },
+          "US-GU": {
+            "answer": "yes",
+            "preempts": true,
+            "operativeAt": "2010-08-28",
+            "cite": "2 GCA \u00a7 8101(f)",
+            "source": "https://col.guamcourts.gov/sites/default/files/2gc008.pdf",
+            "note": "Two years: a former legislator may not act as a lobbyist for two years after the end of his or her last term."
+          },
+          "US-HI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Haw. Rev. Stat. \u00a7 84-18(b)-(c)",
+            "source": "https://ethics.hawaii.gov/wp-content/uploads/2013/09/postEmpRestrict.pdf",
+            "note": "One year: for 12 months after leaving, a former legislator may not represent anyone for pay on matters involving official action by the Legislature (State Ethics Commission guide)."
+          },
+          "US-IA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Iowa Code \u00a7 68B.5A(4)",
+            "source": "https://www.legis.iowa.gov/docs/code/68B.5A.pdf",
+            "note": "Two years: a former member of the General Assembly may not become a lobbyist within two years after leaving service."
+          },
+          "US-ID": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Idaho Code tit. 74, ch. 7 (Lobbying Disclosure); ch. 4 (Ethics in Government)",
+            "source": "https://legislature.idaho.gov/statutesrules/idstat/Title74/T74CH7/",
+            "note": "No cooling-off period: Idaho's lobbying and ethics chapters contain no waiting period before a former legislator may register as a lobbyist."
+          },
+          "US-IL": {
+            "answer": "yes",
+            "operativeAt": "2023-01-11",
+            "preempts": true,
+            "cite": "5 ILCS 430/5-45(b-7)",
+            "source": "https://www.ilga.gov/legislation/ILCS/details?ActID=2529&ChapterID=2&SeqStart=&&ChapAct=FullText",
+            "note": "Six months: a former member of the General Assembly may not do state-level lobbying in a General Assembly in which he or she served until six months after leaving office."
+          },
+          "US-IN": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ind. Code \u00a7 2-7-5-7",
+            "source": "https://www.in.gov/ilrc/files/Q_and_A_Document.pdf",
+            "note": "One year: a former member of the General Assembly may not register as a legislative lobbyist or work as a legislative liaison for 365 days after leaving (Lobby Registration Commission guidance)."
+          },
+          "US-KS": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Kan. Stat. ch. 46, art. 2",
+            "source": "https://www.ksrevisor.gov/statutes/ksa_ch46.html",
+            "note": "No cooling-off period found: the state governmental ethics and lobbying article has no section restricting former legislators from lobbying; its post-service rule (\u00a7 46-233) covers only contract-related employment."
+          },
+          "US-KY": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ky. Rev. Stat. \u00a7 6.757(1)",
+            "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=376",
+            "note": "Two years: a former legislator may not be a legislative agent (lobbyist), other than for a public agency, until two years after leaving office."
+          },
+          "US-LA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "La. Rev. Stat. \u00a7 42:1121(A)(1)",
+            "source": "https://ethics.la.gov/Pub/Laws/ethsum.pdf?2025",
+            "note": "Two years: a former elected official, which includes a legislator, may not assist another person for pay in any transaction or appearance involving his or her former agency (for a legislator, the Legislature) for two years after leaving (Board of Ethics summary)."
+          },
+          "US-MA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mass. Gen. Laws ch. 268A, \u00a7 5(e)",
+            "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter268A/Section5",
+            "note": "One year: a former member of the General Court may not act as a legislative agent before the body he or she served for one year after leaving."
+          },
+          "US-MD": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Md. Code, Gen. Prov. \u00a7 5-504(d)(2)",
+            "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=ggp&section=5-504&enactments=false",
+            "note": "One year: a former member of the General Assembly may not assist or represent another party for pay in a matter that is the subject of legislative action for one year after leaving office."
+          },
+          "US-ME": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Me. Rev. Stat. tit. 1, \u00a7 1024(1-A)",
+            "source": "https://legislature.maine.gov/statutes/1/title1sec1024.html",
+            "note": "One year: a former Legislator may not engage in compensated lobbying until one year after his or her term ends (in this form since the 130th Legislature convened in December 2020)."
+          },
+          "US-MI": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Mich. Comp. Laws \u00a7 4.416a",
+            "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-4-416a",
+            "note": "No cooling-off period on 1/1/2026: only a legislator who resigned early was barred from paid lobbying for the rest of the term. 2026 Public Act 74 (effective 7/27/2026) adds a two-year ban for members whose terms begin on or after 1/1/2027."
+          },
+          "US-MN": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Minn. Stat. ch. 10A",
+            "source": "https://www.revisor.mn.gov/statutes/cite/10A/full",
+            "note": "No cooling-off period found: Minnesota's lobbying and ethics chapter lets former legislators register as lobbyists without a waiting period."
+          },
+          "US-MO": {
+            "answer": "yes",
+            "operativeAt": "2018-12-06",
+            "preempts": true,
+            "cite": "Mo. Const. art. III, \u00a7 2(a)",
+            "source": "https://revisor.mo.gov/main/OneSection.aspx?section=III++++++2&constit=y",
+            "note": "Two years after the last session served: a former member of the General Assembly may not serve or register as a paid lobbyist until two calendar years after the end of the last session in which he or she served."
+          },
+          "US-MP": {
+            "answer": "no",
+            "preempts": false,
+            "cite": "1 CMC \u00a7\u00a7 8543, 9415",
+            "source": "https://cnmilaw.gov/docs/cmc_section/T1/8543.pdf",
+            "note": "The Ethics Act bars a former official only from matters he or she personally handled (plus a one-year bar on business transactions), and the lobbying law sets no waiting period for former legislators."
+          },
+          "US-MS": {
+            "answer": "no",
+            "preempts": false,
+            "cite": "Miss. Code \u00a7 25-4-105(3)(e)",
+            "source": "https://www.ethics.ms.gov/title-25-chapter-4-ethics-government",
+            "note": "Mississippi bars a former public servant only from paid work on a matter he or she personally handled in office, and no fixed waiting period for former legislators to lobby was found."
+          },
+          "US-MT": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mont. Code Ann. \u00a7 5-7-310",
+            "source": "https://leg.mt.gov/bills/mca/title_0050/chapter_0070/part_0030/section_0100/0050-0070-0030-0100.html",
+            "note": "Two years: a person who served as a state legislator in the previous 24 months may not be licensed as a lobbyist (voter-approved I-153, 2006)."
+          },
+          "US-NC": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.C. Gen. Stat. \u00a7 120C-304(a)",
+            "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120C/GS_120C-304.html",
+            "note": "Six months or the end of the session, whichever is later: a former legislator may not register as a lobbyist before the later of the close of the session in which he or she served or six months after leaving office."
+          },
+          "US-ND": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.D. Const. art. XIV, \u00a7 2(2)",
+            "source": "https://www.ndlegis.gov/constit/a14.pdf",
+            "note": "Two years: an elected public official, including a legislator, may not be a lobbyist for two years after leaving office (voter-approved Measure 1, 2018)."
+          },
+          "US-NE": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Neb. Rev. Stat. ch. 49, art. 14 (Nebraska Political Accountability and Disclosure Act)",
+            "source": "https://nebraskalegislature.gov/laws/browse-chapters.php?chapter=49",
+            "note": "No cooling-off period found: none of the lobbying or conflict-of-interest sections of the Political Accountability and Disclosure Act restricts former legislators from lobbying."
+          },
+          "US-NH": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "N.H. Rev. Stat. \u00a7 21-G:26; ch. 15; ch. 14-B",
+            "source": "https://gc.nh.gov/rsa/html/I/21-G/21-G-26.htm",
+            "note": "No cooling-off period for legislators: the six-month post-service lobbying bar covers only executive branch officials and classified employees, and the lobbying and legislative ethics chapters set none for former legislators."
+          },
+          "US-NJ": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.J.S.A. 52:13C-21.4",
+            "source": "https://pub.njleg.state.nj.us/statutes/STATUTES-TEXT.zip",
+            "note": "One year: a former member of the Legislature may not register as a governmental affairs agent (lobbyist) for one year after leaving office."
+          },
+          "US-NM": {
+            "answer": "no",
+            "preempts": false,
+            "cite": "N.M. Const. art. IV, \u00a7 28; NMSA 1978, \u00a7\u00a7 10-16-9, 2-11-1 et seq.",
+            "source": "https://www.sec.nm.gov/wp-content/uploads/2022/12/2022-12-12-Ethics-law-for-legislators.pdf",
+            "note": "The State Ethics Commission summary of ethics law for legislators lists no lobbying bar after leaving office, only limits on state contracts and civil offices for one year."
+          },
+          "US-NV": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Nev. Rev. Stat. \u00a7 218H.950",
+            "source": "https://www.leg.state.nv.us/NRS/NRS-218H.html",
+            "note": "Until the end of the next session: a former Legislator may not be paid to lobby until the final adjournment of the next regular session after leaving office (enacted 2015; narrow exception for an in-house employee whose job is mostly not lobbying)."
+          },
+          "US-NY": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.Y. Pub. Off. Law \u00a7 73(8)(a)(iii)",
+            "source": "https://legethics.ny.gov/advice-guidance/post-employment-restrictions-members-legislature",
+            "note": "Two years: a former member of the Senate or Assembly may not be paid to promote or oppose legislation before either house for two years after leaving."
+          },
+          "US-OH": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ohio Rev. Code \u00a7 102.03(A)(4)",
+            "source": "https://codes.ohio.gov/ohio-revised-code/section-102.03",
+            "note": "One year: a former member of the General Assembly may not represent anyone on any matter before the General Assembly or its committees for one year after leaving."
+          },
+          "US-OK": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Okla. Const. art. XXIX; Okla. Admin. Code tit. 257 (Ethics Rules)",
+            "source": "https://oklahoma.gov/content/dam/ok/en/ethics/documents/resources/laws/2025%20Annotated%20Ethics%20Rules.pdf",
+            "note": "Weak: not in the Ethics Commission's 2025 annotated rules (which govern lobbying) or its 2021 compilation of ethics statutes and constitutional provisions; neither sets a waiting period before a former legislator may lobby."
+          },
+          "US-OR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Or. Rev. Stat. \u00a7 244.045(6)",
+            "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
+            "note": "One year: a former member of the Legislative Assembly may not be paid for lobbying within one year after leaving the Legislative Assembly."
+          },
+          "US-PA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "65 Pa. C.S. \u00a7 1103(g); \u00a7 1102",
+            "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=65&div=0&chpt=11&sctn=3&subsctn=0",
+            "note": "One year: a former public official, which includes an elected legislator, may not represent anyone for pay before the governmental body he or she served for one year after leaving."
+          },
+          "US-PR": {
+            "answer": "no",
+            "preempts": false,
+            "cite": "P.R. Laws, Ley 1-2012, art. 4.8",
+            "source": "https://www.lexjuris.com/lexlex/Leyes2012/lexl2012001.htm",
+            "note": "The Government Ethics Act leaves legislators to their own chamber rules (art. 4.8), and no statute sets a waiting period before a former legislator may lobby."
+          },
+          "US-RI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "R.I. Gen. Laws \u00a7 36-14-5(e)(4); \u00a7 36-14-2(8)(i)",
+            "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-14/36-14-5.htm",
+            "note": "One year: a former official may not represent others before the agency he or she served for one year after leaving, and 'state agency' includes either chamber of the General Assembly."
+          },
+          "US-SC": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "S.C. Code \u00a7 2-17-15",
+            "source": "https://www.scstatehouse.gov/code/t02c017.php",
+            "note": "One year: a member of the General Assembly may not serve as a lobbyist while in office or for one year after leaving (applies to members elected after 12/31/1991)."
+          },
+          "US-SD": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "S.D. Codified Laws \u00a7 2-12-8.2",
+            "source": "https://sdlegislature.gov/api/Statutes/2-12-8.2.html?all=true",
+            "note": "Two years: no elected state officer, which includes a legislator, may be paid, act or register as a lobbyist for two years after leaving state government (current text from 2017 session laws)."
+          },
+          "US-TN": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Tenn. Code Ann. \u00a7 3-6-304(l)",
+            "source": "https://www.tn.gov/content/dam/tn/ethicscommission/documents/Ethics%20Laws.1.24.pdf",
+            "note": "One year: a former member of the General Assembly may not be a lobbyist during the 12 months after leaving office (Ethics Commission compilation of ethics laws, January 2024)."
+          },
+          "US-TX": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Tex. Gov't Code ch. 305",
+            "source": "https://www.ethics.state.tx.us/statutes/ch305.php",
+            "note": "No cooling-off period: the lobbying chapter lets former legislators register at once; it only bars a lobbyist from spending leftover campaign money on lobbying (\u00a7 305.029)."
+          },
+          "US-UT": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Utah Code \u00a7 67-24-103",
+            "source": "https://le.utah.gov/xcode/Title67/Chapter24/C67-24-S103_2026050620260506.html",
+            "note": "One year: a former member of the Legislature may not register or lobby for one calendar year after leaving office (Lobbying Restrictions Act of 2009; the section was amended again in 2026, effective 5/6/2026, keeping the one-year period)."
+          },
+          "US-VA": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Va. Code \u00a7 2.2-3104; Va. Code tit. 30, ch. 13",
+            "source": "https://law.lis.virginia.gov/vacode/title2.2/chapter31/section2.2-3104/",
+            "note": "No cooling-off period for legislators: the one-year post-service bar covers executive officials and designated legislative staff, not members, and the General Assembly Conflicts of Interests Act has no post-service provision."
+          },
+          "US-VI": {
+            "answer": "no",
+            "preempts": false,
+            "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer no), because this place's own law could not be read.",
+            "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+          },
+          "US-VT": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Vt. Stat. Ann. tit. 2, \u00a7 266(b)",
+            "source": "https://legislature.vermont.gov/statutes/section/02/011/00266",
+            "note": "One year: a former legislator may not be a lobbyist in Vermont for one year after leaving office."
+          },
+          "US-WA": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Rev. Code Wash. \u00a7 42.52.080",
+            "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=42.52.080",
+            "note": "No cooling-off period on lobbying: the post-service rules bar contract-related jobs and help on specific matters the official worked on, but set no period during which a former legislator may not lobby."
+          },
+          "US-WI": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Wis. Stat. \u00a7 19.45(8)",
+            "source": "https://docs.legis.wisconsin.gov/statutes/statutes/19/III/45",
+            "note": "No cooling-off period for legislators: the 12-month post-service bar expressly excludes former legislators."
+          },
+          "US-WV": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "W. Va. Code \u00a7 6B-2-5(f)(3)-(4)",
+            "source": "https://code.wvlegislature.gov/6B-2-5/",
+            "note": "No cooling-off period: the ethics act says a present or former official may appear at any time in a representative capacity before the Legislature on a statute or budget."
+          },
+          "US-WY": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Wyo. Stat. \u00a7\u00a7 28-7-101 to -104; \u00a7\u00a7 9-13-101 et seq.",
+            "source": "https://wyoleg.gov/statutes/compress/title28.pdf",
+            "note": "No cooling-off period: neither the lobbyist registration chapter nor the Ethics and Disclosure Act restricts former legislators from lobbying."
+          }
+        }
+      },
+      "existingLinks": [],
+      "completion": "0/5 complete",
+      "effectsList": "Covered former official, covered employer/activity and cooling-off period bar lobbying registration/contact or employment where the rule actually covers it; exceptions, investigations/penalties and employment/pay consequences need actual records.",
+      "existingOrHeldReaders": [
+        "Existing held lobbying-cooling-off.ts and post-office-careers.ts need exact Team1 source handoff"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 56,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "Covered former official, covered employer/activity and cooling-off period bar lobbying registration/contact or employment where the rule actually covers it; exceptions, investigations/penalties and employment/pay consequences need actual records."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Exact covered official/activity/recipient, dates/exceptions and state-specific period; per disclosure/enforcement/compliance unit cost and empirical substitution/employment evidence.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "Covered former official, covered employer/activity and cooling-off period bar lobbying registration/contact or employment where the rule actually covers it; exceptions, investigations/penalties and employment/pay consequences need actual records.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {
+        "source": "State legislature code and constitution pages fetched 2026-09-28 (current text in force on 2026-01-01), plus a few secondary sources where legislature hosts refused: municipal league pages (IML, Arkansas Municipal League, MTAS), state encyclopedias (Alabama, Georgia), the Colorado Legislative Council brief (May 2020), Wikisource copies of the CT, KS, NY and CNMI constitutions, and Wikipedia's 'Home rule in the United States' table (IN and NM only).",
+        "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+        "answers": {
+          "US-AK": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Alaska Const. art. X, \u00a7\u00a7 1, 11",
+            "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+            "note": "Home-rule boroughs and cities may exercise all legislative powers not prohibited by law or charter, and the constitution orders liberal construction of every local government's powers."
+          },
+          "US-AL": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Ala. Const. art. XII",
+            "source": "https://encyclopediaofalabama.org/article/home-rule/",
+            "note": "Cities and towns hold only the powers the legislature delegates to them, and counties have no general grant at all, so Dillon's Rule governs."
+          },
+          "US-AR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ark. Code Ann. \u00a7 14-43-602",
+            "source": "https://www.armunileague.org/wp-content/uploads/2024/07/Civilpedia_Sec01_Government.pdf",
+            "note": "Act 1187 of 2011 gave every municipality full legislative power over municipal affairs and declared Dillon's Rule inapplicable; before that, only first-class cities had it. Section 14-43-601 lists the matters reserved as state affairs."
+          },
+          "US-AS": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "A.S.C.A. \u00a7\u00a7 5.0204, 5.0305",
+            "source": "https://asbar.org/code-annotated/5-0305-village-regulations-penalties-enforcement/",
+            "note": "Village councils may make regulations only on matters of a strictly local nature, they take effect only after the Department of Samoan Affairs approves them, and penalties are capped at $25, so local power is narrow and delegated."
+          },
+          "US-AZ": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ariz. Const. art. 13, \u00a7 2; A.R.S. \u00a7 9-284",
+            "source": "https://www.azleg.gov/ars/9/00284.htm",
+            "note": "Only charter cities (population over 3,500, including Phoenix and Tucson) hold home rule, and their charters prevail over conflicting laws on city matters; the general-law cities, which are most cities by count, have only statutory powers."
+          },
+          "US-CA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Cal. Const. art. XI, \u00a7\u00a7 5, 7",
+            "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%207.&article=XI",
+            "note": "Every county and city may make any local police, sanitary and other regulations that do not conflict with general laws, and charter cities also control their municipal affairs."
+          },
+          "US-CO": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Colo. Const. art. XX, \u00a7 6",
+            "source": "https://leg.colorado.gov/sites/default/files/r20-540_issue_brief_on_home_rule_charters.pdf",
+            "note": "The 103 home-rule municipalities, including Denver, may legislate on local matters, but statutory towns remain strictly subject to state law."
+          },
+          "US-CT": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Conn. Const. art. X, \u00a7 1",
+            "source": "https://en.wikisource.org/wiki/Constitution_of_Connecticut",
+            "note": "The General Assembly delegates only the legislative authority it chooses to towns, cities and boroughs, and the Home Rule Act lets them choose their charter structure but not residual powers. The source is a Wikisource copy because cga.ct.gov refused connections."
+          },
+          "US-DC": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "D.C. Code \u00a7\u00a7 1-203.02, 1-206.01",
+            "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-203.02",
+            "note": "The District has no municipalities, and its own legislative power extends to all rightful subjects of legislation, subject to the Home Rule Act's limits and Congress's reserved power to legislate for the District at any time."
+          },
+          "US-DE": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "22 Del. C. \u00a7 802",
+            "source": "https://delcode.delaware.gov/title22/c008/sc01/index.html",
+            "note": "A municipality with at least 1,000 residents that amends its charter under this chapter gains every power the General Assembly could grant and that no statute denies; smaller towns and those that have not amended keep only their charter powers."
+          },
+          "US-FL": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Fla. Const. art. VIII, \u00a7 2(b); Fla. Stat. \u00a7 166.021",
+            "source": "https://www.flsenate.gov/Laws/Statutes/2025/166.021",
+            "note": "All municipalities may exercise any power for municipal purposes except when expressly prohibited by law, and the statute removes judicially imposed limits."
+          },
+          "US-GA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ga. Const. art. IX, \u00a7 II, \u00b6 II; O.C.G.A. \u00a7 36-35-3",
+            "source": "https://www.georgiaencyclopedia.org/articles/government-politics/home-rule-and-ordinances/",
+            "note": "By statute, cities may adopt reasonable ordinances on their affairs where general law makes no provision and that are consistent with the constitution; counties hold home rule directly under the constitution."
+          },
+          "US-GU": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "5 GCA \u00a7 40112",
+            "source": "https://col.guamcourts.gov/sites/default/files/05gc040_Q.pdf",
+            "note": "Guam's village mayors hold only listed administrative duties (streets, sanitation, census, emergency help) and have no general legislative power, so every local power is delegated by the territory."
+          },
+          "US-HI": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Haw. Const. art. VIII, \u00a7\u00a7 1, 2",
+            "source": "https://lrb.hawaii.gov/constitution",
+            "note": "Hawaii has no incorporated cities, and its counties exercise only the powers conferred under general laws; their charters control structure and organization, not residual lawmaking power."
+          },
+          "US-IA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Iowa Code \u00a7 364.1; Iowa Const. art. III, \u00a7 38A",
+            "source": "https://www.legis.iowa.gov/docs/code/364.1.pdf",
+            "note": "Every city may exercise any power it deems appropriate unless expressly limited by the constitution or inconsistent with state law."
+          },
+          "US-ID": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Idaho Code \u00a7 50-301",
+            "source": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH3/SECT50-301/",
+            "note": "Every city may exercise all powers of local self-government in city affairs that are not specifically prohibited by or in conflict with state law."
+          },
+          "US-IL": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ill. Const. art. VII, \u00a7 6",
+            "source": "https://www.iml.org/homerule",
+            "note": "Home-rule municipalities (automatically those over 25,000 residents, others by referendum) may exercise any power not specifically prohibited by state law, while non-home-rule municipalities have only granted powers."
+          },
+          "US-IN": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+            "note": "Indiana's counties, cities and towns are exempt from Dillon's Rule, which applies there only to townships. The source is only the Wikipedia table's comment, because the Indiana Code site returned only a script shell."
+          },
+          "US-KS": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Kan. Const. art. 12, \u00a7 5",
+            "source": "https://en.wikisource.org/wiki/Kansas_Constitution",
+            "note": "All cities may determine their local affairs and government, subject to uniform state laws, and their powers are construed to give them the largest measure of self-government. The source is a Wikisource copy because state hosts refused."
+          },
+          "US-KY": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ky. Rev. Stat. \u00a7 82.082",
+            "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=48682",
+            "note": "Every city may exercise any power in furtherance of a public purpose that does not conflict with the constitution or a statute."
+          },
+          "US-LA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "La. Const. art. VI, \u00a7\u00a7 5, 7",
+            "source": "https://senate.la.gov/Documents/Constitution/Article6.htm",
+            "note": "Home-rule-charter governments may exercise any power not denied by general law, and a noncharter government gains the same power if its voters approve; otherwise it has only the powers the law grants."
+          },
+          "US-MA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mass. Const. amend. art. 89, \u00a7 6",
+            "source": "https://malegislature.gov/Laws/Constitution",
+            "note": "Every city and town may exercise any power the General Court could confer that is not inconsistent with its laws and not denied by the local charter."
+          },
+          "US-MD": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Md. Const. art. XI-E; Md. Code, Local Gov't \u00a7 5-202",
+            "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=glg&section=5-202&enactments=false",
+            "note": "Municipalities hold constitutional home rule and a general grant to adopt ordinances for good government, public safety, health and welfare; this is a general-welfare grant rather than an express 'any power not denied' clause."
+          },
+          "US-ME": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "30-A M.R.S. \u00a7 3001",
+            "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec3001.html",
+            "note": "Every municipality may exercise any power the Legislature could confer that is not denied expressly or by clear implication."
+          },
+          "US-MI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mich. Comp. Laws \u00a7 117.4j(3); Mich. Const. art. 7, \u00a7 22",
+            "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-117-4j",
+            "note": "Home-rule cities (all Michigan cities) may exercise all municipal powers, whether or not enumerated, subject to the constitution and general law; townships remain under Dillon's Rule."
+          },
+          "US-MN": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Minn. Stat. \u00a7 410.07; Minn. Const. art. XII, \u00a7 4",
+            "source": "https://www.revisor.mn.gov/statutes/cite/410.07",
+            "note": "Home-rule charter cities, which include Minneapolis and Saint Paul, may regulate all local municipal functions as fully as the legislature could; statutory cities, which are most cities by count, hold only granted powers."
+          },
+          "US-MO": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mo. Const. art. VI, \u00a7 19(a)",
+            "source": "https://revisor.mo.gov/main/OneSection.aspx?section=VI++++19(a)&bid=31896&constit=y",
+            "note": "Charter cities hold every power the General Assembly could confer unless the charter or a statute limits or denies it; noncharter cities have only statutory powers."
+          },
+          "US-MP": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N. Mar. I. Const. art. VI, \u00a7 7(a)",
+            "source": "https://en.wikisource.org/wiki/Constitution_of_the_Commonwealth_of_the_Northern_Mariana_Islands",
+            "note": "Municipal councils' powers extend to all matters of a predominantly local nature not preempted by the Commonwealth Legislature, but their listed powers are budget and confirmation duties. The source is a Wikisource copy that could not be checked against cnmilaw.org, which returned only a script shell."
+          },
+          "US-MS": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Miss. Code \u00a7 21-17-5",
+            "source": "https://codes.findlaw.com/ms/title-21-municipalities/ms-code-sect-21-17-5/",
+            "note": "Municipalities may adopt any order, resolution or ordinance on municipal affairs, property and finances that is not inconsistent with the constitution or general law, though they cannot levy taxes or issue bonds without specific authority."
+          },
+          "US-MT": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Mont. Const. art. XI, \u00a7 6",
+            "source": "https://archive.legmt.gov/bills/mca/title_0000/article_0110/part_0010/section_0060/0000-0110-0010-0060.html",
+            "note": "Only local governments that adopt a self-government charter may exercise any power not prohibited; general-power governments have narrower powers."
+          },
+          "US-NC": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "N.C. Gen. Stat. \u00a7 160A-4",
+            "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-4.html",
+            "note": "City powers must still come from a grant; the statute only requires broad construction of granted powers and their reasonably necessary supplements."
+          },
+          "US-ND": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "N.D. Cent. Code \u00a7 40-05.1-06",
+            "source": "https://ndlegis.gov/cencode/t40c05-1.pdf",
+            "note": "Home-rule cities hold self-government only 'within the powers enumerated' in the statute's list, and only as their charters include them."
+          },
+          "US-NE": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Neb. Const. art. XI, \u00a7 2",
+            "source": "https://nebraskalegislature.gov/laws/articles.php?article=XI-2",
+            "note": "Only cities over 5,000 may frame a home-rule charter, and only Lincoln and Omaha have one; the constitutional text is a charter grant 'subject to the constitution and laws', and every other city lives under Dillon's Rule."
+          },
+          "US-NH": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "N.H. Rev. Stat. Ann. \u00a7 31:39",
+            "source": "https://www.gencourt.state.nh.us/rsa/html/III/31/31-39.htm",
+            "note": "Towns may adopt bylaws only on the subjects the statute lists, so Dillon's Rule governs."
+          },
+          "US-NJ": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.J. Const. art. IV, \u00a7 VII, \u00b6 11",
+            "source": "https://www.njleg.gov/constitution",
+            "note": "The constitution orders liberal construction of municipal and county powers in their favor, including implied and incidental powers, and New Jersey is usually classed as a home-rule state; the general police-power statute could not be fetched."
+          },
+          "US-NM": {
+            "answer": "yes",
+            "preempts": true,
+            "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+            "note": "New Mexico's home-rule municipalities hold broad powers, while the others keep only granted powers. The only source available is Wikipedia's table, because nmonesource.com and the Secretary of State's copy of the constitution could not be fetched."
+          },
+          "US-NV": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Nev. Rev. Stat. \u00a7\u00a7 268.001\u2013268.0035",
+            "source": "https://www.leg.state.nv.us/NRS/NRS-268.html",
+            "note": "Nevada keeps Dillon's Rule, modified since 2015 to give city governing bodies implied power over matters of local concern; those matters exclude statewide interests. The brief's definition classes this as Dillon's Rule; see conflicts."
+          },
+          "US-NY": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "N.Y. Const. art. IX, \u00a7 2(c)",
+            "source": "https://en.wikisource.org/wiki/New_York_Constitution_as_of_2004",
+            "note": "Every local government may adopt local laws relating to its property, affairs or government that are consistent with the constitution and general law. The source is a Wikisource copy as of 2004; this clause has been unchanged since 1963."
+          },
+          "US-OH": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Ohio Const. art. XVIII, \u00a7 3",
+            "source": "https://codes.ohio.gov/ohio-constitution/section-18.3",
+            "note": "All municipalities hold all powers of local self-government and may adopt local police regulations that do not conflict with general laws."
+          },
+          "US-OK": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Okla. Const. art. XVIII, \u00a7 3(a)",
+            "source": "https://www.oklegislature.gov/OKStatutes/CompleteTitles/AllOKConstitutionArticles.rtf",
+            "note": "Cities over 2,000 may frame their own charter; the text is a charter grant 'consistent with and subject to' state law, and its broader scope comes from court doctrine on municipal affairs. Noncharter towns have only statutory powers."
+          },
+          "US-OR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Or. Const. art. XI, \u00a7 2",
+            "source": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+            "note": "The voters of every city and town may enact and amend their own municipal charter, subject to the constitution and criminal laws."
+          },
+          "US-PA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Pa. Const. art. IX, \u00a7 2",
+            "source": "https://www.palegis.us/statutes/consolidated/view-statute&txtType=PDF&ttl=0&div=00.&chpt=9&sctn=2&subsctn=0",
+            "note": "Only municipalities that adopt a home-rule charter may exercise any power not denied by the constitution, the charter or the General Assembly; most of Pennsylvania's municipalities have not adopted one."
+          },
+          "US-PR": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "C\u00f3digo Municipal de Puerto Rico (Ley 107-2020), arts. 1.007, 1.008, 1.010",
+            "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf",
+            "note": "Municipalities may order, regulate and resolve whatever is necessary or convenient for local needs, and their listed powers are non-exclusive and construed liberally; the autonomy they exercise is conferred by the Legislative Assembly. See conflicts."
+          },
+          "US-RI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "R.I. Const. art. XIII, \u00a7\u00a7 1\u20132",
+            "source": "https://rilegislature.gov/riconstitution/Constitution/C13.aspx",
+            "note": "Every city and town has self-government in all local matters and may enact local laws on its property, affairs and government consistent with state law."
+          },
+          "US-SC": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "S.C. Code Ann. \u00a7 5-7-30",
+            "source": "https://www.scstatehouse.gov/code/t05c007.php",
+            "note": "Every municipality may legislate on any subject it finds necessary and proper for its security, general welfare and good government, consistent with the constitution and general law."
+          },
+          "US-SD": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "S.D. Const. art. IX, \u00a7 2",
+            "source": "https://sdlegislature.gov/api/Statutes/Constitution/9-2.html",
+            "note": "Only a chartered (home-rule) county or city may exercise any legislative power not denied by its charter, the constitution or general law; few municipalities have adopted a charter."
+          },
+          "US-TN": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "Tenn. Const. art. XI, \u00a7 9",
+            "source": "https://www.mtas.tennessee.edu/reference/home-rule",
+            "note": "Tennessee home rule means only that the 14 home-rule cities control their own charters and are shielded from private acts; it does not grant residual powers, and most cities hold only statutory powers."
+          },
+          "US-TX": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Tex. Loc. Gov't Code \u00a7 51.072",
+            "source": "https://tcss.legis.texas.gov/resources/LG/htm/LG.51.htm",
+            "note": "Home-rule municipalities (cities over 5,000 that adopt a charter) have full power of local self-government; general-law cities have only granted powers."
+          },
+          "US-UT": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Utah Code \u00a7 10-8-84",
+            "source": "https://le.utah.gov/xcode/Title10/Chapter8/C10-8-S84_1800010118000101.html",
+            "note": "Municipalities have a broad general-welfare power to pass ordinances for the safety, health, prosperity and order of their residents, and the Utah Supreme Court rejected Dillon's Rule in State v. Hutchison (1980)."
+          },
+          "US-VA": {
+            "answer": "no",
+            "preempts": true,
+            "source": "https://www.virginiaplaces.org/government/dillon.html",
+            "note": "Virginia is a Dillon's Rule state: a locality may act only where the General Assembly has clearly granted authority. See conflicts about Va. Code \u00a7 15.2-1102."
+          },
+          "US-VI": {
+            "answer": "no",
+            "preempts": true,
+            "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 4 territories read for this question (2 answer no), because this place's own law could not be read.",
+            "note": "Tried: Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. 48 U.S.C. \u00a7 1574 (uscode.house.gov) sets one territorial legislature and does not address counties or cities, and the 1954 Revised Organic Act PDF at vivote.gov is a scan with no text layer."
+          },
+          "US-VT": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "24 V.S.A. \u00a7 2291",
+            "source": "https://legislature.vermont.gov/statutes/section/24/061/02291",
+            "note": "Towns, cities and villages hold the powers the statute enumerates, plus their charter powers, so Dillon's Rule governs."
+          },
+          "US-WA": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Rev. Code Wash. \u00a7 35A.11.020",
+            "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=35A.11.020&pdf=true",
+            "note": "Code cities, the majority of Washington cities, hold all powers possible for a city under the constitution that no law specifically denies, and every city holds the local police power under Wash. Const. art. XI, \u00a7 11."
+          },
+          "US-WI": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Wis. Const. art. XI, \u00a7 3(1)",
+            "source": "https://docs.legis.wisconsin.gov/document/wisconsinconstitution/XI,3",
+            "note": "Cities and villages may determine their local affairs and government, subject only to the constitution and uniform statewide legislation."
+          },
+          "US-WV": {
+            "answer": "no",
+            "preempts": true,
+            "cite": "W. Va. Code \u00a7\u00a7 8-1-5a, 8-1-7",
+            "source": "https://code.wvlegislature.gov/8-1-7/",
+            "note": "City powers are enumerated but construed without strict construction, and the Municipal Home Rule Program lets only approved cities carry out their board-approved written plans."
+          },
+          "US-WY": {
+            "answer": "yes",
+            "preempts": true,
+            "cite": "Wyo. Const. art. 13, \u00a7 1(b)",
+            "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
+            "note": "All cities and towns may determine their local affairs by ordinance, subject only to statutes that apply uniformly to all cities and towns; taxes require legislative authorization."
+          }
+        }
+      },
+      "existingLinks": [],
+      "completion": "0/5 complete",
+      "effectsList": "A real organic act/enabling statute/constitution changes subject-specific county/city powers; actual proposal admitted or refused under the canonical gate; downstream ordinance must itself be enacted and operative before any person gets its effect.",
+      "existingOrHeldReaders": [
+        "src/simulation/governing/question-authority.ts"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 56,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "A real organic act/enabling statute/constitution changes subject-specific county/city powers; actual proposal admitted or refused under the canonical gate; downstream ordinance must itself be enacted and operative before any person gets its effect."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Subject/locality-specific authority and preemption including D.C., territories and townships; valid amendment route; per legal-review/compliance cost. No universal local economic benefit from a binary home-rule label.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "A real organic act/enabling statute/constitution changes subject-specific county/city powers; actual proposal admitted or refused under the canonical gate; downstream ordinance must itself be enacted and operative before any person gets its effect.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.council-term-limits",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {},
+      "existingLinks": [],
+      "completion": "0/5 complete",
+      "effectsList": "Actual local charter count, full/partial terms, consecutive/lifetime rule, grandfathering and breaks gate the named council candidate; actual seat/election consequence is separate; voters and groups can notice a saved restriction.",
+      "existingOrHeldReaders": [
+        "src/simulation/living-world/local-council-term-limits.ts",
+        "src/simulation/living-world/local-elections.ts"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 0,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "Actual local charter count, full/partial terms, consecutive/lifetime rule, grandfathering and breaks gate the named council candidate; actual seat/election consequence is separate; voters and groups can notice a saved restriction."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Actual local charter rule and state enabling/preemption for every affected locality; candidate-review/changeover per-unit cost; no universal two-term legal rule or universal turnout size.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "Actual local charter count, full/partial terms, consecutive/lifetime rule, grandfathering and breaks gate the named council candidate; actual seat/election consequence is separate; voters and groups can notice a saved restriction.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
+      "sourceHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+      "startingLawRecord": {},
+      "existingLinks": [],
+      "completion": "0/5 complete",
+      "effectsList": "The charter delegates ward drawing to a lawful commission with member selection/conflict rules; a saved lawful map assigns homes to wards; candidates actually drawn outside their seat face ward eligibility; representation/competition and turnout need separately supported traces.",
+      "existingOrHeldReaders": [
+        "src/simulation/living-world/town-wards.ts",
+        "src/simulation/living-world/local-elections.ts"
+      ],
+      "fiveParts": {
+        "terms": {
+          "status": "INCOMPLETE",
+          "coveredStartingYesNoJurisdictions": 0,
+          "limit": "Binary rows are not complete parameter values. Preserve estimated flags and exact sources; no missing current-law value becomes zero or permission."
+        },
+        "effects": {
+          "status": "INCOMPLETE",
+          "rangeLimit": "Existing provisional/about-zero links retained as evidence, not universal causal certification. No new unsourced range or number supplied.",
+          "supportedMechanisms": "The charter delegates ward drawing to a lawful commission with member selection/conflict rules; a saved lawful map assigns homes to wards; candidates actually drawn outside their seat face ward eligibility; representation/competition and turnout need separately supported traces."
+        },
+        "cost": {
+          "status": "NEEDS_RESEARCH",
+          "figureRequest": "Actual local charter/state authority, census/map timing, selection/public review rules; per ward/cycle commission and mapping cost; locally valid competitiveness/turnout causal effect range, not state redistricting proxy.",
+          "missing": "Researched payer/unit/range/time/place coverage and actual budget/compliance writers."
+        },
+        "ideology": {
+          "status": "INCOMPLETE",
+          "missing": "Complete canonical principle IDs with justified continuous weights and interested constituency/group inputs; no guessed weights."
+        },
+        "proof": {
+          "status": "NOT RUN",
+          "missing": "Every effect/cost row by jurisdiction plus actual named before/after consequence; current nationwide run5dcf11f30 is pending."
+        }
+      },
+      "whyAnswers": {
+        "why": "A legally competent body changes a rule; the canonical law reader determines whether it is operative for the actual person/place. Writers act only on the records/mechanisms listed.",
+        "bedrock": "Operative legal rule plus the affected person's actual circumstances; aggregate size is not a roll deciding a person.",
+        "repeal": "Re-resolve canonical law including constitutional rank, judicial review and preemption. Repeal stops or reverses only the mechanism actually governed; completed payments, issued IDs, maps and service histories are not erased.",
+        "who": "The charter delegates ward drawing to a lawful commission with member selection/conflict rules; a saved lawful map assigns homes to wards; candidates actually drawn outside their seat face ward eligibility; representation/competition and turnout need separately supported traces.",
+        "howFast": "Existing link delays preserved; legal effective dates and real administrative/calendar timing govern direct actions. Missing scheduling facts remain a research request.",
+        "placeDifferences": "Exact state/local organic act, law/charter, agency and population exposure; no universal authority or rule substituted.",
+        "aboutZero": "Aggregate about-zero links do not suppress document/eligibility/registration/seat/legal-authority records."
+      },
+      "coordinatorIntegration": "Source/effect inventory only, NOT an integration-ready links/catalog payload. Coordinator owns shared links.json and catalog parameters."
+    }
+  ]
+}
