@@ -1,5 +1,36 @@
 # Wave 1 status
 
+Player wording has reached main. The Census population writer now has an owner release; recorded consent and a usable newspaper story packet remain unresolved integration steps.
+
+## September 30, 12:30 a.m. check-in
+
+### MERGED
+Player wording PR #1135 is now on main at 7eee3bedd6f532cb10709d887a10837289864c93, verified through GitHub and ancestry comparison. Merge reports its changed test passed 1/1. Lobbying refusal dates #1164 reached only the held law branch at 6e616df4249f80a42f590edda98cf00ef19476f2; this is not a main release. Earlier speed and sponsorship integrations remain landed.
+
+### CONNECTIONS TABLE
+| Link | Evidence and actual activity | Next owner action |
+| --- | --- | --- |
+| Census → saved opening population | Team 3 source checks 23/23 at 0721e5bc8b0bf69ceff0dd86cdc2420f3f8df509; producer absent | Team 1 released exact wrapper; coordinator relayed implementation to Team 3 |
+| Senate procedures → recorded consent | Team 2 at 0df7afeff60457b8807ef196d6296f658dbd67d7; guard checks passed, production connection pending | Additional writer ownership released; CTO representation decision pending |
+| Laws → communications pay | #1168 approved for law branch only | Merge integrating; broader laws still held for sources |
+| State intake → shorter proofs | #1175 ready; next candidate measured 24.476127 seconds from 26.768319, identical fingerprint | Team 4 publishing bounded repair; 15-second target still failed |
+| Actual attendance → controls | #1149 source checks 10/10 at d863a465c38900af59ea5efd6d5045f53e4e8de8 | Team 5 told to follow CTO ordered walk-removal work and avoid a draft hold solely for browser checks |
+| Saved stories → newspaper | Retained fixture has zero stories; run7 portable save missing | CTO asked for a save or bounded export run; Team 7 continues existing scene tags |
+| Life context → opening questions | Team 8 reading two assigned research docs | Five drafts to CTO before changing question set; #1169 integration with Merge |
+| Sources → legal and effect values | Team 6 observed researching parks/session law; fresh report pending. Team 9 #1174 ready at b54d4c1b27fccef45fd3a9f16f416481d57c9b7d | Bill-number research first, then CTO additions on homelessness sizes and media |
+| Scene tags → import | Team 7 reports 292/292 preview candidates; #1176/#1178 heads verified | Existing 58 staging places next; no pixel approval/import inferred |
+
+### BLOCKED
+#1156 requires renewed approval at db44028987fd1c6629f3381cde828b7b47752752 after a handback conflict; 9/9 tests are Merge-reported. #1169 has current-base integration work; approval does not establish a completed merge.
+
+Team 3's extra budget fixture failed 10/27 from absent history.events; fixture repair was routed to CTO. Unowned press/outcome readers with territory nulls are source findings, not gameplay proof. Team 4 requests only establishDistrictResidence/districtResidenceSince copy/index hunks and matching test; ownership is being checked before editing.
+
+CTO 12:08 supersedes cloud disk restrictions: cloud teams may set capacity appropriate to their cloud disk. Mac reserve remains 25 GiB. No new team, helper or merge by coordinator. Team 5's report omitted the latest ordered assignment; coordinator sent the exact correction. Reports distinguish source inspection, running checks and completed work.
+
+### EFFECTS
+Catalog links added: 0; changed: 0. New watched three-step chains: 0. The Census producer ownership dead end is cleared; implementation/checks are next. Newspaper source data, consent representation, budget fixture ownership and homelessness approval remain explicit gaps. No runtime coefficient, story or measured outcome was invented.
+
+
 The owner-created cloud teams have their assignments. Their local predecessors remain preserved while repository access and final handoffs are confirmed.
 
 ## Current cloud transfer
