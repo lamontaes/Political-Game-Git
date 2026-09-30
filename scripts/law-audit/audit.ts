@@ -31,9 +31,15 @@ export interface Evidence {
   before: unknown;
   after: unknown;
   detail: string;
+  jurisdictionId?: string;
+  appliedAt?: string;
+  recordDate?: string;
+  sourceRecordIds?: readonly EntityId[];
 }
 export interface AuditRow {
-  enactmentId: string;
+  source: "enacted" | "starting";
+  lawSource: LawEffectStamp["source"];
+  enactmentId: string | null;
   measureId: string;
   designation: string;
   title: string;
@@ -121,10 +127,16 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
       )
         entries.push({ collection, record, refs: strings(record) });
   }
+  const stampedEntries = collectStampedRecords(opening, world);
   for (const enactment of world.history.legislativeEnactments ?? []) {
     if (
       enactment.outcome !== "enacted" ||
-      enactment.resolvedAt <= opening.currentDate ||
+      (enactment.resolvedAt <= opening.currentDate &&
+        !stampedEntries.some(
+          ({ stamp }) =>
+            stamp.source === "enacted" &&
+            stamp.governingLawKey === enactment.measureId,
+        )) ||
       enactment.resolvedAt > world.currentDate
     )
       continue;
@@ -134,6 +146,8 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
     const answers = measureAnswersAt(world, measure.id, enactment.sequence);
     const effective = enactmentOperative(world, measure, enactment).operativeAt;
     const base = {
+      source: "enacted" as const,
+      lawSource: "enacted" as const,
       enactmentId: enactment.id,
       measureId: measure.id,
       designation: measure.designation,
@@ -223,73 +237,14 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
           effect: "rule-or-service",
           reader: "No path in lawEffectPaths or outcome links",
         });
-      const stamped = entries.flatMap((entry) => {
-        const stamps = entry.record.lawEffectStamps;
-        if (!Array.isArray(stamps)) return [];
-        return stamps
-          .filter(isLawEffectStamp)
-          .filter(
-            (stamp) =>
-              stamp.source === "enacted" &&
-              stamp.governingLawKey === measure.id &&
-              stamp.questionKey === question &&
-              stamp.appliedAt > opening.currentDate &&
-              stamp.appliedAt <= world.currentDate &&
-              answer.propositionId !== null &&
-              lawInForce(
-                world,
-                stamp.jurisdictionId,
-                answer.propositionId!,
-                stamp.appliedAt,
-              )?.measureId === measure.id,
-          )
-          .map((stamp) => ({ ...entry, stamp }));
-      });
-      for (const kind of new Set(
-        stamped.map(({ stamp }) => stamp.effectKind),
-      )) {
-        const matching = stamped.filter(
-          ({ stamp }) => stamp.effectKind === kind,
-        );
-        const evidence = matching.flatMap(({ collection, record, stamp }) => {
-          const payload = stampedConsequence(record);
-          if (Object.keys(payload).length === 0) return [];
-          const previous = (opening.history as unknown as JsonRecord)[
-            collection
-          ];
-          const before = Array.isArray(previous)
-            ? previous.find(
-                (prior) =>
-                  object(prior) &&
-                  ((record.id !== undefined && prior.id === record.id) ||
-                    (record.stableKey !== undefined &&
-                      prior.stableKey === record.stableKey)),
-              )
-            : undefined;
-          return [
-            {
-              record: `${collection}:${String(record.id ?? record.stableKey ?? record.sequence)}`,
-              touched: stampedTouched(world, record, stamp),
-              before: object(before) ? stampedConsequence(before) : null,
-              after: payload,
-              detail: `Saved consequence stamped with canonical ${stamp.governingLawKey}; applied ${stamp.appliedAt}; source record IDs ${JSON.stringify(stamp.sourceRecordIds ?? [])}. Prior absence is unknown, not zero. This proves only this recorded mechanism, not downstream delivery.`,
-            },
-          ];
-        });
-        rows.push({
-          ...context,
-          effect: `stamped:${kind}`,
-          reader: [...new Set(matching.map((entry) => entry.collection))].join(
-            ", ",
-          ),
-          fired: evidence.length > 0,
-          reason: evidence.length
-            ? "stamped-recorded-consequence"
-            : "stamp-without-consequence-payload",
-          evidence,
-          research: null,
-        });
-      }
+      const stamped = stampedEntries.filter(
+        ({ stamp }) =>
+          stamp.source === "enacted" &&
+          stamp.governingLawKey === measure.id &&
+          stamp.questionKey === question,
+      );
+      appendStampedRows(rows, world, context, stamped);
+      if (enactment.resolvedAt <= opening.currentDate) continue;
       for (const effect of effects) {
         const evidence: Evidence[] = [];
         let reason =
@@ -593,6 +548,48 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
       }
     }
   }
+  // Starting-law observations have no in-play enactment. Only observed stamps
+  // get rows; an unobserved store never becomes a missing-effect assertion.
+  const starting = stampedEntries.filter(
+    ({ stamp }) => stamp.source === "in-force-at-start",
+  );
+  for (const groupKey of new Set(
+    starting.map(({ stamp }) =>
+      JSON.stringify([stamp.governingLawKey, stamp.jurisdictionId]),
+    ),
+  )) {
+    const matching = starting.filter(
+      ({ stamp }) =>
+        JSON.stringify([stamp.governingLawKey, stamp.jurisdictionId]) ===
+        groupKey,
+    );
+    const lawKey = matching[0]!.stamp.governingLawKey;
+    const { stamp, law } = matching[0]!;
+    appendStampedRows(
+      rows,
+      world,
+      {
+        source: "starting",
+        lawSource: "in-force-at-start",
+        enactmentId: null,
+        measureId: lawKey,
+        designation: "Starting law (no in-play enactment)",
+        title: stamp.questionKey,
+        jurisdiction:
+          world.jurisdictions[stamp.jurisdictionId]?.name ??
+          stamp.jurisdictionId,
+        jurisdictionId: stamp.jurisdictionId,
+        level: law.level,
+        question: stamp.questionKey,
+        answer: law.answer,
+        startingAnswer: law.answer,
+        comparison: "same as starting law",
+        effectiveAt: stamp.operativeAt,
+        trace: traces.filter((row) => row.questionKey === stamp.questionKey),
+      },
+      matching,
+    );
+  }
   return rows;
 }
 function outcomeEvidence(
@@ -610,14 +607,20 @@ function outcomeEvidence(
 }
 export function summarize(rows: readonly AuditRow[]) {
   const reasons: Record<string, number> = {};
-  for (const row of rows) reasons[row.reason] = (reasons[row.reason] ?? 0) + 1;
+  const enacted = rows.filter((row) => row.lawSource !== "in-force-at-start");
+  const starting = rows.filter((row) => row.lawSource === "in-force-at-start");
+  for (const row of enacted)
+    reasons[row.reason] = (reasons[row.reason] ?? 0) + 1;
   return {
-    lawsAudited: new Set(rows.map((row) => row.enactmentId)).size,
-    effectsFiring: rows.filter((row) => row.fired).length,
-    effectsAboutZero: rows.filter(
+    lawsAudited: new Set(enacted.map((row) => row.enactmentId)).size,
+    startingLawsObserved: new Set(starting.map((row) => row.measureId)).size,
+    startingEffectsFiring: starting.filter((row) => row.fired).length,
+    startingEffectsWithoutPayload: starting.filter((row) => !row.fired).length,
+    effectsFiring: enacted.filter((row) => row.fired).length,
+    effectsAboutZero: enacted.filter(
       (row) => row.reason === "researched-about-zero",
     ).length,
-    effectsMissing: rows.filter(
+    effectsMissing: enacted.filter(
       (row) => !row.fired && row.reason !== "researched-about-zero",
     ).length,
     reasons,
@@ -641,6 +644,9 @@ function stampedConsequence(record: JsonRecord): JsonRecord {
         /amount|value|status|outcome|decision|reason|summary|answer|eligibility|restriction|service|hours/i.test(
           key,
         )) ||
+      (Array.isArray(value) &&
+        value.length > 0 &&
+        value.every((item) => typeof item === "number")) ||
       (object(value) && Object.keys(numbers(value)).length > 0)
     )
       payload[key] = value;
@@ -664,6 +670,409 @@ function stampedTouched(
         world.people[id] ? `${personName(world.people[id])} (${id})` : id,
       )
       .join(", ") ||
+    (typeof record.organizationId === "string"
+      ? `Business ${record.organizationId}; no person-level consequence established`
+      : "") ||
     `No person-level identity on this record; ${world.jurisdictions[stamp.jurisdictionId]?.name ?? stamp.jurisdictionId}`
   );
+}
+
+interface StampedEntry {
+  collection: string;
+  locator: string;
+  record: JsonRecord;
+  before: JsonRecord | undefined;
+  recordDate?: string;
+  stamp: LawEffectStamp;
+  law: NonNullable<ReturnType<typeof lawInForce>>;
+}
+
+/** Walk every saved object, once at audit time. Application dates, not history
+ * sequences or store location, delimit stamped observations. Known stores keep
+ * exact business and government/month locators before the general traversal. */
+function collectStampedRecords(
+  opening: World,
+  world: World,
+  coverage?: StampCoverage,
+): StampedEntry[] {
+  const candidates: Omit<StampedEntry, "stamp" | "law">[] = [];
+  const beforeWorld = opening as unknown as JsonRecord;
+  const afterWorld = world as unknown as JsonRecord;
+  const books = object(afterWorld.townFinances)
+    ? afterWorld.townFinances.businesses
+    : undefined;
+  const oldBooks = object(beforeWorld.townFinances)
+    ? beforeWorld.townFinances.businesses
+    : undefined;
+  if (object(books))
+    for (const [key, record] of Object.entries(books)) {
+      if (!object(record)) continue;
+      candidates.push({
+        collection: "townFinances.businesses",
+        locator: `townFinances.businesses:${key}`,
+        record,
+        before:
+          object(oldBooks) && object(oldBooks[key]) ? oldBooks[key] : undefined,
+        recordDate:
+          typeof record.lastRound === "string" ? record.lastRound : undefined,
+      });
+    }
+  const budgets = object(afterWorld.publicBudgets)
+    ? afterWorld.publicBudgets
+    : undefined;
+  const oldBudgets = object(beforeWorld.publicBudgets)
+    ? beforeWorld.publicBudgets
+    : undefined;
+  function monthly(
+    collection: string,
+    key: string,
+    container: JsonRecord,
+    previous: unknown,
+  ) {
+    if (!Array.isArray(container.months)) return;
+    const prior =
+      object(previous) && Array.isArray(previous.months) ? previous.months : [];
+    for (const record of container.months) {
+      if (!object(record) || typeof record.month !== "string") continue;
+      const before = prior.find(
+        (row) => object(row) && row.month === record.month,
+      );
+      candidates.push({
+        collection,
+        locator: `${collection}:${key}:months:${record.month}`,
+        record,
+        before: object(before) ? before : undefined,
+        recordDate: record.month,
+      });
+    }
+  }
+  if (Array.isArray(budgets?.governments))
+    for (const government of budgets.governments) {
+      if (!object(government) || typeof government.key !== "string") continue;
+      const before = Array.isArray(oldBudgets?.governments)
+        ? oldBudgets.governments.find(
+            (row) => object(row) && row.key === government.key,
+          )
+        : undefined;
+      monthly("publicBudgets.governments", government.key, government, before);
+    }
+  if (object(budgets?.federal))
+    monthly(
+      "publicBudgets.federal",
+      "federal",
+      budgets.federal,
+      oldBudgets?.federal,
+    );
+  const visited = new Set<object>();
+  function walk(value: unknown, previous: unknown, path: string) {
+    if (value === null || typeof value !== "object" || visited.has(value))
+      return;
+    visited.add(value);
+    if (Array.isArray(value)) {
+      const prior = Array.isArray(previous) ? previous : [];
+      value.forEach((record, index) => {
+        const key = object(record)
+          ? (record.id ?? record.stableKey ?? record.key ?? record.month)
+          : undefined;
+        const before =
+          key === undefined
+            ? prior[index]
+            : prior.find(
+                (row) =>
+                  object(row) &&
+                  (row.id ?? row.stableKey ?? row.key ?? row.month) === key,
+              );
+        walk(record, before, `${path}:${String(key ?? index)}`);
+      });
+      return;
+    }
+    if (!object(value)) return;
+    if (Array.isArray(value.lawEffectStamps))
+      candidates.push({
+        collection: path.startsWith("history.") ? path.split(/[.:]/)[1]! : path,
+        locator: path.startsWith("history.")
+          ? path.slice("history.".length)
+          : path,
+        record: value,
+        before: object(previous) ? previous : undefined,
+        recordDate:
+          typeof value.month === "string"
+            ? value.month
+            : typeof value.lastRound === "string"
+              ? value.lastRound
+              : undefined,
+      });
+    for (const [key, child] of Object.entries(value)) {
+      if (key === "lawEffectStamps") continue;
+      walk(
+        child,
+        object(previous) ? previous[key] : undefined,
+        path ? `${path}.${key}` : key,
+      );
+    }
+  }
+  walk(world, opening, "");
+  const propositions = new Map(
+    Object.values(world.policyCatalog.propositions).map((prop) => [
+      prop.stableKey,
+      prop.id,
+    ]),
+  );
+  const collected: StampedEntry[] = [];
+  const seen = new Map<JsonRecord | string, Set<string>>();
+  const processed = new Set<JsonRecord>();
+  const reject = (reason: string) => {
+    if (coverage)
+      coverage.excluded[reason] = (coverage.excluded[reason] ?? 0) + 1;
+  };
+  for (const candidate of candidates) {
+    if (
+      !Array.isArray(candidate.record.lawEffectStamps) ||
+      processed.has(candidate.record)
+    )
+      continue;
+    processed.add(candidate.record);
+    if (coverage) {
+      coverage.stampedRecordObjects++;
+      coverage.rawStamps += candidate.record.lawEffectStamps.length;
+      coverage.observedStores.add(candidate.collection);
+    }
+    for (const raw of candidate.record.lawEffectStamps) {
+      if (!isLawEffectStamp(raw)) {
+        reject("invalid-stamp-shape");
+        continue;
+      }
+      const stamp = raw;
+      if (
+        stamp.appliedAt <= opening.currentDate ||
+        stamp.appliedAt > world.currentDate
+      ) {
+        reject("outside-application-window");
+        continue;
+      }
+      const propositionId = propositions.get(stamp.questionKey);
+      if (!propositionId) {
+        reject("question-not-in-catalog");
+        continue;
+      }
+      const law = lawInForce(
+        world,
+        stamp.jurisdictionId,
+        propositionId,
+        stamp.appliedAt,
+      );
+      if (
+        !law ||
+        law.measureId !== stamp.governingLawKey ||
+        law.origin !== stamp.source ||
+        law.operativeAt !== stamp.operativeAt
+      ) {
+        reject("canonical-law-mismatch");
+        continue;
+      }
+      // The same saved object may be exposed in a flat history alias. Business
+      // aliases with the exact organization identity and payload also collapse.
+      const book =
+        typeof candidate.record.organizationId === "string" && object(books)
+          ? books[candidate.record.organizationId]
+          : undefined;
+      const identity =
+        object(book) &&
+        (candidate.record.id === undefined ||
+          candidate.record.id === candidate.record.organizationId) &&
+        JSON.stringify(stampedConsequence(book)) ===
+          JSON.stringify(stampedConsequence(candidate.record))
+          ? book
+          : typeof candidate.record.id === "string"
+            ? JSON.stringify([
+                candidate.record.id,
+                candidate.recordDate,
+                stampedConsequence(candidate.record),
+              ])
+            : candidate.record;
+      const stampKey = JSON.stringify([
+        stamp.source,
+        stamp.governingLawKey,
+        stamp.questionKey,
+        stamp.jurisdictionId,
+        stamp.effectKind,
+        stamp.operativeAt,
+        stamp.appliedAt,
+      ]);
+      const keys = seen.get(identity) ?? new Set<string>();
+      if (keys.has(stampKey)) {
+        reject("duplicate-record-stamp");
+        continue;
+      }
+      keys.add(stampKey);
+      seen.set(identity, keys);
+      collected.push({ ...candidate, stamp, law });
+    }
+  }
+  return collected;
+}
+
+function appendStampedRows(
+  rows: AuditRow[],
+  world: World,
+  context: Omit<
+    AuditRow,
+    "effect" | "reader" | "fired" | "reason" | "evidence" | "research"
+  >,
+  entries: readonly StampedEntry[],
+) {
+  for (const kind of new Set(entries.map(({ stamp }) => stamp.effectKind))) {
+    const matching = entries.filter(({ stamp }) => stamp.effectKind === kind);
+    const evidence = matching.flatMap(
+      ({ locator, record, before, recordDate, stamp }) => {
+        const payload = stampedConsequence(record);
+        if (!Object.keys(payload).length) return [];
+        return [
+          {
+            record: locator,
+            touched: stampedTouched(world, record, stamp),
+            before: before ? stampedConsequence(before) : null,
+            after: payload,
+            jurisdictionId: stamp.jurisdictionId,
+            appliedAt: stamp.appliedAt,
+            ...(recordDate === undefined ? {} : { recordDate }),
+            sourceRecordIds: stamp.sourceRecordIds ?? [],
+            detail: `Saved consequence stamped with canonical ${stamp.governingLawKey}; source ${stamp.source}; applied ${stamp.appliedAt}; source record IDs ${JSON.stringify(stamp.sourceRecordIds ?? [])}. Prior absence is unknown, not zero. This proves only this recorded mechanism, not downstream delivery.`,
+          },
+        ];
+      },
+    );
+    rows.push({
+      ...context,
+      effect: `stamped:${kind}`,
+      reader: [...new Set(matching.map(({ collection }) => collection))].join(
+        ", ",
+      ),
+      fired: evidence.length > 0,
+      reason: evidence.length
+        ? "stamped-recorded-consequence"
+        : "stamp-without-consequence-payload",
+      evidence,
+      research: null,
+    });
+  }
+}
+
+interface StampCoverage {
+  stampedRecordObjects: number;
+  rawStamps: number;
+  observedStores: Set<string>;
+  excluded: Record<string, number>;
+}
+
+/** Counts describe collector observations only, never absent physical effects. */
+export function stampAuditCoverage(opening: World, world: World) {
+  const coverage: StampCoverage = {
+    stampedRecordObjects: 0,
+    rawStamps: 0,
+    observedStores: new Set(),
+    excluded: {},
+  };
+  const records = collectStampedRecords(opening, world, coverage);
+  return {
+    scope:
+      "Every enumerable saved object carrying an array lawEffectStamps; canonical law/date validation; read-only end-of-run traversal",
+    stampedRecordObjects: coverage.stampedRecordObjects,
+    rawStamps: coverage.rawStamps,
+    observedStores: [...coverage.observedStores].sort(),
+    excluded: coverage.excluded,
+    uniqueCanonicalStampsInWindow: records.length,
+    canonicalStampsWithPayload: records.filter(
+      ({ record }) => Object.keys(stampedConsequence(record)).length > 0,
+    ).length,
+    limit:
+      "An unobserved store, rejected stamp, or empty observation count is not proof of absent effects. A payload proves its recorded mechanism only.",
+  };
+}
+
+/** One row per law and application jurisdiction. Adapter counts stay separate.
+ * Monetary fields remain named saved values; they are never summed into a
+ * supposed law-caused cost, and multiple stamps never duplicate a saved amount. */
+export function lawJurisdictionTable(rows: readonly AuditRow[]) {
+  const grouped = new Map<
+    string,
+    {
+      source: AuditRow["source"];
+      lawKey: string;
+      jurisdictionId: string;
+      designation: string;
+      question: string | null;
+      fired: boolean;
+      stamped: boolean;
+      adapterFired: boolean;
+      records: Evidence[];
+    }
+  >();
+  for (const row of rows) {
+    const jurisdictions = row.evidence.length
+      ? new Set(row.evidence.map((e) => e.jurisdictionId ?? row.jurisdictionId))
+      : new Set([row.jurisdictionId]);
+    for (const jurisdictionId of jurisdictions) {
+      const key = JSON.stringify([row.source, row.measureId, jurisdictionId]);
+      const item = grouped.get(key) ?? {
+        source: row.source,
+        lawKey: row.measureId,
+        jurisdictionId,
+        designation: row.designation,
+        question: row.question,
+        fired: false,
+        stamped: false,
+        adapterFired: false,
+        records: [],
+      };
+      const matching = row.evidence.filter(
+        (e) => (e.jurisdictionId ?? row.jurisdictionId) === jurisdictionId,
+      );
+      if (row.fired && matching.length) {
+        item.fired = true;
+        if (row.effect.startsWith("stamped:")) item.stamped = true;
+        else item.adapterFired = true;
+      }
+      for (const evidence of matching)
+        if (
+          !item.records.some(
+            (e) =>
+              e.record === evidence.record &&
+              e.appliedAt === evidence.appliedAt,
+          )
+        )
+          item.records.push(evidence);
+      grouped.set(key, item);
+    }
+  }
+  return [...grouped.values()].map(({ records, ...row }) => ({
+    ...row,
+    records: records.map((evidence) => ({
+      ...evidence,
+      amountFields: moneyFields(evidence.after),
+    })),
+    observation: row.fired
+      ? "saved mechanism observed; downstream effects unproven"
+      : "no attributable record observed; absent effect not established",
+  }));
+}
+function moneyFields(value: unknown, prefix = ""): JsonRecord {
+  const result: JsonRecord = {};
+  if (!object(value)) return result;
+  for (const [key, item] of Object.entries(value)) {
+    const field = `${prefix}${key}`;
+    if (
+      /amount|cost|cash|balance|debt|revenue|receipt|spending|outlay|pay|tax|net|wage|price/i.test(
+        key,
+      )
+    ) {
+      if (
+        typeof item === "number" ||
+        (Array.isArray(item) && item.every((part) => typeof part === "number"))
+      )
+        result[field] = item;
+    }
+    if (object(item)) Object.assign(result, moneyFields(item, `${field}.`));
+  }
+  return result;
 }
