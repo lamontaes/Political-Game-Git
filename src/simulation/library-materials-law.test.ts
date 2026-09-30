@@ -1,3 +1,5 @@
+import { lawInForce } from "./governing/law-in-force";
+import { isLawEffectStamp } from "./law-effect-stamp";
 import { ageOnDate } from "./dates";
 import { describe, expect, it } from "vitest";
 import { openWatchedWorld } from "../../scripts/dev-lab/world-aging";
@@ -144,6 +146,28 @@ describe("library appeals reach collection records and costs", () => {
       libraryChallengeExpenseDollars(control, town, control.currentDate),
     );
     expect(treated.libraryMaterials!.decisions.length).toBeGreaterThan(0);
+    for (const [world, expectedAuthority] of [
+      [control, "state"],
+      [treated, "local"],
+    ] as const) {
+      const law = lawInForce(world, input.jurisdictionId, proposition.id)!;
+      for (const decision of world.libraryMaterials!.decisions) {
+        expect(decision.authority).toBe(expectedAuthority);
+        expect(decision.lawEffectStamps).toHaveLength(2);
+        expect(
+          decision.lawEffectStamps?.map((stamp) => stamp.effectKind),
+        ).toEqual([
+          "library.collection-decision",
+          "library.challenge-review-cost",
+        ]);
+        for (const stamp of decision.lawEffectStamps ?? []) {
+          expect(isLawEffectStamp(stamp)).toBe(true);
+          expect(stamp.governingLawKey).toBe(law.measureId);
+          expect(stamp.jurisdictionId).toBe(town);
+          expect(stamp.appliedAt).toBe(decision.on);
+        }
+      }
+    }
     for (const decision of treated.libraryMaterials!.decisions)
       expect(decision.expenseCents).toBe((13 + 2) * 3356);
     const restored = deserializeWorld(serializeWorld(treated));
@@ -155,6 +179,11 @@ describe("library appeals reach collection records and costs", () => {
         "controlled-held-meeting",
       ),
     ).toBe(restored);
+    expect(
+      restored.libraryMaterials!.decisions.map((row) => row.lawEffectStamps),
+    ).toEqual(
+      treated.libraryMaterials!.decisions.map((row) => row.lawEffectStamps),
+    );
     assertWorldIntegrity(restored);
   }, 180000);
 });

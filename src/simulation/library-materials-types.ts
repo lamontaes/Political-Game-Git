@@ -1,3 +1,4 @@
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import type { EntityId, IsoDate } from "./types";
 export interface LibraryChallenge {
   readonly key: string;
@@ -10,7 +11,7 @@ export interface LibraryChallenge {
   readonly faithParticipationIds: readonly EntityId[];
   readonly schoolChildIds: readonly EntityId[];
 }
-export interface LibraryDecision {
+export interface LibraryDecision extends LawEffectStampedRecord {
   readonly challengeKey: string;
   readonly meetingKey: string;
   readonly on: IsoDate;
