@@ -26,8 +26,17 @@ it("retains mod consequence data through loader, factory, catalog and deep clone
     {
       pack: "fixture",
       provenance: { kind: "authored-fiction", note: "Test only" },
-      domains: [{ key: "labor", name: "Labor" }],
-      issues: [{ key: "wage", domain: "labor", name: "Wages" }],
+      domains: [
+        { key: "labor", name: "Labor", description: "Test labor domain" },
+      ],
+      issues: [
+        {
+          key: "wage",
+          domain: "labor",
+          name: "Wages",
+          description: "Test wage issue",
+        },
+      ],
       propositions: [
         {
           key: "floor",
