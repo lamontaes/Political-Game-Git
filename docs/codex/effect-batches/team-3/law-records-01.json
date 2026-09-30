@@ -1,0 +1,145 @@
+{
+  "team": 3,
+  "lawCount": 3,
+  "sharedWriter": "Catalog parameters and links require coordinator integration, proposals only",
+  "records": [
+    {
+      "questionId": "us-policy-positions:fiscal.adopt-income-tax",
+      "allFivePartsComplete": false,
+      "terms": {
+        "status": "PARTIAL",
+        "startingValueSource": "data/research/money/state-income-tax-2026.json",
+        "coverage": "Single-filer brackets and the single standard deduction only. Married and head-of-household schedules, exemptions and credits are NOT here and stay UNKNOWN until read. Territories are not covered.",
+        "parametersProposal": [
+          {
+            "key": "schedule",
+            "value": "income-tax-brackets-and-deductions"
+          },
+          {
+            "key": "operative-date",
+            "value": "effective-date-and-phase-in"
+          }
+        ],
+        "primaryJurisdictionVerification": "INCOMPLETE; no new scope permission inferred"
+      },
+      "effects": {
+        "status": "PARTIAL",
+        "batch": "tax-definitions-01.json",
+        "directReaders": "Actual existing readers listed in effect-inventory.json; stamping and new watched proof pending"
+      },
+      "cost": {
+        "status": "NEEDS_RESEARCH",
+        "governmentRevenue": "Compute with actual taxable wages/schedules or grocery spending/rates; never equal to implementation cost",
+        "administrationAndCompliancePerUnitRange": null,
+        "fundingTradeoff": "Budget revenue/expenditure/borrowing must reconcile; not yet proven"
+      },
+      "ideology": {
+        "status": "PARTIAL",
+        "existingCatalogPrinciples": [
+          "collective-provision",
+          "limited-government"
+        ],
+        "proposedNumericStrengths": null,
+        "reason": "Current catalog bearings are not new sourced0..1 strengths; do not invent weights",
+        "interestGroupReader": "src/simulation/living-world/law-interest-groups.ts",
+        "missing": "Constituency coverage, strength rationale and continuous record-driven reactions"
+      },
+      "proof": {
+        "status": "NOT_RUN_FOR_ASSIGNED_LAW",
+        "auditTableHead": "8dabb887396666bc2c3ea477a7fa40353554d140",
+        "matchingFloralEnactedRows": 0,
+        "nationwide24Month": "NOT RUN; no nationwide script at current dependency head was verified"
+      }
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.graduated-income-tax",
+      "allFivePartsComplete": false,
+      "terms": {
+        "status": "PARTIAL",
+        "startingValueSource": "data/research/money/state-income-tax-2026.json",
+        "coverage": "Single-filer brackets and the single standard deduction only. Married and head-of-household schedules, exemptions and credits are NOT here and stay UNKNOWN until read. Territories are not covered.",
+        "parametersProposal": [
+          {
+            "key": "schedule",
+            "value": "income-tax-brackets-and-deductions"
+          },
+          {
+            "key": "operative-date",
+            "value": "effective-date-and-phase-in"
+          }
+        ],
+        "primaryJurisdictionVerification": "INCOMPLETE; no new scope permission inferred"
+      },
+      "effects": {
+        "status": "PARTIAL",
+        "batch": "tax-definitions-01.json",
+        "directReaders": "Actual existing readers listed in effect-inventory.json; stamping and new watched proof pending"
+      },
+      "cost": {
+        "status": "NEEDS_RESEARCH",
+        "governmentRevenue": "Compute with actual taxable wages/schedules or grocery spending/rates; never equal to implementation cost",
+        "administrationAndCompliancePerUnitRange": null,
+        "fundingTradeoff": "Budget revenue/expenditure/borrowing must reconcile; not yet proven"
+      },
+      "ideology": {
+        "status": "PARTIAL",
+        "existingCatalogPrinciples": ["equal-opportunity", "equal-treatment"],
+        "proposedNumericStrengths": null,
+        "reason": "Current catalog bearings are not new sourced0..1 strengths; do not invent weights",
+        "interestGroupReader": "src/simulation/living-world/law-interest-groups.ts",
+        "missing": "Constituency coverage, strength rationale and continuous record-driven reactions"
+      },
+      "proof": {
+        "status": "NOT_RUN_FOR_ASSIGNED_LAW",
+        "auditTableHead": "8dabb887396666bc2c3ea477a7fa40353554d140",
+        "matchingFloralEnactedRows": 0,
+        "nationwide24Month": "NOT RUN; no nationwide script at current dependency head was verified"
+      }
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "allFivePartsComplete": false,
+      "terms": {
+        "status": "PARTIAL",
+        "startingValueSource": "Actual state/local grocery-rate terms missing",
+        "coverage": "Actual grocery definition/exemptions and tax authority still need research",
+        "parametersProposal": [
+          {
+            "key": "exempt-goods",
+            "value": "grocery-definition"
+          },
+          {
+            "key": "operative-date",
+            "value": "effective-date-and-phase-in"
+          }
+        ],
+        "primaryJurisdictionVerification": "INCOMPLETE; no new scope permission inferred"
+      },
+      "effects": {
+        "status": "PARTIAL",
+        "batch": "tax-definitions-01.json",
+        "directReaders": "Actual existing readers listed in effect-inventory.json; stamping and new watched proof pending"
+      },
+      "cost": {
+        "status": "NEEDS_RESEARCH",
+        "governmentRevenue": "Compute with actual taxable wages/schedules or grocery spending/rates; never equal to implementation cost",
+        "administrationAndCompliancePerUnitRange": null,
+        "fundingTradeoff": "Budget revenue/expenditure/borrowing must reconcile; not yet proven"
+      },
+      "ideology": {
+        "status": "PARTIAL",
+        "existingCatalogPrinciples": ["equal-opportunity", "fiscal-restraint"],
+        "proposedNumericStrengths": null,
+        "reason": "Current catalog bearings are not new sourced0..1 strengths; do not invent weights",
+        "interestGroupReader": "src/simulation/living-world/law-interest-groups.ts",
+        "missing": "Constituency coverage, strength rationale and continuous record-driven reactions"
+      },
+      "proof": {
+        "status": "NOT_RUN_FOR_ASSIGNED_LAW",
+        "auditTableHead": "8dabb887396666bc2c3ea477a7fa40353554d140",
+        "matchingFloralEnactedRows": 0,
+        "nationwide24Month": "NOT RUN; no nationwide script at current dependency head was verified"
+      }
+    }
+  ]
+}

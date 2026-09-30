@@ -1,0 +1,61 @@
+diff --git a/src/simulation/statutory-tax.ts b/src/simulation/statutory-tax.ts
+index 293521ab2..cf2ddedf0 100644
+--- a/src/simulation/statutory-tax.ts
++++ b/src/simulation/statutory-tax.ts
+@@ -57,7 +57,11 @@ import {
+   placeWageIncomeTax,
+   type FederalEmploymentRule,
+ } from "./statutory-tax-rules";
+-import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
++import {
++  stateIncomeTaxUnderLaw,
++  stateIncomeTaxEffectStamps,
++} from "./state-income-tax-law";
++import type { LawEffectStampedRecord } from "./law-effect-stamp";
+ import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";
+ import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
+ import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
+@@ -532,7 +536,17 @@ function paycheckLiabilities(
+         rule.sourceUrl,
+       ),
+     );
+-  return rows;
++  return rows.map((row) => {
++    if (row.taxKey !== placeTaxKey || row.liability === null) return row;
++    const stamps = stateIncomeTaxEffectStamps(
++      world,
++      stateKey,
++      outcome.occurredAt,
++      row.lawMeasureIds ?? [],
++      [outcome.id, flow.id, flow.recipient.personId],
++    );
++    return stamps.length ? { ...row, lawEffectStamps: stamps } : row;
++  });
+ }
+ 
+ /**
+@@ -762,6 +776,24 @@ function withholdTo(
+     if (amount === 0) break;
+     remaining -= amount;
+     payments.push({
++      ...(liability.authorityKey !== "US" &&
++      (liability as StatutoryTaxLiabilityRecord & LawEffectStampedRecord)
++        .lawEffectStamps?.length
++        ? {
++            lawEffectStamps: (
++              liability as StatutoryTaxLiabilityRecord & LawEffectStampedRecord
++            ).lawEffectStamps!.map((stamp) => ({
++              ...stamp,
++              effectKind: "state-income-tax-payment",
++              appliedAt: next.currentDate,
++              sourceRecordIds: [
++                liability.id,
++                transfer.id,
++                ...(stamp.sourceRecordIds ?? []),
++              ],
++            })),
++          }
++        : {}),
+       stableKey: `${liability.stableKey}:withholding`,
+       liabilityId: liability.id,
+       method: "withholding",

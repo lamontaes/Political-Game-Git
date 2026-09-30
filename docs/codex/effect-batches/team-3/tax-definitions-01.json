@@ -1,0 +1,126 @@
+{
+  "team": 3,
+  "batchId": "tax-definitions-01",
+  "lawQuestionIds": [
+    "us-policy-positions:fiscal.adopt-income-tax",
+    "us-policy-positions:fiscal.graduated-income-tax",
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax"
+  ],
+  "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+  "writer": "Coordinator only; this JSON is a proposal, not a links.json mutation",
+  "patches": [
+    {
+      "linkId": "income-tax-to-poverty",
+      "from": "law:us-policy-positions:fiscal.adopt-income-tax",
+      "to": "household.poverty-pct",
+      "proposedChange": {
+        "size": 0,
+        "range": [0, 0],
+        "why": [
+          "The destination is the Census official poverty measure, defined using pretax cash income. A tax change does not mechanically change this pretax input.",
+          "Statistical/legal measure definition; not a guessed actor response."
+        ],
+        "conditions": "Definition is constant where this same Census measure is used; no claim about distinct territorial/local poverty metrics.",
+        "reverseOnRepeal": "Repealing the tax also has zero mechanical effect on this pretax measure. Earnings, prices, transfers and migration require separate evidence and records.",
+        "who": "Only the official pretax poverty metric; not take-home income, food insecurity or supplemental poverty.",
+        "lagWhy": "No direct change at any lag.",
+        "aboutZero": true
+      },
+      "evidence": {
+        "kind": "definition",
+        "source": "Census official poverty definition; Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+        "primaryUrl": "https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html",
+        "limits": "Census primary page read September 30, 2026; direct pretax definition only. No migration or behavioral zero inferred."
+      },
+      "status": "REVIEW_REQUIRED; coordinator sole map writer",
+      "personReader": "Actual withholding/receipts are separate direct effects, not this inert poverty link",
+      "nextStep": "Stamp actual tax records with Team2 helper; do not count these already-zero links as newly switched on"
+    },
+    {
+      "linkId": "graduated-income-tax-to-poverty",
+      "from": "law:us-policy-positions:fiscal.graduated-income-tax",
+      "to": "household.poverty-pct",
+      "proposedChange": {
+        "size": 0,
+        "range": [0, 0],
+        "why": [
+          "The destination is the Census official poverty measure, defined using pretax cash income. A tax change does not mechanically change this pretax input.",
+          "Statistical/legal measure definition; not a guessed actor response."
+        ],
+        "conditions": "Definition is constant where this same Census measure is used; no claim about distinct territorial/local poverty metrics.",
+        "reverseOnRepeal": "Repealing the tax also has zero mechanical effect on this pretax measure. Earnings, prices, transfers and migration require separate evidence and records.",
+        "who": "Only the official pretax poverty metric; not take-home income, food insecurity or supplemental poverty.",
+        "lagWhy": "No direct change at any lag.",
+        "aboutZero": true
+      },
+      "evidence": {
+        "kind": "definition",
+        "source": "Census official poverty definition",
+        "primaryUrl": "https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html",
+        "limits": "Census primary page read September 30, 2026; direct pretax definition only. No migration or behavioral zero inferred."
+      },
+      "status": "REVIEW_REQUIRED; coordinator sole map writer",
+      "personReader": "Actual withholding/receipts are separate direct effects, not this inert poverty link",
+      "nextStep": "Stamp actual tax records with Team2 helper; do not count these already-zero links as newly switched on"
+    },
+    {
+      "linkId": "grocery-exemption-to-poverty",
+      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "to": "household.poverty-pct",
+      "proposedChange": {
+        "size": 0,
+        "range": [0, 0],
+        "why": [
+          "The destination is the Census official poverty measure, defined using pretax cash income. A tax change does not mechanically change this pretax input.",
+          "Statistical/legal measure definition; not a guessed actor response."
+        ],
+        "conditions": "Definition is constant where this same Census measure is used; no claim about distinct territorial/local poverty metrics.",
+        "reverseOnRepeal": "Repealing the tax also has zero mechanical effect on this pretax measure. Earnings, prices, transfers and migration require separate evidence and records.",
+        "who": "Only the official pretax poverty metric; not take-home income, food insecurity or supplemental poverty.",
+        "lagWhy": "No direct change at any lag.",
+        "aboutZero": true
+      },
+      "evidence": {
+        "kind": "definition",
+        "source": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+        "primaryUrl": "https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html",
+        "limits": "Census primary page read September 30, 2026; direct pretax definition only. No migration or behavioral zero inferred."
+      },
+      "status": "REVIEW_REQUIRED; coordinator sole map writer",
+      "personReader": "Actual withholding/receipts are separate direct effects, not this inert poverty link",
+      "nextStep": "Stamp actual tax records with Team2 helper; do not count these already-zero links as newly switched on"
+    }
+  ],
+  "newLinks": 0,
+  "newlySwitchedOn": 0,
+  "directEffectsStamped": 0,
+  "numbersDeskRequests": [
+    {
+      "id": "T3-SIZE-PAID-LEAVE",
+      "linkId": "paid-leave-to-mothers-work",
+      "missing": "Causal response range, employment definition, covered cohort, benefit-program scope, comparison, time horizon and reverse behavior; current source is to confirm."
+    },
+    {
+      "id": "T3-SIZE-PENSION",
+      "linkId": "pension-funding-to-borrowing-cost",
+      "missing": "Contribution-law change to borrowing spread in basis points; cited pension investment loss shock is not the same treatment."
+    },
+    {
+      "id": "T3-SIZE-RESERVE",
+      "linkId": "reserve-balance-to-borrowing-cost",
+      "missing": "Basis points per specified reserve-rule/treatment and horizon; current anchor admits no estimate per law."
+    },
+    {
+      "id": "T3-SIZE-INCOME-SCORES",
+      "linkId": "family-income-to-scores",
+      "missing": "Response uncertainty/range around reported 0.06 SD per $1000, inflation year, income definition, horizon/cohort, and conversion to destination metric; no single point substituted for a range."
+    },
+    {
+      "id": "T3-SIZE-RTW",
+      "linkId": "right-to-work-to-turnout",
+      "missing": "Exact turnout percentage-point estimate/range, measured baseline denominator and time horizon; current proportional range assumes 65% turnout and cannot be transferred silently."
+    }
+  ],
+  "requestsDue": "Within 10 minutes of coordinator delivery per CTO10:45",
+  "bounds": "[0,0] is a definition-derived inert effect, not a universal behavioral coefficient; nonzero sizes require study evidence"
+}

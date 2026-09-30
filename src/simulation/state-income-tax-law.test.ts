@@ -6,6 +6,7 @@ import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
   stateIncomeTaxUnderLaw,
+  stateIncomeTaxEffectStamps,
 } from "./state-income-tax-law";
 import type {
   EntityId,
@@ -101,6 +102,43 @@ function lawWorld(
 const paid = makeIsoDate("2027-03-15");
 
 describe("a state's income tax law, as enacted in play", () => {
+  it.each(["US-WA", "US-FL", "US-TX", "US-NV", "US-SD"])(
+    "attributes an adopted schedule to the operative law in %s",
+    (stateKey) => {
+      const adopt = enacted(stateId(stateKey), ADOPT, "yes", "2027-01-01");
+      const future = enacted(stateId(stateKey), ADOPT, "no", "2027-04-01");
+      const world = lawWorld("tax-stamp-five-states", [adopt, future]);
+      const read = stateIncomeTaxUnderLaw(world, stateKey, "single", paid);
+      expect(read.kind).toBe("estimated");
+      if (read.kind !== "estimated") throw new Error("Expected adopted tax");
+      const sources = ["saved-paycheck" as EntityId];
+      const stamps = stateIncomeTaxEffectStamps(
+        world,
+        stateKey,
+        paid,
+        read.lawMeasureIds,
+        sources,
+      );
+      expect(stamps).toHaveLength(1);
+      expect(stamps[0]).toMatchObject({
+        governingLawKey: adopt.measure.id,
+        questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+        jurisdictionId: stateId(stateKey),
+        operativeAt: "2027-01-01",
+        appliedAt: paid,
+        sourceRecordIds: sources,
+      });
+      expect(
+        stateIncomeTaxEffectStamps(
+          world,
+          stateKey,
+          paid,
+          [future.measure.id],
+          sources,
+        ),
+      ).toEqual([]);
+    },
+  );
   it("changes nothing where no law was enacted in play", () => {
     for (const key of ["US-WA", "US-OR", "US-CO"])
       expect(

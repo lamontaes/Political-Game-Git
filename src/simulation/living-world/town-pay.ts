@@ -56,8 +56,13 @@ import {
   workStatusAt,
 } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { lawInForce } from "../governing/law-in-force";
+import { lawEffectStamp } from "../law-effect-stamp";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
   federalMinimumSchedule,
   minimumHourlyAt,
   minimumWageSettingAt,
@@ -930,7 +935,40 @@ export function raiseTownPayToMinimum(
       const event = eventOf.get(setBy.measureId);
       const rate = `$${hourly.toFixed(2)} an hour`;
       const which = setting.level === "local" ? "city" : setting.level;
+      const questionKey =
+        setting.level === "local"
+          ? CITY_MINIMUM_WAGE_QUESTION_KEY
+          : setting.level === "state"
+            ? STATE_MINIMUM_WAGE_QUESTION_KEY
+            : FEDERAL_MINIMUM_WAGE_QUESTION_KEY;
+      const jurisdictionId = role.locationJurisdictionId;
+      const proposition = Object.values(
+        next.policyCatalog?.propositions ?? {},
+      ).find((definition) => definition.stableKey === questionKey);
+      const law =
+        jurisdictionId && proposition
+          ? lawInForce(
+              next,
+              jurisdictionId,
+              proposition.id,
+              day,
+              "enacted-only",
+            )
+          : null;
+      // Attribute only the canonical law that actually set this raise.
+      // A typed provision without that question's law gets no invented stamp.
+      const stamp =
+        jurisdictionId && law?.measureId === setting.measureId
+          ? lawEffectStamp(law, {
+              effectKind: "paycheck",
+              questionKey,
+              jurisdictionId,
+              appliedAt: day,
+              sourceRecordIds: [flow.id, role.workRelationshipId, current.id],
+            })
+          : null;
       next = recordResourceFlowTerms(next, {
+        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
         stableKey: `${flow.stableKey}:minimum-wage:${day}`,
         resourceFlowId: flow.id,
         effectiveAt: day,

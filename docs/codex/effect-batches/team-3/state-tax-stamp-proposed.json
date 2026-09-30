@@ -1,0 +1,20 @@
+{
+  "team": 3,
+  "owner": "Coordinator sole statutory-tax.ts/tax-types.ts writer",
+  "baseMainHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+  "baseFileBlob": "293521ab2a4e025734ea930dc496c9199008dbe4",
+  "patch": "state-tax-stamp-proposed.patch",
+  "ownedDependency": "stateIncomeTaxEffectStamps in src/simulation/state-income-tax-law.ts",
+  "boundaries": [
+    "paycheckLiabilities: bounded state income-tax draft enrichment before return",
+    "withholdTo: actual positive state tax payment draft carries governing assessment stamp"
+  ],
+  "sharedFileEdited": false,
+  "verification": "Pure reader five-state adoption tests passed; saved state tax assessment/payment proof NOT RUN until coordinator integration",
+  "federalPreservation": "No alteration to federal law selection, calculations, collection or stamp inputs",
+  "limits": [
+    "No guessed rate or budget amount",
+    "Current code keeps Jan1 tax-year selection; midyear applicability remains existing labeled game rule",
+    "The map has no new activation from this payload"
+  ]
+}

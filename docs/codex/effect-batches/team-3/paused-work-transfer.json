@@ -1,0 +1,85 @@
+{
+  "status": "PAUSED_BY_CTO10:45",
+  "evictionBranch": "codex/team-3-eviction-held",
+  "productHead": "aa6575a9b03175e46b342d35cdffcea72543c958",
+  "pr": 1189,
+  "newRuns": [
+    {
+      "seed": "team3-eviction-breadth-20260930-a",
+      "place": "Gu\u00e1nica, Puerto Rico",
+      "placeKey": "7231189",
+      "sourceHead": "aa6575a9b03175e46b342d35cdffcea72543c958",
+      "collectorHead": "01b41ffa9d8418fe1df8b70374e23f1cd8b38443:team3-system-only-path-adapter",
+      "collectorDirty": false,
+      "sourceDirty": false,
+      "status": "completed-year",
+      "days": 365,
+      "requestedYears": 1,
+      "anchorPersonId": "person_cdd3606f0d7793fc",
+      "save": {
+        "saveMs": 72056.36423300003,
+        "saveCpuMs": 74728.674,
+        "reopenMs": 73987.02201399999,
+        "reopenCpuMs": 77170.9,
+        "saveBytes": 23,
+        "reopenedMatches": true
+      },
+      "problem": null,
+      "openingMs": 2634.3609320000005,
+      "elapsedMs": 487453.582414,
+      "targetDate": "2027-01-05",
+      "proof": {
+        "period": {
+          "from": "2026-01-05",
+          "through": "2027-01-05",
+          "openingSequence": 44065
+        },
+        "evictions": [],
+        "laws": null,
+        "filing": null,
+        "life": null
+      }
+    },
+    {
+      "seed": "team3-eviction-unincorporated-20260930-0",
+      "place": "Belchertown, Massachusetts",
+      "placeKey": "2504790",
+      "sourceHead": "aa6575a9b03175e46b342d35cdffcea72543c958",
+      "collectorHead": "01b41ffa9d8418fe1df8b70374e23f1cd8b38443:team3-system-only-path-adapter",
+      "collectorDirty": false,
+      "sourceDirty": false,
+      "status": "completed-year",
+      "days": 365,
+      "requestedYears": 1,
+      "anchorPersonId": "person_ca248fbe557e0f14",
+      "save": {
+        "saveMs": 72583.70162399998,
+        "saveCpuMs": 74484.306,
+        "reopenMs": 72550.058219,
+        "reopenCpuMs": 76954.549,
+        "saveBytes": 23,
+        "reopenedMatches": true
+      },
+      "problem": null,
+      "openingMs": 2015.3258549999991,
+      "elapsedMs": 489443.070144,
+      "targetDate": "2027-01-05",
+      "proof": {
+        "period": {
+          "from": "2026-01-05",
+          "through": "2027-01-05",
+          "openingSequence": 43335
+        },
+        "evictions": [],
+        "laws": null,
+        "filing": null,
+        "life": null
+      }
+    }
+  ],
+  "limits": "Both additional random-place years completed with Save/reopen equality but no eviction cases; they do not prove destination/host branches. Known 23-byte save counter rejected. Retained world files remain local, not in Git.",
+  "housingFirstNewOwner": "Team8",
+  "housingFirstStatus": "Design and scratch prototype only, not production code or accepted contract. No new schema or provider was built.",
+  "previousTeam6Release": "https://github.com/lamontaes/Political-Game-Git/pull/1189#issuecomment-5913349735",
+  "oldClaims": "Team4 takes housing laws; preserve prior eviction seams and tests from the pinned branch. Shared writer transfers remain coordinator-owned."
+}
