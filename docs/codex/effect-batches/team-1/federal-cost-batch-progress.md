@@ -1,7 +1,8 @@
 # Federal costs come from posted payments
 
 MERGED: not merged. This is a partial remaining-cost batch, with one tested
-federal passenger-rail payment connection. Other federal laws remain incomplete.
+federal passenger-rail payment connection and canonical stamps on four existing
+federal budget readers. Other federal laws remain incomplete.
 
 WHAT EMERGED: HARDWIRED — an explicitly controlled $100,000 rail installment
 posted through the existing public-program producer. It reduced the federal
@@ -61,11 +62,17 @@ added to shared history or program records.
 
 ## 6. Proof run
 
-The new controlled producer test plus four existing Treasury tests passed 5/5 in
-47.35 seconds; test bodies took 26.46 seconds. Scoped source/test roots previously
-returned zero diagnostics; final imports receive another scoped check. Lint and
-formatting are scoped. This is one generated full-world controlled test, not
-five-state or nationwide ordinary legislative proof. No timeout was increased.
+The final combined run passed 29/29 tests in 43.86 seconds; test bodies took
+24.60 seconds. It includes one controlled full-world rail producer test, four
+existing Treasury regressions, and 24 budget stamp fixtures: four questions in
+five states plus four future-effective cases. The five-state fixtures cover
+defense spending, foreign aid, debt-limit spending cuts and farm subsidy cuts.
+They prove signed saved outlay stamps, reversal and JSON preservation, using
+minimal controlled law fixtures. They do not prove ordinary political filing or
+repair the inherited amount formulas. Scoped checks returned zero diagnostics
+for five source/test roots; lint passed. The default sandbox blocked the final
+run before tests at Vite’s Git subprocess; the subprocess-enabled run passed.
+This is not nationwide ordinary legislative proof. No timeout was increased.
 Canonical Save/Continue, browser, full suite and speed checks are NOT RUN.
 
 ## 7. Worked example
@@ -88,3 +95,10 @@ existing catalog declarations are not those terms. Team8 owns privacy amount
 rebuild; Team1's affordability helper clearance remains pending. The complete
 20-key inventory and two drawn-cost findings are published separately in this
 same batch. No shared map/catalog edits or invented saturation curve.
+
+The five-state budget fixtures use observer seeds team1-defense-cost-0 through
+team1-defense-cost-4: Norman, North Carolina; Cottonwood, California; Lakewood,
+New Jersey; Sellers, South Carolina; and Doe Valley, Kentucky. Each world has
+one national government cost. The state is an observer context, not a separate
+federal cost charged to that state. The rail fixture seed is
+federal-public-program-outlay-metric.

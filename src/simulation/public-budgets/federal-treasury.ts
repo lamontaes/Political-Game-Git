@@ -17,6 +17,7 @@ import {
 import { lawInForce } from "../governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type { EntityId, IsoDate, World } from "../types";
+import { lawEffectStamp, type LawEffectStamp } from "../law-effect-stamp";
 import {
   federalProgramCostsForMonth,
   type FederalProgramCost,
@@ -201,6 +202,7 @@ export interface FederalTreasuryMonth {
     readonly measureId: EntityId;
     readonly line: FederalReceipt | FederalOutlay;
     readonly amount: number;
+    readonly lawEffectStamps?: readonly LawEffectStamp[];
   }[];
 }
 
@@ -299,11 +301,38 @@ export function settleFederalTreasuryMonth(
       const moved = lawFactor(world, effect, month);
       if (!moved) continue;
       const next = amount * moved.factor;
+      const changedAmount = Math.round(next - amount);
+      const proposition =
+        kind === "outlay" && changedAmount !== 0
+          ? Object.values(world.policyCatalog?.propositions ?? {}).find(
+              (p) => p.stableKey === effect.questionKey,
+            )
+          : undefined;
+      const governingLaw = proposition
+        ? lawInForce(
+            world,
+            NATIONAL_ELECTION_JURISDICTION.id,
+            proposition.id,
+            month,
+            "enacted-only",
+          )
+        : null;
+      const stamp =
+        governingLaw?.measureId === moved.measureId
+          ? lawEffectStamp(governingLaw, {
+              effectKind: "government-outlay-change",
+              questionKey: effect.questionKey,
+              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+              appliedAt: month,
+              sourceRecordIds: [moved.measureId],
+            })
+          : null;
       laws.push({
         questionKey: effect.questionKey,
         measureId: moved.measureId,
         line: effect.line.key,
-        amount: Math.round(next - amount),
+        amount: changedAmount,
+        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
       });
       amount = next;
     }
