@@ -14,6 +14,7 @@
  */
 import { lawInForce } from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { lawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
 import { SeededRng } from "./rng";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -27,14 +28,20 @@ export interface DataPrivacyCost {
   /** The share of a business's yearly costs the law adds; 0 where none. */
   readonly share: number;
   readonly lawMeasureIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly LawEffectStamp[];
 }
 
 /** This world's size within the range: the middle is likelier than the ends. */
-export function drawnDataPrivacyCostShare(world: World): number {
+export function drawnDataPrivacyCostShare(
+  world: World,
+  jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
+): number {
   const [low, high] = DATA_PRIVACY_COST_RANGE;
   if (!world.seed) return (low + high) / 2;
   const rng = new SeededRng(world.seed).fork(
-    "federal-data-privacy-law:firm-cost",
+    jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+      ? "federal-data-privacy-law:firm-cost"
+      : `federal-data-privacy-law:firm-cost:${jurisdictionId}`,
   );
   return low + (high - low) * ((rng.next() + rng.next()) / 2);
 }
@@ -43,8 +50,9 @@ export function drawnDataPrivacyCostShare(world: World): number {
 export function dataPrivacyCostOn(
   world: World,
   asOf: IsoDate,
+  jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
 ): DataPrivacyCost {
-  const none = { share: 0, lawMeasureIds: [] };
+  const none = { share: 0, lawMeasureIds: [], lawEffectStamps: [] };
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
   ).find(
@@ -59,8 +67,16 @@ export function dataPrivacyCostOn(
     "enacted-only",
   );
   if (!law || law.origin !== "enacted" || law.answer !== "yes") return none;
+  const stamp = lawEffectStamp(law, {
+    effectKind: "business-compliance-cost",
+    questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
+    jurisdictionId,
+    appliedAt: asOf,
+    sourceRecordIds: [law.measureId],
+  });
   return {
-    share: drawnDataPrivacyCostShare(world),
+    share: drawnDataPrivacyCostShare(world, jurisdictionId),
     lawMeasureIds: [law.measureId],
+    lawEffectStamps: stamp ? [stamp] : [],
   };
 }

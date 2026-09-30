@@ -1,4 +1,5 @@
 import type { EntityId, IsoDate } from "../types";
+import type { LawEffectStamp } from "../law-effect-stamp";
 
 /** Recorded when a town business closes because its cash ran out. */
 export const BUSINESS_CLOSED_EVENT = "economy.business-closed";
@@ -43,6 +44,10 @@ export interface TownBusinessBooks {
   readonly lineLimit: number;
   /** Cash in less cash out over its last quarter. */
   readonly lastQuarterNet: number;
+  /** Privacy compliance paid this quarter, in dollars; absent in older saves. */
+  readonly lastQuarterPrivacyCost?: number;
+  /** Laws responsible for consequences saved in these books. */
+  readonly lawEffectStamps?: readonly LawEffectStamp[];
   /** Its pay over its last quarter; absent in books from older saves. */
   readonly lastQuarterPay?: number;
   /**
