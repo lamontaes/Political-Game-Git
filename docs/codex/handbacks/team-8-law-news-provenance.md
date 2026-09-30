@@ -56,3 +56,10 @@ MERGED: pending CTO review and Merge; Team8 has not merged this work.
 WHAT EMERGED: HARDWIRED bookkeeping now preserves separate section identities. No new law effect or person decision is claimed.
 
 VITAL STATISTICS: 3 new fixture cases, 3 non-money channels, 2 sections per channel, 18 separate public stories, 12 changed-file tests passing. Nationwide fired effects noticed / total fired is unmeasured.
+
+
+## WIP update: canonical coverage stamp consumer
+
+Published through GitHub after the execution environment failed. The original section/source repair and its earlier 12/12 receipt remain preserved. New source adds healthCoverageTouches to reportLawEffects: actual coverage boolean changes, valid shared stamps, actual household residence at the record date, source IDs and starting-law catalog labels. It skips initial noncoverage, unchanged coverage, absent people/residences and unstamped consequences. Coverage summaries publish aggregate counts and omit private income, medical basis and hazard values. Attribution is expressly not sole-cause proof.
+
+Two new authored regression cases cover enacted and starting-law stamps, actual Reno residence versus Carson City hometown, gains/losses, unchanged/unstamped rows, source identity, private-data omission and repeated-sweep idempotence. These new cases, typecheck, lint, format, feature walkthrough, browser and nationwide audit are NOT RUN. The branch predates the canonical helper landing and must be integrated with current main before those checks; do not merge the WIP or treat prior tests as verification of new source. Shared helper source is b2d0bf43794ce9ccb497b4c3eb4e2c678eb70d71, coverage writer sole source217a8de539acb2dd13e3b7b627a78dfc91677eba. All-team effect-family adapters remain incomplete; no newspaper delivery or personal reaction is inferred.
