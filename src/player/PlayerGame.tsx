@@ -3591,7 +3591,14 @@ function renderWorkspace({
           isPinnedRef={pinnedRef}
           onOpen={openEntity}
           onTogglePin={togglePin}
-          onWorldChange={onWorldChange}
+          onWorldChange={(next) => {
+            onWorldChange(next);
+            if (
+              projectOrdinaryMeetingScene(next, session.personId)?.phase ===
+              "active"
+            )
+              dispatch({ type: "go-to-scene" });
+          }}
           onOpenWork={() =>
             dispatch({
               type: "go-to-surface",
@@ -3606,7 +3613,14 @@ function renderWorkspace({
           today={
             <TodayView
               session={session}
-              onWorldChange={onWorldChange}
+              onWorldChange={(next) => {
+                onWorldChange(next);
+                if (
+                  projectOrdinaryMeetingScene(next, session.personId)?.phase ===
+                  "active"
+                )
+                  dispatch({ type: "go-to-scene" });
+              }}
               workHint={workHint}
               embedded
               onOpenCommitment={(activityId) =>

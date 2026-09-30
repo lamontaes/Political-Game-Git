@@ -263,7 +263,14 @@ export function projectOrdinaryDay(
     ? world.people[companionPersonId]
     : undefined;
   const open = workPendingEntriesFor(world, personId).filter(
-    (entry) => entry.state.status !== "completed",
+    (entry) =>
+      entry.state.status !== "completed" &&
+      !(
+        entry.item.focus.kind === "calendar-item" &&
+        entry.item.focus.scheduledActivityId &&
+        scheduledActivityState(world, entry.item.focus.scheduledActivityId)
+          .status === "completed"
+      ),
   );
   const pendingIds = open.map((entry) => entry.item.id);
   const pending = open.map((entry) => {

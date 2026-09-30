@@ -1168,14 +1168,14 @@ function CalendarEventActions({
           : `Includes the trip to ${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}. ${venue.journey.costDisclosure}`
         : null;
   const busy = runner.pending || undefined;
-  const attendance = previewTimeCommand(world, personId, {
-    kind: "attend-activity",
-    activityId: selected.activityId,
-  });
   const meetingScene = projectOrdinaryMeetingScene(world, personId);
   const stayingAtMeeting =
     meetingScene?.phase === "active" &&
     meetingScene.activityId === selected.activityId;
+  const attendance = previewTimeCommand(world, personId, {
+    kind: stayingAtMeeting ? "finish-meeting" : "attend-activity",
+    activityId: selected.activityId,
+  });
   const meetingJourney = world.history.scheduledActivities.find(
     (activity) =>
       activity.kind === "travel" &&
@@ -1282,7 +1282,10 @@ function CalendarEventActions({
                 onReport,
               )
             : runner.submit(
-                { kind: "attend-activity", activityId: selected.activityId },
+                {
+                  kind: stayingAtMeeting ? "finish-meeting" : "attend-activity",
+                  activityId: selected.activityId,
+                },
                 onReport,
               )
         }

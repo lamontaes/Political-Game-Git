@@ -69,7 +69,7 @@ const SOMETHING_WAITING = variants("something-waiting", [
   "The list has {{waiting}} on it.",
   "{{waiting}} waiting on you.",
   "{{waiting}} to see to.",
-  "{{waiting}} nobody else is going to do.",
+  "{{waiting}} waiting for an answer.",
 ]);
 
 /** Who is home. Three lines. */
