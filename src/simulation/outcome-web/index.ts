@@ -63,6 +63,7 @@ export type OutcomeStrength = "strong" | "moderate" | "weak" | "about-zero";
 
 export type OutcomeLinkShape =
   | { readonly kind: "linear" }
+  | { readonly kind: "elasticity" }
   | {
       readonly kind: "threshold";
       readonly at: number;
@@ -600,6 +601,16 @@ export function shapedLinkFactor(
   const size = link.size ?? 0;
   const delta = value - baseline;
   switch (link.shape.kind) {
+    case "elasticity":
+      // A relative change is undefined without a positive baseline.
+      // Do not turn missing/zero exposure into a fabricated effect.
+      if (
+        !Number.isFinite(baseline) ||
+        baseline <= 0 ||
+        !Number.isFinite(value)
+      )
+        return 1;
+      return 1 + size * (delta / baseline);
     case "linear":
       return 1 + size * delta;
     case "threshold": {
