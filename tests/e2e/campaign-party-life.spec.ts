@@ -413,7 +413,7 @@ for (const how of ["pointer", "keyboard"] as const) {
     await expect(meeting).toHaveCount(0);
     await expect(
       page.locator(".pg-calendar-entry").filter({
-        hasText: "Journey to the public meeting",
+        hasText: "Trip to the public meeting",
       }),
     ).toHaveCount(0);
     const entry = page

@@ -8,6 +8,7 @@ import { projectCandidateGuidanceScene } from "./candidate-guidance-scene";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import {
+  advanceWorldMinutes,
   addDays,
   addSimulationMinutes,
   compareSimulationMoments,
@@ -39,7 +40,7 @@ import {
   advanceStoppingForOfferDeadlines,
   offerDeadlines,
 } from "./offer-deadlines";
-import { capQuietStretch } from "./quiet-stretch";
+import { capQuietStretch, nextKnownCalendarItem } from "./quiet-stretch";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import {
   describeRoutineOutcome,
@@ -78,6 +79,7 @@ export type TimeCommand =
   /** Wait until a recorded calendar activity begins. */
   | { readonly kind: "until-activity"; readonly activityId: EntityId }
   | { readonly kind: "attend-activity"; readonly activityId: EntityId }
+  | { readonly kind: "finish-meeting"; readonly activityId: EntityId }
   | { readonly kind: "walk"; readonly destination: "home" | "neighborhood" };
 
 export interface TimeCommandRequest {
@@ -162,6 +164,23 @@ export function previewTimeCommand(
   // must hand the choice back; explicit Day/Week can still pass it knowingly.
   if (command.kind === "quiet-stretch" && unresolvedWorkNow(world, personId))
     return null;
+  if (command.kind === "quiet-stretch") {
+    const next = nextKnownCalendarItem(world, personId, { dueItems: false });
+    if (next?.moment && next.date === world.currentDate) {
+      const minutes = simulationMinutesBetween(
+        world.currentMoment,
+        next.moment,
+      );
+      if (minutes <= 0) return null;
+      return {
+        target: next.moment,
+        elapsedMinutes: minutes,
+        targetDate: next.date,
+        days: 0,
+        cappedBy: next,
+      };
+    }
+  }
   if (command.kind === "walk") {
     const offer = openingNeighborhoodWalkOffer(
       world,
@@ -178,14 +197,19 @@ export function previewTimeCommand(
       cappedBy: null,
     };
   }
-  if (command.kind === "attend-activity") {
+  if (command.kind === "attend-activity" || command.kind === "finish-meeting") {
     const entry = venueActivities(world, personId).find(
       (item) => item.activity.id === command.activityId,
     );
     if (!entry || entry.refusal) return null;
+    if (
+      command.kind === "finish-meeting" &&
+      projectOrdinaryMeetingScene(world, personId)?.phase !== "active"
+    )
+      return null;
     const openingMeeting =
       entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
-      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+      command.kind !== "finish-meeting";
     const openingGuidance =
       campaignLifeActivityForScheduledActivity(world, entry.activity.id)
         ?.form === "candidate-guidance" &&
@@ -207,11 +231,21 @@ export function previewTimeCommand(
                 scheduledActivityState(world, item.id).start,
               ) > 0)),
       );
-    const target = lateMeetingJourney
-      ? addSimulationMinutes(world.currentMoment, entry.elapsedMinutes!)
-      : (openingMeeting || openingGuidance) && entry.journey
-        ? scheduledActivityState(world, entry.journey.activity.id).end
-        : scheduledActivityState(world, entry.activity.id).end;
+    const target =
+      openingMeeting &&
+      projectOrdinaryMeetingScene(world, personId)?.phase === "active"
+        ? world.currentMoment
+        : lateMeetingJourney
+          ? addSimulationMinutes(world.currentMoment, entry.elapsedMinutes!)
+          : openingMeeting &&
+              !entry.journey &&
+              projectOrdinaryMeetingScene(world, personId)?.phase === "active"
+            ? world.currentMoment
+            : openingMeeting && !entry.journey
+              ? scheduledActivityState(world, entry.activity.id).start
+              : (openingMeeting || openingGuidance) && entry.journey
+                ? scheduledActivityState(world, entry.journey.activity.id).end
+                : scheduledActivityState(world, entry.activity.id).end;
     return {
       target,
       elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
@@ -283,8 +317,25 @@ function run(
       outcome: describePlacesOutcome(world, next, request.personId),
     };
   }
-  if (command.kind === "attend-activity")
-    return playCalendarActivity(world, request.personId, command.activityId);
+  if (command.kind === "attend-activity" || command.kind === "finish-meeting")
+    return playCalendarActivity(
+      world,
+      request.personId,
+      command.activityId,
+      command.kind === "finish-meeting",
+    );
+  if (command.kind === "quiet-stretch" && preview.days === 0) {
+    const next = advanceWorldMinutes(
+      world,
+      preview.elapsedMinutes ?? 0,
+      interruptionHandlers(interruptions),
+    );
+    return {
+      world: next,
+      reached: next.currentMoment,
+      outcome: `It is time for ${preview.cappedBy?.title ?? "your next commitment"}.`,
+    };
+  }
   if (command.kind === "until-activity")
     return advanceCalendarToActivity(
       world,

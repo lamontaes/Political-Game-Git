@@ -1,5 +1,6 @@
 import type { EntityId, EventVisibility, IsoDate } from "../types";
 import type { MortalityCalibrationCategory } from "./mortality-table";
+import type { LawEffectStampedRecord } from "../law-effect-stamp";
 
 /**
  * CRISIS canonical records.
@@ -99,7 +100,8 @@ export interface HealthEpisodeRecord extends CrisisRecordBase {
  * coverage pass (`health-coverage.ts`). While covered, the multiplier applies
  * to their all-cause hazard from `hazardFrom` within the program's ages.
  */
-export interface HealthCoverageRecord extends CrisisRecordBase {
+export interface HealthCoverageRecord
+  extends CrisisRecordBase, LawEffectStampedRecord {
   readonly kind: "health-coverage";
   readonly personId: EntityId;
   readonly program: "medicaid-expansion";

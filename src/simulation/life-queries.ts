@@ -277,11 +277,10 @@ export function organizationParticipationHistoryForPerson(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationParticipation[] {
   validatePersonCutoff(world, personId, cutoff);
-  return recordsForId(
+  return recordsByStringField(
     world.history.organizationParticipations,
+    "personId",
     personId,
-    (participation) => participation.personId,
-    participationsByPerson,
   ).filter((participation) =>
     available(
       participation.sequence,
@@ -299,11 +298,10 @@ export function organizationParticipationStateHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationParticipationStateRecord[] {
   validateCutoff(world, cutoff);
-  return recordsForId(
+  return recordsByStringField(
     world.history.organizationParticipationStates,
+    "participationId",
     participationId,
-    (record) => record.participationId,
-    participationStatesByParticipation,
   )
     .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
@@ -443,11 +441,10 @@ export function workRelationshipHistoryForOrganization(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly WorkRelationship[] {
   validateCutoff(world, cutoff);
-  return recordsForId(
+  return recordsByStringField(
     world.history.workRelationships,
+    "organizationId",
     organizationId,
-    (record) => record.organizationId,
-    workByOrganization,
   ).filter((record) =>
     available(
       record.sequence,
@@ -1105,61 +1102,14 @@ function validateCutoff(world: World, cutoff: HistoricalCutoff): void {
  * replaced, never mutated, on each write, so the grouping is cached per array
  * and a lookup reads one relationship's rows instead of the whole history.
  */
-const recordsByWorkRelationship = new WeakMap<
-  readonly { readonly workRelationshipId: EntityId }[],
-  ReadonlyMap<EntityId, readonly unknown[]>
->();
-
-const participationsByPerson = new WeakMap<
-  readonly OrganizationParticipation[],
-  ReadonlyMap<EntityId, readonly OrganizationParticipation[]>
->();
-const workByOrganization = new WeakMap<
-  readonly WorkRelationship[],
-  ReadonlyMap<EntityId, readonly WorkRelationship[]>
->();
-const participationStatesByParticipation = new WeakMap<
-  readonly OrganizationParticipationStateRecord[],
-  ReadonlyMap<EntityId, readonly OrganizationParticipationStateRecord[]>
->();
-
-function recordsForId<T>(
-  records: readonly T[],
-  id: EntityId,
-  idOf: (record: T) => EntityId | null,
-  cache: WeakMap<readonly T[], ReadonlyMap<EntityId, readonly T[]>>,
-): readonly T[] {
-  let grouped = cache.get(records);
-  if (!grouped) {
-    const built = new Map<EntityId, T[]>();
-    for (const record of records) {
-      const key = idOf(record);
-      if (key === null) continue;
-      const list = built.get(key);
-      if (list) list.push(record);
-      else built.set(key, [record]);
-    }
-    grouped = built;
-    cache.set(records, grouped);
-  }
-  return grouped.get(id) ?? [];
-}
-
 function recordsForWorkRelationship<
   T extends { readonly workRelationshipId: EntityId },
 >(records: readonly T[], workRelationshipId: EntityId): readonly T[] {
-  let grouped = recordsByWorkRelationship.get(records);
-  if (!grouped) {
-    const built = new Map<EntityId, T[]>();
-    for (const record of records) {
-      const list = built.get(record.workRelationshipId);
-      if (list) list.push(record);
-      else built.set(record.workRelationshipId, [record]);
-    }
-    grouped = built;
-    recordsByWorkRelationship.set(records, grouped);
-  }
-  return (grouped.get(workRelationshipId) ?? []) as readonly T[];
+  return recordsByStringField(
+    records,
+    "workRelationshipId",
+    workRelationshipId,
+  ) as readonly T[];
 }
 
 function available(

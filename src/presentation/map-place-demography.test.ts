@@ -92,23 +92,34 @@ describe("map empirical demographics", () => {
     expect(result.population?.geography.geoid).toBe("51760");
     expect(result.selection.geoid).toBe("5167000");
   });
-  it("shows no county figure before the edition that holds it was released", async () => {
-    // A January 2026 opening: the edition describing 2024 came out on
-    // February 5, and a 2023 value revised in that same edition is not the
-    // 2023 estimate anybody could read earlier, so nothing is backdated.
-    for (const asOf of ["2026-01-05", "2026-02-04", "2024-06-01"]) {
-      const result = await queryMapPlaceDemography(
-        { ...county, asOf },
-        { fetchJson: local },
-      );
-      expect(result.population).toBeNull();
-    }
+  it("shows a figure that was already public, rounded, before the edition on file came out", async () => {
+    // A January 2026 opening: the edition on file came out February 5, but
+    // each year's count is public by the end of the next year, so 2024 is
+    // shown as an estimate; the later revision is rounded away.
+    const opening = await queryMapPlaceDemography(
+      { ...county, asOf: "2026-01-05" },
+      { fetchJson: local },
+    );
+    expect(opening.population?.period).toBe("2024");
+    expect(opening.population?.estimated).toBe(true);
+    expect(opening.population?.value).toBe(1771000);
+    // Mid-2024, 2023's count was not public yet; the latest held year that
+    // was is 2019.
+    const earlier = await queryMapPlaceDemography(
+      { ...county, asOf: "2024-06-01" },
+      { fetchJson: local },
+    );
+    expect(earlier.population?.period).toBe("2019");
+    expect(earlier.population?.estimated).toBe(true);
+    // From the edition's own release date, the exact figure is shown.
     const released = await queryMapPlaceDemography(county, {
       fetchJson: local,
     });
     expect(released.population?.publisherReleaseDate).toBe("2026-02-05");
+    expect(released.population?.value).toBe(1771063);
+    expect(released.population?.estimated).toBeUndefined();
   });
-  it("withholds an actual later publisher release date", async () => {
+  it("shows only a rounded estimate while the edition on file is not out yet", async () => {
     const result = await queryMapPlaceDemography(county, {
       fetchJson: async (url) => {
         if (!url.endsWith("manifest.json")) return local(url);
@@ -128,7 +139,10 @@ describe("map empirical demographics", () => {
         };
       },
     });
-    expect(result.population).toBeNull();
+    // The exact later figure stays withheld; the year it describes was public
+    // by the end of 2025, so the estimate shows.
+    expect(result.population?.estimated).toBe(true);
+    expect(result.population?.value).toBe(1771000);
   });
   it.each(["UNKNOWN", "SUPPRESSED"])(
     "keeps latest %s population absent instead of falling back or zeroing",

@@ -1,6 +1,7 @@
 import tuitionRevenue from "../../../data/research/money/state-tuition-revenue.json" with { type: "json" };
 import { makeIsoDate, yearOf } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
+import { drawnLinkSize } from "../outcome-web";
 import type { EntityId, IsoDate, World } from "../types";
 import { propositionIdFor } from "./fiscal";
 import type { PublicBudgetGovernment } from "./store";
@@ -21,7 +22,8 @@ import type { PublicBudgetGovernment } from "./store";
  *   (`data/research/money/state-tuition-revenue.json`).
  * - Tuition is set once a school year. Each school year a freeze enacted in
  *   play is in force on its first day (July 1), tuition holds where the
- *   year before left it, instead of rising 3.1%: public colleges' gross
+ *   year before left it, instead of rising by this world's stable state draw
+ *   within the measured 2.67%–4.13% range. Public colleges' gross
  *   tuition and fee revenue per full-time student rose 3.1% a year from
  *   fiscal 2015 to 2025 (SHEEO SHEF), ESTIMATED FROM AVERAGE, spread 2.7% to
  *   4.1% across the states. Florida, which has held tuition since 2013, grew
@@ -43,6 +45,24 @@ export const TUITION_FREEZE_QUESTION =
 /** Yearly tuition growth a freeze forgoes, nominal (SHEEO SHEF). */
 export const TUITION_GROWTH_PER_YEAR =
   tuitionRevenue.tuitionGrowthPerYear.central;
+
+/** Nominal growth drawn once per world/state within the measured quartiles. */
+export function tuitionGrowthPerYearAt(
+  world: World,
+  jurisdictionId: EntityId,
+): number {
+  const { central, low, high } = tuitionRevenue.tuitionGrowthPerYear;
+  return drawnLinkSize(
+    world,
+    {
+      key: "direct:tuition-growth",
+      size: central,
+      range: [low, high],
+      evidence: "researched",
+    },
+    jurisdictionId,
+  );
+}
 
 const SHARES = tuitionRevenue.places as Readonly<
   Record<string, { readonly tuitionShareOfCharges: number }>
@@ -111,5 +131,6 @@ export function tuitionFreezeFactor(
   if (!share) return 1;
   const frozen = frozenSchoolYears(world, government.lawJurisdictionId, date);
   if (frozen === 0) return 1;
-  return 1 - share * (1 - (1 + TUITION_GROWTH_PER_YEAR) ** -frozen);
+  const growth = tuitionGrowthPerYearAt(world, government.lawJurisdictionId);
+  return 1 - share * (1 - (1 + growth) ** -frozen);
 }

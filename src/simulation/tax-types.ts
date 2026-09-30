@@ -1,3 +1,4 @@
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import type {
   EntityId,
   IsoDate,
@@ -121,7 +122,8 @@ export interface TaxCollectionRecord extends TaxHistoryRoot {
 export type StatutoryTaxStatus =
   "assessed" | "not-imposed" | "rule-unknown" | "base-unknown";
 
-export interface StatutoryTaxLiabilityRecord extends TaxHistoryRoot {
+export interface StatutoryTaxLiabilityRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly taxKey: string;
   /** "US" for the federal layer, or the place key such as "US-NV". */
   readonly authorityKey: string;

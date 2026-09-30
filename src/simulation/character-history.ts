@@ -1,3 +1,4 @@
+import { carryPeopleReadIndexesAfterAppend } from "./history-index";
 import { adultLifeSituations } from "./adult-situations";
 import {
   addDays,
@@ -511,6 +512,20 @@ export function characterHistoryContextPersonId(
   return createStableId("person", `${world.id}:life-context-v1:${stableKey}`);
 }
 
+/** Lineage follows immutable people tables; external edits get a fresh read. */
+const CONTEXT_LINEAGES = new WeakMap<
+  World["people"],
+  ReturnType<typeof appearanceLineageFromPeople>
+>();
+
+function contextAppearanceLineage(world: World) {
+  const cached = CONTEXT_LINEAGES.get(world.people);
+  if (cached) return cached;
+  const lineage = appearanceLineageFromPeople(Object.values(world.people));
+  CONTEXT_LINEAGES.set(world.people, lineage);
+  return lineage;
+}
+
 /** Creates the smallest persistent social context person through one validated writer. */
 function buildCharacterHistoryContextPerson(
   world: World,
@@ -619,7 +634,7 @@ export function createCharacterHistoryContextPerson(
   const person = buildCharacterHistoryContextPerson(
     world,
     input,
-    appearanceLineageFromPeople(Object.values(world.people)),
+    contextAppearanceLineage(world),
   );
   if (!person) return world;
   const next: World = {
@@ -642,18 +657,32 @@ export function createCharacterHistoryContextPeople(
   world: World,
   inputs: readonly CharacterHistoryContextPersonInput[],
 ): World {
-  const lineage = appearanceLineageFromPeople(Object.values(world.people));
-  const people = { ...world.people };
-  const personOrder = [...world.personOrder];
-  const probe: World = { ...world, people };
+  if (inputs.length === 0) return world;
+  const lineage = contextAppearanceLineage(world);
+  let people: Record<EntityId, Person> | undefined;
+  let personOrder: EntityId[] | undefined;
+  let probe = world;
   for (const input of inputs) {
     const person = buildCharacterHistoryContextPerson(probe, input, lineage);
     if (!person) continue;
+    // Existing inputs still pass the same validation, but need no table copy.
+    if (!people) {
+      people = {};
+      // Preserve the table's own key order, including after a save reload.
+      // An explicit copy avoids V8's slower spread for this large dictionary.
+      for (const id of Object.keys(world.people) as EntityId[])
+        people[id] = world.people[id]!;
+      personOrder = [...world.personOrder];
+      probe = { ...world, people };
+    }
     people[person.id] = person;
-    personOrder.push(person.id);
+    personOrder!.push(person.id);
   }
-  if (personOrder.length === world.personOrder.length) return world;
+  if (!people || !personOrder) return world;
   const next: World = { ...world, people, personOrder };
+  // Appended people carry this exact lineage, so they cannot change it.
+  CONTEXT_LINEAGES.set(people, lineage);
+  carryPeopleReadIndexesAfterAppend(world, next);
   assertWorldIntegrity(next);
   return next;
 }
@@ -940,20 +969,31 @@ function drawnAdultFamily(
       ? []
       : [{ parentKey: secondParentKey, parentBirth: secondBirthDate }]),
   ];
+  // The family name comes down the father's side when there is a father and
+  // the first recorded parent is the mother; otherwise down the first side.
+  const namingSide = shape.secondParent && firstGender === "female" ? 1 : 0;
   const grandparentKeys: { stableKey: string; side: number }[] = [];
-  for (const [side, { parentBirth }] of sides.entries())
+  for (const [side, { parentBirth }] of sides.entries()) {
+    // A grandparent couple shares the surname their child was born with: the
+    // naming side carries the player's, and the other side's couple shares
+    // one drawn surname (the other parent's birth name).
+    let sideFamilyName: string | null =
+      side === namingSide ? player.familyName : null;
     for (const [slot, gender] of (["female", "male"] as const).entries()) {
       const stableKey = `${key}:grandparent:${side + 1}:${slot + 1}`;
       grandparentKeys.push({ stableKey, side });
+      const drawn = drawCloseRelativeName(
+        world,
+        stableKey,
+        gender,
+        corpusVersion,
+        taken,
+      );
+      sideFamilyName ??= drawn.familyName;
       people.push({
         stableKey,
-        ...drawCloseRelativeName(
-          world,
-          stableKey,
-          gender,
-          corpusVersion,
-          taken,
-        ),
+        ...drawn,
+        familyName: sideFamilyName,
         identity: { gender, pronouns: defaultPronounsForGender(gender) },
         birthDate: yearsBefore(
           parentBirth,
@@ -962,6 +1002,7 @@ function drawnAdultFamily(
         homeJurisdictionId: jurisdictionId,
       });
     }
+  }
   let next = createCharacterHistoryContextPeople(world, people);
   const secondParentId =
     secondBirthDate === null

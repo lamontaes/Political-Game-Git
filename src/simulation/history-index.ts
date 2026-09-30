@@ -79,9 +79,7 @@ function startsWith(
   prior: readonly unknown[],
 ): boolean {
   if (prior.length === 0 || prior.length > records.length) return false;
-  for (let index = prior.length - 1; index >= 0; index -= 1)
-    if (records[index] !== prior[index]) return false;
-  return true;
+  return beginsWith(records, prior);
 }
 
 /** Takes the index of a recently indexed array that `records` extends. */
@@ -380,7 +378,10 @@ export function appendedList<T>(
 ): T[] {
   // `concat` copies a long list faster than spreading it; records are
   // objects, never arrays, so nothing is flattened.
-  const next = records.concat(added);
+  const stream = APPEND_TRANSACTION?.get(records);
+  const next = stream
+    ? appendHistoryView(stream, added)
+    : records.concat(added);
   const from = LINES.get(records);
   if (from && !from.grown) {
     from.grown = true;
@@ -393,6 +394,133 @@ export function appendedList<T>(
     LINES.set(next, { line, grown: false });
   }
   return next;
+}
+
+interface HistoryAppendStream {
+  readonly base: readonly unknown[];
+  readonly tail?: {
+    readonly prior: HistoryAppendStream;
+    readonly added: readonly unknown[];
+  };
+  readonly length: number;
+}
+
+let APPEND_TRANSACTION: WeakMap<object, HistoryAppendStream> | undefined;
+
+/** Keep each writer's immutable snapshot, copying this intake's list once. */
+export function withHistoryAppendTransaction(
+  world: World,
+  families: readonly (keyof World["history"])[],
+  run: (world: World) => World,
+): World {
+  const transaction = new WeakMap<object, HistoryAppendStream>();
+  for (const family of families) {
+    const records = world.history[family];
+    if (Array.isArray(records))
+      transaction.set(records, { base: records, length: records.length });
+  }
+  const outer = APPEND_TRANSACTION;
+  let result: World;
+  APPEND_TRANSACTION = transaction;
+  try {
+    result = run(world);
+  } finally {
+    APPEND_TRANSACTION = outer;
+  }
+  if (result === world) return world;
+  const history = { ...result.history };
+  for (const family of families) {
+    const records = result.history[family];
+    if (!Array.isArray(records)) continue;
+    const stream = transaction.get(records);
+    if (!stream?.tail) continue;
+    const chunks: (readonly unknown[])[] = [];
+    for (let at = stream; at.tail; at = at.tail.prior)
+      chunks.push(at.tail.added);
+    const added = chunks.reverse().flat();
+    const materialized = stream.base.concat(added);
+    // The plain list has exactly this immutable view's records and order.
+    // Preserve the append proof so the next reader transfers its index.
+    const lineage = LINES.get(records);
+    if (lineage) LINES.set(materialized, { ...lineage });
+    Object.assign(history, { [family]: materialized });
+  }
+  return { ...result, history };
+}
+
+function appendHistoryView<T>(
+  prior: HistoryAppendStream,
+  added: readonly T[],
+): T[] {
+  const stream: HistoryAppendStream = {
+    base: prior.base,
+    tail: { prior, added: [...added] },
+    length: prior.length + added.length,
+  };
+  const index = (key: string | symbol): number | undefined => {
+    if (typeof key !== "string" || !/^(0|[1-9]\d*)$/.test(key))
+      return undefined;
+    const value = Number(key);
+    return value < stream.length ? value : undefined;
+  };
+  const valueAt = (at: number): unknown => {
+    if (at < stream.base.length) return stream.base[at];
+    let current = stream;
+    while (current.tail) {
+      if (at >= current.tail.prior.length)
+        return current.tail.added[at - current.tail.prior.length];
+      current = current.tail.prior;
+    }
+    return undefined;
+  };
+  const view = new Proxy<T[]>([], {
+    get(target, key, receiver) {
+      if (key === "length") return stream.length;
+      if (key === Symbol.iterator)
+        return function* () {
+          yield* stream.base;
+          const chunks: (readonly unknown[])[] = [];
+          for (let at = stream; at.tail; at = at.tail.prior)
+            chunks.push(at.tail.added);
+          for (let at = chunks.length - 1; at >= 0; at -= 1) yield* chunks[at]!;
+        };
+      const at = index(key);
+      return at === undefined
+        ? Reflect.get(target, key, receiver)
+        : valueAt(at);
+    },
+    has(target, key) {
+      return index(key) !== undefined || Reflect.has(target, key);
+    },
+    ownKeys() {
+      return [
+        ...Array.from({ length: stream.length }, (_, at) => String(at)),
+        "length",
+      ];
+    },
+    getOwnPropertyDescriptor(target, key) {
+      const at = index(key);
+      return at === undefined
+        ? Reflect.getOwnPropertyDescriptor(target, key)
+        : {
+            configurable: true,
+            enumerable: true,
+            writable: false,
+            value: valueAt(at),
+          };
+    },
+    set() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+    deleteProperty() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+    defineProperty() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+  });
+  APPEND_TRANSACTION!.set(view, stream);
+  return view;
 }
 
 /**
@@ -503,4 +631,65 @@ export function recordsWithFieldValue<T, K extends keyof T & string>(
   }
   if (typeof value === "number" && Number.isNaN(value)) return [];
   return (growingIndex(kind, records).get(value) ?? []) as readonly T[];
+}
+
+interface PeopleReadIndex {
+  readonly order: World["personOrder"];
+  readonly value: unknown;
+  readonly extend: (
+    value: unknown,
+    next: World,
+    added: readonly EntityId[],
+  ) => unknown;
+}
+const PEOPLE_READ_INDEXES = new WeakMap<
+  World["people"],
+  Map<string, PeopleReadIndex>
+>();
+
+/** Read indexes for an immutable person table and its exact iteration order. */
+export function indexOverPeople<T>(
+  world: World,
+  name: string,
+  build: () => T,
+  extend: (value: T, next: World, added: readonly EntityId[]) => T,
+): T {
+  let indexes = PEOPLE_READ_INDEXES.get(world.people);
+  if (!indexes) {
+    indexes = new Map();
+    PEOPLE_READ_INDEXES.set(world.people, indexes);
+  }
+  const cached = indexes.get(name);
+  if (cached?.order === world.personOrder) return cached.value as T;
+  const value = build();
+  indexes.set(name, {
+    order: world.personOrder,
+    value,
+    extend: (prior, next, added) => extend(prior as T, next, added),
+  });
+  return value;
+}
+
+/**
+ * Only an append writer that copied the existing table unchanged may call this.
+ * It transfers reads without changing any previously returned index. External
+ * person edits have no transfer and therefore rebuild their own indexes.
+ */
+export function carryPeopleReadIndexesAfterAppend(
+  previous: World,
+  next: World,
+): void {
+  const prior = PEOPLE_READ_INDEXES.get(previous.people);
+  if (!prior || previous.people === next.people) return;
+  const added = next.personOrder.slice(previous.personOrder.length);
+  const indexes = new Map<string, PeopleReadIndex>();
+  for (const [name, index] of prior) {
+    if (index.order !== previous.personOrder) continue;
+    indexes.set(name, {
+      ...index,
+      order: next.personOrder,
+      value: index.extend(index.value, next, added),
+    });
+  }
+  PEOPLE_READ_INDEXES.set(next.people, indexes);
 }

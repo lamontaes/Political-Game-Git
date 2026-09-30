@@ -34,7 +34,7 @@ import { proseDate } from "./prose-dates";
 /**
  * What the successor was to the life that ended, from that life's side, when
  * the shared relationship reader has no more specific word. Said the way the
- * People screen and the room say it ("your housemate"), because the player
+ * People screen and the room say it ("your roommate"), because the player
  * choosing is the person whose life this was.
  */
 const RELATION_LABEL: Readonly<Record<SuccessorRelation, string | null>> = {
@@ -43,7 +43,7 @@ const RELATION_LABEL: Readonly<Record<SuccessorRelation, string | null>> = {
   sibling: "your sibling",
   partner: "your partner",
   parent: "your parent",
-  household: "your housemate",
+  household: "your roommate",
   protege: "someone you taught",
   mentor: "your former teacher",
   "close-associate": "someone you kept up with",
@@ -56,7 +56,7 @@ export interface ContinuationChoice {
   readonly name: string;
   /**
    * Who they were to the character whose life ended, from that life's side:
-   * "your father", "your housemate". Null for somebody with no tie on record.
+   * "your father", "your roommate". Null for somebody with no tie on record.
    */
   readonly relation: string | null;
   /**

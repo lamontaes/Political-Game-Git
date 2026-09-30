@@ -103,6 +103,7 @@ describe("a recorded reflection reaches the chamber's saved roll call", () => {
               ? "endorses"
               : "rejects"
             : "conflicted",
+        strength: 0.25,
         conviction: "tentative",
         flexibility: "open",
         qualification: null,

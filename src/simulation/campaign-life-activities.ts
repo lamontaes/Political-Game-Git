@@ -677,7 +677,7 @@ function writeHold(
   // The same bounded game-authored local journey the chapter meeting uses.
   next = createScheduledActivity(next, {
     stableKey: `${args.keyBase}:journey:${args.kind}`,
-    title: `Journey to the ${entry.locationLabel.toLowerCase()}`,
+    title: `Trip to the ${entry.locationLabel.toLowerCase()}`,
     summary: `A game-authored ${entry.journeyMinutes}-minute local journey included in Attend. ${CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE}`,
     kind: "travel",
     start: addSimulationMinutes(args.start, -entry.journeyMinutes),

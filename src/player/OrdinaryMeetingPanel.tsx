@@ -8,7 +8,11 @@ import {
   ordinaryMeetingEntry,
   speakAtOrdinaryMeeting,
 } from "../simulation/ordinary-meeting-presence";
-import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { projectStoryMeetingScene } from "../presentation/story-scene-day";
+import {
+  storyScenePlayerOffers,
+  revalidateStoryScenePlayerOffer,
+} from "../presentation/story-scene-player-options";
 import {
   ordinaryMeetingLeaveOffer,
   leaveOrdinaryMeeting,
@@ -36,9 +40,9 @@ export function OrdinaryMeetingPanel({
 }) {
   const runner = useTimeCommand({ world, personId, onWorldChange });
   const [outcome, setOutcome] = useState<string | null>(null);
-  const [reading, setReading] = useState(false);
+  const [reading, setReading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
-  const scene = projectOrdinaryMeetingScene(world, personId);
+  const scene = projectStoryMeetingScene(world, personId);
   const entry = scene
     ? null
     : world.history.scheduledActivities
@@ -49,6 +53,14 @@ export function OrdinaryMeetingPanel({
         .map((activity) => ordinaryMeetingEntry(world, personId, activity.id))
         .find(Boolean);
   const activityId = scene?.activityId ?? entry?.activity.id;
+  const request = activityId
+    ? {
+        viewerPersonId: personId,
+        place: { kind: "activity" as const, activityId },
+        moment: world.currentMoment,
+      }
+    : null;
+  const offers = request ? storyScenePlayerOffers(world, request) : [];
   if (!activityId) return null;
   const agenda = projectLivingSceneSurface(world, personId, {
     kind: "agenda",
@@ -60,7 +72,7 @@ export function OrdinaryMeetingPanel({
     destination: "home",
   });
   const stay = previewTimeCommand(world, personId, {
-    kind: "attend-activity",
+    kind: "finish-meeting",
     activityId,
   });
   return (
@@ -105,7 +117,11 @@ export function OrdinaryMeetingPanel({
         <div data-testid="ordinary-meeting-agenda">
           <h3>{agenda.heading}</h3>
           {scene?.agendaText ? (
-            <p>{scene.agendaText}</p>
+            <ol data-testid="ordinary-meeting-agenda-order">
+              {scene.agendaItems.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ol>
           ) : (
             agenda.lines.map((line, index) => (
               <p key={`${agenda.revision}:${index}`}>{line}</p>
@@ -120,6 +136,30 @@ export function OrdinaryMeetingPanel({
           </button>
         </div>
       ) : null}
+      {scene ? (
+        <div data-testid="ordinary-meeting-roll-call">
+          <h3>Recorded roll call</h3>
+          {scene.rollCall ? (
+            <>
+              <p>{scene.rollCall.summary}</p>
+              <ul>
+                {scene.rollCall.ballots.map((ballot) => (
+                  <li key={ballot.personId}>
+                    {ballot.name}:{" "}
+                    {ballot.vote === "yea"
+                      ? "Yes"
+                      : ballot.vote === "nay"
+                        ? "No"
+                        : ballot.vote.replace(/-/g, " ")}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p>No roll-call vote is recorded for this agenda.</p>
+          )}
+        </div>
+      ) : null}
       {entry ? (
         <button
           type="button"
@@ -129,11 +169,15 @@ export function OrdinaryMeetingPanel({
           onClick={() =>
             runner.perform(
               (current) => {
-                const next = enterOrdinaryMeeting(
-                  current,
-                  personId,
-                  activityId,
-                );
+                const next =
+                  current.id === world.id &&
+                  current.history.nextSequence === world.history.nextSequence &&
+                  current.actionSequence === world.actionSequence &&
+                  JSON.stringify(current.currentMoment) ===
+                    JSON.stringify(world.currentMoment) &&
+                  ordinaryMeetingEntry(current, personId, activityId)
+                    ? enterOrdinaryMeeting(current, personId, activityId)
+                    : current;
                 return {
                   world: next,
                   outcome:
@@ -175,12 +219,32 @@ export function OrdinaryMeetingPanel({
                   onClick={() =>
                     runner.perform(
                       (current) => {
-                        const next = speakAtOrdinaryMeeting(
-                          current,
-                          personId,
-                          activityId,
-                          choice.key,
+                        const offered = offers.find(
+                          (offer) =>
+                            offer.option.kind === "meeting-speech" &&
+                            offer.option.choice === choice.key &&
+                            offer.option.words === choice.words,
                         );
+                        const checked =
+                          offered && request
+                            ? revalidateStoryScenePlayerOffer(
+                                current,
+                                {
+                                  ...request,
+                                  moment: current.currentMoment,
+                                },
+                                offered,
+                              )
+                            : null;
+                        const next =
+                          checked?.status === "ready"
+                            ? speakAtOrdinaryMeeting(
+                                current,
+                                personId,
+                                activityId,
+                                choice.key,
+                              )
+                            : current;
                         const comment = next.history.events.find(
                           (event) =>
                             event.stableKey ===
@@ -216,7 +280,7 @@ export function OrdinaryMeetingPanel({
               data-testid="stay-ordinary-meeting"
               onClick={() =>
                 runner.submit(
-                  { kind: "attend-activity", activityId },
+                  { kind: "finish-meeting", activityId },
                   (report) => setOutcome(report.outcome),
                 )
               }

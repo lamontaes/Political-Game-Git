@@ -12,7 +12,7 @@
  * law in force on January 1 of the year it is paid, as the state income tax
  * laws are read (`state-income-tax-law.ts`).
  */
-import { lawInForce } from "./governing/law-in-force";
+import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   FEDERAL_INCOME_TAX_2026,
   type FilingStatus,
@@ -32,6 +32,8 @@ export const RAISED_TOP_RATE_SOURCE =
 
 export interface FederalIncomeTaxUnderLaw {
   readonly schedule: IncomeTaxSchedule | null;
+  /** Exact law used to assess this paycheck; absent when the starting schedule applies. */
+  readonly governingLaw: LawInForce | null;
   /** The enacted law that set the top rate; empty where none has. */
   readonly lawMeasureIds: readonly EntityId[];
 }
@@ -66,7 +68,8 @@ export function federalIncomeTaxUnderLaw(
   ).find(
     (definition) => definition.stableKey === RAISE_TOP_FEDERAL_RATE_QUESTION,
   );
-  if (!begun || !proposition) return { schedule: begun, lawMeasureIds: [] };
+  if (!begun || !proposition)
+    return { schedule: begun, governingLaw: null, lawMeasureIds: [] };
   const law = lawInForce(
     world,
     NATIONAL_ELECTION_JURISDICTION.id,
@@ -75,7 +78,7 @@ export function federalIncomeTaxUnderLaw(
     "enacted-only",
   );
   if (!law || law.origin !== "enacted")
-    return { schedule: begun, lawMeasureIds: [] };
+    return { schedule: begun, governingLaw: null, lawMeasureIds: [] };
   return {
     schedule:
       law.answer === "yes"
@@ -85,5 +88,6 @@ export function federalIncomeTaxUnderLaw(
           }
         : begun,
     lawMeasureIds: [law.measureId],
+    governingLaw: law,
   };
 }

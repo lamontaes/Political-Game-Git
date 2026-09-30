@@ -8,9 +8,127 @@ import {
   recordByStableKey,
   recordsByStringField,
   recordsWithFieldValue,
+  withHistoryAppendTransaction,
 } from "./history-index";
 import type { HistoricalEvent } from "./types";
-import type { EntityId } from "./types";
+import type { EntityId, World } from "./types";
+
+describe("state-intake history copy transaction", () => {
+  const row = (id: string, personId = "p") => ({
+    id: id as EntityId,
+    stableKey: `tendency:${id}`,
+    personId,
+  });
+  const worldWith = (records: readonly ReturnType<typeof row>[]) =>
+    ({
+      history: { personalityTendencies: records, events: [] },
+    }) as unknown as World;
+
+  it("keeps every intermediate cutoff and branch immutable, with ordinary array reads", () => {
+    const base = Object.freeze([row("a"), row("b", "q")]);
+    const world = worldWith(base);
+    let first: readonly ReturnType<typeof row>[] = [];
+    let second: readonly ReturnType<typeof row>[] = [];
+    const result = withHistoryAppendTransaction(
+      world,
+      ["personalityTendencies"],
+      () => {
+        first = appendedList(base, [row("c")]);
+        second = appendedList(first, [row("d")]);
+        const branch = appendedList(first, [row("e", "q")]);
+        expect(recordById(second, "d" as EntityId)).toBe(second.at(-1));
+        expect(recordById(first, "d" as EntityId)).toBeUndefined();
+        expect(recordById(branch, "d" as EntityId)).toBeUndefined();
+        expect(
+          recordsByStringField(first, "personId", "p").map((r) => r.id),
+        ).toEqual(["a", "c"]);
+        expect(
+          recordsByStringField(second, "personId", "p").map((r) => r.id),
+        ).toEqual(["a", "c", "d"]);
+        expect(
+          recordsByStringField(branch, "personId", "q").map((r) => r.id),
+        ).toEqual(["b", "e"]);
+        expect(first.filter((r) => r.personId === "p")).toEqual([
+          base[0],
+          first[2],
+        ]);
+        expect(first.slice(1)).toEqual([base[1], first[2]]);
+        expect(first.reduce((sum) => sum + 1, 0)).toBe(3);
+        expect(Object.keys(first)).toEqual(["0", "1", "2"]);
+        expect(JSON.parse(JSON.stringify(first))).toEqual([...first]);
+        expect(() =>
+          (first as ReturnType<typeof row>[]).push(row("bad")),
+        ).toThrow("immutable");
+        return worldWith(second);
+      },
+    );
+    expect(result.history.personalityTendencies).toEqual([
+      ...base,
+      row("c"),
+      row("d"),
+    ]);
+    expect(first.map((r) => r.id)).toEqual(["a", "b", "c"]);
+    expect(base).toEqual([row("a"), row("b", "q")]);
+    // The result is a materialized list. Its index also remains correct after
+    // the next ordinary writer appends outside the transaction.
+    const next = appendedList(result.history.personalityTendencies, [
+      row("f") as never,
+    ]);
+    expect(recordById(next, "f" as EntityId)).toBe(next.at(-1));
+    expect(recordById(first, "f" as EntityId)).toBeUndefined();
+  });
+
+  it("leaves a no-op world alone and restores ordinary appends after a refusal", () => {
+    const base = [row("a")];
+    const world = worldWith(base);
+    expect(
+      withHistoryAppendTransaction(world, ["personalityTendencies"], (w) => w),
+    ).toBe(world);
+    expect(() =>
+      withHistoryAppendTransaction(world, ["personalityTendencies"], () => {
+        appendedList(base, [row("b")]);
+        throw new Error("Refused intake");
+      }),
+    ).toThrow("Refused intake");
+    const ordinary = appendedList(base, [row("c")]);
+    ordinary.push(row("d"));
+    expect(ordinary.map((r) => r.id)).toEqual(["a", "c", "d"]);
+    expect(base.map((r) => r.id)).toEqual(["a"]);
+  });
+
+  it("preserves the outer transaction after a nested transaction returns", () => {
+    const base = [row("a")];
+    const world = worldWith(base);
+    const result = withHistoryAppendTransaction(
+      world,
+      ["personalityTendencies"],
+      () => {
+        const first = appendedList(base, [row("b")]);
+        const inner = withHistoryAppendTransaction(
+          worldWith(first),
+          ["personalityTendencies"],
+          (w) =>
+            worldWith(
+              appendedList(w.history.personalityTendencies, [
+                row("inner") as never,
+              ]),
+            ),
+        );
+        expect(inner.history.personalityTendencies.map((r) => r.id)).toEqual([
+          "a",
+          "b",
+          "inner",
+        ]);
+        return worldWith(appendedList(first, [row("c")]));
+      },
+    );
+    expect(result.history.personalityTendencies.map((r) => r.id)).toEqual([
+      "a",
+      "b",
+      "c",
+    ]);
+  });
+});
 
 describe("immutable history lookup indexes", () => {
   it("keeps first-match and source order while a new array gets fresh entries", () => {

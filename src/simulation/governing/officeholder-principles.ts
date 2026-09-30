@@ -1,144 +1,34 @@
-import { createFormationContext, recordPrinciples } from "../politics";
 import { indexFollowingAppends } from "../history-index";
-import type { PrincipleRecordInput } from "../history";
-import { SeededRng } from "../rng";
+import { formPrinciplesFromLife } from "../principles-from-life";
 import type {
-  BeliefConviction,
   DecisionConsideration,
   EntityId,
   LegislativeMeasureRecord,
-  PoliticalFlexibility,
   PoliticalSalience,
   PrincipleRecord,
-  PrincipleStance,
   World,
 } from "../types";
 
 /**
- * OFFICEHOLDER PRINCIPLES — a sitting officeholder's own principles, and
- * which way they lean on a policy question because of them.
- *
- * lamontae, 2026-09-23: people need intrinsic reasons for wanting laws, and a
- * party does not decide for its members (D-093). A generated legislator had
- * nothing to hold a view from: no principle, value, goal or history bearing
- * on any policy question. This gives each sitting officeholder principles of
- * their own, and lets a member file a bill on a question those principles
- * engage, answering it the way they lean.
- *
- * PLACEHOLDER until research question
- * `how-officeholders-hold-political-principles` is answered: how many of the
- * catalog's principles an officeholder holds, which way and how firmly are a
- * seeded draw with game-chosen odds, independent of party, place and life.
- * The answered research `where-a-persons-politics-comes-from` names goals,
- * values, knowledge and lived consequences as the primary inputs; none of
- * those exist for a generated officeholder yet, so none are read. When they
- * do, they join here, and a place's political culture joins once
- * `political-culture-of-each-jurisdiction` is answered.
- *
- * The player's own mind is never drawn: a controlled person holds only what
- * they choose.
+ * A sitting officeholder's principles form from their own recorded life.
+ * The life writer preserves earlier saved rows and the controlled person's
+ * choices. A member with no supported life pull receives no invented view.
  */
 
 export const OFFICEHOLDER_PRINCIPLES_VERSION = "officeholder-principles/v1";
 
-/** PLACEHOLDER odds out of ten for each catalog principle: endorse, reject. */
-const PRINCIPLE_DRAW = { endorses: 3, rejects: 2 } as const;
-const CONVICTIONS: readonly BeliefConviction[] = [
-  "tentative",
-  "moderate",
-  "strong",
-  "settled",
-];
-const FLEXIBILITY_FOR: Readonly<
-  Record<BeliefConviction, PoliticalFlexibility>
-> = {
-  tentative: "open",
-  moderate: "negotiable",
-  strong: "conditional",
-  settled: "firm",
-};
-/** PLACEHOLDER: how much each conviction weighs when principles are summed. */
-const CONVICTION_WEIGHT: Readonly<Record<BeliefConviction, number>> = {
-  tentative: 1,
-  moderate: 2,
-  strong: 3,
-  settled: 4,
-};
 /**
  * PLACEHOLDER: the least summed weight at which a member's principles weigh
  * moderately, strongly and decisively on a vote.
  */
 const VOTE_IMPORTANCE = { moderate: 3, strong: 6, decisive: 9 } as const;
 
-/**
- * The note on each drawn principle. The rows are a sitting officeholder's own
- * principles, drawn before play with no sources behind them. formedAt is the
- * day the draw ran: read these rows as held before play by their reason, not
- * their date. The note stays short because there are about fifty thousand of
- * these rows once every legislature is seated.
- */
-const DRAWN_BEFORE_PLAY_NOTE =
-  "Drawn before play; see officeholder-principles.ts.";
-
-/**
- * Draws principles for officeholders this draw has not reached yet.
- * Idempotent. A principle a person already holds from any other writer is
- * kept as it is and not drawn.
- */
+/** Forms missing officeholder principles and updates this writer's life rows. */
 export function ensureOfficeholderPrinciples(
   world: World,
   personIds: readonly EntityId[],
 ): World {
-  const catalog = world.policyCatalog;
-  const inputs: PrincipleRecordInput[] = [];
-  const byPerson = principlesByPerson(world);
-  const rootRng = new SeededRng(world.seed);
-  // Keyed on this draw's own rows, not on any principle: a person another
-  // writer gave a single principle still gets the rest of the draw.
-  const held = (personId: EntityId) =>
-    (byPerson.get(personId) ?? []).some((row) =>
-      row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
-    );
-  for (const personId of new Set(personIds)) {
-    if (!world.people[personId] || held(personId)) continue;
-    if (world.control.kind === "person" && world.control.personId === personId)
-      continue;
-    const own = new Set(
-      (byPerson.get(personId) ?? []).map((row) => row.principleId),
-    );
-    for (const principleId of catalog.principleOrder) {
-      if (own.has(principleId)) continue;
-      const principle = catalog.principles[principleId]!;
-      const stableKey = `${OFFICEHOLDER_PRINCIPLES_VERSION}:${personId}:${principle.stableKey}`;
-      const rng = rootRng.fork(stableKey);
-      const roll = rng.integer(0, 10);
-      const stance: PrincipleStance | null =
-        roll < PRINCIPLE_DRAW.endorses
-          ? "endorses"
-          : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects
-            ? "rejects"
-            : null;
-      if (!stance) continue;
-      const conviction = rng.fork("conviction").pick(CONVICTIONS);
-      inputs.push({
-        stableKey,
-        personId,
-        principleId,
-        formedAt: world.currentDate,
-        stance,
-        conviction,
-        flexibility: FLEXIBILITY_FOR[conviction],
-        qualification: null,
-        // Every seated member in the country carries these rows, so the note
-        // is short: see DRAWN_BEFORE_PLAY_NOTE.
-        formation: createFormationContext("other:drawn-before-play", {
-          note: DRAWN_BEFORE_PLAY_NOTE,
-        }),
-        supersedesPrincipleRecordId: null,
-      });
-    }
-  }
-  return recordPrinciples(world, inputs);
+  return formPrinciplesFromLife(world, personIds, { officeholders: true });
 }
 
 /**
@@ -189,6 +79,14 @@ function principlesByPerson(
 
 const RECENT_PRINCIPLES: (readonly unknown[])[] = [];
 
+/** Recorded political principles for one person, using the append-aware shared index. */
+export function recordedPrinciplesForPerson(
+  world: World,
+  personId: EntityId,
+): readonly PrincipleRecord[] {
+  return principlesByPerson(world).get(personId) ?? [];
+}
+
 /**
  * Which way a person's principles lean on a question, and how hard: a score
  * positive toward yes, negative toward no, zero where nothing they hold bears
@@ -214,9 +112,11 @@ export function principledLeaning(
   for (const bearing of proposition.principles) {
     const held = latest.get(bearing.principleId);
     if (!held || held.stance === "conflicted") continue;
+    const weight = bearing.weight ?? 1;
+    if (weight === 0) continue;
     const agrees =
       (held.stance === "endorses") === (bearing.bearing === "consistent-with");
-    score += (agrees ? 1 : -1) * CONVICTION_WEIGHT[held.conviction];
+    score += (agrees ? 1 : -1) * held.strength * 4 * weight;
     recordIds.push(held.id);
   }
   return { score, recordIds };
@@ -326,11 +226,14 @@ export function principleView(
  * latest record of each, formed by today), the viewer's conviction counts
  * for agreement where the stances match and against where they differ. The
  * importance uses the vote cut points above; null where nothing is shared.
+ * A supplied law question limits the comparison to its arguments and weights.
+ * General nominee comparisons without a question keep their legacy weights.
  */
 export function principleAgreement(
   world: World,
   viewerId: EntityId,
   subjectId: EntityId,
+  propositionId?: EntityId,
 ): {
   readonly score: number;
   readonly importance: "slight" | "moderate" | "strong" | "decisive" | null;
@@ -348,16 +251,29 @@ export function principleAgreement(
   };
   const own = latest(viewerId);
   const theirs = latest(subjectId);
+  const bearings =
+    propositionId === undefined
+      ? [...own.keys()].map((principleId) => ({ principleId, weight: 1 }))
+      : (world.policyCatalog.propositions[propositionId]?.principles ?? []);
   let score = 0;
-  const recordIds: EntityId[] = [];
-  for (const [principleId, mine] of own) {
-    const other = theirs.get(principleId);
-    if (!other || mine.stance === "conflicted" || other.stance === "conflicted")
+  const recordIds = new Set<EntityId>();
+  for (const bearing of bearings) {
+    const mine = own.get(bearing.principleId);
+    const other = theirs.get(bearing.principleId);
+    const weight = bearing.weight ?? 1;
+    if (
+      !mine ||
+      !other ||
+      weight === 0 ||
+      mine.stance === "conflicted" ||
+      other.stance === "conflicted"
+    )
       continue;
+    // The law direction applies to both people, so matching stances agree for
+    // either direction. Keep each argument's weight, including opposing rows.
     score +=
-      (mine.stance === other.stance ? 1 : -1) *
-      CONVICTION_WEIGHT[mine.conviction];
-    recordIds.push(mine.id);
+      (mine.stance === other.stance ? 1 : -1) * mine.strength * weight * 4;
+    recordIds.add(mine.id);
   }
   const size = Math.abs(score);
   return {
@@ -372,7 +288,7 @@ export function principleAgreement(
             : size >= VOTE_IMPORTANCE.moderate
               ? "moderate"
               : "slight",
-    recordIds,
+    recordIds: [...recordIds],
   };
 }
 
@@ -428,7 +344,7 @@ export function spendingPrincipleConsideration(
     if (!bearing) continue;
     const agrees =
       (held.stance === "endorses") === (bearing.bearing === "consistent-with");
-    score += (agrees ? 1 : -1) * CONVICTION_WEIGHT[held.conviction];
+    score += (agrees ? 1 : -1) * held.strength * 4;
     recordIds.push(held.id);
   }
   if (score === 0) return null;

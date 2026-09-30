@@ -1,4 +1,7 @@
 import "./world-orientation.css";
+import "./opening-legislature.css";
+import "./opening-family.css";
+import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
   useMemo,
@@ -26,6 +29,8 @@ import { isTerritoryUsps } from "../simulation/state-reference";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
 import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
+import { PlacePeopleLayer } from "./PlacePeopleLayer";
+import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { SceneChapterTransition } from "./SceneChapterTransition";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
 import {
@@ -36,6 +41,11 @@ import {
   type OpeningFamilyMember,
 } from "../presentation/opening-story";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
+import {
+  openingLegislaturePeople,
+  openingFamilyPeople,
+  openingTourStagedPeople,
+} from "../presentation/opening-tour-people";
 import {
   capitolPlaceFor,
   middayBackdropUrl,
@@ -187,7 +197,10 @@ export function WorldOrientationPanel({
                   ? "Your state's lawmakers, by party."
                   : "Your state's lawmakers.",
               lines: [...legislature.chambers, ...legislature.yours],
-              people: [],
+              people:
+                world && personId
+                  ? openingLegislaturePeople(world, personId)
+                  : [],
               chambers: [],
             },
           ]
@@ -225,7 +238,8 @@ export function WorldOrientationPanel({
                   ? "Who raised you."
                   : "The people who raised you.",
               family: family.parents,
-              people: [],
+              people:
+                world && personId ? openingFamilyPeople(world, personId) : [],
               chambers: [],
             },
           ]
@@ -235,17 +249,10 @@ export function WorldOrientationPanel({
         title: "Your life so far",
         // Parents are on the family screen, so they are not named twice; and
         // an empty household is left unsaid rather than reported as a record.
-        summary: (
-          snapshot.beats.find((beat) => beat.key === "your-life")?.facts ?? []
-        )
-          .filter(
-            (fact) =>
-              !/^No one else is recorded/.test(fact) &&
-              !(family?.parents ?? []).some((parent) =>
-                fact.startsWith(parent.introduction.split(",")[0]!),
-              ),
-          )
-          .join(" "),
+        summary:
+          world && personId
+            ? projectLifeSoFarEnglish(world, personId).sentences.join(" ")
+            : "",
         people: [],
         chambers: [],
       },
@@ -309,10 +316,54 @@ export function WorldOrientationPanel({
   const nextStep = steps[index + 1];
   const nextPlateUrl = nextStep ? backdropUrl(backdropFor(nextStep.key)) : null;
   const cast =
-    step.key !== "executive" && step.key !== "your-life" && world
-      ? (chapter?.actors ?? [])
-      : [];
+    step.key === "parents" && world
+      ? step.people.map((person) => ({
+          slotKey: `parent:${person.personId}`,
+          person,
+        }))
+      : step.key !== "executive" && step.key !== "your-life" && world
+        ? (chapter?.actors ?? [])
+        : [];
   const executiveWithoutPlate = step.key === "executive" && !plate;
+  // In the painted Oval Office the President and Vice President stand in
+  // front of the desk on the room's measured spots, facing each other, at
+  // the room's own scale and in a natural stance, like people in any other
+  // painted place.
+  const officeStage = useRef<HTMLDivElement>(null);
+  const officePlace =
+    executiveWithoutPlate &&
+    !establishingPlate &&
+    backdrop.kind === "place" &&
+    world &&
+    personId
+      ? backdrop.place
+      : null;
+  const officePeople = useMemo(
+    () =>
+      officePlace && world && personId
+        ? placeBackdropPeople(
+            world,
+            personId,
+            officePlace,
+            world.currentMoment,
+            step.people,
+            { standing: true },
+          )
+        : [],
+    [officePlace, world, personId, step.people],
+  );
+  const officeStaged = officePlace !== null && officePeople.length > 0;
+  const legislatureStage = useRef<HTMLDivElement>(null);
+  const legislaturePeople = useMemo(
+    () =>
+      step.key === "legislature" &&
+      backdrop.kind === "place" &&
+      world &&
+      personId
+        ? openingTourStagedPeople(world, personId, backdrop.place, step.people)
+        : [],
+    [step.key, backdrop, world, personId, step.people],
+  );
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
@@ -352,10 +403,23 @@ export function WorldOrientationPanel({
               : undefined
           }
         >
-          {step.key === "executive" && !plate && !establishingPlate ? (
+          {officeStaged ? (
+            <div
+              ref={officeStage}
+              className="pg-orientation-backdrop pg-orientation-staged"
+              data-testid="opening-office-staged"
+            >
+              <SceneBackdrop backdrop={backdrop} />
+              <PlacePeopleLayer
+                people={officePeople}
+                stageRef={officeStage}
+                nameplates
+              />
+            </div>
+          ) : step.key === "executive" && !plate && !establishingPlate ? (
             <SceneBackdrop backdrop={backdrop} />
           ) : null}
-          {step.key === "executive" ? (
+          {officeStaged ? null : step.key === "executive" ? (
             <div
               className="pg-white-house-presentation"
               data-has-plate={Boolean(plate)}
@@ -407,7 +471,27 @@ export function WorldOrientationPanel({
                 </div>
               </div>
             </div>
-          ) : (
+          ) : step.key === "legislature" && legislaturePeople.length > 0 ? (
+            <div
+              ref={legislatureStage}
+              className="pg-orientation-backdrop pg-orientation-staged"
+              data-testid="opening-legislature-staged"
+              aria-label="Illustration of your recorded state representatives"
+            >
+              <SceneBackdrop backdrop={backdrop} />
+              <PlacePeopleLayer
+                people={legislaturePeople}
+                stageRef={legislatureStage}
+                nameplates
+                onSelectPerson={(id) => {
+                  const person = step.people.find(
+                    (entry) => entry.personId === id,
+                  );
+                  if (person) onOpenPerson(person.personId);
+                }}
+              />
+            </div>
+          ) : step.key === "locality" ? null : (
             <SceneBackdrop backdrop={backdrop} />
           )}
           <div className="pg-orientation-scrim" aria-hidden="true" />
@@ -418,12 +502,16 @@ export function WorldOrientationPanel({
               data-testid={
                 step.key === "congress"
                   ? "orientation-congress-cast"
-                  : undefined
+                  : step.key === "parents"
+                    ? "orientation-family-cast"
+                    : undefined
               }
               aria-label={
                 step.key === "congress"
                   ? "Members from your home state"
-                  : undefined
+                  : step.key === "parents"
+                    ? "Illustration of your recorded parents and guardians"
+                    : undefined
               }
             >
               {cast.map((actor) => (
@@ -620,6 +708,7 @@ export function WorldOrientationPanel({
               ))}
 
               {step.people.length > 0 &&
+              step.key !== "parents" &&
               step.key !== "executive" &&
               step.key !== "state" ? (
                 <ul className="pg-orientation-people">
@@ -775,7 +864,13 @@ export function orientationBackdrop(
         ? "state-legislative-chamber-unicameral"
         : "state-legislative-chamber-bicameral",
     );
-  if (stepKey === "parents") return place("main-street");
+  if (stepKey === "parents") {
+    if (sources.regionalPlate)
+      return { kind: "region", plate: sources.regionalPlate };
+    if (sources.regionScene)
+      return { kind: "region-preview", raster: sources.regionScene };
+    return { kind: "neutral" };
+  }
   // The street of your town, not a home: the play screen's own room decides
   // what your home looks like, and the two must never disagree.
   if (stepKey === "your-life") return place("main-street");

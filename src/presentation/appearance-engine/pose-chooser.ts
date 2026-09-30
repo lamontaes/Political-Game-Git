@@ -70,12 +70,14 @@ function either(
  * scene gave them a chair, and only the seated poses fit one.
  *
  * - speaking: explaining, or leaning in from a chair
- * - listening or waiting: arms folded or a hand on the hip (a guarded person
- *   folds their arms more), or in a chair leaning or with legs crossed
+ * - listening: arms folded or a hand on the hip (a guarded person folds their
+ *   arms more), or in a chair with hands folded or leaning in to listen
+ * - waiting: standing the same way, or in a chair with legs crossed or on
+ *   the phone
  * - speech: at the podium (from a chair, leaning in)
- * - desk or meeting: leaning in or legs crossed, standing when there is no
- *   chair
- * - idle: standing, or plainly seated
+ * - desk: writing or reading; meeting: hands folded or leaning in; standing
+ *   when there is no chair
+ * - idle: standing, or seated plainly or leaning back
  */
 export function chooseBodyPose(choice: PoseChoice): BodyPose {
   const pose = choosePose(choice);
@@ -94,29 +96,44 @@ function choosePose(choice: PoseChoice): BodyPose {
     case "speech":
       return seated ? "seated-leaning" : "podium";
     case "listening":
-    case "waiting":
+      // A guarded listener keeps their hands folded; an open one leans in.
       return seated
         ? either(
             seed,
             "pose:listening:seated",
+            "seated-hands-folded",
+            "seated-listening",
+            guarded,
+          )
+        : either(seed, "pose:listening", "arms-folded", "hand-on-hip", guarded);
+    case "waiting":
+      return seated
+        ? either(
+            seed,
+            "pose:waiting:seated",
             "seated-legs-crossed",
-            "seated-leaning",
+            "seated-phone",
             guarded,
           )
         : either(seed, "pose:listening", "arms-folded", "hand-on-hip", guarded);
     case "desk":
+      return seated
+        ? either(seed, "pose:desk", "seated-writing", "seated-reading")
+        : "standing";
     case "meeting":
       return seated
         ? either(
             seed,
             "pose:table",
-            "seated-legs-crossed",
+            "seated-hands-folded",
             "seated-leaning",
             guarded,
           )
         : "standing";
     case "idle":
-      return seated ? "seated" : "standing";
+      return seated
+        ? either(seed, "pose:idle:seated", "seated", "seated-relaxed")
+        : "standing";
   }
 }
 

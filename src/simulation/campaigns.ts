@@ -164,7 +164,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawCanonicalNameForGender } from "./people";
+import { drawGeneratedPersonName } from "./people";
 import { createExactQuantity } from "./quantity";
 import { positionOwnerEndpoint } from "./resource-queries";
 import {
@@ -535,12 +535,13 @@ export function ensureCampaignOpponents(
   for (let index = 0; index < input.count; index += 1) {
     const key = `${input.stableKey}:opponent:${index}`;
     const rng = new SeededRng(world.seed).fork(`campaign-opponent:${key}`);
-    const name = drawCanonicalNameForGender(rng, "unstated");
+    const name = drawGeneratedPersonName(rng);
     const before = next;
     next = createCharacterHistoryContextPerson(next, {
       stableKey: key,
       givenName: name.givenName,
       familyName: name.familyName,
+      identity: name.identity,
       // An adult, because the office is one. The exact age is a fact about
       // this person and says nothing else about them.
       birthDate: birthDateForAge(next.currentDate, rng.integer(32, 66)),

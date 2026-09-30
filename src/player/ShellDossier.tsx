@@ -64,12 +64,18 @@ export function QuickDossier({
       onClose={onClose}
       onExpand={() => setExpandedFor(dossier.personId)}
       onTogglePin={onTogglePin}
-      onOpenPerson={(personId) => onOpenPerson?.(personId)}
+      onOpenPerson={onOpenPerson}
       onTalk={onTalk}
       onContact={onContact}
       onMeet={onMeet}
       onTravel={onTravel}
-      onFullRecord={onFullRecord}
+      onFullRecord={
+        dossier.personId === playerId
+          ? onFullRecord
+          : expanded
+            ? undefined
+            : () => setExpandedFor(dossier.personId)
+      }
       presentPersonIds={presentPersonIds}
       talkUnavailable={talkUnavailable ?? null}
       onOpenLink={onOpenLink}
@@ -137,7 +143,7 @@ export function FullDossier({
       expanded
       mode="workspace"
       onTogglePin={onTogglePin}
-      onOpenPerson={(personId) => onOpenPerson?.(personId)}
+      onOpenPerson={onOpenPerson}
       onTalk={onTalk}
       onContact={onContact}
       onMeet={onMeet}

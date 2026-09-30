@@ -424,6 +424,37 @@
   z-index: 0;
   margin: 0;
 }
+/* The staged office uses the play screen's picture framing, so the people
+   layer's measured spots land on the floor they were measured on. */
+.pg-orientation-staged .pg-orientation-backdrop-image {
+  object-position: 50% 62%;
+}
+/* A small engraved plate over each person's head: name, then office. */
+.pg-orientation-staged .scene-place-nameplate {
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 10px 5px;
+  border: 1px solid rgb(201 162 90 / 70%);
+  border-radius: 3px;
+  background: rgb(24 20 14 / 82%);
+  color: #f3e7cc;
+  text-align: center;
+  pointer-events: none;
+}
+.pg-orientation-staged .scene-place-nameplate-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.pg-orientation-staged .scene-place-nameplate-title {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d8b878;
+}
 .pg-orientation-backdrop-image {
   display: block;
   width: 100%;

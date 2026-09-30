@@ -1,3 +1,9 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { createStableId } from "../../src/simulation/ids";
+import {
+  isLawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../../src/simulation/law-effect-stamp";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -26,7 +32,7 @@ import {
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import {
   schoolYearStartOnOrAfter,
-  TEACHER_FLOOR_OF_STATE_MEDIAN,
+  teacherFloorRatioAt,
   TEACHER_SALARY_FLOOR_QUESTION,
   teacherSalaryFloorAt,
 } from "../../src/simulation/teacher-salary-floor";
@@ -157,10 +163,19 @@ function runPaydays(start: World, until: IsoDate): World {
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
-      world = paydayHandler(world, {
-        stableKey: `town-pay-v2:payday:${paidThrough}`,
+      const key = `town-pay-v2:payday:${paidThrough}`;
+      const due: FutureDueItem = {
+        id: createStableId("future-due-item", key),
+        stableKey: key,
+        sequence: world.history.nextSequence,
+        scheduledAt: paidThrough,
+        dueAt: payday,
         transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+        entityIds: [],
+        jurisdictionId: null,
+        provenance: { kind: "authored", note: "Controlled payday fixture." },
+      };
+      world = paydayHandler(world, due).world;
       paidThrough = payday;
     }
   });
@@ -170,7 +185,7 @@ function runPaydays(start: World, until: IsoDate): World {
 describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
   const opened = openObserverWorld(observerSetup(SEED));
 
-  it("is set by a law enacted in play, from the next school year, as 81% of the state's median teacher wage, in all 56 places", () => {
+  it("is set by a law enacted in play, from the next school year, with a stable researched world/state ratio of the median teacher wage, in all 56 places", () => {
     expect(schoolYearStartOnOrAfter(makeIsoDate("2026-02-15"))).toBe(
       "2026-07-01",
     );
@@ -219,7 +234,7 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
       if (median === null) expect(floor, state.jurisdictionKey).toBeNull();
       else {
         expect(floor?.annual, state.jurisdictionKey).toBe(
-          Math.round(median * TEACHER_FLOOR_OF_STATE_MEDIAN.central),
+          Math.round(median * teacherFloorRatioAt(world, jurisdiction)),
         );
         floors += 1;
       }
@@ -245,18 +260,21 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
     expect(floors).toBe(54);
   });
 
-  it("raises every public school teacher paid below the floor from the first pay period of the school year, and no private school teacher", () => {
-    const place = observerPlace(SEED);
+  function watchTeacherFloor(seed: string, requireRaises: boolean): void {
+    const place = observerPlace(seed);
     const town = place.context.jurisdiction.id;
     const stateKey = lifePlaceByJurisdictionId(town)!.stateJurisdictionKey!;
     const stateId = stateJurisdictionForKey(stateKey)!.id;
-    const start = opened.world;
+    const start =
+      seed === SEED
+        ? opened.world
+        : openObserverWorld(observerSetup(seed, place.key)).world;
     const effectiveAt = addDays(start.currentDate, 45);
     const schoolYear = schoolYearStartOnOrAfter(effectiveAt);
     const enacted = enactStateLaw(start, stateId, "yes", 1, effectiveAt);
     const world = runPaydays(enacted, addDays(schoolYear, 45));
     const median = stateMedianAnnualWage("profession:teacher", town)!;
-    const floor = Math.round(median * TEACHER_FLOOR_OF_STATE_MEDIAN.central);
+    const floor = Math.round(median * teacherFloorRatioAt(world, town));
 
     const roles = new Map(
       world.history.workRoles.map((role) => [role.workRelationshipId, role]),
@@ -286,12 +304,20 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
     );
     const raisedFlows = new Set(raises.map((terms) => terms.resourceFlowId));
     // Measured: some teachers here were paid below the floor.
-    expect(raises.length).toBeGreaterThan(0);
+    if (requireRaises) expect(raises.length).toBeGreaterThan(0);
     for (const flow of privateTeachers)
       expect(raisedFlows.has(flow.id)).toBe(false);
 
     const lines: string[] = [];
     for (const raise of raises) {
+      const stamp = (raise as typeof raise & LawEffectStampedRecord)
+        .lawEffectStamps?.[0];
+      expect(isLawEffectStamp(stamp)).toBe(true);
+      expect(stamp?.governingLawKey).toBe("measure_teacher_floor_1");
+      expect(stamp?.effectKind).toBe("teacher-pay");
+      expect(stamp?.appliedAt).toBe(raise.effectiveAt);
+      expect(stamp?.sourceRecordIds).toContain(raise.resourceFlowId);
+
       const before = world.history.resourceFlowTerms.find(
         (terms) => terms.id === raise.supersedesTermsId,
       )!;
@@ -346,19 +372,100 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
         (role.timeDemand.expectedWeekly.minimumHours +
           role.timeDemand.expectedWeekly.maximumHours) /
         2;
+      const periods: Readonly<Record<string, number>> = {
+        "schedule:town-weekly": 52,
+        "schedule:town-biweekly-0": 26,
+        "schedule:town-biweekly-1": 26,
+        "schedule:town-semimonthly": 24,
+        "schedule:town-monthly": 12,
+      };
       const perYear =
-        (latest.amount.minorUnits / 100) *
-        ({
-          "schedule:town-weekly": 52,
-          "schedule:town-biweekly-0": 26,
-          "schedule:town-biweekly-1": 26,
-          "schedule:town-semimonthly": 24,
-          "schedule:town-monthly": 12,
-        }[latest.cadenceKind] ?? 0);
+        (latest.amount.minorUnits / 100) * (periods[latest.cadenceKind] ?? 0);
       expect(perYear / (weekly / 40)).toBeGreaterThanOrEqual(floor - 60);
     }
     console.info(
-      `${place.key} (${stateKey}), seed ${SEED}: a state minimum teacher salary of $${floor.toLocaleString("en-US")} (81% of the state median $${median.toLocaleString("en-US")}), in force ${effectiveAt}, first school year ${schoolYear}. ${raisedFlows.size} of ${publicTeachers.length} public school teachers raised; ${privateTeachers.length} private school teachers untouched.\n${lines.join("\n")}`,
+      `${place.key} (${stateKey}), seed ${seed}: a state minimum teacher salary of $${floor.toLocaleString("en-US")} (${(teacherFloorRatioAt(world, town) * 100).toFixed(1)}% of the state median $${median.toLocaleString("en-US")}), in force ${effectiveAt}, first school year ${schoolYear}. ${raisedFlows.size} of ${publicTeachers.length} public school teachers raised; ${privateTeachers.length} private school teachers untouched.\n${lines.join("\n")}`,
     );
-  });
+    const receipt = {
+      seed,
+      placeKey: place.key,
+      stateKey,
+      effectiveAt,
+      schoolYear,
+      floorDollars: floor,
+      teacherFloorRatio: teacherFloorRatioAt(world, town),
+      publicTeachers: publicTeachers.length,
+      privateTeachers: privateTeachers.length,
+      raisedPeople: raises.map((terms) => {
+        const flow = flows.find((row) => row.id === terms.resourceFlowId)!;
+        const id =
+          flow.recipient.kind === "person" ? flow.recipient.personId : null;
+        const person = id ? world.people[id] : null;
+        const before = world.history.resourceFlowTerms.find(
+          (row) => row.id === terms.supersedesTermsId,
+        )!;
+        return {
+          personId: id,
+          name: person ? `${person.givenName} ${person.familyName}` : null,
+          employerId:
+            flow.source.kind === "organization"
+              ? flow.source.organizationId
+              : null,
+          beforeMinor: before.amount.minorUnits,
+          afterMinor: terms.amount.minorUnits,
+          effectiveAt: terms.effectiveAt,
+          lawEffectStamps: (terms as typeof terms & LawEffectStampedRecord)
+            .lawEffectStamps,
+          paidTransfers: world.history.resourceTransferOutcomes
+            .filter(
+              (row) =>
+                row.resourceFlowId === flow.id &&
+                row.periodStartsAt >= terms.effectiveAt,
+            )
+            .map((row) => ({
+              id: row.id,
+              periodStartsAt: row.periodStartsAt,
+              periodEndsAt: row.periodEndsAt,
+              amountMinor: row.transferredAmount.minorUnits,
+            })),
+        };
+      }),
+      status: raises.length
+        ? "STAMPED_COMPENSATION_AND_PAID_TRANSFERS"
+        : "NO_OBSERVED_TEACHER_BELOW_FLOOR",
+    };
+    mkdirSync("test-results/team-5-teacher-stamp", { recursive: true });
+    writeFileSync(
+      `test-results/team-5-teacher-stamp/${seed}.json`,
+      JSON.stringify(receipt, null, 2),
+    );
+  }
+
+  it("raises every public school teacher paid below the floor from the first pay period of the school year, and no private school teacher", () =>
+    watchTeacherFloor(SEED, true));
+
+  const states = new Set([observerPlace(SEED).stateJurisdictionKey]);
+  const moreSeeds: string[] = [];
+  for (let index = 0; moreSeeds.length < 4 && index < 200; index += 1) {
+    const seed = `team5-five-state-teacher-${index}`;
+    const place = observerPlace(seed);
+    const state = place.stateJurisdictionKey;
+    if (
+      !state ||
+      states.has(state) ||
+      stateMedianAnnualWage(
+        "profession:teacher",
+        place.context.jurisdiction.id,
+      ) === null
+    )
+      continue;
+    states.add(state);
+    moreSeeds.push(seed);
+  }
+  it("selects five distinct researched states across the original and additional watched worlds", () =>
+    expect(states.size).toBe(5));
+  it.each(moreSeeds)(
+    "saves teacher law stamps and verifies actual paid compensation in watched world %s",
+    (seed) => watchTeacherFloor(seed, false),
+  );
 });

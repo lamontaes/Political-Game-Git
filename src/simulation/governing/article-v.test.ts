@@ -111,6 +111,7 @@ function favor(
           (bearing.bearing === "consistent-with") !== Boolean(options.against)
             ? ("endorses" as const)
             : ("rejects" as const),
+        strength: conviction === "settled" ? 1 : 0.25,
         conviction,
         flexibility:
           conviction === "settled" ? ("firm" as const) : ("open" as const),

@@ -338,6 +338,7 @@ describe("a policy amendment most of the legislature holds by conviction", () =>
             bearing.bearing === "consistent-with"
               ? ("endorses" as const)
               : ("rejects" as const),
+          strength: 1,
           conviction: "settled" as const,
           flexibility: "firm" as const,
           qualification: null,

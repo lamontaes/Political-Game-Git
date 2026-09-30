@@ -135,7 +135,17 @@
       "anchor": "Elasticity -0.34 violent, -0.17 property",
       "source": "Chalfin and McCrary 2017-18",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "estimate": -0.34,
+        "standardError": 0.1,
+        "normal95Interval": [-0.536, -0.144],
+        "unit": "elasticity: percent outcome change per percent officer change",
+        "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
+        "status": "blocked-runtime-unit-conversion",
+        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
+      }
     },
     {
       "key": "police-to-property-crime",
@@ -153,7 +163,17 @@
       "anchor": "Elasticity -0.17",
       "source": "Chalfin and McCrary 2017-18",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "estimate": -0.17,
+        "standardError": 0.09,
+        "normal95Interval": [-0.3464, 0.0064],
+        "unit": "elasticity: percent outcome change per percent officer change",
+        "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
+        "status": "blocked-runtime-unit-conversion",
+        "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
+      }
     },
     {
       "key": "police-to-low-level-arrests",
@@ -298,15 +318,44 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": 0.08,
+      "per": "adoption of statutory public-place stand-your-ground law versus no such adoption in the controlled pooled study",
       "lagMonths": 0,
       "group": "place",
       "owner": "O",
       "anchor": "Increases firearm homicides (RAND: supportive)",
-      "source": "RAND Science of Gun Policy, 5th ed.",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/",
       "from": "law.stand-your-ground",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0.03, 0.13],
+      "why": [
+        "The study associates statutory stand-your-ground adoption with higher monthly firearm-homicide rates after controlling for comparison states, seasonality and long-term trends.",
+        "Its treatment is an extension of legal immunity for lethal self-defense outside the home to places where a person has a legal right to be.",
+        "That legal change can alter the perceived legal consequences of choosing lethal force. The authors describe possible encouragement of otherwise avoidable deadly encounters; deterrence is the competing explanation.",
+        "A person chooses whether to use lethal force in a particular encounter from the situation and their own record. A firearm discharge can physically kill another person. The aggregate estimate does not choose that action or victim.",
+        "Legal rule: statutory protection for qualifying public-place self-defense; physical fact: lethal force can kill. Actual behavioral mediation is not identified by this study."
+      ],
+      "conditions": {
+        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%–33.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
+        "rangeMeaning": "[0.03,0.13] is the published95%interval around the pooled firearm-homicide rate ratio minus1. It is not a distribution of local effects, not a bound on every state, and not a territory transport estimate.",
+        "transportMissing": "Numerical firearm-only state-specific estimates and their intervals fromFigure3/supplement, plus evidence for later-adopting and excluded places. No universal state-specific effect is claimed.",
+        "mediationLimit": "The legal treatment and aggregate association are measured in the paper. The psychological pathway is an authors-discussed hypothesis, not measured person-level mediation or proof of a particular encounter."
+      },
+      "reverseOnRepeal": {
+        "answer": "Not established.",
+        "reason": "The treatment analyzed is adoption during2000–2016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
+      },
+      "who": {
+        "studyPopulation": "Forty-one US states during1999–2017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
+        "exclusions": "Nine states excluded:Utah/Iowa lacked sufficient timing/data;seven had case-law stand-your-ground principles, contaminating comparison. No territory, county-specific, township-specific or individual exposed-defendant estimate.",
+        "legalCoverage": "People in qualifying public-place self-defense encounters under operative law; the study definition is not a grant of authority to local governments or proof every homicide involved a self-defense claim."
+      },
+      "lagWhy": {
+        "measured": "Methods model a step change in monthly statewide rates at statutory enactment, adjusted for seasonality and state trends, with at least12months before/after for included adopters.",
+        "lagInterpretation": "lagMonths0 describes that monthly aggregate model specification; it is not a measured immediate personal reaction or zero procedural delay. No separate distributed-lag coefficient is supplied."
+      },
+      "aboutZero": false,
+      "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader."
     },
     {
       "key": "min-age-to-youth-gun-suicide",
@@ -340,7 +389,17 @@
       "anchor": "Each added reported crime: about 1 fewer city resident, mostly moving to the suburbs",
       "source": "Cullen and Levitt 1999 (REStat)",
       "from": "crime.reported-per-capita",
-      "evidence": "researched"
+      "evidence": "researched",
+      "researchSizing": {
+        "estimate": 1.18,
+        "standardError": 0.57,
+        "normal95Interval": [0.0628, 2.2972],
+        "unit": "out-migration probability change per change in reported crimes per resident over five years",
+        "source": "https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf",
+        "location": "Table 6a column 2, household controls; coefficient -1.18 on staying, sign reversed for leaving",
+        "status": "blocked-runtime-unit-and-time-conversion",
+        "requiredConnection": "Need recorded migration baseline and five-year exposure interval before proportional rate multiplier. This is not an immediate monthly multiplier or an observed individual move."
+      }
     },
     {
       "key": "speed-limit-to-traffic-deaths",
@@ -659,7 +718,21 @@
         "effectAtFull": 1,
         "mode": "only-when"
       },
-      "range": [0.2, 0.4]
+      "range": [0.2, 0.4],
+      "why": [
+        "The law adds work or exemption conditions to coverage.",
+        "A recipient must satisfy and document those conditions.",
+        "Recorded failure or administrative loss can end coverage.",
+        "The terminal is a legal eligibility decision or paperwork process, not a presumed decision to avoid work."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+      "who": "CBO: the 2025 law's community engagement requirement adds 5.3 million uninsured by 2034. It applies to expansion adults, so it falls on expansion states: about 16.4 million uninsured there in 2024, so about +32%. Arkansas 2018: nearly 1 in 4 of those subject lost coverage within months, mostly over paperwork.",
+      "lagWhy": {
+        "months": 6,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "work-requirement-to-employment",
@@ -676,7 +749,21 @@
       "anchor": "No change; 97% already met the rule",
       "source": "Sommers et al. 2019 (NEJM)",
       "from": "law:us-policy-positions:health-human-services.medicaid-work-requirement",
-      "evidence": "about-zero"
+      "evidence": "about-zero",
+      "why": [
+        "A rule may ask a recipient to work but does not create a job.",
+        "Many recipients already work or qualify for exemptions.",
+        "The cited Arkansas evaluation found no employment gain.",
+        "The terminal is an observed about-zero result; no hiring effect is manufactured."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+      "who": "No change; 97% already met the rule",
+      "lagWhy": {
+        "months": 0,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": true
     },
     {
       "key": "job-loss-to-death-risk",
@@ -886,7 +973,29 @@
       "anchor": "+0.31 years, +7% wages, -3.2 points adult poverty",
       "source": "Jackson, Johnson and Persico 2016 (QJE)",
       "from": "school.spending-per-student",
-      "evidence": "researched"
+      "evidence": "researched",
+      "why": [
+        "A sustained funding increase can purchase school staff, time and resources.",
+        "Those inputs can change the instruction/support experienced by pupils in affected districts.",
+        "A pupil continues schooling when their own academic, household and opportunity circumstances allow it.",
+        "Continuing produces additional completed school years.",
+        "Bedrock is actual resources and schooling completed; the study10%-for12-years treatment is not a one-month spending change."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Low-income pupils receive the sustained school-age spending exposure studied."
+        ],
+        "weakerWhen": [
+          "The increase is brief, smaller or arrives late in schooling."
+        ],
+        "absentWhen": [
+          "The pupil is unexposed, already out of school, or the budget increase buys no changed inputs."
+        ]
+      },
+      "reverseOnRepeal": "Repeal can stop future spending. Years already completed remain; the sustained treatment contrast cannot simply reverse in one month.",
+      "who": "Pupils exposed to the district spending reform over childhood, with larger reported effects among low-income children.",
+      "lagWhy": "The link currently has lag0 but shape exposure-years. The cited12-year exposure must accumulate across the actual school-age cohort; zero lag does not mean instant attainment.",
+      "aboutZero": false
     },
     {
       "key": "child-coverage-to-graduation",
@@ -937,7 +1046,29 @@
       "anchor": "+0.22 SD after 4 years; +2 points college enrollment",
       "source": "Krueger; Tennessee STAR",
       "from": "school.class-size-k3",
-      "evidence": "researched"
+      "evidence": "researched",
+      "why": [
+        "An additional teacher/classroom can make a smaller actual class feasible.",
+        "A smaller roster can give a teacher more attention/time per pupil.",
+        "The pupil receives that altered instruction only while assigned to the class.",
+        "An assessment after exposure can reflect different learning.",
+        "Bedrock is the roster, teacher attention and assessment; the Tennessee small-versus-regular treatment is not every one-pupil reduction."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Early-grade pupils receive the evaluated small-class contrast for the studied exposure."
+        ],
+        "weakerWhen": [
+          "Class differences are smaller or resources do not supply an additional qualified teacher."
+        ],
+        "absentWhen": [
+          "The class roster does not change or the pupil is outside the evaluated grades."
+        ]
+      },
+      "reverseOnRepeal": "Repeal of funding does not itself enlarge a roster. An actual reassignment must occur; prior assessments are retained.",
+      "who": "Kindergarten-through-third-grade pupils assigned to the relevant small/regular classrooms; schoolmates outside exposure are not treated.",
+      "lagWhy": "The link has lag0, but the anchor describes four years of exposure. Assessments must follow the actual exposure; the cited contrast/CI is required before switch-on.",
+      "aboutZero": false
     },
     {
       "key": "prek-to-graduation",
@@ -954,7 +1085,29 @@
       "anchor": "Boston: +6 points graduation, +8 college, no test gains; Tennessee: worse by 6th grade",
       "source": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
       "from": "school.prek-quality",
-      "evidence": "researched"
+      "evidence": "researched",
+      "why": [
+        "A quality-specific preschool place gives an attending child a particular early educational experience.",
+        "Attendance provides exposure that nonparticipants do not receive.",
+        "That experience interacts with later schooling and can change persistence.",
+        "The child reaches completion requirements much later.",
+        "Bedrock is the child attendance and completed schooling; quality-specific trial findings are not a generic preschool bonus."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Program quality and exposure match the favorable Boston comparison."
+        ],
+        "weakerWhen": [
+          "The program resembles adverse or null comparison settings or later schooling differs."
+        ],
+        "absentWhen": [
+          "There is no attendance or the cohort has not reached graduation age."
+        ]
+      },
+      "reverseOnRepeal": "Repeal prevents future offered exposure. It does not undo the attended cohort experience or completed graduation.",
+      "who": "Attending four-year-old cohorts in the evaluated quality settings, later observed at high-school completion.",
+      "lagWhy": "The existing lag0 is not an immediate completion effect. Cohort age and the study follow-up must determine the graduation date.",
+      "aboutZero": false
     },
     {
       "key": "family-income-to-scores",
@@ -1146,7 +1299,29 @@
       "anchor": "Each year of school adds several percent to wages (to confirm the size)",
       "source": "to confirm",
       "from": "school.graduation",
-      "evidence": "to-confirm"
+      "evidence": "to-confirm",
+      "why": [
+        "Completion can change a person skills and credentials.",
+        "An employer evaluates those actual skills/credentials for an available job.",
+        "The employer and person agree to work and compensation.",
+        "Completed paid work produces that persons earnings.",
+        "Bedrock is an actual hiring/pay decision and transfer; an education wage premium is a population check, not assigned pay."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The credential is required/rewarded for a feasible job and demand supports hiring."
+        ],
+        "weakerWhen": [
+          "There is a recession, scarce suitable jobs or the credential does not change available work."
+        ],
+        "absentWhen": [
+          "No job/pay relationship exists or graduation does not change the recorded skills/eligibility."
+        ]
+      },
+      "reverseOnRepeal": "Repeal of an upstream education law cannot revoke graduation or existing pay terms. A new labor-market decision is needed to change later earnings.",
+      "who": "Actual graduates entering affected labor markets; the link lacks a confirmed causal size and cannot assign a statewide percentage to every person.",
+      "lagWhy": "The current lag0 ignores transition from school to work. A hire and paid period must occur; Team9 must verify the earnings age/horizon and denominator.",
+      "aboutZero": false
     },
     {
       "key": "graduation-to-incarceration",
@@ -1163,7 +1338,29 @@
       "anchor": "10 points more graduation: about 7% fewer arrests",
       "source": "Lochner and Moretti 2004 (AER)",
       "from": "school.graduation",
-      "evidence": "researched"
+      "evidence": "researched",
+      "why": [
+        "Additional education can change a persons lawful economic opportunities.",
+        "Those opportunities may change the incentives in a specific decision involving crime.",
+        "A crime and legal response still require actual actor choices and evidence.",
+        "Incarceration follows the applicable legal process and sentence/holding record.",
+        "Bedrock is a person decision and legal order; a cohort risk estimate must never roll a graduate into or out of prison."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The studied affected male cohorts gain meaningful lawful earning opportunities."
+        ],
+        "weakerWhen": [
+          "Local lawful opportunities remain scarce or the cohort differs from the study."
+        ],
+        "absentWhen": [
+          "No actual crime/case/custody decision exists; graduation alone cannot generate incarceration."
+        ]
+      },
+      "reverseOnRepeal": "Repeal of education funding cannot undo a diploma or sentence. Any later change requires actual opportunity, crime and legal-process records.",
+      "who": "The studied male cohorts with separately reported racial-group estimates; not every resident or every school graduate.",
+      "lagWhy": "The current lag0 does not supply a criminal case. Education exposure, later opportunities and a legally dated custody event must precede a measured consequence.",
+      "aboutZero": false
     },
     {
       "key": "graduation-to-turnout",
@@ -1663,7 +1860,29 @@
       "anchor": "D.C. universal pre-K: +10 points in mothers' participation (about +15% on its base); Quebec child care about +7%",
       "source": "Malik 2018; Baker, Gruber and Milligan 2008",
       "from": "law:us-policy-positions:education.universal-preschool",
-      "evidence": "researched"
+      "evidence": "researched",
+      "why": [
+        "A funded preschool place can provide care during specific hours.",
+        "The parent benefits only when the child is enrolled and the schedule covers their care constraint.",
+        "That coverage can make a particular job schedule feasible.",
+        "The parent still needs an available job offer and must choose it given pay, travel and family circumstances.",
+        "Bedrock is actual child care and a parent hiring decision, not a participation multiplier choosing employment."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The parent had binding care costs/schedule constraints and an accessible job."
+        ],
+        "weakerWhen": [
+          "The household already had equivalent care or only part-day care is provided."
+        ],
+        "absentWhen": [
+          "No preschool place, child enrollment, usable schedule or feasible job exists."
+        ]
+      },
+      "reverseOnRepeal": "Repeal may end a future funded care place after its lawful phase-out. It does not automatically dismiss an employed mother; she reassesses care and work from actual records.",
+      "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
+      "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
+      "aboutZero": false
     },
     {
       "key": "voter-id-to-turnout",
@@ -1906,7 +2125,21 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
       "to": "health.uninsured-pct",
-      "range": [-0.2, -0.1]
+      "range": [-0.2, -0.1],
+      "why": [
+        "The law expands adult eligibility.",
+        "Eligible low-income adults can obtain public insurance.",
+        "Coverage lowers the number recorded uninsured.",
+        "The terminal is legal eligibility plus a recorded enrollment; income, age, residency and service availability must be read, not assumed."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+      "who": "The ACA raised coverage 5.9 points in expansion states and 3.0 in others: about 2.9 points among adults 19 to 64 from expansion, about 1.8 points across all ages, about -15% of a non-expansion state's 2024 uninsured rate.",
+      "lagWhy": {
+        "months": 0,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "medicaid-expansion-to-mortality",
@@ -1923,7 +2156,21 @@
       "source": "Miller, Johnson and Wherry 2021 (QJE)",
       "evidence": "researched",
       "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "to": "health.mortality-55-64"
+      "to": "health.mortality-55-64",
+      "why": [
+        "Expansion makes insurance available to eligible low-income adults.",
+        "Insurance can reduce financial barriers to care.",
+        "Treatment and access can reduce some fatal risks.",
+        "The terminal is access to care and physical illness; a population association cannot be copied onto every enrolled person."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Future exposure can stop; past deaths and treatments do not reverse.",
+      "who": "-9.4% annual mortality, -11.9% by year 3",
+      "lagWhy": {
+        "months": 12,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -1940,7 +2187,21 @@
       "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
       "evidence": "researched",
       "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "to": "finance.medical-debt-in-collections"
+      "to": "finance.medical-debt-in-collections",
+      "why": [
+        "Expansion makes insured care available.",
+        "Insurance pays covered costs that a patient would otherwise owe.",
+        "Smaller unpaid patient balances can mean fewer bills sent to collections.",
+        "The terminal is an actual covered bill and payment; the dollar total in the study lacks the denominator needed by this proportional link."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+      "who": "ACA expansion: -$3.4 billion in collections in its first 2 years; better credit and loan terms",
+      "lagWhy": {
+        "months": 6,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -1958,7 +2219,21 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
       "to": "program.snap-receipt",
-      "range": [-0.063, -0.025]
+      "range": [-0.063, -0.025],
+      "why": [
+        "Assistance eligibility adds work or training conditions.",
+        "Recipients outside exemptions must satisfy the rule.",
+        "A refusal or coverage exit reduces recorded participation.",
+        "The terminal is an actual benefit eligibility/refusal record; a population reduction is not an automatic deduction from every household."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+      "who": "Work requirements cut participation 53% among adults subject to them, with no gain in employment; adults 18 to 49 without a disability in childless households, those the requirement reaches, are 9.8% of SNAP participants, so about 5.2% fewer residents receive SNAP. The range runs from the 64% exit rate among incumbents to half the effect, for states where many of those adults are already exempt or covered by a waiver.",
+      "lagWhy": {
+        "months": 3,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "universal-prek-to-graduation",
@@ -1976,7 +2251,29 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:education.universal-preschool",
       "to": "school.graduation-pct",
-      "range": [-0.02, 0.08]
+      "range": [-0.02, 0.08],
+      "why": [
+        "A preschool program offers a place with particular instructional quality.",
+        "A child obtains the educational exposure only through actual enrollment and attendance.",
+        "The instruction and later school context can alter skills and persistence.",
+        "The exposed cohort reaches the age and requirements for high-school completion years later.",
+        "Bedrock is child attendance followed by completed schooling; quality differences explain why program studies need separate conditions."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The funded program provides the quality and population exposure of the favorable study."
+        ],
+        "weakerWhen": [
+          "Program quality, follow-on schooling or participant share differs from that study."
+        ],
+        "absentWhen": [
+          "The child does not attend or is not yet old enough for the measured completion outcome."
+        ]
+      },
+      "reverseOnRepeal": "Repeal ends future offered places. It cannot delete an earlier child exposure or a completed diploma; the already exposed cohort may retain long-term effects.",
+      "who": "Actual enrolled preschool cohorts as they reach high-school age; not present-day adults or all children in the state.",
+      "lagWhy": "The existing168-month lag follows four-year-olds toward high-school graduation. It is fourteen years, so a24-month audit must report not-yet-due rather than missing firing.",
+      "aboutZero": false
     },
     {
       "key": "equalized-funding-to-spending",
@@ -1993,7 +2290,29 @@
       "source": "Lafortune, Rothstein and Schanzenbach 2018 (to confirm)",
       "evidence": "to-confirm",
       "from": "law:us-policy-positions:education.equalize-school-funding",
-      "to": "school.spending-per-student"
+      "to": "school.spending-per-student",
+      "why": [
+        "An equalization act changes the allocation formula or appropriation for qualifying districts.",
+        "The formula redirects state aid because district taxable wealth otherwise limits locally raised resources.",
+        "The treasury can pay that aid only from an actual revenue appropriation or recorded borrowing.",
+        "The district receives resources only when the authorized transfer is made.",
+        "Bedrock is the legal allocation rule and treasury-to-district receipt; a binary act alone is not a dollar receipt."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Low-property-wealth districts receive a larger formula increase."
+        ],
+        "weakerWhen": [
+          "A district was already above the new funding guarantee."
+        ],
+        "absentWhen": [
+          "No operative funding provision, appropriation or qualifying district is recorded."
+        ]
+      },
+      "reverseOnRepeal": "Repeal changes future allocation authority. It does not remove money already received by a district or supplies already bought. The existing aggregate law-answer reversal must not rewrite budget history.",
+      "who": "Qualifying districts and their enrolled pupils; residents funding the state budget bear the financing trade-off.",
+      "lagWhy": "The existing12-month lag stands for an allocation/budget cycle; it is not a verified causal delay. Team9 must provide timing and per-pupil funding contrast from the cited reform study.",
+      "aboutZero": false
     },
     {
       "key": "end-cash-bail-to-pretrial-detention",
@@ -2190,7 +2509,21 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:health-human-services.housing-first-homelessness",
       "to": "housing.homelessness",
-      "range": [-0.1, 0.02]
+      "range": [-0.1, 0.02],
+      "why": [
+        "Housing First removes treatment or sobriety as a precondition for placement.",
+        "Available supportive units can admit people before those conditions are met.",
+        "Actual placement increases time housed for people served.",
+        "The terminal is a recorded placement and available unit; an eligibility change does not create beds and cannot erase homelessness mechanically."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+      "who": "Housing First trials show large gains in housing stability for the people served, but community panels find a small effect on the count: about one fewer homeless person per 10 permanent supportive beds",
+      "lagWhy": {
+        "months": 24,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "cannabis-sales-to-youth-use",
@@ -2613,7 +2946,29 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:education.universal-preschool",
       "to": "school.math-proficient-pct",
-      "range": [-0.03, 0.01]
+      "range": [-0.03, 0.01],
+      "why": [
+        "A child attends preschool with a particular curriculum and instructional quality.",
+        "That exposure changes learning experiences only for the attending child.",
+        "Later school instruction can reinforce or offset that experience.",
+        "A later math assessment records the skills then acquired.",
+        "Bedrock is actual instruction and assessment; adverse Tennessee and null test findings cannot become a universal positive score."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Program and subsequent schooling resemble the measured comparison."
+        ],
+        "weakerWhen": [
+          "Quality or later-school context differs from the evaluated program."
+        ],
+        "absentWhen": [
+          "There is no enrolled exposure or no assessment at the relevant follow-up."
+        ]
+      },
+      "reverseOnRepeal": "Repeal affects future attendance opportunities. It does not erase an assessment or reverse learned skills; subsequent instruction needs its own path.",
+      "who": "Enrolled preschool pupils at the study follow-up ages and programs; statewide dilution remains a separate unverified conversion.",
+      "lagWhy": "The existing60-month lag represents later elementary assessment. Verify the exact grade/follow-up and quality-specific sign before numeric activation.",
+      "aboutZero": false
     },
     {
       "key": "equalized-funding-to-math-proficiency",
@@ -2631,7 +2986,29 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:education.equalize-school-funding",
       "to": "school.math-proficient-pct",
-      "range": [0.02, 0.1]
+      "range": [0.02, 0.1],
+      "why": [
+        "A qualifying school can change instructional inputs after receiving additional funding.",
+        "The school can hire or retain staff and obtain instructional resources only when those resources are available.",
+        "The changed inputs affect a pupil only if their recorded school and instruction expose them to the change.",
+        "Sustained instructional exposure can change the skills measured by a later math assessment.",
+        "Bedrock is actual instruction received and assessment performance; no pupil score is produced by a statewide formula here."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "A low-income district begins with scarce instructional resources and the money buys relevant inputs."
+        ],
+        "weakerWhen": [
+          "Starting spending is already high or the measured treatment is a smaller funding increase."
+        ],
+        "absentWhen": [
+          "The pupil is not enrolled in an affected school or no funded input changes."
+        ]
+      },
+      "reverseOnRepeal": "Repeal can end future input funding; it does not subtract a pupil learned skill or erase an earlier assessment. A future assessment needs newly observed conditions, not an immediate negative score.",
+      "who": "Pupils actually exposed in qualifying districts; statewide proficiency needs enrollment-weighted cohort evidence.",
+      "lagWhy": "The existing36-month lag approximates resource delivery and several school years of exposure. The cited study horizon and statewide proficiency conversion remain unverified.",
+      "aboutZero": false
     },
     {
       "key": "equalized-funding-to-graduation",
@@ -2649,7 +3026,29 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:education.equalize-school-funding",
       "to": "school.graduation-pct",
-      "range": [0.005, 0.04]
+      "range": [0.005, 0.04],
+      "why": [
+        "Additional district resources can change staffing and support available to enrolled pupils.",
+        "A pupil can persist when their own attendance, support and academic circumstances permit it.",
+        "Persistence creates additional completed school work and progress toward recorded requirements.",
+        "A diploma follows completion of those actual requirements.",
+        "Bedrock is an individual completed schooling record, not a random graduation-rate assignment."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Resource-constrained, low-income pupils receive sustained exposure before completion."
+        ],
+        "weakerWhen": [
+          "Funding arrives late in the cohort schooling or support does not reach the pupil."
+        ],
+        "absentWhen": [
+          "The pupil has already graduated or attends an unaffected school."
+        ]
+      },
+      "reverseOnRepeal": "Repeal affects future support for still-enrolled cohorts. A completed diploma remains a historical fact and cannot be undone by a law-answer reversal.",
+      "who": "Exposed school-age cohorts, particularly the low-income districts studied; not all adult residents.",
+      "lagWhy": "The existing60-month lag represents progression toward completion. Actual ages, exposure years and completion dates must replace a generic five-year switch.",
+      "aboutZero": false
     },
     {
       "key": "vouchers-to-math-proficiency",
@@ -2667,7 +3066,29 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
       "to": "school.math-proficient-pct",
-      "range": [-0.03, 0.005]
+      "range": [-0.03, 0.005],
+      "why": [
+        "A funded award can give an eligible household another school choice.",
+        "The household can use it only if an eligible school has a place and the remaining charge/transport is feasible.",
+        "Enrollment changes the instruction the pupil actually receives.",
+        "That instruction may improve or worsen the skills measured by later math assessments.",
+        "Bedrock is a family decision, paid award and school enrollment; private status alone does not imply higher quality."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The voucher causes an actual school change with materially different instruction."
+        ],
+        "weakerWhen": [
+          "The award subsidizes an enrollment that would happen anyway."
+        ],
+        "absentWhen": [
+          "No award, school place, eligibility or recorded enrollment change exists."
+        ]
+      },
+      "reverseOnRepeal": "Repeal stops prospective award authority. It does not erase the award already paid or the pupil prior instruction. A subsequent return to another school needs a household decision and enrollment record.",
+      "who": "Voucher-using pupils and their households, with school/provider-specific effects; nonparticipants cannot be assigned the recipient estimate.",
+      "lagWhy": "The existing12-month lag represents a school year before assessment. Verify the cited voucher study follow-up and treatment group; a state-wide diluted coefficient is not the trial estimate.",
+      "aboutZero": false
     },
     {
       "key": "vouchers-to-graduation",
@@ -2685,7 +3106,29 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
       "to": "school.graduation-pct",
-      "range": [0, 0.015]
+      "range": [0, 0.015],
+      "why": [
+        "A voucher award can make a chosen private-school enrollment feasible.",
+        "The household must choose that school and the school must accept the pupil.",
+        "The resulting school experience can alter continued attendance and progress.",
+        "Graduation occurs only when the pupil completes the applicable requirements.",
+        "Bedrock is a funded choice and completed schooling, not a voucher law assigning a diploma."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "A participating pupil attends a school whose completion support differs from the counterfactual school."
+        ],
+        "weakerWhen": [
+          "Few eligible pupils participate or the award does not change their school."
+        ],
+        "absentWhen": [
+          "The pupil is not a participant or already completed school before exposure."
+        ]
+      },
+      "reverseOnRepeal": "Repeal can remove funding for future enrollment choices. Previously completed schooling remains; a remaining pupil graduation consequence depends on their later school path.",
+      "who": "Actual voucher participants in the study cohorts; statewide graduation requires measured participation and cohort shares.",
+      "lagWhy": "The existing48-month lag approximates later graduation, but the pupil grade and cited follow-up define when completion could actually change.",
+      "aboutZero": false
     },
     {
       "key": "poverty-to-math-proficiency",
@@ -2907,7 +3350,21 @@
       "evidence": "provisional",
       "anchor": "Denver's health-responder program cut reports of the targeted low-level offenses 34% where it ran, with no effect on serious crime; scaled down because those offenses are a small share of all crime and a state program reaches part of the state",
       "source": "Dee and Pyne 2022, Science Advances 8, eabm2106",
-      "range": [-0.02, 0]
+      "range": [-0.02, 0],
+      "why": [
+        "A crisis-response service can dispatch health responders to some low-level calls.",
+        "Their treatment and diversion can replace arrest or offense recording in those calls.",
+        "The Denver study measured targeted low-level offenses, not a reduction in serious crime.",
+        "The terminal is actual responder dispatch and case handling; this existing violent-crime proxy requires correction/research rather than being called proven."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+      "who": "Denver's health-responder program cut reports of the targeted low-level offenses 34% where it ran, with no effect on serious crime; scaled down because those offenses are a small share of all crime and a state program reaches part of the state",
+      "lagWhy": {
+        "months": 6,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "curriculum-standards-to-math",
@@ -2942,7 +3399,29 @@
       "evidence": "provisional",
       "anchor": "10% higher teacher pay cuts dropouts 3 to 4%; a state salary floor is assumed to raise average teacher pay about 5%",
       "source": "Loeb and Page 2000, Review of Economics and Statistics 82(3)",
-      "range": [0.001, 0.005]
+      "range": [0.001, 0.005],
+      "why": [
+        "An operative salary floor requires a covered public employer to raise under-floor teacher compensation.",
+        "The employer changes saved pay terms and pays that amount in actual pay periods.",
+        "Higher pay may change retention or recruitment only through a teacher or applicant employment decision.",
+        "The changed staffing may alter instruction for the pupils assigned to those teachers.",
+        "Bedrock for the direct effect is a legal pay requirement; the graduation continuation needs actual employment, instruction and completion records."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The floor binds many underpaid covered teachers and resources permit staffing responses."
+        ],
+        "weakerWhen": [
+          "Existing salary is already above the floor or the pay rise is small."
+        ],
+        "absentWhen": [
+          "A private teacher is outside coverage, the first applicable school year has not begun, or no staffing/instruction change reaches the pupil."
+        ]
+      },
+      "reverseOnRepeal": "Repeal removes the future legal floor. It does not cut saved teacher pay or revoke a diploma; any staffing response must follow actual later employment terms and decisions.",
+      "who": "Under-floor covered public-school teachers first; only pupils taught by affected staffing can receive an indirect educational consequence.",
+      "lagWhy": "The existing24-month graduation lag is a model approximation. Salary changes begin with the legally operative school year/pay period; staffing and cohort completion need their own dated exposure.",
+      "aboutZero": false
     },
     {
       "key": "property-tax-cap-to-math",
@@ -3012,7 +3491,21 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Naloxone access raised opioid-related theft in one study, disputed by a reanalysis; either way too small a slice to move all crime. The real effect is on overdose deaths, a measure the game does not keep",
-      "source": "Doleac and Mukherjee 2022, Journal of Law and Economics 65(2); Alexeev 2026, Economic Inquiry"
+      "source": "Doleac and Mukherjee 2022, Journal of Law and Economics 65(2); Alexeev 2026, Economic Inquiry",
+      "why": [
+        "Needle exchange and overdose reversal are health services.",
+        "Their availability does not directly settle all causes of violent crime.",
+        "The map records disputed or small crime findings.",
+        "The terminal is the limited crime evidence; an about-zero map slot does not prove absence of every local consequence."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+      "who": "Naloxone access raised opioid-related theft in one study, disputed by a reanalysis; either way too small a slice to move all crime. The real effect is on overdose deaths, a measure the game does not keep",
+      "lagWhy": {
+        "months": 0,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": true
     },
     {
       "key": "licensing-reform-to-poverty",
@@ -3134,7 +3627,21 @@
       "evidence": "contested",
       "anchor": "268 cities, 1997 to 2020: police facial recognition went with lower violent crime and homicide, more so the earlier it was adopted; restricting it gives some of that up, and violence is a small part of all crime",
       "source": "Johnson, Johnson, Topalli, McCurdy and Wallace 2024, Cities",
-      "range": [0, 0.02]
+      "range": [0, 0.02],
+      "why": [
+        "A restriction changes which identification tools government can use.",
+        "A covered investigation may use alternatives or lack a face match.",
+        "The cited city study reports associations between adoption and crime.",
+        "The terminal is an investigative/legal constraint; adoption correlations do not establish the causal reverse of a repeal."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+      "who": "268 cities, 1997 to 2020: police facial recognition went with lower violent crime and homicide, more so the earlier it was adopted; restricting it gives some of that up, and violence is a small part of all crime",
+      "lagWhy": {
+        "months": 12,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "anti-discrimination-to-poverty",
@@ -3487,7 +3994,21 @@
       "evidence": "contested",
       "anchor": "Naloxone access laws: opioid deaths 9 to 11% lower in one study, no net drop in another; opioids are most, not all, overdose deaths",
       "source": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)",
-      "range": [-0.11, 0.02]
+      "range": [-0.11, 0.02],
+      "why": [
+        "Reversal distribution can put naloxone within reach during an opioid overdose.",
+        "Timely administration can reverse opioid respiratory depression.",
+        "Survival depends on the actual overdose, access and administration.",
+        "The terminal is a physical treatment mechanism; statewide law availability alone is not treatment delivered."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "Future exposure can stop; past deaths and treatments do not reverse.",
+      "who": "Naloxone access laws: opioid deaths 9 to 11% lower in one study, no net drop in another; opioids are most, not all, overdose deaths",
+      "lagWhy": {
+        "months": 12,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": false
     },
     {
       "key": "public-bargaining-to-earnings",
@@ -3692,7 +4213,9 @@
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.overdose-deaths",
       "strength": "weak",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": -0.05,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 11,
@@ -3708,7 +4231,9 @@
       "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
       "to": "government.member-market-returns",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3723,7 +4248,9 @@
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3731,14 +4258,30 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
-      "source": "Va. Code 59.1-576; Cal. Civ. Code 1798.140(d); Jia, Jin and Wagman 2021, Marketing Science 40(4); Janssen, Kesler, Kummer and Waldfogel 2022, NBER Working Paper 30028"
+      "source": "Va. Code 59.1-576; Cal. Civ. Code 1798.140(d); Jia, Jin and Wagman 2021, Marketing Science 40(4); Janssen, Kesler, Kummer and Waldfogel 2022, NBER Working Paper 30028",
+      "why": [
+        "The law grants qualifying consumers access, correction and deletion rights.",
+        "Covered businesses face compliance and enforcement obligations.",
+        "Only part of the business and worker population falls within the statutes.",
+        "The terminal is a legal right and covered-business duty; the about-zero median-earnings slot is not proof that no business pays compliance costs."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+      "who": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
+      "lagWhy": {
+        "months": 0,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": true
     },
     {
       "key": "social-media-age-check-to-graduation",
       "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
       "to": "school.graduation-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3746,14 +4289,30 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
-      "source": "NetChoice v. Griffin, W.D. Ark. 2025; Braghieri, Levy and Makarin 2022, American Economic Review 112(11)"
+      "source": "NetChoice v. Griffin, W.D. Ark. 2025; Braghieri, Levy and Makarin 2022, American Economic Review 112(11)",
+      "why": [
+        "An operative platform rule requires an age check.",
+        "A platform may refuse access when verification fails.",
+        "A refusal is different from a measured change in school completion.",
+        "The terminal is a legal rule and access decision; injunctions and absent outcome evidence prevent inferring a graduation gain."
+      ],
+      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+      "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+      "who": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
+      "lagWhy": {
+        "months": 0,
+        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+      },
+      "aboutZero": true
     },
     {
       "key": "library-materials-to-reading",
       "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
       "to": "school.reading-proficient-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3768,7 +4327,9 @@
       "from": "law:us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
       "to": "household.poverty-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "ordinance in force says yes (1) rather than no (0)",
       "lagMonths": 0,
