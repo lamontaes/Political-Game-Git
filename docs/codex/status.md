@@ -185,3 +185,24 @@ Restored atomic mkdir claims lock after all seven acknowledged no handles/queued
 
 ### EFFECTS
 Built coordinator-owned effects-map.md at main31edf5da5:40conditions,221declaredlinks, full incoming/outgoing ledger with existing source,size,lag,shape. Reportcheck0errors/0warnings. Ten priority conditions lack outgoing catalog links: homelessness, median earnings, prices, rental supply, transit ridership, borrowing cost, food insecurity, drug out-of-pocket cost, farmland developed acres, irrigation groundwater. Proposed downstream research questions and existing owners are in the map. No new coefficient or researched lag is invented. Assigned Team1 existing link-source trace, Team3 housing/work/pay reconciliation, Team2 concerns/filing/vote trace. All three-step watched-chain proofs NOT RUN, Claude-owned. Catalog gaps are not a claim that all dynamic runtime consumers are absent.
+
+## September 29, 9:30 p.m. checkpoint
+
+### MERGED
+GitHub verifies #1148 merged at9:19:02p.m. Eastern: council attendees placed on the painted chamber dais (published head4cdfedce6627712490090dd3ad175abc175c7133). Coordinator did not rerun visual acceptance. No Codex wave PR merge verified; #1146 and stacked #1147 are ready, as are #1145 and repaired #1135.
+
+### CONNECTIONS TABLE
+| Connection | Current state | Owner/action |
+| --- | --- | --- |
+| Laws → compensation → paychecks | Unmerged; final scoped checks pending | Team3 reports7earlier focused passes; requested exact live-check diagnostics to resolve prolonged checks. |
+| Recorded history → life formation → votes | APIs named; unmerged | Team2 majority1146 and sponsor1147 ready; cosponsor8tests passed, types pending; mood causal weights unsupported and held from publication. |
+| Census → generated towns |9:01 correction local, not published | Team3 compile/replay35,604 rows;13earlier tests pass,9metadata-affected rerun/types pending. |
+| Speed → proof duration |1145ready; follow-up local040c538b |13tests/staticchecks pass byTeam4; automatic approval review blocks newbranch publication, exact owner approval requested and pending. No follow-up timing claim. |
+| Art → import | Held forLamontae | Team7 idle by explicit art-review hold, not forgotten work. |
+| Local news → resident knowledge | Newly assigned9:10 | Team5 receives no-subscription rule, personal uptake/no rolls; implementation not verified. |
+
+### BLOCKED
+Team1 firm-capacity/all-place research incomplete; additional one-place anchors identified in own handback. Two timeout fixtures being bounded without removing behavior assertions or raising limits. Team2 unsupported mood coefficients remain explicit; other pieces proceed. Team3 long scoped checks queried for exact process evidence. Team4 publication blocked by automatic approval review pending human response. Team5 repaired1135eabf92a1 is ready; scoped types has five transitive diagnostics outside selected scope, no whole-project pass. Meeting candidate checks pending, renderer1148 reused rather than duplicated. Team6 latest verified research1133be8c4245:243sourced/1605unresearched cells,27/40verification; no runtime anchor admission or job13. Lock restoration remains complete.
+
+### EFFECTS
+Corrected map: borrowingCostChange in public-budgets/month.ts already feeds deficit debt interest; missing catalog edge does not mean no runtime effect. Rent endTenancy's housing/work/pay/reconciliation gap confirmed byTeam3. Team2 supplied concrete filing/vote consumer functions, but cause→concern producers remain unverified. Team5 now assigned local-story→resident knowledge per9:10. Downstream size/lag research and all three-step watched results remain outstanding. Map retains all40conditions/221declaredlinks and ten prioritized catalog gaps with these limits.

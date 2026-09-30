@@ -313,3 +313,10 @@ Priority is coordinator judgment by cross-system reach, not an empirical ranking
 For each implemented connection Claude verifies an exact merged head in a seeded random place: law/effective date → first measured condition → downstream spending or named-person change → subsequent budget/vote/concern response. Record dates, before/after numbers, source coverage, researched lag, seed, and whether aggregate totals reconcile to named people. No watched result exists for this map yet.
 
 Source snapshot: main `31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4`. Research descriptions above are summaries; exact source strings remain in the two JSON files.
+
+## 9:30 source-trace corrections and connections
+
+- Verified existing runtime connection: public-budgets/month.ts borrowingCostChange (line 267 at the snapshot) feeds the interest rate on newly financed deficits (line 782). Therefore gov.borrowing-cost is an outgoing catalog gap, not a dead runtime result. Preserve this connection; the next budget/agenda response and three-step watched proof remain unverified.
+- Team 3 confirms endTenancy closes tenure/occupancy/lease; it does not write housing status, missed work/pay or aggregate reconciliation in that route. No downstream researched lag established.
+- Team 2 names fileMemberAgendaBills and fileCongressBill → principledLeaning → majorityAgendaChoice; decideChamberVote assembles memberVoteConsiderations, principleVoteConsideration, spendingPrincipleConsideration, constituentsConsideration and budgetDeadlineConsideration → evaluateDecision. Condition-change producers feeding these consumers still need verification.
+- CTO 9:10 assigns Team 5 lawNewsReaders: published local stories reach residents without subscriptions; personal attention and relevance govern uptake without a roll. Direct subjects/sponsor/voting members retain direct knowledge. This new connection is assigned, not yet verified implemented.
