@@ -1,0 +1,413 @@
+{
+  "schema": "team7-scene-measurements/v1",
+  "coordinateOrigin": "upper-left",
+  "coordinateUnit": "source-image-edge pixels",
+  "approval": "pending-cto-and-owner",
+  "baseHead": "a18f22a76b2b41c01ff030026024eb940ccefbef",
+  "sourceRoot": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "sourceGroups": 20,
+  "images": [
+    {
+      "sourceKey": "place-federal-district-courtroo",
+      "file": "places/place-federal-district-courtroo.png",
+      "kind": "federal-district-courtroom",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "b11fa04bcabdf79d05d0ef2114ea01a473cf7bdbc06f5a4d04b02efc428bd572",
+      "group": "place-federal-district-courtroo",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience cushion277px, floor324px; assume0.45m seat.",
+      "unresolved": [
+        "Audience/counsel seats face away and remain import-blocked.",
+        "Judge/jury/witness feet hidden; raised bench scale estimated."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-district-courtroo--2",
+      "file": "places/place-federal-district-courtroo--2.png",
+      "kind": "federal-district-courtroom",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "ae7547bbed888d365caff8326fcd2d13df3f5293bd10cbadd26d7aec01dfb03b",
+      "group": "place-federal-district-courtroo--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience cushion277px, floor324px; assume0.45m seat.",
+      "unresolved": [
+        "Audience/counsel seats face away and remain import-blocked.",
+        "Judge/jury/witness feet hidden; raised bench scale estimated."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-district-courtroo--3",
+      "file": "places/place-federal-district-courtroo--3.png",
+      "kind": "federal-district-courtroom",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "926598f60234a261f624a4dda96b95c2f910517de4ee0eee2917a61708ba3a24",
+      "group": "place-federal-district-courtroo--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience cushion277px, floor324px; assume0.45m seat.",
+      "unresolved": [
+        "Audience/counsel seats face away and remain import-blocked.",
+        "Judge/jury/witness feet hidden; raised bench scale estimated."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-district-courtroo--4",
+      "file": "places/place-federal-district-courtroo--4.png",
+      "kind": "federal-district-courtroom",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "53a20d30b46533cd5f94c919866e3ba42061f2a96bda28c8f98e7eb24020272d",
+      "group": "place-federal-district-courtroo--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience cushion277px, floor324px; assume0.45m seat.",
+      "unresolved": [
+        "Audience/counsel seats face away and remain import-blocked.",
+        "Judge/jury/witness feet hidden; raised bench scale estimated."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom",
+      "file": "places/place-federal-reserve-boardroom.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "04e62b1fe830e33405b091a7a472e06d7905ec720402d0d58739079d50cbf4e5",
+      "group": "place-federal-reserve-boardroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near seat528px, floor591px on600x600 image; assume0.45m seat.",
+      "unresolved": [
+        "Independent square camera; front seat faces away."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom--2",
+      "file": "places/place-federal-reserve-boardroom--2.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "cebd3e53dd0ad38fc5273a3db115331139696422887c9da1aaebf829610c6932",
+      "group": "place-federal-reserve-boardroom--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair285px, floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Front chair faces away; hidden table feet inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom--3",
+      "file": "places/place-federal-reserve-boardroom--3.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "bd925776bfc7ad399ec8f1d5bf50cb1509251c5ca04d781c2b0b0ecc10add176",
+      "group": "place-federal-reserve-boardroom--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair285px, floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Front chair faces away; hidden table feet inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom--4",
+      "file": "places/place-federal-reserve-boardroom--4.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "2102d203c9de1e112ea32cac241c016ee36c705ea009cef8f7f235d6b6f44436",
+      "group": "place-federal-reserve-boardroom--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near chair285px, floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Front chair faces away; hidden table feet inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom--5",
+      "file": "places/place-federal-reserve-boardroom--5.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "1f53391281f2dae484cd74c1e81936ca3f8123abe9c7494e2be7607efc1493ab",
+      "group": "place-federal-reserve-boardroom--5",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side seat304px, floor332px; assume0.45m seat.",
+      "unresolved": [
+        "Front center chair has hidden cushion and cropped foot contact: unresolved, not assigned a fake safe seat.",
+        "Standing hero near right crop requires actor fit; rear tiny papers unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom--6",
+      "file": "places/place-federal-reserve-boardroom--6.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "6b743c40fdf310154708aca1204e662d74deba4969cb276558bd2a9c7df03265",
+      "group": "place-federal-reserve-boardroom--6",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side seat304px, floor332px; assume0.45m seat.",
+      "unresolved": [
+        "Front center chair has hidden cushion and cropped foot contact: unresolved, not assigned a fake safe seat.",
+        "Standing hero near right crop requires actor fit; rear tiny papers unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom--7",
+      "file": "places/place-federal-reserve-boardroom--7.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "488ba3c226c6020356bf2e9058e6df3b31cdfebfab6316d93e1c638d3ca230e0",
+      "group": "place-federal-reserve-boardroom--7",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side seat304px, floor332px; assume0.45m seat.",
+      "unresolved": [
+        "Front center chair has hidden cushion and cropped foot contact: unresolved, not assigned a fake safe seat.",
+        "Standing hero near right crop requires actor fit; rear tiny papers unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-reserve-boardroom--8",
+      "file": "places/place-federal-reserve-boardroom--8.png",
+      "kind": "federal-reserve-boardroom",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "2f6de135fdb26c7e85eb1840f41be5169501dc27909a22f46f7bf30194385d62",
+      "group": "place-federal-reserve-boardroom--8",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side seat304px, floor332px; assume0.45m seat.",
+      "unresolved": [
+        "Front center chair has hidden cushion and cropped foot contact: unresolved, not assigned a fake safe seat.",
+        "Standing hero near right crop requires actor fit; rear tiny papers unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-flooded-street__midday--2",
+      "file": "places/place-flooded-street__midday--2.png",
+      "kind": "flooded-street",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "38c673c179d67080a87664a5a198394314553a5bdd8e599d4c333480317a657e",
+      "group": "place-flooded-street",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Street door about107px high, foot242px; assume2.1m door.",
+      "unresolved": [
+        "Art positions do not establish flood traversal permission or water safety.",
+        "Rain water/debris requires contact review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-flooded-street__midday",
+      "file": "places/place-flooded-street__midday.png",
+      "kind": "flooded-street",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "5bfa55e5ade97592cbeedd8b8bd39edff4f51e1dbceb66fe19aa9d81122aead9",
+      "group": "place-flooded-street",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door height roughly100px, foot251px; assume2.1m door.",
+      "unresolved": [
+        "Different flooded camera, independent contacts; traversal authority not created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-flooded-street__morning",
+      "file": "places/place-flooded-street__morning.png",
+      "kind": "flooded-street",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "2d4de311f1ccc962e09ab93c89221b36b190804fbd1666dd51d0306469000009",
+      "group": "place-flooded-street",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Street door about107px high, foot242px; assume2.1m door.",
+      "unresolved": [
+        "Art positions do not establish flood traversal permission or water safety.",
+        "Rain water/debris requires contact review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-flooded-street__night",
+      "file": "places/place-flooded-street__night.png",
+      "kind": "flooded-street",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "89e84c09e6bc193dc21c1f9e85b9d272c0aa864a426f313dfc9fe31a7d8da353",
+      "group": "place-flooded-street",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Street door about107px high, foot242px; assume2.1m door.",
+      "unresolved": [
+        "Art positions do not establish flood traversal permission or water safety.",
+        "Rain water/debris requires contact review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-flooded-street__rain",
+      "file": "places/place-flooded-street__rain.png",
+      "kind": "flooded-street",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "7bce5082ff190cd7693b190ec28fa0ae620cc3bee850fc4d2824655b48fc91ca",
+      "group": "place-flooded-street",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Street door about107px high, foot242px; assume2.1m door.",
+      "unresolved": [
+        "Art positions do not establish flood traversal permission or water safety.",
+        "Rain water/debris requires contact review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-chapel__midd",
+      "file": "places/place-funeral-home-chapel__midd.png",
+      "kind": "funeral-home-chapel",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "2cffca2ec1f518cff02808add474f51ffdc751d83f3b84db5ec5bdf75ba2c6d4",
+      "group": "place-funeral-home-chapel",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near seat292px, floor332px; assume0.45m seat.",
+      "unresolved": [
+        "Audience seats face away; rear frame content requires recorded memorial packet."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-viewing-room",
+      "file": "places/place-funeral-home-viewing-room.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "c6d8c134ecf9bb6ad4b50adb742e968509a7e9fbe7a4ffa47dd415c4d77cc2a1",
+      "group": "place-funeral-home-viewing-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near cushion541px, floor593px on600x600 image; assume0.45m seat.",
+      "unresolved": [
+        "Independent square camera; audience faces away and remains import-blocked; partial edge chairs unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-viewing-room--2",
+      "file": "places/place-funeral-home-viewing-room--2.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "f4e35e36fdf15f83ca9c7d56df9e929286fad0ed234571ad7cd2c4902bdce700",
+      "group": "place-funeral-home-viewing-room--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front seat293px, floor333px; assume0.45m seat.",
+      "unresolved": [
+        "Away-facing congregation seats import-blocked; cropped edge seats unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-viewing-room--3",
+      "file": "places/place-funeral-home-viewing-room--3.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "74259b0dc22d872bd7194ffdf4046299fd57ebd53e03f428b4577b4c29d570d0",
+      "group": "place-funeral-home-viewing-room--3",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front seat293px, floor333px; assume0.45m seat.",
+      "unresolved": [
+        "Away-facing congregation seats import-blocked; cropped edge seats unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-viewing-room--4",
+      "file": "places/place-funeral-home-viewing-room--4.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "b6ccfb07c1c79681ea63b37d60646f7a4717b238d1dd83e4e71566d80fed47e5",
+      "group": "place-funeral-home-viewing-room--4",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front seat293px, floor333px; assume0.45m seat.",
+      "unresolved": [
+        "Away-facing congregation seats import-blocked; cropped edge seats unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-viewing-room--5",
+      "file": "places/place-funeral-home-viewing-room--5.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "e18607c186a32e9ebcc919b996e655f37e6b090ebf753bcc62d1995d94509bec",
+      "group": "place-funeral-home-viewing-room--5",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front seat287px, floor330px; assume0.45m seat.",
+      "unresolved": [
+        "Separate newer arrangement; audience seats face away and remain import-blocked."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-funeral-home-viewing-room--6",
+      "file": "places/place-funeral-home-viewing-room--6.png",
+      "kind": "funeral-home-viewing-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "2d8fe36fc3f58b1e46a8c580302945fc747381595220858a9f38f1507214b258",
+      "group": "place-funeral-home-viewing-room--6",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front seat287px, floor330px; assume0.45m seat.",
+      "unresolved": [
+        "Separate newer arrangement; audience seats face away and remain import-blocked."
+      ],
+      "approval": "pending"
+    }
+  ],
+  "limits": [
+    "No actual actor composites tested.",
+    "Hidden seat cushion and foot points are estimated from furniture; annotated as candidates.",
+    "No staging variant support exists in current v2 consumer; independent source keys must be mapped by job08.",
+    "No geometry claim about missing or full-size versions."
+  ]
+}

@@ -1,0 +1,1092 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate quads in each source image native pixels, TL/TR/BR/BL. Independent source keys prevent accidental sharing across changed cameras. No enlargement. Job08 must remeasure full-size rasters or apply exact source mapping.",
+  "places": {
+    "place-federal-district-courtroo": {
+      "checked": [
+        "place-federal-district-courtroo.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphone fixtures and paneling retain paint.",
+        "No exposed content screen or paper face identified."
+      ]
+    },
+    "place-federal-district-courtroo--2": {
+      "checked": [
+        "place-federal-district-courtroo--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphone fixtures and paneling retain paint.",
+        "No exposed content screen or paper face identified."
+      ]
+    },
+    "place-federal-district-courtroo--3": {
+      "checked": [
+        "place-federal-district-courtroo--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphone fixtures and paneling retain paint.",
+        "No exposed content screen or paper face identified."
+      ]
+    },
+    "place-federal-district-courtroo--4": {
+      "checked": [
+        "place-federal-district-courtroo--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Seal, flags, microphone fixtures and paneling retain paint.",
+        "No exposed content screen or paper face identified."
+      ]
+    },
+    "place-federal-reserve-boardroom": {
+      "checked": [
+        "place-federal-reserve-boardroom.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, windows and paneling retain paint."
+      ]
+    },
+    "place-federal-reserve-boardroom--2": {
+      "checked": [
+        "place-federal-reserve-boardroom--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, wall panels, chandelier and windows retain paint.",
+        "No paper or screen face in this simpler table arrangement."
+      ]
+    },
+    "place-federal-reserve-boardroom--3": {
+      "checked": [
+        "place-federal-reserve-boardroom--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, wall panels, chandelier and windows retain paint.",
+        "No paper or screen face in this simpler table arrangement."
+      ]
+    },
+    "place-federal-reserve-boardroom--4": {
+      "checked": [
+        "place-federal-reserve-boardroom--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, wall panels, chandelier and windows retain paint.",
+        "No paper or screen face in this simpler table arrangement."
+      ]
+    },
+    "place-federal-reserve-boardroom--5": {
+      "checked": [
+        "place-federal-reserve-boardroom--5.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-1",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              208,
+              246
+            ],
+            [
+              245,
+              246
+            ],
+            [
+              238,
+              258
+            ],
+            [
+              199,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-2",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              355,
+              246
+            ],
+            [
+              391,
+              246
+            ],
+            [
+              401,
+              258
+            ],
+            [
+              362,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-3",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              222,
+              218
+            ],
+            [
+              252,
+              218
+            ],
+            [
+              247,
+              227
+            ],
+            [
+              217,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-4",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              348,
+              218
+            ],
+            [
+              378,
+              218
+            ],
+            [
+              384,
+              227
+            ],
+            [
+              353,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-5",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              235,
+              199
+            ],
+            [
+              260,
+              199
+            ],
+            [
+              256,
+              206
+            ],
+            [
+              231,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-6",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              340,
+              199
+            ],
+            [
+              365,
+              199
+            ],
+            [
+              370,
+              206
+            ],
+            [
+              344,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-7",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              247,
+              185
+            ],
+            [
+              267,
+              185
+            ],
+            [
+              264,
+              190
+            ],
+            [
+              245,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--5-paper-8",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              333,
+              185
+            ],
+            [
+              353,
+              185
+            ],
+            [
+              356,
+              190
+            ],
+            [
+              336,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Seal, chandelier, pitchers and glassware retain paint."
+      ]
+    },
+    "place-federal-reserve-boardroom--6": {
+      "checked": [
+        "place-federal-reserve-boardroom--6.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-1",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              208,
+              246
+            ],
+            [
+              245,
+              246
+            ],
+            [
+              238,
+              258
+            ],
+            [
+              199,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-2",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              355,
+              246
+            ],
+            [
+              391,
+              246
+            ],
+            [
+              401,
+              258
+            ],
+            [
+              362,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-3",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              222,
+              218
+            ],
+            [
+              252,
+              218
+            ],
+            [
+              247,
+              227
+            ],
+            [
+              217,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-4",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              348,
+              218
+            ],
+            [
+              378,
+              218
+            ],
+            [
+              384,
+              227
+            ],
+            [
+              353,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-5",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              235,
+              199
+            ],
+            [
+              260,
+              199
+            ],
+            [
+              256,
+              206
+            ],
+            [
+              231,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-6",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              340,
+              199
+            ],
+            [
+              365,
+              199
+            ],
+            [
+              370,
+              206
+            ],
+            [
+              344,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-7",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              247,
+              185
+            ],
+            [
+              267,
+              185
+            ],
+            [
+              264,
+              190
+            ],
+            [
+              245,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--6-paper-8",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              333,
+              185
+            ],
+            [
+              353,
+              185
+            ],
+            [
+              356,
+              190
+            ],
+            [
+              336,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Seal, chandelier, pitchers and glassware retain paint."
+      ]
+    },
+    "place-federal-reserve-boardroom--7": {
+      "checked": [
+        "place-federal-reserve-boardroom--7.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-1",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              208,
+              246
+            ],
+            [
+              245,
+              246
+            ],
+            [
+              238,
+              258
+            ],
+            [
+              199,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-2",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              355,
+              246
+            ],
+            [
+              391,
+              246
+            ],
+            [
+              401,
+              258
+            ],
+            [
+              362,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-3",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              222,
+              218
+            ],
+            [
+              252,
+              218
+            ],
+            [
+              247,
+              227
+            ],
+            [
+              217,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-4",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              348,
+              218
+            ],
+            [
+              378,
+              218
+            ],
+            [
+              384,
+              227
+            ],
+            [
+              353,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-5",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              235,
+              199
+            ],
+            [
+              260,
+              199
+            ],
+            [
+              256,
+              206
+            ],
+            [
+              231,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-6",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              340,
+              199
+            ],
+            [
+              365,
+              199
+            ],
+            [
+              370,
+              206
+            ],
+            [
+              344,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-7",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              247,
+              185
+            ],
+            [
+              267,
+              185
+            ],
+            [
+              264,
+              190
+            ],
+            [
+              245,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--7-paper-8",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              333,
+              185
+            ],
+            [
+              353,
+              185
+            ],
+            [
+              356,
+              190
+            ],
+            [
+              336,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Seal, chandelier, pitchers and glassware retain paint."
+      ]
+    },
+    "place-federal-reserve-boardroom--8": {
+      "checked": [
+        "place-federal-reserve-boardroom--8.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-1",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              208,
+              246
+            ],
+            [
+              245,
+              246
+            ],
+            [
+              238,
+              258
+            ],
+            [
+              199,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-2",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              355,
+              246
+            ],
+            [
+              391,
+              246
+            ],
+            [
+              401,
+              258
+            ],
+            [
+              362,
+              258
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-3",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              222,
+              218
+            ],
+            [
+              252,
+              218
+            ],
+            [
+              247,
+              227
+            ],
+            [
+              217,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-4",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              348,
+              218
+            ],
+            [
+              378,
+              218
+            ],
+            [
+              384,
+              227
+            ],
+            [
+              353,
+              227
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-5",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              235,
+              199
+            ],
+            [
+              260,
+              199
+            ],
+            [
+              256,
+              206
+            ],
+            [
+              231,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-6",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              340,
+              199
+            ],
+            [
+              365,
+              199
+            ],
+            [
+              370,
+              206
+            ],
+            [
+              344,
+              206
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-7",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              247,
+              185
+            ],
+            [
+              267,
+              185
+            ],
+            [
+              264,
+              190
+            ],
+            [
+              245,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-reserve-boardroom--8-paper-8",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Board writing paper",
+          "quad": [
+            [
+              333,
+              185
+            ],
+            [
+              353,
+              185
+            ],
+            [
+              356,
+              190
+            ],
+            [
+              336,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Seal, chandelier, pitchers and glassware retain paint."
+      ]
+    },
+    "place-flooded-street__midday--2": {
+      "checked": [
+        "place-flooded-street__midday--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sandbags, debris, windows and streetlights retain paint."
+      ]
+    },
+    "place-flooded-street__midday": {
+      "checked": [
+        "place-flooded-street__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Debris, flooded gutters and shop glass retain paint."
+      ]
+    },
+    "place-flooded-street__morning": {
+      "checked": [
+        "place-flooded-street__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sandbags, debris, windows and streetlights retain paint."
+      ]
+    },
+    "place-flooded-street__night": {
+      "checked": [
+        "place-flooded-street__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sandbags, debris, windows and streetlights retain paint."
+      ]
+    },
+    "place-flooded-street__rain": {
+      "checked": [
+        "place-flooded-street__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sandbags, debris, windows and streetlights retain paint."
+      ]
+    },
+    "place-funeral-home-chapel__midd": {
+      "checked": [
+        "place-funeral-home-chapel__midd.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-funeral-home-chapel__midd-rear-frame",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Memorial frame",
+          "quad": [
+            [
+              268,
+              77
+            ],
+            [
+              328,
+              77
+            ],
+            [
+              328,
+              117
+            ],
+            [
+              268,
+              117
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Casket, flowers, religious cloth and decorative frames retain paint; no invented deceased identity."
+      ]
+    },
+    "place-funeral-home-viewing-room": {
+      "checked": [
+        "place-funeral-home-viewing-room.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Casket, flowers, windows and wall painting retain paint."
+      ]
+    },
+    "place-funeral-home-viewing-room--2": {
+      "checked": [
+        "place-funeral-home-viewing-room--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Casket, flowers and wall painting remain private painted art; no generated identity or obituary."
+      ]
+    },
+    "place-funeral-home-viewing-room--3": {
+      "checked": [
+        "place-funeral-home-viewing-room--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Casket, flowers and wall painting remain private painted art; no generated identity or obituary."
+      ]
+    },
+    "place-funeral-home-viewing-room--4": {
+      "checked": [
+        "place-funeral-home-viewing-room--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Casket, flowers and wall painting remain private painted art; no generated identity or obituary."
+      ]
+    },
+    "place-funeral-home-viewing-room--5": {
+      "checked": [
+        "place-funeral-home-viewing-room--5.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Casket, flowers, circular decoration and windows retain paint."
+      ]
+    },
+    "place-funeral-home-viewing-room--6": {
+      "checked": [
+        "place-funeral-home-viewing-room--6.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Casket, flowers, circular decoration and windows retain paint."
+      ]
+    }
+  }
+}
