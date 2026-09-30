@@ -222,17 +222,17 @@ export function recordUnanimousConsent(
     )
   )
     return world;
-  const objection = senators.some((s) =>
+  const objectionOrMissingEvidence = senators.some((s) =>
     answers.some((a) => {
-      const score = principledLeaning(
-        world,
-        s.personId!,
-        a.propositionId,
-      ).score;
-      return (a.answer === "yes" ? score : -score) < 0;
+      const leaning = principledLeaning(world, s.personId!, a.propositionId);
+      // No recorded view is not evidence that the senator has no objection.
+      return (
+        leaning.recordIds.length === 0 ||
+        (a.answer === "yes" ? leaning.score : -leaning.score) < 0
+      );
     }),
   );
-  if (objection) return world;
+  if (objectionOrMissingEvidence) return world;
   return recordProcedure(
     world,
     measure,

@@ -10,6 +10,15 @@ import {
 import { introduceMeasure } from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { createStartingPerson } from "../people";
+import { congressSeats } from "../living-world/congress-seats";
+import {
+  LIVING_WORLD_OPENING_KEY,
+  LIVING_WORLD_WRITER_VERSION,
+  SEAT_TENURE_EVENT,
+} from "../living-world/opening";
+import { seatedCongressChamber } from "./congress-chambers";
+import { principledLeaning } from "./officeholder-principles";
 import {
   reconciliationScope,
   recordBudgetInstructions,
@@ -19,14 +28,69 @@ import {
 } from "./congress-procedure";
 
 // A small canonical rule fixture. This is not a watched-world acceptance run.
-function bill(terms: readonly { key: string; answer: "yes" | "no" }[]) {
-  const world = createWorld({
+function bill(
+  terms: readonly { key: string; answer: "yes" | "no" }[],
+  withSenator = false,
+) {
+  const input = {
     seed: "congress-procedure-rule-fixture",
     currentDate: makeIsoDate("2026-01-15"),
     jurisdictions: [NATIONAL_ELECTION_JURISDICTION],
     people: [],
     policyCatalog: createProductionPolicyCatalog(),
-  });
+  };
+  let world = createWorld(input);
+  if (withSenator) {
+    const senator = createStartingPerson({
+      worldId: world.id,
+      worldSeed: world.seed,
+      currentDate: world.currentDate,
+      homeJurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      age: 45,
+      givenName: "Morgan",
+      familyName: "Fixture",
+    });
+    world = createWorld({ ...input, people: [senator] });
+    const event = {
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      involvedEntityIds: [senator.id],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public" as const,
+      tags: [LIVING_WORLD_WRITER_VERSION, "test:partial-senate-fixture"],
+      summary:
+        "An explicit fictional seated-member fixture, not a full Senate.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    };
+    world = recordWorldEvent(world, {
+      ...event,
+      stableKey: LIVING_WORLD_OPENING_KEY,
+      type: "setup.living-world-opening",
+    });
+    const seat = congressSeats().find((s) => s.chamberKey === "us-senate")!;
+    world = recordWorldEvent(world, {
+      ...event,
+      stableKey: `test:senator:${seat.seatKey}`,
+      type: SEAT_TENURE_EVENT,
+      participants: [
+        {
+          personId: senator.id,
+          role: "focus:subject",
+          detail: "Explicit fictional senator without recorded principles.",
+        },
+      ],
+      tags: [...event.tags, `seat:${seat.seatKey}`],
+    });
+  }
   const answers = terms.map((term) => {
     const propositionId = world.policyCatalog.propositionOrder.find(
       (id) => world.policyCatalog.propositions[id]!.stableKey === term.key,
@@ -100,6 +164,26 @@ describe("a budget-only Senate procedure", () => {
     expect(recordBudgetInstructions(tax.world, tax.measure)).toBe(tax.world);
     expect(recordUnanimousConsent(tax.world, tax.measure)).toBe(tax.world);
     expect(recordedCongressProcedure(tax.world, tax.measure.id)).toBe(
+      "ordinary",
+    );
+  });
+  it("does not turn a seated senator's missing principle evidence into consent", () => {
+    const tax = bill([{ key: TAX, answer: "yes" }], true);
+    const members = seatedCongressChamber(tax.world, "senate")!.body.members;
+    expect(members).toHaveLength(1);
+    expect(
+      principledLeaning(
+        tax.world,
+        members[0]!.personId!,
+        tax.measure.propositionAnswers![0]!.propositionId,
+      ),
+    ).toEqual({ score: 0, recordIds: [] });
+    const saved = serializeWorld(tax.world);
+    expect(recordUnanimousConsent(tax.world, tax.measure)).toBe(tax.world);
+    const reopened = deserializeWorld(saved);
+    expect(recordUnanimousConsent(reopened, tax.measure)).toBe(reopened);
+    expect(serializeWorld(reopened)).toBe(saved);
+    expect(recordedCongressProcedure(reopened, tax.measure.id)).toBe(
       "ordinary",
     );
   });

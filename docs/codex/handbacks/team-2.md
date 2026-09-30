@@ -274,3 +274,17 @@ The audit started at published head `f7d78624aa68df342ed305d5447fdbdef5df6c20` o
 The requested cloud reporter at :25/:55 Eastern is NOT SET and has no automation ID. Exposed create/update instructions cap execution at hourly, and no direct hostlocal thread-send tool is available. The coordinator's latest reply confirms its existing local collector covers the half-hour cadence. Doc replies remain authorized coordination, not direct thread delivery.
 
 Next: continue consent-action and causal-driver evidence review; receive the coordinator's exact writer release before shared source edits. The Senate admission/action contracts and settlement-size evidence remain dependencies. Five-year watched acceptance stays post-merge on main. Runtime connections added or changed: zero. Newly proved three-step chains: zero.
+
+## Missing principles no longer establish consent in the draft
+
+The owned consent reader now refuses to record consent when any relevant senator-answer pair has no supporting principle records. It still refuses recorded opposition. A supported zero score remains distinct from absent evidence. This repairs the draft guard; the module still has no production callers and its explicit consent-action contract remains unfinished.
+
+The new fixture seats one explicitly fictional senator through canonical opening and tenure events. It confirms that the chamber reader sees the senator and that their leaning has zero score and no supporting IDs. It then checks unchanged world identity, ordinary procedure and unchanged serialization before and after save/reopen. This partial Senate fixture proves the refusal, not complete attendance or parliamentary acceptance.
+
+The first fixture run failed the participant-detail contract. After supplying the required detail, the regression reproduced the real defect: the old reader wrote a consent event. That corrected pre-fix run had five passes and one failure. After the guard repair, the changed test file passed all six cases in 11.31 seconds, with two workers and 143 milliseconds of test bodies.
+
+Scoped strict TypeScript covered two roots and 701 dependency files with zero diagnostics. Changed source/test ESLint passed. Zero-dice actually ran and exited 1: zero new lines and one existing gone cosponsor-draw entry in `congress-lawmaking.ts`. The consent repair changes neither that file nor the shared allowlist. Team 4 owns its existing cosponsor allowlist delta; no removal or inferred guard pass was recorded.
+
+The missing fiscal-year/committee instructions, historical route timing, routine-measure admission and objection-action representation remain WIP. Shared writer release is still pending. No full simulation, browser or speed run began. Runtime connections changed: zero; the draft guard changed one refusal. Newly proved nationwide three-step chains: zero.
+
+Team 3 received an immediate release for only the population-reader import and CDP-classification hunk in `principles-from-life.test.ts`. Line offsets differ by branch; the named expression identifies the hunk. This branch records that release in claims and leaves the test untouched. No principles behavior change was authorized. The :55 report was delivered in this chat and Doc 00; no unsupported automation retry occurred.
