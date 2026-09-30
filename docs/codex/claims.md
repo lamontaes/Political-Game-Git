@@ -65,6 +65,21 @@ branch until the ordered items preceding it are complete or blocked.
 
 | Team 4 self-starter copies | `src/simulation/nationwide-world/state-legislature-candidates.ts`: existing self-starter decision call and history-index import only; `src/simulation/nationwide-world/state-legislature-candidate-copies.test.ts`; `docs/codex/handbacks/team-4-self-starter-copies.md`; `docs/release/changes/self-starter-history-copies.md` | Parent PR 1175 at `2ba8c429c3f57645d0d520390266bba008ec01c0`. Reuse its copy transaction at the existing actor call; no new batch, seed, eligibility rule, date or write-order change. |
 
+## Team 5 ordered item 2 — released September 30, 1:10 a.m. Eastern
+
+Exact owner release: `src/player/WorldOrientationPanel.tsx` locality-only
+SceneBackdrop mount; `src/player/WorldOrientationRegionPlate.test.tsx` obsolete
+locality image assertions. Also Team 5 claims/handback and dedicated
+`docs/release/changes/locality-card-text-only.md`. No other orientation renderer,
+executive/state card, art selection, people engine or shared schema hunk.
+
+## Team 5 bedrock ledger — September 30, 1:30 a.m. Eastern
+
+Team 5 owns `docs/codex/handbacks/team-5-bedrock-numbers.md` and the
+public-record audit in its existing handback. Read-only numeric inventory of
+inherited Team 5 source paths; no coefficient, shared type, history writer,
+Claude renderer, or Team 8 English engine edit is claimed.
+
 ## Team 9 bill-number research
 
 | Team                     | Files                                                                                                                                                                                                                         | Claimed at                                            |

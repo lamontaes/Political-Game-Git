@@ -226,7 +226,6 @@ The actual playtest-copy branch contains the removal of News's repeated officeho
 
 The changed test and all five product source files pass the scoped typecheck: 6 files, zero selected-file diagnostics. The program also reported 5 diagnostics outside the selected files; this is not a full-project typecheck pass. The one-file provenance test passes 1/1. ESLint, Prettier and whitespace checks pass for the repair. The dispatched test path was claimed under the restored atomic mkdir protocol, after rechecking current ownership while held. No renderer source was edited.
 
-
 The News repair source checkpoint is `06ae82173aece9e148fec43f27621d68b821ada0` on the actual `codex/team-5-playtest-copy` branch. Logs are `/private/tmp/team5-news-provenance-rerun.log` and `/private/tmp/team5-playtest-copy-typecheck.log`. The test took 195.98 seconds including imports; its test body took 20.39 seconds. This is a focused markup proof, not browser acceptance.
 
 ## Ordered owner notes: short-walk menu removal
@@ -665,3 +664,59 @@ This documentation update publishes through the Contents API to the same
 actual PR source branch. PR head and pull ref must be verified separately
 before current-head approval; no merge or newer-head runtime pass is inferred.
 
+## September 30 cloud locality card and unmet public officials
+
+The locality opening card keeps its text and navigation without its background
+picture. The change is the one conditional mount released by the CTO. Executive
+and state cards, art selection, canonical people and history remain unchanged.
+
+Source base is `719b91b86978189ed975eed6f6722fb2af78158d`. The changed orientation
+file passes 10/10 tests in 34.50 seconds. Scoped lint, format and whitespace
+checks pass. The two-root type check reports two inherited errors in the
+Claude-owned `PlacePeopleLayer.tsx`, at lines 48 and 55: `BackdropPerson` lacks
+`clipBandEndPercent`. The same compiler program with both changed roots replaced
+in memory by their exact base blobs reports the same two errors. Unowned
+renderer and backdrop type blobs are identical to the base. This is a baseline
+failure, not a type-check pass. No shared renderer repair is included.
+
+The bedrock ledger is a bounded first pass in `team-5-bedrock-numbers.md`.
+Its register scans 31 inherited source files and finds 560 numeric literals,
+including technical indices and layout values. Behavior tables separate explicit
+placeholders, authored windows, units and unverified source citations. Semantic
+review of remaining rows is open; no coefficient is approved or changed.
+
+### What the unmet President and Vice President record contains
+
+A measured canonical opening projection supplies one public-career entry for
+each official. Jared Fernandez's entry says, "Took office as President of the
+United States." Elena Skinner's says, "Took office as Vice President of the
+United States." Both entries are dated January 20, 2025. Each dossier has no
+relationship and zero shared-history entries. Neither contains a sponsored law.
+
+The actual source route is opening officeholders to the White House orientation
+card, then its person callback to `PlayerGame.dossierFor`, `projectPersonDossier`,
+`FullDossier` and the expanded `PersonCard` public-career section. The measured
+reader has no acquaintance gate. Its public-career filter reads public events
+involving the subject with occurrence and recording dates available today.
+Rendering the measured entries in that section is source-inferred; browser
+click-through and rendered acceptance are NOT RUN.
+
+The opening probe establishes a producer coverage gap: its two projected public
+careers contain only the current inauguration, without earlier offices,
+campaigns or public acts. This does not prove all worlds lack those records.
+Existing event readers can display those records when supplied, but this probe
+cannot establish that the opening producer supplies them. Route record-generation
+coverage to Team 4 and the CTO; do not fabricate a public past in a renderer.
+
+The probe uses seed `team5-unmet-public-record-audit-20260930`, January 5, 2026,
+player home `jurisdiction_6752b5a7cd79cafe`, and the canonical
+`generateOpeningLife(prepareOpeningLife(...))` route without advancing game days.
+Serialization before and after dossier projection is identical. Receipt:
+`/tmp/team5-president-dossier-opening-probe-corrected.log`. The earlier raw
+new-game probe returned no officeholders because it did not establish the
+opening offices. An initial opening harness read the wrong session fields and
+failed; that log is retained. Neither is acceptance evidence.
+
+No browser acceptance, full simulation, speed comparison, merge or numeric
+calibration is claimed for this bounded work. Item 3 still needs the exact
+PlayerGame meeting/radial and day-review hunk released around Claude's work.
