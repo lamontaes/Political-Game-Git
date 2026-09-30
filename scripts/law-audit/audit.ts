@@ -203,20 +203,23 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
         question === STATE_TRANSIT_SERVICE_QUESTION ||
         appropriations.length
       ) {
-        effects.push(
-          {
-            effect: "spending-authority",
-            reader: "src/simulation/governing/program-governing.ts",
-          },
-          {
+        effects.push({
+          effect: "spending-authority",
+          reader: "src/simulation/governing/program-governing.ts",
+        });
+        // One expenditure mechanism: use the registered spending path where
+        // present instead of adding a duplicate program-payment row.
+        if (!direct.some((path) => path.kind === "state-spending"))
+          effects.push({
             effect: "program-payment",
             reader: "src/simulation/governing/public-program.ts",
-          },
-          {
+          });
+        // Transit hours are not a universal service adapter for every program.
+        if (question === STATE_TRANSIT_SERVICE_QUESTION)
+          effects.push({
             effect: "public-service",
             reader: "src/simulation/governing/public-program-transit.ts",
-          },
-        );
+          });
       }
       if (!links.length && !direct.length)
         effects.unshift({
@@ -461,7 +464,9 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
         if (
           ["spending-authority", "program-payment", "public-service"].includes(
             effect.effect,
-          )
+          ) ||
+          (effect.effect === "state-spending" &&
+            (appropriations.length > 0 || question === STATE_TRANSIT_SERVICE_QUESTION))
         ) {
           const records = world.history.publicProgramRecords ?? [];
           const authorities = records.filter(
@@ -530,7 +535,7 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
             const flow = world.history.resourceFlows.find(
               (flow) => flow.id === payment.resourceFlowId,
             );
-            if (effect.effect === "program-payment")
+            if (effect.effect === "program-payment" || effect.effect === "state-spending")
               evidence.push({
                 record: `publicProgramRecords:${installment.id}; resourceTransferOutcomes:${payment.id}`,
                 touched: flow
@@ -657,7 +662,8 @@ function stampedTouched(
     record.studentPersonId,
     record.pupilPersonId,
     record.recipientPersonId,
-  ].filter((id): id is EntityId => typeof id === "string");
+    ...(Array.isArray(record.involvedEntityIds) ? record.involvedEntityIds : []),
+  ].filter((id): id is EntityId => typeof id === "string" && Boolean(world.people[id as EntityId]));
   return (
     people
       .map((id) =>
