@@ -16,6 +16,12 @@ import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
 export const COOLING_OFF_QUESTION =
   "us-policy-positions:government-operations.ban-lobbying-after-office";
 export const LOBBYING_EMPLOYER = "enterprise:lobbying-firm";
+const ELIGIBILITY_DATE = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
 export const POST_OFFICE_KINDS = new Set([
   "employment:legislative-member",
   "employment:executive-office",
@@ -153,9 +159,9 @@ export function lobbyingBar(
       startingLaw &&
       mode === "later-of-departure-and-session-end"
     )
-      return `You can't take this lobbying job until ${until}: ${months} months must pass after you leave office, and the legislative session must have ended.`;
+      return `You can't take this lobbying job until ${ELIGIBILITY_DATE.format(new Date(`${until}T00:00:00Z`))}: ${months} months must pass after you leave office, and the legislative session must have ended.`;
     if (on < until)
-      return `You can't take this lobbying job until ${until}: state law requires a ${months}-month waiting period after ${mode === "term-end" ? "your term ends" : mode?.includes("session") ? "the legislative session ends" : "you leave office"}.`;
+      return `You can't take this lobbying job until ${ELIGIBILITY_DATE.format(new Date(`${until}T00:00:00Z`))}: state law requires a ${months}-month waiting period after ${mode === "term-end" ? "your term ends" : mode?.includes("session") ? "the legislative session ends" : "you leave office"}.`;
   }
   return null;
 }
