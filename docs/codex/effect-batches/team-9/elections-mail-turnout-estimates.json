@@ -1,0 +1,44 @@
+{
+  "area": "elections",
+  "linkId": "all-mail-voting-to-turnout",
+  "primarySource": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7322007/",
+  "doi": "10.1073/pnas.2007249117",
+  "access": "PreviouslydownloadedprimaryfulltextTable3re-read.",
+  "models": [
+    {
+      "column": 1,
+      "countyTrend": "none",
+      "estimate": 0.021,
+      "standardError": 0.009,
+      "derivedNormal95CI": [0.00336, 0.03864]
+    },
+    {
+      "column": 2,
+      "countyTrend": "linear",
+      "estimate": 0.022,
+      "standardError": 0.007,
+      "derivedNormal95CI": [0.00828, 0.03572]
+    },
+    {
+      "column": 3,
+      "countyTrend": "quadratic",
+      "estimate": 0.021,
+      "standardError": 0.008,
+      "derivedNormal95CI": [0.00532, 0.03668]
+    }
+  ],
+  "specificationEstimateSpread": [0.021, 0.022],
+  "unit": "Absolute fraction of citizen voting-age population voting,per adoption of universal mailed ballots. Not relative turnout change,registered-voter turnout,or individual probability for every voter.",
+  "population": "CountyrolloutinCalifornia,Utah,Washington;general elections1996\u20132018;126counties,1240observations for turnout models.",
+  "lag": "Election-cycle exposure after adoption;not an immediate monthlag.",
+  "conditions": [
+    "Allregisteredvotersmailedballot;not equivalent to no-excuseabsentee option.",
+    "Normalprepandemicelections;not proof of pandemic outcomes or allstates/territories.",
+    "SameCVAPdenominatorrequired;restore-votingchangingeligibilitydenominatorisdistinct."
+  ],
+  "rangeMeaning": "Specification estimates and calculatednormal95CIs separately labeled;neitherstateheterogeneity nor aturnout-leveldraw.",
+  "reverseOnRepeal": "No measuredrepealestimate established.",
+  "aboutZero": false,
+  "runtimeGap": "Needcorrectadoptionreader,actualeligiblevoters/ballot choicesandCVAPturnoutdenominator. Coordinatorownsmap.",
+  "runtimeActivation": "NOTRUN"
+}
