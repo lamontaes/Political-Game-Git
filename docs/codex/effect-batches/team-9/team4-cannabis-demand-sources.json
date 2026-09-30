@@ -2041,5 +2041,23 @@
   },
   "spendingGap": "Summary read does not supply a verified per-user retail-spending range. Wholesale production value is not household retail expenditure. Need direct retail sales plus matched purchasers/quantities/prices; use prevalence alone cannot supply spend.",
   "goldenRule": "Actual legal receipts must emerge from purchases and taxable law terms on real modeled base. These empirical levels only calibrate/test mechanisms;do not draw revenue/spending/use levels.",
-  "runtimeChanges": 0
+  "runtimeChanges": 0,
+  "fullReportUpdate": {
+    "primarySource": "https://cdn.cannabis.ca.gov/wp-content/uploads/sites/2/2025/03/California-Cannabis-Market-Outlook-FNL.pdf",
+    "access": "Fullprimaryreportdownloaded;sections3.2\u20133.4read.",
+    "licensedQuantityShare2024": {
+      "estimate": 0.38,
+      "reportedInterval": [0.29, 0.54],
+      "citation": "Table9,p40",
+      "uncertainty": "Reportcallsstatisticalconfidenceinterval;combinesunderreporting,gramsperuse-day,and2023\u20132024projectionerror;not astateheterogeneity range.",
+      "supersedes": "Roundedexecutivesummary40%with moreprecisefullreport38%."
+    },
+    "licensedRetailSalesUSD": {
+      "2022": 5394570000,
+      "2023": 5176730000,
+      "citation": "Table10,pp41\u201342,CDTFAretailsales;2024countyretailsalesnotavailableinreport."
+    },
+    "buyerAndSpendingGap": "Table8adultusersarenotuniquelicensedbuyers;Table10salesincludeadultandmedicalretail. Dividingsalesbyuserswouldnotidentifyactualbuyerannualspending. Residencevsstorecounty/visitors/illicitpurchases andsame-yearageeligibilitymustbematched. No verifiedper-buyerspendingCI supplied.",
+    "calibrationOnly": "Do notdraw38%shareor5.18billionrevenue. Legalpurchasesmustemergefrom actualbuyers,prices,accessandlawtaxterms;use figures tocheckoutputs."
+  }
 }
