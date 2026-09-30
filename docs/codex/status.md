@@ -2,6 +2,28 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 5:30 a.m. check-in
+
+### MERGED
+#1195 is independently verified merged at 1d45a8a45d3823c80cac917525b444984deca591. Team5 law traces are published on main; no new runtime law effects follow from that documentation merge. #1174 remains pending renewal at f6e06c89d217326e5b4d13fd01c5f0431e454d62 after claims integration.
+
+### CONNECTIONS TABLE
+| Connection | Current receipt | Action |
+| --- | --- | --- |
+| Art candidates → review | Coordinator created draft1203, head0a9f36a77dcb62f8b7c599a5eb0a4b1bbdcda99f | PR-creation blocker resolved; no pixel approval/import |
+| Recorded principles → decisions | Team1 thirty-day measurement running with real readers | Await actual coverage/variation/filing result;1199 held |
+| Host destination → proof | Team3 reports17/17 host/court checks | Publish WIP head now for Team2 proof; READY still requires proof line |
+| Bill allocator → actual introductions | Team2 reports69/69, replay/Continue and five state filings | Congress reports filed bills but zero introductions; bounded mismatch routed |
+| HUD inventory → county shelter |1188 6da7483a8fd5096e482520daee18137c63cecb66 |9428 geocoded ES rows; county crosswalk unverified, relayedTeam3 |
+| Indexed history → speed |1202 88b68add0b425c0a998b32726921efbc878b87b8 | Profile25.082s FAIL15, identical fingerprint; no isolated gain claimed |
+| Evidence bundle → review | CTO5:08 ignored cloud ZIP plus committed filename/hash manifest | Team8 notified; upload blocker superseded |
+
+### BLOCKED
+1174 exact renewal remains with CTO. Full designation and five-year life checks unmet. County shelter allocation and fertility timing remain research gaps. Team7 direct-report thread lookup fails; collector reads its00 posts. Why-chain paths requested; Team4/7/9 published receipts read, other fresh reports still arriving.
+
+### EFFECTS
+No new coordinator-verified watched causal chain. Team4 reported30 tests plus4-test rerun, scoped checks; source proof only. Team9 inventory does not establish admissions or county capacity. Team7 candidate remains unapproved. Team3 source publication requested to break the proof dependency; no inferred READY.
+
 ## September 30, 5:00 a.m. check-in
 
 ### MERGED
