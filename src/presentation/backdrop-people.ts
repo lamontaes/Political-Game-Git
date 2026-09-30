@@ -210,42 +210,77 @@ export function spotView(spot: StagingSpot): BodyView {
 }
 
 /**
- * The people on shift at `place` in the player's town, standing at its
- * marked spots, nearest spot first. More workers than spots: the rest are
- * out of view.
+ * The people in the room at `place`, standing or seated at its marked spots.
+ *
+ * `present` is who the scene says is there (a meeting's seated officers, the
+ * people in a conversation): they come first, because the scene is about
+ * them. Seats on a raised floor or around one table (a dais, a bench) go to
+ * them first, then the open floor. The people on shift at the place fill
+ * what is left. More people than spots: the rest are out of view.
  */
 export function placeBackdropPeople(
   world: World,
   playerId: EntityId,
   place: string,
   moment: SimulationMoment = world.currentMoment,
+  present: readonly { readonly personId: EntityId }[] = [],
 ): readonly BackdropPerson[] {
   const stage = backdropStaging(place);
   if (!stage) return [];
   const town = playerTown(world, playerId);
-  if (!town) return [];
   const wear = STAFF_WEAR[place] ?? placeWear(place, world.currentDate);
-  const workers = peopleAtWorkAt(world, town, place, moment).filter(
-    (worker) => worker.personId !== playerId,
+  const presentIds = new Set(
+    present
+      .map((person) => person.personId)
+      .filter((id) => id !== playerId && world.people[id]),
   );
-  // Counter jobs take the spots behind a counter first; everyone else the
-  // open floor, and whoever is left over takes what remains.
-  // A worker never takes the lectern: a speech is the scene's to give.
+  const workers = (town ? peopleAtWorkAt(world, town, place, moment) : [])
+    .filter((worker) => worker.personId !== playerId)
+    .filter((worker) => !presentIds.has(worker.personId));
+  // The scene's own people take the raised or grouped seats first (the
+  // dais, the bench), then the open floor. Counter jobs take the spots behind
+  // a counter first; everyone else the open floor, and whoever is left over
+  // takes what remains. Nobody placed here takes the lectern: a speech is the
+  // scene's to give.
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = stage.spots.filter((spot) => spot.pose !== "podium");
-  const behind = usable.filter((spot) => spot.clipBelowY !== undefined);
-  const open = usable.filter((spot) => spot.clipBelowY === undefined);
-  const assigned = [
-    ...workers.filter((worker) => counterJob(worker.title)),
-    ...workers.filter((worker) => !counterJob(worker.title)),
-  ].map((worker) => ({
-    worker,
-    spot: counterJob(worker.title)
-      ? (behind.shift() ?? open.shift())
-      : (open.shift() ?? behind.shift()),
+  const principal = usable.filter(
+    (spot) => spot.floor !== undefined || spot.group !== undefined,
+  );
+  const taken = new Set<StagingSpot>();
+  const take = (candidates: readonly StagingSpot[]) => {
+    const spot = candidates.find((candidate) => !taken.has(candidate));
+    if (spot) taken.add(spot);
+    return spot;
+  };
+  const inScene = [...presentIds].map((personId) => ({
+    worker: { personId, title: "" },
+    onShift: false,
+    spot: take(principal) ?? take(usable),
   }));
+  // Everyone on shift keeps the order the spots had before: behind a counter
+  // or on the open floor, in the picture's own order.
+  const behind = usable.filter(
+    (spot) => !taken.has(spot) && spot.clipBelowY !== undefined,
+  );
+  const open = usable.filter(
+    (spot) => !taken.has(spot) && spot.clipBelowY === undefined,
+  );
+  const assigned = [
+    ...inScene,
+    ...[
+      ...workers.filter((worker) => counterJob(worker.title)),
+      ...workers.filter((worker) => !counterJob(worker.title)),
+    ].map((worker) => ({
+      worker,
+      onShift: true,
+      spot: counterJob(worker.title)
+        ? (behind.shift() ?? open.shift())
+        : (open.shift() ?? behind.shift()),
+    })),
+  ];
   const placed: BackdropPerson[] = [];
-  for (const { worker, spot } of assigned) {
+  for (const { worker, onShift, spot } of assigned) {
     if (!spot) continue;
     const record = world.people[worker.personId];
     if (!record) continue;
@@ -253,8 +288,11 @@ export function placeBackdropPeople(
     const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
       wear,
       // On shift, a uniformed job wears its uniform (work-uniform.ts reads
-      // "business" as dressed for work).
-      uniform: workUniform(world, worker.personId, "business"),
+      // "business" as dressed for work). Someone who came for the scene
+      // wears what they wear.
+      ...(onShift
+        ? { uniform: workUniform(world, worker.personId, "business") }
+        : {}),
       pose: spotPose(spot, seed),
       view: spotView(spot),
     });

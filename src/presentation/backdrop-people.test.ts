@@ -88,4 +88,37 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     );
     expect(nearest!.heightPercent).toBeGreaterThan(farthest!.heightPercent);
   });
+  it("seats the scene's own people on the council dais before anyone on shift", () => {
+    // A council meeting at night: nobody is on shift in the chamber, and the
+    // five seated officers the meeting names must still be drawn.
+    const night = at(world, world.currentDate, 2, 19 * 60);
+    const officers = Object.values(world.people)
+      .filter((person) => person.id !== player && person.appearance)
+      .slice(0, 5)
+      .map((person) => ({ personId: person.id }));
+    expect(officers).toHaveLength(5);
+    const chamber = placeBackdropPeople(
+      world,
+      player,
+      "council-chamber",
+      night,
+      officers,
+    );
+    const drawn = chamber.map((person) => person.personId);
+    for (const officer of officers) expect(drawn).toContain(officer.personId);
+    // On the dais: the raised floor's seats, never the lectern.
+    const dais = staging.places["council-chamber"].spots.filter(
+      (spot) => "group" in spot && spot.group === "dais",
+    );
+    const daisTops = new Set(dais.map((spot) => spot.clipBelowY ?? null));
+    for (const officer of officers) {
+      const placed = chamber.find(
+        (person) => person.personId === officer.personId,
+      )!;
+      expect(daisTops.has(placed.clipBelowPercent)).toBe(true);
+    }
+    // Nobody is drawn twice, and the player is never among them.
+    expect(new Set(drawn).size).toBe(drawn.length);
+    expect(drawn).not.toContain(player);
+  });
 });
