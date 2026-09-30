@@ -441,3 +441,65 @@ Team 3 status 2026-09-30T01:51:39.041330+00:00: Census PR #1143 READY at publish
 | Team 4 | `docs/release/changes/cosponsor-allowlist-reconciliation.md` | 2026-09-30T02:04:01.069786+00:00 — assigned exact-source allowlist reconciliation |
 
 | Team 4 | `docs/release/changes/officeholder-allowlist-reconciliation.md` | 2026-09-30T02:04:01.070890+00:00 — assigned exact-source allowlist reconciliation |
+| Team 6 | `data/research/authorities/session-end-parks-starting-laws.json` | 2026-09-30T02:05:11.079512+00:00 |
+
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-01/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-01/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-01/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-01/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-01.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-01.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-02/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-02/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-02/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-02/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-02.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-02.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-03/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-03/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-03/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-03/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-03.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-03.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-04/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-04/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-04/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-04/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-04.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-04.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-05/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-05/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-05/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-05/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-05.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-05.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-06/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-06/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-06/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-06/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-06.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-06.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-07/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-07/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-07/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-07/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-07.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-07.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-08/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-08/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-08/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-08/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-08.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-08.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-09/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-09/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-09/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-09/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-09.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-09.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-10/staging.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-10/surfaces.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-10/measurement.json` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-10/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/codex/handbacks/team-7-scenes-10.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+| Team 7 | `docs/release/changes/team-7-scenes-10.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
