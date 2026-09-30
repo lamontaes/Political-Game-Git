@@ -1,0 +1,61 @@
+{
+  "branch": "codex/team-3-eviction-held",
+  "pr": "https://github.com/lamontaes/Political-Game-Git/pull/1189",
+  "status": "WIP_NOT_ACCEPTED",
+  "checks": {
+    "destinationTests": {
+      "passed": 4,
+      "total": 4,
+      "log": "/workspace/scratch/team3-eviction-tests.log"
+    },
+    "housingRentCourtTests": {
+      "passed": 29,
+      "total": 29,
+      "log": "/workspace/scratch/team3-housing-regression.log"
+    },
+    "evictionTypes": {
+      "roots": 3,
+      "diagnostics": 0,
+      "log": "/workspace/scratch/team3-eviction-types.log"
+    },
+    "birthReaderTests": {
+      "passed": 3,
+      "total": 3,
+      "log": "/workspace/scratch/team3-birth-reader-tests.log"
+    },
+    "birthReaderTypes": {
+      "roots": 2,
+      "diagnostics": 0,
+      "log": "/workspace/scratch/team3-birth-types.log"
+    },
+    "scopedLint": "PASS",
+    "formatWhitespace": "PASS",
+    "releasePrAndPush": "FAIL_inherited_wave1-playtest-copy_header",
+    "zeroDicePublishedEviction": "exit1_zero_new_three_inherited_gone",
+    "zeroDiceBirthReader": "exit1_zero_new_three_inherited_gone",
+    "birthDesignReport": "zero_errors_zero_warnings",
+    "birthDesignIndependentWritingReview": "PASS"
+  },
+  "notRun": [
+    "full_build",
+    "watched_world_proof",
+    "birth_decision_writer",
+    "birth_timing",
+    "runtime_law_repeal_authority_proof"
+  ],
+  "researchReceipt": "2b7db15fd6c26e490f4f63f72adb41a489a779b2",
+  "localOnly": ["team-3-why-chains.md"],
+  "noMerge": true,
+  "birthSourceComparison": {
+    "handoffBase": "54930d427555034f3a92f335064586247985784d",
+    "inspectedMain": "6051a07727f8a225dfd4323edd51ef8b1bfc58fe",
+    "paths": [
+      "src/simulation/living-world/town-families.ts",
+      "src/simulation/people-family-plan.ts"
+    ],
+    "unchanged": true,
+    "newReaderCallers": "only its focused test; not wired to town births"
+  },
+  "evictionCheckpointHead": "b3ced35fa23776e7192ec1e75c9d8513479a75ca",
+  "birthCheckpointScope": "design and pure reader only; seeded town birth block remains unchanged"
+}
