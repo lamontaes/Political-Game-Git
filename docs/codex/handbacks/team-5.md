@@ -218,4 +218,6 @@ The focused test log is `/private/tmp/team5-news-provenance-rerun.log`. It repor
 
 The scoped typecheck log is `/private/tmp/team5-playtest-copy-typecheck.log`. Six selected files have zero diagnostics; five outside-scope diagnostics were reported.
 
-The separate meeting-controls branch is now running only the three previously failing DC/Tafuna regression cases. This is a targeted selection of the measured affected cases, not a claim that the complete file passed. Source checkpoint: `654a26cd4b1cf102daed7f937d3da948e37bf41b`.
+The targeted DC/Tafuna regression selection completed with 3 failures: one roster assertion expected zero although the event recorded 13 DC officers, and two 60-second timeouts. The assertion was using the retired municipal chair helper to locate the district roster; it now uses the actual recorded chair ID. No roster assertion or timeout was removed. The two timeout causes remain unmeasured. Source checkpoint: `654a26cd4b1cf102daed7f937d3da948e37bf41b`.
+
+The separate meeting-controls candidate is draft PR #1149. It is not READY. The latest completed regression output is `/private/tmp/team5-dc-tafuna-regression.log`. The basic law-news resident-reach change is explicitly assigned to Team 5; differentiated attention remains an identified semantic gap. Claude owns renderer repair and browser acceptance; the merged renderer source will be reused during integration.

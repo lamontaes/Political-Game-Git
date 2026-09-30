@@ -199,7 +199,7 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
         ...units.counties,
       ].find((candidate) =>
         sittingLocalOfficers(completed, candidate).some(
-          (seat) => seat.personId === councilChair,
+          (seat) => seat.personId === scene.actors[0]!.personId,
         ),
       );
       const officerIds = unit
