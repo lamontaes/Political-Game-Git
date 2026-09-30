@@ -23,6 +23,12 @@
  */
 
 import type { EntityId, IsoDate, World } from "../types";
+import { OUTCOME_LINKS } from "../outcome-web";
+import type { PlaceOutcomeRecord } from "../outcome-web/place-outcome-store";
+import {
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import { addDays } from "../dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
@@ -74,6 +80,17 @@ export const HOUSING_SUPPLY_LAW_EFFECT = {
   monthlyLogChange: -0.00146,
   actsAfterDays: 365,
 } as const;
+
+// Resolve after module initialization: rent/home readers and the outcome engine
+// import each other. Reuse this immutable link index after its first actual call.
+let supplyLinksByKey: Map<string, (typeof OUTCOME_LINKS)[number]> | undefined;
+function supplyLinks() {
+  return (supplyLinksByKey ??= new Map(
+    OUTCOME_LINKS.filter(
+      (link) => link.to === "housing.new-large-buildings",
+    ).map((link) => [link.key, link]),
+  ));
+}
 
 const supplyLawIdsByCatalog = new WeakMap<object, readonly EntityId[]>();
 
@@ -230,4 +247,65 @@ export function homePriceLevel(
     found = row.level;
   }
   return found;
+}
+
+/**
+ * Attribute an actually changed saved permit-unit record to its operative
+ * housing law. A price cache or an unchanged modeled level is not a saved
+ * consequence. This records provenance; it does not apply another multiplier.
+ */
+export function withHousingSupplyLawStamps(
+  world: World,
+  record: PlaceOutcomeRecord & LawEffectStampedRecord,
+): PlaceOutcomeRecord & LawEffectStampedRecord {
+  if (record.measure !== "housing.new-large-buildings") return record;
+  const structural = record.structural ?? record.base;
+  if (record.value === Math.round(structural * 100) / 100) return record;
+  if (
+    record.places &&
+    record.places.reduce((sum, place) => sum + place.weight, 0) >= 1
+  )
+    return record;
+  const stamps = [...(record.lawEffectStamps ?? [])];
+  const wanted = new Set<string>(HOUSING_SUPPLY_LAWS);
+  for (const cause of record.causes) {
+    if (cause.factor === 1) continue;
+    const link = supplyLinks().get(cause.key);
+    if (!link || link.to !== record.measure || !link.from.startsWith("law:"))
+      continue;
+    const questionKey = link.from.slice("law:".length);
+    if (!wanted.has(questionKey)) continue;
+    const propositionId = supplyLawIds(world).find(
+      (id) => world.policyCatalog.propositions[id]?.stableKey === questionKey,
+    );
+    if (!propositionId) continue;
+    const law = lawInForce(
+      world,
+      record.jurisdictionId,
+      propositionId,
+      record.month,
+    );
+    if (law?.origin !== "enacted") continue;
+    const stamp = lawEffectStamp(law, {
+      effectKind: "housing-permit-units",
+      questionKey,
+      jurisdictionId: record.jurisdictionId,
+      appliedAt: record.month,
+      sourceRecordIds: [law.measureId],
+    });
+    if (
+      !stamp ||
+      stamps.some(
+        (saved) =>
+          saved.governingLawKey === stamp.governingLawKey &&
+          saved.effectKind === stamp.effectKind &&
+          saved.appliedAt === stamp.appliedAt,
+      )
+    )
+      continue;
+    stamps.push(stamp);
+  }
+  return stamps.length === (record.lawEffectStamps?.length ?? 0)
+    ? record
+    : { ...record, lawEffectStamps: stamps };
 }

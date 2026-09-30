@@ -1,0 +1,48 @@
+{
+  "team": 4,
+  "status": "helper checkpoint; production callsite pending ownership grant",
+  "sourceBase": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "preservedOriginalHead": "7ad1126b5ade9177609822de0b7831726f684f3e",
+  "ownedFunction": "src/simulation/living-world/housing-market.ts::withHousingSupplyLawStamps",
+  "requestedCallsite": "src/simulation/outcome-web/place-outcomes.ts::placeOutcomesForMonth final housing.new-large-buildings row decoration/import only",
+  "requestComment": "https://github.com/lamontaes/Political-Game-Git/pull/1137#issuecomment-5914810437",
+  "effectKind": "housing-permit-units",
+  "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+  "seed": "team4-housing-supply-five-states-20260930",
+  "fiveStateProof": ["US-AR", "US-CT", "US-RI", "US-NY", "US-WI"],
+  "proof": "Five actual outcome producer rows are decorated, saved in the existing world.placeOutcomes shape, JSON-reopened and checked for attribution and unchanged values. This fixture composition is not a production callsite.",
+  "checks": {
+    "newHousingTests": "6/6 PASS",
+    "existingPriceModelTests": "6/6 PASS",
+    "twoFileSeconds": 10.78,
+    "strictRoots": 2,
+    "typeDiagnostics": 0,
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "whitespace": "PASS",
+    "handbackReport": "0 errors, 0 warnings"
+  },
+  "notRun": [
+    "production handler with helper callsite",
+    "nationwide audit",
+    "speed (owner paused)",
+    "independent reviewer",
+    "release/zero-dice on this helper checkpoint"
+  ],
+  "guardCases": [
+    "unchanged legal answer",
+    "future law",
+    "pre-lag month",
+    "missing operative law",
+    "missing causal record",
+    "rounded value unchanged",
+    "repeat attribution does not duplicate stamps"
+  ],
+  "openGaps": [
+    "Actual production callsite needs narrow central grant",
+    "The existing construction size and lag remain inherited calibration gaps",
+    "Recorded permit-unit rate is not a household neighborhood or completed building",
+    "No new construction decision, budget administration expense or full five-part completion claimed"
+  ],
+  "next": "After callsite grant, decorate the canonical saved permit-unit rows, prove the actual handler path in all five states, then run scoped gates and publish READY."
+}
