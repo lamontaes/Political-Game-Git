@@ -1,0 +1,362 @@
+{
+  "status": "REJECTED; additive revert; no retained production change",
+  "baselineHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+  "candidateHead": "4340974f5c5a2373cee90e5d6d6f6a1848a3c9c8",
+  "revertHead": "3c09fb98f42789fea4ae8cc703dfe038b7ab4494",
+  "pairs": [
+    {
+      "scenario": "floral",
+      "seed": "team2-main-proof-20260930-b",
+      "place": "0524070",
+      "beforeHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "candidateHead": "4340974f5c5a2373cee90e5d6d6f6a1848a3c9c8",
+      "beforeSeconds": 31.640971607000004,
+      "afterSeconds": 28.744010057,
+      "deltaSeconds": -2.896961550000004,
+      "fingerprint": "ce8c407f31caf217338b92b5548f4dfc1a614c4492eded728a9e85fcaa7bc6a2",
+      "counts": {
+        "people": 15039,
+        "decisions": 9234,
+        "events": 20063
+      },
+      "comparison": {
+        "errors": [],
+        "positions": [],
+        "fingerprintsIdentical": true
+      }
+    },
+    {
+      "scenario": "Climax Springs CDP",
+      "seed": "team4-daily-random-0889d867-a49e-47b3-b709-51f63df81f99",
+      "place": "2914914",
+      "beforeHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "candidateHead": "4340974f5c5a2373cee90e5d6d6f6a1848a3c9c8",
+      "beforeSeconds": 27.208432806999998,
+      "afterSeconds": 25.961114406,
+      "deltaSeconds": -1.2473184009999976,
+      "fingerprint": "2d0d662d400a83954303b4e227e92e1de02de3c8f5a8ccacb70cd249043b90cd",
+      "counts": {
+        "people": 14900,
+        "decisions": 9170,
+        "events": 19896
+      },
+      "comparison": {
+        "errors": [],
+        "positions": [],
+        "fingerprintsIdentical": true
+      }
+    },
+    {
+      "scenario": "Dunnell, Minnesota",
+      "seed": "team4-confidants-379b2d41-1f9a-426e-95a2-ebbd2d3ca9db",
+      "place": "2717180",
+      "beforeHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "candidateHead": "4340974f5c5a2373cee90e5d6d6f6a1848a3c9c8",
+      "beforeSeconds": 28.479770639999998,
+      "afterSeconds": 30.427249212,
+      "deltaSeconds": 1.9474785720000014,
+      "fingerprint": "8c3984073f2de41d58742eef4f3085b0fcfb06fc920c0e1e21244b2b0d9c55b5",
+      "counts": {
+        "people": 14988,
+        "decisions": 9186,
+        "events": 19993
+      },
+      "comparison": {
+        "errors": [],
+        "positions": [],
+        "fingerprintsIdentical": true
+      }
+    },
+    {
+      "scenario": "Piti, Guam",
+      "seed": "team4-confidants-c6fe6720-5b4c-4d5b-b34f-22cc9b475d7a",
+      "place": "territory:GU:piti",
+      "beforeHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "candidateHead": "4340974f5c5a2373cee90e5d6d6f6a1848a3c9c8",
+      "beforeSeconds": 31.500593033,
+      "afterSeconds": 30.317920523,
+      "deltaSeconds": -1.1826725099999997,
+      "fingerprint": "05049c5e0894390f657ecb72e41fbdaf2e09c40a346f97c73900542f74c443d1",
+      "counts": {
+        "people": 15067,
+        "decisions": 9267,
+        "events": 20106
+      },
+      "comparison": {
+        "errors": [],
+        "positions": [],
+        "fingerprintsIdentical": true
+      }
+    },
+    {
+      "scenario": "Dunnell targeted repeat",
+      "seed": "team4-confidants-379b2d41-1f9a-426e-95a2-ebbd2d3ca9db",
+      "place": "2717180",
+      "beforeHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "candidateHead": "4340974f5c5a2373cee90e5d6d6f6a1848a3c9c8",
+      "beforeSeconds": 29.557526521,
+      "afterSeconds": 31.146553488000002,
+      "deltaSeconds": 1.5890269670000023,
+      "fingerprint": "8c3984073f2de41d58742eef4f3085b0fcfb06fc920c0e1e21244b2b0d9c55b5",
+      "counts": {
+        "people": 14988,
+        "decisions": 9186,
+        "events": 19993
+      },
+      "comparison": {
+        "errors": [],
+        "positions": [],
+        "fingerprintsIdentical": true
+      }
+    }
+  ],
+  "strict": {
+    "roots": [
+      "src/simulation/confidants.ts",
+      "src/simulation/confidants.test.ts"
+    ],
+    "strict": true,
+    "sourceFiles": 800,
+    "allDiagnostics": 0,
+    "changedDiagnostics": 0
+  },
+  "focusedTests": {
+    "file": "src/simulation/confidants.test.ts",
+    "passed": 5,
+    "failed": 0,
+    "vitestSeconds": 0.194
+  },
+  "candidateGates": [
+    {
+      "name": "release",
+      "args": ["run", "release:check", "--", "--mode", "pr"],
+      "status": 1,
+      "error": null,
+      "log": "test-results/speed/confidants-release-candidate.log"
+    },
+    {
+      "name": "zero-dice",
+      "args": ["run", "zero-dice"],
+      "status": 1,
+      "error": null,
+      "log": "test-results/speed/confidants-zero-dice-candidate.log"
+    }
+  ],
+  "cleanMainGates": [
+    {
+      "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "name": "release",
+      "args": ["run", "release:check", "--", "--mode", "pr"],
+      "status": 1,
+      "error": null,
+      "log": "test-results/speed/confidants-release-main.log"
+    },
+    {
+      "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "name": "zero-dice",
+      "args": ["run", "zero-dice"],
+      "status": 1,
+      "error": null,
+      "log": "test-results/speed/confidants-zero-dice-main.log"
+    }
+  ],
+  "notRun": [
+    "full suite",
+    "browser",
+    "year speed",
+    "12-month candidate audit",
+    "independent reviewer"
+  ],
+  "artifacts": [
+    {
+      "path": "test-results/speed/confidants-months.mjs",
+      "bytes": 1308,
+      "sha256": "7bc6034c7c69c45ea0f458bf6f90f265aba5e423831d232f3dafc86f001ad95d"
+    },
+    {
+      "path": "test-results/speed/confidants-random-selection.json",
+      "bytes": 404,
+      "sha256": "1c1882928a3ddd888a901ba8dec402ec33837f9087155f5def450a7bd04dd2be"
+    },
+    {
+      "path": "test-results/speed/daily-random-selection.json",
+      "bytes": 464,
+      "sha256": "f085841c8b33931eb430cea7d159e697ba29fabc79867e046bd785ecee3decc3"
+    },
+    {
+      "path": "test-results/speed/confidants-before-statuses.json",
+      "bytes": 1317,
+      "sha256": "2a2114c94b2c8250af85c0dedd8c7d9f49dc6c7057ba73b7491aa75199023988"
+    },
+    {
+      "path": "test-results/speed/confidants-after-statuses.json",
+      "bytes": 1305,
+      "sha256": "46011221acc5579d3083181f453bd4c1833ee773bac54fd7500434a30b5e6efc"
+    },
+    {
+      "path": "test-results/speed/confidants-focused.log",
+      "bytes": 6034,
+      "sha256": "ee63233d8a3034d9d4b33809467c7ff87af09487f95009472a0054306c97fdfc"
+    },
+    {
+      "path": "test-results/speed/confidants-strict.json",
+      "bytes": 187,
+      "sha256": "12014cd0c0af10a9cb6566a8c3db1e596b7fb9b0fb973e829d36485f33e77f7a"
+    },
+    {
+      "path": "test-results/speed/confidants-gates-candidate.json",
+      "bytes": 421,
+      "sha256": "e8a1094248d37256fad07fc9252c41a38829fd3c6c835d147358ceb8928449da"
+    },
+    {
+      "path": "test-results/speed/confidants-gates-main.json",
+      "bytes": 535,
+      "sha256": "1c74e4e037d304ea605216b423d98e3b85efa922d02d39cb88dc7f33c569ba58"
+    },
+    {
+      "path": "test-results/speed/confidants-release-candidate.log",
+      "bytes": 417,
+      "sha256": "9c66bbcd7961ff5a7c5c20a64070177522f593d98d719a66cd64da660798a5e0"
+    },
+    {
+      "path": "test-results/speed/confidants-release-main.log",
+      "bytes": 417,
+      "sha256": "9c66bbcd7961ff5a7c5c20a64070177522f593d98d719a66cd64da660798a5e0"
+    },
+    {
+      "path": "test-results/speed/confidants-zero-dice-candidate.log",
+      "bytes": 1064,
+      "sha256": "5e3e2866597b48fd119dae4ffdf55548f95c59ba479da18a48d85df42e8d34c8"
+    },
+    {
+      "path": "test-results/speed/confidants-zero-dice-main.log",
+      "bytes": 1064,
+      "sha256": "5e3e2866597b48fd119dae4ffdf55548f95c59ba479da18a48d85df42e8d34c8"
+    },
+    {
+      "path": "test-results/speed/confidants-floral-before.json",
+      "bytes": 8513893,
+      "sha256": "545b3e900515ae95f46302c8fb60ae595650c941ab70c79925bf84fb8101d93a"
+    },
+    {
+      "path": "test-results/speed/confidants-floral-after.json",
+      "bytes": 8513887,
+      "sha256": "de129bc2b47e76d1c1c691890439894dc91d2dd7c64ac31983abd097775618d7"
+    },
+    {
+      "path": "test-results/speed/confidants-floral-after.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/confidants-floral-before.log",
+      "bytes": 528,
+      "sha256": "0ead3ec48ad90eed171c919dc0b18d308fa61e0c28c537df793d03990875c079"
+    },
+    {
+      "path": "test-results/speed/confidants-floral-after.log",
+      "bytes": 638,
+      "sha256": "2065ea3eb91f61e699407047b6ce43162901d7331bd8ad67ba6e55150724f4a5"
+    },
+    {
+      "path": "test-results/speed/confidants-Climax Springs CDP-before.json",
+      "bytes": 8440460,
+      "sha256": "538f71e683154a9e52af76cf41b4e105729d587696abd113962f35a6fb869541"
+    },
+    {
+      "path": "test-results/speed/confidants-Climax Springs CDP-after.json",
+      "bytes": 8440454,
+      "sha256": "8c18a179982c0a0584192e1b5a1ff793f9de2550260f27da3d5c1f2bf53d5973"
+    },
+    {
+      "path": "test-results/speed/confidants-Climax Springs CDP-after.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/confidants-Climax Springs CDP-before.log",
+      "bytes": 556,
+      "sha256": "4a334ce708fdbe4b0385e262335ad194e137c4425d0467bc44c45c7ee6671f9a"
+    },
+    {
+      "path": "test-results/speed/confidants-Climax Springs CDP-after.log",
+      "bytes": 666,
+      "sha256": "05bb949ef13dbbb0c63561afdf05f52326d793572d3e482de221592ef020f067"
+    },
+    {
+      "path": "test-results/speed/confidants-Dunnell, Minnesota-before.json",
+      "bytes": 8474670,
+      "sha256": "9da33f985bc25f59b09e56fc03964ca6b93be20a678378f539e19af151f01bdb"
+    },
+    {
+      "path": "test-results/speed/confidants-Dunnell, Minnesota-after.json",
+      "bytes": 8474664,
+      "sha256": "d8348f14a63b33af1575e60504682c7f5e1a4e2ca6f01ff1085fa47736c501ed"
+    },
+    {
+      "path": "test-results/speed/confidants-Dunnell, Minnesota-after.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/confidants-Dunnell, Minnesota-before.log",
+      "bytes": 554,
+      "sha256": "4816b5b058fdb04bf22804a945636340e7b58d68583c5a8546206d8e3bc1f65b"
+    },
+    {
+      "path": "test-results/speed/confidants-Dunnell, Minnesota-after.log",
+      "bytes": 664,
+      "sha256": "f69fad332544c95d4e1a6d7a3f37756833457288c3e35140b1a451ebc7ed6e5f"
+    },
+    {
+      "path": "test-results/speed/confidants-Piti, Guam-before.json",
+      "bytes": 8537836,
+      "sha256": "c872a69c22d34dbbda577ac53aa24b45e049190b6e6a54eedcfa61edb7010db2"
+    },
+    {
+      "path": "test-results/speed/confidants-Piti, Guam-after.json",
+      "bytes": 8537836,
+      "sha256": "da7bf4a7f72a8da55801406023fddd016da4c23f4f5924a8c9ef096579fba397"
+    },
+    {
+      "path": "test-results/speed/confidants-Piti, Guam-after.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/confidants-Piti, Guam-before.log",
+      "bytes": 564,
+      "sha256": "a1b6863750072cea677564fc78d64f917bcd22c480aaa570615a1103b9ab08a3"
+    },
+    {
+      "path": "test-results/speed/confidants-Piti, Guam-after.log",
+      "bytes": 674,
+      "sha256": "382ad1474522e5e64ceaa4dd24b385c728e7da6270aa58f78aeacc3fd38c9a91"
+    },
+    {
+      "path": "test-results/speed/confidants-dunnell-repeat-before.json",
+      "bytes": 8474664,
+      "sha256": "44ce96d7c3f4524ac0148096dd76280803f2677efd489ccceeef90a1ed7e91b1"
+    },
+    {
+      "path": "test-results/speed/confidants-dunnell-repeat-after.json",
+      "bytes": 8474670,
+      "sha256": "9a7e0aa69a5198824edac49e35010a4d00479310c61e8dcc7b183e84ed4bf1c7"
+    },
+    {
+      "path": "test-results/speed/confidants-dunnell-repeat-after.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/confidants-dunnell-repeat-before.log",
+      "bytes": 642,
+      "sha256": "1e3b129aa517dd97f8dd9337a64283f19a968db2cf3120871f1193fcdca4edfe"
+    },
+    {
+      "path": "test-results/speed/confidants-dunnell-repeat-after.log",
+      "bytes": 752,
+      "sha256": "8e81b72758ddc4e474ebb1d9437c9ee44e6b9dbde3de41d6dafb6e72bc6e9eef"
+    }
+  ]
+}
