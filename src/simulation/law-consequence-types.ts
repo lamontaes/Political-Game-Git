@@ -42,13 +42,15 @@ export interface LawConsequenceContext {
 /** The engine resolves legal authority and actual job records before invoking pay. */
 export interface ResolvedLawPayConsequence {
   rowId: string;
+  questionKey: string;
+  jurisdictionId: EntityId;
   law: LawInForce;
   personId: EntityId;
   workId: EntityId;
   payFlowId: EntityId;
   activityId: EntityId;
   effectiveAt: IsoDate;
-  amount: { value: number; unit: "minor/hour" };
+  amount: { value: number; unit: "minor/hour"; currency: "USD" };
   sourceRecordIds: EntityId[];
   action: "raise-hourly-floor";
 }
