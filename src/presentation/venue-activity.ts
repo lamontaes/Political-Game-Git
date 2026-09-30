@@ -1,4 +1,5 @@
 import {
+  enterOrdinaryMeeting,
   ordinaryMeetingEntry,
   recordOrdinaryMeetingPresence,
 } from "../simulation/ordinary-meeting-presence";
@@ -530,6 +531,7 @@ export interface PerformVenueActivityOptions {
    * "condensed" produces the same outcome with less of the evening shown.
    */
   readonly attendance?: "attended" | "condensed";
+  readonly finishMeeting?: boolean;
 }
 
 export function performVenueActivity(
@@ -582,11 +584,11 @@ export function venueTimingLabel(
         scheduledActivityState(world, activityId).start,
       ) >= 0
     ) {
-      return ordinaryMeetingEntry(
-        world,
-        activity.responsiblePersonId,
-        activityId,
-      )
+      const location = openingLifeLocation(world, activity.responsiblePersonId);
+      const inRoom =
+        location?.label === activity.location.label &&
+        location.jurisdictionId === activity.location.jurisdictionId;
+      return inRoom
         ? `Takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)} to stay through the meeting.`
         : `Travel takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)}; the meeting will already be underway.`;
     }
@@ -701,6 +703,12 @@ function performVenueActivityOnce(
   )
     return world;
   const journey = entry.journey;
+  const opensMeeting =
+    entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+    attendance === "attended" &&
+    !options?.finishMeeting;
+  if (opensMeeting && ordinaryMeetingEntry(world, personId, activityId))
+    return enterOrdinaryMeeting(world, personId, activityId);
   if (!journey) {
     const lateMeeting =
       entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
@@ -735,6 +743,7 @@ function performVenueActivityOnce(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
+    if (opensMeeting) return enterOrdinaryMeeting(waited, personId, activityId);
     // Campaign work is done in place by the campaign's own writer, so its
     // money and outreach are recorded; the bare calendar completion below
     // would mark it done with neither. No arrival is recorded: nobody went
@@ -767,13 +776,16 @@ function performVenueActivityOnce(
       return performed;
     const arrived = arrivedDestinationFor(performed, personId, entry.activity);
     if (!arrived) return performed;
-    return recordJourneyArrival(
+    const placed = recordJourneyArrival(
       performed,
       entry.activity,
       arrived.destination,
       arrived.destinationSetting,
       goLabel(entry.activity),
     );
+    return arrived.destination.stableKey === `${PUBLIC_MEETING_KEY}:activity`
+      ? enterOrdinaryMeeting(placed, personId, arrived.destination.id)
+      : placed;
   }
 
   // Resolve the legitimate ordinary windows crossed while waiting to depart.
@@ -816,6 +828,7 @@ function performVenueActivityOnce(
     !canPersonAccess(refreshed.activity.access, personId)
   )
     return arrived;
+  if (opensMeeting) return enterOrdinaryMeeting(arrived, personId, activityId);
   // Preserve domain outcomes, then record the actual ordinary-meeting
   // aftermath. Neither hook adds another interval or creates a read-time fact.
   return recordOrdinaryMeetingPresence(

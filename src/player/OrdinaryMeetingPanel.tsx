@@ -40,7 +40,7 @@ export function OrdinaryMeetingPanel({
 }) {
   const runner = useTimeCommand({ world, personId, onWorldChange });
   const [outcome, setOutcome] = useState<string | null>(null);
-  const [reading, setReading] = useState(false);
+  const [reading, setReading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
   const scene = projectStoryMeetingScene(world, personId);
   const entry = scene
@@ -72,7 +72,7 @@ export function OrdinaryMeetingPanel({
     destination: "home",
   });
   const stay = previewTimeCommand(world, personId, {
-    kind: "attend-activity",
+    kind: "finish-meeting",
     activityId,
   });
   return (
@@ -117,7 +117,11 @@ export function OrdinaryMeetingPanel({
         <div data-testid="ordinary-meeting-agenda">
           <h3>{agenda.heading}</h3>
           {scene?.agendaText ? (
-            <p>{scene.agendaText}</p>
+            <ol data-testid="ordinary-meeting-agenda-order">
+              {scene.agendaItems.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ol>
           ) : (
             agenda.lines.map((line, index) => (
               <p key={`${agenda.revision}:${index}`}>{line}</p>
@@ -130,6 +134,30 @@ export function OrdinaryMeetingPanel({
           >
             Close agenda
           </button>
+        </div>
+      ) : null}
+      {scene ? (
+        <div data-testid="ordinary-meeting-roll-call">
+          <h3>Recorded roll call</h3>
+          {scene.rollCall ? (
+            <>
+              <p>{scene.rollCall.summary}</p>
+              <ul>
+                {scene.rollCall.ballots.map((ballot) => (
+                  <li key={ballot.personId}>
+                    {ballot.name}:{" "}
+                    {ballot.vote === "yea"
+                      ? "Yes"
+                      : ballot.vote === "nay"
+                        ? "No"
+                        : ballot.vote.replace(/-/g, " ")}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p>No roll-call vote is recorded for this agenda.</p>
+          )}
         </div>
       ) : null}
       {entry ? (
@@ -252,7 +280,7 @@ export function OrdinaryMeetingPanel({
               data-testid="stay-ordinary-meeting"
               onClick={() =>
                 runner.submit(
-                  { kind: "attend-activity", activityId },
+                  { kind: "finish-meeting", activityId },
                   (report) => setOutcome(report.outcome),
                 )
               }

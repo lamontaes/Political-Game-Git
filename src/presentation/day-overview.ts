@@ -26,6 +26,7 @@ import { legislativeTermForRelationship } from "../simulation/legislative-office
 import { completedActivityHere } from "./scene-venues";
 import { careerOfferAccepted } from "../simulation/career-path7";
 import { currentSchooling } from "../simulation/school-stages";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { openingWorkLocation } from "./opening-work-location";
 
 /**
@@ -78,9 +79,13 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
   const openingLocation =
     !finished && !scene ? openingWorkLocation(world, personId) : null;
   // What was finished there is said once, by the activity panel that did it.
-  const now = finished
-    ? `You are at ${finished.location.label}.`
-    : (scene?.prose ?? openingLocation?.summary ?? day.opening);
+  const meeting = projectOrdinaryMeetingScene(world, personId);
+  const now =
+    meeting?.phase === "active"
+      ? `You are at ${meeting.location.label}. ${meeting.caption}`
+      : finished
+        ? `You are at ${finished.location.label}.`
+        : (scene?.prose ?? openingLocation?.summary ?? "");
 
   const moment = world.currentMoment;
   const calendar = projectPlayerCalendar(world, personId);
@@ -101,7 +106,11 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
     placeName: finished
       ? finished.location.label
       : (openingLocation?.context.location?.label ?? day.placeName),
-    now,
+    now:
+      now ||
+      (upcoming
+        ? `Next: ${upcoming.title} at ${formatMinute(upcoming.start.minuteOfDay)}.`
+        : ""),
     nowKind:
       finished || openingLocation?.context.location?.setting === "work"
         ? "activity"
