@@ -1,0 +1,360 @@
+{
+  "team": 3,
+  "traceSourceHead": "3385cbedc0949b7feefdc99398b2000df428de3c",
+  "productProofPin": "3ffad216e1c567eb3f396b65e1b40cd7665e6b52",
+  "purpose": "Input rows for coordinator-owned one-file catalog compilation; source findings, not acceptance or full catalog coverage.",
+  "method": "Stable question IDs checked against source policy packs. State/local coded levels copied from question-powers.json; federal pack questions are federal. Coded levels are developer data, not primary-verified permission. The catalog state alias for D.C./territories does not establish each jurisdiction or township power. Null verifiedLegalLevels means legal scope is incomplete, not denied or allowed.",
+  "statusMethod": "Needs research where a direct consumer exists but authority, terms or empirical breadth is unresolved. Needs a feature where an aggregate law effect lacks a traced person/resource writer; research may also be missing. Fixed tonight identifies only the tested assigned privacy caller seam, with remaining legal/evidence gaps. No row is marked works without complete proof.",
+  "rows": [
+    {
+      "catalogQuestionId": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "State minimum wage",
+      "finding": "Actual compensation terms; missing bill terms use fixed central estimates; range and jurisdiction/repeal gaps remain.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:labor-workforce.city-minimum-wage",
+      "status": "needs research",
+      "codedLevels": ["city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "City minimum wage",
+      "finding": "Actual compensation terms; universal premium and missing ordinance terms; local preemption needs legal verification.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "State authority for local wages",
+      "finding": "Existing city-floor applicability gate; local powers and restoration/withdrawal need verification.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:labor-workforce.paid-family-leave",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Paid family and medical leave",
+      "finding": "Actual premium and benefit writers; coverage/waiting terms and null participation size need research.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:labor-workforce.right-to-work",
+      "status": "needs a feature",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Right-to-work",
+      "finding": "Aggregate turnout link; no traced individual union or voter decision. Primary NLRA state/territorial boundary does not grant local power.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "status": "needs a feature",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Public-sector collective bargaining",
+      "finding": "Inert graduation and contested cohort-earnings proxy; no bargaining decision. Separate public-sector law needed.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:housing-land-use.rent-stabilization",
+      "status": "needs research",
+      "codedLevels": ["state", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Rent stabilization",
+      "finding": "Actual lease renewal cap; fixed empirical market/supply/mobility sizes and jurisdiction/cap exemptions need research.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:fiscal.adopt-income-tax",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "State income-tax adoption",
+      "finding": "Actual withholding and separate peer-budget estimates; schedules/authority/reconciliation need verification.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:fiscal.graduated-income-tax",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Graduated state income tax",
+      "finding": "Actual withholding; fixed Illinois/Iowa fiscal ratios, constitutional shape restrictions and schedule reconciliation remain.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "status": "needs research",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Grocery sales-tax exemption",
+      "finding": "Government receipts; fixed Oklahoma fiscal transfer and actual tax bases unresolved; no shopper receipt traced.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "status": "needs a feature",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Property-tax growth cap",
+      "finding": "Fiscal rule null, aggregate math proxy; no traced changed tax bill or school spending consumer.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Medicaid expansion",
+      "finding": "Actual coverage/exposure readers; fixed mortality size, program law/financing and null medical-debt size unresolved.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "status": "needs research",
+      "codedLevels": ["federal", "state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Medicaid work requirement",
+      "finding": "Actual coverage reader uses expected role hours; worked/reporting records, exemptions and legal dates unresolved.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "status": "needs a feature",
+      "codedLevels": ["federal", "state", "county"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Assistance work requirement",
+      "finding": "Aggregate SNAP participation; no traced individual benefit eligibility, denial or payment writer.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "status": "needs research",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Allowing multifamily homes in single-family zones",
+      "finding": "Direct prices reach leases; fixed package size/timing and legal power unresolved; building multiplier has no traced construction producer.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:housing-land-use.by-right-permitting",
+      "status": "needs research",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "By-right housing permitting",
+      "finding": "Direct prices reach leases; fixed package size and provisional homelessness link; actual permitting writer and authority missing.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "State preemption of local housing restrictions",
+      "finding": "Direct prices reach leases; fixed size and provisional moderated homelessness; actual state override/vested-right rules unverified.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "status": "needs research",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Inclusionary housing requirement",
+      "finding": "Actual affordable lease terms; universal set-aside estimate and surviving restrictions/authority unverified.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "status": "needs research",
+      "codedLevels": ["state", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Eviction right to counsel",
+      "finding": "Actual case lawyer; eligibility/capacity and empirical range unresolved. Host-first destination repair source-checked; Team2 proof pending.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:fiscal.balanced-operating-budget",
+      "status": "needs research",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Balanced operating budget",
+      "finding": "Actual governor shortfall choice and accounts; flagged common local rule is developer data, not verified power; no resident service consumer traced.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "status": "needs research",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Funding pensions to schedule",
+      "finding": "Actual contributions/accounts; provisional spread range, real plan obligations and individual benefit consumer unresolved.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "status": "needs research",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Minimum reserve balance",
+      "finding": "Actual reserve/debt accounts; provisional spread range and actual legal floor unresolved; no individual service/payment consumer traced.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "status": "needs research",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Fairness-law wage effect",
+      "finding": "Existing hire formula uses fixed group-average gain; scope/range and separate held fairness-owner branch must be reconciled.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "status": "needs research",
+      "codedLevels": ["county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Fairness-law wage effect",
+      "finding": "Existing hire formula; county/city catalog levels are not verified legal coverage. Fixed group-average size and actual local protection rules unresolved.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "status": "needs a feature",
+      "codedLevels": ["state", "county", "city"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Housing-first homelessness programs",
+      "finding": "Aggregate homelessness; no traced available-unit, eligibility or individual placement writer.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "status": "needs a feature",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Behavioral-health crisis response",
+      "finding": "Aggregate violence; no traced call, responder, dispatch or treatment writer for this question.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:health-human-services.harm-reduction-services",
+      "status": "needs a feature",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Harm-reduction services",
+      "finding": "Aggregate overdose and inert crime; no traced supply, uptake or patient-care writer for this question.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "status": "needs a feature",
+      "codedLevels": ["state"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "State consumer-loan rate cap",
+      "finding": "Provisional aggregate high-cost borrowing; no loan/APR/payment writer; national-bank rate exportation limits coverage.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "status": "needs research",
+      "codedLevels": ["federal"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Raising the federal minimum wage",
+      "finding": "Actual compensation floor; authored proposed term, unquantified jobs effect and excluded/territorial coverage gaps.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "status": "needs research",
+      "codedLevels": ["federal"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Raising the top federal income tax rate",
+      "finding": "Actual withholding and estimated treasury revenue; fixed static revenue estimate and real territorial/filing applicability unresolved.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "status": "needs a feature",
+      "codedLevels": ["federal"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Federal housing vouchers for every eligible family",
+      "finding": "Aggregate homelessness with inert schooling/crime; no actual voucher, available unit or household benefit writer.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "status": "needs a feature",
+      "codedLevels": ["federal"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Federal consumer-loan rate cap",
+      "finding": "Provisional moderated aggregate high-cost borrowing; no loan contract writer; actual bill scope and exemptions unverified.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "status": "needs a feature",
+      "codedLevels": ["federal"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Medicare drug-price negotiation",
+      "finding": "Projected aggregate out-of-pocket proxy; no selected-drug claim or patient payment writer; agreements/coverage need legal research.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-federal-positions:social-insurance.raise-retirement-age",
+      "status": "needs a feature",
+      "codedLevels": ["federal"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-why-chains.md",
+      "traceSection": "Raising the Social Security retirement age",
+      "finding": "Aggregate older employment and poverty; no traced entitlement, claim or benefit payment writer.",
+      "watchedProof": "NOT RUN"
+    },
+    {
+      "catalogQuestionId": "us-federal-positions:science-communications.national-data-privacy",
+      "status": "fixed tonight",
+      "codedLevels": ["federal"],
+      "verifiedLegalLevels": null,
+      "tracePath": "docs/codex/handbacks/team-3-privacy-place-caller.md",
+      "traceSection": null,
+      "finding": "Assigned caller now draws stably by world/town inside inherited range; actual business books enact/repeal fixture passes. Core legal module unchanged; no worker outcome traced; US transfer/coverage research remains.",
+      "watchedProof": "NOT RUN"
+    }
+  ]
+}
