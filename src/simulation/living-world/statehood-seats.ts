@@ -10,6 +10,9 @@ import {
   statehoodPlace,
 } from "../governing/statehood-admission";
 import { recordByStableKey, recordsWithFieldValue } from "../history-index";
+import { lawInForce } from "../governing/law-in-force";
+import { lawEffectStamp } from "../law-effect-stamp";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
@@ -185,6 +188,9 @@ function writeTerms(
   terms: readonly Term[],
   date: IsoDate,
 ): World {
+  const propositionId = Object.values(world.policyCatalog.propositions).find(
+    (definition) => definition.stableKey === STATEHOOD_QUESTION,
+  )?.id;
   const inputs = terms
     .filter((term) => term.returningPersonId === null)
     .map((term) => newMemberInput(world, term.seat, term.startsAt));
@@ -206,6 +212,27 @@ function writeTerms(
       LIVING_WORLD_KEYS.chamber(term.seat.chamberKey),
     );
     const title = seatTitle(term.seat);
+    const law = propositionId
+      ? lawInForce(
+          next,
+          NATIONAL_ELECTION_JURISDICTION.id,
+          propositionId,
+          term.startsAt,
+          "enacted-only",
+        )
+      : null;
+    const stamp =
+      law?.answer === "yes"
+        ? lawEffectStamp(law, {
+            effectKind: "congress-voting-seat-tenure",
+            questionKey: STATEHOOD_QUESTION,
+            jurisdictionId: stateJurisdictionForKey(
+              `US-${term.seat.stateUsps}`,
+            )!.id,
+            appliedAt: term.startsAt,
+            sourceRecordIds: [personId, chamberId],
+          })
+        : null;
     next = recordWorldEvent(next, {
       stableKey,
       type: SEAT_TENURE_EVENT,
@@ -216,6 +243,7 @@ function writeTerms(
       participants: [{ personId, role: "focus:subject", detail: title }],
       personFactConstraints: [],
       visibility: "public",
+      ...(stamp ? { lawEffectStamps: [stamp] } : {}),
       tags: [
         V,
         STATEHOOD_PROVENANCE,

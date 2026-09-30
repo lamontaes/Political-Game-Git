@@ -1,4 +1,7 @@
+/// <reference types="node" />
 import { beforeAll, describe, expect, it, vi } from "vitest";
+import { writeFileSync } from "node:fs";
+import { observerPlace } from "../../presentation/observer-world";
 import type * as LegislationIntegrity from "../legislation-integrity";
 
 // The test writes one federal Act straight into the record so it can watch what
@@ -38,6 +41,7 @@ import type {
   World,
 } from "../types";
 import { projectCongress } from "./congress";
+import { isLawEffectStamp } from "../law-effect-stamp";
 import { houseDelegateOccupant } from "./house-delegates";
 import { ensureLivingWorldOpening } from "./opening";
 import { STATEHOOD_ADMISSION_DAYS } from "../governing/statehood-admission";
@@ -46,6 +50,8 @@ import {
   statehoodPlace,
   statehoodSeats,
   statehoodAdmittedOn,
+  applyStatehoodTurnover,
+  STATEHOOD_PROVENANCE,
 } from "./statehood-seats";
 
 /**
@@ -235,6 +241,60 @@ describe("when the place is admitted", () => {
       expect(representative.member.personId).toBe(delegate.personId);
   });
 
+  it("saves canonical statehood stamps on named people's voting-seat tenures", () => {
+    const events = admitted.history.events.filter((event) =>
+      event.tags.includes(STATEHOOD_PROVENANCE),
+    );
+    expect(events).toHaveLength(3);
+    for (const event of events) {
+      const personId = event.participants.find(
+        (participant) => participant.role === "focus:subject",
+      )!.personId;
+      expect(admitted.people[personId]).toBeDefined();
+      expect(event.summary).toContain("serves as");
+      expect(event.lawEffectStamps).toHaveLength(1);
+      const stamp = event.lawEffectStamps![0]!;
+      expect(isLawEffectStamp(stamp)).toBe(true);
+      expect(stamp).toMatchObject({
+        governingLawKey: "legislative-measure_statehood_test",
+        questionKey: QUESTION_KEY,
+        effectKind: "congress-voting-seat-tenure",
+        appliedAt: event.occurredAt,
+        jurisdictionId: event.jurisdictionId,
+      });
+      expect(stamp.sourceRecordIds).toContain(personId);
+    }
+    const reloaded = JSON.parse(JSON.stringify(admitted)) as World;
+    expect(
+      reloaded.history.events.filter((event) =>
+        event.tags.includes(STATEHOOD_PROVENANCE),
+      ),
+    ).toEqual(events);
+    const repeated = applyStatehoodTurnover(opened.currentDate, admitted);
+    expect(
+      repeated.history.events.filter((event) =>
+        event.tags.includes(STATEHOOD_PROVENANCE),
+      ),
+    ).toEqual(events);
+    const receipt = {
+      questionKey: QUESTION_KEY,
+      seed: opened.seed,
+      sourceProof:
+        "controlled authored enactment; inherited legislative integrity mock",
+      namedConsequences: events.map((event) => ({
+        summary: event.summary,
+        personId: event.participants[0]!.personId,
+        date: event.occurredAt,
+        stamps: event.lawEffectStamps,
+      })),
+    };
+    if (process.env.TEAM1_STATEHOOD_RECEIPT)
+      writeFileSync(
+        process.env.TEAM1_STATEHOOD_RECEIPT,
+        JSON.stringify(receipt, null, 2),
+      );
+  });
+
   it("seats the two senators as two different people", () => {
     const senate = projectCongress(admitted)!.senate.seats.filter(
       (seat) => seat.stateUsps === statehoodPlace(),
@@ -306,4 +366,99 @@ describe("the person who lives there", () => {
     expect(house.office).not.toBe("Delegate to the U.S. House");
     expect(house.holders[0]).toMatchObject({ status: "member" });
   }, 300_000);
+});
+
+const proofStates = new Set<string>();
+const proofPlaces: { seed: string; place: ReturnType<typeof observerPlace> }[] =
+  [];
+for (let n = 0; proofPlaces.length < 5 && n < 100; n += 1) {
+  const seed = `team1-statehood-person-${n}`;
+  const place = observerPlace(seed);
+  if (
+    !place.stateJurisdictionKey ||
+    proofStates.has(place.stateJurisdictionKey)
+  )
+    continue;
+  proofStates.add(place.stateJurisdictionKey);
+  proofPlaces.push({ seed, place });
+}
+const fivePlaceReceipts: unknown[] = [];
+describe("statehood named consequences across five drawn observer states", () => {
+  it.each(proofPlaces)(
+    "$seed $place.displayName retains actual member attribution",
+    ({ seed, place }) => {
+      const created = createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+      });
+      const opening = ensureLivingWorldOpening(
+        establishOpeningOfficeholders(
+          ensureWorldStartingConditions(created.world, {
+            openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+            political: generatePoliticalStartingConditions,
+          }),
+          created.playerPersonId,
+        ),
+        created.playerPersonId,
+      );
+      const passed = enact(opening, "yes", effectiveFor(opening));
+      const result = advanceWorld(
+        passed,
+        30,
+        createCampaignElectionTransitionRegistry(),
+      );
+      const events = result.history.events.filter((event) =>
+        event.tags.includes(STATEHOOD_PROVENANCE),
+      );
+      expect(events).toHaveLength(3);
+      for (const event of events) {
+        const personId = event.participants.find(
+          (participant) => participant.role === "focus:subject",
+        )!.personId;
+        expect(result.people[personId]).toBeDefined();
+        expect(event.lawEffectStamps).toHaveLength(1);
+        expect(isLawEffectStamp(event.lawEffectStamps![0])).toBe(true);
+        expect(event.lawEffectStamps![0]!.sourceRecordIds).toContain(personId);
+        expect(event.lawEffectStamps![0]!.appliedAt).toBe(event.occurredAt);
+        expect(event.lawEffectStamps![0]!.governingLawKey).toBe(
+          "legislative-measure_statehood_test",
+        );
+      }
+      const delegate = houseDelegateOccupant(opening, statehoodPlace());
+      const representative = projectCongress(result)!.house.seats.find(
+        (seat) => seat.stateUsps === statehoodPlace(),
+      )!.occupant;
+      expect(delegate.kind).toBe("member");
+      expect(representative.kind).toBe("member");
+      if (delegate.kind === "member" && representative.kind === "member")
+        expect(representative.member.personId).toBe(delegate.personId);
+      expect(JSON.parse(JSON.stringify(events))).toEqual(events);
+      expect(
+        applyStatehoodTurnover(
+          opening.currentDate,
+          result,
+        ).history.events.filter((event) =>
+          event.tags.includes(STATEHOOD_PROVENANCE),
+        ),
+      ).toEqual(events);
+      fivePlaceReceipts.push({
+        seed,
+        place: place.displayName,
+        state: place.stateJurisdictionKey,
+        questionKey: QUESTION_KEY,
+        namedConsequences: events.map((event) => ({
+          summary: event.summary,
+          personId: event.participants[0]!.personId,
+          date: event.occurredAt,
+          stamps: event.lawEffectStamps,
+        })),
+      });
+      if (process.env.TEAM1_STATEHOOD_FIVE_PLACE_RECEIPT)
+        writeFileSync(
+          process.env.TEAM1_STATEHOOD_FIVE_PLACE_RECEIPT,
+          JSON.stringify(fivePlaceReceipts, null, 2),
+        );
+    },
+  );
 });
