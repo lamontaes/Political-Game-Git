@@ -264,7 +264,6 @@ function exposureTouches(world: World, sinceSequence: number): Touch[] {
   return touches;
 }
 
-
 /** Read changed coverage, never infer a consequence from a stamp alone. */
 function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
   const touches: Touch[] = [];
@@ -275,7 +274,8 @@ function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
       row.kind !== "health-coverage" ||
       row.effectiveAt > world.currentDate ||
       row.recordedAt > world.currentDate
-    ) continue;
+    )
+      continue;
     const before = prior.get(row.personId);
     prior.set(row.personId, row.covered);
     // Initial non-coverage and a new reason without a coverage change are
@@ -284,7 +284,8 @@ function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
       before === row.covered ||
       (before === undefined && !row.covered) ||
       !world.people[row.personId]
-    ) continue;
+    )
+      continue;
     const stamps =
       "lawEffectStamps" in row && Array.isArray(row.lawEffectStamps)
         ? row.lawEffectStamps.filter(isLawEffectStamp)
@@ -293,32 +294,38 @@ function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
       asOfDate: row.effectiveAt,
       historySequenceExclusive: row.sequence + 1,
     });
-    const towns = [...new Set(residences
-      .map(({ location }) => location?.jurisdictionId)
-      .filter((id): id is EntityId => id !== undefined))].sort();
+    const towns = [
+      ...new Set(
+        residences
+          .map(({ location }) => location?.jurisdictionId)
+          .filter((id): id is EntityId => id !== undefined),
+      ),
+    ].sort();
     for (const stamp of stamps) {
       if (
         stamp.effectKind !== "health-coverage" ||
         stamp.appliedAt !== row.effectiveAt
-      ) continue;
+      )
+        continue;
       const key = `${stamp.governingLawKey}|${row.personId}`;
       const ordinal = ordinals.get(key) ?? 0;
       ordinals.set(key, ordinal + 1);
       if (row.sequence <= sinceSequence) continue;
-      for (const town of towns) touches.push({
-        measureId: stamp.governingLawKey,
-        town,
-        personIds: [row.personId],
-        reach: "health-coverage",
-        changeMinor: null,
-        movedMinor: null,
-        step: `coverage:${row.effectiveAt}:${row.covered ? "began" : "ended"}:${ordinal}`,
-        reason: null,
-        sourceRecordIds: [row.id, ...(stamp.sourceRecordIds ?? [])],
-        sectionKey: stamp.questionKey,
-        lawStamp: stamp,
-        coverage: row.covered,
-      });
+      for (const town of towns)
+        touches.push({
+          measureId: stamp.governingLawKey,
+          town,
+          personIds: [row.personId],
+          reach: "health-coverage",
+          changeMinor: null,
+          movedMinor: null,
+          step: `coverage:${row.effectiveAt}:${row.covered ? "began" : "ended"}:${ordinal}`,
+          reason: null,
+          sourceRecordIds: [row.id, ...(stamp.sourceRecordIds ?? [])],
+          sectionKey: stamp.questionKey,
+          lawStamp: stamp,
+          coverage: row.covered,
+        });
     }
   }
   return touches;
@@ -361,22 +368,27 @@ function recordLawEffect(
     (row) => row.id === first.measureId,
   );
   const stamp = first.lawStamp;
-  const startingDefinition = stamp?.source === "in-force-at-start"
-    ? Object.values(world.policyCatalog?.propositions ?? {}).find(
-        (definition) => definition.stableKey === stamp.questionKey,
-      )
-    : undefined;
+  const startingDefinition =
+    stamp?.source === "in-force-at-start"
+      ? Object.values(world.policyCatalog?.propositions ?? {}).find(
+          (definition) => definition.stableKey === stamp.questionKey,
+        )
+      : undefined;
   if (!measure && !startingDefinition) return world;
   const enactment = world.history.legislativeEnactments?.find(
     (row) => row.measureId === first.measureId,
   );
   const people = new Set(group.flatMap((touch) => touch.personIds));
   const count = people.size;
-  const law = enactment?.actDesignation ?? measure?.designation ?? startingDefinition!.name;
+  const law =
+    enactment?.actDesignation ??
+    measure?.designation ??
+    startingDefinition!.name;
   // The place is the record's own; a paper adds it where its readers need it.
-  const summary = first.reach === "health-coverage"
-    ? `Under ${law}, ${effectPhrase(group, count)}.`
-    : `${law} ${effectPhrase(group, count)}.`;
+  const summary =
+    first.reach === "health-coverage"
+      ? `Under ${law}, ${effectPhrase(group, count)}.`
+      : `${law} ${effectPhrase(group, count)}.`;
   const detail = detailSentence(world, group, enactment);
   return recordWorldEvent(world, {
     stableKey,
@@ -488,9 +500,10 @@ function detailSentence(
 ): string {
   const parts: string[] = [];
   const stamp = group[0]!.lawStamp;
-  if (stamp) parts.push(
-    `Coverage records changed on ${spokenDate(stamp.appliedAt)} under the governing rule. This attribution does not establish that a new enactment alone caused the change.`,
-  );
+  if (stamp)
+    parts.push(
+      `Coverage records changed on ${spokenDate(stamp.appliedAt)} under the governing rule. This attribution does not establish that a new enactment alone caused the change.`,
+    );
   const reasons = new Map<string, number>();
   for (const touch of group)
     if (touch.reason)
