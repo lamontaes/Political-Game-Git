@@ -216,6 +216,8 @@ The actual playtest-copy branch contains the removal of News's repeated officeho
 
 The changed test and all five product source files pass the scoped typecheck: 6 files, zero selected-file diagnostics. The program also reported 5 diagnostics outside the selected files; this is not a full-project typecheck pass. The one-file provenance test passes 1/1. ESLint, Prettier and whitespace checks pass for the repair. The dispatched test path was claimed under the restored atomic mkdir protocol, after rechecking current ownership while held. No renderer source was edited.
 
+The News repair source checkpoint is `06ae82173aece9e148fec43f27621d68b821ada0` on the actual `codex/team-5-playtest-copy` branch. Logs are `/private/tmp/team5-news-provenance-rerun.log` and `/private/tmp/team5-playtest-copy-typecheck.log`. The test took 195.98 seconds including imports; its test body took 20.39 seconds. This is a focused markup proof, not browser acceptance.
+
 The News repair is published at `eabf92a1ace26365c38802c4f56b8701827b25ff` on the actual playtest-copy branch, READY and unmerged when verified.
 
 The focused test log is `/private/tmp/team5-news-provenance-rerun.log`. It reports 195.98 seconds total and 20.39 seconds in the test body. This is a markup proof, not browser acceptance.

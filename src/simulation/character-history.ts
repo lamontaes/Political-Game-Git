@@ -659,16 +659,26 @@ export function createCharacterHistoryContextPeople(
 ): World {
   if (inputs.length === 0) return world;
   const lineage = contextAppearanceLineage(world);
-  const people = { ...world.people };
-  const personOrder = [...world.personOrder];
-  const probe: World = { ...world, people };
+  let people: Record<EntityId, Person> | undefined;
+  let personOrder: EntityId[] | undefined;
+  let probe = world;
   for (const input of inputs) {
     const person = buildCharacterHistoryContextPerson(probe, input, lineage);
     if (!person) continue;
+    // Existing inputs still pass the same validation, but need no table copy.
+    if (!people) {
+      people = {};
+      // Preserve the table's own key order, including after a save reload.
+      // An explicit copy avoids V8's slower spread for this large dictionary.
+      for (const id of Object.keys(world.people) as EntityId[])
+        people[id] = world.people[id]!;
+      personOrder = [...world.personOrder];
+      probe = { ...world, people };
+    }
     people[person.id] = person;
-    personOrder.push(person.id);
+    personOrder!.push(person.id);
   }
-  if (personOrder.length === world.personOrder.length) return world;
+  if (!people || !personOrder) return world;
   const next: World = { ...world, people, personOrder };
   // Appended people carry this exact lineage, so they cannot change it.
   CONTEXT_LINEAGES.set(people, lineage);

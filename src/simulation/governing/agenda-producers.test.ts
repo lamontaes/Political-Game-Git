@@ -12,9 +12,16 @@ import { ensureNationalElectionJurisdiction } from "../national-election-geograp
 import { createFormationContext, recordPrinciples } from "../politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
-import { seatedCongressChamber } from "./congress-chambers";
-import { seatedChamberForPack } from "./chamber-votes";
-import { fileCongressBill } from "./congress-lawmaking";
+import {
+  COSPONSOR_EVENT,
+  measureCosponsors,
+  seatedCongressChamber,
+} from "./congress-chambers";
+import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
+import {
+  CONGRESS_LAWMAKING_PROFILE,
+  fileCongressBill,
+} from "./congress-lawmaking";
 import { fileMemberAgendaBills } from "./member-agenda";
 import { principledLeaning } from "./officeholder-principles";
 import { agendaCaucus } from "./majority-agenda";
@@ -115,6 +122,85 @@ describe("majority-backed filing producers", () => {
     expect(measure).toBeDefined();
     expect(measure.sponsorPersonId).not.toBeNull();
     backing(next, measure, members);
+    const answer = measure.propositionAnswers![0]!;
+    const expected = members.filter((member) => {
+      if (member.personId === measure.sponsorPersonId) return false;
+      const score = principledLeaning(
+        next,
+        member.personId!,
+        answer.propositionId,
+      ).score;
+      return (
+        (answer.answer === "yes" ? score : -score) >=
+        CONGRESS_LAWMAKING_PROFILE.filingThreshold
+      );
+    });
+    const sponsor = members.find(
+      (member) => member.personId === measure.sponsorPersonId,
+    )!;
+    expect(
+      expected.filter((member) => member.partyKey !== sponsor.partyKey).length,
+    ).toBeGreaterThan(0);
+    expect([...measureCosponsors(next, measure.id)].sort()).toEqual(
+      expected.map((member) => member.personId!).sort(),
+    );
+
+    // A neutral unit fixture isolates the cue heard by an unsigned peer.
+    // The real filing above is preserved; this is not a watched-world claim.
+    const opposition = members
+      .filter((member) => member.partyKey !== sponsor.partyKey)
+      .slice(0, 2);
+    const signer = opposition[0]!;
+    const unsigned = opposition[1]!;
+    const signed = next.history.events.find(
+      (event) =>
+        event.type === COSPONSOR_EVENT &&
+        event.involvedEntityIds.includes(measure.id),
+    )!;
+    const cueWorld: World = {
+      ...next,
+      history: {
+        ...initial.world.history,
+        legislativeMeasures: [
+          { ...measure, propositionIds: [], propositionAnswers: [] },
+        ],
+        events: [
+          {
+            ...signed,
+            involvedEntityIds: [measure.id, signer.personId!],
+            participants: [
+              {
+                personId: signer.personId!,
+                role: "agency:cosponsor",
+                detail: "Explicit cross-party signer in the cue fixture.",
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const ballots = decideChamberVote(cueWorld, {
+      stableKey: "cross-party-signature-cue",
+      question: {
+        question: {
+          measureId: measure.id,
+          purpose: "floor-stage",
+          forumKey: "house",
+          floorStageKey: null,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: "Pass this measure?",
+      },
+      members: [sponsor, signer, unsigned],
+      contested: true,
+    });
+    expect(
+      ballots.find((ballot) => ballot.personId === signer.personId),
+    ).toMatchObject({ disposition: "yea", reason: "member:cosponsor" });
+    expect(
+      ballots.find((ballot) => ballot.personId === unsigned.personId),
+    ).toMatchObject({ disposition: "nay", reason: "member:party-cue:other" });
     expect(
       fileCongressBill(next, {
         chamberKey: "house",
