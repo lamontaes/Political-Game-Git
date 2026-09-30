@@ -64,11 +64,7 @@ import {
   anyMinimumWageQuestionEnacted,
   startingMinimumHourly,
 } from "../minimum-wage";
-import {
-  menPartneredWithMen,
-  payAtHire,
-  UNCOVERED_PAY_NOTE,
-} from "../fairness-pay-law";
+import { menPartneredWithMen, payAtHire } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { resourceFlowTermsAt } from "../resource-queries";
@@ -782,7 +778,7 @@ export function startTownJobPay(
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${paid?.note}` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
       },
     });
   }

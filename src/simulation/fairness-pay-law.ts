@@ -4,6 +4,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
+import { drawnLinkSize } from "./outcome-web";
 import { personGender } from "./person-identity";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -11,7 +12,7 @@ import type { EntityId, IsoDate, World } from "./types";
  * WHAT A FAIRNESS LAW DOES TO PAY. A state law, or a town's own ordinance,
  * that bars discrimination by sexual orientation in employment closes part of
  * the pay gap for men whose partner is a man: Burn (2018, Journal of Labor
- * Research) found such state laws raised their hourly pay 2.7%, with no gain
+ * Research) estimated a .027 log-hourly-wage gain (SE .012), with no established gain
  * for women in same-sex couples (Delhommer and Vamossy find the same pattern
  * for state and local laws).
  *
@@ -34,11 +35,39 @@ export const FAIRNESS_STATE_QUESTION =
 export const FAIRNESS_CITY_QUESTION =
   "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance";
 
-/** Burn (2018): the pay gain such a law brings, as a share of pay. */
-export const FAIRNESS_LAW_PAY_GAIN = 0.027;
+/**
+ * Burn (2018), Table 3: log hourly wage coefficient .027, clustered SE .012.
+ * Normal 95% sampling interval = .027 +/- 1.96*.012. This is sampling
+ * uncertainty, not measured state heterogeneity. The pre-2020 state-law
+ * study does not establish post-Bostock or municipal incremental effects.
+ * https://doi.org/10.1007/s12122-018-9272-0
+ */
+export const FAIRNESS_LOG_PAY_GAIN = {
+  central: 0.027,
+  low: 0.027 - 1.96 * 0.012,
+  high: 0.027 + 1.96 * 0.012,
+} as const;
 
-/** The pay of a covered man hired where no law covers him, as a share of the job's rate. */
-export const UNCOVERED_PAY_SHARE = 1 / (1 + FAIRNESS_LAW_PAY_GAIN);
+/** One research-bounded wage coefficient for this world and state. */
+export function uncoveredPayShareAt(
+  world: World,
+  jurisdictionId: EntityId,
+): number {
+  const key = lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+  const stateId = key ? stateJurisdictionForKey(key)?.id : undefined;
+  const logGain = drawnLinkSize(
+    world,
+    {
+      key: "direct:fairness-law-log-hourly-pay",
+      size: FAIRNESS_LOG_PAY_GAIN.central,
+      range: [FAIRNESS_LOG_PAY_GAIN.low, FAIRNESS_LOG_PAY_GAIN.high],
+      evidence: "researched",
+    },
+    stateId ?? jurisdictionId,
+  );
+  // A log-wage gain becomes a wage ratio through exp, not 1 + coefficient.
+  return Math.exp(-logGain);
+}
 
 const SEXUAL_ORIENTATION = "sexual-orientation";
 
@@ -142,12 +171,9 @@ export function fairnessLawCovers(
   );
 }
 
-/** The share of the job's pay a man partnered with a man is hired at, as the provenance of his pay says it. */
-export const UNCOVERED_PAY_NOTE = `${((1 - UNCOVERED_PAY_SHARE) * 100).toFixed(1)}% below the job's rate: no fairness law covers him where he works`;
-
 /**
  * What a person hired on `date` for work in `jobJurisdictionId` is paid, from
- * the job's pay `amountMinor`: the job's pay over 1.027 when he is a man
+ * the job's pay `amountMinor`: the world's state wage share when he is a man
  * partnered with a man whom no fairness law covers there, never below
  * `floorMinor` (the minimum wage for the same hours); otherwise the job's
  * pay. One rule for every hire, the player's and the town's alike.
@@ -161,10 +187,20 @@ export function payAtHire(
     readonly amountMinor: number;
     readonly floorMinor: number;
   },
-): { readonly amountMinor: number; readonly belowRate: boolean } {
-  const unchanged = { amountMinor: input.amountMinor, belowRate: false };
+): {
+  readonly amountMinor: number;
+  readonly belowRate: boolean;
+  readonly note: string;
+} {
+  const unchanged = {
+    amountMinor: input.amountMinor,
+    belowRate: false,
+    note: "",
+  };
   if (
     input.amountMinor <= 0 ||
+    !input.jobJurisdictionId ||
+    !lifePlaceByJurisdictionId(input.jobJurisdictionId) ||
     !menPartneredWithMen(world, input.date, input.personId).has(
       input.personId,
     ) ||
@@ -172,8 +208,17 @@ export function payAtHire(
   )
     return unchanged;
   const amountMinor = Math.max(
-    Math.round(input.amountMinor * UNCOVERED_PAY_SHARE),
+    Math.round(
+      input.amountMinor * uncoveredPayShareAt(world, input.jobJurisdictionId),
+    ),
     Math.min(Math.round(input.floorMinor), input.amountMinor),
   );
-  return { amountMinor, belowRate: amountMinor < input.amountMinor };
+  const belowRate = amountMinor < input.amountMinor;
+  return {
+    amountMinor,
+    belowRate,
+    note: belowRate
+      ? `${((1 - amountMinor / input.amountMinor) * 100).toFixed(1)}% below the job's rate: no recorded state or town fairness protection covers him where he works`
+      : "",
+  };
 }

@@ -65,7 +65,7 @@ import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   minimumWageSettingAt,
 } from "./minimum-wage";
-import { payAtHire, UNCOVERED_PAY_NOTE } from "./fairness-pay-law";
+import { payAtHire } from "./fairness-pay-law";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import {
   createScheduledActivity,
@@ -489,7 +489,7 @@ export function shiftPayAtHire(
   });
   return {
     amountMinor: paid.amountMinor,
-    note: paid.belowRate ? ` Paid ${UNCOVERED_PAY_NOTE}.` : "",
+    note: paid.belowRate ? ` Paid ${paid.note}.` : "",
   };
 }
 function relationshipActor(world: World, id: EntityId): EntityId | undefined {
