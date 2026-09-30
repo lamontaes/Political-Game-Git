@@ -1,21 +1,12 @@
 import { describeInterval } from "./time-target-label";
 import {
-  activeChildAuthoritiesAt,
-  ageOnDate,
-  householdMembershipsAt,
-  peopleInHouseholdAt,
-  personName,
   scheduledActivityPerformanceTiming,
   scheduledActivityState,
   type EntityId,
   type ScheduledActivityRecord,
   type World,
 } from "../simulation";
-import {
-  openingLifeLocation,
-  openingNeighborhoodWalkOffer,
-  type OpeningWalkOffer,
-} from "./life-scene-flow";
+import { openingLifeLocation } from "./life-scene-flow";
 import { resolveLifeScene } from "./life-scene";
 import { proseDate } from "./prose-dates";
 import { municipalWorkspaceFor } from "./municipal-workspace";
@@ -83,9 +74,6 @@ export function projectPlacesWorkspace(
   };
 
   const offers: PlacesOfferView[] = [];
-  for (const destination of ["neighborhood", "home"] as const) {
-    offers.push(projectWalkOffer(world, personId, destination));
-  }
   const venueEntries = venueActivities(world, personId);
   const bundledJourneyIds = new Set(
     venueEntries.flatMap((entry) =>
@@ -146,26 +134,6 @@ export function projectPlacesWorkspace(
     completedHere: completed
       ? { title: completed.title, locationLabel: completed.location.label }
       : null,
-  };
-}
-
-function projectWalkOffer(
-  world: World,
-  personId: EntityId,
-  destination: "home" | "neighborhood",
-): PlacesOfferView {
-  const offer = openingNeighborhoodWalkOffer(world, personId, destination);
-  const companionLabel = walkCompanionLabel(world, personId, offer);
-  return {
-    id: destination === "home" ? "walk-home" : "walk-neighborhood",
-    kind: destination === "home" ? "return-home" : "travel",
-    title: offer.label,
-    detail: offer.fromLabel ? `From ${offer.fromLabel}.` : null,
-    minutes: offer.minutes,
-    durationLabel: describeInterval(offer.minutes),
-    unavailable: offer.unavailable,
-    companionLabel,
-    walkDestination: destination,
   };
 }
 
@@ -258,40 +226,6 @@ function projectMunicipalMeetingOffer(
     governmentKey,
     meetingId: meeting.id,
   };
-}
-
-function sceneHouseholdId(world: World, personId: EntityId): EntityId | null {
-  const memberships = householdMembershipsAt(world, personId);
-  const primary = memberships.filter(
-    (entry) => entry.state.residenceRole === "primary",
-  );
-  const household =
-    primary.length === 1
-      ? primary[0]
-      : memberships.length === 1
-        ? memberships[0]
-        : undefined;
-  return household?.household.id ?? null;
-}
-
-function walkCompanionLabel(
-  world: World,
-  personId: EntityId,
-  offer: OpeningWalkOffer,
-): string | null {
-  if (offer.unavailable !== null) return null;
-  const age = ageOnDate(world.people[personId]!.birthDate, world.currentDate);
-  if (age >= 18) return null;
-  const householdId = sceneHouseholdId(world, personId);
-  if (!householdId) return null;
-  const housemates = peopleInHouseholdAt(world, householdId);
-  const guardian = activeChildAuthoritiesAt(world, personId).find(
-    (entry) =>
-      entry.authority.holder.kind === "person" &&
-      housemates.includes(entry.authority.holder.personId),
-  );
-  if (guardian?.authority.holder.kind !== "person") return null;
-  return `${personName(world.people[guardian.authority.holder.personId]!)} would come with you.`;
 }
 
 /** Reports clock and arrival changes after a committed Places action. */

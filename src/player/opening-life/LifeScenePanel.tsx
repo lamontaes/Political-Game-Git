@@ -15,8 +15,6 @@ import type {
 import {
   currentOpeningLifeScene,
   chooseOpeningLifeScene,
-  openingNeighborhoodWalkOffer,
-  walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
 import { formatMinute } from "../../presentation/player-calendar";
 import { proseDate } from "../../presentation/prose-dates";
@@ -64,7 +62,7 @@ export function LifeScenePanel({
   transitionHandlers?: FutureTransitionHandlerRegistry;
   /**
    * Where the panel stands. In the room it is the scene alone — prose,
-   * choices and who to talk to. Walks, the walking group and personal plans
+   * choices and who to talk to. The walking group and personal plans
    * are actions of the life, not of the scene, and stay in Personal.
    */
   variant?: "room" | "workspace";
@@ -265,51 +263,6 @@ export function LifeScenePanel({
       ) : null}
       {inRoom ? null : (
         <>
-          {/*
-        Both walks, each carrying its own answer.
-
-        These were two unconditional buttons, so "Walk home" was offered while
-        standing at home and refused with a message about the calendar. Now the
-        offer says whether it can be taken and why not, and a walk that cannot
-        be taken is disabled with its actual reason beside it rather than
-        pretending to be available.
-      */}
-          <div className="game-choices" data-testid="life-walks">
-            {(["neighborhood", "home"] as const).map((destination) => {
-              const offer = openingNeighborhoodWalkOffer(
-                world,
-                playerPersonId,
-                destination,
-              );
-              return (
-                <p key={destination} className="life-walk">
-                  <button
-                    className="ui-action"
-                    type="button"
-                    data-testid={`life-walk-${destination}`}
-                    disabled={offer.unavailable !== null}
-                    onClick={() =>
-                      commit(() =>
-                        walkOpeningNeighborhood(
-                          world,
-                          playerPersonId,
-                          destination,
-                          transitionHandlers,
-                        ),
-                      )
-                    }
-                  >
-                    {offer.label} · {describeInterval(offer.minutes)}
-                  </button>
-                  {offer.unavailable ? (
-                    <small data-testid={`life-walk-${destination}-reason`}>
-                      {offer.unavailable}
-                    </small>
-                  ) : null}
-                </p>
-              );
-            })}
-          </div>
           {canJoinOrdinaryGroup(world, playerPersonId) ? (
             <button
               className="ui-action"

@@ -53,6 +53,8 @@ export interface BackdropPerson {
   readonly heightPercent: number;
   /** Behind a counter or podium: nothing below this line shows. */
   readonly clipBelowPercent: number | null;
+  /** Open furniture hides a band ending here; legs remain visible below it. */
+  readonly clipBandEndPercent: number | null;
   /** Draw order: 0 is farthest; nearer people are drawn over farther ones. */
   readonly depth: number;
   readonly engine: EngineRecipe;
