@@ -1,0 +1,2418 @@
+{
+  "schema": "team7-inherited-spot-audit/v1",
+  "sourceHead": "54930d427555034f3a92f335064586247985784d",
+  "sourceStagingSha256": "38d699e8babd4166eefcf5e96c46aa615f9406b03d3385d6b96766a0e01e11a0",
+  "status": "candidate-reviewed-at-reduced-display; runtime-fit-unaccepted",
+  "images": [
+    {
+      "key": "state-capitol-ak",
+      "source": {
+        "key": "state-capitol-ak",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ak__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "08b70035ebb739d4f5ec254301a3189d626d6aa0fb99b89240c5a7d96f0da830"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 56,
+            "y": 87.9,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "floor": "steps"
+          },
+          "footPx": [
+            936.32,
+            827.14
+          ],
+          "inheritedStandingHeightPercent": 5.049,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 38,
+            "y": 89.3,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            635.36,
+            840.31
+          ],
+          "inheritedStandingHeightPercent": 5.4332,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 46,
+            "y": 90.6,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 3,
+            "seatY": 89.4
+          },
+          "footPx": [
+            769.12,
+            852.55
+          ],
+          "inheritedStandingHeightPercent": 6.4719,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 64,
+            "y": 90.2,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1070.08,
+            848.78
+          ],
+          "inheritedStandingHeightPercent": 6.1523,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 71,
+            "y": 91.6,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1187.12,
+            861.96
+          ],
+          "inheritedStandingHeightPercent": 7.2709,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 53,
+            "y": 92.3,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            886.16,
+            868.54
+          ],
+          "inheritedStandingHeightPercent": 7.8302,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-al",
+      "source": {
+        "key": "state-capitol-al",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-al__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "c0ae6d9a1ad9015a6d008ec187de2b149b1db20d3a452d317ec5c830fe407aaa"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 60,
+            "y": 78.6,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            1003.2,
+            739.63
+          ],
+          "inheritedStandingHeightPercent": 4.25,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 25,
+            "y": 84,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            418.0,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 8.84,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 75.5,
+            "y": 84.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1262.36,
+            795.14
+          ],
+          "inheritedStandingHeightPercent": 9.265,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 19,
+            "y": 88,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            317.68,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 12.24,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 50,
+            "y": 93,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            875.13
+          ],
+          "inheritedStandingHeightPercent": 16.49,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-ar",
+      "source": {
+        "key": "state-capitol-ar",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ar__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "1e6b9ee52c9a9d8b2d6513599827b312fd857d636728290eb8827c72780e1f21"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 40,
+            "y": 68.8,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            668.8,
+            647.41
+          ],
+          "inheritedStandingHeightPercent": 3.3524,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 7.5,
+            "y": 69.9,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            125.4,
+            657.76
+          ],
+          "inheritedStandingHeightPercent": 3.9882,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 71,
+            "y": 72.3,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1187.12,
+            680.34
+          ],
+          "inheritedStandingHeightPercent": 5.3754,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 22,
+            "y": 73.2,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            367.84,
+            688.81
+          ],
+          "inheritedStandingHeightPercent": 5.8956,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 34,
+            "y": 80,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            568.48,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 9.826,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 52,
+            "y": 89,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            869.44,
+            837.49
+          ],
+          "inheritedStandingHeightPercent": 15.028,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-as",
+      "source": {
+        "key": "state-capitol-as",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-as__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "d76570b0592b33b002574c249b83044ad0180abf0a357ba79380040597327d20"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 42,
+            "y": 78.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "seatY": 75.6
+          },
+          "footPx": [
+            702.24,
+            736.8
+          ],
+          "inheritedStandingHeightPercent": 8.8893,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 57,
+            "y": 79.8,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            953.04,
+            750.92
+          ],
+          "inheritedStandingHeightPercent": 10.4958,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 66,
+            "y": 80,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1103.52,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 10.71,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 33.5,
+            "y": 80.8,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            560.12,
+            760.33
+          ],
+          "inheritedStandingHeightPercent": 11.5668,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 22,
+            "y": 92.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            367.84,
+            870.42
+          ],
+          "inheritedStandingHeightPercent": 24.0975,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 50,
+            "y": 93,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            875.13
+          ],
+          "inheritedStandingHeightPercent": 24.633,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-az",
+      "source": {
+        "key": "state-capitol-az",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-az__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "848afba1713d7de537138590d181debb82d1f8b0fee425ccabd1d02cd9602a46"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 30,
+            "y": 80,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            501.6,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 9.6305,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 75,
+            "y": 79.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1254.0,
+            748.1
+          ],
+          "inheritedStandingHeightPercent": 8.755,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 60,
+            "y": 86,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1003.2,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 20.1365,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 24.5,
+            "y": 91.8,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            409.64,
+            863.84
+          ],
+          "inheritedStandingHeightPercent": 30.2923,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 79.5,
+            "y": 90.8,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1329.24,
+            854.43
+          ],
+          "inheritedStandingHeightPercent": 28.5413,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 40,
+            "y": 92.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            668.8,
+            870.42
+          ],
+          "inheritedStandingHeightPercent": 31.518,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-ca",
+      "source": {
+        "key": "state-capitol-ca",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ca__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "fae5a806af4700c66c0c750eaf5d39967a607a0dbab9e4c5150b6582048d4933"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 41,
+            "y": 86.8,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            685.52,
+            816.79
+          ],
+          "inheritedStandingHeightPercent": 6.3206,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 52,
+            "y": 86,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "seatY": 84.2
+          },
+          "footPx": [
+            869.44,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 5.967,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 59.5,
+            "y": 86.8,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            994.84,
+            816.79
+          ],
+          "inheritedStandingHeightPercent": 6.3206,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 67.5,
+            "y": 86,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1128.6,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 5.967,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 72,
+            "y": 95,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1203.84,
+            893.95
+          ],
+          "inheritedStandingHeightPercent": 9.945,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 24.5,
+            "y": 96.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            409.64,
+            908.07
+          ],
+          "inheritedStandingHeightPercent": 10.608,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-co",
+      "source": {
+        "key": "state-capitol-co",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-co__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "c7084bccf7f8a79226232ff46c6b1ffe7455619d5de5da8db9ce65bf4939a0ac"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 52.5,
+            "y": 84.2,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0,
+            "floor": "steps"
+          },
+          "footPx": [
+            877.8,
+            792.32
+          ],
+          "inheritedStandingHeightPercent": 2.9723,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 36,
+            "y": 92,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            601.92,
+            865.72
+          ],
+          "inheritedStandingHeightPercent": 3.4425,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 43.5,
+            "y": 91.4,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            727.32,
+            860.07
+          ],
+          "inheritedStandingHeightPercent": 3.3966,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 50,
+            "y": 92.2,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            867.6
+          ],
+          "inheritedStandingHeightPercent": 3.4578,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 62,
+            "y": 92,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1036.64,
+            865.72
+          ],
+          "inheritedStandingHeightPercent": 3.4425,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 47.5,
+            "y": 98,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 4,
+            "seatY": 96.8
+          },
+          "footPx": [
+            794.2,
+            922.18
+          ],
+          "inheritedStandingHeightPercent": 3.9015,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-ct",
+      "source": {
+        "key": "state-capitol-ct",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ct__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "7467d3f5352cec9b1bc52a87316234adfee7e0681fa6aa6f4ffe910a7db4dd02"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 52,
+            "y": 83,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "seatY": 81.4
+          },
+          "footPx": [
+            869.44,
+            781.03
+          ],
+          "inheritedStandingHeightPercent": 5.44,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 44,
+            "y": 84,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            735.68,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 6.12,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 59,
+            "y": 86,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            986.48,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 7.48,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 34,
+            "y": 87.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            568.48,
+            823.38
+          ],
+          "inheritedStandingHeightPercent": 8.5,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 27,
+            "y": 91.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            451.44,
+            861.01
+          ],
+          "inheritedStandingHeightPercent": 11.22,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 50,
+            "y": 96,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            903.36
+          ],
+          "inheritedStandingHeightPercent": 14.28,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-dc",
+      "source": {
+        "key": "state-capitol-dc",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-dc__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "83eeecc4a0fcfa8cace67df3166ea4bc78fc0145ea5d10441740d3fc7e8c3e21"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 48,
+            "y": 89,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "seatY": 87.7
+          },
+          "footPx": [
+            802.56,
+            837.49
+          ],
+          "inheritedStandingHeightPercent": 4.2126,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 56,
+            "y": 89.6,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            936.32,
+            843.14
+          ],
+          "inheritedStandingHeightPercent": 4.8144,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 80,
+            "y": 90.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1337.6,
+            851.61
+          ],
+          "inheritedStandingHeightPercent": 5.7171,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 52,
+            "y": 93,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            869.44,
+            875.13
+          ],
+          "inheritedStandingHeightPercent": 8.2246,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 57.5,
+            "y": 95.2,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            961.4,
+            895.83
+          ],
+          "inheritedStandingHeightPercent": 10.4312,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 30,
+            "y": 97.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            501.6,
+            917.48
+          ],
+          "inheritedStandingHeightPercent": 12.7381,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-de",
+      "source": {
+        "key": "state-capitol-de",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-de__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "202e4505e8644b8e2835083fcb4db513df3fb46c4f55022e24d57ed624499abb"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 44,
+            "y": 78,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            735.68,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 5.78,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 53,
+            "y": 77.8,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "seatY": 76
+          },
+          "footPx": [
+            886.16,
+            732.1
+          ],
+          "inheritedStandingHeightPercent": 5.7222,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 56,
+            "y": 82,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            936.32,
+            771.62
+          ],
+          "inheritedStandingHeightPercent": 6.936,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 32,
+            "y": 84.2,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            535.04,
+            792.32
+          ],
+          "inheritedStandingHeightPercent": 7.5718,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 57.5,
+            "y": 89.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            961.4,
+            842.2
+          ],
+          "inheritedStandingHeightPercent": 9.1035,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 45.5,
+            "y": 88,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            760.76,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 8.67,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-dome",
+      "source": {
+        "key": "state-capitol-dome",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-dome__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "bb69c579dc90d97b29deee852fc9fadaff640318f3fead7f947ecc21bbbf0333"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 50,
+            "y": 93,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            875.13
+          ],
+          "inheritedStandingHeightPercent": 39.27,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 31,
+            "y": 84,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            518.32,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 30.09,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 72,
+            "y": 85.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1203.84,
+            804.55
+          ],
+          "inheritedStandingHeightPercent": 31.62,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 86,
+            "y": 90,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            1437.92,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 36.21,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 27.5,
+            "y": 66,
+            "pose": "lean",
+            "facing": "viewer",
+            "depth": 2
+          },
+          "footPx": [
+            459.8,
+            621.06
+          ],
+          "inheritedStandingHeightPercent": 11.73,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 60,
+            "y": 64.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            1003.2,
+            606.95
+          ],
+          "inheritedStandingHeightPercent": 10.2,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 44,
+            "y": 64.8,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            735.68,
+            609.77
+          ],
+          "inheritedStandingHeightPercent": 10.506,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-fl",
+      "source": {
+        "key": "state-capitol-fl",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-fl__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "b719d23a0a65dd9e1012453123833213137bc2c8b205c3946f2629e2e74cd65a"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 52.5,
+            "y": 83.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 0,
+            "seatY": 81.9
+          },
+          "footPx": [
+            877.8,
+            783.85
+          ],
+          "inheritedStandingHeightPercent": 4.4064,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 44,
+            "y": 85,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            735.68,
+            799.85
+          ],
+          "inheritedStandingHeightPercent": 5.967,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 57,
+            "y": 86.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            953.04,
+            813.97
+          ],
+          "inheritedStandingHeightPercent": 7.344,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 38.2,
+            "y": 88.4,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            638.7,
+            831.84
+          ],
+          "inheritedStandingHeightPercent": 9.0882,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 64.3,
+            "y": 89,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1075.1,
+            837.49
+          ],
+          "inheritedStandingHeightPercent": 9.639,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 25,
+            "y": 91.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            418.0,
+            861.01
+          ],
+          "inheritedStandingHeightPercent": 11.934,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 50,
+            "y": 91.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            861.01
+          ],
+          "inheritedStandingHeightPercent": 11.934,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-ga",
+      "source": {
+        "key": "state-capitol-ga",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ga__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "b61d00e01e6d71aadf32d781383cac2a17fdfcc3f4b6ab2a829e9d3edcb40a2c"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 25,
+            "y": 86.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 0
+          },
+          "footPx": [
+            418.0,
+            813.97
+          ],
+          "inheritedStandingHeightPercent": 5.8905,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 37,
+            "y": 91,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 2,
+            "seatY": 87.6
+          },
+          "footPx": [
+            618.64,
+            856.31
+          ],
+          "inheritedStandingHeightPercent": 8.568,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 8,
+            "y": 94.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            133.76,
+            889.25
+          ],
+          "inheritedStandingHeightPercent": 10.6505,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 62,
+            "y": 92,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1036.64,
+            865.72
+          ],
+          "inheritedStandingHeightPercent": 9.163,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 80,
+            "y": 90.9,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            1337.6,
+            855.37
+          ],
+          "inheritedStandingHeightPercent": 8.5085,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 44,
+            "y": 95.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            735.68,
+            898.65
+          ],
+          "inheritedStandingHeightPercent": 11.2455,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-gu",
+      "source": {
+        "key": "state-capitol-gu",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-gu__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "4ef5ea8f01608ac8bef8b6a2d16e046cc336565efbab327ccf9205fe49e29ee7"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 45,
+            "y": 65,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            752.4,
+            611.65
+          ],
+          "inheritedStandingHeightPercent": 12.24,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 56,
+            "y": 68,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            936.32,
+            639.88
+          ],
+          "inheritedStandingHeightPercent": 15.3,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 37.5,
+            "y": 71.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            627.0,
+            672.82
+          ],
+          "inheritedStandingHeightPercent": 18.87,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 29,
+            "y": 73.3,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 3,
+            "seatY": 68.9
+          },
+          "footPx": [
+            484.88,
+            689.75
+          ],
+          "inheritedStandingHeightPercent": 20.706,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 72,
+            "y": 74.3,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1203.84,
+            699.16
+          ],
+          "inheritedStandingHeightPercent": 21.726,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 47,
+            "y": 77,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            785.84,
+            724.57
+          ],
+          "inheritedStandingHeightPercent": 24.48,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-hi",
+      "source": {
+        "key": "state-capitol-hi",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-hi__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "fb6b5773ceaecea892210f0e8548c605da53e72e9a4b1b861e6a4d46186d73be"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 44,
+            "y": 76,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            735.68,
+            715.16
+          ],
+          "inheritedStandingHeightPercent": 5.355,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 45,
+            "y": 80,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 1
+          },
+          "footPx": [
+            752.4,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 7.395,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 58,
+            "y": 80,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            969.76,
+            752.8
+          ],
+          "inheritedStandingHeightPercent": 7.395,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 36.5,
+            "y": 89.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            610.28,
+            842.2
+          ],
+          "inheritedStandingHeightPercent": 12.24,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 65.5,
+            "y": 90,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 3
+          },
+          "footPx": [
+            1095.16,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 12.495,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 67,
+            "y": 98,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            1120.24,
+            922.18
+          ],
+          "inheritedStandingHeightPercent": 16.575,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 50,
+            "y": 98.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            926.88
+          ],
+          "inheritedStandingHeightPercent": 16.83,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-ia",
+      "source": {
+        "key": "state-capitol-ia",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ia__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "3b1d2a0bc466d6bfe55811dde692f5d48c7e91fede803d491071b3e6344954fa"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 44,
+            "y": 82,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            735.68,
+            771.62
+          ],
+          "inheritedStandingHeightPercent": 3.417,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 57,
+            "y": 83,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            953.04,
+            781.03
+          ],
+          "inheritedStandingHeightPercent": 3.5309,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 37.8,
+            "y": 84.6,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            632.02,
+            796.09
+          ],
+          "inheritedStandingHeightPercent": 3.7131,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 45,
+            "y": 89.4,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 3,
+            "seatY": 88.1
+          },
+          "footPx": [
+            752.4,
+            841.25
+          ],
+          "inheritedStandingHeightPercent": 4.2599,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 40,
+            "y": 91.3,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            668.8,
+            859.13
+          ],
+          "inheritedStandingHeightPercent": 4.4763,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 51,
+            "y": 91.2,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            852.72,
+            858.19
+          ],
+          "inheritedStandingHeightPercent": 4.4649,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-id",
+      "source": {
+        "key": "state-capitol-id",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-id__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "c978643e46bfa6082797e14989913ee00f89f98e8feb7b4b7755298b1493b1ba"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 34.3,
+            "y": 69.2,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 0
+          },
+          "footPx": [
+            573.5,
+            651.17
+          ],
+          "inheritedStandingHeightPercent": 4.027,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 45.8,
+            "y": 71.8,
+            "pose": "sit",
+            "facing": "viewer",
+            "depth": 1,
+            "seatY": 70.4
+          },
+          "footPx": [
+            765.78,
+            675.64
+          ],
+          "inheritedStandingHeightPercent": 4.4424,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 70,
+            "y": 86,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1170.4,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 6.7116,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 30,
+            "y": 88,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            501.6,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 7.0312,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 20,
+            "y": 93.5,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 5
+          },
+          "footPx": [
+            334.4,
+            879.84
+          ],
+          "inheritedStandingHeightPercent": 7.9101,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 50,
+            "y": 92,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 4,
+            "hero": true
+          },
+          "footPx": [
+            836.0,
+            865.72
+          ],
+          "inheritedStandingHeightPercent": 7.6704,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-il",
+      "source": {
+        "key": "state-capitol-il",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-il__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "483758d6ad63bc261019394eed7852a1c96e003e7b0efd8ac2193a960ca023e2"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 62,
+            "y": 71,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            1036.64,
+            668.11
+          ],
+          "inheritedStandingHeightPercent": 3.485,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 70,
+            "y": 74.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            1170.4,
+            701.04
+          ],
+          "inheritedStandingHeightPercent": 5.9245,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 39.5,
+            "y": 80.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 3
+          },
+          "footPx": [
+            660.44,
+            757.5
+          ],
+          "inheritedStandingHeightPercent": 10.1065,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 12,
+            "y": 77.4,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 2
+          },
+          "footPx": [
+            200.64,
+            728.33
+          ],
+          "inheritedStandingHeightPercent": 7.9458,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 25,
+            "y": 88,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            418.0,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 15.334,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 78,
+            "y": 90,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 5
+          },
+          "footPx": [
+            1304.16,
+            846.9
+          ],
+          "inheritedStandingHeightPercent": 16.728,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 7,
+          "sourceSpot": {
+            "x": 55,
+            "y": 93,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 6,
+            "hero": true
+          },
+          "footPx": [
+            919.6,
+            875.13
+          ],
+          "inheritedStandingHeightPercent": 18.819,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-in",
+      "source": {
+        "key": "state-capitol-in",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-in__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "21bc8fcdddde3ad7aac263057de7aa0e79dd5482674608e827f45c5205a494f9"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 43.5,
+            "y": 77.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 0
+          },
+          "footPx": [
+            727.32,
+            729.27
+          ],
+          "inheritedStandingHeightPercent": 5.865,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 57,
+            "y": 78,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 1
+          },
+          "footPx": [
+            953.04,
+            733.98
+          ],
+          "inheritedStandingHeightPercent": 6.12,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 67,
+            "y": 84,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            1120.24,
+            790.44
+          ],
+          "inheritedStandingHeightPercent": 9.18,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 47,
+            "y": 86,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            785.84,
+            809.26
+          ],
+          "inheritedStandingHeightPercent": 10.2,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 37.5,
+            "y": 96.5,
+            "pose": "lean",
+            "facing": "right",
+            "depth": 4
+          },
+          "footPx": [
+            627.0,
+            908.07
+          ],
+          "inheritedStandingHeightPercent": 15.555,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 60,
+            "y": 97.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            1003.2,
+            917.48
+          ],
+          "inheritedStandingHeightPercent": 16.065,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    },
+    {
+      "key": "state-capitol-ks",
+      "source": {
+        "key": "state-capitol-ks",
+        "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ks__midday.jpg",
+        "width": 1672,
+        "height": 941,
+        "sha256": "eb5c987e44aef996b4d3fe8e9cc4890f59029ad7135666d8fdaf74b5fca6239f"
+      },
+      "spots": [
+        {
+          "index": 1,
+          "sourceSpot": {
+            "x": 40,
+            "y": 82,
+            "pose": "stand",
+            "facing": "right",
+            "depth": 1
+          },
+          "footPx": [
+            668.8,
+            771.62
+          ],
+          "inheritedStandingHeightPercent": 4.488,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 2,
+          "sourceSpot": {
+            "x": 56,
+            "y": 82.5,
+            "pose": "lean",
+            "facing": "left",
+            "depth": 2
+          },
+          "footPx": [
+            936.32,
+            776.33
+          ],
+          "inheritedStandingHeightPercent": 4.7685,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 3,
+          "sourceSpot": {
+            "x": 64,
+            "y": 81.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 0
+          },
+          "footPx": [
+            1070.08,
+            766.91
+          ],
+          "inheritedStandingHeightPercent": 4.2075,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 4,
+          "sourceSpot": {
+            "x": 45,
+            "y": 88,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 3
+          },
+          "footPx": [
+            752.4,
+            828.08
+          ],
+          "inheritedStandingHeightPercent": 7.854,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 5,
+          "sourceSpot": {
+            "x": 56,
+            "y": 91.5,
+            "pose": "stand",
+            "facing": "left",
+            "depth": 4
+          },
+          "footPx": [
+            936.32,
+            861.01
+          ],
+          "inheritedStandingHeightPercent": 9.8175,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        },
+        {
+          "index": 6,
+          "sourceSpot": {
+            "x": 48,
+            "y": 97.5,
+            "pose": "stand",
+            "facing": "viewer",
+            "depth": 5,
+            "hero": true
+          },
+          "footPx": [
+            802.56,
+            917.48
+          ],
+          "inheritedStandingHeightPercent": 13.1835,
+          "reviewStatus": "Coordinate and reduced overlay review recorded; actor contact unresolved",
+          "actorAndOcclusionProof": "NOT RUN"
+        }
+      ],
+      "measurementAuthority": "Inherited artistic scale assumptions; native hash and image coordinates checked. No world calibration.",
+      "overlayReview": "Reduced contact-sheet overlay inspected; native zoom NOT RUN"
+    }
+  ],
+  "limits": [
+    "Only midday native rasters; other variants NOT CHECKED.",
+    "Scale stems from inherited painted-object assumptions, not measured real-world furniture.",
+    "Standing-height guides are not rendered actors; seated contact, clipping, facing and runtime proof NOT RUN."
+  ]
+}

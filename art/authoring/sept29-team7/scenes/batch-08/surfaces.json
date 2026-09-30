@@ -1,0 +1,226 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate surface disposition for existing original midday rasters only. Other lighting versions are NOT CHECKED. No staging, runtime import, content production or approval.",
+  "places": {
+    "state-capitol-ak": {
+      "checked": [
+        "state-capitol-ak__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-al": {
+      "checked": [
+        "state-capitol-al__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-ar": {
+      "checked": [
+        "state-capitol-ar__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-as": {
+      "checked": [
+        "state-capitol-as__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-az": {
+      "checked": [
+        "state-capitol-az__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-ca": {
+      "checked": [
+        "state-capitol-ca__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-co": {
+      "checked": [
+        "state-capitol-co__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-ct": {
+      "checked": [
+        "state-capitol-ct__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-dc": {
+      "checked": [
+        "state-capitol-dc__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-de": {
+      "checked": [
+        "state-capitol-de__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-dome": {
+      "checked": [
+        "state-capitol-dome__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-fl": {
+      "checked": [
+        "state-capitol-fl__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-ga": {
+      "checked": [
+        "state-capitol-ga__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-gu": {
+      "checked": [
+        "state-capitol-gu__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-hi": {
+      "checked": [
+        "state-capitol-hi__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-ia": {
+      "checked": [
+        "state-capitol-ia__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-id": {
+      "checked": [
+        "state-capitol-id__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-il": {
+      "checked": [
+        "state-capitol-il__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-in": {
+      "checked": [
+        "state-capitol-in__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    },
+    "state-capitol-ks": {
+      "checked": [
+        "state-capitol-ks__midday.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building windows and door glazing retain paint.",
+        "Flags, statuary, reliefs, architectural trim and grounds retain paint.",
+        "No public screen, paper, brochure or notice-board face identified at review display scale. Small plaques remain unresolved."
+      ]
+    }
+  }
+}
