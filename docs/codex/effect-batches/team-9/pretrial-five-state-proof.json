@@ -1,0 +1,64 @@
+{
+  "team": 9,
+  "status": "PASS",
+  "scope": "Five authored historical-case fixtures, actual consequence writer and canonical world serialization/reload; not nationwide live-law audit",
+  "tests": {
+    "focusedFiles": 2,
+    "passed": 12,
+    "failed": 0
+  },
+  "fixtures": [
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-MA",
+      "place": "2503690",
+      "personId": "person_c326dbd8eb58c86f",
+      "consequence": "Gia Maynard could not pay $7,503 toward $75,032 bail and was held in jail to wait for trial.",
+      "lawKey": "starting-law:US-MA:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-MA",
+      "reloadedStampValid": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-CO",
+      "place": "0853120",
+      "personId": "person_5c08e5b69baf87d8",
+      "consequence": "Taylor Thompson could not pay $7,503 toward $75,032 bail and was held in jail to wait for trial.",
+      "lawKey": "starting-law:US-CO:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-CO",
+      "reloadedStampValid": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-MI",
+      "place": "2686050",
+      "personId": "person_9f3be7b062cd2446",
+      "consequence": "Elizabeth Gonzales could not pay $7,503 toward $75,032 bail and was held in jail to wait for trial.",
+      "lawKey": "starting-law:US-MI:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-MI",
+      "reloadedStampValid": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-ID",
+      "place": "1637360",
+      "personId": "person_9ebd2e2d4aa49ad1",
+      "consequence": "Alina Valenzuela could not pay $7,503 toward $75,032 bail and was held in jail to wait for trial.",
+      "lawKey": "starting-law:US-ID:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-ID",
+      "reloadedStampValid": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-AZ",
+      "place": "0481175",
+      "personId": "person_ebc0d2e014338561",
+      "consequence": "Micah Gutierrez could not pay $7,503 toward $75,032 bail and was held in jail to wait for trial.",
+      "lawKey": "starting-law:US-AZ:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-AZ",
+      "reloadedStampValid": true
+    }
+  ],
+  "previousRun": "Whole-life74day fixture timed out under30s limit despite receipts; superseded, not counted as passing. No timeout increase.",
+  "missing": "NJ conditional release exceptions, actual bail transaction debits, costs and nationwide proof remain separate."
+}

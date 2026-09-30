@@ -1,5 +1,5 @@
 import moneyBail from "../../../data/research/justice/money-bail-2026.json" with { type: "json" };
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
 import { ensureStartingPersonalMoney } from "../starting-money";
@@ -20,7 +20,8 @@ import type { EntityId, World } from "../types";
 
 export const PRETRIAL_VERSION = "justice-pretrial-v1";
 
-const END_CASH_BAIL_QUESTION = "justice-public-safety.end-cash-bail";
+export const END_CASH_BAIL_QUESTION =
+  "us-policy-positions:justice-public-safety.end-cash-bail";
 
 /**
  * The bail schedule, the dollar conversion and what a defendant pays to go
@@ -70,12 +71,20 @@ export function pretrialLawAt(
   world: World,
   venueJurisdictionId: EntityId | null,
 ): "money-bail" | "no-money-bail" | null {
+  const law = pretrialGoverningLawAt(world, venueJurisdictionId);
+  if (!law) return null;
+  return law.answer === "yes" ? "no-money-bail" : "money-bail";
+}
+
+/** Exact operative law for attribution on the defendant's saved consequence. */
+export function pretrialGoverningLawAt(
+  world: World,
+  venueJurisdictionId: EntityId | null,
+): LawInForce | null {
   if (!venueJurisdictionId) return null;
   const propositionId = propositionIdByKey(world, END_CASH_BAIL_QUESTION);
   if (!propositionId) return null;
-  const law = lawInForce(world, venueJurisdictionId, propositionId);
-  if (!law) return null;
-  return law.answer === "yes" ? "no-money-bail" : "money-bail";
+  return lawInForce(world, venueJurisdictionId, propositionId);
 }
 
 /**
