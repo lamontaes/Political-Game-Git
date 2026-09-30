@@ -1,0 +1,156 @@
+{
+  "team": 9,
+  "recipient": "Team5/coordinator",
+  "scope": "Onepre-Koutcomespass",
+  "sharedWriter": "Coordinatorlinks.json;Team5educationbuild",
+  "outcomes": [
+    "literacy",
+    "readiness",
+    "special-education",
+    "retention",
+    "graduation",
+    "parents-work-hours",
+    "child-care-spending"
+  ],
+  "studies": [
+    {
+      "place": "Boston",
+      "source": "https://www.nber.org/system/files/working_papers/w28756/w28756.pdf",
+      "version": "May2021workingpaper;finalpublishedcomparisonnotverified",
+      "access": "PreservedfullprimaryPDFTable4read",
+      "design": "Preschooladmissionlottery2SLSattendanceeffect;outcomesamplesrestrictedtoobservedMassachusettspublicschoolrecords",
+      "rows": [
+        {
+          "outcome": "grade-retention",
+          "estimate": -0.036,
+          "standardError": 0.029,
+          "derivedNormal95CI": [-0.09284, 0.02084],
+          "unit": "Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers",
+          "lag": "ThroughobservedMassachusettsschoolrecords"
+        },
+        {
+          "outcome": "special-education-grade1",
+          "estimate": 0.009,
+          "standardError": 0.015,
+          "derivedNormal95CI": [-0.0204, 0.0384],
+          "unit": "Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers",
+          "lag": "Grade1"
+        },
+        {
+          "outcome": "special-education-grade3",
+          "estimate": 0.002,
+          "standardError": 0.015,
+          "derivedNormal95CI": [-0.0274, 0.0314],
+          "unit": "Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers",
+          "lag": "Grade3"
+        },
+        {
+          "outcome": "on-time-high-school-graduation",
+          "estimate": 0.054,
+          "standardError": 0.03,
+          "derivedNormal95CI": [-0.0048, 0.1128],
+          "unit": "Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers",
+          "lag": "Projectedgrade12"
+        },
+        {
+          "outcome": "ever-high-school-graduation",
+          "estimate": 0.06,
+          "standardError": 0.03,
+          "derivedNormal95CI": [0.0012, 0.1188],
+          "unit": "Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers",
+          "lag": "Observedhighschoolcompletion"
+        }
+      ],
+      "limits": "No pooled nationalrate; intervalssamplinguncertaintynotplacevariance. Retention/specialedCIs crossing0donotproveequivalence. On-timeandevergraduationdistinct."
+    },
+    {
+      "place": "Tulsa",
+      "source": "https://doi.org/10.1037/0012-1649.41.6.872",
+      "access": "AuthorsabstractthroughEuropePMCprimarymetadata;APAfullPDFreturnedchallengeHTML,notread",
+      "design": "Birthday-cutoffregressiondiscontinuity;1567preKchildrenand1461kindergartnersjustcompletedpreK",
+      "rows": [
+        {
+          "outcome": "letter-word-identification",
+          "testPointGain": 3.0,
+          "controlSDGain": 0.79
+        },
+        {
+          "outcome": "spelling",
+          "testPointGain": 1.86,
+          "controlSDGain": 0.64
+        },
+        {
+          "outcome": "applied-problems",
+          "testPointGain": 1.94,
+          "controlSDGain": 0.38
+        }
+      ],
+      "unit": "WoodcockJohnsonachievementtestpointsandcontrol-groupstandarddeviations,notpercentliteracyorgraduation",
+      "lag": "School-entryassessmentafterpreK",
+      "uncertainty": "AbstracthasnoSE/CI;tableuncertaintyneededbeforearangedactivation"
+    },
+    {
+      "place": "Tennessee",
+      "source": "https://doi.org/10.1037/dev0001301",
+      "primaryArchive": "PMC9716729",
+      "access": "AuthorsabstractthroughEuropePMCmetadata;fullXMLHTTP500,PMCHTMLchallenge;tablesnotread",
+      "design": "Randomizedadmissionoffer/waitlist;2990low-incomefamiliesatoversubscribedstateprogramsites",
+      "findings": "Lowerachievementgrades3\u20136,strongestadverseeffectsgrade6;adverseattendance/discipline/specialeducationfindings;retentionnondetection",
+      "unitAndRangeGap": "Exacttestscale,grade-specificestimate/CIandcorrectedspecialeducationcodingneeded;noinventedsizeornull-to-zero",
+      "correction": "Publishedcorrection10.1037/dev0001407mustbereconciledbeforeusingnumerictables",
+      "lag": "Throughgrade6"
+    },
+    {
+      "place": "Chicago",
+      "source": "https://doi.org/10.1001/jama.285.18.2339",
+      "access": "AuthorsabstractthroughEuropePMCmetadata;fulltablesnotread",
+      "design": "Nonrandomizedmatchedcohort1539low-incomemostlyBlackchildrenborn1980;CPCeducation/family/healthservicesages3\u20139",
+      "rows": [
+        {
+          "outcome": "high-school-completion",
+          "preschoolRate": 0.497,
+          "comparisonRate": 0.385,
+          "difference": 0.112,
+          "pValue": 0.01,
+          "lag": "Age20"
+        },
+        {
+          "outcome": "grade-retention-extended-program",
+          "extendedRate": 0.219,
+          "lessExtendedRate": 0.323,
+          "difference": -0.104,
+          "pValue": 0.001,
+          "lag": "Age18"
+        },
+        {
+          "outcome": "special-education-extended-program",
+          "extendedRate": 0.135,
+          "lessExtendedRate": 0.207,
+          "difference": -0.072,
+          "pValue": 0.004,
+          "lag": "Age18"
+        }
+      ],
+      "unit": "Adjustedreportedgroupfractions;notrandomizedcausaleffectorpreK-onlycontrastfortheextendedrows",
+      "uncertainty": "Abstractprovidesp-valuesnotintervals;donotreconstructSEfromroundedpvalues",
+      "limits": "Preschoolpluscontinuingfamily/schoolservices;cannotattributeextendedprogramresultstopreKalone"
+    }
+  ],
+  "parentsAndSpending": {
+    "sourceLead": "https://doi.org/10.2139/ssrn.1416029",
+    "title": "PreschoolersEnrolledandMothersatWork?TheEffectsofUniversalPre-Kindergarten",
+    "access": "AuthorworkingpaperabstractthroughCrossrefmetadata",
+    "coverage": "Georgia/Oklahoma/FloridauniversalpreKeligibilitycutoffs;notTulsa-classrooms/Bostonlotteryresult",
+    "finding": "Labor-supplyeffectsheterogeneous;reportedlittleeffectformostwomenandlargerruralGeorgiaemploymentresponse",
+    "parentsWorkHours": "Exactweekly/annualhoursestimate,coveredparentpopulation,SE/CIandprogramscheduleunverified;employmentindicatorisnothours. Studyneededforrequestedconversion.",
+    "childCareSpending": "Exactout-of-pocketspendingcounterfactual/substitution/fees/extendedcarehoursandCIunverified. FreepublicpreKdoesnotimplyallchildcarecostsdisappear.",
+    "mechanism": "Eligiblechildactualenrollmentandhoursreplaceotherwise-paidcareonlywherefamilieswouldpay;workrequiresactualparentjob/scheduleandavailablecare. Noinventedhours/costcoefficient."
+  },
+  "integrationLimits": [
+    "Do notpoolincompatibleprograms/intensity/populations/grades.",
+    "Researchrangesareuncertaintyorcalibrationchecks,notdrawnoutcomelevelsoruniversalplacecaps.",
+    "Noautomaticrepealreversalforalreadyeducatedcohorts.",
+    "Noneoftheabstract-onlyfindingsisclaimedruntimewired."
+  ],
+  "runtimeEdits": 0
+}
