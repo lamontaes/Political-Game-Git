@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 43308)
+Total output lines: 4178
+
 {
   "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means the size is set when both measures exist in the world. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen. A cause named law:<qualified question key> is what the law in force says on a policy question (governing/law-in-force.ts): 1 when it says yes, 0 when it says no, and unrecorded where no law has answered it. A law cause is measured from the place's law on the calibration date (calibratedAt): its base data already includes the law in force then, so only a change from it moves the outcome. law:us-federal-positions:<key> is a question only Congress answers. A link's size is a baseline, not a literal number: each world draws the size for each place from the link's range (the spread the research reports), or from a default spread by evidence (researched 25% either way, provisional 50%, contested from none to twice the size). About-zero links stay at zero.",
   "version": "outcome-web-v1",
@@ -135,7 +138,16 @@
       "anchor": "Elasticity -0.34 violent, -0.17 property",
       "source": "Chalfin and McCrary 2017-18",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table 5 two-step GMM elasticity -0.344, SE 0.096; one-step -0.348, empirical likelihood -0.344.",
+        "breadth": "US cities, 1960 to 2010; annual growth in sworn officers and crime; within-state comparisons.",
+        "access": "Working paper full text and Table 5 read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w18815/w18815.pdf",
+        "missingFigure": "Need each place's officer-density baseline and a verified transformation from percentage growth in officers to the existing officers-per-1000 diminishing shape. The table elasticity is not a coefficient per additional officer per 1000. Confirm final cited version and timing before sizing."
+      }
     },
     {
       "key": "police-to-property-crime",
@@ -153,7 +165,16 @@
       "anchor": "Elasticity -0.17",
       "source": "Chalfin and McCrary 2017-18",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table 5 two-step GMM elasticity -0.174, SE 0.062; one-step -0.178, empirical likelihood -0.173.",
+        "breadth": "Same city panel and specification as violent-crime entry.",
+        "access": "Working paper full text and Table 5 read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w18815/w18815.pdf",
+        "missingFigure": "Need each place's officer-density baseline and the percentage-growth-to-officers-per-1000 conversion for the existing diminishing shape. Confirm final cited version and timing; -0.174 is an elasticity, not a per-density-unit size."
+      }
     },
     {
       "key": "police-to-low-level-arrests",
@@ -170,7 +191,16 @@
       "anchor": "Larger forces make more quality-of-life arrests, falling heavily on Black residents",
       "source": "Chalfin, Hansen, Weisburst and Williams 2022",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Author abstract reports more quality-of-life arrests and disproportionate impacts on Black Americans; no numerical low-level arrest coefficient is supplied in the abstract.",
+        "breadth": "Race-specific US police-force study; cannot substitute the older crime-elasticity paper.",
+        "access": "Author abstract read; Europe PMC full-text endpoint returned HTTP 500.",
+        "primarySource": "https://doi.org/10.1257/aeri.20200792",
+        "missingFigure": "Need the low-level arrest estimate and reported uncertainty by race, observation period, and conversion from an additional officer to the runtime density input. Full table remains unread."
+      }
     },
     {
       "key": "summer-jobs-to-youth-violence",
@@ -187,7 +217,16 @@
       "anchor": "-43% violent-crime arrests over 16 months, mostly after the program",
       "source": "Heller 2014 (Science)",
       "from": "program.summer-jobs-slots",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Author abstract: 43% fewer violent-crime arrests over 16 months; 3.95 fewer arrests per 100 assigned youth.",
+        "breadth": "Randomized assignment of 1634 disadvantaged Chicago high-school youth to an eight-week program; mostly post-program decline.",
+        "access": "Author abstract read.",
+        "primarySource": "https://doi.org/10.1126/science.1257809",
+        "missingFigure": "Need assignment-effect interval, eligible-youth denominator, program take-up, and the slot-to-assignment mapping. A raw extra slot is not a 43% reduction for the whole place, and assignment is not treatment received."
+      }
     },
     {
       "key": "incarceration-to-crime",
@@ -238,7 +277,16 @@
       "anchor": "More guilty pleas and convictions",
       "source": "Dobbie, Goldin and Yang 2018 (AER)",
       "from": "justice.pretrial-detained",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table 4 fully controlled 2SLS: release -0.156 probability points, SE 0.034; detained mean 0.571.",
+        "breadth": "Marginal defendants affected by randomly assigned bail judges in Philadelphia and Miami-Dade; release versus detention.",
+        "access": "Working paper full text and Table 4 read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w22511/w22511.pdf",
+        "missingFigure": "Need the final AER table interval, conviction baseline among the affected marginal defendants, and a defined detention input unit. Reversing a release effect and dividing by the whole detained mean does not establish the effect of detention on every defendant."
+      }
     },
     {
       "key": "pretrial-detention-to-employment",
@@ -255,7 +303,16 @@
       "anchor": "Lower formal employment afterward",
       "source": "Dobbie, Goldin and Yang 2018 (AER)",
       "from": "justice.pretrial-detained",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table 7 fully controlled 2SLS: release +0.037 employment probability points (SE 0.043) in years 1 to 2, +0.102 (SE 0.053) in years 3 to 4.",
+        "breadth": "Same marginal defendant population; tax-record formal employment, not all work.",
+        "access": "Working paper full text and Table 7 read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w22511/w22511.pdf",
+        "missingFigure": "Need final published estimates and intervals, affected-defendant employment baseline, and distinct follow-up exposure records. The first-period imprecise estimate is not evidence of zero; a single immediate lag cannot represent both periods."
+      }
     },
     {
       "key": "release-lower-level-to-larceny",
@@ -289,7 +346,16 @@
       "anchor": "Reduces youth firearm suicide, injuries and homicide (RAND: supportive)",
       "source": "RAND Science of Gun Policy, 5th ed.",
       "from": "law.child-access-prevention",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "RAND fifth-edition review: supportive evidence of reductions in youth firearm suicides, homicides or assault injuries, and unintentional injuries/deaths for specified child-access laws.",
+        "breadth": "Definitions distinguish storage/child-access and reckless-provision laws; age and outcome definitions vary.",
+        "access": "Current RAND policy review read.",
+        "primarySource": "https://www.rand.org/research/gun-policy/analysis/child-access-prevention.html",
+        "missingFigure": "Need matched law-definition estimates and intervals separately for youth suicide, homicide and unintentional death, with ages and follow-up. Evidence grades supply no pooled numeric range for a combined youth gun-death outcome."
+      }
     },
     {
       "key": "stand-your-ground-to-homicide",
@@ -298,15 +364,27 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "law in force",
+      "size": 0.08,
+      "per": "statutory public-place stand-your-ground adoption (0 to 1)",
       "lagMonths": 0,
-      "group": "place",
+      "group": "state population; pooled 41-state study, not an individual death probability",
       "owner": "O",
-      "anchor": "Increases firearm homicides (RAND: supportive)",
-      "source": "RAND Science of Gun Policy, 5th ed.",
+      "anchor": "Monthly firearm-homicide IRR 1.08 (95% CI 1.03 to 1.13); observational national pooled model, 1999 to 2017.",
+      "source": "RAND Science of Gun Policy, 5th ed.; Degli Esposti et al. 2022, JAMA Network Open, doi:10.1001/jamanetworkopen.2022.0077; https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/",
       "from": "law.stand-your-ground",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "sized",
+        "result": "Firearm-homicide IRR 1.08, 95% CI 1.03 to 1.13; main national model, Results.",
+        "breadth": "41 states, 23 statutory adopters and 18 controls, 1999 to 2017; monthly state rates. Observational controlled interrupted time series, not randomized. State associations differ.",
+        "access": "Full article and RAND review read.",
+        "primarySource": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/",
+        "conversion": "size = IRR - 1; range = published main-model 95% IRR interval minus 1. This interval measures pooled-estimate uncertainty, not variation across states.",
+        "transportLimit": "Study excluded nine states and does not establish effects for territories, townships, newer enactments, repeal, or preempted local rules. State variation can exceed this pooled interval. No legal authority is inferred.",
+        "readerStatus": "No person feels this yet: no cause or outcome reader was verified in this research batch. A numeric entry is not runtime activation proof."
+      },
+      "range": [0.03, 0.13]
     },
     {
       "key": "min-age-to-youth-gun-suicide",
@@ -323,7 +401,16 @@
       "anchor": "Raising the minimum age reduces youth firearm suicide (RAND: supportive)",
       "source": "RAND Science of Gun Policy, 5th ed.",
       "from": "law.firearm-minimum-age-above-federal",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "RAND fifth-edition review: supportive evidence that minimum purchasing-age laws reduce youth firearm suicide.",
+        "breadth": "Purchasing versus possession ages and covered firearm types are distinct; youth age definitions differ.",
+        "access": "Current RAND policy review read.",
+        "primarySource": "https://www.rand.org/research/gun-policy/analysis/minimum-age.html",
+        "missingFigure": "Need the specific age transition, firearm coverage, youth age band, reported suicide estimate and interval, and lag. A generic minimum-age yes/no does not identify the treatment whose size was studied."
+      }
     },
     {
       "key": "crime-to-out-migration",
@@ -366,15 +453,27 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "1% less particulates: -0.5% infant deaths",
+      "size": 0.0045,
+      "per": "one percentage-point increase in TSP concentration relative to place start; local linear elasticity approximation near start",
       "lagMonths": 0,
-      "group": "infants",
+      "group": "infant birth cohorts exposed to TSP; internal-cause deaths per live births",
       "owner": "O",
-      "anchor": "Elasticity about 0.5",
-      "source": "Chay and Greenstone 2003 (Clean Air Act)",
+      "anchor": "IV elasticity 0.45; reported design/subsample elasticity spread 0.3 to 0.7. Per pct-of-start point divide each elasticity by 100.",
+      "source": "Chay and Greenstone 2003, Air Quality, Infant Mortality, and the Clean Air Act of 1970, NBER w10053, pp.20-21,26-27; https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
       "from": "env.particulates:pct-of-start",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "sized",
+        "result": "Page 26: inverse-sampling-error-weighted IV elasticity 0.45. Pages 20 to 21 report 0.3 to 0.6; page 27 reports 0.6 to 0.7 near the regulatory cutoff.",
+        "breadth": "US monitored counties, 1971 to 1972 changes induced by Clean Air Act nonattainment. TSP, not PM2.5 or an air-quality index. Outcome is internal-cause infant deaths per live births.",
+        "access": "Working paper full text and tables read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+        "conversion": "size = 0.45 / 100; range = [0.3 / 100, 0.7 / 100]. The cause is percent of starting TSP, so a one-point increase gives a 0.45% local proportional mortality increase.",
+        "transportLimit": "Study specification/subsample spread is not a CI or modern PM2.5 coefficient. Requires TSP-specific cause and infant internal-cause outcome readers; neither was verified. No supported general air-quality-index conversion.",
+        "readerStatus": "No person feels this yet: no cause or outcome reader was verified in this research batch. A numeric entry is not runtime activation proof."
+      },
+      "range": [0.003, 0.007]
     },
     {
       "key": "congestion-to-premature-births",
@@ -391,7 +490,16 @@
       "anchor": "-10.8% premature, -11.8% low birth weight",
       "source": "Currie and Walker 2011",
       "from": "env.traffic-congestion-near-home",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table 3 main controlled prematurity coefficient -0.0086 probability points, SE 0.0034. Table 4 restricted five-kilometer comparison -0.0064; time-trend specification -0.0074.",
+        "breadth": "E-ZPass adoption; mothers within two kilometers of toll plazas versus farther comparison mothers.",
+        "access": "Working paper full text and Tables 3 to 4 read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w15413/w15413.pdf",
+        "missingFigure": "Need the congestion input's measured E-ZPass-equivalent dose and matching premature-birth baseline. Specification spread is not a confidence interval, and the abstract relative reduction is not a coefficient per raw congestion unit. Confirm final cited version."
+      }
     },
     {
       "key": "birth-year-pollution-to-adult-earnings",
@@ -408,7 +516,16 @@
       "anchor": "Cleaner air at birth: higher earnings and work at 30",
       "source": "Isen, Rossin-Slater and Walker 2017 (JPE)",
       "from": "env.particulates-in-birth-year",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table 4: ten-microgram-per-cubic-meter TSP increase yields -186.21 to -351.74 annual earnings dollars across specifications; log-earnings coefficients -0.005 to -0.014.",
+        "breadth": "Birth cohorts 1969 to 1974 in 148 counties; earnings ages 29 to 31; Clean Air Act IV.",
+        "access": "Working paper full text and Table 4 read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w19858/w19858.pdf",
+        "missingFigure": "Need final JPE estimates, earnings price year and matching cohort mean for the annual-earnings outcome, plus birth-year TSP units and exposure record. Log earnings and mean annual earnings are different estimands; the log coefficients cannot silently replace the annual-earnings outcome."
+      }
     },
     {
       "key": "water-violations-to-infant-health",
@@ -480,7 +597,16 @@
       "anchor": "Nonattainment rules cut particulates",
       "source": "Chay and Greenstone 2003",
       "from": "law.emission-nonattainment",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table 5 nonattainment coefficients on TSP change: -11.9, -11.0, -10.0, -8.8, -8.9, -6.3 micrograms per cubic meter across specifications.",
+        "breadth": "1972 nonattainment designated using 1970 TSP relative to the federal ceiling; US monitored counties, one-year change.",
+        "access": "Correct Chay and Greenstone working paper and Table 5 read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+        "missingFigure": "Need exposed-place initial TSP concentration and actual nonattainment eligibility/enforcement to convert the absolute concentration change into a proportional outcome factor. A general emissions law is not automatically this designation. No invented national percentage cut."
+      }
     },
     {
       "key": "energy-price-to-ac-use",
@@ -565,7 +691,16 @@
       "anchor": "Medicaid nearly eliminated bills over 30% of income",
       "source": "Oregon Health Insurance Experiment",
       "from": "health.coverage",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Author abstract: Medicaid nearly eliminated catastrophic out-of-pocket medical expenditure approximately two years after the lottery.",
+        "breadth": "Oregon low-income lottery applicants; clinical follow-up samples 6387 selected and 5842 not selected. Coverage effect estimated using lottery assignment.",
+        "access": "Author abstract read; Europe PMC full-text endpoint returned HTTP 500.",
+        "primarySource": "https://doi.org/10.1056/NEJMsa1212321",
+        "missingFigure": "Need catastrophic-expenditure control mean, coverage-effect estimate, its reported interval and exact income-denominator definition from the financial table. Nearly eliminated supplies no numeric range; general coverage is not necessarily this Medicaid benefit."
+      }
     },
     {
       "key": "coverage-to-medical-debt",
@@ -886,7 +1021,16 @@
       "anchor": "+0.31 years, +7% wages, -3.2 points adult poverty",
       "source": "Jackson, Johnson and Persico 2016 (QJE)",
       "from": "school.spending-per-student",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Working-paper abstract: sustained 10% higher spending in all 12 school years adds 0.27 completed years, 7.25% wages, and lowers poverty 3.67 percentage points.",
+        "breadth": "US school-finance reforms; cohort school exposure; larger effects for low-income children.",
+        "access": "Working paper full text read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w20847/w20847.pdf",
+        "missingFigure": "Need final QJE attainment coefficient and interval (existing anchor says 0.31), exposed-pupil spending baseline, completed-school-years baseline, and all-12-year exposure mapping. A one-year raw dollar increase is not the sustained intervention."
+      }
     },
     {
       "key": "child-coverage-to-graduation",
@@ -1006,7 +1150,16 @@
       "anchor": "About -0.5 SD for a week, then gone",
       "source": "Sharkey 2010 (PNAS)",
       "from": "crime.homicide-on-block",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Author abstract: strongest effects within a week among African-American children, about -0.5 SD vocabulary and -0.66 SD reading.",
+        "breadth": "Children ages 5 to 17 in Chicago; timing relative to nearby homicide; replicated with a second Chicago dataset.",
+        "access": "Author abstract read; Europe PMC full-text endpoint returned HTTP 500.",
+        "primarySource": "https://doi.org/10.1073/pnas.1000690107",
+        "missingFigure": "Need outcome-specific coefficients and intervals by exposure window, score standard-deviation-to-runtime-score mapping, and decay estimates. Vocabulary and reading effects are not lower and upper bounds for one outcome."
+      }
     },
     {
       "key": "police-killing-to-graduation",
@@ -1286,7 +1439,16 @@
       "anchor": "More homelessness, hospital visits, lower earnings and credit for 2 years",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table V: first-year shelter-use IV +0.034 (SE 0.017), non-evicted mean 0.009; second-year -0.001 (SE 0.013). Cook County first-year +0.023; New York +0.046.",
+        "breadth": "Adults in filed cases, Cook County and New York; judge-assignment IV. Shelter use is not all homelessness.",
+        "access": "July 2023 working paper full text and Table V read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "missingFigure": "Need final QJE table and interval, mapping from orders to affected adults, and measurement of homelessness outside shelters. A shelter-use effect cannot be copied into a generic homelessness rate; no supported two-year persistence of the first-year shelter coefficient."
+      }
     },
     {
       "key": "eviction-to-hospital-visits",
@@ -1303,7 +1465,16 @@
       "anchor": "Up in the first 2 years",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
-      "evidence": "researched"
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "needs research",
+        "result": "Table VIII: first-year non-pregnancy hospital visits +0.188 (SE 0.094), non-evicted mean 0.739; second-year -0.113 (SE 0.142).",
+        "breadth": "New York adults in filed eviction cases; judge-assignment IV; quarters after filing.",
+        "access": "July 2023 working paper full text and Table VIII read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+        "missingFigure": "Need final QJE estimates and intervals, affected-adult denominator and exposure unit, and first-year versus later-year records. The introduction rounds to 0.19 visits and reports 29%; dividing 0.188 by the unconditional non-evicted mean is not necessarily the paper's complier effect."
+      }
     },
     {
       "key": "home-prices-to-owner-births",
@@ -1374,1376 +1545,7 @@
       "evidence": "researched"
     },
     {
-      "key": "broadband-to-employment",
-      "to": "labor.employment-rate",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "county gains broadband: +1.8 points",
-      "lagMonths": 0,
-      "group": "rural counties most",
-      "owner": "M",
-      "anchor": "+1.8 points employment rate",
-      "source": "Atasoy 2013 (ILR Review)",
-      "from": "broadband.home-access",
-      "evidence": "researched"
-    },
-    {
-      "key": "broadband-to-married-women-work",
-      "to": "labor.married-women-participation",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "access: +4.1 points",
-      "lagMonths": 0,
-      "group": "married women",
-      "owner": "M",
-      "anchor": "+4.1 points participation",
-      "source": "Dettling 2017 (ILR Review)",
-      "from": "broadband.home-access",
-      "evidence": "researched"
-    },
-    {
-      "key": "road-condition-to-vehicle-costs",
-      "to": "household.vehicle-costs",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "condition",
-      "lagMonths": 0,
-      "group": "drivers",
-      "owner": "M",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "from": "roads.condition",
-      "evidence": "to-confirm"
-    },
-    {
-      "key": "corporate-tax-incidence",
-      "to": "labor.wages",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.35,
-      "per": "workers bear 30-35% of the tax",
-      "lagMonths": 0,
-      "group": "workers",
-      "owner": "B",
-      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%",
-      "source": "Suarez Serrato and Zidar 2016 (AER)",
-      "from": "tax.state-corporate-rate",
-      "evidence": "researched",
-      "range": [0, 0.7]
-    },
-    {
-      "key": "incentive-deal-to-industry-jobs",
-      "to": "labor.deal-industry-jobs",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "deal: about +1,500 jobs",
-      "lagMonths": 0,
-      "group": "the deal's industry",
-      "owner": "B",
-      "anchor": "About 1,500 jobs in the deal's industry",
-      "source": "Slattery and Zidar 2020 (JEP)",
-      "from": "business.incentive-deal",
-      "evidence": "researched"
-    },
-    {
-      "key": "incentive-deal-to-broad-growth",
-      "to": "economy.broad-growth",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "deal",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "B",
-      "anchor": "No strong evidence of broader growth",
-      "source": "Slattery and Zidar 2020 (JEP)",
-      "from": "business.incentive-deal",
-      "evidence": "about-zero"
-    },
-    {
-      "key": "unemployment-to-births",
-      "to": "births.rate",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.0075,
-      "per": "percentage point of unemployment",
-      "lagMonths": 9,
-      "group": "place",
-      "owner": "B",
-      "anchor": "+1 point unemployment: births about 0.75% lower (Kearney, Levine and Pardue; Currie and Schwandt find about 0.7 to 0.75%); the -1.4% in Dettling and Kearney was a control in one model and sets the range's far end",
-      "source": "Dettling and Kearney 2014 (JPubE); Kearney, Levine and Pardue 2022 (JEP); Currie and Schwandt 2014 (PNAS)",
-      "from": "labor.unemployment-pct",
-      "evidence": "researched",
-      "range": [-0.014, -0.005]
-    },
-    {
-      "key": "enforcement-to-undocumented-employment",
-      "to": "labor.undocumented-employment",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.057,
-      "per": "a whole commuting zone going from no coverage to full coverage for a year",
-      "lagMonths": 0,
-      "group": "likely undocumented",
-      "owner": "B",
-      "anchor": "-5.7% employment",
-      "source": "East, Luck, Mansour and Velasquez 2023 (JOLE)",
-      "from": "immigration.local-enforcement-partnership",
-      "evidence": "researched"
-    },
-    {
-      "key": "enforcement-to-us-born-employment",
-      "to": "labor.us-born-employment",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.005,
-      "per": "a whole commuting zone going from no coverage to full coverage for a year",
-      "lagMonths": 0,
-      "group": "U.S.-born workers",
-      "owner": "B",
-      "anchor": "U.S.-born workers: about -0.5% employment and -0.6% wages",
-      "source": "East et al. 2023 (JOLE)",
-      "from": "immigration.local-enforcement-partnership",
-      "evidence": "researched"
-    },
-    {
-      "key": "child-tax-credit-to-births",
-      "to": "births.rate",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "benefit",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "B",
-      "anchor": "2021 U.S. credit: no clear effect on births",
-      "source": "Studies of the 2021 expanded credit",
-      "from": "program.child-benefit-dollars",
-      "evidence": "about-zero"
-    },
-    {
-      "key": "baby-bonus-to-births",
-      "to": "births.rate",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "large bonus: +5 to 10%",
-      "lagMonths": 9,
-      "group": "families",
-      "owner": "B",
-      "anchor": "Quebec: +5-10%, up to +25% for third children, at high cost",
-      "source": "Milligan 2005",
-      "from": "program.birth-bonus-dollars",
-      "evidence": "researched"
-    },
-    {
-      "key": "marriage-equality-to-marriages",
-      "to": "family.same-sex-marriages",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "same-sex couples",
-      "owner": "C",
-      "anchor": "Marriage take-up rose",
-      "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)",
-      "from": "law.marriage-equality",
-      "evidence": "researched"
-    },
-    {
-      "key": "marriage-equality-to-coverage",
-      "to": "health.uninsured-pct",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "men in same-sex couples",
-      "owner": "C",
-      "anchor": "More coverage, access and use of care",
-      "source": "Carpenter et al. 2021 (JPAM)",
-      "from": "law.marriage-equality",
-      "evidence": "researched"
-    },
-    {
-      "key": "abortion-ban-to-births",
-      "to": "births.rate",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.023,
-      "per": "ban enforced: about +2.3%",
-      "lagMonths": 7,
-      "group": "place",
-      "owner": "C",
-      "anchor": "About +2.3% births in states enforcing near-total bans. The question's own cutoff can be later in pregnancy, which would move births less; the size is for a near-total ban until the cutoff is read.",
-      "source": "Dench, Pineda-Torres and Myers 2024 (JPubE)",
-      "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
-      "evidence": "researched",
-      "range": [0.015, 0.03]
-    },
-    {
-      "key": "abortion-ban-to-infant-deaths",
-      "to": "health.infant-mortality",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.06,
-      "per": "ban enforced: about +6%",
-      "lagMonths": 7,
-      "group": "infants",
-      "owner": "C",
-      "anchor": "About +6% infant mortality 2021-2023",
-      "source": "Gemmill et al. 2025 (JAMA)",
-      "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
-      "evidence": "researched"
-    },
-    {
-      "key": "abortion-denied-to-financial-distress",
-      "to": "finance.past-due-debt",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "denied: +78% past-due debt",
-      "lagMonths": 0,
-      "group": "women denied",
-      "owner": "C",
-      "anchor": "+$1,746 (78%) past-due; +81% bankruptcies, evictions, liens",
-      "source": "Miller, Wherry and Foster 2023",
-      "from": "person.abortion-denied",
-      "evidence": "researched"
-    },
-    {
-      "key": "universal-childcare-to-mothers-work",
-      "to": "labor.mothers-participation",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.15,
-      "per": "program in force: about +10 points",
-      "lagMonths": 12,
-      "group": "mothers of young children",
-      "owner": "C",
-      "anchor": "D.C. universal pre-K: +10 points in mothers' participation (about +15% on its base); Quebec child care about +7%",
-      "source": "Malik 2018; Baker, Gruber and Milligan 2008",
-      "from": "law:us-policy-positions:education.universal-preschool",
-      "evidence": "researched"
-    },
-    {
-      "key": "voter-id-to-turnout",
-      "to": "voting.turnout-pct",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "every group",
-      "owner": "C",
-      "anchor": "-0.1 points, not significant, for every group",
-      "source": "Cantoni and Pons 2021 (QJE)",
-      "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
-      "evidence": "about-zero"
-    },
-    {
-      "key": "same-day-registration-to-youth-turnout",
-      "to": "voting.youth-turnout",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force: +3.1 to 7.3 points",
-      "lagMonths": 0,
-      "group": "ages 18 to 24",
-      "owner": "C",
-      "anchor": "+3.1 to 7.3 points",
-      "source": "Grumbach and Hill 2022 (JOP)",
-      "from": "law.same-day-registration",
-      "evidence": "researched"
-    },
-    {
-      "key": "all-mail-voting-to-turnout",
-      "to": "voting.turnout-pct",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force: about +2 points",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "C",
-      "anchor": "About +2 points",
-      "source": "Thompson, Wu, Yoder and Hall 2020 (PNAS)",
-      "from": "law.all-mail-voting",
-      "evidence": "researched"
-    },
-    {
-      "key": "all-mail-voting-to-party-share",
-      "to": "voting.party-share",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "C",
-      "anchor": "No partisan effect",
-      "source": "Thompson et al. 2020 (PNAS)",
-      "from": "law.all-mail-voting",
-      "evidence": "about-zero"
-    },
-    {
-      "key": "polling-distance-to-turnout",
-      "to": "voting.turnout-pct",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "quarter mile farther: -2 to 5% ballots",
-      "lagMonths": 0,
-      "group": "non-white areas, local elections most",
-      "owner": "C",
-      "anchor": "LA consolidation: -1.85 points net",
-      "source": "Cantoni 2020; Brady and McNulty 2011",
-      "from": "voting.polling-place-distance-miles",
-      "evidence": "researched"
-    },
-    {
-      "key": "newspaper-closure-to-borrowing-cost",
-      "to": "gov.borrowing-cost",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "closure: +5 to 11 basis points",
-      "lagMonths": 12,
-      "group": "local governments",
-      "owner": "C",
-      "anchor": "Also higher wages and deficits",
-      "source": "Gao, Lee and Murphy 2020 (JFE)",
-      "from": "press.local-newspaper",
-      "evidence": "researched"
-    },
-    {
-      "key": "newspaper-closure-to-engagement",
-      "to": "voting.local-turnout",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "closure",
-      "lagMonths": 12,
-      "group": "place",
-      "owner": "C",
-      "anchor": "Fewer candidates, less knowledge, lower local turnout",
-      "source": "Hayes and Lawless 2021",
-      "from": "press.local-newspaper",
-      "evidence": "researched"
-    },
-    {
-      "key": "exposed-corruption-to-reelection",
-      "to": "election.incumbent-reelection",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "two or more violations: -7 points",
-      "lagMonths": 0,
-      "group": "incumbents",
-      "owner": "C",
-      "anchor": "Much stronger where local radio spread it",
-      "source": "Ferraz and Finan 2008 (QJE)",
-      "moderator": {
-        "measure": "press.local-outlets",
-        "effectAtFull": 1.0
-      },
-      "from": "gov.corruption-exposed",
-      "evidence": "researched"
-    },
-    {
-      "key": "press-attacks-to-media-trust",
-      "to": "press.media-trust",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "hostility",
-      "lagMonths": 3,
-      "group": "the official's supporters",
-      "owner": "C",
-      "anchor": "Elite criticism lowers trust in news; supporters discount its reports",
-      "source": "Ladd 2012",
-      "from": "official.press-hostility",
-      "evidence": "researched"
-    },
-    {
-      "key": "relief-spending-to-votes",
-      "to": "election.incumbent-vote",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "relief dollars",
-      "lagMonths": 0,
-      "group": "voters in the area",
-      "owner": "C",
-      "anchor": "Voters reward relief spending",
-      "source": "Healy and Malhotra 2009 (APSR)",
-      "from": "spending.disaster-relief",
-      "evidence": "researched"
-    },
-    {
-      "key": "preparedness-spending-to-votes",
-      "to": "election.incumbent-vote",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "preparedness dollars",
-      "lagMonths": 0,
-      "group": "voters",
-      "owner": "C",
-      "anchor": "Not rewarded, though it saves about 15 times its cost",
-      "source": "Healy and Malhotra 2009 (APSR)",
-      "from": "spending.disaster-preparedness",
-      "evidence": "about-zero"
-    },
-    {
-      "key": "preparedness-to-disaster-damage",
-      "to": "disaster.damage",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "$1 saves about $15",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "O",
-      "anchor": "About $15 of damage avoided per $1",
-      "source": "Healy and Malhotra 2009 (APSR)",
-      "from": "spending.disaster-preparedness",
-      "evidence": "researched"
-    },
-    {
-      "key": "economy-to-approval",
-      "to": "approval.incumbent",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "(to confirm the size)",
-      "lagMonths": 0,
-      "group": "voters",
-      "owner": "C",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "from": "economy.real-income-growth",
-      "evidence": "to-confirm"
-    },
-    {
-      "key": "medicaid-expansion-to-coverage",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.15,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "low-income adults",
-      "owner": "F",
-      "anchor": "The ACA raised coverage 5.9 points in expansion states and 3.0 in others: about 2.9 points among adults 19 to 64 from expansion, about 1.8 points across all ages, about -15% of a non-expansion state's 2024 uninsured rate.",
-      "source": "Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "to": "health.uninsured-pct",
-      "range": [-0.2, -0.1]
-    },
-    {
-      "key": "medicaid-expansion-to-mortality",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.094,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "low-income adults 55 to 64",
-      "owner": "F",
-      "anchor": "-9.4% annual mortality, -11.9% by year 3",
-      "source": "Miller, Johnson and Wherry 2021 (QJE)",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "to": "health.mortality-55-64"
-    },
-    {
-      "key": "medicaid-expansion-to-medical-debt",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 6,
-      "group": "low-income adults",
-      "owner": "F",
-      "anchor": "ACA expansion: -$3.4 billion in collections in its first 2 years; better credit and loan terms",
-      "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "to": "finance.medical-debt-in-collections"
-    },
-    {
-      "key": "snap-work-requirement-to-participation",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.052,
-      "per": "law in force",
-      "lagMonths": 3,
-      "group": "able adults without dependents",
-      "owner": "F",
-      "anchor": "Work requirements cut participation 53% among adults subject to them, with no gain in employment; adults 18 to 49 without a disability in childless households, those the requirement reaches, are 9.8% of SNAP participants, so about 5.2% fewer residents receive SNAP. The range runs from the 64% exit rate among incumbents to half the effect, for states where many of those adults are already exempt or covered by a waiver.",
-      "source": "Gray, Leive, Prager, Pukelis and Zaki 2023, American Economic Journal: Economic Policy 15(1); USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023, Table 3.6",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
-      "to": "program.snap-receipt",
-      "range": [-0.063, -0.025]
-    },
-    {
-      "key": "universal-prek-to-graduation",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.05,
-      "per": "law in force, high-quality program",
-      "lagMonths": 168,
-      "group": "4-year-olds, later",
-      "owner": "M",
-      "anchor": "Boston's universal preschool: +6 points on-time graduation for children who enrolled; with about 70% enrolled, about +5% of a state's rate, 14 years after the first four-year-olds. Tennessee's program did worse; quality decides where in the range a world lands.",
-      "source": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:education.universal-preschool",
-      "to": "school.graduation-pct",
-      "range": [-0.02, 0.08]
-    },
-    {
-      "key": "equalized-funding-to-spending",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "low-income districts",
-      "owner": "M",
-      "anchor": "School finance reforms raised spending and achievement in low-income districts (to confirm)",
-      "source": "Lafortune, Rothstein and Schanzenbach 2018 (to confirm)",
-      "evidence": "to-confirm",
-      "from": "law:us-policy-positions:education.equalize-school-funding",
-      "to": "school.spending-per-student"
-    },
-    {
-      "key": "end-cash-bail-to-pretrial-detention",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "defendants",
-      "owner": "O",
-      "anchor": "Fewer people held before trial (to confirm the size)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
-      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
-      "to": "justice.pretrial-detained"
-    },
-    {
-      "key": "mandatory-minimums-to-incarceration",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "people convicted",
-      "owner": "O",
-      "anchor": "Longer sentences raise prison counts (to confirm the size)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
-      "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
-      "to": "justice.incarcerated-per-100k"
-    },
-    {
-      "key": "concealed-carry-permit-to-firearm-homicide",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "permit required",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "O",
-      "anchor": "RAND: looser (shall-issue) carry laws raise total and firearm homicides; requiring a permit is the other way",
-      "source": "RAND Science of Gun Policy, 5th ed.",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
-      "to": "crime.firearm-homicide"
-    },
-    {
-      "key": "voter-id-to-registration",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "every group",
-      "owner": "C",
-      "anchor": "No effect on registration either, for any group",
-      "source": "Cantoni and Pons 2021 (QJE)",
-      "evidence": "about-zero",
-      "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
-      "to": "voting.registration"
-    },
-    {
-      "key": "automatic-registration-to-turnout",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.015,
-      "range": [0.005, 0.055],
-      "per": "law in force: about +1 point on a turnout near 66% of eligible voters",
-      "lagMonths": 12,
-      "group": "place",
-      "owner": "C",
-      "anchor": "AVR raises registration a lot; the new registrants vote less often than others, but enough of them vote to raise the eligible turnout rate, and the effect builds the longer AVR is in place. Front-end registration (at the agency visit) raised turnout 1.1 points and back-end registration (a notice after the visit) 3.3 points, as Data for Progress quotes the paper; the front-end size is used, with the back-end one as the top of the range. For people whose registration AVR updated when they moved, turnout rose 5.8 points (Orange County, California), which bounds it from above.",
-      "source": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
-      "to": "voting.turnout-pct"
-    },
-    {
-      "key": "restore-voting-to-turnout",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "sizeByPlace": {
-        "US-TN": {
-          "size": -0.0413,
-          "range": [-0.0432, -0.0338]
-        },
-        "US-FL": {
-          "size": -0.0352,
-          "range": [-0.0365, -0.0299]
-        },
-        "US-AL": {
-          "size": -0.0344,
-          "range": [-0.0359, -0.0282]
-        },
-        "US-AZ": {
-          "size": -0.0167,
-          "range": [-0.0174, -0.0141]
-        },
-        "US-MS": {
-          "size": -0.0159,
-          "range": [-0.0167, -0.013]
-        },
-        "US-KY": {
-          "size": -0.0161,
-          "range": [-0.0167, -0.0134]
-        },
-        "US-VA": {
-          "size": -0.021,
-          "range": [-0.0217, -0.0181]
-        },
-        "US-DE": {
-          "size": -0.0065,
-          "range": [-0.0068, -0.0055]
-        },
-        "US-WY": {
-          "size": -0.0051,
-          "range": [-0.0054, -0.0043]
-        },
-        "US-IA": {
-          "size": -0.0002,
-          "range": [-0.0002, -0.0002]
-        }
-      },
-      "per": "law in force says yes (1) rather than no (0); zero where the place already restores the vote by the end of a sentence",
-      "lagMonths": 0,
-      "group": "people barred from voting after their sentence",
-      "owner": "C",
-      "anchor": "Restoring the vote at the end of a sentence adds people to the voting-eligible population who vote less than others, so the eligible turnout rate falls while ballots rise. Each place's size is (1 + s x t / T) / (1 + s) - 1: s is its share of the voting-eligible population barred after their sentence, t = 0.14 the turnout of restored people (0.12 to 0.22 for the range) and T its 2024 turnout. In Tennessee the rate falls about 4% while ballots rise about 0.8 points of the old eligible population. The places that already restore by the end of a sentence (the rest of the states, D.C., the territories, and Arkansas, where Locked Out 2024 counts no one barred after the sentence, as Research 3 read it) have no one for the law to restore.",
-      "source": "The Sentencing Project, Locked Out 2024 (post-sentence shares by state); Meredith and Morse, Florida restorations 2007 to 2011 (12 to 16% voted); Burch 2011 (about 22%); University of Florida Election Lab 2024 VEP turnout. Sized by Research 3, 9/29/2026, /mnt/project-files/research/law-effect-sizes/justice.json.",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-      "to": "voting.turnout-pct"
-    },
-    {
-      "key": "housing-by-right-to-new-buildings",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 1,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "place",
-      "owner": "M",
-      "anchor": "New apartments in large buildings twice as many a year where the law allows more homes. HARDWIRED at the middle of what was found: Minneapolis's housing stock grew three times as fast as the rest of Minnesota's, 2017 to 2022 (Pew, January 4, 2024); California's SB 9 approved about none in its first year (Terner Center, 2022); Sao Paulo's upzoning added 1.9% to the stock in the long run (Research 1). PLACEHOLDER(research: permits-after-upzoning). New buildings then cut nearby rents 5 to 7%",
-      "source": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-      "to": "housing.new-large-buildings"
-    },
-    {
-      "key": "right-to-counsel-to-evictions",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.62,
-      "per": "law in force",
-      "lagMonths": 6,
-      "group": "tenants",
-      "owner": "M",
-      "anchor": "A represented tenant's chance of eviction -45% to -78%, middle -62%. town-rent.ts already decides each case with the lawyer in it; a producer of housing.eviction counts those recorded cases and never applies this link again",
-      "source": "Cassidy and Currie 2022, NBER w29836; NYC Office of Civil Justice FY2019",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
-      "to": "housing.eviction"
-    },
-    {
-      "key": "housing-first-to-homelessness",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.03,
-      "per": "law in force",
-      "lagMonths": 24,
-      "group": "people experiencing homelessness",
-      "owner": "M",
-      "anchor": "Housing First trials show large gains in housing stability for the people served, but community panels find a small effect on the count: about one fewer homeless person per 10 permanent supportive beds",
-      "source": "Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial",
-      "evidence": "contested",
-      "from": "law:us-policy-positions:health-human-services.housing-first-homelessness",
-      "to": "housing.homelessness",
-      "range": [-0.1, 0.02]
-    },
-    {
-      "key": "cannabis-sales-to-youth-use",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "teens",
-      "owner": "F",
-      "anchor": "Legal adult sales did not raise youth use (to confirm)",
-      "source": "Anderson, Hansen and Rees 2019 (to confirm)",
-      "evidence": "to-confirm",
-      "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
-      "to": "health.youth-cannabis-use"
-    },
-    {
-      "key": "loan-rate-cap-to-high-cost-borrowing",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.32,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "borrowers",
-      "owner": "B",
-      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A state rate cap of 36% APR ends storefront payday lending as a prohibition does. Cross-state survey evidence, not a trial. Read on the count of consumer lenders, a stand-in for use. Enforced loan limits in Dallas and Austin cut payday loan volume 44% and 61% (Wang and Burke 2021, NBER w28765), inside the range; the effect began when enforcement began",
-      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      "to": "finance.high-cost-loans",
-      "range": [-0.61, -0.2]
-    },
-    {
-      "key": "paid-leave-to-mothers-work",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "new mothers",
-      "owner": "B",
-      "anchor": "Mixed evidence (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
-      "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
-      "to": "labor.mothers-participation"
-    },
-    {
-      "key": "carbon-price-to-emissions",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.03,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "place",
-      "owner": "O",
-      "anchor": "Sweden's carbon tax cut transport emissions almost 11% over 1990 to 2005; British Columbia's cut transport emissions but brought no large, significant fall in total emissions. Transport is about a third of a place's emissions, so the total falls about 3%",
-      "source": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83",
-      "evidence": "contested",
-      "from": "law:us-policy-positions:environment-energy.price-carbon",
-      "to": "env.emissions",
-      "range": [-0.08, 0]
-    },
-    {
-      "key": "container-deposit-to-litter",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.45,
-      "range": [-0.64, -0.3],
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "place",
-      "owner": "B",
-      "anchor": "Before-and-after studies in seven states in the 1970s and 1980s found total litter fell 30 to 64% after a container deposit took effect",
-      "source": "Container Recycling Institute, Bottle Bill Resource Guide, summary of state litter studies (bottlebill.org); the individual studies were not read",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
-      "to": "env.litter"
-    },
-    {
-      "key": "container-deposit-to-prices",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.0005,
-      "range": [0.0002, 0.0011],
-      "per": "law in force",
-      "lagMonths": 3,
-      "group": "households",
-      "owner": "B",
-      "anchor": "Stores raised prices on covered drinks 4% when New York's deposit took in bottled water, and left other prices alone. Drinks bought for home are 1.9% of household spending (2024: $142 billion nonalcoholic and $229 billion alcoholic of $19.9 trillion), about two thirds of it in covered containers, so the whole price level rises about 0.05%",
-      "source": "Consequences of Bottle Bills, Journal of Marketing 2025 (doi 10.1177/00222429251347284), abstract read; Bureau of Economic Analysis, NIPA personal consumption expenditures 2024 (DNBVRC, DAOPRC, DPCERC)",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
-      "to": "household.prices"
-    },
-    {
-      "key": "clean-electricity-to-price",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.11,
-      "per": "law in force",
-      "lagMonths": 84,
-      "group": "ratepayers",
-      "owner": "O",
-      "anchor": "Seven years after passage, renewable portfolio standards left retail electricity prices 11% higher, while cutting the power sector's carbon emissions 11 to 24%",
-      "source": "Greenstone and Nath 2019, Becker Friedman Institute Working Paper 2019-62 (Do Renewable Portfolio Standards Deliver?)",
-      "evidence": "researched",
-      "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "to": "energy.electricity-price",
-      "range": [0.03, 0.17]
-    },
-    {
-      "key": "flood-zone-limits-to-damage",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.02,
-      "per": "law in force says yes (1) rather than no (0): the share of a flood's exposed homes it damages",
-      "lagMonths": 24,
-      "group": "place",
-      "owner": "O",
-      "anchor": "ESTIMATED FROM AVERAGE: the law keeps new homes out of the flood zone, and new homes are about 1% of the housing stock a year (Census Bureau new residential construction over the housing unit estimates); a home kept out of the zone, like one built to the flood program's standards, escapes about 80% of the damage (FEMA). About two years of new building kept out gives about 2% fewer homes damaged; building above the 100-year flood line saves about $6 for every $1 spent (National Institute of Building Sciences 2019). Communities that protect open floodplain land have measurably lower insured flood losses (Brody and Highfield 2013)",
-      "source": "FEMA, National Flood Insurance Program floodplain management FAQ (structures built to NFIP criteria experience 80 percent less damage); Census Bureau, New Residential Construction and Housing Unit Estimates; Brody and Highfield 2013, Land Use Policy 32:89-95; National Institute of Building Sciences 2019, Natural Hazard Mitigation Saves; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
-      "evidence": "provisional",
-      "range": [-0.06, 0],
-      "from": "law:us-policy-positions:environment-energy.restrict-building-in-flood-zones",
-      "to": "disaster.flood-damage"
-    },
-    {
-      "key": "container-deposit-to-recycling",
-      "from": "law:us-policy-positions:environment-energy.bottle-deposit",
-      "to": "env.container-recycling-pct",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 43.7,
-      "per": "law in force says yes (1) rather than no (0), in percentage points of beverage containers recycled",
-      "lagMonths": 6,
-      "group": "place",
-      "owner": "O",
-      "evidence": "researched",
-      "anchor": "States with a deposit law return 71.6% of their beverage containers and states without one 27.9% (43.7 points). Return rates run from 33% under a 5-cent deposit to 92% under a 10-cent one, so the range spans a weak program to a strong one. A new program opens its return points within about six months",
-      "source": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
-      "range": [20, 55],
-      "floor": -100,
-      "ceiling": 101
-    },
-    {
-      "key": "unemployment-to-uninsured",
-      "to": "health.uninsured-pct",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.063,
-      "per": "percentage point of unemployment above 4%",
-      "lagMonths": 0,
-      "group": "working-age men; women and children shielded by public insurance",
-      "owner": "F",
-      "anchor": "+1 point of unemployment: men's coverage -1.67 points; women and children are shielded by public insurance. Across all ages about +0.5 points uninsured, +6.3% of the 2024 national rate. Halved where Medicaid covers low-income adults (to confirm).",
-      "source": "Cawley, Moriya and Simon 2015",
-      "moderator": {
-        "measure": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-        "effectAtFull": -0.5
-      },
-      "from": "labor.unemployment-pct",
-      "evidence": "researched",
-      "range": [0.03, 0.08]
-    },
-    {
-      "key": "federal-minimum-wage-to-poverty",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.035,
-      "per": "a raise to about $15",
-      "lagMonths": 24,
-      "group": "families at the bottom",
-      "owner": "B",
-      "anchor": "CBO: $15 by 2025 lifts about 1.3 million people out of poverty, about -3.5% of the poor. Scaled by how far the state's own minimum sits below $15; a state already at $15 is not moved.",
-      "source": "CBO 2019, The Effects on Employment and Family Income of Increasing the Federal Minimum Wage",
-      "evidence": "researched",
-      "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-      "to": "household.poverty-pct",
-      "moderator": {
-        "measure": "labor.minimum-wage-gap-to-15",
-        "effectAtFull": 1,
-        "mode": "only-when"
-      },
-      "range": [-0.045, -0.02]
-    },
-    {
-      "key": "federal-minimum-wage-to-low-wage-jobs",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "a raise to about $15",
-      "lagMonths": 24,
-      "group": "teens, least skilled",
-      "owner": "B",
-      "anchor": "CBO median: about 1.3 million fewer jobs in a typical week (range from none to 3.7 million); bunching studies find little job loss at moderate levels",
-      "source": "CBO 2019; Cengiz et al. 2019",
-      "evidence": "contested",
-      "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-      "to": "labor.low-wage-jobs"
-    },
-    {
-      "key": "mandatory-minimum-cut-to-federal-prisoners",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "federal prisoners",
-      "owner": "O",
-      "anchor": "Shorter federal minimums lower the federal prison count (to confirm); crime is about unchanged (see incarceration-to-crime)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
-      "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "to": "justice.incarcerated-per-100k"
-    },
-    {
-      "key": "power-plant-carbon-to-emissions",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 24,
-      "group": "place",
-      "owner": "O",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
-      "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "to": "env.emissions"
-    },
-    {
-      "key": "power-plant-carbon-to-particulates",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.005,
-      "per": "law in force",
-      "lagMonths": 72,
-      "group": "people downwind of coal plants",
-      "owner": "O",
-      "anchor": "Coal plants now add only about 0.07 micrograms of PM2.5 nationally (2.34 in 1999), so carbon limits cut fine particles by well under 1% on average, more in coal-heavy states",
-      "source": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards",
-      "evidence": "provisional",
-      "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "to": "env.particulates",
-      "range": [-0.015, -0.001]
-    },
-    {
-      "key": "tariffs-to-prices",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.008,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "households",
-      "owner": "B",
-      "anchor": "The 2025 tariffs raised consumer prices between 0.5% and 1%",
-      "source": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)",
-      "evidence": "researched",
-      "from": "law:us-federal-positions:trade.raise-tariffs",
-      "to": "household.prices",
-      "range": [0.005, 0.01]
-    },
-    {
-      "key": "housing-vouchers-to-homelessness",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.3,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "families who qualify",
-      "owner": "M",
-      "anchor": "A national program reaches more than the families already in shelter, so this uses CLOUD B's universal-scale size (Claude CTO, Sept. 28). Homeless families offered a permanent subsidy had less than half as many later episodes of homelessness over 37 months (-0.5)",
-      "source": "HUD Family Options Study, three-year impacts (2016)",
-      "evidence": "researched",
-      "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-      "to": "housing.homelessness",
-      "range": [-0.5, -0.15]
-    },
-    {
-      "key": "retirement-age-to-older-work",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.1,
-      "per": "law in force (a two-year rise in the full retirement age, 67 to 69)",
-      "lagMonths": 12,
-      "group": "people 62 to 67",
-      "owner": "B",
-      "anchor": "The mean retirement age of the affected cohorts rose about half as much as the full retirement age; the employment share at 62 to 66 is inferred from that",
-      "source": "Mastrobuoni 2009 (JPubE)",
-      "evidence": "provisional",
-      "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
-      "to": "labor.older-employment",
-      "range": [0.04, 0.22]
-    },
-    {
-      "key": "drug-negotiation-to-out-of-pocket",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.08,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "Medicare enrollees",
-      "owner": "F",
-      "anchor": "Negotiated prices for the first ten drugs save enrollees about $1.5 billion in 2026, against $18.9 billion of out-of-pocket Part D spending in 2023 (7.9%)",
-      "source": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)",
-      "evidence": "provisional",
-      "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
-      "to": "health.drug-out-of-pocket",
-      "range": [-0.1, -0.06]
-    },
-    {
-      "key": "federal-loan-cap-to-high-cost-loans",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.32,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "borrowers",
-      "owner": "B",
-      "anchor": "Prohibiting payday loans goes with a 35% decline in their use (Urban Institute working paper, read); the published version reports 32%. A 36% APR cap ends storefront payday lending, as a prohibition does. Cross-state survey evidence, not a trial. Enforced loan limits in Dallas and Austin cut payday loan volume 44% and 61% (Wang and Burke 2021, NBER w28765), inside the range; the effect began when enforcement began",
-      "source": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range",
-      "evidence": "provisional",
-      "from": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
-      "to": "finance.high-cost-loans",
-      "range": [-0.61, -0.2],
-      "moderator": {
-        "measure": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
-        "effectAtFull": -1,
-        "mode": "scale"
-      }
-    },
-    {
-      "key": "student-debt-relief-to-finances",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 0,
-      "group": "borrowers",
-      "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
-      "from": "law:us-federal-positions:education.forgive-student-loans",
-      "to": "finance.past-due-debt"
-    },
-    {
-      "key": "more-immigration-to-workforce",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "place",
-      "owner": "B",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
-      "from": "law:us-federal-positions:immigration.admit-more-immigrants",
-      "to": "labor.workforce"
-    },
-    {
-      "key": "universal-prek-to-math-proficiency",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.005,
-      "per": "law in force",
-      "lagMonths": 60,
-      "group": "children who enrolled, later",
-      "owner": "M",
-      "anchor": "Boston: no detectable effect on state test scores; Tennessee: lower scores by 6th grade.",
-      "source": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
-      "evidence": "contested",
-      "from": "law:us-policy-positions:education.universal-preschool",
-      "to": "school.math-proficient-pct",
-      "range": [-0.03, 0.01]
-    },
-    {
-      "key": "equalized-funding-to-math-proficiency",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.06,
-      "per": "law in force",
-      "lagMonths": 36,
-      "group": "students in low-income districts",
-      "owner": "M",
-      "anchor": "School finance reforms raise spending in low-income districts at once, and achievement there rises over the following years; the implied effect of resources is large (size to confirm).",
-      "source": "Lafortune, Rothstein and Schanzenbach 2018 (AEJ Applied)",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:education.equalize-school-funding",
-      "to": "school.math-proficient-pct",
-      "range": [0.02, 0.1]
-    },
-    {
-      "key": "equalized-funding-to-graduation",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.02,
-      "per": "law in force",
-      "lagMonths": 60,
-      "group": "students in low-income districts",
-      "owner": "M",
-      "anchor": "10% more per student every year raises completed schooling 0.31 years, far more for low-income children; statewide about +2% on the rate once cohorts pass through (size to confirm).",
-      "source": "Jackson, Johnson and Persico 2016 (QJE)",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:education.equalize-school-funding",
-      "to": "school.graduation-pct",
-      "range": [0.005, 0.04]
-    },
-    {
-      "key": "vouchers-to-math-proficiency",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.01,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "students who use them",
-      "owner": "M",
-      "anchor": "Statewide voucher users lost ground in math at first (Louisiana, Indiana, Ohio), fading after a few years; few students use them, so the state moves little.",
-      "source": "Abdulkadiroglu, Pathak and Walters 2018; Waddington and Berends 2018 (to confirm)",
-      "evidence": "contested",
-      "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
-      "to": "school.math-proficient-pct",
-      "range": [-0.03, 0.005]
-    },
-    {
-      "key": "vouchers-to-graduation",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.005,
-      "per": "law in force",
-      "lagMonths": 48,
-      "group": "students who use them",
-      "owner": "M",
-      "anchor": "D.C. voucher users graduated more (about +12 points for users); few students use them.",
-      "source": "Wolf et al. 2013 (to confirm)",
-      "evidence": "contested",
-      "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
-      "to": "school.graduation-pct",
-      "range": [0, 0.015]
-    },
-    {
-      "key": "poverty-to-math-proficiency",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.01,
-      "per": "point of poverty above the state's start",
-      "lagMonths": 12,
-      "group": "children",
-      "owner": "M",
-      "anchor": "More family income raises children's scores (about +0.06 SD per $1,000); a point more poverty lowers a state's proficient share about 1% (to confirm).",
-      "source": "Dahl and Lochner 2012 (AER)",
-      "evidence": "provisional",
-      "from": "household.poverty-pct",
-      "to": "school.math-proficient-pct",
-      "range": [-0.02, 0]
-    },
-    {
-      "key": "uninsured-to-graduation",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.002,
-      "per": "point of uninsured above the state's start",
-      "lagMonths": 60,
-      "group": "children, over their school years",
-      "owner": "M",
-      "anchor": "Child coverage raises high-school completion (1980s-90s expansions cut non-completion 10%); the state's uninsured rate stands in for child coverage (to confirm).",
-      "source": "Cohodes et al. 2016 (JHR)",
-      "evidence": "provisional",
-      "from": "health.uninsured-pct",
-      "to": "school.graduation-pct",
-      "range": [-0.004, 0]
-    },
-    {
-      "key": "graduation-to-poverty",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.004,
-      "per": "point of graduation above the state's start",
-      "lagMonths": 120,
-      "group": "adults, years later",
-      "owner": "F",
-      "anchor": "More schooling lowers adult poverty (+0.31 years of school: -3.2 points of adult poverty for low-income children); a state's graduation gain reaches poverty a decade on (to confirm).",
-      "source": "Jackson, Johnson and Persico 2016 (QJE)",
-      "evidence": "provisional",
-      "from": "school.graduation-pct",
-      "to": "household.poverty-pct",
-      "range": [-0.008, -0.001]
-    },
-    {
-      "key": "crime-level-to-burglary",
-      "from": "crime.violent:pct-of-start",
+      "key":…13308 tokens truncated…
       "to": "crime.burglary",
       "strength": "strong",
       "shape": {
@@ -3692,7 +2494,9 @@
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.overdose-deaths",
       "strength": "weak",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": -0.05,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 11,
@@ -3708,7 +2512,9 @@
       "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
       "to": "government.member-market-returns",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3723,7 +2529,9 @@
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3738,7 +2546,9 @@
       "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
       "to": "school.graduation-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3753,7 +2563,9 @@
       "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
       "to": "school.reading-proficient-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
@@ -3768,7 +2580,9 @@
       "from": "law:us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
       "to": "household.poverty-pct",
       "strength": "about-zero",
-      "shape": { "kind": "linear" },
+      "shape": {
+        "kind": "linear"
+      },
       "size": 0,
       "per": "ordinance in force says yes (1) rather than no (0)",
       "lagMonths": 0,
