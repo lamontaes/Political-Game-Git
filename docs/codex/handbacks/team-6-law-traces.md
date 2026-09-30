@@ -2,7 +2,7 @@
 
 This first source-audit batch identifies two working aggregate paths and their unresolved limits. It changes no simulation behavior.
 
-The replacement session accepted the published account-transfer checkpoint. Parks, mileage and rural-transit funding now have source traces. A coverage inventory below records every assigned catalog question and its direct effects. Legal breadth, remaining traces and watched proof are unfinished. No fix or runtime acceptance is claimed.
+The replacement session accepted the published account-transfer checkpoint. All fifteen assigned catalog questions now have a first source-reader trace. The coverage inventory records their direct and inspected downstream effects. Fourteen noncatalog variants have a compiled-clause inventory. Full legal/effect breadth and watched proof are unfinished. No fix or runtime acceptance is claimed.
 
 ## Why-chain
 
@@ -158,6 +158,154 @@ Broadband's about-zero school result is the only explicitly inert evidence in th
 
 `outcomeFactor` drops a lagged law effect immediately when the current answer returns to its opening baseline. This proves the source's reversal rule, not a realistic reversal speed. Roads, easements, emissions, accumulated illness and constructed facilities may persist after repeal. Flag that legal-versus-physical distinction for the owning producer and Team 9 rather than declaring reversible multipliers to be complete real-world repeal.
 
+## Remaining catalog source traces
+
+These entries complete the first source-reader pass across all fifteen assigned catalog questions. They do not close primary-source breadth, all-jurisdiction legal inventories, missing mechanisms or watched proof. Coefficients below are inherited developer evidence. Every law still needs its actual proof line. The earlier detailed parks, mileage, rural-transit, gas-hookup and groundwater entries remain part of this pass.
+
+### Shift highway funds to transit
+
+1. **Change:** `outcome-web/index.ts` reads the highway-funding answer and moves transit service. The monthly place-outcome producer saves that service outcome. A downstream elasticity reads service moved by causes and moves aggregate ridership.
+2. **Who/how much:** inherited service size +6%, range +1% to +18%, delay 24 months. Each additional 1% of service moves rides by a central +0.5%, range +0.3% to +1%, after another 12 months. The unemployment link is unsized. These place outcomes do not transfer highway dollars, buy a bus, assign a route, pay staff or identify a rider's changed trip. The GAO flexible-funding and aggregate spending anchors are not estimates of every such effect.
+3. **Pass/undo:** game's state/county/city mapping is subject to generic authority and law rank. The published legal packet distinguishes federal Title 23 eligibility and matching conditions from state/local taxing and earmark powers. Exact constitutionally dedicated funds, fund owners, local grants, D.C. and territorial conditions remain partial. Repealing a permission does not automatically recover already transferred funds or sell purchased equipment; source reversal changes the aggregate factor.
+4. **Bottom:** an aggregate service factor and later ridership elasticity. A permissible transfer is treated as service expansion without a named funding decision or transfer in this path. No answer change yields no added law effect; that is not proof that transit spending stopped.
+5. **Gap/fix:** reconcile the existing public-budget/program transaction readers with this funding-permission cause. The owner must prevent double counting service bought by a recorded appropriation. Obtain actual eligible transfers and fund restrictions before wiring. New route or vehicle systems stay on the feature list.
+6. **Proof:** pending Team 2; named highway account, transit recipient, transferred dollars and changed trips NOT OBSERVED.
+
+### Fare-free transit
+
+1. **Change:** `outcome-web/index.ts` reads the fare-free answer and moves aggregate ridership. A separate enrollment-fare-relief drafting variant exists in `legislation-infrastructure-families.ts`; its targeted eligibility and reimbursement clauses are not the same as universal zero fares.
+2. **Who/how much:** inherited ridership +42%, range +22% to +65%, delay 1 month. The link uses a fare-elasticity conversion and holds its first-year response. Operator revenue, fares saved by existing riders, crowding, service purchases, travel substitution, work/school access and provider reimbursements are not sized or paid by this link. A targeted reimbursement clause does not prove those transactions. No inspected link establishes an inert response.
+3. **Pass/undo:** game's state/county/city scope does not establish fare-setting power over each transit operator. The legal packet records transit-agency and special-district governance separately. Actual board powers, grants, service contracts and local/territorial law remain partial. A later opposite answer reverses the aggregate effect; operator fare schedules and targeted program repeal require their own records. Congress's grant conditions stay Team 1-owned.
+4. **Bottom:** a place ridership multiplier. No named rider reads a fare, chooses a trip or receives a fare refund in this path. Identical opening/current answers add no law delta.
+5. **Gap/fix:** distinguish operator fare authority, universal fare removal and enrollment-specific reimbursement in existing provision/program adapters. Ask Team 9 for actual zero-fare case breadth and all supported fiscal/service effects. Do not infer a full fare-price change from any assistance-program clause.
+6. **Proof:** Team 2 line pending; actual passenger and operator money movements NOT OBSERVED.
+
+### Permit municipal broadband
+
+1. **Change:** `outcome-web/index.ts` reads the state's municipal-broadband permission and moves household broadband access. Monthly records save access; the downstream employment readers remain unsized and the school link is explicitly about-zero.
+2. **Who/how much:** inherited home access +1%, range 0% to +2%, delay 36 months. Employment-rate and married-women participation links have null sizes. The about-zero education evidence comes from specific computer/access studies; it does not declare all school outcomes inert. Construction, subscription prices, competition, provider cash, household bill savings and rollout choices are not transactions in this path.
+3. **Pass/undo:** the state question concerns local permission; it does not itself authorize each city to finance or operate a network. The legal packet records state/local restrictions and federal BEAD conditions separately. Its generally 25% nonfederal project-cost match is a legal funding condition with waivers, not a household access effect. Exact state bars, charter grants, D.C., territories and federal preemption cases remain partial. Repealing permission does not prove an existing network disappears.
+4. **Bottom:** permission is converted into aggregate household access, without a recorded provider investment or subscriber decision. A missing or unchanged cause yields no added factor; existing privately supplied access still belongs in the baseline.
+5. **Gap/fix:** tie permission to existing investment and subscription records if their owners establish those producers. Keep authority, buildout and uptake distinct. Missing employment sizes require Team 9 evidence, not zeros. New network construction systems stay on the feature list.
+6. **Proof:** actual municipality/provider construction payment and household bill line pending; none observed here.
+
+### Fix it first
+
+1. **Change:** `outcome-web/index.ts` reads the repair-priority answer and moves poor-road share, then household prices. Separate state worst-first and local maintenance drafting variants exist. Local profile admission and generic public-program installment/capacity writers provide another possible fiscal/service path; they are not counted by this question's outcome-web path alone.
+2. **Who/how much:** inherited poor-road share -18%, range -30% to -8%, delay 60 months. The downstream price coefficient is 0.00031 per percentage point of poor-road share moved, range 0.00015 to 0.0005, with no additional delay. Local profile costs and one generic maintenance unit are authored capacity terms, not a named road measurement. The legacy vehicle-cost link is unsized and reads a different roads-condition cause. Actual project costs, workers, closures, travel times and expansion forgone are unproved here.
+3. **Pass/undo:** game's state/county/city scope and local game-profile adapter do not prove actual road ownership or each body's appropriating power. Published transport evidence separates federal aid from state maintenance law. Local sourced restrictions still gate profile admission. D.C., territories, township powers and exact statutory priority/repeal limits require further evidence. A repeal cannot undo completed road resurfacing.
+4. **Bottom:** aggregate poor-road and price factors; the separate capacity branch can end in an authored generic unit rather than a real asset inspection. The state content includes a condition-rating threshold. Its application to actual recorded structures is not proved by drafting terms.
+5. **Gap/fix:** route to the fiscal owner to establish which enacted variants actually produce saved appropriations, installments and asset outturns. Avoid counting the same repair both through authored capacity and a law multiplier. Research any existing condition decision before replacing a threshold or cost. New asset inspection systems are features.
+6. **Proof:** pending named government, contractor payment, actual repaired road and resulting costs; no watched case observed.
+
+### Clean-electricity standard
+
+1. **Change:** `outcome-web/index.ts` reads the state clean-electricity answer and moves electricity prices and particulates. Monthly place records save both; the downstream air-conditioning and infant-health links lack sizes.
+2. **Who/how much:** inherited electricity-price +11%, range +3% to +17%, delay 84 months; particulates -1%, range -3% to 0%, delay 60 months. Source anchors also discuss power-sector emissions, but this law has no separate direct emissions link in the inspected map. Household bills, power procurement, generation investments, compliance costs and exposure are not named-person transactions here. Unsized air-conditioning and infant mortality are not zero effects.
+3. **Pass/undo:** game's state-only question has generic D.C./territory reach. The newly read California Public Utilities Code 399.15 places renewable procurement obligations on retail sellers and gives the commission implementation duties. It uses compliance periods, not a universal enactment-to-effect delay. This is one state statute, not proof of identical municipal, federal or territorial powers. Wholesale/interstate federal jurisdiction remains cross-linked to Team 1. Repeal cannot automatically remove existing generation or restore old contracts.
+4. **Bottom:** an aggregate price/particulate multiplier without utility procurement or household response. Registered outcomes do not establish compliance decisions. Identical opening/current answers cause no new law delta.
+5. **Gap/fix:** enumerate source-supported emissions and procurement effects with Team 9, then route existing utility/budget consumers to their owners. Separate legal targets and deadlines from empirical response ranges. Preserve the statute's retailer scope; new generation-market systems belong on the feature list.
+6. **Proof:** actual utility procurement, household bill and exposure lines pending; no named case observed.
+
+### Price carbon
+
+1. **Change:** `outcome-web/index.ts` reads the state carbon-pricing answer and changes aggregate emissions and particulates. No priced ton, allowance allocation, auction, tax liability or rebate payment is established by these two links.
+2. **Who/how much:** inherited emissions -3%, range -8% to 0%, delay 12 months; particulates -0.5%, range -2% to 0%, delay 24 months. The anchors mix transport emissions and regulated-plant changes with extrapolated place-wide effects. Revenue, household energy costs, distribution, rebates, production and permit purchases are unsized gaps here. No universal carbon price or guaranteed health benefit is admitted.
+3. **Pass/undo:** game's state-only question does not choose between a tax and permit program. California's official 38562 retrieval returned two versions amended by 2025 Chapter 117, with separate section references; the operative version was not resolved. Therefore no new California authority or repeal text is admitted from that selector. Federal, regional-program, constitutional-tax, D.C. and territorial boundaries remain research dependencies. Repeal of a tax or trading program must preserve actual past payments and valid outstanding obligations.
+4. **Bottom:** aggregate emissions/particulate effects, without a payer's liability, priced activity or response. The reader's immediate return to baseline after reversal is not evidence of atmospheric or exposure reversal.
+5. **Gap/fix:** resolve the exact operative statute before routing an authority correction. Have existing revenue/program owners identify carbon-payment readers, if any. Team 9 must distinguish causal program results from transport/plant proxies and enumerate supported distributional effects. A new permit market is a feature.
+6. **Proof:** priced-emission, public receipt, rebate and named household lines pending; none observed.
+
+### Restrict construction in flood zones
+
+1. **Change:** `outcome-web/index.ts` feeds a flood-damage factor to `crisis/disaster.ts`. This is a hazard damage reader, distinct from the generic monthly outcome store. It does not itself refuse a building permit or move new construction out of a mapped floodplain.
+2. **Who/how much:** inherited flood damage -2%, range -6% to 0%, delay 24 months. The coefficient combines new-construction turnover and mitigation evidence; it is a provisional extrapolation. Permits, housing supply, prices, insurance, relocation, flood exposure and repair payments are not established as separate law effects by this link. A law alone is not a flood occurrence or proof that any home escaped damage.
+3. **Pass/undo:** the game admits state/county/city zoning answers. Newly read 44 CFR 60.1(d) expressly defines federal floodplain criteria as minimum standards and encourages stricter state/community regulations. That is a real floor seam the generic rank-only enacted-law reader does not represent. Exact local zoning grants, NFIP participation, maps, property rights and D.C./territorial powers remain separate research. Repeal does not put already avoided construction back into a floodplain.
+4. **Bottom:** a damage factor applied when the disaster producer reads it, without a permit/exposure change caused by the law. Without the relevant hazard/exposure case, a sized link alone does not prove damage or money changed. Research found no inert reaction is not established here.
+5. **Gap/fix:** route the explicit federal-minimum/stricter-local legal seam to the authority owner. The hazard/permit owners should establish whether canonical construction and exposure records already exist. Never add a hazard chance to demonstrate a law effect. New permitting or hazard systems go on the feature list.
+6. **Proof:** actual denied/redirected construction, exposed home, damage and repair-dollar lines pending; no watched flood was run.
+
+### Beverage-container deposit
+
+1. **Change:** `outcome-web/index.ts` reads the deposit answer and changes litter, household prices and container-recycling percentage. Monthly records save those aggregates. No refundable deposit liability, return, retailer payment or redemption-center operation is proved by this path.
+2. **Who/how much:** inherited litter -45%, range -64% to -30%, delay 12 months; whole-household price level +0.05%, range +0.02% to +0.11%, delay 3 months; recycling +43.7 percentage points, range +20 to +55 points, delay 6 months. The recycling anchor compares states with and without programs; it is not an individual return probability. Sources include secondary litter summaries and a price-paper abstract. Full studies were not newly read here. Deposit refunds, unredeemed balances, retailer handling and producer costs remain unsized. Unaffected product prices in one anchor are a bounded inert finding, not no household response.
+3. **Pass/undo:** generic state/county/city consumer-rule scope is not a complete deposit-authority inventory. Oregon's current statute retrieval returned 403, so no new operative deposit amount, local grant or repeal condition is admitted. Federal, state preemption, local funding, D.C. and territorial law remain incomplete. Repeal must distinguish future charges from deposits already paid and containers still eligible for redemption.
+4. **Bottom:** three aggregate effects with no household buy/return choice or deposit-account transaction. The opening-answer rule can produce no added delta in an existing program, while refunds and returns could still occur in reality.
+5. **Gap/fix:** obtain the operative statute and exact refund/handling obligations, then ask existing retail/money owners for canonical liability and return readers. Team 9 should reread primary litter, recycling and price evidence before replacing ranges. A new reverse-logistics system is a feature.
+6. **Proof:** named purchase deposit, refund, retailer/public-account movement and recycling outcome pending; none observed.
+
+### Pay to protect farmland from development
+
+1. **Change:** `outcome-web/index.ts` reads the state's protection answer and reduces the developed-farmland outcome. Monthly records save acres. A funding permission is not an observed easement purchase, recorded land interest or landowner payment in this path.
+2. **Who/how much:** inherited developed farmland -47%, range -55% to -40%, delay 60 months. The anchor concerns purchase-of-development-rights programs across 269 counties in six Mid-Atlantic states over fifty years, reported through a USDA synthesis. Its original study was not reread here. Public spending, seller compensation, land values, farm continuity, housing supply and spatial displacement are unproved or unsized in this path. A program-average result is not a particular owner's sale decision.
+3. **Pass/undo:** the game's question asks state payments and is state-only. Newly read 16 U.S.C. 3865b supplies federal agricultural-easement cost sharing through eligible entities: ordinarily at most 50% of fair market value, with at most 75% for qualifying significant grasslands. Nonfederal contributions have specified allowable forms. These are grant conditions, not authority for every county to spend, and not a universal state program. Actual state/local enabling law, entity eligibility, D.C., territories and easement deeds remain partial. Repeal of a purchase program does not release an existing permanent easement by inference.
+4. **Bottom:** aggregate acres avoided, without a recorded parcel, appraisal, offer, landowner acceptance or deed. The generic immediate reversal rule is not evidence that protected acreage becomes developed on repeal day.
+5. **Gap/fix:** route existing public-program, money and property readers to their owners to establish the canonical purchase/deed chain. Keep federal assistance with Team 1 and state spending evidence with Team 6. Team 9 supplies breadth and displacement/cost evidence. New parcel or easement systems are features.
+6. **Proof:** actual public-account payment, named seller, recorded easement and subsequent parcel decision pending; none observed.
+
+### Expand public-land access
+
+1. **Change:** the read-only `lawEffectPaths` inventory returns no counted path for this question. No direct effects-map link was found. That is a bounded source inventory result, not proof that no public-land code exists anywhere.
+2. **Who/how much:** no effect size, range, delay or actual access change is established for the question. Visitor choices, land-management spending, permits/fees, conservation pressures, closures, safety and local business effects require research. None is marked inert merely because a reader is missing.
+3. **Pass/undo:** generic scope is state/county. Newly read 36 CFR 261.50 authorizes specified federal forest officials, within delegated authority, to issue area/road/trail closure or restriction orders, with stated prohibitions, timing and posting requirements. It does not grant a county power to override a federal closure. State/county-owned property, private easements, tribal land, D.C. and territorial land need actual ownership and legal evidence. Rule repeal or reopening also requires the responsible authority and retained order history.
+4. **Bottom:** the counted question path ends with no producer. A federal closure rule is evidence of a jurisdiction/record seam, not an implemented visitor consequence. An absent access record cannot be treated as universal permission.
+5. **Gap/fix:** ask existing place/property/action owners for any canonical land ownership, closure and access records. Connect an existing supported record reader if one exists and a narrow claim is released. Actual visitor/land-management systems not already present belong on the feature list. Do not invent a law size just to pass the path counter.
+6. **Proof:** landowner/manager, opening or closure order, visitor decision and any fee/public spending line pending; none observed.
+
+### Additional primary sources and unsuccessful reads
+
+- [California Public Utilities Code 399.15](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PUC&sectionNum=399.15.), 174504 acquired bytes, SHA-256 `d5fd3bad7765a38d4010571b93d8fa61ae07f7c68f8daab2a01d1ce47fd07c9b`. The actual retailer/compliance-period text was read; it does not validate the inherited national price coefficient.
+- [44 CFR 60.1](https://www.ecfr.gov/current/title-44/chapter-I/subchapter-B/part-60/subpart-A/section-60.1), 79847 bytes, SHA-256 `83ab363339ef13f047c0ed54b1204ea788f23da474f2543a7de40b077a032565`. Subsection (d)'s federal minimum and stricter state/community rule was read.
+- [16 U.S.C. 3865b](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title16-section3865b&num=0&edition=prelim), 167641 bytes, SHA-256 `9ccd82787d9520e24a39205229db35ffb4004bef630c10a4da7a1526ca17e5aa`. Cost-sharing and eligible-entity conditions were read, not an all-place state/local authority inventory.
+- [36 CFR 261.50](https://www.ecfr.gov/current/title-36/chapter-II/part-261/subpart-B/section-261.50), 83214 bytes, SHA-256 `2ff39159d653e15ad318898758fa9ccb91ce1d5ba222adfd9842565722e673d6`. Federal forest closure/delegation/order provisions were read. Current eCFR text is not a complete saved January 2026 order inventory.
+- Oregon ORS chapter 459A returned HTTP 403. The California carbon statute returned a two-version selector, not operative text, on both retrieval attempts. Two govinfo annual-CFR URLs redirected to the same generic error page with HTTP 200; neither was admitted as a source read. Successful eCFR text was obtained separately. All raw responses remain in scratch; unsuccessful responses are not evidence of substantive legal absence.
+
+### Shared terminal and noncatalog inventory limits
+
+The ten new entries above use the same why-chain where appropriate: the law-in-force answer changes a registered cause; a ranged coefficient changes an aggregate; the producer saves it; named decisions or transactions may be absent. That aggregate terminal is explicit for each law. Public-land access instead ends at no counted producer. Fix-it-first has an additional authored-capacity/program seam to resolve. None is a completed watched worked example.
+
+The monthly aggregate producer also changes its structural level using `place-outcomes.ts:driftSteps`. Its source draws normal national/place noise and applies a wave when `next() < waveMonthlyChance`. This runtime chance-based wave is distinct from the approved per-world/per-place effect-size draw. It is an inherited no-dice finding at lines 76–85, not a Team 6 change. The common producer owner must reconcile it; Team 6 claims no shared drift hunk. The chance wave is not research or an actor's decision.
+
+Noncatalog seams inspected include the rural sponsor-request adapter, automatic paid-service writer, targeted enrollment fare-relief content, state worst-first repair content and local maintenance profile. Federal passenger-rail and farm-subsidy modules are cross-links to Team 1, not duplicate Team 6 federal traces. Remaining transport infrastructure content and saved-record consumers still need a bounded noncatalog inventory. No assertion is made that every legal packet topic already has a complete implementation trace.
+
+Next concrete source checkpoint: reconcile all noncatalog infrastructure families with their existing enactment/program consumers, and publish a missing-reader list. Team 2's actual law-money records remain required for every proof line. Team 9's primary effect breadth and all-place legal gaps remain unresolved. Research checkpoint completion does not complete the assignment.
+
+### Noncatalog infrastructure and resilience: compiled-clause gap
+
+A subsequent pure compilation probe covered all fourteen variants in the seven infrastructure/resilience families. All compiled successfully using the existing Nebraska authoring pack and default terms. No world was created, mutated or advanced. This single authoring context proves clause output, not all-place legal authority or gameplay acceptance.
+
+Ten variants declare monetary authorizations; four are regulatory duties. None emits `amount-provided`, and none of the monetary clauses carries an operative effect intent in this probe. `program-governing.ts:appropriationFromEnactedMeasure` reads only that clause key for a single-component bill, or its component-prefixed form for a composite bill. Without it, this adapter returns before writing a positive appropriation. The compiler preserves template keys. This is an exact contract mismatch for this adapter, not a watched assertion that no other law reader could act.
+
+| Family                  | Variant                  | Monetary clause in compiled draft | Default authored ceiling | `amount-provided` present |
+| ----------------------- | ------------------------ | --------------------------------- | -----------------------: | ------------------------- |
+| Transit access          | enrollment-fare-relief   | pilot-support-limit               |               $8 million | No                        |
+| Transit access          | unserved-county-formula  | formula-addition                  |             $4.5 million | No                        |
+| Bridge maintenance      | worst-first-condition    | repair-authorization              |              $24 million | No                        |
+| Bridge maintenance      | preventive-cycle         | treatment-authorization           |              $11 million | No                        |
+| Broadband access        | unserved-buildout        | buildout-authorization            |              $18 million | No                        |
+| Broadband access        | adoption-support         | adoption-authorization            |               $6 million | No                        |
+| Water service lines     | inventory-and-plan       | None; regulatory duty             |                     None | No                        |
+| Water service lines     | funded-replacement       | replacement-fund                  |              $29 million | No                        |
+| Disaster recovery       | designated-area-grants   | recovery-fund                     |               $9 million | No                        |
+| Disaster recovery       | post-designation-waiver  | None; regulatory duty             |                     None | No                        |
+| Utility resilience      | hardening-grants         | hardening-fund                    |              $15 million | No                        |
+| Utility resilience      | restoration-standard     | None; regulatory duty             |                     None | No                        |
+| Critical infrastructure | operator-assistance-fund | assistance-fund                   |               $7 million | No                        |
+| Critical infrastructure | continuity-planning-duty | None; regulatory duty             |                     None | No                        |
+
+These dollars are compiled fictional bill ceilings, not real budgets, disbursements or researched effect sizes. They must not be copied into a universal effect link. None of the fourteen variants declares NPC eligibility or an NPC service profile in its metadata. That finding does not imply that all manual drafting or filing is unavailable.
+
+**Six-line noncatalog trace, applying to each listed variant with its own clause and duty:**
+
+1. **Change:** compiling writes prospective clause text and typed fiscal exposure; it does not write a world. The ten funding variants use the table's distinct keys, which this governing appropriation adapter does not consume. The four regulatory variants have no monetary clause and need their own duty/enforcement consumer.
+2. **Who/how much:** intended recipients differ: enrolled transit riders/providers, unserved counties, inspected structures, unserved areas, eligible broadband households, water systems, designated damaged areas, covered utilities and covered operators. Authored ceilings are listed above. Actual fare relief, service allocation, repair, network construction, take-up, inventories, line replacement, grants, waiver use, outage restoration and continuity compliance are not established by compiling. Every amount paid, unit delivered and downstream reaction needs a recorded case; none is an admitted inert finding.
+3. **Pass/undo:** the pure probe checks one state's existing drafting-authority rules. It is not a grant to every state, locality, territory, special district or federal body. Exact statutory eligibility, ownership, public account, regulator and repeal conditions remain task-specific. Generic sunset/repeal content does not prove that these clauses' duties, contracts, paid amounts and prior physical changes are unwound correctly.
+4. **Bottom:** successful drafted text and authorizations; for this payment path, a missing consumed clause stops before appropriation creation. The regulatory duties require separate records. The declared unavailable-outcome notes in the content bank are not watched proof of implementation state.
+5. **Gap/fix:** route the ten-key adapter mismatch to the existing fiscal/compiler owner. A narrow typed mapping must distinguish authorization from appropriation, preserve each clause's own amount and scope, and avoid interpreting any incidental fiscal exposure as spending authority. It must also preserve adapted amendments, effective dates and composite-part identities. Establish existing recipient, asset and enforcement readers before assigning new systems. Team 6 claims no shared writer.
+6. **Proof:** all fourteen watched law/program cases NOT RUN. Team 2 must name enacted clause, appropriation, account, recipient, transfer and outturn, or show the exact stop. A compile success is not payment proof.
+
+The raw probe is `/workspace/scratch/team6-law-boundaries/noncatalog-compiled-probe.json`, tied to source head `f9bb514a9225c5ae1e0cdb46c62aa1d2764af0c0`. The complete fourteen-row result is portable through this table; raw source responses remain in scratch. No fiscal/compiler fix was attempted, and no additional path claim was taken.
+
 ## Replacement-session checks and next bounded action
 
 Accepted transfer head: `f0735b3809f37ef4733660bf7661e7f7ce0cef89`, branch `codex/team-6-transportation-research`, PR1133 open and unmerged. Live main was independently read as `54930d427555034f3a92f335064586247985784d`. The one existing checkout was reused. No reset, stash, cleanup, extra tree, product edit, central-claims edit, helper or merge occurred.
@@ -166,11 +314,11 @@ Invoked the feature-walkthrough skill from the exact published PR1191 skill sour
 
 SIMULATED: no new watched run. RECORDS: financial transfer, paid-hour, publication, knowledge and memory writers exist in source. WORLD PIECES: actual accounts and saved appropriations are required; an actual route and rider decision are not established by this writer. CHECKS: federal match ceilings are legal conditions; inherited effect coefficients still require breadth review. NAMED EXAMPLE: none observed; no names or dollars are invented.
 
-Next bounded step: finish the environment/resource six-line reader traces and primary legal boundaries, beginning with gas-hookup preemption and groundwater authority. Coordinator should route the authored rider reaction, fifty-state transit profile, rank-only preemption and repeal-persistence findings to their existing owners. Team 2 supplies actual law-money lines; Team 9 supplies missing effect breadth and sizes. No new overlapping claim is requested by this source-only report.
+Next bounded step: route the ten noncatalog monetary-clause mismatches to the fiscal owner, then close primary legal/effect gaps with Team 9 and actual money lines with Team 2. Coordinator should route the authored rider reaction, fifty-state transit profile, rank-only preemption and repeal-persistence findings to their existing owners. Team 2 supplies actual law-money lines; Team 9 supplies missing effect breadth and sizes. No new overlapping claim is requested by this source-only report.
 
 ## Revisions and breadth
 
-The obsolete exhaustive-number task is replaced by why-chains and six-line law traces. Remaining assigned catalog areas are queued: six transportation questions, five environment/energy questions, three agriculture/resources questions and parks. Federal twenty-question entries stay Team 1-owned; Team 6 reports cross-links and area modules rather than a competing federal writer. The held law branch must be compared explicitly before describing branch-only effects as main behavior.
+The obsolete exhaustive-number task is replaced by why-chains and six-line law traces. The first reader pass covers six transportation questions, five environment/energy questions, three agriculture/resources questions and parks. Full primary-source breadth and watched proof remain open. Federal twenty-question entries stay Team 1-owned; Team 6 reports cross-links and area modules rather than a competing federal writer. The held law branch must be compared explicitly before describing branch-only effects as main behavior.
 
 ## Numbered HELD parts
 
@@ -181,7 +329,7 @@ The obsolete exhaustive-number task is replaced by why-chains and six-line law t
 
 ## SIMULATED / RECORDS / WORLD PIECES / CHECKS
 
-SIMULATED: none in this audit. RECORDS: law readers and budget stores exist in source; actual case-specific law and money records have not been extracted. WORLD PIECES: budget population, opening/current answers and spending bases are inputs to the inspected functions. Drivers' mileage/payment records and individual park outcomes were not established. NONE CASE: missing source evidence is unknown; no enacted delta is not zero real-world activity. Local parks budget consumer explicitly yields no delta. CHECKS: new prose checks pending; no runtime, product types, tests or browser run. Prior PR1133 source checks remain scoped to its identical published tree.
+SIMULATED: none in this audit. RECORDS: law readers and budget stores exist in source; actual case-specific law and money records have not been extracted. WORLD PIECES: budget population, opening/current answers and spending bases are inputs to the inspected functions. Drivers' mileage/payment records and individual park outcomes were not established. NONE CASE: missing source evidence is unknown; no enacted delta is not zero real-world activity. Local parks budget consumer explicitly yields no delta. CHECKS: the replacement-session prose checks are recorded in its receipt; no runtime, product types, tests or browser run. Prior PR1133 source checks remain scoped to its identical published tree.
 
 ## Random-place proof
 
@@ -189,4 +337,4 @@ NOT RUN. Team 2 owns the watched-year runner. A code path and a research source 
 
 ## Named worked example
 
-NOT OBSERVED. Do not invent a resident, driver or public transaction. A source-only illustration is a state changing its parks answer from no to yes: this function adds population times the shared annual estimate divided by twelve. It is not a named family's actual park use. Next bounded step: audit rural transit appropriation and environment/resource readers against the pinned main, then obtain the runner's actual transaction lines.
+NOT OBSERVED. Do not invent a resident, driver or public transaction. A source-only illustration is a state changing its parks answer from no to yes: this function adds population times the shared annual estimate divided by twelve. It is not a named family's actual park use. The initial rural-transit and catalog reader audits are now saved above. Next obtain the runner's actual transaction lines and resolve the named legal and adapter gaps through their owners.
