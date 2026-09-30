@@ -2,6 +2,24 @@
 
 Cloud teams are preserving their work for the account transfer. Eight final handoffs are received; Team 4 is finishing its receipt.
 
+## Current cloud sessions — September 30 account replacement
+
+Host: durable. These replace the prior account sessions; do not wake predecessors.
+
+| Team | Thread ID |
+| --- | --- |
+| 1 | 01a0f110-800f-73d5-bc95-e63ac4e160cc |
+| 2 | 01a0f111-398b-7417-a1f6-dc61533ac0dc |
+| 3 | 01a0f111-abf7-70c1-b648-e8d4a41bd0dc |
+| 4 | 01a0f112-2b2c-70fa-9c11-5f406ec0c0f2 |
+| 5 | 01a0f112-863d-70a1-8c5f-d764c17080ea |
+| 6 | 01a0f112-ac3c-7054-af78-9dcebb1a30d7 |
+| 8 | 01a0f112-db5b-7030-b9e8-38027ef090ca |
+| 9 | 01a0f113-051b-71e6-b663-8ab0a0a990c5 |
+| Merge | 01a0f113-5d55-7686-9094-92bf1b52e0e9 |
+
+Reports requested from all nine replacements; delivery confirmed, full acceptance receipts pending except Team9. Team8 assigned CTO3:20 bounded build/type/boundary-test repair; exact file claims pending. Team4 final predecessor handoff received at69c0f0395ebe4617b19f5418fe0727a54538f3be (#1190); month28.203328901s fails15s, fingerprint matches. All nine predecessor handoffs received.
+
 ## September 30, 2:30 a.m. account-transfer checkpoint
 
 ### MERGED
