@@ -66,7 +66,7 @@ export function presidentialStandingForMidterm(world: World, asOf: IsoDate) {
   const definition = Object.values(world.metricCatalog.definitions).find(
     (d) =>
       d.stableKey === "politics.presidential-job-approval" &&
-      d.tags.includes(`person:${president?.personId}`),
+      d.tags.includes(`person.${president?.personId.replaceAll("_", "-")}`),
   );
   const cutoff = {
     asOfDate: asOf > world.currentDate ? world.currentDate : asOf,

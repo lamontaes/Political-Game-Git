@@ -1,6 +1,6 @@
 # Nationwide lawmaking still needs its watched proof
 
-The candidate makes a chamber bring up a bill supported by its majority caucus and a chamber majority. Its sponsor is the member whose recorded principles press hardest. Cross-party cosponsors follow their own principles, and the party cue follows the sponsor. These changes have not established the requested nationwide result. The watched runs still await a runtime slot. Senate integration, life-formed officeholder integration, and seat calibration await the law team's overlapping files.
+The candidate makes a chamber bring up a bill supported by its majority caucus and a chamber majority. Its sponsor is the member whose recorded principles press hardest. Cross-party cosponsors follow their own principles, and the party cue follows the sponsor. These changes have not established the requested nationwide result. The watched runs follow code merge under the latest dispatch. Senate integration, life-formed officeholder integration, and seat calibration await the law team's overlapping files.
 
 ## MERGED
 
@@ -20,7 +20,7 @@ HARDWIRED: the midterm candidate retains the neutral mean loss and bounds a cont
 
 The state seated-body reader now carries the party affiliation already recorded on each seat. Without that field, the agenda helper would treat the chamber as nonpartisan. The sponsor party cue no longer follows the parties of all cosponsors.
 
-The explicit officeholder option is present in the life-formation reader. Its caller still uses the existing draw until Team 1's overlapping pull request merges. The seven affected regression cases have not been rerun or repaired by guessing their future expectations.
+The explicit officeholder option is present in the life-formation reader. Its caller still uses the existing draw; the exact caller needs Team 1 ownership release while that pull request is held for research review. The seven affected regression cases have not been rerun or repaired by guessing their future expectations.
 
 The Senate module is unwired and unvalidated. It is a conservative candidate for fiscal-only, deficit-reducing reconciliation, with compact budget-instruction vote events and principle-based objections to unanimous consent. Mixed provisions, Social Security changes, and unscored fiscal terms remain on the ordinary route. The score reads the treasury model's sourced opening books and enacted fiscal deltas; it does not turn an unrecorded law answer into no. Instructions have their own saved rolls and outcomes, but are not separate legislative measures. A neutral view is recorded present rather than opposed, and no ballot is supplied for the player. The candidate does not implement a full budget-window score or all possible Byrd rulings. Writers, action replay, and the legislative clock must use the same recorded procedure before this candidate can be accepted.
 
@@ -35,7 +35,7 @@ Complete annual law-output totals for all 56 jurisdictions have not been establi
 | Check                                                       | Executed result                                                                   |
 | ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | Workspace preflight                                         | Passed before source work                                                         |
-| Majority-agenda unit tests                                  | Four of four passed before the later ordering edit; final candidate rerun pending |
+| Majority-agenda unit tests                                  | Four of four passed in the final rule-fixture rerun at `0ff324c25`                |
 | Changed-file formatting, ESLint, and whitespace             | Passed; runtime behavior remains unvalidated                                      |
 | Changed-root type check                                     | Passed at `5082e7634`: 17 roots, 1,145 source/declaration files, zero diagnostics |
 | Five-year random-place baseline and candidate               | NOT RUN                                                                           |
@@ -45,13 +45,15 @@ Complete annual law-output totals for all 56 jurisdictions have not been establi
 | Reconciliation Senate majority passage                      | NOT RUN                                                                           |
 | Midterm incumbent defeat and Vermont counts                 | NOT RUN                                                                           |
 | Speed budget                                                | NOT RUN                                                                           |
-| Final focused regression suite and zero-dice check          | NOT RUN                                                                           |
+| Focused rule fixtures                                       | Four files passed, 18/18 tests at `0ff324c25`                                     |
+| Opening-world regression files                              | Interrupted: exit 130 after 25 minutes at `0ff324c25`; no case result             |
+| Full zero-dice check                                        | Exit 1: zero new findings, one gone entry; shared allowlist correction pending    |
 | Browser/player proof                                        | NOT RUN; assigned to Claude                                                       |
 | Independent report review                                   | NOT RUN; Wave 1 permits only one research helper                                  |
 
 ## NEEDS LAMONTAE
 
-No new product decision is requested at this checkpoint. Shared-file integration still awaits the law team. The owner-approved override allows two heavy jobs besides the speed team. Team 2 completed one scoped typecheck in slot B and released it to Team 3. Further runtime validation uses the rotating slot.
+The governance research dataset remains held for owner review under the 8:15 correction. Code-only pieces proceed as small ready pull requests after scoped typechecking and relevant tests. The officeholder caller needs an exact ownership release from the law team. Watched proofs follow merge; only Team 4 timing may pause full simulations, within the dispatched bound. Focused tests, typechecking, lint and image QA proceed without a slot.
 
 ## PLACEHOLDERS
 
@@ -89,8 +91,16 @@ Economic changes compare saved national conditions with the world's starting con
 
 `midtermPresidentPartyShift(input)` accepts those four numeric conditions and returns percentage points for the President's party, bounded smoothly between −9 and +2.3. It is a disclosed game profile. Team 3 can reuse the existing faction-share reader without inventing an approval poll.
 
-A lightweight scan of the changed readers found no new zero-dice findings. The exact removal currently pending in the shared allowlist is one `roll` entry owned by Build 27 in `src/simulation/governing/congress-lawmaking.ts`: `.integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0`. The shared allowlist was not edited. Its current claimed owner is Team 4; the coordinator received this exact removal delta. Removal of the legacy officeholder draw remains pending its shared-file integration. Sponsor selection no longer draws, but the guard did not count that shape in this baseline.
+The executed full `npm run zero-dice` check found zero new findings and one gone entry at `0ff324c25`. It exited 1 because the shared allowlist still contains the removed draw.
+
+The exact removal currently pending in the shared allowlist is one `roll` entry owned by Build 27 in `src/simulation/governing/congress-lawmaking.ts`: `.integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0`.
+
+The shared allowlist was not edited. Its current claimed owner is Team 4; the coordinator received this exact removal delta. Removal of the legacy officeholder draw remains pending its shared-file integration. Sponsor selection no longer draws, but the guard did not count that shape in this baseline.
 
 The reused research helper found four completed 2025 regular-session examples in [FiscalNote's September 2026 recap](https://fiscalnote.com/reports/2026-states-session-recap-report): North Dakota enacted 600 of 1,020 introduced bills; Nevada enacted 532 of 1,003; Montana enacted 777 of 1,589; and Texas enacted 1,206 of 7,274. These are that collector's bills-only cohorts, excluding resolutions, memorials, and amendments. They do not fill the all-56 annual coverage gap. The source handoff is `/private/tmp/team2-output-coverage.md`.
 
 The research helper's bounded heading inventory found 73 numbered Acts, contiguous 1–73, in Vermont's official [2025 Act Summary Book](https://legislature.vermont.gov/assets/Legislative-Reports/2025_Act_Summary_book-v2.pdf). This is the summary book's regular-session Act cohort, not a verified all-session calendar-year total. The [June 16 Senate Journal](https://legislature.vermont.gov/Documents/2026/Docs/JOURNAL/sj250616.pdf) records adjournment of the biennium's first half and later governor approvals through July 1. Resolutions use separate numbering. The book's summary disclaimer and unverified later recall coverage limit the comparison. The helper's receipt is `/private/tmp/team2-vermont-output-source.md`; its full heading inventory was not independently rerun by the parent.
+
+### Isolated national-mood regression
+
+The single-file run at the published checkpoint finished eight cases: six passed and two failed. Both failures rejected a metric tag containing a colon and entity-ID underscore; metric catalog tags require dotted content keys. The production reader and fixture now encode the President tag as `person.<hyphenated entity id>`. The date and national-scope assertions remain intact. Verification is in progress. The prior nine-file command was interrupted after 25 minutes without a reported case result; it proves neither pass nor failure.

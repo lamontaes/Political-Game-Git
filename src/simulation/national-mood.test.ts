@@ -14,7 +14,11 @@ import {
 } from "./national-mood";
 import { majorPartyOf } from "./statewide-electorate";
 import { addDays, makeIsoDate } from "./dates";
-import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import {
+  NATIONAL_ELECTION_JURISDICTION,
+  ensureNationalElectionJurisdiction,
+} from "./national-election-geography";
+import { createExactQuantity } from "./quantity";
 import {
   createWorldMetricCatalog,
   createWorldMetricDefinition,
@@ -58,11 +62,13 @@ describe("the national mood", () => {
       aggregationKind: "not-aggregatable",
       aggregationNote: "Separate samples are not summed.",
       stateSemantics: "primitive",
-      tags: [`person:${currentPresidentOf(base)!.personId}`],
+      tags: [
+        `person.${currentPresidentOf(base)!.personId.replaceAll("_", "-")}`,
+      ],
     });
     return {
       world: {
-        ...base,
+        ...ensureNationalElectionJurisdiction(base),
         metricCatalog: createWorldMetricCatalog({
           definitions: [
             ...Object.values(base.metricCatalog.definitions),
@@ -89,7 +95,7 @@ describe("the national mood", () => {
       referencePeriod: { kind: "point", at },
       value: {
         kind: "quantity",
-        quantity: { numerator: percent, denominator: 100, unit: "rate:share" },
+        quantity: createExactQuantity(percent, 100, "rate:share"),
       },
       sourceSeriesKey: `fixture.${key}`,
       sourceLabel: "National-mood test poll",
