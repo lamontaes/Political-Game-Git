@@ -1,0 +1,47 @@
+{
+  "schema": "team7-staging-correction-proposal/v1",
+  "status": "HELD-candidate-only",
+  "sourceHead": "54930d427555034f3a92f335064586247985784d",
+  "sourceStagingSha256": "38d699e8babd4166eefcf5e96c46aa615f9406b03d3385d6b96766a0e01e11a0",
+  "place": "barbershop",
+  "spotIndexZeroBased": 5,
+  "spotLabel": 6,
+  "sourcePath": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/barbershop__midday.jpg",
+  "sourceSha256": "07b8a2c4811c0c840a890d78d171b29930faae2c7d55f4154a0b356ce2ee4b66",
+  "expectedSpot": {
+    "x": 64,
+    "y": 80,
+    "pose": "stand",
+    "facing": "left",
+    "depth": 4
+  },
+  "proposedSpot": {
+    "x": 51,
+    "y": 80,
+    "pose": "stand",
+    "facing": "left",
+    "depth": 4
+  },
+  "reason": "Standing foot point overlaps foreground barber chair. Proposed point is in adjacent visible aisle.",
+  "oldFootPx": [
+    1070.08,
+    752.8
+  ],
+  "proposedFootPx": [
+    852.72,
+    752.8
+  ],
+  "changedFields": [
+    "x"
+  ],
+  "unchanged": "Pose, facing, depth, Y, scale, other spots, canonical data and raster remain unchanged.",
+  "checks": {
+    "sourceHash": "PASS",
+    "exactOldSpot": "PASS",
+    "nativePointInspection": "PASS",
+    "actorFit": "NOT RUN",
+    "occlusion": "NOT RUN",
+    "runtimeImport": "NOT RUN",
+    "pixelApproval": "PENDING"
+  }
+}
