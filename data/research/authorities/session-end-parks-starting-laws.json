@@ -224,6 +224,267 @@
       "accessed": "2026-09-29",
       "readBy": "helper",
       "kind": "primary"
+    },
+    {
+      "id": "ct-session-deadline",
+      "title": "Connecticut official session adjournment rules",
+      "url": "https://www.cga.ct.gov/asp/Content/Adjourn.asp",
+      "vintage": "Official indexed current text",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "de-session-constitution",
+      "title": "Delaware official constitution",
+      "url": "https://www.delcode.delaware.gov/constitution/constitution.pdf",
+      "vintage": "Through July1,2025",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ia-session-code2026",
+      "title": "Iowa2026Code chapter2",
+      "url": "https://www.legis.iowa.gov/docs/code/2026/2.pdf",
+      "vintage": "Generated December9,2025",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "in-session-deadlines2025",
+      "title": "Indiana2025 legislative deadlines",
+      "url": "https://iga.in.gov/session/2025/deadlines",
+      "vintage": "Official2025 application citingIC2-2.1-1-2",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "la-session-constitution2019",
+      "title": "Louisiana Senate constitution",
+      "url": "https://senate.legis.la.gov/Documents/Constitution/constitution.pdf",
+      "vintage": "Amended through2019",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ms-session-constitution",
+      "title": "MississippiSOS constitution",
+      "url": "https://sos.ms.gov/sites/default/files/publications/Mississippi_Constitution.pdf",
+      "vintage": "Section36 amendmentJune4,1968,proclaimedJune13",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "md-session-constitution",
+      "title": "md session constitution",
+      "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=c3&enactments=false&section=15",
+      "vintage": "Current text",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "md-session-history",
+      "title": "md session history",
+      "url": "https://msa.maryland.gov/msa/mdmanual/07leg/html/gaf.html",
+      "vintage": "Annual opening rule effective 1971",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "me-session-code2025",
+      "title": "me session code2025",
+      "url": "https://legislature.maine.gov/statutes/3/title3sec2.html",
+      "vintage": "Extracted October 20, 2025; ending paragraph cites 2019 PL 475 section 11",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "me-session-explanation",
+      "title": "me session explanation",
+      "url": "https://legislature.maine.gov/general",
+      "vintage": "Current legislature explanation",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-session-constitution",
+      "title": "ma session constitution",
+      "url": "https://malegislature.gov/Laws/Constitution",
+      "vintage": "Current constitutional text",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ma-session-clerk",
+      "title": "ma session clerk",
+      "url": "https://malegislature.gov/ClerksOffice/Senate/Deadlines",
+      "vintage": "194th legislature 2025-2026 deadlines",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-session-constitution",
+      "title": "mi session constitution",
+      "url": "https://www.legislature.mi.gov/documents/mcl/pdf/mcl-chap1.pdf",
+      "vintage": "Section 13 effective January 1, 1964; no subsequent amendment listed",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-session-constitution",
+      "title": "mn session constitution",
+      "url": "https://www.revisor.mn.gov/constitution/",
+      "vintage": "Current constitution",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-session-start2025",
+      "title": "mn session start2025",
+      "url": "https://www.revisor.mn.gov/statutes/cite/3.011",
+      "vintage": "2025 statute",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-session-day2025",
+      "title": "mn session day2025",
+      "url": "https://www.revisor.mn.gov/statutes/cite/3.012/pdf",
+      "vintage": "2025 statute",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-session-enactment2023",
+      "title": "mn session enactment2023",
+      "url": "https://www.revisor.mn.gov/laws/2023/0/Session+Law/Chapter/62/",
+      "vintage": "Article 2 sections 7-8; day-count amendment effective January 13, 2025",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-session-faq",
+      "title": "mn session faq",
+      "url": "https://www.leg.mn.gov/leg/faq/faq?subject=12",
+      "vintage": "Official explanation",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-session-section20",
+      "title": "mo session section20",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=III+++20",
+      "vintage": "Amended November 8, 1988; effective December 8, 1988",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-session-section20a",
+      "title": "mo session section20a",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=III+++20%28a%29",
+      "vintage": "Amended November 8, 1988; effective December 8, 1988",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ak-session-constitution",
+      "title": "ak session constitution",
+      "url": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "vintage": "Section 8 amended 1984",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ak-session-agency",
+      "title": "ak session agency",
+      "url": "https://akleg.gov/faq.php",
+      "vintage": "Official indexed explanation states 90-day statutory limit; full operative statute unavailable",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-session-constitution",
+      "title": "fl session constitution",
+      "url": "https://www.flsenate.gov/Laws/Constitution",
+      "vintage": "Section 3 amendment history latest adopted 2018",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ky-session-section36",
+      "title": "ky session section36",
+      "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=40",
+      "vintage": "Ratified November 7, 2000",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ky-session-section42",
+      "title": "ky session section42",
+      "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
+      "vintage": "Ratified November 7, 2000",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-session-constitution",
+      "title": "ca session constitution",
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV",
+      "vintage": "Section 3 amended June 8, 1976, Proposition 14",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "oh-session-constitution",
+      "title": "oh session constitution",
+      "url": "https://codes.ohio.gov/ohio-constitution/article-2",
+      "vintage": "Sections 8 and 14 effective May 8, 1973",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "or-session-constitution",
+      "title": "or session constitution",
+      "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+      "vintage": "Section 10 adopted November 2, 2010; own-source cached raster/text read at recorded SHA",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "or-session-statute2025",
+      "title": "or session statute2025",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors171.html",
+      "vintage": "2025 edition; 171.010 history latest 2018 chapter 78 section 1",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
     }
   ],
   "sessionEndLaw": {
@@ -264,13 +525,30 @@
       ]
     },
     "US-AK": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "constitutional-cap-with-statutory-gap",
+        "citation": "Alaska Constitution article II sections 8-10",
+        "constitutionalStart": "Fourth Monday in January unless changed by law",
+        "limits": [
+          {
+            "count": 120,
+            "unit": "consecutive calendar days from convening"
+          }
+        ],
+        "extension": "Once, at most ten consecutive calendar days, with two-thirds membership of each house.",
+        "specialLimit": {
+          "count": 30,
+          "unit": "days"
+        },
+        "recess": "Other house concurrence beyond three days; Governor may resolve certified disagreement on adjournment.",
+        "statutoryDuration": null
+      },
+      "sources": ["ak-session-constitution", "ak-session-agency"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "AS 24.05.150 operative text and history not retrieved. Agency distinguishes statutory 90 days and constitutional 121-day interpretation; constitutional wording is 120 days from convening. Do not silently substitute one rule or adopt introduced bills."
       ]
     },
     "US-AZ": {
@@ -341,13 +619,19 @@
       ]
     },
     "US-CA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "biennial-fixed-end",
+        "citation": "California Constitution article IV sections 3 and 10",
+        "start": "Noon first Monday in December in each even-numbered year",
+        "end": "Midnight November 30 of following even-numbered year, by operation of constitution",
+        "earlierPassageCutoff": "On or after September 1 of an even year, passage limited to election, tax, usual-current-expense appropriation, urgency and vetoed bills; presentation to Governor ends November 15."
+      },
+      "sources": ["ca-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Joint-rule annual calendars and detailed recess exceptions unverified; August floor dates are not constitutional session ends."
       ]
     },
     "US-CO": {
@@ -361,29 +645,60 @@
       ]
     },
     "US-CT": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-fixed-date",
+        "citation": "Connecticut Constitution article III section 2 as amended",
+        "oddYearStart": "Wednesday after the first Monday in January",
+        "oddYearEnd": "Wednesday after the first Monday in June",
+        "evenYearStart": "Wednesday after the first Monday in February",
+        "evenYearEnd": "Wednesday after the first Monday in May",
+        "extension": "Additional special sessions are distinct; no regular-deadline extension vote established."
+      },
+      "sources": ["ct-session-deadline"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Direct retrieval failed; official indexed text helper-read. Constitutional amendment date and detailed recess rules unverified."
       ]
     },
     "US-DE": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "fixed-date-with-recall",
+        "citation": "Delaware Constitution article II sections 4,12",
+        "start": "Second Tuesday in January annually, unless Governor or mutual call of both presiding officers convenes otherwise.",
+        "end": "No later than 5 p.m. June30 unless recalled by Governor or mutual call of both presiding officers.",
+        "recess": "Other house consent for adjournment longer than three days or another location."
+      },
+      "sources": ["de-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Section history includes 2025 revisions; exact amendment dates and complete January2026 comparison remain pending."
       ]
     },
     "US-FL": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "calendar-duration",
+        "citation": "Florida Constitution article III section 3",
+        "oddYearStart": "First Tuesday after first Monday in March",
+        "evenYearStart": "Second Tuesday after first Monday in January",
+        "limits": [
+          {
+            "count": 60,
+            "unit": "consecutive days"
+          }
+        ],
+        "specialLimit": {
+          "count": 20,
+          "unit": "consecutive days"
+        },
+        "extension": "Three-fifths vote of each house; new business during extension requires two-thirds membership of each house.",
+        "recess": "Concurrent resolution required beyond seventy-two consecutive hours."
+      },
+      "sources": ["fl-session-constitution"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -422,9 +737,7 @@
         }
       },
       "actualAdjournments": [],
-      "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
-      ]
+      "gaps": ["Full January 2026 amendment exclusion not separately audited."]
     },
     "US-GA": {
       "status": "unresearched",
@@ -517,23 +830,41 @@
       ]
     },
     "US-IN": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "dated-deadline-observation",
+        "citation": "Official2025 deadlines citingIC2-2.1-1-2",
+        "organizationalDay": "2024-11-19",
+        "latestReconvening": "2025-01-20",
+        "latestAdjournment": "2025-04-29",
+        "duration": null
+      },
+      "sources": ["in-session-deadlines2025"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Operative2025code and2026deadlines rendered blank. Recurring odd/even deadlines, day definitions and extension exceptions unverified; no secondaryApril30/March15 rule adopted."
       ]
     },
     "US-IA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "compulsory-end-unresolved",
+        "citation": "IowaCode2.1 and2.10(1)",
+        "start": "Second Monday in January annually",
+        "perDiemCap": {
+          "firstSession": 110,
+          "secondSession": 100,
+          "unit": "calendar days"
+        },
+        "duration": null,
+        "detail": "Payment provision expressly contemplates longer sessions; do not use per diem caps as compulsory adjournment limits. Recess subject to constitutional articleIII section14."
+      },
+      "sources": ["ia-session-code2026"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current constitutional/full statutory ending-date inventory not read; no affirmative unlimited-session finding."
       ]
     },
     "US-KS": {
@@ -570,9 +901,29 @@
       ]
     },
     "US-KY": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-day-cap-and-fixed-date",
+        "citation": "Kentucky Constitution sections 36 and 42",
+        "oddYearLimits": [
+          {
+            "count": 30,
+            "unit": "legislative days"
+          }
+        ],
+        "oddYearEnd": "March 30",
+        "evenYearLimits": [
+          {
+            "count": 60,
+            "unit": "legislative days"
+          }
+        ],
+        "evenYearEnd": "April 15",
+        "start": "First Tuesday after first Monday in January; odd-year second part resumes first Tuesday in February after first-part adjournment.",
+        "legislativeDay": "Calendar day excluding Sundays, legal holidays and days neither house meets.",
+        "exception": "Duration limits do not apply to Senate sitting as court of impeachment."
+      },
+      "sources": ["ky-session-section36", "ky-session-section42"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -605,24 +956,56 @@
         }
       },
       "actualAdjournments": [],
-      "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
-      ]
+      "gaps": ["Detailed interhouse recess provision not read."]
     },
     "US-LA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-dual-duration",
+        "citation": "Louisiana Constitution articleIII section2",
+        "evenYearStart": "Noon second Monday in March",
+        "evenYearLimits": [
+          {
+            "count": 60,
+            "unit": "legislative days"
+          },
+          {
+            "count": 85,
+            "unit": "calendar days"
+          }
+        ],
+        "oddYearStart": "Noon second Monday in April",
+        "oddYearLimits": [
+          {
+            "count": 45,
+            "unit": "legislative days"
+          },
+          {
+            "count": 60,
+            "unit": "calendar days"
+          }
+        ],
+        "calendarDeadline": "6 p.m. on the85th/60th day after convening respectively",
+        "legislativeDay": "Calendar day either house is in session",
+        "earlierPassageCutoff": "Even57th legislative/82nd calendar day; odd42nd legislative/57th calendar day, whichever first. Two-thirds elected eachhouse may waive this earlier passage cutoff, not the session-duration ceiling."
+      },
+      "sources": ["la-session-constitution2019"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Primary indexed text helper-read;2019edition requires January2026amendment-history comparison and current recess paragraph."
       ]
     },
     "US-ME": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-fixed-date",
+        "citation": "3 M.R.S. section 2",
+        "firstSessionEnd": "Third Wednesday in June",
+        "secondSessionEnd": "Third Wednesday in April",
+        "extension": "Emergency: two-thirds present and voting in each house may add five legislative days and another five for further emergency; one further legislative day for governor objections."
+      },
+      "sources": ["me-session-code2025", "me-session-explanation"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -658,33 +1041,62 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Detailed constitutional recess and legislative-day definition unverified."
       ]
     },
     "US-MD": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "calendar-duration",
+        "citation": "Maryland Constitution article III section 15",
+        "start": "Second Wednesday in January annually",
+        "limits": [
+          {
+            "count": 90,
+            "unit": "consecutive days"
+          }
+        ],
+        "extension": "Unless otherwise provided by law; resolution supported by three-fifths membership of each house permits at most thirty additional days. Governor-proclaimed special session at most thirty days."
+      },
+      "sources": ["md-session-constitution", "md-session-history"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Full section 14, detailed recess rule and historical January 2026 version remain unverified."
       ]
     },
     "US-MA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "formal-cutoff-distinct-from-session-end",
+        "citation": "Constitution amendments LXIV section 3, LXXXII section 2 and CII",
+        "start": "First Wednesday in January annually",
+        "recess": "Concurrent votes may authorize recesses totaling at most thirty days.",
+        "datedCalendar": {
+          "2025FormalCutoff": "2025-11-19",
+          "2025AnnualEnd": "2026-01-06",
+          "2026FormalCutoff": "2026-07-31",
+          "2026AnnualEnd": "2027-01-05"
+        },
+        "duration": null
+      },
+      "sources": ["ma-session-constitution", "ma-session-clerk"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Formal cutoffs are not constitutional sine die; current joint rules, suspension procedure and complete duration inventory unverified. No exhaustive unlimited-session finding."
       ]
     },
     "US-MI": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "resolution-set-end",
+        "citation": "Michigan Constitution article IV sections 13-14",
+        "start": "Noon second Wednesday in January annually",
+        "end": "Noon on the date set by concurrent resolution",
+        "carryover": "Odd-year pending business, bills and joint resolutions carry over with the same status."
+      },
+      "sources": ["mi-session-constitution"],
       "priorCandidateRow": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
         "cite": "Mich. Const. art. IV, \u00a7 13",
@@ -693,33 +1105,79 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Full statutory duration inventory and interhouse recess provision unverified; not an exhaustive absence-of-cap finding."
       ]
     },
     "US-MN": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "biennial-day-cap-and-annual-date",
+        "citation": "Minnesota Constitution article IV section 12; statutes 3.011 and 3.012",
+        "limits": [
+          {
+            "count": 120,
+            "unit": "legislative days per biennium"
+          }
+        ],
+        "end": "No regular meeting after first Monday following third Saturday in May",
+        "oddYearStart": "First Tuesday after second Monday in January",
+        "evenYearStart": "Jointly agreed by legislature",
+        "legislativeDay": "From 7 a.m. to following 7 a.m.; counts third reading, procedural or organizational rule adoption, regent election, appointment confirmation or veto override.",
+        "recess": "Other house consent beyond three days, Sundays excepted."
+      },
+      "sources": [
+        "mn-session-constitution",
+        "mn-session-start2025",
+        "mn-session-day2025",
+        "mn-session-enactment2023",
+        "mn-session-faq"
+      ],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "No regular-extension vote established; special session is a distinct governor-called route. Full constitutional amendment-history comparison pending."
       ]
     },
     "US-MS": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "quadrennial-duration",
+        "citation": "Mississippi Constitution articleIV sections36,57",
+        "start": "Tuesday after first Monday in January annually",
+        "limits": [
+          {
+            "count": 125,
+            "unit": "calendar days",
+            "years": "1972 and every fourth year thereafter"
+          },
+          {
+            "count": 90,
+            "unit": "calendar days",
+            "years": "Other years,including2025/2026"
+          }
+        ],
+        "extension": "House resolution with Senate concurrence and two-thirds present and voting in eachhouse permits thirty more days; no limit on number of extensions.",
+        "recess": "Other house consent for more than three days or another location."
+      },
+      "sources": ["ms-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Complete post-publication amendment exclusion not independently audited; no weekend/recess exclusion read."
       ]
     },
     "US-MO": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "fixed-end-with-earlier-floor-cutoff",
+        "citation": "Missouri Constitution article III sections 20 and 20(a)",
+        "start": "Wednesday after first Monday in January",
+        "end": "Midnight May 30 unless earlier adjourned",
+        "floorCutoff": "6 p.m. Friday after second Monday in May; remaining calendar bills tabled. Later regular-session work is enrolling, engrossing and signing bills already passed.",
+        "specialEnd": "6 p.m. sixtieth calendar day unless earlier",
+        "recess": "Other house consent beyond ten days."
+      },
+      "sources": ["mo-session-section20", "mo-session-section20a"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -745,7 +1203,7 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "No general regular-extension mechanism established by these sections."
       ]
     },
     "US-MT": {
@@ -905,13 +1363,19 @@
       ]
     },
     "US-OH": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "compulsory-end-unresolved",
+        "citation": "Ohio Constitution article II sections 8 and 14",
+        "start": "First Monday in January annually, following day if legal holiday",
+        "recess": "Other house consent beyond five days, Sundays excluded, or another place.",
+        "duration": null
+      },
+      "sources": ["oh-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Read sections establish opening and recess, not an end cap. Complete law/rules inventory pending; no affirmative unlimited-session finding."
       ]
     },
     "US-OK": {
@@ -957,13 +1421,32 @@
       ]
     },
     "US-OR": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-calendar-duration",
+        "citation": "Oregon Constitution article IV section 10; ORS 171.010",
+        "oddYearStart": "Tuesday after Martin Luther King Jr. birthday holiday",
+        "evenYearStart": "February 1; if Thursday through Sunday, following Monday",
+        "oddYearLimits": [
+          {
+            "count": 160,
+            "unit": "calendar days"
+          }
+        ],
+        "evenYearLimits": [
+          {
+            "count": 35,
+            "unit": "calendar days"
+          }
+        ],
+        "extension": "Two-thirds membership of each house may authorize five calendar days, repeatable. Starts next day except Sunday starts Monday.",
+        "organizationalException": "Organizational days excluded; no final bill consideration or veto reconsideration in organizational session."
+      },
+      "sources": ["or-session-constitution", "or-session-statute2025"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "2025 special-session amendment table comparison pending; constitution cached source SHA256 25e2dfcc84c3fbd851f6dff028abd7114888607985ea6ea74252e758bc7f3673."
       ]
     },
     "US-PA": {
