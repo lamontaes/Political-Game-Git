@@ -1,0 +1,88 @@
+{
+  "fromTeam": 9,
+  "toTeam": 5,
+  "status": "PARTIAL primary-source numbers-desk response; not runtime authorization",
+  "entries": [
+    {
+      "linkId": "prek-to-graduation",
+      "source": "https://www.nber.org/system/files/working_papers/w28756/w28756.pdf",
+      "table": "Table 4 panel B",
+      "treatment": "Boston public preschool attendance instrumented by lottery offer",
+      "outcome": "Ever graduated Massachusetts public high school",
+      "estimateProbabilityPoints": 0.06,
+      "clusteredStandardError": 0.03,
+      "approximateNormal95Interval": [
+        0.0012,
+        0.1188
+      ],
+      "intervalQualification": "Calculated coefficient +/-1.96 reported SE; not paper-reported CI and not cross-place heterogeneity bounds.",
+      "comparisonMean": 0.636,
+      "lag": "through high-school graduation, not immediate",
+      "limits": "Lottery compliers among applicants; graduation sample observed in Massachusetts public schools; no national preschool-cost or universal-place effect."
+    },
+    {
+      "linkId": "teacher-quality-to-earnings",
+      "source": "https://www.nber.org/system/files/working_papers/w19424/w19424.pdf",
+      "table": "Table 3 column 1",
+      "estimate": 349.84,
+      "standardError": 91.92,
+      "unit": "W-2 wage earnings dollars at age 28 per teacher VA unit in this specification",
+      "comparisonMean": 21256,
+      "limits": "Table reports OLS with school-cohort clustered SE. VA normalization and earnings dollar year must be verified before dose conversion. Do not claim causal law effect or convert to universal teacher salary return.",
+      "status": "needs-research: exact teacher-VA dose and matching law exposure; primary quasi-experimental specification"
+    }
+  ],
+  "otherRequests": [
+    {
+      "linkId": "school-spending-to-attainment",
+      "status": "needs-research",
+      "known": "Early w20847 abstract .27 completed school years per 10% spending increase throughout all 12 school years; final .31 anchor is a different version.",
+      "missing": "Final-version table CI and matching cumulative exposure/starting spending and attainment units."
+    },
+    {
+      "linkId": "homicide-nearby-to-scores",
+      "status": "needs-research",
+      "known": "Sharkey 2010 author abstract gives separate vocabulary -.5 SD and reading -.66 SD for African-American Chicago children ages5–17 within one week.",
+      "missing": "Outcome-specific table uncertainty, distance and decay; two outcomes are not a range."
+    },
+    {
+      "linkId": "family-income-to-scores",
+      "status": "needs-research",
+      "source": "https://www.nber.org/system/files/working_papers/w11279/w11279.pdf",
+      "known": "Early working paper abstract $1000 income -> .021 SD math and .036 SD reading.",
+      "missing": "Final-version estimate/CI, dollar year and income intervention unit. Separate outcomes are not bounds."
+    },
+    {
+      "linkId": "graduation-to-incarceration",
+      "status": "needs-research",
+      "source": "https://www.nber.org/system/files/working_papers/w8605/w8605.pdf",
+      "known": "Abstract .76 percentage-point white and3.4 percentage-point Black incarceration reduction from high-school graduation.",
+      "missing": "Subgroup-specific table CI and historical IV transport; racial estimates are not one interval."
+    },
+    {
+      "linkId": "equalized-funding-to-spending",
+      "status": "needs-research",
+      "source": "https://www.nber.org/system/files/working_papers/w22011/w22011.pdf",
+      "known": "Introduction reports about$1200 absolute/$700 relative district per-pupil annual spending response after reforms.",
+      "missing": "Dollar year, treatment-specific table uncertainty and place fiscal incidence; absolute/relative estimands are not a range."
+    }
+  ],
+  "studyNeeded": [
+    "child-coverage-to-graduation",
+    "class-size-to-scores: downloaded PDF text corrupt; table not verified",
+    "police-killing-to-graduation",
+    "school-move-to-scores: candidate URL wrong paper, excluded",
+    "lead-to-reading",
+    "heat-to-learning: matching SD/year-of-learning dose and table CI",
+    "enforcement-to-hispanic-enrollment",
+    "daca-to-graduation: candidate URL wrong paper, excluded",
+    "graduation-to-earnings",
+    "education-to-mortality: historical IV table and transport limits",
+    "abortion-ban-to-infant-deaths: exact study CI and exposure required",
+    "universal-childcare-to-mothers-work: +15% modeled anchor not verified range",
+    "fairness male hiring .027: primary CI not verified",
+    "curriculum national training/materials/phase-in unit costs",
+    "library national review labor/legal billing:13-hour Massachusetts proxy not national"
+  ],
+  "notRun": "No effect activation, person reader or nationwide audit checked for this packet."
+}

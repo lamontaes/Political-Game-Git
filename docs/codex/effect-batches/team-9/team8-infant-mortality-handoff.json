@@ -1,0 +1,50 @@
+{
+  "fromTeam": 9,
+  "toTeam": 8,
+  "assignment": "CTO10:45 health-chain transfer",
+  "link": {
+    "key": "particles-to-infant-deaths",
+    "to": "health.infant-mortality",
+    "strength": "strong",
+    "shape": {
+      "kind": "linear"
+    },
+    "size": 0.0045,
+    "per": "one percentage-point increase in TSP concentration relative to place start; local linear elasticity approximation near start",
+    "lagMonths": 0,
+    "group": "infant birth cohorts exposed to TSP; internal-cause deaths per live births",
+    "owner": "O",
+    "anchor": "IV elasticity 0.45; reported design/subsample elasticity spread 0.3 to 0.7. Per pct-of-start point divide each elasticity by 100.",
+    "source": "Chay and Greenstone 2003, Air Quality, Infant Mortality, and the Clean Air Act of 1970, NBER w10053, pp.20-21,26-27; https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+    "from": "env.particulates:pct-of-start",
+    "evidence": "researched",
+    "research": {
+      "batch": "team-9-effects-01",
+      "status": "sized",
+      "result": "Page 26: inverse-sampling-error-weighted IV elasticity 0.45. Pages 20 to 21 report 0.3 to 0.6; page 27 reports 0.6 to 0.7 near the regulatory cutoff.",
+      "breadth": "US monitored counties, 1971 to 1972 changes induced by Clean Air Act nonattainment. TSP, not PM2.5 or an air-quality index. Outcome is internal-cause infant deaths per live births.",
+      "access": "Working paper full text and tables read.",
+      "primarySource": "https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+      "conversion": "size = 0.45 / 100; range = [0.3 / 100, 0.7 / 100]. The cause is percent of starting TSP, so a one-point increase gives a 0.45% local proportional mortality increase.",
+      "transportLimit": "Study specification/subsample spread is not a CI or modern PM2.5 coefficient. Requires TSP-specific cause and infant internal-cause outcome readers; neither was verified. No supported general air-quality-index conversion.",
+      "readerStatus": "No person feels this yet: no cause or outcome reader was verified in this research batch. A numeric entry is not runtime activation proof."
+    },
+    "range": [
+      0.003,
+      0.007
+    ]
+  },
+  "primarySourceOnly": "https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+  "scope": "Historical1971\u20131972TSP changes and internal-cause infant deaths per live births. NotPM2.5/AQI and not a universal modern infant-death effect.",
+  "rangeMeaning": "Study-reported design/subsample elasticity spread0.3\u20130.7, notCI; weighted central0.45.",
+  "unitConversion": "Cause is percentage of starting TSP: divideelasticityby100 ->size0.0045,range[0.003,0.007]. Local linear approximation near starting concentration.",
+  "reader": "Final8ddquery:outcome-not-produced. A TSP cause measure exists but no matching outcome producer was proved; inspectactualpollutant and infantrecord scope before activation.",
+  "unknowns": [
+    "Modern/territory/place-specific transport",
+    "Matching TSP pollutant semantics in actual cause records",
+    "Matching internal-cause infant mortality outcome reader and person physical-health chain",
+    "Intervention dose, cohort prenatal exposure and follow-up; no individual mortality roll"
+  ],
+  "integrationOwner": "coordinator solelinks.json writer",
+  "originalSourceHead": "8dd29dfe13ec2247230541500a5ed1c36240418b"
+}

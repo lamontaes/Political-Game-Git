@@ -1,0 +1,30 @@
+{
+  "team": 9,
+  "questionId": "us-policy-positions:justice-public-safety.end-cash-bail",
+  "jurisdictionId": "US-NJ",
+  "primarySource": "https://pub.njleg.gov/bills/2014/PL14/31_.PDF",
+  "sourceVersion": "P.L.2014 chapter31, original enacted text; subsequent amendments/current2026 consolidation NOT verified",
+  "terms": {
+    "coverage": "Complaint-warrant initial indictable or disorderly-persons charge, subject to statutory exceptions",
+    "releasePriority": "Primarily nonmonetary release; least restrictive conditions reasonably assuring appearance, safety and no obstruction.",
+    "monetaryBail": "Permitted only when no other conditions reasonably assure appearance; monetary bail is not categorically abolished.",
+    "detention": "Prosecutor motion and clear-and-convincing finding that no conditions reasonably assure statutory goals.",
+    "decisionDeadlineHours": 48
+  },
+  "mappingCorrection": "Existing yes/no end-cash-bail label cannot represent these exceptions. Submit structured release-condition terms through coordinator; do not equate yes with universal release or zero detention.",
+  "why": [
+    "Court applies statutory release constraints to the charged defendant's case record.",
+    "Nonmonetary release removes the payment condition only when the applicable legal findings authorize it.",
+    "A legal rule sets the court's permissible conditions; a person's ability to pay cannot override those conditions."
+  ],
+  "conditions": "Charge, warrant/summons, judicial findings, failure-to-appear and detention-hearing exceptions must be read from operative statute.",
+  "reverseOnRepeal": "Replacement law governs future release decisions at its effective date; do not retroactively undo detention, payments or prior decisions.",
+  "who": "Eligible charged defendants and the court/pretrial-services records, not all residents.",
+  "lagWhy": "Statutory decision deadline is48hours subject to sections4/5 exceptions; this is not a causal aggregate detention lag.",
+  "aboutZero": false,
+  "cost": {
+    "status": "needs-research",
+    "missing": "Current NJ pretrial-services/court operating appropriation, covered caseload and marginal per-case cost; no invented fiscal rate."
+  },
+  "proof": "NOT RUN: no stamped saved consequence or nationwide audit. Current2026 amendments require verification."
+}

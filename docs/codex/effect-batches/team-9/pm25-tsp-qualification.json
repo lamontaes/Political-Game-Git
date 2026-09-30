@@ -1,0 +1,21 @@
+{
+  "fromTeam": 9,
+  "toTeam": 8,
+  "linkId": "particles-to-infant-deaths",
+  "acceptedCoordinatorHead": "79bdbd935945846b14a1d92edcd1fca6f29deb04",
+  "runtimeStatus": "BLOCKED: size null; no runtime range",
+  "supersedes": "team8-infant-mortality-handoff.json reader sentence claiming a TSP cause exists",
+  "primarySource": "https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+  "studyScope": "Chay and Greenstone 2003: historical 1971–1972 monitored-county TSP changes, internal-cause infant deaths per live births.",
+  "historicalProposal": {
+    "elasticity": 0.45,
+    "reportedDesignSubsampleSpread": [
+      0.3,
+      0.7
+    ],
+    "spreadIsConfidenceInterval": false
+  },
+  "qualification": "The game's current env.particulates source is 2022–2024 PM2.5. TSP and PM2.5 measure different particle fractions. Percent-of-start normalization does not make these pollutants interchangeable. No universal conversion or modern causal coefficient was identified.",
+  "needed": "A primary causal PM2.5 study with matching exposure dose/unit, infant outcome denominator, treatment/follow-up window, uncertainty range and transport limits, or a separately researched TSP cause. Verify a matching saved-person outcome reader before claiming activation.",
+  "integrationOwner": "coordinator; Team9 does not edit links.json"
+}

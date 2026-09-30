@@ -1,0 +1,189 @@
+{
+  "team": 9,
+  "assignment": "CTO10:45 sixjustice laws and numbersdesk",
+  "baseline": "8dd29dfe13ec2247230541500a5ed1c36240418b",
+  "status": "Step1 source inventory, not runtime proof",
+  "matrixWriter": "coordinator",
+  "laws": [
+    {
+      "questionId": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "effectList": [
+        "Release is not conditioned on paying money bail when operative law says so.",
+        "Judge evaluates lawful detention grounds from case/person records.",
+        "Release/detention affects custody, work availability and household presence.",
+        "Court appearance and subsequent offending are distinct outcomes, not presumed improvements."
+      ],
+      "measuredSourceReaders": [
+        "src/simulation/justice/pretrial.ts:80",
+        "src/simulation/justice/prosecution.ts:724"
+      ],
+      "mapLinkIds": [
+        "end-cash-bail-to-pretrial-detention",
+        "pretrial-detention-to-conviction",
+        "pretrial-detention-to-employment"
+      ],
+      "whyToBedrock": "Legal release conditions constrain the court; the defendant's money matters only where money bail lawfully applies; a judge chooses detention from the case record.",
+      "reverseOnRepeal": "Repeal changes future proceedings according to operative law. Existing orders and final case outcomes do not automatically reverse.",
+      "who": "Only people/cases covered by operative law and actual jurisdiction authority; no inferred territory or local power.",
+      "speed": "Effective date and actual case/action timing; numeric downstream lags remain source-specific.",
+      "placeDifferences": "Real starting law, court authority, offense/age/permit/eligibility scope and local records; unknown remains unknown.",
+      "aboutZero": "Not established; missing size is not zero evidence.",
+      "missingFigureOrReader": "Missing state-specific deposit/premium/eligibility and detention-dose estimate; current10% payment proxy is flagged, not newly accepted.",
+      "directEffectsStamped": "NOT RUN; shared Team2 helper contract and central production claims pending",
+      "nationwideEffectsHappeningVsMissing": "NOT RUN; no invented denominator",
+      "existingLinkResearch": [
+        {},
+        {
+          "batch": "team-9-effects-01",
+          "status": "needs research",
+          "result": "Table 4 fully controlled 2SLS: release -0.156 probability points, SE 0.034; detained mean 0.571.",
+          "breadth": "Marginal defendants affected by randomly assigned bail judges in Philadelphia and Miami-Dade; release versus detention.",
+          "access": "Working paper full text and Table 4 read.",
+          "primarySource": "https://www.nber.org/system/files/working_papers/w22511/w22511.pdf",
+          "missingFigure": "Need the final AER table interval, conviction baseline among the affected marginal defendants, and a defined detention input unit. Reversing a release effect and dividing by the whole detained mean does not establish the effect of detention on every defendant."
+        },
+        {
+          "batch": "team-9-effects-01",
+          "status": "needs research",
+          "result": "Table 7 fully controlled 2SLS: release +0.037 employment probability points (SE 0.043) in years 1 to 2, +0.102 (SE 0.053) in years 3 to 4.",
+          "breadth": "Same marginal defendant population; tax-record formal employment, not all work.",
+          "access": "Working paper full text and Table 7 read.",
+          "primarySource": "https://www.nber.org/system/files/working_papers/w22511/w22511.pdf",
+          "missingFigure": "Need final published estimates and intervals, affected-defendant employment baseline, and distinct follow-up exposure records. The first-period imprecise estimate is not evidence of zero; a single immediate lag cannot represent both periods."
+        }
+      ]
+    },
+    {
+      "questionId": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "effectList": [
+        "Offense-specific lawful floors and exceptions constrain the sentence.",
+        "Probation availability and custody duration change only for legally covered offenses.",
+        "Custody changes work/household presence; deterrence, recidivism and prison totals require separate evidence."
+      ],
+      "measuredSourceReaders": [
+        "src/simulation/justice/court-reasoning.ts:476",
+        "src/simulation/justice/prosecution.ts:679"
+      ],
+      "mapLinkIds": [
+        "mandatory-minimums-to-incarceration"
+      ],
+      "whyToBedrock": "A sentencing judge applies an offense's operative legal floor and statutory exceptions to proven charge/prior-conviction facts.",
+      "reverseOnRepeal": "Repeal is prospective unless an actual statute grants retroactivity. Existing sentences require authorized judicial review.",
+      "who": "Only people/cases covered by operative law and actual jurisdiction authority; no inferred territory or local power.",
+      "speed": "Effective date and actual case/action timing; numeric downstream lags remain source-specific.",
+      "placeDifferences": "Real starting law, court authority, offense/age/permit/eligibility scope and local records; unknown remains unknown.",
+      "aboutZero": "Not established; missing size is not zero evidence.",
+      "missingFigureOrReader": "Current generic violent-or-any-prior proxy has no verified universal legal scope or floor. Need each actual offense/quantity/prior/exception rule and empirical incarceration range.",
+      "directEffectsStamped": "NOT RUN; shared Team2 helper contract and central production claims pending",
+      "nationwideEffectsHappeningVsMissing": "NOT RUN; no invented denominator",
+      "existingLinkResearch": [
+        {}
+      ]
+    },
+    {
+      "questionId": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "effectList": [
+        "A legally empowered board can receive and investigate covered complaints.",
+        "Access to evidence, subpoena powers, recommendations and binding discipline depend on actual delegated authority.",
+        "Complainants, officers and officials act from complaint/evidence records; trust, misconduct and response effects need distinct causal evidence."
+      ],
+      "measuredSourceReaders": [],
+      "mapLinkIds": [
+        "law-civilian-oversight-to-complaint-investigations:PROPOSED"
+      ],
+      "whyToBedrock": "Legal authority permits a named body to investigate a complaint; members evaluate actual evidence and choose findings or recommendations within that authority.",
+      "reverseOnRepeal": "Repeal can remove future authority; it does not erase complaints, prior findings or legally final discipline.",
+      "who": "Only people/cases covered by operative law and actual jurisdiction authority; no inferred territory or local power.",
+      "speed": "Effective date and actual case/action timing; numeric downstream lags remain source-specific.",
+      "placeDifferences": "Real starting law, court authority, offense/age/permit/eligibility scope and local records; unknown remains unknown.",
+      "aboutZero": "Not established; missing size is not zero evidence.",
+      "missingFigureOrReader": "Need jurisdiction-specific lawful powers and scope, existing complaint/discipline readers, and numeric causal investigation/misconduct outcomes. No universal oversight multiplier.",
+      "directEffectsStamped": "NOT RUN; shared Team2 helper contract and central production claims pending",
+      "nationwideEffectsHappeningVsMissing": "NOT RUN; no invented denominator",
+      "existingLinkResearch": []
+    },
+    {
+      "questionId": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "effectList": [
+        "Covered people must satisfy actual concealed-carry permit requirements.",
+        "Eligibility, application, issuance, fees, exemptions and enforcement require their operative jurisdiction rules.",
+        "Firearm homicide, other violence and police encounters are separate downstream checks."
+      ],
+      "measuredSourceReaders": [],
+      "mapLinkIds": [
+        "concealed-carry-permit-to-firearm-homicide"
+      ],
+      "whyToBedrock": "The operative legal rule restricts a covered person's carrying action; the person applies or chooses actions from their own permissions and circumstances.",
+      "reverseOnRepeal": "Repeal changes future carrying conditions but does not mechanically erase existing permits, offenses or convictions.",
+      "who": "Only people/cases covered by operative law and actual jurisdiction authority; no inferred territory or local power.",
+      "speed": "Effective date and actual case/action timing; numeric downstream lags remain source-specific.",
+      "placeDifferences": "Real starting law, court authority, offense/age/permit/eligibility scope and local records; unknown remains unknown.",
+      "aboutZero": "Not established; missing size is not zero evidence.",
+      "missingFigureOrReader": "RAND distinguishes shall-issue/may-issue/permitless. Need exact policy transition and published numeric range; no inverted estimate from an unmatched law.",
+      "directEffectsStamped": "NOT RUN; shared Team2 helper contract and central production claims pending",
+      "nationwideEffectsHappeningVsMissing": "NOT RUN; no invented denominator",
+      "existingLinkResearch": [
+        {
+          "batch": "team-9-effects-01",
+          "status": "needs research",
+          "result": "RAND fifth-edition review: supportive evidence that shall-issue laws increase firearm homicides; permitless and may-issue rules are distinct comparisons.",
+          "breadth": "US state laws with different issuance and eligibility rules.",
+          "access": "Current RAND policy review read.",
+          "primarySource": "https://www.rand.org/research/gun-policy/analysis/concealed-carry.html",
+          "missingFigure": "Need the exact permitting transition and firearm-homicide estimate/interval for that comparison. A permit-required boolean combines shall-issue and may-issue laws; simply reversing a shall-issue estimate would misidentify the treatment."
+        }
+      ]
+    },
+    {
+      "questionId": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "effectList": [
+        "The legally covered age band is handled in the appropriate court, subject to actual transfer/exclusion rules.",
+        "Procedure, detention placement, services and records differ only as legally supported.",
+        "Education, recidivism and work consequences require individual records and separate empirical evidence."
+      ],
+      "measuredSourceReaders": [
+        "src/simulation/justice/juvenile-court.ts:36"
+      ],
+      "mapLinkIds": [
+        "law-juvenile-age-to-adult-court-cases:PROPOSED"
+      ],
+      "whyToBedrock": "Birth date and charge date determine age; operative legal jurisdiction and transfer rules determine the lawful venue.",
+      "reverseOnRepeal": "Repeal changes jurisdiction according to statutory dates and savings/transfer provisions, not a universal reverse multiplier.",
+      "who": "Only people/cases covered by operative law and actual jurisdiction authority; no inferred territory or local power.",
+      "speed": "Effective date and actual case/action timing; numeric downstream lags remain source-specific.",
+      "placeDifferences": "Real starting law, court authority, offense/age/permit/eligibility scope and local records; unknown remains unknown.",
+      "aboutZero": "Not established; missing size is not zero evidence.",
+      "missingFigureOrReader": "Current binary17/18 and silentage18 fallback do not establish all places' actual law. Need legal age/exclusions/transfer and youth-case reader; younger offenders currently disappear from named prosecution.",
+      "directEffectsStamped": "NOT RUN; shared Team2 helper contract and central production claims pending",
+      "nationwideEffectsHappeningVsMissing": "NOT RUN; no invented denominator",
+      "existingLinkResearch": []
+    },
+    {
+      "questionId": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "effectList": [
+        "Eligible people regain legal voting rights when the actual sentence/condition rule is met.",
+        "Registration and casting a ballot remain individual actions.",
+        "Eligible-population denominator and ballot count change separately; turnout share can fall while ballots rise."
+      ],
+      "measuredSourceReaders": [
+        "src/simulation/outcome-web/restore-voting.test.ts:24",
+        "src/simulation/justice/clemency-reasoning.ts:123"
+      ],
+      "mapLinkIds": [
+        "restore-voting-to-turnout"
+      ],
+      "whyToBedrock": "Sentence-completion facts satisfy the operative eligibility rule; an eligible person registers and votes according to their own circumstances.",
+      "reverseOnRepeal": "Any later restriction applies only as operative law permits; cast ballots and prior completed restorations are not presumed undone.",
+      "who": "Only people/cases covered by operative law and actual jurisdiction authority; no inferred territory or local power.",
+      "speed": "Effective date and actual case/action timing; numeric downstream lags remain source-specific.",
+      "placeDifferences": "Real starting law, court authority, offense/age/permit/eligibility scope and local records; unknown remains unknown.",
+      "aboutZero": "Not established; missing size is not zero evidence.",
+      "missingFigureOrReader": "Existing place-specific aggregate sizes are preserved. Need canonical person eligibility/registration/ballot read and state conditions; no count of actual voters proven.",
+      "directEffectsStamped": "NOT RUN; shared Team2 helper contract and central production claims pending",
+      "nationwideEffectsHappeningVsMissing": "NOT RUN; no invented denominator",
+      "existingLinkResearch": [
+        {}
+      ]
+    }
+  ]
+}
