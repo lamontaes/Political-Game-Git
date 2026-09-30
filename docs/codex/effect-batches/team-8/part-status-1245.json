@@ -1,0 +1,98 @@
+{
+  "schema": "team-8-five-part-verification-table/v1",
+  "asOfEastern": "2026-09-30 12:53",
+  "assignedQuestionKeys": [
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+    "us-policy-positions:health-human-services.medicaid-work-requirement",
+    "us-policy-positions:health-human-services.work-requirement-for-assistance",
+    "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+    "us-policy-positions:health-human-services.harm-reduction-services",
+    "us-policy-positions:health-human-services.housing-first-homelessness",
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+    "us-policy-positions:technology-privacy.age-verification-for-social-media",
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition"
+  ],
+  "countsMeaning": "Only exact published verification receipts are counted. Empty verified lists do not mean absent world behavior or that all existing terms are unusable.",
+  "usableTerms": {
+    "verifiedCompleteQuestionKeys": [],
+    "count": "0/9 verified complete",
+    "status": "Declarations exist; full researched state-specific operative terms, bounds and preemption not verified."
+  },
+  "actualEffectWriter": {
+    "verifiedQuestionKeys": [
+      "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "us-policy-positions:health-human-services.medicaid-work-requirement"
+    ],
+    "count": "2/9 controlled writer proof",
+    "pr": 1244,
+    "sourceHead": "217a8de539acb2dd13e3b7b627a78dfc91677eba",
+    "mainLanding": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+    "checks": "Six focused tests passed, twenty changed-person stamp records in five states. Merge fallback completed after whole-file120/300second NORESULT receipts.",
+    "scope": "Saved coverage attribution; no all-effect or nationwide proof."
+  },
+  "researchedActualCost": {
+    "verifiedCompleteQuestionKeys": [],
+    "count": "0/9 fully researched complete",
+    "stampedModeledComponentQuestionKeys": [
+      "us-policy-positions:technology-privacy.age-verification-for-social-media"
+    ],
+    "componentCount": "1/9 branch component",
+    "pr": 1274,
+    "sourceHead": "f6cc284c74dc888fb4690906452033cdaa0e2f99",
+    "state": "BRANCH_UNMERGED",
+    "checks": "Five cost tests passed12.26s; four-root graph0diagnostics; lint/format/report passed.",
+    "limits": "Inherited Utah fiscal projection, not observed2026 cash, platform costs or researched all-state range. Existing monthly amount and budget balances preserved.",
+    "sharedHunkReleaseHead": "c64928d112c5c57c460b44f60244e6726fa050ed"
+  },
+  "ideologyCatalog": {
+    "verifiedQuestionKeys": [
+      "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "us-policy-positions:health-human-services.harm-reduction-services",
+      "us-policy-positions:health-human-services.housing-first-homelessness",
+      "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "us-policy-positions:technology-privacy.restrict-government-facial-recognition"
+    ],
+    "count": "9/9 authored catalog weights",
+    "pr": 1262,
+    "sourceHead": "1fb6894b1afcd655eeca67e7420e7efcf8b419a",
+    "mainLanding": "316b999e589ad3f87493e90f2f9b84b11888327f",
+    "weights": 47,
+    "basis": "Authored design, not empirical opinion or group membership."
+  },
+  "ideologyDecisionConsumer": {
+    "verifiedQuestionKeys": [],
+    "count": "0/9 verified by Team8",
+    "status": "Team2 owns decision consumer. No decision-run receipt independently verified here."
+  },
+  "watchedProof": {
+    "verifiedQuestionKeys": [],
+    "count": "0/9 verified",
+    "status": "Nationwide per-state effect/cost proof unmeasured by Team8; not zero effects."
+  },
+  "newsReaderSeparate": {
+    "pr": 1235,
+    "head": "7d4f8be4da506720812e3475a9b5efdc7b685e49",
+    "state": "DRAFT",
+    "checks": "14testsPASS17.36s,2root0diagnostics,lint/format/report pass on restored coverage dependency stack. Main integrated additively via GitHub preserving same four owned blobs.",
+    "currentMainDependencyRun": "NOT_RUN",
+    "producerProof": false
+  },
+  "mapAudit": {
+    "head": "fee2a82fe5e3527e0085a407386dcc1f089b708c",
+    "path": "docs/codex/effect-batches/team-8/batch-03-age-verification-and-zero-audit.json",
+    "audited": 6,
+    "unsupportedZeroClaims": 3,
+    "measuredOrTimeSensitiveNeedingExactCI": 3,
+    "replacementContracts": 4,
+    "activated": 0,
+    "sharedMapWriter": "Coordinator"
+  },
+  "allFiveComplete": {
+    "questionKeys": [],
+    "count": "0/9 verified complete"
+  }
+}
