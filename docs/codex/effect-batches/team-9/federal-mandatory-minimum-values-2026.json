@@ -1,0 +1,66 @@
+{
+  "status": "partial primary-source extraction; not a complete sentencing algorithm",
+  "sourceAsOf": "OLRC displayed laws in effect September29,2026",
+  "requestComment": 5913278142,
+  "fields": {
+    "drugMinimumMonths": {
+      "value": 60,
+      "condition": "21USC841(b)(1)(B) specified substance/quantity; no qualifying prior conviction or death/serious-bodily-injury enhancement; exceptions not yet fully resolved"
+    },
+    "higherDrugMinimumMonths": {
+      "value": 120,
+      "condition": "21USC841(b)(1)(A) specified substance/quantity; same qualification"
+    },
+    "firearmMinimumMonths": {
+      "values": {
+        "useCarryOrFurtherancePossession": 60,
+        "brandishing": 84,
+        "discharge": 120
+      },
+      "condition": "18USC924(c)(1)(A), qualifying federal predicate offense; greater-minimum proviso and exceptions require full treatment"
+    }
+  },
+  "readFacts": {
+    "924cPriorFinalConviction": {
+      "months": 300,
+      "scope": "18USC924(c)(1)(C)(i); prior conviction under this subsection must already be final; special-firearm life provision not represented by numeric months"
+    },
+    "924cConsecutive": "18USC924(c)(1)(D)(ii) bars concurrent service with another imprisonment term",
+    "841PriorEnhancements": "21USC841(b)(1)(A): one qualifying final prior serious drug/violent felony ->15years;two or more ->25years. SubparagraphB:qualifying prior ->10years. Offense and enhancements must remain separate.",
+    "safetyValve": "18USC3553(f) court findings may permit sentencing without statutory minimum for listed drug offenses; criminal history, violence/firearm, death/injury, leadership and truthful-disclosure criteria must all be examined."
+  },
+  "stillMissing": [
+    "All substance/quantity branches, current definitions and case-law limits",
+    "Complete3553(f) and3553(e) exceptions and findings",
+    "Special firearm branch operative-date/sunset review",
+    "Offense-specific retroactivity and offense-date conditions",
+    "No single retroactive boolean inferred from prospective current text"
+  ],
+  "citations": [
+    {
+      "key": "drug",
+      "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title21-section841&num=0&edition=prelim",
+      "status": 200,
+      "bytes": 240104,
+      "sha256": "af302c001e25ad1cb16d6086bbcf06289f98a74eb028d23880653ebc2eba2479"
+    },
+    {
+      "key": "firearm",
+      "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section924&num=0&edition=prelim",
+      "status": 200,
+      "bytes": 241896,
+      "sha256": "e1722aea59b1719631922c7eeeb9753786c8d622e35d0aa99de4f72c229291be"
+    },
+    {
+      "key": "safety-valve",
+      "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section3553&num=0&edition=prelim",
+      "status": 200,
+      "bytes": 193528,
+      "sha256": "ea30ae6aa2c4f7e47c53c107a3311e5b0f7385e59b75f1e4721b38e739964580"
+    }
+  ],
+  "team": 9,
+  "integrationOwner": "Coordinator shared catalog; Team1 federal mandatory-minimum writer, no overlapping Team9 runtime edit",
+  "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+  "selectableBounds": "These are current offense/condition-specific legal minima, not one selectable sentencing interval or a universal mandatory minimum. No blanket retroactive flag."
+}
