@@ -4,7 +4,7 @@ Paid-leave spending now follows money actually moved from the state account. Com
 
 ## 1. Why-chain
 
-Measured source behavior: [payPaidLeaveClaims](https://github.com/lamontaes/Political-Game-Git/blob/5ed661972accc9accde78892a966ea7a4f8ddefc/src/simulation/paid-leave-benefits.ts#L179) saves the actual transfer. [readMonthFlows](https://github.com/lamontaes/Political-Game-Git/blob/5ed661972accc9accde78892a966ea7a4f8ddefc/src/simulation/public-budgets/month.ts#L145) and the [saved monthly row](https://github.com/lamontaes/Political-Game-Git/blob/5ed661972accc9accde78892a966ea7a4f8ddefc/src/simulation/public-budgets/month.ts#L867) record that amount as government spending. Money moved because the existing writer paid a recorded claim. The amount moved is limited by cash held in the actual state account. Its attribution comes from the operative law at the payment date. The terminal is the legal rule plus saved claim, account and transfer facts; no additional outcome draw.
+Measured source behavior: [payPaidLeaveClaims](https://github.com/lamontaes/Political-Game-Git/blob/99db82ee6d7b611432687e4c754501658a7e7896/src/simulation/paid-leave-benefits.ts#L179) saves the actual transfer. [readMonthFlows](https://github.com/lamontaes/Political-Game-Git/blob/99db82ee6d7b611432687e4c754501658a7e7896/src/simulation/public-budgets/month.ts#L146) and the [saved monthly row](https://github.com/lamontaes/Political-Game-Git/blob/99db82ee6d7b611432687e4c754501658a7e7896/src/simulation/public-budgets/month.ts#L868) record that amount as government spending. Money moved because the existing writer paid a recorded claim. The amount moved is limited by cash held in the actual state account. Its attribution comes from the operative law at the payment date. The terminal is the legal rule plus saved claim, account and transfer facts; no additional outcome draw.
 
 The underlying fallback premium and replacement-rate draws remain findings. Eligibility, employer duties and job protection are outside this attribution repair.
 
@@ -20,7 +20,7 @@ The five-state compatibility fixtures in the [budget receipt](paid-leave-main-re
 
 1. Read completed and positive partial outgoing paid-leave transfers.
 2. Preserve valid payment attribution and append the transfer identifier.
-3. Append paid-leave stamps to the settled row alongside the existing cannabis stamps on current main.
+3. Append paid-leave stamps to the settled row alongside the existing cannabis and age-verification stamps on current main.
 
 The narrow ownership release covers only these seams and the optional budget stamp field. Team5 tuition/curriculum and Team8 privacy appends remain disjoint released seams.
 
@@ -30,7 +30,7 @@ This change adds bookkeeping. Required world pieces are the existing state publi
 
 ## 6. Proof run
 
-The [budget receipt](paid-leave-main-repair-receipt.json) records five retained state fixtures passing 5/5. The combined fourteen-test run, including nine cannabis preservation tests, completed in 96.44 seconds. California, Colorado, Connecticut, Delaware and Massachusetts each cover completed, positive partial, older-save partial and blocked payments. Canonical save/reopen, actual budget deltas and no repeated spending passed. The seed is `paid-leave-stamp-five:<stateKey>`.
+The [budget receipt](paid-leave-main-repair-receipt.json) records five retained state fixtures passing 5/5. The combined fourteen-test run, including nine cannabis preservation tests, completed in 96.44 seconds. After the current-main conflict repair, the combined nineteen-test run passed in 91.74 seconds, including five age-verification preservation tests. California, Colorado, Connecticut, Delaware and Massachusetts each cover completed, positive partial, older-save partial and blocked payments. Canonical save/reopen, actual budget deltas and no repeated spending passed. The seed is `paid-leave-stamp-five:<stateKey>`.
 
 The [budget receipt](paid-leave-main-repair-receipt.json) records 9/9 preservation tests passing for the existing cannabis budget writer. Scoped strict type validation had zero diagnostics; lint and formatting passed. Nationwide, browser and random watched-person proof are NOT RUN.
 
@@ -40,4 +40,4 @@ The receipt contains twenty saved case records, with actual person, government, 
 
 ## Method and next step
 
-Original [PR #1253](https://github.com/lamontaes/Political-Game-Git/pull/1253) and its head `003dfcb9421583363f1bed17c724c4679c359da3` remain preserved. This independent repair starts from main `dba37ecad1e9ee97717ad9f15049dcdea684316f` on `codex/team-3-paid-leave-main-repair`. The production diff contains only paid-leave payment and budget attribution. No parks file, appropriation draw, age-verification cost or copied stamp helper is imported. New exact-head CTO renewal is required. Next: continue the consolidated already-read labor/fiscal stamp batch and coordinate shared tax integration. Teams never merge.
+Original [PR #1253](https://github.com/lamontaes/Political-Game-Git/pull/1253) and its head `003dfcb9421583363f1bed17c724c4679c359da3` remain preserved. This independent repair starts from main `2b8e6e21930bad84593ceede04d264115bca7dcd` on `codex/team-3-paid-leave-main-repair`. The production diff contains only paid-leave payment and budget attribution. The repair changes no parks file, appropriation draw, age-verification cost or copied stamp helper. The additive main integration preserves the existing age-verification cost and cannabis loss fields. New exact-head CTO renewal is required. Next: continue the consolidated already-read labor/fiscal stamp batch and coordinate shared tax integration. Teams never merge.

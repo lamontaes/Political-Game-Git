@@ -1,5 +1,5 @@
 {
-  "baseMain": "dba37ecad1e9ee97717ad9f15049dcdea684316f",
+  "baseMain": "2b8e6e21930bad84593ceede04d264115bca7dcd",
   "supersedesForIntegration": "1253@003dfcb9421583363f1bed17c724c4679c359da3",
   "heldParksImported": false,
   "paidLeaveCases": {
@@ -10,14 +10,14 @@
     "passed": 9,
     "total": 9
   },
-  "combinedSeconds": 96.44,
+  "combinedSeconds": 91.74,
   "strictRoots": 3,
   "strictDiagnostics": 0,
   "sourceSha256": {
     "src/simulation/paid-leave-benefits.ts": "9a75657c3d4bbac0191dd45b3dce4d11f65ac1319f933d4bdc362bf08ba3323e",
     "src/simulation/paid-leave-stamp.test.ts": "7175bb16332f9f87ca3cb96ddc5f95d08bc4ceaacee12573faec58fc34cc2779",
-    "src/simulation/public-budgets/month.ts": "3468506c7da08e9c83d4337ac1efbcda3e656ccf2b6a073d3612dc3e5c28686e",
-    "src/simulation/public-budgets/store.ts": "3f97c53ec6ed7b7f6f8353be1e6548d4f806bedb387f82a95e746bab38638f13"
+    "src/simulation/public-budgets/month.ts": "26690c01a093bd00185c3509460fb0c2ded848a33588fd030edff81bf4617f90",
+    "src/simulation/public-budgets/store.ts": "e90614483b507c144d857cb70fb0dea4dad75f42b61b46a9b086a1af49d8057a"
   },
   "cases": [
     {
@@ -1677,5 +1677,23 @@
     "watched random person",
     "ordinary eligibility/person-choice proof"
   ],
-  "log": "/workspace/scratch/team3-paid-main-repair.log"
+  "log": "/workspace/scratch/team3-paid-age-main-repair.log",
+  "previousValidation": {
+    "baseMain": "dba37ecad1e9ee97717ad9f15049dcdea684316f",
+    "combinedSeconds": 96.44,
+    "paidLeaveCases": {
+      "passed": 5,
+      "total": 5
+    },
+    "cannabisPreservation": {
+      "passed": 9,
+      "total": 9
+    }
+  },
+  "headChecked": "99db82ee6d7b611432687e4c754501658a7e7896",
+  "ageVerificationPreservation": {
+    "passed": 5,
+    "total": 5
+  },
+  "preservedMain1274": true
 }
