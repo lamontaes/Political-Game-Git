@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 1,
+  "basis": "CTO September 30, 2026, 4:10 a.m. allocator dispatch; Team 9 research1174 b54d4c1b27fccef45fd3a9f16f416481d57c9b7d. Partial fields are explicit; common arrangements are developer-unverified, never claimed sourced.",
+  "default": {
+    "first": 1,
+    "step": 1,
+    "sequence": "integer",
+    "reset": "regular-session",
+    "series": "type",
+    "specialSessionSuffix": "{special}",
+    "developerUnverified": true,
+    "verifiedFields": [],
+    "note": "Each chamber/type starts from1 per modeled regular session; separate special session. Existing chamber prefix/session profile supplies presentation; it is not new legal verification."
+  },
+  "measureTypes": [
+    "bill",
+    "joint-resolution",
+    "concurrent-resolution",
+    "resolution"
+  ],
+  "rules": [
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "house",
+      "measureType": "bill",
+      "template": "H.R. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "house",
+      "measureType": "joint-resolution",
+      "template": "H.J.Res. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "house",
+      "measureType": "concurrent-resolution",
+      "template": "H.Con.Res. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "house",
+      "measureType": "resolution",
+      "template": "H.Res. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "house",
+      "measureType": "bill",
+      "template": "{billTemplate}{special}",
+      "first": 4001,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "house",
+      "measureType": "joint-resolution",
+      "template": "HJR {alpha}{special}",
+      "first": 1,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "letters",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "house",
+      "measureType": "concurrent-resolution",
+      "template": "HCR {n}{special}",
+      "first": 1,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "reset"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "house",
+      "measureType": "resolution",
+      "template": "HR {n}{special}",
+      "first": 1,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "reset"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "house",
+      "measureType": "bill",
+      "template": "HB {n}{special}",
+      "first": 1,
+      "step": 2,
+      "reset": "annual",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "house",
+      "measureType": "joint-resolution",
+      "template": "HJR {n}{special}",
+      "first": 1,
+      "step": 2,
+      "reset": "annual",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "house",
+      "measureType": "concurrent-resolution",
+      "template": "HCR {n}{special}",
+      "first": 1,
+      "step": 2,
+      "reset": "annual",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "house",
+      "measureType": "resolution",
+      "template": "HR {n}{special}",
+      "first": 1,
+      "step": 2,
+      "reset": "annual",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "chamberKey": "house",
+      "measureType": "bill",
+      "template": "{billTemplate}{special}",
+      "first": 1001,
+      "step": 1,
+      "reset": "regular-session",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first"],
+      "developerUnverified": true,
+      "sourceRefs": ["https://ndlegis.gov/general-information"]
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "senate",
+      "measureType": "bill",
+      "template": "S. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "senate",
+      "measureType": "joint-resolution",
+      "template": "S.J.Res. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "senate",
+      "measureType": "concurrent-resolution",
+      "template": "S.Con.Res. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "senate",
+      "measureType": "resolution",
+      "template": "S.Res. {n}",
+      "first": 1,
+      "step": 1,
+      "reset": "congress",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1789,
+      "periodStartMonthDay": "01-03",
+      "sourceRefs": ["CTO September 30 4:10", "1174 federal primary records"],
+      "separateSpecialSeries": false
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "senate",
+      "measureType": "bill",
+      "template": "{billTemplate}{special}",
+      "first": 1,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "senate",
+      "measureType": "joint-resolution",
+      "template": "SJR {alpha}{special}",
+      "first": 1,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "letters",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "type", "first", "step", "reset", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "senate",
+      "measureType": "concurrent-resolution",
+      "template": "SCR {n}{special}",
+      "first": 1,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "reset"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "senate",
+      "measureType": "resolution",
+      "template": "SR {n}{special}",
+      "first": 1,
+      "step": 1,
+      "reset": "biennial",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "reset"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://legislature.mi.gov/documents/publications/HowBillBecomesLaw.pdf"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "senate",
+      "measureType": "bill",
+      "template": "SB {n}{special}",
+      "first": 2,
+      "step": 2,
+      "reset": "annual",
+      "series": "all-types",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "senate",
+      "measureType": "joint-resolution",
+      "template": "SJR {n}{special}",
+      "first": 2,
+      "step": 2,
+      "reset": "annual",
+      "series": "all-types",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "senate",
+      "measureType": "concurrent-resolution",
+      "template": "SCR {n}{special}",
+      "first": 2,
+      "step": 2,
+      "reset": "annual",
+      "series": "all-types",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "senate",
+      "measureType": "resolution",
+      "template": "SR {n}{special}",
+      "first": 2,
+      "step": 2,
+      "reset": "annual",
+      "series": "all-types",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first", "step", "series"],
+      "developerUnverified": true,
+      "sourceRefs": [
+        "https://www.flsenate.gov/PublishedContent/Reference/Publications/2024-2026SenateRules.pdf",
+        "https://www.flsenate.gov/Reference/FAQ"
+      ]
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "chamberKey": "senate",
+      "measureType": "bill",
+      "template": "{billTemplate}{special}",
+      "first": 2001,
+      "step": 1,
+      "reset": "regular-session",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "first"],
+      "developerUnverified": true,
+      "sourceRefs": ["https://ndlegis.gov/general-information"]
+    },
+    {
+      "jurisdictionKey": "US-GU",
+      "chamberKey": "*",
+      "measureType": "bill",
+      "template": "{n}-{period}({suffix})",
+      "first": 1,
+      "step": 1,
+      "reset": "legislature",
+      "series": "type",
+      "sequence": "integer",
+      "specialSessionSuffix": "{special}",
+      "verifiedFields": ["chamber", "template"],
+      "developerUnverified": true,
+      "periodAnchorYear": 1951,
+      "defaultSuffix": "COR",
+      "allowedSuffixes": ["COR", "LS"],
+      "sourceRefs": ["https://guamlegislature.gov/bills-page1/"],
+      "note": "COR/LS are observed designation suffixes, not verified regular/special-session meanings. Default COR is a developer-unverified choice."
+    },
+    {
+      "jurisdictionKey": "US-DC",
+      "chamberKey": "council",
+      "measureType": "bill",
+      "template": "B{period}-{n4}{special}",
+      "first": 1,
+      "step": 1,
+      "sequence": "integer",
+      "reset": "council-period",
+      "series": "type",
+      "specialSessionSuffix": "{special}",
+      "periodAnchorYear": 1975,
+      "developerUnverified": true,
+      "verifiedFields": ["template"],
+      "sourceRefs": ["data/research/bill-samples/dc/district-of-columbia.json"],
+      "note": "Retained observed council-period format. All-place legal field verification remains incomplete."
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "chamberKey": "house",
+      "measureType": "bill",
+      "template": "HB{yy}{special}-{n4}",
+      "first": 1001,
+      "step": 1,
+      "sequence": "integer",
+      "reset": "annual",
+      "series": "type",
+      "specialSessionSuffix": "{special}",
+      "developerUnverified": true,
+      "verifiedFields": ["chamber", "first", "template", "reset"],
+      "inferredFields": ["step"],
+      "sourceRefs": [
+        "https://www.coloradosenaterepublicans.com/bill-numbering-in-the-colorado-general-assembly/",
+        "https://leg.colorado.gov/bills/hb25-1001"
+      ],
+      "note": "Since2013 first extraordinary session uses B; later letters, resolutions, namespaces and reservations remain unverified. Step1 is supported inference, not separately quoted rule. Research1188 1d9b2589ca7ed46bbbf8ae6b34ec88c12a9bb789."
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "chamberKey": "senate",
+      "measureType": "bill",
+      "template": "SB{yy}{special}-{n3}",
+      "first": 1,
+      "step": 1,
+      "sequence": "integer",
+      "reset": "annual",
+      "series": "type",
+      "specialSessionSuffix": "{special}",
+      "developerUnverified": true,
+      "verifiedFields": ["chamber", "first", "template", "reset"],
+      "inferredFields": ["step"],
+      "sourceRefs": [
+        "https://www.coloradosenaterepublicans.com/bill-numbering-in-the-colorado-general-assembly/",
+        "https://leg.colorado.gov/bills/hb25-1001"
+      ],
+      "note": "Since2013 first extraordinary session uses B; later letters, resolutions, namespaces and reservations remain unverified. Step1 is supported inference, not separately quoted rule. Research1188 1d9b2589ca7ed46bbbf8ae6b34ec88c12a9bb789."
+    }
+  ],
+  "defaultTemplates": {
+    "house": {
+      "bill": "{billTemplate}{special}",
+      "joint-resolution": "HJR {n}{special}",
+      "concurrent-resolution": "HCR {n}{special}",
+      "resolution": "HR {n}{special}"
+    },
+    "senate": {
+      "bill": "{billTemplate}{special}",
+      "joint-resolution": "SJR {n}{special}",
+      "concurrent-resolution": "SCR {n}{special}",
+      "resolution": "SR {n}{special}"
+    }
+  },
+  "observations": [
+    {
+      "jurisdictionKey": "US-AR",
+      "designation": "HB1001",
+      "session": "2025 Regular",
+      "source": "https://arkleg.state.ar.us/Bills/Detail?id=HB1001&ddBienniumSession=2025%2F2025R",
+      "establishes": ["observed designation"],
+      "doesNotEstablish": ["first", "step", "reset", "other types"],
+      "developerUnverified": true
+    }
+  ]
+}
