@@ -44,7 +44,15 @@ export interface LawConsequencePredicate {
 export interface LawConsequenceRow {
   id: string;
   kind: LawConsequenceKind;
-  when: "effective" | "payroll" | "assessment" | "renewal" | "service";
+  when:
+    | "effective"
+    | "payroll"
+    | "assessment"
+    | "renewal"
+    | "service"
+    | "case-stage"
+    | "application"
+    | "payment";
   who: { selector: string; predicates: LawConsequencePredicate[] };
   what: string;
   amount?: LawAmountExpression;
@@ -72,6 +80,7 @@ export interface LawConsequenceContext {
   activityId: EntityId;
   subjectIds: EntityId[];
   governingLawId?: EntityId;
+  questionKey?: string;
 }
 
 /** The engine resolves legal authority and actual job records before invoking pay. */
