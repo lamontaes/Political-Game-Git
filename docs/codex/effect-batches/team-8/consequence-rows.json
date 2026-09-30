@@ -235,9 +235,7 @@
         "Actual assistance program membership, operative exemption/reporting terms and saved household-specific determination.",
         "Registered existing assistance subject and consequence bindings; no assumption that Medicaid eligibility is assistance eligibility."
       ],
-      "evidence": [
-        "docs/codex/effect-batches/team-8/part-status-1245.json"
-      ],
+      "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
       "why": "A work rule changes future assistance eligibility for a qualifying actual applicant; it does not create jobs or count paid benefits by itself."
     },
     {
@@ -249,9 +247,7 @@
         "Actual crisis dispatch, assigned qualified responder capacity, completion and named recipient.",
         "Operative funded service terms and actual paid service units; appropriation alone is not a completed response."
       ],
-      "evidence": [
-        "docs/codex/effect-batches/team-8/part-status-1245.json"
-      ],
+      "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
       "why": "A person receives crisis response only when an actual responder delivers it; no universal response rate or dollar amount is available in the verified input."
     },
     {
@@ -277,9 +273,7 @@
         "Recorded housing placement, eligible household, available actual unit, completed occupancy/service and any paid assistance.",
         "Research effect applies to actually housed/exposed subjects, not all homeless people or a binary law flag."
       ],
-      "evidence": [
-        "docs/codex/effect-batches/team-8/part-status-1245.json"
-      ],
+      "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
       "why": "Actual stable occupancy changes a named household's housing circumstances; a declaration does not manufacture a home."
     },
     {
@@ -326,9 +320,7 @@
         "Operative prohibited/permitted-use, warrant/exception and legal-jurisdiction terms plus saved compliance determination.",
         "No person surveillance record or allowlisted action established by the published Team8 evidence."
       ],
-      "evidence": [
-        "docs/codex/effect-batches/team-8/part-status-1245.json"
-      ],
+      "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
       "why": "A legal restriction changes permission for an actual scoped government use; no case, identity match, arrest or privacy exposure is manufactured."
     }
   ],
