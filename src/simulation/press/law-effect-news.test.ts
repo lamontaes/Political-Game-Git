@@ -589,13 +589,29 @@ describe("actual stamped coverage reaches resident news", () => {
       const questionKey =
         "us-policy-positions:health-human-services.expand-medicaid-eligibility";
       const state = stateJurisdictionForKey("US-NV")!;
-      const law = ordinance(state.id, "coverage-news", "yes", date, 1);
+      const catalog = createProductionPolicyCatalog();
+      const proposition = Object.values(catalog.propositions).find(
+        (definition) => definition.stableKey === questionKey,
+      )!;
+      expect(proposition).toBeDefined();
+      const fixtureLaw = ordinance(state.id, "coverage-news", "yes", date, 1);
+      const law = {
+        ...fixtureLaw,
+        measure: {
+          ...fixtureLaw.measure,
+          shortTitle: "Authored Medicaid coverage fixture",
+          propositionIds: [proposition.id],
+          propositionAnswers: [
+            { propositionId: proposition.id, answer: "yes" as const },
+          ],
+        },
+      };
       const governingLawKey = origin === "enacted"
         ? law.measure.id
         : `starting-law:US-NV:${questionKey}` as EntityId;
       let world: World = {
         ...base,
-        policyCatalog: createProductionPolicyCatalog(),
+        policyCatalog: catalog,
         history: {
           ...base.history,
           legislativeMeasures: origin === "enacted" ? [law.measure] : [],
