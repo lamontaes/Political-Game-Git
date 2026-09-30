@@ -930,3 +930,5 @@ Coordinator solely owns enacted-law-effects.ts orchestration, law-consequence-ty
 
 ## September30 3:32 approved unified contract implementation
 Coordinator owns law-consequence-types.ts, law-consequence-amount.ts/test and existing enacted-law-effects.ts/catalog integration. Team3 released only NEW applyLawPayConsequence export in living-world/town-pay.ts and its tests to Team2; preserve existing pay/teacher/compensation functions. Team3 retains state-wage-enacted-stamp.test.ts. No new per-law month/index grants; Team6 mileage caller request superseded. All other teams convert only their owned consequence payloads to shared schema, explicit missing capabilities routed Audit.
+
+Coordinator unified-contract ownership includes law-consequence-validation.ts and test; no runtime activation before canonical catalog/dispatch and pay adapter integration.
