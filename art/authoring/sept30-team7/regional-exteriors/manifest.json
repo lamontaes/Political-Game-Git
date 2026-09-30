@@ -1,0 +1,131 @@
+{
+  "scope": "CTO10:35 exterior decision; owner approval pending",
+  "sets": [
+    {
+      "kind": "sonoran-home-exterior",
+      "file": "art/authoring/sept30-team7/regional-exteriors/sonoran-home-exterior.png",
+      "sha256": "07b1ad12bd0b2705466d72f2a1ae735a8d60e3fe51380d32d8b412120f79d69d",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-exteriors/sonoran-home-exterior-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-sidewalk-suburban__midday.png",
+          "sha256": "0eedec9d6af7c180c49ea61da94f23ac545e82b51d0a128ff9bd6fde49209edc",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        },
+        {
+          "path": "/Users/lamontae/Documents/PG-LAND/art/families/regional-opening/env_regional_sonoran_desert_v1.png",
+          "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
+          "role": "landscape cues only",
+          "license": "undocumented in batch"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-399f3788-2756-4777-a34b-7cf6fb394d50.png",
+      "promptSummary": "Sonoran modest stucco house exterior seen from street, dry yard and mountains.",
+      "visualReview": "Exterior view and front path clear; garage dominates right; gravel texture remains heavier than master; no exact home identity.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "contactSha256": "575b06ffa3a86467eb83403ac055ffe34db85aab2c4ac24f8e4722175803ea18",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "canonicalAdmissionKey": null,
+      "geographicEligibility": "NOT VERIFIED; candidate for CTO bounded region, no selector change"
+    },
+    {
+      "kind": "green-mountain-home-exterior",
+      "file": "art/authoring/sept30-team7/regional-exteriors/green-mountain-home-exterior.png",
+      "sha256": "690f66629106f0864495cfb41f75874328c18f838f97008c96764e7affd748c3",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-exteriors/green-mountain-home-exterior-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-sidewalk-suburban__midday.png",
+          "sha256": "0eedec9d6af7c180c49ea61da94f23ac545e82b51d0a128ff9bd6fde49209edc",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-a0bc85b8-89d3-4ce0-bb90-a2b1cc84b1a3.png",
+      "promptSummary": "Northern NewEngland/Adirondack modest clapboard home exterior from street, forested hills.",
+      "visualReview": "Full facade and entry visible; dark contours and broad shadows; summer-only cues; exact home and eligibility not established.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "contactSha256": "0aada632d91d3683dfe3445a08ef269b714e9043eecd872e2914c4d9538b9e23",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "canonicalAdmissionKey": null,
+      "geographicEligibility": "NOT VERIFIED; candidate for CTO bounded region, no selector change"
+    },
+    {
+      "kind": "green-mountain-street",
+      "file": "art/authoring/sept30-team7/regional-exteriors/green-mountain-street.png",
+      "sha256": "13786f7a95823078a5a66e3cafd78a62e12fc9c7923a4b15545654a1048f8515",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-exteriors/green-mountain-street-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+          "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5dadc098-b6d3-4e93-856e-cdd35ac1212e.png",
+      "promptSummary": "Bounded northern NewEngland/Adirondack street with clapboard shops, gables and forested hills.",
+      "visualReview": "Clapboard/gable distinction visible; blank signs and clear sidewalk; summer view only; geographic eligibility and actor fit unverified.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "contactSha256": "218d598f16eea74cab65ec1b2b6e39e262d375547d72c807c450ea9290bf9352",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "canonicalAdmissionKey": null,
+      "intendedApprovedSlotKey": "opening-regional:green-mountain-forest:street:v1",
+      "geographicEligibility": "NOT VERIFIED; candidate for CTO bounded region, no selector change"
+    }
+  ],
+  "reusedSonoranStreet": {
+    "pr": 1226,
+    "head": "cf64988c816f453e5ea8df4dd795c39229d18b54",
+    "file": "art/authoring/sept30-team7/regional-priority/southwest-street.png",
+    "sha256": "d7eaeff82dd1f5a896759c867c30783dbd5eb46b509eb7a6ddda00cacc0fda81",
+    "intendedApprovedSlotKey": "opening-regional:sonoran-desert:street:v1",
+    "pixelApproval": "pending"
+  }
+}
