@@ -1,0 +1,97 @@
+{
+  "schema": "team-8-privacy-mechanism-source-trace/v1",
+  "asOfEastern": "2026-09-30 13:30",
+  "status": "DESIGN_AND_SOURCE_TRACE_ONLY",
+  "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+  "readOnlyPin": "80dba335a62f77d6a45c38919105991658ccf1de",
+  "release": "Team1 00b receipt releases federal privacy reader/share/calculation with no unpublished bytes. This trace changes no production file.",
+  "existingInputs": [
+    {
+      "file": "src/simulation/federal-data-privacy-law.ts",
+      "function": "dataPrivacyCostOn",
+      "available": "Canonical operative federal law and governing-law stamp.",
+      "missing": "Law-specific processing obligations and coverage threshold terms; current reader is enacted-only and cannot establish all starting/state law coverage."
+    },
+    {
+      "file": "src/simulation/living-world/town-finance-types.ts",
+      "type": "TownBusinessBooks",
+      "available": "organizationId, kind, annualRevenue, annualOtherCosts, lastQuarterPay, cash, debt, lastQuarterPrivacyCost, lawEffectStamps.",
+      "missing": "Data subjects actually processed, records/methods retained, request workload, documented compliance tasks, completed compliance work or vendor invoices. Kind, capacity and revenue are not measured data intensity."
+    },
+    {
+      "file": "src/simulation/living-world/town-finances.ts",
+      "function": "quarterly business settlement",
+      "available": "Actual quarter payroll aggregate and existing operating-cost/revenue/cash/debt mechanism.",
+      "missing": "Which paid work is privacy compliance and whether that work is incremental payroll, displaced existing work or externally purchased service."
+    },
+    {
+      "file": "src/simulation/types.ts",
+      "types": [
+        "Organization",
+        "OrganizationProfileRecord"
+      ],
+      "available": "Identity, formation, classification, dated location and closure.",
+      "missing": "Classification does not prove personal-data volume or statutory business coverage."
+    },
+    {
+      "file": "src/simulation/types.ts",
+      "types": [
+        "ResourceFlow",
+        "ResourceFlowTermsRecord",
+        "ResourceTransferOutcome"
+      ],
+      "available": "Recorded monetary terms/cadence, completed or partial transferred amounts, source/recipient, period, basis and provenance.",
+      "missing": "A generic money transfer does not establish a privacy task, number of data subjects or delivered service units. A completed compliance-specific invoice would be a usable actual cost only if its basis is recorded."
+    }
+  ],
+  "missingProducers": [
+    {
+      "id": "privacy-law-obligation-terms",
+      "needs": "Canonical filed/enacted/starting terms for rights, retention/security duties, covered data/processors, exceptions, thresholds, phase-in and repeal/preemption. No universal guessed threshold.",
+      "owner": "Catalog terms coordinator; legal producer owner to be assigned."
+    },
+    {
+      "id": "firm-data-processing-workload",
+      "needs": "Dated firm-linked records of actual processed subjects/tasks/methods, legal scope and provenance. Operational producer must save activity before cost reader uses it.",
+      "owner": "No producer found in inspected book/organization contracts; exact claim needed."
+    },
+    {
+      "id": "privacy-compliance-work",
+      "needs": "Observed obligated task units, completed work and actual worker/provider IDs. Pending/delayed work and capacity should remain explicit.",
+      "owner": "Missing contract/producer; cannot infer hours from business kind or operating costs."
+    },
+    {
+      "id": "privacy-unit-effort-or-contract-price",
+      "needs": "Research-backed task effort with matching unit and conditions, multiplied by recorded actual worker compensation where available; or actual invoiced contract price/delivered units. NBER32146 aggregate0.1–0.6% is not a per-record unit price.",
+      "owner": "Team9 numbers research plus actual work/vendor producer."
+    },
+    {
+      "id": "incremental-compliance-cost-attribution",
+      "needs": "Connect actual completed work/invoice to incremental expense or recorded displaced-work consequence, avoiding recharging payroll or transfers already in cash books.",
+      "owner": "Proposed Team8 privacy consumer hunk; shared finance schema requires exact grant."
+    }
+  ],
+  "proposedMechanism": [
+    "Resolve actual operative law at the relevant level and actual covered processing activity. Unknown legal scope remains unknown.",
+    "Match the law's specific obligation to recorded firm task units and completed work; do not create customer counts, data intensity or hours.",
+    "For incremental paid work, derive actual cost from completed units × matched sourced effort × recorded compensation, or read a completed provider invoice. Existing payroll work is an allocation/opportunity cost unless it causes a recorded new expense.",
+    "Carry lawEffectStamps and actual workload/work/payment source IDs onto the saved consequence.",
+    "Keep cash/debt writers single-entry: annotate an already posted payment rather than debit it again.",
+    "On prospective repeal remove future obligations only as the law actually permits; retain sunk implementation expense and historical records. Current retained records can still generate lawful deletion/retention tasks.",
+    "Capacity limits arise from recorded qualified worker hours/provider capacity, due dates and queue; no invented saturation or reversal curve.",
+    "Check the aggregate incremental-production-cost ratio against0.1–0.6% using the study-matched denominator and exposed firms. Never clamp, draw or force each firm/place into that interval."
+  ],
+  "unknownHandling": "Missing workload/unit-cost records yield an explicit unavailable estimate, never numerical zero or an invented invoice. Current original reader/cash writer remain unchanged by this design; no repaired runtime claim.",
+  "proposedProductionScope": [
+    "src/simulation/federal-data-privacy-law.ts and its test: remove drawn share once a concrete record-backed mechanism is available",
+    "src/simulation/living-world/town-finances.ts privacy calculation/stamp hunk only, preserve other writers",
+    "src/simulation/living-world/town-finance-types.ts: any new record linkage requires a separate exact shared-schema grant",
+    "New task/workload producer paths must be centrally granted before implementation"
+  ],
+  "checks": "Exact pinned main privacy/book/type reads; local organization/resource contract trace at f962aaf3. Local type trace is not an exhaustive current-main producer inventory.",
+  "notRun": [
+    "Mechanism implementation",
+    "New unit tests",
+    "Nationwide or saved-world proof"
+  ]
+}
