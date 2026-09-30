@@ -474,7 +474,11 @@ function writePresence(
       ),
     );
     const officers = unit ? sittingLocalOfficers(completed, unit) : [];
-    attendanceSourceIds.push(...officers.map((seat) => seat.participationId));
+    attendanceSourceIds.push(
+      ...officers
+        .map((seat) => seat.participationId)
+        .filter((id): id is EntityId => id !== undefined),
+    );
     const participantIds = new Set([
       ...officers.map((seat) => seat.personId),
       ...activity.participantPersonIds,
