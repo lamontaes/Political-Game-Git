@@ -1,0 +1,1943 @@
+{
+  "schemaVersion": "ocd-session-parks-research/v1",
+  "status": "research-in-progress",
+  "asOf": "2026-01-01",
+  "researchedAt": "2026-09-29",
+  "owner": "Team 6",
+  "dispatch": "CTO September29 9:33; research-only packet alongside transportation; existing code owners wire it.",
+  "baseline": {
+    "main": "411cb972ea91bc54d53ebc6ecc7caa065c6cbcd8",
+    "sessionPr": "https://github.com/lamontaes/Political-Game-Git/pull/907",
+    "parksPr": "https://github.com/lamontaes/Political-Game-Git/pull/1115",
+    "sourcePath": "data/research/laws/starting-law-2026.json"
+  },
+  "policy": {
+    "legalValues": "Own-place law, never average. Distinguish actual adjournments from legal limits and legislative days from calendar days. A state without a fixed legal end date must not be assigned a legal April15 date.",
+    "parksDefinition": "Candidate question means a fixed tax or share of tax, lottery or royalties dedicated to parks/recreation; mixed conservation funds must disclose park purposes and allocation conditions. User fees, bond authorizations and annual general-fund appropriations are separate.",
+    "unknowns": "Null is missing research, never no, permission or a simulation instruction. Prior candidate answers below are audit inputs only. Source routes are not complete absence searches.",
+    "runtime": "No code, starting-law writer, outcomes map, link, coefficients or runtime generation changed. Exact code owners reconcile this packet; no automatic inheritance by cities/counties."
+  },
+  "sources": [
+    {
+      "id": "de-conservation-code",
+      "title": "Delaware30Del.C.5423",
+      "url": "https://delcode.delaware.gov/title30/c054/sc02/index.html",
+      "vintage": "Current code; section history latest83Del.Laws c310 (2022)",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "de-conservation2022",
+      "title": "Delaware83Del.Laws c310, approvedJune14 2022",
+      "url": "https://legis.delaware.gov/SessionLaws/Chapter?id=41370",
+      "vintage": "2022 enacted amendment",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-keystone-act",
+      "title": "Pennsylvania1993Act50, compiled Keystone act",
+      "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1993/0/0050..HTM",
+      "vintage": "Compiled act; section7 repealed2002",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-revenue-keystone",
+      "title": "PennsylvaniaRevenue realty-transfer-tax distribution",
+      "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/realty-transfer-tax",
+      "vintage": "Current agency explanation",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-budget2025",
+      "title": "Pennsylvania2025\u201326 budget book special funds",
+      "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/budget/documents/publications-and-reports/commonwealthbudget/2025-26-budget-documents/2025-26%20budget%20book.webversion.pdf",
+      "vintage": "2025\u201326 budget; official indexed excerpt, not full PDF read",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "md-transfer-pos",
+      "title": "MarylandTaxProperty13-209 transfer-tax allocation",
+      "url": "https://mgaleg.maryland.gov/mgawebsite/laws/StatuteText?article=gtp&section=13-209",
+      "vintage": "Current code includes fiscal2026\u20132029 diversions",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "md-pos-use",
+      "title": "MarylandNaturalResources5-903 ProgramOpenSpace",
+      "url": "https://mgaleg.maryland.gov/mgawebsite/laws/StatuteText?article=gnr&section=5-903",
+      "vintage": "Current code",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ny-epf-2025",
+      "title": "NewYorkStateFinance92-s",
+      "url": "https://www.nysenate.gov/legislation/laws/STF/92-S",
+      "vintage": "Most recent revisionMay16,2025",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ny-rett-2022",
+      "title": "NewYorkTax1421",
+      "url": "https://www.nysenate.gov/legislation/laws/TAX/1421",
+      "vintage": "Most recent revisionApril22,2022",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ia-trust-report2025",
+      "title": "IowaDNR2024 trust report dueJanuary15,2025",
+      "url": "https://www.iowadnr.gov/media/7343/download?inline=",
+      "vintage": "2024 annual report; constitution quoted at printedp4",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-deed-heritage",
+      "title": "SouthCarolina12-24-90",
+      "url": "https://www.scstatehouse.gov/code/t12c024.php",
+      "vintage": "Current section history1996Act458",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-heritage-purpose",
+      "title": "SouthCarolina51-17-115 heritage fund",
+      "url": "https://www.scstatehouse.gov/code/t51c017.php",
+      "vintage": "Current compiled code",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-deed-current",
+      "title": "NorthCarolina105-228.30 proceeds",
+      "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-228.30.html",
+      "vintage": "Current section historythrough2013-360",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-partf-history",
+      "title": "NorthCarolinaStateParks historical PARTF chronology",
+      "url": "https://www.ncparks.gov/about-us/grants/parks-and-recreation-trust-fund/history-partf",
+      "vintage": "Historical agency page, not current dedication evidence",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "al-session2023",
+      "title": "Alabama2023 enrolledSB222/Act2023-224",
+      "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/SB222-enr.pdf",
+      "vintage": "EnactedMay22 2023;effectiveAugust1 2023 (calculated)",
+      "accessed": "2026-09-29",
+      "readBy": "lead and helper",
+      "kind": "primary"
+    },
+    {
+      "id": "hi-session-constitution",
+      "title": "HawaiiConst.articleIII section10",
+      "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol01_Ch0001-0042F/05-CONST/CONST_0003-0010.htm",
+      "vintage": "Current sectionhistory amendments1968,1978,1980",
+      "accessed": "2026-09-29",
+      "readBy": "lead and helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ks-session-constitution",
+      "title": "KansasConst.articleII section8",
+      "url": "https://ksrevisor.gov/kanconst/093_002_0008.html",
+      "vintage": "Sectionrevision ratifiedNovember5 1974",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ne-session-constitution",
+      "title": "NebraskaConst.articleIII section10",
+      "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
+      "vintage": "1974LB598;limits effective1975",
+      "accessed": "2026-09-29",
+      "readBy": "lead and helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wy-session-statute",
+      "title": "WyomingTitle28 28-1-102",
+      "url": "https://www.wyoleg.gov/statutes/compress/title28.pdf",
+      "vintage": "Current agreeswith2018LSO memo",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "id-session-constitution",
+      "title": "IdahoSOS constitution",
+      "url": "https://sos.idaho.gov/elections/publications/Idaho_Constitution.pdf",
+      "vintage": "Compilation lastamendedNovember2024",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "al-session-approval",
+      "title": "AlabamaElectionHandbook21stedition",
+      "url": "https://alison.legislature.state.al.us/files/pdf/lsa/ALI/election_handbook/Alabama_Election_Handbook_21st_Edition.pdf",
+      "vintage": "Enactment dateMay22,2023 p599",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wy-session-constitution",
+      "title": "Wyoming current constitution",
+      "url": "https://www.wyoleg.gov/statutes/compress/title97.pdf",
+      "vintage": "Current compilation",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wy-session2018",
+      "title": "WyomingLSO2018 session-law memo",
+      "url": "https://www.wyoleg.gov/InterimCommittee/2018/02-20180611Topic1ConstitutionandStatuteLegislativeSessions.pdf",
+      "vintage": "2018",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    }
+  ],
+  "sessionEndLaw": {
+    "US-AL": {
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "dual-duration",
+        "citation": "Ala.Code29-1-4 as amended2023Act224",
+        "start": "First Tuesday in February in the first three years of the quadrennium; second Tuesday in January in the fourth year. Organizational session starts the second Tuesday in January after election, with a maximum of ten consecutive calendar days.",
+        "limits": [
+          {
+            "count": 30,
+            "unit": "legislative days"
+          },
+          {
+            "count": 105,
+            "unit": "calendar days"
+          }
+        ],
+        "extension": "Not established in this packet; constitutional sections 48 and 58 require further reading."
+      },
+      "sources": ["al-session2023", "al-session-approval"],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "note": "Its rule was not read in days after a session, so its session end was not read either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-09"],
+            "sourceUrl": "https://www.legislature.state.al.us/",
+            "quote": "2026 Regular Session adjourned on April 9th, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Current code retrieval returned shell; fullconstitutional/recess/extension andJan2026 amendment comparison pending."
+      ]
+    },
+    "US-AK": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-AZ": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Ariz. Const. art. 4, pt. 2, \u00a7 3",
+        "source": "https://www.azleg.gov/const/4/3.p2.htm",
+        "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-06-13"],
+            "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
+            "quote": "Adjourned Sine Die: June 13, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-AR": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 4,
+              "weekday": 3,
+              "nth": 2
+            },
+            "lastDayAfterStart": 29
+          }
+        ],
+        "cite": "Ark. Const. art. 5, \u00a7\u00a7 5, 17",
+        "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
+        "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-29"],
+            "sourceUrl": "https://www.arkleg.state.ar.us/",
+            "quote": "The Fiscal Session of the 95th General Assembly convened on Wednesday, April 8, 2026 and adjourned sine die on Wednesday, April 29, 2026.",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-CA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-CO": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-CT": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-DE": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-FL": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 3,
+              "weekday": 1,
+              "nth": 1,
+              "plusDays": 1
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 1,
+              "plusDays": 8
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "cite": "Fla. Const. art. III, \u00a7 3(b), (d)",
+        "source": "https://www.flsenate.gov/Laws/Constitution",
+        "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-13"],
+            "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
+            "quote": "On motion by Senator Passidomo, the Senate adjourned sine die at 3:14 p.m.",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-GA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-HI": {
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "counted-days",
+        "citation": "HawaiiConst.artIII\u00a710",
+        "start": "10 a.m. on the third Wednesday in January annually",
+        "limits": [
+          {
+            "count": 60,
+            "unit": "counted session days"
+          }
+        ],
+        "excludedDays": [
+          "Saturdays",
+          "Sundays",
+          "holidays",
+          "mandatory recess",
+          "concurrent-resolution recess"
+        ],
+        "recess": "At least five mandatory recess days between the twentieth and fortieth days; other concurrent-resolution recess by majority of entitled membership of each house.",
+        "extension": "Up to fifteen additional days granted by the Governor or both presiding officers on written request of two-thirds of entitled membership of each house."
+      },
+      "sources": ["hi-session-constitution"],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "note": "Its rule was not read in days after a session, so its session end was not read either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-05-08"],
+            "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
+            "quote": "INFORMING THE HOUSE AND GOVERNOR THAT THE SENATE IS READY TO ADJOURN SINE DIE.",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "No fixedcalendar end date in this section; exhaustive subsequent enactment review notcompleted."
+      ]
+    },
+    "US-ID": {
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "end-limit-unresolved",
+        "citation": "IdahoConst.artIII\u00a7\u00a78\u201310",
+        "start": "Second Monday in January unless law appoints another day; organizational session first Thursday in December after election unless changed by law.",
+        "recess": "Other house concurrence for more than three days or another location",
+        "specialCall": "The sixty-percent petition route in each house calls a special session; it is not an extension vote.",
+        "duration": null
+      },
+      "sources": ["id-session-constitution"],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Idaho Const. art. III, \u00a7 8(1)",
+        "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
+        "note": "Sets only the opening day; no limit on length was found.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-02"],
+            "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
+            "quote": "adjourned Sine Die on April 02, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Current67-404 statutoryretrieval failed;dated2014judiciaryquotesMondayonor nearestJanuary9. Absenceofdurationinthesesections doesnotestablish unlimitedsession."
+      ]
+    },
+    "US-IL": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-IN": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-IA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-KS": {
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-duration",
+        "citation": "KansasConst.artII\u00a78",
+        "start": "Second Monday in January annually",
+        "oddYearLimit": null,
+        "evenYearLimit": {
+          "count": 90,
+          "unit": "calendar days"
+        },
+        "extension": "Even-year extension by two-thirds of members elected to each house",
+        "recess": "Other house consent for adjournment longer than two days, Sundays excepted",
+        "carryover": "Odd-year pending bills and concurrent resolutions carry into the next even-year session."
+      },
+      "sources": ["ks-session-constitution"],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "note": "Its rule was not read in days after a session, so its session end was not read either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-10"],
+            "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
+            "quote": "The Legislature having adjourned sine die on April 10, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Official indexed text helper-read; directopenfailed. Sectiondoesnotestablishoddyearcap;complete statutoryabsence proof notobtained."
+      ]
+    },
+    "US-KY": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 3,
+              "day": 30
+            }
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 4,
+              "day": 15
+            }
+          }
+        ],
+        "cite": "Ky. Const. \u00a7 42",
+        "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
+        "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-15"],
+            "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
+            "quote": "Adjourned Wednesday, April 15, 2026, Sine Die.",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-LA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-ME": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 6,
+              "weekday": 3,
+              "nth": 3
+            }
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 4,
+              "weekday": 3,
+              "nth": 3
+            }
+          }
+        ],
+        "cite": "3 M.R.S. \u00a7 2 (required by Me. Const. art. IV, pt. 3, \u00a7 1)",
+        "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
+        "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-29"],
+            "sourceUrl": "https://legislature.maine.gov/house/",
+            "quote": "The Second Regular Session of the 132nd Legislature adjourned SINE DIE on Wednesday, April 29, 2026 at 8:32 PM.",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-MD": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-MA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-MI": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Mich. Const. art. IV, \u00a7 13",
+        "source": "https://legislature.mi.gov/doc.aspx?mcl-Article-IV-13",
+        "note": "The session adjourns on a day set by concurrent resolution; its sessions customarily run into December, later than this estimate."
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-MN": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-MS": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-MO": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "day": 30
+            }
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "day": 30
+            }
+          }
+        ],
+        "cite": "Mo. Const. art. III, \u00a7 20(a)",
+        "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2020(a)",
+        "note": "The regular session adjourns on May 30 each year."
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-MT": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-NE": {
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-duration",
+        "citation": "NebraskaConst.artIII\u00a710",
+        "start": "10 a.m. on the first Wednesday after the first Monday in January",
+        "oddYearLimit": {
+          "count": 90,
+          "unit": "legislative days"
+        },
+        "evenYearLimit": {
+          "count": 60,
+          "unit": "legislative days"
+        },
+        "extension": "Four-fifths of all elected members",
+        "carryover": "Odd-year pending bills and resolutions carry over; the legislature determines procedural rules."
+      },
+      "sources": ["ne-session-constitution"],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Neb. Const. art. III, \u00a7 10",
+        "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
+        "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-04-17"],
+            "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
+            "quote": "Senator Hansen moved that the One Hundred Ninth Legislature, Second Session, 2026 Session of the Nebraska Legislature, having finished all business before it, now at 2:57 p.m., adjourn sine die.",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "No fixedcalendarend fromdaylimits;day-counting/recess procedure andcompleteJancomparison pending."
+      ]
+    },
+    "US-NV": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-NH": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-NJ": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-NM": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 2,
+              "nth": 3
+            },
+            "lastDayAfterStart": 60
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 2,
+              "nth": 3
+            },
+            "lastDayAfterStart": 30
+          }
+        ],
+        "cite": "N.M. Const. art. IV, \u00a7 5(A)",
+        "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
+        "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-02-19"],
+            "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
+            "quote": "2026 ... February 19 Session ends (noon)",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-NY": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-NC": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "N.C. Const. art. II, \u00a7 11(1)",
+        "source": "https://www.ncleg.gov/Laws/Constitution/Article2",
+        "note": "The session adjourns by resolution; no end date or limit on length."
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-ND": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-OH": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-OK": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "weekday": 5,
+              "nth": -1
+            }
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "on",
+            "day": {
+              "month": 5,
+              "weekday": 5,
+              "nth": -1
+            }
+          }
+        ],
+        "cite": "Okla. Const. art. V, \u00a7 26",
+        "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
+        "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-05-14"],
+            "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
+            "quote": "Pursuant to the Howard declaration, the Senate adjourned sine die at 4:15 p.m.",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-OR": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-PA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-RI": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-SC": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-SD": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-TN": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-TX": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 2,
+              "nth": 2
+            },
+            "lastDayAfterStart": 139
+          }
+        ],
+        "evenYear": [],
+        "cite": "Tex. Const. art. III, \u00a7 24(b); Tex. Gov't Code \u00a7 301.001",
+        "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
+        "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session."
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-UT": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 3,
+              "plusDays": 1
+            },
+            "lastDayAfterStart": 45
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 3,
+              "plusDays": 1
+            },
+            "lastDayAfterStart": 45
+          }
+        ],
+        "cite": "Utah Const. art. VI, \u00a7 16(1); Utah Code \u00a7 36-3-201",
+        "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
+        "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-06"],
+            "sourceUrl": "https://le.utah.gov/",
+            "quote": "2026 General Session January 20, 2026 to March 6, 2026",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-VT": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-VA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-WA": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": {
+        "oddYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 104
+          }
+        ],
+        "evenYear": [
+          {
+            "kind": "after-start",
+            "start": {
+              "month": 1,
+              "weekday": 1,
+              "nth": 2
+            },
+            "lastDayAfterStart": 59
+          }
+        ],
+        "cite": "Wash. Const. art. II, \u00a7 12(1); RCW 44.04.010",
+        "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
+        "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-12"],
+            "sourceUrl": "https://leg.wa.gov/",
+            "quote": "The 2026 Regular Session adjourned sine die on March 12",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-WV": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-WI": {
+      "status": "unresearched",
+      "legalRule": null,
+      "sources": [],
+      "priorCandidateRow": null,
+      "actualAdjournments": [],
+      "gaps": [
+        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+      ]
+    },
+    "US-WY": {
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "working-days-with-term-cap",
+        "citation": "W.S.28-1-102;WyomingConst.artIII\u00a76/15",
+        "oddYear": "Second Tuesday in January; opening plus thirty-nine working days unless both houses agree to an earlier adjournment.",
+        "evenYear": "Second Monday in February; additional working days jointly agreed within constitutional capacity. No automatic twenty-day limit.",
+        "limits": [
+          {
+            "count": 40,
+            "unit": "working days percalendar year"
+          },
+          {
+            "count": 60,
+            "unit": "working days perHouse two-year term"
+          }
+        ],
+        "workingDay": "A day either house convenes, excluding Sundays",
+        "recess": "Other house consent for more than three days or another location",
+        "extension": "Special sessions excepted; the two-thirds threshold for nonbudget bill introduction is not an extension vote."
+      },
+      "sources": [
+        "wy-session-statute",
+        "wy-session-constitution",
+        "wy-session2018"
+      ],
+      "priorCandidateRow": {
+        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+        "cite": "Wyo. Const. art. 3, \u00a7 6",
+        "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
+        "note": "The limit is 40 legislative working days a year, which are not calendar days.",
+        "adjourned": {
+          "2026": {
+            "dates": ["2026-03-11"],
+            "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",
+            "quote": "The Wyoming Legislature concluded the 2026 Budget Session and adjourned sine die on Wednesday at the State Capitol in Cheyenne",
+            "readAt": "2026-09-29"
+          }
+        }
+      },
+      "actualAdjournments": [],
+      "gaps": [
+        "Separate2025 historicalcodeedition notread;completeJanamendmentcomparison pending."
+      ]
+    }
+  },
+  "parksStartingLaw": {
+    "US-AL": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-AK": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-AZ": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-AR": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-CA": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-CO": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-CT": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-DE": {
+      "status": "positive-dedication",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "lawKind": "state statute",
+        "citation": "30Del.C.5423(b)\u2013(g)",
+        "revenue": "Annual realty-transfer-tax transfers:1million dollars infrastructure account;9million dollars endowment/open-space program. Endowment distributions include outdoor recreation, parks and trails; infrastructure includes recreational facilities.",
+        "scope": "State statutory conservation/recreation fund, with municipal/county/local-park matching grants, not each municipality automatically dedicating its own tax.",
+        "conditions": "Annual endowment draw up to5% of five-year rolling value;2/3 parks/trails and1/3 stewardship. Local grants up to75% project cost; recipient perpetually pays operations/maintenance; conversion requires later GeneralAssembly act."
+      },
+      "sources": ["de-conservation-code", "de-conservation2022"],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Full January2026 amendment comparison and annual budget overrides remain unverified; current code publisher includes2026 acts."
+      ]
+    },
+    "US-FL": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-GA": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-HI": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-ID": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-IL": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-IN": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-IA": {
+      "status": "conditional-dedication",
+      "proposedAnswer": null,
+      "legalRoute": {
+        "lawKind": "state constitution",
+        "citation": "IowaConst.articleVII section10;Codechapter461",
+        "revenue": "Constitutionally earmarked future sales-tax increase up to3/8percentage point; no revenue before sales-tax rate increases above effective-date rate.",
+        "scope": "Parks/trails within natural-resources/outdoor-recreation trust; mixed water,habitat,soil purposes.",
+        "conditions": "DatedJanuary2025 agency report states no receipts, allocations or expenditures since2011 activation. Constitutional enactment differs from funded active dedication; do not force it into flat yes/no or infer January2026 receipt status."
+      },
+      "sources": ["ia-trust-report2025"],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Direct2025/2026 constitution/code comparison and tax-trigger continuation needed. No current tax receipts claimed."
+      ]
+    },
+    "US-KS": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-KY": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-LA": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-ME": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-MD": {
+      "status": "positive-dedication",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "lawKind": "state statute",
+        "citation": "TaxProperty13-209(a)\u2013(g);NaturalResources5-903",
+        "revenue": "Transfer-tax net special-fund balance generally75.15% ProgramOpenSpace plus1% State land acquisition;17.05% agricultural preservation,5% rurallegacy,1.8% heritage.",
+        "scope": "State/local parks and open-space capital and specified operations, mixed conservation purposes.",
+        "conditions": "Debt service and administration deducted first; up to3% administration; fiscal2026\u20132029 diversion25million dollars GeneralFund with proportional reductions to named acquisition/conservation programs; actual annual appropriations and other transfer provisions matter. Not76.15% of gross tax and not a guaranteed parks-only receipt."
+      },
+      "sources": ["md-transfer-pos", "md-pos-use"],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Enacted2025/2026 history comparison and current budget adjustments remain unverified."
+      ]
+    },
+    "US-MA": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-MI": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-MN": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-MS": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-MO": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-MT": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-NE": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-NV": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-NH": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-NJ": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-NM": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-NY": {
+      "status": "positive-dedication",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "lawKind": "state statute",
+        "citation": "StateFinance92-s(2),(3),(6);Tax1421(a)",
+        "revenue": "Tax1421 dedicates257.35million dollars real-estate-transfer-tax revenue annually from fiscal2022 onward to EPF; EPF includes parks/recreation/historic-preservation account.",
+        "scope": "Mixed environmental fund with park, open-space, solid-waste and climate accounts; no fixed park-only share established.",
+        "conditions": "Initially credited to transfer account; budget director requests account transfers; legislature appropriates projects. Dedication is not a fixed park operating allocation."
+      },
+      "sources": ["ny-epf-2025", "ny-rett-2022"],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Question fit for mixed fund without fixed park-only share requires code-owner reconciliation; full January2026 budget/override comparison unverified."
+      ]
+    },
+    "US-NC": {
+      "status": "historical-route-not-current",
+      "proposedAnswer": null,
+      "legalRoute": {
+        "lawKind": "state statute",
+        "citation": "105-228.30(b),amended2013-360section14.4(a)",
+        "revenue": "Current deed-tax statute sends county half to countyGeneralFund and netState half to StateGeneralFund. Historical agency75%PARTF chronology does not establish current dedication.",
+        "scope": "One formerly dedicated tax route only; no exhaustive other-revenue absence search.",
+        "conditions": "Do not promote historical1996PARTF funding explanation over current statutory distribution."
+      },
+      "sources": ["nc-deed-current", "nc-partf-history"],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Other current parks revenue and fullJanuary2026 law comparison unresearched; no blanket no-law finding."
+      ]
+    },
+    "US-ND": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-OH": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-OK": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-OR": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-PA": {
+      "status": "positive-dedication",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "lawKind": "state statute",
+        "citation": "KeystoneAct50 sections4,8,12; current revenue allocation requires separate fiscal provision",
+        "revenue": "Agency and2025\u201326 budget identify15% state realty-transfer-tax collections for Keystone Recreation,Park and ConservationFund.",
+        "scope": "Mixed state/local park, recreation, conservation, library, historic and education purposes; not15% solely park operations.",
+        "conditions": "Act provides continuing nonlapsing appropriation with Governor authorization; allocation by statutory program. Original section7 revenue provision was repealedJune29,2002; do not cite that repealed provision as current levy."
+      },
+      "sources": ["pa-keystone-act", "pa-revenue-keystone", "pa-budget2025"],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Current replacement fiscal allocation text and January2026 complete comparison still need direct retrieval."
+      ]
+    },
+    "US-RI": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-SC": {
+      "status": "scope-review",
+      "proposedAnswer": null,
+      "legalRoute": {
+        "lawKind": "state statute",
+        "citation": "12-24-90(B)(1);51-17-115",
+        "revenue": "10cents of1.30dollars state deed-recording fee per500dollars realty value credited to HeritageLandTrustFund.",
+        "scope": "Priority heritage acquisition/protection/minimal facilities; not an unrestricted state-parks line.",
+        "conditions": "Separate conservation-bank deed provision12-24-95 repealed2018. Heritage charge retained in current text; decide whether question includes this conservation-purpose dedication."
+      },
+      "sources": ["sc-deed-heritage", "sc-heritage-purpose"],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Tax-versus-fee and heritage-purpose question fit; completeJanuary2026 comparison pending. No automatic yes answer."
+      ]
+    },
+    "US-SD": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-TN": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-TX": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "yes",
+      "priorEstimated": false,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-UT": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-VT": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-VA": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-WA": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-WV": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-WI": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-WY": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-DC": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-PR": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-GU": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-VI": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-AS": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    },
+    "US-MP": {
+      "status": "unresearched",
+      "proposedAnswer": null,
+      "legalRoute": null,
+      "sources": [],
+      "priorCandidateAnswer": "no",
+      "priorEstimated": true,
+      "cutoffVerified": false,
+      "gaps": [
+        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+      ]
+    }
+  },
+  "remainingWork": [
+    "All50state session rules must be read; prior candidate rows and2026 observed adjournments are separate retrieval leads.",
+    "Complete41estimated-no parks place review; positive source routes do not certify complete absence elsewhere.",
+    "Revalidate15existing yes places where needed; do not propagate state answers to local governments without their own authority.",
+    "No automatic code wiring or guessed numeric size,lag or modifier."
+  ]
+}

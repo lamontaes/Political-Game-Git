@@ -3862,6 +3862,70 @@
       "year": null,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "al-bb-bead",
+      "title": "Alabama ADECA BEAD Initial Proposal Volume 2",
+      "url": "https://adeca.alabama.gov/wp-content/uploads/Alabama-BEAD-Initial-Proposal-Volume-2.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-bb-guidance",
+      "title": "University of Wisconsin 2015 broadband policy guidance",
+      "url": "https://resources.uwcc.wisc.edu/Utilities/Broadband-Policy.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "va-bb-grant",
+      "title": "Virginia 15.2-2160 local telecommunications grant",
+      "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter21/section15.2-2160/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-bb2025",
+      "title": "Utah 2025 enrolled SB165 municipal communications",
+      "url": "https://le.utah.gov/Session/2025/bills/enrolled/SB0165.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "va-bb-general",
+      "title": "Virginia 15.2-1500 governmental entities",
+      "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter15/section15.2-1500/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "va-bb-cert",
+      "title": "Virginia 56-265.4:4 certificates and service distinctions",
+      "url": "https://law.lis.virginia.gov/vacode/56-265.4%3A4/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-water-appeal2026",
+      "title": "Texas adopted rule 24.101, effective January1 2026",
+      "url": "https://www.sos.texas.gov/texreg/archive/December262025/Adopted%20Rules/16.ECONOMIC%20REGULATION.html",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-water-sb740",
+      "title": "Texas2025 enrolled SB740",
+      "url": "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/SB00740F.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -26081,11 +26145,18 @@
           ],
           "availability": {
             "AL": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place conditional municipal network route; evidence limits stated",
+              "reason": "Primary agency proposal pp132\u2013133 corroborates Act2000-614/11-50B-3 through -11 municipal broadband route with territory, access, allocation, financing and hearing/petition/election conditions. State/local taxes or appropriations cannot cover broadband capital/operating costs; municipal providers can compete for BEAD subgrants. Helper read agency PDF; statute/original act retrieval unavailable. Exact exceptions, thresholds and complete January history remain unknown.",
+              "sources": ["al-bb-bead"],
+              "bars": [
+                {
+                  "description": "Service, entity, territory and procedural restrictions stated in the source; no nationwide or all-service prohibition inferred.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends cited statutory restrictions; local actions follow the express route only. Current operative text remains unverified where the source is dated agency/university guidance.",
+                  "sources": ["al-bb-bead"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -26590,11 +26661,18 @@
               "differentLargeCityCharters": []
             },
             "UT": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place conditional municipal network route; evidence limits stated",
+              "reason": "2025 SB165 distinguishes broadband from cable/public telecom. Sections10-18-201 through -204 conditional authority, feasibility/hearing/resolution; service election discretionary, local referendum may apply. Section303 bars outside-boundary subscribers, cross-subsidies, below-full-cost pricing and state universal-service distributions. Sections104/105 preserve specified grandfather/internal-use/private-provider routes. Helper read enrolled law; official indexed chapter identifies2025ch45 effectiveMay7,2025. Signed-history page blank; complete January amendment comparison remains qualified.",
+              "sources": ["ut-bb2025"],
+              "bars": [
+                {
+                  "description": "Service, entity, territory and procedural restrictions stated in the source; no nationwide or all-service prohibition inferred.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends cited statutory restrictions; local actions follow the express route only. Current operative text remains unverified where the source is dated agency/university guidance.",
+                  "sources": ["ut-bb2025"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -26608,11 +26686,18 @@
               "differentLargeCityCharters": []
             },
             "VA": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place conditional municipal network route; evidence limits stated",
+              "reason": "15.2-1500(B) restricts creation of governmental telecom sellers subject to 15.2-2160, wireless and internal/adjoining-government exceptions. Section2160 grants certificated electric-distribution localities telecom authority; March1,2002 facilities and qualifying existing-provider 75-mile expansion define scope. Separate accounts, cost imputation, access/subsidy conditions; competitor-facility condemnation barred. Helper read current own-code; history through2016, full January snapshot unverified. Cable mandatory referendum is a separate route, not universal broadband condition.",
+              "sources": ["va-bb-grant", "va-bb-general", "va-bb-cert"],
+              "bars": [
+                {
+                  "description": "Service, entity, territory and procedural restrictions stated in the source; no nationwide or all-service prohibition inferred.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends cited statutory restrictions; local actions follow the express route only. Current operative text remains unverified where the source is dated agency/university guidance.",
+                  "sources": ["va-bb-grant"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -26640,11 +26725,18 @@
               "differentLargeCityCharters": []
             },
             "WI": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place conditional municipal network route; evidence limits stated",
+              "reason": "Own-state university 2015 guidance p20 corroborates 66.0422 hearing/report conditions for cities, villages and towns offering video/telecom/broadband. Exceptions include qualifying preexisting utilities with advisory referendum, unserved-area private-provider inquiries (60-day response/nine-month service), and conditional nondiscriminatory wholesale infrastructure without municipal retail service. Official statute retrieval unavailable; this is dated guidance, not independently read operative January law. No incumbent-price floor or universal subscriber-only financing inferred.",
+              "sources": ["wi-bb-guidance"],
+              "bars": [
+                {
+                  "description": "Service, entity, territory and procedural restrictions stated in the source; no nationwide or all-service prohibition inferred.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends cited statutory restrictions; local actions follow the express route only. Current operative text remains unverified where the source is dated agency/university guidance.",
+                  "sources": ["wi-bb-guidance"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -35009,7 +35101,7 @@
       "id": "verify-25-item1",
       "promptClaim": "- **State oversight of local rates:** varies. In most states it covers only investor-owned utilities, but some states regulate municipal utilities serving outside city limits (**verify** list).",
       "status": "partially verified",
-      "finding": "WisconsinPSC regulates municipal drinking-water rates. Florida governmental systems are exempt fromChapter 367 utility regulation; municipal council can establish rates under 180.13. Nationwide outside-city list remains unresearched. Ohio 743.04 grants equitable municipal water rents for operating costs and improvements to the director or charter-authorized body; 4905.02(A)(3) excludes municipally owned/operated utilities from its public-utility definition (2017 text). North Carolina 160A-314(a) permits city enterprise rates and different outside-city schedules, preserving inconsistent charters in (e); 62-3(23)d excludes municipal/county/local public-authority utilities except express provisions. Lead read all four sections. Neither pair establishes state outside-city rate review. NC 314 history through 2024; full January snapshot and exceptions still need comparison. Texas appeal review remains pending; national list remains open.",
+      "finding": "WisconsinPSC regulates municipal drinking-water rates. Florida governmental systems are exempt fromChapter 367 utility regulation; municipal council can establish rates under 180.13. Nationwide outside-city list remains unresearched. Ohio 743.04 grants equitable municipal water rents for operating costs and improvements to the director or charter-authorized body; 4905.02(A)(3) excludes municipally owned/operated utilities from its public-utility definition (2017 text). North Carolina 160A-314(a) permits city enterprise rates and different outside-city schedules, preserving inconsistent charters in (e); 62-3(23)d excludes municipal/county/local public-authority utilities except express provisions. Lead read all four sections. Neither pair establishes state outside-city rate review. NC 314 history through 2024; full January snapshot and exceptions still need comparison. Texas appeal review remains pending; national list remains open. Texas adopted16TAC24.101/TRD-202504617 is expressly effectiveJanuary1,2026: outside-city municipal retail ratepayers can appeal, ordinarily lesser10,000/10% affected eligible ratepayers within90days of rate-change effective date. Takeover exclusions apply for ratepayer-request,SubchapterH transfer or compulsory takeover. Wholesale municipal-to-municipal exception is separate; SB740 added13.043(f-1),effectiveSeptember2025. Lead independently read adopted text and effective-date footer; helper verified enacted history. This establishes one precise outside-city appeal route,not nationwide list.",
       "sources": [
         "wi-water",
         "fl-exempt",
@@ -35017,7 +35109,9 @@
         "oh-water-rates",
         "oh-water-exempt",
         "nc-water-rates",
-        "nc-water-exempt"
+        "nc-water-exempt",
+        "tx-water-appeal2026",
+        "tx-water-sb740"
       ]
     },
     {
@@ -35073,7 +35167,7 @@
       "id": "verify-31-item1",
       "promptClaim": "- **State:** broadband office, grant programs, **limits on municipal broadband**. About 16 states restrict public networks (BroadbandNow 2024, **verify**). North Carolina's HB 129 (2011) is an example.",
       "status": "partially verified",
-      "finding": "NC retains conditional network/accounting/debt restrictions and individual exemptions. ArkansasAct67/2021 expanded government authority with financing conditions; Act412/2025 did not undo it. Tennessee municipal-electric authority is territory-limited with exceptions; full current exception geography not retrieved. Colorado2023 and Washington2021 expanded permission. No nationwide16-state count adopted. RootreadMinnesota2025and2024enactment:former65%telephoneexchangevoterequirementremoved;Internetgrant nowconditionalnondiscrimination/separation. FL2025procedure/LAreferendum and MIofficialindexedRFPconditions added. No16statecountfreezeadopted. Six further own-place restrictions are recorded with exceptions: MO Internet-type exclusion, MT availability/grandfather routes, NE non-public-power scope, NV population-qualified city scope, PA incumbent request route, and SC provider conditions. These cannot support a uniform prohibition label or a January 2026 national count.",
+      "finding": "NC retains conditional network/accounting/debt restrictions and individual exemptions. ArkansasAct67/2021 expanded government authority with financing conditions; Act412/2025 did not undo it. Tennessee municipal-electric authority is territory-limited with exceptions; full current exception geography not retrieved. Colorado2023 and Washington2021 expanded permission. No nationwide16-state count adopted. RootreadMinnesota2025and2024enactment:former65%telephoneexchangevoterequirementremoved;Internetgrant nowconditionalnondiscrimination/separation. FL2025procedure/LAreferendum and MIofficialindexedRFPconditions added. No16statecountfreezeadopted. Six further own-place restrictions are recorded with exceptions: MO Internet-type exclusion, MT availability/grandfather routes, NE non-public-power scope, NV population-qualified city scope, PA incumbent request route, and SC provider conditions. These cannot support a uniform prohibition label or a January 2026 national count. AL agency and WI2015 university guidance provide qualified own-place routes, not independently read current statutes. VA certificate/grant and UT2025 enrolled-law conditions distinguish broadband from cable and preserve exceptions. National count remains open.",
       "sources": [
         "nc-bb-conditions",
         "nc-bb-exemptions",
@@ -35095,7 +35189,13 @@
         "ne-bb-restriction",
         "nv-bb-city-scope",
         "pa-bb-incumbent",
-        "sc-bb-conditions"
+        "sc-bb-conditions",
+        "al-bb-bead",
+        "wi-bb-guidance",
+        "va-bb-grant",
+        "ut-bb2025",
+        "va-bb-general",
+        "va-bb-cert"
       ]
     },
     {
