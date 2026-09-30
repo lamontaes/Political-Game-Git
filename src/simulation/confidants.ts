@@ -1,4 +1,5 @@
 import { kinshipRelationshipsAt, householdMembershipsAt } from "./life-queries";
+import { recordsByKey } from "./history-index";
 import { personTrait } from "./people-traits";
 import {
   readRelationshipStanding,
@@ -74,7 +75,24 @@ export function confidantsOf(
   }
 
   const dealings = new Map<EntityId, number>();
-  for (const interaction of world.history.relationshipInteractions) {
+  let interactions = world.history.relationshipInteractions;
+  try {
+    interactions = recordsByKey(
+      interactions,
+      "confidants:relationship-interactions:personIds/v1",
+      (interaction) => {
+        // Malformed histories retain the original loop's errors and order.
+        if (!Array.isArray(interaction.personIds))
+          throw new Error("Confidant interaction members must be an array");
+        return interaction.personIds;
+      },
+      personId,
+    );
+  } catch {
+    // Indexing can reach a malformed later row before the reader would.
+    // Fall back to the complete original list, preserving its first error.
+  }
+  for (const interaction of interactions) {
     if (!interaction.personIds.includes(personId)) continue;
     const other = interaction.personIds.find((id) => id !== personId);
     if (!usable(other) || close.has(other)) continue;
