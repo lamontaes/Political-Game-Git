@@ -1,0 +1,2397 @@
+{
+  "runtimeReceipt": {
+    "seed": "team2-main-proof-20260930-b",
+    "place": "Floral, Arkansas",
+    "placeKey": "0524070",
+    "sourceHead": "54930d427555034f3a92f335064586247985784d",
+    "collectorHead": "c0a23ba19b6e03ac6dd871818e9894d0e240d1c8:system-only-path-adapter",
+    "collectorDirty": false,
+    "sourceDirty": false,
+    "status": "completed-year",
+    "days": 365,
+    "save": {
+      "saveMs": 66277.858144,
+      "saveCpuMs": 68727.795,
+      "reopenMs": 58148.485563000024,
+      "reopenCpuMs": 60187.547,
+      "saveBytes": 23,
+      "reopenedMatches": true
+    },
+    "problem": null,
+    "openingMs": 1997.5466780000002,
+    "elapsedMs": 431722.062477,
+    "targetDate": "2027-01-05"
+  },
+  "rows": [
+    {
+      "measureId": "legislative-measure_0f3cabe834398882",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 1",
+      "designation": "ORD 1",
+      "title": "Restrict Building in Flood Zones Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_c907fe2a199efe8d",
+          "key": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_0f3caae8343986cf",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 2",
+      "designation": "ORD 2",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_2fae18249369ab7e",
+          "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_0f3ca9e83439851c",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 3",
+      "designation": "ORD 3",
+      "title": "Expand Public Land Access Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_f01e4adde7e59f97",
+          "key": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_0f3ca8e834398369",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 4",
+      "designation": "ORD 4",
+      "title": "Shift Highway Funds to Transit Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_96e212c1b9f200ca",
+          "key": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_0f3ca7e8343981b6",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 5",
+      "designation": "ORD 5",
+      "title": "Independent Ward Commission Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_b6ded7f1ce2c5400",
+          "key": "us-policy-positions:government-operations.independent-ward-commission",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:government-operations.independent-ward-commission",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_0f3ca5e834397e50",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 7",
+      "designation": "ORD 7",
+      "title": "Fix It First Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_e5f4015f38900487",
+          "key": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes",
+          "atLevel": [
+            {
+              "propositionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+              "answer": "yes",
+              "governmentLevel": "county",
+              "authorityKind": "game-profile",
+              "authorityKey": null,
+              "operativeEffectKind": "public-program-appropriation",
+              "effectProvisionKey": "amount-provided",
+              "effectParameterKey": "appropriation",
+              "familyKey": "appropriations",
+              "variantKey": "local-fix-it-first-v1"
+            }
+          ],
+          "municipality": [
+            {
+              "propositionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+              "answer": "yes",
+              "governmentLevel": "municipality",
+              "authorityKind": "game-profile",
+              "authorityKey": null,
+              "operativeEffectKind": "public-program-appropriation",
+              "effectProvisionKey": "amount-provided",
+              "effectParameterKey": "appropriation",
+              "familyKey": "appropriations",
+              "variantKey": "local-fix-it-first-v1"
+            }
+          ]
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-03-02",
+      "effectiveAt": "2026-04-01",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_0f3cb3e83439961a",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 9",
+      "designation": "ORD 9",
+      "title": "Inclusionary Housing Requirement Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_a7ece54730819fa2",
+          "key": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-03-16",
+      "effectiveAt": "2026-04-15",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_8478447c9634a50c",
+      "stableKey": "legislative-intake/v1:us-al-governor:2026-02-15:agenda",
+      "designation": "HB 5",
+      "title": "Allow multifamily housing in single-family zones",
+      "jurisdiction": "Alabama",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b119c90b8a36123f",
+          "key": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_02a044a51e1a08c7",
+      "stableKey": "legislative-intake/v1:us-ak-governor:2026-02-15",
+      "designation": "HB 2",
+      "title": "Harbor Dredging Schedule",
+      "jurisdiction": "Alaska",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [],
+      "configurations": [],
+      "reason": "scenario-no-catalog-question",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_291b76d86bf10187",
+      "stableKey": "legislative-intake/v1:us-ak-governor:2026-02-15:agenda",
+      "designation": "HB 3",
+      "title": "Public funds for private schooling",
+      "jurisdiction": "Alaska",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_65973e41b73e143a",
+          "key": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_7245be8e3aa053d0",
+      "stableKey": "legislative-intake/v1:us-ak-governor:2026-02-15:agenda:us-policy-positions%3Alabor-workforce.paid-family-leave:person_6a889153f86f12f2",
+      "designation": "SB 2",
+      "title": "Paid family and medical leave",
+      "jurisdiction": "Alaska",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b4cb824f1a35c05f",
+          "key": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_af3e61c535070fc4",
+      "stableKey": "legislative-intake/v1:us-az-governor:2026-02-15:agenda",
+      "designation": "HB 2009",
+      "title": "End cash bail",
+      "jurisdiction": "Arizona",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_9d88404e486fa58b",
+          "key": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 1,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-20",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "not-modeled",
+          "heading": "Mandatory minimum sentences",
+          "dimension": null,
+          "intendedOutcome": null,
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [
+        {
+          "id": "legislative-provision_4174b114ecd6c8f0",
+          "stableKey": "measure:legislative-measure_af3e61c535070fc4:floor:senate:final-passage:1:amendment-authors/v1:section",
+          "sequence": 275125,
+          "measureId": "legislative-measure_af3e61c535070fc4",
+          "provisionKey": "answers:proposition_b6fdfba1734fdb5c:no",
+          "sectionNumber": 1,
+          "heading": "Mandatory minimum sentences",
+          "text": "This section enacts the following: Should the law set minimum sentences that a judge may not go below? No.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "everyone within Arizona the question reaches"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_c00c4c51bcfc2c6c",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-03-30",
+          "supersedesProvisionId": null,
+          "originAmendmentId": "legislative-amendment_e3e9c3e0f0f1c4f5",
+          "eventId": "event_ffed4853a965506c",
+          "answers": {
+            "propositionId": "proposition_b6fdfba1734fdb5c",
+            "answer": "no"
+          }
+        }
+      ],
+      "additionalProvisionAnswers": [
+        {
+          "id": "proposition_b6fdfba1734fdb5c",
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "no"
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_04484fc510649677",
+      "stableKey": "legislative-intake/v1:us-ar-governor:2026-02-15:agenda",
+      "designation": "HB 2",
+      "title": "Work requirement for Medicaid",
+      "jurisdiction": "Arkansas",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_03751de3f40f5f56",
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_83c3d0396d2709a2",
+      "stableKey": "legislative-intake/v1:us-ar-governor:2026-02-15:agenda:us-policy-positions%3Aeducation.universal-preschool:person_15401c44b7f04088",
+      "designation": "SB 2",
+      "title": "Universal preschool",
+      "jurisdiction": "Arkansas",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_ca8f52a74467b1fc",
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_07dad19d8554f8bd",
+      "stableKey": "legislative-intake/v1:us-ca-governor:2026-02-15:agenda",
+      "designation": "SB 12",
+      "title": "State Transit Appropriation",
+      "jurisdiction": "California",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_88a5a92bfb0d8d75",
+          "key": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+          "answer": "yes",
+          "atLevel": [
+            {
+              "propositionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+              "answer": "yes",
+              "governmentLevel": "state",
+              "authorityKind": "game-profile",
+              "authorityKey": null,
+              "operativeEffectKind": "public-program-appropriation",
+              "effectProvisionKey": "amount-provided",
+              "effectParameterKey": "appropriation",
+              "familyKey": "appropriations",
+              "variantKey": "transit-staged-service-v2"
+            }
+          ],
+          "municipality": []
+        }
+      ],
+      "reason": "typed-operative",
+      "provisionCount": 6,
+      "operativeCount": 1,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "transit",
+          "status": "available",
+          "reason": null,
+          "amountMinorUnits": 3000000
+        },
+        {
+          "kind": "not-modeled",
+          "heading": "Administrative implementation",
+          "dimension": "oversight",
+          "intendedOutcome": "How much of what was provided is actually obligated and spent, and when.",
+          "researchQuestionId": "law-clause-effects-by-family"
+        },
+        {
+          "kind": "not-modeled",
+          "heading": "Delivery and cancellation reports",
+          "dimension": "oversight",
+          "intendedOutcome": "How much of what was provided is actually obligated and spent, and when.",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [
+        {
+          "id": "legislative-provision_aabc291431a37986",
+          "stableKey": "legislative-intake/v1:us-ca-governor:2026-02-15:agenda:draft:appropriations:transit-staged-service-v2:authority-named",
+          "sequence": 227036,
+          "measureId": "legislative-measure_07dad19d8554f8bd",
+          "provisionKey": "authority-named",
+          "sectionNumber": 1,
+          "heading": "Program funded",
+          "text": "This appropriation funds State transit service by recorded effective date under state-us-ca-placeholder State transit service by recorded effective date game profile. It changes no eligibility rule of that program.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the existing rural transit assistance program"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-02-15",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_c26a203edce7086a"
+        },
+        {
+          "id": "legislative-provision_13ab6dab0e6b69cb",
+          "stableKey": "legislative-intake/v1:us-ca-governor:2026-02-15:agenda:draft:appropriations:transit-staged-service-v2:amount-provided",
+          "sequence": 227038,
+          "measureId": "legislative-measure_07dad19d8554f8bd",
+          "provisionKey": "amount-provided",
+          "sectionNumber": 2,
+          "heading": "Amount appropriated",
+          "text": "There is appropriated $30,000 from collected, unrestricted state public receipts for additional service under the program named in section 1. This Act creates no cash and dedicates no tax revenue.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the existing rural transit assistance program"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": "Amount appropriated",
+          "fiscalExposureMinorUnits": 3000000,
+          "operativeEffect": {
+            "kind": "public-program-appropriation"
+          },
+          "recordedAt": "2026-02-15",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_0f5a13fcb391f04f"
+        },
+        {
+          "id": "legislative-provision_4ba7678f86152b82",
+          "stableKey": "legislative-intake/v1:us-ca-governor:2026-02-15:agenda:draft:appropriations:transit-staged-service-v2:administrative-mandate",
+          "sequence": 227040,
+          "measureId": "legislative-measure_07dad19d8554f8bd",
+          "provisionKey": "administrative-mandate",
+          "sectionNumber": 3,
+          "heading": "Administrative implementation",
+          "text": "The state government shall administer this appropriation and purchase additional weekday vehicle-service hours at the authored contract price of $100 per vehicle-service hour. Half of the amount is available for each of two separate service periods. Each period is fourteen days; service is paid and recorded at its completion. Unpaid hours shall not be represented as delivered. No member of the legislature is granted executive authority by this Act.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the existing rural transit assistance program"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-02-15",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_c482bac1a296774e"
+        },
+        {
+          "id": "legislative-provision_3e319f1fdeb32043",
+          "stableKey": "legislative-intake/v1:us-ca-governor:2026-02-15:agenda:draft:appropriations:transit-staged-service-v2:transit-effective-date",
+          "sequence": 227042,
+          "measureId": "legislative-measure_07dad19d8554f8bd",
+          "provisionKey": "transit-effective-date",
+          "sectionNumber": 4,
+          "heading": "Effective date and availability",
+          "text": "This appropriation is available from this Act's recorded effective date.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the existing rural transit assistance program"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-02-15",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_7f19a391a1fe6b8f"
+        },
+        {
+          "id": "legislative-provision_35f5fa3009b720a2",
+          "stableKey": "legislative-intake/v1:us-ca-governor:2026-02-15:agenda:draft:appropriations:transit-staged-service-v2:availability",
+          "sequence": 227044,
+          "measureId": "legislative-measure_07dad19d8554f8bd",
+          "provisionKey": "availability",
+          "sectionNumber": 5,
+          "heading": "Period of availability",
+          "text": "The appropriation remains available for 365 days after its effective date. No payment may be made before its effective date or after its availability expires.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the existing rural transit assistance program"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-02-15",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_8fcbddf77c08af56"
+        },
+        {
+          "id": "legislative-provision_87f533b542ce3509",
+          "stableKey": "legislative-intake/v1:us-ca-governor:2026-02-15:agenda:draft:appropriations:transit-staged-service-v2:service-report",
+          "sequence": 227046,
+          "measureId": "legislative-measure_07dad19d8554f8bd",
+          "provisionKey": "service-report",
+          "sectionNumber": 6,
+          "heading": "Delivery and cancellation reports",
+          "text": "The state government shall preserve the paid amount and vehicle-service hours for each period. The sponsor may request implementation or cancel an undelivered period. Cancellation shall preserve prior delivery and shall not refund an already completed service period. Published reports shall distinguish proposals from delivered service.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the existing rural transit assistance program"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-02-15",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_2c542cf5592fb995"
+        }
+      ],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_c883e8d5f1068ae6",
+      "stableKey": "legislative-intake/v1:us-co-governor:2026-02-15:agenda",
+      "designation": "HB26-1004",
+      "title": "Fund pensions on schedule",
+      "jurisdiction": "Colorado",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b5806d32973d68f6",
+          "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_1261893324a284b8",
+      "stableKey": "legislative-intake/v1:us-ct-governor:2026-02-15:agenda",
+      "designation": "SB 6",
+      "title": "Independent redistricting commission",
+      "jurisdiction": "Connecticut",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_5f0c0c759f8c111d",
+          "key": "us-policy-positions:government-operations.independent-redistricting",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:government-operations.independent-redistricting",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_4f3f2e9ff9237a31",
+      "stableKey": "legislative-intake/v1:us-de-governor:2026-02-15:agenda:us-policy-positions%3Atransportation-infrastructure.fix-it-first:person_21ba9aca1d159a76",
+      "designation": "SB 3",
+      "title": "Fix it first",
+      "jurisdiction": "Delaware",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_e5f4015f38900487",
+          "key": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": [
+            {
+              "propositionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+              "answer": "yes",
+              "governmentLevel": "municipality",
+              "authorityKind": "game-profile",
+              "authorityKey": null,
+              "operativeEffectKind": "public-program-appropriation",
+              "effectProvisionKey": "amount-provided",
+              "effectParameterKey": "appropriation",
+              "familyKey": "appropriations",
+              "variantKey": "local-fix-it-first-v1"
+            }
+          ]
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_d8f39b17c8c0b619",
+      "stableKey": "legislative-intake/v1:us-ga-governor:2026-02-15:agenda",
+      "designation": "HB 7",
+      "title": "Fund a behavioral health crisis response",
+      "jurisdiction": "Georgia",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_c418c80593f6db6a",
+          "key": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_4f7225128bd99efb",
+      "stableKey": "legislative-intake/v1:us-ga-governor:2026-02-15:agenda:us-policy-positions%3Abusiness-commerce.reduce-occupational-licensing:person_1099c6de620a992c",
+      "designation": "SB 7",
+      "title": "Reduce occupational licensing",
+      "jurisdiction": "Georgia",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_4850d4cc2bf02f7b",
+          "key": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_8311673c1cbb9d5d",
+      "stableKey": "legislative-intake/v1:us-hi-governor:2026-02-15:agenda",
+      "designation": "HB 14",
+      "title": "Public funds for private schooling",
+      "jurisdiction": "Hawaii",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_65973e41b73e143a",
+          "key": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_55ac694c5e7e2578",
+      "stableKey": "legislative-intake/v1:us-id-governor:2026-02-15:agenda:us-policy-positions%3Abusiness-commerce.cap-development-incentives:person_646a55d12664a0cb",
+      "designation": "S 4",
+      "title": "Cap development incentives",
+      "jurisdiction": "Idaho",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_3881e6fd4022321e",
+          "key": "us-policy-positions:business-commerce.cap-development-incentives",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:business-commerce.cap-development-incentives",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_01ecd023f3289d60",
+      "stableKey": "legislative-intake/v1:us-il-governor:2026-02-15:agenda",
+      "designation": "SB 16",
+      "title": "Fund pensions on schedule",
+      "jurisdiction": "Illinois",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b5806d32973d68f6",
+          "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_163f6df4afb9e2b4",
+      "stableKey": "legislative-intake/v1:us-in-governor:2026-02-15:agenda",
+      "designation": "SB 5",
+      "title": "Mandatory minimum sentences",
+      "jurisdiction": "Indiana",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b6fdfba1734fdb5c",
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_117e45605c05b8c9",
+      "stableKey": "legislative-intake/v1:us-ia-governor:2026-02-15:agenda",
+      "designation": "SF 6",
+      "title": "Paid family and medical leave",
+      "jurisdiction": "Iowa",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b4cb824f1a35c05f",
+          "key": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_f323a3b69d4b5632",
+      "stableKey": "legislative-intake/v1:us-ks-governor:2026-02-15:agenda",
+      "designation": "SB 4",
+      "title": "Universal preschool",
+      "jurisdiction": "Kansas",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_ca8f52a74467b1fc",
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_8658bb06001f7fbf",
+      "stableKey": "legislative-intake/v1:us-ky-governor:2026-02-15",
+      "designation": "HB 8",
+      "title": "School Crossing Signal Standards",
+      "jurisdiction": "Kentucky",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [],
+      "configurations": [],
+      "reason": "scenario-no-catalog-question",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_d354944c68b9584f",
+      "stableKey": "legislative-intake/v1:us-ky-governor:2026-02-15:agenda",
+      "designation": "SB 8",
+      "title": "Fix it first",
+      "jurisdiction": "Kentucky",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_e5f4015f38900487",
+          "key": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": [
+            {
+              "propositionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+              "answer": "yes",
+              "governmentLevel": "municipality",
+              "authorityKind": "game-profile",
+              "authorityKey": null,
+              "operativeEffectKind": "public-program-appropriation",
+              "effectProvisionKey": "amount-provided",
+              "effectParameterKey": "appropriation",
+              "familyKey": "appropriations",
+              "variantKey": "local-fix-it-first-v1"
+            }
+          ]
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_06b30a52c30eca57",
+      "stableKey": "legislative-intake/v1:us-la-governor:2026-02-15:agenda",
+      "designation": "HB 9",
+      "title": "Paid family and medical leave",
+      "jurisdiction": "Louisiana",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b4cb824f1a35c05f",
+          "key": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_18bfa269852e6047",
+      "stableKey": "legislative-intake/v1:us-la-governor:2026-02-15:agenda:us-policy-positions%3Abusiness-commerce.cap-development-incentives:person_4fa370036d07cfbb",
+      "designation": "SB 9",
+      "title": "Cap development incentives",
+      "jurisdiction": "Louisiana",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_3881e6fd4022321e",
+          "key": "us-policy-positions:business-commerce.cap-development-incentives",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:business-commerce.cap-development-incentives",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_2c5e2c179d8566b2",
+      "stableKey": "legislative-intake/v1:us-md-governor:2026-02-15:agenda",
+      "designation": "HB 14",
+      "title": "Work requirement for Medicaid",
+      "jurisdiction": "Maryland",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_03751de3f40f5f56",
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_78920adec78dc0fd",
+      "stableKey": "legislative-intake/v1:us-ma-governor:2026-02-15:agenda",
+      "designation": "S.57",
+      "title": "End cash bail",
+      "jurisdiction": "Massachusetts",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_9d88404e486fa58b",
+          "key": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_314da499f321a7ca",
+      "stableKey": "legislative-intake/v1:us-mn-governor:2026-02-15:agenda",
+      "designation": "SF 19",
+      "title": "Universal preschool",
+      "jurisdiction": "Minnesota",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_ca8f52a74467b1fc",
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_a7f72e59d8eb5502",
+      "stableKey": "legislative-intake/v1:us-ms-governor:2026-02-15:agenda",
+      "designation": "HB 17",
+      "title": "Work requirement for Medicaid",
+      "jurisdiction": "Mississippi",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_03751de3f40f5f56",
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_5aac3f049d45b7e5",
+      "stableKey": "legislative-intake/v1:us-ms-governor:2026-02-15:agenda:us-policy-positions%3Ajustice-public-safety.mandatory-minimum-sentences:person_ac128fdf77cac7b8",
+      "designation": "SB 17",
+      "title": "Mandatory minimum sentences",
+      "jurisdiction": "Mississippi",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b6fdfba1734fdb5c",
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_6e22a32ae65e286c",
+      "stableKey": "legislative-intake/v1:us-mo-governor:2026-02-15:agenda",
+      "designation": "SB 12",
+      "title": "Rent stabilization",
+      "jurisdiction": "Missouri",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_67b712e931d5626d",
+          "key": "us-policy-positions:housing-land-use.rent-stabilization",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:housing-land-use.rent-stabilization",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_ef2fee0639290aad",
+      "stableKey": "legislative-intake/v1:us-nj-governor:2026-02-15:agenda",
+      "designation": "A45",
+      "title": "Fund pensions on schedule",
+      "jurisdiction": "New Jersey",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b5806d32973d68f6",
+          "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_14ec160a7413a2cf",
+      "stableKey": "legislative-intake/v1:us-ny-governor:2026-02-15:agenda",
+      "designation": "A22",
+      "title": "Mandatory minimum sentences",
+      "jurisdiction": "New York",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b6fdfba1734fdb5c",
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_720cba852747b9bd",
+      "stableKey": "legislative-intake/v1:us-ny-governor:2026-02-15:agenda:us-policy-positions%3Afiscal.cap-property-tax-growth:person_b64f086cefd7394d",
+      "designation": "S22",
+      "title": "Repeal: Cap property tax growth",
+      "jurisdiction": "New York",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_7cf61b066a051141",
+          "key": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_848935be26664da4",
+      "stableKey": "legislative-intake/v1:us-oh-governor:2026-02-15:agenda",
+      "designation": "SB 2",
+      "title": "Repeal: Restrict abortion",
+      "jurisdiction": "Ohio",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_f9d763234f9116dc",
+          "key": "us-policy-positions:civil-family-community.restrict-abortion",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:civil-family-community.restrict-abortion",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_7008dc9e6ffcbb11",
+      "stableKey": "legislative-intake/v1:us-ok-governor:2026-02-15:agenda",
+      "designation": "HB 13",
+      "title": "Repeal: Cap property tax growth",
+      "jurisdiction": "Oklahoma",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_7cf61b066a051141",
+          "key": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_ddd7cd32c7ea99a3",
+      "stableKey": "legislative-intake/v1:us-or-governor:2026-02-15:agenda",
+      "designation": "SB 2",
+      "title": "Mandatory minimum sentences",
+      "jurisdiction": "Oregon",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b6fdfba1734fdb5c",
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_2590b7f222ad205c",
+      "stableKey": "legislative-intake/v1:us-ri-governor:2026-02-15:agenda",
+      "designation": "H 12",
+      "title": "Mileage fee instead of fuel tax",
+      "jurisdiction": "Rhode Island",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_068bc5251f39f225",
+          "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_79a041e22a7ac892",
+      "stableKey": "legislative-intake/v1:us-sc-governor:2026-02-15:agenda",
+      "designation": "S 2",
+      "title": "Repeal: Public funds for private schooling",
+      "jurisdiction": "South Carolina",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_65973e41b73e143a",
+          "key": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_84889ab90b3753b3",
+      "stableKey": "legislative-intake/v1:us-sd-governor:2026-02-15:agenda",
+      "designation": "SB 3",
+      "title": "Reduce occupational licensing",
+      "jurisdiction": "South Dakota",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_4850d4cc2bf02f7b",
+          "key": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_5435bcdcc38b9728",
+      "stableKey": "legislative-intake/v1:us-wv-governor:2026-02-15:agenda",
+      "designation": "HB 13",
+      "title": "Mandatory minimum sentences",
+      "jurisdiction": "West Virginia",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b6fdfba1734fdb5c",
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_f68b0a6ef2c0d6c0",
+      "stableKey": "legislative-intake/v1:us-wv-governor:2026-02-15:agenda:us-policy-positions%3Ahealth-human-services.medicaid-work-requirement:person_d2e6b9f9e9e08d0b",
+      "designation": "SB 13",
+      "title": "Work requirement for Medicaid",
+      "jurisdiction": "West Virginia",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_03751de3f40f5f56",
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_6eb834f8f15877cf",
+      "stableKey": "legislative-intake/v1:us-wi-governor:2026-02-15:agenda",
+      "designation": "AB 13",
+      "title": "By-right permitting",
+      "jurisdiction": "Wisconsin",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_6ae1e44ec1921c72",
+          "key": "us-policy-positions:housing-land-use.by-right-permitting",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:housing-land-use.by-right-permitting",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_2b9b8927417a2a58",
+      "stableKey": "legislative-intake/v1:us-wi-governor:2026-02-15:agenda:us-policy-positions%3Aeducation.universal-preschool:person_7b522cf15152aa46",
+      "designation": "SB 13",
+      "title": "Universal preschool",
+      "jurisdiction": "Wisconsin",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_ca8f52a74467b1fc",
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-17",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_1bf622acce85ccac",
+      "stableKey": "legislative-intake/v1:us-ar-governor:2026-03-15:agenda",
+      "designation": "SB 3",
+      "title": "Fund a behavioral health crisis response",
+      "jurisdiction": "Arkansas",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_c418c80593f6db6a",
+          "key": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-05-15",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_f826dacecfbe14b1",
+      "stableKey": "legislative-intake/v1:us-ne-governor:2026-03-15:agenda",
+      "designation": "LB 10",
+      "title": "Mandatory minimum sentences",
+      "jurisdiction": "Nebraska",
+      "jurisdictionKind": "state-placeholder",
+      "level": "state",
+      "questions": [
+        {
+          "id": "proposition_b6fdfba1734fdb5c",
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-state-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-28",
+      "effectiveAt": null,
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_c43deb9319ecf3bd",
+      "stableKey": "local-member-agenda/v1:gus2025%3A122829:2026-04-01:person_3c47a3534e9b92ae:us-policy-positions%3Acivil-family-community.dedicated-parks-funding",
+      "designation": "ORD 13",
+      "title": "Repeal: Dedicated parks funding",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_2fae18249369ab7e",
+          "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "unmapped-local-position-fallback",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-04-02",
+      "effectiveAt": "2026-04-02",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_1da0d190bdc34d42",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 14",
+      "designation": "ORD 14",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_2fae18249369ab7e",
+          "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-05-11",
+      "effectiveAt": "2026-06-10",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_1da0d590bdc3540e",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 18",
+      "designation": "ORD 18",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_2fae18249369ab7e",
+          "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-07-20",
+      "effectiveAt": "2026-08-19",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_1d9d6790bdc0634d",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 20",
+      "designation": "ORD 20",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_2fae18249369ab7e",
+          "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-09-28",
+      "effectiveAt": "2026-10-28",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    },
+    {
+      "measureId": "legislative-measure_1d9d6590bdc05fe7",
+      "stableKey": "local-council-meetings/v1:gus2025:122829:2026:ORD 22",
+      "designation": "ORD 22",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "jurisdiction": "Independence County, Arkansas",
+      "jurisdictionKind": "census-county",
+      "level": "county",
+      "questions": [
+        {
+          "id": "proposition_2fae18249369ab7e",
+          "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no"
+        }
+      ],
+      "configurations": [
+        {
+          "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "answer": "no",
+          "atLevel": [],
+          "municipality": []
+        }
+      ],
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "provisionCount": 0,
+      "operativeCount": 0,
+      "enactedOn": "2026-12-21",
+      "effectiveAt": "2027-01-20",
+      "observedLawLines": [
+        {
+          "kind": "no-operative-text",
+          "researchQuestionId": "law-clause-effects-by-family"
+        }
+      ],
+      "provisions": [],
+      "additionalProvisionAnswers": []
+    }
+  ],
+  "sourceVerification": {
+    "src/simulation/legislation-program-families.ts": {
+      "54930d427555034f3a92f335064586247985784d": "6ded95b4719834b48cc942887250fc653caa3791",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "6ded95b4719834b48cc942887250fc653caa3791"
+    },
+    "src/simulation/legislation-service-families.ts": {
+      "54930d427555034f3a92f335064586247985784d": "d339392af610e9628025e851eee16655bd57fce1",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "d339392af610e9628025e851eee16655bd57fce1"
+    },
+    "src/simulation/legislation-infrastructure-families.ts": {
+      "54930d427555034f3a92f335064586247985784d": "e6343bb12ecc839e22b5e737b44b5822914c68f2",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "e6343bb12ecc839e22b5e737b44b5822914c68f2"
+    },
+    "src/simulation/legislation-fiscal-families.ts": {
+      "54930d427555034f3a92f335064586247985784d": "d850666eacadcc58b003aa9afc9b676076e1d5cc",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "d850666eacadcc58b003aa9afc9b676076e1d5cc"
+    },
+    "src/simulation/legislation-administration-families.ts": {
+      "54930d427555034f3a92f335064586247985784d": "7686b6efe230f5bdf45824161ee19755e8a4e85d",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "7686b6efe230f5bdf45824161ee19755e8a4e85d"
+    },
+    "src/simulation/legislation-resilience-families.ts": {
+      "54930d427555034f3a92f335064586247985784d": "bade2f113b06c3d3cc8006f564789df6bde99e43",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "bade2f113b06c3d3cc8006f564789df6bde99e43"
+    },
+    "src/simulation/governing/member-agenda.ts": {
+      "54930d427555034f3a92f335064586247985784d": "5fbfb6c263922169a80ce2032e78ed28b95dd3c1",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "5fbfb6c263922169a80ce2032e78ed28b95dd3c1"
+    },
+    "src/simulation/living-world/local-council-meetings.ts": {
+      "54930d427555034f3a92f335064586247985784d": "5e80c872bbce0ae4287c34459b3a016b827a7372",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "5e80c872bbce0ae4287c34459b3a016b827a7372"
+    },
+    "src/simulation/legislation.ts": {
+      "54930d427555034f3a92f335064586247985784d": "06d705d50e04ddc731b535d6f9f6bc48a264c5a0",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "06d705d50e04ddc731b535d6f9f6bc48a264c5a0"
+    },
+    "src/simulation/enacted-law-effects.ts": {
+      "54930d427555034f3a92f335064586247985784d": "122be98a7d975ef8e90038b1f55ef6d99b91991d",
+      "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "122be98a7d975ef8e90038b1f55ef6d99b91991d"
+    }
+  },
+  "reasonCounts": {
+    "council-introduce-bypasses-typed-drafting": 11,
+    "unmapped-state-position-fallback": 41,
+    "scenario-no-catalog-question": 2,
+    "typed-operative": 1,
+    "unmapped-local-position-fallback": 1
+  },
+  "baseline": {
+    "enacted": 56,
+    "typedOperative": 1,
+    "lawLinkedActualMoneyMovements": 0,
+    "state": 44,
+    "county": 12,
+    "city": 0
+  }
+}
