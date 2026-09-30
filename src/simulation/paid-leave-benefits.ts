@@ -36,7 +36,9 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import { SeededRng } from "./rng";
-import { paidLeavePremium } from "./state-paid-leave-law";
+import { PAID_LEAVE_QUESTION, paidLeavePremium } from "./state-paid-leave-law";
+import { lawInForce } from "./governing/law-in-force";
+import { lawEffectStamp } from "./law-effect-stamp";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -222,7 +224,25 @@ export function payPaidLeaveClaims(
       provenance: { kind: "generated", generatorKey: "paid-leave-benefits" },
     });
     const flow = next.history.resourceFlows.at(-1)!;
+    const proposition = Object.values(
+      next.policyCatalog?.propositions ?? {},
+    ).find((definition) => definition.stableKey === PAID_LEAVE_QUESTION);
+    const law = proposition
+      ? lawInForce(next, state.id, proposition.id, next.currentDate)
+      : null;
+    // Attribute money actually moved, not a claim or an unfunded attempt.
+    const stamp =
+      moved > 0 && law?.answer === "yes"
+        ? lawEffectStamp(law, {
+            effectKind: "paid-leave-benefit",
+            questionKey: PAID_LEAVE_QUESTION,
+            jurisdictionId: state.id,
+            appliedAt: next.currentDate,
+            sourceRecordIds: [flow.id, account.id, claim.personId],
+          })
+        : null;
     next = recordResourceTransferOutcome(next, {
+      ...(stamp ? { lawEffectStamps: [stamp] } : {}),
       stableKey: `${flowKey}:transfer`,
       resourceFlowId: flow.id,
       // Paid the day the paycheck it makes up for is recorded.

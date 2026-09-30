@@ -1,3 +1,4 @@
+import type { LawEffectStampedRecord } from "../law-effect-stamp";
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
 import type { FederalTreasury } from "./federal-treasury";
@@ -161,7 +162,7 @@ export interface AdoptedBudget {
 }
 
 /** One settled month. Arrays align to BUDGET_SOURCES and BUDGET_PROGRAMS. */
-export interface BudgetMonthRow {
+export interface BudgetMonthRow extends LawEffectStampedRecord {
   /** The first day of the month settled. */
   readonly month: IsoDate;
   readonly revenue: readonly number[];
