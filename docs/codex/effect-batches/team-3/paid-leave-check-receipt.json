@@ -1,0 +1,47 @@
+{
+  "team": 3,
+  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+  "baseSourceHead": "dbc06d2b12bc9b3098fc85397856f630fbcd1c28",
+  "checkedFileSha256": {
+    "src/simulation/paid-leave-benefits.ts": "9a75657c3d4bbac0191dd45b3dce4d11f65ac1319f933d4bdc362bf08ba3323e",
+    "src/simulation/paid-leave-benefits.test.ts": "1fc1259242fb5ea02d852dc6593970eeb4b6e8c54edaa61f815203a99e112348",
+    "src/simulation/paid-leave-stamp.test.ts": "7eb229fc361b922c6e857afc17c84143a6a4c2b04b411c4fc89f075c9cd2759e"
+  },
+  "executed": {
+    "existingOregonVirginia": "3/3 PASS; 152.23 seconds; original published payment writer",
+    "fiveStateSavedPayment": "5/5 PASS; 49.73 seconds; durable log /workspace/scratch/team3-paid-five-narrow2.log; exit 0",
+    "states": [
+      "US-CA",
+      "US-CO",
+      "US-CT",
+      "US-DE",
+      "US-MA"
+    ],
+    "proved": [
+      "positive saved paid-leave transfer",
+      "actual state account debit equals money moved",
+      "canonical operative starting-law stamp and source records",
+      "payment record equality after canonical serialization/reopen"
+    ],
+    "strictTypecheck": "Final check after canonical date-helper correction: 3 scoped roots; 0 diagnostics",
+    "scopedLint": "Final check PASS; three paid-leave source/test files",
+    "formatting": "PASS",
+    "whitespace": "PASS",
+    "reportReview": "Mechanical 0 errors/0 warnings; independent reviewer PASS on actual PR-body file"
+  },
+  "retainedFailures": [
+    "Initial five-state fixture failed 5/5: actual opening cash zero; no paid-payment proof.",
+    "Full-world work route terminated after over 12 minutes without completion; exit 143 is not proof.",
+    "First direct-handler fixture failed 5/5 because current date and canonical moment differed; corrected both through simulationMomentOnLocalDate."
+  ],
+  "fixtureControls": "Recorded completion handler supplies a completed shift; canonical scheduled paycheck handler supplies earned money; actual cash funds the state account. Claim and small amount are authored test controls, not researched eligibility or cost estimates.",
+  "NOT_RUN": [
+    "nationwide law enactment-to-person audit",
+    "browser",
+    "random watched-person proof",
+    "shared proposed budget patch",
+    "full five-part law completeness"
+  ],
+  "lawPartsComplete": 0,
+  "assignedLaws": 13
+}

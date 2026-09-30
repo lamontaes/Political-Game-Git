@@ -18,7 +18,10 @@ import {
 } from "./paid-leave-benefits";
 import type { EntityId, World } from "./types";
 import { advanceWorld } from "./world";
-import { isLawEffectStamp, type LawEffectStampedRecord } from "./law-effect-stamp";
+import {
+  isLawEffectStamp,
+  type LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import { PAID_LEAVE_QUESTION } from "./state-paid-leave-law";
 
 const LONG = 900_000;

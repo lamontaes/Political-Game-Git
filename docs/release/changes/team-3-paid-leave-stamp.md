@@ -1,3 +1,10 @@
+---
+id: team-3-paid-leave-stamp
+impact: patch
+section: Improved
+title: Paid-leave payments record their governing law
+---
+
 # Paid-leave payments carry their governing law
 
 The state paid-leave payment writer now adds the shared law stamp to money actually transferred under an operative program law. Existing payment amounts and state-account funding limits remain in use.

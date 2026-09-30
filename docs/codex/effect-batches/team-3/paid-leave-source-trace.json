@@ -2,7 +2,7 @@
   "team": 3,
   "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
   "sourceHead": "8227861f1cea4aa38d916745044e155b282c1eea",
-  "status": "DRAFT SOURCE CHECKPOINT; NOT READY",
+  "status": "CHECKED PAYMENT WRITER; COMPLETE LAW RECORD STILL 0/13",
   "featureWalkthrough": {
     "skill": ".agents/skills/feature-walkthrough/SKILL.md",
     "invoked": true,
@@ -31,7 +31,7 @@
     },
     {
       "line": 6,
-      "answer": "Changed Oregon/Virginia fixture assertions are published but NOT RUN. Random logged watched-place proof, named-person example, save/reopen proof and nationwide audit NOT RUN on this head because executor failed. Source presence is not acceptance."
+      "answer": "Existing Oregon/Virginia test passed 3/3. Five retained state payment fixtures passed 5/5 and checked actual state-account debit, canonical stamps and canonical save/reopen equality. Authored claims/completed shifts do not prove statutory eligibility, personal choice, or nationwide firing. Browser and random watched-person proof NOT RUN."
     }
   ],
   "why": [
