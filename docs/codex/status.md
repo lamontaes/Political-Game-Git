@@ -1,3 +1,17 @@
+## Owner Firefly docket — child heads, faces and hair
+
+AUTHORIZED by CTO September30 child-art ruling. Owner sign-in pending. Team7 owns one missing-source batch matched to the approved kids sheets: child heads, faces and hair. Exact crop IDs, hashes and source brief pending from Team7. Generation has NOT started and pixels are NOT approved. No child renders until required heads exist.
+
+Team7 reports108 native body crops completed with source/output hash, dimension and RGBA equality checks passed;1257 upload still running, publication NOT confirmed. Continue CDC median stature calibration by actual age/sex and measured seated contacts. Preserve originals. Fresh Butte Start-a-life sibling-under10 route is authorized for this visual check only; it does not release the newspaper exact-save hold.
+
+## September 30, event preservation landed and next integration
+
+GitHub independently verifies1297 c349cde25be54d5147522c0ee0136230e3e117d4 merged at b0fb2464f682f72e6a970a87b353074fa530034f. Team2 reports additive integration251957913125a92b0f34fd4afa01aaa6053673c1 and continues fixture repair/rerun; no downstream test pass inferred.
+
+Team7 reports native108 crops from36 approved three-figure sources in progress. Blank heads, absent child face/hair layers, unmeasured seated pelvis contacts and stature calibration escalated to CTO. No adult face substitution or invented measurements. Crop/manifest work continues; incomplete recipe remains disabled.
+
+Coordinator received1296 c5c62b9efff1650908471bfbd37f8e745f5d3921 for shared state-tax/premium integration; fetch/read pending.1295 repaired d1b5a4bdb03706fd22b0d88c4d4d6748eefddd3c renewal requested in00b, Team3 reports19/19 checks with both paidLeave/age/cannabis retained.
+
 ## September 30, 2:37 repair checkpoint
 
 Coordinator #1297 now c349cde25be54d5147522c0ee0136230e3e117d4. Merge ran canonical Save/Continue1/1PASS10.04s,3roots0,format/whitespacePASS at predecessor0bb59d17; lint caught one unused test binding. Only that binding repaired; current-head rerun pending. No production changes in repair.
