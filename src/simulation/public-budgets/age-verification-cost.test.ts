@@ -3,7 +3,10 @@ import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { createWorld } from "../world";
-import { isLawEffectStamp } from "../law-effect-stamp";
+import {
+  isLawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import { withOpenedBudgets } from "./index";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
 import { BUDGET_PROGRAMS, PUBLIC_BUDGETS_VERSION } from "./store";
@@ -156,6 +159,82 @@ describe("age-verification cost reaches the state's settled budget", () => {
       ).toBeNull();
       const reopened = JSON.parse(JSON.stringify(after));
       expect(reopened.lawCostAttributions).toEqual(after.lawCostAttributions);
+      if (stateKey === "US-CA" || stateKey === "US-WA") {
+        const cannabis = Object.values(catalog.propositions).find(
+          (row) =>
+            row.stableKey ===
+            "us-policy-positions:business-commerce.legalize-cannabis-sales",
+        )!;
+        const ban: LegislativeMeasureRecord = {
+          ...measure,
+          id: ("measure_cannabis_ban_" + stateKey) as EntityId,
+          stableKey: "cannabis-ban:" + stateKey,
+          sequence: world.history.nextSequence,
+          shortTitle: "Authored cannabis repeal preservation fixture",
+          propositionIds: [cannabis.id],
+          propositionAnswers: [{ propositionId: cannabis.id, answer: "no" }],
+        };
+        const enactedBan: LegislativeEnactmentRecord = {
+          ...enactment,
+          id: ("enactment_cannabis_ban_" + stateKey) as EntityId,
+          stableKey: ban.stableKey + ":enacted",
+          sequence: world.history.nextSequence + 1,
+          measureId: ban.id,
+          outcomeEventId: ("event_cannabis_ban_" + stateKey) as EntityId,
+        };
+        const together: World = {
+          ...world,
+          history: {
+            ...world.history,
+            nextSequence: world.history.nextSequence + 2,
+            legislativeMeasures: [measure, ban],
+            legislativeEnactments: [enactment, enactedBan],
+          },
+        };
+        const banOnly: World = {
+          ...together,
+          history: {
+            ...together.history,
+            legislativeMeasures: [ban],
+            legislativeEnactments: [enactedBan],
+          },
+        };
+        const combined = settleGovernmentMonth(
+          together,
+          government,
+          date,
+          FLOWS,
+        ).government;
+        const saved = combined.months.at(-1)! as typeof after &
+          LawEffectStampedRecord & { readonly cannabisRevenueLoss?: number };
+        const onlyBan = settleGovernmentMonth(
+          banOnly,
+          government,
+          date,
+          FLOWS,
+        ).government.months.at(-1)!;
+        expect(saved.cannabisRevenueLoss).toBeGreaterThan(0);
+        expect(saved.lawEffectStamps).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              governingLawKey: ban.id,
+              effectKind: "state-revenue-loss",
+            }),
+            expect.objectContaining({
+              governingLawKey: measure.id,
+              effectKind: "government-age-verification-enforcement-cost",
+            }),
+          ]),
+        );
+        expect(saved.lawEffectStamps).toHaveLength(2);
+        expect(saved.balance - onlyBan.balance).toBe(
+          -Math.round(attribution.amountUsd),
+        );
+        expect(JSON.parse(JSON.stringify(saved))).toEqual(saved);
+        expect(
+          settleGovernmentMonth(together, combined, date, FLOWS).government,
+        ).toBe(combined);
+      }
       console.log(
         "COST_FIXTURE",
         stateKey,

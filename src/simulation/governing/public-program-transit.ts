@@ -1,3 +1,10 @@
+import {
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
+import { lawInForce } from "./law-in-force";
+import { propositionIdFor } from "../public-budgets/fiscal";
+import { STATE_TRANSIT_SERVICE_QUESTION } from "../legislation-transit-families";
 import { TRANSIT_METRIC_INPUT } from "../transit-contract-definitions";
 import { TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR } from "../legislation-transit-families";
 import { publishPublicEvent } from "../public-information";
@@ -12,6 +19,7 @@ import {
   createWorldMetricCatalog,
   createWorldMetricDefinition,
   recordWorldMetricState,
+  worldMetricStateForPeriodAt,
 } from "../world-metrics";
 import { recordWorldEvent } from "../world";
 import type {
@@ -56,6 +64,13 @@ export function recordPaidTransitProgramService(
     !appropriation.sourceMeasureId
   )
     return world;
+  if (
+    commitment.appropriationId !== appropriation.id ||
+    installment.commitmentId !== commitment.id
+  )
+    throw new Error(
+      "Transit service requires the saved appropriation payment chain.",
+    );
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === appropriation.sourceMeasureId,
   );
@@ -66,6 +81,7 @@ export function recordPaidTransitProgramService(
     (row) => row.measureId === measure?.id,
   );
   if (
+    !measure ||
     !profile ||
     lineage?.variantKey !== "transit-staged-service-v2" ||
     profile.programKey !== appropriation.programKey
@@ -78,12 +94,94 @@ export function recordPaidTransitProgramService(
   );
   if (
     !outcome ||
-    outcome.transferredAmount.minorUnits !== plan.amount.minorUnits
+    outcome.transferredAmount.minorUnits !== plan.amount.minorUnits ||
+    outcome.transferredAmount.currency !== plan.amount.currency
   )
     throw new Error("Transit service hours require the exact posted payment.");
+  const propositionId = propositionIdFor(world, STATE_TRANSIT_SERVICE_QUESTION);
+  const governingLaw = propositionId
+    ? lawInForce(
+        world,
+        appropriation.jurisdictionId,
+        propositionId,
+        installment.recordedAt,
+      )
+    : null;
+  // Never attribute this payment to a different measure answering the same question.
+  const ownLaw = governingLaw?.measureId === measure.id ? governingLaw : null;
+  const sources = [
+    measure.id,
+    appropriation.id,
+    commitment.id,
+    installment.id,
+    installment.resourceFlowId,
+    outcome.id,
+  ];
+  const spendingStamp = lawEffectStamp(ownLaw, {
+    effectKind: "state-spending",
+    questionKey: STATE_TRANSIT_SERVICE_QUESTION,
+    jurisdictionId: appropriation.jurisdictionId,
+    appliedAt: installment.recordedAt,
+    sourceRecordIds: sources,
+  });
   const key = `${installment.stableKey}:paid-service-hours`;
   if (world.history.events.some((event) => event.stableKey === key))
     return world;
+  let next = world;
+  if (spendingStamp) {
+    const budgetMetric = Object.values(world.metricCatalog.definitions).find(
+      (definition) => definition.stableKey === "government.outlays",
+    );
+    const budget = budgetMetric
+      ? worldMetricStateForPeriodAt(
+          world,
+          budgetMetric.id,
+          { jurisdictionId: appropriation.jurisdictionId, segmentKey: null },
+          {
+            kind: "interval",
+            startsAt: installment.recordedAt,
+            endsAt: installment.recordedAt,
+          },
+          {
+            asOfDate: world.currentDate,
+            historySequenceExclusive: world.history.nextSequence,
+          },
+        )
+      : null;
+    if (
+      !budget ||
+      budget.value.kind !== "money" ||
+      budget.value.money.currency !== plan.amount.currency ||
+      budget.value.money.minorUnits < plan.amount.minorUnits ||
+      budget.provenance.kind !== "simulated" ||
+      !budget.provenance.sourceEntityIds.includes(installment.eventId)
+    )
+      throw new Error(
+        "A transit cost stamp requires its actual government outlay.",
+      );
+    const priorStamps =
+      (budget as typeof budget & LawEffectStampedRecord).lawEffectStamps ?? [];
+    // Append provenance to the already posted budget total; never post the payment again.
+    next = recordWorldMetricState(next, {
+      stableKey: `${key}:budget-cost`,
+      metricId: budget.metricId,
+      scope: budget.scope,
+      referencePeriod: budget.referencePeriod,
+      value: budget.value,
+      recordedAt: world.currentDate,
+      provenance: budget.provenance,
+      supersedesStateId: budget.id,
+      ...{
+        lawEffectStamps: [
+          ...priorStamps,
+          {
+            ...spendingStamp,
+            sourceRecordIds: [...sources, installment.eventId, budget.id],
+          },
+        ],
+      },
+    });
+  }
   const eligibleResidents = Object.values(world.people).filter((person) => {
     const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
     return (
@@ -111,7 +209,6 @@ export function recordPaidTransitProgramService(
         ) || left.localeCompare(right),
     )[0] ?? null;
   const area = modeledAreaId ? lifePlaceByJurisdictionId(modeledAreaId) : null;
-  let next = world;
   if (modeledAreaId && area) {
     next = recordWorldEvent(next, {
       stableKey: `${key}:modeled-area`,
@@ -156,6 +253,7 @@ export function recordPaidTransitProgramService(
   next = recordWorldEvent(next, {
     stableKey: key,
     type: "transit.program-paid-service-hours",
+    ...(spendingStamp ? { lawEffectStamps: [spendingStamp] } : {}),
     occurredAt: installment.recordedAt,
     recordedAt: installment.recordedAt,
     jurisdictionId: modeledAreaId ?? appropriation.jurisdictionId,
@@ -192,7 +290,21 @@ export function recordPaidTransitProgramService(
         ],
       }),
     };
+  const serviceStamp = lawEffectStamp(ownLaw, {
+    effectKind: "transit.paid-service-hours",
+    questionKey: STATE_TRANSIT_SERVICE_QUESTION,
+    jurisdictionId: modeledAreaId ?? appropriation.jurisdictionId,
+    appliedAt: installment.recordedAt,
+    sourceRecordIds: [...sources, serviceEventId],
+  });
   next = recordWorldMetricState(next, {
+    ...(spendingStamp || serviceStamp
+      ? {
+          lawEffectStamps: [spendingStamp, serviceStamp].filter(
+            (stamp) => stamp !== null,
+          ),
+        }
+      : {}),
     stableKey: `${key}:metric`,
     metricId: metric.id,
     scope: {

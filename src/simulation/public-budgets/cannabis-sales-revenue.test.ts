@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
+import { createWorld } from "../world";
+import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { lawInForceAtStart } from "../governing/law-in-force";
 import {
   lifePlaceStateIdentities,
@@ -184,6 +186,7 @@ const NO_FLOWS: MonthFlows = {
 function zeroBaseBudget(
   world: World,
   stateKey: string,
+  zeroSelective = true,
 ): PublicBudgetGovernment {
   const store = withOpenedBudgets(
     world,
@@ -206,7 +209,7 @@ function zeroBaseBudget(
     years: government.years.map((year) => ({
       ...year,
       expectedRevenue: year.expectedRevenue.map((value, index) =>
-        index === at ? 0 : value,
+        index === at && zeroSelective ? 0 : value,
       ),
     })),
   };
@@ -304,4 +307,98 @@ describe("cannabis revenue reaches a zero-base saved budget consequence", () => 
       saved.months.find((row) => row.month === "2028-04-01")!.revenue[at],
     ).toBe(0);
   });
+});
+
+const sourcedAnswers = (
+  startingLaw.questions as Record<
+    string,
+    {
+      answers: Record<string, { answer: "yes" | "no"; estimated?: string }>;
+    }
+  >
+)["us-policy-positions:business-commerce.legalize-cannabis-sales"]!.answers;
+const legalStates = lifePlaceStateIdentities()
+  .filter((place) => {
+    const row = sourcedAnswers[place.jurisdictionKey];
+    return row?.answer === "yes" && !row.estimated;
+  })
+  .map((place) => place.jurisdictionKey);
+const costSeed = "team4-cannabis-revenue-loss-20260930";
+const costRng = new SeededRng(costSeed);
+const costStates = Array.from(
+  { length: 3 },
+  () => legalStates.splice(costRng.integer(0, legalStates.length), 1)[0]!,
+);
+function completeCostWorld(state: string, endSales: boolean) {
+  const partial = worldWith(
+    state,
+    endSales
+      ? [{ question: CANNABIS, answer: "no", effectiveAt: "2026-04-01" }]
+      : [],
+  );
+  const complete = createWorld({
+    seed: costSeed,
+    currentDate: partial.currentDate,
+    jurisdictions: [stateJurisdictionForKey(state)!],
+    people: [],
+    lineage: "production",
+  });
+  return {
+    ...complete,
+    policyCatalog: partial.policyCatalog,
+    history: { ...complete.history, ...partial.history },
+  };
+}
+describe("a cannabis sales ban writes its state revenue-loss cost", () => {
+  it.each(costStates)(
+    "stamps the actual %s budget loss without changing its tax arithmetic",
+    (state) => {
+      const world = completeCostWorld(state, true);
+      const continuing = completeCostWorld(state, false);
+      const initial = zeroBaseBudget(world, state, false);
+      const ordinary = zeroBaseBudget(continuing, state, false);
+      const withBan = settleThrough(world, initial, "2026-05-01");
+      const withoutBan = settleThrough(continuing, ordinary, "2026-05-01");
+      const at = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
+      const row = withBan.months.find(
+        (row) => row.month === "2026-04-01",
+      )! as BudgetMonthRow &
+        LawEffectStampedRecord & { cannabisRevenueLoss?: number };
+      const baseline = withoutBan.months.find(
+        (row) => row.month === "2026-04-01",
+      )!;
+      const loss = baseline.revenue[at]! - row.revenue[at]!;
+      expect(loss, `${state}, seed ${costSeed}`).toBeGreaterThan(0);
+      expect(row.cannabisRevenueLoss).toBe(loss);
+      expect(row.balance).toBeLessThan(baseline.balance);
+      expect(row.lawEffectStamps).toEqual([
+        expect.objectContaining({
+          governingLawKey: "measure_0",
+          effectKind: "state-revenue-loss",
+          jurisdictionId: initial.lawJurisdictionId,
+          appliedAt: "2026-04-01",
+        }),
+      ]);
+      const before = withBan.months.find(
+        (row) => row.month === "2026-03-01",
+      )! as BudgetMonthRow &
+        LawEffectStampedRecord & { cannabisRevenueLoss?: number };
+      expect(before.cannabisRevenueLoss).toBeUndefined();
+      expect(before.lawEffectStamps).toBeUndefined();
+      const persisted = JSON.parse(JSON.stringify(withBan)) as typeof withBan;
+      const saved = persisted.months.find(
+        (row) => row.month === "2026-04-01",
+      )! as typeof row;
+      expect(saved.cannabisRevenueLoss).toBe(loss);
+      expect(saved.lawEffectStamps).toEqual(row.lawEffectStamps);
+      console.info(
+        JSON.stringify({
+          state,
+          seed: costSeed,
+          lostStateRevenue: loss,
+          month: row.month,
+        }),
+      );
+    },
+  );
 });

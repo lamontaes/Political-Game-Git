@@ -309,6 +309,7 @@ export function taxLawFactor(
   source: BudgetSource,
   date: IsoDate,
   erodedOn: IsoDate = date,
+  includeCannabis = true,
 ): number {
   const onDate =
     source === "individualIncomeTax"
@@ -320,7 +321,9 @@ export function taxLawFactor(
       : source === "selectiveSalesTaxes"
         ? // Cannabis adds its own level; the fuel tax's erosion comes off
           // its own share. Each is measured against the opening level.
-          cannabisSalesFactor(world, government, onDate) +
+          (includeCannabis
+            ? cannabisSalesFactor(world, government, onDate)
+            : 1) +
           roadChargeFactor(world, government, onDate, erodedOn) -
           1
         : source === "chargesAndFees"
@@ -560,9 +563,7 @@ export function settleGovernmentMonth(
   // this month's amount, so rollover neither doubles it nor blocks repeal.
   const zeroOpeningSelectiveTax =
     (government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0) <= 0;
-  const cannabisReading = zeroOpeningSelectiveTax
-    ? cannabisSalesRevenueChange(world, government, month)
-    : null;
+  const cannabisReading = cannabisSalesRevenueChange(world, government, month);
   const cannabisRevenue = cannabisReading
     ? Math.max(0, Math.round(cannabisReading.annualRevenueDelta / 12))
     : 0;
@@ -597,6 +598,44 @@ export function settleGovernmentMonth(
       government.months.at(-1) as
         (BudgetMonthRow & { readonly cannabisRevenue?: number }) | undefined
     )?.cannabisRevenue ?? 0;
+  // Attribute only the revenue actually removed by the cannabis law from
+  // this modeled source. The counterfactual keeps the same adopted budget,
+  // economy and every other tax; it does not alter cash or add a new rate.
+  let cannabisRevenueLoss = 0;
+  if (!zeroOpeningSelectiveTax && cannabisReading.annualRevenueDelta < 0) {
+    const atAdoption = taxLawFactor(
+      world,
+      government,
+      "selectiveSalesTaxes",
+      year.startsOn,
+    );
+    const beforeLaw =
+      atAdoption === 0
+        ? openingMonthLevel(
+            government,
+            "selectiveSalesTaxes",
+            SELECTIVE_TAX,
+            economyNow,
+          )
+        : ((year.expectedRevenue[SELECTIVE_TAX]! / 12) *
+            Math.max(
+              0,
+              1 + ECONOMY_ELASTICITY.selectiveSalesTaxes * (economy - 1),
+            )) /
+          atAdoption;
+    const withoutCannabis = taxLawFactor(
+      world,
+      government,
+      "selectiveSalesTaxes",
+      month,
+      month,
+      false,
+    );
+    cannabisRevenueLoss = Math.max(
+      0,
+      Math.round(beforeLaw * withoutCannabis) - revenue[SELECTIVE_TAX]!,
+    );
+  }
   const cannabisProposition = propositionIdFor(world, CANNABIS_SALES_QUESTION);
   const cannabisStamp =
     zeroOpeningSelectiveTax &&
@@ -617,6 +656,26 @@ export function settleGovernmentMonth(
           },
         )
       : null;
+  const cannabisCostStamp =
+    cannabisRevenueLoss > 0 && cannabisProposition
+      ? lawEffectStamp(
+          lawInForce(
+            world,
+            government.lawJurisdictionId,
+            cannabisProposition,
+            month,
+          ),
+          {
+            effectKind: "state-revenue-loss",
+            questionKey: CANNABIS_SALES_QUESTION,
+            jurisdictionId: government.lawJurisdictionId,
+            appliedAt: month,
+          },
+        )
+      : null;
+  const cannabisStamps = [cannabisStamp, cannabisCostStamp].filter(
+    (stamp): stamp is NonNullable<typeof stamp> => stamp !== null,
+  );
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -771,6 +830,7 @@ export function settleGovernmentMonth(
   const row: BudgetMonthRow &
     LawEffectStampedRecord & {
       readonly cannabisRevenue?: number;
+      readonly cannabisRevenueLoss?: number;
     } = {
     month,
     revenue,
@@ -790,10 +850,11 @@ export function settleGovernmentMonth(
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
-    ...(cannabisStamp || ageVerificationCost
+    ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
+    ...(cannabisStamps.length || ageVerificationCost
       ? {
           lawEffectStamps: [
-            ...(cannabisStamp ? [cannabisStamp] : []),
+            ...cannabisStamps,
             ...(ageVerificationCost?.lawEffectStamps ?? []),
           ],
         }
