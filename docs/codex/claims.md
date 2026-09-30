@@ -614,3 +614,7 @@ Team 8 owns only backdrop-people.ts existing clipBandEndPercent interface declar
 - Team 7: art/authoring/sept29-team7/kids/boy-14-standing-base-v3.png — local alpha-extraction candidate; no runtime import.
 
 September 30, 4:00: Team8 exclusively owns new src/presentation/story-scene-resolver.ts and .test.ts, pure resolveStoryScene(world, request) projection and exported StorySceneRequest/StorySceneResolution types, CTO2:30 part1. Team5 consumer integration only; exact consumer paths pending, no shared resolver writes.
+
+- Team 7: art/authoring/sept29-team7/kids/age14-native-scale-comparison.jpg — native-pixel comparison contact; candidate review only.
+
+September30 4:30 pending ownership requests, not grants: Team2 continuous-strength principles-from-life shared hunks toTeam1; Team3 generic life.ts appendOne/requireRecord/assertUniqueStableKey/import hunks toTeam4. Existing writers retain claims until explicit release and central update. Team8 resolver files remain exclusivelyTeam8; Team5 consumer1197 exact map requested.

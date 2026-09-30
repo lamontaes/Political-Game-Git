@@ -1,6 +1,27 @@
 # Wave 1 status
 
-Cloud teams are preserving their work for the account transfer. Eight final handoffs are received; Team 4 is finishing its receipt.
+Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
+
+## September 30, 4:30 a.m. check-in
+
+### MERGED
+GitHub independently verifies #1183 at 6051a07727f8a225dfd4323edd51ef8b1bfc58fe and #1192 at 2855854ca3537a1eacf5e1dd7591e593154c31bd since the prior checkpoint. Places source and audit skills landed. Browser acceptance remains NOT RUN, explicitly accepted by CTO for #1183.
+
+### CONNECTIONS TABLE
+| Connection | Current evidence | Coordinator action |
+| --- | --- | --- |
+| Law effects → watched life | Team2 Oracle five-year run reached April2029 on main24492950; incomplete | Preserve running proof; numbering prototype Guam boundary unresolved |
+| Eviction → destination |1189 bd867b7a08c63811c1401cffaa897aeb12061e7e; Team3 reports33/33 | Birth reader3/3 built but unused; timing research gap explicit |
+| Teacher/tuition laws → money |1198 b3525aae7480535105813b0a68f301ea539c6c69; Team5 reports9/9 and types | Requested READY if scoped gates complete; no tuition person-charge proof |
+| World → scene options |1196 contract; Team8 canonical knowledge fixture repair underway | Consumer1197 be0bbd48b13367c0a0fd13e24784e5cd8cedba97 exact map requested |
+| Research → bill labels |1188 1d9b2589ca7ed46bbbf8ae6b34ec88c12a9bb789 | Colorado partial/Arkansas observation routedTeam2; eight unresolved |
+| Research → appropriations |1133 d8c6488ea01a426304d516c9e749497b529ae047 | Four existing writers versus six authorization-only clauses routedTeam1 |
+
+### BLOCKED
+Merge needs renewed approvals for1185 40d57ea195ec75ffed27bd8495d25156092c55fe,1174 62604b37c4f3e2c303f5fc2d7a271e0046fb7e3d,1195 5757717fd642742fdcc9dca152cdd4ceafcf0d90. Requested Team2 release of continuous-strength hunks toTeam1 and Team3 release of exact generic life.ts helpers toTeam4. Until acknowledged, existing ownership remains. Team4 preserved rejected candidate/revert branch55b09ab335469f8fef9c41fede2ea958f201574b via supported authorized push. Art PR creation401 and evidence ZIP destination unresolved.
+
+### EFFECTS
+Team1 marks12 aggregate links no person feels this yet; authority gate routedTeam2, GDPR caller routedTeam3. Team4 pair25.678961→26.436888seconds rejected with identical fingerprint; no gain. Team7 native-scale comparison held; alpha254 alone is not visible halo proof. Zero new watched causal chains independently verified. Reported team checks above are not coordinator reruns.
 
 ## September 30, 4:00 a.m. check-in
 
