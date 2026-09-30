@@ -1,0 +1,64 @@
+{
+  "team": 9,
+  "coordinatorRequest": "PR1247 catalog-terms-batch-04",
+  "asOfRead": "2026-09-30",
+  "status": "Three primary starting-value packets; not proposed-law selectable bounds",
+  "entries": [
+    {
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "parameters": { "floor": 7.25, "unit": "USD per work hour" },
+      "operativeAt": "2009-07-24",
+      "primarySource": "https://www.dol.gov/agencies/whd/minimum-wage",
+      "readEvidence": "DOL Overview states federal minimum wage $7.25 per hour effective July24,2009 and compliance with both federal and state protections.",
+      "coverage": "Covered FLSA employees; exemptions, tip credit and territorial special provisions must be resolved separately. This page does not prove every worker receives this floor.",
+      "higherLevelConstraints": "A state/local increase cannot replace a governing higher federal floor for covered workers; lawful local authority and preemption must still be resolved.",
+      "selectableRange": {
+        "status": "needs-research",
+        "missing": "Lawful legislative selection limits are not established by today's statutory7.25; no guessed upper cap."
+      },
+      "writerUse": "Baseline federal hourly floor for actually covered jobs; actual pay writer must read applicable higher state/local terms and retain attribution. No labor supply elasticity or fiscal cost inferred."
+    },
+    {
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "parameters": {
+        "rate": 0.37,
+        "unit": "share of taxable income above filing-status threshold",
+        "thresholdUsd": {
+          "marriedJointOrSurvivingSpouse": 768700,
+          "headOfHousehold": 640600,
+          "single": 640600,
+          "marriedSeparate": 384350
+        }
+      },
+      "taxYear": 2026,
+      "primarySource": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+      "sourceLocation": "Rev.Proc.2025-32 section4.01 Tables1–4, printed pages10–12",
+      "sourceAsOf": "Code provisions as in effect October9,2025; document explicitly requires checking additional later guidance/amendments.",
+      "coverage": "Individual ordinary taxable income by filing status. Not gross household income, not a flat37% tax on all income, not capital-gains/estate/trust treatment.",
+      "writerUse": "Marginal top bracket; retain lower-bracket calculation. Threshold/rate values are exact published statutory adjustments, not researched causal ranges.",
+      "current2026Limit": "Later2025–2026 amendments have not been exhaustively checked; do not claim complete September2026 consolidation.",
+      "selectableRange": {
+        "status": "needs-research",
+        "missing": "Congressional proposed-law bounds and jurisdiction constraints; today's37% is not a legislative maximum."
+      }
+    },
+    {
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "parameters": {
+        "fullRetirementAgeYears": 67,
+        "earliestRetirementAgeYears": 62
+      },
+      "coverage": "Social Security retirement benefits, birth cohort1960or later; benefit eligibility still required. Survivor full retirement age may differ.",
+      "primarySource": "https://www.ssa.gov/benefits/retirement/planner/1960.html",
+      "readEvidence": "SSA states full retirement age67 for1960or later, retirement benefits may begin at62 with reduced benefit; table age62 wage-earner benefit70% of full amount.",
+      "writerUse": "Benefit eligibility/timing and cohort-specific reduction, not mandatory exit from employment. Person decides whether to retire from their record.",
+      "current2026Limit": "Earlier birth cohorts require their own schedule; later legislative amendment history has not been exhaustively reviewed.",
+      "selectableRange": {
+        "status": "needs-research",
+        "missing": "Legislatively selectable age limits and transition schedule;62and67 are different statutory meanings, not a proposed-policy interval."
+      }
+    }
+  ],
+  "productionClaims": "Coordinator-only shared links/catalog; Team9 supplies data, not those edits.",
+  "runtimeProof": "NOT RUN: no nationwide federal-paycheck, tax-bill or retirement-benefit consequence measured for this packet."
+}
