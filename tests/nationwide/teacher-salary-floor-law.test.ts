@@ -26,7 +26,7 @@ import {
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import {
   schoolYearStartOnOrAfter,
-  TEACHER_FLOOR_OF_STATE_MEDIAN,
+  teacherFloorRatioAt,
   TEACHER_SALARY_FLOOR_QUESTION,
   teacherSalaryFloorAt,
 } from "../../src/simulation/teacher-salary-floor";
@@ -170,7 +170,7 @@ function runPaydays(start: World, until: IsoDate): World {
 describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
   const opened = openObserverWorld(observerSetup(SEED));
 
-  it("is set by a law enacted in play, from the next school year, as 81% of the state's median teacher wage, in all 56 places", () => {
+  it("is set by a law enacted in play, from the next school year, with a stable researched world/state ratio of the median teacher wage, in all 56 places", () => {
     expect(schoolYearStartOnOrAfter(makeIsoDate("2026-02-15"))).toBe(
       "2026-07-01",
     );
@@ -219,7 +219,7 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
       if (median === null) expect(floor, state.jurisdictionKey).toBeNull();
       else {
         expect(floor?.annual, state.jurisdictionKey).toBe(
-          Math.round(median * TEACHER_FLOOR_OF_STATE_MEDIAN.central),
+          Math.round(median * teacherFloorRatioAt(world, jurisdiction)),
         );
         floors += 1;
       }
@@ -256,7 +256,7 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
     const enacted = enactStateLaw(start, stateId, "yes", 1, effectiveAt);
     const world = runPaydays(enacted, addDays(schoolYear, 45));
     const median = stateMedianAnnualWage("profession:teacher", town)!;
-    const floor = Math.round(median * TEACHER_FLOOR_OF_STATE_MEDIAN.central);
+    const floor = Math.round(median * teacherFloorRatioAt(world, town));
 
     const roles = new Map(
       world.history.workRoles.map((role) => [role.workRelationshipId, role]),
@@ -358,7 +358,7 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
       expect(perYear / (weekly / 40)).toBeGreaterThanOrEqual(floor - 60);
     }
     console.info(
-      `${place.key} (${stateKey}), seed ${SEED}: a state minimum teacher salary of $${floor.toLocaleString("en-US")} (81% of the state median $${median.toLocaleString("en-US")}), in force ${effectiveAt}, first school year ${schoolYear}. ${raisedFlows.size} of ${publicTeachers.length} public school teachers raised; ${privateTeachers.length} private school teachers untouched.\n${lines.join("\n")}`,
+      `${place.key} (${stateKey}), seed ${SEED}: a state minimum teacher salary of $${floor.toLocaleString("en-US")} (${(teacherFloorRatioAt(world, town) * 100).toFixed(1)}% of the state median $${median.toLocaleString("en-US")}), in force ${effectiveAt}, first school year ${schoolYear}. ${raisedFlows.size} of ${publicTeachers.length} public school teachers raised; ${privateTeachers.length} private school teachers untouched.\n${lines.join("\n")}`,
     );
   });
 });
