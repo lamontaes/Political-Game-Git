@@ -1,0 +1,355 @@
+{
+  "schema": "team-8-age-verification-replacement-and-zero-audit/v1",
+  "status": "REPLACEMENT_CONTRACTS_AND_REMOVAL_REQUEST_NOT_RUNTIME_ACTIVATION",
+  "sourceMapBlob": "6a59e3305051fda95b893989ece910ef8c878cac",
+  "sharedMapWriter": "Coordinator",
+  "sourcePaths": [
+    "docs/research/starting-law-2026/batch-6/social-media-age.json",
+    "src/simulation/public-budgets/rules.ts"
+  ],
+  "sourceLimits": "Existing legal corpus mixes primary statutes/orders and secondary trackers. Links below require actual platform/account/privacy/court records; none is fabricated or implemented by this batch.",
+  "operations": [
+    {
+      "operation": "remove",
+      "linkKey": "social-media-age-check-to-graduation",
+      "authorization": "Owner/CTO September30 12:18"
+    }
+  ],
+  "aboutZeroAudit": [
+    {
+      "linkKey": "coverage-to-blood-pressure",
+      "existingLink": {
+        "key": "coverage-to-blood-pressure",
+        "to": "health.blood-pressure",
+        "strength": "about-zero",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0,
+        "per": "covered, within 2 years",
+        "lagMonths": 0,
+        "group": "adults",
+        "owner": "F",
+        "anchor": "No significant change in 2 years",
+        "source": "Oregon Health Insurance Experiment (NEJM 2013)",
+        "from": "health.coverage",
+        "evidence": "about-zero"
+      },
+      "decision": "MEASURED_NONDETECTION_NOT_PROOF_OF_ZERO",
+      "why": "The cited study measured the target and reported no detected change. Retrieve the effect estimate and confidence interval before labeling near-zero; statistical nonsignificance alone is insufficient.",
+      "aboutZero": false,
+      "missingFigure": "Oregon experiment blood-pressure estimate and CI by endpoint over two years."
+    },
+    {
+      "linkKey": "work-requirement-to-employment",
+      "existingLink": {
+        "key": "work-requirement-to-employment",
+        "to": "labor.employment-rate",
+        "strength": "about-zero",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0,
+        "per": "rule in force",
+        "lagMonths": 0,
+        "group": "expansion adults",
+        "owner": "F",
+        "anchor": "No change; 97% already met the rule",
+        "source": "Sommers et al. 2019 (NEJM)",
+        "from": "law:us-policy-positions:health-human-services.medicaid-work-requirement",
+        "evidence": "about-zero",
+        "why": [
+          "A rule may ask a recipient to work but does not create a job.",
+          "Many recipients already work or qualify for exemptions.",
+          "The cited Arkansas evaluation found no employment gain.",
+          "The terminal is an observed about-zero result; no hiring effect is manufactured."
+        ],
+        "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+        "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+        "who": "No change; 97% already met the rule",
+        "lagWhy": {
+          "months": 0,
+          "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        },
+        "aboutZero": true
+      },
+      "decision": "MEASURED_NONDETECTION_NOT_PROOF_OF_ZERO",
+      "why": "The cited study measured the target and reported no detected change. Retrieve the effect estimate and confidence interval before labeling near-zero; statistical nonsignificance alone is insufficient.",
+      "aboutZero": false,
+      "missingFigure": "Arkansas study employment estimate and CI for the affected age group over its observed period."
+    },
+    {
+      "linkKey": "harm-reduction-to-crime",
+      "existingLink": {
+        "key": "harm-reduction-to-crime",
+        "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
+        "to": "crime.violent",
+        "strength": "about-zero",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0,
+        "per": "law in force says yes (1) rather than no (0)",
+        "lagMonths": 0,
+        "group": "place",
+        "owner": "F-cloud",
+        "evidence": "about-zero",
+        "anchor": "Naloxone access raised opioid-related theft in one study, disputed by a reanalysis; either way too small a slice to move all crime. The real effect is on overdose deaths, a measure the game does not keep",
+        "source": "Doleac and Mukherjee 2022, Journal of Law and Economics 65(2); Alexeev 2026, Economic Inquiry",
+        "why": [
+          "Needle exchange and overdose reversal are health services.",
+          "Their availability does not directly settle all causes of violent crime.",
+          "The map records disputed or small crime findings.",
+          "The terminal is the limited crime evidence; an about-zero map slot does not prove absence of every local consequence."
+        ],
+        "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+        "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+        "who": "Naloxone access raised opioid-related theft in one study, disputed by a reanalysis; either way too small a slice to move all crime. The real effect is on overdose deaths, a measure the game does not keep",
+        "lagWhy": {
+          "months": 0,
+          "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        },
+        "aboutZero": true
+      },
+      "decision": "REMOVE_UNSUPPORTED_ZERO_PROPOSAL",
+      "why": "Disputed opioid-related theft findings do not establish measured near-zero effects of all harm-reduction services on violent crime.",
+      "aboutZero": false,
+      "missingFigure": "No matched near-zero estimate/CI for this exact source, outcome and population."
+    },
+    {
+      "linkKey": "privacy-law-to-earnings",
+      "existingLink": {
+        "key": "privacy-law-to-earnings",
+        "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+        "to": "labor.median-earnings",
+        "strength": "about-zero",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0,
+        "per": "law in force says yes (1) rather than no (0)",
+        "lagMonths": 0,
+        "group": "place",
+        "owner": "F-cloud",
+        "evidence": "about-zero",
+        "anchor": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
+        "source": "Va. Code 59.1-576; Cal. Civ. Code 1798.140(d); Jia, Jin and Wagman 2021, Marketing Science 40(4); Janssen, Kesler, Kummer and Waldfogel 2022, NBER Working Paper 30028",
+        "why": [
+          "The law grants qualifying consumers access, correction and deletion rights.",
+          "Covered businesses face compliance and enforcement obligations.",
+          "Only part of the business and worker population falls within the statutes.",
+          "The terminal is a legal right and covered-business duty; the about-zero median-earnings slot is not proof that no business pays compliance costs."
+        ],
+        "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+        "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+        "who": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
+        "lagWhy": {
+          "months": 0,
+          "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        },
+        "aboutZero": true
+      },
+      "decision": "REMOVE_UNSUPPORTED_ZERO_PROPOSAL",
+      "why": "Statutory firm coverage and European investment/app findings do not measure a near-zero state median-earnings effect.",
+      "aboutZero": false,
+      "missingFigure": "No matched near-zero estimate/CI for this exact source, outcome and population."
+    },
+    {
+      "linkKey": "social-media-age-check-to-graduation",
+      "existingLink": {
+        "key": "social-media-age-check-to-graduation",
+        "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+        "to": "school.graduation-pct",
+        "strength": "about-zero",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0,
+        "per": "law in force says yes (1) rather than no (0)",
+        "lagMonths": 0,
+        "group": "place",
+        "owner": "F-cloud",
+        "evidence": "about-zero",
+        "anchor": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
+        "source": "NetChoice v. Griffin, W.D. Ark. 2025; Braghieri, Levy and Makarin 2022, American Economic Review 112(11)",
+        "why": [
+          "An operative platform rule requires an age check.",
+          "A platform may refuse access when verification fails.",
+          "A refusal is different from a measured change in school completion.",
+          "The terminal is a legal rule and access decision; injunctions and absent outcome evidence prevent inferring a graduation gain."
+        ],
+        "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+        "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+        "who": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
+        "lagWhy": {
+          "months": 0,
+          "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        },
+        "aboutZero": true
+      },
+      "decision": "REMOVE_OWNER_ORDER",
+      "why": "No study measured this graduation effect. Court injunctions cannot establish a zero schooling response.",
+      "aboutZero": false,
+      "missingFigure": "No matched near-zero estimate/CI for this exact source, outcome and population."
+    }
+  ],
+  "replacements": [
+    {
+      "key": "social-media-age-verification-to-platform-compliance-cost",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "business.age-verification-compliance-cost",
+      "why": [
+        "Covered platforms must operate an age-assurance or consent process.",
+        "The process uses a verifier, staff or technical system.",
+        "Their actual invoices, labor and implementation records create compliance costs."
+      ],
+      "who": "Covered platforms and their verification vendors.",
+      "reverseOnRepeal": "Repeal can end prospective verification duties; sunk implementation costs and existing contracts do not instantly disappear.",
+      "conditions": [
+        "Only platforms/users covered by the operative statute, accounting for exclusions and consent alternatives.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "Implementation follows the legal operative date; startup and recurring costs must be separated.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "completed verification / platform implementation",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "Implementation cost per platform and recurring cost per completed verification, with estimate and uncertainty; no empirical per-world range available in the read source.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "canonical platform/user decision and consequence records",
+        "consumer/news adapter for actual named affected records"
+      ]
+    },
+    {
+      "key": "social-media-age-verification-to-teen-account-access",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "person.social-media-account-access",
+      "why": [
+        "The law sets age and parental-consent conditions on covered accounts.",
+        "A platform checks the actual user's age and required consent.",
+        "It permits, refuses or terminates that person's account according to the legal rule."
+      ],
+      "who": "Actual teen users and guardians with recorded platform/account requests.",
+      "reverseOnRepeal": "Repeal removes prospective legal restrictions; an account must still be requested or restored and platform rules may persist.",
+      "conditions": [
+        "Read actual birth date, platform coverage, consent and exemption records; no blanket teen ban.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "At a recorded account or verification decision after the law becomes operative.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "actual saved account or data-collection decision",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "Rate of actual access refusals/restorations among covered users, with uncertainty; exact legal age boundaries are rules, not a guessed population effect.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "canonical platform/user decision and consequence records",
+        "consumer/news adapter for actual named affected records"
+      ]
+    },
+    {
+      "key": "social-media-age-verification-to-id-privacy-exposure",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "person.identity-verification-data-exposure",
+      "why": [
+        "A chosen compliance method requests identity or age evidence.",
+        "The user or guardian supplies evidence to the platform or verifier.",
+        "Recorded collection, storage and sharing create an identity-data exposure; a breach requires its own event."
+      ],
+      "who": "Users and guardians who actually submit identity/age evidence.",
+      "reverseOnRepeal": "Ending the mandate does not erase already held data; retention/deletion follows actual records and legal obligations.",
+      "conditions": [
+        "Privacy-preserving methods may avoid identity document collection; do not equate age verification with every user uploading ID.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "At recorded collection; retention and any breach have separate dates.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "actual saved account or data-collection decision",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "Method-specific identity-data collection/retention rates and costs; no breach rate or universal identity-upload assumption is supported.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "canonical platform/user decision and consequence records",
+        "consumer/news adapter for actual named affected records"
+      ]
+    },
+    {
+      "key": "social-media-age-verification-injunction-to-operation",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "law.social-media-age-verification-operative-status",
+      "why": [
+        "A court order can enjoin the covered provisions.",
+        "The order binds the defendants and scope it actually names.",
+        "The legal reader must treat those provisions as unenforceable during the order's operative interval."
+      ],
+      "who": "Covered platforms, enforcing agencies and users within the actual order's reach.",
+      "reverseOnRepeal": "Lifting an injunction restores enforceability only as its order and statute allow; repeal removes the statutory duty.",
+      "conditions": [
+        "Court injunction, statutory preemption and lack of local authority are separate legal conditions; none establishes the others.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "Use the exact court-order dates, stays, appeals and effective statutory dates.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "operative legal provision",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "No population coefficient is needed for this legal gate. Exact scope, operative intervals and authorized levels must come from a court/statutory record; do not invent an effect-size range.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "dated court-order scope/enforceability reader distinct from preemption"
+      ]
+    }
+  ],
+  "governmentCostSeparate": {
+    "source": "Utah SB152(2023) fiscal note, existing rules.ts citation",
+    "amountUsdPerYear": 220500,
+    "scope": "Division of Consumer Protection ongoing investigative/enforcement expense, not platform compliance cost",
+    "populationDenominator": 3417734,
+    "limits": "The earlier statute was enjoined. This fiscal projection is not evidence of actual2026spending or a universal all-state rate; cost stamp must attach the existing modeled cost and label estimation, or use an actual researched appropriation.",
+    "newRateInvented": false
+  },
+  "requestsToTeam9": [
+    {
+      "linkKey": "social-media-age-verification-to-platform-compliance-cost",
+      "figure": "Implementation cost per platform and recurring cost per completed verification, with estimate and uncertainty; no empirical per-world range available in the read source.",
+      "deadlineMinutes": 10
+    },
+    {
+      "linkKey": "social-media-age-verification-to-teen-account-access",
+      "figure": "Rate of actual access refusals/restorations among covered users, with uncertainty; exact legal age boundaries are rules, not a guessed population effect.",
+      "deadlineMinutes": 10
+    },
+    {
+      "linkKey": "social-media-age-verification-to-id-privacy-exposure",
+      "figure": "Method-specific identity-data collection/retention rates and costs; no breach rate or universal identity-upload assumption is supported.",
+      "deadlineMinutes": 10
+    },
+    {
+      "linkKey": "social-media-age-verification-injunction-to-operation",
+      "figure": "No population coefficient is needed for this legal gate. Exact scope, operative intervals and authorized levels must come from a court/statutory record; do not invent an effect-size range.",
+      "deadlineMinutes": 10
+    }
+  ],
+  "checks": {
+    "jsonParsed": true,
+    "auditedLinks": 5,
+    "unsupportedZeroClaims": 3,
+    "measuredNondetectionNeedingCI": 2,
+    "newLinksActivated": 0,
+    "courtPreemptionConflated": false
+  }
+}
