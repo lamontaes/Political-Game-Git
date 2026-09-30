@@ -1,0 +1,126 @@
+{
+  "head": "ef64da2c4d932fc78c13203d1ff78c3968d0e0c6",
+  "sourceDirty": false,
+  "seed": "team2-main-proof-20260930-b",
+  "placeKey": "0524070",
+  "place": "Floral, Arkansas",
+  "initialDate": "2026-01-05",
+  "date": "2026-11-01",
+  "days": 300,
+  "status": "running-partial",
+  "elapsedSeconds": 109.797384136,
+  "enacted": 13,
+  "typed": 0,
+  "typedDefinition": "enacted measure with at least one explicit operative effect provision; completeness is a separate requirement",
+  "measures": [
+    {
+      "id": "legislative-measure_0f3cabe834398882",
+      "title": "Restrict Building in Flood Zones Ordinance",
+      "designation": "ORD 1",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_0f3caae8343986cf",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "designation": "ORD 2",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_0f3ca9e83439851c",
+      "title": "Expand Public Land Access Ordinance",
+      "designation": "ORD 3",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_0f3ca8e834398369",
+      "title": "Shift Highway Funds to Transit Ordinance",
+      "designation": "ORD 4",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_0f3ca7e8343981b6",
+      "title": "Independent Ward Commission Ordinance",
+      "designation": "ORD 5",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_0f3ca5e834397e50",
+      "title": "Fix It First Ordinance",
+      "designation": "ORD 7",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_0f3cb3e83439961a",
+      "title": "Inclusionary Housing Requirement Ordinance",
+      "designation": "ORD 9",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_02a044a51e1a08c7",
+      "title": "Harbor Dredging Schedule",
+      "designation": "HB 2",
+      "jurisdictionId": "jurisdiction_7a7ff2336824055b",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_8658bb06001f7fbf",
+      "title": "School Crossing Signal Standards",
+      "designation": "HB 8",
+      "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_c43deb9319ecf3bd",
+      "title": "Repeal: Dedicated parks funding",
+      "designation": "ORD 13",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_1da0d190bdc34d42",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "designation": "ORD 14",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_1da0d590bdc3540e",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "designation": "ORD 18",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    },
+    {
+      "id": "legislative-measure_1d9d6790bdc0634d",
+      "title": "Repeal: Dedicated Parks Funding Ordinance",
+      "designation": "ORD 20",
+      "jurisdictionId": "jurisdiction_1a3bd20fcad0369a",
+      "typed": false
+    }
+  ],
+  "lawLinkedAppropriations": [],
+  "names": {
+    "anchorId": "person_194b69d666147d40",
+    "anchorName": "Frances Khan"
+  },
+  "namedLawPaycheckRentTaxExample": null,
+  "namedExampleStatus": "NOT DEMONSTRATED: no amount or linkage inferred",
+  "baseline": {
+    "source": "54930d427555034f3a92f335064586247985784d",
+    "days": 365,
+    "typed": 1,
+    "total": 56
+  },
+  "comparison": "partial observed window is not comparable to a completed baseline year",
+  "saveContinue": "NOT RUN",
+  "speedGate": "NOT RUN",
+  "publicationLimit": "Checkpoint copy, run may continue after this date; no complete-year or named-person proof inferred",
+  "harness": "import {writeFileSync, mkdirSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\nimport {performance} from 'node:perf_hooks';\nimport {openWatchedWorld} from '/workspace/Political-Game-Git/scripts/dev-lab/world-aging.ts';\nimport {advanceObservedWorld} from '/workspace/Political-Game-Git/src/presentation/observer-world.ts';\nimport {personName} from '/workspace/Political-Game-Git/src/simulation/people.ts';\nconst seed='team2-main-proof-20260930-b',placeKey='0524070';\nconst head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();\nif(head!=='ef64da2c4d932fc78c13203d1ff78c3968d0e0c6')throw Error('wrong proof pin');\nif(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim())throw Error('dirty source');\nconst start=performance.now();const opened=openWatchedWorld(seed,placeKey);let world=opened.world;const initialDate=world.currentDate;let days=0;\nmkdirSync('/workspace/Political-Game-Git/test-results/team1',{recursive:true});\nfunction checkpoint(status:string){\n const enacted=(world.history.legislativeEnactments??[]).filter(e=>e.outcome==='enacted'&&e.resolvedAt>=initialDate);\n const ids=new Set(enacted.map(e=>e.measureId));const clauses=world.history.legislativeProvisions??[];\n const measures=(world.history.legislativeMeasures??[]).filter(m=>ids.has(m.id));\n const typed=measures.filter(m=>clauses.some(p=>p.measureId===m.id&&p.operativeEffect));\n const programs=world.history.publicProgramRecords??[];\n const appropriations=programs.filter(r=>r.kind==='appropriation'&&r.sourceMeasureId&&ids.has(r.sourceMeasureId));\n const names={anchorId:opened.anchorPersonId,anchorName:personName(world.people[opened.anchorPersonId]!)};\n const out={head,sourceDirty:false,seed,placeKey,place:opened.placeName,initialDate,date:world.currentDate,days,status,elapsedSeconds:(performance.now()-start)/1000,enacted:measures.length,typed:typed.length,typedDefinition:'enacted measure with at least one explicit operative effect provision; completeness is a separate requirement',measures:measures.map(m=>({id:m.id,title:m.shortTitle,designation:m.designation,jurisdictionId:m.jurisdictionId,typed:typed.some(t=>t.id===m.id)})),lawLinkedAppropriations:appropriations,names,namedLawPaycheckRentTaxExample:null,namedExampleStatus:'NOT DEMONSTRATED: no amount or linkage inferred',baseline:{source:'54930d427555034f3a92f335064586247985784d',days:365,typed:1,total:56},comparison:'partial observed window is not comparable to a completed baseline year',saveContinue:'NOT RUN',speedGate:'NOT RUN'};\n writeFileSync('/workspace/Political-Game-Git/test-results/team1/floral-partial.json',JSON.stringify(out,null,2)+'\\n');console.log(JSON.stringify({status,days,date:world.currentDate,typed:typed.length,total:measures.length,elapsed:out.elapsedSeconds,names}));\n}\ncheckpoint('opening');\ntry{while(days<365&&(performance.now()-start)<300000){world=advanceObservedWorld(world,1);days++;if(days%15===0)checkpoint('running-partial');}checkpoint(days===365?'completed-year-without-save':'bounded-partial');}catch(e){checkpoint('failed-partial');throw e;}\n"
+}
