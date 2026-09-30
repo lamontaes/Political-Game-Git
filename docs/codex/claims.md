@@ -547,4 +547,4 @@ Team 4 claims transfer to cloud chat 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 after 
 
 Team 8 cloud owns src/player/JobListingsPanel.tsx, src/presentation/job-listings-english.ts, its new test and docs/release/changes/team-8-jobs-english.md for one grounded screen migration. Proposed calendar claims are released without edits. Team 3 job-market and Team 5 callers remain separately owned.
 
-Team 3 owns only src/simulation/public-budgets/opening.ts raw Census source classification at the reported lines 784/795 and required observation-reader import. Preserve fiscal values and budget behavior. Team 2 retains principles-from-life.test.ts until its narrow release is acknowledged.
+Team 3 owns only src/simulation/public-budgets/opening.ts raw Census source classification at the reported lines 784/795 and required observation-reader import. Preserve fiscal values and budget behavior. Team 2 explicitly released ONLY the existing placePopulation import and CDP classification hunk in principles-from-life.test.ts to Team 3 for placePopulationObservation. All other principles behavior and test hunks remain Team 2 owned.

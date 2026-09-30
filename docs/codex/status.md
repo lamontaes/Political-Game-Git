@@ -345,8 +345,38 @@ Runtime links added: 0. Runtime links changed: 0. Newly proved three-step chains
 
 ## September 29, 11:55 p.m. report collection
 
+See the midnight check-in below for superseding live merge and storage receipts.
+
 Read latest replies through Team 4 trait-batch measurement. Requested compact reports from every cloud team and Merge. Team 7 reports directly. CTO 11:37 approvals routed to Merge; its prior approval blocker was stale. Newspaper #1161 NEEDS CHANGES relayed to Team 7: one filled newspaper before more layouts.
 
 Cloud storage approval was rejected by automatic review. Direct human delegation evidence supplied for supported review; no bypass authorized. Team 3 received the unclaimed narrow public-budget raw-source adapter; Team 2 was asked to release its test classification adapter.
 
 Team 4 rejected and additively reverted two measured experiments. Latest trait-batch candidate timing is pending. No improvement inferred. Teams 1 and 8 published #1168 and #1169; further work remains bounded. Runtime links and three-step proofs remain unchanged pending midnight report verification.
+
+## September 30, midnight check-in
+
+### MERGED
+#1165 reached main at 8881beeddcbb04299c9dec9a8403e9cfdb102708: context admissions avoid repeated roster copies while preserving order. #1163 reached main at 370060e2e30516e03c784f6528db11d9d1581fc7: majority-backed bills select pressure-backed sponsors and cosponsors use recorded principles. Coordinator verified both merge commits are ancestors of main through GitHub comparisons. Merge reports changed-file checks of 7/7 and 6/6 respectively; these are not new watched-world proofs.
+
+### CONNECTIONS TABLE
+| Connection | Current state | Owner and next action |
+| --- | --- | --- |
+| Intake copies → faster simulations | #1165 on main; follow-up 28.970257 to 26.768319 seconds, identical fingerprint, still above 15 seconds | Team 4 finishes follow-up publication; no target pass claimed |
+| Agendas → sponsors → cosponsors | #1163 on main | Team 2 continues bounded Senate consent work |
+| Census → saved town population | #1143 held at c3e6bd651fe2b181ccea6d2cb03babe06917a8de; 35,648-row source probe reported | Team 3 runs changed tests/types; narrow test classification release relayed |
+| Laws → communications pay | #1168 ready at 0d3e1520da3d19d2be006ec3a2c3b6ca0a38af20 | CTO review; broader #1131 anchors still held |
+| Attendance → meeting controls | #1149 draft at 91ac721f70c649b989876475873162441a1b5447 | Team 5 changed-file test genuinely running after approved cloud install |
+| Saved news → newspaper candidate | Team 5 identified exact assembler but fixture lacks a filled issue | Team 8 asked to export its retained saved-world packet to Team 7 |
+| Listings → grounded English | #1169 ready at e586a009a45224e7ce9353602e06656a489c2f14 | CTO review; Team 8 source trace distinguishes false diagnostic matches |
+| Research → exact legal values | Team 6 transport/parks/session research; Team 9 bill-number packet | Research only; no unsupported legal defaults or job 13 build |
+| Scene tags → art import | Team 7 continues candidate batches | No pixel approval or runtime admission inferred |
+
+### BLOCKED
+Team 2's shared Senate resolver/calendar hunks still need an explicit ownership release. Coordinator requested Team 1 release the named functions while preserving law-effect hunks. Team 3 received Team 2's exact principles-from-life.test.ts import/classification release; fiscal values remain protected. Production population-layer establishment is still an explicit open seam.
+
+Cloud 20 GiB reserve is CTO-approved for Teams 3/5; both now report accepted guarded installs. Team 5's earlier automatic-review rejection was resolved through a supported retry with direct owner delegation, not a bypass. Mac remains 25 GiB.
+
+Team 1 inspected all 41 archive members; none fills the 23 remaining current-place ID cure gaps. Team 9 has the exact list, behind its bill-number priority. Team 7's newspaper needs actual assembled stories; fixture text alone does not satisfy the brief. #1135/#1156 remain in Merge's approved queue at this snapshot; #1164 approval targets the law branch only.
+
+### EFFECTS
+Effect-catalog links added: 0; changed: 0. Existing tracked integration connections newly on main: 2 (speed and sponsorship). Newly proved three-step watched chains: 0. Ten priority catalog gaps remain assigned. Homelessness #1166 awaits owner/CTO approval; no outgoing-chain implementation or invented coefficient is authorized. Team reports above are source/check evidence at named heads, not independent player acceptance.
