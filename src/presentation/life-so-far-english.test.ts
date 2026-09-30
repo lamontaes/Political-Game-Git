@@ -6,6 +6,7 @@ import { projectLifeSoFarEnglish } from "./life-so-far-english";
 import {
   educationEnrollmentHistoryForPerson,
   organizationProfileAt,
+  createStableId,
 } from "../simulation";
 
 /** Reuse the three logged random part1 places; third is unincorporated Tab. */
@@ -52,6 +53,15 @@ describe("the opening life paragraph keeps saved schooling facts", () => {
         projectLifeSoFarEnglish(JSON.parse(before), playerPersonId),
       ).toEqual(paragraph);
       expect(JSON.stringify(world)).toBe(before);
+      expect(
+        projectLifeSoFarEnglish(
+          world,
+          createStableId("person", "missing-opening-person"),
+        ),
+      ).toEqual({
+        sentences: [],
+        sourceRecordIds: [],
+      });
       writeFileSync(
         `test-results/team8/${seed}-english.json`,
         JSON.stringify({ game, paragraph }),

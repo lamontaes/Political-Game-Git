@@ -22,6 +22,7 @@ const PROGRAMS: Readonly<Record<string, string>> = {
 /** Saved starts, not graduation or a claim about a real historical school. */
 export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
   const life = buildLifeIntroduction(world, personId);
+  if (!life) return { sentences: [], sourceRecordIds: [] };
   const schooling = educationEnrollmentHistoryForPerson(world, personId)
     .filter(
       (record) =>
