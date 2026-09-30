@@ -1,5 +1,6 @@
 import "./world-orientation.css";
 import "./opening-legislature.css";
+import "./opening-county.css";
 
 import {
   useMemo,
@@ -41,6 +42,7 @@ import {
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import {
   openingLegislaturePeople,
+  openingCountyScene,
   openingTourStagedPeople,
 } from "../presentation/opening-tour-people";
 import {
@@ -111,6 +113,10 @@ export function WorldOrientationPanel({
       world && personId ? projectLivingSceneOpening(world, personId) : null,
     [world, personId],
   );
+  const county = useMemo(
+    () => (world && personId ? openingCountyScene(world, personId) : null),
+    [world, personId],
+  );
   const steps: readonly (Omit<OrientationStep, "key"> & {
     readonly key: string;
     /** Plain sentences read from the World, shown under the summary. */
@@ -163,6 +169,12 @@ export function WorldOrientationPanel({
       step.key === "locality" && town
         ? {
             ...step,
+            ...(county
+              ? {
+                  people: county.people,
+                  summary: `${county.governmentNames.join(" and ")} serves this community. Your county district representative has not been identified.`,
+                }
+              : {}),
             lines: town.officials.map((line) => `${line}.`),
             headlinesTitle: "What people here are weighing",
             headlines: town.matters,
@@ -260,7 +272,7 @@ export function WorldOrientationPanel({
         chambers: [],
       },
     ];
-  }, [snapshot, view, homeStateUsps, living, world, personId]);
+  }, [snapshot, view, homeStateUsps, living, world, personId, county]);
   const householdDetail = useMemo(() => {
     const family =
       world && personId ? projectOpeningFamily(world, personId) : null;
@@ -308,7 +320,7 @@ export function WorldOrientationPanel({
   // caller supplies as `regionalPlate`: this one the player can page through.
   const regionScene = regionalPlates[regionIndex] ?? null;
   const backdropFor = (key: string): OrientationBackdrop =>
-    orientationBackdrop(key, {
+    orientationBackdrop(key === "locality" && county ? "county-opening" : key, {
       whiteHouse: plate,
       regionalPlate:
         regionalPlate?.kind === "plate" ? regionalPlate.plate : null,
@@ -319,9 +331,14 @@ export function WorldOrientationPanel({
   const nextStep = steps[index + 1];
   const nextPlateUrl = nextStep ? backdropUrl(backdropFor(nextStep.key)) : null;
   const cast =
-    step.key !== "executive" && step.key !== "your-life" && world
-      ? (chapter?.actors ?? [])
-      : [];
+    step.key === "locality" && county && world
+      ? county.people.map((person) => ({
+          slotKey: `county:${person.personId}`,
+          person,
+        }))
+      : step.key !== "executive" && step.key !== "your-life" && world
+        ? (chapter?.actors ?? [])
+        : [];
   const executiveWithoutPlate = step.key === "executive" && !plate;
   // In the painted Oval Office the President and Vice President stand in
   // front of the desk on the room's measured spots, facing each other, at
@@ -375,6 +392,9 @@ export function WorldOrientationPanel({
       aria-labelledby={`pg-orientation-title-${step.key}`}
       data-testid="world-orientation"
       data-step={step.key}
+      data-county-opening={
+        step.key === "locality" && county ? "true" : undefined
+      }
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
         event.stopPropagation();
@@ -489,7 +509,7 @@ export function WorldOrientationPanel({
                 }}
               />
             </div>
-          ) : step.key === "locality" ? null : (
+          ) : step.key === "locality" && !county ? null : (
             <SceneBackdrop backdrop={backdrop} />
           )}
           <div className="pg-orientation-scrim" aria-hidden="true" />
@@ -500,12 +520,16 @@ export function WorldOrientationPanel({
               data-testid={
                 step.key === "congress"
                   ? "orientation-congress-cast"
-                  : undefined
+                  : step.key === "locality" && county
+                    ? "orientation-county-cast"
+                    : undefined
               }
               aria-label={
                 step.key === "congress"
                   ? "Members from your home state"
-                  : undefined
+                  : step.key === "locality" && county
+                    ? "Illustration of the saved county board, not district assignments"
+                    : undefined
               }
             >
               {cast.map((actor) => (
@@ -850,6 +874,7 @@ export function orientationBackdrop(
       ? { kind: "white-house", raster: sources.whiteHouse }
       : place("oval-office");
   if (stepKey === "year") return place("us-capitol-exterior");
+  if (stepKey === "county-opening") return place("county-commission");
   if (stepKey === "congress") return place("us-capitol-exterior");
   if (stepKey === "legislature")
     return place(

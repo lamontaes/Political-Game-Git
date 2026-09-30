@@ -1,0 +1,29 @@
+/* A role illustration with a scrollable saved roster, never attendance. */
+.pg-orientation[data-county-opening="true"] .pg-orientation-cast {
+  justify-content: flex-start;
+  gap: 1rem;
+  overflow-x: auto;
+  pointer-events: auto;
+  padding: 1rem 0;
+}
+.pg-orientation[data-county-opening="true"] .pg-orientation-cast-member {
+  flex: 0 0 100px;
+}
+.pg-orientation[data-county-opening="true"] .pg-orientation-cast-figure {
+  width: 100px;
+}
+.pg-orientation[data-county-opening="true"] .pg-orientation-cast-label {
+  box-sizing: border-box;
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  .pg-orientation[data-county-opening="true"] .pg-orientation-cast {
+    top: 2%;
+    height: 38cqh;
+    bottom: auto;
+  }
+  .pg-orientation[data-county-opening="true"] .pg-orientation-copy {
+    max-height: 43cqh;
+  }
+}
