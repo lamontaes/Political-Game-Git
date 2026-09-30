@@ -773,6 +773,168 @@
       "accessed": "2026-09-29",
       "readBy": "lead",
       "kind": "primary"
+    },
+    {
+      "id": "mt-session-constitution2025",
+      "title": "mt session constitution2025",
+      "url": "https://mca.legmt.gov/bills/mca/title_0000/article_0050/part_0010/section_0060/0000-0050-0010-0060.html",
+      "vintage": "2025edition; approvedNovember5,1974",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mt-session-start2025",
+      "title": "mt session start2025",
+      "url": "https://mca.legmt.gov/bills/mca/title_0050/chapter_0020/part_0010/section_0030/0050-0020-0010-0030.html",
+      "vintage": "2025edition; lastlistedamendment1977",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-session-explanation",
+      "title": "nc session explanation",
+      "url": "https://www.ncleg.gov/help/topic/35",
+      "vintage": "Current own-legislature explanation",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-session-start",
+      "title": "nc session start",
+      "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120/GS_120-11.1.html",
+      "vintage": "Statutory historylatest2015-264section68",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-session-constitution2021",
+      "title": "ut session constitution2021",
+      "url": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_S16_2020051220210101.pdf",
+      "vintage": "EffectiveJanuary1,2021",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ut-session-enrolled2020",
+      "title": "ut session enrolled2020",
+      "url": "https://le.utah.gov/~2020/bills/sbillenr/SB0156.pdf",
+      "vintage": "2020enrolledbill",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "vt-session-constitution",
+      "title": "vt session constitution",
+      "url": "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont",
+      "vintage": "HeadingamendedthroughMarch31,2021",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "vt-session-schedule2025",
+      "title": "vt session schedule2025",
+      "url": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACTR188/ACTR188%20As%20Adopted.pdf",
+      "vintage": "R188/JRS28adoptedJune16,2025",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "va-session-constitution",
+      "title": "va session constitution",
+      "url": "https://law.lis.virginia.gov/constitution/article4/section6/",
+      "vintage": "Listedamendments1980effective1981and2012effective2013",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-session-constitution",
+      "title": "wa session constitution",
+      "url": "https://lawfilesext.leg.wa.gov/Law/Constitution/State%20Constitution%20Articles%20and%20Amendments%20Combined/WA%20CONSTITUTION.htm",
+      "vintage": "Amendment68approvedNovember6,1979",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-session-start",
+      "title": "wa session start",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=44.04.010",
+      "vintage": "AnnualsessionchangeeffectiveJanuary1,1980",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wv-session-constitution",
+      "title": "wv session constitution",
+      "url": "https://code.wvlegislature.gov/west-virginia-constitution",
+      "vintage": "Sections18/22amendmentsratifiedNovember3,1970",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-session-court2019",
+      "title": "wi session court2019",
+      "url": "https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=242640",
+      "vintage": "OwnSupremeCourt2019opinionparagraph15",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-session-constitution",
+      "title": "wi session constitution",
+      "url": "https://www.wisconsin.edu/general-counsel/download/contracts/Wisconsin%20Constitution.pdf",
+      "vintage": "UWSystemhostedconstitution;section11amendments1881/1968",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-parks-constitution",
+      "title": "fl parks constitution",
+      "url": "https://www.flsenate.gov/Laws/Constitution",
+      "vintage": "ArticleXsection28adopted2014",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-parks-code2025",
+      "title": "fl parks code2025",
+      "url": "https://www.flsenate.gov/Laws/Statutes/2025/Chapter375/All",
+      "vintage": "2025statutes375.041; appropriationconditionsinclude2025changes",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-parks-tax2025",
+      "title": "fl parks tax2025",
+      "url": "https://www.flsenate.gov/Laws/Statutes/2025/Chapter201/All",
+      "vintage": "2025statutes201.15",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-keystone-tax-reform2002",
+      "title": "Pennsylvania 2002 Act89 section23 and33",
+      "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/2002/0/0089..HTM",
+      "vintage": "ApprovedJune29,2002; relevantprovisions effectiveJuly1,2002",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
     }
   ],
   "sessionEndLaw": {
@@ -1545,13 +1707,24 @@
       ]
     },
     "US-MT": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "biennial-legislative-duration",
+        "citation": "Montana Constitution articleV section6; MCA5-2-103",
+        "start": "Noon first Monday January oddyears; ifJanuary1Monday,firstWednesday instead.",
+        "limits": [
+          {
+            "count": 90,
+            "unit": "legislative days"
+          }
+        ],
+        "extension": "Legislature may increase limit for a subsequent session."
+      },
+      "sources": ["mt-session-constitution2025", "mt-session-start2025"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current legislative-day definition unresolved;2009joint rule is historical only."
       ]
     },
     "US-NE": {
@@ -1735,9 +1908,15 @@
       ]
     },
     "US-NC": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "no-required-end-source",
+      "legalRule": {
+        "kind": "no-required-end-date",
+        "citation": "Legislature session explanation; GS120-11.1",
+        "start": "Biennial organization noon secondWednesdayJanuary afterelection; recessuntilnoon thirdWednesdayaftersecondMondayJanuary.",
+        "duration": null,
+        "detail": "Own legislature expressly states no statutory or constitutional required session-end date."
+      },
+      "sources": ["nc-session-explanation", "nc-session-start"],
       "priorCandidateRow": {
         "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
         "cite": "N.C. Const. art. II, \u00a7 11(1)",
@@ -1746,7 +1925,7 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current explanatorypage lacks separateJanuary2026 archival snapshot; no universal substitute date warranted."
       ]
     },
     "US-ND": {
@@ -2003,9 +2182,25 @@
       ]
     },
     "US-UT": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "holiday-adjusted-calendar-duration",
+        "citation": "Utah Constitution articleVI section16;2020SB156section1",
+        "start": "FirstTuesdayafterthirdMondayJanuary",
+        "limits": [
+          {
+            "count": 45,
+            "unit": "calendar days excluding state and federal holidays"
+          }
+        ],
+        "exception": "Impeachment",
+        "specialLimits": {
+          "governorCalled": 30,
+          "legislatureCalled": 10,
+          "unit": "calendar days"
+        }
+      },
+      "sources": ["ut-session-constitution2021", "ut-session-enrolled2020"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -2045,33 +2240,79 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current36-3-201rendered withoutoperative text. Currentstartcodification/enactmentstatus verification remains gap."
       ]
     },
     "US-VT": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "compulsory-end-unresolved",
+        "citation": "Vermont Constitution chapterII sections6-7,46",
+        "start": "Biennial firstWednesdayafterfirstMondayJanuary",
+        "recess": "Otherchamberconsentbeyondthree days or anotherplace; Governor may resolve disagreement.",
+        "duration": null,
+        "detail": "2025adoptedJRS28schedule permits recall orJanuary6,2026reconvening; specific schedule is not permanent endlimit."
+      },
+      "sources": ["vt-session-constitution", "vt-session-schedule2025"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Numericalduration/end cap not established; laterconstitutional amendment inventory pending."
       ]
     },
     "US-VA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-duration",
+        "citation": "Virginia Constitution articleIV section6",
+        "start": "SecondWednesdayJanuary annually",
+        "evenYearLimits": [
+          {
+            "count": 60,
+            "unit": "days as constitutional text states"
+          }
+        ],
+        "oddYearLimits": [
+          {
+            "count": 30,
+            "unit": "days as constitutional text states"
+          }
+        ],
+        "extension": "At mostthirtydays,two-thirds electedmembershipofeachhouse.",
+        "recess": "Otherhouseconsentbeyondthreedaysorrelocation."
+      },
+      "sources": ["va-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Calendarclassificationnot independentlyresolved; customary45-dayoddsession is notconstitutionalbaseline. Veto/amendment reconvenedsession distinct."
       ]
     },
     "US-WA": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "parity-consecutive-duration",
+        "citation": "Washington Constitution articleII sections11-12; RCW44.04.010",
+        "start": "SecondMondayJanuary annually",
+        "oddYearLimits": [
+          {
+            "count": 105,
+            "unit": "consecutive days"
+          }
+        ],
+        "evenYearLimits": [
+          {
+            "count": 60,
+            "unit": "consecutive days"
+          }
+        ],
+        "specialLimit": {
+          "count": 30,
+          "unit": "consecutive days"
+        },
+        "recess": "Otherhouseconsentbeyondthreedaysorrelocation."
+      },
+      "sources": ["wa-session-constitution", "wa-session-start"],
       "priorCandidateRow": {
         "oddYear": [
           {
@@ -2109,27 +2350,45 @@
       },
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Specialsession is governorproclamation or two-thirds elected/appointed membership ofbothhouses; fullordinary-extensioninventorynot separatelyaudited."
       ]
     },
     "US-WV": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "legal-limit",
+      "legalRule": {
+        "kind": "quadrennial-calendar-duration",
+        "citation": "WestVirginia Constitution articleVI sections18,22-23,51D(8)",
+        "start": "SecondWednesdayJanuary annually;1973andeveryfourthyearthereafterorganizationthenrecessuntilsecondWednesdayFebruary.",
+        "limits": [
+          {
+            "count": 60,
+            "unit": "inclusive calendar days from January start,orFebruaryreconvening inquadrennialyears"
+          }
+        ],
+        "extension": "Concurrentresolutiontwo-thirdselectedbothhouses; no numericalextensioncap supplied. Governorbudgetextensionmandatory ifbudgetnotfinallyactedonthreedaysbeforeexpiry; restrictedbusiness.",
+        "recess": "Otherhouseconsentbeyondthreedays."
+      },
+      "sources": ["wv-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Fullpostpublication amendmentexclusionnotindependentlyaudited.2025Februarycount,2026Januarycount; noactualadjournmentinferred."
       ]
     },
     "US-WI": {
-      "status": "unresearched",
-      "legalRule": null,
-      "sources": [],
+      "status": "partial-source",
+      "legalRule": {
+        "kind": "legislatively-scheduled-end-unresolved",
+        "citation": "Wisconsin Constitution articleIV sections10-11; judicialquotationof13.02",
+        "start": "Oddyearorganization2p.m.firstMondayJanuary,exceptJanuary1/2usesJanuary3;annualregularsession2p.m.firstTuesdayafterJanuary8unlessbiennialjointworkresolutionotherwise.",
+        "recess": "Otherhouseconsentbeyondthreedays.",
+        "duration": null
+      },
+      "sources": ["wi-session-court2019", "wi-session-constitution"],
       "priorCandidateRow": null,
       "actualAdjournments": [],
       "gaps": [
-        "Own constitutional/statutory end limit, extension procedure and day-counting require review. Prior source row is a retrieval lead, not accepted evidence in this packet."
+        "Current13.02retrievalfailed.2019judicialquotationdoesnotestablishunchangedJanuary2026statute; completeend-limitabsenceunclosed."
       ]
     },
     "US-WY": {
@@ -2282,15 +2541,24 @@
       ]
     },
     "US-FL": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-route",
+      "proposedAnswer": true,
+      "legalRoute": {
+        "citation": "Florida Constitution article X section28; statutes375.041 and201.15",
+        "revenue": "At least33percent net documentary-stamp excise-tax revenue aftercollectioncosts to LandAcquisitionTrustFund for20years fromJuly1following2014adoption.",
+        "scope": "Mixed conservation,water,beaches,trails,parks,urbanopenspace andotherlistedlands; not33percentpark-onlybudget.",
+        "conditions": "Debtservice paid first; remainingfunds have statutory allocations and annualappropriationconditions. TrustfundcannotcomminglewithGeneralRevenue."
+      },
+      "sources": [
+        "fl-parks-constitution",
+        "fl-parks-code2025",
+        "fl-parks-tax2025"
+      ],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Full2025budget-implementationoverrides andall January2026effective-dateconditions notread; noautomaticlocalinheritance."
       ]
     },
     "US-GA": {
@@ -2667,14 +2935,20 @@
         "citation": "KeystoneAct50 sections4,8,12; current revenue allocation requires separate fiscal provision",
         "revenue": "Agency and2025\u201326 budget identify15% state realty-transfer-tax collections for Keystone Recreation,Park and ConservationFund.",
         "scope": "Mixed state/local park, recreation, conservation, library, historic and education purposes; not15% solely park operations.",
-        "conditions": "Act provides continuing nonlapsing appropriation with Governor authorization; allocation by statutory program. Original section7 revenue provision was repealedJune29,2002; do not cite that repealed provision as current levy."
+        "conditions": "Act provides continuing nonlapsing appropriation with Governor authorization; allocation by statutory program. Original section7 revenue provision was repealedJune29,2002; do not cite that repealed provision as current levy.",
+        "replacementAllocation": "TaxReformCode1106-C(d),2002Act89section23: monthly GeneralFund transfer toKeystone equals realty-transfer taxcredittimes0.15fromJuly2003onward. Section33absolutelyrepealed1993Act50section7; do notcite repealedallocation."
       },
-      "sources": ["pa-keystone-act", "pa-revenue-keystone", "pa-budget2025"],
+      "sources": [
+        "pa-keystone-act",
+        "pa-revenue-keystone",
+        "pa-budget2025",
+        "pa-keystone-tax-reform2002"
+      ],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Current replacement fiscal allocation text and January2026 complete comparison still need direct retrieval."
+        "Current1106-Ccodification andpost2002 amendment/annualbudgetoverrideinventory pending;2025agency/budget evidence corroborates15percent,notcompleteJanuary2026freeze."
       ]
     },
     "US-RI": {
@@ -2911,7 +3185,7 @@
     }
   },
   "remainingWork": [
-    "All50state session rules must be read; prior candidate rows and2026 observed adjournments are separate retrieval leads.",
+    "All fifty states now have bounded session source reviews; partial-source and cutoff gaps remain. Reviewed does not mean complete legal inventory or ready runtime data.",
     "Complete41estimated-no parks place review; positive source routes do not certify complete absence elsewhere.",
     "Revalidate15existing yes places where needed; do not propagate state answers to local governments without their own authority.",
     "No automatic code wiring or guessed numeric size,lag or modifier."
