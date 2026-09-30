@@ -1,23 +1,13 @@
-import { ruralTransitOperatingCostAt } from "../simulation/rural-transit-operating-cost";
 import { propositionIdFor } from "../simulation/public-budgets/fiscal";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import { projectBudgetEconomy } from "./budget-economy";
 import { recordPaidTransitProgramService } from "../simulation/governing/public-program-transit";
 import { SeededRng } from "../simulation/rng";
-import {
-  isLawEffectStamp,
-  type LawEffectStampedRecord,
-} from "../simulation/law-effect-stamp";
+import { type LawEffectStampedRecord } from "../simulation/law-effect-stamp";
 import { describe, expect, it } from "vitest";
-import { createElement } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
-import {
-  daysBetween,
-  makeIsoDate,
-  simulationMinutesBetween,
-} from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { applyEnactedLawEffects } from "../simulation/enacted-law-effects";
 import {
   commitPublicProgram,
@@ -46,7 +36,6 @@ import {
   TRANSIT_PROGRAM_KEY,
 } from "../simulation/legislation-transit-families";
 import {
-  lifePlaceByJurisdictionId,
   searchLifePlaces,
   stateJurisdictionForKey,
 } from "../simulation/life-places";
@@ -71,14 +60,6 @@ import { applyLegislativeStep } from "./legislation-session";
 import { fileDraft } from "./legislation-docket";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
-import {
-  readTransitDecisionReport,
-  unreadTransitDecisionReportIds,
-} from "./transit-report-reading";
-import { projectWorld39Journal } from "./world39-journal";
-import { projectWorld39News } from "./world39-news";
-import { NewsDesk } from "../player/news/NewsDesk";
-import { TimeCommandProvider } from "../player/time-command-runner";
 
 /** Synthetic passage inputs test the saved spending writers, not voter behavior. */
 function enactedTransitBill(stateUsps: string) {
@@ -338,41 +319,14 @@ function paidService(
     expect(service).toHaveLength(0);
     return saved;
   }
-  expect(service).toHaveLength(1);
-  expect(service[0]?.summary).toContain("estimated vehicle-service");
-  const price = ruralTransitOperatingCostAt(
-    saved,
-    enacted.jurisdictionId,
-  ).minorUnitsPerVehicleRevenueHour;
-  const servicePlace = service[0]?.jurisdictionId
-    ? lifePlaceByJurisdictionId(service[0].jurisdictionId)
-    : null;
-  expect(servicePlace?.stateJurisdictionKey).toBe(`US-${stateUsps}`);
+  expect(service).toHaveLength(0);
   expect(
-    saved.history.metricStates.filter(
+    saved.history.metricStates.some(
       (row) =>
-        row.provenance.kind === "simulated" &&
-        row.provenance.sourceEntityIds.includes(service[0]!.id) &&
         row.value.kind === "quantity" &&
-        Math.abs(
-          row.value.quantity.numerator / row.value.quantity.denominator -
-            10_000 / price,
-        ) < 1e-12 &&
         row.value.quantity.unit === "duration:vehicle-service-hour",
     ),
-  ).toHaveLength(1);
-  const savedHours = saved.history.metricStates.find(
-    (row) =>
-      row.provenance.kind === "simulated" &&
-      row.provenance.sourceEntityIds.includes(service[0]!.id),
-  );
-  expect(
-    (
-      savedHours as typeof savedHours & {
-        operatingCostBasis: ReturnType<typeof ruralTransitOperatingCostAt>;
-      }
-    ).operatingCostBasis,
-  ).toEqual(ruralTransitOperatingCostAt(saved, enacted.jurisdictionId));
+  ).toBe(false);
   expect(
     programAppropriations(saved, programKey).filter(
       (row) => row.sourceMeasureId === enacted.measureId,
@@ -481,51 +435,28 @@ describe("same fictional state transit bill reaches exact paid service", () => {
     ).toThrow("exact posted payment");
   });
   it.each(US_STATE_USPS)(
-    "%s: enacted authority pays saved service at researched cost",
+    "%s: enacted authority pays actual stamped cost without inferred hours",
     (usps) => {
       const world: World = paidService(usps);
-      expect(
-        world.history.events.filter(
-          (row) => row.type === "transit.program-paid-service-hours",
-        ),
-      ).toHaveLength(1);
-      const service = world.history.events.find(
-        (row) => row.type === "transit.program-paid-service-hours",
-      )!;
-      const metric = world.history.metricStates.find(
-        (row) =>
-          row.provenance.kind === "simulated" &&
-          row.provenance.sourceEntityIds.includes(service.id),
-      )!;
-      expect(metric).toBeDefined();
-      const savedMetric = metric as typeof metric & LawEffectStampedRecord;
-      expect(savedMetric.lawEffectStamps, usps).toHaveLength(2);
-      const stamp = savedMetric.lawEffectStamps!.find(
-        (row) => row.effectKind === "state-spending",
-      )!;
-      expect(isLawEffectStamp(stamp), usps).toBe(true);
-      const measure = world.history.legislativeMeasures!.find(
-        (row) => row.id === stamp.governingLawKey,
-      )!;
-      expect(service.involvedEntityIds).toContain(measure.id);
-      const appropriation = world.history.publicProgramRecords!.find(
-        (row) =>
-          row.kind === "appropriation" && row.sourceMeasureId === measure.id,
-      )!;
-      expect(stamp.sourceRecordIds).toContain(appropriation.id);
       const budgetMetric = Object.values(world.metricCatalog.definitions).find(
         (row) => row.stableKey === "government.outlays",
       )!;
       const budgetStates = world.history.metricStates.filter(
         (row) =>
-          row.metricId === budgetMetric.id &&
-          row.scope.jurisdictionId === appropriation.jurisdictionId &&
-          row.scope.segmentKey === null,
+          row.metricId === budgetMetric.id && row.scope.segmentKey === null,
       );
       const budget = budgetStates.at(-1)!;
       const budgetStamp = (
         budget as typeof budget & LawEffectStampedRecord
       ).lawEffectStamps?.find((row) => row.effectKind === "state-spending");
+      expect(budgetStamp).toBeDefined();
+      const measure = world.history.legislativeMeasures!.find(
+        (row) => row.id === budgetStamp!.governingLawKey,
+      )!;
+      const appropriation = world.history.publicProgramRecords!.find(
+        (row) =>
+          row.kind === "appropriation" && row.sourceMeasureId === measure.id,
+      )!;
       expect(budgetStamp).toMatchObject({
         governingLawKey: measure.id,
         jurisdictionId: appropriation.jurisdictionId,
@@ -549,19 +480,7 @@ describe("same fictional state transit bill reaches exact paid service", () => {
       expect(outlays.points).toHaveLength(1);
       expect(outlays.points[0]?.value).toBe(10_000);
       expect(outlays.points[0]?.pointKey).toBe(budget.id);
-      expect(
-        savedMetric.lawEffectStamps!.find(
-          (row) => row.effectKind === "transit.paid-service-hours",
-        ),
-      ).toMatchObject({ governingLawKey: measure.id });
       const reopened = deserializeWorld(serializeWorld(world));
-      expect(
-        (
-          reopened.history.metricStates.find(
-            (row) => row.id === metric.id,
-          ) as typeof metric & LawEffectStampedRecord
-        ).lawEffectStamps,
-      ).toEqual(savedMetric.lawEffectStamps);
       expect(
         (
           reopened.history.metricStates.find(
@@ -575,131 +494,18 @@ describe("same fictional state transit bill reaches exact paid service", () => {
   );
 
   it.each(["AK", "CO"])(
-    "%s: resident experience and a player's read report survive Continue",
+    "%s: a payment creates no inferred ride or reaction",
     (usps) => {
       const world = paidService(usps);
-      if (world.control.kind !== "person")
-        throw new Error(`${usps}: no controlled player`);
-      const playerId = world.control.personId;
-      const ride = world.history.events.find(
-        (event) => event.type === "transit.modeled-rider-experience",
-      );
-      const report = world.history.events.find(
-        (event) => event.type === "transit.government-decision-reported",
-      );
-      expect(ride).toBeDefined();
-      expect(report?.jurisdictionId).toBe(
-        stateJurisdictionForKey(`US-${usps}`)?.id,
-      );
-      const riderId = ride?.participants.find(
-        (participant) => participant.role === "presence:transit-rider",
-      )?.personId;
-      expect(riderId).toBeDefined();
-      expect(riderId).not.toBe(playerId);
+      const reopened = deserializeWorld(serializeWorld(world));
       expect(
-        world.history.knowledge.some(
-          (row) =>
-            row.personId === riderId &&
-            row.eventId === ride?.id &&
-            row.source.kind === "direct",
+        reopened.history.events.filter((row) =>
+          [
+            "transit.modeled-rider-experience",
+            "transit.government-decision-reported",
+          ].includes(row.type),
         ),
-      ).toBe(true);
-      expect(
-        projectWorld39Journal(world, riderId!).entries.some(
-          (entry) => entry.sourceId === ride?.id,
-        ),
-      ).toBe(true);
-      const publication = world.history.publications?.find(
-        (row) => row.sourceEventId === report?.id,
-      );
-      expect(publication).toBeDefined();
-      expect(
-        projectWorld39News(world, playerId).publications.items.some(
-          (item) => item.publicationId === publication?.id,
-        ),
-      ).toBe(true);
-      expect(unreadTransitDecisionReportIds(world).has(publication!.id)).toBe(
-        true,
-      );
-      const newsMarkup = renderToStaticMarkup(
-        createElement(
-          TimeCommandProvider,
-          {
-            children: null,
-            runner: {
-              pending: false,
-              submit: () => {},
-              perform: () => {},
-            },
-          },
-          createElement(NewsDesk, {
-            world,
-            context: "read",
-            onContextChange: () => {},
-            mode: "front",
-            outletKey: null,
-            onModeChange: () => {},
-            onOutletChange: () => {},
-            onOpenPerson: () => {},
-            around: null,
-            directory: null,
-            press: null,
-          }),
-        ),
-      );
-      expect(newsMarkup).toContain(`data-story-id="${publication!.id}"`);
-      expect(newsMarkup).toContain("Reading this report takes 10 minutes");
-      expect(
-        projectWorld39Journal(world, playerId).entries.some(
-          (entry) => entry.sourceId === ride?.id,
-        ),
-      ).toBe(false);
-      const missing = readTransitDecisionReport(
-        world,
-        report!.id,
-        createCampaignElectionTransitionRegistry(),
-      );
-      expect(missing.completed).toBe(false);
-      expect(missing.world).toBe(world);
-
-      const read = readTransitDecisionReport(
-        world,
-        publication!.id,
-        createCampaignElectionTransitionRegistry(),
-      );
-      expect(read.completed).toBe(true);
-      expect(
-        simulationMinutesBetween(world.currentMoment, read.world.currentMoment),
-      ).toBe(10);
-      const knowledge = read.world.history.knowledge.find(
-        (row) => row.personId === playerId && row.eventId === report?.id,
-      );
-      expect(knowledge?.source).toEqual({
-        kind: "public-record",
-        reference: `publication:${publication!.id}`,
-      });
-      expect(knowledge?.believedSummary).toContain("Governor");
-      const continued = deserializeWorld(serializeWorld(read.world));
-      expect(
-        projectWorld39News(continued, playerId).learnedEventIds.has(report!.id),
-      ).toBe(true);
-      expect(
-        projectWorld39Journal(continued, playerId).entries.some(
-          (entry) => entry.sourceId === knowledge?.id,
-        ),
-      ).toBe(true);
-      expect(
-        projectWorld39Journal(continued, playerId).entries.some(
-          (entry) => entry.sourceId === ride?.id,
-        ),
-      ).toBe(false);
-      const repeated = readTransitDecisionReport(
-        continued,
-        publication!.id,
-        createCampaignElectionTransitionRegistry(),
-      );
-      expect(repeated.completed).toBe(false);
-      expect(serializeWorld(repeated.world)).toBe(serializeWorld(continued));
+      ).toHaveLength(0);
     },
   );
 });

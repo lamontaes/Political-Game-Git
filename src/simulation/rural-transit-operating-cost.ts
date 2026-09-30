@@ -1,29 +1,31 @@
 import observations from "../../data/research/transit/ntd-2023-rural-demand-response-costs.json";
-import { stableHash } from "./ids";
-import type { EntityId, World } from "./types";
+import type { ExactQuantity, MoneyAmount } from "./types";
 
-/** A stable world/place cost characteristic, never a draw of a person's action.
- * Uses the empirical distribution of 1,025 NTD reporting mode/service records.
- * No inflation adjustment or marginal-cost interpretation is asserted.
+/** Calibration only. Actual expenses divided by actual delivered hours.
+ * This never chooses a price, budget, service quantity or person's action.
  */
-export function ruralTransitOperatingCostAt(
-  world: Pick<World, "seed">,
-  jurisdictionId: EntityId,
+export function checkRuralTransitOperatingCost(
+  expenses: MoneyAmount,
+  deliveredHours: ExactQuantity,
 ) {
-  const index =
-    Number.parseInt(
-      stableHash(`ntd-2023-rural-dr:${world.seed}:${jurisdictionId}`).slice(
-        0,
-        8,
-      ),
-      16,
-    ) % observations.rows.length;
-  const row = observations.rows[index]!;
+  if (
+    expenses.currency !== "USD" ||
+    expenses.minorUnits < 0 ||
+    deliveredHours.unit !== "duration:vehicle-service-hour" ||
+    deliveredHours.numerator <= 0 ||
+    deliveredHours.denominator <= 0
+  )
+    return null;
+  const usdPerHour =
+    expenses.minorUnits /
+    100 /
+    (deliveredHours.numerator / deliveredHours.denominator);
   return {
-    minorUnitsPerVehicleRevenueHour: Math.round(row.usdPerVRH * 100),
-    sourceNTDId: row.ntdId,
-    sourceTypeOfService: row.tos,
+    actualUSDPerVehicleRevenueHour: usdPerHour,
+    observedRange: [observations.summary.min, observations.summary.max],
+    withinObservedRange:
+      usdPerHour >= observations.summary.min &&
+      usdPerHour <= observations.summary.max,
     sourceYear: 2023,
-    basis: "estimated-from-ntd-average-operating-cost" as const,
   };
 }

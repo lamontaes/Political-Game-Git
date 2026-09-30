@@ -1,0 +1,26 @@
+{
+  "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+  "status": "Primary workbook fetched; ratio NOT admitted pending accounting reconciliation",
+  "sourceYear": 2023,
+  "fareSource": "https://www.transit.dot.gov/sites/fta.dot.gov/files/2024-10/2023%20Fare%20Revenues.xlsx",
+  "fareWorkbookSHA256": "d4d775018b814bd51703328f1071a5302643ac615743fd148a5d2e377e27b1fa",
+  "serviceSource": "https://www.transit.dot.gov/sites/fta.dot.gov/files/2024-10/2023%20Service.xlsx",
+  "method": "NTD fare rows split Funds Expended on Capital / Funds Expended on Operations. Must reconcile complete passenger-fare totals before dividing by annual trips; duplicated denominator is invalid. Missing entries are not zero.",
+  "scopeLimits": [
+    "Rural DR average revenue is not an urban or fixed-route posted ticket fare.",
+    "All trips denominator does not identify eligible assistance-enrollee boardings.",
+    "Zero passenger fare baseline is not zero policy effect or zero operating subsidy.",
+    "No marginal demand or collection-cost estimate."
+  ],
+  "productionFindings": {
+    "terms": "legislation-infrastructure-families.ts enrollment-fare-relief: assistance eligibility and boarding reimbursement; cap authored, not researched.",
+    "hook": "public-program.ts posts actual government outlay then calls recordPaidTransitProgramService.",
+    "missing": "No named eligible boarding with person, provider and actual fare/waiver amount found.",
+    "next": "Stamp actual paid fare-relief program outlay within owned callback, without manufacturing boardings. Shared hook ownership must remain clear."
+  },
+  "notRun": [
+    "Cost writer not added",
+    "Nationwide proof",
+    "Person fare transactions"
+  ]
+}

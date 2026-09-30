@@ -1,46 +1,43 @@
-# Rural transit operating-cost checkpoint
+# Transit golden-rule repair checkpoint
 
-MERGED: No. The inherited cash/stamp checkpoint was approved separately; this cost revision awaits review.
+MERGED: No. The earlier budget-stamp checkpoint is on main. This repair is held for the missing operating-cost mechanism.
 
-WHAT EMERGED: HARDWIRED estimated operating hours now use a stable place characteristic drawn from actual NTD observations. The payment still debits the government account once. No rider decision is introduced. VITAL STATISTICS: This revision covers one of fourteen assigned laws; five-part completion remains unverified.
+WHAT EMERGED: HARDWIRED payment-to-hours arithmetic and inferred rider reactions are removed. The actual government payment and budget attribution persist. VITAL STATISTICS: One actual-cost writer; no delivered-service quantity or nationwide law proof claimed.
 
 ## 1. Why-chain
 
-Payment buys service because an operative law authorizes an appropriation and a saved commitment posts an actual transfer. Its estimated purchasing power depends on operating expense per vehicle revenue hour because labor, fuel, maintenance and administration consume money while vehicles deliver service. The calculation ends at account bookkeeping and a researched average-cost distribution. The world/place draw selects a cost characteristic, never whether a person rides. Actual operator bids, route geography, expansion margins and staffing decisions remain missing.
+A posted payment is a cost because the saved law-authorized commitment has an exact completed cash transfer. The government budget reads that payment. Payment alone cannot establish vehicle hours: drivers, fuel, vehicles and actual delivered service are required. This chain ends at actual bookkeeping. Missing service inputs remain missing, not zero.
 
 ## 2. Research
 
-FTA NTD 2023 Annual Database, Service sheet and Operating Expenses sheet. Join NTD ID, Mode and TOS; retain Rural reporting module, DR mode, Rural General Public Transit subrecipient, annual service total and total operating expenses. Positive expenses and vehicle revenue hours yield 1,025 observations; four otherwise eligible records are excluded. Each ratio is total operating expenses divided by vehicle revenue hours. Observed range: $8.535186930568646–$351.02472527472526 per vehicle revenue hour; median $62.326705293652886; hours-weighted mean $62.527321558669875. The checked-in data records each numerator, denominator, agency, source ID and workbook hash.
-
-These are nominal 2023 average operating costs, including overhead. They are not incremental expansion costs or an inflation-adjusted 2026 estimate. Record spread is not a confidence interval. No causal ridership effect is inferred.
+FTA NTD 2023 Service and Operating Expenses tables yield 1,025 rural general-public demand-response observations, joined by NTD ID, mode and type of service. Average operating cost per vehicle revenue hour ranges from $8.535186930568646 to $351.02472527472526; median $62.326705293652886. The checked-in observations retain source expenses, hours and workbook hashes. These are calibration checks only, never a sampled price or service outcome. Nominal 2023 average operating costs are not marginal expansion costs or a 2026 escalation.
 
 ## 3. Revisions
 
-Select one empirical record using the world seed and appropriation jurisdiction; keep that place's cost stable across installments and saves. Round its USD hourly rate to cents for exact rational service quantities. Preserve the full observed distribution rather than impose an unsupported normal distribution. An unobserved place receives this disclosed national rural estimate; this supplies no statutory authority. Fixed-route and urban systems are outside the source scope.
+The superseded proposal selected a price by seed and divided the payment by it. CTO's golden rule forbids that. The helper now only compares supplied actual expenses and delivered hours against the observed range. It has no production caller because actual delivered hours are absent. The operating writer preserves actual cost stamps and emits no unsupported hours, ride, welcome or government-appreciation reaction. Existing historical records are preserved.
 
 ## 4. What gets built
 
-1. Retain the source observations and derivation details.
-2. Replace the operating installment's fixed price with the stable empirical estimate.
-3. Save its rate, source year, NTD ID and type of service on the service metric.
-4. Preserve canonical law, appropriation, payment and actual budget stamps unchanged.
-
-The older transit-service adapter and its fixed contract definition remain untouched pending their owning team's integration; this revision covers public-program operating installments.
+1. Retain exact authority, appropriation, commitment, installment and completed-transfer checks.
+2. Stamp the existing government outlay without charging it again.
+3. Remove drawn prices and payment-inferred service quantities.
+4. Keep NTD data as calibration.
+5. Build the missing operator expense mechanism next: actual driver pay, actual fuel use and purchase prices, actual vehicle expenses, and delivered vehicle revenue hours. Claim any shared input surfaces before editing them.
 
 ## 5. Simulated, records, world pieces, checks
 
-SIMULATED: No new person's trip or work decision.
+SIMULATED: No person trip or political reaction is manufactured by this payment.
 
-RECORDS: The actual cash amount is unchanged; estimated hours equal paid minor units divided by drawn minor units per hour. The source cost characteristic survives reopening on the saved metric.
+RECORDS: Actual cash and government budget retain their exact amount and law provenance across reopening.
 
-WORLD PIECES: Actual routes, operator bids, marginal labor/fleet capacity and 2026 cost escalation are missing. A maintenance installment still produces no operating-hour record. No valid paid operating chain means no service record.
+WORLD PIECES: Installment plans currently contain due date, amount and purpose. They contain no contracted or delivered hours. Operator payroll, fuel consumption and vehicle-cost linkage remain incomplete.
 
-CHECKS: Place rates must stay within observed bounds and remain stable. Exact paid money and budget amounts must not change. No claim that this is a delivered trip or empirically calibrated expansion cost.
+CHECKS: Actual expense divided by actual delivered hours may be compared with NTD; the comparison never sets either input. Actual zero hours are not replaced with one, and missing inputs are not guessed.
 
 ## 6. Proof run
 
-Hawaii was selected by seed team6-transit-payment-purpose-20260930. Operating cost and maintenance/payment-chain fixtures passed: two tests, 51 skipped, before adding explicit saved-cost metadata assertions. The four named prior operating fixtures passed for Delaware, Minnesota, New Hampshire and New Jersey after that assertion: four tests, 49 skipped. Owned source/test strict diagnostics and scoped lint/format/report checks passed. Zero-dice found zero new violations and five stale baseline entries; release check retains the baseline missing-header failure. No nationwide watched audit or full suite was run. Shared budget stamp inheritance remains a separate owner dependency.
+Hawaii operating/maintenance and Alaska absence-of-inferred-rider fixtures passed: three tests, 50 skipped. Four Delaware/Minnesota/New Hampshire/New Jersey operating-cost fixtures plus the Hawaii maintenance/chain fixture passed: five tests, 48 skipped. They prove actual cash, budget stamps, reopening, payment-chain guards and absence of invented service, not service delivery. Owned strict diagnostics and scoped lint passed. Nationwide proof, full suite and paused speed checks were not run. The prior release baseline header failure and stale zero-dice baseline remain.
 
 ## 7. Worked example
 
-Hawaii fixture seed all-state-transit-payment:HI draws NTD record 60143, DO, $66.04 per hour. The government pays $100 once, yielding exact quantity 10000/6604 hours (about 1.514). Delaware draws $60.47, Minnesota $59.77, New Hampshire $56.06 and New Jersey $56.59 per hour. These fixtures preserve their actual $100 payments. The saved metric names the actual service event and selected NTD record. Its law stamps identify the exact measure, appropriation, commitment, installment and completed transfer. No named rider decision can honestly be supplied by this fixture.
+The fictional government pays $100 once under its saved law and appropriation. The budget still reads $100 after reopening. No rate is drawn and no number of hours or rider is inferred. To claim service, the operator must save actual labor, fuel and vehicle expenses together with delivered hours. A research ratio cannot supply those records.

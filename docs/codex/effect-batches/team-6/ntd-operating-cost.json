@@ -7,7 +7,7 @@
   "empiricalRangeUSDPerVehicleRevenueHour": [
     8.535186930568646, 351.02472527472526
   ],
-  "selection": "Stable empirical observation per immutable world seed and appropriation jurisdiction; no actor decision uses the draw. Full observed distribution, not one-system proxy.",
+  "selection": "REMOVED: NTD data are calibration only under CTO1:03",
   "costKind": "Average operating cost, nominal2023; not marginal expansion or inflation-adjusted2026",
   "proof": [
     {
@@ -45,5 +45,7 @@
   ],
   "checks": "Hawaii operating/maintenance 2pass51skip; after saved metadata assertion four operating 4pass49skip; strict owned diagnostics0; scoped lint/format/report/diff pass.",
   "notRun": ["Nationwide watched proof", "Full suite", "Paused speed checks"],
-  "ownership": "Only public-program-transit writer, its fixture, new rate helper/data changed. Old transit-service adapter uses authored price pending owning-team integration; shared catalog/links untouched."
+  "ownership": "Only public-program-transit writer, its fixture, new rate helper/data changed. Old transit-service adapter uses authored price pending owning-team integration; shared catalog/links untouched.",
+  "status": "Superseded noncompliant price-draw proposal; retained as historical validation, not current proof",
+  "proofStatus": "These price/hour examples were from superseded head66d52e0a; current repair infers no hours"
 }
