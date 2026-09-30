@@ -1,0 +1,1008 @@
+{
+  "schema": "ocd-place-staging/v2",
+  "note": "Unchanged canonical excerpt for review only. No runtime import; owner/source assertions not independently reaccepted.",
+  "places": {
+    "state-capitol-ok": {
+      "horizonY": 63,
+      "metersPercent": 0.34,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3,
+          "hero": true
+        },
+        {
+          "x": 31,
+          "y": 86,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 70,
+          "y": 86.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 2
+        },
+        {
+          "x": 16,
+          "y": 90.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 5
+        },
+        {
+          "x": 7,
+          "y": 89,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 4
+        },
+        {
+          "x": 93.5,
+          "y": 89,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 4
+        },
+        {
+          "x": 40,
+          "y": 71,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        }
+      ],
+      "measuredFrom": "horizon where the sidewalk joints and lawn walks converge, at the capitol grounds line (~63); near street lamps ~4 m foot 88.5 top 55.5 -> 0.32; grounds lamp ~4 m foot 67 top 60 -> 0.44 (short baseline); weighted 0.34"
+    },
+    "state-capitol-or": {
+      "horizonY": 79,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3,
+          "hero": true
+        },
+        {
+          "x": 36,
+          "y": 87.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 62,
+          "y": 87.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 43.5,
+          "y": 86,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 8,
+          "y": 97,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 4
+        },
+        {
+          "x": 22.5,
+          "y": 89,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 2
+        }
+      ],
+      "measuredFrom": "low camera; horizon just above the capitol base where the walk edges flatten (~79); plaza lamp ~4 m foot 88 top 64.5 -> 0.65; inner lamp ~4 m foot 86.5 top 68.5 -> 0.6; entrance sculpture block ~3 m foot 84 top 76 -> 0.53"
+    },
+    "state-capitol-pa": {
+      "horizonY": 38,
+      "metersPercent": 0.07,
+      "spots": [
+        {
+          "x": 50,
+          "y": 93,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3,
+          "hero": true
+        },
+        {
+          "x": 26.5,
+          "y": 92.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 2,
+          "seatY": 90.6,
+          "group": "sidewalk-bench-left"
+        },
+        {
+          "x": 74.2,
+          "y": 92.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 2,
+          "seatY": 90.6,
+          "group": "sidewalk-bench-right"
+        },
+        {
+          "x": 40.8,
+          "y": 88.4,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 1,
+          "seatY": 86.6,
+          "group": "walk-bench-left"
+        },
+        {
+          "x": 60,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 4
+        },
+        {
+          "x": 47,
+          "y": 83,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 36,
+          "y": 95,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 5
+        }
+      ],
+      "measuredFrom": "high camera; horizon on the far hills and river line (~38); sidewalk lamp ~4 m foot 94.7 top 80.1 -> 0.064; sidewalk bench back ~0.85 m foot 92.1 top 88.6 -> 0.076"
+    },
+    "state-capitol-pr": {
+      "horizonY": 68,
+      "metersPercent": 0.42,
+      "spots": [
+        {
+          "x": 50,
+          "y": 93,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2,
+          "hero": true
+        },
+        {
+          "x": 30,
+          "y": 88,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 70,
+          "y": 88,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 40,
+          "y": 82,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 61,
+          "y": 82,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 7.5,
+          "y": 93,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 92.5,
+          "y": 93,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 2
+        }
+      ],
+      "measuredFrom": "horizon where the plaza pattern lines converge, just above the building base (~68); bollard ~0.9 m foot 79.5 top 75.5 -> 0.39; near plaza lamp ~5 m foot 92 top 38 -> 0.45"
+    },
+    "state-capitol-ri": {
+      "horizonY": 68,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 50,
+          "y": 89,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2,
+          "hero": true
+        },
+        {
+          "x": 31,
+          "y": 86,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 69,
+          "y": 86,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 22,
+          "y": 96,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 3
+        },
+        {
+          "x": 36,
+          "y": 74.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 64,
+          "y": 74.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        }
+      ],
+      "measuredFrom": "horizon where the near plaza edges and paving joints converge (~68); main stair ~20 risers of 0.18 m (~3.2 m incl. landing) foot 73 top 63.5 -> 0.6; terrace balustrade ~1 m foot 66 top 62 suggests similar; no people, cars or lamps painted"
+    },
+    "state-capitol-sc": {
+      "horizonY": 36,
+      "metersPercent": 0.065,
+      "spots": [
+        {
+          "x": 45.5,
+          "y": 92.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4,
+          "hero": true
+        },
+        {
+          "x": 21.5,
+          "y": 90,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 3
+        },
+        {
+          "x": 55,
+          "y": 79.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 2
+        },
+        {
+          "x": 43,
+          "y": 75.3,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 52,
+          "y": 75.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        }
+      ],
+      "measuredFrom": "high camera; horizon at the far skyline base (~36); stair-cheek lamps ~3.5 m foot 64 top 57 -> 0.071; front stair ~5 m rise foot 71 top 58 -> 0.074; statue on pedestal ~4 m foot 94 top 81 -> 0.056"
+    },
+    "state-capitol-sd": {
+      "horizonY": 73,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4,
+          "hero": true
+        },
+        {
+          "x": 24,
+          "y": 84,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 77,
+          "y": 84,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 42,
+          "y": 81.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 58,
+          "y": 81.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 35.5,
+          "y": 86,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 67,
+          "y": 86.5,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 3
+        }
+      ],
+      "measuredFrom": "horizon where the brick walk edges converge (~73); sidewalk lamps ~4.8 m foot 85.5 top 48.5 -> 0.6 (both sides)"
+    },
+    "state-capitol-tn": {
+      "horizonY": 66,
+      "metersPercent": 0.33,
+      "spots": [
+        {
+          "x": 57,
+          "y": 91,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 6,
+          "hero": true
+        },
+        {
+          "x": 33,
+          "y": 88.3,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 4
+        },
+        {
+          "x": 72,
+          "y": 89,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 5
+        },
+        {
+          "x": 10,
+          "y": 80.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 78,
+          "y": 79.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 82.5,
+          "y": 84.5,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 3
+        },
+        {
+          "x": 21.5,
+          "y": 80,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 1
+        }
+      ],
+      "measuredFrom": "horizon where the capitol base lines on both faces flatten (~66); right walk lamp ~4.5 m foot 84 top 55.5 -> 0.35; left lamp ~4.5 m foot 79.5 top 59.5 -> 0.33; far left lamp ~4.5 m foot 76.5 top 62 -> 0.31"
+    },
+    "state-capitol-tower": {
+      "horizonY": 71,
+      "metersPercent": 0.64,
+      "spots": [
+        {
+          "x": 50,
+          "y": 96,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 5,
+          "hero": true
+        },
+        {
+          "x": 32,
+          "y": 90.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 68,
+          "y": 91,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 3
+        },
+        {
+          "x": 84,
+          "y": 95,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 4
+        },
+        {
+          "x": 46,
+          "y": 76.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0
+        },
+        {
+          "x": 55,
+          "y": 76.3,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 38,
+          "y": 76.5,
+          "pose": "lean",
+          "facing": "viewer",
+          "depth": 1
+        }
+      ],
+      "measuredFrom": "entrance stair: base 75.5, landing 71.7 (about 8 steps of 0.16 m, 1.3 m) gives 2.9 percent per meter at the building line; entrance door 2.1 m (foot 71.7 top 65.5) agrees; horizon read where the camera's 1.6 m eye height meets the building (stair treads seen from above); the plaza joints fan out radially, so they were not used for the horizon"
+    },
+    "state-capitol-tx": {
+      "horizonY": 72,
+      "metersPercent": 0.47,
+      "spots": [
+        {
+          "x": 50,
+          "y": 94,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 4,
+          "hero": true
+        },
+        {
+          "x": 40,
+          "y": 88,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 60,
+          "y": 88,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 55,
+          "y": 79.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 33,
+          "y": 88.5,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 67.5,
+          "y": 88.5,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 2
+        },
+        {
+          "x": 18,
+          "y": 92,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 3
+        }
+      ],
+      "measuredFrom": "horizon where the central walk edges converge (~72); near walk lamp ~4.5 m foot 87.5 top 55 -> 0.47; mid lamp ~4.5 m foot 78.5 top 64.5 -> 0.48"
+    },
+    "state-capitol-ut": {
+      "horizonY": 62,
+      "metersPercent": 0.38,
+      "spots": [
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3,
+          "hero": true
+        },
+        {
+          "x": 32,
+          "y": 88,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 68,
+          "y": 88,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 27,
+          "y": 79,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 73,
+          "y": 79,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 18.5,
+          "y": 89.5,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 81.5,
+          "y": 89.5,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 2
+        }
+      ],
+      "measuredFrom": "horizon solved from objects (paving joints alone suggest ~69 but disagree with them): near balustrade ~1.1 m foot 88 top 77 -> 0.38; walk handrail ~1.0 m foot 77.2 top 71.3 -> 0.38; lawn lamp ~4 m foot 70.9 top 57.6 -> 0.36"
+    },
+    "state-capitol-va": {
+      "horizonY": 74,
+      "metersPercent": 0.38,
+      "spots": [
+        {
+          "x": 50,
+          "y": 94,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3,
+          "hero": true
+        },
+        {
+          "x": 36,
+          "y": 91,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 64,
+          "y": 91,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 2
+        },
+        {
+          "x": 41,
+          "y": 83.9,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 59,
+          "y": 83.9,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 28.3,
+          "y": 88.5,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 71.7,
+          "y": 88.5,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 1
+        }
+      ],
+      "measuredFrom": "horizon between the plaza-edge convergence (~72.5) and the value that makes the two matching street lamps agree (~76); near lamp ~4 m foot 87.5 top 66.5 -> 0.39; far-left lamp ~4 m foot 83.5 top 70 -> 0.36"
+    },
+    "state-capitol-vi": {
+      "horizonY": 68,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 50,
+          "y": 89,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2,
+          "hero": true
+        },
+        {
+          "x": 35,
+          "y": 89.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 3
+        },
+        {
+          "x": 65,
+          "y": 89.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 3
+        },
+        {
+          "x": 26,
+          "y": 80,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 74,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 17,
+          "y": 82,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 87,
+          "y": 82,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 1
+        }
+      ],
+      "measuredFrom": "horizon where the walk edges converge (~68); ground-floor arched door ~3.5 m foot 74.5 top 58.5 -> 0.7; wall AC unit ~1 m foot 77.5 top 71.5 -> 0.63; stair gate railing reads ~0.8 m at this scale; averaged 0.6"
+    },
+    "state-capitol-vt": {
+      "horizonY": 66,
+      "metersPercent": 0.21,
+      "floors": {
+        "stair-landing": 0.27
+      },
+      "spots": [
+        {
+          "x": 50,
+          "y": 94.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3,
+          "hero": true
+        },
+        {
+          "x": 40,
+          "y": 94,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 61,
+          "y": 94,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 2
+        },
+        {
+          "x": 12,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 27.8,
+          "y": 95,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 4
+        },
+        {
+          "x": 72.2,
+          "y": 95,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 4
+        },
+        {
+          "x": 42,
+          "y": 82.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0,
+          "floor": "stair-landing"
+        }
+      ],
+      "measuredFrom": "horizon solved from the two matching lamp pairs (~64-66); near sidewalk lamp ~4 m foot 94.5 top 71 -> 0.21; lower stair flight ~8 risers 1.3 m foot 91 top 84 -> 0.215; landing floor scaled from the ground scale at its depth -> 0.27"
+    },
+    "state-capitol-wa": {
+      "horizonY": 40,
+      "metersPercent": 0.058,
+      "spots": [
+        {
+          "x": 50,
+          "y": 92.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 3,
+          "hero": true
+        },
+        {
+          "x": 41.5,
+          "y": 85,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 2
+        },
+        {
+          "x": 58.5,
+          "y": 85,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 2
+        },
+        {
+          "x": 46.8,
+          "y": 83.2,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 1,
+          "seatY": 82.4,
+          "group": "fountain-benches"
+        },
+        {
+          "x": 53.2,
+          "y": 83.2,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 1,
+          "seatY": 82.4,
+          "group": "fountain-benches"
+        },
+        {
+          "x": 50,
+          "y": 77,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0
+        }
+      ],
+      "measuredFrom": "high aerial camera; horizon on the far water and hill line (~40); plaza bench back ~0.85 m foot 89 top 86.5 -> 0.06; plaza lamp ~4 m foot 83.5 top 74 -> 0.055"
+    },
+    "state-capitol-wi": {
+      "horizonY": 22,
+      "metersPercent": 0.04,
+      "spots": [
+        {
+          "x": 50,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2,
+          "hero": true
+        },
+        {
+          "x": 42,
+          "y": 96,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 3
+        },
+        {
+          "x": 60.5,
+          "y": 96,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 3
+        },
+        {
+          "x": 46,
+          "y": 84.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 54,
+          "y": 84.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 50,
+          "y": 81,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 0
+        }
+      ],
+      "measuredFrom": "high aerial camera; horizon on the far lake shore (~22); walk-end pillar ~1.2 m foot 84.5 top 82 -> 0.034; main front stair ~3.6 m rise foot 80 top 69 -> 0.053 (drawn steep); weighted 0.04"
+    },
+    "state-capitol-wv": {
+      "horizonY": 52,
+      "metersPercent": 0.115,
+      "spots": [
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2,
+          "hero": true
+        },
+        {
+          "x": 38,
+          "y": 88,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 62,
+          "y": 88,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 44,
+          "y": 81,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 56,
+          "y": 81,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 0
+        },
+        {
+          "x": 29.5,
+          "y": 95,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 3
+        },
+        {
+          "x": 70.5,
+          "y": 95,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 3
+        }
+      ],
+      "measuredFrom": "horizon where the plaza side edges and paving lines converge (~52); plaza lamps ~4 m foot 94.5 top 75 -> 0.115 (both sides); forecourt wall ~1 m foot 80.5 top 77 -> 0.12"
+    },
+    "state-capitol-wy": {
+      "horizonY": 74,
+      "metersPercent": 0.3,
+      "spots": [
+        {
+          "x": 50,
+          "y": 94,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 2,
+          "hero": true
+        },
+        {
+          "x": 30.3,
+          "y": 94.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 3,
+          "seatY": 91.4,
+          "group": "bench-left"
+        },
+        {
+          "x": 70.3,
+          "y": 94.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 3,
+          "seatY": 91.4,
+          "group": "bench-right"
+        },
+        {
+          "x": 40.5,
+          "y": 89.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 1
+        },
+        {
+          "x": 59.5,
+          "y": 89.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 1
+        },
+        {
+          "x": 44,
+          "y": 85,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 0
+        },
+        {
+          "x": 36,
+          "y": 97.5,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 4
+        }
+      ],
+      "measuredFrom": "horizon where the front walk edges converge (~74); bollard ~0.9 m foot 96.5 top 90 -> 0.32; sidewalk bench back ~0.85 m foot 93.5 top 88.8 -> 0.28; globe lamp ~4.5 m foot 96.5 top 65 -> 0.31"
+    }
+  }
+}
