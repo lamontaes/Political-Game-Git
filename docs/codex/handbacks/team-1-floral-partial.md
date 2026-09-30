@@ -35,6 +35,8 @@ Seed team2-main-proof-20260930-b; place Floral, Arkansas, 0524070. Source was cl
 
 Save/Continue, browser acceptance, full suite and the exclusive-host speed gate were NOT RUN. The checkpoint JSON contains the exact enactment IDs and harness. Feature-walkthrough applied; no new team or helper was created.
 
+All fourteen surviving enactment IDs match Team2's original inventory. Eleven came from the council introduction path that bypasses typed drafting, one from the local position fallback, and two from authored scenarios with no catalog question. The current registry was queried for each of the original forty-one state question/answer directions: zero have a configuration. Zero of those cases became typed laws. Refusing them is not a sponsor-term repair. The JSON preserves every checked ID and direction.
+
 ## 7. Worked example
 
 Frances Khan is the actual opening resident, ID person_194b69d666147d40. No law-linked paycheck, rent or tax consequence has been extracted for her or another named person. This is a missing worked example, not a zero-dollar payment or proof that every personal reader is inert.

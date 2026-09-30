@@ -130,5 +130,543 @@
   "speedGate": "NOT RUN",
   "publicationLimit": "Completed observer year; Save/Continue and named-person law consequence NOT RUN/NOT DEMONSTRATED",
   "rawHarnessComparisonNote": "partial observed window is not comparable to a completed baseline year",
-  "harness": "import {writeFileSync, mkdirSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\nimport {performance} from 'node:perf_hooks';\nimport {openWatchedWorld} from '/workspace/Political-Game-Git/scripts/dev-lab/world-aging.ts';\nimport {advanceObservedWorld} from '/workspace/Political-Game-Git/src/presentation/observer-world.ts';\nimport {personName} from '/workspace/Political-Game-Git/src/simulation/people.ts';\nconst seed='team2-main-proof-20260930-b',placeKey='0524070';\nconst head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();\nif(head!=='ef64da2c4d932fc78c13203d1ff78c3968d0e0c6')throw Error('wrong proof pin');\nif(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim())throw Error('dirty source');\nconst start=performance.now();const opened=openWatchedWorld(seed,placeKey);let world=opened.world;const initialDate=world.currentDate;let days=0;\nmkdirSync('/workspace/Political-Game-Git/test-results/team1',{recursive:true});\nfunction checkpoint(status:string){\n const enacted=(world.history.legislativeEnactments??[]).filter(e=>e.outcome==='enacted'&&e.resolvedAt>=initialDate);\n const ids=new Set(enacted.map(e=>e.measureId));const clauses=world.history.legislativeProvisions??[];\n const measures=(world.history.legislativeMeasures??[]).filter(m=>ids.has(m.id));\n const typed=measures.filter(m=>clauses.some(p=>p.measureId===m.id&&p.operativeEffect));\n const programs=world.history.publicProgramRecords??[];\n const appropriations=programs.filter(r=>r.kind==='appropriation'&&r.sourceMeasureId&&ids.has(r.sourceMeasureId));\n const names={anchorId:opened.anchorPersonId,anchorName:personName(world.people[opened.anchorPersonId]!)};\n const out={head,sourceDirty:false,seed,placeKey,place:opened.placeName,initialDate,date:world.currentDate,days,status,elapsedSeconds:(performance.now()-start)/1000,enacted:measures.length,typed:typed.length,typedDefinition:'enacted measure with at least one explicit operative effect provision; completeness is a separate requirement',measures:measures.map(m=>({id:m.id,title:m.shortTitle,designation:m.designation,jurisdictionId:m.jurisdictionId,typed:typed.some(t=>t.id===m.id)})),lawLinkedAppropriations:appropriations,names,namedLawPaycheckRentTaxExample:null,namedExampleStatus:'NOT DEMONSTRATED: no amount or linkage inferred',baseline:{source:'54930d427555034f3a92f335064586247985784d',days:365,typed:1,total:56},comparison:'partial observed window is not comparable to a completed baseline year',saveContinue:'NOT RUN',speedGate:'NOT RUN'};\n writeFileSync('/workspace/Political-Game-Git/test-results/team1/floral-partial.json',JSON.stringify(out,null,2)+'\\n');console.log(JSON.stringify({status,days,date:world.currentDate,typed:typed.length,total:measures.length,elapsed:out.elapsedSeconds,names}));\n}\ncheckpoint('opening');\ntry{while(days<365&&(performance.now()-start)<300000){world=advanceObservedWorld(world,1);days++;if(days%15===0)checkpoint('running-partial');}checkpoint(days===365?'completed-year-without-save':'bounded-partial');}catch(e){checkpoint('failed-partial');throw e;}\n"
+  "harness": "import {writeFileSync, mkdirSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\nimport {performance} from 'node:perf_hooks';\nimport {openWatchedWorld} from '/workspace/Political-Game-Git/scripts/dev-lab/world-aging.ts';\nimport {advanceObservedWorld} from '/workspace/Political-Game-Git/src/presentation/observer-world.ts';\nimport {personName} from '/workspace/Political-Game-Git/src/simulation/people.ts';\nconst seed='team2-main-proof-20260930-b',placeKey='0524070';\nconst head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();\nif(head!=='ef64da2c4d932fc78c13203d1ff78c3968d0e0c6')throw Error('wrong proof pin');\nif(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim())throw Error('dirty source');\nconst start=performance.now();const opened=openWatchedWorld(seed,placeKey);let world=opened.world;const initialDate=world.currentDate;let days=0;\nmkdirSync('/workspace/Political-Game-Git/test-results/team1',{recursive:true});\nfunction checkpoint(status:string){\n const enacted=(world.history.legislativeEnactments??[]).filter(e=>e.outcome==='enacted'&&e.resolvedAt>=initialDate);\n const ids=new Set(enacted.map(e=>e.measureId));const clauses=world.history.legislativeProvisions??[];\n const measures=(world.history.legislativeMeasures??[]).filter(m=>ids.has(m.id));\n const typed=measures.filter(m=>clauses.some(p=>p.measureId===m.id&&p.operativeEffect));\n const programs=world.history.publicProgramRecords??[];\n const appropriations=programs.filter(r=>r.kind==='appropriation'&&r.sourceMeasureId&&ids.has(r.sourceMeasureId));\n const names={anchorId:opened.anchorPersonId,anchorName:personName(world.people[opened.anchorPersonId]!)};\n const out={head,sourceDirty:false,seed,placeKey,place:opened.placeName,initialDate,date:world.currentDate,days,status,elapsedSeconds:(performance.now()-start)/1000,enacted:measures.length,typed:typed.length,typedDefinition:'enacted measure with at least one explicit operative effect provision; completeness is a separate requirement',measures:measures.map(m=>({id:m.id,title:m.shortTitle,designation:m.designation,jurisdictionId:m.jurisdictionId,typed:typed.some(t=>t.id===m.id)})),lawLinkedAppropriations:appropriations,names,namedLawPaycheckRentTaxExample:null,namedExampleStatus:'NOT DEMONSTRATED: no amount or linkage inferred',baseline:{source:'54930d427555034f3a92f335064586247985784d',days:365,typed:1,total:56},comparison:'partial observed window is not comparable to a completed baseline year',saveContinue:'NOT RUN',speedGate:'NOT RUN'};\n writeFileSync('/workspace/Political-Game-Git/test-results/team1/floral-partial.json',JSON.stringify(out,null,2)+'\\n');console.log(JSON.stringify({status,days,date:world.currentDate,typed:typed.length,total:measures.length,elapsed:out.elapsedSeconds,names}));\n}\ncheckpoint('opening');\ntry{while(days<365&&(performance.now()-start)<300000){world=advanceObservedWorld(world,1);days++;if(days%15===0)checkpoint('running-partial');}checkpoint(days===365?'completed-year-without-save':'bounded-partial');}catch(e){checkpoint('failed-partial');throw e;}\n",
+  "survivingEnactmentCauses": [
+    {
+      "id": "legislative-measure_0f3cabe834398882",
+      "designation": "ORD 1",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:environment-energy.restrict-building-in-flood-zones"
+      ]
+    },
+    {
+      "id": "legislative-measure_0f3caae8343986cf",
+      "designation": "ORD 2",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:civil-family-community.dedicated-parks-funding"
+      ]
+    },
+    {
+      "id": "legislative-measure_0f3ca9e83439851c",
+      "designation": "ORD 3",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:agriculture-natural-resources.expand-public-land-access"
+      ]
+    },
+    {
+      "id": "legislative-measure_0f3ca8e834398369",
+      "designation": "ORD 4",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit"
+      ]
+    },
+    {
+      "id": "legislative-measure_0f3ca7e8343981b6",
+      "designation": "ORD 5",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:government-operations.independent-ward-commission"
+      ]
+    },
+    {
+      "id": "legislative-measure_0f3ca5e834397e50",
+      "designation": "ORD 7",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:transportation-infrastructure.fix-it-first"
+      ]
+    },
+    {
+      "id": "legislative-measure_0f3cb3e83439961a",
+      "designation": "ORD 9",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:housing-land-use.inclusionary-requirement"
+      ]
+    },
+    {
+      "id": "legislative-measure_02a044a51e1a08c7",
+      "designation": "HB 2",
+      "matched": true,
+      "reason": "scenario-no-catalog-question",
+      "questionKeys": []
+    },
+    {
+      "id": "legislative-measure_8658bb06001f7fbf",
+      "designation": "HB 8",
+      "matched": true,
+      "reason": "scenario-no-catalog-question",
+      "questionKeys": []
+    },
+    {
+      "id": "legislative-measure_c43deb9319ecf3bd",
+      "designation": "ORD 13",
+      "matched": true,
+      "reason": "unmapped-local-position-fallback",
+      "questionKeys": [
+        "us-policy-positions:civil-family-community.dedicated-parks-funding"
+      ]
+    },
+    {
+      "id": "legislative-measure_1da0d190bdc34d42",
+      "designation": "ORD 14",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:civil-family-community.dedicated-parks-funding"
+      ]
+    },
+    {
+      "id": "legislative-measure_1da0d590bdc3540e",
+      "designation": "ORD 18",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:civil-family-community.dedicated-parks-funding"
+      ]
+    },
+    {
+      "id": "legislative-measure_1d9d6790bdc0634d",
+      "designation": "ORD 20",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:civil-family-community.dedicated-parks-funding"
+      ]
+    },
+    {
+      "id": "legislative-measure_1d9d6590bdc05fe7",
+      "designation": "ORD 22",
+      "matched": true,
+      "reason": "council-introduce-bypasses-typed-drafting",
+      "questionKeys": [
+        "us-policy-positions:civil-family-community.dedicated-parks-funding"
+      ]
+    }
+  ],
+  "currentMappingChecks": [
+    {
+      "measureId": "legislative-measure_8478447c9634a50c",
+      "questions": [
+        {
+          "key": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_291b76d86bf10187",
+      "questions": [
+        {
+          "key": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_7245be8e3aa053d0",
+      "questions": [
+        {
+          "key": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_af3e61c535070fc4",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_04484fc510649677",
+      "questions": [
+        {
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_83c3d0396d2709a2",
+      "questions": [
+        {
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_c883e8d5f1068ae6",
+      "questions": [
+        {
+          "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_1261893324a284b8",
+      "questions": [
+        {
+          "key": "us-policy-positions:government-operations.independent-redistricting",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_4f3f2e9ff9237a31",
+      "questions": [
+        {
+          "key": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_d8f39b17c8c0b619",
+      "questions": [
+        {
+          "key": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_4f7225128bd99efb",
+      "questions": [
+        {
+          "key": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_8311673c1cbb9d5d",
+      "questions": [
+        {
+          "key": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_55ac694c5e7e2578",
+      "questions": [
+        {
+          "key": "us-policy-positions:business-commerce.cap-development-incentives",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_01ecd023f3289d60",
+      "questions": [
+        {
+          "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_163f6df4afb9e2b4",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_117e45605c05b8c9",
+      "questions": [
+        {
+          "key": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_f323a3b69d4b5632",
+      "questions": [
+        {
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_d354944c68b9584f",
+      "questions": [
+        {
+          "key": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_06b30a52c30eca57",
+      "questions": [
+        {
+          "key": "us-policy-positions:labor-workforce.paid-family-leave",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_18bfa269852e6047",
+      "questions": [
+        {
+          "key": "us-policy-positions:business-commerce.cap-development-incentives",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_2c5e2c179d8566b2",
+      "questions": [
+        {
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_78920adec78dc0fd",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_314da499f321a7ca",
+      "questions": [
+        {
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_a7f72e59d8eb5502",
+      "questions": [
+        {
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_5aac3f049d45b7e5",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_6e22a32ae65e286c",
+      "questions": [
+        {
+          "key": "us-policy-positions:housing-land-use.rent-stabilization",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_ef2fee0639290aad",
+      "questions": [
+        {
+          "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_14ec160a7413a2cf",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_720cba852747b9bd",
+      "questions": [
+        {
+          "key": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "answer": "no",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_848935be26664da4",
+      "questions": [
+        {
+          "key": "us-policy-positions:civil-family-community.restrict-abortion",
+          "answer": "no",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_7008dc9e6ffcbb11",
+      "questions": [
+        {
+          "key": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "answer": "no",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_ddd7cd32c7ea99a3",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_2590b7f222ad205c",
+      "questions": [
+        {
+          "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_79a041e22a7ac892",
+      "questions": [
+        {
+          "key": "us-policy-positions:education.public-funds-for-private-schooling",
+          "answer": "no",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_84889ab90b3753b3",
+      "questions": [
+        {
+          "key": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_5435bcdcc38b9728",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_f68b0a6ef2c0d6c0",
+      "questions": [
+        {
+          "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_6eb834f8f15877cf",
+      "questions": [
+        {
+          "key": "us-policy-positions:housing-land-use.by-right-permitting",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_2b9b8927417a2a58",
+      "questions": [
+        {
+          "key": "us-policy-positions:education.universal-preschool",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_1bf622acce85ccac",
+      "questions": [
+        {
+          "key": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    },
+    {
+      "measureId": "legislative-measure_f826dacecfbe14b1",
+      "questions": [
+        {
+          "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "answer": "yes",
+          "mapped": false
+        }
+      ]
+    }
+  ],
+  "convertedOriginalStateCases": 0,
+  "stateGuardCompletion": "NOT COMPLETE: refuses fallback filing, supplies no sponsor term configuration"
 }
