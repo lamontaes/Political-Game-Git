@@ -164,3 +164,52 @@ Resolve each fact source event through `eventById(world, id)`.
 New plans use `applyCharacterHistoryPlan(world, plan)` and its returned world. The dossier is an access-aware presentation reader.
 
 The shared claim lock is now a regular file, so atomic directory acquisition refuses. Team 5 has not bypassed it. The scene presentation source remains unclaimed and unedited. Existing claimed paths remain available for this work.
+
+## Meeting-controls browser evidence
+
+Mara Bell, age 35, began an ordinary generated life in Carson City. On orientation card 2, the President's Full record opened by keyboard in the same overlay. Closing it returned to card 2. The expanded card had no dead Talk, travel, contact or Connected people controls.
+
+The player used Calendar's Make the journey, entered the meeting without passing time, selected a public comment and finished by keyboard. The meeting listed Elizabeth Arnold, Jessica Pacheco, Alexander Shields, Keith Guerrero and Harry Austin. No manufactured attendee speech appeared. The existing canned agenda and comment choices remain Team 1's dependency.
+
+Visual acceptance stopped at the empty room: all five attendees were listed, but no NPC figures rendered on the benches. The underlying renderer cause is unmeasured. The shared claim lock remains a regular file; Team 5 cannot safely claim renderer paths through the required atomic protocol. No art gate was bypassed.
+
+The browser reviewed clean source head `c13cf80b8d9d96efa6665b3914a2b5985b753c8a`, branch `codex/team-5-meeting-controls`, on port 6325. Its source digest and workspace identity are saved in `/private/tmp/team5-browser-810/identity.json`. Screenshots are opening-full-record.jpg, returned-card-two.jpg, meeting-attendees.jpg, meeting-comment.jpg and meeting-aftermath.jpg in that directory. These establish the functional route at the observed viewport; responsive acceptance and browser save/reload are NOT RUN.
+
+The first browser navigation exceeded the automation wait while the page loaded. The journey click also exceeded its browser-control wait; the next observation confirmed arrival at 6:30 PM. Neither observation is a timed performance benchmark. The owned review server was stopped after the captures.
+
+The focused local-chair case passes 1 test on this source head. Four changed-file typechecks, ESLint, Prettier and whitespace checks pass. The initial complete meeting file finished with 7 passing tests and 3 failures: two null-scene assertions in Washington, DC, and one null-scene assertion in Tafuna. Diagnosis found 13 canonical DC seats outside the municipal chair adapter, and no council seats or named notice host in Tafuna. The writer now reads the existing DC seats; the Tafuna case explicitly verifies refusal without invented attendees. The complete rerun was interrupted after the CTO prioritized the stale-News repair; NO RESULT. The earlier completed file remains 7 passed and 3 failed before the DC/refusal repair. No timeout was raised and no assertion was removed.
+
+## Touched-value audit under the latest anchor rule
+
+The latest CTO rule requires research covering every game place for empirical anchors, a per-world spread for non-law values, and each place's exact law for legal values. No new empirical estimate is introduced by these PRs. Existing compliant estimates elsewhere were not removed.
+
+| PR or change           | Exact field or reader                                                             | Source coverage                                                                  | Fixed or seeded                        | Remaining gap                                                                                                                                             |
+| ---------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Record-backed news     | `src/simulation/press/desk.ts`, `oldest = addDays(world.currentDate, -90)`        | Authored editorial window; no empirical research source                          | Fixed 90 days                          | This bounds which existing occurrences the opening paper can show. Compliance with the all-values ruling is unresolved; no research-backed claim is made. |
+| Meeting eligibility    | `src/simulation/ordinary-meeting-presence.ts`, `eligibleMeetingPerson` age cutoff | Existing prior attendee reader also used age 18; no jurisdiction-law source here | Fixed 18 years; unchanged threshold    | Jurisdiction-specific legal majority is not established by this reader. No new law claim or numerical calibration was added.                              |
+| Crisis retirement      | `src/simulation/pressure/events.ts`, removed international `chanceCap` and draw   | Synthetic producer retired                                                       | Removed fixed cap and during-play draw | Team 4 owns allowlist reconciliation. Unchanged domestic values were not recalibrated.                                                                    |
+| Opening desk frontier  | `src/simulation/press/desk.ts`, initial sequence frontier                         | Actual canonical event sequences                                                 | Fixed zero sentinel on first sweep     | A record-index boundary, not an empirical world value.                                                                                                    |
+| Playtest copy          | Setup benchmark removed from the screen; source computation unchanged             | No source or economic anchor introduced                                          | No new value                           | This is a disclosure change.                                                                                                                              |
+| Obsolete macro caption | `src/simulation/macro-economy/sources.ts`, comment caption                        | Source adapter unchanged                                                         | No value changed                       | No broader anchor-compliance claim.                                                                                                                       |
+
+## Renderer follow-up ownership
+
+The new persistent-file `flock` protocol worked. While holding its exclusive nonblocking lock, Team 5 rechecked the current claim table and claimed only `src/player/PlayerGame.tsx`, `src/presentation/backdrop-people.ts` and its test. The lock file was retained. Earlier mkdir refusals were from the superseded protocol.
+
+The measured consumer mismatch is that the retired meeting scene uses a place backdrop, whose people reader only selects on-shift staff. The recorded meeting actors are passed to the retired scene consumer instead. The newest CTO dispatch assigns this renderer repair to Claude; all three newly claimed consumer paths remain unedited. Existing raster, staging coordinates and asset approval state remain authoritative. Browser acceptance is routed to Claude under the latest dispatch.
+
+## Lock migration and next dispatched repair
+
+Team 5 holds no lock handle and has no queued acquisition. Claims-file writes and old flock acquisitions are stopped until coordinator release. No lock path was removed or replaced.
+
+The latest CTO dispatch assigns the obsolete News expectation in `src/player/PlayerSurfaceProvenance.test.tsx` to Team 5 on the actual playtest-copy branch. That is the next bounded deliverable. Claude owns the empty-bench renderer; Team 5 leaves renderer sources untouched. The effects map belongs to the coordinator.
+
+The preserved full-file rerun was stopped by Team 5 with SIGINT on its identified parent after the higher-priority dispatch. It emitted no final result. This is NO RESULT, not a timeout diagnosis or a passing suite. The source repair remains committed on the meeting-controls branch.
+
+## News assertion repair on its failing branch
+
+The actual playtest-copy branch contains the removal of News's repeated officeholder section. Its provenance test still required “In office” and “Office details.” Team 5 replaced those stale positive expectations with negative checks for both removed strings. It also checks that the public overview, public-institution content and recent-events heading actually rendered. All existing outbound-link, institutional-source and URL exclusions remain.
+
+The changed test and all five product source files pass the scoped typecheck: 6 files, zero selected-file diagnostics. The program also reported 5 diagnostics outside the selected files; this is not a full-project typecheck pass. The one-file provenance test passes 1/1. ESLint, Prettier and whitespace checks pass for the repair. The dispatched test path was claimed under the restored atomic mkdir protocol, after rechecking current ownership while held. No renderer source was edited.
+
+The News repair source checkpoint is `06ae82173aece9e148fec43f27621d68b821ada0` on the actual `codex/team-5-playtest-copy` branch. Logs are `/private/tmp/team5-news-provenance-rerun.log` and `/private/tmp/team5-playtest-copy-typecheck.log`. The test took 195.98 seconds including imports; its test body took 20.39 seconds. This is a focused markup proof, not browser acceptance.
