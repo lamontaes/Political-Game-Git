@@ -152,7 +152,7 @@ export function ensureVoterIdentification(world: World): World {
       estimatedCurrentId: have.has(personId),
       acquiredOn: null,
       stateKey: stateOf(world, personId)!,
-      basis: research.basis,
+      basis: "Photo identification is checked when a resident votes.",
     };
   return {
     ...world,
@@ -176,7 +176,7 @@ export function voterIdentificationIntent(
         "election.voted",
       ].includes(e.type) && e.participants.some((p) => p.personId === personId),
   );
-  if (civic) return `Recorded civic engagement at ${civic.stableKey}.`;
+  if (civic) return "Obtain identification before the next election.";
   const question = Object.values(world.policyCatalog.propositions).find(
     (p) => p.stableKey === PHOTO_ID_QUESTION,
   );
@@ -184,7 +184,7 @@ export function voterIdentificationIntent(
     ? principledLeaning(world, personId, question.id)
     : null;
   return lean && lean.recordIds.length && lean.score !== 0
-    ? `Own recorded policy engagement: principle score ${lean.score}, records ${lean.recordIds.join(", ")}.`
+    ? "The resident wants to be able to vote under the identification law."
     : null;
 }
 /** Intent books one actual weekday appointment; a future completion confirms the card and cost. */
@@ -341,7 +341,7 @@ export function applyVoterIdentification(world: World): World {
         next = createScheduledActivity(next, {
           stableKey: `voter-id-estimated-work:${work.id}:${serviceDate}`,
           title: role.title,
-          summary: `ESTIMATED FROM AVERAGE: ${research.shiftStartSource.basis} ${research.shiftStartSource.url} Actual job expects ${role.timeDemand.expectedWeekly.minimumHours} to ${role.timeDemand.expectedWeekly.maximumHours} weekly hours.`,
+          summary: `Work at ${role.title}.`,
           kind: "confirmed",
           backgroundCompletion: true,
           start: at(startMinute),
@@ -426,7 +426,7 @@ export function applyVoterIdentification(world: World): World {
           next = createScheduledActivity(next, {
             stableKey: `voter-id-work:${key}:${shift.id}:${part}`,
             title: shift.title,
-            summary: `Recorded shift outside the voter identification visit. ${shift.summary}`,
+            summary: `Work outside the identification appointment. ${shift.summary}`,
             kind: shift.kind,
             start: at(from),
             end: at(until),

@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { openWatchedWorld } from "../../scripts/dev-lab/world-aging";
+import { createDemoWorld } from "./demo";
+import { createProductionPolicyCatalog } from "./production-catalog";
+import { createPolicyCatalog } from "./policy";
+import { ensureJurisdiction } from "./national-election-geography";
 import { prepareLawPair } from "../../scripts/laws-proof/enact";
 import { advanceObservedWorld } from "../presentation/observer-world";
-import { stateJurisdictionForKey } from "./life-places";
+import { lifePlaceByKey, stateJurisdictionForKey } from "./life-places";
 import { legislatureForState } from "./legislature-game-profile";
 import { principledLeaning } from "./governing/officeholder-principles";
-import { recordWorkStatus } from "./life";
+import { createWorkRelationship, recordWorkStatus } from "./life";
 import { workStatusAt } from "./life-queries";
 import {
   residentApplicationBlocked,
@@ -24,9 +27,69 @@ import { resourcePositionAt } from "./resource-queries";
 import { money } from "./resources";
 import { assertWorldIntegrity } from "./world";
 
+/** Six canonical people and one authored office; no nationwide opening or unrelated careers. */
+function boundedOfficeFixture() {
+  const place = lifePlaceByKey("1700113")!;
+  let world = createDemoWorld("cooling-off-records", {
+    context: place.context,
+  });
+  const production = createProductionPolicyCatalog();
+  const existing = world.policyCatalog;
+  world = {
+    ...world,
+    policyCatalog: createPolicyCatalog({
+      catalogVersion: "controlled-post-office-law",
+      domains: Object.values({ ...existing.domains, ...production.domains }),
+      issues: Object.values({ ...existing.issues, ...production.issues }),
+      propositions: Object.values({
+        ...existing.propositions,
+        ...production.propositions,
+      }),
+      subjects: Object.values({ ...existing.subjects, ...production.subjects }),
+      principles: Object.values({
+        ...existing.principles,
+        ...production.principles,
+      }),
+    }),
+  };
+  const state = stateJurisdictionForKey("US-IL")!;
+  world = ensureJurisdiction(world, state);
+  const personId = world.personOrder[3]!;
+  world = createWorkRelationship(world, {
+    stableKey: "controlled-former-legislator-office",
+    personId,
+    organizationId: world.history.organizations[0]!.id,
+    startedAt: world.currentDate,
+    kind: "employment:legislative-member",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance: {
+      kind: "authored",
+      note: "One fictional public-office relationship for the bounded eligibility/pay regression.",
+    },
+    initialRole: {
+      title: "State legislator",
+      occupationClassification: "occupation:legislator",
+      locationJurisdictionId: state.id,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 20, maximumHours: 40 },
+        attention: "high",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: state.id,
+      },
+    },
+  });
+  assertWorldIntegrity(world);
+  return { world, anchorPersonId: personId };
+}
+
 describe("post-office lobbying uses real vacancies and eligibility", () => {
   it("blocks an actual former member from the lobbying application and leaves a lower-paid next choice", () => {
-    const opened = openWatchedWorld("cooling-off-records", "1700113");
+    const opened = boundedOfficeFixture();
     const question = Object.values(
       opened.world.policyCatalog.propositions,
     ).find((p) => p.stableKey === COOLING_OFF_QUESTION)!;
@@ -35,7 +98,6 @@ describe("post-office lobbying uses real vacancies and eligibility", () => {
       rulePackId: legislatureForState("US-IL")!.packId,
       propositionId: question.id,
       sponsorPersonId: opened.anchorPersonId,
-      advance: advanceObservedWorld,
     };
     const noBar = prepareLawPair(opened.world, {
       ...input,
@@ -81,7 +143,7 @@ describe("post-office lobbying uses real vacancies and eligibility", () => {
     ).toBeNull();
     expect(
       lobbyingBar(pair.treated, office.personId, lobbying.organizationId),
-    ).toContain("24 months");
+    ).toContain("24-month waiting period");
     expect(
       residentApplicationBlocked(pair.control, office.personId, lobbying.id),
     ).toBeNull();

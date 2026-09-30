@@ -1,3 +1,4 @@
+import type { LawOutcomeCalibration } from "./law-outcome-calibration";
 import type { LibraryMaterialsStore } from "./library-materials-types";
 import type { VoterIdentificationStore } from "./voter-identification-types";
 import type { ImmigrationAdmission } from "./immigration-admission-types";
@@ -5512,6 +5513,11 @@ export interface World {
   readonly generatorVersion: WorldGeneratorVersion;
   readonly id: EntityId;
   readonly seed: string;
+  /** Opening-only development calibration targets, never outcome multipliers. */
+  readonly openingLobbyistAnnualPayCents?: Readonly<Record<string, number>>;
+  readonly lawOutcomeCalibration?: Readonly<
+    Record<string, LawOutcomeCalibration>
+  >;
   readonly startedAt: IsoDate;
   readonly currentDate: IsoDate;
   readonly currentMoment: SimulationMoment;

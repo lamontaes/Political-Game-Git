@@ -115,7 +115,7 @@ export function ensureCongressInvestments(world: World): World {
           : 0,
         diversifiedFundCents: 0,
         basis:
-          "ESTIMATED FROM AVERAGE: SCF age-band family wealth scaled by the college-family median; the individual's recorded cash is preserved. Individual-share allocation is the SCF ratio of conditional medians; ownership ranks wealth and own risk tolerance against the filed-disclosure cohort (data/research/laws/congressional-stock-trading.json).",
+          "Opening holdings reflect the member’s age, wealth and risk tolerance; existing cash balances are retained.",
       };
       if (
         !resourcePositionAt(
@@ -136,7 +136,7 @@ export function ensureCongressInvestments(world: World): World {
           ),
           provenance: {
             kind: "authored",
-            note: "ESTIMATED FROM AVERAGE: liquid share from SCF transaction-account and family-wealth medians; no existing balance replaced.",
+            note: "Opening liquid funds; existing balances are retained.",
           },
         });
     }
@@ -433,7 +433,8 @@ export function applyCongressStockBan(
       const deliberation = personTrait(next, id, "deliberation").value;
       const risk = personTrait(next, id, "risk").value;
       const leaning = views.score + reliability - deliberation - risk;
-      const reason = `DECIDED: principle score ${views.score} (records ${views.recordIds.join(", ") || "none"}), reliability ${reliability}, impulsiveness ${deliberation}, risk tolerance ${risk}; compliance leaning ${leaning}. Diversified funds cost ${research.diversifiedFundFeeBasisPoints}/10000 annually, less than the bill's ${fine} cent fine.`;
+      const reason =
+        "The member keeps individual stocks despite the ownership ban.";
       if (active && memberSet.has(id) && portfolio.individualStockCents > 0) {
         if (leaning < 0) {
           next = charge(
@@ -478,7 +479,7 @@ export function applyCongressStockBan(
           on,
           "fund-fee",
           fee,
-          reason,
+          "Monthly management fee for the member’s diversified holdings.",
         );
     }
     return next;

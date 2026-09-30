@@ -3,7 +3,6 @@
   "registeredLobbyistsPA2024": 1383,
   "registeredFirmsPA2024": 161,
   "populationPA2024": 13078751,
-  "annualPayMean": 80310,
   "annualRevenuePerFirmMean": 2277122.3687254223,
   "proposalCoolingMonths": 24,
   "startingPeriods": {
@@ -29,11 +28,11 @@
       "basis": "Two years after the term ends: a former member of the General Assembly elected on or after 11/4/2014 may not register as a lobbyist until two years after the end of the term (source is the Ethics Commission rule text revised 1/31/2020)."
     },
     "US-AS": {
-      "legislatorMonths": 0,
+      "legislatorMonths": null,
       "startAt": "leaving-office",
       "cite": null,
       "source": null,
-      "basis": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer no), because this place's own law could not be read."
+      "basis": "UNKNOWN: this jurisdiction\u2019s own former-legislator restriction has not been verified; another territory\u2019s rule is not substituted."
     },
     "US-AZ": {
       "legislatorMonths": 0,
@@ -220,7 +219,7 @@
     },
     "US-NC": {
       "legislatorMonths": 6,
-      "startAt": "session-end",
+      "startAt": "later-of-departure-and-session-end",
       "cite": "N.C. Gen. Stat. \u00a7 120C-304(a)",
       "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120C/GS_120C-304.html",
       "basis": "Six months or the end of the session, whichever is later: a former legislator may not register as a lobbyist before the later of the close of the session in which he or she served or six months after leaving office."
@@ -630,21 +629,1223 @@
   },
   "sources": {
     "registrations": "https://www.pa.gov/content/dam/copapwp-pagov/en/dos/resources/voting-and-elections/lobbying-disclosure/reports/2024-dos-lobbying-annual-report-final.pdf",
-    "pay": "https://www.bls.gov/news.release/archives/ocwage_04022025.pdf",
+    "pay": "https://www.salary.com/research/salary/alternate/lobbyist-salary",
     "revenue": "https://fred.stlouisfed.org/series/REVEF54182ALLEST",
     "establishments": "https://data.census.gov/profile/541820_-_Public_relations_agencies?codeset=naics~541820",
     "transitions": "https://sites.bu.edu/fisman/files/2026/01/Revolving_Door-15.pdf",
-    "startingLaw": "data/research/laws/starting-law-2026.json"
+    "startingLaw": "data/research/laws/starting-law-2026.json",
+    "nonLobbyPay": "https://www.bls.gov/news.release/archives/ocwage_04022025.pdf"
   },
-  "basis": "ESTIMATED FROM AVERAGE: unread registered-firm counts use Pennsylvania 2024 firms per resident with a stable world spread. Actual pay uses May 2024 PR-specialist national mean 80310 dollars as a lobbying-pay proxy. Census 2022 public-relations receipts divided by 2023 establishments estimate fee revenue per firm; these universes and years differ. An initial month of those estimated receipts funds the firm, explicitly estimated opening working capital. Two years is an authored proposal; statutory starting periods are retained separately. The revolving-door 12-percent benchmark never picks who applies. Nonlobbying PR vacancies use the same occupation's May 2024 median 69780 dollars; this is a disclosed distribution proxy, not a measured revolving-door wage premium.",
+  "basis": "ESTIMATED FROM AVERAGE: unread registered-firm counts use Pennsylvania 2024 firms per resident with a stable world spread. Lobbying salary uses the September 2026 Salary.com lobbyist-specific modeled all-state source with its national 25th-75th percentile spread, drawn and saved at world creation. It is employer-posting/third-party estimated salary, not registered lobbying fees. Territory salaries use the named national anchor; no observed territorial pay is asserted. Census 2022 public-relations receipts divided by 2023 establishments estimate fee revenue per firm; these universes and years differ. An initial month of those estimated receipts funds the firm, explicitly estimated opening working capital. Two years is an authored proposal; statutory starting periods are retained separately. The revolving-door 12-percent benchmark never picks who applies. Nonlobbying PR vacancies use the same occupation's May 2024 median 69780 dollars; this is a disclosed distribution proxy, not a measured revolving-door wage premium.",
   "placeholders": [
     "Capital firms are fictional employers with estimated counts and receipts, not real named registrants. Only the first firm is materialized until additional openings require another.",
     "Corporate-wide matter/client-specific conflicts remain outside this period gate.",
-    "Starting executive periods beyond Connecticut and Virginia reuse the documented legislator period as an explicit cross-role estimate; exact senior-official statutes remain unread.",
-    "Term/session-end start dates use recorded expected expiry and session due items; missing calendars use a labeled estimate from the current recorded term and existing session profile.",
-    "Lobbying pay uses PR-specialist mean; differences among real firms and former-officeholders are unread.",
-    "Initial liquid working capital equals one month of estimated receipts; no actual firm cash statement was read."
+    "Initial liquid working capital equals one month of estimated receipts; no actual firm cash statement was read.",
+    "Executive restrictions retain each jurisdiction\u2019s researched role, target agency/matter and effective-date scope. The generic vacancy has no lobbying client/target record, so starting-law executive eligibility requires confirmation rather than an invented blanket prohibition.",
+    "A legal term or session trigger requires its actual recorded date. Missing dates are unknown and cannot be replaced by departure or a two-year estimate."
   ],
   "annualNonLobbyPayMedian": 69780,
-  "publicRelationsEstablishmentsUS2023": 8646
+  "publicRelationsEstablishmentsUS2023": 8646,
+  "startingExecutiveRules": {
+    "US-AL": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "Ala.Code36-25-13(a)",
+          "source": "https://www.ethics.alabama.gov/docs/Alabama%20Ethics%20Act%20-%20Unofficial%20Restated%20Version%20%282022%29.pdf",
+          "roles": "appointed public officials",
+          "scope": "paid lobbying or representation before former governmental body",
+          "startAt": "leaves membership",
+          "excerpt": "for a period of two years after he or she leaves such membership",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official 2022 restatement; current amendment check remaining"
+        },
+        {
+          "months": 24,
+          "cite": "Ala.Code36-25-13(b)",
+          "source": "https://www.ethics.alabama.gov/docs/Alabama%20Ethics%20Act%20-%20Unofficial%20Restated%20Version%20%282022%29.pdf",
+          "roles": "elected public officials including executive officials",
+          "scope": "paid lobbying or client representation before former body",
+          "startAt": "end of term elected to, even if resigned earlier",
+          "excerpt": "two years following the term of office for which he or she was elected",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official 2022 restatement; current amendment check remaining"
+        },
+        {
+          "months": 24,
+          "cite": "Ala.Code36-25-13(c)",
+          "source": "https://www.ethics.alabama.gov/docs/Alabama%20Ethics%20Act%20-%20Unofficial%20Restated%20Version%20%282022%29.pdf",
+          "roles": "public employees including consultants, agency transfers and loan arrangements",
+          "scope": "paid lobbying or client representation before former agency",
+          "startAt": "leaves employment or working arrangement",
+          "excerpt": "for a period of two years after he or she leaves such employment or working arrangement",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official 2022 restatement; current amendment check remaining"
+        }
+      ]
+    },
+    "US-AK": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "AS 39.52.180(d)",
+          "source": "https://law.alaska.gov/doclibrary/ethics/EthicsAct.html",
+          "roles": "Governor, lieutenant governor, department head/deputy, division director/liaison, policymaking Governor/LG staff, covered boards/public-corporation executives",
+          "scope": "Activity as lobbyist under AS24.45; volunteer and representational lobbyist exceptions",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "for a period of one year after leaving that position",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        },
+        {
+          "months": 24,
+          "cite": "AS 39.52.180(a)",
+          "source": "https://law.alaska.gov/doclibrary/ethics/EthicsAct.html",
+          "roles": "former public officer",
+          "scope": "Paid representation/advice/assistance in personally and substantially participated matters before former administrative unit",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "may not, for two years after leaving state service",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-AZ": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "ARS38-504(A)",
+          "source": "https://www.azleg.gov/ars/38/00504.htm",
+          "roles": "former public officer/employee",
+          "scope": "Paid representation before former agency limited to matters personally participated in through substantial material administrative discretion",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "within the preceding twelve months",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        },
+        {
+          "months": 12,
+          "cite": "ARS41-1233(5)",
+          "source": "https://www.azleg.gov/ars/41/01233.htm",
+          "roles": "employee with significant procurement role",
+          "scope": "Lobbying former public body in procurement of materials/services/construction",
+          "startAt": "leaving-employment",
+          "excerpt": "within one year after the person ceases to be employed",
+          "retrievedAt": "2026-09-29",
+          "status": "official indexed statute"
+        }
+      ]
+    },
+    "US-AR": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-CA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "Gov.Code87406;2CCR18746.1",
+          "source": "https://www.fppc.ca.gov/siteassets/documents/legal_div/regulations/01_index/chapter_07/18746.1._Revolving_Door_State_One-Year_Ban.pdf",
+          "roles": "former elected state officials other than legislators",
+          "scope": "paid appearances/communications before any state administrative agency to influence administrative/discretionary licensing, grants/contracts/property actions",
+          "startAt": "permanently leaves office",
+          "excerpt": "The appearance or communication is made within one year after leaving that office or employment.",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official primary text"
+        },
+        {
+          "months": 12,
+          "cite": "Gov.Code87406(d);2CCR18746.1",
+          "source": "https://www.fppc.ca.gov/siteassets/documents/legal_div/regulations/01_index/chapter_07/18746.1._Revolving_Door_State_One-Year_Ban.pdf",
+          "roles": "decisionmaking board members; designated or should-be-designated agency employees; enumerated87200 officials",
+          "scope": "paid influence former agency and agencies under its control; governor designated staff cover agencies under governor control",
+          "startAt": "permanently leaves office/employment",
+          "excerpt": "An employee loaned to an agency is deemed to have worked for or represented that agency.",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official primary text"
+        }
+      ]
+    },
+    "US-CO": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Named elected executive roles and named target officials; ordinary public employee six-month guidance not substituted.",
+        "evidenceFile": "executive-additional-evidence-part8.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "Colorado Constitution Article XXIX \u00a74",
+          "source": "https://content.leg.colorado.gov/sites/default/files/frequently_asked_questions_on_article_xxixs_revolving_door_provision.pdf",
+          "roles": "statewide elected officeholders (and General Assembly members)",
+          "scope": "Personally represent another person/entity for compensation before another statewide elected officeholder or General Assembly member; does not blanket cover all executive employees or all targets.",
+          "startAt": "vacation of office",
+          "excerpt": "period of two years following vacation of office",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_2024_LEGAL_SERVICES_MEMO; constitutional text quoted; 2026 statutory lobbyist amendments require separate assessment"
+        }
+      ]
+    },
+    "US-CT": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "CGS1-84b(b)",
+          "source": "https://portal.ct.gov/ethics/advisory-opinions/2007/2007-6",
+          "roles": "executive/quasi-public official or employee",
+          "scope": "Paid representation before former agency concerning any substantial state-interest matter; lifetime personally participated matter bar separate",
+          "startAt": "leaving-state-service",
+          "excerpt": "for one year after leaving state service",
+          "retrievedAt": "2026-09-29",
+          "status": "official advisory quotes statutory text; current court confirms"
+        }
+      ]
+    },
+    "US-DE": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "29 Del. C. \u00a75805(d)",
+          "source": "https://delcode.delaware.gov/title29/c058/sc01/",
+          "roles": "Former state employee, state officer or honorary state official",
+          "scope": "Representing/assisting private enterprise on State matter on which person gave opinion, investigated or was directly/materially responsible; not blanket lobbyist employment ban",
+          "startAt": "Termination of employment or appointed status",
+          "excerpt": "for a period of 2 years after termination of employment or appointed status",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-DC": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Applyonly namedroles/target/matter; no scalarfallback",
+        "evidenceFile": "executive-additional-evidence-part9.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "6BDCMR1811.10-.18",
+          "source": "https://edpm.dc.gov/chapter/18/",
+          "roles": "former District employee; specialgovernment<130days exception",
+          "scope": "transactions influencing formeragency particular governmental matter; own representation included; newmatter government/university/nonprofithospital exceptions; witness/scientific exceptions",
+          "startAt": "leaving employment",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        },
+        {
+          "months": 24,
+          "cite": "6BDCMR1811.5-.7",
+          "source": "https://edpm.dc.gov/chapter/18/",
+          "roles": "former District employees",
+          "scope": "priorofficialresponsibility matter pending during last12months; formal/informal agency representation",
+          "startAt": "end of responsibility for particular matter",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        },
+        {
+          "months": null,
+          "cite": "6BDCMR1811.3-.4",
+          "source": "https://edpm.dc.gov/chapter/18/",
+          "roles": "former District employees",
+          "scope": "personal/substantial prior specific-party matters: appearance or influencingcommunication before agency",
+          "startAt": "leaving employment",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE",
+          "duration": "PERMANENT_PRIOR_MATTER"
+        }
+      ]
+    },
+    "US-FL": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 72,
+          "cite": "FloridaConstitutionArtII8(f)(3)(a)",
+          "source": "https://www.flsenate.gov/Laws/Constitution",
+          "roles": "statewide elected officers including governor and cabinet",
+          "scope": "paid lobbying on policy,appropriations,procurement before legislature or any state governmental body/agency",
+          "startAt": "vacation of public position",
+          "excerpt": "for a period of six years after vacation of public position",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official primary text"
+        },
+        {
+          "months": 72,
+          "cite": "FloridaConstitutionArtII8(f)(3)(b)",
+          "source": "https://www.flsenate.gov/Laws/Constitution",
+          "roles": "secretary, executive director or other executive department agency head",
+          "scope": "paid policy/appropriations/procurement lobbying legislature,governor,EOG,cabinet,cabinetheadeddepartments,formerdepartment",
+          "startAt": "vacation of public position",
+          "excerpt": "A person serving as a secretary, an executive director, or other agency head",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official primary text"
+        }
+      ]
+    },
+    "US-GA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "OCGA21-5-75 (official2011edition; current amendment verification pending)",
+          "source": "https://media.ethics.ga.gov/Commission/pdf/EthicsInGovernmentAct.pdf",
+          "roles": "Constitutional officers/electedstateofficials/executiveheads and stateboard/commission/authority executive directors",
+          "scope": "Registration/engaging lobbying; exception remains employedstategovernment",
+          "startAt": "Termination of employment/leavingoffice",
+          "excerpt": "a period of one year after terminating such employment or leaving such office.",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE_HISTORICAL_EDITION_CURRENTNESS_PENDING"
+        }
+      ]
+    },
+    "US-HI": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "HRS84-18(c)",
+          "source": "https://data.capitol.hawaii.gov/hrscurrent/Vol02_Ch0046-0115/HRS0084/HRS_0084-0018.htm",
+          "roles": "former employees, except taskforce-only members and under181days employment",
+          "scope": "paid direct representation on personally participated matters or former agency official actions; state employment exception",
+          "startAt": "termination of employment",
+          "excerpt": "No former employee, within twelve months after termination of the former employee's employment",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official primary text"
+        },
+        {
+          "months": 12,
+          "cite": "HRS84-18(e)",
+          "source": "https://data.capitol.hawaii.gov/hrscurrent/Vol02_Ch0046-0115/HRS0084/HRS_0084-0018.htm",
+          "roles": "governor, lieutenant governor, AG, comptroller, listed agency heads and senior officers (41 listed); interim/acting under181days excluded",
+          "scope": "paid direct representation on any legislative or administrative action",
+          "startAt": "termination from listed position",
+          "excerpt": "for twelve months after termination from their respective positions",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED official primary text"
+        }
+      ]
+    },
+    "US-ID": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-IL": {
+      "availability": {
+        "status": "KNOWN_SCOPED_RULE",
+        "reason": "Exact executive order and current OEIG guidance read. Six-month constitutional-officer statute remains separately indexed-only; not a replacement for this rule."
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "Executive Order 15-09 \u00a7II.2 (effective February 15, 2015)",
+          "source": "https://eec.illinois.gov/executive-order/executive-order-15-09.html",
+          "roles": "former employees, officers, or board members of executive State Agencies within the governor's executive-order jurisdiction",
+          "scope": "Accept compensation for lobbying any executive State Agency; not merely former agency. Do not apply automatically to all constitutional officers outside governor jurisdiction.",
+          "startAt": "leaving position with a State Agency",
+          "excerpt": "within one year after leaving his or her position",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_EXECUTIVE_ORDER; current OEIG guidance confirms continued application",
+          "corroboration": "https://oeig.illinois.gov/contact-us/request-for-revolving-door.html"
+        }
+      ]
+    },
+    "US-IN": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "IC4-2-6-11(b);42IAC1-5-14(b)",
+          "source": "https://www.in.gov/ig/ethics-code/post-employment-restrictions/",
+          "roles": "Former state officers/employees/special appointees; excludes solely advisory-body special appointees; waiver provisions",
+          "scope": "Accept employment/compensation as executive lobbyist; covered employer contract/regulatory/ALJ conditions separately; lobbyist statutory definition still requires exactread",
+          "startAt": "365 days after cessation of state role",
+          "excerpt": "before the elapse of at least three hundred sixty-five (365) days",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-IA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "Iowa Code68B.5A(4)-(6)",
+          "source": "https://www.legis.iowa.gov/docs/code/2026/68B.pdf",
+          "roles": "statewide elected officers, agency head/deputy; major subunit heads, elected-office staff; other employees",
+          "scope": "First roles no lobbyist generally; second roles former agency/substantial regular contacts; others personally concerned particular matters; government employee exception subsection7",
+          "startAt": "termination-of-service-or-employment",
+          "excerpt": "shall not within two years after the termination of service",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-KS": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-KY": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "KRS11A.040(8)-(9);11A.010(9),(11)",
+          "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=55961",
+          "roles": "Former public servants: elected executive officers, all executive employees, full-time nonseasonal contractual employees; Horse Racing/Gaming Corporation member exception",
+          "scope": "Lobbyist/principal on directly involved matter during final36months; representing person/business before stateagency on same matter. Includes legislative and executive lobbyists",
+          "startAt": "Later of leaving/termination and expiration of elected term",
+          "excerpt": "for a period of one (1) year after the latter",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-LA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "LaRS42:1121(A)(1)",
+          "source": "https://ethics.la.gov/Pub/Laws/ethiclaw.pdf",
+          "roles": "former agency head or elected official",
+          "scope": "Paid assistance/appearance in transaction involving former agency; contractual service to former agency",
+          "startAt": "termination-of-public-service",
+          "excerpt": "for a period of two years following the termination",
+          "retrievedAt": "2026-09-29",
+          "status": "official historical code PDF; needs current statute cross-check"
+        }
+      ]
+    },
+    "US-ME": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "3 MRS \u00a7318-B (effective January 1, 2026)",
+          "source": "https://legislature.maine.gov/statutes/3/title3.pdf",
+          "roles": "Former executive officers and employees in classified/unclassified service, governor-adjusted salary positions and major policy-influencing positions",
+          "scope": "Compensated lobbying under \u00a7312-A(9); excludes State/agency employment and expense-only reimbursement as defined",
+          "startAt": "Termination of executive employment",
+          "excerpt": "may not engage in compensated lobbying until one year after the termination",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-MD": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "GeneralProvisions5-504(d)(2)(ii)2",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/laws/StatuteText?article=ggp&section=5-504",
+          "roles": "former governor,LG,AG,comptroller,treasurer,principaldepartmentsecretary",
+          "scope": "paid assistance/representation on legislativeaction; municipal/county/stateentityexception",
+          "startAt": "leaves State office",
+          "excerpt": "for 1 year from the date the official leaves State office",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED direct current official statutory text"
+        },
+        {
+          "months": null,
+          "cite": "GeneralProvisions5-504(d)(1)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/laws/StatuteText?article=ggp&section=5-504",
+          "roles": "formerofficials/employees",
+          "scope": "permanentpaidassist/representation in specificStatecase/contract/mattersignificantlyparticipated; notblanketlobbyban",
+          "startAt": "separation",
+          "excerpt": "the former official or employee participated significantly in the matter",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED direct current official statutory text"
+        }
+      ]
+    },
+    "US-MA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "MGL268A5(e)",
+          "source": "https://malegislature.gov/laws/generallaws/partiv/titlei/chapter268a/section5",
+          "roles": "formerstateemployees/electedofficials",
+          "scope": "legislative/executiveagentfornonStatebeforeassociatedgovernmentalbodydeterminedbyethicscommission",
+          "startAt": "leavesassociatedbody",
+          "excerpt": "within one year after he leaves that body",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED direct current official statutory text"
+        },
+        {
+          "months": 12,
+          "cite": "MGL268A5(b)",
+          "source": "https://malegislature.gov/laws/generallaws/partiv/titlei/chapter268a/section5",
+          "roles": "formerstateemployees",
+          "scope": "personalagent/attorneyappearancesinStateparticularmatterunderofficialresponsibilityinlast2years; permanentparticipatedmatterbarseparate",
+          "startAt": "lastemploymentceased",
+          "excerpt": "within one year after his last employment has ceased",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED direct current official statutory text"
+        }
+      ]
+    },
+    "US-MI": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "2026PA75 official indexed enacted; exacttextfetch403/502. Enrolledmirror lead24months applies termsbeginningJan1,2027+, not accepted primarytext.",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-MN": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Current official 2025 Minnesota Statutes \u00a7\u00a7342.02 and 342.03 read; neither contains cannabis director/council post-service lobbying clause. Search results containing two-year council ban were proposed bills, not current text. Other executive restrictions remain unverified.",
+        "sources": [
+          "https://www.revisor.mn.gov/statutes/cite/342.02",
+          "https://www.revisor.mn.gov/statutes/cite/342.03"
+        ]
+      },
+      "rules": []
+    },
+    "US-MS": {
+      "availability": {
+        "status": "SCOPED_PERMANENT_RULE_FOUND",
+        "reason": "Finite blanket cooling period remains UNKNOWN; permanent specific prior-matter restriction verified.",
+        "evidenceFile": "executive-additional-evidence-part8.json"
+      },
+      "rules": [
+        {
+          "months": null,
+          "duration": "PERMANENT_PRIOR_MATTER",
+          "cite": "Miss.Code25-4-105(3)(e)",
+          "source": "https://www.ethics.ms.gov/ethicsingovernmentlaws",
+          "roles": "former public servants; elected/appointed officials and government officers/employees within25-4-103(p)",
+          "scope": "Paid services for a person/business concerning a case, decision, proceeding or application in which directly concerned or personally participated during service; no finite general lobbying wait established.",
+          "startAt": "termination of office/employment",
+          "excerpt": "after termination of his office or employment",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_CODE"
+        }
+      ]
+    },
+    "US-MO": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "RSMo105.454.1(5)",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=105.454",
+          "roles": "elected/appointedofficials/employeesexecutiveoradministrativecapacity",
+          "scope": "paidserviceinfluenceanyStateagencyorassociated/supervisedpoliticalsubdivision; adversaryproceeding/publicdocument/Stateexecutivejobexceptions",
+          "startAt": "office/employmenttermination",
+          "excerpt": "during one year after termination of his or her office or employment",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED direct current official statutory text"
+        }
+      ]
+    },
+    "US-MT": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "MCA5-7-310",
+          "source": "https://mca.legmt.gov/bills/mca/title_0050/chapter_0070/part_0030/section_0100/0050-0070-0030-0100.html",
+          "roles": "elected state official, department director, appointed state official, defined personal staff",
+          "scope": "No lobbyist license or principal authorization; state/local government employment exception",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "during the 24 months prior to applying for a license",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-NE": {
+      "availability": {
+        "status": "UNKNOWN_POST_EMPLOYMENT",
+        "reason": "Exact49-14,104 read: restriction applies to current executive officials/full-timeemployees, not former; no former-office period inferred.",
+        "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=49-14,104"
+      },
+      "rules": []
+    },
+    "US-NV": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "NRS281A.410.1(b)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-281A.html",
+          "roles": "Stateexecutiveagencyofficers/employees",
+          "scope": "paidprivatepersonrepresentation/counselonissueagencyconsideredduringservice; issueexcludeslegislativeproposals/adminregulations;678A360exception",
+          "startAt": "leavesagencyservice",
+          "excerpt": "for 1 year after leaving the service of the agency",
+          "retrievedAt": "2026-09-29",
+          "status": "VERIFIED direct current official statutory text"
+        }
+      ]
+    },
+    "US-NH": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 6,
+          "cite": "RSA21-G:26",
+          "source": "https://gc.nh.gov/rsa/html/I/21-G/21-G-26.htm",
+          "roles": "executive official/classified employee",
+          "scope": "No lobbyist appearance to directly promote/oppose pending/proposed legislation or executive matters/personal direct responsibility matters",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "For 6 months after leaving office or employment",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-NJ": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "NJS52:13C-21.4; Uniform Ethics Code",
+          "source": "https://www.nj.gov/ethics/statutes/guide/empl-restrictions/",
+          "roles": "governor/principal department heads; additional specified senior executive roles",
+          "scope": "Governor/principal heads cannot register governmental affairs agent; listed senior executives cannot paid represent before former agency; perpetual specific-matter restriction separate",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "for one year after the termination of office or employment",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-NM": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Applyonly namedroles/target/matter; no scalarfallback",
+        "evidenceFile": "executive-additional-evidence-part9.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "NMSA10-16-8(D)",
+          "source": "https://nmdoj.gov/wp-content/uploads/Governmental-Conduct-Act-Compliance-Guide.pdf",
+          "roles": "former publicofficers/employees",
+          "scope": "paidrepresenting another before priorstate/localagency",
+          "startAt": "leaving governmentservice/employment",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_GUIDE; current statutory amendment check pending"
+        },
+        {
+          "months": null,
+          "cite": "NMSA10-16-8(B)",
+          "source": "https://nmdoj.gov/wp-content/uploads/Governmental-Conduct-Act-Compliance-Guide.pdf",
+          "roles": "former publicofficers/employees",
+          "scope": "representanother in governmentdealings on priorpersonally/substantiallyparticipated matter",
+          "startAt": "leavingservice",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_GUIDE; currentness check pending",
+          "duration": "PERMANENT_PRIOR_MATTER"
+        }
+      ]
+    },
+    "US-NY": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "Public Officers Law73(8)(a)",
+          "source": "https://ethics.ny.gov/node/726",
+          "roles": "statewide elected officials, state officers/employees, public authority officers/employees; excludes unpaid/per diem",
+          "scope": "Former agency appearance/practice and paid backroom services; Executive Chamber staff appearance reaches any agency; lifetime specific matter bar separate",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "a \u201ctwo-year bar\u201d and a \u201clifetime bar.\u201d",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-NC": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 6,
+          "cite": "GS120C-304(b)-(c)",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120C/GS_120C-304.html",
+          "roles": "public servants defined138A-3(70)a/c; other agency employees",
+          "scope": "Specified public servants cannot register at all; other former employees cannot register to lobby former agency after voluntary/for-cause separation",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "within six months after leaving office",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-ND": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "NDConstitutionArtXIV\u00a72(2)",
+          "source": "https://www.legis.nd.gov/constit/a14.pdf",
+          "roles": "Elected public officials, including electedexecutive; doesnotcoverordinaryappointedstaff by thisclause",
+          "scope": "Being a lobbyist",
+          "startAt": "After holdingoffice",
+          "excerpt": "An elected public official may not be a lobbyist while holding office or for two years",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-OH": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "Ohio RC102.03(A)(1),(5)-(9)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-102.03",
+          "roles": "Former public officials/employees",
+          "scope": "Representation on personally participated matter; excludes statutes, rules, ordinances/resolutions/charter amendments. Public-agency and ministerial exceptions",
+          "startAt": "End public employment/service",
+          "excerpt": "for twelve months thereafter",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        },
+        {
+          "months": 24,
+          "cite": "Ohio RC102.03(A)(2)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-102.03",
+          "roles": "Former public utilities commissioner or attorney examiner",
+          "scope": "Representing public utility before any state board, commission or agency",
+          "startAt": "Conclusion of service",
+          "excerpt": "For twenty-four months after the conclusion of service",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-OK": {
+      "availability": {
+        "status": "UNKNOWN_POST_EMPLOYMENT",
+        "reason": "Exact2026.1rulesMay14read:5.28restricts currentofficers/employees. 2018pressrelease2yearrule prospectively adopted, priorversionrejected; not2026bindingrule evidence.",
+        "source": "https://www.oklahoma.gov/content/dam/ok/en/ethics/documents/resources/laws/ANNOTATEDEthicsCommissionRules.pdf"
+      },
+      "rules": []
+    },
+    "US-OR": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Exact2025editionread;2026amendmenttablecheckpending. Noordinarygovernorblanketrulein244045; enumeratedrolesonly.",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "roles": "PUCcommissioner;DCBSdirector;financialregadministrator;OLCCadministrator;Lotterydirector",
+          "scope": "Lobby/represent/influence formeragency",
+          "cite": "ORS244.045(1)-(4),2025edition",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
+          "startAt": "Cessation of specifiedposition",
+          "excerpt": "may not, within two years after the person ceases to hold the position",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        },
+        {
+          "months": 24,
+          "roles": "Deputy/assistantAttorneyGeneral",
+          "scope": "Lobby/appearbeforeagenciesrepresentedwhileDOJ-employed",
+          "cite": "ORS244.045(1)-(4),2025edition",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
+          "startAt": "Cessation of specifiedposition",
+          "excerpt": "may not, within two years after the person ceases to hold the position",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        },
+        {
+          "months": 12,
+          "roles": "StateTreasurer/DeputyTreasurer",
+          "scope": "Investmentinstitution/manager/consultant lobbying or representationbeforeTreasurer/OIC; coveredcontract/investmentemployersseparately",
+          "cite": "ORS244.045(1)-(4),2025edition",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
+          "startAt": "Cessation of specifiedposition",
+          "excerpt": "may not, within two years after the person ceases to hold the position",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        },
+        {
+          "months": 24,
+          "roles": "Publicofficialwithpublicfundsinvestmentduties",
+          "scope": "Lobby/represent/influence agencyforwhichinvestedfunds",
+          "cite": "ORS244.045(1)-(4),2025edition",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
+          "startAt": "Cessation of specifiedposition",
+          "excerpt": "may not, within two years after the person ceases to hold the position",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-PA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "65PaCS1103(g)",
+          "source": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/65/00.011.003.000..HTM",
+          "roles": "former public official/employee",
+          "scope": "Promised/actual compensation representation before former governmental body on any matter",
+          "startAt": "leaving-former-body",
+          "excerpt": "for one year after he leaves that body",
+          "retrievedAt": "2026-09-29",
+          "status": "official indexed statute"
+        }
+      ]
+    },
+    "US-RI": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "RIGL36-14-5(e)(4)",
+          "source": "https://ethics.ri.gov/media/1386/download?language=en",
+          "roles": "former public employee",
+          "scope": "Representation of self/another before former agency",
+          "startAt": "official-severance",
+          "excerpt": "one year after the public employee has officially severed her position",
+          "retrievedAt": "2026-09-29",
+          "status": "official indexed advisory"
+        }
+      ]
+    },
+    "US-SC": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "SC8-13-755",
+          "source": "https://www.scstatehouse.gov/code/t08c013.php",
+          "roles": "Former public officials/members/employees serving on/after Jan1,1992",
+          "scope": "Lobby/represent before former agency on directly/substantially participated matter; accepting regulated employer employment involving such matter",
+          "startAt": "Termination of service/employment",
+          "excerpt": "one year after terminating his public service or employment",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-SD": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "SDCL2-12-8.2",
+          "source": "https://sdlegislature.gov/Statutes/2-12-8.2",
+          "roles": "elected officer, department/agency head, division director, highest paid reporting employee",
+          "scope": "Cannot compensated act/register as lobbyist; public employee lobbyist exception",
+          "startAt": "termination-of-state-service",
+          "excerpt": "two years after that person's termination of service",
+          "retrievedAt": "2026-09-29",
+          "status": "official indexed statute; direct JS page unreadable"
+        }
+      ]
+    },
+    "US-TN": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Applyonly namedroles/target/matter; no scalarfallback",
+        "evidenceFile": "executive-additional-evidence-part9.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "TCA3-6-304(l)",
+          "source": "https://www.tn.gov/content/dam/tn/ethicscommission/documents/lobbyists/Lobbyist_and_Employer_of_Lobbyist_Manual.pdf",
+          "roles": "elected executive officials; governor cabinet members; cabinet-level staff in governor office",
+          "scope": "being a lobbyist, not every state employee",
+          "startAt": "departure from office/employment",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_2017_MANUAL; current amendment verification pending"
+        }
+      ]
+    },
+    "US-TX": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 24,
+          "cite": "Texas GovCode572.054(a)",
+          "source": "https://www.ethics.state.tx.us/resources/guides/Bdoor.php",
+          "roles": "former regulatory agency board member/executive head",
+          "scope": "Appear/communicate to former agency with intent to influence official action; any person, including self subject due process",
+          "startAt": "leaving-regulatory-agency",
+          "excerpt": "For two years after a board member or executive head leaves",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-UT": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-VT": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "3VSA267(a)-(e)",
+          "source": "https://legislature.vermont.gov/statutes/section/03/011/00267",
+          "roles": "Governor/LG/Treasurer/SOS/Auditor/AG; Governor agency secretaries/deputies/commissioners/deputies",
+          "scope": "Paid private advocacy on particular personally substantively participated or official responsibility matter; section262 exemption",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "for one year after leaving office",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-VA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "VaCode2.2-3104",
+          "source": "https://law.lis.virginia.gov/vacode/title2.2/chapter31/2.2-3104/",
+          "roles": "former state officer/employee",
+          "scope": "Paid client representation before former agency related to legislation/executive orders/former agency regulations",
+          "startAt": "termination-of-public-employment-or-service",
+          "excerpt": "For one year after the termination of public employment",
+          "retrievedAt": "2026-09-29",
+          "status": "official indexed statute"
+        }
+      ]
+    },
+    "US-WA": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Apply only specified roles, target body/matter and trigger; scalar deliberately null",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "RCW42.52.080(1)",
+          "source": "https://apps.leg.wa.gov/rcw/default.aspx?cite=42.52.080",
+          "roles": "former state officer/employee",
+          "scope": "Contract-related employer restriction subject $10k/discretionary authority conditions; not universal lobbying registration ban",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "within a period of one year from the date of termination",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        },
+        {
+          "months": null,
+          "cite": "RCW42.52.080(5)",
+          "source": "https://apps.leg.wa.gov/rcw/default.aspx?cite=42.52.080",
+          "roles": "former state officer/employee",
+          "scope": "Permanent restriction assisting another in state transaction personally participated in; no blanket period inferred",
+          "startAt": "leaving-office-or-employment",
+          "excerpt": "at any time subsequent to his or her state employment",
+          "retrievedAt": "2026-09-29",
+          "status": "verified official source"
+        }
+      ]
+    },
+    "US-WV": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "WV Code6B-3-2(e)",
+          "source": "https://code.wvlegislature.gov/6B-3-2/",
+          "roles": "Executive Department constitutional officers; their direct-supervision will/pleasure professional policy/advisory staff; executive department secretaries; heads of state departments/agencies",
+          "scope": "Lobbyist registration bar for enumerated roles only",
+          "startAt": "Termination of public employment/service",
+          "excerpt": "up to one year after the termination",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_SOURCE"
+        }
+      ]
+    },
+    "US-WI": {
+      "availability": {
+        "status": "SCOPED_RULES_FOUND",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": [
+        {
+          "months": 12,
+          "cite": "Wis.Stat19.45(8)(a)-(b)",
+          "source": "https://etf.wi.gov/boards/groupinsurance/2023/11/15/gib3ppt/direct",
+          "roles": "State public officials (covered statutory definition not fully extracted)",
+          "scope": "Paid nongovernmental representation/negotiation before former department; or anyofficial regarding proceeding/application/contract/claim/charge underformerresponsibility",
+          "startAt": "Cessation of publicofficialrole",
+          "excerpt": "For 12 months following the date on which the individual ceases to be a public",
+          "retrievedAt": "2026-09-29",
+          "status": "READ_EXACT_OFFICIAL_AGENCY_GUIDANCE_2023_STATUTE_CURRENTNESS_PENDING"
+        }
+      ]
+    },
+    "US-WY": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-PR": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-GU": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-AS": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-MP": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    },
+    "US-VI": {
+      "availability": {
+        "status": "UNKNOWN",
+        "reason": "Official discovery performed; exact applicable rule still unverified",
+        "evidenceFile": "executive-search-evidence-all56.json"
+      },
+      "rules": []
+    }
+  },
+  "lobbyistPayAnchor": {
+    "nationalAnnualSalary": 190600,
+    "stateAnnualSalary": {
+      "US-DC": 211000,
+      "US-CA": 210200,
+      "US-MA": 207400,
+      "US-WA": 206700,
+      "US-NJ": 206600,
+      "US-AK": 206300,
+      "US-CT": 203700,
+      "US-NY": 202600,
+      "US-HI": 199200,
+      "US-RI": 197600,
+      "US-MD": 196500,
+      "US-MN": 195100,
+      "US-CO": 194500,
+      "US-IL": 194300,
+      "US-OR": 193600,
+      "US-DE": 193000,
+      "US-NH": 192700,
+      "US-VA": 192000,
+      "US-PA": 189800,
+      "US-NV": 188700,
+      "US-ND": 188300,
+      "US-MI": 187700,
+      "US-WI": 187500,
+      "US-VT": 187100,
+      "US-ME": 185900,
+      "US-TX": 185900,
+      "US-AZ": 185700,
+      "US-OH": 185600,
+      "US-GA": 183900,
+      "US-IN": 183000,
+      "US-WY": 182800,
+      "US-UT": 182500,
+      "US-IA": 182400,
+      "US-KS": 181500,
+      "US-LA": 181200,
+      "US-MO": 181100,
+      "US-NC": 181100,
+      "US-FL": 180400,
+      "US-MT": 180000,
+      "US-NE": 179600,
+      "US-KY": 179400,
+      "US-SC": 178600,
+      "US-TN": 178100,
+      "US-ID": 177900,
+      "US-NM": 176600,
+      "US-OK": 176300,
+      "US-AL": 175100,
+      "US-SD": 173200,
+      "US-AR": 172200,
+      "US-WV": 171700,
+      "US-MS": 170000
+    },
+    "spreadRatios": [0.8399790136411333, 1.1353620146904513],
+    "asOf": "2026-09-01",
+    "source": "https://www.salary.com/research/salary/alternate/lobbyist-salary",
+    "basis": "Publisher says salary estimates from employer job postings and third-party sources. Sample size absent; state estimates are not native registry-observed pay.",
+    "territorialFallback": "Modeled national all-state lobbyist salary anchor; territorial annual individual pay remains unobserved. This is not a territory registry figure."
+  }
 }

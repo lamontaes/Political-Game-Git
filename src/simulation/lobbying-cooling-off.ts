@@ -75,10 +75,10 @@ export function lobbyingBar(
       : null;
     if (employerState && stateKey && employerState !== stateKey) continue;
     if (!state || !proposition)
-      return "The former office's lobbying eligibility is not recorded.";
+      return "Your former office must confirm whether you can take this lobbying job.";
     const law = lawInForce(world, state.id, proposition.id, on);
     if (!law)
-      return "No recorded law resolves post-office lobbying eligibility.";
+      return "Your former office must confirm whether you can take this lobbying job.";
     const terms = policyTermsInForce(
       world,
       state.id,
@@ -89,29 +89,31 @@ export function lobbyingBar(
       research.startingPeriods as Record<
         string,
         {
-          legislatorMonths: number;
+          legislatorMonths: number | null;
           executiveMonths?: number;
           startAt: string;
           basis: string;
         }
       >
     )[stateKey!];
-    const months =
-      terms?.values.coolingMonths ??
-      (work.kind === "employment:legislative-member"
-        ? starting?.legislatorMonths
-        : (starting?.executiveMonths ?? starting?.legislatorMonths));
-    if (
-      law.measureId.startsWith("starting-law:") &&
-      law.answer === "no" &&
-      (work.kind === "employment:legislative-member" ||
-        !starting?.executiveMonths)
-    )
-      continue;
-    if (!law.measureId.startsWith("starting-law:") && law.answer === "no")
-      continue;
-    if (months === undefined)
-      return "The existing statutory cooling-off duration has not been established.";
+    const startingLaw = law.measureId.startsWith("starting-law:");
+    if (!startingLaw && law.answer === "no") continue;
+    if (startingLaw && work.kind !== "employment:legislative-member") {
+      // Executive restrictions are independent laws. Their recorded role,
+      // target agency/matter and effective-date scope cannot be inferred from
+      // a generic employer classification or the legislature's starting answer.
+      const rules =
+        research.startingExecutiveRules[
+          stateKey! as keyof typeof research.startingExecutiveRules
+        ];
+      return rules?.rules.length
+        ? "Your former office must confirm which lobbying work you may do under its post-employment restrictions."
+        : "Your former office must confirm whether you can take this lobbying job.";
+    }
+    const months = terms?.values.coolingMonths ?? starting?.legislatorMonths;
+    if (typeof months !== "number")
+      return "Your former office must confirm when you can take this lobbying job.";
+    if (startingLaw && law.answer === "no") continue;
     const departure = workStatusAt(world, work.id)!.effectiveAt;
     let startsAt = departure;
     const mode = terms ? "leaving-office" : starting?.startAt;
@@ -121,8 +123,11 @@ export function lobbyingBar(
           d.transitionKey.includes("term-expiry") &&
           d.entityIds.includes(work.id),
       )?.dueAt;
-      // The record's expected term end is preferred; if it was never recorded, retain the explicit departure-date estimate in the reason.
-      if (mode === "term-end" && expiry && expiry > startsAt) startsAt = expiry;
+      if (mode === "term-end") {
+        if (!expiry)
+          return "Your former office must confirm when your elected term ends before you take this lobbying job.";
+        if (expiry > startsAt) startsAt = expiry;
+      }
       if (mode?.includes("session")) {
         const end = world.history.futureDueItems
           .filter(
@@ -133,13 +138,24 @@ export function lobbyingBar(
           )
           .sort((a, b) => a.dueAt.localeCompare(b.dueAt))[0]?.dueAt;
         if (end && end > startsAt) startsAt = end;
-        else if (mode === "next-session-end")
-          startsAt = addCalendarMonths(departure, 24);
+        else if (!end)
+          return "Your former office must confirm the legislative session’s end date before you take this lobbying job.";
       }
     }
-    const until = addCalendarMonths(startsAt, months);
+    // North Carolina uses the later of departure plus six months or session
+    // close, rather than adding six more months after session close.
+    const until =
+      startingLaw && mode === "later-of-departure-and-session-end"
+        ? [startsAt, addCalendarMonths(departure, months)].sort().at(-1)!
+        : addCalendarMonths(startsAt, months);
+    if (
+      on < until &&
+      startingLaw &&
+      mode === "later-of-departure-and-session-end"
+    )
+      return `You can't take this lobbying job until ${until}: ${months} months must pass after you leave office, and the legislative session must have ended.`;
     if (on < until)
-      return `Lobbying is barred until ${until}: ${months} months from ${startsAt}; recorded office ${work.id}, departure ${departure}. ${terms?.reason ?? starting?.basis}`;
+      return `You can't take this lobbying job until ${until}: state law requires a ${months}-month waiting period after ${mode === "term-end" ? "your term ends" : mode?.includes("session") ? "the legislative session ends" : "you leave office"}.`;
   }
   return null;
 }

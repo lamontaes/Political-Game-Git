@@ -135,7 +135,7 @@ export function applyImmigrationAdmissions(world: World): World {
         const personIds = skeleton.members.map((_, m) =>
           townResidentId(next, town.id, index, m),
         );
-        const basis = `HARDWIRED filed additional admissions ${annual} per year; ACS recent-entry share allocates the national total. ESTIMATED FROM AVERAGE: receiving town concentrates the state allocation in its largest recorded inhabited locality; household ages and shapes use the existing town generator. Birthplace and prior legal status remain unknown. ${research.places[state.jurisdictionKey as keyof typeof research.places].basis}`;
+        const basis = `The law allows ${annual} additional admissions a year. This household settled in ${place.displayName}.`;
         next = {
           ...next,
           immigrationAdmissions: [

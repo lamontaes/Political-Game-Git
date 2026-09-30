@@ -1,3 +1,8 @@
+import {
+  assertLawOutcomeCalibration,
+  createLawOutcomeCalibration,
+  createOpeningLobbyistPay,
+} from "./law-outcome-calibration";
 import { assertLibraryMaterialsIntegrity } from "./library-materials-integrity";
 import { assertVoterIdentificationIntegrity } from "./voter-identification-integrity";
 import { assertImmigrationAdmissionIntegrity } from "./immigration-admission-integrity";
@@ -526,6 +531,8 @@ export function createWorld(input: CreateWorldInput): World {
     generatorVersion: LINEAGE_GENERATOR_VERSION[lineage],
     id: worldId,
     seed,
+    lawOutcomeCalibration: createLawOutcomeCalibration(seed),
+    openingLobbyistAnnualPayCents: createOpeningLobbyistPay(seed),
     startedAt: currentDate,
     currentDate,
     currentMoment,
@@ -744,6 +751,13 @@ function validateWorldIntegrity(
 ): void {
   if (delta) assertAppendedJsonSafe(delta.changed);
   assertJsonSafe(world, "world");
+  if (
+    !previous ||
+    previous.lawOutcomeCalibration !== world.lawOutcomeCalibration ||
+    previous.openingLobbyistAnnualPayCents !==
+      world.openingLobbyistAnnualPayCents
+  )
+    assertLawOutcomeCalibration(world);
   if (
     world.contentPacks !== undefined &&
     (!previous || previous.contentPacks !== world.contentPacks)

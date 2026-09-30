@@ -15,6 +15,7 @@ import { ensureJurisdiction } from "./national-election-geography";
 import { createOrganization } from "./life";
 import { createStableId } from "./ids";
 import { money, createResourcePosition } from "./resources";
+import { createOpeningLobbyistPay } from "./law-outcome-calibration";
 import { SeededRng } from "./rng";
 import { addDays, daysBetween } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
@@ -72,6 +73,13 @@ function ensureCapitalEmployer(
   const place = capital ? lifePlaceByKey(capital.placeKey) : null;
   if (!capital || !place) throw Error(`No recorded capital for ${stateKey}`);
   let next = ensureJurisdiction(world, place.context.jurisdiction);
+  // Old saves migrate this absent opening estimate once, without replacing an
+  // existing employer's posted pay or any completed compensation.
+  if (!next.openingLobbyistAnnualPayCents)
+    next = {
+      ...next,
+      openingLobbyistAnnualPayCents: createOpeningLobbyistPay(next.seed),
+    };
   const spread =
     0.75 +
     new SeededRng(world.seed).fork(`lobbying-employers:${stateKey}`).next() *
@@ -134,7 +142,7 @@ function ensureCapitalEmployer(
       ),
       provenance: {
         kind: "authored",
-        note: `${research.basis} Estimated ${firms} ${lobbying ? "registered lobbying firms" : "PR establishments"} in ${stateKey}; this is materialized firm ${ordinal}, not all of that inventory.`,
+        note: `Capital ${lobbying ? "government-relations" : "communications"} employer ${ordinal}.`,
       },
     });
   }
@@ -165,13 +173,9 @@ function ensureCapitalEmployer(
     pay: {
       basis: "annual-salary",
       amount: money(
-        Math.round(
-          (lobbying
-            ? research.annualPayMean
-            : research.annualNonLobbyPayMedian) *
-            100 *
-            spread,
-        ),
+        lobbying
+          ? next.openingLobbyistAnnualPayCents![stateKey]!
+          : Math.round(research.annualNonLobbyPayMedian * 100 * spread),
         "USD",
       ),
     },
@@ -183,7 +187,10 @@ function ensureCapitalEmployer(
     earliestStartAt: null,
     opensAt: next.currentDate,
     closesAt: addDays(next.currentDate, 28),
-    provenance: { kind: "authored", note: research.basis },
+    provenance: {
+      kind: "authored",
+      note: "Capital employer’s advertised vacancy.",
+    },
   });
 }
 function scheduleReview(world: World, personId: EntityId, days = 1): World {
@@ -318,13 +325,13 @@ export function reviewPostOfficeCareer(
         location: null,
         socialContext: null,
         pressure:
-          "The recorded public-office job has ended and no other active work is recorded.",
-        choice: `Apply for the highest-paying eligible actual vacancy at ${annual(eligible) / 100} dollars annually.`,
+          "The public-office job has ended, and the former official has no other active job.",
+        choice: `Apply for ${eligible.title}, paying $${(annual(eligible) / 100).toFixed(2)} a year.`,
         motivation: [
-          "Replace lost earnings through an actual available job.",
+          "Find work to replace the lost earnings.",
           ...(ownView.score > 0
             ? [
-                `The official's own recorded support for cooling-off restrictions (${ownView.recordIds.join(", ")}) rules out immediate lobbying work even where the law permits it.`,
+                "The former official supports a waiting period before taking lobbying work and chooses to observe one.",
               ]
             : []),
           ...barred.map((o) => lobbyingBar(next, personId, o.organizationId)),

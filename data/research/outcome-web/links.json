@@ -2422,16 +2422,24 @@
       "shape": {
         "kind": "linear"
       },
-      "size": -0.177,
+      "size": null,
       "per": "law in force",
-      "lagMonths": 0,
+      "lagMonths": 12,
       "group": "federal prisoners",
       "owner": "O",
       "anchor": "USSC Amendment 782 projected an average 17.7 percent reduction in guideline sentences for affected drug offenders. This is a comparison proxy, not the effect of a statutory-minimum bill. The producer counts actual people still serving a recorded covered federal sentence; the filed minimum months and recorded offense facts determine sentences and releases.",
       "source": "https://guidelines.ussc.gov/apex/r/ussc_apex/guidelinesapp/appendixc-detail?APP_AMEND_ID=782",
       "evidence": "provisional",
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "to": "prison.federal-population"
+      "to": "prison.federal-population",
+      "calibration": {
+        "target": -0.177,
+        "spread": 0.25,
+        "lagMonths": 0,
+        "lagBandMonths": [0, 12],
+        "bandBasis": "Authored opening spread of 25 percent around the provisional study benchmark, not a published confidence interval; audit actual covered-person outcomes without forcing them.",
+        "limitation": "The cited study population and measure are comparison proxies. A watched comparison outside the band fails calibration; it never rewrites people or their results."
+      }
     },
     {
       "key": "power-plant-carbon-to-emissions",
@@ -2569,7 +2577,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": -0.12,
+      "size": null,
       "per": "law in force",
       "lagMonths": 0,
       "group": "borrowers",
@@ -2578,7 +2586,15 @@
       "source": "https://www.nber.org/system/files/working_papers/w25810/revisions/w25810.rev0.pdf",
       "evidence": "provisional",
       "from": "law:us-federal-positions:education.forgive-student-loans",
-      "to": "finance.past-due-debt"
+      "to": "finance.past-due-debt",
+      "calibration": {
+        "target": -0.12,
+        "spread": 0.25,
+        "lagMonths": 0,
+        "lagBandMonths": [0, 12],
+        "bandBasis": "Authored opening spread of 25 percent around the provisional study benchmark, not a published confidence interval; audit actual covered-person outcomes without forcing them.",
+        "limitation": "The cited study population and measure are comparison proxies. A watched comparison outside the band fails calibration; it never rewrites people or their results."
+      }
     },
     {
       "key": "more-immigration-to-workforce",
@@ -2586,16 +2602,24 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.665,
+      "size": null,
       "per": "added working-age residents; comparison benchmark only",
-      "lagMonths": 0,
+      "lagMonths": 12,
       "group": "place",
       "owner": "B",
       "anchor": "BLS 2024 foreign-born labor-force participation 66.5 percent is an aggregate comparison proxy, not an individual employment draw. The producer counts actual admitted residents in active jobs; the filed annual admissions count determines the cohort.",
       "source": "https://www.bls.gov/news.release/archives/forbrn_05202025.htm",
       "evidence": "provisional",
       "from": "law:us-federal-positions:immigration.admit-more-immigrants",
-      "to": "labor.workforce"
+      "to": "labor.workforce",
+      "calibration": {
+        "target": 0.665,
+        "spread": 0.25,
+        "lagMonths": 0,
+        "lagBandMonths": [0, 12],
+        "bandBasis": "Authored opening spread of 25 percent around the provisional study benchmark, not a published confidence interval; audit actual covered-person outcomes without forcing them.",
+        "limitation": "The cited study population and measure are comparison proxies. A watched comparison outside the band fails calibration; it never rewrites people or their results."
+      }
     },
     {
       "key": "universal-prek-to-math-proficiency",

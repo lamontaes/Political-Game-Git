@@ -86,7 +86,7 @@ export function fundDeclaredDisasterRepair(
     federalCents,
     stateCents: total - federalCents,
     measureId: reading?.law.measureId ?? null,
-    reason: `HARDWIRED cost share ${share}/10000; ${units} of ${wantedUnits} units affordable with ${available} cents of state balance and reserve. ESTIMATED FROM AVERAGE repair price ${cost} cents per unit (FEMA project-equivalent; data/research/laws/disaster-cost-sharing.json).`,
+    reason: `The available state funds cover ${units} of ${wantedUnits} repairs at $${(cost / 100).toFixed(2)} each; the federal government pays ${(share / 100).toFixed(2)} percent.`,
   };
   return {
     world: {

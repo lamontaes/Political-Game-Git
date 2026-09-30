@@ -44,7 +44,12 @@ import {
 } from "../dev-lab/world-aging";
 import { assertWorldIntegrity } from "../../src/simulation/world";
 import { prepareLawPair } from "./enact";
-import { worldMovement, type MeasuredMovement } from "./measure";
+import {
+  lawCalibrationReadings,
+  lawCalibrationValues,
+  worldMovement,
+  type MeasuredMovement,
+} from "./measure";
 
 function sourceFingerprint(): string {
   const paths = execFileSync(
@@ -79,6 +84,8 @@ interface Result {
   problem?: string;
   movements: readonly MeasuredMovement[];
   days?: number;
+  effectiveYear?: string;
+  calibration?: ReturnType<typeof lawCalibrationReadings>;
   paths: readonly string[];
   condition?: string | null;
   placeSelection?: string;
@@ -227,12 +234,31 @@ if (args.includes("--worker")) {
       compiledLevel: level,
     });
     const end = anniversary(pair.control.currentDate, 1);
+    const controlReadings = new Map<string, Readonly<Record<string, number>>>();
+    const firstEffectDates: Record<string, typeof world.currentDate> = {};
     const run = (initial: typeof world, label: string) => {
       const button = createObserverDayButton(initial);
       let days = 0;
+      const observe = () => {
+        const readings = lawCalibrationValues(button.world, law);
+        if (label === "control")
+          controlReadings.set(button.world.currentDate, readings);
+        else {
+          const baseline = controlReadings.get(button.world.currentDate);
+          for (const [key, value] of Object.entries(readings))
+            if (
+              !firstEffectDates[key] &&
+              baseline?.[key] !== undefined &&
+              value !== baseline[key]
+            )
+              firstEffectDates[key] = button.world.currentDate;
+        }
+      };
+      observe();
       while (button.world.currentDate < end) {
         const moved = button.press();
         if (moved.status !== "moved") throw Error(`${label}: ${moved.problem}`);
+        observe();
         if (++days % 30 === 0)
           console.log(`${law} ${placeName}: ${label} ${days} days`);
       }
@@ -258,16 +284,41 @@ if (args.includes("--worker")) {
         "enacted",
       );
     const movements = worldMovement(control.world, treated.world);
+    const calibration = lawCalibrationReadings(
+      control.world,
+      treated.world,
+      law,
+      pair.control.currentDate,
+      firstEffectDates,
+    );
+    const outsideBand = calibration.some(
+      (row) => row.assessment.status === "FAIL",
+    );
+    const unavailableCalibration = calibration.some(
+      (row) => row.assessment.status === "unavailable",
+    );
     result = {
       sourceFingerprint: fingerprint,
       law,
       seed,
       place: placeName,
-      status: movements.length ? "PASS" : "FAIL",
-      ...(movements.length
-        ? {}
-        : { problem: "No measured money or residents moved" }),
+      status:
+        movements.length && !outsideBand && !unavailableCalibration
+          ? "PASS"
+          : "FAIL",
+      ...(outsideBand
+        ? { problem: "Recorded outcome falls outside its calibration band" }
+        : unavailableCalibration
+          ? {
+              problem:
+                "Calibration cohort or first outcome-change date unavailable",
+            }
+          : movements.length
+            ? {}
+            : { problem: "No measured money or residents moved" }),
       days: treated.days,
+      effectiveYear: pair.control.currentDate.slice(0, 4),
+      calibration,
       placeSelection: `Considered all 56 places; ${eligibleStates.length} have the recorded government route used by this question. Actual town is selected randomly within that scope.`,
       condition:
         common.condition ??
@@ -324,15 +375,15 @@ const table = () => {
       ? []
       : ["None among completed laws. Uncompleted laws are NOT RUN."]),
     "",
-    "| Law | Place | What moved | How much | Path file |",
-    "| --- | --- | --- | --- | --- |",
+    "| Law | Year effective | Place | What moved | How much | Path file |",
+    "| --- | --- | --- | --- | --- | --- |",
   ];
   for (const r of results) {
     const moved = [...r.movements].sort(
       (a, b) => Math.abs(b.amount) - Math.abs(a.amount),
     );
     lines.push(
-      `| ${r.law} | ${r.place} | ${
+      `| ${r.law} | ${r.effectiveYear ?? "NOT RUN"} | ${r.place} | ${
         r.status === "FAIL"
           ? "FAIL: " + r.problem
           : moved

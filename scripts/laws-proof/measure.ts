@@ -1,3 +1,10 @@
+import { assessLawOutcomeCalibration } from "../../src/simulation/law-outcome-calibration";
+import { OUTCOME_LINKS } from "../../src/simulation/outcome-web";
+import { federalPrisoners } from "../../src/simulation/justice/federal-mandatory-minimums";
+import { pastDueDebtDollars } from "../../src/simulation/student-debt-relief-law";
+import { ageOnDate, daysBetween } from "../../src/simulation/dates";
+import { activeWorkRelationshipsAt } from "../../src/simulation/life-queries";
+import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import { seatsForCourt } from "../../src/simulation/judiciary/courts";
 import { jailTermOn } from "../../src/simulation/justice/jail-terms";
 import {
@@ -17,7 +24,7 @@ import {
   resourcePositionAt,
 } from "../../src/simulation/resource-queries";
 import { money } from "../../src/simulation/resources";
-import type { World } from "../../src/simulation/types";
+import type { World, IsoDate } from "../../src/simulation/types";
 
 export interface MeasuredMovement {
   readonly account: string;
@@ -214,4 +221,115 @@ export function worldMovement(
         : [];
     },
   );
+}
+
+/** Scalar daily observations, retained only for calibration laws. */
+export function lawCalibrationValues(
+  world: World,
+  questionKey: string,
+): Readonly<Record<string, number>> {
+  const result: Record<string, number> = {};
+  for (const link of OUTCOME_LINKS.filter(
+    (link) => link.calibration && link.from === `law:${questionKey}`,
+  )) {
+    const national = NATIONAL_ELECTION_JURISDICTION.id;
+    if (link.to === "prison.federal-population")
+      result[link.key] = federalPrisoners(world, national, world.currentDate);
+    else if (link.to === "finance.past-due-debt")
+      result[link.key] = pastDueDebtDollars(world, national, world.currentDate);
+    else if (link.to === "labor.workforce")
+      result[link.key] = [
+        ...new Set(
+          (world.immigrationAdmissions ?? []).flatMap((row) => row.personIds),
+        ),
+      ].filter(
+        (id) =>
+          ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 16 &&
+          activeWorkRelationshipsAt(world, id).length > 0,
+      ).length;
+  }
+  return result;
+}
+
+/** Actual person/loan records are measured; calibration never writes them. */
+export function lawCalibrationReadings(
+  control: World,
+  treated: World,
+  questionKey: string,
+  effectiveAt: IsoDate,
+  firstEffectDates: Readonly<Record<string, IsoDate>>,
+) {
+  return OUTCOME_LINKS.filter(
+    (link) => link.calibration && link.from === `law:${questionKey}`,
+  ).map((link) => {
+    let observed: number | null = null;
+    let reason: string | null = null;
+    const national = NATIONAL_ELECTION_JURISDICTION.id;
+    if (link.to === "prison.federal-population") {
+      const before = federalPrisoners(control, national, control.currentDate);
+      observed =
+        before > 0
+          ? (federalPrisoners(treated, national, treated.currentDate) -
+              before) /
+            before
+          : null;
+      if (before === 0)
+        reason = "No covered federal prisoner in the control cohort.";
+    } else if (link.to === "finance.past-due-debt") {
+      const before = pastDueDebtDollars(control, national, control.currentDate);
+      observed =
+        before > 0
+          ? (pastDueDebtDollars(treated, national, treated.currentDate) -
+              before) /
+            before
+          : null;
+      if (before === 0) reason = "No past-due balance in the control cohort.";
+    } else if (link.to === "labor.workforce") {
+      // BLS participation is for people age 16+, rather than children in the admitted households.
+      const cohort = [
+        ...new Set(
+          (treated.immigrationAdmissions ?? []).flatMap((row) => row.personIds),
+        ),
+      ].filter(
+        (id) =>
+          !control.people[id] &&
+          ageOnDate(treated.people[id]!.birthDate, treated.currentDate) >= 16,
+      );
+      observed = cohort.length
+        ? cohort.filter(
+            (id) => activeWorkRelationshipsAt(treated, id).length > 0,
+          ).length / cohort.length
+        : null;
+      if (!cohort.length)
+        reason = "No newly admitted resident age 16 or older.";
+    }
+    const firstEffectDate = firstEffectDates[link.key] ?? null;
+    const observedLagMonths = firstEffectDate
+      ? daysBetween(effectiveAt, firstEffectDate) / (365.2425 / 12)
+      : null;
+    const calibration = treated.lawOutcomeCalibration?.[link.key];
+    const withinBand =
+      observed !== null && calibration
+        ? observed >= calibration.band[0] && observed <= calibration.band[1]
+        : null;
+    return {
+      key: link.key,
+      observed,
+      withinBand,
+      firstEffectDate,
+      observedLagMonths,
+      calibration: calibration ?? null,
+      assessment: assessLawOutcomeCalibration(
+        treated,
+        link.key,
+        observed,
+        observedLagMonths,
+      ),
+      reason:
+        reason ??
+        (firstEffectDate
+          ? null
+          : "No first outcome-change date was observed; lag acceptance is unavailable."),
+    };
+  });
 }

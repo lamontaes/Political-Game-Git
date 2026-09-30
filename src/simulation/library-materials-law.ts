@@ -1,3 +1,4 @@
+import { personName } from "./people";
 import { recordedPrinciplesForPerson } from "./governing/officeholder-principles";
 import research from "../../data/research/laws/library-materials.json" with { type: "json" };
 import { ageOnDate } from "./dates";
@@ -99,7 +100,7 @@ export function fileLibraryChallenges(world: World, townId: EntityId): World {
         personId,
         titleKey: title.key,
         filedOn: world.currentDate,
-        reason: `Own tradition-versus-liberty score ${view.score}, ${faith.length} active faith records and ${children.length} school children; concern about ${title.theme}`,
+        reason: `Concern about ${title.theme} in the library collection.`,
         principleRecordIds: view.ids,
         faithParticipationIds: faith,
         schoolChildIds: children,
@@ -157,9 +158,10 @@ export function resolveLibraryChallenges(
               remove: view.score > 0,
               score: view.score,
               principleRecordIds: view.ids,
-              reason: view.ids.length
-                ? `Own recorded tradition-versus-liberty score ${view.score}.`
-                : "No recorded content objection; retain the existing collection.",
+              reason:
+                view.score > 0
+                  ? "The member objects to the title’s content."
+                  : "The member supports keeping the title.",
             };
           })
         : [];
@@ -204,7 +206,7 @@ export function resolveLibraryChallenges(
         `collection:${decision.removed ? "removed" : "retained"}`,
         `expense-cents:${decision.expenseCents}`,
       ],
-      summary: `The challenged fictional title was ${decision.removed ? "removed" : "retained"}; ${staffHours} staff hours and ${legalHours} legal-review hours were recorded.`,
+      summary: `The challenged title was ${decision.removed ? "removed" : "retained"}; ${staffHours} staff hours and ${legalHours} legal-review hours were used.`,
       context: {
         location: null,
         socialContext: null,
@@ -212,8 +214,12 @@ export function resolveLibraryChallenges(
         choice: decision.removed ? "Remove the title." : "Retain the title.",
         motivation:
           authority.level === "local"
-            ? ballots.map((b) => `${b.personId}: ${b.reason}`).join(" ")
-            : "Apply the state collection standard: no prohibited-content finding is recorded for this nonexplicit literary title.",
+            ? ballots
+                .map(
+                  (b) => `${personName(next.people[b.personId]!)}: ${b.reason}`,
+                )
+                .join(" ")
+            : "Retain the title under the state collection standard.",
         immediateReaction: null,
       },
     });

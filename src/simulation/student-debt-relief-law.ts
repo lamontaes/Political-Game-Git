@@ -131,7 +131,7 @@ export function ensureStudentDebt(world: World): World {
       housingTenureId: null,
       provenance: {
         kind: "authored",
-        note: `ESTIMATED FROM AVERAGE: recorded college history, age ${age}, annual pay ${income ?? "unrecorded"}; SHED median and spread in data/research/laws/student-debt-relief.json.`,
+        note: "Education financing based on the borrower’s college history, age and income.",
       },
     });
   }
@@ -181,7 +181,8 @@ export function applyStudentDebtRelief(world: World): World {
       relievedAt: next.currentDate,
       amount: money(amount, balance.currency),
       measureId: reading.law.measureId,
-      reason: `DECIDED: recorded annual pay ${income} cents is within filed limit ${incomeLimitAnnualCents}; remaining borrower cap ${capPerBorrowerCents - used}; outstanding balance ${balance.minorUnits}.`,
+      reason:
+        "The borrower meets the law’s income limit and has an eligible federal student-loan balance.",
     });
   }
   return next;

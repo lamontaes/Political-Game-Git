@@ -122,6 +122,13 @@ export interface OutcomeLink {
       { readonly size: number; readonly range?: readonly [number, number] }
     >
   >;
+  /** A recorded-person comparison target; excluded from rate multipliers. */
+  readonly calibration?: {
+    readonly target: number;
+    readonly spread: number;
+    readonly lagMonths: number;
+    readonly lagBandMonths: readonly [number, number];
+  };
   readonly floor?: number;
   readonly ceiling?: number;
 }
@@ -304,7 +311,8 @@ export type OutcomeLinkStatus =
   | "size-not-set"
   | "cause-not-recorded"
   | "outcome-not-produced"
-  | "person-level";
+  | "person-level"
+  | "calibration-only";
 
 /**
  * Outcomes some producer computes from `outcomeFactor` today. A link into any
@@ -561,6 +569,7 @@ function baselineOf(
 
 /** Whether a link acts in the world today, and if not, why not. */
 export function outcomeLinkStatus(link: OutcomeLink): OutcomeLinkStatus {
+  if (link.calibration) return "calibration-only";
   if (link.evidence === "about-zero") return "about-zero";
   if (
     link.shape.kind === "exposure-years" ||

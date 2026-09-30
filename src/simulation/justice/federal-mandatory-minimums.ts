@@ -153,7 +153,7 @@ export function reviewFederalMinimumSentences(world: World): World {
         socialContext: null,
         pressure: null,
         choice: null,
-        motivation: `The filed retroactive minimum changed from ${previous} to ${current} months for the recorded offense facts. ${reading.terms.reason}`,
+        motivation: `The law reduced the minimum sentence for this offense from ${previous} to ${current} months and applies to existing sentences.`,
         immediateReaction: null,
       },
     });
