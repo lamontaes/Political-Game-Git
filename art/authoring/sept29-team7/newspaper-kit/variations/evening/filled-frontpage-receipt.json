@@ -1,0 +1,156 @@
+{
+  "schema": "ocd-newspaper-recorded-render/v1",
+  "status": "candidate-only",
+  "packetSha256": "6909e6d67f2da7b4fa072dc62652629a17dac2d0efc5511d830b06f93178add4",
+  "sourceHead": "1864116231b4ec069c14c8fd333ccd53025387a8",
+  "saveSha256ProducerReported": "f38b18d11778ad0fda1e8f9d5a8539daefcde0ecadb6205e575d48da1b8f1663",
+  "dimensions": [
+    1200,
+    1420
+  ],
+  "style": "evening",
+  "columns": 6,
+  "stories": [
+    {
+      "id": "publication_8057851b8a1517a3",
+      "sourceEventId": "event_03d8ecd1fa8b433e",
+      "sourceRecordIds": [
+        "press-record_74e57d4627808194"
+      ],
+      "headline": "Kyle Park, the principal, reopened Pine Valley High School now that 0 of its 16 students and staff were out sick.",
+      "body": "Kyle Park declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "publishedAt": "2026-03-18"
+    },
+    {
+      "id": "publication_fff950504eedb508",
+      "sourceEventId": "event_4533a1d8b3be4ba1",
+      "sourceRecordIds": [
+        "press-record_4c6a94d227d51a9b"
+      ],
+      "headline": "Kyle Park, the principal, closed Pine Valley High School because 10 of its 16 students and staff were out sick.",
+      "body": "Kyle Park declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "publishedAt": "2026-03-11"
+    },
+    {
+      "id": "publication_a123988806804639",
+      "sourceEventId": "event_c81a6eada7370fa8",
+      "sourceRecordIds": [
+        "press-record_42b890a1398349f6"
+      ],
+      "headline": "Police in Orange City arrested Donna Herrera in a home burglary reported last month.",
+      "body": "Donna Herrera declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "publishedAt": "2026-03-04"
+    },
+    {
+      "id": "publication_eb22a3d689a964e4",
+      "sourceEventId": "event_1ca8364ba4ca377d",
+      "sourceRecordIds": [
+        "press-record_961cc83aa4d369ef"
+      ],
+      "headline": "Amanda Carter, the principal, closed Cedar Grove Middle School because 4 of its 16 students and staff were out sick.",
+      "body": "Amanda Carter declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "publishedAt": "2026-02-25"
+    },
+    {
+      "id": "publication_17ecdc72c9dc95c3",
+      "sourceEventId": "event_8e06fd264ab59866",
+      "sourceRecordIds": [
+        "press-record_738dbe325b0c98f8"
+      ],
+      "headline": "Amanda Carter, the principal, reopened Cedar Grove Middle School now that 0 of its 16 students and staff were out sick.",
+      "body": "Amanda Carter declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "publishedAt": "2026-02-11"
+    },
+    {
+      "id": "publication_71542ff2e111286a",
+      "sourceEventId": "event_50f4e15fde2d2673",
+      "sourceRecordIds": [
+        "press-record_dbd6822a5242920d"
+      ],
+      "headline": "Amanda Carter, the principal, closed Cedar Grove Middle School because 7 of its 16 students and staff were out sick.",
+      "body": "Amanda Carter declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "publishedAt": "2026-02-04"
+    },
+    {
+      "id": "publication_6bfe349079ec0e5f",
+      "sourceEventId": "event_52409f0e4fd75cae",
+      "sourceRecordIds": [
+        "press-record_8ad2735e468a5fbc"
+      ],
+      "headline": "Harper Wright, the principal, closed Orange City Elementary School because 17 of its 23 students and staff were out sick.",
+      "body": "Harper Wright declined to comment.\n\nReported by Vincent Washington for The Orange City Sentinel.",
+      "publishedAt": "2026-01-28"
+    }
+  ],
+  "boxes": [
+    {
+      "id": "publication_8057851b8a1517a3",
+      "x": 48,
+      "y": 253,
+      "width": 1104,
+      "height": 265
+    },
+    {
+      "id": "publication_fff950504eedb508",
+      "x": 48.0,
+      "y": 555,
+      "width": 537.0,
+      "height": 240
+    },
+    {
+      "id": "publication_a123988806804639",
+      "x": 615.0,
+      "y": 555,
+      "width": 537.0,
+      "height": 240
+    },
+    {
+      "id": "publication_eb22a3d689a964e4",
+      "x": 48.0,
+      "y": 815,
+      "width": 537.0,
+      "height": 240
+    },
+    {
+      "id": "publication_17ecdc72c9dc95c3",
+      "x": 615.0,
+      "y": 815,
+      "width": 537.0,
+      "height": 240
+    },
+    {
+      "id": "publication_71542ff2e111286a",
+      "x": 48.0,
+      "y": 1075,
+      "width": 537.0,
+      "height": 240
+    },
+    {
+      "id": "publication_6bfe349079ec0e5f",
+      "x": 615.0,
+      "y": 1075,
+      "width": 537.0,
+      "height": 240
+    }
+  ],
+  "checks": {
+    "exactHeadlineAndBody": true,
+    "allSevenStories": true,
+    "uniquePublicationIds": true,
+    "correctOutlet": true,
+    "textWidthAndBodyBounds": true
+  },
+  "limitations": [
+    "Photo/headshot completion is blocked pending exact saved-person portrait and event-photo bindings. This is a typography/layout candidate only; no invented portrait or event photo.",
+    "Bodies contain only declined-comment sentences and reporter bylines.",
+    "Archive date is the saved-world cutoff; individual publication dates remain visible.",
+    "Team8 save purity and ID verification are producer-reported, not independently rerun.",
+    "SVG font metrics and actual game/browser consumer fit are NOT RUN.",
+    "CTO review and Lamontae pixel approval are pending."
+  ],
+  "outputs": {
+    "filled-frontpage.svg": "e2f481b6afb519f6c436b996d3542a1d08211402fa279d1a3f17a75b289d3f04",
+    "filled-frontpage.png": "46d8bd9b3bd6aed63738be122bd0d96bf91b75e533ecb67921c634f2babcb7a1",
+    "filled-frontpage-contact.jpg": "6c11a418ae5c4f615033632ce0662409025f57a852343842e9ce2e069190b1df"
+  }
+}
