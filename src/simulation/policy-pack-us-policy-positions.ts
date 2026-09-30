@@ -1260,6 +1260,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.independent-ward-commission",
+      parameters: [
+        { key: "authority", value: "ward-drawing-body" },
+        { key: "coverage", value: "covered-council-districts" },
+      ],
       issue: "us-state-and-local:government-operations.redistricting",
       name: "Independent ward commission",
       question:
