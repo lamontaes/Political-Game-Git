@@ -1,3 +1,29 @@
+## September 30, 12:30 integration checkpoint
+
+### MERGED
+Merge verified 1239, 1251, 1248 and 1244. Coverage validation used six passing named cases after two full-file timeout attempts; two long cases remain unverified. Live GitHub additionally confirms 1174 at 779138951e825cf169a5f005a1f17f924c8d0b35, privacy 1261 at ea5f51aefe4aad8fed1e2b587867c804ef01f5b2, ideology 1262 at 316b999e589ad3f87493e90f2f9b84b11888327f, and withholding 1256 at 6f3c2cdcabb2c03518f4d9787f835ddb0a50d385.
+
+### CONNECTIONS TABLE
+
+| Producer | Consumer | Actual state | Next owner action |
+| --- | --- | --- | --- |
+| Team 8 ideology | Canonical catalog, then Team 2 decisions | 1262 merged; four tests pass | Team 2 is testing the weight reader |
+| Team 5 ideology | Canonical catalog, then Team 2 decisions | 1263 d30f4ad8e95fa03dd197e94c191071247fa842e4; twelve laws and 84 weights; one comprehensive test passes | CTO review, then same decision reader |
+| Federal withholding law | Actual tax liability | 1256; eight tests pass with controlled-reader limits | Merged; new-main audit pending |
+| Minimum-wage terms | Actual paid transfer | Five saved-payment fixtures pass; unpublished | Coordinator publishes preserved writer hunks |
+| Research elasticities | Outcome engine | 1265 f765ad264e9c99882336706f1b6d09b7100a7708; three tests and scoped types pass | Coordinator connects compatible police estimates |
+| Coverage consequences | News | Team 8 1235 published, new consumer checks not run | Team 8 validates current source |
+| Transit spending | Service and audit rows | Team 6 1249 renewed; purpose-aware join needed | Team 6 supplies exact joins to audit |
+| Approved art | Scene import | Native 1600 display threshold authorized | Team 7 imports; exact four kids-sheet identities requested |
+
+### BLOCKED
+Crime-to-migration is an absolute five-year probability estimate, not an elasticity. Conversion remains explicit. Team 9 consequence tests exceeded their timeout; narrower legitimate fixtures are being prepared. Team 8 checks remain unverified where its executor failed. No runtime retirement eligibility caller has been established.
+
+### EFFECTS
+No team has a verified numerator for all five parts of every assigned law. Therefore a percentage of five-part completion is not estimable from these receipts. Verified complete remains zero for the previously reported 12 Team 5 and nine Team 8 laws; this does not mean their individual components are absent. Team 1 privacy cost 1261 is ready. Team 2 weight consumer is under test. Team 3 expands paid-leave payment checks. Team 4 housing writer remains its assigned next work. Team 6 transit payment stamps and ideology are published. Team 9 justice checks are failing on time. Team 7 has an import task rather than a law denominator.
+
+All existing law teams received the 12:45 stamped-cost and measured-about-zero audit deadlines. Fresh audit was directed to rerun Georgia and New Jersey on the newly merged writers, preserving prior evidence.
+
 ## September 30, 11:45 active integration
 
 ### MERGED

@@ -709,3 +709,29 @@ Coordinator owns federal top-income-tax to withholding, federal minimum wage to 
 
 ## September 30, 11:45 federal writer boundary
 Coordinator owns federal-top-income-tax-law.ts/test, statutory-tax.ts federal assessment hunk, and tax-types.ts optional stamp interface. Team3 state tax/paidleave payloads must be handed to coordinator for these two shared files; Team3 retains state-income-tax-law.ts, state-paid-leave-law.ts and paid-leave-benefits.ts. No concurrent shared-file writes.
+
+## September 30, 11:50 justice writer grant
+Team9 owns src/simulation/justice/prosecution.ts followUp and src/simulation/justice/pretrial.ts pretrialGoverningLawAt for saved pretrial attribution. Preserve unrelated current-main hunks. Coordinator owns map integration. Team4 cannabis publication1254 complete enough for ready review; its next housing law stays within released housing paths. Team1 privacy owns only stepTownFinances privacy accounting hunk, preserving cannabis.
+
+- Team 7: art/authoring/sept30-team7/law-place-import/; CTO11:48 import preparation, no runtime release.
+
+- Team 7: art/manifest/asset_manifest.json — append ten Team7 law-place records only; CTO11:48 import preparation, no runtime release.
+
+- Team 7: art/manifest/provenance.json — append ten Team7 law-place provenance records only; CTO11:48 import preparation, no runtime release.
+
+- Team 7: docs/codex/handbacks/team-7-law-place-import.md — approved ten-picture import records, no runtime release.
+
+- Team 7: docs/release/changes/team-7-law-place-import.md — approved ten-picture import records, no runtime release.
+
+## September 30, 12:07 minimum-wage saved-pay boundary
+Coordinator owns town-pay.ts raiseTownPayToMinimum attribution hunk only; resources.ts RecordResourceFlowTermsInput and buildResourceTransferOutcome stamp propagation; types.ts ResourceFlowTermsRecord/ResourceTransferOutcome optional stamp fields. Team5 teacher floor and Team3 compensation adapters remain theirs. Existing owners notified to hand over any unpublished overlapping hunks.
+
+- Team 7: src/authoring/asset-lineage.ts — CTO12:18 explicit native-display1600 admission profile only; defaultprint4608 retained.
+
+- Team 7: src/authoring/asset-lineage.test.ts — CTO12:18 explicit native-display1600 admission profile only; defaultprint4608 retained.
+
+- Team 7: scripts/art-asset-factory/environment-intake.ts — CTO12:18 explicit native-display1600 admission profile only; defaultprint4608 retained.
+
+- Team 7: art/authoring/sept30-team7/approved-import/ — CTO12:18 regional/TV/kids exact approved import records.
+
+- Team 7: docs/systems/art-assets.md — CTO12:18 native-display versus print-master contract paragraph only.
