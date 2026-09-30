@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
+import { appendCrisisRecord } from "../crisis/records";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import type { LawEffectStamp } from "../law-effect-stamp";
 import { searchLifePlaces, stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import {
@@ -575,4 +578,95 @@ describe("law story resident readers", () => {
       }),
     ).toEqual([0, 1, 3, 4, 5].map((index) => people[index]!.id).sort());
   });
+});
+
+describe("actual stamped coverage reaches resident news", () => {
+  it.each(["in-force-at-start", "enacted"] as const)(
+    "reads %s coverage without disclosing private basis or inventing an act",
+    (origin) => {
+      const { world: base, people, town, away } = readerFixture();
+      const date = base.currentDate;
+      const questionKey =
+        "us-policy-positions:health-human-services.expand-medicaid-eligibility";
+      const state = stateJurisdictionForKey("US-NV")!;
+      const law = ordinance(state.id, "coverage-news", "yes", date, 1);
+      const governingLawKey = origin === "enacted"
+        ? law.measure.id
+        : `starting-law:US-NV:${questionKey}` as EntityId;
+      let world: World = {
+        ...base,
+        policyCatalog: createProductionPolicyCatalog(),
+        history: {
+          ...base.history,
+          legislativeMeasures: origin === "enacted" ? [law.measure] : [],
+          legislativeEnactments: origin === "enacted" ? [law.enactment] : [],
+        },
+      };
+      const stamp: LawEffectStamp = {
+        version: "law-effect-stamp/v1",
+        governingLawKey,
+        source: origin,
+        effectKind: "health-coverage",
+        questionKey,
+        jurisdictionId: state.id,
+        operativeAt: date,
+        appliedAt: date,
+        sourceRecordIds: [],
+      };
+      function coverage(covered: boolean, tag: string, stamped = true) {
+        world = appendCrisisRecord(world, {
+          kind: "health-coverage",
+          stableKey: `coverage-news:${origin}:${tag}`,
+          effectiveAt: date,
+          causalParentIds: [],
+          visibility: "private",
+          eventId: null,
+          personId: people[2]!.id,
+          program: "medicaid-expansion",
+          covered,
+          reasonKey: tag,
+          stateKey: "US-NV",
+          householdSize: 1,
+          monthlyIncomeMinor: 123456,
+          monthlyWorkHours: 0,
+          hazardMultiplierMicros: 1000000,
+          hazardFrom: null,
+          hazardBasis: "Explicit fixture, no measured health effect.",
+          basis: "PRIVATE income 123456 and private medical detail.",
+          ...(stamped ? { lawEffectStamps: [stamp] } : {}),
+        });
+      }
+      coverage(false, "initial-not-covered");
+      expect(reportLawEffects(world, 0)).toBe(world);
+      coverage(true, "coverage-began");
+      const source = world.history.crisisRecords!.at(-1)!;
+      world = reportLawEffects(world, 0);
+      const stories = world.history.events.filter((event) =>
+        event.tags.includes("law-effect:reach:health-coverage"),
+      );
+      expect(stories).toHaveLength(1);
+      const story = stories[0]!;
+      // Person2's current recorded household is Reno, despite hometown Carson.
+      expect(story.jurisdictionId).toBe(away.context.jurisdiction.id);
+      expect(story.jurisdictionId).not.toBe(town.context.jurisdiction.id);
+      expect(story.tags).toContain(`law-effect:source:${source.id}`);
+      expect(story.tags).toContain(`law-effect:origin:${origin}`);
+      expect(story.summary).toContain("coverage began for 1 resident");
+      expect(JSON.stringify(story)).not.toContain("123456");
+      expect(JSON.stringify(story)).not.toContain("private medical detail");
+      expect(lawNewsReaders(world, story)).toContain(people[2]!.id);
+      expect(reportLawEffects(world, 0)).toBe(world);
+      coverage(true, "same-coverage-new-reason");
+      expect(reportLawEffects(world, 0)).toBe(world);
+      coverage(false, "coverage-ended");
+      world = reportLawEffects(world, 0);
+      const both = world.history.events.filter((event) =>
+        event.tags.includes("law-effect:reach:health-coverage"),
+      );
+      expect(both).toHaveLength(2);
+      expect(both[1]!.summary).toContain("coverage ended for 1 resident");
+      coverage(true, "unstamped", false);
+      expect(reportLawEffects(world, 0)).toBe(world);
+    },
+  );
 });
