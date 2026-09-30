@@ -19,6 +19,7 @@ import {
   recordOrdinaryMeetingPresence,
   enterOrdinaryMeeting,
   speakAtOrdinaryMeeting,
+  ordinaryMeetingEntry,
 } from "../simulation/ordinary-meeting-presence";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -326,8 +327,31 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
         personId,
         activity.id,
       );
-      const scene = projectOrdinaryMeetingScene(recorded, personId)!;
+      const scene = projectOrdinaryMeetingScene(recorded, personId);
       const town = activity.location.jurisdictionId!;
+      const unitsAtHome = homeLocalGovernmentUnits(completed, personId);
+      if (
+        [
+          ...unitsAtHome.municipal,
+          ...unitsAtHome.townships,
+          ...unitsAtHome.counties,
+        ].every((unit) => sittingLocalOfficers(completed, unit).length === 0)
+      ) {
+        // This place has no recorded council or named notice host. The reader
+        // cannot manufacture an attendee to make an entry control work.
+        expect(recorded).toBe(completed);
+        expect(scene).toBeNull();
+        const arrived = performVenueActivity(world, personId, journey.id);
+        expect(ordinaryMeetingEntry(arrived, personId, activity.id)).toBeNull();
+        expect(enterOrdinaryMeeting(arrived, personId, activity.id)).toBe(
+          arrived,
+        );
+        expect(projectOrdinaryMeetingScene(arrived, personId)).toBeNull();
+        expect(deserializeWorld(serializeWorld(arrived))).toEqual(arrived);
+        return;
+      }
+      expect(scene).not.toBeNull();
+      const presentScene = scene!;
       const belongs = (id: EntityId) =>
         activeOrganizationParticipationsAt(completed, id).length;
       console.log(
@@ -335,7 +359,7 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
           seed,
           place: `${place.displayName} (${place.key})`,
           councilChair: localCouncilChair(completed, town, personId) !== null,
-          actors: scene.actors.map((actor) => ({
+          actors: presentScene.actors.map((actor) => ({
             name: personName(recorded.people[actor.personId]!),
             belongs: belongs(actor.personId),
             line: actor.spokenLine ?? null,
@@ -343,10 +367,10 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
         }),
       );
       expect(recorded.personOrder).toEqual(completed.personOrder);
-      for (const actor of scene.actors)
+      for (const actor of presentScene.actors)
         expect(completed.people[actor.personId]!.homeJurisdictionId).toBe(town);
       const units = homeLocalGovernmentUnits(completed, personId);
-      const chairId = scene.actors[0]!.personId;
+      const chairId = presentScene.actors[0]!.personId;
       const unit = [
         ...units.municipal,
         ...units.townships,
@@ -357,7 +381,7 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
         ),
       );
       const officers = unit ? sittingLocalOfficers(completed, unit) : [];
-      expect(scene.actors.map((actor) => actor.personId).sort()).toEqual(
+      expect(presentScene.actors.map((actor) => actor.personId).sort()).toEqual(
         [
           ...new Set(
             officers
@@ -366,9 +390,9 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
           ),
         ].sort(),
       );
-      expect(scene.actors.every((actor) => actor.spokenLine === null)).toBe(
-        true,
-      );
+      expect(
+        presentScene.actors.every((actor) => actor.spokenLine === null),
+      ).toBe(true);
     },
   );
 

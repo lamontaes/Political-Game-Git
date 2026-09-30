@@ -415,10 +415,25 @@ function meetingChairFor(
   if (named) return named.personId;
   if (earlierEntry) return null;
   const officer = localCouncilChair(world, jurisdictionId, personId);
-  return officer &&
+  if (
+    officer &&
     eligibleMeetingPerson(world, personId, officer, jurisdictionId)
-    ? officer
-    : null;
+  )
+    return officer;
+  // A district council can have canonical seats without the municipal vote
+  // adapter used by localCouncilChair. Read those same seats for this event.
+  const units = homeLocalGovernmentUnits(world, personId);
+  for (const unit of [
+    ...units.municipal,
+    ...units.townships,
+    ...units.counties,
+  ]) {
+    const seated = sittingLocalOfficers(world, unit).find((seat) =>
+      eligibleMeetingPerson(world, personId, seat.personId, jurisdictionId),
+    );
+    if (seated) return seated.personId;
+  }
+  return null;
 }
 
 function writePresence(
