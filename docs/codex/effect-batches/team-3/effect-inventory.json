@@ -1,0 +1,415 @@
+{
+  "team": 3,
+  "assignment": "CTO10:45",
+  "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+  "lawCount": 13,
+  "laws": [
+    {
+      "questionId": "us-policy-positions:fiscal.adopt-income-tax",
+      "effects": [
+        {
+          "description": "Worker withholding and take-home pay",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Government income-tax receipts",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Official pretax poverty metric: definition supplies zero direct tax effect",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Migration response requires cohort evidence",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/state-income-tax-law.ts",
+        "src/simulation/statutory-tax.ts",
+        "src/simulation/public-budgets/month.ts"
+      ],
+      "directMapLinkIds": [
+        "income-tax-to-poverty",
+        "income-tax-to-out-migration"
+      ],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.graduated-income-tax",
+      "effects": [
+        {
+          "description": "Distribution of withholding by filing status and earnings",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Government receipts from the actual schedule",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Pretax poverty definition supplies zero direct tax effect",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Migration response requires evidence",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/state-income-tax-law.ts",
+        "src/simulation/statutory-tax.ts",
+        "src/simulation/public-budgets/month.ts"
+      ],
+      "directMapLinkIds": [
+        "graduated-income-tax-to-poverty",
+        "graduated-income-tax-to-out-migration"
+      ],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "effects": [
+        {
+          "description": "Legal limit on assessment/levy growth with jurisdiction exemptions",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Named owner tax bill and government revenue",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "School spending and achievement: supported cohort/horizon must be retained",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": ["src/simulation/public-budgets/rules.ts"],
+      "directMapLinkIds": ["property-tax-cap-to-math"],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "effects": [
+        {
+          "description": "Shopper grocery tax charged and household spending",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Government grocery-tax receipts",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Food insecurity for source population",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Official pretax poverty definition supplies zero direct sales-tax effect",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/public-budgets/month.ts",
+        "src/simulation/public-budgets/rules.ts"
+      ],
+      "directMapLinkIds": [
+        "grocery-exemption-to-poverty",
+        "grocery-exemption-to-food-insecurity"
+      ],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.balanced-operating-budget",
+      "effects": [
+        {
+          "description": "Government budget-balance legal constraint",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Recorded expenditure/revenue/borrowing adjustments",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Borrowing cost where fiscal-rule evidence supports it",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Service consequences require actual program outturn",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/public-budgets/fiscal.ts",
+        "src/simulation/public-budgets/month.ts"
+      ],
+      "directMapLinkIds": ["balanced-budget-to-borrowing-cost"],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "effects": [
+        {
+          "description": "Government scheduled pension contribution",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Pension funding records and active/retired worker obligations",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Borrowing cost: existing pension-loss estimate does not establish contribution-law effect",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/public-budgets/pension-share.ts",
+        "src/simulation/public-budgets/fiscal.ts",
+        "src/simulation/public-budgets/month.ts"
+      ],
+      "directMapLinkIds": ["pension-funding-to-borrowing-cost"],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "effects": [
+        {
+          "description": "Government reserve target/deposit legal rule",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Actual reserve transfer and available operating budget",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Borrowing cost response needs causal size",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Program service impact requires outturn",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/public-budgets/reserve-rule.ts",
+        "src/simulation/public-budgets/fiscal.ts",
+        "src/simulation/public-budgets/month.ts"
+      ],
+      "directMapLinkIds": ["reserve-balance-to-borrowing-cost"],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "effects": [
+        {
+          "description": "Covered worker compensation terms and actual paycheck",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Employer payroll costs",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Poverty response through actual wage change measure",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Low-wage employment response within researched bounds",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/minimum-wage.ts",
+        "src/simulation/living-world/town-pay.ts"
+      ],
+      "directMapLinkIds": [],
+      "viaMeasureLinkIds": ["minimum-wage-to-poverty"],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits",
+      "relatedMapLinkIds": ["minimum-wage-to-low-wage-jobs"],
+      "registrationGap": "Employment link exists, but the current question alias does not register labor.minimum-wage-to-median."
+    },
+    {
+      "questionId": "us-policy-positions:labor-workforce.city-minimum-wage",
+      "effects": [
+        {
+          "description": "Local covered worker legal floor and actual paycheck",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "State/federal floors and local authority/preemption",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Employer payroll cost",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Employment/poverty evidence requires local coverage and response size",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/minimum-wage.ts",
+        "src/simulation/living-world/town-pay.ts"
+      ],
+      "directMapLinkIds": [],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "effects": [
+        {
+          "description": "City ability to enact/apply a wage floor",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Existing local ordinance applicability under state preemption",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Any paycheck consequence must trace an actual operative ordinance",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/governing/question-authority.ts",
+        "src/simulation/minimum-wage.ts"
+      ],
+      "directMapLinkIds": [],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:labor-workforce.paid-family-leave",
+      "effects": [
+        {
+          "description": "Covered employee premium/withholding",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Recorded qualifying absence and benefit payment",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Job protection/return rules where supplied by operative program",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Maternal employment response requires a study range",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [
+        "src/simulation/state-paid-leave-law.ts",
+        "src/simulation/living-world/town-pay.ts"
+      ],
+      "directMapLinkIds": ["paid-leave-to-mothers-work"],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "effects": [
+        {
+          "description": "Covered public worker bargaining rights and employer duties",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Agreements and resulting employment terms where actually recorded",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Graduation inert result has a limited study population",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Adult earnings evidence concerns school-exposed male cohorts, not current public worker wages",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [],
+      "directMapLinkIds": [
+        "public-bargaining-to-graduation",
+        "public-bargaining-to-earnings"
+      ],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    },
+    {
+      "questionId": "us-policy-positions:labor-workforce.right-to-work",
+      "effects": [
+        {
+          "description": "Covered private worker union-security obligations",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Union membership/payment remains a person decision",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Union political contact and voter participation",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        },
+        {
+          "description": "Turnout study percentage points require correct engine denominator",
+          "watchedStatus": "NOT RUN; no effect inferred"
+        }
+      ],
+      "productionPaths": [],
+      "directMapLinkIds": ["right-to-work-to-turnout"],
+      "viaMeasureLinkIds": [],
+      "noticing": "Team8 consumes Team2 stamps; no news effect inferred from source presence",
+      "authority": "Actual law-in-force hierarchy/dates plus primary jurisdiction coverage required; unresolved scope is not permission",
+      "repeal": "Re-read operative law; do not erase past money or end vested contracts solely from a map reversal",
+      "claimStatus": "Production paths requested from coordinator; no overlapping source edits"
+    }
+  ],
+  "watchedAudit": {
+    "tableHead": "8dabb887396666bc2c3ea477a7fa40353554d140",
+    "path": "docs/codex/law-audit/floral-48739fb370b945bd5b599e25a913a765145a2856.json",
+    "runtimeHead": "48739fb370b945bd5b599e25a913a765145a2856",
+    "team3MatchingEnactedRows": 0,
+    "limit": "Zero matching rows is lack of assigned-law coverage, not zero effects"
+  }
+}
