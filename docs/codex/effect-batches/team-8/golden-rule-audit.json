@@ -1,0 +1,103 @@
+{
+  "schema": "team-8-golden-rule-audit/v1",
+  "asOfEastern": "2026-09-30 13:20",
+  "rule": "Outcome levels emerge from operative law terms and recorded world bases. Research level ranges are calibration checks; sourced causal strengths may vary.",
+  "scope": "Owned law producers/readers and delegated privacy dependency. Earlier presentation paths inspected locally; not an exhaustive audit of every historical Team8 commit.",
+  "ownedDrawnOutcomeLevels": [],
+  "rows": [
+    {
+      "pr": 1244,
+      "sourceHead": "217a8de539acb2dd13e3b7b627a78dfc91677eba",
+      "mainLanding": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+      "file": "src/simulation/crisis/health-coverage.ts",
+      "drawnOutcomeLevel": false,
+      "mechanism": "Coverage reads operative law, recorded household pay, ages, recorded work hours and exemptions. Saved coverage changes feed the sourced mortality hazard multiplier.",
+      "limits": "Fixed sourced mortality effect strength is distinct from drawing population mortality. This audit does not certify all terms, exemptions or remaining eligibility gaps.",
+      "repair": "No outcome-level draw introduced by Team8 stamp patch."
+    },
+    {
+      "pr": 1235,
+      "head": "7d4f8be4da506720812e3475a9b5efdc7b685e49",
+      "file": "src/simulation/press/law-effect-news.ts",
+      "drawnOutcomeLevel": false,
+      "mechanism": "Read changed saved coverage and canonical law stamps; project public news. No amount generation.",
+      "checks": "14 prior focused tests PASS on disclosed restored dependency stack; current-main rerun NOT RUN.",
+      "repair": "Merge verifies additive integration under CTO1:03 exact approval. No source change needed for this rule."
+    },
+    {
+      "pr": 1274,
+      "head": "f6cc284c74dc888fb4690906452033cdaa0e2f99",
+      "files": [
+        "src/simulation/public-budgets/age-verification-cost.ts",
+        "src/simulation/public-budgets/month.ts",
+        "src/simulation/public-budgets/store.ts"
+      ],
+      "drawnOutcomeLevel": false,
+      "amount": "Existing SPENDING_QUESTION_EFFECTS.toYes/toNo × actual government.population /12. Inherited age-check rate ±0.0645 USD/resident/year.",
+      "mechanismGap": true,
+      "dependency": "src/simulation/public-budgets/rules.ts age-verification entry uses Utah2023 fiscal-note benchmark. This patch attributes existing spending; it adds no rate or draw.",
+      "repair": "Replace benchmark scaling in a separately claimed mechanism repair with actual filed appropriation or staffing/service terms × recorded enforcement base. Require valid operative 2026 authority and recorded workload or appropriation. No invented investigations, staff or invoices.",
+      "currentIntegrationRepair": "Preserve both main cannabis-revenue-loss and age-verification stamps in settled month row. Shared hunk released to Team5; awaiting exact current-writer handoff before edits.",
+      "checks": "Five prior cost fixtures PASS; current-main integration NOT RUN; researched 2026 cost part incomplete."
+    },
+    {
+      "pr": 1262,
+      "sourceHead": "1fb6894b1afcd655eeca67e7420e7ef7cf8b419a",
+      "mainLanding": "316b999e589ad3f87493e90f2f9b84b11888327f",
+      "file": "docs/codex/effect-batches/team-8/ideology.json",
+      "drawnOutcomeLevel": false,
+      "mechanism": "Authored principle weights 0–1; not economic levels or empirical estimates.",
+      "repair": "No outcome-level draw in submitted payload; decision-consumer runtime proof remains Team2."
+    },
+    {
+      "sourceHead": "fee2a82fe5e3527e0085a407386dcc1f089b708c",
+      "file": "docs/codex/effect-batches/team-8/batch-03-age-verification-and-zero-audit.json",
+      "drawnOutcomeLevel": false,
+      "mechanism": "Four replacement contracts remain unsized/inactive; six unsupported or incomplete near-zero claims audited.",
+      "repair": "Coordinator removes rejected graduation link. Research actual access/compliance/retention mechanisms; calibration benchmarks must not become outcome-level picks."
+    }
+  ],
+  "delegatedDependencyFinding": {
+    "originalOwner": "Team1",
+    "pr": 1261,
+    "sourceHead": "ab5f48837c954440fa04601de08265c6288cc0d5",
+    "mainLanding": "ea5f51aefe4aad8fed1e2b587867c804ef01f5b2",
+    "inspectedMain": "80dba335a62f77d6a45c38919105991658ccf1de",
+    "files": [
+      "src/simulation/federal-data-privacy-law.ts",
+      "src/simulation/living-world/town-finances.ts"
+    ],
+    "function": "drawnDataPrivacyCostShare",
+    "drawnOutcomeLevel": true,
+    "exactViolation": "SeededRng selects share0.001–0.006, stable per world/jurisdiction. Firm-quarter cost is (quarterPay×4+annualOtherCosts)×share/4. A compliance-cost share level is picked directly; actual data intensity is not read.",
+    "repair": "Remove level draw and derive compliance work from actual saved data-processing volume, method, retention, statutory obligations and sourced unit effort/cost. Preserve legal coverage, canonical stamps and firm cash/debt consequences. Use0.1–0.6% production-cost average only as calibration; permit firms/places outside it.",
+    "missingInputs": [
+      "Exact existing producer/test release and unpublished head",
+      "Actual firm data-processing/intensity records and provenance",
+      "Operative law obligation terms and coverage",
+      "Published unit effort or implementation cost by actual workload"
+    ],
+    "unknownIsNotZero": true,
+    "implementationStatus": "Read-only finding; no shared producer writes, no guessed industry intensity scores."
+  },
+  "executedThisAudit": [
+    "Exact published coverage/cost/privacy source reads",
+    "Static draw/formula inspection",
+    "Current PR metadata reads"
+  ],
+  "notRun": [
+    "New privacy mechanism tests",
+    "Current-main dependency rerun",
+    "Nationwide audit",
+    "Full historical Team8 commit enumeration"
+  ],
+  "automaticReviewBlocker": {
+    "action": "github_create_commit additive feature-branch main integration",
+    "parents": [
+      "7d4f8be4da506720812e3475a9b5efdc7b685e49",
+      "1c500321e1d7ed5a855e7794880e31f1d380de8c"
+    ],
+    "preparedTree": "53922e56803d4fa3ef208e332517b9b789f3e982",
+    "result": "Rejected; explicit CTO merge approval required. No ref updated. CTO1:03 exact PR approvals now received; route clean-main integration to Merge, no bypass."
+  }
+}
