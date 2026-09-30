@@ -924,3 +924,6 @@ Coordinator exclusively owns history.ts HistoricalEventInput/appendHistoricalEve
 
 ## September 30, 2:40 Team7 current-main child binding
 Team7 owns isolated current-main patch blobs only: appearance-lifecycle.ts supported-child-stage gate; appearance-engine manifest/pack/recipe individual approved crop stage/build/pose entries; life-scene-people.ts engine branch permitted pose/body sets and child contact/scale metadata. Local dirty ad75 source remains untouched. SceneBackdrop.tsx/player.css excluded. No new copy, new pixels or visual acceptance inferred. Existing runtime/save requested from CTO; source assembly proceeds independently.
+
+## September30 CTO3:09/3:19 one law engine
+Coordinator solely owns enacted-law-effects.ts orchestration, law-consequence-types.ts schema, catalog validation and links integration. STOP new per-law month.ts/index.ts claims; pending Team5 curriculum index release is superseded. Team2 assigned generic pay adapter in existing town-pay.ts, pending Team3 exact overlap release; test preparation allowed. All other teams convert law data rows after shared schema, finish existing3:30stamp batches. No new engine or duplicate per-law writer.
