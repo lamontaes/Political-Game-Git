@@ -111,3 +111,43 @@ Only full simulation runs (law proof, multi-year baselines, speed timing) count 
 - Team 7: draft #1139 published at ffde4abd323a8aef29653f94f244fd13bd80a027. All 61 candidates, 40 sheets and 886 tags included. Bounded QA passed; alpha/import issues and all approvals remain open. Ready for Claude contact-sheet review.
 
 Eight o'clock check-in posted to coordinator 00. No Codex merge or new team. Only full simulations count toward heavy concurrency; no focused-test or image queues.
+
+## Claude CTO 8:10 dispatch received and sent to all seven teams
+
+All seven existing chats received the exact common rules, their own section and the integration table from coordinator 00. Finished pieces become ready within 30 minutes after scoped typecheck and related tests; full proofs and multi-year watched runs happen after merge on main and never block ready status. Claude merges. Only Team 4 timing can pause full simulations, at most six minutes once an hour, with posted resume time. Focused checks and image QA are never queued.
+
+The 8:30 coordinator post uses MERGED (verified player/world change), CONNECTIONS TABLE, and BLOCKED (exact dependency plus action taken). Initial links: research→laws→lawmakers (Team 1); laws→single money function→paychecks (Teams 1/3); recorded history→officeholder life formation→votes (Teams 5/2); census towns→all watched setups (Team 3); speed→all proofs (Team 4); art tags→import (Claude). These are not yet verified connected on main.
+
+Teams must reply under their own headings in coordinator 00 within 30 minutes. Team 7 must reuse existing candidate sets where suitable and report exact declaration error, rather than blindly duplicating the 61 existing candidates.
+
+## September 29, 8:30 p.m. Eastern coordinator checkpoint
+
+### MERGED
+
+No new wave merge verified since the 8 p.m. post in the live GitHub inventory. No new watched-world result is claimed. Ready: #1131, #1133, #1134, #1135, #1139–#1144. Team 2 #1136 remains draft pending splitting; coordinator #1137 contains the coordination record.
+
+### CONNECTIONS TABLE
+
+| Output → consumer | Connected on main? | Owner and next action |
+| --- | --- | --- |
+| Team 1 laws → single money function → town paychecks | Not verified | Teams 1/3 agree canonical function and inputs in 00 before implementation. |
+| Team 5 recorded history → Team 2 life formation → votes | Not yet | Team 5 named factsForPerson and eventById; Team 2 wires caller in a PR based on codex/wire-last-ten-laws. |
+| Team 3 census towns → all watched-world setups | Not yet | #1143 ready; teams switch after verified merge. |
+| Team 4 speed → other teams' proofs | Not yet | Month 131.788 → 107.994 seconds, matching people/decisions/results, history write order differs. Under-15-second target FAILED. Team 4 publishes faster owned pieces and decision diff. |
+| Team 7 tags → art import | Not yet | #1139–#1142 ready; Claude reviews contact sheets/import, Lamontae retains pixel approval. |
+
+Research → laws row removed: job 13 is not authorized.
+
+### BLOCKED
+
+- #1131: 8:27 calibration, jurisdiction-specific lobbying data and player wording corrections outstanding. Dispatched full ruling to Team 1, including agreement with Team 3 and speed-branch test reruns; no raised timeouts.
+- #1136: wait for #1131 removed for four independent pieces. Team 2 received stacking route for life formation plus approved calibration-only use of NCSL data.
+- Team 4 publication: automatic approval review rejected publication because authorization to publish private source was not established. Relayed explicit owner authorization for this repository and requested a reviewed request naming owned paths; no bypass or successful publication claimed.
+- Team 5: three meeting-test failures need exact assertions; requested under the 8:27 dispatch. Claude owns browser validation.
+- Team 6: obsolete transportation freeze withdrawn. Continue approved outline and unresolved availability/verification research; preserve housing #1144, no game-code handoff or job 13 implementation.
+- Team 7 release-check obstruction traced to an unrelated local declaration, not the committed art declaration; unrelated work preserved. Art remains candidate-only.
+- Process breach: Team 1 timing pause lasted 14m03.6s, resumed 8:16:18.912 p.m.; Team 3 timing pause lasted 8m52.26s and resumed. Both exceeded six minutes. Future timing pauses require a posted deadline and actual resume by six minutes, at most once/hour.
+
+All seven existing teams received the newer 8:27 ruling. No new team, no Codex merge.
+
+Team 3 follow-up: #1143 still contains labeled peer estimates for suppressed demographics and two unmatched Island village keys. Team 3 is auditing own-source records under the missing-number ruling; these estimates are not claimed owner-approved. Claude should account for this limit while gating.

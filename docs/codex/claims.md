@@ -377,3 +377,25 @@
 | Team 3 | `.prettierignore` | 2026-09-29T23:53:27.903308+00:00 |
 | Team 5 | `src/simulation/person-context.ts` | 2026-09-29T23:56:53.998722+00:00 |
 | Team 5 | `src/presentation/people-continuation.ts` | 2026-09-29T23:56:53.999288+00:00 |
+| Team 5 | `src/simulation/macro-economy/sources.ts` | 2026-09-30T00:04:45.106439+00:00 |
+| Team 7 | `art/authoring/sept29-team7/kids/tags.json` | 2026-09-30T00:17:17.614688+00:00 |
+| Team 7 | `art/authoring/sept29-team7/kids/generation-receipts.json` | 2026-09-30T00:17:17.614998+00:00 |
+| Team 7 | `docs/release/changes/sept29-team7-kids.md` | 2026-09-30T00:17:17.615047+00:00 |
+| Team 7 | `docs/codex/handbacks/team-7-kids.md` | 2026-09-30T00:17:17.615072+00:00 |
+| Team 7 | `art/authoring/sept29-team7/tv/tags.json` | 2026-09-30T00:17:17.615113+00:00 |
+| Team 7 | `art/authoring/sept29-team7/tv/generation-receipts.json` | 2026-09-30T00:17:17.615145+00:00 |
+| Team 7 | `docs/release/changes/sept29-team7-tv.md` | 2026-09-30T00:17:17.615181+00:00 |
+| Team 7 | `docs/codex/handbacks/team-7-tv.md` | 2026-09-30T00:17:17.615204+00:00 |
+| Team 7 | `art/authoring/sept29-team7/newspapers/tags.json` | 2026-09-30T00:17:17.615231+00:00 |
+| Team 7 | `art/authoring/sept29-team7/newspapers/generation-receipts.json` | 2026-09-30T00:17:17.615264+00:00 |
+| Team 7 | `docs/release/changes/sept29-team7-newspapers.md` | 2026-09-30T00:17:17.615293+00:00 |
+| Team 7 | `docs/codex/handbacks/team-7-newspapers.md` | 2026-09-30T00:17:17.615324+00:00 |
+
+| Team 6 | `data/research/authorities/housing.json` | 2026-09-30T00:20:10.164357+00:00 |
+| Team 6 | `data/research/authorities/housing.md` | 2026-09-30T00:20:10.164357+00:00 |
+
+| Team 2 | `docs/release/changes/smooth-midterm-response.md` | 2026-09-30T00:35:00Z |
+| Team 2 | `docs/release/changes/majority-backed-agendas.md` | 2026-09-30T00:35:00Z |
+| Team 2 | `docs/release/changes/strongest-pressure-sponsorship.md` | 2026-09-30T00:35:00Z |
+| Team 2 | `docs/release/changes/principle-cosponsors.md` | 2026-09-30T00:35:00Z |
+| Team 2 | `docs/release/changes/officeholder-life-formation.md` | 2026-09-30T00:35:00Z |
