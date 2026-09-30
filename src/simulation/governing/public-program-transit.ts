@@ -29,14 +29,16 @@ export function recordPaidTransitProgramService(
   if (
     installment.status !== "posted" ||
     !installment.resourceFlowId ||
-    plan?.purpose !== "operating" ||
+    !plan ||
     plan.amount.minorUnits <= 0 ||
     !appropriation.sourceMeasureId
   )
     return world;
   if (
     commitment.appropriationId !== appropriation.id ||
-    installment.commitmentId !== commitment.id
+    installment.commitmentId !== commitment.id ||
+    commitment.programKey !== appropriation.programKey ||
+    installment.programKey !== appropriation.programKey
   )
     throw new Error(
       "Transit service requires the saved appropriation payment chain.",
@@ -50,13 +52,20 @@ export function recordPaidTransitProgramService(
   const lineage = (world.history.legislativeDraftLineages ?? []).find(
     (row) => row.measureId === measure?.id,
   );
-  if (
-    !measure ||
-    !profile ||
-    lineage?.variantKey !== "transit-staged-service-v2" ||
-    profile.programKey !== appropriation.programKey
-  )
-    return world;
+  const rural =
+    !!measure &&
+    !!profile &&
+    lineage?.variantKey === "transit-staged-service-v2" &&
+    profile.programKey === appropriation.programKey;
+  const fareRelief =
+    !!measure &&
+    lineage?.familyKey === "transit-access" &&
+    lineage.variantKey === "enrollment-fare-relief";
+  if (!rural && !fareRelief) return world;
+  if (rural && plan.purpose !== "operating") return world;
+  const questionKey = fareRelief
+    ? "us-policy-positions:transportation-infrastructure.fare-free-transit"
+    : STATE_TRANSIT_SERVICE_QUESTION;
   const outcome = world.history.resourceTransferOutcomes.find(
     (row) =>
       row.resourceFlowId === installment.resourceFlowId &&
@@ -68,7 +77,7 @@ export function recordPaidTransitProgramService(
     outcome.transferredAmount.currency !== plan.amount.currency
   )
     throw new Error("Transit service hours require the exact posted payment.");
-  const propositionId = propositionIdFor(world, STATE_TRANSIT_SERVICE_QUESTION);
+  const propositionId = propositionIdFor(world, questionKey);
   const governingLaw = propositionId
     ? lawInForce(
         world,
@@ -78,9 +87,9 @@ export function recordPaidTransitProgramService(
       )
     : null;
   // Never attribute this payment to a different measure answering the same question.
-  const ownLaw = governingLaw?.measureId === measure.id ? governingLaw : null;
+  const ownLaw = governingLaw?.measureId === measure!.id ? governingLaw : null;
   const sources = [
-    measure.id,
+    measure!.id,
     appropriation.id,
     commitment.id,
     installment.id,
@@ -89,7 +98,7 @@ export function recordPaidTransitProgramService(
   ];
   const spendingStamp = lawEffectStamp(ownLaw, {
     effectKind: "state-spending",
-    questionKey: STATE_TRANSIT_SERVICE_QUESTION,
+    questionKey,
     jurisdictionId: appropriation.jurisdictionId,
     appliedAt: installment.recordedAt,
     sourceRecordIds: sources,

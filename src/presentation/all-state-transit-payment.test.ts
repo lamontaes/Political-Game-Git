@@ -62,7 +62,7 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 
 /** Synthetic passage inputs test the saved spending writers, not voter behavior. */
-function enactedTransitBill(stateUsps: string) {
+function enactedTransitBill(stateUsps: string, fareRelief = false) {
   const jurisdictionId = stateJurisdictionForKey(`US-${stateUsps}`)?.id;
   const place = searchLifePlaces("", 1, {
     stateJurisdictionKey: `US-${stateUsps}`,
@@ -105,13 +105,32 @@ function enactedTransitBill(stateUsps: string) {
     scenarioKey: legislativeWorkKey(pack),
     playerPersonId: game.playerPersonId,
     jurisdictionId,
-    familyKey: "appropriations",
-    variantKey: STATE_TRANSIT_VARIANT_KEY,
-    authorityKey: TRANSIT_PROGRAM_KEY,
-    parameterValues: {
-      appropriation: { kind: "money", minorUnits: 2_000_000, currency: "USD" },
-      "service-window": { kind: "enumerated", value: "weekday" },
-    },
+    familyKey: fareRelief ? "transit-access" : "appropriations",
+    variantKey: fareRelief
+      ? "enrollment-fare-relief"
+      : STATE_TRANSIT_VARIANT_KEY,
+    ...(fareRelief ? {} : { authorityKey: TRANSIT_PROGRAM_KEY }),
+    parameterValues: fareRelief
+      ? {
+          "support-limit": {
+            kind: "money",
+            minorUnits: 800_000_000,
+            currency: "USD",
+          },
+          "rider-eligibility": {
+            kind: "enumerated",
+            value: "assistance-enrollees",
+          },
+          "pilot-term": { kind: "duration-years", years: 2 },
+        }
+      : {
+          appropriation: {
+            kind: "money",
+            minorUnits: 2_000_000,
+            currency: "USD",
+          },
+          "service-window": { kind: "enumerated", value: "weekday" },
+        },
   });
   world = filed.world;
   const measureId = filed.bill.measureId;
@@ -119,7 +138,9 @@ function enactedTransitBill(stateUsps: string) {
   // fileDraft currently omits answers; this does not repair that production gap.
   const propositionId = propositionIdFor(
     world,
-    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+    fareRelief
+      ? "us-policy-positions:transportation-infrastructure.fare-free-transit"
+      : "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
   );
   if (!propositionId)
     throw new Error("The transit question is missing from the test catalog.");
@@ -198,23 +219,35 @@ function enactedTransitBill(stateUsps: string) {
 function paidService(
   stateUsps: string,
   purpose: "operating" | "maintenance" = "operating",
+  fareRelief = false,
 ) {
-  const enacted = enactedTransitBill(stateUsps);
+  const enacted = enactedTransitBill(stateUsps, fareRelief);
   let { world } = enacted;
-  const programKey = `transit:${stateUsps.toLowerCase()}`;
-  const appropriations = programAppropriations(world, programKey).filter(
-    (row) => row.sourceMeasureId === enacted.measureId,
+  const appropriations = world.history.publicProgramRecords!.filter(
+    (row) =>
+      row.kind === "appropriation" && row.sourceMeasureId === enacted.measureId,
   );
   expect(appropriations).toHaveLength(1);
   const appropriation = appropriations[0]!;
+  if (appropriation.kind !== "appropriation")
+    throw new Error("Missing authority");
+  const programKey = appropriation.programKey;
   const enactment = world.history.legislativeEnactments?.find(
     (row) => row.measureId === enacted.measureId && row.outcome === "enacted",
   );
   if (!enactment) throw new Error("The appropriation has no enacted measure.");
-  expect(appropriation.availableFrom).toBe(
-    operativeDateInWorld(world, enactment)?.date,
+  const operativeAt = operativeDateInWorld(world, enactment)?.date;
+  if (!operativeAt) throw new Error("Missing law operative date");
+  if (!fareRelief) expect(appropriation.availableFrom).toBe(operativeAt);
+  // Generic family authority currently opens before the statute; wait for
+  // the canonical operative date rather than claiming premature law effects.
+  const paymentFrom =
+    appropriation.availableFrom > operativeAt
+      ? appropriation.availableFrom
+      : operativeAt;
+  expect(appropriation.amount.minorUnits).toBe(
+    fareRelief ? 800_000_000 : 2_000_000,
   );
-  expect(appropriation.amount.minorUnits).toBe(2_000_000);
   const account = publicTaxAccountForJurisdiction(
     world,
     enacted.jurisdictionId,
@@ -226,7 +259,7 @@ function paidService(
     ],
   ).toBeGreaterThan(0);
 
-  const days = daysBetween(world.currentDate, appropriation.availableFrom);
+  const days = daysBetween(world.currentDate, paymentFrom);
   if (days > 0)
     world = advanceWorld(
       world,
@@ -248,11 +281,11 @@ function paidService(
     alternative: {
       key:
         purpose === "operating"
-          ? "one-paid-vehicle-hour"
+          ? "actual-operating-payment"
           : "maintenance-payment",
       title:
         purpose === "operating"
-          ? "Pay one modeled vehicle-service hour"
+          ? "Pay the saved operating commitment"
           : "Pay modeled maintenance",
       installments: [
         {
@@ -268,7 +301,7 @@ function paidService(
     recipientOrganizationId: operator.organizationId,
   };
   const committed = commitPublicProgram(world, choice);
-  expect(committed.ok).toBe(true);
+  expect(committed.ok, committed.ok ? "posted" : committed.reason).toBe(true);
   if (!committed.ok) throw new Error(`${stateUsps}: ${committed.reason}`);
   const saved = deserializeWorld(serializeWorld(committed.world));
   const payer = {
@@ -493,6 +526,68 @@ describe("same fictional state transit bill reaches exact paid service", () => {
     },
   );
 
+  it("fare-relief payment stamps actual government cost without inventing eligible boardings", () => {
+    const seed = "team6-fare-relief-cost-20260930";
+    const usps =
+      US_STATE_USPS[new SeededRng(seed).integer(0, US_STATE_USPS.length - 1)]!;
+    const enacted = enactedTransitBill(usps, true);
+    const law = enacted.world.history.legislativeEnactments!.find(
+      (row) => row.measureId === enacted.measureId,
+    )!;
+    const operativeAt = operativeDateInWorld(enacted.world, law)?.date;
+    if (!operativeAt) throw new Error("Missing operative date");
+    const world = advanceWorld(
+      enacted.world,
+      daysBetween(enacted.world.currentDate, operativeAt) + 62,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const stamp = world.history.metricStates
+      .flatMap(
+        (row) =>
+          (row as typeof row & LawEffectStampedRecord).lawEffectStamps ?? [],
+      )
+      .find(
+        (row) =>
+          row.questionKey ===
+            "us-policy-positions:transportation-infrastructure.fare-free-transit" &&
+          row.governingLawKey === enacted.measureId,
+      );
+    expect(stamp, usps).toBeDefined();
+    expect(stamp?.effectKind).toBe("state-spending");
+    const sourceRecordIds = stamp?.sourceRecordIds;
+    if (!sourceRecordIds) throw new Error("Missing exact stamp source IDs");
+    const paid = world.history.publicProgramRecords!.find(
+      (row) => row.kind === "installment" && sourceRecordIds.includes(row.id),
+    );
+    if (!paid || paid.kind !== "installment")
+      throw new Error("No exact paid installment");
+    const commitment = world.history.publicProgramRecords!.find(
+      (row) => row.kind === "commitment" && row.id === paid.commitmentId,
+    );
+    if (!commitment || commitment.kind !== "commitment")
+      throw new Error("No exact commitment");
+    const plan = commitment.installments[paid.installmentIndex]!;
+    const outcome = world.history.resourceTransferOutcomes.find(
+      (row) =>
+        row.resourceFlowId === paid.resourceFlowId &&
+        row.status === "completed",
+    );
+    expect(outcome?.transferredAmount).toEqual(plan.amount);
+    expect(stamp!.sourceRecordIds).toContain(outcome!.id);
+    expect(stamp!.appliedAt >= operativeAt).toBe(true);
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(
+      reopened.history.metricStates.flatMap(
+        (row) =>
+          (row as typeof row & LawEffectStampedRecord).lawEffectStamps ?? [],
+      ),
+    ).toContainEqual(stamp);
+    expect(
+      world.history.events.some(
+        (row) => row.type === "transit.program-paid-service-hours",
+      ),
+    ).toBe(false);
+  });
   it.each(["AK", "CO"])(
     "%s: a payment creates no inferred ride or reaction",
     (usps) => {
