@@ -5,16 +5,23 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import {
-  openOrdinaryLife,
-  passOrdinaryDays,
-} from "../../presentation/ordinary-life";
+import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import {
   ARTICLE_V_STATE_KEYS,
   constitutionalActions,
   constitutionalPosition,
 } from "../constitutional-process";
-import { daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  simulationMomentAtLocalTime,
+} from "../dates";
+import {
+  cancelFutureDueItem,
+  createFutureTransitionHandlerRegistry,
+  resolveFutureDueItemsThrough,
+} from "../future-transitions";
 import { lifePlaces, stateJurisdictionForKey } from "../life-places";
 import { congressSeats } from "../living-world/congress-seats";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
@@ -26,8 +33,16 @@ import {
 import { createFormationContext, recordPrinciples } from "../politics";
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
+import { assertWorldIntegrity, withWorldIntegrityDeferred } from "../world";
 import {
+  applyArticleV,
+  ARTICLE_V_CONVENTION,
   ARTICLE_V_PROFILE,
+  ARTICLE_V_REVIEW,
+  ARTICLE_V_STATE_ACTION,
+  articleVConventionHandler,
+  articleVReviewHandler,
+  articleVStateActionHandler,
   CONVENTION_APPLICATION_EVENT,
   CONVENTION_CALL_EVENT,
   CONVENTION_RESCISSION_EVENT,
@@ -155,10 +170,63 @@ function seatedLegislators(world: World): readonly EntityId[] {
 }
 
 function passTo(world: World, date: string): World {
-  return passOrdinaryDays(
+  return passArticleVDays(
     world,
     Math.max(1, daysBetween(world.currentDate, makeIsoDate(date)) + 1),
   );
+}
+
+/**
+ * An authored constitutional-calendar setup, not a whole-country aging test.
+ * Keep the real due-item dispatcher, member decisions and dated state actions.
+ * Unrelated opening calendar entries are explicitly cancelled through their
+ * writer, so no missing handler or overdue item is hidden by dropping records.
+ */
+function passArticleVDays(world: World, days: number): World {
+  const through = addDays(world.currentDate, days);
+  const registry = createFutureTransitionHandlerRegistry([
+    [ARTICLE_V_REVIEW, articleVReviewHandler],
+    [ARTICLE_V_CONVENTION, articleVConventionHandler],
+    [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
+  ]);
+  let next = withWorldIntegrityDeferred(() => {
+    let prepared = applyArticleV(addDays(world.currentDate, -1), world);
+    const latest = new Map(
+      prepared.history.futureDueItemStates.map((state) => [
+        state.dueItemId,
+        state,
+      ]),
+    );
+    for (const due of prepared.history.futureDueItems) {
+      if (
+        registry.get(due.transitionKey) ||
+        latest.get(due.id)?.status !== "scheduled"
+      )
+        continue;
+      prepared = cancelFutureDueItem(prepared, {
+        stableKey: `article-v-test:cancel:${due.id}`,
+        dueItemId: due.id,
+        effectiveAt: prepared.currentDate,
+        reasonKey: "test:isolated-constitutional-calendar",
+        context: "Authored test setup isolates the constitutional calendar.",
+      });
+    }
+    return prepared;
+  });
+  assertWorldIntegrity(next);
+  next = resolveFutureDueItemsThrough(next, through, registry);
+  const result: World = {
+    ...next,
+    currentDate: through,
+    currentMoment: simulationMomentAtLocalTime({
+      date: through,
+      minuteOfDay: world.currentMoment.minuteOfDay,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    }),
+  };
+  assertWorldIntegrity(result);
+  return result;
 }
 
 function nextReview(world: World): string {
@@ -211,7 +279,7 @@ describe("Build 27 step 5: amending the Constitution on any subject", () => {
     expect(lawInForce(world, place, question)?.level).not.toBe(
       "federal-constitution",
     );
-    world = passOrdinaryDays(
+    world = passArticleVDays(
       world,
       ARTICLE_V_PROFILE.stateActionWindowDays + 2,
     );
@@ -290,7 +358,7 @@ describe("Build 27 step 5: amending the Constitution on any subject", () => {
           row.proposedBy !== "convention",
       ),
     ).toBe(false);
-    world = passOrdinaryDays(world, ARTICLE_V_PROFILE.conventionDays + 1);
+    world = passArticleVDays(world, ARTICLE_V_PROFILE.conventionDays + 1);
     const measure = world.history.constitutionalMeasures!.find(
       (row) =>
         row.proposedBy === "convention" &&
@@ -300,7 +368,7 @@ describe("Build 27 step 5: amending the Constitution on any subject", () => {
     expect(constitutionalPosition(world, measure.id).phase).toBe(
       "ratification",
     );
-    world = passOrdinaryDays(
+    world = passArticleVDays(
       world,
       ARTICLE_V_PROFILE.stateActionWindowDays + 2,
     );
