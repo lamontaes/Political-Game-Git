@@ -1,7 +1,7 @@
 import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
-  drawCanonicalNameForGender,
+  drawGeneratedPersonName,
   makeIsoDate,
   SeededRng,
 } from "../simulation";
@@ -19,7 +19,7 @@ export function ensureContextPerson(
   const personId = characterHistoryContextPersonId(world, input.stableKey);
   if (world.people[personId]) return world;
   const rng = new SeededRng(world.seed).fork(input.stableKey);
-  const name = drawCanonicalNameForGender(rng, "unstated");
+  const name = drawGeneratedPersonName(rng);
   return applyCharacterHistoryPlan(world, {
     stableKey: input.stableKey,
     mode: "quick-generated",
@@ -31,6 +31,7 @@ export function ensureContextPerson(
           stableKey: input.stableKey,
           givenName: name.givenName,
           familyName: name.familyName,
+          identity: name.identity,
           birthDate: colleagueBirthDate(world.currentDate),
           homeJurisdictionId: input.jurisdictionId,
         },
