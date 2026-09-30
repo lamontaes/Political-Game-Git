@@ -1,12 +1,14 @@
 # Nationwide lawmaking still needs its watched proof
 
-Majority-backed agendas reached main. Strongest-pressure sponsorship and principle-based cosponsors were merged into feature branches and still await main integration. Their nationwide watched result is unmeasured. Life formation remains on the law team's stack. Senate integration, researched election responses and opening-seat calibration remain unfinished. The cloud continuation received the final local handoff and is auditing the shared writer boundaries.
+Majority-backed agendas, strongest-pressure sponsorship and principle-based cosponsors now reached main. Their nationwide watched result is unmeasured. Life formation remains on the law team's stack. Senate integration, researched election responses and opening-seat calibration remain unfinished. The cloud continuation repaired the missing-principle consent guard and received the exact shared writer release.
 
 ## MERGED
 
 Live GitHub verifies three merges: [PR #1146](https://github.com/lamontaes/Political-Game-Git/pull/1146) brings up majority-backed agendas; [PR #1147](https://github.com/lamontaes/Political-Game-Git/pull/1147) chooses the member with the strongest recorded pressure to sponsor; [PR #1150](https://github.com/lamontaes/Political-Game-Git/pull/1150) makes cosponsors judge bills from their principles. Their merge commits are `97ff010685a63835098fd007a23bc49c6da7a599`, `cc4d2798933693ceadaff9f87865dbb23bd7ae05` and `d12f2d4862bb1db48ec6aa7fe0273459b966932c`.
 
-The merge targets matter: only #1146's merge is an ancestor of the inspected main head, `a18f22a76b2b41c01ff030026024eb940ccefbef`. The other two are feature-branch merges. Main integration [PR #1163](https://github.com/lamontaes/Political-Game-Git/pull/1163) remains open at `ae992a095d44adcd443525dbfb1c457f3a964d93`. Earlier wording that implied all three reached main was incomplete.
+At the earlier snapshot, only #1146's merge was an ancestor of the inspected main head, `a18f22a76b2b41c01ff030026024eb940ccefbef`. The other two are feature-branch merges. Main integration [PR #1163](https://github.com/lamontaes/Political-Game-Git/pull/1163) was then open at `ae992a095d44adcd443525dbfb1c457f3a964d93`. Earlier wording that implied all three had reached main was incomplete.
+
+The later live read confirms #1163 closed and merged into main at `370060e2e30516e03c784f6528db11d9d1581fc7`, with final head `2fa38ad6cb4228c8a65c92922f052f6bc6c200f0`. The earlier integration head is an ancestor of fetched main `7eee3bedd6f532cb10709d887a10837289864c93`. This supersedes the open-integration snapshot; no watched outcome is inferred.
 
 [PR #1152](https://github.com/lamontaes/Political-Game-Git/pull/1152) forms officeholder principles from recorded lives. It remains open at `0a13f1393f0225d4f238b109064923c4c4023abb`, following the open law PR #1131. [Draft PR #1136](https://github.com/lamontaes/Political-Game-Git/pull/1136) preserves unfinished candidates and research. The historical sections below retain their original receipts; this section and the final cloud checkpoint establish the current transfer state. Only cloud Merge may merge after Claude CTO's current-head approval.
 
@@ -288,3 +290,15 @@ Scoped strict TypeScript covered two roots and 701 dependency files with zero di
 The missing fiscal-year/committee instructions, historical route timing, routine-measure admission and objection-action representation remain WIP. Shared writer release is still pending. No full simulation, browser or speed run began. Runtime connections changed: zero; the draft guard changed one refusal. Newly proved nationwide three-step chains: zero.
 
 Team 3 received an immediate release for only the population-reader import and CDP-classification hunk in `principles-from-life.test.ts`. Line offsets differ by branch; the named expression identifies the hunk. This branch records that release in claims and leaves the test untouched. No principles behavior change was authorized. The :55 report was delivered in this chat and Doc 00; no unsupported automation retry occurred.
+
+## Shared release received; consent action scope still needs routing
+
+The guard repair is published at `4c13bf6c1f0ce2230eb96215c5e1c15b85f92e2c`. Its exact five-file release check passed. The research checkpoint at `94c1f031a65f75d4d77b0733a7785a177341f289` remains preserved. The stopped local handoff remains an ancestor; no reset, stash, cleanup or force update occurred.
+
+Team 1 subsequently released the requested measure-based pack lookups, replay/calendar validation, blueprint, Senate-calendar, question and notice hunks. Branch claims records those exact units. The law stack's policy terms, sponsor derivation, canonical enactment append and student-debt, stock, sentencing and voter-identification effects remain protected. No shared source edit began before that release.
+
+A further writer scope request is posted for the consent-passage function adjacent to `takeFloorVote` and its floor-stage replay/integrity handling. The existing writer always creates a tally. Consent must record the actual request and absence of objection without inventing unanimous ballots. The current release covers pack lookup and calendar replay, not this added writer. No global schema edit is proposed or assumed. Representation decisions route to CTO under the owner's explicit delegation.
+
+[2 U.S.C. 632(a)](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title2-section632&num=0&edition=prelim) was also read successfully. It requires a concurrent budget resolution for the fiscal year beginning October 1 and at least four ensuing fiscal years. It specifies authority/outlay, revenue, deficit, functional-category, debt and separately treated Social Security levels. This supplies a legal minimum horizon, not an observed score, adopted resolution or permission to choose an unsupported projection. The compact candidate still lacks the corresponding saved instructions and scoring contract.
+
+The section 632 HTML digest is `41f8b08452ec5b1dc889193531c521e1a86133cc7311d413286f71731190b22e`. This is federal legal research only; no production artifact lock, adapter or fiscal value changed. Actual phase: source and representation review. No test, server or simulation remains running. The later documentation/claim additions do not change the checked source. Full watched acceptance stays post-merge on main.
