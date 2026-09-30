@@ -540,7 +540,6 @@ export function CampaignWorkspace({
               {selectedOffice && person
                 ? `The election is ${readableCampaignDate(campaignElectionDate(world, person.homeJurisdictionId, selectedOffice.officeKey))}. `
                 : ""}
-              The committee opens with nothing in it.
             </span>
           </button>
           {boundRefusal ? (

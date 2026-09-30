@@ -44,6 +44,7 @@ import {
   type ArtPreviewMode,
 } from "../presentation/art-preview";
 import { replayDescriptorUrl } from "../presentation/new-game-identity";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
@@ -601,20 +602,22 @@ export function SetupScreen({
           )}
           {location.stateJurisdictionKey ? (
             <>
-              <label className="game-search">
-                Search places in this state
-                <input
-                  type="search"
-                  data-testid="place-search"
-                  value={placeQuery}
-                  placeholder="Type a city or town"
-                  onChange={(event) => {
-                    setPlaceQuery(event.target.value);
-                    if (location.placeKey) setReplacingPlace(true);
-                  }}
-                />
-              </label>
-              {custom && statewidePlace ? (
+              {placeListOpen ? (
+                <label className="game-search">
+                  Search places in this state
+                  <input
+                    type="search"
+                    data-testid="place-search"
+                    value={placeQuery}
+                    placeholder="Type a city or town"
+                    onChange={(event) => {
+                      setPlaceQuery(event.target.value);
+                      if (location.placeKey) setReplacingPlace(true);
+                    }}
+                  />
+                </label>
+              ) : null}
+              {placeListOpen && custom && statewidePlace ? (
                 <div className="game-choices" data-testid="place-statewide">
                   <button
                     type="button"
@@ -750,15 +753,17 @@ export function SetupScreen({
                     {fact.text}
                   </p>
                 ))}
-              {placeRegionalFacts(place).map((fact) => (
-                <p
-                  key={fact.key}
-                  className="game-hint"
-                  data-testid={`place-regional-${fact.key}`}
-                >
-                  {fact.text}
-                </p>
-              ))}
+              {placeRegionalFacts(place)
+                .filter((fact) => fact.key !== "rent")
+                .map((fact) => (
+                  <p
+                    key={fact.key}
+                    className="game-hint"
+                    data-testid={`place-regional-${fact.key}`}
+                  >
+                    {fact.text}
+                  </p>
+                ))}
               {populationFacts.map((fact) => (
                 <p
                   key={`${fact.kind}:${fact.text}:${fact.asOf}`}
@@ -1108,28 +1113,25 @@ export function SetupScreen({
         />
       ) : null}
 
-      {/*
-            Reproducibility, moved off the setup surface proper. A raw seed and
-            a replay address are development tools; they stay reachable behind a
-            collapsed Advanced disclosure rather than on the creator itself.
-          */}
-      <details className="game-dev" data-testid="setup-advanced">
-        <summary>Advanced &mdash; reproducing this world</summary>
-        <p>
-          This world is generated from{" "}
-          <code data-testid="setup-seed">{seed}</code>
-          {seedOrigin === "replay"
-            ? ", which was supplied to reproduce an earlier one."
-            : ", drawn fresh for this session."}{" "}
-          The address below carries the place, the age and any names you typed
-          as well, so it rebuilds the same world.
-        </p>
-        <p>
-          <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", committed)}
-          </code>
-        </p>
-      </details>
+      {DIAGNOSTICS ? (
+        <details className="game-dev" data-testid="setup-advanced">
+          <summary>Advanced &mdash; reproducing this world</summary>
+          <p>
+            This world is generated from{" "}
+            <code data-testid="setup-seed">{seed}</code>
+            {seedOrigin === "replay"
+              ? ", which was supplied to reproduce an earlier one."
+              : ", drawn fresh for this session."}{" "}
+            The address below carries the place, the age and any names you typed
+            as well, so it rebuilds the same world.
+          </p>
+          <p>
+            <code data-testid="setup-replay-link">
+              {replayDescriptorUrl("", "/", committed)}
+            </code>
+          </p>
+        </details>
+      ) : null}
     </main>
   );
 }
