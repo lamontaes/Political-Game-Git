@@ -1,0 +1,275 @@
+{
+  "assignment": "CTO daily job September 30, 9:54 Eastern",
+  "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+  "kind": "baseline/profile diagnostics; no production repair or gain",
+  "worlds": [
+    {
+      "scenario": "floral",
+      "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "seed": "team2-main-proof-20260930-b",
+      "place": "0524070",
+      "days": 30,
+      "through": "2026-02-04",
+      "beforeSeconds": 28.760910200000005,
+      "beforeExit": 1,
+      "profileSeconds": 31.827623642000002,
+      "profileExit": 0,
+      "fingerprint": "ce8c407f31caf217338b92b5548f4dfc1a614c4492eded728a9e85fcaa7bc6a2",
+      "counts": {
+        "people": 15039,
+        "decisions": 9234,
+        "events": 20063
+      },
+      "comparison": {
+        "errors": [],
+        "positions": [],
+        "fingerprintsIdentical": true
+      },
+      "top5": {
+        "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+        "kind": "self CPU sample share within advancement ancestor; not promised savings",
+        "sampledAdvanceSeconds": 30.54940800000078,
+        "top5": [
+          {
+            "frame": "createCharacterHistoryContextPeople simulation/character-history.ts",
+            "selfSeconds": 3.941677000000007,
+            "percentOfSampledAdvance": 12.902629733446574
+          },
+          {
+            "frame": "confidantsOf simulation/confidants.ts",
+            "selfSeconds": 2.0009360000000003,
+            "percentOfSampledAdvance": 6.549835597468695
+          },
+          {
+            "frame": "(anonymous) simulation/district-residence.ts",
+            "selfSeconds": 1.988033,
+            "percentOfSampledAdvance": 6.507599099792536
+          },
+          {
+            "frame": "appendedList simulation/history-index.ts",
+            "selfSeconds": 1.0462770000000012,
+            "percentOfSampledAdvance": 3.4248683313273185
+          },
+          {
+            "frame": "fork simulation/rng.ts",
+            "selfSeconds": 1.0344820000000003,
+            "percentOfSampledAdvance": 3.3862587451775625
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "random",
+      "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "seed": "team4-daily-random-0889d867-a49e-47b3-b709-51f63df81f99",
+      "place": "2914914",
+      "days": 30,
+      "through": "2026-02-04",
+      "beforeSeconds": 26.669590639000003,
+      "beforeExit": 1,
+      "profileSeconds": 30.500543048,
+      "profileExit": 0,
+      "fingerprint": "2d0d662d400a83954303b4e227e92e1de02de3c8f5a8ccacb70cd249043b90cd",
+      "counts": {
+        "people": 14900,
+        "decisions": 9170,
+        "events": 19896
+      },
+      "comparison": {
+        "errors": [],
+        "positions": [],
+        "fingerprintsIdentical": true
+      },
+      "top5": {
+        "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+        "kind": "self CPU sample share within advancement ancestor; not promised savings",
+        "sampledAdvanceSeconds": 29.269040000000466,
+        "top5": [
+          {
+            "frame": "createCharacterHistoryContextPeople simulation/character-history.ts",
+            "selfSeconds": 3.709297000000006,
+            "percentOfSampledAdvance": 12.673107829979893
+          },
+          {
+            "frame": "confidantsOf simulation/confidants.ts",
+            "selfSeconds": 2.003425999999998,
+            "percentOfSampledAdvance": 6.844864061137523
+          },
+          {
+            "frame": "(anonymous) simulation/district-residence.ts",
+            "selfSeconds": 1.9038830000000009,
+            "percentOfSampledAdvance": 6.504767494936529
+          },
+          {
+            "frame": "fork simulation/rng.ts",
+            "selfSeconds": 1.2322960000000005,
+            "percentOfSampledAdvance": 4.210237165277648
+          },
+          {
+            "frame": "(anonymous) nationwide-world/state-legislature-opening.ts",
+            "selfSeconds": 0.9699490000000004,
+            "percentOfSampledAdvance": 3.313907801554082
+          }
+        ]
+      }
+    }
+  ],
+  "randomSelection": {
+    "selection": "crypto randomInt over accepted national CDP corpus; location selection only",
+    "poolCount": 12540,
+    "place": "2914914",
+    "name": "Climax Springs CDP",
+    "state": "MO",
+    "seed": "team4-daily-random-0889d867-a49e-47b3-b709-51f63df81f99",
+    "evidence": {
+      "artifactId": "census-gazetteer-2025-places-zip",
+      "locator": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "kind": "delimited-row",
+        "line": 14947
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "path": "test-results/speed/daily-random-selection.json",
+      "bytes": 464,
+      "sha256": "f085841c8b33931eb430cea7d159e697ba29fabc79867e046bd785ecee3decc3"
+    },
+    {
+      "path": "test-results/speed/daily-floral-before.log",
+      "bytes": 616,
+      "sha256": "bd0d4423ddb2fff60868a4670cbebb3159da93fc27d54353dff8b146323d5adf"
+    },
+    {
+      "path": "test-results/speed/daily-floral-before.json",
+      "bytes": 8513893,
+      "sha256": "3644b45a30d4892ae5a4914083cc7d26e9794f125f2dbe13de6d2b98c2b51561"
+    },
+    {
+      "path": "test-results/speed/daily-floral-profile.log",
+      "bytes": 343,
+      "sha256": "e6a2f7aa4a96d18f539566a00b58c5d7f63419b53f4881bca03f7f41b731804e"
+    },
+    {
+      "path": "test-results/speed/daily-floral-profile.json",
+      "bytes": 8513893,
+      "sha256": "9984479f3a77bbee8596f77feefa899a456564acf51be5e7619f9185b46ad46e"
+    },
+    {
+      "path": "test-results/speed/daily-floral-profile.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/daily-floral-main.cpuprofile",
+      "bytes": 3505481,
+      "sha256": "f26c4b06f3686888b06c416e4638127a25c039b7445bddee55697893abbba50a"
+    },
+    {
+      "path": "test-results/speed/daily-floral-top5.json",
+      "bytes": 1032,
+      "sha256": "f2b78e4445efa839556ffdd32d570bf2ed85e27e207586a7623b8d74e8dbca7a"
+    },
+    {
+      "path": "test-results/speed/daily-random-before.log",
+      "bytes": 644,
+      "sha256": "629291d81f36f0527e7d0f11e20ee6753537fef9f4554e9945f2f4d575886896"
+    },
+    {
+      "path": "test-results/speed/daily-random-before.json",
+      "bytes": 8440460,
+      "sha256": "e6168657147913e226544d656d324f8ec810d8fb03b48f8ceb6364206f82917a"
+    },
+    {
+      "path": "test-results/speed/daily-random-profile.log",
+      "bytes": 371,
+      "sha256": "7b2055e9fe4acbcac5ad55aa5fca62a8e0cd53264794827741525fd2cd863124"
+    },
+    {
+      "path": "test-results/speed/daily-random-profile.json",
+      "bytes": 8440454,
+      "sha256": "9a4163b733a781924793a81a717a120d0a306e8b17879a578b2b3cd1321ae1f9"
+    },
+    {
+      "path": "test-results/speed/daily-random-profile.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/daily-random-main.cpuprofile",
+      "bytes": 3410794,
+      "sha256": "add218de378477af22a94eee7f2796c447891e432473d8ccfc14404a4d2d29e6"
+    },
+    {
+      "path": "test-results/speed/daily-random-top5.json",
+      "bytes": 1057,
+      "sha256": "4e7e5ff27a09d1aa897515c21a8310de96485e06ce8a8c90146af47865ffd6e9"
+    },
+    {
+      "path": "test-results/speed/daily-slow-file-measure.mjs",
+      "bytes": 1089,
+      "sha256": "f770da887fb8f89346c1bd7bd93825eb4f9c177a34027a08110167e5b5799d2b"
+    },
+    {
+      "path": "test-results/speed/daily-slow-files-before.json",
+      "bytes": 1328,
+      "sha256": "784fe0c3395a91b94e3c859b4b2e4b3c5051a18e9231e580c382f3de320709fa"
+    },
+    {
+      "path": "test-results/speed/daily-article-v-before.log",
+      "bytes": 4877,
+      "sha256": "1330d75e53d457c82a7e06dc8ae9d0b9a46ccda3ff4d138ff6c3c7c36d4a4dde"
+    },
+    {
+      "path": "test-results/speed/daily-political-reflection-roll-call-before.log",
+      "bytes": 6513,
+      "sha256": "b95d65471524fef69e08a0ddfe9315779dd3a4bf4e326a40fd4eeecfa9eb4681"
+    },
+    {
+      "path": "test-results/speed/daily-roll-call-save-before.log",
+      "bytes": 9080,
+      "sha256": "b033280f2de244d13e7490480501abfcf6733fc5b52388db0b7af23f6a0ef218"
+    }
+  ],
+  "notRun": [
+    "production candidate pair",
+    "three-random-place candidate validation",
+    "12-month law audit",
+    "full suite",
+    "independent reviewer"
+  ],
+  "slowFileBaseline": [
+    {
+      "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "file": "src/simulation/governing/article-v.test.ts",
+      "command": "timeout --kill-after=5s 120s npx vitest run src/simulation/governing/article-v.test.ts --maxWorkers=1 --reporter=verbose",
+      "wallSeconds": 120.008464066,
+      "status": 124,
+      "signal": null,
+      "error": null,
+      "log": "test-results/speed/daily-article-v-before.log"
+    },
+    {
+      "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "file": "src/simulation/living-world/political-reflection-roll-call.test.ts",
+      "command": "timeout --kill-after=5s 120s npx vitest run src/simulation/living-world/political-reflection-roll-call.test.ts --maxWorkers=1 --reporter=verbose",
+      "wallSeconds": 71.511274634,
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "log": "test-results/speed/daily-political-reflection-roll-call-before.log"
+    },
+    {
+      "sourceHead": "c240f91c3779034fe77d2eb3bed05671a7ed1e2b",
+      "file": "src/presentation/roll-call-save.test.ts",
+      "command": "timeout --kill-after=5s 120s npx vitest run src/presentation/roll-call-save.test.ts --maxWorkers=1 --reporter=verbose",
+      "wallSeconds": 57.332642168999996,
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "log": "test-results/speed/daily-roll-call-save-before.log"
+    }
+  ],
+  "processState": "All owned diagnostics completed; no active worker; no source changes"
+}
