@@ -21,3 +21,10 @@ Team 5 owns `docs/codex/handbacks/team-5-bedrock-numbers.md` and the
 public-record audit in its existing handback. Read-only numeric inventory of
 inherited Team 5 source paths; no coefficient, shared type, history writer,
 Claude renderer, or Team 8 English engine edit is claimed.
+
+## Team 5 why-chains — CTO September 30, 1:40 a.m. correction
+
+Team 5 owns `docs/codex/handbacks/team-5-why-chains.md`. This one-page causal
+audit replaces the numeric-ledger deliverable; the earlier numeric inventory
+stays preserved as supporting evidence. No behavior, coefficient or shared
+renderer edit is included.
