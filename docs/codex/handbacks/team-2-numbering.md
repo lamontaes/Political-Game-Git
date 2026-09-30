@@ -163,3 +163,70 @@ Stop: none.
 ## 7. Worked example
 
 The canonical filed rows above are the worked examples. No synthetic example fills an empty group. This is source/runtime proof; browser interaction and person-level law effects are not established.
+
+## Closing Congress diagnostics preserve the missing filing
+
+The replay completed the same watched month and reproduced all five state filed rows exactly. Congress again had zero introductions. The records show a fully seated Congress and recorded nonzero principle scores; an empty chamber or wholly missing federal catalog is not the explanation. The required actual Congress designation remains missing. No majority rule, personal principle or filing threshold was changed to manufacture it.
+
+Measured closing conditions: House 435 members, Senate 100, and 20 authority-admitted federal questions in each chamber. There were 3,248 House and 814 Senate member/question score cells at the existing filing threshold of 3. Largest absolute score was 8. Threshold-level same-direction maxima were 100 House members and 28 senators. These threshold counts are NOT the actual majority-backing predicate, which reads any positive directional score; they do not prove the intake’s reason. Closing observations are not March 1 motives.
+
+Actual recorded mismatch: the March 1 intake `future-due-item_b1461c3e8167df4a` resolved with context “Members of Congress filed their bills.” The month contains zero Congress introductions. The smallest report-context repair is to count actual new Congress measures in `congressIntakeHandler` and write zero when none exists. Proposed shared paths: `src/simulation/governing/congress-lawmaking.ts` and its test. No edit or claim transfer for that producer is inferred. The authority repair proposal and Team 1 strength-caller measurement remain separate dependencies.
+
+Replay source `9d5a64b4f51cb4c62bf924117b09293fc943fc38`, clean; elapsed 92.195 seconds; Save/Continue date/history counts matched. Report check 0 errors/0 warnings; duplicate reported rows and unknown rule packs both 0. NOT RUN: recorded intake-decision explanation, accepted Congress designation proof, browser/full suite and independent reviewer.
+
+# One month of actual measure designations
+
+28 watched-month Day presses in Wadsworth, Nevada, after 35 separately logged warmup presses, produced the following Congress and three random-state filing records. A group with no filings remains zero. The internal IDs and displayed names are both preserved.
+
+## 1. Why-chain
+
+Existing officials filed measures through the normal Day path. Their recorded jurisdiction, chamber and session selected the legal/data counter. This chain ends at procedural data and filed history; no actor reason is inferred from a bill number.
+
+## 2. Research
+
+Verified fields and explicitly unverified common arrangements share one allocator. Legal numbering constants have no effect-size draw. This observation supplies no new causal rate.
+
+## 3. Revisions
+
+No measure was introduced by this collector. Opening records were excluded by canonical sequence. The report does not infer a filing where none exists.
+
+## 4. Numbered observed groups
+
+### 1. Congress: 0 filings
+
+No recorded introduction during this watched month.
+
+### 2. Ohio: 1 filings
+
+- February 15, 2026: HB 1 (2025-2026 Regular Session); house; measure legislative-measure_5d1cf6d2298a9509; jurisdiction jurisdiction_cd70b9ba3c8e7584. Saved title "Cap property tax growth".
+
+### 3. South Carolina: 2 filings
+
+- February 15, 2026: H 1 (2025-2026 Regular Session); house; measure legislative-measure_7910bf67663fe7d7; jurisdiction jurisdiction_e73897803685f85d. Saved title "End cash bail".
+- February 15, 2026: S 1 (2025-2026 Regular Session); senate; measure legislative-measure_3040e3d86750b0f7; jurisdiction jurisdiction_e73897803685f85d. Saved title "By-right permitting".
+
+### 4. New Mexico: 2 filings
+
+- February 15, 2026: HB 1 (2025-2026 Regular Session); house; measure legislative-measure_e992d2ff1aa0aeba; jurisdiction jurisdiction_ca05aeb0981cd43a. Saved title "Fund pensions on schedule".
+- February 15, 2026: SB 1 (2025-2026 Regular Session); senate; measure legislative-measure_af41776dfd16ae32; jurisdiction jurisdiction_ca05aeb0981cd43a. Saved title "Reduce occupational licensing".
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: the normal observer Day path. RECORDS: actual measure designations and independent IDs. WORLD PIECES: existing jurisdictions, chambers and rule packs. CHECKS: no duplicate jurisdiction/chamber/session/designation among reported introductions; Save/Continue date and history counts agree. Unknown rule-pack records are excluded and counted, never assigned a fabricated jurisdiction.
+
+## 6. Proof receipt
+
+Seed team2-numbering-month-20260930; place 3281000; February 9, 2026 through March 9, 2026; status completed-month.
+
+Source `9d5a64b4f51cb4c62bf924117b09293fc943fc38`, clean. Save/Continue matched: true. Duplicate rows: 0. Unresolved rule-pack rows outside the reported groups: 0.
+
+Closing Congress conditions are read-only diagnostics, not recorded filing motives:
+
+- house: 435 recorded members; 20 authority-admitted federal questions; 3248 member/question scores reach the existing filing threshold 3; largest absolute score 8; largest same-direction threshold backing 100 members.
+- senate: 100 recorded members; 20 authority-admitted federal questions; 814 member/question scores reach the existing filing threshold 3; largest absolute score 8; largest same-direction threshold backing 28 members.
+
+Stop: none.
+
+## 7. Worked example
+
+The canonical filed rows above are the worked examples. No synthetic example fills an empty group. This is source/runtime proof; browser interaction and person-level law effects are not established.
