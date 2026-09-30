@@ -1,0 +1,1684 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate quads in each source image native pixels, TL/TR/BR/BL. Independent source keys prevent accidental sharing across changed cameras. No enlargement. Job08 must remeasure full-size rasters or apply exact source mapping.",
+  "places": {
+    "place-coffee-shop__midday--2": {
+      "checked": [
+        "place-coffee-shop__midday--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__midday--2-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              214,
+              127
+            ],
+            [
+              399,
+              127
+            ],
+            [
+              399,
+              190
+            ],
+            [
+              214,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Food case and register housing retain paint."
+      ]
+    },
+    "place-coffee-shop__midday--3": {
+      "checked": [
+        "place-coffee-shop__midday--3.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__midday--3-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              397,
+              64
+            ],
+            [
+              490,
+              64
+            ],
+            [
+              490,
+              140
+            ],
+            [
+              397,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Windows, clock, food case and shelving retain paint."
+      ]
+    },
+    "place-coffee-shop__midday-v2": {
+      "checked": [
+        "place-coffee-shop__midday-v2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__midday-v2-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              489,
+              44
+            ],
+            [
+              594,
+              22
+            ],
+            [
+              594,
+              100
+            ],
+            [
+              489,
+              118
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Register and display-case glass retain paint."
+      ]
+    },
+    "place-coffee-shop__midday": {
+      "checked": [
+        "place-coffee-shop__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__midday-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Suspended TV",
+          "quad": [
+            [
+              305,
+              83
+            ],
+            [
+              354,
+              80
+            ],
+            [
+              354,
+              110
+            ],
+            [
+              305,
+              112
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        },
+        {
+          "id": "place-coffee-shop__midday-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              385,
+              60
+            ],
+            [
+              600,
+              12
+            ],
+            [
+              600,
+              134
+            ],
+            [
+              385,
+              148
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Door notice too small for trusted corners; unresolved.",
+        "Cups and food equipment retain paint."
+      ]
+    },
+    "place-coffee-shop__morning-v2": {
+      "checked": [
+        "place-coffee-shop__morning-v2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__morning-v2-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              489,
+              44
+            ],
+            [
+              594,
+              22
+            ],
+            [
+              594,
+              100
+            ],
+            [
+              489,
+              118
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Register and display-case glass retain paint."
+      ]
+    },
+    "place-coffee-shop__morning": {
+      "checked": [
+        "place-coffee-shop__morning.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__morning-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              397,
+              64
+            ],
+            [
+              490,
+              64
+            ],
+            [
+              490,
+              140
+            ],
+            [
+              397,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Windows, clock, food case and shelving retain paint."
+      ]
+    },
+    "place-coffee-shop__night-v2": {
+      "checked": [
+        "place-coffee-shop__night-v2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__night-v2-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              489,
+              44
+            ],
+            [
+              594,
+              22
+            ],
+            [
+              594,
+              100
+            ],
+            [
+              489,
+              118
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Register and display-case glass retain paint."
+      ]
+    },
+    "place-coffee-shop__night": {
+      "checked": [
+        "place-coffee-shop__night.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__night-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              397,
+              64
+            ],
+            [
+              490,
+              64
+            ],
+            [
+              490,
+              140
+            ],
+            [
+              397,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Windows, clock, food case and shelving retain paint."
+      ]
+    },
+    "place-coffee-shop__rain-v2": {
+      "checked": [
+        "place-coffee-shop__rain-v2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__rain-v2-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              489,
+              44
+            ],
+            [
+              594,
+              22
+            ],
+            [
+              594,
+              100
+            ],
+            [
+              489,
+              118
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Register and display-case glass retain paint."
+      ]
+    },
+    "place-coffee-shop__rain": {
+      "checked": [
+        "place-coffee-shop__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-coffee-shop__rain-menu",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Menu chalkboard",
+          "quad": [
+            [
+              397,
+              64
+            ],
+            [
+              490,
+              64
+            ],
+            [
+              490,
+              140
+            ],
+            [
+              397,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Windows, clock, food case and shelving retain paint."
+      ]
+    },
+    "place-committee-hearing-room__m": {
+      "checked": [
+        "place-committee-hearing-room__m.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-committee-hearing-room__m-screen-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Committee wall screen",
+          "quad": [
+            [
+              77,
+              55
+            ],
+            [
+              170,
+              55
+            ],
+            [
+              170,
+              117
+            ],
+            [
+              77,
+              117
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "bills",
+            "votes"
+          ]
+        },
+        {
+          "id": "place-committee-hearing-room__m-screen-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Committee wall screen",
+          "quad": [
+            [
+              429,
+              51
+            ],
+            [
+              523,
+              50
+            ],
+            [
+              523,
+              115
+            ],
+            [
+              429,
+              116
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "bills",
+            "votes"
+          ]
+        },
+        {
+          "id": "place-committee-hearing-room__m-witness-paper-left",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Witness paper",
+          "quad": [
+            [
+              255,
+              203
+            ],
+            [
+              274,
+              203
+            ],
+            [
+              272,
+              210
+            ],
+            [
+              254,
+              210
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-committee-hearing-room__m-witness-paper-right",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Witness paper",
+          "quad": [
+            [
+              337,
+              203
+            ],
+            [
+              357,
+              203
+            ],
+            [
+              358,
+              210
+            ],
+            [
+              338,
+              210
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Flags, paneling and microphones retain paint."
+      ]
+    },
+    "place-congressional-office__mid": {
+      "checked": [
+        "place-congressional-office__mid.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-congressional-office__mid-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Coffee-table paper",
+          "quad": [
+            [
+              135,
+              193
+            ],
+            [
+              158,
+              194
+            ],
+            [
+              151,
+              201
+            ],
+            [
+              128,
+              200
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Family photographs, flags and books retain paint; no invented identities."
+      ]
+    },
+    "place-congressional-office__mor": {
+      "checked": [
+        "place-congressional-office__mor.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-congressional-office__mor-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Coffee-table paper",
+          "quad": [
+            [
+              135,
+              193
+            ],
+            [
+              158,
+              194
+            ],
+            [
+              151,
+              201
+            ],
+            [
+              128,
+              200
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Family photographs, flags and books retain paint; no invented identities."
+      ]
+    },
+    "place-congressional-office__nig": {
+      "checked": [
+        "place-congressional-office__nig.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-congressional-office__nig-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Coffee-table paper",
+          "quad": [
+            [
+              135,
+              193
+            ],
+            [
+              158,
+              194
+            ],
+            [
+              151,
+              201
+            ],
+            [
+              128,
+              200
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Family photographs, flags and books retain paint; no invented identities."
+      ]
+    },
+    "place-congressional-office__rai": {
+      "checked": [
+        "place-congressional-office__rai.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-congressional-office__rai-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Coffee-table paper",
+          "quad": [
+            [
+              135,
+              193
+            ],
+            [
+              158,
+              194
+            ],
+            [
+              151,
+              201
+            ],
+            [
+              128,
+              200
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Family photographs, flags and books retain paint; no invented identities."
+      ]
+    },
+    "place-county-clerk-office__midd": {
+      "checked": [
+        "place-county-clerk-office__midd.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-county-clerk-office__midd-wall-notice",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Left wall notice frame",
+          "quad": [
+            [
+              0,
+              62
+            ],
+            [
+              64,
+              84
+            ],
+            [
+              64,
+              183
+            ],
+            [
+              0,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-county-clerk-office__midd-queue-display",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Queue-number display",
+          "quad": [
+            [
+              109,
+              68
+            ],
+            [
+              149,
+              77
+            ],
+            [
+              149,
+              99
+            ],
+            [
+              109,
+              91
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Workstation monitor backs and brochure racks retain paint; paper-sized faces unresolved."
+      ]
+    },
+    "place-county-clerk-office__morn": {
+      "checked": [
+        "place-county-clerk-office__morn.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-county-clerk-office__morn-wall-notice",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Left wall notice frame",
+          "quad": [
+            [
+              0,
+              62
+            ],
+            [
+              64,
+              84
+            ],
+            [
+              64,
+              183
+            ],
+            [
+              0,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-county-clerk-office__morn-queue-display",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Queue-number display",
+          "quad": [
+            [
+              109,
+              68
+            ],
+            [
+              149,
+              77
+            ],
+            [
+              149,
+              99
+            ],
+            [
+              109,
+              91
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Workstation monitor backs and brochure racks retain paint; paper-sized faces unresolved."
+      ]
+    },
+    "place-county-clerk-office__nigh": {
+      "checked": [
+        "place-county-clerk-office__nigh.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-county-clerk-office__nigh-wall-notice",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Left wall notice frame",
+          "quad": [
+            [
+              0,
+              62
+            ],
+            [
+              64,
+              84
+            ],
+            [
+              64,
+              183
+            ],
+            [
+              0,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-county-clerk-office__nigh-queue-display",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Queue-number display",
+          "quad": [
+            [
+              109,
+              68
+            ],
+            [
+              149,
+              77
+            ],
+            [
+              149,
+              99
+            ],
+            [
+              109,
+              91
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Workstation monitor backs and brochure racks retain paint; paper-sized faces unresolved."
+      ]
+    },
+    "place-county-clerk-office__rain": {
+      "checked": [
+        "place-county-clerk-office__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-county-clerk-office__rain-wall-notice",
+          "kind": "board",
+          "finish": "panel",
+          "what": "Left wall notice frame",
+          "quad": [
+            [
+              0,
+              62
+            ],
+            [
+              64,
+              84
+            ],
+            [
+              64,
+              183
+            ],
+            [
+              0,
+              186
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-county-clerk-office__rain-queue-display",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Queue-number display",
+          "quad": [
+            [
+              109,
+              68
+            ],
+            [
+              149,
+              77
+            ],
+            [
+              149,
+              99
+            ],
+            [
+              109,
+              91
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Workstation monitor backs and brochure racks retain paint; paper-sized faces unresolved."
+      ]
+    },
+    "place-county-elections-office__--2": {
+      "checked": [
+        "place-county-elections-office__--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Computer backs, seal and storage boxes retain paint.",
+        "Small desktop papers remain unresolved at preview size."
+      ]
+    },
+    "place-county-elections-office__--3": {
+      "checked": [
+        "place-county-elections-office__--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Computer backs, seal and storage boxes retain paint.",
+        "Small desktop papers remain unresolved at preview size."
+      ]
+    },
+    "place-county-elections-office__--4": {
+      "checked": [
+        "place-county-elections-office__--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Computer backs, seal and storage boxes retain paint.",
+        "Small desktop papers remain unresolved at preview size."
+      ]
+    },
+    "place-county-elections-office__": {
+      "checked": [
+        "place-county-elections-office__.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Computer backs, seal and storage boxes retain paint.",
+        "Small desktop papers remain unresolved at preview size."
+      ]
+    },
+    "place-county-office-cramped__mi": {
+      "checked": [
+        "place-county-office-cramped__mi.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-county-office-cramped__mi-notice-board",
+          "kind": "board",
+          "finish": "cork",
+          "what": "Public notice corkboard",
+          "quad": [
+            [
+              458,
+              75
+            ],
+            [
+              540,
+              45
+            ],
+            [
+              540,
+              208
+            ],
+            [
+              458,
+              174
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Glass partitions, files and clock retain paint.",
+        "Small individual wall notices retain paint pending full-size corners."
+      ]
+    },
+    "place-courthouse-hallway__midda": {
+      "checked": [
+        "place-courthouse-hallway__midda.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Wood doors, plaques and windows retain paint."
+      ]
+    },
+    "place-courthouse-steps__midday--2": {
+      "checked": [
+        "place-courthouse-steps__midday--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Architecture, flags and stone steps are not content faces."
+      ]
+    },
+    "place-courthouse-steps__midday": {
+      "checked": [
+        "place-courthouse-steps__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Architecture and flags retain paint."
+      ]
+    },
+    "place-courthouse-steps__morning": {
+      "checked": [
+        "place-courthouse-steps__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Architecture, flags and stone steps are not content faces."
+      ]
+    },
+    "place-courthouse-steps__night": {
+      "checked": [
+        "place-courthouse-steps__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Architecture, flags and stone steps are not content faces."
+      ]
+    },
+    "place-courthouse-steps__rain": {
+      "checked": [
+        "place-courthouse-steps__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Architecture, flags and stone steps are not content faces."
+      ]
+    },
+    "place-courtroom-county-trial__m": {
+      "checked": [
+        "place-courtroom-county-trial__m.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-courtroom-county-trial__m-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Courtroom exhibit screen",
+          "quad": [
+            [
+              332,
+              149
+            ],
+            [
+              358,
+              149
+            ],
+            [
+              358,
+              169
+            ],
+            [
+              332,
+              169
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Flags, clock and woodwork retain paint."
+      ]
+    },
+    "place-courtroom-state-supreme__": {
+      "checked": [
+        "place-courtroom-state-supreme__.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Marble bench faces, flags, microphones and architectural panels retain paint."
+      ]
+    },
+    "place-diner-counter__midday": {
+      "checked": [
+        "place-diner-counter__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Menu boards are food menus; no civic content assigned.",
+        "No visible TV or newspaper face."
+      ]
+    },
+    "place-distillery-rickhouse__mid": {
+      "checked": [
+        "place-distillery-rickhouse__mid.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Buildings, still sculpture, road and foliage retain paint."
+      ]
+    },
+    "place-distillery-rickhouse__mor": {
+      "checked": [
+        "place-distillery-rickhouse__mor.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Buildings, still sculpture, road and foliage retain paint."
+      ]
+    },
+    "place-distillery-rickhouse__nig": {
+      "checked": [
+        "place-distillery-rickhouse__nig.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Buildings, still sculpture, road and foliage retain paint."
+      ]
+    },
+    "place-distillery-rickhouse__rai": {
+      "checked": [
+        "place-distillery-rickhouse__rai.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Buildings, still sculpture, road and foliage retain paint."
+      ]
+    },
+    "place-doctor-exam-room__midday": {
+      "checked": [
+        "place-doctor-exam-room__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-doctor-exam-room__midday-desk-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private clinician monitor",
+          "quad": [
+            [
+              411,
+              131
+            ],
+            [
+              441,
+              134
+            ],
+            [
+              440,
+              161
+            ],
+            [
+              408,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Clinical equipment, sink, window and file folders remain painted."
+      ]
+    },
+    "place-doctor-exam-room__morning": {
+      "checked": [
+        "place-doctor-exam-room__morning.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-doctor-exam-room__morning-desk-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private clinician monitor",
+          "quad": [
+            [
+              411,
+              131
+            ],
+            [
+              441,
+              134
+            ],
+            [
+              440,
+              161
+            ],
+            [
+              408,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Clinical equipment, sink, window and file folders remain painted."
+      ]
+    },
+    "place-doctor-exam-room__night": {
+      "checked": [
+        "place-doctor-exam-room__night.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-doctor-exam-room__night-desk-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private clinician monitor",
+          "quad": [
+            [
+              411,
+              131
+            ],
+            [
+              441,
+              134
+            ],
+            [
+              440,
+              161
+            ],
+            [
+              408,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Clinical equipment, sink, window and file folders remain painted."
+      ]
+    },
+    "place-doctor-exam-room__rain": {
+      "checked": [
+        "place-doctor-exam-room__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-doctor-exam-room__rain-desk-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private clinician monitor",
+          "quad": [
+            [
+              411,
+              131
+            ],
+            [
+              441,
+              134
+            ],
+            [
+              440,
+              161
+            ],
+            [
+              408,
+              158
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Clinical equipment, sink, window and file folders remain painted."
+      ]
+    },
+    "place-dorm-common-room__midday": {
+      "checked": [
+        "place-dorm-common-room__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-dorm-common-room__midday-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Lounge television",
+          "quad": [
+            [
+              250,
+              87
+            ],
+            [
+              346,
+              84
+            ],
+            [
+              346,
+              147
+            ],
+            [
+              250,
+              147
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        },
+        {
+          "id": "place-dorm-common-room__midday-paper-1",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Study paper",
+          "quad": [
+            [
+              403,
+              233
+            ],
+            [
+              437,
+              231
+            ],
+            [
+              444,
+              237
+            ],
+            [
+              410,
+              240
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-dorm-common-room__midday-paper-2",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Study paper",
+          "quad": [
+            [
+              446,
+              240
+            ],
+            [
+              481,
+              239
+            ],
+            [
+              485,
+              246
+            ],
+            [
+              448,
+              249
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-dorm-common-room__midday-paper-3",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Study paper",
+          "quad": [
+            [
+              536,
+              243
+            ],
+            [
+              570,
+              239
+            ],
+            [
+              580,
+              250
+            ],
+            [
+              546,
+              255
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Vending machine products and painted books retain paint."
+      ]
+    },
+    "place-dorm-room-double__midday": {
+      "checked": [
+        "place-dorm-room-double__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-dorm-room-double__midday-wall-left",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Dorm note",
+          "quad": [
+            [
+              92,
+              116
+            ],
+            [
+              132,
+              134
+            ],
+            [
+              132,
+              166
+            ],
+            [
+              92,
+              151
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-dorm-room-double__midday-wall-right",
+          "kind": "note",
+          "finish": "panel",
+          "what": "Dorm note",
+          "quad": [
+            [
+              452,
+              131
+            ],
+            [
+              488,
+              119
+            ],
+            [
+              488,
+              170
+            ],
+            [
+              452,
+              181
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Bed linen, windows and notebooks retain paint."
+      ]
+    },
+    "place-downtown-sidewalk-night__--2": {
+      "checked": [
+        "place-downtown-sidewalk-night__--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Shop windows are glass; no civic notice or monitor face identified."
+      ]
+    },
+    "place-downtown-sidewalk-night__--3": {
+      "checked": [
+        "place-downtown-sidewalk-night__--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Shop windows are glass; no civic notice or monitor face identified."
+      ]
+    },
+    "place-downtown-sidewalk-night__--4": {
+      "checked": [
+        "place-downtown-sidewalk-night__--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Shop windows are glass; no civic notice or monitor face identified."
+      ]
+    },
+    "place-downtown-sidewalk-night__": {
+      "checked": [
+        "place-downtown-sidewalk-night__.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Shop windows are glass; no civic notice or monitor face identified."
+      ]
+    },
+    "place-emergency-shelter-gym__mi": {
+      "checked": [
+        "place-emergency-shelter-gym__mi.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sports hoop, folded blankets, water and storage cartons retain paint."
+      ]
+    },
+    "place-emergency-shelter-gym__mo": {
+      "checked": [
+        "place-emergency-shelter-gym__mo.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sports hoop, folded blankets, water and storage cartons retain paint."
+      ]
+    },
+    "place-emergency-shelter-gym__ni": {
+      "checked": [
+        "place-emergency-shelter-gym__ni.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sports hoop, folded blankets, water and storage cartons retain paint."
+      ]
+    },
+    "place-emergency-shelter-gym__ra": {
+      "checked": [
+        "place-emergency-shelter-gym__ra.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Sports hoop, folded blankets, water and storage cartons retain paint."
+      ]
+    },
+    "place-factory-exterior__midday--2": {
+      "checked": [
+        "place-factory-exterior__midday--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Trucks, fences, windows and industrial fixtures retain paint."
+      ]
+    },
+    "place-factory-exterior__midday": {
+      "checked": [
+        "place-factory-exterior__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Industrial facade and vehicles retain paint."
+      ]
+    },
+    "place-factory-exterior__morning": {
+      "checked": [
+        "place-factory-exterior__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Trucks, fences, windows and industrial fixtures retain paint."
+      ]
+    },
+    "place-factory-exterior__night": {
+      "checked": [
+        "place-factory-exterior__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Trucks, fences, windows and industrial fixtures retain paint."
+      ]
+    },
+    "place-factory-exterior__rain": {
+      "checked": [
+        "place-factory-exterior__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Trucks, fences, windows and industrial fixtures retain paint."
+      ]
+    },
+    "place-farm-field__midday": {
+      "checked": [
+        "place-farm-field__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Truck, crops, barns and fences retain paint."
+      ]
+    },
+    "place-farm-field__morning": {
+      "checked": [
+        "place-farm-field__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Truck, crops, barns and fences retain paint."
+      ]
+    },
+    "place-farm-field__night": {
+      "checked": [
+        "place-farm-field__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Truck, crops, barns and fences retain paint."
+      ]
+    },
+    "place-farm-field__rain": {
+      "checked": [
+        "place-farm-field__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Truck, crops, barns and fences retain paint."
+      ]
+    },
+    "place-federal-courtroom__midday": {
+      "checked": [
+        "place-federal-courtroom__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-federal-courtroom__midday-screen-left",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Counsel exhibit monitor",
+          "quad": [
+            [
+              161,
+              194
+            ],
+            [
+              189,
+              194
+            ],
+            [
+              188,
+              214
+            ],
+            [
+              161,
+              214
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-federal-courtroom__midday-screen-right",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Counsel exhibit monitor",
+          "quad": [
+            [
+              432,
+              194
+            ],
+            [
+              461,
+              194
+            ],
+            [
+              461,
+              213
+            ],
+            [
+              432,
+              213
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Seal, paneling and fixed furniture retain paint."
+      ]
+    }
+  }
+}

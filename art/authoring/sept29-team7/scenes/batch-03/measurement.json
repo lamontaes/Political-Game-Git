@@ -1,0 +1,986 @@
+{
+  "schema": "team7-scene-measurements/v1",
+  "coordinateOrigin": "upper-left",
+  "coordinateUnit": "source-image-edge pixels",
+  "approval": "pending-cto-and-owner",
+  "baseHead": "a18f22a76b2b41c01ff030026024eb940ccefbef",
+  "sourceRoot": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "sourceGroups": 20,
+  "images": [
+    {
+      "sourceKey": "place-coffee-shop__midday--2",
+      "file": "places/place-coffee-shop__midday--2.png",
+      "kind": "coffee-shop",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "0a4fcc376f0bcbe9c8ebe0e91d778542fef738f566b4e90d078c222e792283e7",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest chair cushion373px, floor444px on600x600 image; assume0.45m seat.",
+      "unresolved": [
+        "Chalkboard is food menu, not civic news."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__midday--3",
+      "file": "places/place-coffee-shop__midday--3.png",
+      "kind": "coffee-shop",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "771f08ebc298a1a5b6f57aaabb0f7da9c88db61377f2f42f7f81e8a29c51bcf3",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter top198px, floor285px; assume1.0m counter.",
+      "unresolved": [
+        "Far table seats and hidden cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__midday-v2",
+      "file": "places/place-coffee-shop__midday-v2.png",
+      "kind": "coffee-shop",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "a3383fc8255f34703ba45008898d37d100b9d693e729e351b1ca67001fa54f2f",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Chair cushion278px, floor310px; assume0.45m seat.",
+      "unresolved": [
+        "Narrow chair contacts are candidates."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__midday",
+      "file": "places/place-coffee-shop__midday.png",
+      "kind": "coffee-shop",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "89baf3fb6fd2fb9a9be652ff13dbea53a8c08b131cc23cf52dff543cca5e6f21",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest chair cushion307px, floor333px; assume0.45m seat.",
+      "unresolved": [
+        "Small door notice requires full-size corners."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__morning-v2",
+      "file": "places/place-coffee-shop__morning-v2.png",
+      "kind": "coffee-shop",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "b0a52db48b80b273ac941f2ee3e979b34a8b0f41d4dd37915f794ac20d1869f8",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Chair cushion278px, floor310px; assume0.45m seat.",
+      "unresolved": [
+        "Narrow chair contacts are candidates."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__morning",
+      "file": "places/place-coffee-shop__morning.png",
+      "kind": "coffee-shop",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "1693824f07942a50734f1bb11b580d474921b7f94cb781cef1974b3f24904e6e",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter top198px, floor285px; assume1.0m counter.",
+      "unresolved": [
+        "Far table seats and hidden cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__night-v2",
+      "file": "places/place-coffee-shop__night-v2.png",
+      "kind": "coffee-shop",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "d0caaf8bd557293a026edc861217bec34838ae4f6ee4d813bce3fa1792d603cc",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Chair cushion278px, floor310px; assume0.45m seat.",
+      "unresolved": [
+        "Narrow chair contacts are candidates."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__night",
+      "file": "places/place-coffee-shop__night.png",
+      "kind": "coffee-shop",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "5f37162195df9174426ca83886ca896e8bd39fb2917e196acbf94668d542ca32",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter top198px, floor285px; assume1.0m counter.",
+      "unresolved": [
+        "Far table seats and hidden cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__rain-v2",
+      "file": "places/place-coffee-shop__rain-v2.png",
+      "kind": "coffee-shop",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "eb8a0b38cb10eb053e804f9176b71b09ce688ea3e44b73456f89643e2d5dd86a",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Chair cushion278px, floor310px; assume0.45m seat.",
+      "unresolved": [
+        "Narrow chair contacts are candidates."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-coffee-shop__rain",
+      "file": "places/place-coffee-shop__rain.png",
+      "kind": "coffee-shop",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "661d6fa1406d144db6f03586a01b9d1d59200d2b94841cd7ac23835a1a518086",
+      "group": "place-coffee-shop",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter top198px, floor285px; assume1.0m counter.",
+      "unresolved": [
+        "Far table seats and hidden cushions inferred."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-committee-hearing-room__m",
+      "file": "places/place-committee-hearing-room__m.png",
+      "kind": "committee-hearing-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "6fb13e1107a05e37cf91735a8ec2ae1f2fc3bef7fff13d12bc220cef92a154ba",
+      "group": "place-committee-hearing-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Audience cushion311px, floor332px; assume0.45m seat; raised committee bench uses separate candidate floor.",
+      "unresolved": [
+        "Audience and witness seats face away and remain import-blocked; committee feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-congressional-office__mid",
+      "file": "places/place-congressional-office__mid.png",
+      "kind": "congressional-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "a00b1ae2fd750b0136143dbfdac7a6bd56bfce0d07e328a0a2282e69b9c475c5",
+      "group": "place-congressional-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion207px, floor246px; assume0.45m seat.",
+      "unresolved": [
+        "Desk floor and chair feet hidden; no actor composite."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-congressional-office__mor",
+      "file": "places/place-congressional-office__mor.png",
+      "kind": "congressional-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "0c4d9c36a0c7d74acfb4535ffbf506143bb886d9c68b8b2e37b75f3bbc994aaa",
+      "group": "place-congressional-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion207px, floor246px; assume0.45m seat.",
+      "unresolved": [
+        "Desk floor and chair feet hidden; no actor composite."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-congressional-office__nig",
+      "file": "places/place-congressional-office__nig.png",
+      "kind": "congressional-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "90c84ee76a86992c48c227dad8258a0c539e751480800929e0a179da50a960f1",
+      "group": "place-congressional-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion207px, floor246px; assume0.45m seat.",
+      "unresolved": [
+        "Desk floor and chair feet hidden; no actor composite."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-congressional-office__rai",
+      "file": "places/place-congressional-office__rai.png",
+      "kind": "congressional-office",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "2e8617c2125d9ae816cf850ef8486332c64e90d1b2dcae8b50fc8f53dd0fde74",
+      "group": "place-congressional-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion207px, floor246px; assume0.45m seat.",
+      "unresolved": [
+        "Desk floor and chair feet hidden; no actor composite."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-clerk-office__midd",
+      "file": "places/place-county-clerk-office__midd.png",
+      "kind": "county-clerk-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "5a1d1e21e95657f573b6db9a4fd22bc4b729e633ba3484c890a30fb333ba4837",
+      "group": "place-county-clerk-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter187px to floor255px; assume1.0m counter.",
+      "unresolved": [
+        "Night queue display is narrower; per-source correction is required.",
+        "Tiny brochure and desk paper corners unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-clerk-office__morn",
+      "file": "places/place-county-clerk-office__morn.png",
+      "kind": "county-clerk-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "40dee466fa4bf48e8e812d07c6f0010175a5a824e5f7d0cc3cab368582bab11e",
+      "group": "place-county-clerk-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter187px to floor255px; assume1.0m counter.",
+      "unresolved": [
+        "Night queue display is narrower; per-source correction is required.",
+        "Tiny brochure and desk paper corners unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-clerk-office__nigh",
+      "file": "places/place-county-clerk-office__nigh.png",
+      "kind": "county-clerk-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "e190714aa9308432c221ed49576dd09e30f23d218a7b361ce8de2a59ece30fed",
+      "group": "place-county-clerk-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter187px to floor255px; assume1.0m counter.",
+      "unresolved": [
+        "Night queue display is narrower; per-source correction is required.",
+        "Tiny brochure and desk paper corners unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-clerk-office__rain",
+      "file": "places/place-county-clerk-office__rain.png",
+      "kind": "county-clerk-office",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "5bfbf07babea99c8202a24c112c8f624545dbbfbdfcb5b4b1bf43601af36a361",
+      "group": "place-county-clerk-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter187px to floor255px; assume1.0m counter.",
+      "unresolved": [
+        "Night queue display is narrower; per-source correction is required.",
+        "Tiny brochure and desk paper corners unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-elections-office__--2",
+      "file": "places/place-county-elections-office__--2.png",
+      "kind": "county-elections-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "97272967336c4a041a6ae6fb61d78a9b2a579a57e56efe04430f73f8b7d3610f",
+      "group": "place-county-elections-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter196px to floor275px; assume1.0m counter.",
+      "unresolved": [
+        "No exposed public content screen faces; do not paint news onto monitor backs."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-elections-office__--3",
+      "file": "places/place-county-elections-office__--3.png",
+      "kind": "county-elections-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "7b7e300c6632dcc92f66afb2f626884aefe73a34033f7146785fa28ece9d034f",
+      "group": "place-county-elections-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter196px to floor275px; assume1.0m counter.",
+      "unresolved": [
+        "No exposed public content screen faces; do not paint news onto monitor backs."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-elections-office__--4",
+      "file": "places/place-county-elections-office__--4.png",
+      "kind": "county-elections-office",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "6e0c41431c23018ca4c950b86447b03a152dde56ab47a56d1dd8a0c34ea650f5",
+      "group": "place-county-elections-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter196px to floor275px; assume1.0m counter.",
+      "unresolved": [
+        "No exposed public content screen faces; do not paint news onto monitor backs."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-elections-office__",
+      "file": "places/place-county-elections-office__.png",
+      "kind": "county-elections-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "235493e7af0238cebbbf43fb9068aab7a33a3603b4aa6fd10afebd903a34cbed",
+      "group": "place-county-elections-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter196px to floor275px; assume1.0m counter.",
+      "unresolved": [
+        "No exposed public content screen faces; do not paint news onto monitor backs."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-county-office-cramped__mi",
+      "file": "places/place-county-office-cramped__mi.png",
+      "kind": "county-office-cramped",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "8bc5bbccd510e1524bc035db0591df4b3b77c46982e8c8119682de957a02cb48",
+      "group": "place-county-office-cramped",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Waiting seat293px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Waiting seat contacts inferred from pedestal."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courthouse-hallway__midda",
+      "file": "places/place-courthouse-hallway__midda.png",
+      "kind": "courthouse-hallway",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "fcead6220020f09f5295c8dd9235baba21e823d1f41c05602011ad7e61fb97f1",
+      "group": "place-courthouse-hallway",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest bench266px to floor301px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courthouse-steps__midday--2",
+      "file": "places/place-courthouse-steps__midday--2.png",
+      "kind": "courthouse-steps",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "025ab4a8efa1d6eff104d7b2221908bcd7ec883a62f3ecd2d323501f8a737fad",
+      "group": "place-courthouse-steps",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "unresolved": [
+        "Stair landing contact and raised floor require actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courthouse-steps__midday",
+      "file": "places/place-courthouse-steps__midday.png",
+      "kind": "courthouse-steps",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "9770c4f14a06b9c2eeeddef64a574c48b250a704eb441edee19569b21a1b4a07",
+      "group": "place-courthouse-steps",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top270px, landing375px on600x600 camera; assume2.1m door.",
+      "unresolved": [
+        "Independent square camera; no wide-image contact reused."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courthouse-steps__morning",
+      "file": "places/place-courthouse-steps__morning.png",
+      "kind": "courthouse-steps",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "1f70308a2fd8b449562f29d86a7c45ce5882018f21ef29d654e2b5f4c3895040",
+      "group": "place-courthouse-steps",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "unresolved": [
+        "Stair landing contact and raised floor require actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courthouse-steps__night",
+      "file": "places/place-courthouse-steps__night.png",
+      "kind": "courthouse-steps",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "37ca3e83ecf667b44a405bddd2c323f7f104028ea481b439f92e946dc99b533f",
+      "group": "place-courthouse-steps",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "unresolved": [
+        "Stair landing contact and raised floor require actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courthouse-steps__rain",
+      "file": "places/place-courthouse-steps__rain.png",
+      "kind": "courthouse-steps",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "9568e19b30a5a00417200a5854fc8721761a37526e10f6690693cd5933405773",
+      "group": "place-courthouse-steps",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Door top95px, landing181px; assume2.1m door; foreground scale is an artistic candidate.",
+      "unresolved": [
+        "Stair landing contact and raised floor require actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courtroom-county-trial__m",
+      "file": "places/place-courtroom-county-trial__m.png",
+      "kind": "courtroom-county-trial",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "97e28d49a8843b10f666f04f8d4ab01b32ec9d7f26cc3869e731567858a3c7f0",
+      "group": "place-courtroom-county-trial",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Public pew309px to floor331px; assume0.45m seat.",
+      "unresolved": [
+        "Public/jury seats face away and remain import-blocked.",
+        "Counsel and judge contacts hidden.",
+        "Court exhibit content routing requires CTO review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-courtroom-state-supreme__",
+      "file": "places/place-courtroom-state-supreme__.png",
+      "kind": "courtroom-state-supreme",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "4682b6f8fccae840ae2c9bac99f225c4cf3de563062c5d8cd3ea9b0da5a18ca4",
+      "group": "place-courtroom-state-supreme",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Lectern top206px to floor306px; assume1.1m lectern.",
+      "unresolved": [
+        "Audience seats face away; judicial feet hidden; raised bench scale estimated."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-diner-counter__midday",
+      "file": "places/place-diner-counter__midday.png",
+      "kind": "diner-counter",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "d9b380bc3fb600f5ee6630c5ea7e4a2b7d33b54fb5e243b85aea66a0044c05a4",
+      "group": "place-diner-counter",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool240px to floor311px; assume0.7m stool.",
+      "unresolved": [
+        "Booth cushions and foot contacts partly hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-distillery-rickhouse__mid",
+      "file": "places/place-distillery-rickhouse__mid.png",
+      "kind": "distillery-rickhouse",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "38dfaf58ba6e3babeb750b9f0ffd9cd673e15540ad408f2d363a2366992d72a1",
+      "group": "place-distillery-rickhouse",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench239px to floor254px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-distillery-rickhouse__mor",
+      "file": "places/place-distillery-rickhouse__mor.png",
+      "kind": "distillery-rickhouse",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "559d920072147ce1aa29efc53ff770cdc18d9969a0cef292b669cf9727b28d5c",
+      "group": "place-distillery-rickhouse",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench239px to floor254px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-distillery-rickhouse__nig",
+      "file": "places/place-distillery-rickhouse__nig.png",
+      "kind": "distillery-rickhouse",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "6adac5334c959f523c5b1bd6d2b1750b49fdd152aedf0f8cb75c1f3144b63beb",
+      "group": "place-distillery-rickhouse",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench239px to floor254px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-distillery-rickhouse__rai",
+      "file": "places/place-distillery-rickhouse__rai.png",
+      "kind": "distillery-rickhouse",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "006796108f58c25f0be034f17ae24916e1882a43e58fbe2459d1b7cf34e7a2cc",
+      "group": "place-distillery-rickhouse",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench239px to floor254px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-doctor-exam-room__midday",
+      "file": "places/place-doctor-exam-room__midday.png",
+      "kind": "doctor-exam-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "261fcd69e9ad2eae36ee2055b65868711e790d321e5d09986d485f35bfa3d323",
+      "group": "place-doctor-exam-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Stool218px to floor272px; assume0.6m stool.",
+      "unresolved": [
+        "Reclined exam pose unsupported by staging enum; sit is import-blocked pending clinical pose fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-doctor-exam-room__morning",
+      "file": "places/place-doctor-exam-room__morning.png",
+      "kind": "doctor-exam-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "61aaa9460186ee1dc682831287a418e02e78cb4b215b6d23d250623516bff475",
+      "group": "place-doctor-exam-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Stool218px to floor272px; assume0.6m stool.",
+      "unresolved": [
+        "Reclined exam pose unsupported by staging enum; sit is import-blocked pending clinical pose fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-doctor-exam-room__night",
+      "file": "places/place-doctor-exam-room__night.png",
+      "kind": "doctor-exam-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "f989264d64410492603c6dabd459c5056a778a997df135b05fb56021a308fc3f",
+      "group": "place-doctor-exam-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Stool218px to floor272px; assume0.6m stool.",
+      "unresolved": [
+        "Reclined exam pose unsupported by staging enum; sit is import-blocked pending clinical pose fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-doctor-exam-room__rain",
+      "file": "places/place-doctor-exam-room__rain.png",
+      "kind": "doctor-exam-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "9ba2bc0da5b1b877fffa8e3835175ec01c6e49ea4cecb36740e7f9a14c31cddd",
+      "group": "place-doctor-exam-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Stool218px to floor272px; assume0.6m stool.",
+      "unresolved": [
+        "Reclined exam pose unsupported by staging enum; sit is import-blocked pending clinical pose fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-dorm-common-room__midday",
+      "file": "places/place-dorm-common-room__midday.png",
+      "kind": "dorm-common-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "947b8e1610af96d576971bc4f2b3e87e4231062144a7eff56ac2ba9a78499381",
+      "group": "place-dorm-common-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front lounge cushion250px to floor294px; assume0.45m seat.",
+      "unresolved": [
+        "Small study papers require full-size corners; some seats face away."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-dorm-room-double__midday",
+      "file": "places/place-dorm-room-double__midday.png",
+      "kind": "dorm-room-double",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "6c8a89742f1d5dc84950d017e65461abc48886749f4b878afed71bf1cfe6eb66",
+      "group": "place-dorm-room-double",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Desk chair287px to floor334px; assume0.45m seat.",
+      "unresolved": [
+        "Desk seats face away and remain import-blocked; rear notebooks unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-downtown-sidewalk-night__--2",
+      "file": "places/place-downtown-sidewalk-night__--2.png",
+      "kind": "downtown-sidewalk",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "12af6f89ca8c81b8ee88fe1a5476bcb82fd92db9be1f18ec460d39437a2f1696",
+      "group": "place-downtown-sidewalk-night",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench246px to pavement282px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-downtown-sidewalk-night__--3",
+      "file": "places/place-downtown-sidewalk-night__--3.png",
+      "kind": "downtown-sidewalk",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "b8469f27c458ce9037fdc3623b7993742b68b304c5e961fdb33410d7a3f277e8",
+      "group": "place-downtown-sidewalk-night",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench246px to pavement282px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-downtown-sidewalk-night__--4",
+      "file": "places/place-downtown-sidewalk-night__--4.png",
+      "kind": "downtown-sidewalk",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "f3c755fc13f3bc8a229da52798ffbb927201f1412e13d371e8fc2d79942b55cc",
+      "group": "place-downtown-sidewalk-night",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench246px to pavement282px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-downtown-sidewalk-night__",
+      "file": "places/place-downtown-sidewalk-night__.png",
+      "kind": "downtown-sidewalk",
+      "variant": "midday",
+      "width": 600,
+      "height": 337,
+      "sha256": "0818977bfa6a7032baabf4ccce8f22a417d0909ddd29126529945c597514e86d",
+      "group": "place-downtown-sidewalk-night",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench246px to pavement282px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-emergency-shelter-gym__mi",
+      "file": "places/place-emergency-shelter-gym__mi.png",
+      "kind": "emergency-shelter-gym",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "716fd11663786fefca975a6136381d563ef974004c500d086d570a752e07681a",
+      "group": "place-emergency-shelter-gym",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest cot268px to floor303px; assume0.5m cot.",
+      "unresolved": [
+        "Cot-edge contact is inferred; no sleeping/lying pose represented.",
+        "Partial cots at image edges have no safe contact until full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-emergency-shelter-gym__mo",
+      "file": "places/place-emergency-shelter-gym__mo.png",
+      "kind": "emergency-shelter-gym",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "2c5a7480ed2d3b714d680d59bf9dfac809346a63c0b65d4b3596891c621bf571",
+      "group": "place-emergency-shelter-gym",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest cot268px to floor303px; assume0.5m cot.",
+      "unresolved": [
+        "Cot-edge contact is inferred; no sleeping/lying pose represented.",
+        "Partial cots at image edges have no safe contact until full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-emergency-shelter-gym__ni",
+      "file": "places/place-emergency-shelter-gym__ni.png",
+      "kind": "emergency-shelter-gym",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "54c9da8f364a6e25e756c94770d40b299b8f3898c7ed692eb697d36152e6bb19",
+      "group": "place-emergency-shelter-gym",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest cot268px to floor303px; assume0.5m cot.",
+      "unresolved": [
+        "Cot-edge contact is inferred; no sleeping/lying pose represented.",
+        "Partial cots at image edges have no safe contact until full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-emergency-shelter-gym__ra",
+      "file": "places/place-emergency-shelter-gym__ra.png",
+      "kind": "emergency-shelter-gym",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "6f8f2ad310d314887ceebdb6d3241290b34537744cf9251ec2c143edcdfe3f7c",
+      "group": "place-emergency-shelter-gym",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest cot268px to floor303px; assume0.5m cot.",
+      "unresolved": [
+        "Cot-edge contact is inferred; no sleeping/lying pose represented.",
+        "Partial cots at image edges have no safe contact until full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-factory-exterior__midday--2",
+      "file": "places/place-factory-exterior__midday--2.png",
+      "kind": "factory-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "30020503eb85bc36c02fa1f3131dc3d38e90b9f644cf22f4f2a14fcc20c8ce29",
+      "group": "place-factory-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Guard-booth door about52px high, floor258px; assume2.0m door.",
+      "unresolved": [
+        "Elevated broad camera; human scale remains candidate, not aerial-camera calibration."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-factory-exterior__midday",
+      "file": "places/place-factory-exterior__midday.png",
+      "kind": "factory-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "d3c11e2e6ac798452ed49501ca26b7b9699564e9d328b3b84faedb8b096897e1",
+      "group": "place-factory-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Rollup door450px to ground520px on600x600 source; assume3m door.",
+      "unresolved": [
+        "Different low camera; independent square-image contacts."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-factory-exterior__morning",
+      "file": "places/place-factory-exterior__morning.png",
+      "kind": "factory-exterior",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "3354a2b043fa7e029674c8ce039234da1c0aadd9375d2eb9611d989ad5e0186b",
+      "group": "place-factory-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Guard-booth door about52px high, floor258px; assume2.0m door.",
+      "unresolved": [
+        "Elevated broad camera; human scale remains candidate, not aerial-camera calibration."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-factory-exterior__night",
+      "file": "places/place-factory-exterior__night.png",
+      "kind": "factory-exterior",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "595d37743b1db2082be89723c8b1fa273fe556b0907928c6cadf3668fdca8db2",
+      "group": "place-factory-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Guard-booth door about52px high, floor258px; assume2.0m door.",
+      "unresolved": [
+        "Elevated broad camera; human scale remains candidate, not aerial-camera calibration."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-factory-exterior__rain",
+      "file": "places/place-factory-exterior__rain.png",
+      "kind": "factory-exterior",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "519c111f569be967b73c20a4d7f2cd51f07d30bf0cd97885307d6c8220221520",
+      "group": "place-factory-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Guard-booth door about52px high, floor258px; assume2.0m door.",
+      "unresolved": [
+        "Elevated broad camera; human scale remains candidate, not aerial-camera calibration."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-farm-field__midday",
+      "file": "places/place-farm-field__midday.png",
+      "kind": "farm-field",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "016a6b25d67e84671b30484eb78a43bb1b1af30c95f38b13f829c537948547dc",
+      "group": "place-farm-field",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Fence post185px to ground268px; assume1.2m post.",
+      "unresolved": [
+        "Fence size is an explicit artistic assumption; no world crop or acreage inference."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-farm-field__morning",
+      "file": "places/place-farm-field__morning.png",
+      "kind": "farm-field",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "8efe27edaa07feaf879aafa206ef538887a48fb791b922951a119dc2a3344cd0",
+      "group": "place-farm-field",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Fence post185px to ground268px; assume1.2m post.",
+      "unresolved": [
+        "Fence size is an explicit artistic assumption; no world crop or acreage inference."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-farm-field__night",
+      "file": "places/place-farm-field__night.png",
+      "kind": "farm-field",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "0092af19363709b06553fb8a54b099fc8c6453061b7a47e68581b4b0861ed86f",
+      "group": "place-farm-field",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Fence post185px to ground268px; assume1.2m post.",
+      "unresolved": [
+        "Fence size is an explicit artistic assumption; no world crop or acreage inference."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-farm-field__rain",
+      "file": "places/place-farm-field__rain.png",
+      "kind": "farm-field",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "85cf46694e824461de3e4be71b662733f4781c73f74214af937018f9dda8515a",
+      "group": "place-farm-field",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Fence post185px to ground268px; assume1.2m post.",
+      "unresolved": [
+        "Fence size is an explicit artistic assumption; no world crop or acreage inference."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-federal-courtroom__midday",
+      "file": "places/place-federal-courtroom__midday.png",
+      "kind": "federal-courtroom",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "6c4c2764c3eb79b329b484647c01a0476ec88ee18a84036112a5e708c3fbe340",
+      "group": "place-federal-courtroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Public cushion311px to floor333px; assume0.45m seat.",
+      "unresolved": [
+        "Public/counsel seats face away and remain import-blocked.",
+        "Exhibit routing and judge scale require CTO review."
+      ],
+      "approval": "pending"
+    }
+  ],
+  "limits": [
+    "No actual actor composites tested.",
+    "Hidden seat cushion and foot points are estimated from furniture; annotated as candidates.",
+    "No staging variant support exists in current v2 consumer; independent source keys must be mapped by job08.",
+    "No geometry claim about missing or full-size versions."
+  ]
+}
