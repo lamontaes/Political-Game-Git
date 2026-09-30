@@ -47,3 +47,61 @@ Expected fixture examples are House Bill 4001/4002 in Michigan, HJR A/B separate
 Claim: only numbering module/test, dedicated rule data and already-owned runner/handback/release. No overlapping claim appeared in inspected coordinator claims. Team 1 types/legislation and Team 9 research remain untouched. Only Merge integrates after exact approval.
 
 Method: same registered checkout, branch `codex/team2-measure-numbering`, base `2855854ca3537a1eacf5e1dd7591e593154c31bd`. The broad proof branch and draft #1136 are preserved at `bed4ce8e4c6fc76f0f8eee7e4491a4c4f928a832`. Released principles/continuous-strength hunks remain Team 1's. Shared authority source remains a proposal, published in the broad handback. Only Merge integrates after exact approval.
+
+## First actual month: no new designations
+
+The first actual month completed 31 Day presses in Wadsworth, Nevada, from January 5 through February 5, 2026. The fixed seeded selection was Ohio, South Carolina and New Mexico. Congress and all three selected states each had zero new filings. No designation observation is invented. This is a successful empty-case run and leaves the requested actual designation proof unmet.
+
+Source `f484dc14e35175931e58457d9e3dc09bcd86b1e4`, clean; seed `team2-numbering-month-20260930`; place `3281000`. Save/Continue date/history counts matched. Elapsed 46.613 seconds; duplicate reported introductions 0; unknown rule packs 0. Generated report check: 0 errors/0 warnings.
+
+Source finding: the existing authored state governing calendar’s first bill day is February 15, after this first watched window. It is a game scheduling default, not a legal numbering rule. Congress’s monthly intake also requires actual member backing; an intake does not promise a filing. The next bounded proof uses the same seed and states, records 35 initial Day presses separately, and watches the following calendar month containing February 15. It changes no filing choice, actor threshold or producer calendar.
+
+# One month of actual measure designations
+
+31 Day presses in Wadsworth, Nevada produced the following Congress and three random-state filing records. A group with no filings remains zero. The internal IDs and displayed names are both preserved.
+
+## 1. Why-chain
+
+Existing officials filed measures through the normal Day path. Their recorded jurisdiction, chamber and session selected the legal/data counter. This chain ends at procedural data and filed history; no actor reason is inferred from a bill number.
+
+## 2. Research
+
+Verified fields and explicitly unverified common arrangements share one allocator. Legal numbering constants have no effect-size draw. This observation supplies no new causal rate.
+
+## 3. Revisions
+
+No measure was introduced by this collector. Opening records were excluded by canonical sequence. The report does not infer a filing where none exists.
+
+## 4. Numbered observed groups
+
+### 1. Congress: 0 filings
+
+No recorded introduction during this watched month.
+
+### 2. Ohio: 0 filings
+
+No recorded introduction during this watched month.
+
+### 3. South Carolina: 0 filings
+
+No recorded introduction during this watched month.
+
+### 4. New Mexico: 0 filings
+
+No recorded introduction during this watched month.
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: the normal observer Day path. RECORDS: actual measure designations and independent IDs. WORLD PIECES: existing jurisdictions, chambers and rule packs. CHECKS: no duplicate jurisdiction/chamber/session/designation among reported introductions; Save/Continue date and history counts agree. Unknown rule-pack records are excluded and counted, never assigned a fabricated jurisdiction.
+
+## 6. Proof receipt
+
+Seed team2-numbering-month-20260930; place 3281000; January 5, 2026 through February 5, 2026; status completed-month.
+
+Source `f484dc14e35175931e58457d9e3dc09bcd86b1e4`, clean. Save/Continue matched: true. Duplicate rows: 0. Unresolved rule-pack rows outside the reported groups: 0.
+
+Stop: none.
+
+## 7. Worked example
+
+The canonical filed rows above are the worked examples. No synthetic example fills an empty group. This is source/runtime proof; browser interaction and person-level law effects are not established.

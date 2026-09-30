@@ -23,6 +23,15 @@ import {
 const seed = process.argv[2] ?? "team2-numbering-month-20260930";
 const output =
   process.argv[3] ?? "test-results/governance-proof/measure-numbers.json";
+const requestedWarmupDays = Number(process.argv[4] ?? 0);
+if (
+  !Number.isInteger(requestedWarmupDays) ||
+  requestedWarmupDays < 0 ||
+  requestedWarmupDays > 366
+)
+  throw new Error(
+    "Warmup Day presses must be an integer from zero through 366.",
+  );
 const started = performance.now();
 const sourceHead = execFileSync("git", ["rev-parse", "HEAD"], {
   encoding: "utf8",
@@ -46,13 +55,26 @@ const keys = ["US", ...selected.map((key) => `US-${key}`)];
 const place = observerPlace(seed);
 const watched = openWatchedWorld(seed, place.key);
 const button = createObserverDayButton(watched.world);
-const from = watched.world.currentDate;
+let warmupDays = 0;
+let problem: string | null = null;
+while (warmupDays < requestedWarmupDays) {
+  if (performance.now() - started > 10 * 60_000) {
+    problem = "Ten-minute advance bound reached during warmup.";
+    break;
+  }
+  const step = button.press();
+  if (step.status !== "moved") {
+    problem = step.problem;
+    break;
+  }
+  warmupDays += 1;
+}
+const from = button.world.currentDate;
 const date = new Date(`${from}T00:00:00Z`);
 date.setUTCMonth(date.getUTCMonth() + 1);
 const target = makeIsoDate(date.toISOString().slice(0, 10));
-const openingSequence = watched.world.history.nextSequence;
+const openingSequence = button.world.history.nextSequence;
 let days = 0;
-let problem: string | null = null;
 console.log(
   JSON.stringify({
     status: "opening",
@@ -60,11 +82,13 @@ console.log(
     seed,
     place: place.displayName,
     selectedStates: selected,
+    warmupDays,
+    requestedWarmupDays,
     from,
     target,
   }),
 );
-while (button.world.currentDate < target) {
+while (!problem && button.world.currentDate < target) {
   if (performance.now() - started > 10 * 60_000) {
     problem = "Ten-minute advance bound reached.";
     break;
@@ -148,6 +172,8 @@ const receipt = {
   through: button.world.currentDate,
   target,
   openingSequence,
+  requestedWarmupDays,
+  warmupDays,
   days,
   status,
   problem,
@@ -166,7 +192,7 @@ writeFileSync(output, JSON.stringify(receipt, null, 2));
 const report = [
   "# One month of actual measure designations",
   "",
-  `${days} Day presses in ${place.displayName} produced the following Congress and three random-state filing records. A group with no filings remains zero. The internal IDs and displayed names are both preserved.`,
+  `${days} watched-month Day presses in ${place.displayName}, after ${warmupDays} separately logged warmup presses, produced the following Congress and three random-state filing records. A group with no filings remains zero. The internal IDs and displayed names are both preserved.`,
   "",
   "## 1. Why-chain",
   "",
