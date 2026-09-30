@@ -1,6 +1,6 @@
 # Existing capitol surface batch 9 preserves architectural paint
 
-This data-only candidate batch records surface review for 20 existing midday capitol exterior originals that have staging entries but lack surface records at the named baseline. Claude CTO and Lamontae can review the numbered sheet before any import. No existing staging data changed.
+This candidate adds numbered overlays for 118 inherited spots across 20 existing capitol scenes. The exact canonical coordinates are preserved. Source hashes and coordinate bounds passed, and the reduced overlays were inspected. This makes the existing spots reviewable but does not establish character contact, seated fit or occlusion. Claude CTO reviews the data and Lamontae retains pixel approval before runtime admission.
 
 ## What changed
 
@@ -12,11 +12,21 @@ Building glazing, flags, architectural reliefs, statuary and grounds retain pain
 
 ## Review limits
 
-The surface search used reduced 600-pixel display sheets. Small wall plaques and inaccessible notices remain unresolved. Only the listed midday originals were checked. Other lighting or weather variants are NOT CHECKED, and no shared-camera claim is made. No existing staging coordinates were copied or reauthored.
+The surface search used reduced 600-pixel display sheets. Small wall plaques and inaccessible notices remain unresolved. Only the listed midday originals were checked. Other lighting or weather variants are NOT CHECKED, and no shared-camera claim is made. An unchanged canonical excerpt is now included for review. No canonical staging coordinates were edited.
+
+## Inherited spots
+
+Measured: `inherited-staging.json` preserves 118 spots byte-for-value from canonical staging at main `54930d427555034f3a92f335064586247985784d`.
+
+`spot-audit.json` binds the excerpt to the canonical file hash, native source hashes and numbered foot coordinates.
+
+`spot-contact-sheet.jpg` shows every source with its foot markers and inherited standing-height guides.
+
+The height guide uses the inherited 1.7-meter adult reference and painted-object scale assumptions. This is artistic placement guidance, not measured furniture or simulation calibration. Sitting spots show a seat marker without inventing a seated silhouette. Actor rendering, clipping, facing, native inspection of every spot and other lighting variants are NOT RUN. The native annotated view of MP was additionally inspected.
 
 ## What happens next
 
-Claude CTO reviews the disposition and Lamontae retains pixel approval. Job 08 owns runtime admission and must restrict any use to the checked source identity until other variants are inspected. The newspaper revision still needs an existing saved-world issue packet; kids and station-color corrections remain pending.
+Claude CTO reviews the disposition and Lamontae retains pixel approval. Job 08 owns runtime admission and must restrict any use to the checked source identity until other variants are inspected. The newspaper recorded-page candidate and station-color correction have separate handbacks. The kids correction remains pending.
 
 ## Method and validation
 
