@@ -1,0 +1,29 @@
+{
+  "head": "8edf10b8af554943651e88eb49a7e9c315a14abd",
+  "seed": "b18-f375512c",
+  "place": "4272168",
+  "from": "2026-01-05",
+  "through": "2026-02-04",
+  "fingerprint": "689a517520e1804ffe07c3d453fa9a08de7b3ccd048b3c9b077cea577817230b",
+  "errors": [],
+  "decisionCalls": 22541,
+  "recordReplayCalls": 9225,
+  "uniqueDecisionKeys": 13316,
+  "distinctDecisionActors": 11124,
+  "centralBankPublicVoters": 12,
+  "officeholdersWithCentralBank": 8000,
+  "allObservedIdsPresent": true,
+  "beforeDetailLevels": {
+    "lightweight": 9429
+  },
+  "afterDetailLevels": {
+    "lightweight": 15024
+  },
+  "decisionCohorts": {
+    "officeholdersAndPublicBodyVoters": 6315,
+    "otherCandidateProspects": 4802,
+    "otherTownResidents": 3,
+    "otherBackground": 4
+  },
+  "cohortRule": "canonical executive/state-legislative/Congress/home-local office holder at either endpoint, plus observed FOMC public voters; then consideration; then home jurisdiction; then other"
+}

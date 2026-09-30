@@ -1,0 +1,80 @@
+import {Session} from 'node:inspector';
+import {createHash} from 'node:crypto';
+import {writeFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {openWatchedWorld} from '../../scripts/dev-lab/world-aging.ts';
+import {advanceObservedWorld} from '../../src/presentation/observer-world.ts';
+import {ensurePeopleTraits} from '../../src/simulation/people-traits.ts';
+import {evaluateDecision} from '../../src/simulation/decisions.ts';
+import {reviewPeopleGoals,pursuitCandidates} from '../../src/simulation/people-goal-review.ts';
+import {decideSelfStarterRun} from '../../src/simulation/nominations/field-entry.ts';
+import {recordProspectRunChoice} from '../../src/simulation/election-candidate-prospect.ts';
+import {serializeWorldPayload} from '../../src/simulation/serialization.ts';
+import {currentPublicOfficeholders} from '../../src/presentation/opening-officeholders.ts';
+import {stateLegislativeSeats} from '../../src/simulation/nationwide-world/state-legislature-opening.ts';
+import {projectCongress} from '../../src/simulation/living-world/congress.ts';
+import {homeLocalGovernmentUnits} from '../../src/simulation/nationwide-world/local-governments.ts';
+import {sittingLocalOfficers} from '../../src/simulation/living-world/local-government-seats.ts';
+import {workStatusAt} from '../../src/simulation/life-queries.ts';
+const seed='b18-f375512c',place='4272168';
+const opening=openWatchedWorld(seed,place);const before=opening.world;
+console.log('opening complete; observation starts',before.currentDate,before.personOrder.length);
+const observed=[];const errors=[];
+const session=new Session();session.connect();
+const post=(method,params={})=>new Promise((yes,no)=>session.post(method,params,(e,r)=>e?no(e):yes(r)));
+const descriptors=[
+ ['trait preparation',ensurePeopleTraits,'JSON.stringify({date:world.currentDate,ids:personIds,effectiveDate:typeof onDate==="string"?onDate:"per-person map"})'],
+ ['decision evaluation',evaluateDecision,'JSON.stringify({date:world.currentDate,ids:[contextInput.actorPersonId],effectiveDate:contextInput.cutoff.asOfDate,decisionType:contextInput.decisionType,stableKey:contextInput.stableKey})'],
+ ['goal review',reviewPeopleGoals,'JSON.stringify({date:world.currentDate,ids:globalThis.__pursuitCandidates(world)})'],
+ ['self-starter consideration',decideSelfStarterRun,'JSON.stringify({date:world.currentDate,ids:[input.personId],effectiveDate:input.intakeDate})'],
+ ['recruited prospect consideration',recordProspectRunChoice,'JSON.stringify({date:args.world.currentDate,ids:[args.personId],effectiveDate:args.intakeDate})'],
+];globalThis.__pursuitCandidates=pursuitCandidates;globalThis.__measuredFunctions=descriptors.map(x=>x[1]);
+const byBreakpoint=new Map();
+session.on('Debugger.paused',message=>{
+ const ids=message.params.hitBreakpoints??[];const d=ids.map(id=>byBreakpoint.get(id)).find(Boolean);
+ if(!d){errors.push('unrecognized breakpoint');session.post('Debugger.resume');return;}
+ session.post('Debugger.evaluateOnCallFrame',{callFrameId:message.params.callFrames[0].callFrameId,expression:d[2],returnByValue:true},(e,r)=>{
+  if(e||r?.exceptionDetails||typeof r?.result?.value!=='string')errors.push({boundary:d[0],error:e?.message??r?.exceptionDetails?.text??'missing value'});
+  else observed.push({boundary:d[0],...JSON.parse(r.result.value),callers:message.params.callFrames.slice(1,4).map(f=>f.functionName)});
+  session.post('Debugger.resume');
+ });
+});
+await post('Debugger.enable');
+for(let i=0;i<descriptors.length;i++){
+ const f=await post('Runtime.evaluate',{expression:`globalThis.__measuredFunctions[${i}]`});
+ const bp=await post('Debugger.setBreakpointOnFunctionCall',{objectId:f.result.objectId});byBreakpoint.set(bp.breakpointId,descriptors[i]);
+}
+console.log('five observation boundaries armed; advancing month');
+const next=advanceObservedWorld(before,30);
+for(const id of byBreakpoint.keys())await post('Debugger.removeBreakpoint',{breakpointId:id});
+session.disconnect();
+const payload=serializeWorldPayload(next);const hash=createHash('sha256');for(const chunk of typeof payload==='string'?[payload]:payload)hash.update(chunk);
+const fingerprint=hash.digest('hex');
+const officeKinds=new Set();
+const officeholders=new Set();
+for(const world of [before,next]){
+ for(const holder of currentPublicOfficeholders(world))officeholders.add(holder.personId);
+ const congress=projectCongress(world);
+ if(congress)for(const seat of [...congress.house.seats,...congress.senate.seats])if(seat.occupant.kind==='member')officeholders.add(seat.occupant.member.personId);
+ const local=homeLocalGovernmentUnits(world,opening.anchorPersonId);
+ for(const unit of [...local.municipal,...local.counties,...local.townships])for(const holder of sittingLocalOfficers(world,unit))officeholders.add(holder.personId);
+ const packs=new Set(world.history.events.filter(e=>e.type==='world.state-legislature-opening').flatMap(e=>e.tags.filter(t=>t.startsWith('pack:')).map(t=>t.slice(5))));
+ for(const pack of packs)for(const seat of stateLegislativeSeats(world,pack))if(seat.member)officeholders.add(seat.member.personId);
+ for(const work of world.history.workRelationships){
+  if(/legislative-member|local-government-member|elected-mayor|elected-executive/.test(work.kind)&&workStatusAt(world,work.id)?.status==='active'){officeholders.add(work.personId);officeKinds.add(work.kind);}
+ }
+}
+const candidateActors=new Set(observed.filter(r=>r.boundary.includes('consideration')).flatMap(r=>r.ids));
+const home=before.people[opening.anchorPersonId].homeJurisdictionId;
+const rows=descriptors.map(([boundary])=>{
+ const calls=observed.filter(r=>r.boundary===boundary);const ids=new Set(calls.flatMap(r=>r.ids));const days=new Set(calls.flatMap(r=>r.ids.map(id=>`${r.date}:${id}`)));
+ const classified={officeholder:0,candidateConsideration:0,townResident:0,background:0};
+ for(const id of ids){const p=next.people[id]??before.people[id];if(officeholders.has(id))classified.officeholder++;else if(candidateActors.has(id))classified.candidateConsideration++;else if(p?.homeJurisdictionId===home)classified.townResident++;else classified.background++;}
+ return {boundary,calls:calls.length,distinctPeople:ids.size,distinctPersonDays:days.size,classified};
+});
+const output={head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),seed,place,from:before.currentDate,through:next.currentDate,control:before.control.kind,openingPeople:before.personOrder.length,finalPeople:next.personOrder.length,openingDecisions:before.history.decisionTraces.length,finalDecisions:next.history.decisionTraces.length,openingEvents:before.history.events.length,finalEvents:next.history.events.length,fingerprint,errors,officeKinds:[...officeKinds],officeholderIds:[...officeholders],candidateActorIds:[...candidateActors],officeholdersAtEitherEndpoint:officeholders.size,candidateConsiderationActors:candidateActors.size,rows,observed};
+writeFileSync('test-results/speed/daily-work-observed-v2.json',JSON.stringify(output));
+writeFileSync('test-results/speed/daily-work-world-after.json',typeof payload==='string'?payload:payload.join(''));
+const initialPayload=serializeWorldPayload(before);writeFileSync('test-results/speed/daily-work-world-before.json',typeof initialPayload==='string'?initialPayload:initialPayload.join(''));
+console.log(JSON.stringify({...output,observed:undefined,officeholderIds:undefined,candidateActorIds:undefined},null,2));
+if(errors.length||fingerprint!=='689a517520e1804ffe07c3d453fa9a08de7b3ccd048b3c9b077cea577817230b')process.exitCode=1;

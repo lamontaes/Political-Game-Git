@@ -1,0 +1,227 @@
+[
+  {
+    "path": "test-results/speed/cloud-district-final-types.log",
+    "bytes": 471,
+    "sha256": "9aeeb4e4647dc082143571c2ab8323ad4d013fe9a9b0e1b4c88d207e90914fd4"
+  },
+  {
+    "path": "test-results/speed/cloud-district-format.log",
+    "bytes": 66,
+    "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+  },
+  {
+    "path": "test-results/speed/cloud-district-lint.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "test-results/speed/cloud-district-paired-after.cpuprofile",
+    "bytes": 3871726,
+    "sha256": "2297a25b91eb42611564187aad8cb611b33a7e5e7d9c52c55105f7c8622bce1a"
+  },
+  {
+    "path": "test-results/speed/cloud-district-paired-after.json",
+    "bytes": 8500538,
+    "sha256": "ac271e7cd8316468a71b8155ac02bd90c952c08979947e2bcebf9e892175f081"
+  },
+  {
+    "path": "test-results/speed/cloud-district-paired-after.json.comparison.json",
+    "bytes": 57,
+    "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+  },
+  {
+    "path": "test-results/speed/cloud-district-paired-after.log",
+    "bytes": 1303,
+    "sha256": "183fc641d5aa762d2a98214d362253e7f43ac935b788ddca46efb2b8ad3a7299"
+  },
+  {
+    "path": "test-results/speed/cloud-district-paired-tests.log",
+    "bytes": 5709,
+    "sha256": "3af333e57b0eb5320c66657b08c827c9f45f71deb0bde3d94b1bc8c938986254"
+  },
+  {
+    "path": "test-results/speed/cloud-district-repeat-before.cpuprofile",
+    "bytes": 3723008,
+    "sha256": "d00bd9918a46fd8153637401e5255573e42b17154c1d240b9bbe239519c5a6dc"
+  },
+  {
+    "path": "test-results/speed/cloud-district-repeat-before.json",
+    "bytes": 8500532,
+    "sha256": "805083db68efd0a2669ba7942ead11c33eb0dfffb373ce38fae4018f6db1b9a0"
+  },
+  {
+    "path": "test-results/speed/cloud-district-repeat-before.json.comparison.json",
+    "bytes": 57,
+    "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+  },
+  {
+    "path": "test-results/speed/cloud-district-repeat-before.log",
+    "bytes": 1301,
+    "sha256": "829acf1410c9c00bd51d05130f356820c9345f454da4552ace77ebb6b5c9d30d"
+  },
+  {
+    "path": "test-results/speed/cloud-district-residence-after.cpuprofile",
+    "bytes": 3826430,
+    "sha256": "c1506024337ed1fa321d0023d06ae7babe64b7ea701cc9d27cfb6422871836d6"
+  },
+  {
+    "path": "test-results/speed/cloud-district-residence-after.json",
+    "bytes": 8500532,
+    "sha256": "5822fb49a19c34a9dbbcdf81f0e01b4eb9bcd1973f2398d05cb6dfd36ebe2240"
+  },
+  {
+    "path": "test-results/speed/cloud-district-residence-after.json.comparison.json",
+    "bytes": 57,
+    "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+  },
+  {
+    "path": "test-results/speed/cloud-district-residence-after.log",
+    "bytes": 1305,
+    "sha256": "14c38c5e4ba045f1a78243ea9a9c3fe704fb0c6a1a893dd63e3a2d4d0988b3c3"
+  },
+  {
+    "path": "test-results/speed/cloud-district-residence-unit.log",
+    "bytes": 5709,
+    "sha256": "d00201f4ace210d62a23e227da7cbf36308ceb3be665a584427d70caec11081a"
+  },
+  {
+    "path": "test-results/speed/cloud-district-scoped-after.cpuprofile",
+    "bytes": 3587179,
+    "sha256": "3b1bd38e66e3873680d0a4fc56c842d49f0a8ea252d9774641fbf9cfe055330d"
+  },
+  {
+    "path": "test-results/speed/cloud-district-scoped-after.json",
+    "bytes": 8500532,
+    "sha256": "e0631640838e9ab10670d80f2ac8cb1d2b99871af60329a4ee38773937ad0f36"
+  },
+  {
+    "path": "test-results/speed/cloud-district-scoped-after.json.comparison.json",
+    "bytes": 57,
+    "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+  },
+  {
+    "path": "test-results/speed/cloud-district-scoped-after.log",
+    "bytes": 1299,
+    "sha256": "8c51d74c99a1b50bda859c309953bcedab1caa24bc044409202c8de729a7cce3"
+  },
+  {
+    "path": "test-results/speed/cloud-district-single-copy-after.cpuprofile",
+    "bytes": 3758475,
+    "sha256": "5b94a5478082b0595ed491be3132c650fff08a275c20a55989038741c6ab01c5"
+  },
+  {
+    "path": "test-results/speed/cloud-district-single-copy-after.json",
+    "bytes": 8500531,
+    "sha256": "cdaadb7f11755453effe1b3470c223de3b82554e2947f2364d9cb1ab2237e5e2"
+  },
+  {
+    "path": "test-results/speed/cloud-district-single-copy-after.json.comparison.json",
+    "bytes": 57,
+    "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+  },
+  {
+    "path": "test-results/speed/cloud-district-single-copy-after.log",
+    "bytes": 1309,
+    "sha256": "9cdbe8f5351b565c704207b1349664db30fc2928598d519f98fb39a12493cf5c"
+  },
+  {
+    "path": "test-results/speed/cloud-district-types.log",
+    "bytes": 1914,
+    "sha256": "1e47c646d9890807ef05247c844e5dc3bf95f0e2b848432747e1184f5b464759"
+  },
+  {
+    "path": "test-results/speed/cloud-district-types.mjs",
+    "bytes": 847,
+    "sha256": "dc8e1db32827ea159be05395485ec39166fb58e2d77dea0062e6894bb533c654"
+  },
+  {
+    "path": "test-results/speed/cloud-integrated-main-month-bounded.log",
+    "bytes": 842,
+    "sha256": "c53cfe044ae156dd42d6a90814ff04037667e3c35adb5b8b54cc1e391c435efb"
+  },
+  {
+    "path": "test-results/speed/cloud-integrated-main-month.cpuprofile",
+    "bytes": 3771412,
+    "sha256": "a4dc2946465f04fab70e9bd5c14c332de43cc73e23ac6b6ef079bfc570edcab0"
+  },
+  {
+    "path": "test-results/speed/cloud-integrated-main-month.json",
+    "bytes": 8500532,
+    "sha256": "e069d30e1f5af61f54b7b70f2f448bbcf4edf5d6072f36cb5528bfce05990202"
+  },
+  {
+    "path": "test-results/speed/cloud-integrated-main-month.json.comparison.json",
+    "bytes": 57,
+    "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+  },
+  {
+    "path": "test-results/speed/cloud-integrated-main-month.log",
+    "bytes": 555,
+    "sha256": "70a28e8d88d81b2ae77aee987b48da82238aed30cd1084e34e1bfd63cafb1197"
+  },
+  {
+    "path": "test-results/speed/daily-work-analysis.json",
+    "bytes": 958,
+    "sha256": "0ba7b717461303c694c28bcc025c525c5c35a7c0f71fa8f44644e40ec10fe007"
+  },
+  {
+    "path": "test-results/speed/daily-work-manifest.json",
+    "bytes": 1120,
+    "sha256": "e299a56ce0dfa7d75583ae717ef31e658641f297ddc436a03ca17143a10dee8c"
+  },
+  {
+    "path": "test-results/speed/daily-work-observe-v2.mjs",
+    "bytes": 7542,
+    "sha256": "56b637264e86e3d539289e335b716e05d85ea638b904a3c75178499cad654c5f"
+  },
+  {
+    "path": "test-results/speed/daily-work-observe.mjs",
+    "bytes": 6287,
+    "sha256": "c455777746b9e990f86e5f47f621f41b5e88e1796bc1607cafd23fadd29e9ab0"
+  },
+  {
+    "path": "test-results/speed/daily-work-observed-v2.json",
+    "bytes": 10864712,
+    "sha256": "945453e9af7ccdfcba3728adf30ddc358336e8a6db340570c72845f5eaedd9ea"
+  },
+  {
+    "path": "test-results/speed/daily-work-observed-v2.log",
+    "bytes": 2594,
+    "sha256": "ec6455df9a65e5c2c1eb647d0449dc606807167b27f7707d4724af25b9563795"
+  },
+  {
+    "path": "test-results/speed/daily-work-observed.json",
+    "bytes": 4935014,
+    "sha256": "254b1d3db7ad8fad05da7dd29dbe03ef0feeb886c964ab2b46f9fcc41c5b0437"
+  },
+  {
+    "path": "test-results/speed/daily-work-observed.log",
+    "bytes": 2594,
+    "sha256": "67fbf4c9add3a25d83afff55c396b0e3388929c9ce58878153e4456971a4a8fd"
+  },
+  {
+    "path": "test-results/speed/daily-work-world-after.json",
+    "bytes": 135342725,
+    "sha256": "689a517520e1804ffe07c3d453fa9a08de7b3ccd048b3c9b077cea577817230b"
+  },
+  {
+    "path": "test-results/speed/daily-work-world-before.json",
+    "bytes": 39784034,
+    "sha256": "153028feb42dba3d87ed9d08f9eb971d22502daf7a3db8f96656eaaa0d63390e"
+  },
+  {
+    "path": "test-results/speed/profile-month.ts",
+    "bytes": 473,
+    "sha256": "1a6c077c37d1e25ec8904c861e8573b23478ef79ccc5f5fb1a3c0aea1011d23a"
+  },
+  {
+    "path": "test-results/speed/why-chain-52usc20302.html",
+    "bytes": 182639,
+    "sha256": "74e3a6797501897656a70c654242443718f60f17386c254662aeca2b923b99e8"
+  },
+  {
+    "path": "test-results/speed/why-chain-blair-gordon.json",
+    "bytes": 7840,
+    "sha256": "82eacb75272a57408d893752c29ae0ca61f3ab258beb75041d4a753fc7bbb507"
+  }
+]

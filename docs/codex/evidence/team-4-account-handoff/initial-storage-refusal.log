@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node --max-old-space-size=4096 --cpu-prof --cpu-prof-dir=test-results/speed --cpu-prof-name=cloud-integrated-main-month.cpuprofile --import tsx scripts/speed-years/month.ts --out test-results/speed/cloud-integrated-main-month.json --before test-results/speed/cloud-self-starter-after.json --limit 15
+
+[storage-guard] Refused test: needs 1.0 GiB, but only 948 MiB is usable (26 GiB free − 0 B already reserved − 25 GiB reserve). Free 76 MiB more, or release a reservation.
