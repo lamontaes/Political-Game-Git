@@ -594,9 +594,15 @@ describe("actual stamped coverage reaches resident news", () => {
         (definition) => definition.stableKey === questionKey,
       )!;
       expect(proposition).toBeDefined();
-      const fixtureLaw = ordinance(state.id, "coverage-news", "yes", date, 1);
+      const fixtureLaw = ordinance(
+        state.id, "coverage-news", "yes", date, base.history.nextSequence,
+      );
       const law = {
         ...fixtureLaw,
+        enactment: {
+          ...fixtureLaw.enactment,
+          sequence: base.history.nextSequence + 1,
+        },
         measure: {
           ...fixtureLaw.measure,
           shortTitle: "Authored Medicaid coverage fixture",
@@ -612,8 +618,10 @@ describe("actual stamped coverage reaches resident news", () => {
       let world: World = {
         ...base,
         policyCatalog: catalog,
+        jurisdictions: { ...base.jurisdictions, [state.id]: state },
         history: {
           ...base.history,
+          nextSequence: base.history.nextSequence + (origin === "enacted" ? 2 : 0),
           legislativeMeasures: origin === "enacted" ? [law.measure] : [],
           legislativeEnactments: origin === "enacted" ? [law.enactment] : [],
         },
