@@ -1,4 +1,7 @@
-import { jailTermOn, heldBeforeTrialOn } from "../justice/jail-terms";
+import {
+  settleTownCompensations,
+  type TownCompensationPeriod,
+} from "./town-compensation";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -47,7 +50,6 @@ import {
 import { countyGeoidsForPlace } from "../government-units";
 import {
   growingIndex,
-  hasStableKey,
   recordsWithFieldValue,
   type GrowingIndexKind,
 } from "../history-index";
@@ -71,25 +73,15 @@ import {
   UNCOVERED_PAY_NOTE,
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
-import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { resourceFlowTermsAt } from "../resource-queries";
 import { SeededRng } from "../rng";
 import {
   createResourceFlows,
   money,
   recordResourceFlowTerms,
-  recordResourceTransferOutcomes,
   type CreateResourceFlowInput,
-  type RecordResourceTransferOutcomeInput,
 } from "../resources";
-import {
-  paidLeaveBenefitMinor,
-  paidLeaveBenefitRate,
-  paidLeaveCoveredDays,
-  payPaidLeaveClaims,
-  type PaidLeaveClaim,
-} from "../paid-leave-benefits";
-import { assessPaychecksTaxes, residenceStateKey } from "../statutory-tax";
+
 import {
   anyTeacherFloorLawEnacted,
   TEACHER_FLOOR_EMPLOYER,
@@ -97,12 +89,7 @@ import {
   teacherSalaryFloorAt,
   type TeacherSalaryFloor,
 } from "../teacher-salary-floor";
-import {
-  epidemicWorkAbsences,
-  jobPaysSickLeave,
-  workdaysBetween,
-  type WorkAbsence,
-} from "../crisis/epidemic";
+
 import type {
   EntityId,
   FutureDueItem,
@@ -544,13 +531,6 @@ function statusOn(world: World, workId: EntityId, date: IsoDate) {
     ...currentLifeCutoff(world),
     asOfDate: date,
   });
-}
-
-/** The day a job's last active day was, or null while it is still held. */
-function lastDayWorked(world: World, workId: EntityId): IsoDate | null {
-  const status = statusOn(world, workId, world.currentDate);
-  if (!status || status.status === "active") return null;
-  return addDays(status.effectiveAt, -1);
 }
 
 /**
@@ -1090,233 +1070,32 @@ export function payTownPaydays(
       flow.recipient.personId !== exceptPersonId,
   );
   if (flows.length === 0) return world;
-  const outcomes = world.history.resourceTransferOutcomes;
   const earliest =
     daysBetween(since, world.currentDate) > CATCH_UP_LIMIT_DAYS
       ? addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS)
       : since;
-  const dead = deathDates(world);
+  const periods: TownCompensationPeriod[] = [];
   const termsByFlow = termsByPayFlow(world);
-  const inputs: RecordResourceTransferOutcomeInput[] = [];
-  const claims: PaidLeaveClaim[] = [];
-  const recipients = new Set<EntityId>();
-  const defendants = new Set(
-    world.history.events
-      .filter(
-        (e) =>
-          e.type === "justice.sentenced" ||
-          e.type === "justice.held-before-trial",
-      )
-      .flatMap((e) =>
-        e.participants
-          .filter((p) => p.role === "focus:defendant")
-          .map((p) => p.personId),
-      ),
-  );
-  // Days missed to the illness, read once per pay period.
-  const absencesByWindow = new Map<
-    string,
-    ReadonlyMap<EntityId, WorkAbsence>
-  >();
-  const absencesIn = (from: IsoDate, to: IsoDate) => {
-    const key = `${from}|${to}`;
-    let found = absencesByWindow.get(key);
-    if (!found) {
-      found = epidemicWorkAbsences(world, from, to);
-      absencesByWindow.set(key, found);
-    }
-    return found;
-  };
   for (const flow of flows) {
-    if (flow.basisReference.kind !== "work") continue;
-    const history = termsByFlow.get(flow.id) ?? [];
-    const current = termsOn(history, world.currentDate);
+    const current = termsOn(termsByFlow.get(flow.id) ?? [], world.currentDate);
     const note = current ? payNoteOf(current.cadenceKind) : null;
     if (!current || current.status !== "active" || !note) continue;
-    const workId = flow.basisReference.workRelationshipId;
-    // A worker who died is paid through the day before; the job itself is
-    // ended at the town's next quarterly review.
-    const worked = lastDayWorked(world, workId);
-    const died = dead.get((flow.recipient as { personId: EntityId }).personId);
-    const lastDay =
-      died !== undefined && (worked === null || addDays(died, -1) < worked)
-        ? addDays(died, -1)
-        : worked;
     for (
-      let payday = addDays(earliest, 1);
-      payday <= world.currentDate;
-      payday = addDays(payday, 1)
+      let onDate = addDays(earliest, 1);
+      onDate <= world.currentDate;
+      onDate = addDays(onDate, 1)
     ) {
-      const window = payPeriodEndingOn(note.period, payday, note.phase);
-      if (!window) continue;
-      // GAME SIMPLIFICATION, labeled: a period is paid when the job was held
-      // all of it, so a new hire's first part-period and a leaver's last one
-      // go unpaid, and so does a payday falling on the day the game opens.
-      if (window.startsAt < flow.startsAt) continue;
-      if (lastDay !== null && lastDay < window.endsAt) continue;
-      const stableKey = `${flow.stableKey}:${window.startsAt}`;
-      if (hasStableKey(outcomes, stableKey)) continue;
-      // A raise takes effect on the first day of a period, and a period is
-      // paid at the terms in force the day it began.
-      const terms = termsOn(history, window.startsAt);
-      if (!terms || terms.status !== "active") continue;
-      // Days out sick, or home with a sick child, go unpaid in a job that
-      // carries no paid sick leave.
-      const recipientId = (flow.recipient as { personId: EntityId }).personId;
-      const absence = absencesIn(window.startsAt, window.endsAt).get(
-        recipientId,
-      );
-      const workdays = workdaysBetween(window.startsAt, window.endsAt);
-      let jailedDays = 0;
-      if (defendants.has(recipientId))
-        for (
-          let date = window.startsAt;
-          date <= window.endsAt;
-          date = addDays(date, 1)
-        ) {
-          if (
-            workdaysBetween(date, date) > 0 &&
-            (jailTermOn(world, recipientId, date) ||
-              heldBeforeTrialOn(world, recipientId, date))
-          )
-            jailedDays += 1;
-        }
-      const sickUnpaidDays =
-        absence && workdays > 0 && !jobPaysSickLeave(world, workId)
-          ? Math.min(absence.missedDays, workdays)
-          : 0;
-      const unpaidDays = Math.min(workdays, jailedDays + sickUnpaidDays);
-      const hiringStep = (world.history.jobApplicationSteps ?? []).find(
-        (s) => s.workRelationshipId === workId,
-      );
-      const application = hiringStep
-        ? (world.history.jobApplications ?? []).find(
-            (a) => a.id === hiringStep.applicationId,
-          )
-        : null;
-      const opening = application
-        ? (world.history.jobOpenings ?? []).find(
-            (o) => o.id === application.openingId,
-          )
-        : null;
-      const hourly = opening
-        ? opening.pay.basis === "hourly"
-        : flow.stableKey.startsWith(PAY_KEY_PREFIX) &&
-          "note" in flow.provenance &&
-          flow.provenance.note?.includes("an hour") === true;
-      const idTripMinutes = (
-        hourly ? (world.voterIdentification?.trips ?? []) : []
-      )
-        .filter(
-          (trip) => trip.on >= window.startsAt && trip.on <= window.endsAt,
-        )
-        .flatMap((trip) => trip.missedWork)
-        .filter((missed) => missed.workRelationshipId === workId)
-        .reduce((sum, missed) => sum + missed.minutes, 0);
-      const role = latestRoles(world).get(workId);
-      const paidMinutes = role
-        ? (weeklyHoursOf(role) * 60 * workdays) / 5
-        : null;
-      const idTripFraction =
-        paidMinutes && paidMinutes > 0
-          ? Math.min(
-              (workdays - unpaidDays) / workdays,
-              idTripMinutes / paidMinutes,
-            )
-          : 0;
-      const amount =
-        unpaidDays === 0 && idTripFraction === 0
-          ? terms.amount
-          : money(
-              Math.round(
-                terms.amount.minorUnits *
-                  ((workdays - unpaidDays) / workdays - idTripFraction),
-              ),
-              terms.amount.currency,
-            );
-      const caring =
-        !!absence && absence.caringDays > 0 && absence.sickDays === 0;
-      // A state paid leave program in force replaces part of the pay lost
-      // to a serious illness, the worker's own or a child's.
-      const coveredDays =
-        absence && sickUnpaidDays > 0
-          ? paidLeaveCoveredDays(
-              absence,
-              Math.min(sickUnpaidDays, workdays - jailedDays),
-            )
-          : 0;
-      const stateKey =
-        coveredDays > 0 ? residenceStateKey(world, recipientId) : null;
-      const rate = stateKey
-        ? paidLeaveBenefitRate(world, stateKey, payday)
-        : null;
-      if (stateKey && rate)
-        claims.push({
-          paycheckKey: stableKey,
-          personId: recipientId,
-          stateKey,
-          coveredDays,
-          caring: absence!.seriousOwnDaysSinceOnset.length === 0,
-          amountMinor: paidLeaveBenefitMinor(
-            rate,
-            terms.amount.minorUnits,
-            workdays,
-            coveredDays,
-          ),
-          rate,
+      const window = payPeriodEndingOn(note.period, onDate, note.phase);
+      if (window)
+        periods.push({
+          flowId: flow.id,
+          onDate,
+          periodStart: window.startsAt,
+          periodEnd: window.endsAt,
         });
-      inputs.push({
-        stableKey,
-        resourceFlowId: flow.id,
-        periodStartsAt: window.startsAt,
-        periodEndsAt: window.endsAt,
-        occurredAt: payday,
-        status:
-          unpaidDays === 0 && idTripFraction === 0
-            ? "completed"
-            : amount.minorUnits > 0
-              ? "partial"
-              : "missed",
-        attemptedAmount: terms.amount,
-        transferredAmount: amount,
-        reasonKind:
-          unpaidDays === 0 && idTripFraction === 0
-            ? null
-            : idTripFraction > 0
-              ? "custom:unpaid-voter-id-trip"
-              : jailedDays > 0
-                ? "custom:unpaid-days-in-custody"
-                : caring
-                  ? "custom:unpaid-days-home-with-sick-child"
-                  : "custom:unpaid-sick-days",
-        note:
-          unpaidDays === 0 && idTripFraction === 0
-            ? "Pay for the period."
-            : idTripFraction > 0
-              ? `Pay less ${idTripMinutes} recorded minutes spent obtaining voter identification and ${unpaidDays} other unpaid days.`
-              : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${jailedDays > 0 ? "in custody or otherwise absent" : caring ? "home with a sick child" : "out sick"}.`,
-        provenance: flow.provenance,
-      });
-      recipients.add((flow.recipient as { personId: EntityId }).personId);
     }
   }
-  if (inputs.length === 0) return world;
-  let next = world;
-  for (const personId of recipients)
-    next = ensureLifePathPersonalPosition(
-      next,
-      personId,
-      money(0, "USD").currency,
-    );
-  const first = next.history.resourceTransferOutcomes.length;
-  next = recordResourceTransferOutcomes(next, inputs);
-  const ids = next.history.resourceTransferOutcomes
-    .slice(first)
-    .map((outcome) => outcome.id);
-  next = assessPaychecksTaxes(next, ids);
-  // Benefits are paid after the premiums of the same paychecks reach the
-  // state's account.
-  return payPaidLeaveClaims(next, claims);
+  return settleTownCompensations(world, periods);
 }
 
 /**

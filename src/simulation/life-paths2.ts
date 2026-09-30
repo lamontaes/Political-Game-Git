@@ -1,5 +1,5 @@
+import { settleTownCompensation } from "./living-world/town-compensation";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
-import { assessPaycheckTaxes } from "./statutory-tax";
 import {
   SCHOOL_STAGE_TRANSITION_KEY,
   schoolStageTransitionHandler,
@@ -1092,33 +1092,14 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
         });
         if (!terms) throw new Error("Earned pay terms are missing.");
         const raised = raiseShiftPayToMinimum(world, flow, terms, worked);
-        const paid = raised.terms;
-        const funded =
-          flow.recipient.kind === "person"
-            ? ensureLifePathPersonalPosition(
-                raised.world,
-                flow.recipient.personId,
-                paid.currency,
-              )
-            : raised.world;
-        const next = recordResourceTransferOutcome(funded, {
-          stableKey: `${due.stableKey}:paid`,
-          resourceFlowId: flow.id,
-          periodStartsAt: worked.occurredAt,
-          periodEndsAt: worked.occurredAt,
-          occurredAt: world.currentDate,
-          status: "completed",
-          attemptedAmount: paid,
-          transferredAmount: paid,
-          reasonKind: null,
-          note: "Payment for the completed shift; advertised pay alone never posts money.",
-          provenance: authored,
+        const next = settleTownCompensation(raised.world, {
+          flowId: flow.id,
+          onDate: world.currentDate,
+          periodStart: worked.occurredAt,
+          periodEnd: worked.occurredAt,
         });
         return {
-          world: assessPaycheckTaxes(
-            next,
-            next.history.resourceTransferOutcomes.at(-1)!.id,
-          ),
+          world: next,
           status: "resolved",
           reasonKey: null,
           context: "Completed shift paid.",
