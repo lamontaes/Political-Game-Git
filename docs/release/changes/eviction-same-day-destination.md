@@ -5,4 +5,4 @@ section: Fixed
 title: Evicted households get a same-day destination and cannot return to their former home
 ---
 
-Use recorded vacant homes for the existing household-size allocation choice. When no suitable stock exists, record no fixed home without manufacturing housing. Preserve the original court order and explicitly leave unobserved destination costs unavailable.
+Ask recorded relatives and close friends in closeness order, record host answers and create hosted occupancy only after acceptance. If no supported destination exists, record no fixed home. Continue searching existing priced vacancies and permanently exclude former eviction dwellings. Preserve the original court order and explicitly leave unobserved destination costs unavailable.

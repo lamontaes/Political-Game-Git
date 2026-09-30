@@ -34,7 +34,46 @@
     "zeroDicePublishedEviction": "exit1_zero_new_three_inherited_gone",
     "zeroDiceBirthReader": "exit1_zero_new_three_inherited_gone",
     "birthDesignReport": "zero_errors_zero_warnings",
-    "birthDesignIndependentWritingReview": "PASS"
+    "birthDesignIndependentWritingReview": "PASS",
+    "privacyPlaceTests": {
+      "passed": 3,
+      "total": 3,
+      "durationSeconds": 155.5,
+      "log": "/workspace/scratch/team3-privacy-place-tests.log"
+    },
+    "privacyPlaceTypes": {
+      "roots": 2,
+      "diagnostics": 0,
+      "log": "/workspace/scratch/team3-privacy-types.log"
+    },
+    "privacyPlaceLint": "PASS",
+    "privacyPlaceZeroDice": "exit1_zero_new_three_inherited_gone",
+    "hostDestinationTests": {
+      "passed": 10,
+      "total": 10,
+      "log": "/workspace/scratch/team3-host-reasons-tests.log"
+    },
+    "hostCourtTests": {
+      "passed": 7,
+      "total": 7,
+      "log": "/workspace/scratch/team3-host-final-tests.log"
+    },
+    "hostHousingRentTests": {
+      "passed": 22,
+      "total": 22,
+      "log": "/workspace/scratch/team3-host-housing-regression.log",
+      "note": "31 total in that run:9 direct host tests plus22 existinghousing/rent. Directhost later10/10afterevent/reasonchanges."
+    },
+    "hostTypes": {
+      "roots": 2,
+      "diagnostics": 0,
+      "log": "/workspace/scratch/team3-host-types.log"
+    },
+    "hostLint": "PASS",
+    "hostZeroDice": "exit1_zero_new_three_inherited_gone",
+    "hostReport": "0_errors_0_warnings_independent_PASS",
+    "privacyReport": "0_errors_0_warnings_independent_PASS",
+    "lawDraftReport": "0_errors_0_warnings_independent_PASS_not_primary_or_runtime_acceptance"
   },
   "notRun": [
     "full_build",
@@ -57,5 +96,31 @@
     "newReaderCallers": "only its focused test; not wired to town births"
   },
   "evictionCheckpointHead": "b3ced35fa23776e7192ec1e75c9d8513479a75ca",
-  "birthCheckpointScope": "design and pure reader only; seeded town birth block remains unchanged"
+  "birthCheckpointScope": "design and pure reader only; seeded town birth block remains unchanged",
+  "hostFirstStatus": "SOURCE_CHECKED_DRAFT_Team2_proof_missing_NOT_READY",
+  "connections": {
+    "eviction": "order->datedhostanswers->hostedoccupancy_or_no_fixed_home->permanentformerhomeexclusion",
+    "privacy": "nationalenactment->stableworld/placeestimate->businesscash;workeroutcome_not_traced",
+    "birth": "publishedpurecircumstancereader_without_runtimecaller"
+  },
+  "ownershipRelease": {
+    "to": "Team4",
+    "file": "src/simulation/life.ts",
+    "hunks": [
+      "importline3",
+      "appendOne->appendedList",
+      "requireRecord->recordById",
+      "assertUniqueStableKey->hasStableKey"
+    ],
+    "workingAndStagedEdits": "NONE",
+    "retained": "allhousehold/birth/evictionwriterlogic"
+  },
+  "openDependencies": [
+    "Team2watchedevictionproofline",
+    "Team9HUDHICshelterrangeandgeography",
+    "Team9prospectivefertilitytiming",
+    "coordinatorownedcompassionconnectionregistrycorrection",
+    "primarylegalauthorityandlawtraceverification",
+    "landlordconsent/screening/offerproducer;school/travelpolicylimits"
+  ]
 }

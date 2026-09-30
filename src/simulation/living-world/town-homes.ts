@@ -45,6 +45,25 @@ import { ageOnDate, addDays } from "../dates";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { SeededRng } from "../rng";
 import {
+  applyMoves,
+  planMove,
+  moveTieReader,
+  playerHouseholdPeople,
+  deadPeople,
+} from "../migration/relocate";
+import { personName } from "../people";
+import {
+  householdLocationAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  peopleInHouseholdAt,
+} from "../life-queries";
+import { deriveRelationshipSummary } from "../queries";
+import { readRelationshipStanding } from "../relationship-standing";
+import { traitRegistryFor } from "../trait-registry";
+import { readTrait } from "../trait-readings";
+import {
+  money,
   createDwelling,
   createHousingTenure,
   recordDwellingOccupancyState,
@@ -64,12 +83,16 @@ import { recordWorldEvent } from "../world";
 import {
   activeDwellingOccupanciesAt,
   dwellingOccupancyStateAt,
+  resourcePositionAt,
+  resourceFlowTermsAt,
 } from "../resource-queries";
 import { TOWN_RESIDENTS_VERSION, townRoster } from "./town-residents";
 import { townWorkplaceWeights } from "./town-employment";
 import { homePurchaseTerms } from "../home-purchase";
 import {
   householdHousingFacts,
+  drawBedrooms,
+  townLeases,
   RENT_EVENTS,
   type HouseholdHousingFacts,
 } from "./town-rent";
@@ -519,10 +542,351 @@ interface Writer {
 
 const FORMER_HOME_TAG = "eviction:former-home:";
 export const EVICTION_DESTINATION_TYPE = "housing.eviction-destination";
+export const EVICTION_HOST_ANSWER_TYPE = "housing.eviction-host-answer";
+
+/** Owner-directed qualitative choice, not a hosting probability or empirical
+ * threshold. Missing compassion and money stay unknown; kinship is not consent.
+ * HUD's existing two-person bedroom convention is used only for space. */
+function askEvictionHosts(
+  world: World,
+  householdId: EntityId,
+  excluded: ReadonlySet<EntityId>,
+  order: World["history"]["events"][number],
+): World {
+  const dated = {
+    ...world,
+    currentDate: order.occurredAt,
+    history: {
+      ...world.history,
+      relationshipInteractions: world.history.relationshipInteractions.filter(
+        (row) => row.occurredAt <= order.occurredAt,
+      ),
+    },
+  };
+  const cutoff = {
+    asOfDate: order.occurredAt,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const alive = (id: EntityId) =>
+    !!world.people[id] &&
+    !world.history.personDeaths.some(
+      (row) => row.personId === id && row.diedAt <= order.occurredAt,
+    );
+  const family = peopleInHouseholdAt(dated, householdId, cutoff).filter(alive);
+  const candidates = new Map<
+    EntityId,
+    {
+      member: EntityId;
+      rank: number;
+      warmth: ReturnType<typeof readRelationshipStanding>["readings"]["warmth"];
+    }
+  >();
+  const bands = ["none", "slight", "marked", "strong"];
+  for (const member of family) {
+    const relatives = new Set(
+      kinshipRelationshipsAt(dated, member, cutoff).flatMap(
+        (row) => row.personIds,
+      ),
+    );
+    const known = new Set([
+      ...relatives,
+      ...world.history.relationshipInteractions
+        .filter(
+          (row) =>
+            row.occurredAt <= order.occurredAt &&
+            row.personIds.includes(member),
+        )
+        .flatMap((row) => row.personIds),
+    ]);
+    for (const host of known) {
+      if (
+        family.includes(host) ||
+        !alive(host) ||
+        ageOnDate(world.people[host]!.birthDate, order.occurredAt) < 18
+      )
+        continue;
+      const closenessSummary = deriveRelationshipSummary(dated, member, host);
+      if (!relatives.has(host) && closenessSummary.closeness !== "close")
+        continue;
+      const closeness = readRelationshipStanding(dated, member, host).readings
+        .warmth;
+      // Existing closeness includes trust, commitment, estrangement and
+      // relationship currency; warmth breaks ties within that ordering.
+      const closenessRank = { estranged: 0, none: 1, acquainted: 2, close: 3 }[
+        closenessSummary.closeness
+      ];
+      const rank =
+        closenessRank * bands.length +
+        (closeness.adverse ? 0 : bands.indexOf(closeness.band));
+      if ((candidates.get(host)?.rank ?? -2) >= rank) continue;
+      candidates.set(host, {
+        member,
+        rank,
+        warmth: readRelationshipStanding(dated, host, member).readings.warmth,
+      });
+    }
+  }
+  const allOccupancies = activeDwellingOccupanciesAt(dated, cutoff);
+  const occupancies = allOccupancies.filter(
+    (row) =>
+      dwellingOccupancyStateAt(dated, row.id, cutoff)?.residenceRole ===
+      "primary",
+  );
+  const facts = householdHousingFacts(dated, order.occurredAt);
+  const leases = townLeases(dated, order.occurredAt);
+  const trait = traitRegistryFor(dated).traits.get(
+    "personality-v1:concern-for-distress",
+  );
+  let next = world;
+  for (const [host, candidate] of [...candidates].sort(
+    (a, b) => b[1].rank - a[1].rank || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0),
+  )) {
+    const membership = householdMembershipsAt(dated, host, cutoff).find(
+      (row) => row.state.residenceRole === "primary",
+    );
+    if (!membership || membership.household.id === householdId) continue;
+    const home = occupancies.find(
+      (row) =>
+        row.occupant.kind === "household" &&
+        row.occupant.householdId === membership.household.id &&
+        !excluded.has(row.dwellingId),
+    );
+    if (!home) continue;
+    const dwelling = world.history.dwellings.find(
+      (row) =>
+        row.id === home.dwellingId && row.establishedAt <= order.occurredAt,
+    );
+    if (!dwelling) continue;
+    const kind = KIND_OF_CLASSIFICATION.get(dwelling.classification);
+    const residents = new Set(
+      allOccupancies
+        .filter((row) => row.dwellingId === dwelling.id)
+        .flatMap((row) =>
+          row.occupant.kind === "household"
+            ? peopleInHouseholdAt(
+                dated,
+                row.occupant.householdId,
+                cutoff,
+              ).filter(alive)
+            : row.occupant.kind === "person"
+              ? [row.occupant.personId].filter(alive)
+              : [],
+        ),
+    );
+    const lease = leases.find(
+      (row) =>
+        row.dwellingId === dwelling.id &&
+        !row.ended &&
+        row.flow.startsAt <= order.occurredAt,
+    );
+    const bedrooms =
+      lease?.bedrooms ??
+      (kind &&
+      dwellingOccupancyStateAt(dated, home.id, cutoff)?.kind ===
+        "residence:owned-home"
+        ? drawBedrooms(
+            kind,
+            peopleInHouseholdAt(dated, membership.household.id, cutoff).filter(
+              alive,
+            ).length,
+            0.5,
+          )
+        : null);
+    const compassion = trait
+      ? readTrait(dated, host, trait)
+      : { state: "unrecorded" as const };
+    const cash =
+      resourcePositionAt(
+        dated,
+        { kind: "person", personId: host },
+        money(0, "USD").currency,
+        cutoff,
+      )?.liquidBalance.minorUnits ?? null;
+    const finances = facts.get(membership.household.id);
+    const crowded =
+      bedrooms === null
+        ? null
+        : residents.size + family.length > Math.max(1, bedrooms * 2);
+    const strained =
+      (cash !== null && cash < 0) ||
+      (finances?.payMinor !== null &&
+        finances?.payMinor !== undefined &&
+        finances.rentMinor !== null &&
+        finances.rentMinor >=
+          finances.payMinor * TOWN_HOME_DECISIONS.severeRentBurden);
+    const warm =
+      !candidate.warmth.adverse &&
+      (candidate.warmth.band === "marked" ||
+        candidate.warmth.band === "strong");
+    const caring = compassion.state === "recorded" && compassion.value > 0;
+    const estranged =
+      deriveRelationshipSummary(dated, host, candidate.member).closeness ===
+      "estranged";
+    const hostStanding = readRelationshipStanding(
+      dated,
+      host,
+      candidate.member,
+    );
+    const cold =
+      estranged ||
+      candidate.warmth.adverse ||
+      (compassion.state === "recorded" && compassion.value < 0 && !warm);
+    const answer =
+      crowded === true || strained || cold
+        ? "declined"
+        : crowded === null || (!warm && !caring)
+          ? "unknown"
+          : "accepted";
+    const reasons = [
+      ...(estranged
+        ? ["their recorded relationship with the family is estranged"]
+        : []),
+      crowded === true
+        ? "not enough bedroom space"
+        : crowded === null
+          ? "bedroom capacity unknown"
+          : "space under the existing bedroom convention",
+      strained
+        ? "their own recorded finances are strained"
+        : "no financial strain established",
+      warm
+        ? "recorded warmth toward the family"
+        : "no favorable warmth established",
+      compassion.state === "recorded"
+        ? `recorded ${compassion.value > 0 ? "compassion" : compassion.value < 0 ? "callousness" : "balanced concern"}`
+        : "compassion unrecorded",
+    ];
+    const stableKey = `${order.stableKey}:host:${host}`;
+    next = recordWorldEvent(next, {
+      stableKey,
+      type: EVICTION_HOST_ANSWER_TYPE,
+      occurredAt: order.occurredAt,
+      recordedAt: world.currentDate,
+      jurisdictionId: dwelling.jurisdictionId,
+      involvedEntityIds: [
+        householdId,
+        host,
+        ...family,
+        membership.household.id,
+        dwelling.id,
+      ],
+      participants: [
+        { personId: host, role: "focus:subject", detail: null },
+        ...family.map((personId) => ({
+          personId,
+          role: "presence:witness" as const,
+          detail: null,
+        })),
+      ],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: [
+        `eviction:order:${order.id}`,
+        `housing:host-${answer}`,
+        ...candidate.warmth.basis.map((id) => `housing:warmth-source:${id}`),
+        ...(estranged
+          ? [
+              ...new Set([
+                ...hostStanding.readings.warmth.basis,
+                ...hostStanding.readings.trust.basis,
+                ...hostStanding.readings.tension.basis,
+              ]),
+            ].map((id) => `housing:estrangement-source:${id}`)
+          : []),
+        ...(compassion.state === "recorded"
+          ? [`housing:compassion-source:${compassion.recordId}`]
+          : []),
+        `housing:bedrooms:${bedrooms ?? "unknown"}`,
+        lease
+          ? "housing:bedrooms-recorded"
+          : bedrooms !== null
+            ? "housing:bedrooms-estimated"
+            : "housing:bedrooms-unknown",
+        cash === null
+          ? "housing:host-money-unknown"
+          : "housing:host-money-recorded",
+        "housing:hosting-cost-unavailable",
+      ],
+      summary: `${personName(world.people[host]!)} ${answer === "accepted" ? "agreed to host" : answer === "declined" ? "declined to host" : "could not resolve hosting"} the evicted household: ${reasons.join("; ")}.`,
+      context: {
+        ...order.context,
+        location: {
+          jurisdictionId: dwelling.jurisdictionId,
+          label: dwelling.locationLabel,
+          setting: null,
+        },
+      },
+    });
+    if (answer !== "accepted") continue;
+    const previousLocation = householdLocationAt(dated, householdId, cutoff);
+    if (previousLocation?.jurisdictionId !== dwelling.jurisdictionId) {
+      // Reuse canonical movement so residence facts and personal jurisdictions
+      // agree. Existing school/work/player restrictions stay in force.
+      const movement =
+        order.occurredAt === world.currentDate && family[0]
+          ? planMove(
+              next,
+              {
+                stableKey: `${order.stableKey}:hosted-move`,
+                personId: family[0],
+                toJurisdictionId: dwelling.jurisdictionId,
+                reason: "family:eviction-host",
+                waveKey: null,
+                causeId: order.id,
+              },
+              {
+                ties: moveTieReader(next),
+                playerHousehold: playerHouseholdPeople(next),
+                dead: deadPeople(next),
+              },
+            )
+          : null;
+      if (!movement || movement.kind === "refused") {
+        next = recordWorldEvent(next, {
+          stableKey: `${stableKey}:move-unresolved`,
+          type: "housing.eviction-host-move-unresolved",
+          occurredAt: order.occurredAt,
+          recordedAt: world.currentDate,
+          jurisdictionId: order.jurisdictionId,
+          involvedEntityIds: [
+            householdId,
+            host,
+            dwelling.id,
+            ...order.participants.map((row) => row.personId),
+          ],
+          participants: order.participants,
+          personFactConstraints: [],
+          visibility: "limited",
+          tags: [
+            `eviction:order:${order.id}`,
+            "housing:destination-unresolved",
+          ],
+          summary: `The host agreed, but the household's move remains unresolved: ${movement?.kind === "refused" ? movement.reason : "the dated movement inputs are unavailable"}`,
+          context: order.context,
+        });
+        continue;
+      }
+      next = applyMoves(next, [movement.move]);
+    }
+    return startDwellingOccupancy(next, {
+      stableKey: `${order.stableKey}:hosted-occupancy`,
+      occupant: { kind: "household", householdId },
+      dwellingId: dwelling.id,
+      startedAt: order.occurredAt,
+      residenceRole: "primary",
+      kind: "hosted:family-arrangement",
+      provenance: {
+        kind: "simulated-event",
+        eventId: next.history.events.at(-1)!.id,
+      },
+    });
+  }
+  return next;
+}
 
 /** Records the same-day destination that actual occupancy establishes.
  * A vacant building alone proves neither an accepted lease nor host consent.
- * Reuses the existing allocation choice only with actual vacant stock.
+ * Asks existing relatives and close friends before recording no fixed home.
  * With no destination, the household has no fixed home; no bed, vehicle,
  * room capacity, price or dwelling is manufactured. */
 export function recordEvictionDestination(
@@ -565,46 +929,16 @@ export function recordEvictionDestination(
   );
   if (primary.some((row) => row.dwellingId === formerDwellingId))
     throw new Error("End the evicted home's occupancy before its destination.");
-  let next = world;
-  if (primary.length === 0 && order.jurisdictionId !== null) {
-    const view = readHomes(
-      { ...world, currentDate: order.occurredAt },
-      order.jurisdictionId,
-    );
-    const household = view.households.find((row) => row.id === householdId);
-    if (household) {
-      const found = homeForNewHousehold(household, false, null, 0, false);
-      const excluded = new Set(view.excluded.get(householdId));
-      excluded.add(formerDwellingId);
-      const pool = view.vacant.get(found.kind) ?? [];
-      // Reuse the existing household-size choice, but only actual vacant
-      // stock. The ordinary allocator's synthetic-stock fallback is barred.
-      if (pool.some((id) => !excluded.has(id))) {
-        const writer: Writer = {
-          world,
-          town: order.jurisdictionId,
-          today: order.occurredAt,
-          prefix: `${TOWN_HOMES_VERSION}:${order.jurisdictionId}:eviction:${order.id}:`,
-          vacant: new Map(
-            [...view.vacant].map(([kind, ids]) => [kind, [...ids]]),
-          ),
-          excluded: new Map([[householdId, excluded]]),
-        };
-        enterHome(
-          writer,
-          "destination",
-          householdId,
-          found.kind,
-          found.tenure,
-          {
-            kind: "simulated-event",
-            eventId: order.id,
-          },
-        );
-        next = writer.world;
-      }
-    }
-  }
+  const excluded = new Set(
+    excludedEvictionHomes({ ...world, currentDate: order.occurredAt }).get(
+      householdId,
+    ),
+  );
+  excluded.add(formerDwellingId);
+  const next =
+    primary.length === 0
+      ? askEvictionHosts(world, householdId, excluded, order)
+      : world;
   const destination = activeDwellingOccupanciesAt(next, {
     ...cutoff,
     historySequenceExclusive: next.history.nextSequence,
@@ -964,12 +1298,48 @@ export function reviewTownHomes(
             addDays(today, -TOWN_HOME_DECISIONS.evictionOnRecordDays),
         ),
       );
+      let placementWriter = writer;
       const excluded = view.excluded.get(household.id);
-      if (
-        excluded?.size &&
-        !(writer.vacant.get(found.kind) ?? []).some((id) => !excluded.has(id))
-      )
-        continue;
+      if (excluded?.size) {
+        const pay = factsNow.get(household.id)?.payMinor;
+        // Continued search uses existing active quoted lease terms only.
+        // Unknown income or an unpriced vacancy cannot establish affordability.
+        const priced = new Map(
+          townLeases(world, today)
+            .filter((lease) => lease.flow.startsAt <= today)
+            .map((lease) => [
+              lease.dwellingId,
+              resourceFlowTermsAt(world, lease.flow.id),
+            ]),
+        );
+        const eligible = (writer.vacant.get(found.kind) ?? []).filter((id) => {
+          const terms = priced.get(id);
+          return (
+            !excluded.has(id) &&
+            pay !== null &&
+            pay !== undefined &&
+            terms?.status === "active" &&
+            terms.amount.currency === money(0, "USD").currency &&
+            terms.amount.minorUnits < pay * TOWN_HOME_DECISIONS.severeRentBurden
+          );
+        });
+        if (eligible.length === 0) continue;
+        placementWriter = {
+          ...writer,
+          excluded: new Map([
+            ...writer.excluded,
+            [
+              household.id,
+              new Set([
+                ...excluded,
+                ...(writer.vacant.get(found.kind) ?? []).filter(
+                  (id) => !eligible.includes(id),
+                ),
+              ]),
+            ],
+          ]),
+        };
+      }
       const provenance = event(
         key,
         found.tenure === TOWN_TENURE_KINDS.rented
@@ -979,13 +1349,14 @@ export function reviewTownHomes(
         `${nameOf(household)} ${found.tenure === TOWN_TENURE_KINDS.rented ? "moved into" : "bought"} ${KIND_LABEL[found.kind]}: ${evicted ? TOWN_HOME_REASONS.evicted : TOWN_HOME_REASONS.noHome}.`,
       );
       enterHome(
-        writer,
+        placementWriter,
         key,
         household.id,
         found.kind,
         found.tenure,
         provenance,
       );
+      writer.world = placementWriter.world;
       continue;
     }
     if (household.id === player) continue;

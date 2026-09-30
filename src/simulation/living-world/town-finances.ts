@@ -34,7 +34,11 @@
  * closures and unemployment feed upward.
  */
 
-import { dataPrivacyCostOn } from "../federal-data-privacy-law";
+import {
+  DATA_PRIVACY_COST_RANGE,
+  dataPrivacyCostOn,
+  type DataPrivacyCost,
+} from "../federal-data-privacy-law";
 import { addDays } from "../dates";
 import { recordOrganizationProfile, recordWorkStatus } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
@@ -696,6 +700,26 @@ function lends(bank: TownBankBooks | undefined, economy: Economy): boolean {
   );
 }
 
+/** The active national-law cost estimate, stable by world and actual town. */
+export function townDataPrivacyCostOn(
+  world: World,
+  town: EntityId,
+  onDate: IsoDate = world.currentDate,
+): DataPrivacyCost {
+  const law = dataPrivacyCostOn(world, onDate);
+  if (law.share === 0) return law;
+  const [low, high] = DATA_PRIVACY_COST_RANGE;
+  const rng = new SeededRng(world.seed).fork(
+    `federal-data-privacy-law:firm-cost:${town}`,
+  );
+  // The cited European firm-cost estimate remains an estimate for U.S.
+  // firms. Its size is stable within a world/place, not a quarterly roll.
+  const share = world.seed
+    ? low + (high - low) * ((rng.next() + rng.next()) / 2)
+    : (low + high) / 2;
+  return { ...law, share };
+}
+
 /**
  * Runs one quarter of the books of the town's open businesses (given) and
  * its banks, on the world's current date. Records nothing but the books;
@@ -720,7 +744,7 @@ export function stepTownFinances(
 ): TownFinanceQuarter {
   const economy = economyOf(world);
   if (!economy) return { world, closing: [] };
-  const privacyLaw = dataPrivacyCostOn(world, world.currentDate);
+  const privacyLaw = townDataPrivacyCostOn(world, town);
   const store: TownFinanceStore = world.townFinances ?? {
     version: TOWN_FINANCES_VERSION,
     businesses: {},
