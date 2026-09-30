@@ -1,0 +1,212 @@
+{
+  "schema": "team7-existing-surface-review/v1",
+  "baseHead": "7eee3bedd6f532cb10709d887a10837289864c93",
+  "canonicalStagingBlob": "721a973db5042e6ea0d26a5dc4fc7b30d7c89a62",
+  "canonicalSurfacesBlob": "5011e4138f3a199857642bde510bc43c2e681d83",
+  "approval": "pending-cto-and-owner",
+  "images": [
+    {
+      "key": "state-capitol-ok",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ok__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "cbfd6d7055098e3f17883d36c6a7a62df54adeb5971cb2d8b0216c5fd01a1be0",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-or",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-or__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "a9cee5037b64b9f71040903e56b05ed74cd23d239602f18f7f122d5b0c6d11d5",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-pa",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-pa__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "5900b3bb524aa9e1a11aad4163073d55fe28ca7c5551ba495b0d6d5d0d014b9e",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-pr",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-pr__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1fbacfbd1b14649904001ebb373b4903ce2b2ec0c52b9ec5c40db364e7d2c4fa",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-ri",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ri__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "073f16019b60756330f3de610c94be98923edf02a62a6d4a40f51ab1ce2d383d",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-sc",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-sc__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "a43482e1bc9ce5aec758db6ca45ea436e05714e9aeecb1306be438c2add660eb",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-sd",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-sd__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "8c5fa5ea3a0c793c84acca2432835d269141d1de46cf58e0fac5336f99ea92bb",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-tn",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-tn__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "40a24b5335d65331e00efdbf17bcc21e89fdd4152d4d3f36d243e9545bda2909",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-tower",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-tower__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "9e48c2e6f61417695f3c99d58de6dc3cdcc9f2f19ee3f96b47d82273d2802fa6",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-tx",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-tx__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "ba09a18513c743c6555e9ae998558db597e36e5c928ec8fadfccef2dbca2685f",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-ut",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-ut__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "cc9a588475ddb5bd70d25b25b2a25f3a7d0910763ebdabd60d4232ac60698795",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-va",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-va__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "cbb0cf5c8f11c3caebfa8ba6b18ea39e66a6eb92d281dde88bc222e465903ff6",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-vi",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-vi__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "afdd56d517ce242f5a7660e4ff2e428359c2056dd9153d2cc7fa424999484088",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-vt",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-vt__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "51cd50b54dfeba74f5bcc877d76916736160895458378b8fd69b48296ae692f2",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-wa",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-wa__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "debc79684e1eae0e66ca91d78e2dbac07bd4452fbf5cbea6b513993438402aea",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-wi",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-wi__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "6374647c223b2e64f55ae240851e5322d10ce20e9695549cc5203842f52c1736",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-wv",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-wv__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "cd3448779a66eea81b0bd6b01d2a7ab6d12144a244f53c1cbcfdf19614418b6c",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    },
+    {
+      "key": "state-capitol-wy",
+      "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/state-capitol-wy__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "bfffacb0d23dbfc39b9720908e6d301ee967f4ed0d232583e5573109364bf6d0",
+      "reviewMethod": "600px reduced-sheet screening; MP sign additionally native-raster inspected",
+      "otherVariantsChecked": false,
+      "approval": "pending",
+      "surfaceCount": 0
+    }
+  ],
+  "limits": [
+    "Surface search used 600px reduced sheets; small plaques or inaccessible notices are not fully measured.",
+    "Only listed original midday files inspected. No shared-camera or other-lighting assertion.",
+    "No existing staging data changed or actor proof rerun."
+  ]
+}
