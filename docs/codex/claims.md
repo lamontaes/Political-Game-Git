@@ -702,3 +702,7 @@ Coordinator exclusively integrates shared catalog parameters and links.json from
 ## CTO 11:03 explicit hunk grants
 
 Team 5: town-pay.ts raiseTeacherPayToFloor stamp hunk; month.ts curriculum import/schools/record stamp hunks. Team 8: crisis/types.ts HealthCoverageRecord optional shared stamp mixin/import; health-coverage.ts/test transfer. Team 3 transfers housing law hunks to Team 4 and shared nondiscrimination readers to Team 5, preserving and delivering existing unique bytes. These grants supersede earlier ownership for only these surfaces. Coordinator remains sole links.json and catalog-parameter writer.
+
+## CTO 11:31 coordinator implementation allocation
+
+Coordinator owns federal top-income-tax to withholding, federal minimum wage to paychecks, and retirement-age eligibility connections. Team 1 retains the other seventeen federal questions. Exact shared tax/pay/schema hunks must preserve Team 3 compensation and Team 5 teacher-pay work. Federal privacy accounting belongs to Team 1 only; Team 4 retains other business/cannabis hunks. Team 2 audit recovery task 01a0f2f3-3efe-72ee-bc13-0038a02cf0dc is the sole CTO-authorized fresh audit executor, Sol 6.1 High; original Team 2 retains eight government laws.

@@ -2,6 +2,22 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 11:30–11:35 active work
+
+### MERGED
+Health metadata PR1240 verified merged at e6627aa9e3d776d33b616da561bdedacc32a154f. Shared stamp and browser-only 1230 were already landed. Other approved stack landings are not inferred.
+
+### CONNECTIONS TABLE
+Coordinator published parameter declarations for all 81 formerly undeclared questions: PR1241,1245,1246,1247,1248, stacked in that order. Combined exported packs contain 92 parameterized questions. These are declarations with explicit missing legal bounds and current-law values, not 92 working laws. State/local and federal scoped semantic checks report zero diagnostics. PR1251 converts thirteen landed health notes to structured why fields.
+
+Team 3 transfers are confirmed clear. Coordinator takes three federal connections: withholding, minimum-wage paychecks, retirement eligibility. Team 1 retains seventeen federal laws and receives the narrow privacy business-cost writer. Team 6 investigates actual DE/MN/NH/NJ completed-payment/no-service rows from the national audit.
+
+### BLOCKED
+Cloud execution failed for Teams 2,3,8. CTO authorized one fresh audit task; actual durable ID 01a0f2f3-3efe-72ee-bc13-0038a02cf0dc, Sol 6.1 High, confirmed assigned. Its execution is not yet claimed started. Existing source and partial audit receipts preserved. Education PR1239 rejected generic chains; Team5 repairs individual explanations.
+
+### EFFECTS
+Two historical 24-month audit worlds produced record-backed adapter rows but no producer-stamped rows. They are not the requested new-main baseline. Team8 published actual coverage stamp PR1244; tests are team-reported. No law is independently verified complete across all five parts yet.
+
 ## September 30, 11:03 dispatch and map integration
 
 ### MERGED
