@@ -45,3 +45,11 @@ and ignored `test-results/team1/principle-life-example.ts` for a read-only
 named example. No additional shared source hunks are claimed by this update.
 The continuous design's evidence contract can be refined without coding
 unapproved weights. PR1184 is now draft; original PR1152 remains preserved.
+
+### Account-switch preservation checkpoint
+
+Team 1 claims `docs/codex/handbacks/team-1-transfer-evidence.json` only
+for preserved check logs and the ignored extraction script. CTO's 2:15
+dispatch reprioritizes Team 1 to six-line traces for twenty federal catalog
+questions and ten held-branch laws. Those traces are NOT STARTED. The owner
+now requests a safe stop; no new source implementation or tests are started.
