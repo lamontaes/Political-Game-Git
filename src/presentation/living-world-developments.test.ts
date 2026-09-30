@@ -6,6 +6,7 @@ import {
   developmentStepTransitionHandler,
   DEVELOPMENT_STEP_TRANSITION_KEY,
 } from "../simulation/living-world/developments";
+import { addDays } from "../simulation/dates";
 import { scheduleFutureDueItem } from "../simulation/future-transitions";
 
 describe("synthetic news retirement", () => {
@@ -24,7 +25,7 @@ describe("synthetic news retirement", () => {
     );
     const scheduled = scheduleFutureDueItem(world, {
       stableKey: "retired:step:1",
-      dueAt: world.currentDate,
+      dueAt: addDays(world.currentDate, 1),
       transitionKey: DEVELOPMENT_STEP_TRANSITION_KEY,
       entityIds: [world.id],
       jurisdictionId: null,
