@@ -312,3 +312,66 @@ For delivery, the existing recordProfessionalReaders path calls lawNewsReaders f
 6. Execute the affected ordinary-player publication and saved follow-through in headless cloud browser acceptance. Publish the cohesive candidate for exact-head Claude review and the authorized cloud merge route.
 
 The transfer remains pending until the destination posts its working checkpoint. This handback does not release claims, start a new team, approve pixels or merge code.
+
+## Actual cloud destination checkpoint
+
+The cloud continuation has one clean checkout and has posted its working
+checkpoint in the 00 coordinator document. The local predecessor remains
+preserved until the coordinator accepts the transfer. Product source is
+unchanged; the news-habit model is still unimplemented.
+
+The checkout is `/workspace/Political-Game-Git`, on
+`codex/team-5-cloud-handoff`. The received exact head is
+`18f9b22488a58ea3d1359186459861d63d6ff9b9`. The cloud read the pinned handback,
+current main AGENTS.md, WAVE-1, README, prompts 07/12/09, and the latest
+coordinator entries including the 10:27 merge route and 10:33 migration.
+Fetched main is `4a2be71b13f5361ebedb4d49d63c0ce4deddb35f`.
+
+Live GitHub reads show the record-backed-content PR #1134 OPEN and unmerged at
+`cf9400971806c4b4f6400afc834563555c52f44a`. The playtest-copy PR #1135 is OPEN
+and unmerged at `789c7e28527a2c024f1e7912600abcc99e3db238`. The resident-news
+PR #1156 is OPEN and unmerged at `9e51bb00f0a939fe22180567188ba304816e029a`.
+Their approvals name older heads and need renewal. Meeting-controls PR #1149
+is still DRAFT at `256759bb88b54b92f8e4c61d74f41586b5880f16`; GitHub reports
+conflicts. Its unique source and unresolved tests remain preserved.
+
+Executed cloud checks: exact branch/head, clean tree, main fetch, live PR reads,
+workspace registration, agent preflight, and zero-dice. Preflight PASS reports
+26 GiB free against a 25 GiB reserve and a 3.5 GiB registered checkout.
+Zero-dice PASS reports no new entries and 217 existing allowed lines. The first
+restricted-sandbox preflight could not spawn git; explicit network access
+resolved that execution restriction. The storage registry is
+`/workspace/.ocd-dev`, selected through `OCD_STORAGE_STATE_DIR`, with unchanged
+policy limits.
+
+Dependency installation was refused before npm ran: 1.5 GiB required, 1.4 GiB
+usable above reserve, and 152 MiB additional capacity needed. No storage
+override, deletion or additional checkout occurred. Focused reader tests,
+scoped typecheck, ESLint, Prettier, release checks, spelling and headless browser
+acceptance are NOT RUN. Full simulations remain NOT RUN under the post-merge
+rule. Local predecessor test results are historical evidence, not cloud passes.
+
+Initial cloud writing ownership is limited to this handback and the branch
+claims file. Continued press-source ownership and the three shared schema and
+generation seams were sent to the coordinator for reconciliation. Team 8's
+actual checkpoint reserves its calendar migration and confirms Team 5's News,
+dossier, meeting and opening writers remain separate. No renderer or shared
+schema edits occurred.
+
+Static source inspection confirms that ensurePressOpening calls
+ensurePressDeskSchedule only on new-life opening, never on load. The desk
+initializer currently schedules one sweep and has no personal habit writer.
+Publication calls recordProfessionalReaders, which records accurate media
+knowledge for resident law-news readers. Neither observation proves a route
+for habits on later-generated people. That generation route and saved-record
+integrity must be coordinated before implementation.
+
+Next: obtain sufficient admitted cloud capacity for the dependency install,
+run the exact law-effect-news test file, and preserve/integrate meeting fixes
+after the content dependency lands. The habit model additionally needs the
+verified research packet and coordinated saved-generation contract. No survey
+coefficient or youth/territory coverage is inferred from the Pew candidates.
+
+Capacity provisioning is NEEDS LAMONTAE/coordinator. Independent prose review
+is NOT RUN under the authorized helper limit. No helper was started and no PR
+was merged by Team 5.
