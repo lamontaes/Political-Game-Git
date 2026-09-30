@@ -1,0 +1,46 @@
+{
+  "sourceBase": "54930d427555034f3a92f335064586247985784d",
+  "branch": "codex/team-3-eviction-held",
+  "status": "WIP / HELD / NOT READY; no merge authorization",
+  "tests": {
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 npm run storage -- run test -- node node_modules/vitest/vitest.mjs run src/simulation/living-world/eviction-order-record.test.ts src/simulation/living-world/eviction-observations.test.ts --maxWorkers=2",
+    "result": "PASS 2 files, 7 tests, 12.84s, 20GiB reserve enforced",
+    "receiptTail": " /workspace/Political-Game-Git\n\n\n Test Files  2 passed (2)\n      Tests  7 passed (7)\n   Start at  06:21:16\n   Duration  12.84s (transform 19.16s, setup 34ms, import 24.94s, tests 404ms, environment 1ms)\n\n"
+  },
+  "types": {
+    "result": "PASS 5 roots and imported dependencies, 0 diagnostics",
+    "roots": [
+      "town-rent.ts",
+      "eviction-order-record.ts",
+      "eviction-order-record.test.ts",
+      "eviction-observations.ts",
+      "eviction-observations.test.ts"
+    ],
+    "initialFailure": "4 own diagnostics: string EventType, branded Map key, ES2022 findLast, implicit callback any. Corrected without weakening validation."
+  },
+  "lint": "Scoped ESLint PASS five source/test roots",
+  "zeroDice": {
+    "result": "exit 1; 0 new, 3 inherited gone entries; shared allowlist not edited",
+    "output": "gone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 3 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\n"
+  },
+  "reports": "why-chain 0 errors/0 warnings; held report 0 errors/1 code-reference warning; final transfer report receipt in handoff",
+  "format": "Scoped Prettier ran; final check recorded in transfer handoff",
+  "whitespace": "git diff --check PASS",
+  "notRun": [
+    "release range/global check",
+    "watched year",
+    "random-place eviction proof",
+    "named real-family worked example",
+    "browser",
+    "full suite",
+    "calibration checks",
+    "independent report reviewer"
+  ],
+  "sourceResearch": {
+    "read": "NBER w30382 July2023 revision introduction and VI.B; paper DOI10.1093/qje/qjad042",
+    "url": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+    "window": "first year after case filing; keep filing and order dates separately",
+    "effects": "3.4pp shelter and8pp newaddress are incremental exposed-adult cohort checks, not absolute shelter targets or individual/town multipliers"
+  },
+  "contract": "caseId=filing event.id; lease tag prefix town-rent-v1:lease:; original orderId=housing.evicted event.id; public record tags reference case/order IDs. Explicit unavailable lease/court observations. Team2 ACK pending."
+}

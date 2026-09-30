@@ -121,6 +121,8 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { homePriceLevel } from "./housing-market";
+import { recordPublicEvictionOrder } from "./eviction-order-record";
+import { recordEvictionDestination } from "./town-homes";
 import type { TownHomeKind } from "./town-homes";
 import { TOWN_RENT_COUNTIES, TOWN_RENT_TOWNS } from "./town-rent.generated";
 
@@ -1962,7 +1964,15 @@ function actOnArrears(
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.evicted, {
           summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent: ${decision.reason(facts.court)}.${lawyer}`,
         });
+        const orderEvent = next.history.events.at(-1)!;
+        next = recordPublicEvictionOrder(next, orderEvent.id, facts.court);
         next = endTenancy(next, lease, dueOn, "evicted", "Evicted.");
+        next = recordEvictionDestination(
+          next,
+          lease.householdId,
+          lease.dwellingId,
+          orderEvent.id,
+        );
       } else {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.settled, {
           summary: `${householdName(next, lease.householdId)} kept ${bedroomHome(lease)}, still owing ${landlordName(next, lease.flow.recipient)} ${dollarsOf(owed.owed)}: ${decision.reason(facts.court)}.${lawyer}`,
