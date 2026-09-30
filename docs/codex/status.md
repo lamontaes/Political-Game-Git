@@ -2,6 +2,27 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 8:30 a.m. check-in
+
+### MERGED
+#1199 verified merged at 43bf1f642dc4411a1c092de1983d84d24a9cae9f from approved d1bd238454d9c3e05af13b0807075a92b71ac272. Continuous principle strength reaches the existing readers; no new filing or person-money proof follows from this merge. #1216 remains open at its approved a81f21dd2aa284d0b0a78032003cb41c16b22a17.
+
+### CONNECTIONS TABLE
+
+| Connection | Evidence | Action |
+| --- | --- | --- |
+| Sponsor terms → filing | Team 2 combined 916e70fa7fd88af5bbdf210654e000f5b5862b9c; compiler #1217 34e1734944c434610f4c3a0712e072288be24d6f reports 11/11 | Team 1 current sponsor repair requested; caller lacks prior law/draft/appropriation, not a passing after-run |
+| Meeting entry → live panel | CTO 8:13 reports Today/calendar completing off screen | Team 5 assigned entry, timing, stop labels and stale notes; exact hunk receipt and three-place screenshots pending |
+| Test setup → holder proof | #1219 READY 51ee1dbf2642ee36df5622df2f950d18d817a204 verified | Request CTO review; team reports full file 4/4 in 37.017 seconds, baseline unfinished at 900.013 seconds |
+| Work records → prose | #1218 db1b1beb8bc8d141dd8144446751119a5cb9364c verified open | Team 8 reports four work checks; review pending, no invented employment |
+| Exclusion repair → watched housing | #1189 aa6575a9b03175e46b342d35cdffcea72543c958 received by Team 2 | Replay remains behind top bill pipeline |
+
+### BLOCKED
+Sponsor repair and combined Floral proof are outstanding. Team 1 fresh head requested directly. Team 5 complete new receipt has not arrived; delivery of assignment is not proof of implementation. County service/district evidence, numbering rules, shelter crosswalk and fertility conversion remain unresolved. Art awaits owner review. Setup gaps are morning-list only. #1174 remains no retry.
+
+### EFFECTS
+No new watched law-money or live-meeting acceptance. Team 4 preserves the first failed candidate separately from its corrected full-file pass; production month/year speed was NOT RUN. Team 2 after-year and named-person consequence are NOT RUN. Team 8 reports retained work/school/family/county checks and browser cases; these were not independently rerun by coordinator. Team 7 reports no generation or runtime import.
+
 ## September 30, 8:00 a.m. check-in
 
 ### MERGED
@@ -729,3 +750,7 @@ Team 1 inspected all 41 archive members; none fills the 23 remaining current-pla
 
 ### EFFECTS
 Effect-catalog links added: 0; changed: 0. Existing tracked integration connections newly on main: 2 (speed and sponsorship). Newly proved three-step watched chains: 0. Ten priority catalog gaps remain assigned. Homelessness #1166 awaits owner/CTO approval; no outgoing-chain implementation or invented coefficient is authorized. Team reports above are source/check evidence at named heads, not independent player acceptance.
+
+## Morning feature list — CTO 8:13
+
+Setup cannot specify a hometown separate from current residence, siblings, a parent's job, or college and major. These are feature gaps only. No implementation is authorized without the owner's yes. Team 5's authorized priority is the live public-meeting entry path and the three same-path defects listed in END00.
