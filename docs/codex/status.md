@@ -1,5 +1,39 @@
 # Wave 1 status
 
+The latest check-in below records landed changes and remaining integration gaps. Test receipts retain their exact source heads.
+
+## September 30, 1:00 a.m. check-in
+
+### MERGED
+Local law stories now reach residents through their households (#1156). State intake uses a shared append view (#1175). The President and Vice President are staged in the Oval Office (#1177). Current main is independently verified at 719b91b86978189ed975eed6f6722fb2af78158d. Merge reports changed-file tests of 9/9, 8/8 and 6/6 respectively; no new watched-world proof was run by the coordinator.
+
+### CONNECTIONS TABLE
+| Link | Current evidence | Next action |
+| --- | --- | --- |
+| Senate request → consent passage | Team 2 at 8ab9aebe0b720013db014327ae7748a2458b9f68; reader checks 8/8 | CTO approved actual request and no-objection action with null vote; integrity hunk released |
+| Census → saved population → outcomes | Team 3 at 308292b40c922d24e98d169c4980dfb4c9d42887; producer 13/13; minimal budget fixture now 27/27 | Territory press/outcome adapters authorized; coordinator reviewing outcome semantics |
+| Laws → communications vacancy | #1168 integrated head ddaf306d6d031bc2ea93aadcfc7e182124f1cd41 | Needs renewed approval, law branch only |
+| State intake → speed | #1182 ready at 28444bc681b96f9661fcf7fb0f733bbcad9d9fab; prior month 24.476 seconds | Approval pending; fresh identical-runtime baseline 26.399 shows variation, not a new gain |
+| Meetings → usable controls | #1149 live head now 3be9eaf6d6781b32451f4463758ee0607ce7080b | Team 5 asked for final tree/check provenance after publication mismatch |
+| Places → purposeful activities | #1183 ready at 018e2f92cde49773af2a85762b6b4db592fb8a3d, source 5/5 | CTO review; locality-image and review-panel overlaps require Claude owner handoff |
+| Saved newspaper → filled candidate | CTO approved one random-place 3–6-month run and export | Team 8 preparing run; Team 7 awaits actual issue, no invented stories |
+| Public authority → setup questions | Team 8 revising five drafts to OCD-LIFE-004 | CTO reviews before question-bank changes |
+| Evidence → legal/effect research | Team 6 primary-law packet work observed; fresh compact report not received. Team 9 extracting eviction evidence | Bill numbers, incoming homelessness, media, business owners remain research only |
+| Tags → art import | Team 7 completed 292 previews plus 58 existing-place reviews | TV corrections next; drafts, release failure and missing visual approval remain explicit |
+
+### BLOCKED
+#1169 requires renewed approval at 1864116231b4ec069c14c8fd333ccd53025387a8 after integration conflicts and measured test-baseline changes. #1168 also needs renewal. Merge has no authority to substitute old approvals.
+
+The coordinator independently caught #1149's mismatch between PR head and reported branch head. Team 5 acknowledged its stale-snapshot explanation was premature. A new live head is visible; final receipt verification is pending.
+
+Team 3's five law calls require its Census contract. Publish the corrected Census contract first; compose only those adapters on a baseline containing it, preserving Team 1's authoredSkeleton/jobRound additions. No whole-file replacement. Outcome review permits canonical World/key forwarding, but missing research must not silently become zero share. CTO's adapter assignment supersedes the older Team 4 claim only in those named seams.
+
+Team 4's district variants were slower and reverted additively. One paired comparison is underway; no improvement claimed. Coordinator reminded Team 4 of the additional measured daily-work census/proposal requested by CTO, with no architecture code authorized.
+
+### EFFECTS
+Catalog links added: 0; changed: 0. Newly proved watched three-step chains: 0. The local-law-news integration is now on main; source tests are not a watched resident result. The population producer has focused Save/Continue evidence. News export and outcome adapter proof remain pending.
+
+
 Player wording has reached main. The Census population writer now has an owner release; recorded consent and a usable newspaper story packet remain unresolved integration steps.
 
 ## September 30, 12:30 a.m. check-in

@@ -552,3 +552,14 @@ Team 3 owns only src/simulation/public-budgets/opening.ts raw Census source clas
 September 30, 12:30: Team 1 explicitly released to Team 3 only ensureTownResidents wrapper and ensurePopulationLayer import, changed seating inside deferred integrity block, unchanged seating unchanged. Preserve assert/current-opening guard and materialization law hunks. Team 1 released Team 2 named Senate pack/calendar resolver hunks plus adjacent consent writer/appendAction and floor-stage-passed replay handling; preserve law policyTerms and enactment effects. Ownership release does not approve a new consent representation; CTO decision pending.
 
 Team 4: district-residence.ts establishDistrictResidence openSameChamber/copy/stableKey/append and districtResidenceSince indexed-query hunks plus matching focused test. No existing central owner found. Preserve semantics, IDs/order/date/provenance/refusals/immutable snapshots; existing helper reuse only. Granted September 30 at 12:30 by coordinator under existing speed assignment.
+
+| Team 7 | `art/authoring/sept29-team7/tv/local-news-v2.png` | 2026-09-30T04:59:01.729994+00:00 — approved station-color candidate correction |
+| Team 7 | `art/authoring/sept29-team7/tv/debate-v2.png` | 2026-09-30T04:59:01.730703+00:00 — approved station-color candidate correction |
+| Team 7 | `art/authoring/sept29-team7/tv/cable-panel-v2.png` | 2026-09-30T04:59:01.730762+00:00 — approved station-color candidate correction |
+| Team 7 | `art/authoring/sept29-team7/tv/press-briefing-v2.png` | 2026-09-30T04:59:01.730801+00:00 — approved station-color candidate correction |
+| Team 7 | `art/authoring/sept29-team7/tv/tags-v2.json` | 2026-09-30T04:59:01.730889+00:00 — approved station-color candidate correction |
+| Team 7 | `art/authoring/sept29-team7/tv/generation-receipts-v2.json` | 2026-09-30T04:59:01.730946+00:00 — approved station-color candidate correction |
+| Team 7 | `art/authoring/sept29-team7/contact-sheets/tv-v2.jpg` | 2026-09-30T04:59:01.730977+00:00 — approved station-color candidate correction |
+| Team 7 | `docs/release/changes/team-7-tv-colors.md` | 2026-09-30T04:59:01.731003+00:00 — approved station-color candidate correction |
+
+September 30, 1:00: CTO12:40 assigns Team3 press localProfileFor/caller and outcome areaResidents/localResidents/localWeights World/key adapters plus place-outcomes forwarding. Team5 reviews press, coordinator outcome. These exact seams supersede old Team4 place-outcome-store claim; other coefficients/monthlywriters retained. Team3 budget fixture ONLY missing history.events array. Team2 legislation-integrity vote forum/floor-stage pack lookup/action-loop released by Team1 for approved recorded consent; ordinary integrity retained.
