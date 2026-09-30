@@ -1,3 +1,22 @@
+## September 30, 2:00 collector evidence
+
+Audit transfer is complete at PR1285 b9c8106c927113b9a2db0fa24a0d19b25082d9b1: no live audit PID or reservation, 36 historical receipts preserved; AUDIT/SYSTEMS received the packet and owns launch. No new national result yet verified by coordinator.
+
+| Team | Stamped / controlled firing evidence | Unread assignment | Exact source / limit |
+| --- | --- | --- | --- |
+| 1 | 2/20 prior bounded writers, plus one partial rail payment connection | 12 | Privacy1261; defense1276; rail1289 5e7e3ed4. Legacy amount repairs remain; no whole-law completion |
+| 2 | 0/8 certified stamped; reader fixtures are separate | 4 | Compiler457dfbec 13PASS; sponsor fixture fails before compiler; Audit/Systems owns diagnosis |
+| 3 | 1/13 paid leave | Prior CTO assignment retained |1253 003dfcb9, five-state20cases; golden-rule parks dependency held |
+| 4 | 1/10 cannabis | 2 |1254/1271 merged; amount mechanism incomplete |
+| 5 | 1/12 teacher | 7 |1266 bounded attribution; inherited floor draw flagged; recovered library/curriculum readers6PASS, not saved producers |
+| 6 | Rural cost proof; fare Ohio passes, new sample4FAIL/1PASS | 9 |1283 7b6b99bed movedhead needs renewal; no five-state fare pass |
+| 8 | 2/9 coverage | 5 |1244 saved coverage; news1235 is consumer;1274 repair publication pending |
+| 9 | 1/6 branch cash bail | 2 |1290 d625d460,12PASS; not merged |
+
+Counts are team-reported bounded evidence, not a sum of complete laws or natural nationwide firing. All-five completion remains unverified.
+
+CTO1:46 releases Team7 Here-panel removal and approved kids runtime import NOW; pose/scale repair follows Audit/Systems diagnosis. This supersedes the older after-laws queue for those items only. Exact renderer claim pending. Newspaper source/media hold remains.
+
 ## September 30, 1:50 report collection
 
 ### MERGED
