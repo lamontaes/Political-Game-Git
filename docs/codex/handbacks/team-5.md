@@ -1,4 +1,6 @@
-# Local law stories reach actual residents
+# Team 5 is ready to hand off to the cloud
+
+The cloud transfer is pending. No destination session or working checkpoint has been confirmed. The basic resident-reader candidate is published and tested. The newly resolved personal news-habit model has not been implemented. Local claims remain held until a cloud working checkpoint; no local habit-model edits or full proof runs have started.
 
 The new candidate connects published law-effect stories to the people living in the story's place. Current household records determine that reach, including moves and ended residences. Personal news attention still needs an owner-approved input. The existing News test repair is published. Meeting controls remain a separate draft with unresolved test failures, and Claude owns browser acceptance and merges.
 
@@ -259,3 +261,54 @@ The newest estimates ruling requires implementation within existing ownership. T
 ## Published companion candidates
 
 The ready record-backed-content candidate remains PR #1134 at `bafe58994f5f73aa92e4982ddd85b63b01d14f21`. The ready playtest-copy and provenance repair remains PR #1135 at `eabf92a1ace26365c38802c4f56b8701827b25ff`. The meeting-controls candidate remains draft PR #1149 at `256759bb88b54b92f8e4c61d74f41586b5880f16`. Its roster assertion repair is not behavior-verified, and its two measured timeouts have unresolved causes. No Team 5 candidate is merged by Codex.
+
+## Cloud continuation checkpoint
+
+The handoff branch is `codex/team-5-cloud-handoff`, in the existing registered workspace `/private/tmp/wt-gate-1121`. It starts from published law-reader head `d392d90c084b5b8171574dba9e6cd0f248842002`. This branch changes only this handback. PR #1156 remains at that exact head, so this documentation does not invalidate its source review.
+
+The last live main read is `4a2be71b13f5361ebedb4d49d63c0ce4deddb35f`. Do not use that snapshot as current without fetching in the destination. The ready candidates #1134, #1135 and #1156 were OPEN and unmerged at this check. Meeting-controls #1149 was OPEN and draft. Their exact heads are listed above.
+
+The newest merge route supersedes earlier references to Claude running all gates and merging. The existing cloud Merge owner alone merges after the exact current head receives the comment “CLAUDE CTO APPROVED FOR MERGE at <40-character current head sha>.” Changed heads need reapproval. Local teams never merge. The cloud merge route runs only changed test files. A timeout without an assertion failure is NO RESULT, not a pass.
+
+There are no owned running tests or review servers. All earlier full proof runs were completed or stopped with their output retained. The local screenshot directory and logs are historical evidence, not available cloud filesystem paths. The exact assertion summaries and source heads above are sufficient to rerun the changed tests in the cloud. Browser captures remain locally at `/private/tmp/team5-browser-810`; do not claim the cloud independently reran them.
+
+## Resolved news-habit decision and next implementation
+
+The coordinator's news-uptake ruling resolves the missing input. Each person gets a saved public-affairs news habit at world generation. National survey research by age, education and related demographics supplies the anchor; a seeded per-world spread differentiates people. Recorded pay, rent, job and civic-group stakes raise uptake continuously. No during-play roll is authorized.
+
+This is a specification, not an implemented model. The source candidate still provides basic resident reach only. The cloud continuation must obtain a production-admissible research packet, add a canonical saved record through existing writers, integrate generation, and then blend recorded stakes at publication. It must preserve direct subjects, sponsors, recorded voters, deduplication, actual residence and read-only screen behavior. Habit initialization must be idempotent; later generated people also need the same canonical route. Saved habits must survive serialization. No workload-attention field should be repurposed.
+
+No continuous uptake equation, stakeholder coefficient or fabricated age-education joint distribution is supplied by this handback. The research packet must distinguish observed survey responses from the game's mapping to receipt or amount of knowledge. Marginal age and education rates do not establish their joint distribution. A personally consequential law is recorded evidence of relevance; it is not a research estimate of how much that relevance raises news uptake.
+
+## Candidate research for the pending research team
+
+Research Team 9 has not been created. Automatic approval review requires direct owner approval for that new session, and the coordinator reports the question pending. No Team 9 delivery or research approval is claimed.
+
+Pew's [attention to local news report](https://www.pewresearch.org/journalism/2024/05/07/attention-to-local-news/) reports nationally sampled adult responses and age/education differences. In that survey, 22% followed local news very closely and 66% at least somewhat closely. The very-close figures were 9% for ages 18–29 and 35% for ages 65 and older. They were 17% for college graduates and 28% for high-school-or-less respondents. These are candidate calibration observations, not implemented parameters. They concern local news attention, not a measured probability of learning a particular story.
+
+The [report introduction](https://www.pewresearch.org/journalism/2024/05/07/americans-changing-relationship-with-local-news/) describes 5,146 adult respondents and national residential-address recruitment with demographic weighting. Its methodology-page link failed to fetch during this bounded read. Exact state, DC and territory inclusion still needs verification; no claim of all-place coverage follows from the phrase national survey alone. Children are outside the stated adult sample. Rights, raw artifact acquisition, hashes, source locks and normalized corpus are NOT DONE.
+
+Newer candidates are Pew's [young adults and the future of news](https://www.pewresearch.org/journalism/2025/12/03/young-adults-and-the-future-of-news/) and [the age divide in how Americans think about news](https://www.pewresearch.org/journalism/2026/02/11/the-age-divide-in-how-americans-think-about-news/). Only search results for these newer reports were read. Verify their questions, distributions and methods before choosing an anchor. Do not combine headline numbers from different surveys into an invented distribution.
+
+The bounded source-runtime chain currently stops at primary-page research candidates. There are no locked raw bytes, established production rights, compiled records, runtime calibration, generated habits or player uptake proof for this new model. Research acquisition must follow the existing source substrate and its declared rights/storage plan.
+
+## Schema and generation ownership seams
+
+The current local claim table assigns `src/simulation/types.ts` to Team 1. It assigns `src/simulation/character-history.ts` to Team 4 and `src/simulation/world-setup/types.ts` to Team 2. Coordinate those seams before editing; local claims are released only at the actual move.
+
+A candidate narrower saved-record route is the existing `PressRecord` union in `src/simulation/press/records.ts`. World already stores that sequenced family, and appendPressRecord supplies stable identity and history sequence. A new habit kind would also need the matching press integrity validation and save/replay checks. This possibility has not been authored or accepted; it may avoid changing Person fields, but it does not remove the need for an actual generation integration seam.
+
+Team 5 owns `src/simulation/press/desk.ts`. Its ensurePressDeskSchedule currently only installs the initial sweep. It is a possible initialization seam if the cloud owner verifies its actual call order and all population routes. The other opening API is ensurePressMediaOpening in the outlets module. Neither function currently writes a personal news habit. Do not move initialization into lawNewsReaders or a News-screen renderer.
+
+For delivery, the existing recordProfessionalReaders path calls lawNewsReaders for each lead basis and writes accurate media knowledge after publication. Different habit/stake uptake must act at that canonical knowledge-delivery seam, with a saved trace that explains who learned what and why. The ordinary player's later news, dialogue and decisions must consume the same saved knowledge. A helper return or a fixture result alone is not acceptance.
+
+## Exact next steps in the destination
+
+1. Confirm the destination session, fetch current refs, reuse the cloud checkout, and list claimed files on its branch. Post its first working checkpoint before closing this local session or releasing local claims.
+2. Receive this handback and the exact source heads above. Recheck which candidates have merged; preserve unique unmerged meeting fixes and keep the draft's failures explicit.
+3. Obtain the approved research/calibration packet. Resolve sample coverage, youth handling, joint demographic estimation, generation spread and continuous stake/uptake mapping without invented research.
+4. Coordinate the actual saved schema and generation seams. Implement within the bounded press reader/knowledge path and canonical world generation.
+5. Run the changed habit/reader/knowledge tests: stable seeded generation, saved replay, moved and ended residence, differentiated knowledge, increased uptake from recorded stakes, idempotent publication, and no clock or read-only-screen mutation. Do not run a related-suite sweep.
+6. Execute the affected ordinary-player publication and saved follow-through in headless cloud browser acceptance. Publish the cohesive candidate for exact-head Claude review and the authorized cloud merge route.
+
+The transfer remains pending until the destination posts its working checkpoint. This handback does not release claims, start a new team, approve pixels or merge code.
