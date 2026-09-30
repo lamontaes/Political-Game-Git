@@ -144,6 +144,13 @@ describe("post-office lobbying uses real vacancies and eligibility", () => {
     expect(
       lobbyingBar(pair.treated, office.personId, lobbying.organizationId),
     ).toContain("24-month waiting period");
+    const refusal = residentApplicationBlocked(
+      pair.treated,
+      office.personId,
+      lobbying.id,
+    );
+    expect(refusal).toMatch(/until [A-Z][a-z]+ \d{1,2}, \d{4}:/);
+    expect(refusal).not.toMatch(/\d{4}-\d{2}-\d{2}/);
     expect(
       residentApplicationBlocked(pair.control, office.personId, lobbying.id),
     ).toBeNull();
