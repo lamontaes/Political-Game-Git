@@ -33,7 +33,7 @@ CHECKS: Empty runnable lists mean missing admission, not zero world effects. No 
 
 ## 6. Proof run
 
-The conversion check verifies fourteen canonical question keys, fourteen missing-capability entries, two disabled typed cost proposals and zero admitted rows. It checks the shared type at source 66080657e91e79d139050f6d02cd56d7a03c7114. Strict typechecking reports zero diagnostics. JSON formatting and script syntax checks pass. The first checker attempt stopped at a sandbox Git subprocess; the reproducible route reads the separately extracted, hash-checked type source instead.
+The conversion check verifies fourteen canonical question keys, fourteen missing-capability entries, two disabled typed cost proposals and zero admitted rows. It checks the shared type at source f6b4ac8268422e5f23c2426d04a947eaa27d7f15. Strict typechecking reports zero diagnostics. JSON formatting and script syntax checks pass. The first checker attempt stopped at a sandbox Git subprocess; the reproducible route reads the separately extracted, hash-checked type source instead.
 
 No runtime law consequence, nationwide audit, watched-person proof or new functional test was executed for this data-only conversion. The earlier five-state mileage helper and merged transit cost receipts retain their original scope. The conversion does not increase the count of firing laws.
 

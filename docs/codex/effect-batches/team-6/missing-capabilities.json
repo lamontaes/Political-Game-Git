@@ -2,11 +2,12 @@
   "version": 1,
   "team": 6,
   "contract": {
-    "typeSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+    "typeSourceHead": "f6b4ac8268422e5f23c2426d04a947eaa27d7f15",
     "typeSourcePath": "src/simulation/law-consequence-types.ts",
     "designSourceHead": "1e44b588",
     "designSourcePath": "docs/codex/one-law-consequence-contract.md",
-    "typeSourceSha256": "c11bbb877c66e652f0a675fb17725980b3c25f057e39df4569199d3f817e4675"
+    "typeSourceSha256": "fb33af9222f0eadac5ff0d313391f9c46c3979d55a3df5e90af17fe9bd3eda7c",
+    "initialTypeSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114"
   },
   "rowsPath": "docs/codex/effect-batches/team-6/consequence-rows.json",
   "assignedLaws": 14,

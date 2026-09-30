@@ -1,5 +1,5 @@
 {
-  "typeSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+  "typeSourceHead": "f6b4ac8268422e5f23c2426d04a947eaa27d7f15",
   "preservedStampSourceHead": "599bcd0837670f0788aa8173a517d16a0e5370f0",
   "assignedCanonicalQuestions": 14,
   "missingCapabilityEntries": 14,
@@ -14,8 +14,8 @@
     "warnings": 0
   },
   "reproduce": [
-    "git show 66080657e91e79d139050f6d02cd56d7a03c7114:src/simulation/law-consequence-types.ts > test-results/team6-stamps/law-consequence-types-66080657.ts",
-    "node --max-old-space-size=3072 docs/codex/effect-batches/team-6/check-consequence-inputs.cjs test-results/team6-stamps/law-consequence-types-66080657.ts"
+    "git show f6b4ac8268422e5f23c2426d04a947eaa27d7f15:src/simulation/law-consequence-types.ts > test-results/team6-stamps/law-consequence-types-f6b4ac82.ts",
+    "node --max-old-space-size=3072 docs/codex/effect-batches/team-6/check-consequence-inputs.cjs test-results/team6-stamps/law-consequence-types-f6b4ac82.ts"
   ],
   "limits": [
     "Exact source field names in disabled proposals are references, not engine registry keys.",
