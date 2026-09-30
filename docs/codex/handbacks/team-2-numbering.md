@@ -264,3 +264,146 @@ Focused tests passed 3/3 in 10.29 seconds, including actual fixture introduction
 ## 7. Worked example
 
 The actual March 1 intake in the published Wadsworth month resolved with “Members of Congress filed their bills.” and zero new Congress measures. Due item `future-due-item_b1461c3e8167df4a` records that mismatch at runtime source `9d5a64b4f51cb4c62bf924117b09293fc943fc38`. The new zero-case fixture records “No bill was filed during this Congress intake.” The one-member authored fixture records “Members of Congress filed 1 bill.” and reaches committee referral. These fixture outcomes are not an invented watched sponsor story. The yearly report will preserve every actual intake and measure, including none.
+
+# Watched Congress year: false filing summaries fall from twelve to zero
+
+Both years completed in the same logged place with the same seed. Congress introduced zero bills before and zero after the reporting repair. Twelve false filed-bills summaries became twelve explicit no-bill summaries. No majority predicate or actor decision changed. The observed defect was a false intake record; these years do not demonstrate an actual Congress referral or positive designation. The selected-bill introduction/referral path is established by the focused fixture only.
+
+## 1. Why-chain
+
+The old intake unconditionally claimed filing. The repaired intake counts actual new Congress IDs. No selected measure means no introduction or referral, so the new record says none. Both producers still use the same majority caucus and chamber selection, canonical introduction writer and sitting scheduler. Decision formation ends at the saved officeholder principles and their authored draws. Reporting ends at canonical measure history. No researched filing rate or universal effect size is inferred.
+
+## 2. Research
+
+This comparison checks agreement between a producer's record and its work. It supplies no new empirical consequence or authority. The producer still leaves constituent requests, leadership, donors, groups, news and reintroductions incompletely represented. Source inspection and the selected-bill fixture establish the existing introduction/referral path; a zero-bill watched year cannot establish that path's runtime success.
+
+## 3. Revisions
+
+Only the intake summary changed. The year collector observes normal Day presses, links each resolved intake to its newly created IDs, counts introduction/referral/later actions, and checks Save/Continue date/history counts. Both runs used the same published collector. No bill was authored to fill the result.
+
+## 4. Numbered actual counts
+
+| Watched result                           | Before | After |
+| ---------------------------------------- | -----: | ----: |
+| Day presses                              |    365 |   365 |
+| New Congress measures                    |      0 |     0 |
+| Canonical introduction actions           |      0 |     0 |
+| Measures with referral                   |      0 |     0 |
+| Measures with later institutional action |      0 |     0 |
+| Resolved intakes                         |     12 |    12 |
+| False filed-bills summaries              |     12 |     0 |
+| Filed measures missing introduction      |      0 |     0 |
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: unchanged normal Day path and majority decisions. RECORDS: twelve resolved intakes per run; actual measure/action arrays remained empty. WORLD PIECES: normal seated Congress, catalog and committees, with authored principle formation. CHECKS: both target dates reached; Save/Continue matched; exact measure arrays matched. Empty arrays do not prove positive referral or law effects. No person feels a new law effect from this summary correction.
+
+## 6. Proof run
+
+Seed `team2-numbering-month-20260930`; Wadsworth, Nevada, place `3281000`; January 5, 2026 through January 5, 2027. Before source `b26329cc5d73da058a00fdf759d94981cbb027b8`; after source `236f2e56749c8e3c756675c1405990063af62f87`. Both sources were clean and stayed pinned during their run. Collector `236f2e56749c8e3c756675c1405990063af62f87:congress-year-path-adapter` exports the published collector with absolute imports into this same existing checkout; no simulation source was copied. Baseline elapsed 445.470 seconds, including Save/Continue. Repaired elapsed 464.352 seconds, including Save/Continue. Both generated report checks passed with zero errors and zero warnings. Focused fixture tests remain 3/3; final strict types cover six roots with zero diagnostics. Allocator checks remain 69/69 from the unchanged allocator code. Browser/full suite/independent reviewer NOT RUN. Full actual Congress designation coverage and five-year life acceptance remain unmet; draft #1200 stays held. The bounded reporting repair is complete and reviewable, with zero-to-zero introductions expressly disclosed.
+
+## 7. Worked example
+
+On March 1, the baseline due item `future-due-item_b1461c3e8167df4a` resolved with “Members of Congress filed their bills.” and no new IDs. The repaired same-seed intake resolved with “No bill was filed during this Congress intake.” and no new IDs. The full twelve-intake records follow. No named sponsor or nonexistent law is invented.
+
+## Baseline full year
+
+# Congress intake summaries and actual bills over one watched year
+
+365 Day presses in Wadsworth, Nevada produced 0 new Congress measures, 0 introduction actions and 0 measures with a recorded referral. 12 resolved intake summaries claimed filing with no new measure. A zero count is retained.
+
+## 1. Why-chain
+
+A seated member proposes from their own saved principles. The existing majority caucus and chamber backing predicates decide whether a bill is selected. A selected bill goes through the canonical introduction writer and schedules a sitting. The intake summary must count the actual resulting measures. The decision chain ends at saved principle records and their authored formation draws; the reporting chain ends at canonical history. No majority threshold was relaxed.
+
+## 2. Research
+
+This is a consistency check of recorded work, not a researched filing rate. The monthly intake and Tuesday/Thursday sittings are authored calendar assumptions. Constituents, leadership, donors, groups, news and reintroductions are not all represented by the principle-only producer.
+
+## 3. Revisions
+
+The reporting repair counts only new Congress measure IDs. It preserves selection, thresholds, introduction writers, referrals and scheduling. It creates no new causal size, legal authority or actor action.
+
+## 4. Numbered observed parts
+
+1. Filed Congress measures: 0; introduction actions: 0.
+
+2. Referred measures: 0; measures with a later institutional action: 0.
+
+3. Resolved intake records: 12; false filed summaries: 12.
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: normal observer Day presses. RECORDS: exact introduction, action and due-item histories. WORLD PIECES: existing members, principles, questions, rule pack and committees. CHECKS: every new filed measure has an introduction action; absence of a bill remains absence. Zero bills does not prove a referral worked. Save/Continue compares date and history counts; the known placeholder byte count is not evidence of payload size.
+
+## 6. Proof run
+
+Seed team2-numbering-month-20260930; January 5, 2026 through January 5, 2027; completed-year. Runtime source `b26329cc5d73da058a00fdf759d94981cbb027b8`; collector `236f2e56749c8e3c756675c1405990063af62f87:congress-year-path-adapter`. Save/Continue matched: true; missing introductions: 0; stop: none.
+
+## 7. Worked example
+
+February 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_fb0ebc46a6ea11b3.
+March 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_b1461c3e8167df4a.
+April 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_81540c14c9a065e5.
+May 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_c707540b4225c924.
+June 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_4be15425c48c3677.
+July 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_ec0ff41d01519ace.
+August 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_bc1de3f3498a2169.
+September 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_2d75ebeafd23f208.
+October 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_c067f400c04795fe.
+November 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_1e86d409821176a7.
+December 1, 2026: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_9b5fd3ef011c9dd4.
+January 1, 2027: "Members of Congress filed their bills."; 0 new measures; due item future-due-item_326fee1231f08fbb.
+
+The attached JSON preserves every new measure and subsequent action. An empty section supplies no invented sponsor or motive.
+
+## Repaired full year
+
+# Congress intake summaries and actual bills over one watched year
+
+365 Day presses in Wadsworth, Nevada produced 0 new Congress measures, 0 introduction actions and 0 measures with a recorded referral. 0 resolved intake summaries claimed filing with no new measure. A zero count is retained.
+
+## 1. Why-chain
+
+A seated member proposes from their own saved principles. The existing majority caucus and chamber backing predicates decide whether a bill is selected. A selected bill goes through the canonical introduction writer and schedules a sitting. The intake summary must count the actual resulting measures. The decision chain ends at saved principle records and their authored formation draws; the reporting chain ends at canonical history. No majority threshold was relaxed.
+
+## 2. Research
+
+This is a consistency check of recorded work, not a researched filing rate. The monthly intake and Tuesday/Thursday sittings are authored calendar assumptions. Constituents, leadership, donors, groups, news and reintroductions are not all represented by the principle-only producer.
+
+## 3. Revisions
+
+The reporting repair counts only new Congress measure IDs. It preserves selection, thresholds, introduction writers, referrals and scheduling. It creates no new causal size, legal authority or actor action.
+
+## 4. Numbered observed parts
+
+1. Filed Congress measures: 0; introduction actions: 0.
+
+2. Referred measures: 0; measures with a later institutional action: 0.
+
+3. Resolved intake records: 12; false filed summaries: 0.
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: normal observer Day presses. RECORDS: exact introduction, action and due-item histories. WORLD PIECES: existing members, principles, questions, rule pack and committees. CHECKS: every new filed measure has an introduction action; absence of a bill remains absence. Zero bills does not prove a referral worked. Save/Continue compares date and history counts; the known placeholder byte count is not evidence of payload size.
+
+## 6. Proof run
+
+Seed team2-numbering-month-20260930; January 5, 2026 through January 5, 2027; completed-year. Runtime source `236f2e56749c8e3c756675c1405990063af62f87`; collector `236f2e56749c8e3c756675c1405990063af62f87:congress-year-path-adapter`. Save/Continue matched: true; missing introductions: 0; stop: none.
+
+## 7. Worked example
+
+February 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_fb0ebc46a6ea11b3.
+March 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_b1461c3e8167df4a.
+April 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_81540c14c9a065e5.
+May 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_c707540b4225c924.
+June 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_4be15425c48c3677.
+July 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_ec0ff41d01519ace.
+August 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_bc1de3f3498a2169.
+September 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_2d75ebeafd23f208.
+October 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_c067f400c04795fe.
+November 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_1e86d409821176a7.
+December 1, 2026: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_9b5fd3ef011c9dd4.
+January 1, 2027: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_326fee1231f08fbb.
+
+The attached JSON preserves every new measure and subsequent action. An empty section supplies no invented sponsor or motive.
