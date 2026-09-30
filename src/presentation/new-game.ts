@@ -265,6 +265,7 @@ export interface NewGameSetup {
    * replay link written before the field rebuilds what it described.
    * New Game stamps the current version.
    */
+  readonly openingWorkLocationVersion?: "schedule-v1";
   readonly worldOpeningVersion?: WorldOpeningVersion;
 }
 
@@ -326,6 +327,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // and its tests stay so a replay written under it still rebuilds.
   questionnaireCopyVersion: "playtest65-v2",
   questionnaireSelectionVersion: "curated-v1",
+  openingWorkLocationVersion: "schedule-v1",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   openingDataVersion: "playtest65-v3",
   livingWorldMemberNameVersion: "cohort-v1",
