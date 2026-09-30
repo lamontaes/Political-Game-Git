@@ -44,7 +44,12 @@ function withSmile(pack: PackPresentation): PackPresentation {
           },
         },
       },
-      ...pack.faces.slice(1),
+      // The other faces keep no painted expressions, whatever the shipped
+      // pack now holds, so a face that was not painted can be tested.
+      ...pack.faces.slice(1).map((other) => ({
+        ...other,
+        expressions: undefined,
+      })),
     ],
   };
 }

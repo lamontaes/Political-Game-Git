@@ -108,6 +108,7 @@ export function seatedChamberForPack(
         memberKey: `${officeKey}:seat:${member.ordinal}`,
         name: personName(world.people[member.personId]!),
         personId: member.personId,
+        partyKey: member.party,
         caucusLabel: member.party
           ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
           : "No party",

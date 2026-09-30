@@ -11,6 +11,7 @@ import {
   type PackPostures,
   type PackPresentation,
   type PeoplePackManifest,
+  poseFallbacks,
 } from "./pack";
 import type { Raster } from "./raster";
 import type * as Runtime from "./runtime";
@@ -175,7 +176,7 @@ describe("a conversation once the posed art lands", async () => {
         expect(own).toContain(listener.engine!.pose);
         expect(
           listener.seated
-            ? ["seated-leaning", "seated-legs-crossed", "seated-ankle-on-knee"]
+            ? ["seated-hands-folded", "seated-listening"]
             : ["arms-folded", "hand-on-hip", "hands-in-pockets"],
         ).toContain(listener.engine!.pose);
         if (listener.engine!.pose === "arms-folded") folded += 1;
@@ -184,12 +185,12 @@ describe("a conversation once the posed art lands", async () => {
         expect(listener.engine!.mirrored === true).toBe(
           x(speaker) < x(listener),
         );
-        // Drawn as asked: the pose and the turn, mirrored or not.
+        // Drawn as asked, turned: the pose itself, or plain seated when this
+        // outfit was not painted in it (the Sept. 29 seated poses cover six
+        // outfits for each presentation).
         const drawn = composeEnginePerson(LANDED, read, listener.engine!);
-        expect([drawn.pose, drawn.view]).toEqual([
-          listener.engine!.pose,
-          "three-quarter",
-        ]);
+        expect(drawn.view).toBe("three-quarter");
+        expect(poseFallbacks(listener.engine!.pose)).toContain(drawn.pose);
       }
     }
     // At least one listener folds their arms in this household.

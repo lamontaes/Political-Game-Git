@@ -705,7 +705,7 @@ function writeMeeting(
   // The same bounded game-authored local journey the posted meeting uses.
   next = createScheduledActivity(next, {
     stableKey: `${stableKey}:journey:${kind}`,
-    title: "Journey to the community room",
+    title: "Trip to the community room",
     summary: "About twenty minutes to get to the community room.",
     kind: "travel",
     start: momentAt(

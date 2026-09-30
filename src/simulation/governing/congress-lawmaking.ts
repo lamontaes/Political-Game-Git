@@ -19,6 +19,7 @@ import {
   NATIONAL_ELECTION_JURISDICTION,
 } from "../national-election-geography";
 import { SeededRng } from "../rng";
+import { agendaCaucus, majorityAgendaChoice } from "./majority-agenda";
 import type {
   EntityId,
   FutureDueItem,
@@ -326,18 +327,14 @@ export function fileCongressBill(
   );
   const questions = federalQuestions(next);
   const chamber = chamberByKey(US_CONGRESS_RULE_PACK, input.chamberKey);
-  // Draw sponsors until one is moved to file something.
-  const order = seated.body.members.filter(
-    (member) => member.personId && member.personId !== player,
-  );
+  const members = seated.body.members.filter((member) => member.personId);
+  const caucus = agendaCaucus(members);
   const lawAnswers = new Map<EntityId, "yes" | "no" | null | "closed">();
   const pending = new Map<EntityId, boolean>();
   const coolingDown = new Map<EntityId, boolean>();
-  let sponsor: SeatedMember | null = null;
-  let choice: ReturnType<typeof memberBillChoice> = null;
-  while (order.length > 0 && !choice) {
-    const candidate = order.splice(rng.integer(0, order.length), 1)[0]!;
-    choice = memberBillChoice(
+  const proposals = caucus.flatMap((candidate) => {
+    if (candidate.personId === player) return [];
+    const proposal = memberBillChoice(
       next,
       candidate.personId!,
       input.chamberKey,
@@ -346,9 +343,27 @@ export function fileCongressBill(
       pending,
       coolingDown,
     );
-    if (choice) sponsor = candidate;
-  }
-  if (!sponsor || !choice) return world;
+    return proposal
+      ? [{ sponsor: candidate, proposal, pressure: proposal.weight }]
+      : [];
+  });
+  const selected = majorityAgendaChoice(
+    members,
+    caucus,
+    proposals,
+    (member, proposal) => {
+      if (member.personId === player) return false;
+      const score = principledLeaning(
+        next,
+        member.personId!,
+        proposal.question.propositionId,
+      ).score;
+      return (proposal.answer === "yes" ? score : -score) > 0;
+    },
+  );
+  if (!selected) return next;
+  const sponsor = selected.sponsor;
+  const choice = selected.proposal;
 
   const { question, answer } = choice;
   const proposition = next.policyCatalog.propositions[question.propositionId]!;

@@ -17,7 +17,7 @@ import type {
   TemporaryStateRecordInput,
 } from "./history";
 import { createStableId } from "./ids";
-import { recordById } from "./history-index";
+import { recordById, recordsByStringField } from "./history-index";
 import { lifeEntityExists } from "./life-integrity";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import {
@@ -1106,15 +1106,13 @@ function validateImmediateSupersession<
   selectDate: (record: T) => IsoDate,
   label: string,
 ): void {
-  const current = records
+  const current = recordsByStringField(records, "personId", personId)
     .filter(
       (record) =>
         record.personId === personId && selectSubject(record) === subjectId,
     )
     .at(-1);
-  const prior = priorId
-    ? records.find((record) => record.id === priorId)
-    : undefined;
+  const prior = priorId ? recordById(records, priorId) : undefined;
   if (
     (current === undefined && priorId !== null) ||
     (current !== undefined && priorId !== current.id) ||
