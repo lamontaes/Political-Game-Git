@@ -10,7 +10,7 @@ Nothing merged. [Draft pull request 1133](https://github.com/lamontaes/Political
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 32 admitted decisions, and 1,792 availability cells. Of those cells, 100 have source references and 1,692 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 32 admitted decisions, and 1,792 availability cells. Of those cells, 110 have source references and 1,682 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -19,6 +19,10 @@ The next source pass records LA Metro’s statutory grant, HCFCD’s original sp
 The principal utility commission selection inventory covers all fifty states. Ten use public elections; South Carolina and Virginia use legislative elections. The remaining thirty-eight use appointments, including New Mexico after its 2020 constitutional ballot. Agency biographies establish some current routes, while complete statutory and amendment review remains uneven. Texas Railroad Commission is outside this principal-commission count. Alabama’s four new initial appointed seats begin in 2027 and later face district elections. Source publication years remain unknown where not established; access dates are separate.
 
 Florida’s 2023 acquisition valuation law is now an enacted example and sourced availability cell. Eligibility, appraisals and commission review are recorded without assuming a bill increase.
+
+Five additional rail-credit states are sourced: Minnesota, Missouri, Wisconsin, Oklahoma and Kansas. Missouri’s 2026 enactment has eligible tax years beginning in 2027, while its agency describes 2028 implementation. The current EV-fee survey includes future schedules; New Mexico’s enacted 2026 fee begins in 2027, so it does not establish a January 2026 national count. Municipal stormwater grants in Texas and North Carolina and a separate North Carolina county grant are recorded with conditions.
+
+The new electricity ownership redesign uses Maine’s rejected 2023 ballot, Boulder’s 2020 franchise and Hamburg’s completed 2014 electricity acquisition. Asset ownership, governance, debt, operations and exit provisions remain separate negotiable pieces. No rate savings or emissions effect is assumed.
 
 No watched world was run. This assignment authorizes research only; no simulation outcome or player effect is claimed.
 

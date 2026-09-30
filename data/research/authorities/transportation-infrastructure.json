@@ -1782,6 +1782,230 @@
       "year": null,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "fpa201-historical",
+      "title": "Federal Power Act section201; FERC-hosted compilation throughPL115-325, August2019",
+      "url": "https://www.ferc.gov/sites/default/files/2021-04/federal_power_act.pdf",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ferc-scope",
+      "title": "FERC regulatory responsibilities; updated June18,2025",
+      "url": "https://ferc.gov/what-ferc-does",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ferc-pjm-boundary",
+      "title": "FERC introductory guide to PJM: wholesale, distribution and retail roles",
+      "url": "https://www.ferc.gov/introductory-guide-participation-pjm-processes",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-rail-law2023",
+      "title": "Minnesota2023ch64 article1 section41 signedMay24,2023",
+      "url": "https://www.revisor.mn.gov/laws/2023/0/64/",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-rail-law2025",
+      "title": "Minnesota2025special-sessionch13 article1 sections14\u201315/article9 section8",
+      "url": "https://www.revisor.mn.gov/laws/2025/1/13/",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-rail-admin",
+      "title": "Missouri DED railroad credit implementation timing",
+      "url": "https://ded.mo.gov/new-programs/railroad-expenditures-tax-credit-program",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-rail-signature",
+      "title": "Wisconsin governor April9,2026 AB219 Act242 signature announcement",
+      "url": "https://content.govdelivery.com/accounts/WIGOV/bulletins/41209c6",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ok-rail-evaluation",
+      "title": "Oklahoma2023 railroad credit evaluation:2020SB1322 and2023SB17X; appendix amended law",
+      "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/iec/archive/support/2023/RailroadTaxCreditEvaluation11172023.pdf",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ks-rail-2025",
+      "title": "Kansas FY2025 Revenue report, railroad credit printed34",
+      "url": "https://www.ksrevenue.gov/pdf/ar25complete.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-rail-code",
+      "title": "Minnesota section290.0695",
+      "url": "https://www.revisor.mn.gov/statutes/cite/290.0695",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-rail-code",
+      "title": "Missouri section135.1210, SB913 effectiveAugust28,2026",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?section=135.1210",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-rail-credit",
+      "title": "Wisconsin2025Act242, April2026 Revenue bulletin",
+      "url": "https://www.revenue.wi.gov/WisconsinTaxBulletin/233-04-30-WTB.pdf",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ok-rail-code",
+      "title": "Oklahoma section2357.104 official hosted code",
+      "url": "https://govt.westlaw.com/okjc/Document/N7C705EB03CAA11EEA983D29626B88B88?contextData=%28sc.Default%29&originationContext=documenttoc&transitionType=DocumentItem&viewType=FullText",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ks-rail-notice",
+      "title": "Kansas Revenue Notice22-05, HB2239 section18",
+      "url": "https://www.ksrevenue.gov/taxnotices/notice22-05.pdf",
+      "year": 2022,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "me-grid-ballot",
+      "title": "Maine2023 citizen guide, Question3 statutory proposal and official explanation pp21\u201335",
+      "url": "https://www.maine.gov/sos/sites/maine.gov.sos/files/content/assets/citizensguide23.pdf",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "me-grid-results",
+      "title": "Maine November7,2023 official referendum workbook, Question3 statewide row529",
+      "url": "https://www.maine.gov/sos/sites/maine.gov.sos/files/content/assets/referendum-20election-20nov.xlsx",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "boulder-grid-franchise",
+      "title": "Boulder Xcel partnership and2020 franchise terms; ownership remains distinct",
+      "url": "https://bouldercolorado.gov/projects/xcel-energy-partnership",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-drainage-grant",
+      "title": "Texas LocalGovernmentCode552.045/.047/.053 municipal drainage utility",
+      "url": "https://tcss.legis.texas.gov/resources/LG/htm/LG.552.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-drainage-grant",
+      "title": "NorthCarolina160A-314 stormwater fee power and limits",
+      "url": "https://library.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-314.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-county-drainage-grant",
+      "title": "NorthCarolina153A-277 county stormwater fee power and limits",
+      "url": "https://www.ncleg.gov/enactedlegislation/statutes/html/bysection/chapter_153a/gs_153a-277.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ncsl-ev-2026",
+      "title": "NCSL July7,2026 EV fee survey, includes future schedules",
+      "url": "https://www.ncsl.org/transportation/special-registration-fees-for-electric-and-hybrid-vehicles/cl_system/mapi/cl_system_id",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "accepted-survey"
+    },
+    {
+      "id": "id-ev-code",
+      "title": "Idaho49-457 EV and plug-in hybrid registration fee",
+      "url": "https://legislature.idaho.gov/statutesrules/idstat/title49/t49ch4/sect49-457/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nj-ev-admin",
+      "title": "NewJersey MVC zero-emission fee schedule effectiveJuly2024",
+      "url": "https://www.nj.gov/mvc/vehicles/regfees.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-ev-law2026",
+      "title": "NewMexicoSB2 chapter4 signedFebruary5,2026, legislative record",
+      "url": "https://www.nmlegis.gov/Legislation/Legislation?Chamber=S&LegNo=2&LegType=B&year=26",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nm-ev-final2026",
+      "title": "NewMexicoSB2 final act sections3/4/7, EV fees beginJanuary2027",
+      "url": "https://www.nmlegis.gov/Sessions/26%20Regular/final/SB0002.pdf",
+      "year": 2026,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "hamburg-grid-vote",
+      "title": "Hamburg official September22,2013 grid referendum result",
+      "url": "https://www.hamburg.de/politik-und-verwaltung/behoerden/behoerde-fuer-inneres-und-sport/themen/wahlen/22-september-2013-volksentscheid-energienetze--890832",
+      "year": 2013,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "hamburg-electric-acquisition",
+      "title": "Hamburg February7,2014 electricity grid share acquisition completion",
+      "url": "https://www.hamburg.de/politik-und-verwaltung/behoerden/finanzbehoerde/aktuelles/2014-02-07-volksentscheid-zu-den-energienetzen-506592",
+      "year": 2014,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "hamburg-grid-concession",
+      "title": "Hamburg November12,2014 competitive grid concession",
+      "url": "https://www.hamburg.de/politik-und-verwaltung/behoerden/behoerde-fuer-stadtentwicklung-und-wohnen/aktuelles/pressemeldungen/2014-11-12-bsu-stromnetze-507684",
+      "year": 2014,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -2685,6 +2909,20 @@
               "year": 2017,
               "status": "enacted",
               "sources": ["sb1"]
+            },
+            {
+              "place": "Idaho",
+              "measure": "49-457 added2015chapter341 section3 and amended2017chapter43 section1",
+              "year": 2017,
+              "status": "enacted",
+              "sources": ["id-ev-code"]
+            },
+            {
+              "place": "NewMexico",
+              "measure": "SB2/2026chapter4 signedFebruary5,2026; EV fee sections effectiveJanuary1,2027",
+              "year": 2026,
+              "status": "enacted",
+              "sources": ["nm-ev-law2026", "nm-ev-final2026"]
             }
           ],
           "availability": {
@@ -2788,10 +3026,10 @@
               "differentLargeCityCharters": []
             },
             "ID": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "reason": "State49-457 imposes additional$140electric/$75plug-in hybrid fee; neighborhood electric vehicles are excepted. Revenues go to highway distribution account under40-701; full allocation not inferred from this section. State legislative amendment changes the state fee; no independent local fee authority is established.",
+              "sources": ["id-ev-code"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -2950,19 +3188,19 @@
               "differentLargeCityCharters": []
             },
             "NJ": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "reason": "State zero-emission vehicle fee beganJuly1,2024 at$250/year and increases$10/year for four years. New four-year registrations owe four years upfront. The schedule implies Jan2026$260 andJuly2026$270; future$290 is not the game-start amount. State legislative amendment changes the state fee; no independent local fee authority is established.",
+              "sources": ["nj-ev-admin"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "NM": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "reason": "SB2 enacted2026chapter4 creates additional fee for qualifying vehicles at most26,000pounds, beginningJanuary1,2027:EV$70/$80/$90 and PHEV$35/$40/$45 across2027/2028/2029onward. Sections3/4 effective2027, after the game baseline. Existing earlier-fee history remains unresearched. State legislative amendment changes the state fee; no independent local fee authority is established.",
+              "sources": ["nm-ev-law2026", "nm-ev-final2026"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -12055,6 +12293,41 @@
               "year": 2019,
               "status": "enacted",
               "sources": ["al-credit2019", "al-credit"]
+            },
+            {
+              "place": "MN",
+              "measure": "2023ch64 article1 section41, amended2025special-sessionch13",
+              "year": 2023,
+              "status": "enacted",
+              "sources": ["mn-rail-code", "mn-rail-law2023", "mn-rail-law2025"]
+            },
+            {
+              "place": "MO",
+              "measure": "SB913/2026 enacted section135.1210; eligible tax years2027 onward",
+              "year": 2026,
+              "status": "enacted",
+              "sources": ["mo-rail-code", "mo-rail-admin"]
+            },
+            {
+              "place": "WI",
+              "measure": "AB219/2025Act242 signedApril9,2026",
+              "year": 2026,
+              "status": "enacted",
+              "sources": ["wi-rail-credit", "wi-rail-signature"]
+            },
+            {
+              "place": "OK",
+              "measure": "2020SB1322 cap increase;2023SB17X sunset extension",
+              "year": 2023,
+              "status": "enacted",
+              "sources": ["ok-rail-code", "ok-rail-evaluation"]
+            },
+            {
+              "place": "KS",
+              "measure": "HB2239 section18 enacted2022, codified79-32,297",
+              "year": 2022,
+              "status": "enacted",
+              "sources": ["ks-rail-notice", "ks-rail-2025"]
             }
           ],
           "availability": {
@@ -12194,10 +12467,10 @@
               "differentLargeCityCharters": []
             },
             "KS": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched.",
-              "sources": [],
+              "reason": "ClassII/III and eligible adjacent siding owners/lessees subject to state income tax:50percent/$5,000per mile or siding,$8.72million annual cap, tax years2022\u20132031; certificate/transfer procedures; no federal-credit or grant double counting. Legislative amendment targets the cited state credit statute; this is a tax credit, not an unlimited local grant.",
+              "sources": ["ks-rail-notice", "ks-rail-2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -12257,10 +12530,10 @@
               "differentLargeCityCharters": []
             },
             "MN": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched.",
-              "sources": [],
+              "reason": "ClassII/III qualifying track and specified new leads/sidings:50percent, capped$3,000per track mile; nonrefundable, transferable, five-year carryforward, MnDOT certificate. Tax years2023\u20132030; expiresJanuary1,2031. Legislative amendment targets the cited state credit statute; this is a tax credit, not an unlimited local grant.",
+              "sources": ["mn-rail-code", "mn-rail-law2023", "mn-rail-law2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -12275,10 +12548,10 @@
               "differentLargeCityCharters": []
             },
             "MO": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched.",
-              "sources": [],
+              "reason": "Eligible tax years begin2027. ClassII/III and qualifying industry track:50percent, maintenance$5,000per mile or new customer project$1million. Annual maintenance/new allocations$4.5million/$5million; no federal-credit or grant double counting; five-year carryforward, transfer;2032 sunset. Agency says implementationJanuary2028, distinct from eligible tax years. Legislative amendment targets the cited state credit statute; this is a tax credit, not an unlimited local grant.",
+              "sources": ["mo-rail-code", "mo-rail-admin"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -12374,10 +12647,10 @@
               "differentLargeCityCharters": []
             },
             "OK": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched.",
-              "sources": [],
+              "reason": "ClassII/III maintenance and specified new track:50percent/$5,000per mile,$5million annual statewide cap with proportional reduction. Transferable unused credits/five-year carryforward; ends beforeJanuary1,2030. Legislative amendment targets the cited state credit statute; this is a tax credit, not an unlimited local grant.",
+              "sources": ["ok-rail-code", "ok-rail-evaluation"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -12491,10 +12764,10 @@
               "differentLargeCityCharters": []
             },
             "WI": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched.",
-              "sources": [],
+              "reason": "Tax years2026\u20132030: WEDC-certified ClassII/III maintenance50percent/$5,000per mile; modernization includes qualifying owners, lessees and local governments,50percent/$2million per application,$10million annual allocation. Nonrefundable, transferable with Revenue approval, five-year carryforward; maintenance excludes federal-credit/grant expenditures. Legislative amendment targets the cited state credit statute; this is a tax credit, not an unlimited local grant.",
+              "sources": ["wi-rail-credit", "wi-rail-signature"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -20593,7 +20866,7 @@
         {
           "id": "stormwater-fee",
           "question": "How should a stormwater service charge allocate drainage costs?",
-          "levels": ["state", "city", "special-district"],
+          "levels": ["state", "city", "special-district", "county"],
           "terms": [
             "impervious area",
             "separate or combined sewer system",
@@ -20901,12 +21174,17 @@
               "differentLargeCityCharters": []
             },
             "NC": {
-              "status": "unresearched",
-              "scope": "state, city, special-district",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "city fees and county fees outside municipalities under separate enabling statutes",
+              "reason": "City council sets stormwater rates after hearing with at least seven-day newspaper notice. Rates may account for impervious surface, use, runoff and other listed factors, and may not exceed service costs. Only one local unit may levy for a joint overlapping program. Farm and airport exemptions/limits require separate handling; County153A-277 separately permits fees outside municipalities with parallel hearing, cost and overlapping-program limits. Bona fide farm uses and military runways/taxiways are exempt; other airport runway/taxiway exemption requires specified reinvestment and certification.",
+              "sources": ["nc-drainage-grant", "nc-county-drainage-grant"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "City160A-314 and county153A-277 authorize fees within their respective service geography, with hearing, cost, overlapping-program and exemption safeguards; county fee area excludes municipalities.",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends the enabling statute; municipal council sets or revises charges within it. Local ordinance cannot override state conditions or exemptions.",
+                "sources": ["nc-drainage-grant", "nc-county-drainage-grant"]
+              },
               "differentLargeCityCharters": []
             },
             "ND": {
@@ -20991,12 +21269,17 @@
               "differentLargeCityCharters": []
             },
             "TX": {
-              "status": "unresearched",
-              "scope": "state, city, special-district",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "municipal drainage fee under state enabling statute",
+              "reason": "Municipal governing body may adopt drainage utility by majority of entire membership after required notice and hearing. Charges must relate directly to drainage rather than property value; classifications must be equitable and reasonable. Required/optional exemptions apply under552.053. County authority is not established by this municipal grant.",
+              "sources": ["tx-drainage-grant"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "Municipal governing body may adopt drainage utility by majority of entire membership after required notice and hearing. Charges must relate directly to drainage rather than property value; classifications must be equitable and reasonable. Required/optional exemptions apply under552.053. County authority is not established by this municipal grant.",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends the enabling statute; municipal council sets or revises charges within it. Local ordinance cannot override state conditions or exemptions.",
+                "sources": ["tx-drainage-grant"]
+              },
               "differentLargeCityCharters": []
             },
             "UT": {
@@ -24024,6 +24307,14 @@
           "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
           "sources": ["commission-selection-sd"],
           "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
+        },
+        {
+          "level": "federal",
+          "body": "FERC",
+          "does": "Regulate jurisdictional interstate transmission and wholesale electricity sales, with statutory entity and activity exceptions. Ordinary retail consumer sales and local distribution remain outside this core federal rate jurisdiction.",
+          "legalSource": "Federal Power Act section201(b),(d),(f);2019 compilation, corroborated by2025 FERC scope page. Complete2026 amendment and case consolidation remains unresearched.",
+          "sources": ["fpa201-historical", "ferc-scope", "ferc-pjm-boundary"],
+          "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
         }
       ],
       "interactions": [
@@ -26515,15 +26806,112 @@
       "federalLink": [
         {
           "topicKey": "us-federal:energy-environment.energy-systems",
-          "program": "Federal energy regulation and grants",
-          "match": "No uniform share; FERC retail/wholesale boundary still needs primary statute intake.",
+          "program": "Federal Power Act interstate electricity and wholesale market jurisdiction",
+          "match": "Regulatory jurisdiction boundary; not a matching grant or uniform cost share.",
           "conditions": [
-            "FERC retail/wholesale boundaries need governing statute and cases; IIJA alone is insufficient."
+            "Wholesale means resale under section201(d). Interstate transmission and jurisdictional wholesale rates are federal; retail rates are not ordinarily set by FERC.",
+            "Section201(f) excludes listed governmental and cooperative entities from ordinary PartII regulation unless a provision specifically reaches them; exceptions prevent a blanket municipal exemption.",
+            "The statute compilation is through2018 amendments;2025 agency guidance corroborates the core boundary. Later amendments, specific preemption cases, ERCOT and territorial exceptions still need consolidation."
           ],
-          "sources": ["iija"]
+          "sources": ["fpa201-historical", "ferc-scope", "ferc-pjm-boundary"]
         }
       ],
-      "systemRedesigns": [],
+      "systemRedesigns": [
+        {
+          "id": "electric-grid-ownership-and-operations",
+          "question": "Should electricity transmission and distribution be consumer-owned, and how should acquisition, governance, financing, operations and exit rights be negotiated?",
+          "pieces": [
+            {
+              "name": "Asset ownership and acquisition",
+              "terms": [
+                "transmission/distribution scope",
+                "negotiated acquisition or condemnation",
+                "valuation and appeals",
+                "separation and transition safeguards"
+              ],
+              "decisionIds": []
+            },
+            {
+              "name": "Public or consumer governance",
+              "terms": [
+                "elected versus expert-selected board members",
+                "districts",
+                "terms",
+                "oversight and reporting"
+              ],
+              "decisionIds": []
+            },
+            {
+              "name": "Financing and customer exposure",
+              "terms": [
+                "acquisition debt",
+                "rate funding",
+                "tax obligations",
+                "bond safeguards"
+              ],
+              "decisionIds": []
+            },
+            {
+              "name": "Operations and workforce",
+              "terms": [
+                "competitive private operator contract or direct operation",
+                "performance review",
+                "employee retention and labor agreements"
+              ],
+              "decisionIds": []
+            },
+            {
+              "name": "Franchise alternative and exit",
+              "terms": [
+                "utility franchise length",
+                "early exit conditions",
+                "municipalization option",
+                "grid separation obligations"
+              ],
+              "decisionIds": []
+            }
+          ],
+          "usExamples": [
+            {
+              "place": "Maine",
+              "measure": "2023Question3 PineTreePower citizen initiative: ballot proposal for consumer ownership, not enacted authority; official Question3 totals122,961yes/283,401no, sheet1 I529/J529",
+              "year": 2023,
+              "status": "went to voters",
+              "sources": ["me-grid-ballot", "me-grid-results"]
+            },
+            {
+              "place": "Boulder, Colorado",
+              "measure": "2020voter-approved Xcel franchise and partnership paused municipalization; conditional early exits and future municipalization option, not completed city utility ownership",
+              "year": 2020,
+              "status": "went to voters",
+              "sources": ["boulder-grid-franchise"]
+            }
+          ],
+          "internationalModels": [
+            {
+              "place": "Hamburg, Germany",
+              "system": "2013referendum mandate for municipal electricity, gas and district-heat networks. Electricity acquisition completedFebruary7,2014 through municipal holding/subsidiary ownership of100percent of StromnetzHamburg; a separate competitive20-year electricity concession was approvedNovember2014. Share ownership and operating concession are distinct. Acquisition financing mix and final electricity cash payment remain unverified; no causal rate or emissions benefit established. This does not establish U.S. authority or an all-Germany rule.",
+              "sources": [
+                "hamburg-grid-vote",
+                "hamburg-electric-acquisition",
+                "hamburg-grid-concession"
+              ]
+            }
+          ],
+          "effects": [
+            {
+              "measure": "Rates, reliability, customer debt exposure and emissions after ownership redesign",
+              "size": "no sized evidence",
+              "range": null,
+              "lag": "No sourced lag established",
+              "affectedGroup": "Utility customers, workers and acquiring institution",
+              "study": null,
+              "sources": [],
+              "transferLimit": "Rejected ballot design and franchise provisions are mechanisms, not measured outcomes. Fiscal forecasts are not realized customer savings."
+            }
+          ]
+        }
+      ],
       "gameToday": {
         "questions": [],
         "coverage": [],
@@ -30013,8 +30401,16 @@
       "id": "verify-05-item1",
       "promptClaim": "3. **Electric vehicle registration fee.** State. More than 30 states charge one, typically $50 to $200 a year. Effect: a small drop in electric vehicle sales (**verify** study).",
       "status": "partially verified",
-      "finding": "Jenn2018 fixed-effects observational model reports0.24% lower EV sales per$1 enacted fee over2010\u2013June2018 data. Implementation coefficient is smaller and statistically nonsignificant. This is study-specific, not universal causation. January2026 fee count remains unresolved.",
-      "sources": ["jenn2018", "ev-fees"]
+      "finding": "Jenn2018 fixed-effects observational model reports0.24% lower EV sales per$1 enacted fee over2010\u2013June2018 data. Implementation coefficient is smaller and statistically nonsignificant. This is study-specific, not universal causation. January2026 fee count remains unresolved. NCSLJuly2026 reports at least42states and35hybrid-fee states but includes future NM2027 and NJ2028 schedule amounts. Primary NM2026 act confirms delayed2027 start; primary NJMVC schedule exceeds$200 already byJan2026. This survey is not an active-Jan2026 count.",
+      "sources": [
+        "jenn2018",
+        "ev-fees",
+        "ncsl-ev-2026",
+        "nm-ev-law2026",
+        "nm-ev-final2026",
+        "nj-ev-admin",
+        "id-ev-code"
+      ]
     },
     {
       "id": "verify-06-item1",
@@ -30104,8 +30500,24 @@
       "id": "verify-18-item1",
       "promptClaim": "3. **Short-line freight rail tax credit or grants.** State: Georgia, Oregon, Alabama and others (**verify** list). Federal: the 45G credit, made permanent in 2020. Effect: track upgraded to 286,000-pound cars keeps freight off roads and lowers road damage (**verify** size).",
       "status": "partially verified",
-      "finding": "Oregon HB2164/2019 and Alabama HB457/2019 credit examples verified. Georgia HB588/2021 concerns freight grants/P3 authority, not proof of a short-line tax credit. Exhaustive state list, road-damage size remain unresearched; federal45G permanence is resolved in item2.",
-      "sources": ["or-credit", "or-credit-law", "al-credit2019", "al-credit"]
+      "finding": "Oregon HB2164/2019 and Alabama HB457/2019 credit examples verified. Georgia HB588/2021 concerns freight grants/P3 authority, not proof of a short-line tax credit. Exhaustive state list, road-damage size remain unresearched; federal45G permanence is resolved in item2. Primary evidence adds MN2023/2025, MO2026 (eligible2027; agency implementation2028), WIAct242 signed2026, OK2020/2023 amendments and KS2022. Utah comparable maintenance credit remains unverified. This bounded seven-state set is not an exhaustive count.",
+      "sources": [
+        "or-credit",
+        "or-credit-law",
+        "al-credit2019",
+        "al-credit",
+        "mn-rail-code",
+        "mo-rail-code",
+        "wi-rail-credit",
+        "ok-rail-code",
+        "ks-rail-notice",
+        "mn-rail-law2023",
+        "mn-rail-law2025",
+        "mo-rail-admin",
+        "wi-rail-signature",
+        "ok-rail-evaluation",
+        "ks-rail-2025"
+      ]
     },
     {
       "id": "verify-18-item2",
