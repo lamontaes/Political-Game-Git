@@ -1,0 +1,76 @@
+{
+  "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+  "status": "HELPER_TESTED_CALLER_SUPERSEDED",
+  "baseHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "seed": "team6-mileage-stamp-five-state-20260930",
+  "sampledStates": ["OR", "NH", "ID", "OH", "MO"],
+  "executedTests": [
+    {
+      "name": "OR retains the operative identity without changing revenue or creating a driver payment",
+      "status": "passed"
+    },
+    {
+      "name": "NH retains the operative identity without changing revenue or creating a driver payment",
+      "status": "passed"
+    },
+    {
+      "name": "ID retains the operative identity without changing revenue or creating a driver payment",
+      "status": "passed"
+    },
+    {
+      "name": "OH retains the operative identity without changing revenue or creating a driver payment",
+      "status": "passed"
+    },
+    {
+      "name": "MO retains the operative identity without changing revenue or creating a driver payment",
+      "status": "passed"
+    }
+  ],
+  "checks": {
+    "testsPassed": 5,
+    "testsFailed": 0,
+    "ownedStrictTypeErrors": 0,
+    "dependencyTypeDiagnostics": 0,
+    "ownedLintErrors": 0,
+    "releaseGate": "FAIL: main-existing docs/release/changes/team-7-remove-here-panel.md missing section; verified same bytes on origin/main",
+    "zeroDice": "0 new, 5 gone; stale baseline entries, exit 1",
+    "reportCheck": "0 errors, 0 warnings",
+    "callerPatchApplyCheck": "PASS, patch not applied"
+  },
+  "earlierFailures": [
+    "Storage default state directory ENOENT; no tests executed.",
+    "Default Vite source identity spawnSync git EPERM; no tests executed.",
+    "Focused config path absent; no tests executed.",
+    "Initial fixture 4 passed and Oregon failed because it incorrectly applied new-law billing delay to a starting-law charge. Same sample retained; corrected against existing reader."
+  ],
+  "productionCaller": "src/simulation/public-budgets/month.ts",
+  "callerPatch": "docs/codex/effect-batches/team-6/mileage-caller.patch",
+  "callerOwnership": "Superseded by owner-authorized CTO3:32 one-law contract. No new per-law month/index grants; preserved caller patch must not be applied. Coordinator owns shared engine/catalog.",
+  "proofLimits": [
+    "Helper exercised against actual settled monthly source; helper is not called by production.",
+    "Authored legal-change fixture, not a natural passage.",
+    "No named-driver assessment, collected driver transfer or actual mileage producer certified.",
+    "Selective tax source contains other taxes; source total is not mileage revenue.",
+    "No nationwide firing or watched-person proof executed."
+  ],
+  "mainVerifiedStampedCostQuestionKeys": [
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+    "us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "mainCounts": {
+    "assignedLaws": 14,
+    "verifiedCostWritersWithPriorExecutedExample": 2,
+    "newlyWiredLawsInThisCheckpoint": 0
+  },
+  "remainingContracts": {
+    "fixItFirst": "Audit conditional appropriation seam only; exact shared saved-record stamp hunk requested.",
+    "cleanElectricity": "Audit aggregate projections only; exact domain build contract requested."
+  },
+  "operatorLinkage": "Deferred until after3:30; payment never implies a rider trip.",
+  "preservedNewMainConsumer": "appendConsumerPrivacyCostToMonth retains the row stamps; no consumer-privacy changes.",
+  "supersededBy": {
+    "typeSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+    "typePR": 1305,
+    "conversionPath": "docs/codex/effect-batches/team-6/consequence-rows.json"
+  }
+}
