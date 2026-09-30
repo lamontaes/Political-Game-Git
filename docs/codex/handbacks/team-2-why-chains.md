@@ -48,6 +48,8 @@ Cedar Hills recorded Deborah and David Carlson's eviction and Arkansas SB 3's $1
 The proof runner completed one watched year. This batch traces 15 assigned catalog questions and three adjacent legal mechanisms. It changes no law, causal size or producer. Jurisdiction research and personal effects remain explicit gaps.
 Inspected main: `54930d427555034f3a92f335064586247985784d`. The named authority, justice, term-limit, ward, statehood and outcome-web modules and data were compared with the handoff branch and matched. The first watched runtime is the initial handoff. The second completed runtime is this exact main head, using the published collector through an ignored path adapter. Neither proves the latest moving main or a five-year life.
 Authority below is the current mapping, not a new legal certification. D.C. uses its Home Rule Act column and congressional review. Territory powers remain unresolved in the inspected catalog. County/city powers depend on enabling law, home rule and subject preemption. Township-specific authority is not independently resolved.
+CTO 3:45 requires unknown power cells to use a researched most-common arrangement, flagged in developer data, until specific territorial/township research establishes the actual power. Source finding: `question-authority.ts`, mayAnswerQuestion, currently returns true for every verdict except no. Thus its unknown verdict can pass the writer gate. This is a coordinator-owned defect, not permission or a completed repair. Territory organic acts and state-specific township powers remain Team 9 research dependencies.
+
 Common repeal path: a later valid answer changes the law in force after its effective date, subject to constitutional rank and judicial review. In-play conflicts still use blanket higher-level rank; floors, ceilings and numerical ranges are incomplete. No missing legal rule is assumed to be permission.
 Per-law enactment proof rows below refer to the Cedar Hills handoff-runtime year; the separate Floral main-runtime result is stated at the end. Every mapped effect is listed, including zero and null links. Existing ranges describe per-world/per-place draws, not universal outcomes. Aggregate links bottom out in multipliers; they do not establish a person-level causal chain. New research-supported effects outside this map remain a Team 9/coordinator dependency.
 
@@ -462,3 +464,36 @@ Seed `team2-main-proof-20260930-b` selected Floral, Arkansas. Clean main `54930d
 The period contains 56 enacted laws, one with typed operative effects, and 134 filings. No eviction cases, separate sponsor motives or linked law-money transfers were recorded. These zero observations are retained; they are not proof that all laws are inert. Save/Continue matched the date and history counts. Its inherited 23-byte metric is invalid; the retained world is 271,453,706 bytes. The report passed with zero errors and warnings.
 
 The justice links do have a downstream named-victim reader, but that reader still samples victims with dice. Turnout averages lack a demonstrated individual reader. Team 3/coordinator retain the crime and authority writers; Team 2 has edited no overlapping source. Research needs include independent secondary effects, exposure denominators, local/territorial powers and actual repeal routes. The three five-to-ten-year lives remain NOT RUN.
+
+## Longer watched-life collector: held draft
+
+### 1. Why-chain
+
+A watched life is reported because the opening observer resident has canonical events and transfers. An event belongs to that resident through its recorded participant or entity link. Money belongs to the resident personally or to a household while its membership state says resident on that transaction date. The chain ends at recorded summaries, saved context and transferred minor units. Missing motives, income, work, health or housing facts remain absent; the collector creates none.
+
+### 2. Research
+
+This is a record reader, not a new behavior or rate. Existing synthetic world evidence is the source. Three random places and five-to-ten-year follow-up are the CTO's proof scope. They are not a nationally representative sample or causal estimate.
+
+### 3. Revisions
+
+The one-year restriction is removed for named-system mode. Life mode reads only the opening resident's canonical timeline at the end of the requested period. Household transfers do not become personal income. The retained-world writer consumes the production chunk-capable serializer so a longer payload need not fit one JavaScript string. The inherited save-byte metric is unchanged and remains rejected.
+
+### 4. Numbered held parts
+
+1. Existing observer Day button for a positive integer number of years, with a named time bound and explicit incomplete result.
+2. Named opening resident, birth date and recorded opening/closing occupancy.
+3. Month-by-month canonical events, quoted context, actual/attempted transfers and exact endpoints.
+4. Separate runtime and collector identity, save round-trip result and optional retained payload.
+
+### 5. Simulated, records, world pieces, checks
+
+SIMULATED: the existing Day path produces decisions; the collector never acts for the person. RECORDS: personal events, household membership states, flow/outcome history and occupancy already exist. WORLD PIECES: the original resident and canonical world; no new relatives, shelter or work are inserted. CHECKS: future records, opening-sequence exclusion, a household entered later, blocked money, zero records and the incomplete period.
+
+### 6. Proof run
+
+Long-life proof is NOT RUN at this draft checkpoint. The first launch will use five years and a random logged place on a pinned clean main runtime. Focused reader validation passed 9/9 tests, strict three-root TypeScript, scoped ESLint and whitespace. The first fixture failed because it tried to write a future event before advancing the fixture clock. That fixture was repaired without changing the production writer.
+
+### 7. Worked example
+
+NOT RUN for a five-year world. The explicit fixture records $100 attempted and $0 transferred to a household in April. It preserves the blocked outcome and excludes February money before membership began. This is a regression fixture, not an observed life. No named story is invented to fill the pending proof.

@@ -10,7 +10,7 @@ import type {
   World,
 } from "../../src/simulation/types";
 
-export type ProofSystem = "evictions" | "laws" | "filing" | "all";
+export type ProofSystem = "evictions" | "laws" | "filing" | "life" | "all";
 export interface ProofPeriod {
   readonly from: IsoDate;
   readonly through: IsoDate;
@@ -462,12 +462,119 @@ export function lawProof(
     });
 }
 
+/** A person's own timeline; household money is attributed only while resident. */
+export function lifeProof(
+  world: World,
+  period: ProofPeriod,
+  personId: EntityId,
+) {
+  const memberships = world.history.householdMemberships.filter(
+    (row) => row.personId === personId && row.startedAt <= period.through,
+  );
+  const states = new Map<
+    EntityId,
+    typeof world.history.householdMembershipStates
+  >();
+  for (const row of world.history.householdMembershipStates) {
+    const previous = states.get(row.membershipId) ?? [];
+    states.set(row.membershipId, [...previous, row]);
+  }
+  const belongs = (owner: ResourceEndpoint, on: IsoDate, sequence: number) => {
+    if (owner.kind === "person") return owner.personId === personId;
+    if (owner.kind !== "household") return false;
+    return memberships.some((row) => {
+      if (
+        row.householdId !== owner.householdId ||
+        row.startedAt > on ||
+        row.sequence > sequence
+      )
+        return false;
+      const state = (states.get(row.id) ?? [])
+        .filter((s) => s.effectiveAt <= on && s.sequence <= sequence)
+        .sort((a, b) => b.sequence - a.sequence)[0];
+      return state?.status === "resident";
+    });
+  };
+  const flows = new Map(
+    world.history.resourceFlows.map((row) => [row.id, row]),
+  );
+  const transfers = world.history.resourceTransferOutcomes
+    .flatMap((row) => {
+      if (!inPeriod(row.occurredAt, row.sequence, period)) return [];
+      const flow = flows.get(row.resourceFlowId);
+      if (
+        !flow ||
+        flow.recordedAt > row.occurredAt ||
+        flow.startsAt > row.occurredAt
+      )
+        return [];
+      const paidBy = belongs(flow.source, row.occurredAt, row.sequence);
+      const receivedBy = belongs(flow.recipient, row.occurredAt, row.sequence);
+      if (!paidBy && !receivedBy) return [];
+      return [
+        {
+          id: row.id,
+          date: row.occurredAt,
+          status: row.status,
+          attemptedAmount: row.attemptedAmount,
+          transferredAmount: row.transferredAmount,
+          reason: row.reasonKind,
+          note: row.note,
+          paidBy,
+          receivedBy,
+          from: endpoint(world, flow.source, row.occurredAt),
+          to: endpoint(world, flow.recipient, row.occurredAt),
+          basis: flow.basisReference,
+        },
+      ];
+    })
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+  const events = world.history.events
+    .filter(
+      (row) =>
+        inPeriod(row.occurredAt, row.sequence, period) &&
+        row.recordedAt <= period.through &&
+        (row.involvedEntityIds.includes(personId) ||
+          row.participants.some((p) => p.personId === personId)),
+    )
+    .sort(
+      (a, b) =>
+        a.occurredAt.localeCompare(b.occurredAt) || a.sequence - b.sequence,
+    )
+    .map((row) => ({
+      id: row.id,
+      date: row.occurredAt,
+      type: row.type,
+      summary: row.summary,
+      context: row.context,
+      tags: row.tags,
+    }));
+  const months = new Set(
+    [...events, ...transfers].map((row) => row.date.slice(0, 7)),
+  );
+  return {
+    personId,
+    name: namedPerson(world, personId),
+    birthDate: world.people[personId]?.birthDate ?? null,
+    openingDestination: destinations(world, [personId], period.from),
+    closingDestination: destinations(world, [personId], period.through),
+    months: [...months].sort().map((month) => ({
+      month,
+      events: events.filter((row) => row.date.startsWith(month)),
+      transfers: transfers.filter((row) => row.date.startsWith(month)),
+    })),
+    evidenceLimit:
+      "Canonical person events and personal or resident-household transfers only. Missing health, work, motives or moves are not reconstructed. Household money is not personal income.",
+  };
+}
+
 export function collectSystemProof(
   world: World,
   period: ProofPeriod,
   system: ProofSystem,
   readEffects: (world: World) => readonly EnactedLawEffects[],
   readCases?: ReadEvictionObservations,
+  watchedPersonId?: EntityId,
 ) {
   return {
     period,
@@ -483,6 +590,7 @@ export function collectSystemProof(
       system === "all" || system === "filing"
         ? filingProof(world, period)
         : null,
+    life: watchedPersonId ? lifeProof(world, period, watchedPersonId) : null,
   };
 }
 
@@ -536,6 +644,40 @@ export function plainSystemReport(
           )
           .join("; ")
       : "No active destination occupancy recorded. This does not establish shelter, car, motel or street residence.";
+  if (proof.life) {
+    lines.push(
+      `### Watched life: ${proof.life.name}`,
+      "",
+      `Person ${proof.life.personId}; born ${proof.life.birthDate ? proseDate(proof.life.birthDate) : "date not recorded"}.`,
+      `Opening home: ${placeText(proof.life.openingDestination)}`,
+      `Closing home: ${placeText(proof.life.closingDestination)}`,
+      proof.life.evidenceLimit,
+      "",
+    );
+    if (proof.life.months.length === 0)
+      lines.push(
+        "No person events or relevant transfers were recorded during the watched period.",
+        "",
+      );
+    for (const month of proof.life.months) {
+      lines.push(
+        `**Month beginning ${proseDate(`${month.month}-01` as IsoDate)}**`,
+        "",
+      );
+      for (const row of month.events)
+        lines.push(
+          `${proseDate(row.date)}: ${row.type}; ${JSON.stringify(row.summary)}; event ${row.id}.`,
+          `Saved context: ${JSON.stringify(row.context)}`,
+          "",
+        );
+      for (const row of month.transfers)
+        lines.push(
+          `${proseDate(row.date)}: ${row.from.label} → ${row.to.label}; ${moneyText(row.transferredAmount)} transferred of ${moneyText(row.attemptedAmount)} attempted; ${row.status}; record ${row.id}.`,
+          `Saved reason: ${JSON.stringify({ reason: row.reason, note: row.note, basis: row.basis })}`,
+          "",
+        );
+    }
+  }
   if (proof.evictions !== null) {
     lines.push("### 1. Eviction cases", "");
     if (proof.evictions.length === 0)
@@ -659,7 +801,7 @@ export function plainSystemReport(
     `Collector ${context.collectorHead}; collector dirty: ${context.collectorDirty ?? false}.`,
     `Save/Continue result: ${JSON.stringify(context.save)}.`,
     context.problem
-      ? `Run stopped: ${context.problem}. A year was not completed.`
+      ? `Run stopped: ${context.problem}. The requested watched period was not completed.`
       : "No recorded run stop.",
     "",
     "## 7. Named worked example",

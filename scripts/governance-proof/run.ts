@@ -1,4 +1,10 @@
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import {
+  closeSync,
+  existsSync,
+  mkdirSync,
+  openSync,
+  writeFileSync,
+} from "node:fs";
 import { performance } from "node:perf_hooks";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { execFileSync } from "node:child_process";
@@ -23,7 +29,7 @@ import {
 
 if (process.argv.includes("--help")) {
   console.log(
-    "run.ts SEED YEARS OUTPUT_JSON [--system evictions|laws|filing|all --report REPORT_MD --max-minutes 120 --keep-world WORLD_JSON]\nSystem proof mode requires YEARS=1. Legacy stage mode is preserved. OCD_GOVERNANCE_SOURCE_ROOT selects the existing runtime checkout; it creates no checkout.",
+    "run.ts SEED YEARS OUTPUT_JSON [--system evictions|laws|filing|life|all --report REPORT_MD --max-minutes 120 --keep-world WORLD_JSON]\nLife mode follows the opening resident's canonical records for the requested years. Legacy stage mode is preserved. OCD_GOVERNANCE_SOURCE_ROOT selects the existing runtime checkout; it creates no checkout.",
   );
   process.exit(0);
 }
@@ -43,13 +49,9 @@ const option = (name: string) => {
 const systemOption = option("system");
 if (
   systemOption &&
-  !["evictions", "laws", "filing", "all"].includes(systemOption)
+  !["evictions", "laws", "filing", "life", "all"].includes(systemOption)
 )
   throw new Error("Unknown proof system.");
-if (systemOption && years !== 1)
-  throw new Error(
-    "Named-system proof mode runs one watched year; use YEARS=1.",
-  );
 const start = performance.now();
 const sourceRoot = process.env.OCD_GOVERNANCE_SOURCE_ROOT ?? resolve(".");
 const observer = (await import(
@@ -97,7 +99,7 @@ if (systemOption) {
     throw new Error("--max-minutes must be positive.");
   const reportPath = option("report") ?? `${output}.md`;
   mkdirSync(dirname(reportPath), { recursive: true });
-  const until = anniversary(watched.world.currentDate, 1);
+  const until = anniversary(watched.world.currentDate, years);
   const openingSequence = watched.world.history.nextSequence;
   let days = 0;
   let problem: string | null = null;
@@ -148,6 +150,7 @@ if (systemOption) {
     systemOption as ProofSystem,
     effects.enactedLawsWithEffects,
     readCases,
+    systemOption === "life" ? watched.anchorPersonId : undefined,
   );
   let save: unknown = null;
   try {
@@ -159,7 +162,9 @@ if (systemOption) {
   }
   const status =
     button.world.currentDate >= until && !problem
-      ? "completed-year"
+      ? years === 1
+        ? "completed-year"
+        : "completed-years"
       : "incomplete";
   const context = {
     seed,
@@ -171,6 +176,8 @@ if (systemOption) {
     sourceDirty,
     status,
     days,
+    requestedYears: years,
+    anchorPersonId: watched.anchorPersonId,
     save,
     problem,
   };
@@ -192,10 +199,17 @@ if (systemOption) {
   const keep = option("keep-world");
   if (keep) {
     mkdirSync(dirname(keep), { recursive: true });
-    const { serializeWorld } = await import(
+    const { serializeWorldPayload } = await import(
       pathToFileURL(resolve(sourceRoot, "src/simulation/serialization.ts")).href
     );
-    writeFileSync(keep, serializeWorld(button.world));
+    const payload = serializeWorldPayload(button.world);
+    const file = openSync(keep, "w");
+    try {
+      for (const chunk of typeof payload === "string" ? [payload] : payload)
+        writeFileSync(file, chunk);
+    } finally {
+      closeSync(file);
+    }
   }
   console.log(
     JSON.stringify({

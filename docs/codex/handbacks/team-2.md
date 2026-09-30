@@ -2,6 +2,12 @@
 
 Majority-backed agendas, strongest-pressure sponsorship and principle-based cosponsors now reached main. Their nationwide watched result is unmeasured. Life formation remains on the law team's stack. Senate integration, researched election responses and opening-seat calibration remain unfinished. The cloud continuation repaired the missing-principle consent guard and received the exact shared writer release.
 
+## Longer-life reader checkpoint
+
+The owned collector now supports named-system runs longer than a year and a life mode for the opening observer resident. It reports recorded events and actual/attempted transfers month by month. Household money is included only during recorded residency and is not relabeled as personal income. Retained worlds use the production chunk-capable serialization path. Simulation producers and the save-helper metric are unchanged.
+
+Executed draft checks: 9/9 focused tests; strict scoped TypeScript, ESLint and whitespace PASS. The initial future-event fixture failed at the canonical writer boundary, then passed after the fixture clock was advanced. No assertion or producer restriction was removed. Long-life proof, independent reviewer, browser/full suite and speed comparison remain NOT RUN. The seven-heading held design is in the why-chain handback. Next bounded step is the first five-year life on clean pinned main, with a time bound and exact seed/place.
+
 ## Main-runtime proof completed; long-life proof remains open
 
 MERGED: no Team 2 merge in this continuation. PR #1136 remains draft/WIP, with no exact-head approval. The same registered checkout returned clean to `codex/wave1-state-governing` after the read-only main window. No new team, helper or checkout was created.

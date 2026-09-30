@@ -19,6 +19,7 @@ import {
   evictionProof,
   filingProof,
   lawProof,
+  lifeProof,
   plainSystemReport,
   type EvictionObservation,
 } from "./systems";
@@ -90,6 +91,136 @@ function event(
 }
 
 describe("canonical watched-system report evidence", () => {
+  it("keeps personal records within the observed period without inventing a motive", () => {
+    const { person, world: base } = fixture();
+    let world = event(
+      base,
+      person.id,
+      "housing.eviction-filed",
+      date("2026-02-01"),
+      "observed",
+    );
+    world = event(
+      {
+        ...world,
+        currentDate: date("2027-02-01"),
+        currentMoment: { ...world.currentMoment, date: date("2027-02-01") },
+      },
+      person.id,
+      "housing.evicted",
+      date("2027-02-01"),
+      "future",
+    );
+    const result = lifeProof(world, period, person.id);
+    expect(result.months).toHaveLength(1);
+    expect(result.months[0]?.events).toHaveLength(1);
+    expect(result.months[0]?.events[0]?.summary).toContain("observed");
+    expect(result.months[0]?.events[0]?.context.motivation).toBeNull();
+    expect(result.openingDestination).toEqual([]);
+    expect(
+      lifeProof(
+        world,
+        { ...period, openingSequence: world.history.nextSequence },
+        person.id,
+      ).months,
+    ).toEqual([]);
+  });
+  it("does not call a blocked transfer income or attribute money before household membership", () => {
+    const { person, world: base } = fixture();
+    const householdId = id("later-household");
+    const world: World = {
+      ...base,
+      history: {
+        ...base.history,
+        householdMemberships: [
+          {
+            id: id("membership"),
+            stableKey: "membership",
+            sequence: 1,
+            personId: person.id,
+            householdId,
+            startedAt: date("2026-03-01"),
+            provenance,
+          },
+        ],
+        householdMembershipStates: [
+          {
+            id: id("resident"),
+            stableKey: "resident",
+            sequence: 2,
+            membershipId: id("membership"),
+            effectiveAt: date("2026-03-01"),
+            status: "resident",
+            residenceRole: "primary",
+            kind: "custom:fixture",
+            provenance,
+            supersedesStateId: null,
+          },
+        ],
+        resourceFlows: [
+          {
+            id: id("flow"),
+            stableKey: "flow",
+            sequence: 0,
+            source: { kind: "organization", organizationId: id("payer") },
+            recipient: { kind: "household", householdId },
+            recordedAt: period.from,
+            startsAt: period.from,
+            basisKind: "custom:fixture",
+            basisReference: {
+              kind: "general",
+            },
+            restrictionKind: null,
+            jurisdictionId: null,
+            provenance,
+          },
+        ],
+        resourceTransferOutcomes: ["2026-02-01", "2026-04-01"].map((on, i) => ({
+          id: id(`outcome-${i}`),
+          stableKey: `outcome-${i}`,
+          sequence: 3 + i,
+          resourceFlowId: id("flow"),
+          periodStartsAt: date(on),
+          periodEndsAt: date(on),
+          occurredAt: date(on),
+          status: "blocked",
+          attemptedAmount: { minorUnits: 10000, currency: usd },
+          transferredAmount: { minorUnits: 0, currency: usd },
+          reasonKind: "capacity:insufficient-funds",
+          note: null,
+          provenance,
+        })),
+      },
+    };
+    const result = lifeProof(world, period, person.id);
+    expect(result.months).toHaveLength(1);
+    expect(result.months[0]?.month).toBe("2026-04");
+    expect(result.months[0]?.transfers[0]?.status).toBe("blocked");
+    expect(result.months[0]?.transfers[0]?.transferredAmount.minorUnits).toBe(
+      0,
+    );
+    expect(result.months[0]?.transfers[0]?.attemptedAmount.minorUnits).toBe(
+      10000,
+    );
+    const report = plainSystemReport(
+      collectSystemProof(world, period, "life", () => [], undefined, person.id),
+      {
+        seed: world.seed,
+        place: "Fixture place",
+        placeKey: "fixture",
+        sourceHead: "source",
+        collectorHead: "collector",
+        sourceDirty: false,
+        status: "completed-year",
+        days: 365,
+        save: null,
+        problem: null,
+      },
+    );
+    expect(report).toContain("$0.00 transferred of $100.00 attempted; blocked");
+    expect(report).toContain("April 1, 2026");
+    expect(report).not.toContain("2026-04-01");
+  });
   it("retains a none-case and does not invent a named worked example", () => {
     const { world } = fixture();
     const proof = collectSystemProof(world, period, "all", () => []);
@@ -111,7 +242,7 @@ describe("canonical watched-system report evidence", () => {
     expect(report).toContain("No eviction filings or resolutions");
     expect(report).toContain("No laws enacted");
     expect(report).toContain("No bills introduced");
-    expect(report).toContain("A year was not completed");
+    expect(report).toContain("The requested watched period was not completed");
     expect(report).toContain("January 1, 2026 through December 31, 2026");
     expect(report).not.toContain("2026-01-01");
   });

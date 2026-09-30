@@ -24,3 +24,5 @@ The draft preserves an unfinished watched-system report runner and why-chain for
 The watched-system runner completed a recorded year and preserves actual case, bill and law-money reports. The reader now uses the production eviction tag, keeps missing court/destination/cost evidence explicit, and lists every supplied clause-effect outcome.
 
 A separate clean-main watched year now preserves its zero-case and zero-money observations. Source law traces distinguish catalog path counts, effect units, individual consumers and remaining dice or missing readers.
+
+The draft collector can follow a named observer resident for longer periods. It preserves monthly events and transferred versus attempted money, excludes household payments outside recorded residency, and retains large worlds through the existing chunk-capable serializer.
