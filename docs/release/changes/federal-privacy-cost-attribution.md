@@ -1,9 +1,8 @@
 ---
 id: federal-privacy-cost-attribution
-impact: none
+impact: patch
 ---
 
-The existing federal privacy cost reader now returns the shared law-effect
-stamp for the application place and supports a stable world/place cost size.
-The shared business-book writer has not yet been changed, so no newly saved
-cost consequence is claimed from this reader-only preparation.
+Federal privacy compliance now saves its actual quarterly cost and controlling
+law stamp on business books, using a stable cost size for each world and place.
+Repeal stops the next quarter's cost without changing earlier snapshots.
