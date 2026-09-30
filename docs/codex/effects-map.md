@@ -606,3 +606,7 @@ Linear/diminishing formulas accept signed baseline changes; threshold shapes use
 | job-loss-to-death-risk | person.displaced-from-long-job → health.death-risk | {"kind": "acute-decay", "halfLifeDays": 1095}; 0 | {"range": null, "floor": null, "ceiling": null, "target": null} | Sullivan and von Wachter 2009 (QJE) | Size/range units; bidirectionality/floor; named-person writer; sourced place example; historical extremes PENDING |
 
 Team 9 receives these exact keys for primary-source size/range/unit/lag research. Coordinator retains consumer tracing, person-record mapping and worked-example/extreme review. No catalog number or citation is accepted merely because it appears in this table.
+
+## September 30, 7:30 terms producer finding
+
+Team 2's published Floral inventory at 054f09153287308e33c217a10f238393df0c7e69 accounts for 56 enactments: 41 state fallback filings, 11 council bypasses, one local fallback, two authored scenarios and one typed bill. Team 1 reports no observed terms loss at enactment. The immediate broken connection is filing to typed operative terms. Team 1 owns the largest producer repair; Team 2 owns the released compiler-selection hunks. Same-seed after-run and a named-person effect are pending. This does not establish that every catalog effect is absent.

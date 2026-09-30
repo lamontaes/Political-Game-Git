@@ -2,6 +2,27 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 7:30 a.m. check-in
+
+### MERGED
+Seven landings independently verified on GitHub: #1205 nameplates, #1206 opening population/voting text, #1207 identity before name, #1202 history indexes, #1197 facility traces, #1204 law traces and #1196 scene resolver. Exact merge SHAs are in the 7:25 END00 receipt. The resolver still needs its caller to land.
+
+### CONNECTIONS TABLE
+
+| Connection | Current evidence | Coordinator action |
+| --- | --- | --- |
+| Drafting → typed enactments | 56-row inventory on #1136 at 054f09153287308e33c217a10f238393df0c7e69: 41 state fallbacks, 11 council bypasses, one local fallback, two authored scenarios, one typed bill | Recorded Team 1 release and Team 2 sole compiler-hunk ownership; producer fix remains top priority |
+| Story resolver → Today and meetings | Team 5 READY #1208 ba83a167386ad762563d1b9d3957362128d3ad8d | CTO review pending; team reports 12/12, browser NOT RUN |
+| Work schedule → morning location | Team 5 READY #1210 26bed3e53723ee2a2e0d41ed931fb5894db0269b | CTO review pending; team reports 39/39, browser NOT RUN |
+| Catalog → person reader | Revised 92-row law table with six requested columns | Five missing owner rows remain explicit; repeal uncertainty retained |
+| Test progression → practical proof time | CTO assigns slow named-federal-and-state-holders tests to Team 4 | Assignment delivered; measured cause and repair pending |
+
+### BLOCKED
+Compiler ownership wait cleared by the narrow release above. Team 8 reports missing county boundary/service records and regional art for three test places; no guessed records. Team 9 numbering, shelter crosswalk and fertility evidence remain incomplete. #1174 stays on the no-retry morning list. Fresh complete reports from Teams 3 and 4 remain pending; no idle or running state inferred.
+
+### EFFECTS
+No new watched person-level result was established by the checkpoint. Team 6 supplied 15 refined reader/repeal rows at 285acc34692ff0724c9cae04a9681ebbcba392fd. Team 7 reports TV metadata 4/4 at 3a14c0841413a37d764dd0b5b471149f1e10e423; art remains candidate-only. Team 1/2 same-seed after-run and named-person terms example are still required.
+
 ## September 30, 7:00 a.m. check-in
 
 ### MERGED
