@@ -359,3 +359,21 @@
 | Team 4 | `src/simulation/character-history-context-people.test.ts` | 2026-09-29T23:02:45.279356+00:00 |
 | Team 4 | `src/simulation/people-traits.ts` | 2026-09-29T23:02:45.279375+00:00 |
 | Team 4 | `src/simulation/people-traits.test.ts` | 2026-09-29T23:02:45.279392+00:00 |
+| Team 1 release to Team 4 | `src/simulation/queries.ts`: ONLY personalityTendencyHistory and its history-index import as proposed in `/private/tmp/team4-proposed-trait-indexes.patch`, Team4 workspace only. Other law hunks remain Team1. Published head `e7317b119442dac762048020d09c163c48363654`, blob `a7dd8b756f80156e3ac230a70e1d55fd1415297e`. Running proof source is unchanged. | 2026-09-29T23:32:56.046572+00:00 |
+| Team 1 release to Team 4 | `src/simulation/mind.ts`: ONLY validateImmediateSupersession and its history-index import as proposed in `/private/tmp/team4-proposed-trait-indexes.patch`, Team4 workspace only. Other law hunks remain Team1. Published head `e7317b119442dac762048020d09c163c48363654`, blob `a66e6941c2297c06f7025e80f155f7a562670a9f`. Running proof source is unchanged. | 2026-09-29T23:32:56.046572+00:00 |
+| Team 1 release to Team 4 | `src/simulation/life-queries.ts`: ONLY recordsForId, its private append-index cache, and its history-index import as proposed in `/private/tmp/team4-proposed-trait-indexes.patch`, Team4 workspace only. Other law hunks remain Team1. Published head `e7317b119442dac762048020d09c163c48363654`, blob `caa08c5344063900b452e0421b543d4715e48833`. Running proof source is unchanged. | 2026-09-29T23:32:56.046572+00:00 |
+| Team 1 release to Team 4 | `src/simulation/nationwide-world/state-legislature-opening.ts`: ONLY affiliationIndexes, its private cache definition, and its history-index import as proposed in `/private/tmp/team4-proposed-trait-indexes.patch`, Team4 workspace only. Other law hunks remain Team1. Published head `e7317b119442dac762048020d09c163c48363654`, blob `6092171d29bae0fad05819a126b2a3635cd71d52`. Running proof source is unchanged. | 2026-09-29T23:32:56.046572+00:00 |
+
+## Owner-approved speed precedence
+
+2026-09-29T23:35:48.903537+00:00: Team 4 has immediate exclusive edit authority for personalityTendencyHistory in queries.ts, validateImmediateSupersession in mind.ts, recordsForId in life-queries.ts, and affiliationIndexes in nationwide-world/state-legislature-opening.ts. This supersedes prior Team 1 claims for these helpers/imports only. Team 1 preserves other changes and receives the speed PR afterward. No helper-release wait.
+| Team 4 | `src/simulation/careers/another-term.ts` | 2026-09-29T23:37:26.996568+00:00 |
+| Team 4 | `src/simulation/careers/another-term.test.ts` | 2026-09-29T23:37:26.997005+00:00 |
+| Team 4 | `src/simulation/nationwide-world/state-legislature-candidates.ts` | 2026-09-29T23:37:26.997022+00:00 |
+| Team 4 | `scripts/speed-years/month.ts` | 2026-09-29T23:44:33.225253+00:00 |
+| Team 4 | `scripts/speed-years/month.test.ts` | 2026-09-29T23:44:33.225596+00:00 |
+| Team 5 | `src/presentation/day-opening-english.ts` | 2026-09-29T23:52:24.306472+00:00 |
+| Team 5 | `src/presentation/day-opening-english.test.ts` | 2026-09-29T23:52:24.306943+00:00 |
+| Team 3 | `.prettierignore` | 2026-09-29T23:53:27.903308+00:00 |
+| Team 5 | `src/simulation/person-context.ts` | 2026-09-29T23:56:53.998722+00:00 |
+| Team 5 | `src/presentation/people-continuation.ts` | 2026-09-29T23:56:53.999288+00:00 |
