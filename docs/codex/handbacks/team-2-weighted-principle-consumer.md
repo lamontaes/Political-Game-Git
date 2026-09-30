@@ -21,8 +21,11 @@ Each argument's contribution is its direction times the person's continuous stre
 1. Read `bearing.weight ?? 1` in the existing `principledLeaning` scoring loop.
 2. Multiply it by the person's saved strength, preserving support and opposition.
 3. Exercise the existing vote-reason and view readers with competing weighted arguments, reversed bill answers, zero weights and omitted weights.
+4. Let `principleAgreement` compare the arguments of an explicitly supplied law question. Each argument multiplies the viewer's continuous strength by its weight. General nominee comparisons without a law question retain their existing weights.
 
 Current main has no function named `officeholderPrincipleBias`. The actual filing and vote paths call `principledLeaning`. The raw pack relation is consumed by the coordinator-owned loader, rather than a separate officeholder raw-pack decision reader. Shared schemas and catalog edits belong to the coordinator.
+
+Both bearings are preserved when one principle supports and opposes a law. Agreement between two people uses whether their stances match. A law's bearing direction applies to both people, so both argument weights contribute to that comparison. The existing Supreme Court and joint-assembly nominee callers have no law question and keep the default behavior; no arbitrary law is chosen for them.
 
 ## 5. Simulated, records, world pieces, checks
 
@@ -37,3 +40,5 @@ The bounded existing officeholder test file passed eight tests before stacking o
 ## 7. Worked example
 
 The authored fixture gives one person a supporting principle strength of 0.75 and an opposing strength of 0.5. With omitted weights, the existing scale produces 3 minus 2, or a score of 1, and a reason for voting yes. Weights of 0.2 and 0.9 produce 0.6 minus 1.8, or negative 1.2, and a reason for voting no. Reversing the bill's answer reverses that reason. Two zero weights yield no principle reason. These are measured fixture results, not a named person's watched vote or a money consequence.
+
+When the same principle bears both ways, a strength of 0.75 and weights of 0.2 and 0.9 produce negative 2.1. Both arguments survive. A second person who endorses that principle agrees with both reasons at a combined weighted score of 3.3. The score is negative when their stances differ. Both argument rows refer to one deduplicated principle record.

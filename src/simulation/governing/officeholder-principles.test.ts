@@ -104,13 +104,19 @@ describe("officeholder principles", () => {
     const propositionId = world.policyCatalog.propositionOrder[0]!;
     expect(supportId).toBeDefined();
     expect(oppositionId).toBeDefined();
-    const record = (next: World, principleId: EntityId, strength: number) =>
+    const record = (
+      next: World,
+      principleId: EntityId,
+      strength: number,
+      holder = personId,
+      stance: "endorses" | "rejects" = "endorses",
+    ) =>
       recordPrinciple(next, {
-        stableKey: `law-weight:${principleId}`,
-        personId,
+        stableKey: `law-weight:${holder}:${principleId}`,
+        personId: holder,
         principleId,
         formedAt: world.currentDate,
-        stance: "endorses",
+        stance,
         strength,
         conviction: "settled",
         flexibility: "firm",
@@ -225,6 +231,29 @@ describe("officeholder principles", () => {
     );
     expect(bothWaysVote?.optionKey).toBe("vote-nay");
     expect(bothWaysVote?.sourceRefs).toHaveLength(1);
+    const subjectId = people[1]!;
+    const agreed = record(weighted, supportId!, 0.5, subjectId);
+    expect(principleAgreement(agreed, personId, subjectId).score).toBe(3);
+    expect(
+      principleAgreement(agreed, personId, subjectId, propositionId).score,
+    ).toBeCloseTo(0.6);
+    const opposed = record(weighted, supportId!, 0.5, subjectId, "rejects");
+    expect(
+      principleAgreement(opposed, personId, subjectId, propositionId).score,
+    ).toBeCloseTo(-0.6);
+    const agreedBothWays = record(bothWays, supportId!, 0.5, subjectId);
+    expect(
+      principleAgreement(agreedBothWays, personId, subjectId, propositionId)
+        .score,
+    ).toBeCloseTo(3.3);
+    expect(
+      principleAgreement(agreedBothWays, personId, subjectId, propositionId)
+        .recordIds,
+    ).toHaveLength(1);
+    const zeroAgreement = record(zero, supportId!, 0.5, subjectId);
+    expect(
+      principleAgreement(zeroAgreement, personId, subjectId, propositionId),
+    ).toEqual({ score: 0, importance: null, recordIds: [] });
   });
 
   it("all three readers use fractional strength instead of categorical conviction", () => {
