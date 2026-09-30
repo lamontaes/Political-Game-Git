@@ -1,0 +1,86 @@
+{
+  "schema": "national-midterm-calibration/v1",
+  "approval": {
+    "sourceUrl": "https://news.gallup.com/poll/116677/presidential-approval-ratings-gallup-historicalstatistics-trends.aspx",
+    "cohort": "Fourteen completed presidencies, Truman through Biden, ending January 2025",
+    "unit": "percent approval",
+    "values": [
+      45.4, 65.0, 70.1, 55.1, 49.0, 47.2, 45.5, 52.8, 60.9, 55.1, 49.4, 47.9,
+      41.1, 42.2
+    ],
+    "limits": "Tenures differ in length. Survey counts and weights are unspecified. This cohort is not inauguration approval or single-poll variability, and partisan polarization makes stationarity uncertain.",
+    "presidencies": [
+      "Harry Truman",
+      "Dwight Eisenhower",
+      "John Kennedy",
+      "Lyndon Johnson",
+      "Richard Nixon",
+      "Gerald Ford",
+      "Jimmy Carter",
+      "Ronald Reagan",
+      "George H. W. Bush",
+      "Bill Clinton",
+      "George W. Bush",
+      "Barack Obama",
+      "Donald Trump (first term)",
+      "Joe Biden"
+    ]
+  },
+  "midterm": {
+    "sourceUrl": "https://www.brookings.edu/wp-content/uploads/2026/04/2-2-Full.pdf",
+    "cohort": "Nineteen midterms from 1950 through 2022, signed for the sitting President's party",
+    "unit": "percentage points of national two-party House vote share",
+    "values": [
+      -3.2, -2.6, -5.0, -2.3, -6.0, -3.4, -5.8, -2.8, -5.2, -2.4, -0.1, -6.3,
+      -0.3, 2.3, -5.4, -9.0, -3.4, -4.9, -2.9
+    ],
+    "limits": "Source rounds changes to one decimal and excludes unopposed districts where no vote was recorded. Approval averages and midterm changes are unpaired observations; these data establish no causal response coefficient.",
+    "years": [
+      1950, 1954, 1958, 1962, 1966, 1970, 1974, 1978, 1982, 1986, 1990, 1994,
+      1998, 2002, 2006, 2010, 2014, 2018, 2022
+    ]
+  },
+  "derived": {
+    "approvalMeanPct": 51.90714285714286,
+    "midtermMeanPoints": -3.615789473684211,
+    "midtermSampleSdPoints": 2.5813999556430907,
+    "midtermObservedMinimumPoints": -9.0,
+    "midtermObservedMaximumPoints": 2.3,
+    "limits": "Arithmetic over rounded observations; this sample SD describes observed outcomes, not residual model error. Observed extremes are not proven future bounds."
+  },
+  "status": "research-only-unwired",
+  "coverage": "United States national observations spanning elections across states; not separate state, territorial or local response estimates.",
+  "accessedAt": "2026-09-29",
+  "integrationLimits": [
+    "These cohorts are not paired with each other and establish no approval-to-vote or economy-to-approval response coefficient.",
+    "No production world draw, current approval poll, population drift, election result or causal effect is defined by this packet.",
+    "No normal distribution, future hard bound, residual error distribution or uniform response-strength range is established.",
+    "World creation must save any approved calibration once; reading and reopening a save must not sample. No approved sampling specification is implemented here."
+  ],
+  "responseModels": [
+    {
+      "name": "Tufte 1975",
+      "sourceUrl": "https://www.edwardtufte.com/wp-content/uploads/2024/10/Determinants-of-the-outcomes-of-midterm-congressional-elections-1975.pdf",
+      "equation": "V = N8 - 11.083 + 0.133 P + 0.035 deltaE + u",
+      "inputs": "N8 is presidential-party average House vote percentage over eight prior elections; P is September Gallup approval percentage; deltaE is election-year real disposable personal income per capita change in 1958 dollars.",
+      "integrationStatus": "not-integrated",
+      "gaps": [
+        "The candidate does not supply the complete N8 and real-income inputs. GDP growth is not this income variable.",
+        "An independent historical swing mean cannot replace N8 or be added to this intercept.",
+        "No residual SD was verified; mean absolute error and coefficient standard errors do not establish it."
+      ]
+    },
+    {
+      "name": "Cory McCartan midterms-22",
+      "sourceUrl": "https://github.com/CoryMcCartan/midterms-22/tree/c50e8dd0efd136fd06c92b1e846b8898ced71271",
+      "revision": "c50e8dd0efd136fd06c92b1e846b8898ced71271",
+      "integrationStatus": "not-integrated",
+      "inputs": "October/latest pre-November poll approval logit; quarterly GDP and CPI year-over-year changes; logged unemployment; retirements; polarization; presidency and House control.",
+      "gaps": [
+        "The inspected tree lacks the fitted intercept, seven regression coefficients, residual sigma and joint posterior.",
+        "The PCA loadings are not election-response coefficients. Saved prediction draws are not residual samples.",
+        "Raw source lineage, retirement denominator and an apparent repeated logistic transform in uncontested-vote imputation remain unresolved."
+      ]
+    }
+  ]
+}
