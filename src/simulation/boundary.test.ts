@@ -3,24 +3,84 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
+import ts from "typescript";
 
 const FORBIDDEN_IMPORT =
   /(?:from\s+|import\s*(?:\(\s*)?|require\s*\(\s*)["'](?:react(?:-dom)?(?:\/[^"']*)?|node:sqlite|\.\.\/persistence(?:\/[^"']*)?|\.\.\/ui(?:\/[^"']*)?|\.\.\/(?:App|main))["']/;
-const FORBIDDEN_RUNTIME =
-  /\b(?:document|window|navigator|localStorage|sessionStorage|fetch|WebSocket)\b/;
+const BROWSER_GLOBALS = new Set([
+  "document",
+  "window",
+  "navigator",
+  "localStorage",
+  "sessionStorage",
+  "fetch",
+  "WebSocket",
+]);
 const FORBIDDEN_AMBIENT_ENTROPY = /\b(?:Math\.random|Date\.now)\b/;
 
+/** Resolve names in their lexical scope, without supplying browser libraries. */
+function browserGlobalReferences(source: string): string[] {
+  const filename = "boundary-input.ts";
+  const file = ts.createSourceFile(
+    filename,
+    `${source}\nexport {};`,
+    ts.ScriptTarget.Latest,
+    true,
+  );
+  const options: ts.CompilerOptions = { noLib: true, noResolve: true };
+  const host = ts.createCompilerHost(options);
+  host.getSourceFile = (name) => (name === filename ? file : undefined);
+  const checker = ts.createProgram([filename], options, host).getTypeChecker();
+  const references: string[] = [];
+  const isLocal = (node: ts.Identifier) => {
+    const symbol = ts.isShorthandPropertyAssignment(node.parent)
+      ? checker.getShorthandAssignmentValueSymbol(node.parent)
+      : checker.getSymbolAtLocation(node);
+    return (
+      symbol?.declarations?.some(
+        (declaration) => declaration.getSourceFile() === file,
+      ) ?? false
+    );
+  };
+  const visit = (node: ts.Node) => {
+    // Type names are not runtime accesses. Template expressions still are.
+    if (ts.isTypeNode(node)) return;
+    if (
+      (ts.isPropertyAccessExpression(node) ||
+        ts.isElementAccessExpression(node)) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === "globalThis" &&
+      !isLocal(node.expression)
+    ) {
+      const member = ts.isPropertyAccessExpression(node)
+        ? node.name.text
+        : node.argumentExpression && ts.isStringLiteral(node.argumentExpression)
+          ? node.argumentExpression.text
+          : null;
+      if (member && BROWSER_GLOBALS.has(member))
+        references.push(`globalThis.${member}`);
+    }
+    if (
+      ts.isIdentifier(node) &&
+      BROWSER_GLOBALS.has(node.text) &&
+      !isLocal(node)
+    ) {
+      const parent = node.parent;
+      const isPropertyName =
+        (ts.isPropertyAccessExpression(parent) && parent.name === node) ||
+        (ts.isPropertyAssignment(parent) && parent.name === node);
+      if (!isPropertyName) references.push(node.text);
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(file);
+  return references;
+}
+
 /**
- * The runtime and entropy scans are about *code*, so they are run against code.
- *
- * Scanning raw source made a comment that says the word "document" and an
- * authored sentence containing "the leaked document" indistinguishable from a
- * module reaching for the DOM. Stripping comments and string literals first
- * keeps the guard's whole force — a browser global actually referenced by this
- * layer is still caught, in exactly the position that would matter — while
- * letting the layer describe itself in English. The import scan stays on the
- * raw source, because an import is the thing most worth catching and its text
- * is never prose.
+ * The entropy scan strips comments and prose before checking runtime calls.
+ * Browser references use the lexical resolver above. Imports remain a raw
+ * source check because the quoted module path is part of the dependency.
  */
 function codeOnly(source: string): string {
   let output = "";
@@ -63,6 +123,56 @@ function codeOnly(source: string): string {
 }
 
 describe("simulation dependency boundary", () => {
+  it("allows local window bindings, parameters, and ordinary property names", () => {
+    expect(
+      browserGlobalReferences(`
+      const window = { start: 1 };
+      const document = window.start;
+      function local(fetch: () => void) { fetch(); }
+      const value = { navigator: document, window: 2 };
+      value.window;
+    `),
+    ).toEqual([]);
+  });
+
+  it("still rejects browser globals outside a local binding's scope", () => {
+    expect(
+      browserGlobalReferences(`
+      function local() { const window = 1; return window; }
+      window.location;
+      fetch('/api');
+    `),
+    ).toEqual(["window", "fetch"]);
+  });
+
+  it("rejects qualified browser globals and accesses inside template expressions", () => {
+    expect(
+      browserGlobalReferences(
+        'globalThis.window; globalThis["localStorage"]; `value: ${document.title}`;',
+      ),
+    ).toEqual(["globalThis.window", "globalThis.localStorage", "document"]);
+  });
+
+  it("ignores prose and locally bound globalThis without hiding computed accesses", () => {
+    expect(
+      browserGlobalReferences(`
+      // window is a date range here.
+      const text = 'document window fetch';
+      const globalThis = { window: 1 };
+      globalThis.window;
+    `),
+    ).toEqual([]);
+    expect(
+      browserGlobalReferences("const value = { [window.name]: 1 };"),
+    ).toEqual(["window"]);
+    expect(browserGlobalReferences("const value = { window };")).toEqual([
+      "window",
+    ]);
+    expect(
+      browserGlobalReferences("const window = 1; const value = { window };"),
+    ).toEqual([]);
+  });
+
   it("keeps production simulation modules independent of React, UI, and SQLite persistence", async () => {
     const simulationDirectory = dirname(fileURLToPath(import.meta.url));
     const productionModules = (await readdir(simulationDirectory)).filter(
@@ -76,7 +186,7 @@ describe("simulation dependency boundary", () => {
       );
       const code = codeOnly(source);
       expect(source, moduleName).not.toMatch(FORBIDDEN_IMPORT);
-      expect(code, moduleName).not.toMatch(FORBIDDEN_RUNTIME);
+      expect(browserGlobalReferences(source), moduleName).toEqual([]);
       expect(code, moduleName).not.toMatch(FORBIDDEN_AMBIENT_ENTROPY);
     }
   });
