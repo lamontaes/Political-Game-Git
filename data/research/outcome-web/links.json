@@ -141,7 +141,7 @@
         "normal95Interval": [-0.536, -0.144],
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
-        "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
         "status": "shape-connected-cause-reader-missing",
         "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
@@ -170,7 +170,7 @@
         "normal95Interval": [-0.3464, 0.0064],
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
-        "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+        "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
         "status": "shape-connected-cause-reader-missing",
         "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
@@ -338,17 +338,17 @@
         "Legal rule: statutory protection for qualifying public-place self-defense; physical fact: lethal force can kill. Actual behavioral mediation is not identified by this study."
       ],
       "conditions": {
-        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%\u201333.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
+        "strongerWeakerAbsent": "Large increases in total/firearm homicide associations cluster in several Southern states; reported combined outcome increases16.2%–33.5%. Some states have no statistically significant associations. That combined range is not a firearm-only numerical interval.",
         "rangeMeaning": "[0.03,0.13] is the published95%interval around the pooled firearm-homicide rate ratio minus1. It is not a distribution of local effects, not a bound on every state, and not a territory transport estimate.",
         "transportMissing": "Numerical firearm-only state-specific estimates and their intervals fromFigure3/supplement, plus evidence for later-adopting and excluded places. No universal state-specific effect is claimed.",
         "mediationLimit": "The legal treatment and aggregate association are measured in the paper. The psychological pathway is an authors-discussed hypothesis, not measured person-level mediation or proof of a particular encounter."
       },
       "reverseOnRepeal": {
         "answer": "Not established.",
-        "reason": "The treatment analyzed is adoption during2000\u20132016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
+        "reason": "The treatment analyzed is adoption during2000–2016; no repeal experiment or repeal estimate is supplied. Prior deaths cannot reverse. Future encounters require the actual replacement law and effective date. Do not negate0.08 or invert1.08 as a researched repeal effect."
       },
       "who": {
-        "studyPopulation": "Forty-one US states during1999\u20132017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
+        "studyPopulation": "Forty-one US states during1999–2017:23 statutory adopters and18 controls; statewide monthly firearm-homicide deaths per100000people. The dataset includes170659firearm homicides.",
         "exclusions": "Nine states excluded:Utah/Iowa lacked sufficient timing/data;seven had case-law stand-your-ground principles, contaminating comparison. No territory, county-specific, township-specific or individual exposed-defendant estimate.",
         "legalCoverage": "People in qualifying public-place self-defense encounters under operative law; the study definition is not a grant of authority to local governments or proof every homicide involved a self-defense claim."
       },
@@ -4270,37 +4270,6 @@
       "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
       "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
       "who": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
-      "lagWhy": {
-        "months": 0,
-        "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
-      },
-      "aboutZero": true
-    },
-    {
-      "key": "social-media-age-check-to-graduation",
-      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
-      "to": "school.graduation-pct",
-      "strength": "about-zero",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0,
-      "per": "law in force says yes (1) rather than no (0)",
-      "lagMonths": 0,
-      "group": "place",
-      "owner": "F-cloud",
-      "evidence": "about-zero",
-      "anchor": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
-      "source": "NetChoice v. Griffin, W.D. Ark. 2025; Braghieri, Levy and Makarin 2022, American Economic Review 112(11)",
-      "why": [
-        "An operative platform rule requires an age check.",
-        "A platform may refuse access when verification fails.",
-        "A refusal is different from a measured change in school completion.",
-        "The terminal is a legal rule and access decision; injunctions and absent outcome evidence prevent inferring a graduation gain."
-      ],
-      "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
-      "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
-      "who": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
       "lagWhy": {
         "months": 0,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
