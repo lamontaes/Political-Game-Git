@@ -20,8 +20,10 @@ self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
   is allowed only among real options. Starting values are realistic (real
   averages with a per-world spread), not necessarily the real 2026 figure.
 - **Speed budget (owner, Sept 29).** No change may make a game year more than
-  20% slower than main; time a 3-year watched world before and after
-  (`docs/codex/06-speed.md` adds the script). Never scan the whole world or a
+  20% slower than main. Run `npm run speed:years -- --years 3` against
+  current main and the candidate in exclusive host windows. The local gate
+  (`node scripts/local-gate.mjs --baseline <main-receipt> --tests <files>`)
+  refuses any year over 120% of main. Never scan the whole world or a
   whole history list every day; use indexes or act on the day something changed.
 - **One rule, all 56 places.** Never name a state, city or GEOID in logic; place
   facts live in data, and watched runs and tests draw a random place from all 56

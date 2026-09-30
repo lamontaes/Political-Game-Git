@@ -79,9 +79,7 @@ function startsWith(
   prior: readonly unknown[],
 ): boolean {
   if (prior.length === 0 || prior.length > records.length) return false;
-  for (let index = prior.length - 1; index >= 0; index -= 1)
-    if (records[index] !== prior[index]) return false;
-  return true;
+  return beginsWith(records, prior);
 }
 
 /** Takes the index of a recently indexed array that `records` extends. */
@@ -503,4 +501,65 @@ export function recordsWithFieldValue<T, K extends keyof T & string>(
   }
   if (typeof value === "number" && Number.isNaN(value)) return [];
   return (growingIndex(kind, records).get(value) ?? []) as readonly T[];
+}
+
+interface PeopleReadIndex {
+  readonly order: World["personOrder"];
+  readonly value: unknown;
+  readonly extend: (
+    value: unknown,
+    next: World,
+    added: readonly EntityId[],
+  ) => unknown;
+}
+const PEOPLE_READ_INDEXES = new WeakMap<
+  World["people"],
+  Map<string, PeopleReadIndex>
+>();
+
+/** Read indexes for an immutable person table and its exact iteration order. */
+export function indexOverPeople<T>(
+  world: World,
+  name: string,
+  build: () => T,
+  extend: (value: T, next: World, added: readonly EntityId[]) => T,
+): T {
+  let indexes = PEOPLE_READ_INDEXES.get(world.people);
+  if (!indexes) {
+    indexes = new Map();
+    PEOPLE_READ_INDEXES.set(world.people, indexes);
+  }
+  const cached = indexes.get(name);
+  if (cached?.order === world.personOrder) return cached.value as T;
+  const value = build();
+  indexes.set(name, {
+    order: world.personOrder,
+    value,
+    extend: (prior, next, added) => extend(prior as T, next, added),
+  });
+  return value;
+}
+
+/**
+ * Only an append writer that copied the existing table unchanged may call this.
+ * It transfers reads without changing any previously returned index. External
+ * person edits have no transfer and therefore rebuild their own indexes.
+ */
+export function carryPeopleReadIndexesAfterAppend(
+  previous: World,
+  next: World,
+): void {
+  const prior = PEOPLE_READ_INDEXES.get(previous.people);
+  if (!prior || previous.people === next.people) return;
+  const added = next.personOrder.slice(previous.personOrder.length);
+  const indexes = new Map<string, PeopleReadIndex>();
+  for (const [name, index] of prior) {
+    if (index.order !== previous.personOrder) continue;
+    indexes.set(name, {
+      ...index,
+      order: next.personOrder,
+      value: index.extend(index.value, next, added),
+    });
+  }
+  PEOPLE_READ_INDEXES.set(next.people, indexes);
 }

@@ -69,6 +69,13 @@ export interface StagingSpot {
   readonly y: number;
   /** A desk, counter, podium or table front hides everything below this. */
   readonly clipBelowY?: number;
+  /**
+   * Open furniture (a folding table on legs): only the tabletop's own edge,
+   * from `clipBelowY` down to here, hides the person; their legs show again
+   * underneath. Absent: everything below `clipBelowY` is hidden, as behind a
+   * counter or a solid desk front.
+   */
+  readonly clipBandEndY?: number;
   /** Standing when absent: the spots measured before poses were marked. */
   readonly pose?: SpotPose;
   readonly facing?: SpotFacing;
@@ -102,6 +109,8 @@ export interface SpotFigure {
   readonly widthPercent: number;
   readonly heightPercent: number;
   readonly clipBelowPercent: number | null;
+  /** Set for open furniture: the hidden band ends here and the legs show. */
+  readonly clipBandEndPercent: number | null;
 }
 
 const PLACES = staging.places as Readonly<Record<string, PlaceStaging>>;
@@ -166,6 +175,10 @@ export function spotFigure(stage: PlaceStaging, spot: StagingSpot): SpotFigure {
     widthPercent,
     heightPercent,
     clipBelowPercent: spot.clipBelowY ?? null,
+    clipBandEndPercent:
+      spot.clipBelowY !== undefined && spot.clipBandEndY !== undefined
+        ? spot.clipBandEndY
+        : null,
   };
 }
 
