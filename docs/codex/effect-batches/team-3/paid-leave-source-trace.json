@@ -1,0 +1,49 @@
+{
+  "team": 3,
+  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+  "sourceHead": "8227861f1cea4aa38d916745044e155b282c1eea",
+  "status": "DRAFT SOURCE CHECKPOINT; NOT READY",
+  "featureWalkthrough": {
+    "skill": ".agents/skills/feature-walkthrough/SKILL.md",
+    "invoked": true,
+    "whyChainTerminal": "Existing transfer bookkeeping reaches recorded government cash capacity and integer payment arithmetic. Benefit-rate fallback separately bottoms out at an average plus a seeded estimate; that is a remaining finding, not researched universal law terms."
+  },
+  "trace": [
+    {
+      "line": 1,
+      "answer": "The changed payPaidLeaveClaims writer saves the shared stamp on a positive actual transfer under the canonically selected operative yes law. Existing premium and eligibility readers still supply claim values; authored terms are not yet fully consumed."
+    },
+    {
+      "line": 2,
+      "answer": "Covered workers receive the existing computed benefit; government account loses exactly the amount moved. An unfunded attempt gets no payment stamp. The full law additionally affects premiums, employer duties, qualifying absence, job protection and maternal employment; those are not certified complete by this change."
+    },
+    {
+      "line": 3,
+      "answer": "Current reader selects the law for the actual state jurisdiction and application date through lawInForce. State program rules and starting values require primary state coverage; no new county/city power, rate range, eligibility or repeal entitlement is inferred. Shared catalog declarations alone do not establish consumed terms."
+    },
+    {
+      "line": 4,
+      "answer": "Payment bottoms out at existing tracked government money and saved transfer arithmetic. Claims depend on illness and caring records. Benefits lacking read replacement rates still use the existing seeded average fallback: a known incomplete mechanism."
+    },
+    {
+      "line": 5,
+      "answer": "Small implemented fix is canonical attribution on the saved payment. Remaining fixes: premium/tax assessment and payment attribution, authored eligible-program terms, government budget reconciliation, employer costs, complete sourced ideology, and an employment-effect range with correct units."
+    },
+    {
+      "line": 6,
+      "answer": "Changed Oregon/Virginia fixture assertions are published but NOT RUN. Random logged watched-place proof, named-person example, save/reopen proof and nationwide audit NOT RUN on this head because executor failed. Source presence is not acceptance."
+    }
+  ],
+  "why": [
+    "The transfer represents a paid-leave benefit because the recorded claim identifies the worker, covered absence and program.",
+    "Its amount comes from the existing lost-pay/replacement calculation, limited by recorded state-account funds.",
+    "The canonical law reader identifies whether the program law is operative at the actual state and payment date.",
+    "Only money actually moved under an operative yes law receives payment attribution.",
+    "The terminal for this attribution is the legal rule plus the saved transfer/account facts, not an added actor draw."
+  ],
+  "conditions": "Stamp requires positive money moved and an operative yes law. Unknown, future, no/repealed law and zero transferred amount receive no payment stamp; this attribution change does not repair every underlying eligibility or premium gap.",
+  "reverseOnRepeal": "A later no law is not stamped as a benefit-paying yes law. Historical paid transfers retain the law that governed their date. Existing entitlement-transition semantics still need primary program evidence.",
+  "who": "The actual recorded claimant and the actual state public account; no population multiplier.",
+  "lagWhy": "At the existing payment date; no new lag or phase-in is invented.",
+  "aboutZero": false
+}
