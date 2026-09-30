@@ -2,16 +2,31 @@ import type { LawInForce } from "./governing/law-in-force";
 import type { EntityId, IsoDate } from "./types";
 
 export type LawConsequenceKind =
-  | "pay" | "tax" | "price-cost" | "coverage-eligibility"
-  | "right-permission" | "service-delivered" | "legal-outcome" | "institution-rule";
+  | "pay"
+  | "tax"
+  | "price-cost"
+  | "coverage-eligibility"
+  | "right-permission"
+  | "service-delivered"
+  | "legal-outcome"
+  | "institution-rule";
 
 /** Units are checked by the evaluator before a handler can write a record. */
-export type LawAmountUnit = "minor" | "minor/hour" | "hours" | "people" | "count" | "ratio";
+export type LawAmountUnit =
+  "minor" | "minor/hour" | "hours" | "people" | "count" | "ratio";
 export type LawAmountExpression =
-  | { op: "term" | "record" | "capacity" | "exposure"; key: string; unit: LawAmountUnit }
+  | {
+      op: "term" | "record" | "capacity" | "exposure";
+      key: string;
+      unit: LawAmountUnit;
+    }
   | { op: "constant"; value: number; unit: LawAmountUnit; sourceIds: string[] }
   | { op: "sum" | "minimum" | "maximum"; operands: LawAmountExpression[] }
-  | { op: "difference" | "product" | "ratio"; left: LawAmountExpression; right: LawAmountExpression };
+  | {
+      op: "difference" | "product" | "ratio";
+      left: LawAmountExpression;
+      right: LawAmountExpression;
+    };
 
 /** Capability names must resolve through the engine registry, never object paths or eval. */
 export interface LawConsequencePredicate {
@@ -27,8 +42,15 @@ export interface LawConsequenceRow {
   amount: LawAmountExpression;
   conditions: LawConsequencePredicate[];
   lag: { days: number; sourceIds: string[] };
-  onRepeal: "end-future-eligibility" | "recompute-prospective" | "preserve-completed";
-  evidence: { sourceIds: string[]; population: string; scope: string; why: string; uncertainty: string };
+  onRepeal:
+    "end-future-eligibility" | "recompute-prospective" | "preserve-completed";
+  evidence: {
+    sourceIds: string[];
+    population: string;
+    scope: string;
+    why: string;
+    uncertainty: string;
+  };
   onward?: LawConsequenceRow[];
 }
 export interface LawConsequenceContext {
