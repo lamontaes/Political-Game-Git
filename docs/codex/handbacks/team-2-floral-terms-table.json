@@ -58,7 +58,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_0f3cabe834398882",
+        "introducedAt": "2026-01-19",
+        "readAt": "2026-01-18",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_0f3caae8343986cf",
@@ -95,7 +107,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_0f3caae8343986cf",
+        "introducedAt": "2026-01-19",
+        "readAt": "2026-01-18",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-AR:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_0f3ca9e83439851c",
@@ -132,7 +164,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_0f3ca9e83439851c",
+        "introducedAt": "2026-01-19",
+        "readAt": "2026-01-18",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_0f3ca8e834398369",
@@ -169,7 +213,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_0f3ca8e834398369",
+        "introducedAt": "2026-01-19",
+        "readAt": "2026-01-18",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AR:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_0f3ca7e8343981b6",
@@ -206,7 +270,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_0f3ca7e8343981b6",
+        "introducedAt": "2026-01-19",
+        "readAt": "2026-01-18",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:government-operations.independent-ward-commission",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_0f3ca5e834397e50",
@@ -269,7 +345,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_0f3ca5e834397e50",
+        "introducedAt": "2026-01-19",
+        "readAt": "2026-01-18",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_0f3cb3e83439961a",
@@ -306,7 +394,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_0f3cb3e83439961a",
+        "introducedAt": "2026-02-02",
+        "readAt": "2026-02-01",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AR:us-policy-positions:housing-land-use.inclusionary-requirement",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_8478447c9634a50c",
@@ -343,7 +451,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_8478447c9634a50c",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AL:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_02a044a51e1a08c7",
@@ -367,7 +495,13 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_02a044a51e1a08c7",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": []
+      }
     },
     {
       "measureId": "legislative-measure_291b76d86bf10187",
@@ -404,7 +538,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_291b76d86bf10187",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:education.public-funds-for-private-schooling",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AK:us-policy-positions:education.public-funds-for-private-schooling",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_7245be8e3aa053d0",
@@ -441,7 +595,26 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_7245be8e3aa053d0",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:labor-workforce.paid-family-leave",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AK:us-policy-positions:labor-workforce.paid-family-leave",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date"
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_af3e61c535070fc4",
@@ -516,7 +689,27 @@
           "key": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
           "answer": "no"
         }
-      ]
+      ],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_af3e61c535070fc4",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AZ:us-policy-positions:justice-public-safety.end-cash-bail",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_04484fc510649677",
@@ -553,7 +746,26 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_04484fc510649677",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AR:us-policy-positions:health-human-services.medicaid-work-requirement",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date"
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_83c3d0396d2709a2",
@@ -590,7 +802,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_83c3d0396d2709a2",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:education.universal-preschool",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-AR:us-policy-positions:education.universal-preschool",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_07dad19d8554f8bd",
@@ -804,7 +1036,19 @@
           "eventId": "event_2c542cf5592fb995"
         }
       ],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_07dad19d8554f8bd",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_c883e8d5f1068ae6",
@@ -841,7 +1085,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_c883e8d5f1068ae6",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-CO:us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_1261893324a284b8",
@@ -878,7 +1142,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_1261893324a284b8",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:government-operations.independent-redistricting",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-CT:us-policy-positions:government-operations.independent-redistricting",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_4f3f2e9ff9237a31",
@@ -928,7 +1212,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_4f3f2e9ff9237a31",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_d8f39b17c8c0b619",
@@ -965,7 +1261,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_d8f39b17c8c0b619",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_4f7225128bd99efb",
@@ -1002,7 +1310,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_4f7225128bd99efb",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_8311673c1cbb9d5d",
@@ -1039,7 +1359,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_8311673c1cbb9d5d",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:education.public-funds-for-private-schooling",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-HI:us-policy-positions:education.public-funds-for-private-schooling",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_55ac694c5e7e2578",
@@ -1076,7 +1416,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_55ac694c5e7e2578",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:business-commerce.cap-development-incentives",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_01ecd023f3289d60",
@@ -1113,7 +1465,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_01ecd023f3289d60",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_163f6df4afb9e2b4",
@@ -1150,7 +1522,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_163f6df4afb9e2b4",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_117e45605c05b8c9",
@@ -1187,7 +1571,26 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_117e45605c05b8c9",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:labor-workforce.paid-family-leave",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-IA:us-policy-positions:labor-workforce.paid-family-leave",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date"
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_f323a3b69d4b5632",
@@ -1224,7 +1627,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_f323a3b69d4b5632",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:education.universal-preschool",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-KS:us-policy-positions:education.universal-preschool",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_8658bb06001f7fbf",
@@ -1248,7 +1671,13 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_8658bb06001f7fbf",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": []
+      }
     },
     {
       "measureId": "legislative-measure_d354944c68b9584f",
@@ -1298,7 +1727,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_d354944c68b9584f",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_06b30a52c30eca57",
@@ -1335,7 +1776,26 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_06b30a52c30eca57",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:labor-workforce.paid-family-leave",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-LA:us-policy-positions:labor-workforce.paid-family-leave",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date"
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_18bfa269852e6047",
@@ -1372,7 +1832,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_18bfa269852e6047",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:business-commerce.cap-development-incentives",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_2c5e2c179d8566b2",
@@ -1409,7 +1881,26 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_2c5e2c179d8566b2",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-MD:us-policy-positions:health-human-services.medicaid-work-requirement",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date"
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_78920adec78dc0fd",
@@ -1446,7 +1937,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_78920adec78dc0fd",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-MA:us-policy-positions:justice-public-safety.end-cash-bail",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_314da499f321a7ca",
@@ -1483,7 +1994,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_314da499f321a7ca",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:education.universal-preschool",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-MN:us-policy-positions:education.universal-preschool",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_a7f72e59d8eb5502",
@@ -1520,7 +2051,26 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_a7f72e59d8eb5502",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-MS:us-policy-positions:health-human-services.medicaid-work-requirement",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date"
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_5aac3f049d45b7e5",
@@ -1557,7 +2107,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_5aac3f049d45b7e5",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_6e22a32ae65e286c",
@@ -1594,7 +2156,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_6e22a32ae65e286c",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:housing-land-use.rent-stabilization",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-MO:us-policy-positions:housing-land-use.rent-stabilization",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_ef2fee0639290aad",
@@ -1631,7 +2213,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_ef2fee0639290aad",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-NJ:us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_14ec160a7413a2cf",
@@ -1668,7 +2270,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_14ec160a7413a2cf",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_720cba852747b9bd",
@@ -1705,7 +2319,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_720cba852747b9bd",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:fiscal.cap-property-tax-growth",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-NY:us-policy-positions:fiscal.cap-property-tax-growth",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_848935be26664da4",
@@ -1742,7 +2376,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_848935be26664da4",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:civil-family-community.restrict-abortion",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-OH:us-policy-positions:civil-family-community.restrict-abortion",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_7008dc9e6ffcbb11",
@@ -1779,7 +2433,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_7008dc9e6ffcbb11",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:fiscal.cap-property-tax-growth",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-OK:us-policy-positions:fiscal.cap-property-tax-growth",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_ddd7cd32c7ea99a3",
@@ -1816,7 +2490,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_ddd7cd32c7ea99a3",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_2590b7f222ad205c",
@@ -1853,7 +2539,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_2590b7f222ad205c",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-RI:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_79a041e22a7ac892",
@@ -1890,7 +2596,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_79a041e22a7ac892",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:education.public-funds-for-private-schooling",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-SC:us-policy-positions:education.public-funds-for-private-schooling",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": true
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_84889ab90b3753b3",
@@ -1927,7 +2653,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_84889ab90b3753b3",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_5435bcdcc38b9728",
@@ -1964,7 +2702,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_5435bcdcc38b9728",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_f68b0a6ef2c0d6c0",
@@ -2001,7 +2751,26 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_f68b0a6ef2c0d6c0",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-WV:us-policy-positions:health-human-services.medicaid-work-requirement",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date"
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_6eb834f8f15877cf",
@@ -2038,7 +2807,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_6eb834f8f15877cf",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:housing-land-use.by-right-permitting",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_2b9b8927417a2a58",
@@ -2075,7 +2856,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_2b9b8927417a2a58",
+        "introducedAt": "2026-02-15",
+        "readAt": "2026-02-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:education.universal-preschool",
+            "proposedAnswer": "yes",
+            "law": {
+              "answer": "no",
+              "measureId": "starting-law:US-WI:us-policy-positions:education.universal-preschool",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_1bf622acce85ccac",
@@ -2112,7 +2913,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_1bf622acce85ccac",
+        "introducedAt": "2026-03-15",
+        "readAt": "2026-03-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_f826dacecfbe14b1",
@@ -2149,7 +2962,19 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_f826dacecfbe14b1",
+        "introducedAt": "2026-03-15",
+        "readAt": "2026-03-14",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+            "proposedAnswer": "yes",
+            "law": null
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_c43deb9319ecf3bd",
@@ -2186,7 +3011,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_c43deb9319ecf3bd",
+        "introducedAt": "2026-04-01",
+        "readAt": "2026-03-31",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-AR:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_1da0d190bdc34d42",
@@ -2223,7 +3068,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_1da0d190bdc34d42",
+        "introducedAt": "2026-04-13",
+        "readAt": "2026-04-12",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-AR:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_1da0d590bdc3540e",
@@ -2260,7 +3125,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_1da0d590bdc3540e",
+        "introducedAt": "2026-06-22",
+        "readAt": "2026-06-21",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-AR:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_1d9d6790bdc0634d",
@@ -2297,7 +3182,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_1d9d6790bdc0634d",
+        "introducedAt": "2026-08-31",
+        "readAt": "2026-08-30",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-AR:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     },
     {
       "measureId": "legislative-measure_1d9d6590bdc05fe7",
@@ -2334,7 +3239,27 @@
         }
       ],
       "provisions": [],
-      "additionalProvisionAnswers": []
+      "additionalProvisionAnswers": [],
+      "priorDayCurrentLawRead": {
+        "measureId": "legislative-measure_1d9d6590bdc05fe7",
+        "introducedAt": "2026-11-23",
+        "readAt": "2026-11-22",
+        "currentLaws": [
+          {
+            "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+            "proposedAnswer": "no",
+            "law": {
+              "answer": "yes",
+              "measureId": "starting-law:US-AR:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "origin": "in-force-at-start",
+              "level": "state-statute",
+              "operativeAt": "2000-01-01",
+              "operativeBasis": "enacted-date",
+              "preempts": false
+            }
+          }
+        ]
+      }
     }
   ],
   "sourceVerification": {
@@ -2377,6 +3302,30 @@
     "src/simulation/enacted-law-effects.ts": {
       "54930d427555034f3a92f335064586247985784d": "122be98a7d975ef8e90038b1f55ef6d99b91991d",
       "3ffad216e1c567eb3f396b65e1b40cd7665e6b52": "122be98a7d975ef8e90038b1f55ef6d99b91991d"
+    },
+    "src/simulation/governing/law-in-force.ts": {
+      "54930d427555034f3a92f335064586247985784d": "881c60b0a14438282bfe9833dbddbf106124bf5e",
+      "0494e6c8845a49ee191111fb83e2b97910d5cb24": "881c60b0a14438282bfe9833dbddbf106124bf5e"
+    },
+    "src/simulation/governing/question-authority.ts": {
+      "54930d427555034f3a92f335064586247985784d": "b3b157dc755a26de15c992eee52bbebe96ba01d7",
+      "0494e6c8845a49ee191111fb83e2b97910d5cb24": "b3b157dc755a26de15c992eee52bbebe96ba01d7"
+    },
+    "src/simulation/law-hierarchy.ts": {
+      "54930d427555034f3a92f335064586247985784d": "4c0e983f54d21a3cbef4e385f2321e263e671b82",
+      "0494e6c8845a49ee191111fb83e2b97910d5cb24": "4c0e983f54d21a3cbef4e385f2321e263e671b82"
+    },
+    "src/simulation/governing/statute-effective-date.ts": {
+      "54930d427555034f3a92f335064586247985784d": "0d9a607e80b0b93624aa03e85df82e92c99074b6",
+      "0494e6c8845a49ee191111fb83e2b97910d5cb24": "0d9a607e80b0b93624aa03e85df82e92c99074b6"
+    },
+    "data/research/laws/starting-law-2026.json": {
+      "54930d427555034f3a92f335064586247985784d": "efe4f1fabf3b4ca90831c278af5740e0b78d3554",
+      "0494e6c8845a49ee191111fb83e2b97910d5cb24": "efe4f1fabf3b4ca90831c278af5740e0b78d3554"
+    },
+    "data/research/powers-catalog/question-powers.json": {
+      "54930d427555034f3a92f335064586247985784d": "08f31e6a31d9327b97eac5fb3b7f5fe190778155",
+      "0494e6c8845a49ee191111fb83e2b97910d5cb24": "08f31e6a31d9327b97eac5fb3b7f5fe190778155"
     }
   },
   "reasonCounts": {
@@ -2393,5 +3342,11 @@
     "state": 44,
     "county": 12,
     "city": 0
+  },
+  "priorDayCurrentLawMethod": "Read prior calendar day, not reconstructed intra-day intake. Final retained history queried by operative date; no compiler call or World mutation.",
+  "priorDayCurrentLawCounts": {
+    "withRecordedStartingLawAnswer": 34,
+    "withoutRecordedAnswer": 20,
+    "noRecordedCatalogQuestion": 2
   }
 }

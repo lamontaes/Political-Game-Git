@@ -35,7 +35,11 @@ Cedar Hills was the original seeded random Utah place. The Carlson household’s
 
 ## 7. Named worked example
 
-Deborah and David Carlson were evicted on January 1, 2027 by order `event_51906a25e30cbfd4` from `dwelling_975e0a35ec698e8c`. The exact linked destination event was `event_70baa1b2e3f9e6ee`, explicitly tagged housing:no-fixed-home and that order. On January 4, active primary occupancy `dwelling-occupancy_2364643ff7231484`, state `dwelling-occupancy-state_d1d784bfb83c0a75`, placed the same household at that same dwelling as residence:rented-home.
+Deborah and David Carlson were evicted on January 1, 2027 by order `event_51906a25e30cbfd4` from `dwelling_975e0a35ec698e8c`.
+
+The exact linked destination event was `event_70baa1b2e3f9e6ee`, explicitly tagged housing:no-fixed-home and that order.
+
+On January 4, active primary occupancy `dwelling-occupancy_2364643ff7231484`, state `dwelling-occupancy-state_d1d784bfb83c0a75`, placed the same household at that same dwelling as residence:rented-home.
 
 The $4,807 unpaid rent in the order is debt, not a court or moving fee. Those costs remain unavailable. No shelter, motel, car, host fee or private financial state was invented.
 

@@ -32,6 +32,12 @@ There are 44 state and 12 Independence County enactments, zero city enactments. 
 
 The zero rows classify these enactments, not every unsuccessful intake. Arkansas HB 2009 contains a later prose amendment answering mandatory-minimum-sentences/no; it still has no typed operative effect. The row and JSON preserve that additional answer.
 
+### Current-law drafting inputs
+
+A guarded read-only query of the original retained world at the calendar day before each introduction found 34 recorded starting-law answers, 20 questions with no recorded answer and two measures with no catalog question. The JSON preserves every exact starting-law key, answer, operative date, level and recorded preemption flag. These are historical-date queries of a final saved world, not observations of the intra-day intake decision. The law reader, authority/hierarchy/date modules and research files were verified byte-identical to the original runtime.
+
+A yes/no starting-law answer supplies neither a numeric appropriation nor full coverage, start or phase-in terms. Estimated or missing legal inputs remain developer data/research gaps. The automatic compiler's random bank-default amount, configuration and enumerated selections conflict with CTO6:38's current-law/no-dice requirement. Team 1's retained policy-term claims were identified in PR1199 comment5910190556; the exact parameter hunk release/retention is pending. No substitute amount, effect tag or overlapping repair was added.
+
 ## 4. Numbered HELD parts
 
 1. Team 1 owns producer repair; Team 2 supplies the inventory and drafting support. The largest cause was delivered in PR1199 comment5909953251. No producer source was changed here.
