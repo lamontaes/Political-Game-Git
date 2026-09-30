@@ -153,6 +153,20 @@ function disclosedJourneyFor(
  * organizing meeting asked for, traveled to, and then permanently unkeepable.
  */
 /**
+ * What the button for a trip says, and what the record says the player
+ * chose: "Go to the public meeting". Built from the trip's own title, so it
+ * names where the player is going in plain words.
+ */
+export function goLabel(travel: {
+  readonly title: string;
+  readonly location: { readonly label: string };
+}): string {
+  const to = /^(?:journey|trip|travel) to\s+/i;
+  if (to.test(travel.title)) return `Go to ${travel.title.replace(to, "")}`;
+  return `Go to ${travel.location.label}`;
+}
+
+/**
  * `choice` is a parameter, from the client line, and must stay one. A journey
  * played on its own from the Calendar is the player choosing to make the
  * journey; writing "Attend <destination>" against their name there records a
@@ -758,7 +772,7 @@ function performVenueActivityOnce(
       entry.activity,
       arrived.destination,
       arrived.destinationSetting,
-      "Make the journey",
+      goLabel(entry.activity),
     );
   }
 

@@ -10,7 +10,7 @@ import { performVenueActivity, venueActivities } from "./venue-activity";
  * Making the journey must not strand the thing it was booked for.
  *
  * The calendar draws two controls for one outing: "Carry out activity" on the
- * destination, which travels and attends in one press, and "Make the journey"
+ * destination, which travels and attends in one press, and "Go to the public meeting"
  * on the travel row, which is the first enabled control a player meets. Walked
  * in Springfield, Illinois, pressing the second completed the travel, recorded
  * no arrival, and left the meeting refusing "The current location is not

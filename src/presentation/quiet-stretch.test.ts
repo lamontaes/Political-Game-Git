@@ -94,7 +94,7 @@ function hold(
   // The journey a party chapter meeting writes with it.
   const withJourney = createScheduledActivity(next, {
     stableKey: `quiet-stretch-test:${input.key}:journey`,
-    title: "Journey to the community room",
+    title: "Trip to the community room",
     summary: "About twenty minutes to get to the community room.",
     kind: "travel",
     start: at(19 * 60 - 20),
