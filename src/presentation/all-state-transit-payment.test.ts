@@ -1,5 +1,8 @@
 import { propositionIdFor } from "../simulation/public-budgets/fiscal";
-import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import {
+  operativeDateInWorld,
+  lawInForce,
+} from "../simulation/governing/law-in-force";
 import { projectBudgetEconomy } from "./budget-economy";
 import { recordPaidTransitProgramService } from "../simulation/governing/public-program-transit";
 import { SeededRng } from "../simulation/rng";
@@ -374,6 +377,116 @@ function paidService(
   return saved;
 }
 
+function savedFareReliefCost(usps: string, requireFiring = true) {
+  const enacted = enactedTransitBill(usps, true);
+  const law = enacted.world.history.legislativeEnactments!.find(
+    (row) => row.measureId === enacted.measureId,
+  )!;
+  const operativeAt = operativeDateInWorld(enacted.world, law)?.date;
+  if (!operativeAt) throw new Error("Missing operative date");
+  const world = advanceWorld(
+    enacted.world,
+    daysBetween(enacted.world.currentDate, operativeAt) + 62,
+    createCampaignElectionTransitionRegistry(),
+  );
+  const fareQuestion =
+    "us-policy-positions:transportation-infrastructure.fare-free-transit";
+  const propositionId = propositionIdFor(world, fareQuestion)!;
+  const authorityIds = new Set(
+    world.history
+      .publicProgramRecords!.filter(
+        (row) =>
+          row.kind === "appropriation" &&
+          row.sourceMeasureId === enacted.measureId,
+      )
+      .map((row) => row.id),
+  );
+  const qualifying = world.history.publicProgramRecords!.filter(
+    (row) =>
+      row.kind === "installment" &&
+      row.status === "posted" &&
+      row.recordedAt >= operativeAt &&
+      lawInForce(world, enacted.jurisdictionId, propositionId, row.recordedAt)
+        ?.measureId === enacted.measureId &&
+      world.history.publicProgramRecords!.some(
+        (decision) =>
+          decision.kind === "commitment" &&
+          decision.id === row.commitmentId &&
+          authorityIds.has(decision.appropriationId),
+      ) &&
+      world.history.resourceTransferOutcomes.some(
+        (outcome) =>
+          outcome.status === "completed" &&
+          outcome.resourceFlowId === row.resourceFlowId,
+      ),
+  );
+  const stamps = world.history.metricStates
+    .flatMap(
+      (row) =>
+        (row as typeof row & LawEffectStampedRecord).lawEffectStamps ?? [],
+    )
+    .filter(
+      (stamp) =>
+        stamp.questionKey === fareQuestion &&
+        stamp.governingLawKey === enacted.measureId,
+    );
+  for (const paid of qualifying)
+    expect(
+      stamps.some((stamp) => stamp.sourceRecordIds?.includes(paid.id)),
+      usps,
+    ).toBe(true);
+  if (requireFiring) expect(qualifying.length, usps).toBeGreaterThan(0);
+  if (qualifying.length === 0) {
+    expect(stamps, usps).toHaveLength(0);
+    return { usps, qualifyingPayments: 0, firing: false };
+  }
+  const stamp = world.history.metricStates
+    .flatMap(
+      (row) =>
+        (row as typeof row & LawEffectStampedRecord).lawEffectStamps ?? [],
+    )
+    .find(
+      (row) =>
+        row.questionKey ===
+          "us-policy-positions:transportation-infrastructure.fare-free-transit" &&
+        row.governingLawKey === enacted.measureId,
+    );
+  expect(stamp, usps).toBeDefined();
+  expect(stamp?.effectKind).toBe("state-spending");
+  const sourceRecordIds = stamp?.sourceRecordIds;
+  if (!sourceRecordIds) throw new Error("Missing exact stamp source IDs");
+  const paid = world.history.publicProgramRecords!.find(
+    (row) => row.kind === "installment" && sourceRecordIds.includes(row.id),
+  );
+  if (!paid || paid.kind !== "installment")
+    throw new Error("No exact paid installment");
+  const commitment = world.history.publicProgramRecords!.find(
+    (row) => row.kind === "commitment" && row.id === paid.commitmentId,
+  );
+  if (!commitment || commitment.kind !== "commitment")
+    throw new Error("No exact commitment");
+  const plan = commitment.installments[paid.installmentIndex]!;
+  const outcome = world.history.resourceTransferOutcomes.find(
+    (row) =>
+      row.resourceFlowId === paid.resourceFlowId && row.status === "completed",
+  );
+  expect(outcome?.transferredAmount).toEqual(plan.amount);
+  expect(stamp!.sourceRecordIds).toContain(outcome!.id);
+  expect(stamp!.appliedAt >= operativeAt).toBe(true);
+  const reopened = deserializeWorld(serializeWorld(world));
+  expect(
+    reopened.history.metricStates.flatMap(
+      (row) =>
+        (row as typeof row & LawEffectStampedRecord).lawEffectStamps ?? [],
+    ),
+  ).toContainEqual(stamp);
+  expect(
+    world.history.events.some(
+      (row) => row.type === "transit.program-paid-service-hours",
+    ),
+  ).toBe(false);
+}
+
 describe("same fictional state transit bill reaches exact paid service", () => {
   it("saved maintenance stays distinct from operating hours and mismatched payment chains", () => {
     const seed = "team6-transit-payment-purpose-20260930";
@@ -527,67 +640,41 @@ describe("same fictional state transit bill reaches exact paid service", () => {
   );
 
   it("fare-relief payment stamps actual government cost without inventing eligible boardings", () => {
-    const seed = "team6-fare-relief-cost-20260930";
     const usps =
-      US_STATE_USPS[new SeededRng(seed).integer(0, US_STATE_USPS.length - 1)]!;
-    const enacted = enactedTransitBill(usps, true);
-    const law = enacted.world.history.legislativeEnactments!.find(
-      (row) => row.measureId === enacted.measureId,
-    )!;
-    const operativeAt = operativeDateInWorld(enacted.world, law)?.date;
-    if (!operativeAt) throw new Error("Missing operative date");
-    const world = advanceWorld(
-      enacted.world,
-      daysBetween(enacted.world.currentDate, operativeAt) + 62,
-      createCampaignElectionTransitionRegistry(),
-    );
-    const stamp = world.history.metricStates
-      .flatMap(
-        (row) =>
-          (row as typeof row & LawEffectStampedRecord).lawEffectStamps ?? [],
-      )
-      .find(
-        (row) =>
-          row.questionKey ===
-            "us-policy-positions:transportation-infrastructure.fare-free-transit" &&
-          row.governingLawKey === enacted.measureId,
-      );
-    expect(stamp, usps).toBeDefined();
-    expect(stamp?.effectKind).toBe("state-spending");
-    const sourceRecordIds = stamp?.sourceRecordIds;
-    if (!sourceRecordIds) throw new Error("Missing exact stamp source IDs");
-    const paid = world.history.publicProgramRecords!.find(
-      (row) => row.kind === "installment" && sourceRecordIds.includes(row.id),
-    );
-    if (!paid || paid.kind !== "installment")
-      throw new Error("No exact paid installment");
-    const commitment = world.history.publicProgramRecords!.find(
-      (row) => row.kind === "commitment" && row.id === paid.commitmentId,
-    );
-    if (!commitment || commitment.kind !== "commitment")
-      throw new Error("No exact commitment");
-    const plan = commitment.installments[paid.installmentIndex]!;
-    const outcome = world.history.resourceTransferOutcomes.find(
-      (row) =>
-        row.resourceFlowId === paid.resourceFlowId &&
-        row.status === "completed",
-    );
-    expect(outcome?.transferredAmount).toEqual(plan.amount);
-    expect(stamp!.sourceRecordIds).toContain(outcome!.id);
-    expect(stamp!.appliedAt >= operativeAt).toBe(true);
-    const reopened = deserializeWorld(serializeWorld(world));
-    expect(
-      reopened.history.metricStates.flatMap(
-        (row) =>
-          (row as typeof row & LawEffectStampedRecord).lawEffectStamps ?? [],
-      ),
-    ).toContainEqual(stamp);
-    expect(
-      world.history.events.some(
-        (row) => row.type === "transit.program-paid-service-hours",
-      ),
-    ).toBe(false);
+      US_STATE_USPS[
+        new SeededRng("team6-fare-relief-cost-20260930").integer(
+          0,
+          US_STATE_USPS.length - 1,
+        )
+      ]!;
+    savedFareReliefCost(usps);
   });
+  const proofSeed = "team6-stamp-five-state-20260930";
+  const candidates = [...US_STATE_USPS];
+  const sample = new SeededRng(proofSeed);
+  for (let index = candidates.length - 1; index > 0; index--) {
+    const swap = sample.integer(0, index);
+    [candidates[index], candidates[swap]] = [
+      candidates[swap]!,
+      candidates[index]!,
+    ];
+  }
+  it.each(candidates.slice(0, 5))(
+    "%s: five-state stamp batch preserves exact payment costs for both read transit laws",
+    (usps) => {
+      const rural = paidService(usps);
+      const questionKey =
+        "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours";
+      expect(
+        rural.history.metricStates.some((row) =>
+          (row as typeof row & LawEffectStampedRecord).lawEffectStamps?.some(
+            (stamp) => stamp.questionKey === questionKey,
+          ),
+        ),
+      ).toBe(true);
+      savedFareReliefCost(usps, false);
+    },
+  );
   it.each(["AK", "CO"])(
     "%s: a payment creates no inferred ride or reaction",
     (usps) => {

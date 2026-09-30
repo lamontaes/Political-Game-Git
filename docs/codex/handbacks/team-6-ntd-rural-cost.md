@@ -1,6 +1,6 @@
 # Transit golden-rule repair checkpoint
 
-MERGED: No. The earlier budget-stamp checkpoint is on main. This repair is held for the missing operating-cost mechanism.
+MERGED: No. The earlier budget-stamp checkpoint is on main. The stamp publication is READY for exact-head review. Operator linkage is deferred until after the stamp batch.
 
 WHAT EMERGED: HARDWIRED payment-to-hours arithmetic and inferred rider reactions are removed. The actual government payment and budget attribution persist. VITAL STATISTICS: Two questions now receive actual budget-cost stamps; no delivered-service quantity or nationwide law proof claimed.
 
@@ -40,6 +40,8 @@ CHECKS: Actual expense divided by actual delivered hours may be compared with NT
 Hawaii operating/maintenance and Alaska absence-of-inferred-rider fixtures passed: three tests, 50 skipped. Four Delaware/Minnesota/New Hampshire/New Jersey operating-cost fixtures plus the Hawaii maintenance/chain fixture passed: five tests, 48 skipped. They prove actual cash, budget stamps, reopening, payment-chain guards and absence of invented service, not service delivery. Owned strict diagnostics and scoped lint passed. Nationwide proof, full suite and paused speed checks were not run. The prior release baseline header failure and stale zero-dice baseline remain.
 
 The new Ohio fare-relief simulation and Hawaii rural-cost fixtures passed: two tests, 52 skipped. Ohio was selected by seed team6-fare-relief-cost-20260930. Its existing governor commitment paid $2,666,666.66 on April 30 after the April 19 operative date; the exact saved payment and stamp survived reopening. Earlier attempted manual payment failed affordability because normal commitments already reserved the appropriation; the final proof reads those actual commitments instead. No eligible boarding is inferred.
+
+Five-state stamp seed team6-stamp-five-state-20260930 samples Washington, Oregon, New Mexico, South Dakota and Illinois from all states. The paired contract run passed five tests, with 54 skipped. Rural cost stamps are checked in each. Fare stamps are required for each actual completed payment belonging to this appropriation while the same law is operative. Four sample worlds have no such qualifying payment in the window; they are non-firing cases, not claimed as proven nationwide fare effects. New Mexico has a firing example. The earlier unconditional fare test failed in four states; that receipt is preserved and handed to Audit/Systems. No favorable replacement sample or invented payment is used.
 
 ## 7. Worked example
 
