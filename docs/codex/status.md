@@ -1,3 +1,22 @@
+## September 30, 2:05 integration actions
+
+### MERGED
+Merge verified #1288 at dba37ecad1e9ee97717ad9f15049dcdea684316f. Three research contracts updated; runtime sizes remain null. JSON checks passed; no runtime activation claimed.
+
+### CONNECTIONS TABLE
+| Producer → consumer | Action | Limit |
+| --- | --- | --- |
+| Team3 budget release → Team5 tuition/curriculum | Exact append ownership recorded and dispatched | Paid-leave bytes remain Team3 |
+| Team3 budget release → Team8 privacy | Disjoint append released and dispatched | Exact1274 changed-tree approval still pending |
+| Team6 payment stamps → Merge | Current1283 cc6da21a8d5445ce2e6e1cf77ff5c874a9b669e1 delivered | Renewal required; five paired contracts pass, only NM fare qualifies |
+| Audit vote diagnosis → real-bill trace | Full consideration receipt remains with AUDIT/SYSTEMS | Existing1286 omits sponsor and constituency; not full floor-vote proof |
+
+### BLOCKED
+1253 includes held parks dollar-draw dependency. Team3 instructed to preserve its wage work and publish main-based paid-leave-only repair; new head needs renewal. Narrow local-election/housing ownership acknowledgments requested from Team1. Audit actual launch receipt requested; no new nationwide result inferred.
+
+### EFFECTS
+Team3 reports state/local unit attribution15/15PASS23.61s, explicitly incomplete authored fixture boundary; not canonical world reopening. Team5 library writer3/3PASS remains without live-meeting caller. Team4 housing1293 d1a27d45 has12/12PASS but no production caller. Complete five-part law total remains unverified.
+
 ## September 30, 2:00 collector evidence
 
 Audit transfer is complete at PR1285 b9c8106c927113b9a2db0fa24a0d19b25082d9b1: no live audit PID or reservation, 36 historical receipts preserved; AUDIT/SYSTEMS received the packet and owns launch. No new national result yet verified by coordinator.
