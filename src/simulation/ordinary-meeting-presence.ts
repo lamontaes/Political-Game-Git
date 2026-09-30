@@ -79,14 +79,34 @@ export function speakAtOrdinaryMeeting(
     world.history.events.some((event) => event.stableKey === stableKey)
   )
     return world;
+  const heardBy = [
+    ...new Set(
+      entry.participants
+        .filter(
+          (participant) =>
+            participant.role === "presence:participant" ||
+            participant.role === "coordination:chair",
+        )
+        .map((participant) => participant.personId),
+    ),
+  ];
   const next = recordWorldEvent(world, {
     stableKey,
     type: "civic.meeting-public-comment",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: offered.activity.location.jurisdictionId,
-    involvedEntityIds: [activityId, personId],
-    participants: [{ personId, role: "agency:actor", detail: words }],
+    involvedEntityIds: [...new Set([activityId, personId, ...heardBy])],
+    participants: [
+      { personId, role: "agency:actor", detail: words },
+      ...heardBy
+        .filter((id) => id !== personId)
+        .map((id) => ({
+          personId: id,
+          role: "observation:witness" as const,
+          detail: "Heard the public comment",
+        })),
+    ],
     personFactConstraints: [],
     visibility: "public",
     tags: [
@@ -102,20 +122,24 @@ export function speakAtOrdinaryMeeting(
       pressure: null,
       choice: words,
       motivation: null,
-      immediateReaction: "The chair heard your comment. No vote was taken.",
+      immediateReaction: "The people present heard your comment.",
     },
   });
   const comment = next.history.events.at(-1)!;
-  return recordEventKnowledge(next, {
-    stableKey: `${stableKey}:knowledge`,
-    personId,
-    eventId: comment.id,
-    learnedAt: next.currentDate,
-    believedSummary: comment.summary,
-    accuracy: "accurate",
-    confidence: "high",
-    source: { kind: "direct" },
-  });
+  let heard = next;
+  for (const listenerId of [...new Set([personId, ...heardBy])]) {
+    heard = recordEventKnowledge(heard, {
+      stableKey: `${stableKey}:knowledge:${listenerId}`,
+      personId: listenerId,
+      eventId: comment.id,
+      learnedAt: heard.currentDate,
+      believedSummary: comment.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  }
+  return heard;
 }
 
 /** Prospective attendance hook only. Requiring the pre-action World prevents
