@@ -330,6 +330,20 @@ The paid-transit service reader requires the separate staged-service variant `tr
 
 Next proof request is precise: enacted section and amount; appropriation ID and public account; executive decision and reason; commitment recipient; cash before/after and transfer outcome; then the clause-specific eligible recipient and service record, or the exact recorded stop. Team 2 owns the watched evidence. Coordinator retains routing for existing fiscal and service owners; no overlapping product claim is taken. CTO4:10 bill-number assignments remain with Teams 2/9 and do not expand Team 6's lane.
 
+### Six authorization ceilings: later-law lineage and accounting
+
+At source head `7d56a2ad5dc59b7f1c0bc4754500911c34fed23f`, the two bridge variants, broadband construction, disaster-recovery grants, utility-hardening grants and operator assistance state authorization ceilings. Those amounts provide no cash or program appropriation by themselves. No new world, enactment or payment was created in this pass.
+
+The docket authority resolver in `presentation/legislation-docket.ts:704` retains the original measure ID, proposed/enacted status, stated ceiling and whether the program has ended. Failed measures and instruments that themselves require a predicate are excluded. The source explicitly labels a linked proposed bill conditional on enactment. Filing a later bill records the original ID as its predicate-authority lineage; this reference alone does not enact either bill or transfer money.
+
+The compiler's ceiling check compares the new bill's appropriation with its predicate's stated ceiling and refuses an excess. The inspected resolver supplies the original ceiling, and this check does not subtract previously adopted amounts. Separately, the enactment reader sums adopted appropriation records linked to the original measure, matching family and component identity. That sum is spending authority, not cash transferred, and excludes unrelated bundle parts. It is not used as a remaining-ceiling deduction in the inspected drafting check. This is a bounded reader distinction for existing fiscal-owner review, not a watched overappropriation finding or proof that every real authorization has a cumulative cap.
+
+The distinction matters legally: a one-time total, annual authorization and a ceiling on an individual award are different constraints. The source authorization report treats annual clauses separately. None of this pass establishes a universal cap rule, a valid later appropriation in all fifty-six places, or automatic benefits. The family appropriation writer's fifty-state reach, actual account balance, office commitment, transfer recipient and clause-specific service reader remain separate gates.
+
+**Why-chain terminal:** original clause authorizes; later bill names that authority; compiler bounds one bill; enactment may create spending authority; reporting adds matching authorities. A personal benefit still needs the payment and service paths recorded above: **no person feels this yet** for the six authorization-only clauses in this inspected path. Next bounded step is to verify a real linked enactment and its original term/cap type with Team 2, then route any reproduced cumulative-cap mismatch to the existing fiscal owner. No generic cap fix, rate or product claim is authorized by this research finding.
+
+Read END00 through CTO4:40. Its housing host/shelter dispatch stays with Teams 3/9; its ordered merges stay with Merge. Team 6 adds no overlapping scope. Feature-walkthrough remains the source why-chain method; no named actor or transaction is invented.
+
 ### CTO3:45 person-reader checkpoint
 
 Read END00 through CTO3:45. Each catalog trace names a person-level writer or explicitly marks **no person feels this yet** for its inspected path. The bounded audit followed production `placeOutcomeAt`/`outcomeFactor` call sites and each listed outcome key. Generic aggregate storage and press reports do not establish a physical effect on a person. Flood disaster records and rural rider memories do have person writers, but their terminal selection is HARDWIRED as described above. Source search is not watched-world proof, and the marker does not assert that unrelated person systems cannot act.
@@ -344,7 +358,7 @@ Invoked the feature-walkthrough skill from the exact published PR1191 skill sour
 
 SIMULATED: no new watched run. RECORDS: financial transfer, paid-hour, publication, knowledge and memory writers exist in source. WORLD PIECES: actual accounts and saved appropriations are required; an actual route and rider decision are not established by this writer. CHECKS: federal match ceilings are legal conditions; inherited effect coefficients still require breadth review. NAMED EXAMPLE: none observed; no names or dollars are invented.
 
-Next bounded step: trace later appropriation references against the six authorization ceilings; obtain the four family appropriation cases' actual account, recipient and service lines from Team 2. Close primary legal/effect gaps with Team 9. Coordinator should route the authored rider reaction, fifty-state transit profile, rank-only preemption and repeal-persistence findings to their existing owners. Team 2 supplies actual law-money lines; Team 9 supplies missing effect breadth and sizes. No new overlapping claim is requested by this source-only report.
+Next bounded step: obtain an actual later-law lineage and original cap/term for the six authorization cases, plus the four family appropriation cases' account, recipient and service lines from Team 2. Close primary legal/effect gaps with Team 9. Coordinator should route the authored rider reaction, fifty-state transit profile, rank-only preemption and repeal-persistence findings to their existing owners. Team 2 supplies actual law-money lines; Team 9 supplies missing effect breadth and sizes. No new overlapping claim is requested by this source-only report.
 
 ## Revisions and breadth
 
