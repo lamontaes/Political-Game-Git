@@ -503,3 +503,22 @@ Team 3 status 2026-09-30T01:51:39.041330+00:00: Census PR #1143 READY at publish
 | Team 7 | `art/authoring/sept29-team7/scenes/batch-10/contact-sheet.jpg` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
 | Team 7 | `docs/codex/handbacks/team-7-scenes-10.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
 | Team 7 | `docs/release/changes/team-7-scenes-10.md` | 2026-09-30T02:05:32.863383+00:00 — CTO9:43 data-only scenes, no runtime code |
+
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/kit.json` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/layouts.json` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/sources.json` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/sample-packet.json` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/samples.svg` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/contact-sheet.jpg` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+| Team 7 | `docs/codex/handbacks/team-7-newspaper-kit.md` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+| Team 7 | `docs/release/changes/team-7-newspaper-kit.md` | 2026-09-30T02:26:07.269461+00:00 — CTO10:17 newspaper data kit |
+
+| Team 3 | `src/simulation/fairness-pay-law.ts`: owner 10:17 fairness-pay reassignment; remove universal cut, preserve actual law/earned terms; employer-specific calibration requires research | 2026-09-30T02:32:13.959376+00:00 |
+
+| Team 3 | `tests/nationwide/fairness-law-moves-pay.test.ts`: owner 10:17 fairness-pay reassignment; remove universal cut, preserve actual law/earned terms; employer-specific calibration requires research | 2026-09-30T02:32:13.959376+00:00 |
+
+| Team 3 | `tests/nationwide/fairness-law-player-pay.test.ts`: owner 10:17 fairness-pay reassignment; remove universal cut, preserve actual law/earned terms; employer-specific calibration requires research | 2026-09-30T02:32:13.959376+00:00 |
+
+| Team 3 | `docs/release/changes/fairness-pay-without-blanket-cut.md`: owner 10:17 fairness-pay reassignment; remove universal cut, preserve actual law/earned terms; employer-specific calibration requires research | 2026-09-30T02:32:13.959376+00:00 |
+
+Team 3 READY money PR #1155 published 1e1651136c316661a42cbd5d83c9a614eab19823, exact nine-file actual three-dot diff, tested source a78035ed on 2e0d8f81a: 18/18, seven-root types zero, scoped checks pass. Current-base calibration integration remains Claude-owned. Census #1143 READY at 4cd9d7ad1.

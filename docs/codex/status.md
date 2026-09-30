@@ -236,3 +236,27 @@ Unowned files for Wave 2, checked against claims:
 
 ### EFFECTS
 Map now includes explicit ranges/modifiers for all221links and homelessnessnumbers. Currentdeclaredhousing-voucher size−0.30,range−0.50to−0.15,lag12months; HousingFirst−0.03,range−0.10to+0.02,lag24; by-right/preemption−0.03,range−0.05to−0.01,lag60. These are catalog values, not newlyvalidatedall-place research. Rent/eviction sizesmissing; no outgoinghomelessness coefficient/lag establishes spending→budgetvote. One-place/Aucklandtrialextrapolations and hardthresholds explicitlyflagged. No three-step chainnumbersinvented. Named-person pressureblending remains unverified.
+
+## September 29, 10:30 p.m. checkpoint
+
+### MERGED
+GitHub verifies #1145 and #1151 speed changes; #1146, #1147 and #1150 agenda, sponsorship and cosponsorship changes. #1157 improves trip wording and English checks; #1159 keeps legs visible at open tables. These merges are verified; coordinator has not rerun watched acceptance. New cloud Merge session is active under10:27exacthead approval rules. Local teams and coordinator do not merge.
+
+### CONNECTIONS TABLE
+| Connection | State | Owner/action |
+| --- | --- | --- |
+| Majority agenda → sponsor → cosigners | Three PRs merged | Team2 consumer chain onmain; watched proof pending. |
+| Speed → proof cost | Two speedPRs merged | Team4currentmain profile blocked beforestart bystorageguard. |
+| Laws → pay | #1155ready1e1651136, nineownedpaths | Publishedlawbaseadvanced; combined integration remains merger responsibility. |
+| Recorded life → principles | #1152ready | Requires1131; no merge inferred. |
+| Census → generated town | #1143ready | Broader roster needs narrowTeam1handoff; source readinessnotfulltownacceptance. |
+| News → residents/uptake | Team5 boundedreachpatch;10:17habitdecisionrelayed | Generationhabit fromnationalresearch andrecordedstakes, no roll/subscription. |
+| Scene tags → import | Team7authorizedbatches | Newspaperkit afterfirstbatch nowauthorized by10:17, compute-heavyroute requiresCTOnotice. |
+
+### BLOCKED
+Team4guard requires1.4GiBadditionalfree at25GiBreserve. NO currentmainprofile/topfive/timing exists. Requested onlysupportedguardedretirement/read-onlyeligibleoutputinventory; nooverride/ad-hocdeletion. Deadline10:57remainsblockedreceipt ifcapacityunresolved.
+
+CTO10:17 lists Teams8EnglishMedium and9ResearchLowwithtwoLowhelpers. Roster/statussearchfoundneither. Automaticapprovalreview REJECTED bothcreateactions becauseDoccannotestablishdirectownerpermissiontoexpandteams. Neithercreated; directownerconfirmationrequested, no workaround. Existingworkcontinues. Team1unresolvedresearch andTeam3rosterownership remainopen.
+
+### EFFECTS
+Existing map remains40conditions/221links withnumericranges/lag/modifiers andnamedpersonlimits. Standingresearchqueue approval ispending, so no inventeddownstreamnumbers or newresearchteamclaim. Homelessness→spending/concerns andeviction→housing/work chains remainunimplemented/unproved. Verifiedborrowingcost→debtinterestpreserved. No newthree-stepwatchedresult.
