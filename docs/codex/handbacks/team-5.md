@@ -213,3 +213,45 @@ The actual playtest-copy branch contains the removal of News's repeated officeho
 The changed test and all five product source files pass the scoped typecheck: 6 files, zero selected-file diagnostics. The program also reported 5 diagnostics outside the selected files; this is not a full-project typecheck pass. The one-file provenance test passes 1/1. ESLint, Prettier and whitespace checks pass for the repair. The dispatched test path was claimed under the restored atomic mkdir protocol, after rechecking current ownership while held. No renderer source was edited.
 
 The News repair source checkpoint is `06ae82173aece9e148fec43f27621d68b821ada0` on the actual `codex/team-5-playtest-copy` branch. Logs are `/private/tmp/team5-news-provenance-rerun.log` and `/private/tmp/team5-playtest-copy-typecheck.log`. The test took 195.98 seconds including imports; its test body took 20.39 seconds. This is a focused markup proof, not browser acceptance.
+
+## Ordered owner notes: short-walk menu removal
+
+The CTO September 30, 12:08 a.m. Eastern entry is now read in full. After
+meeting source readiness, ordered work is: short-walk offers; city/county card
+image only; day review versus meeting/radial; solid appearance controls; routed
+party/exclusivity/household copy. The earlier dossier regression is preserved on
+codex/team-5-dossier-presence (329355bad), genuinely reproduced missing Meet
+with projected presence, and is paused for item 5. No partial adapter edit was
+published. Meeting PR 1149 is now READY for source review at
+d863a465c38900af59ea5efd6d5045f53e4e8de8, not visual acceptance.
+
+Item 1 starts from fetched main 7eee3bedd6f532cb10709d887a10837289864c93 in
+the same checkout. Places no longer projects walk-neighborhood/walk-home menu
+offers; the opening panel no longer renders their buttons or reasons. Removed
+only the obsolete walk-menu unit assertions and the UI9 walk-offer browser case,
+as expressly ordered. Real-activity travel/conversation writers, neighborhood
+conversation content and historical travel/save regression remain unchanged.
+An existing child fixture used retired depth/start labels; scoped types found
+those two errors and the fixture now uses the supported formative-years and
+ordinary-life labels. No assertions or timeouts were weakened.
+
+Final changed Places file: 5/5 PASS, 46.19 seconds total, 1.65 seconds test
+bodies, maxWorkers 2. Includes actual opening-panel markup absence, pure
+projection, saved reload and bundled activity-trip regressions. Four changed
+roots plus dependencies: strict types 0 diagnostics. Scoped ESLint, Prettier
+and whitespace pass. The owned release declaration parser passes. No browser
+interaction/full suite/full simulation or new world-law/calibration claim.
+UI9 walk browser case is deliberately retired, not reported as a browser pass.
+The source piece is ready; visual acceptance remains separately NOT RUN.
+
+Final source-gate limits: global release check against main 7eee3bedd fails
+on inherited wave1-playtest-copy.md missing its header. The inherited
+wave1-record-backed-content.md is also malformed on that base and is repaired
+on READY meeting PR 1149. Neither file was changed here; avoid a second writer
+for its pending repair. The owned short-walk declaration parses successfully.
+Zero-dice actually exits 1 with 0 new / 3 gone allowlist entries (the two
+pressure entries plus the now-retired congressional cosponsor draw); Team 4
+owns reconciliation. Handback report: 0 errors / 1 existing style warning in
+the retained earlier history; release report: 0 errors / 0 warnings. These
+global issues are disclosed, not called passes; source readiness is the scoped
+checks under the current owner rule.
