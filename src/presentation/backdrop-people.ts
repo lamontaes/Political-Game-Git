@@ -238,7 +238,10 @@ export function placeBackdropPeople(
   playerId: EntityId,
   place: string,
   moment: SimulationMoment = world.currentMoment,
-  present: readonly { readonly personId: EntityId }[] = [],
+  present: readonly {
+    readonly personId: EntityId;
+    readonly title?: string;
+  }[] = [],
   options: {
     /** The scene's people stand on the open floor instead of taking seats. */
     readonly standing?: boolean;
@@ -274,8 +277,11 @@ export function placeBackdropPeople(
     if (spot) taken.add(spot);
     return spot;
   };
+  const presentTitle = new Map(
+    present.map((person) => [person.personId, person.title ?? ""]),
+  );
   const inScene = [...presentIds].map((personId) => ({
-    worker: { personId, title: "" },
+    worker: { personId, title: presentTitle.get(personId) ?? "" },
     onShift: false,
     spot: take(principal) ?? take(usable),
   }));
