@@ -2,6 +2,27 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 5:00 a.m. check-in
+
+### MERGED
+GitHub verifies #1185 at c31fbef33e6c6a678cfd77b79dc0f62f89838b4f and #1193 at 8f3176cce6ccf20dab4b747f4abb7be06c2fb830. Locality presentation and single-front-panel guards landed. Browser/player acceptance was not rerun by coordinator. #1195 and #1174 were still open at this read; CTO4:40 renewed their heads.
+
+### CONNECTIONS TABLE
+| Connection | Evidence | Action |
+| --- | --- | --- |
+| Recorded life → continuous principles |1199 29ff28ce6fd1d6e509242608cb00f06c3388853b;8 arithmetic tests reported, unused helper | Team1 shared record/validator/reader hunks now cleared centrally |
+| Household → eviction host |1189 bd867b7a08c63811c1401cffaa897aeb12061e7e | CTO4:40 host decisions/refusals, no fixed home and permanent exclusion routedTeam3; Team2 proof required |
+| HUD beds → shelter capacity | Team9 instructed national HIC per10000 anchor/range | Research pending; no invented capacity |
+| History indexes → speed | Prior candidate rejected; Team3 explicit generic-helper release | Team4 release reaffirmed, no measured gain yet |
+| Jurisdiction → displayed number | Team2 new proof/handback/declaration paths claimed | Actual Day-path month proof pending; zero filings must stay zero |
+| World → scene options |1196 c760455dd9d5d51fb6e58fbde7af70448e959d4d | Latest published head verified; new runtime acceptance not inferred |
+
+### BLOCKED
+Birth prospective timing and shelter capacity evidence remain missing. Team7 draft-creation401 and Team8 evidence ZIP destination remain unresolved. Fresh team reports are still arriving; long-life outcome requested. No authorization block remains for the exact Team1/Team4 hunks recorded in claims.
+
+### EFFECTS
+Team3 local GDPR caller reports3/3 with enactment/repeal business-book fixture; unpublished at last receipt, not watched acceptance. No new coordinator-verified watched chain. Team7 v4 remains unapproved candidate; game-scale fit NOT RUN. Team-reported checks are distinguished from independent GitHub state verification.
+
 ## September 30, 4:30 a.m. check-in
 
 ### MERGED
