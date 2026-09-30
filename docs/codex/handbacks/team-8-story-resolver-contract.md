@@ -1,225 +1,165 @@
-# A scene should name the people the world puts there
+# Scene choices retain the records that put people there
 
-The proposed story resolver joins existing presence and conversation readers
-into one read-only result. It carries the record behind each person, fact,
-and option. An invitation, relationship, picture, or contextual binding cannot
-create attendance. Team 8 proposes the resolver and its tests; Team 5 owns
-player integration. Agree on this contract before either lane edits a shared
-reader or player surface.
+The scene resolver now projects present people, expected people, and existing
+choices separately. A calendar hold, work shift, contextual binding, or picture
+cannot create attendance. Team 5 can consume the public types while retaining
+its existing writers and reviewed text. Missing canonical location support
+returns a developer coverage finding and no invented option.
 
 ## MERGED
 
-No story-engine change is merged or built by this proposal. The separate
-build repair is published as PR #1194 at
-`e330c0682c86130bdd39c65e0e77c2f8dfda3bde`. Its exact-head CTO review request
-is posted in the PR conversation. No Team 8 merge occurred.
-
-This proposal starts from main
-`54930d427555034f3a92f335064586247985784d` on
-`codex/team-8-story-resolver-contract`. Source claims below are proposed,
-pending coordinator reconciliation and Team 5's contract agreement.
+Build repair #1194 landed at main24492950ece69558155e07e9b276ed59c5eb8c75.
+This story implementation is a held draft on
+`codex/team-8-story-resolver-contract`, PR #1196. The coordinator released
+only `src/presentation/story-scene-resolver.ts` and its test to Team 8;
+Team 5 owns player integration. Central claims and existing readers/writers
+are untouched. Main2855854ca3537a1eacf5e1dd7591e593154c31bd was integrated
+additively in this reused workspace, preserving the published proposal.
 
 ## 1. Why-chain
 
-SOURCE FINDING: a completed activity establishes immediate-aftermath presence
-only through its completion event, participant membership, access, current
-moment, and lack of a later location event. The existing reader enforces those
-conditions in `src/presentation/scene-venues.ts:190`.
+SOURCE FINDING: the resolver asks canonical meeting, completion, opening and
+life-talk readers for the current snapshot. It does not rank people into a
+fictional event. An entered meeting supplies its exact recorded roster and
+existing comment choices through ordinary-meeting-scene.ts:16.
 
-SOURCE FINDING: an active ordinary meeting requires actual arrival and an
-entry event, with the player's direct knowledge. An invitation alone is
-insufficient in `src/presentation/ordinary-meeting-scene.ts:16`.
+SOURCE FINDING: completion expires after later movement or a different
+moment, as scene-venues.ts:190 requires. An actual latest arrival can establish
+only the viewer at the exact activity while its interval remains active. If
+no canonical chair/roster exists, no meeting choices are added.
 
-SOURCE FINDING: a current opening scene reads saved participants and requires
-an unresolved scene with a matching current moment. The chain bottoms out
-in the existing recorded scene at `src/presentation/life-scene-flow.ts:247`.
+SOURCE FINDING: currentOpeningLifeScene requires an unresolved saved scene
+and alive participants. Quiet home preserves currentLifeTalkScene's existing
+modeled household context, explicitly labeled modeled-home-context. A work
+schedule bottoms out in authored job-pattern assumptions and remains expected,
+never arrival. A contextual binding alone bottoms out in bookkeeping.
 
-SOURCE FINDING: a contextual binding names a situation but grants neither
-agency nor presence. Its family room can construct a pair, so that pair must
-not independently establish physical occupancy. The record's explicit
-contract is in `src/simulation/scene-bindings.ts:16`.
-
-SOURCE FINDING: the job reader derives shifts from employment records and
-authored schedule patterns. Its activity query treats a scheduled interval
-as whereabouts without requiring arrival. The chain bottoms out in an
-authored presence assumption in
-`src/simulation/living-world/work-schedules.ts:582`. Preserve that reader;
-do not upgrade its output into new arrival evidence.
-
-The missing piece is a common evidence-carrying projection, not another
-producer, clock, scene schema, or presence writer. Existing-reader assumptions
-remain visible to the developer and cannot silently acquire stronger meaning.
+SOURCE FINDING: existing life-talk availability and hearing readers supply
+options only when their entire physical roster fits the proven scene. Other
+conversation families currently lack canonical location adapters here, so
+coverage records that gap. No legal permission is inferred from missing data.
 
 ## 2. Research
 
-No empirical size or new causal rate applies to this read-only contract.
-Existing shift patterns are labeled game assumptions in their source; this
-proposal does not call them researched presence rates. The accepted venue
-contract states that a scheduled interval never establishes attendance.
-See `docs/systems/scene-venues-and-travel.md`.
+No new causal study, effect size, rate or legal power applies to this read-only
+projection. Existing job schedules remain game assumptions, not researched
+presence rates. No direct-module fixed size or place multiplier was changed.
+CTO3:45's world/place ranges and actual-person-reader requirement still apply
+to any later effect; this draft creates zero new effect links.
 
-## 3. Revisions and contract to agree
+## 3. Revisions and consumer contract
 
-The coordinator's latest split supersedes the earlier suggestion that Team 5
-would write the resolver. Team 8 proposes the pure resolver; Team 5 owns
-integration. All places use the same record matching. Place names, art keys,
-and titles do not determine governmental authority or scene purpose.
-
-### Entry point
-
-Proposed signature, with local types in the new resolver module:
+Exports from the new resolver module:
 
 ```ts
 resolveStoryScene(world: World, request: StorySceneRequest): StorySceneResolution
 ```
 
-The request contains the controlled viewer's person ID, a canonical place
-reference, the explicit `SimulationMoment`, and selected addressee/audibility
-when speech options are requested. It carries no invented participant list.
-The World is the caller's existing snapshot; the function never substitutes
-a new date or moment into it.
+StorySceneRequest fields are viewerPersonId, place, moment, and optional
+addressee/audibility, using existing conversation types. Place is a discriminated
+union with these exact fields:
 
-A place reference distinguishes an activity location, a household, and an
-organization/workplace. It carries the relevant existing record ID and
-jurisdiction/location key where that record supplies them. A broad workplace
-picture category is not an exact building. Missing exact identity is retained
-as incomplete coverage; a label cannot fill it.
+- activity: activityId;
+- opened-scene: eventId;
+- household: householdId;
+- workplace: organizationId, jurisdictionId, workPlaceCategory.
 
-Part 1 proposes current-moment resolution, because the activity, opening,
-and contextual readers use the current snapshot. A different requested
-moment returns an internal `unsupported-moment` result with no people or
-options. Historical/future resolution is a separate extension using proper
-as-of readers, not a silent rewind. Team 5 and the coordinator must agree on
-this explicit part-1 limit before source implementation.
+An opened-scene ID identifies its saved place context, not a label-based room.
+A workplace category cannot establish a universal building. Unknown records
+remain unavailable. Every clock field must equal the current snapshot;
+historical/future requests return unsupported-moment with empty lists.
 
-### Output and evidence
+StorySceneResolution contains status, place, moment, snapshot, presentPeople,
+expectedPeople, facts, priorSpeech, options and coverage. Status is resolved,
+unsupported-moment, invalid-viewer or missing-place. Snapshot contains worldId,
+nextSequence, actionSequence and moment. Person rows contain personId, name,
+reader, reason and evidence. Evidence discriminates actual event, activity,
+activity-state, household-membership/location, work-relationship and knowledge
+IDs; derived quiet-home keys never pretend to be event IDs.
 
-The result contains:
+Option kinds and dispatch fields:
 
-- The resolved canonical place and moment, with snapshot revision.
-- Present people, each with source-reader identity, reason category, and
-  typed references to existing records. Recorded entry/presence and existing
-  modeled home context remain distinguishable.
-- Expected workers or invitees separately, with their source basis. They do
-  not receive speech options or knowledge merely because they are expected.
-- Viewer-permitted facts and exact prior speech, with knowledge/public-access
-  support. Private actor reasons belong only in developer evidence.
-- Conversation opportunities and options from the existing speech readers,
-  each carrying its subject, intent, addressee, audibility, source references,
-  and revalidation snapshot. No executable callback closes over an old World.
-- Internal coverage findings: unavailable identity, conflicting location,
-  unsupported moment, missing record, or an unsupported scene use. These are
-  developer diagnostics, not new player-facing copy.
+- conversation: subject, intent (existing option), addressee, audibility,
+  listenerPersonIds;
+- meeting-action: activityId, action;
+- meeting-speech: activityId, choice, words;
+- opening-choice: eventId, choiceKey, label.
 
-Typed source references distinguish events, scheduled activities, household
-membership, work relationships, knowledge, relationship interactions,
-commitments, and law basis. A derived quiet-home key is a context key, never
-a fabricated event ID. A starting-law key remains a starting-law basis,
-never an invented enactment. Every reference must resolve in this World and
-pass the relevant date/sequence cutoff.
+Every option also carries evidence and snapshot. Facts/priorSpeech contain
+text and evidence. Opening prose requires accurate viewer knowledge; existing
+meeting agenda uses its canonical viewer-access reader. Prior speech retains
+saved event text. Expected workers are restricted to self or employment
+supported by the viewer's accurate source knowledge; private colleague records
+are not exposed. Coverage is developer-only and must not become player copy.
 
-### Source adapters and precedence
+Team 5 must resolve again before dispatch, compare snapshot/option identity,
+and rebuild the existing writer input. Options contain no callback or retained
+World. Existing writer guards, addressee correction, hearing, settled state,
+IDs and history continue to govern commits. This module mounts no player UI.
 
-| Existing source                                   | Proposed use                                              | Boundary retained                                                |
-| ------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------- |
-| ordinary meeting entry/scene                      | current entered meeting, people, agenda, existing choices | invitation and arrival remain different                          |
-| completedActivityHere                             | exact immediate aftermath and participating people        | completion expires at later movement or moment                   |
-| currentOpeningLifeScene                           | current opened place and saved participants               | unresolved/current record is required                            |
-| currentLifeTalkScene / play-scene context         | existing quiet-home context                               | household evidence is not carried into a recorded non-home place |
-| peopleAtWorkAt / work relationships               | expected job occupants and reasons                        | assumed shifts never create an arrival event                     |
-| activeSceneBinding / availablePlayerConversations | record-backed subject opportunities                       | binding/constructed room alone does not grant presence           |
-| availableConversationIntents / listener resolver  | existing choices for present addressee and mode           | preserve hearing and settled-state checks                        |
-| lawInForce for an option's actual proposition     | existing legal context/basis                              | do not copy or repair authority/preemption rules here            |
+## 4. What gets built, in numbered parts
 
-Latest canonical arrival/location and the exact active/completed activity
-reader decide conflicts; the resolver does not rank people into a fictional
-occasion. For multiple supported uses at one place, return all compatible
-record-backed opportunities in deterministic record order. Do not choose a
-field trip, signing, protest, or visit merely because the room could host it.
-
-Relationship history can support an option involving someone already present.
-It cannot move a friend or former officeholder into the room. A known topic
-may make speech possible; missing topic evidence produces no such option.
-A present person with nothing available remains present with an empty option
-list. Absence of a legal answer is not permission or a prohibition.
-
-Team 5 renders existing reviewed text and dispatches through existing writers.
-Immediately before an action, it resolves the scene again against the current
-World and revalidates subject, intent, person, and hearing. Saved IDs and old
-history remain intact. A source revision mismatch never commits an old offer.
-
-## 4. Numbered parts and exact ownership
-
-1. Agree on the current-moment limit, exact place identity, and the separate
-   expected-versus-present lists in this proposal.
-2. Team 8: new `src/presentation/story-scene-resolver.ts` and
-   `src/presentation/story-scene-resolver.test.ts`, plus its own release note
-   and handback. The module is pure TypeScript with no React, DOM, network,
-   simulation advancement, writer calls, or new records.
-3. Team 5: new `src/player/StoryScenePanel.tsx` and its test if needed, and
-   only centrally released player mount hunks. This proposal grants no extra
-   PlayerGame hunk beyond the existing release.
-4. If extracting an existing pure reader is required, name the exact hunk
-   and owner first. Existing presence readers, scene producers, scene
-   bindings, conversation writers, shared types, and art renderers are
-   excluded from Team 8's proposed source claim.
-5. Record-derived new options and continuity belong to later numbered parts.
-   Existing supported options can be projected now. Do not manufacture a
-   favor, lie, endorsement, speech, or event to fill an empty list.
-
-Only this proposal and its development-only release declaration are written
-on this branch. The coordinator owns central claims; no overlapping source
-edit has started.
+1. Current recorded meeting, completion, arrival, opening and modeled home
+   projection; separate expected invitation/work rows.
+2. Existing meeting/opening/life-talk options with record evidence and revision.
+3. Focused tests for purity, exact IDs, invitation/cancellation, arrival without
+   roster, contextual-only bookkeeping, knowledge/privacy, hearing and stale
+   snapshots. No shared writer or renderer edit.
+4. Team 5 integration consumes the types; canonical adapters for additional
+   contextual families require their actual location evidence, not room labels.
+5. New favor/lie/endorsement options, historical/future as-of readers and broader
+   continuity remain later parts. No facts or events are authored to fill gaps.
 
 ## 5. Simulated, records, world pieces, checks
 
-SIMULATED: none new. The resolver reads decisions; it does not make them.
-RECORDS: existing presence, activity, speech, knowledge, relationship, and
-commitment IDs are retained. No derived read is persisted as history.
-WORLD PIECES: active meeting, completed activity, opened scene, employment,
-household, and contextual readers exist. Exact universal building identity
-and arrivals for every job/occasion are not established by this inspection.
-Missing producers remain explicit gaps rather than authored events.
-CHECKS: source inspection and live branch verification only for this proposal.
-No runtime contract test, browser integration, or random-place proof has run.
+SIMULATED: no new decisions or time advancement. RECORDS: read-only IDs from
+existing history; no projection is persisted. WORLD PIECES: canonical readers
+exist, but universal workplace arrivals and every contextual room adapter do
+not. No shelter, relative, coworker, meeting chair or speech option is created
+when its record is absent. CHECKS: final focused validation recorded below.
 
-Required focused tests after contract agreement:
+The generated Lexington fixture reached the public-room arrival but lacked a
+canonical chair-backed meeting roster. That is retained as a negative control,
+not fixed by inventing a production chair. A separate declared input fixture
+adds a named chair to the saved notice before using the existing entry writer.
+Fixture construction preserves IDs, dates, provenance order and known notice;
+serialization integrity is checked. These are tests, not a watched playthrough.
 
-- Reading returns identical output and leaves serialized World unchanged.
-- Future invitations, canceled meetings, stale completion, later movement,
-  dead people, and contextual-only bindings do not create present actors.
-- Same venue category in two jurisdictions does not combine their people.
-- Job schedule assumptions remain expected occupants; an actual entered
-  meeting retains its exact roster and evidence.
-- Unknown place or unsupported moment returns no invented person or option.
-- Every present-person/option reference resolves, with no future or private
-  knowledge leak; truth and deliberate lies keep their recorded basis.
-- Hearing, selected addressee, settled state, and revision changes preserve
-  existing availability and commit revalidation.
-- A no-art case preserves record-backed presence; pixels never grant speech.
+Validation: final sole changed test file PASS, 10/10 in 9.22 seconds
+(30.35 seconds including transform/import), maxWorkers2. Standard typecheck
+PASS; strict source/test roots zero diagnostics; scoped ESLint, four-file
+Prettier and whitespace PASS. Report check zero errors/warnings. Release gate
+still reports inherited wave1-playtest-copy.md missing header, already reproduced
+on clean main for the build repair. Earlier setup failures were real failures,
+including a later notice violating activity provenance, invalid death/role
+terms and an overlapping calendar fixture. Repairs stayed inside the new test;
+no assertions, existing tests or production guards were removed.
 
-Use existing indexed readers or bounded source rows. Do not scan every person
-or all history for each candidate. The resolver runs when the scene is read
-or its snapshot changes, not as a new daily world pass. Measure cold and warm
-reads against the same preserved snapshot after implementation.
+Zero-dice gate: exit 1, zero new findings and three stale allowances, matching
+the independently reproduced main baseline. No allowance refresh or suppression.
+
+Measured same-snapshot read: cold 6.324 milliseconds, mean of twenty warm reads
+1.656 milliseconds, 4,326 events. This is a unit-fixture read cost, not a game-year
+speed or player integration result. Logs remain under test-results/team8;
+portable fields and check receipts are published in the PR conversation.
 
 ## 6. Proof run
 
-NOT RUN for this proposal. The predecessor's preserved Orange City worlds
-remain absent from this replacement workspace; no new life was created.
-After agreement, use an existing portable world if available and record its
-seed/place, before/after hash, roster, source IDs, options, and missing cases.
-The saved packet must be a real World, not a claim that fixtures are play.
+NOT RUN: browser/player integration, original portable-world proof, game-year
+speed, full suite and independent helper. No new helper is authorized. The
+original evidence ZIP remains absent here and its upload disposition unresolved.
+Unit fixtures generate worlds for canonical record tests; they are not the
+preserved Orange City life or human acceptance. The resolver is not mounted and
+adds no daily simulation pass. Cold/warm read measurements use the same fixture.
 
-## 7. Worked example and next bounded step
+## 7. Worked example
 
-No named simulated example is claimed yet. A recorded meeting entry should
-return the exact chair and residents from that entry, its activity and arrival
-basis, and only its existing comment choices. Its invitation should remain
-context until entry. That is the first proposed implementation example,
-pending a real preserved world and contract agreement.
-
-Next independent work: finish the contextual answer-key traces while the
-coordinator and Team 5 reconcile this contract. Build-repair review is already
-requested separately. Story-engine implementation starts after the explicit
-shared boundary is accepted; no new team or helper is requested.
+The fixture uses logged random locality Lexington, seed
+`team8-story-resolver-part1`. An invitation offers expected attendance and no
+speech. Actual arrival retains the viewer but supplies no fictional chair.
+With explicit fixture chair evidence, canonical entry exposes the recorded
+roster, agenda and three existing comment choices. After the canonical ask
+comment, speech choices disappear, exact recorded words remain, and the
+snapshot sequence advances. Names and amounts from a watched life are not
+claimed. Next: publish final checks and consumer fields to coordinator/Team 5;
+player integration and acceptance remain Team 5's lane.

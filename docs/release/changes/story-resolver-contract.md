@@ -3,5 +3,6 @@ id: story-resolver-contract
 impact: none
 ---
 
-Proposes the pure story-scene resolver contract and disjoint Team 8 and Team 5
-ownership before implementation. No game behavior or player-facing text changes.
+Adds an unmounted pure story-scene projection and its public consumer types.
+Existing player surfaces, record writers, simulation time and reviewed text
+remain governed by their current code; Team 5 integration is separate.
