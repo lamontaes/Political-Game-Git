@@ -41,8 +41,24 @@ export function PlacePeopleLayer({
       }
     >
       {people.map((person) => {
+        // Open furniture hides only a band (the tabletop's edge); the
+        // person's legs show underneath, so the whole figure is drawn and the
+        // band is cut out of it.
+        const band =
+          person.clipBelowPercent !== null && person.clipBandEndPercent !== null
+            ? {
+                from:
+                  ((person.clipBelowPercent - person.topPercent) /
+                    person.heightPercent) *
+                  100,
+                to:
+                  ((person.clipBandEndPercent - person.topPercent) /
+                    person.heightPercent) *
+                  100,
+              }
+            : null;
         const visibleHeight =
-          person.clipBelowPercent === null
+          person.clipBelowPercent === null || band
             ? person.heightPercent
             : Math.max(0, person.clipBelowPercent - person.topPercent);
         return (
@@ -64,6 +80,11 @@ export function PlacePeopleLayer({
                 width: `${person.widthPercent}%`,
                 height: `${visibleHeight}%`,
                 overflow: "hidden",
+                ...(band
+                  ? {
+                      clipPath: `polygon(0 0, 100% 0, 100% ${band.from}%, 0 ${band.from}%, 0 ${band.to}%, 100% ${band.to}%, 100% 100%, 0 100%)`,
+                    }
+                  : {}),
                 padding: 0,
                 border: 0,
                 background: "none",
