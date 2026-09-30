@@ -25,6 +25,9 @@ import {
   type AuthoredVoteCounts,
 } from "../simulation/legislation-scenarios";
 import { applyLegislativeStep } from "./legislation-session";
+import { personName } from "../simulation/people";
+import { writeWithWorldIntegrityOnce } from "../simulation/world";
+import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import {
   cancelFutureDueItem,
   futureDueItemStateAt,
@@ -78,27 +81,31 @@ const SEED = "build-5:ward-commission:1";
 
 /** Isolated later-date test context; scheduled history is retained and canceled. */
 function atFixtureDate(world: World, date: IsoDate): World {
-  let next = world;
-  for (const item of world.history.futureDueItems) {
-    if (
-      item.dueAt >= date ||
-      futureDueItemStateAt(next, item.id)?.status !== "scheduled"
-    )
-      continue;
-    next = cancelFutureDueItem(next, {
-      stableKey: `stamp-fixture:${date}:${item.id}:cancel`,
-      dueItemId: item.id,
-      effectiveAt: next.currentDate,
-      reasonKey: null,
-      context: "Isolated later-date unit fixture, not ordinary time passage.",
-      outcomeEventId: null,
-    });
-  }
-  return {
-    ...next,
-    currentDate: date,
-    currentMoment: simulationMomentOnLocalDate(next.currentMoment, date),
-  };
+  return writeWithWorldIntegrityOnce(world, () => {
+    let next = world;
+    for (const item of world.history.futureDueItems) {
+      if (
+        item.dueAt >= date ||
+        futureDueItemStateAt(next, item.id, {
+          asOfDate: next.currentDate,
+          historySequenceExclusive: next.history.nextSequence,
+        })?.status !== "scheduled"
+      )
+        continue;
+      next = cancelFutureDueItem(next, {
+        stableKey: `stamp-fixture:${date}:${item.id}:cancel`,
+        dueItemId: item.id,
+        effectiveAt: next.currentDate,
+        reasonKey: "civic:fixture-isolation",
+        context: "Isolated later-date unit fixture, not ordinary time passage.",
+      });
+    }
+    return {
+      ...next,
+      currentDate: date,
+      currentMoment: simulationMomentOnLocalDate(next.currentMoment, date),
+    };
+  });
 }
 
 /** Canonical procedure with explicit supplied votes; not ordinary sponsor proof. */
@@ -138,7 +145,7 @@ function enactLawFixture(
             .filter((row) => !row.mayor)
             .map((row, ordinal) => ({
               memberKey: `${unit.id}:fixture-seat:${ordinal + 1}`,
-              name: "Recorded council member",
+              name: personName(next.people[row.personId]!),
               personId: row.personId,
               caucusLabel: "Authored fixture",
             })),
@@ -224,70 +231,6 @@ function wardTown(
   throw new Error("No town whose council elects by ward was found.");
 }
 
-function withOrdinance(
-  world: World,
-  town: EntityId,
-  answer: "yes" | "no",
-  effectiveAt: IsoDate,
-  questionKey: string = WARD_COMMISSION_QUESTION,
-  chamberKey = "council",
-): World {
-  const proposition = Object.values(world.policyCatalog.propositions).find(
-    (row) => row.stableKey === questionKey,
-  )!;
-  const lawKey =
-    questionKey === WARD_COMMISSION_QUESTION
-      ? "ward_commission"
-      : questionKey === COUNCIL_TERM_LIMIT_QUESTION
-        ? "council_term_limit"
-        : "legislative_term_limit";
-  const id = `measure_${lawKey}_${answer}` as EntityId;
-  const sequence = world.history.nextSequence;
-  return {
-    ...world,
-    history: {
-      ...world.history,
-      nextSequence: sequence + 2,
-      legislativeMeasures: [
-        ...(world.history.legislativeMeasures ?? []),
-        {
-          id,
-          stableKey: `test:${lawKey}:${answer}`,
-          sequence,
-          jurisdictionId: town,
-          rulePackId: "test",
-          designation: "Ordinance 1",
-          shortTitle: "Independent Ward Commission Ordinance",
-          summary: "A test ordinance.",
-          origin: "member-introduction",
-          subjectClass: "general-policy",
-          originChamberKey: chamberKey,
-          sponsorPersonId: null,
-          introducedAt: effectiveAt,
-          sourceDocumentKey: null,
-          policyAlternativeIds: [],
-          propositionIds: [proposition.id],
-          propositionAnswers: [{ propositionId: proposition.id, answer }],
-        },
-      ],
-      legislativeEnactments: [
-        ...(world.history.legislativeEnactments ?? []),
-        {
-          id: `enactment_${lawKey}_${answer}` as EntityId,
-          stableKey: `test:${lawKey}:${answer}:enactment`,
-          sequence: sequence + 1,
-          measureId: id,
-          resolvedAt: effectiveAt,
-          outcome: "enacted",
-          actDesignation: null,
-          effectiveAt,
-          outcomeEventId: `event_ward_commission_${answer}` as EntityId,
-        },
-      ],
-    },
-  } as World;
-}
-
 describe("an independent ward commission law", { timeout: 600_000 }, () => {
   const selectedStates = new Set<string>();
   it.each([0, 1, 2, 3, 4])(
@@ -321,7 +264,17 @@ describe("an independent ward commission law", { timeout: 600_000 }, () => {
       expect(redistrictForWardCommission(world, unit, town)).toBe(world);
 
       // 2. The ordinance takes effect; the next yearly review redraws.
-      world = withOrdinance(world, town, "yes", world.currentDate);
+      world = enactLawFixture(
+        world,
+        town,
+        unit,
+        WARD_COMMISSION_QUESTION,
+        "yes",
+      );
+      const question = Object.values(world.policyCatalog.propositions).find(
+        (row) => row.stableKey === WARD_COMMISSION_QUESTION,
+      )!;
+      const commissionLaw = lawInForce(world, town, question.id)!;
       expect(wardDrawerInForce(world, unit, town)).toBe("commission");
       world = redistrictForWardCommission(world, unit, town);
       const commission = townWardMap(world, unit)!;
@@ -344,7 +297,7 @@ describe("an independent ward commission law", { timeout: 600_000 }, () => {
       );
       expect((drawn as LawEffectStampedRecord).lawEffectStamps).toEqual([
         expect.objectContaining({
-          governingLawKey: "measure_ward_commission_yes",
+          governingLawKey: commissionLaw.measureId,
           source: "enacted",
           effectKind: "local.wards-drawn",
           questionKey: WARD_COMMISSION_QUESTION,
@@ -362,8 +315,16 @@ describe("an independent ward commission law", { timeout: 600_000 }, () => {
       const repealAt = makeIsoDate(
         `${Number(world.currentDate.slice(0, 4)) + 1}-02-01`,
       );
-      world = withOrdinance(world, town, "no", repealAt);
-      world = { ...world, currentDate: makeIsoDate("2031-03-01") };
+      world = atFixtureDate(world, repealAt);
+      world = enactLawFixture(
+        world,
+        town,
+        unit,
+        WARD_COMMISSION_QUESTION,
+        "no",
+      );
+      world = atFixtureDate(world, makeIsoDate("2031-03-01"));
+      const repealLaw = lawInForce(world, town, question.id)!;
       expect(wardDrawerInForce(world, unit, town)).toBe("council");
       const members = sittingLocalOfficers(world, unit).length;
       expect(members).toBeGreaterThan(0);
@@ -372,12 +333,17 @@ describe("an independent ward commission law", { timeout: 600_000 }, () => {
       const repealed = world.history.events.at(-1)!;
       expect((repealed as LawEffectStampedRecord).lawEffectStamps).toEqual([
         expect.objectContaining({
-          governingLawKey: "measure_ward_commission_no",
+          governingLawKey: repealLaw.measureId,
         }),
       ]);
       expect(JSON.parse(JSON.stringify(repealed)).lawEffectStamps).toHaveLength(
         1,
       );
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(
+        (reopened.history.events.at(-1)! as LawEffectStampedRecord)
+          .lawEffectStamps,
+      ).toEqual((repealed as LawEffectStampedRecord).lawEffectStamps);
 
       console.log(
         JSON.stringify({
@@ -438,7 +404,10 @@ describe("the council term-limit saved restriction", () => {
       };
       // An explicit later-date unit context, not thirteen simulated years.
       world = atFixtureDate(world, dueAt);
-      const filed = localElectionFilingHandler(world, due).world;
+      const filed = writeWithWorldIntegrityOnce(
+        world,
+        () => localElectionFilingHandler(world, due).world,
+      );
       const restrictions = filed.history.events.filter(
         (row) =>
           row.tags.includes("barred:term-limit") && row.jurisdictionId === town,
@@ -469,7 +438,7 @@ describe("the council term-limit saved restriction", () => {
 describe("the state legislative term-limit saved restriction", () => {
   const states = new Set<string>();
   it.each([0, 1, 2, 3, 4])(
-    "stamps the actual barred intent in distinct state %i",
+    "stamps actual barred intents across the opened world %i",
     (caseNumber) => {
       const seed = `team2-state-term-stamp:${caseNumber}`;
       const place = wardTown(seed, states);
@@ -488,27 +457,33 @@ describe("the state legislative term-limit saved restriction", () => {
         "yes",
       );
       // Existing service records are unchanged; this is a later-date unit context.
-      world = atFixtureDate(world, makeIsoDate("2041-03-10"));
-      world = applyStateLegislatureTurnover(makeIsoDate("2040-12-31"), world);
+      world = atFixtureDate(world, makeIsoDate("2042-10-01"));
+      world = writeWithWorldIntegrityOnce(world, () =>
+        applyStateLegislatureTurnover(makeIsoDate("2041-12-31"), world),
+      );
       const barred = world.history.events.filter(
         (row) =>
           row.type === "election.state-legislative-candidacy-intent" &&
           row.tags.includes("barred:term-limit"),
       );
       expect(barred.length).toBeGreaterThan(0);
+      expect(
+        new Set(barred.map((row) => row.jurisdictionId)).size,
+      ).toBeGreaterThanOrEqual(5);
       const question = Object.values(world.policyCatalog.propositions).find(
         (row) => row.stableKey === LEGISLATIVE_TERM_LIMIT_QUESTION,
       )!;
       for (const row of barred) {
         const law = lawInForce(
           world,
-          jurisdiction.id,
+          row.jurisdictionId!,
           question.id,
           row.occurredAt,
         )!;
         expect((row as LawEffectStampedRecord).lawEffectStamps).toEqual([
           expect.objectContaining({
             governingLawKey: law.measureId,
+            jurisdictionId: row.jurisdictionId,
             questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
             appliedAt: row.occurredAt,
           }),
