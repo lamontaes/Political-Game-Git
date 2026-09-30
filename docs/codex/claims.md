@@ -921,3 +921,6 @@ Team3 verified no unpublished month.ts/store.ts bytes at ab2a5e691f68a708dc9f49a
 
 ## September 30, 2:19 CTO shared event preservation
 Coordinator exclusively owns history.ts HistoricalEventInput/appendHistoricalEvent, types.ts HistoricalEvent optional LawEffectStampedRecord extension, and history-law-stamps.test.ts. Existing event amounts and all other history/types fields remain unchanged. CTO pre-approved this fix contingent on canonical save/reload check. Team2 term-limited local-election event hunk and Team4 rent saved stamp hunks explicitly released by Team1, no unpublished overlap.
+
+## September 30, 2:40 Team7 current-main child binding
+Team7 owns isolated current-main patch blobs only: appearance-lifecycle.ts supported-child-stage gate; appearance-engine manifest/pack/recipe individual approved crop stage/build/pose entries; life-scene-people.ts engine branch permitted pose/body sets and child contact/scale metadata. Local dirty ad75 source remains untouched. SceneBackdrop.tsx/player.css excluded. No new copy, new pixels or visual acceptance inferred. Existing runtime/save requested from CTO; source assembly proceeds independently.
