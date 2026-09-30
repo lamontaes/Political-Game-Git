@@ -2,6 +2,27 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 6:00 a.m. check-in
+
+### MERGED
+No additional landing verified. GitHub confirms1198 b3525aae7480535105813b0a68f301ea539c6c69 and1174 f6e06c89d217326e5b4d13fd01c5f0431e454d62 still open.1198 has CTO approval and three changed test files for Merge;1174 stays open if automatic approval review refuses, no alternate route.
+
+### CONNECTIONS TABLE
+| Connection | Receipt | Action |
+| --- | --- | --- |
+| Strength → saved record | Team1 four new packing failures/one type diagnostic | Exact packing source/test grant reaffirmed; do not wait for redundant CTO release |
+| Congress filing → introduction | Team2 producer inspection; reporting tests3/3 | CTO top priority, one-year before/after still pending |
+| Host decision → occupancy |1189 bea80d949fbefd0ec25ae372493965d79b3d98ea | Product pin3ffad216e1c567eb3f396b65e1b40cd7665e6b52 relayedTeam2 for proof |
+| History helpers → month speed |READY1202 88b68add0b425c0a998b32726921efbc878b87b8 | Team4 pair28.895→23.616s, matching fingerprint; FAIL15 |
+| Laws → trace table |READY1204 d1b1e1543e35b7b8de2558ba9edc731f657a7784 | Team5 14rows collected; coordinator compilation pending |
+| HUD inventory → shelter | Team9 reconciles402719 year-round beds, excluding8589 U inventory | County crosswalk/admissions missing; no runtime capacity inferred |
+
+### BLOCKED
+1174 automatic review refusal remains morning-list item if unresolved. Team5 exact meeting-panel hunks requested. Team2 watched eviction and full Congress-year proof pending. Birth timing and shelter county allocation missing. Art remains owner-review only; PR creation resolved.
+
+### EFFECTS
+Team3 reports eviction10/10,housing/rent22/22,court7/7,privacy3/3; watched outcome NOT RUN. Team4 source checks passed but speed target failed. No new independently verified watched causal chain. Published seven-heading handbacks collected for1/3/4/5/7/9; other fresh reports pending.
+
 ## September 30, 5:30 a.m. check-in
 
 ### MERGED

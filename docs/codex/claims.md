@@ -629,3 +629,9 @@ September30 5:00 Team1 exclusive continuous-strength hunks: types.ts PrincipleRe
 Team2 exclusively claims new scripts/governance-proof/measure-numbers.ts, docs/codex/handbacks/team-2-numbering.md, docs/release/changes/jurisdiction-measure-numbering.md for CTO4:10 allocator/proof.
 
 - Team 7: art/authoring/sept29-team7/kids/age14-v4-master-review.jpg — reduced reference contact, no approval.
+
+- Team 7: art/authoring/sept29-team7/kids/age14-correction-tags.json — age14 correction review evidence only.
+
+- Team 7: docs/codex/handbacks/team-7-age14-correction.md — age14 correction review evidence only.
+
+September30 5:55 Team1 exclusive strength round-trip repair: src/simulation/principle-packing.ts packed row type/keys, pack writer, unpack constructor/validation; src/simulation/principle-packing.test.ts strength round-trip fixtures. No competing central claim found. Preserve lossless records and existing rejection behavior; no old categorical-value inference or other packing changes.
