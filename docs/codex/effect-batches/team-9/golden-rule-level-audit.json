@@ -1,0 +1,31 @@
+{
+  "team": 9,
+  "auditedHead": "4ccc4168d4f4e886548f7364a68659bf79a2c85b",
+  "pr": 1232,
+  "authoredProductionHunks": [
+    "src/simulation/justice/prosecution.ts followUp stamp attachment",
+    "src/simulation/justice/pretrial.ts pretrialGoverningLawAt/full questionkey"
+  ],
+  "drawnOutcomeLevelsIntroducedInThoseHunks": 0,
+  "checks": "Scopedproductionhunks inspected;stamp attribution adds no numeric outcome draw. This is not an all-main audit.",
+  "researchRisks": [
+    {
+      "path": "docs/codex/effect-batches/team-9/police-baselines-bjs-2018.json",
+      "risk": "Observed density spread is a calibration check only;must not draw starting officer count/density.",
+      "repair": "No runtime draw introduced;explicitcalibration-onlyconstraint in this audit."
+    },
+    {
+      "path": "docs/codex/effect-batches/team-9/preserved-first-20.json",
+      "risk": "HistoricalTSPcoefficient cannot size PM2.5 and size records do not prove outcome mechanisms.",
+      "repair": "Coordinator additive79bdbd removed runtimeTSPsize;researchproposal preserved,not activated."
+    }
+  ],
+  "inheritedCostIssue": {
+    "path": "src/simulation/public-budgets/rules.ts juvenile-age entry",
+    "issue": "ExistingNY250million/resident-scaledproxydoesnotestablishcoveredcasecost;not authoredTeam9draw.",
+    "repair": "Exactmonthhunkreleasepending8then5;research coveredcaseload/per-unit cost before any Team9repair. No guessed cost or draw proposed."
+  },
+  "effectStrengthLimits": "SamplingCI and between-model spread must retain meaning;neverrelabeled placeheterogeneity. Effect-size variation is distinct from drawing revenue/cost/outcome levels.",
+  "mainIntegration": "NOTclaimed;catalog1272approvalreceived,consumerproofownedTeam2.",
+  "watchedOrNationwide": "NOTRUN"
+}
