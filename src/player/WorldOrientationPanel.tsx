@@ -1,5 +1,6 @@
 import "./world-orientation.css";
 import "./opening-legislature.css";
+import "./opening-family.css";
 import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
@@ -42,6 +43,7 @@ import {
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import {
   openingLegislaturePeople,
+  openingFamilyPeople,
   openingTourStagedPeople,
 } from "../presentation/opening-tour-people";
 import {
@@ -236,7 +238,8 @@ export function WorldOrientationPanel({
                   ? "Who raised you."
                   : "The people who raised you.",
               family: family.parents,
-              people: [],
+              people:
+                world && personId ? openingFamilyPeople(world, personId) : [],
               chambers: [],
             },
           ]
@@ -313,9 +316,14 @@ export function WorldOrientationPanel({
   const nextStep = steps[index + 1];
   const nextPlateUrl = nextStep ? backdropUrl(backdropFor(nextStep.key)) : null;
   const cast =
-    step.key !== "executive" && step.key !== "your-life" && world
-      ? (chapter?.actors ?? [])
-      : [];
+    step.key === "parents" && world
+      ? step.people.map((person) => ({
+          slotKey: `parent:${person.personId}`,
+          person,
+        }))
+      : step.key !== "executive" && step.key !== "your-life" && world
+        ? (chapter?.actors ?? [])
+        : [];
   const executiveWithoutPlate = step.key === "executive" && !plate;
   // In the painted Oval Office the President and Vice President stand in
   // front of the desk on the room's measured spots, facing each other, at
@@ -494,12 +502,16 @@ export function WorldOrientationPanel({
               data-testid={
                 step.key === "congress"
                   ? "orientation-congress-cast"
-                  : undefined
+                  : step.key === "parents"
+                    ? "orientation-family-cast"
+                    : undefined
               }
               aria-label={
                 step.key === "congress"
                   ? "Members from your home state"
-                  : undefined
+                  : step.key === "parents"
+                    ? "Illustration of your recorded parents and guardians"
+                    : undefined
               }
             >
               {cast.map((actor) => (
@@ -696,6 +708,7 @@ export function WorldOrientationPanel({
               ))}
 
               {step.people.length > 0 &&
+              step.key !== "parents" &&
               step.key !== "executive" &&
               step.key !== "state" ? (
                 <ul className="pg-orientation-people">
@@ -851,7 +864,13 @@ export function orientationBackdrop(
         ? "state-legislative-chamber-unicameral"
         : "state-legislative-chamber-bicameral",
     );
-  if (stepKey === "parents") return place("main-street");
+  if (stepKey === "parents") {
+    if (sources.regionalPlate)
+      return { kind: "region", plate: sources.regionalPlate };
+    if (sources.regionScene)
+      return { kind: "region-preview", raster: sources.regionScene };
+    return { kind: "neutral" };
+  }
   // The street of your town, not a home: the play screen's own room decides
   // what your home looks like, and the two must never disagree.
   if (stepKey === "your-life") return place("main-street");

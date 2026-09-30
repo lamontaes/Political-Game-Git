@@ -5,9 +5,12 @@ import { observerPlace, observerSetup } from "./observer-world";
 import { projectGovernmentBrowser } from "./politics-government";
 import {
   openingLegislaturePeople,
+  openingFamilyPeople,
   openingTourStagedPeople,
 } from "./opening-tour-people";
 import { SeededRng } from "../simulation/rng";
+import { projectOpeningFamily } from "./opening-story";
+import { orientationBackdrop } from "../player/WorldOrientationPanel";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -44,6 +47,30 @@ const cases = [
   },
 ];
 
+it("the family reuses an admitted regional plate and keeps missing coverage neutral", () => {
+  const sources = {
+    whiteHouse: null,
+    regionScene: null,
+    homeStateUsps: "AZ",
+    regionalPlate: {
+      regionKey: "sonoran-desert",
+      displayName: "Sonoran Desert",
+      url: "/assets/env_regional_sonoran_desert_v1.png",
+      width: 2208,
+      height: 1584,
+      matchedBy: "state",
+      sceneKind: "open-landscape" as const,
+      alternatives: [],
+    },
+  };
+  expect(orientationBackdrop("parents", sources)).toEqual(
+    orientationBackdrop("state", sources),
+  );
+  expect(
+    orientationBackdrop("parents", { ...sources, regionalPlate: null }),
+  ).toEqual({ kind: "neutral" });
+});
+
 describe("recorded representatives on the opening legislature card", () => {
   for (const { seed, place } of cases)
     it(`${seed}: ${place.displayName}`, { timeout: 120_000 }, () => {
@@ -78,6 +105,26 @@ describe("recorded representatives on the opening legislature card", () => {
         expect(person.title).toBe(
           people.find((record) => record.personId === person.personId)!.title,
         );
+      const family = openingFamilyPeople(world, playerPersonId);
+      const saved = projectOpeningFamily(world, playerPersonId);
+      expect(family.length).toBeGreaterThan(0);
+      expect(family.map((person) => person.personId)).toEqual(
+        saved.parents.map((member) => member.personId),
+      );
+      for (const person of family) {
+        expect(world.people[person.personId]).toBeDefined();
+        expect(
+          saved.parents.find((member) => member.personId === person.personId)
+            ?.introduction,
+        ).toBe(`${person.name}, ${person.title}`);
+      }
+      expect(openingFamilyPeople(JSON.parse(before), playerPersonId)).toEqual(
+        family,
+      );
+      writeFileSync(
+        `test-results/team8/${seed}-family.json`,
+        JSON.stringify({ game, family, seed, placeKey: place.key }),
+      );
       expect(JSON.stringify(world)).toBe(before);
       writeFileSync(
         `test-results/team8/${seed}.json`,
