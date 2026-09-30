@@ -18,7 +18,6 @@ import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "../national-election-geography";
-import { SeededRng } from "../rng";
 import { agendaCaucus, majorityAgendaChoice } from "./majority-agenda";
 import type {
   EntityId,
@@ -98,13 +97,12 @@ export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
  *   placeholder threshold a state legislator files at (member-agenda.ts).
  * - Every other member of the sponsor's party whose principles lean the same
  *   way that hard signs on. A member of the other party who leans that way
- *   signs on one time in ten.
+ *   signs on from the same recorded principles.
  */
 export const CONGRESS_LAWMAKING_PROFILE = {
   id: "ocd-congress-lawmaking/v1",
   intakeDayOfMonth: 1,
   filingThreshold: 3,
-  crossPartyCosponsorOneIn: 10,
 } as const;
 
 /** A federal question in the catalog, with the federal issue it sits under. */
@@ -312,9 +310,6 @@ export function fileCongressBill(
   )
     return world;
   const player = controlledPersonId(world);
-  const rng = new SeededRng(world.seed).fork(
-    `${CONGRESS_LAWMAKING_VERSION}:${input.intakeKey}:${input.chamberKey}`,
-  );
   // Every member who will vote on the bill holds principles, in both Houses.
   let next = ensureOfficeholderPrinciples(
     world,
@@ -458,7 +453,6 @@ export function fileCongressBill(
     question,
     answer,
     seated.body.members,
-    rng,
   );
   return scheduleInstitutionStep(next, measure.id);
 }
@@ -470,7 +464,6 @@ function gatherCosponsors(
   question: FederalQuestion,
   answer: "yes" | "no",
   members: readonly SeatedMember[],
-  rng: SeededRng,
 ): World {
   const player = controlledPersonId(world);
   const joining = members.filter((member) => {
@@ -490,12 +483,7 @@ function gatherCosponsors(
       CONGRESS_LAWMAKING_PROFILE.filingThreshold
     )
       return false;
-    if (member.partyKey && member.partyKey === sponsor.partyKey) return true;
-    return (
-      rng
-        .fork(`cosponsor:${member.personId}`)
-        .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0
-    );
+    return true;
   });
   if (joining.length === 0) return world;
   return recordWorldEvent(world, {
