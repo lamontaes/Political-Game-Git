@@ -93,7 +93,7 @@ All file names below are under `src/simulation/`. HELD ONLY means the producer i
 
 ### 3. us-federal-positions:monetary-financial.cap-consumer-loan-interest
 
-1. Enactment: outcome-web/index.ts outcomeFactor; household-loans.ts consumes the high-cost-loan measure.
+1. Enactment: outcome-web/index.ts outcomeFactor produces the high-cost-loan place measure. The generic household-loans.ts helper accepts a caller-supplied cap; no policy reader connects that aggregate effect to a borrower.
 2. Effects: The catalog reduces aggregate high-cost borrowing by the linked range below. The source compares payday restrictions, not every consumer product or a national randomized cap. Loan availability, substitution, lender response and borrower payment consequences are not all established by this one link. Configured links: `federal-loan-cap-to-high-cost-loans` → finance.high-cost-loans: built, center -0.32, configured range [-0.61, -0.2], lag 12 months, per law in force. Evidence: provisional
 3. Authority/reversal: Congress may regulate covered consumer credit. States retain usury authority subject to bank preemption and federal exceptions; some local rules concern licensing or conduct. The question is federal-only in question-powers.json. A generic federal-over-local rank cannot establish every lender/product floor or ceiling.
 4. Terminal: An aggregate borrowing adjustment, not proof that each lender and borrower decided from their own records.
@@ -330,6 +330,31 @@ seedless fixtures use the central value. About-zero links remain inert;
 missing sizes and calibration targets are not counted as working effects.
 This verifies the source path only. No law-money run was executed, and no
 production coefficient or effects link changed.
+
+## CTO 3:45: who feels the aggregate effect
+
+All twelve built aggregate links in this assignment are marked **no person
+feels this yet**. Source searches found place-record and news readers, plus
+government budget books for borrowing costs. Traversing the current built
+link graph, including change-from-start aliases, found no path from these
+outcomes to the known person-level crime, birth or flood writers. This is a
+source finding, not runtime proof or a claim about a law's separate direct
+writer. Minimum-wage payroll and student-debt relief remain separate paths.
+
+The loan-cap trace is corrected: the loan helper accepts a caller's cap; it
+does not consume the aggregate high-cost-loan measure. The earlier wording
+claimed a connection the source did not support.
+
+Direct defaults still needing ranges are the federal outlay cut and aid rise,
+defense growth, farm-payment cut, and rail phase-in. The JSON names the exact
+source functions and separates direct defaults from already-ranged downstream
+responses. GDPR compliance cost varies by world inside 0.1–0.6 percent, but its
+key omits place. The Team 3 business-cost caller needs a coordinated seam.
+No coefficient, source range or authority grant was invented.
+
+Unknown authority remains a research gap. The most-common arrangement needs
+an explicit developer-data flag; territory organic-act powers and township
+powers need their real jurisdiction research. No permissive fallback was added.
 
 ## Method and exact source
 

@@ -97,6 +97,15 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/public-budgets/month.ts: borrowingCostChange (government books only)",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
+            "runtimeProof": "NOT RUN"
           }
         }
       ],
@@ -186,6 +195,11 @@
             "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
           }
@@ -291,14 +305,23 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
+            "runtimeProof": "NOT RUN"
           }
         }
       ],
       "trace": {
-        "enactment": "outcome-web/index.ts outcomeFactor; household-loans.ts consumes the high-cost-loan measure.",
+        "enactment": "outcome-web/index.ts outcomeFactor produces finance.high-cost-loans. household-loans.ts openHouseholdLoan accepts a caller-supplied cap, but no policy reader connects this aggregate effect to the borrower.",
         "directEffects": "The catalog reduces aggregate high-cost borrowing by the linked range below. The source compares payday restrictions, not every consumer product or a national randomized cap. Loan availability, substitution, lender response and borrower payment consequences are not all established by this one link.",
         "jurisdictionAndReversal": "Congress may regulate covered consumer credit. States retain usury authority subject to bank preemption and federal exceptions; some local rules concern licensing or conduct. The question is federal-only in question-powers.json. A generic federal-over-local rank cannot establish every lender/product floor or ceiling.",
-        "terminal": "An aggregate borrowing adjustment, not proof that each lender and borrower decided from their own records.",
+        "terminal": "A place-level high-cost-borrowing measure. The generic loan cap helper is not proof that this policy reaches people.",
         "gap": "Needs research: covered products, bank/tribal exceptions, state preemption and substitution effects. Needs a feature if lender offer decisions or capped contract terms are absent."
       },
       "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
@@ -381,6 +404,15 @@
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
             "runtimeProof": "NOT RUN"
           }
         }
@@ -475,6 +507,15 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/public-budgets/month.ts: borrowingCostChange (government books only)",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
+            "runtimeProof": "NOT RUN"
           }
         }
       ],
@@ -567,6 +608,15 @@
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
             "runtimeProof": "NOT RUN"
           }
         }
@@ -674,6 +724,11 @@
           "status": "calibration-only",
           "worldRangeAudit": {
             "status": "NO SIZE: not a numeric built-effect claim"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "calibration-only",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -701,6 +756,11 @@
             "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
           }
@@ -795,6 +855,15 @@
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
             "runtimeProof": "NOT RUN"
           }
         }
@@ -929,6 +998,15 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -958,6 +1036,15 @@
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
             "runtimeProof": "NOT RUN"
           }
         }
@@ -1065,6 +1152,11 @@
           "status": "calibration-only",
           "worldRangeAudit": {
             "status": "NO SIZE: not a numeric built-effect claim"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "calibration-only",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -1092,6 +1184,11 @@
             "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
           }
@@ -1228,6 +1325,15 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -1249,6 +1355,11 @@
           "status": "size-not-set",
           "worldRangeAudit": {
             "status": "NO SIZE: not a numeric built-effect claim"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "size-not-set",
+            "runtimeProof": "NOT RUN"
           }
         }
       ],
@@ -1400,6 +1511,15 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -1429,6 +1549,11 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -1456,6 +1581,11 @@
             "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
           }
@@ -1550,6 +1680,15 @@
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
             "runtimeProof": "NOT RUN"
           }
         }
@@ -1656,6 +1795,11 @@
           "status": "size-not-set",
           "worldRangeAudit": {
             "status": "NO SIZE: not a numeric built-effect claim"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "size-not-set",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -1685,6 +1829,15 @@
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
             "runtimeProof": "NOT RUN"
           }
         }
@@ -1778,6 +1931,15 @@
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
             "classification": "built",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "no person feels this yet",
+            "scope": "this aggregate link only; independent direct-law writers are separate",
+            "directReader": "src/simulation/outcome-web/place-outcomes.ts: placeOutcomesForMonth (place records); press/law-effect-news.ts reads reports",
+            "knownPersonOutcomePaths": [],
+            "method": "source search of outcome readers plus traversal of built links, including pct-of-start and moved-by-causes aliases",
+            "sourceHead": "e8bd9ef78e42303df1fe27f2a3a39ba26c1b95f4; production source equals d6f8b2798d0fdf1acad3ca936ad0d0169640ca76",
             "runtimeProof": "NOT RUN"
           }
         }
@@ -1910,6 +2072,11 @@
           "status": "calibration-only",
           "worldRangeAudit": {
             "status": "NO SIZE: not a numeric built-effect claim"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "calibration-only",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -1937,6 +2104,11 @@
             "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
           }
@@ -2022,6 +2194,11 @@
             "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
           }
@@ -2200,6 +2377,11 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
           }
         },
         {
@@ -2227,6 +2409,11 @@
             "reader": "src/simulation/outcome-web/index.ts: drawnLinkSize",
             "stableKey": "world seed + link key + jurisdiction ID",
             "fixtureException": "a world without seed uses central size",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
           }
@@ -2340,6 +2527,11 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
           }
         }
       ],
@@ -2451,6 +2643,11 @@
             "fixtureException": "a world without seed uses central size",
             "classification": "about-zero",
             "runtimeProof": "NOT RUN"
+          },
+          "personReaderAudit": {
+            "status": "NOT A BUILT EFFECT",
+            "classification": "about-zero",
+            "runtimeProof": "NOT RUN"
           }
         }
       ],
@@ -2463,5 +2660,56 @@
       },
       "proof": "NOT RUN: no executed Team 2 law-money receipt consumed."
     }
-  ]
+  ],
+  "cto345DirectModuleFindings": [
+    {
+      "path": "src/simulation/federal-outlay-laws.ts",
+      "hunks": ["federalOutlayChangeAt", "federalAidFactor"],
+      "fixedSizes": [
+        "$150 billion annual cut",
+        "2.14 percent federal-aid cut",
+        "foreign aid +$3,035,808,305 annually"
+      ],
+      "research": "data/research/federal/federal-outlay-terms-fy2025.json",
+      "rangeStatus": "No range in the direct-term data. Historical deal and historical median are not causal bands. Need sourced or explicitly authorized estimated ranges; no invented bounds.",
+      "reader": "public-budgets/month.ts taxLawFactor; deficit outcome reader; no person-specific program cut"
+    },
+    {
+      "path": "src/simulation/federal-defense-spending.ts",
+      "hunks": ["defenseBuildUpShare", "defenseBoostPct"],
+      "fixedSizes": ["mean yearly real growth 0.0694"],
+      "research": "data/research/federal/defense-contracts-by-state-fy2024.json",
+      "rangeStatus": "Growth is a historical mean with a five-year cap. The separate earnings response already uses drawnLinkSize. Growth range still needs explicit developer-data treatment.",
+      "reader": "outcome-web/index.ts federal.defense-boost-pct; no named worker/contract award"
+    },
+    {
+      "path": "src/simulation/federal-farm-subsidy-law.ts",
+      "hunks": ["farmPaymentsCutAt", "farmPaymentsCutPctOfLandValue"],
+      "fixedSizes": ["payment cut share 0.2118"],
+      "research": "data/research/federal/farm-payments-and-land-values-2025.json",
+      "rangeStatus": "Historical median cut is fixed. Capitalization 13\u201330 is a separate researched response range already used by the outcome link; do not substitute it for a payment-cut range.",
+      "reader": "outcome-web/index.ts; no person-level farm payment or land sale"
+    },
+    {
+      "path": "src/simulation/federal-passenger-rail.ts",
+      "hunks": ["railExpansionPct"],
+      "fixedSizes": [
+        "projected rise 62.5 percent",
+        "first service 30 months",
+        "full build 15 years"
+      ],
+      "research": "data/research/federal/passenger-rail-fy2024.json",
+      "rangeStatus": "Forecast-recovery range already exists in the downstream link. The single-service delay and universal plan phase-in remain inferred direct defaults, not measured national timing bands.",
+      "reader": "outcome-web/index.ts; no recorded personal rail trip"
+    },
+    {
+      "path": "src/simulation/federal-data-privacy-law.ts",
+      "hunks": ["drawnDataPrivacyCostShare", "dataPrivacyCostOn"],
+      "fixedSizes": [],
+      "research": "Module citation: Demirer, Jimenez Hernandez, Li and Peng 2024, NBER Working Paper 32146; European proxy explicitly authorized September 29, 2026",
+      "rangeStatus": "Existing 0.1\u20130.6 percent draw is world-only. Needs world-plus-place key, preserving the cited European proxy flag.",
+      "reader": "living-world/town-finances.ts monthBusinesses reads business costs; Team3 owns the caller seam"
+    }
+  ],
+  "authorityDisposition": "CTO3:45: unknown authority is not permission. No permissive runtime fallback introduced. Territory organic-act and state-specific township authority require Team9 research; common-arrangement stand-ins must be flagged developer data."
 }
