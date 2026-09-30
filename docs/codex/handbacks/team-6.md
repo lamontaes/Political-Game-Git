@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 277 have source references and 1,571 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 295 have source references and 1,553 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -243,3 +243,13 @@ Nine authority cells added: UT,VT,VA,WA,WV,WI,WY,GU,PR. AS,MP,VI remain unknown 
 ## Official territory source retrieval
 
 Root retrieved and read CNMI4CMC1403PDF and AmericanSamoaPL30-05scannedpp5–6and10. Both historical own-place fuel routes are admitted withJanuary2026history gaps preserved. VirginIslands2019BIRbooklet is agency evidence only;statutory enactment route remains unknown. No national local-grant count is admitted.
+
+## Transit tax and municipal network packet
+
+Five conditional transit/transporttax cells andsix municipal-network cells added. Rootread Washingtontransitroute,Tennessee datedDavidsonnotice,Florida2025broadband,Louisianareferendum andMinnesota2025/2024enactment;FL/NC/TXtransitdetail ishelper-reported andMichiganbroadband officialindexedtext,notfullPDFread. Minnesota'sformer65%telephoneexchangevoterequirement wasremovedin2024;noolder16statecountadmitted. VIownGovernor2021signingannouncement wasretrievedandread;historicalremittanceamendmentrouteadmitted,notJanuaryrate/dedicationfreeze. Nationaltransitbarlist remainsopen.
+
+## Municipal communications restrictions and water-rate oversight
+
+Six further municipal-network availability cells record service scope and exceptions, rather than a blanket prohibition. The helper read MO, MT, NE, NV, PA and SC primary statutes. The lead independently read MT and NE restrictions and PA's incumbent-request provision; MO retrieval failed in the lead pass. January amendment comparisons remain qualified, and these records do not earn a national restriction count.
+
+The lead read Ohio and North Carolina municipal rate grants and public-utility exclusions. North Carolina permits different outside-city schedules and preserves inconsistent charters. These sources refine verification item 25 without inventing a water-rate decision or inferring commission review from local rate-setting power. Texas outside-city appeal authority remains under review. Guam's statutory cross-reference typo was corrected to 11 GCA 26402/26403.

@@ -3686,6 +3686,182 @@
       "year": 2019,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "vi-fuel-amend2021",
+      "title": "VirginIslandsGovernor August23 2021 signing announcement",
+      "url": "https://www.vi.gov/covid/news-post/governor-bryan-takes-action-on-legislation/",
+      "year": 2021,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-transit-tax",
+      "title": "Florida212.055 charter county transport surtax",
+      "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299%2F0212%2FSections%2F0212.055.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-transit-tax",
+      "title": "Washington82.14.045 transit sales tax",
+      "url": "https://app6.leg.wa.gov/rcw/default.aspx?cite=82.14.045",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-transit-tax",
+      "title": "NorthCarolina105Article43",
+      "url": "https://library.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_105/Article_43.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tx-transit-tax",
+      "title": "Texas452.401\u2013403 regional authority",
+      "url": "https://tcss.legis.texas.gov/resources/TN/htm/TN.452.htm#452.401",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "tn-transit-tax2025",
+      "title": "TennesseeRevenue Notice24-11",
+      "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales24-11.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-bb2025",
+      "title": "Florida2025 statute350.81",
+      "url": "https://www.flsenate.gov/Laws/Statutes/2025/350.81",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "la-bb-referendum",
+      "title": "Louisiana45:844.50 referendum",
+      "url": "https://www.legis.la.gov/legis/Law.aspx?d=285533",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-bb-bids",
+      "title": "Michigan484.2252 officialchapter",
+      "url": "https://www.legislature.mi.gov/documents/mcl/pdf/mcl-chap484.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-bb2025",
+      "title": "Minnesota2025Internetimprovementgrant",
+      "url": "https://www.revisor.mn.gov/statutes/2025/cite/429.021",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-bb-phone2025",
+      "title": "Minnesota237.19 municipaltelephones",
+      "url": "https://www.revisor.mn.gov/statutes/cite/237.19",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-bb-amend2024",
+      "title": "Minnesota2024c114art4",
+      "url": "https://www.revisor.mn.gov/laws/2024/0/114/laws.4.2.0",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-bb-scope",
+      "title": "Missouri section 392.410, service-authority scope",
+      "url": "https://www.revisor.mo.gov/main/OneSection.aspx?section=392.410",
+      "year": 2008,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mt-bb2025",
+      "title": "Montana 2025 MCA 2-17-603",
+      "url": "https://mca.legmt.gov/bills/mca/title_0020/chapter_0170/part_0060/section_0030/0020-0170-0060-0030.html",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ne-bb-restriction",
+      "title": "Nebraska 86-594, governmental broadband restriction",
+      "url": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=86-594",
+      "year": 2021,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nv-bb-city-scope",
+      "title": "Nevada NRS 268.086, covered city telecommunications",
+      "url": "https://www.leg.state.nv.us/NRS/NRS-268.html#NRS268Sec086",
+      "year": 2007,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "pa-bb-incumbent",
+      "title": "Pennsylvania 66 Pa.C.S.3014(h)",
+      "url": "https://www.palegis.us/statutes/consolidated/view-statute?chpt=30&div=0&iFrame=true&ttl=66&txtType=HTM",
+      "year": 2004,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "sc-bb-conditions",
+      "title": "South Carolina Title 58 chapter 9 article 23",
+      "url": "https://www.scstatehouse.gov/code/t58c009.php",
+      "year": 2012,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "oh-water-rates",
+      "title": "Ohio 743.04 municipal water rents",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-743.04",
+      "year": 2014,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "oh-water-exempt",
+      "title": "Ohio 4905.02 municipal utility exclusion",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-4905.02",
+      "year": 2017,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-water-rates",
+      "title": "North Carolina 160A-314 city enterprise rates",
+      "url": "https://library.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-314.html",
+      "year": 2024,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "nc-water-exempt",
+      "title": "North Carolina 62-3 utility definitions and exclusions",
+      "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_62/GS_62-3.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -4706,7 +4882,7 @@
             "GU": {
               "status": "yes",
               "scope": "own-place enacted fuel-tax amendment route; cutoff and local-power qualifications retained",
-              "reason": "11GCA26402/.403 historical fuel levy/rates;own judiciary compilation through June2022,2018 rate amendment. Public Auditor identifiesPL34-44 village-road increase andPL36-105 180day waiver. Historical enacted amendment route only. January2026 survival and intervening waivers remain unknown. No village grant inferred.",
+              "reason": "11 GCA 26402/26403 historical fuel levy/rates;own judiciary compilation through June2022,2018 rate amendment. Public Auditor identifiesPL34-44 village-road increase andPL36-105 180day waiver. Historical enacted amendment route only. January2026 survival and intervening waivers remain unknown. No village grant inferred.",
               "sources": ["gu-fuel-code", "gu-fuel-auditor"],
               "bars": [
                 {
@@ -4720,10 +4896,10 @@
               "differentLargeCityCharters": []
             },
             "VI": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched. OwnBIR2019agencybooklet reports14cents/gallon withscope/exemptions;underlying enacted33VIC91andJanuary2026history notobtained. No nationalgrantcount orcurrentcutoffauthority inferred.",
-              "sources": ["vi-fuel-bir2019"],
+              "status": "yes",
+              "scope": "historical territorial fuel-tax statutory amendment route",
+              "reason": "Official Governor August23,2021 announcement explicitly listsBill34-0004 among signed laws changing fuel-tax remittance. Legislature agenda identifies33VIC91. This establishes enacted amendment route,not a rate change. Actual act number/text and January2026continuation,dedication and localgrant remain unverified.",
+              "sources": ["vi-fuel-bir2019", "vi-fuel-amend2021"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -5202,13 +5378,13 @@
             },
             "GU": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 11GCA26402/.403 historical fuel levy/rates;own judiciary compilation through June2022,2018 rate amendment. Public Auditor identifiesPL34-44 village-road increase andPL36-105 180day waiver. Historical enacted amendment route only. January2026 survival and intervening waivers remain unknown. No village grant inferred.",
+              "detail": "January2026 EIA gasoline state-tax component: 15 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  Authority review: 11 GCA 26402/26403 historical fuel levy/rates;own judiciary compilation through June2022,2018 rate amendment. Public Auditor identifiesPL34-44 village-road increase andPL36-105 180day waiver. Historical enacted amendment route only. January2026 survival and intervening waivers remain unknown. No village grant inferred.",
               "sources": ["eia-fuel-jan2026", "gu-fuel-code", "gu-fuel-auditor"]
             },
             "VI": {
               "status": "in force",
-              "detail": "January2026 EIA gasoline state-tax component: 14 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched. ",
-              "sources": ["eia-fuel-jan2026"]
+              "detail": "January2026 EIA gasoline state-tax component: 14 cents/gallon. This is one defined component,not the all-in price or total tax. Other fees,variable taxes,local levies,product classes,refunds and exemptions need separate records; authority to change is separately researched.  OwnGovernor confirms2021signed remittance amendment;not a verifiedJanuary2026rate change.",
+              "sources": ["eia-fuel-jan2026", "vi-fuel-amend2021"]
             },
             "AS": {
               "status": "in force",
@@ -9630,12 +9806,24 @@
               "differentLargeCityCharters": []
             },
             "FL": {
-              "status": "unresearched",
-              "scope": "county, special-district",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "Eligiblecharter/consolidated/regional-authority counties up1%,majoritycounty voters,generalelection,performanceaudit. PostJuly2020referenda max30years. Permittedtransportuses include roads/bridges,not transitexclusive. Currenttext helper-read;interveningcutoffhistory notexhausted.",
+              "sources": ["fl-transit-tax"],
+              "bars": [
+                {
+                  "description": "Eligibility,election,duration and permittedpurpose limits.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["fl-transit-tax"]
+                }
+              ],
+              "localGrant": {
+                "description": "212.055(1) conditionalcountygrant",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["fl-transit-tax"]
+              },
               "differentLargeCityCharters": []
             },
             "GA": {
@@ -9846,12 +10034,24 @@
               "differentLargeCityCharters": []
             },
             "NC": {
-              "status": "unresearched",
-              "scope": "county, special-district",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "Mecklenburg/Triangle/Triad scopedhalfpercent;othereligiblecountiesquarterpercent,excluding namedcounties. Majorityvoters,hearing/financialplan,publictransportpurpose,supplementnot supplant;othercountyoperate/contractcondition.2025-39included;completecutoffcomparison notdone.",
+              "sources": ["nc-transit-tax"],
+              "bars": [
+                {
+                  "description": "Route-specificgeography and operatingconditions,notstatewideprohibition.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["nc-transit-tax"]
+                }
+              ],
+              "localGrant": {
+                "description": "105Article43 conditionalcounty/regionaldistrictgrants",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["nc-transit-tax"]
+              },
               "differentLargeCityCharters": []
             },
             "ND": {
@@ -9927,21 +10127,45 @@
               "differentLargeCityCharters": []
             },
             "TN": {
-              "status": "unresearched",
-              "scope": "county, special-district",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "DavidsonNovember2024majority approval0.5%transitsurcharge effectiveFebruary2025,countywide;specified exemptions,singlearticlefirst1600dollars. Cites67-4-3202/.3204and67-6-702. Actualprecutoff implementation;currentstatewideeligibility/maxunverified.",
+              "sources": ["tn-transit-tax2025"],
+              "bars": [
+                {
+                  "description": "County-specificreceipt doesnotproveallcities/countieseligible.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["tn-transit-tax2025"]
+                }
+              ],
+              "localGrant": {
+                "description": "Agencyconfirms exercisedstatutory transit-surcharge route",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["tn-transit-tax2025"]
+              },
               "differentLargeCityCharters": []
             },
             "TX": {
-              "status": "unresearched",
-              "scope": "county, special-district",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "Chapter452 regionalauthority quarter/half/threequarter/onepercent;confirmationelection andmajorityapproved increases. Combinedlocalsales\u22642%everywhere. Oneauthorityroute,notcomplete451/457/460inventory;1995enactment.",
+              "sources": ["tx-transit-tax"],
+              "bars": [
+                {
+                  "description": "No levy inunconfirmed electionunit;combinedratecap andconflictingelectionlimits.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["tx-transit-tax"]
+                }
+              ],
+              "localGrant": {
+                "description": "452.401\u2013403 conditionalregionalauthoritygrant",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["tx-transit-tax"]
+              },
               "differentLargeCityCharters": []
             },
             "UT": {
@@ -9972,12 +10196,24 @@
               "differentLargeCityCharters": []
             },
             "WA": {
-              "status": "unresearched",
-              "scope": "county, special-district",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "Qualified city/PTBA/county/metropolitanbody;majorityvoters approves0.1\u20130.9%. SpecifiedpopulationqualifiedPTBAadditional0.1\u20130.3%. Lastamendment2018c53effectiveAugust2018. Otherhighcapacityroutes separate.",
+              "sources": ["wa-transit-tax"],
+              "bars": [
+                {
+                  "description": "Subsection2 overlappingentity restrictions;not statewidebar.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["wa-transit-tax"]
+                }
+              ],
+              "localGrant": {
+                "description": "82.14.045 eligibletransitentities",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["wa-transit-tax"]
+              },
               "differentLargeCityCharters": []
             },
             "WV": {
@@ -25895,12 +26131,17 @@
               "differentLargeCityCharters": []
             },
             "CO": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "SB23-183repeals former voteropt-outrestriction and permitslocalbroadband. Otherconstitutional/finance/geography/cutoffconditions notexhausted.",
+              "sources": ["co-bb"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "Own-place enactedpublic-networkroute",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["co-bb"]
+              },
               "differentLargeCityCharters": []
             },
             "CT": {
@@ -25922,12 +26163,24 @@
               "differentLargeCityCharters": []
             },
             "FL": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "Twohearings\u226530daysapart,noticed businessplan andfouryearrevenueplan,majorityrecordedbodyvote. Debt>15yearsvoterequirement,enterpriseaccounting,no belowcostcrosssubsidy,noeminentdomain primarilyforservice;2005grandfatherexceptions. Definitions/excludedentitiesmatter.",
+              "sources": ["fl-bb2025"],
+              "bars": [
+                {
+                  "description": "Statutoryhearing,accounting,debt,pricing andeminentdomainconditions;grandfatheredproviders differ.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["fl-bb2025"]
+                }
+              ],
+              "localGrant": {
+                "description": "350.81 conditionalgovernment communicationsroute",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["fl-bb2025"]
+              },
               "differentLargeCityCharters": []
             },
             "GA": {
@@ -26003,12 +26256,24 @@
               "differentLargeCityCharters": []
             },
             "LA": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "Councilmajoritycallselection;electormajority required beforecoveredservice. Bondauthorizationelectionmay satisfyrequirement. Feasibilitysummary/notices,existing comparableprocedures andpetitionroute differ.2004Act736/2005Act406;otherchapterconditions/cutoffhistory incomplete.",
+              "sources": ["la-bb-referendum"],
+              "bars": [
+                {
+                  "description": "Cannotbegincoveredservice before requiredvoter approval.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["la-bb-referendum"]
+                }
+              ],
+              "localGrant": {
+                "description": "45:844.50 conditionalcoveredserviceprocedure",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["la-bb-referendum"]
+              },
               "differentLargeCityCharters": []
             },
             "ME": {
@@ -26039,21 +26304,45 @@
               "differentLargeCityCharters": []
             },
             "MI": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "OfficialAugust2025chapterindexedtext:competitivebids,fewerthanthreequalifiedprivatebids,>60days,sameRFPterms and484.3114compliance. Boundariesunlessjointrequest/contractexception. FullPDFdirectretrieval403;telecommunicationsdefinition andJanuaryhistoryremainqualified.",
+              "sources": ["mi-bb-bids"],
+              "bars": [
+                {
+                  "description": "RFP/qualifiedbid/waiting/geographicconditions;not a blanketallInternetban.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["mi-bb-bids"]
+                }
+              ],
+              "localGrant": {
+                "description": "484.2252 conditionalpublicentity telecommunicationsroute",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["mi-bb-bids"]
+              },
               "differentLargeCityCharters": []
             },
             "MN": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
-              "localGrant": null,
+              "status": "only some localities",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "429.021subd1(19) grantsInternetaccess/communicationsfacilities withnondiscrimination,regulator/providerseparation andnoinsideinformationsharing.2024c114art4section4.237.19telephoneexchangeelectoralmajority/65%requirement removed2024c114art4section2;condemnation nowpublicsafety/nootherproviderconditions.",
+              "sources": ["mn-bb2025", "mn-bb-phone2025", "mn-bb-amend2024"],
+              "bars": [
+                {
+                  "description": "Grantdoesnotwaiveotherfinance/assessmentlaws;telephonecondemnation separate.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends restriction;local action cannot waive statutory eligibility or procedural conditions.",
+                  "sources": ["mn-bb2025", "mn-bb-phone2025", "mn-bb-amend2024"]
+                }
+              ],
+              "localGrant": {
+                "description": "429.021subd1(19) municipalInternetfacilities",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["mn-bb2025", "mn-bb-phone2025", "mn-bb-amend2024"]
+              },
               "differentLargeCityCharters": []
             },
             "MS": {
@@ -26066,38 +26355,66 @@
               "differentLargeCityCharters": []
             },
             "MO": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place statutory restriction, service scope and express exceptions",
+              "reason": "Section 392.410(7) restricts political-subdivision telecommunications services or facilities requiring a service-authority certificate. Express exceptions include Internet-type services, own use, emergency services, and specified educational/medical uses. This section does not categorically prohibit municipal Internet service. Effective August 28, 2008; complete January 2026 amendment comparison and affirmative local grant remain unverified. Helper-read official text; lead retrieval failed.",
+              "sources": ["mo-bb-scope"],
+              "bars": [
+                {
+                  "description": "Certificate-covered telecommunications restriction with express service exceptions.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends the cited restriction. Local actors may exercise express statutory exceptions; no independent local repeal or referendum waiver established.",
+                  "sources": ["mo-bb-scope"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "MT": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place statutory restriction, service scope and express exceptions",
+              "reason": "Government ISP operation is generally barred, including through another subdivision. Exceptions cover no available private ISP, service before July 1, 2001, or advanced services unavailable privately. A private entrant triggers notice; government may choose to discontinue within 180 days, rather than being required to withdraw. Digital government services, purchased Internet access, funding private broadband, and contiguous-campus infrastructure remain permitted. History through 2025 chapter 53 section 5; exact 2025 effective date and complete cutoff comparison remain unverified. Lead independently read 2025 text.",
+              "sources": ["mt-bb2025"],
+              "bars": [
+                {
+                  "description": "General ISP restriction subject to specified service and grandfather exceptions.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends the cited restriction. Local actors may exercise express statutory exceptions; no independent local repeal or referendum waiver established.",
+                  "sources": ["mt-bb2025"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "NE": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place statutory restriction, service scope and express exceptions",
+              "reason": "Non-public-power governmental entities generally may not provide retail or wholesale broadband, Internet, telecommunications or video services. Listed educational/statutory exceptions and authorized service already provided before January 1, 2005 are preserved. Sections 86-575 through 86-577 concern conditional dark-fiber transactions, which differ from telecommunications service. Public-power entities require separate 86-595 review; exclusion from this restriction is not a retail grant. History lists 2005 LB645 and 2021 LB384. Lead independently read 86-594; complete cutoff comparison remains unverified.",
+              "sources": ["ne-bb-restriction"],
+              "bars": [
+                {
+                  "description": "Retail/wholesale service restriction with specified statutory and existing-service exceptions.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends the cited restriction. Local actors may exercise express statutory exceptions; no independent local repeal or referendum waiver established.",
+                  "sources": ["ne-bb-restriction"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "NV": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place statutory restriction, service scope and express exceptions",
+              "reason": "Incorporated cities with population at least 25,000 generally may not sell telecommunications service to the public; airport exception. Covered facility construction crossing public rights-of-way requires a cost-benefit study, public-interest finding and public inspection. Helper inspected definitions in 704.025/704.028; no express Internet or cable exception found there. County scope and affirmative smaller-city authority remain unverified. Section history: 1997 addition, 2007 amendment; current chapter revision is September 2026, not an archived January snapshot.",
+              "sources": ["nv-bb-city-scope"],
+              "bars": [
+                {
+                  "description": "Population-qualified city sale prohibition, airport exception and facility procedure.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends the cited restriction. Local actors may exercise express statutory exceptions; no independent local repeal or referendum waiver established.",
+                  "sources": ["nv-bb-city-scope"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -26200,11 +26517,18 @@
               "differentLargeCityCharters": []
             },
             "PA": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place statutory restriction, service scope and express exceptions",
+              "reason": "Compensated public telecommunications, including broadband, is restricted within a local exchange carrier network-modernization service area. Government may request specified speeds; exception if the incumbent does not agree within two months. If it agrees, delivery is required within fourteen months. Same type and scope of qualifying existing service is grandfathered. Act 183 of November 30, 2004; (h)(3) effective January 1, 2006, remainder immediate. Lead independently read subsection; complete January amendment comparison and general local enabling law remain unverified.",
+              "sources": ["pa-bb-incumbent"],
+              "bars": [
+                {
+                  "description": "Covered incumbent-area restriction with request and existing-service exceptions.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends the cited restriction. Local actors may exercise express statutory exceptions; no independent local repeal or referendum waiver established.",
+                  "sources": ["pa-bb-incumbent"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -26218,11 +26542,18 @@
               "differentLargeCityCharters": []
             },
             "SC": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "only some localities",
+              "scope": "own-place statutory restriction, service scope and express exceptions",
+              "reason": "Government communications providers face competitive-neutrality, imputed-cost/tax, separate-bookkeeping, audit and cross-subsidy conditions. Section 58-9-2660 provides unserved-area proceedings; 2670 has specified federal-grant, research-network and free municipal/county Wi-Fi exceptions. These provisions are not a categorical service ban or a complete affirmative municipal grant. History includes 2002 Act 360 effective July 1, 2002 and 2012 Act 284 effective June 29, 2012. Helper-read article; complete January 2026 comparison remains unverified. A proposed repeal was not treated as enacted.",
+              "sources": ["sc-bb-conditions"],
+              "bars": [
+                {
+                  "description": "Government-provider operating conditions with specified service and unserved-area exceptions.",
+                  "lawKind": "state statute",
+                  "changedBy": "State legislature amends the cited restriction. Local actors may exercise express statutory exceptions; no independent local repeal or referendum waiver established.",
+                  "sources": ["sc-bb-conditions"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -26286,12 +26617,17 @@
               "differentLargeCityCharters": []
             },
             "WA": {
-              "status": "unresearched",
-              "scope": "state, city",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "own-place statutory route,eligible entities and conditions only",
+              "reason": "2021ESHB1336 grantsretailtelecommunicationsauthority to specifiedpublicdistricts/counties/ports;repeal ofretailbar doesnotwaiveotherdelegatedpowers/conditions. January2026fullhistory incomplete.",
+              "sources": ["wa-bb"],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "Own-place enactedpublic-networkroute",
+                "lawKind": "state statute",
+                "changedBy": "State legislature amends enabling law;local body exercises delegated power subject to statutory procedure.",
+                "sources": ["wa-bb"]
+              },
               "differentLargeCityCharters": []
             },
             "WV": {
@@ -34522,9 +34858,15 @@
     {
       "id": "verify-13-item1",
       "promptClaim": "**Availability:** local transit taxes are barred where state law doesn't enable them. Some states give no dedicated local option (**verify** list, APTA).",
-      "status": "unresearched",
-      "finding": "Not yet resolved against dated primary evidence; original figure not adopted.",
-      "sources": []
+      "status": "partially verified",
+      "finding": "Own-place FL,WA,NC,TX conditional transit/transporttax grants and TN pre-cutoff Davidson implementation now established. WA overlappingentity bars,TXconfirmation/ratecaps andNCeligiblegeography are route-specific,not statewideprohibitions. INprimarydated text,APTAexhaustive nationalbarlist andJanuary2026fullcomparison remainunresearched.",
+      "sources": [
+        "fl-transit-tax",
+        "wa-transit-tax",
+        "nc-transit-tax",
+        "tx-transit-tax",
+        "tn-transit-tax2025"
+      ]
     },
     {
       "id": "verify-14-item1",
@@ -34667,8 +35009,16 @@
       "id": "verify-25-item1",
       "promptClaim": "- **State oversight of local rates:** varies. In most states it covers only investor-owned utilities, but some states regulate municipal utilities serving outside city limits (**verify** list).",
       "status": "partially verified",
-      "finding": "WisconsinPSC regulates municipal drinking-water rates. Florida governmental systems are exempt fromChapter 367 utility regulation; municipal council can establish rates under 180.13. Nationwide outside-city list remains unresearched.",
-      "sources": ["wi-water", "fl-exempt", "fl-water"]
+      "finding": "WisconsinPSC regulates municipal drinking-water rates. Florida governmental systems are exempt fromChapter 367 utility regulation; municipal council can establish rates under 180.13. Nationwide outside-city list remains unresearched. Ohio 743.04 grants equitable municipal water rents for operating costs and improvements to the director or charter-authorized body; 4905.02(A)(3) excludes municipally owned/operated utilities from its public-utility definition (2017 text). North Carolina 160A-314(a) permits city enterprise rates and different outside-city schedules, preserving inconsistent charters in (e); 62-3(23)d excludes municipal/county/local public-authority utilities except express provisions. Lead read all four sections. Neither pair establishes state outside-city rate review. NC 314 history through 2024; full January snapshot and exceptions still need comparison. Texas appeal review remains pending; national list remains open.",
+      "sources": [
+        "wi-water",
+        "fl-exempt",
+        "fl-water",
+        "oh-water-rates",
+        "oh-water-exempt",
+        "nc-water-rates",
+        "nc-water-exempt"
+      ]
     },
     {
       "id": "verify-26-item1",
@@ -34723,7 +35073,7 @@
       "id": "verify-31-item1",
       "promptClaim": "- **State:** broadband office, grant programs, **limits on municipal broadband**. About 16 states restrict public networks (BroadbandNow 2024, **verify**). North Carolina's HB 129 (2011) is an example.",
       "status": "partially verified",
-      "finding": "NC retains conditional network/accounting/debt restrictions and individual exemptions. ArkansasAct67/2021 expanded government authority with financing conditions; Act412/2025 did not undo it. Tennessee municipal-electric authority is territory-limited with exceptions; full current exception geography not retrieved. Colorado2023 and Washington2021 expanded permission. No nationwide16-state count adopted.",
+      "finding": "NC retains conditional network/accounting/debt restrictions and individual exemptions. ArkansasAct67/2021 expanded government authority with financing conditions; Act412/2025 did not undo it. Tennessee municipal-electric authority is territory-limited with exceptions; full current exception geography not retrieved. Colorado2023 and Washington2021 expanded permission. No nationwide16-state count adopted. RootreadMinnesota2025and2024enactment:former65%telephoneexchangevoterequirementremoved;Internetgrant nowconditionalnondiscrimination/separation. FL2025procedure/LAreferendum and MIofficialindexedRFPconditions added. No16statecountfreezeadopted. Six further own-place restrictions are recorded with exceptions: MO Internet-type exclusion, MT availability/grandfather routes, NE non-public-power scope, NV population-qualified city scope, PA incumbent request route, and SC provider conditions. These cannot support a uniform prohibition label or a January 2026 national count.",
       "sources": [
         "nc-bb-conditions",
         "nc-bb-exemptions",
@@ -34733,7 +35083,19 @@
         "tn-bb-plan",
         "tn-bb-code",
         "co-bb",
-        "wa-bb"
+        "wa-bb",
+        "fl-bb2025",
+        "la-bb-referendum",
+        "mi-bb-bids",
+        "mn-bb2025",
+        "mn-bb-phone2025",
+        "mn-bb-amend2024",
+        "mo-bb-scope",
+        "mt-bb2025",
+        "ne-bb-restriction",
+        "nv-bb-city-scope",
+        "pa-bb-incumbent",
+        "sc-bb-conditions"
       ]
     },
     {
