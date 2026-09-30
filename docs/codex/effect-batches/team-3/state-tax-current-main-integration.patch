@@ -31,7 +31,7 @@
      if (amount === 0) break;
      remaining -= amount;
      payments.push({
-+      ...(liability.authorityKey !== "US" && liability.lawEffectStamps?.length
++      ...(liability.taxKey.endsWith(":wage-income-tax") && liability.lawEffectStamps?.length
 +        ? { lawEffectStamps: liability.lawEffectStamps.map((stamp) => ({
 +            ...stamp,
 +            effectKind: "state-income-tax-payment",
