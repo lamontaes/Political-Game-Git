@@ -185,3 +185,67 @@ the exposed automation tools cap execution at once per hour. No automation ID
 exists. This runtime also exposes no hostlocal cross-thread sender. The exact
 limitations were posted and read back in 00; that post is not scheduled or
 direct thread delivery. Authorized law work continued after that checkpoint.
+
+## Cloud continuation: readable lobbying eligibility dates
+
+The cloud has the final preserved local work and a passing eligibility/pay
+regression. A bounded follow-up now spells out the date in a lobbying job
+refusal. The recorded legal waiting period still supplies that date. Broad
+cost and registry research gaps remain open.
+
+### MERGED
+
+Nothing merged in this continuation. The parent law candidate remains PR1131
+at bb6b08b7ff85aab7e066945887e25380499bf93c. The follow-up branch is
+codex/team1-lobbying-dates and contains only the two lobbying source/test
+files, its release declaration, claims and this appended receipt.
+
+### WHAT EMERGED
+
+No ordinary-player or full-year world was run. The bounded canonical fixture
+passed its actual application refusal, alternate job, funded payroll and
+world-integrity assertions. Its refusal now contains a spelled-out month,
+day and year and contains no ISO date. This is HARDWIRED presentation in
+src/simulation/lobbying-cooling-off.ts; it is not a newly measured law effect.
+
+### Wider effects and missing links
+
+Eligibility calculations, recorded dates and existing compensation writers
+are unchanged. The narrow Team 3 money and population-reader releases,
+Team 2 caller handoff and Team 4 speed hunks remain outside this repair.
+All-state firm capacity, library review hours, identification unit costs and
+incremental curriculum costs remain unresolved. The preserved research does
+not establish compatible replacements. No new coefficient was inserted.
+
+### VITAL STATISTICS
+
+- Calibration at the inherited source head: 3 tests passed in 9.98 seconds
+  total. The preservation head changes no source or tests.
+- Changed lobbying test: 1 test passed in 13.29 seconds total, with a
+  290-millisecond test body and at most 2 workers. No timeout limits changed.
+- Scoped TypeScript: the two changed source/test roots and their imports
+  passed with no diagnostics. Strict checking and unchecked-index checking
+  remained enabled.
+- Changed-file ESLint passed. Zero-dice passed with 217 existing allowances
+  and no new lines. Formatting, report and release-range results follow in
+  the pull request receipt.
+- All 41 archived research files matched their recorded sizes and SHA-256
+  hashes. The preserved proof remains incomplete: 0 of 92 paired years.
+
+### Method and next step
+
+The registered cloud checkout is /workspace/Political-Game-Git, owner
+team-1-laws. It fast-forwarded cleanly to the final local head. Guarded
+dependency installation and preflight passed with the 25 GiB reserve kept.
+The first calibration attempt lacked the original desktop import; the first
+two lobbying attempts lacked original art metadata or raster paths. Those
+were setup failures before assertions. Required tracked originals were
+materialized in the same sparse checkout, then the same tests passed.
+Logs remain under /tmp/team1-cloud-*.log; source was never weakened to bypass
+the imports. No extra checkout, cleanup, helper or merge was performed.
+
+Browser and human review are NOT RUN. Full law proofs and simulations remain
+NOT RUN and belong on main after authorized merge. A separate report reviewer
+was not spawned under the owner's helper restriction. Next: review the bounded
+copy repair and continue only replacements supported by compatible broad
+evidence, keeping unsupported legal and unit-cost values explicit.
