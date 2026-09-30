@@ -213,7 +213,7 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await page.getByTestId("calendar-simulate-day").click();
   await calendar
     .getByTestId(/^calendar-entry-/)
-    .filter({ hasText: "Journey to the public meeting" })
+    .filter({ hasText: "Trip to the public meeting" })
     .click();
   await page.getByTestId("calendar-play-event").click();
   await calendar
