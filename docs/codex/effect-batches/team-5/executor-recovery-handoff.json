@@ -1,0 +1,81 @@
+{
+  "status": "executor-failed; documentation handoff only; not READY or runtime proof",
+  "publishedSource": {
+    "branch": "codex/team-5-curriculum-library-main",
+    "head": "7239906f5e5b141a2796e41d6000b8363a1afa64",
+    "tree": "080be52072342776fe7122a0ca71d3bd3b066abd",
+    "testedLocalHead": "932cc02703a361aa64922c80fc4e316750ebc5e5"
+  },
+  "lastKnownDirty": {
+    "path": "src/simulation/library-materials-authority.ts",
+    "patch": "library-dirty-last-successful.patch",
+    "evidence": "Successful apply_patch; Prettier reported unchanged. Patch reconstructed from recorded tool input, not recovered from current filesystem.",
+    "currentBytesVerified": false,
+    "checksNotRun": [
+      "library fixture tests",
+      "library strict types"
+    ],
+    "testPath": "src/simulation/library-materials-authority.test.ts",
+    "testWrite": "failed; whether any bytes exist is unknown"
+  },
+  "ownedPaths": [
+    "src/simulation/education-civil-law-terms.ts",
+    "src/simulation/library-materials-authority.ts",
+    "src/simulation/library-materials-authority.test.ts",
+    "src/simulation/library-materials-law.ts",
+    "src/simulation/library-materials-types.ts",
+    "src/simulation/library-materials-law.test.ts",
+    "src/simulation/public-budgets/curriculum-standards.ts",
+    "src/simulation/public-budgets/curriculum-standards.test.ts",
+    "docs/codex/effect-batches/team-5/"
+  ],
+  "ownedNarrowHunks": [
+    {
+      "path": "src/simulation/public-budgets/parks-dedication.ts",
+      "hunks": "parks amount helper and its consumer; preserve researched baseline query"
+    },
+    {
+      "path": "src/simulation/public-budgets/month.ts",
+      "hunks": "parks-specific calculation/call only; no paid-leave filter/map/append, no age/cannabis arrays; exact reconciliation required"
+    }
+  ],
+  "pendingOverlap": [
+    {
+      "path": "src/simulation/public-budgets/month.ts",
+      "hunk": "curriculum school-spending and curriculum saved stamp append",
+      "action": "not edited; sequence after Team 3 paid-leave settlement change"
+    }
+  ],
+  "released": [
+    {
+      "owner": "Team 3",
+      "path": "src/simulation/public-budgets/month.ts",
+      "hunks": "MonthFlows paid-leave stamp map, outgoing paid-leave positive-payment filter, paid-leave settlement append"
+    },
+    {
+      "owner": "Team 3",
+      "path": "src/simulation/public-budgets/store.ts",
+      "hunk": "BudgetMonthRow optional stamp field"
+    },
+    {
+      "owner": "Team 8",
+      "paths": [
+        "src/simulation/law-effect-news.ts",
+        "src/simulation/law-effect-news.test.ts"
+      ]
+    }
+  ],
+  "centralOnly": [
+    "data/research/outcome-web/links.json",
+    "src/simulation/policy-pack-us-policy-positions.ts",
+    "resources.ts/types.ts paid-transfer provenance"
+  ],
+  "checks": {
+    "curriculumTests": "3/3 PASS 10.99s before outage",
+    "curriculumStrict": "3 roots 0 diagnostics",
+    "curriculumScoped": "lint/format/whitespace PASS",
+    "newChecks": "NOT RUN: executor failed"
+  },
+  "recovery": "Inspect branch/head/status and compare existing dirty bytes with this recorded patch. Preserve differing or partial bytes; do not blindly apply, reset, clean, or recreate the workspace.",
+  "blocker": "Failed to create unified exec process; exec-server Noise harness handshake failed. Environment subsequently marked failed querying executor capabilities."
+}
