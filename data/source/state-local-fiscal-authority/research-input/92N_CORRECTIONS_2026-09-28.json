@@ -1,0 +1,39 @@
+{
+  "about": "Corrections to 92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json found by Lane F's spec 9 spot check (data/research/money/government-budgets-2026.json, spotCheck92N; debt-and-credit-2026.json). 92N itself is research input and is not edited; a reader of 92N applies these on top of it. Approved by Claude CTO on 9/28/2026 at 4:57 a.m. EDT with the spec 9 research.",
+  "corrects": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
+  "recordedOn": "2026-09-28",
+  "corrections": [
+    {
+      "place": "us-in",
+      "field": "state_fiscal_authority.balanced_budget_requirements, stage 4 (deficit carryover)",
+      "92N": "Deficit carryover prohibited (stages 1-4 all required).",
+      "corrected": "Indiana may carry an annual deficit into the next year and has no requirement to close it in the next cycle; the state still may not borrow except narrowly.",
+      "sourceKey": "nasbo-bp-2021",
+      "evidence": "NASBO Budget Processes in the States (2021), balanced budget requirements table and state notes."
+    },
+    {
+      "place": "us-ri",
+      "field": "state_fiscal_authority.balanced_budget_requirements, stage 4 (deficit carryover)",
+      "92N": "Deficit carryover prohibited (stages 1-4 all required).",
+      "corrected": "Spending above revenue that the rainy-day fund covers is carried into the next year, and that year's budget must cut to rebalance.",
+      "sourceKey": "nasbo-bp-2021",
+      "evidence": "NASBO Budget Processes in the States (2021), balanced budget requirements table and state notes."
+    },
+    {
+      "place": "us-me",
+      "field": "line-item veto",
+      "92N": "No line-item veto.",
+      "corrected": "The governor may veto appropriation amounts line by line; the legislature overrides by a majority of elected members. 44 states have a line-item veto, not 43.",
+      "sourceKey": "nasbo-bp-2021; ncsl-veto",
+      "evidence": "NASBO Budget Processes in the States (2021), Table 8; NCSL gubernatorial veto authority (44 states)."
+    },
+    {
+      "place": "us-wa",
+      "field": "state_fiscal_authority.debt_restrictions.dollar_cap_or_ratio",
+      "92N": "Debt service capped at 9% of general state revenues (Art. VIII, section 1).",
+      "corrected": "Debt service is capped at 8.25% of general state revenues through June 30, 2034, then 8%, under the 2012 amendment to Article VIII, section 1.",
+      "sourceKey": "wa-const-art-viii-1",
+      "evidence": "Wash. Const. Art. VIII, section 1, as amended by Engrossed Senate Joint Resolution 8221, approved by voters in November 2012 (resolution number from memory, to verify against the constitution text)."
+    }
+  ]
+}
