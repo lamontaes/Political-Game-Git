@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import staging from "../../art/backdrops/staging.json";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { backdropStaging, placeBackdropPeople } from "./backdrop-people";
+import {
+  backdropStaging,
+  placeBackdropPeople,
+  spotFigure,
+} from "./backdrop-people";
 import { hasBackdrop } from "./place-backdrops";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
 import type { IsoDate, World } from "../simulation";
@@ -120,5 +124,21 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     // Nobody is drawn twice, and the player is never among them.
     expect(new Set(drawn).size).toBe(drawn.length);
     expect(drawn).not.toContain(player);
+  });
+  it("shows a seated person's legs under an open table, hiding only the tabletop's edge", () => {
+    const stage = backdropStaging("public-meeting-room")!;
+    const seat = stage.spots.find(
+      (spot) => spot.pose === "sit" && spot.group === "table",
+    )!;
+    const figure = spotFigure(stage, seat);
+    expect(figure.clipBelowPercent).toBe(39);
+    expect(figure.clipBandEndPercent).toBe(40.4);
+    // A counter still hides everything below its top.
+    const counter = backdropStaging("clerk-counter")!.spots.find(
+      (spot) => spot.clipBelowY !== undefined,
+    )!;
+    expect(
+      spotFigure(backdropStaging("clerk-counter")!, counter).clipBandEndPercent,
+    ).toBeNull();
   });
 });
