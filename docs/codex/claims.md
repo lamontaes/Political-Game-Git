@@ -1,4 +1,5 @@
 # File claims
 
-| Team | Files | Claimed at |
-| ---- | ----- | ---------- |
+| Team                  | Files                                                                                                                                                                                                                                                                                                                              | Claimed at                             |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| Team 8 English Engine | `scripts/english-check/wording.ts`; `scripts/english-check/wording-baseline.json`; `tests/player-wording.test.ts`; `src/player/JobListingsPanel.tsx`; `src/presentation/job-listings-english.ts`; `src/presentation/job-listings-english.test.ts`; `docs/codex/handbacks/team-8.md`; `docs/release/changes/team-8-jobs-english.md` | September 29, 2026, cloud continuation |

@@ -146,7 +146,6 @@
     "src/player/GoverningOfficeDesk.tsx": 3,
     "src/player/GuideWorkspace.tsx": 5,
     "src/player/IncidentResponsePanel.tsx": 2,
-    "src/player/JobListingsPanel.tsx": 1,
     "src/player/JudicialOfficeWork.tsx": 5,
     "src/player/LegislationWorkspace.tsx": 3,
     "src/player/LifePathsPanel.tsx": 10,
@@ -213,5 +212,13 @@
     "src/player/World39News.tsx": 7,
     "src/player/WorldOrientationPanel.tsx": 1,
     "src/player/WorldRecapPanel.tsx": 1
+  },
+  "phrasing": {
+    "src/player/CalendarWorkspace.tsx :: canonical-clock": 1,
+    "src/player/CalendarWorkspace.tsx :: full-travel-interval": 1,
+    "src/player/CalendarWorkspace.tsx :: impersonal-action": 1,
+    "src/player/PlayerOffice.tsx :: canonical-clock": 1,
+    "src/player/UX39CalendarGrid.tsx :: calendar-bookkeeping": 1,
+    "src/presentation/venue-activity.ts :: carry-out-choice": 1
   }
 }
