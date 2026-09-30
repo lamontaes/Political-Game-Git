@@ -1,3 +1,4 @@
+import { indexFollowingAppends } from "../history-index";
 import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
@@ -1053,24 +1054,44 @@ const AFFILIATION_INDEXES = new WeakMap<
   }
 >();
 
+const RECENT_AFFILIATIONS: (readonly unknown[])[] = [];
 function affiliationIndexes(
   participations: readonly OrganizationParticipation[],
 ) {
-  const cached = AFFILIATION_INDEXES.get(participations);
-  if (cached) return cached;
-  const affiliationsByStableKey = new Map<string, OrganizationParticipation>();
-  const firstPartyByPerson = new Map<EntityId, OrganizationParticipation>();
-  for (const participation of participations) {
-    affiliationsByStableKey.set(participation.stableKey, participation);
-    if (
-      participation.kind === PARTY_AFFILIATION_KIND &&
-      !firstPartyByPerson.has(participation.personId)
-    )
-      firstPartyByPerson.set(participation.personId, participation);
-  }
-  const indexes = { affiliationsByStableKey, firstPartyByPerson };
-  AFFILIATION_INDEXES.set(participations, indexes);
-  return indexes;
+  const extend = (
+    indexes: {
+      affiliationsByStableKey: Map<string, OrganizationParticipation>;
+      firstPartyByPerson: Map<EntityId, OrganizationParticipation>;
+    },
+    from: number,
+  ) => {
+    for (let i = from; i < participations.length; i += 1) {
+      const participation = participations[i]!;
+      indexes.affiliationsByStableKey.set(
+        participation.stableKey,
+        participation,
+      );
+      if (
+        participation.kind === PARTY_AFFILIATION_KIND &&
+        !indexes.firstPartyByPerson.has(participation.personId)
+      )
+        indexes.firstPartyByPerson.set(participation.personId, participation);
+    }
+    return indexes;
+  };
+  return indexFollowingAppends(
+    AFFILIATION_INDEXES,
+    RECENT_AFFILIATIONS,
+    participations,
+    () =>
+      extend(
+        { affiliationsByStableKey: new Map(), firstPartyByPerson: new Map() },
+        0,
+      ),
+    // This private index is read synchronously into scalar seat views. Its
+    // maps never escape, so the helper can transfer their ownership on append.
+    (index, from) => extend(index as Parameters<typeof extend>[0], from),
+  );
 }
 
 // The nationwide opening appends thousands of relationships, then reuses the

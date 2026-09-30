@@ -83,7 +83,7 @@ describe("a three-day ordinary-player route", () => {
     expect(firstStop.receipt.outcome).toContain(
       "The public meeting starts at 6:30 p.m.",
     );
-    expect(firstStop.receipt.outcome).not.toContain("Journey to");
+    expect(firstStop.receipt.outcome).not.toContain("Trip to");
     expect(
       firstStop.world.history.events.filter(
         (event) =>

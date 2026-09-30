@@ -54,6 +54,33 @@ describe("batched context-person writer", () => {
     expect(createCharacterHistoryContextPeople(once, inputs)).toBe(once);
   });
 
+  it("recomputes lineage after an external appearance edit", () => {
+    const once = createCharacterHistoryContextPeople(base.world, [inputs[0]!]);
+    const changed = {
+      ...once,
+      people: Object.fromEntries(
+        Object.entries(once.people).map(([id, person]) => [
+          id,
+          {
+            ...person,
+            appearance: {
+              seed: `appearance-${id}`,
+              recipeVersion: "lineage-edited",
+              catalogGeneration: 17,
+            },
+          },
+        ]),
+      ),
+    };
+    const next = createCharacterHistoryContextPeople(changed, [inputs[1]!]);
+    const added = next.people[next.personOrder.at(-1)!]!;
+    expect(added.appearance?.recipeVersion).toBe("lineage-edited");
+    expect(added.appearance?.catalogGeneration).toBe(17);
+    expect(
+      once.people[once.personOrder.at(-1)!]!.appearance?.recipeVersion,
+    ).not.toBe("lineage-edited");
+  });
+
   it("refuses an input the single writer refuses", () => {
     expect(() =>
       createCharacterHistoryContextPeople(base.world, [

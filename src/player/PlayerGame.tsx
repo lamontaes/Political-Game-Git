@@ -1636,9 +1636,12 @@ function PlayingScreen({
             session.world,
             session.personId,
             placeBackdrop.place,
+            session.world.currentMoment,
+            // The scene's own people (a meeting's seated officers) first.
+            playScene.presentPeople,
           )
         : [],
-    [placeBackdrop, session.world, session.personId],
+    [placeBackdrop, session.world, session.personId, playScene.presentPeople],
   );
   const roomMedia = useMemo(
     () => projectRoomMedia(session.world, session.personId),
