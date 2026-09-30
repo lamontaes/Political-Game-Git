@@ -1,3 +1,6 @@
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { LifeScenePanel } from "../player/opening-life/LifeScenePanel";
 import { describe, expect, it } from "vitest";
 import {
   deserializeWorld,
@@ -12,7 +15,7 @@ import {
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { createAuthoredMunicipalPublicSession } from "./municipal-workspace";
-import { describePlacesOutcome, projectPlacesWorkspace } from "./player-places";
+import { projectPlacesWorkspace } from "./player-places";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { declineVenueActivity, performVenueActivity } from "./venue-activity";
 import {
@@ -24,8 +27,8 @@ function childAtHome(seed = "places11-child") {
   const game = createNewGameWorld({
     placeKey: "kentucky",
     startAge: 10,
-    depth: "play-from-childhood",
-    startingLife: "opening-life",
+    depth: "play-formative-years",
+    startingLife: "ordinary-life",
     household: "shares-a-home",
     seed,
     givenName: null,
@@ -38,39 +41,32 @@ function childAtHome(seed = "places11-child") {
 }
 
 describe("player-places projection", () => {
-  it("shows current location, walk eligibility, and honest already-home refusal", () => {
+  it("shows the recorded location without offering menu walks", () => {
     const { world, personId } = childAtHome();
+    const saved = serializeWorld(world);
     const model = projectPlacesWorkspace(world, personId)!;
     expect(model.current.label).toBe("Home");
     expect(model.current.setting).toBe("home");
-
-    const home = model.offers.find((offer) => offer.id === "walk-home")!;
-    const nearby = model.offers.find(
-      (offer) => offer.id === "walk-neighborhood",
-    )!;
-    expect(home.kind).toBe("return-home");
-    expect(home.unavailable).toBe("You are already home.");
-    expect(nearby.unavailable).toBeNull();
-    expect(nearby.companionLabel).toMatch(/would come with you/);
-  });
-
-  it("swaps walk refusals after a recorded neighborhood arrival", () => {
-    const { world, personId } = childAtHome("places11-walk-arrival");
-    const next = walkOpeningNeighborhood(world, personId, "neighborhood");
-    expect(next.history.events.at(-1)?.type).toBe("life.scene.arrived");
-    const model = projectPlacesWorkspace(next, personId)!;
-    expect(model.current.label).toBe("In your neighborhood");
     expect(
-      model.offers.find((offer) => offer.id === "walk-home")!.unavailable,
-    ).toBeNull();
-    expect(
-      model.offers.find((offer) => offer.id === "walk-neighborhood")!
-        .unavailable,
-    ).toBe("You are already out in your neighborhood.");
-    expect(describePlacesOutcome(world, next, personId)).toMatch(/→/);
-    expect(describePlacesOutcome(world, next, personId)).toContain(
-      "In your neighborhood",
+      model.offers.some((offer) => offer.walkDestination !== undefined),
+    ).toBe(false);
+    expect(model.offers.map((offer) => offer.title)).not.toContain(
+      "Take a short walk nearby",
     );
+    expect(model.offers.map((offer) => offer.title)).not.toContain("Walk home");
+    const markup = renderToStaticMarkup(
+      createElement(LifeScenePanel, {
+        world,
+        playerPersonId: personId,
+        onWorldChange: () => {},
+        onTalkTo: () => {},
+      }),
+    );
+    expect(markup).toContain('data-testid="opening-life-scene"');
+    expect(markup).not.toContain("life-walk-");
+    expect(markup).not.toContain("Take a short walk nearby");
+    expect(markup).not.toContain("Walk home");
+    expect(serializeWorld(world)).toBe(saved);
   });
 
   it("survives save and reload without changing offers", () => {

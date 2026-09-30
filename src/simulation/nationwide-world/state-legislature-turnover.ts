@@ -66,6 +66,7 @@ import {
   hasStableKey,
   recordByStableKey,
   recordsWithFieldValue,
+  withHistoryAppendTransaction,
 } from "../history-index";
 
 /**
@@ -317,10 +318,11 @@ function prepareStateIntake(
       );
   }
   let next = seedDates.size
-    ? ensurePeopleTraits(
+    ? withHistoryAppendTransaction(
         ensurePeopleTraitCatalog(world),
-        [...seedDates.keys()],
-        seedDates,
+        ["personalityTendencies"],
+        (prepared) =>
+          ensurePeopleTraits(prepared, [...seedDates.keys()], seedDates),
       )
     : world;
   for (const row of due) {

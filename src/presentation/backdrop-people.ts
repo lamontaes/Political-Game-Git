@@ -53,6 +53,8 @@ export interface BackdropPerson {
   readonly heightPercent: number;
   /** Behind a counter or podium: nothing below this line shows. */
   readonly clipBelowPercent: number | null;
+  /** Open furniture hides a band ending here; legs remain visible below it. */
+  readonly clipBandEndPercent: number | null;
   /** Draw order: 0 is farthest; nearer people are drawn over farther ones. */
   readonly depth: number;
   readonly engine: EngineRecipe;
@@ -237,6 +239,10 @@ export function placeBackdropPeople(
   place: string,
   moment: SimulationMoment = world.currentMoment,
   present: readonly { readonly personId: EntityId }[] = [],
+  options: {
+    /** The scene's people stand on the open floor instead of taking seats. */
+    readonly standing?: boolean;
+  } = {},
 ): readonly BackdropPerson[] {
   const stage = backdropStaging(place);
   if (!stage) return [];
@@ -257,9 +263,11 @@ export function placeBackdropPeople(
   // scene's to give.
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = stage.spots.filter((spot) => spot.pose !== "podium");
-  const principal = usable.filter(
-    (spot) => spot.floor !== undefined || spot.group !== undefined,
-  );
+  const principal = options.standing
+    ? usable.filter((spot) => spot.pose === "stand")
+    : usable.filter(
+        (spot) => spot.floor !== undefined || spot.group !== undefined,
+      );
   const taken = new Set<StagingSpot>();
   const take = (candidates: readonly StagingSpot[]) => {
     const spot = candidates.find((candidate) => !taken.has(candidate));

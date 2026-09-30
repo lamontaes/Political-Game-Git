@@ -17,12 +17,9 @@ import { World39News } from "./World39News";
  * query-string opt-in that production navigation cannot reach. What it must
  * not do is appear in ordinary play.
  *
- * An earlier sweep took sixteen of these out, all of them sentences the engine
- * built. This one was a link: `World39News` rendered every officeholder's
- * institutional sources as `Institutional source 1`, `2`, … inside the Office
- * details disclosure, on a surface the shell mounts for every life. A sweep
- * over built sentences could not see it, so this proof is over rendered markup
- * instead — the thing the player's browser actually receives.
+ * News no longer repeats the opening's officeholder section. The proof must
+ * establish that the current public overview rendered, keep that retired
+ * section absent, and check the markup for outbound provenance links.
  *
  * Markup proof, in the style of the other component tests here: pointer and
  * keyboard behavior is a browser proof and is not claimed by this file.
@@ -45,7 +42,7 @@ function openingLife(seed: string) {
 }
 
 describe("a player surface names no source", () => {
-  it("renders the World overview with officeholders and no outbound link", () => {
+  it("renders the public overview without the retired officeholder section or outbound links", () => {
     const { world, playerPersonId } = openingLife("player-surface-provenance");
     const markup = renderToStaticMarkup(
       <World39News
@@ -55,11 +52,13 @@ describe("a player surface names no source", () => {
       />,
     );
 
-    // The proof is worthless if the surface came back empty, so establish that
-    // it drew what carries the sources before asserting they are absent.
-    expect(markup).toContain("In office");
+    // Establish a populated public overview before checking for source leaks.
+    expect(markup).toContain('aria-label="World overview"');
+    expect(markup).toContain('data-testid="world39-standing"');
+    expect(markup).toContain("Lately");
+    expect(markup).not.toContain("In office");
     expect(markup).not.toContain("No public officeholders are named here yet.");
-    expect(markup).toContain("Office details");
+    expect(markup).not.toContain("Office details");
 
     expect(markup).not.toContain("href=");
     expect(markup).not.toContain("Institutional source");

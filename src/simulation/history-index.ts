@@ -378,7 +378,10 @@ export function appendedList<T>(
 ): T[] {
   // `concat` copies a long list faster than spreading it; records are
   // objects, never arrays, so nothing is flattened.
-  const next = records.concat(added);
+  const stream = APPEND_TRANSACTION?.get(records);
+  const next = stream
+    ? appendHistoryView(stream, added)
+    : records.concat(added);
   const from = LINES.get(records);
   if (from && !from.grown) {
     from.grown = true;
@@ -391,6 +394,133 @@ export function appendedList<T>(
     LINES.set(next, { line, grown: false });
   }
   return next;
+}
+
+interface HistoryAppendStream {
+  readonly base: readonly unknown[];
+  readonly tail?: {
+    readonly prior: HistoryAppendStream;
+    readonly added: readonly unknown[];
+  };
+  readonly length: number;
+}
+
+let APPEND_TRANSACTION: WeakMap<object, HistoryAppendStream> | undefined;
+
+/** Keep each writer's immutable snapshot, copying this intake's list once. */
+export function withHistoryAppendTransaction(
+  world: World,
+  families: readonly (keyof World["history"])[],
+  run: (world: World) => World,
+): World {
+  const transaction = new WeakMap<object, HistoryAppendStream>();
+  for (const family of families) {
+    const records = world.history[family];
+    if (Array.isArray(records))
+      transaction.set(records, { base: records, length: records.length });
+  }
+  const outer = APPEND_TRANSACTION;
+  let result: World;
+  APPEND_TRANSACTION = transaction;
+  try {
+    result = run(world);
+  } finally {
+    APPEND_TRANSACTION = outer;
+  }
+  if (result === world) return world;
+  const history = { ...result.history };
+  for (const family of families) {
+    const records = result.history[family];
+    if (!Array.isArray(records)) continue;
+    const stream = transaction.get(records);
+    if (!stream?.tail) continue;
+    const chunks: (readonly unknown[])[] = [];
+    for (let at = stream; at.tail; at = at.tail.prior)
+      chunks.push(at.tail.added);
+    const added = chunks.reverse().flat();
+    const materialized = stream.base.concat(added);
+    // The plain list has exactly this immutable view's records and order.
+    // Preserve the append proof so the next reader transfers its index.
+    const lineage = LINES.get(records);
+    if (lineage) LINES.set(materialized, { ...lineage });
+    Object.assign(history, { [family]: materialized });
+  }
+  return { ...result, history };
+}
+
+function appendHistoryView<T>(
+  prior: HistoryAppendStream,
+  added: readonly T[],
+): T[] {
+  const stream: HistoryAppendStream = {
+    base: prior.base,
+    tail: { prior, added: [...added] },
+    length: prior.length + added.length,
+  };
+  const index = (key: string | symbol): number | undefined => {
+    if (typeof key !== "string" || !/^(0|[1-9]\d*)$/.test(key))
+      return undefined;
+    const value = Number(key);
+    return value < stream.length ? value : undefined;
+  };
+  const valueAt = (at: number): unknown => {
+    if (at < stream.base.length) return stream.base[at];
+    let current = stream;
+    while (current.tail) {
+      if (at >= current.tail.prior.length)
+        return current.tail.added[at - current.tail.prior.length];
+      current = current.tail.prior;
+    }
+    return undefined;
+  };
+  const view = new Proxy<T[]>([], {
+    get(target, key, receiver) {
+      if (key === "length") return stream.length;
+      if (key === Symbol.iterator)
+        return function* () {
+          yield* stream.base;
+          const chunks: (readonly unknown[])[] = [];
+          for (let at = stream; at.tail; at = at.tail.prior)
+            chunks.push(at.tail.added);
+          for (let at = chunks.length - 1; at >= 0; at -= 1) yield* chunks[at]!;
+        };
+      const at = index(key);
+      return at === undefined
+        ? Reflect.get(target, key, receiver)
+        : valueAt(at);
+    },
+    has(target, key) {
+      return index(key) !== undefined || Reflect.has(target, key);
+    },
+    ownKeys() {
+      return [
+        ...Array.from({ length: stream.length }, (_, at) => String(at)),
+        "length",
+      ];
+    },
+    getOwnPropertyDescriptor(target, key) {
+      const at = index(key);
+      return at === undefined
+        ? Reflect.getOwnPropertyDescriptor(target, key)
+        : {
+            configurable: true,
+            enumerable: true,
+            writable: false,
+            value: valueAt(at),
+          };
+    },
+    set() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+    deleteProperty() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+    defineProperty() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+  });
+  APPEND_TRANSACTION!.set(view, stream);
+  return view;
 }
 
 /**
