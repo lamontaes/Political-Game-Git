@@ -3,7 +3,12 @@ import { recordByStableKey } from "../history-index";
 import { recordWorldEvent } from "../world";
 import { knownRule, fractionOf } from "../legislature-rules";
 import type { LegislativeRulePack } from "../legislature-rules";
-import type { EntityId, LegislativeMeasureRecord, World } from "../types";
+import type {
+  EntityId,
+  LegislativeActionRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "../types";
 import { seatedCongressChamber } from "./congress-chambers";
 import { principledLeaning } from "./officeholder-principles";
 import { lawInForce, statuteAnswer } from "./law-in-force";
@@ -92,11 +97,24 @@ function procedureKey(measureId: EntityId) {
 export function recordedCongressProcedure(
   world: World,
   measureId: EntityId,
+  at: Pick<LegislativeActionRecord, "occurredAt" | "sequence"> = {
+    occurredAt: world.currentDate,
+    sequence: world.history.nextSequence,
+  },
 ): "ordinary" | "reconciliation" | "unanimous-consent" {
   const record = recordByStableKey(
     world.history.events,
     procedureKey(measureId),
   );
+  // Replay supplies the action's immutable frontier. A later append, even
+  // on the same day or reporting an earlier occurrence, cannot authorize it.
+  if (
+    !record ||
+    record.occurredAt > at.occurredAt ||
+    record.recordedAt > at.occurredAt ||
+    record.sequence >= at.sequence
+  )
+    return "ordinary";
   if (record?.tags.includes("procedure:reconciliation"))
     return "reconciliation";
   if (record?.tags.includes("procedure:unanimous-consent"))
@@ -277,8 +295,9 @@ export function congressProcedurePack(
   world: World,
   measure: LegislativeMeasureRecord,
   pack: LegislativeRulePack,
+  at?: Pick<LegislativeActionRecord, "occurredAt" | "sequence">,
 ): LegislativeRulePack {
-  const procedure = recordedCongressProcedure(world, measure.id);
+  const procedure = recordedCongressProcedure(world, measure.id, at);
   if (measure.rulePackId !== US_CONGRESS_PACK_ID || procedure === "ordinary")
     return pack;
   return {

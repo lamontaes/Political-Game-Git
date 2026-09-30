@@ -12,3 +12,5 @@ The draft now records broader turnout evidence and the Senate procedure gaps tha
 The Senate draft refuses to infer consent from a senator's missing recorded principles.
 
 The draft records the released Senate writer scope and confirms the agenda integration on main.
+
+Historical Senate procedure reads now keep later adoption records from changing an earlier action boundary in the draft.

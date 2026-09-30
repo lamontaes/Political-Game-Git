@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createWorld, recordWorldEvent } from "../world";
+import { advanceWorld, createWorld, recordWorldEvent } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { makeIsoDate } from "../dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
@@ -120,6 +120,34 @@ function bill(
 const TAX = "us-federal-positions:tax.raise-top-income-tax-rate";
 const AID = "us-federal-positions:foreign-affairs.increase-foreign-aid";
 
+function recordedFixture(
+  world: ReturnType<typeof bill>["world"],
+  measure: ReturnType<typeof bill>["measure"],
+  occurredAt = world.currentDate,
+) {
+  return recordWorldEvent(world, {
+    stableKey: `congress-procedure/v1:${measure.id}`,
+    type: "congress.procedure-adopted",
+    occurredAt,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [measure.id],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["test:explicit-procedure-fixture", "procedure:reconciliation"],
+    summary: "An explicit fictional adoption for the historical reader test.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
 describe("a budget-only Senate procedure", () => {
   it("requires a scored fiscal change, not a fiscal label or an empty bill", () => {
     const empty = bill([]);
@@ -237,5 +265,55 @@ describe("a budget-only Senate procedure", () => {
         .find((c) => c.chamberKey === "senate")!
         .floorStages.map((s) => s.stageKey),
     ).toEqual(["cloture", "passage"]);
+  });
+
+  it("does not let a later same-day adoption reinterpret earlier action boundaries", () => {
+    const tax = bill([{ key: TAX, answer: "yes" }]);
+    const recorded = recordedFixture(tax.world, tax.measure);
+    const adoption = recorded.history.events.at(-1)!;
+    const saved = serializeWorld(recorded);
+    const reopened = deserializeWorld(saved);
+    for (const world of [recorded, reopened]) {
+      const before = {
+        occurredAt: adoption.occurredAt,
+        sequence: adoption.sequence,
+      };
+      expect(recordedCongressProcedure(world, tax.measure.id, before)).toBe(
+        "ordinary",
+      );
+      expect(
+        congressProcedurePack(
+          world,
+          tax.measure,
+          US_CONGRESS_RULE_PACK,
+          before,
+        ),
+      ).toBe(US_CONGRESS_RULE_PACK);
+      expect(
+        recordedCongressProcedure(world, tax.measure.id, {
+          ...before,
+          sequence: adoption.sequence + 1,
+        }),
+      ).toBe("reconciliation");
+    }
+    expect(serializeWorld(reopened)).toBe(saved);
+  });
+
+  it("requires both occurrence and recording dates to precede a historical read", () => {
+    const tax = bill([{ key: TAX, answer: "yes" }]);
+    const advanced = advanceWorld(tax.world, 1);
+    for (const occurredAt of [tax.world.currentDate, advanced.currentDate]) {
+      const recorded = recordedFixture(advanced, tax.measure, occurredAt);
+      const reopened = deserializeWorld(serializeWorld(recorded));
+      expect(
+        recordedCongressProcedure(reopened, tax.measure.id, {
+          occurredAt: tax.world.currentDate,
+          sequence: reopened.history.nextSequence,
+        }),
+      ).toBe("ordinary");
+      expect(recordedCongressProcedure(reopened, tax.measure.id)).toBe(
+        "reconciliation",
+      );
+    }
   });
 });
