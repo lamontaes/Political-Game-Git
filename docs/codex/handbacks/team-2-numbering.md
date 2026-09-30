@@ -105,3 +105,61 @@ Stop: none.
 ## 7. Worked example
 
 The canonical filed rows above are the worked examples. No synthetic example fills an empty group. This is source/runtime proof; browser interaction and person-level law effects are not established.
+
+## Later actual month: three-state designations, Congress still empty
+
+The same seeded Wadsworth life completed 35 separately logged initial Day presses and 28 watched presses from February 9 through March 9, 2026. Five measures were actually filed on February 15: Ohio HB 1; South Carolina H 1 and S 1; New Mexico HB 1 and SB 1. Congress recorded zero introductions. The full Congress-plus-three-state designation requirement remains unmet.
+
+Source `a38e2dc374a1c1709b54975b85159aa922121533`, clean. Save/Continue date/history counts matched. Elapsed 92.517 seconds; duplicate reported introductions 0; unknown rule packs 0. Generated report check: 0 errors/0 warnings. The allocator source has not changed since its tested candidate. The next bounded check adds read-only closing Congress scores and actual intake-state records to identify the producer dependency without inventing a sponsor or bypassing majority backing. Closing scores are diagnostics, not recorded intake motives.
+
+# One month of actual measure designations
+
+28 watched-month Day presses in Wadsworth, Nevada, after 35 separately logged warmup presses, produced the following Congress and three random-state filing records. A group with no filings remains zero. The internal IDs and displayed names are both preserved.
+
+## 1. Why-chain
+
+Existing officials filed measures through the normal Day path. Their recorded jurisdiction, chamber and session selected the legal/data counter. This chain ends at procedural data and filed history; no actor reason is inferred from a bill number.
+
+## 2. Research
+
+Verified fields and explicitly unverified common arrangements share one allocator. Legal numbering constants have no effect-size draw. This observation supplies no new causal rate.
+
+## 3. Revisions
+
+No measure was introduced by this collector. Opening records were excluded by canonical sequence. The report does not infer a filing where none exists.
+
+## 4. Numbered observed groups
+
+### 1. Congress: 0 filings
+
+No recorded introduction during this watched month.
+
+### 2. Ohio: 1 filings
+
+- February 15, 2026: HB 1 (2025-2026 Regular Session); house; measure legislative-measure_5d1cf6d2298a9509; jurisdiction jurisdiction_cd70b9ba3c8e7584. Saved title "Cap property tax growth".
+
+### 3. South Carolina: 2 filings
+
+- February 15, 2026: H 1 (2025-2026 Regular Session); house; measure legislative-measure_7910bf67663fe7d7; jurisdiction jurisdiction_e73897803685f85d. Saved title "End cash bail".
+- February 15, 2026: S 1 (2025-2026 Regular Session); senate; measure legislative-measure_3040e3d86750b0f7; jurisdiction jurisdiction_e73897803685f85d. Saved title "By-right permitting".
+
+### 4. New Mexico: 2 filings
+
+- February 15, 2026: HB 1 (2025-2026 Regular Session); house; measure legislative-measure_e992d2ff1aa0aeba; jurisdiction jurisdiction_ca05aeb0981cd43a. Saved title "Fund pensions on schedule".
+- February 15, 2026: SB 1 (2025-2026 Regular Session); senate; measure legislative-measure_af41776dfd16ae32; jurisdiction jurisdiction_ca05aeb0981cd43a. Saved title "Reduce occupational licensing".
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: the normal observer Day path. RECORDS: actual measure designations and independent IDs. WORLD PIECES: existing jurisdictions, chambers and rule packs. CHECKS: no duplicate jurisdiction/chamber/session/designation among reported introductions; Save/Continue date and history counts agree. Unknown rule-pack records are excluded and counted, never assigned a fabricated jurisdiction.
+
+## 6. Proof receipt
+
+Seed team2-numbering-month-20260930; place 3281000; February 9, 2026 through March 9, 2026; status completed-month.
+
+Source `a38e2dc374a1c1709b54975b85159aa922121533`, clean. Save/Continue matched: true. Duplicate rows: 0. Unresolved rule-pack rows outside the reported groups: 0.
+
+Stop: none.
+
+## 7. Worked example
+
+The canonical filed rows above are the worked examples. No synthetic example fills an empty group. This is source/runtime proof; browser interaction and person-level law effects are not established.

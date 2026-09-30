@@ -6,8 +6,16 @@ import { performance } from "node:perf_hooks";
 import { observerPlace } from "../../src/presentation/observer-world";
 import { proseDate } from "../../src/presentation/prose-dates";
 import { makeIsoDate } from "../../src/simulation/dates";
+import { seatedCongressChamber } from "../../src/simulation/governing/congress-chambers";
+import {
+  CONGRESS_INTAKE_TRANSITION,
+  CONGRESS_LAWMAKING_PROFILE,
+} from "../../src/simulation/governing/congress-lawmaking";
+import { principledLeaning } from "../../src/simulation/governing/officeholder-principles";
+import { mayAnswerQuestion } from "../../src/simulation/governing/question-authority";
 import { rulePackById } from "../../src/simulation/legislature-rule-packs";
 import { measureFullDesignation } from "../../src/simulation/measure-numbering";
+import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import { pickDistinct, SeededRng } from "../../src/simulation/rng";
 import {
   isFederalDistrictUsps,
@@ -161,6 +169,80 @@ const groups = keys.map((jurisdictionKey) => ({
       : STATES[jurisdictionKey.slice(3)]!.name,
   rows: rows.filter((row) => row.jurisdictionKey === jurisdictionKey),
 }));
+// Closing conditions are observations, not reconstructed intake motives.
+const federalQuestions = Object.values(
+  button.world.policyCatalog.propositions,
+).filter(
+  (question) =>
+    button.world.policyCatalog.issues[question.issueId]?.stableKey.startsWith(
+      "us-federal:",
+    ) &&
+    mayAnswerQuestion(
+      button.world,
+      NATIONAL_ELECTION_JURISDICTION.id,
+      question.id,
+    ),
+);
+const congressClosingConditions = (["house", "senate"] as const).map(
+  (chamber) => {
+    const seated = seatedCongressChamber(button.world, chamber);
+    const members =
+      seated?.body.members.filter((member) => member.personId !== null) ?? [];
+    const scores = federalQuestions.map((question) =>
+      members.map(
+        (member) =>
+          principledLeaning(button.world, member.personId!, question.id).score,
+      ),
+    );
+    return {
+      chamber,
+      seatedMembers: members.length,
+      federalQuestions: federalQuestions.length,
+      filingThreshold: CONGRESS_LAWMAKING_PROFILE.filingThreshold,
+      memberQuestionScoresAtThreshold: scores
+        .flat()
+        .filter(
+          (score) =>
+            Math.abs(score) >= CONGRESS_LAWMAKING_PROFILE.filingThreshold,
+        ).length,
+      maxAbsoluteScore: Math.max(0, ...scores.flat().map(Math.abs)),
+      maxSameDirectionThresholdBackers: Math.max(
+        0,
+        ...scores.flatMap((values) => [
+          values.filter(
+            (score) => score >= CONGRESS_LAWMAKING_PROFILE.filingThreshold,
+          ).length,
+          values.filter(
+            (score) => score <= -CONGRESS_LAWMAKING_PROFILE.filingThreshold,
+          ).length,
+        ]),
+      ),
+    };
+  },
+);
+const congressIntakeRecords = button.world.history.futureDueItems
+  .filter(
+    (item) =>
+      item.transitionKey === CONGRESS_INTAKE_TRANSITION &&
+      item.dueAt >= from &&
+      item.dueAt <= button.world.currentDate,
+  )
+  .map((item) => ({
+    id: item.id,
+    dueAt: item.dueAt,
+    states: button.world.history.futureDueItemStates
+      .filter(
+        (state) =>
+          state.dueItemId === item.id &&
+          state.effectiveAt <= button.world.currentDate,
+      )
+      .map((state) => ({
+        status: state.status,
+        effectiveAt: state.effectiveAt,
+        context: state.context,
+        outcomeEventId: state.outcomeEventId,
+      })),
+  }));
 const receipt = {
   seed,
   sourceHead,
@@ -185,6 +267,8 @@ const receipt = {
   },
   unknownPacks,
   duplicates,
+  congressClosingConditions,
+  congressIntakeRecords,
   groups,
 };
 mkdirSync(dirname(output), { recursive: true });
@@ -232,6 +316,13 @@ report.push(
   `Seed ${seed}; place ${place.key}; ${proseDate(from)} through ${proseDate(button.world.currentDate)}; status ${status}.`,
   "",
   `Source \`${sourceHead}\`, clean. Save/Continue matched: ${save.reopenedMatches}. Duplicate rows: ${duplicates.length}. Unresolved rule-pack rows outside the reported groups: ${unknownPacks}.`,
+  "",
+  "Closing Congress conditions are read-only diagnostics, not recorded filing motives:",
+  "",
+  ...congressClosingConditions.map(
+    (row) =>
+      `- ${row.chamber}: ${row.seatedMembers} recorded members; ${row.federalQuestions} authority-admitted federal questions; ${row.memberQuestionScoresAtThreshold} member/question scores reach the existing filing threshold ${row.filingThreshold}; largest absolute score ${row.maxAbsoluteScore}; largest same-direction threshold backing ${row.maxSameDirectionThresholdBackers} members.`,
+  ),
   "",
   `Stop: ${problem ?? "none"}.`,
   "",
