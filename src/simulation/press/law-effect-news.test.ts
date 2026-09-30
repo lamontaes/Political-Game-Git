@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
+import { appendCrisisRecord } from "../crisis/records";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import type { LawEffectStamp } from "../law-effect-stamp";
 import { searchLifePlaces, stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import {
@@ -10,6 +13,7 @@ import {
 } from "../life";
 import { createWorld, createWorldId, recordWorldEvent } from "../world";
 import { recordPersonDeath } from "../vitality";
+import { recordLawExposure } from "../law-exposure";
 import {
   localOutcomeKey,
   placeOutcomeAt,
@@ -31,6 +35,7 @@ import {
   LAW_EFFECT_MEASURE_TAG,
   lawNewsReaders,
   lawOutcomeFindings,
+  reportLawEffects,
 } from "./law-effect-news";
 
 /*
@@ -92,6 +97,98 @@ function ordinance(
 }
 
 type Law = ReturnType<typeof ordinance>;
+
+describe("separate recorded non-money law effects", () => {
+  it.each([
+    ["Quantico", "US-MD"],
+    ["Rockland", "US-ID"],
+    ["Tab", "US-IN"],
+  ])("keeps later sections attributable in %s", (query, stateKey) => {
+    const town = searchLifePlaces(query).find(
+      (place) => place.stateJurisdictionKey === stateKey,
+    )!;
+    expect(town).toBeDefined();
+    const seed = `non-money-news:${town.context.jurisdiction.id}`;
+    const date = makeIsoDate("2026-03-01");
+    const person = createLightweightPerson({
+      worldId: createWorldId(seed),
+      worldSeed: seed,
+      index: 0,
+      currentDate: date,
+      homeJurisdictionId: town.context.jurisdiction.id,
+    });
+    let world = createWorld({
+      seed,
+      currentDate: date,
+      jurisdictions: [town.context.jurisdiction],
+      people: [person],
+    });
+    const law = ordinance(town.context.jurisdiction.id, seed, "yes", date, 1);
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeMeasures: [law.measure],
+        legislativeEnactments: [law.enactment],
+      },
+    };
+    for (const channel of [
+      "job-rule",
+      "business-rule",
+      "public-service",
+    ] as const) {
+      for (const section of ["first", "second"]) {
+        world = recordWorldEvent(world, {
+          stableKey: `${channel}:${section}:fixture`,
+          type: "test.recorded-law-effect",
+          occurredAt: date,
+          recordedAt: date,
+          jurisdictionId: town.context.jurisdiction.id,
+          involvedEntityIds: [person.id],
+          participants: [],
+          personFactConstraints: [],
+          visibility: "private",
+          tags: [],
+          summary: "An explicitly authored non-money effect fixture.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        const source = world.history.events.at(-1)!;
+        world = recordLawExposure(world, {
+          stableKey: `${channel}:${section}:exposure`,
+          personId: person.id,
+          measureId: law.measure.id,
+          sectionKey: section,
+          channel,
+          direction: "none",
+          amount: null,
+          cadence: null,
+          sourceRecordId: source.id,
+          includeFamily: false,
+        });
+        world = reportLawEffects(world, 0);
+        const stories = world.history.events.filter(
+          (event) =>
+            event.type === LAW_EFFECT_EVENT_TYPE &&
+            event.tags.includes(`law-effect:reach:${channel}`),
+        );
+        expect(stories).toHaveLength(section === "first" ? 1 : 2);
+        const story = stories.at(-1)!;
+        expect(story.tags).toContain(`law-effect:section:${section}`);
+        expect(story.tags).toContain(`law-effect:source:${source.id}`);
+        expect(story.summary).not.toContain("$");
+        expect(story.involvedEntityIds).toContain(person.id);
+        expect(reportLawEffects(world, 0)).toBe(world);
+      }
+    }
+  });
+});
 
 function worldWith(
   laws: readonly Law[],
@@ -481,4 +578,132 @@ describe("law story resident readers", () => {
       }),
     ).toEqual([0, 1, 3, 4, 5].map((index) => people[index]!.id).sort());
   });
+});
+
+describe("actual stamped coverage reaches resident news", () => {
+  it.each(["in-force-at-start", "enacted"] as const)(
+    "reads %s coverage without disclosing private basis or inventing an act",
+    (origin) => {
+      const { world: base, people, town, away } = readerFixture();
+      const date = base.currentDate;
+      const questionKey =
+        "us-policy-positions:health-human-services.expand-medicaid-eligibility";
+      const state = stateJurisdictionForKey("US-NV")!;
+      const catalog = createProductionPolicyCatalog();
+      const proposition = Object.values(catalog.propositions).find(
+        (definition) => definition.stableKey === questionKey,
+      )!;
+      expect(proposition).toBeDefined();
+      const fixtureLaw = ordinance(
+        state.id,
+        "coverage-news",
+        "yes",
+        date,
+        base.history.nextSequence,
+      );
+      const law = {
+        ...fixtureLaw,
+        enactment: {
+          ...fixtureLaw.enactment,
+          sequence: base.history.nextSequence + 1,
+        },
+        measure: {
+          ...fixtureLaw.measure,
+          shortTitle: "Authored Medicaid coverage fixture",
+          propositionIds: [proposition.id],
+          propositionAnswers: [
+            { propositionId: proposition.id, answer: "yes" as const },
+          ],
+        },
+      };
+      const governingLawKey =
+        origin === "enacted"
+          ? law.measure.id
+          : (`starting-law:US-NV:${questionKey}` as EntityId);
+      let world: World = {
+        ...base,
+        policyCatalog: catalog,
+        jurisdictions: { ...base.jurisdictions, [state.id]: state },
+        history: {
+          ...base.history,
+          nextSequence:
+            base.history.nextSequence + (origin === "enacted" ? 2 : 0),
+          legislativeMeasures: origin === "enacted" ? [law.measure] : [],
+          legislativeEnactments: origin === "enacted" ? [law.enactment] : [],
+        },
+      };
+      const stamp: LawEffectStamp = {
+        version: "law-effect-stamp/v1",
+        governingLawKey,
+        source: origin,
+        effectKind: "health-coverage",
+        questionKey,
+        jurisdictionId: state.id,
+        operativeAt: date,
+        appliedAt: date,
+        sourceRecordIds: [],
+      };
+      function coverage(covered: boolean, tag: string, stamped = true) {
+        world = appendCrisisRecord(world, {
+          kind: "health-coverage",
+          stableKey: `coverage-news:${origin}:${tag}`,
+          effectiveAt: date,
+          causalParentIds: [],
+          visibility: "private",
+          eventId: null,
+          personId: people[2]!.id,
+          program: "medicaid-expansion",
+          covered,
+          reasonKey: tag,
+          stateKey: "US-NV",
+          householdSize: 1,
+          monthlyIncomeMinor: 123456,
+          monthlyWorkHours: 0,
+          hazardMultiplierMicros: 1000000,
+          hazardFrom: null,
+          hazardBasis: "Explicit fixture, no measured health effect.",
+          basis: "PRIVATE income 123456 and private medical detail.",
+          ...(stamped ? { lawEffectStamps: [stamp] } : {}),
+        });
+      }
+      coverage(false, "initial-not-covered");
+      expect(reportLawEffects(world, 0)).toBe(world);
+      coverage(true, "coverage-began");
+      const source = world.history.crisisRecords!.at(-1)!;
+      world = reportLawEffects(world, 0);
+      const stories = world.history.events.filter((event) =>
+        event.tags.includes("law-effect:reach:health-coverage"),
+      );
+      expect(stories).toHaveLength(1);
+      const story = stories[0]!;
+      // Person2's current recorded household is Reno, despite hometown Carson.
+      expect(story.jurisdictionId).toBe(away.context.jurisdiction.id);
+      expect(story.jurisdictionId).not.toBe(town.context.jurisdiction.id);
+      expect(story.tags).toContain(`law-effect:source:${source.id}`);
+      expect(story.tags).toContain(`law-effect:origin:${origin}`);
+      expect(story.summary).toContain("coverage began for 1 resident");
+      expect(JSON.stringify(story)).not.toContain("123456");
+      expect(JSON.stringify(story)).not.toContain("private medical detail");
+      expect(lawNewsReaders(world, story)).toContain(people[2]!.id);
+      expect(reportLawEffects(world, 0)).toBe(world);
+      coverage(true, "same-coverage-new-reason");
+      expect(reportLawEffects(world, 0)).toBe(world);
+      coverage(false, "coverage-ended");
+      world = reportLawEffects(world, 0);
+      const both = world.history.events.filter((event) =>
+        event.tags.includes("law-effect:reach:health-coverage"),
+      );
+      expect(both).toHaveLength(2);
+      expect(both[1]!.summary).toContain("coverage ended for 1 resident");
+      coverage(true, "coverage-restored");
+      world = reportLawEffects(world, 0);
+      expect(
+        world.history.events.filter((event) =>
+          event.tags.includes("law-effect:reach:health-coverage"),
+        ),
+      ).toHaveLength(3);
+      coverage(false, "unstamped", false);
+      expect(reportLawEffects(world, 0)).toBe(world);
+    },
+  );
 });
