@@ -1,4 +1,6 @@
+/// <reference types="node" />
 import { beforeAll, describe, expect, it, vi } from "vitest";
+import { writeFileSync } from "node:fs";
 import type * as LegislationIntegrity from "../legislation-integrity";
 
 // The test writes one federal Act straight into the record so it can watch what
@@ -38,6 +40,7 @@ import type {
   World,
 } from "../types";
 import { projectCongress } from "./congress";
+import { isLawEffectStamp } from "../law-effect-stamp";
 import { houseDelegateOccupant } from "./house-delegates";
 import { ensureLivingWorldOpening } from "./opening";
 import { STATEHOOD_ADMISSION_DAYS } from "../governing/statehood-admission";
@@ -46,6 +49,8 @@ import {
   statehoodPlace,
   statehoodSeats,
   statehoodAdmittedOn,
+  applyStatehoodTurnover,
+  STATEHOOD_PROVENANCE,
 } from "./statehood-seats";
 
 /**
@@ -233,6 +238,60 @@ describe("when the place is admitted", () => {
     expect(delegate.kind).toBe("member");
     if (delegate.kind === "member" && representative.kind === "member")
       expect(representative.member.personId).toBe(delegate.personId);
+  });
+
+  it("saves canonical statehood stamps on named people's voting-seat tenures", () => {
+    const events = admitted.history.events.filter((event) =>
+      event.tags.includes(STATEHOOD_PROVENANCE),
+    );
+    expect(events).toHaveLength(3);
+    for (const event of events) {
+      const personId = event.participants.find(
+        (participant) => participant.role === "focus:subject",
+      )!.personId;
+      expect(admitted.people[personId]).toBeDefined();
+      expect(event.summary).toContain("serves as");
+      expect(event.lawEffectStamps).toHaveLength(1);
+      const stamp = event.lawEffectStamps![0]!;
+      expect(isLawEffectStamp(stamp)).toBe(true);
+      expect(stamp).toMatchObject({
+        governingLawKey: "legislative-measure_statehood_test",
+        questionKey: QUESTION_KEY,
+        effectKind: "congress-voting-seat-tenure",
+        appliedAt: event.occurredAt,
+        jurisdictionId: event.jurisdictionId,
+      });
+      expect(stamp.sourceRecordIds).toContain(personId);
+    }
+    const reloaded = JSON.parse(JSON.stringify(admitted)) as World;
+    expect(
+      reloaded.history.events.filter((event) =>
+        event.tags.includes(STATEHOOD_PROVENANCE),
+      ),
+    ).toEqual(events);
+    const repeated = applyStatehoodTurnover(opened.currentDate, admitted);
+    expect(
+      repeated.history.events.filter((event) =>
+        event.tags.includes(STATEHOOD_PROVENANCE),
+      ),
+    ).toEqual(events);
+    const receipt = {
+      questionKey: QUESTION_KEY,
+      seed: opened.seed,
+      sourceProof:
+        "controlled authored enactment; inherited legislative integrity mock",
+      namedConsequences: events.map((event) => ({
+        summary: event.summary,
+        personId: event.participants[0]!.personId,
+        date: event.occurredAt,
+        stamps: event.lawEffectStamps,
+      })),
+    };
+    if (process.env.TEAM1_STATEHOOD_RECEIPT)
+      writeFileSync(
+        process.env.TEAM1_STATEHOOD_RECEIPT,
+        JSON.stringify(receipt, null, 2),
+      );
   });
 
   it("seats the two senators as two different people", () => {
