@@ -15,6 +15,7 @@ import {
   INCREASE_FOREIGN_AID_QUESTION,
 } from "../federal-outlay-laws";
 import { lawInForce } from "../governing/law-in-force";
+import { lawEffectStamp, type LawEffectStamp } from "../law-effect-stamp";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type { EntityId, IsoDate, World } from "../types";
 
@@ -195,6 +196,8 @@ export interface FederalTreasuryMonth {
     readonly measureId: EntityId;
     readonly line: FederalReceipt | FederalOutlay;
     readonly amount: number;
+    /** Attribution for an actual changed outlay; absent in older saves. */
+    readonly lawEffectStamps?: readonly LawEffectStamp[];
   }[];
 }
 
@@ -292,11 +295,38 @@ export function settleFederalTreasuryMonth(
       const moved = lawFactor(world, effect, month);
       if (!moved) continue;
       const next = amount * moved.factor;
+      const changedAmount = Math.round(next - amount);
+      const proposition =
+        kind === "outlay" && changedAmount !== 0
+          ? Object.values(world.policyCatalog?.propositions ?? {}).find(
+              (definition) => definition.stableKey === effect.questionKey,
+            )
+          : null;
+      const governingLaw = proposition
+        ? lawInForce(
+            world,
+            NATIONAL_ELECTION_JURISDICTION.id,
+            proposition.id,
+            month,
+            "enacted-only",
+          )
+        : null;
+      const stamp =
+        governingLaw?.measureId === moved.measureId
+          ? lawEffectStamp(governingLaw, {
+              effectKind: "government-outlay-change",
+              questionKey: effect.questionKey,
+              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+              appliedAt: month,
+              sourceRecordIds: [moved.measureId],
+            })
+          : null;
       laws.push({
         questionKey: effect.questionKey,
         measureId: moved.measureId,
         line: effect.line.key,
-        amount: Math.round(next - amount),
+        amount: changedAmount,
+        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
       });
       amount = next;
     }
