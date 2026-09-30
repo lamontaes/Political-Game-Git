@@ -2,6 +2,7 @@
 id: weighted-law-principle-consumer
 impact: patch
 section: Fixed
+title: Lawmakers weigh each law's arguments before voting
 ---
 
-Lawmakers weigh each law argument by its authored catalog weight and their own recorded principle strength. Older catalogs keep their previous contribution when the weight is omitted.
+Lawmakers weigh how much each argument matters to the bill alongside their own convictions. Older laws keep their previous influence when no argument weight is set.
