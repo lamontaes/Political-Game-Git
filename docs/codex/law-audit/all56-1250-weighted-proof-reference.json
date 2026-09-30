@@ -1,0 +1,97 @@
+{
+  "productionSource": "80dba335a62f77d6a45c38919105991658ccf1de",
+  "runnerSource": "762b030224533dbc5a4bbb838de6386924b10eb8",
+  "publishedHead": "f4022d0e38e28430ee6df4d5d697560267122f56",
+  "pr": 1286,
+  "seed": "team2-georgia-weight-comparison-20260930",
+  "placeName": "Abbeville, Georgia",
+  "generatedBills": 0,
+  "authoredProbes": 68,
+  "paired": 12240,
+  "changedDispositions": 76,
+  "yeaNayDirectionFlips": 0,
+  "examples": [
+    {
+      "law": "Limit legislative terms",
+      "personId": "person_cf1858aa65454ab9",
+      "name": "Cameron Salas",
+      "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+      "unweighted": {
+        "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+        "personId": "person_cf1858aa65454ab9",
+        "disposition": "present-not-voting",
+        "reason": "member:no-reason"
+      },
+      "weighted": {
+        "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+        "personId": "person_cf1858aa65454ab9",
+        "disposition": "yea",
+        "reason": "member:principle:for"
+      },
+      "leanings": [
+        {
+          "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+          "answer": "yes",
+          "unweighted": {
+            "score": 0,
+            "recordIds": [
+              "principle_69d752b750f94204",
+              "principle_13551dd89a820f24"
+            ]
+          },
+          "weighted": {
+            "score": 0.3500000000000001,
+            "recordIds": [
+              "principle_69d752b750f94204",
+              "principle_13551dd89a820f24"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "law": "Restrict abortion",
+      "personId": "person_cf1858aa65454ab9",
+      "name": "Cameron Salas",
+      "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+      "unweighted": {
+        "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+        "personId": "person_cf1858aa65454ab9",
+        "disposition": "present-not-voting",
+        "reason": "member:no-reason"
+      },
+      "weighted": {
+        "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+        "personId": "person_cf1858aa65454ab9",
+        "disposition": "yea",
+        "reason": "member:principle:for"
+      },
+      "leanings": [
+        {
+          "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+          "answer": "yes",
+          "unweighted": {
+            "score": 0,
+            "recordIds": [
+              "principle_13551dd89a820f24",
+              "principle_69d752b750f94204"
+            ]
+          },
+          "weighted": {
+            "score": 0.2625000000000002,
+            "recordIds": [
+              "principle_13551dd89a820f24",
+              "principle_69d752b750f94204"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Paired decision replay, not recorded floor votes or passage.",
+    "Probe bills are explicitly authored and have no sponsor.",
+    "Only catalog weights actually present at the pinned merged source are used.",
+    "No nationwide audit or money-effect proof is run here."
+  ]
+}

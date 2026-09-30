@@ -1,0 +1,394 @@
+[
+  {
+    "state": "US-AL",
+    "place": "0165472",
+    "placeName": "Rockford, Alabama",
+    "seed": "team2-full56-20260930-US-AL-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-AK",
+    "place": "0240840",
+    "placeName": "Kobuk, Alaska",
+    "seed": "team2-full56-20260930-US-AK-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-AS",
+    "place": "territory:AS:tau",
+    "placeName": "Ta'ū, American Samoa",
+    "seed": "team2-full56-20260930-US-AS-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-AZ",
+    "place": "0466820",
+    "placeName": "Sierra Vista, Arizona",
+    "seed": "team2-full56-20260930-US-AZ-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-AR",
+    "place": "county:05069",
+    "placeName": "Jefferson County, Arkansas",
+    "seed": "team2-full56-20260930-US-AR-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-CA",
+    "place": "0651560",
+    "placeName": "Norco, California",
+    "seed": "team2-full56-20260930-US-CA-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-CO",
+    "place": "0874815",
+    "placeName": "Sugar City, Colorado",
+    "seed": "team2-full56-20260930-US-CO-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-CT",
+    "place": "0967890",
+    "placeName": "Sharon, Connecticut",
+    "seed": "team2-full56-20260930-US-CT-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-DE",
+    "place": "1020380",
+    "placeName": "Delmar, Delaware",
+    "seed": "team2-full56-20260930-US-DE-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-DC",
+    "place": "1150000",
+    "placeName": "Washington, District of Columbia",
+    "seed": "team2-full56-20260930-US-DC-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-FL",
+    "place": "1274016",
+    "placeName": "Verandah, Florida",
+    "seed": "team2-full56-20260930-US-FL-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-GA",
+    "place": "1366304",
+    "placeName": "Rock Spring, Georgia",
+    "seed": "team2-full56-20260930-US-GA-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-GU",
+    "place": "territory:GU:dededo",
+    "placeName": "Dededo, Guam",
+    "seed": "team2-full56-20260930-US-GU-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-HI",
+    "place": "1501085",
+    "placeName": "Ainaloa, Hawaii",
+    "seed": "team2-full56-20260930-US-HI-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-ID",
+    "place": "1646720",
+    "placeName": "Lewisville, Idaho",
+    "seed": "team2-full56-20260930-US-ID-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-IL",
+    "place": "1702635",
+    "placeName": "Astoria, Illinois",
+    "seed": "team2-full56-20260930-US-IL-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-IN",
+    "place": "1826386",
+    "placeName": "Garrett, Indiana",
+    "seed": "team2-full56-20260930-US-IN-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-IA",
+    "place": "1964290",
+    "placeName": "Postville, Iowa",
+    "seed": "team2-full56-20260930-US-IA-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-KS",
+    "place": "2031675",
+    "placeName": "Hiawatha, Kansas",
+    "seed": "team2-full56-20260930-US-KS-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-KY",
+    "place": "2104816",
+    "placeName": "Bedford, Kentucky",
+    "seed": "team2-full56-20260930-US-KY-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-LA",
+    "place": "2255420",
+    "placeName": "Noble, Louisiana",
+    "seed": "team2-full56-20260930-US-LA-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-ME",
+    "place": "county:23031",
+    "placeName": "York County, Maine",
+    "seed": "team2-full56-20260930-US-ME-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-MD",
+    "place": "2460275",
+    "placeName": "Parkville, Maryland",
+    "seed": "team2-full56-20260930-US-MD-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-MA",
+    "place": "county:25015",
+    "placeName": "Hampshire County, Massachusetts",
+    "seed": "team2-full56-20260930-US-MA-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-MI",
+    "place": "county:26033",
+    "placeName": "Chippewa County, Michigan",
+    "seed": "team2-full56-20260930-US-MI-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-MN",
+    "place": "2745430",
+    "placeName": "New Brighton, Minnesota",
+    "seed": "team2-full56-20260930-US-MN-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-MS",
+    "place": "2876240",
+    "placeName": "Van Vleet, Mississippi",
+    "seed": "team2-full56-20260930-US-MS-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-MO",
+    "place": "county:29177",
+    "placeName": "Ray County, Missouri",
+    "seed": "team2-full56-20260930-US-MO-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-MT",
+    "place": "3002050",
+    "placeName": "Antelope, Montana",
+    "seed": "team2-full56-20260930-US-MT-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-NE",
+    "place": "3144420",
+    "placeName": "Seward, Nebraska",
+    "seed": "team2-full56-20260930-US-NE-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-NV",
+    "place": "3206500",
+    "placeName": "Boulder City, Nevada",
+    "seed": "team2-full56-20260930-US-NV-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-NH",
+    "place": "3332980",
+    "placeName": "Hampton, New Hampshire",
+    "seed": "team2-full56-20260930-US-NH-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-NJ",
+    "place": "3459285",
+    "placeName": "Plainsboro Center, New Jersey",
+    "seed": "team2-full56-20260930-US-NJ-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-NM",
+    "place": "3583760",
+    "placeName": "Waterflow, New Mexico",
+    "seed": "team2-full56-20260930-US-NM-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-NY",
+    "place": "3642829",
+    "placeName": "Little Valley, New York",
+    "seed": "team2-full56-20260930-US-NY-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-NC",
+    "place": "3738040",
+    "placeName": "Lewisville, North Carolina",
+    "seed": "team2-full56-20260930-US-NC-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-ND",
+    "place": "3824060",
+    "placeName": "Emerado, North Dakota",
+    "seed": "team2-full56-20260930-US-ND-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-MP",
+    "place": "territory:MP:susupe",
+    "placeName": "Susupe, Northern Mariana Islands",
+    "seed": "team2-full56-20260930-US-MP-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-OH",
+    "place": "3908602",
+    "placeName": "Bridgetown, Ohio",
+    "seed": "team2-full56-20260930-US-OH-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-OK",
+    "place": "4069400",
+    "placeName": "Sportsmen Acres, Oklahoma",
+    "seed": "team2-full56-20260930-US-OK-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-OR",
+    "place": "4160850",
+    "placeName": "Rainier, Oregon",
+    "seed": "team2-full56-20260930-US-OR-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-PA",
+    "place": "4264224",
+    "placeName": "Republic, Pennsylvania",
+    "seed": "team2-full56-20260930-US-PA-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-PR",
+    "place": "7206679",
+    "placeName": "Bayamón, Puerto Rico",
+    "seed": "team2-full56-20260930-US-PR-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-RI",
+    "place": "4445010",
+    "placeName": "Melville, Rhode Island",
+    "seed": "team2-full56-20260930-US-RI-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-SC",
+    "place": "4527070",
+    "placeName": "Fountain Inn, South Carolina",
+    "seed": "team2-full56-20260930-US-SC-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-SD",
+    "place": "4644620",
+    "placeName": "Naples, South Dakota",
+    "seed": "team2-full56-20260930-US-SD-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-TN",
+    "place": "county:47137",
+    "placeName": "Pickett County, Tennessee",
+    "seed": "team2-full56-20260930-US-TN-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-TX",
+    "place": "4868504",
+    "placeName": "Smyer, Texas",
+    "seed": "team2-full56-20260930-US-TX-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-VI",
+    "place": "territory:VI:charlotte-amalie",
+    "placeName": "Charlotte Amalie, U.S. Virgin Islands",
+    "seed": "team2-full56-20260930-US-VI-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-UT",
+    "place": "4920450",
+    "placeName": "Dugway, Utah",
+    "seed": "team2-full56-20260930-US-UT-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-VT",
+    "place": "5060025",
+    "placeName": "Rochester, Vermont",
+    "seed": "team2-full56-20260930-US-VT-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-VA",
+    "place": "county:51820",
+    "placeName": "Waynesboro, Virginia",
+    "seed": "team2-full56-20260930-US-VA-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-WA",
+    "place": "5365275",
+    "placeName": "Snoqualmie Pass, Washington",
+    "seed": "team2-full56-20260930-US-WA-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-WV",
+    "place": "5407516",
+    "placeName": "Big Sandy, West Virginia",
+    "seed": "team2-full56-20260930-US-WV-0",
+    "unincorporated": true
+  },
+  {
+    "state": "US-WI",
+    "place": "5561325",
+    "placeName": "Park Ridge, Wisconsin",
+    "seed": "team2-full56-20260930-US-WI-0",
+    "unincorporated": false
+  },
+  {
+    "state": "US-WY",
+    "place": "5668685",
+    "placeName": "Saratoga, Wyoming",
+    "seed": "team2-full56-20260930-US-WY-0",
+    "unincorporated": false
+  }
+]
