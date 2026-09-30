@@ -1,4 +1,4 @@
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { observerSetup } from "./observer-world";
@@ -12,6 +12,7 @@ import {
 } from "../simulation";
 
 /** Reuse the three logged random part1 places; third is unincorporated Tab. */
+mkdirSync("test-results/team8", { recursive: true });
 const cases = [
   ["team8-opening-1-a", "2464475"],
   ["team8-opening-1-b", "1669130"],
