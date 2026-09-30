@@ -1,0 +1,1315 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Policy-topic authority research batch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "area",
+    "baseline",
+    "researchedAt",
+    "status",
+    "places",
+    "sources",
+    "topics",
+    "verification",
+    "remainingWork"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "area": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline": {
+      "type": "string",
+      "minLength": 1
+    },
+    "researchedAt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": ["research draft", "ready for CTO review"]
+    },
+    "places": {
+      "type": "array",
+      "minItems": 56,
+      "maxItems": 56,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "AL",
+          "AK",
+          "AZ",
+          "AR",
+          "CA",
+          "CO",
+          "CT",
+          "DE",
+          "FL",
+          "GA",
+          "HI",
+          "ID",
+          "IL",
+          "IN",
+          "IA",
+          "KS",
+          "KY",
+          "LA",
+          "ME",
+          "MD",
+          "MA",
+          "MI",
+          "MN",
+          "MS",
+          "MO",
+          "MT",
+          "NE",
+          "NV",
+          "NH",
+          "NJ",
+          "NM",
+          "NY",
+          "NC",
+          "ND",
+          "OH",
+          "OK",
+          "OR",
+          "PA",
+          "RI",
+          "SC",
+          "SD",
+          "TN",
+          "TX",
+          "UT",
+          "VT",
+          "VA",
+          "WA",
+          "WV",
+          "WI",
+          "WY",
+          "DC",
+          "PR",
+          "GU",
+          "VI",
+          "AS",
+          "MP"
+        ]
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "url", "year", "accessed", "kind"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1800,
+                "maximum": 2026
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Publication or codification year when established; null for an undated source. Accessed is recorded separately."
+          },
+          "accessed": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "primary",
+              "accepted-survey",
+              "study",
+              "government-evaluation"
+            ]
+          }
+        }
+      }
+    },
+    "topics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "topicKey",
+          "catalogLevels",
+          "dialIds",
+          "proposedDials",
+          "authorities",
+          "interactions",
+          "decisions",
+          "federalLink",
+          "systemRedesigns",
+          "gameToday",
+          "remainingWork"
+        ],
+        "properties": {
+          "topicKey": {
+            "type": "string",
+            "minLength": 1
+          },
+          "catalogLevels": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "dialIds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "proposedDials": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "authorities": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "level",
+                "body",
+                "does",
+                "legalSource",
+                "sources",
+                "organizationRequirement"
+              ],
+              "properties": {
+                "level": {
+                  "enum": [
+                    "federal",
+                    "state",
+                    "dc",
+                    "territory",
+                    "county",
+                    "city",
+                    "school-district",
+                    "special-district",
+                    "tribal"
+                  ]
+                },
+                "body": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "does": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "legalSource": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sources": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "organizationRequirement": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "interactions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["chain", "pattern", "settings", "sources"],
+              "properties": {
+                "chain": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "enum": [
+                      "federal",
+                      "state",
+                      "dc",
+                      "territory",
+                      "county",
+                      "city",
+                      "school-district",
+                      "special-district",
+                      "tribal"
+                    ]
+                  }
+                },
+                "pattern": {
+                  "enum": [
+                    "federal floor",
+                    "field preemption",
+                    "conditional spending",
+                    "cooperative administration",
+                    "state preemption of local action",
+                    "delegation or enabling",
+                    "local administration of a state duty",
+                    "concurrent",
+                    "compact or authority"
+                  ]
+                },
+                "settings": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "sources": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "decisions": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "question",
+                "levels",
+                "terms",
+                "examples",
+                "availability",
+                "effects",
+                "directMechanism",
+                "startingLaw"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "levels": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "enum": [
+                      "federal",
+                      "state",
+                      "dc",
+                      "territory",
+                      "county",
+                      "city",
+                      "school-district",
+                      "special-district",
+                      "tribal"
+                    ]
+                  }
+                },
+                "terms": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "examples": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "place",
+                      "measure",
+                      "year",
+                      "status",
+                      "sources"
+                    ],
+                    "properties": {
+                      "place": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "measure": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "year": {
+                        "type": "integer",
+                        "minimum": 2010,
+                        "maximum": 2026
+                      },
+                      "status": {
+                        "enum": [
+                          "enacted",
+                          "passed chamber",
+                          "went to voters",
+                          "agency decision"
+                        ]
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                },
+                "availability": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "scope",
+                      "reason",
+                      "sources",
+                      "bars",
+                      "localGrant",
+                      "differentLargeCityCharters"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "yes",
+                          "no",
+                          "only some localities",
+                          "unresearched"
+                        ]
+                      },
+                      "scope": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "bars": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "description",
+                            "lawKind",
+                            "changedBy",
+                            "sources"
+                          ],
+                          "properties": {
+                            "description": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "lawKind": {
+                              "enum": [
+                                "U.S. Constitution",
+                                "federal statute",
+                                "federal regulation",
+                                "state constitution",
+                                "state statute",
+                                "territorial constitution",
+                                "territorial statute",
+                                "city charter",
+                                "ordinance",
+                                "District statute"
+                              ]
+                            },
+                            "changedBy": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sources": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "localGrant": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "description",
+                              "lawKind",
+                              "changedBy",
+                              "sources"
+                            ],
+                            "properties": {
+                              "description": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "lawKind": {
+                                "enum": [
+                                  "U.S. Constitution",
+                                  "federal statute",
+                                  "federal regulation",
+                                  "state constitution",
+                                  "state statute",
+                                  "territorial constitution",
+                                  "territorial statute",
+                                  "city charter",
+                                  "ordinance",
+                                  "District statute"
+                                ]
+                              },
+                              "changedBy": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "sources": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "differentLargeCityCharters": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": ["city", "rule", "sources"],
+                          "properties": {
+                            "city": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "rule": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sources": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "AL",
+                    "AK",
+                    "AZ",
+                    "AR",
+                    "CA",
+                    "CO",
+                    "CT",
+                    "DE",
+                    "FL",
+                    "GA",
+                    "HI",
+                    "ID",
+                    "IL",
+                    "IN",
+                    "IA",
+                    "KS",
+                    "KY",
+                    "LA",
+                    "ME",
+                    "MD",
+                    "MA",
+                    "MI",
+                    "MN",
+                    "MS",
+                    "MO",
+                    "MT",
+                    "NE",
+                    "NV",
+                    "NH",
+                    "NJ",
+                    "NM",
+                    "NY",
+                    "NC",
+                    "ND",
+                    "OH",
+                    "OK",
+                    "OR",
+                    "PA",
+                    "RI",
+                    "SC",
+                    "SD",
+                    "TN",
+                    "TX",
+                    "UT",
+                    "VT",
+                    "VA",
+                    "WA",
+                    "WV",
+                    "WI",
+                    "WY",
+                    "DC",
+                    "PR",
+                    "GU",
+                    "VI",
+                    "AS",
+                    "MP"
+                  ],
+                  "propertyNames": {
+                    "enum": [
+                      "AL",
+                      "AK",
+                      "AZ",
+                      "AR",
+                      "CA",
+                      "CO",
+                      "CT",
+                      "DE",
+                      "FL",
+                      "GA",
+                      "HI",
+                      "ID",
+                      "IL",
+                      "IN",
+                      "IA",
+                      "KS",
+                      "KY",
+                      "LA",
+                      "ME",
+                      "MD",
+                      "MA",
+                      "MI",
+                      "MN",
+                      "MS",
+                      "MO",
+                      "MT",
+                      "NE",
+                      "NV",
+                      "NH",
+                      "NJ",
+                      "NM",
+                      "NY",
+                      "NC",
+                      "ND",
+                      "OH",
+                      "OK",
+                      "OR",
+                      "PA",
+                      "RI",
+                      "SC",
+                      "SD",
+                      "TN",
+                      "TX",
+                      "UT",
+                      "VT",
+                      "VA",
+                      "WA",
+                      "WV",
+                      "WI",
+                      "WY",
+                      "DC",
+                      "PR",
+                      "GU",
+                      "VI",
+                      "AS",
+                      "MP"
+                    ]
+                  }
+                },
+                "effects": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "measure",
+                      "size",
+                      "range",
+                      "lag",
+                      "affectedGroup",
+                      "study",
+                      "sources",
+                      "transferLimit"
+                    ],
+                    "properties": {
+                      "measure": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "size": {
+                        "anyOf": [
+                          {
+                            "const": "no sized evidence"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "range": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["low", "high", "unit", "kind"],
+                            "properties": {
+                              "low": {
+                                "type": "number"
+                              },
+                              "high": {
+                                "type": "number"
+                              },
+                              "unit": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "kind": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "lag": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "affectedGroup": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "study": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["authors", "year", "venue"],
+                            "properties": {
+                              "authors": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "year": {
+                                "type": "integer"
+                              },
+                              "venue": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "transferLimit": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                },
+                "directMechanism": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "startingLaw": {
+                  "type": "object",
+                  "required": [
+                    "AL",
+                    "AK",
+                    "AZ",
+                    "AR",
+                    "CA",
+                    "CO",
+                    "CT",
+                    "DE",
+                    "FL",
+                    "GA",
+                    "HI",
+                    "ID",
+                    "IL",
+                    "IN",
+                    "IA",
+                    "KS",
+                    "KY",
+                    "LA",
+                    "ME",
+                    "MD",
+                    "MA",
+                    "MI",
+                    "MN",
+                    "MS",
+                    "MO",
+                    "MT",
+                    "NE",
+                    "NV",
+                    "NH",
+                    "NJ",
+                    "NM",
+                    "NY",
+                    "NC",
+                    "ND",
+                    "OH",
+                    "OK",
+                    "OR",
+                    "PA",
+                    "RI",
+                    "SC",
+                    "SD",
+                    "TN",
+                    "TX",
+                    "UT",
+                    "VT",
+                    "VA",
+                    "WA",
+                    "WV",
+                    "WI",
+                    "WY",
+                    "DC",
+                    "PR",
+                    "GU",
+                    "VI",
+                    "AS",
+                    "MP"
+                  ],
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["status", "detail", "sources"],
+                    "properties": {
+                      "status": {
+                        "enum": ["in force", "not in force", "unresearched"]
+                      },
+                      "detail": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "AL",
+                      "AK",
+                      "AZ",
+                      "AR",
+                      "CA",
+                      "CO",
+                      "CT",
+                      "DE",
+                      "FL",
+                      "GA",
+                      "HI",
+                      "ID",
+                      "IL",
+                      "IN",
+                      "IA",
+                      "KS",
+                      "KY",
+                      "LA",
+                      "ME",
+                      "MD",
+                      "MA",
+                      "MI",
+                      "MN",
+                      "MS",
+                      "MO",
+                      "MT",
+                      "NE",
+                      "NV",
+                      "NH",
+                      "NJ",
+                      "NM",
+                      "NY",
+                      "NC",
+                      "ND",
+                      "OH",
+                      "OK",
+                      "OR",
+                      "PA",
+                      "RI",
+                      "SC",
+                      "SD",
+                      "TN",
+                      "TX",
+                      "UT",
+                      "VT",
+                      "VA",
+                      "WA",
+                      "WV",
+                      "WI",
+                      "WY",
+                      "DC",
+                      "PR",
+                      "GU",
+                      "VI",
+                      "AS",
+                      "MP"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "federalLink": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "topicKey",
+                "program",
+                "match",
+                "conditions",
+                "sources"
+              ],
+              "properties": {
+                "topicKey": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "program": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "match": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "conditions": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "sources": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "systemRedesigns": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "question",
+                "pieces",
+                "usExamples",
+                "internationalModels",
+                "effects"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "question": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "pieces": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["name", "terms", "decisionIds"],
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "terms": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "decisionIds": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                },
+                "usExamples": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "place",
+                      "measure",
+                      "year",
+                      "status",
+                      "sources"
+                    ],
+                    "properties": {
+                      "place": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "measure": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "year": {
+                        "type": "integer",
+                        "minimum": 2010,
+                        "maximum": 2026
+                      },
+                      "status": {
+                        "enum": [
+                          "enacted",
+                          "passed chamber",
+                          "went to voters",
+                          "agency decision"
+                        ]
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                },
+                "internationalModels": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["place", "system", "sources"],
+                    "properties": {
+                      "place": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "system": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                },
+                "effects": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "measure",
+                      "size",
+                      "range",
+                      "lag",
+                      "affectedGroup",
+                      "study",
+                      "sources",
+                      "transferLimit"
+                    ],
+                    "properties": {
+                      "measure": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "size": {
+                        "anyOf": [
+                          {
+                            "const": "no sized evidence"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "range": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["low", "high", "unit", "kind"],
+                            "properties": {
+                              "low": {
+                                "type": "number"
+                              },
+                              "high": {
+                                "type": "number"
+                              },
+                              "unit": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "kind": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "lag": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "affectedGroup": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "study": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["authors", "year", "venue"],
+                            "properties": {
+                              "authors": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "year": {
+                                "type": "integer"
+                              },
+                              "venue": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "transferLimit": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "gameToday": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["questions", "coverage", "sourceAtHead"],
+            "properties": {
+              "questions": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "coverage": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "sourceAtHead": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "remainingWork": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "verification": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "promptClaim", "status", "finding", "sources"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "promptClaim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "verified",
+              "corrected",
+              "partially verified",
+              "unresearched"
+            ]
+          },
+          "finding": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "remainingWork": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
