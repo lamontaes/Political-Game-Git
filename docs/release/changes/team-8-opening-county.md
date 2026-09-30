@@ -1,6 +1,7 @@
 ---
-release: patch
-type: Changed
+id: team-8-opening-county
+impact: patch
+section: Changed
 title: Show the saved county board in unincorporated openings
 ---
 
