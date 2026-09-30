@@ -1,0 +1,314 @@
+{
+  "schema": "team7-art-numeric-inventory/v1",
+  "scope": "Every numeric JSON leaf and numeric Python literal in Team7 candidate files; additionally numeric age labels and measuredFrom text. No simulation source ownership.",
+  "sourceFiles": [
+    {
+      "file": "art/authoring/sept29-team7/generation-receipts.json",
+      "sha256": "be0dd90b5938e5f3b4efe1b6062545d515eca3bf42459f439947b5963fdcc9e7",
+      "numericOccurrences": 255
+    },
+    {
+      "file": "art/authoring/sept29-team7/kids/generation-receipts.json",
+      "sha256": "c5bb01f4c6176bc3a39da82dff4588ee0b1f51a213f4d7e7fce6a4b2cb6bd0f8",
+      "numericOccurrences": 221
+    },
+    {
+      "file": "art/authoring/sept29-team7/kids/tags.json",
+      "sha256": "41af21f1c2172f4687e25ea58227bf75a69a546493e1403a36e06470e8eacf14",
+      "numericOccurrences": 309
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/filled-frontpage-receipt.json",
+      "sha256": "1673b511466dca68b5f1774d9a2801cdc673f7bf87ec54a1a547a2cf6252e25e",
+      "numericOccurrences": 31
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/kit.json",
+      "sha256": "ea02ec1a96a44bfd313248c1231cf59f00c3312bbc6eb2626fdedbf3039c4b7d",
+      "numericOccurrences": 19
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/layouts.json",
+      "sha256": "79ddfb399e06317b31491af73e44cb1852ff3ebcf8c8f37cd04e1aff14608c43",
+      "numericOccurrences": 4033
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/recorded-issue-packet.json",
+      "sha256": "6909e6d67f2da7b4fa072dc62652629a17dac2d0efc5511d830b06f93178add4",
+      "numericOccurrences": 12
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/render-recorded.py",
+      "sha256": "0a3dfb725d7ad4e895c5d65baf8ea5ad2a7f2749ee4cd7d1b7a086379ea383b1",
+      "numericOccurrences": 79
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/render.py",
+      "sha256": "87585e09ecc21b3426b2b21556673ad4e009b619db981babafa38c0f424180a4",
+      "numericOccurrences": 411
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/sample-packet.json",
+      "sha256": "a9cceb711047041f37608676fbd93a4f0880408b11ee7595b8998e2758ddd13b",
+      "numericOccurrences": 0
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspaper-kit/sources.json",
+      "sha256": "a6dc84f564b33c9d687bc90684ef92f05e5dea9c9dd3a0f24aacd77b84c83892",
+      "numericOccurrences": 1
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspapers/generation-receipts.json",
+      "sha256": "e44a9a2d0b219b7723f825fb5cd6d80e88e3c0ce7946a10de5a32097a04c8b2b",
+      "numericOccurrences": 17
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspapers/tags.json",
+      "sha256": "8cc25ff3641abeca67a8e59dcbcadffc5d86992ef48f385ded35c050d75a44f4",
+      "numericOccurrences": 15
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-01/measurement.json",
+      "sha256": "cfaebcea58428c65e25e1f0276dff434a63ffb659aef3538c8ea2c507080cb7e",
+      "numericOccurrences": 79
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-01/staging.json",
+      "sha256": "34631ea257309c00713abcdbb02b09c5a84987d6c22a59cd22f926c62f89b6da",
+      "numericOccurrences": 2125
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-01/surfaces.json",
+      "sha256": "28de38886fdc85c0e4f009bcf6261cee97540e11c7c325d1361698bd1e48fc16",
+      "numericOccurrences": 784
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-02/measurement.json",
+      "sha256": "798b1e4792a291d9b567c26434a48c90b2afb41a2959594ed86da752ff743cf1",
+      "numericOccurrences": 71
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-02/staging.json",
+      "sha256": "9f247abcd03d74a4bbe0551e268121745b7985cab3293dfcc40ba80cc7027c6c",
+      "numericOccurrences": 4506
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-02/surfaces.json",
+      "sha256": "19557eea5e6554628b2f6044a78bbd2571ff4262ac88c3111e34eccaaa164231",
+      "numericOccurrences": 200
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-03/measurement.json",
+      "sha256": "93621f511d89947d854d3395f264de4fccf1617ce9b6feef6f3deccf5b988b3f",
+      "numericOccurrences": 123
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-03/staging.json",
+      "sha256": "20f18b963cce035fb636bbeaeb2edfcb815d3be51607163f61fb1f7c3cb11c96",
+      "numericOccurrences": 2036
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-03/surfaces.json",
+      "sha256": "84c62f24defede281d1ef8232442b29c8c62be39d8e5e3c923c3b6e050f03e4b",
+      "numericOccurrences": 328
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-04/measurement.json",
+      "sha256": "dfdd02da3e49c317dddfa88ded89c98b2217c302cb000b9c88873e1144f19601",
+      "numericOccurrences": 49
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-04/staging.json",
+      "sha256": "4a358f6475cd796e05b0d90f1e93691e01e114e2d6f1f2bea392b6b1da65322d",
+      "numericOccurrences": 2205
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-04/surfaces.json",
+      "sha256": "f3c4dafd45ad4572daaf5e62c1bfbec4e45426e72c3f53ac729152b8975f5d70",
+      "numericOccurrences": 264
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-05/measurement.json",
+      "sha256": "89c715e4c308c418b5237d2dda0f1cd7021fa6646ceac07c9c3c97e80474a9df",
+      "numericOccurrences": 121
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-05/staging.json",
+      "sha256": "ffb59be67175570a4c96fbbac12adb806fd1a4157196758cc4e11687fb47c374",
+      "numericOccurrences": 2123
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-05/surfaces.json",
+      "sha256": "8a753215eb13f7adcf6d8c8319a447940dc0391f0fd338054141d5f8b57b9170",
+      "numericOccurrences": 216
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-06/measurement.json",
+      "sha256": "1ea631c5fd11ad3de16e3fea93efccc7d7b277a87a2b684cc75cc75a1e39423f",
+      "numericOccurrences": 95
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-06/staging.json",
+      "sha256": "d9c605b0b808f0f12771c2d30065f0bd4ead0fc3a949ae9c28547560f686b32a",
+      "numericOccurrences": 2086
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-06/surfaces.json",
+      "sha256": "18c018ac3d5a5fad3183268be6e88bf621852b3189187ef08f3cdb49b1e3d72c",
+      "numericOccurrences": 504
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-07/measurement.json",
+      "sha256": "dfe7596c8b9dfdc766866dc5c94694607d9e04d3cccf9e405f73d3a656439cf5",
+      "numericOccurrences": 53
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-07/staging.json",
+      "sha256": "25f17cb4b0c8358c87f3e0f2bbccaedcc5869f9fbfd199c2a6a9017976d55d4c",
+      "numericOccurrences": 1500
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-07/surfaces.json",
+      "sha256": "5ff7f83334a161afdbbd2a49f4dcf70854861c8f66439a72db361ae8b5ab3dc6",
+      "numericOccurrences": 208
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-08/inherited-staging.json",
+      "sha256": "025de2635aac2012d89ca10c843c92299f68cbf24e64e6ecb828e24415d9974f",
+      "numericOccurrences": 631
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-08/measurement.json",
+      "sha256": "e77c36f17f49f07205fe3f64d39d9d6c318c87c540e4d4cc9ccf7409588d2bc5",
+      "numericOccurrences": 60
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-08/spot-audit.json",
+      "sha256": "323114a2104e4ab2dbe4433c221dd2627c6a6f1e561e64943e52a3905e58fd00",
+      "numericOccurrences": 913
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-08/surfaces.json",
+      "sha256": "32969fca799c965fb6676b44efa605135f40e8e0b033d4a278a8cacf9d3d568f",
+      "numericOccurrences": 0
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-09/inherited-staging.json",
+      "sha256": "74bf42aade58d93ae0d9559b3cf3978617a3c058986b747abb8e81a2bc583dc2",
+      "numericOccurrences": 613
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-09/measurement.json",
+      "sha256": "da0cc4952c7dfec4d10e385f549a4f899231019506220d7813ed766da4a6fd98",
+      "numericOccurrences": 60
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-09/spot-audit.json",
+      "sha256": "113adad1c3ba45b5f7e51333b56397da59158f46d67d4fccd5a4647096fd77c7",
+      "numericOccurrences": 874
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-09/surfaces.json",
+      "sha256": "a2199fcb92dd740af5de173dc84fc714d8e3a797ec57368c451fc2edc5eada57",
+      "numericOccurrences": 8
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-10/inherited-staging.json",
+      "sha256": "824ca6c97f4569d485d5f24a714b76486114f7bfc913a8d513f152162b129cfe",
+      "numericOccurrences": 592
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-10/measurement.json",
+      "sha256": "2a3b5263f2b8f5545ad2f2ef2b9bf97248b238b593146e893d7e0daa5aa68dff",
+      "numericOccurrences": 54
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-10/spot-audit.json",
+      "sha256": "a78c2792340b81b56fd338e19b1f7321f63d20bb10664df7b70bc697a730ef3f",
+      "numericOccurrences": 883
+    },
+    {
+      "file": "art/authoring/sept29-team7/scenes/batch-10/surfaces.json",
+      "sha256": "4cdcee930d35f1556f19b30940f47481b34cd3a6bc6a5e3285ef06914d5983d9",
+      "numericOccurrences": 0
+    },
+    {
+      "file": "art/authoring/sept29-team7/tags.json",
+      "sha256": "f2c3bc9e9429a99f2c4a2d0213fe863fde2790fe00e22dae0b474551864ca034",
+      "numericOccurrences": 3650
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/generation-receipts-v2.json",
+      "sha256": "110e6c36f2b9a6c8a8dcd17d34fc994969dce32f49e765ebce906131a0a4d9e5",
+      "numericOccurrences": 0
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/generation-receipts.json",
+      "sha256": "bf6dc8ae881beed18fabdc25651c21bb5296fccd37f2da88265f529fb25260b2",
+      "numericOccurrences": 21
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/tags-v2.json",
+      "sha256": "1b2f164d61c40ade0aadfb3f6d39b773e6c91013e5acb56ef639dc6193ed37e1",
+      "numericOccurrences": 27
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/tags.json",
+      "sha256": "c8a081d17c411c80baa4250cef10d3d1f8ee62b2888ceb23cd38eea9576c639f",
+      "numericOccurrences": 19
+    }
+  ],
+  "occurrences": 33484,
+  "classCounts": {
+    "metadata": 7941,
+    "age-label": 72,
+    "newspaper-layout": 4052,
+    "render-literal": 490,
+    "artistic-scale": 744,
+    "geometry-coordinate": 15220,
+    "draw-order": 4072,
+    "painted-object-assumption": 893
+  },
+  "classRanges": {
+    "metadata": {
+      "minimum": 0.0,
+      "maximum": 42686.0
+    },
+    "age-label": {
+      "minimum": 8.0,
+      "maximum": 14.0
+    },
+    "newspaper-layout": {
+      "minimum": 0.0,
+      "maximum": 800.0
+    },
+    "render-literal": {
+      "minimum": 0.0,
+      "maximum": 1420.0
+    },
+    "artistic-scale": {
+      "minimum": 0.04,
+      "maximum": 84.8
+    },
+    "geometry-coordinate": {
+      "minimum": 0.0,
+      "maximum": 962.0
+    },
+    "draw-order": {
+      "minimum": 0.0,
+      "maximum": 593.0
+    },
+    "painted-object-assumption": {
+      "minimum": 0.0,
+      "maximum": 99.0
+    }
+  },
+  "csvSha256": "8dbdbc887678a1b0fadea91c1aa224d5bef47baf0761eda35d8f84644b1c9102",
+  "limits": [
+    "Repeated receipt copies remain separately counted; counts are literal occurrences, not distinct behavior rules.",
+    "Numbers embedded in publication prose are recorded game facts, not art coefficients; packet is retained without rewriting.",
+    "Numeric filenames, IDs, hashes, schema text and color strings are identities/encoding, not behavior-setting coefficients.",
+    "Imported consumer behavior and runtime rendering NOT RUN.",
+    "The 1.7 m overlay adult reference is inherited and artistic; overlays are guides, not character fit proof."
+  ]
+}
