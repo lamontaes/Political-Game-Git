@@ -34,7 +34,10 @@
  * closures and unemployment feed upward.
  */
 
-import { dataPrivacyCostOn } from "../federal-data-privacy-law";
+import {
+  dataPrivacyCostOn,
+  NATIONAL_DATA_PRIVACY_QUESTION,
+} from "../federal-data-privacy-law";
 import { addDays } from "../dates";
 import { recordOrganizationProfile, recordWorkStatus } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
@@ -720,7 +723,7 @@ export function stepTownFinances(
 ): TownFinanceQuarter {
   const economy = economyOf(world);
   if (!economy) return { world, closing: [] };
-  const privacyLaw = dataPrivacyCostOn(world, world.currentDate);
+  const privacyLaw = dataPrivacyCostOn(world, world.currentDate, town);
   const store: TownFinanceStore = world.townFinances ?? {
     version: TOWN_FINANCES_VERSION,
     businesses: {},
@@ -1046,6 +1049,18 @@ export function stepTownFinances(
       price: prices.get(organizationId) ?? round6(priceLevel),
       bankId,
       lastQuarterNet: round2(net),
+      lastQuarterPrivacyCost: round2(privacyCost),
+      lawEffectStamps: [
+        ...(existing.lawEffectStamps ?? []).filter(
+          (stamp) =>
+            stamp.questionKey !== NATIONAL_DATA_PRIVACY_QUESTION ||
+            stamp.effectKind !== "business-compliance-cost",
+        ),
+        ...privacyLaw.lawEffectStamps.map((stamp) => ({
+          ...stamp,
+          sourceRecordIds: [...(stamp.sourceRecordIds ?? []), organizationId],
+        })),
+      ],
       lastRound: round,
     };
     books[organizationId] = next;

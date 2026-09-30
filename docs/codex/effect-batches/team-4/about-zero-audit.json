@@ -1,0 +1,111 @@
+{
+  "schema": "team-about-zero-audit/v1",
+  "team": 4,
+  "sourceHead": "4328a7c35c8d5eef7f96dc3f541286e0231f6166",
+  "sharedWriter": "coordinator links.json only",
+  "reviewedAboutZeroLinks": 3,
+  "unsupportedTargetZeroClaims": 2,
+  "primaryVerificationHolds": 1,
+  "acceptedMeasuredNearZeroClaims": 0,
+  "status": "submitted reclassification proposals; main not edited",
+  "links": [
+    {
+      "key": "inclusionary-to-homelessness",
+      "finding": "UNSUPPORTED TARGET ZERO",
+      "quotedExistingAnchor": "Inclusionary rules raised prices and slowed building in Boston's suburbs and had no significant effect around San Francisco; the few below-market homes and the slower building roughly cancel",
+      "source": "Schuetz, Meltzer and Been 2011, Urban Studies",
+      "existingTarget": "housing.homelessness",
+      "reason": "The cited anchor describes prices and construction in Boston and San Francisco. It provides no measured homelessness effect, and alleged cancellation is an inference.",
+      "coordinatorPatch": {
+        "size": null,
+        "evidence": "to-confirm",
+        "strength": "weak",
+        "aboutZero": false,
+        "why": [
+          "The enacted requirement reserves eligible units or an authorized alternative for affordable housing.",
+          "A developer assesses the cost, permitted density and expected revenue before building.",
+          "Completed affordable units change covered households housing options; altered project feasibility also changes market supply.",
+          "A household chooses housing from its income, eligible units and available rents. Bedrock: legal set-aside obligation, developer feasibility decision and household choice."
+        ],
+        "conditions": [
+          "Stronger affordability access where the rule produces occupied units for eligible households.",
+          "Weaker or offset where added compliance cost prevents projects or where compensating density changes feasibility.",
+          "Absent when no covered project produces a unit; no measured total homelessness effect is established."
+        ],
+        "reverseOnRepeal": "Repeal ends future requirements subject to enacted transition rules. Existing affordable-unit covenants and completed dwellings do not disappear; the study does not establish a symmetric homelessness response.",
+        "who": "Eligible applicants, developers of covered projects and competing renters; not all homeless households.",
+        "lagWhy": "Time requires approval, construction, eligibility and occupancy. Existing zero-month lag is not evidence of immediate homelessness change."
+      },
+      "range": "MISSING; no invented interval",
+      "numbersDeskRequest": "Exact estimate and confidence interval for housing.homelessness, with treatment, population, denominator and time horizon. A different outcome cannot establish this target as near-zero."
+    },
+    {
+      "key": "incentive-cap-to-poverty",
+      "finding": "UNSUPPORTED TARGET ZERO",
+      "quotedExistingAnchor": "Incentive deals add about 1,500 jobs in the target industry and no broader growth, so capping them changes no broad outcome",
+      "source": "Slattery and Zidar 2020, Journal of Economic Perspectives 34(2)",
+      "existingTarget": "household.poverty-pct",
+      "reason": "The cited anchor reports target-industry jobs and limited broader growth. Neither is a direct household-poverty estimate. Absence of a poverty estimate cannot establish zero.",
+      "coordinatorPatch": {
+        "size": null,
+        "evidence": "to-confirm",
+        "strength": "weak",
+        "aboutZero": false,
+        "why": [
+          "The cap restricts covered government incentive awards and disclosure makes awards reviewable.",
+          "A firm compares actual after-tax project costs and available location alternatives.",
+          "An award or its absence may affect an investment and the actual jobs and wages it supports.",
+          "Household poverty follows that households earned and benefit income relative to its poverty line. Bedrock: legal award limit, firm investment decision and recorded household income."
+        ],
+        "conditions": [
+          "More relevant to an investment whose location or feasibility actually depends on the award.",
+          "Weaker for a firm that would invest anyway or receives an unaffected award.",
+          "No measured poverty response when investment, employment and household income remain untraced; that is missing evidence, not zero."
+        ],
+        "reverseOnRepeal": "Repeal may authorize new larger awards prospectively. It does not reverse prior jobs, tax concessions or executed contracts, and no symmetric poverty response is measured.",
+        "who": "Recipient firms, affected workers and taxpayers funding the award.",
+        "lagWhy": "Awards, investment, hiring and pay must precede household poverty effects; no measured zero-month poverty delay supplied."
+      },
+      "range": "MISSING; no invented interval",
+      "numbersDeskRequest": "Exact estimate and confidence interval for household.poverty-pct, with treatment, population, denominator and time horizon. A different outcome cannot establish this target as near-zero."
+    },
+    {
+      "key": "cannabis-sales-to-violent-crime",
+      "finding": "PRIMARY ESTIMATE VERIFICATION HOLD",
+      "quotedExistingAnchor": "Legal retail cannabis in Colorado and Washington showed no lasting effect on violent crime against comparison states",
+      "source": "Dragone, Prarolo, Vanin and Zanella 2019, Journal of Economic Behavior and Organization 159",
+      "existingTarget": "crime.violent",
+      "reason": "Existing anchor asserts a measured aggregate near-zero result. The cited paper, crime categories, estimate and CI have not been verified here. Do not keep an about-zero claim as accepted evidence until that exact target is verified.",
+      "coordinatorPatch": {
+        "size": null,
+        "evidence": "to-confirm",
+        "strength": "weak",
+        "aboutZero": false,
+        "why": [
+          "Legal retail authorizes covered businesses to sell regulated cannabis.",
+          "Lawful access can change purchasing from illicit suppliers and policing of cannabis transactions.",
+          "Whether those changes affect a violent incident depends on actual conflicts, substitution, enforcement and the people involved.",
+          "A person chooses conduct from circumstances and relationships; injury and victimization must be recorded. Bedrock: the actors decision and physical harm, rather than a zero population assumption."
+        ],
+        "conditions": [
+          "Applies only to operative retail access in the studys actual treatment jurisdictions and period.",
+          "Market access, enforcement and substitution can differ; no unresearched multiplier is assigned.",
+          "A blocked or unimplemented retail system has no established retail treatment; measured category-specific null results cannot automatically stand for aggregate violent crime."
+        ],
+        "reverseOnRepeal": "Ending retail permission affects future market access and enforcement. Completed incidents and victimization remain recorded; an equal opposite aggregate response is not established.",
+        "who": "Retailers, purchasers, enforcement agencies, and people involved in actual incidents in the studied places.",
+        "lagWhy": "Observed study timing and retail implementation must be verified. Existing twelve-month lag is not a verified universal response delay."
+      },
+      "range": "MISSING; no invented interval",
+      "numbersDeskRequest": "Exact estimate and confidence interval for crime.violent, with treatment, population, denominator and time horizon. A different outcome cannot establish this target as near-zero."
+    }
+  ],
+  "ideologyAlreadyPublished": {
+    "path": "docs/codex/effect-batches/team-4/ideology.json",
+    "head": "ddcba196fe74d3858fe946207f0c9328e4d45c50",
+    "laws": 10,
+    "weights": 45,
+    "constituencies": 31
+  },
+  "runtimeProof": "NOT RUN"
+}

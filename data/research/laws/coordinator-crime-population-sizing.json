@@ -1,0 +1,41 @@
+{
+  "sourceHead": "b3184b0b806b65c560c0d9e3c46b7d3bba49ee84",
+  "sizedLink": "stand-your-ground-to-homicide",
+  "coefficientSourceReceipt": "Team9 bf15cd88ffd55e2c5ae174b2ae5b87b6b29157d1; primary browser reread blocked by captcha",
+  "unitBlocked": [
+    {
+      "link": "police-to-violent-crime",
+      "estimate": -0.34,
+      "standardError": 0.1,
+      "normal95Interval": [-0.536, -0.144],
+      "unit": "elasticity: percent outcome change per percent officer change",
+      "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
+      "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+      "status": "blocked-runtime-unit-conversion",
+      "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
+    },
+    {
+      "link": "police-to-property-crime",
+      "estimate": -0.17,
+      "standardError": 0.09,
+      "normal95Interval": [-0.3464, 0.0064],
+      "unit": "elasticity: percent outcome change per percent officer change",
+      "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
+      "location": "Table 5, preferred estimates, 242 cities, 1960\u20132010",
+      "status": "blocked-runtime-unit-conversion",
+      "requiredConnection": "Existing shape uses absolute officers-per-1000 delta. Needs relative-change reader and baseline; do not paste elasticity as an absolute coefficient. CI is sampling uncertainty, not observed geographic spread."
+    },
+    {
+      "link": "crime-to-out-migration",
+      "estimate": 1.18,
+      "standardError": 0.57,
+      "normal95Interval": [0.0628, 2.2972],
+      "unit": "out-migration probability change per change in reported crimes per resident over five years",
+      "source": "https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf",
+      "location": "Table 6a column 2, household controls; coefficient -1.18 on staying, sign reversed for leaving",
+      "status": "blocked-runtime-unit-and-time-conversion",
+      "requiredConnection": "Need recorded migration baseline and five-year exposure interval before proportional rate multiplier. This is not an immediate monthly multiplier or an observed individual move."
+    }
+  ],
+  "runtimeProof": "NOT RUN; no activation claimed"
+}
