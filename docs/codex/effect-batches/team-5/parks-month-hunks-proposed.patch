@@ -1,0 +1,36 @@
+--- a/src/simulation/public-budgets/month.ts
++++ b/src/simulation/public-budgets/month.ts
+@@ -1,3 +1,5 @@
++import { parksBudgetChange } from "./parks-dedication";
++import { PARKS_DEDICATION_QUESTION } from "./rules";
+ import { makeIsoDate } from "../dates";
+ import { stateJurisdictionForKey } from "../life-places";
+ import { townTaxableSales } from "../living-world/town-finances";
+@@ -370,6 +372,11 @@
+   const spending = BUDGET_PROGRAMS.map(() => 0);
+   if (government.level !== "state") return spending;
+   for (const effect of SPENDING_QUESTION_EFFECTS) {
++    if (effect.questionKey === PARKS_DEDICATION_QUESTION) {
++      const parks = parksBudgetChange(world, government, date);
++      if (parks) spending[BUDGET_PROGRAMS.indexOf("parks")]! += parks.dollars;
++      continue;
++    }
+     const propositionId = propositionIdFor(world, effect.questionKey);
+     if (!propositionId) continue;
+     const now = lawInForce(
+@@ -722,6 +729,7 @@
+     }
+   }
+ 
++  const parks = parksBudgetChange(world, government, month);
+   const row: BudgetMonthRow = {
+     month,
+     revenue,
+@@ -734,6 +742,7 @@
+       ? { townSales: Math.round(townSales * 10000) / 10000 }
+       : {}),
+     represented,
++    ...(parks?.stamp ? { lawEffectStamps: [parks.stamp] } : {}),
+   };
+   let next: PublicBudgetGovernment = {
+     ...government,
