@@ -407,3 +407,11 @@ December 1, 2026: "No bill was filed during this Congress intake."; 0 new measur
 January 1, 2027: "No bill was filed during this Congress intake."; 0 new measures; due item future-due-item_326fee1231f08fbb.
 
 The attached JSON preserves every new measure and subsequent action. An empty section supplies no invented sponsor or motive.
+
+# Congress producer root cause remains unresolved
+
+The coordinator explicitly rejects zero-to-zero introductions as completion of the producer assignment. The twelve-to-zero summary repair remains useful, but the top task is now an observed trace of admission, choice and filing early exits. No majority predicate will be relaxed to manufacture a positive year.
+
+The new owned collector `scripts/governance-proof/congress-intake-trace.ts` observes actual V8 producer locals during sixty normal Day presses. It installs read-only breakpoints at entry, the post-selection return boundary, mapped compilation and the recorded filing boundary. Its expressions only read saved values and invoke pure historical readers. It records the generated source hash and actual breakpoint locations, then checks the exact source remained clean and Save/Continue matched. No simulation code is copied or patched.
+
+Each actual selection snapshot records admitted question IDs, actual proposals and their principle record IDs, caucus/chamber backing, and the selected result. It also reads backing for every admitted question direction, allowing a majority-supported alternative excluded by the best-proposal filter to be distinguished from no available majority. The trace is NOT RUN at this publication checkpoint. It is a runtime observation of real calls, not a new canonical game event or a watched positive filing. Source typing, lint and format must pass before the run. The next report will identify the precise observed blocking decision or producer repair; absent authority or majority is not permission.
