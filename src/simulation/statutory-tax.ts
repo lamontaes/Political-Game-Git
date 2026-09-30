@@ -563,6 +563,7 @@ function paycheckLiabilities(
         rule.sourceUrl,
       ),
     );
+  const recipientPersonId = flow.recipient.personId;
   return rows.map((row) => {
     if (row.taxKey !== placeTaxKey || row.liability === null) return row;
     const stamps = stateIncomeTaxEffectStamps(
@@ -570,7 +571,7 @@ function paycheckLiabilities(
       stateKey,
       outcome.occurredAt,
       row.lawMeasureIds ?? [],
-      [outcome.id, flow.id, flow.recipient.personId],
+      [outcome.id, flow.id, recipientPersonId],
     );
     return stamps.length
       ? { ...row, lawEffectStamps: [...(row.lawEffectStamps ?? []), ...stamps] }
