@@ -1,3 +1,4 @@
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { createStableId } from "./ids";
 import { appendedList, hasStableKey, stableKeysOf } from "./history-index";
 import type {
@@ -66,7 +67,7 @@ import type {
   DecisionTraceRecord,
 } from "./types";
 
-export interface HistoricalEventInput {
+export interface HistoricalEventInput extends LawEffectStampedRecord {
   readonly stableKey: string;
   readonly type: EventType;
   readonly occurredAt: IsoDate;
@@ -443,6 +444,16 @@ export function appendHistoricalEvent(
     tags: canonicalTags(input.tags),
     summary: input.summary,
     context: cloneEventContext(input.context),
+    ...(input.lawEffectStamps === undefined
+      ? {}
+      : {
+          lawEffectStamps: input.lawEffectStamps.map((stamp) => ({
+            ...stamp,
+            ...(stamp.sourceRecordIds === undefined
+              ? {}
+              : { sourceRecordIds: [...stamp.sourceRecordIds] }),
+          })),
+        }),
   };
 
   return {
