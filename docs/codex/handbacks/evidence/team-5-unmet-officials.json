@@ -1,0 +1,40 @@
+{
+  "seed": "team5-unmet-public-record-audit-20260930",
+  "date": "2026-01-05",
+  "place": "jurisdiction_6752b5a7cd79cafe",
+  "records": [
+    {
+      "office": "us-president",
+      "personId": "person_5e705e1551c4dfb9",
+      "name": "Jared Fernandez",
+      "relationship": null,
+      "sharedHistory": 0,
+      "publicCareer": [
+        {
+          "eventId": "event_97ec936d80c6f540",
+          "date": "2025-01-20",
+          "dateLabel": "January 20, 2025",
+          "summary": "Took office as President of the United States."
+        }
+      ],
+      "laws": []
+    },
+    {
+      "office": "us-vice-president",
+      "personId": "person_2361f0068b1f293f",
+      "name": "Elena Skinner",
+      "relationship": null,
+      "sharedHistory": 0,
+      "publicCareer": [
+        {
+          "eventId": "event_19cbb76b70dc52dc",
+          "date": "2025-01-20",
+          "dateLabel": "January 20, 2025",
+          "summary": "Took office as Vice President of the United States."
+        }
+      ],
+      "laws": []
+    }
+  ],
+  "readPure": true
+}

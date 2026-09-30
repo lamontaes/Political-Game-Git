@@ -1,0 +1,10 @@
+import {prepareOpeningLife,generateOpeningLife} from '<CHECKOUT>/src/presentation/opening-life.ts';
+import {DEFAULT_NEW_GAME_SETUP} from '<CHECKOUT>/src/presentation/new-game.ts';
+import {currentPublicOfficeholders} from '<CHECKOUT>/src/presentation/opening-officeholders.ts';
+import {projectPersonDossier} from '<CHECKOUT>/src/presentation/person-dossier.ts';
+import {serializeWorld} from '<CHECKOUT>/src/simulation/serialization.ts';
+const opened=generateOpeningLife(prepareOpeningLife({...DEFAULT_NEW_GAME_SETUP,seed:'team5-unmet-public-record-audit-20260930',startAge:8}));
+const game=opened.game!;
+const before=serializeWorld(game.world);
+const records=currentPublicOfficeholders(game.world).filter(h=>h.officeKey==='us-president'||h.officeKey==='us-vice-president').map(h=>{const d=projectPersonDossier(game.world,game.playerPersonId,h.personId)!; return {office:h.officeKey,personId:h.personId,name:d.name,relationship:d.relationship,sharedHistory:d.sharedHistory.length,publicCareer:d.publicCareer,laws:d.laws};});
+console.log(JSON.stringify({seed:'team5-unmet-public-record-audit-20260930',date:game.world.currentDate,place:game.world.people[game.playerPersonId].homeJurisdictionId,records,readPure:before===serializeWorld(game.world)},null,2));

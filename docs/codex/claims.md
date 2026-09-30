@@ -35,3 +35,11 @@ Team 5 owns `docs/codex/handbacks/team-5-overnight.md`, the seven-heading
 handback and held foreground contract. Read-only source and preserved research
 receipts support this report. No new PlayerGame, simulation, schema, renderer
 or proof-runner writer is claimed.
+
+## Team 5 account-transfer checkpoint — stop requested by owner
+
+Team 5 claims `docs/codex/handbacks/team-5-account-transfer.md` and
+`docs/codex/handbacks/evidence/team-5-unmet-officials.json` plus
+`team-5-unmet-officials-harness.txt` in that evidence directory. Transfer only;
+no new law-trace, renderer or simulation writer started. Essential canonical
+projection receipt and harness are published for replacement-session access.
