@@ -1,4 +1,7 @@
-import type { LawOutcomeCalibration } from "./law-outcome-calibration";
+import type {
+  LawOutcomeCalibration,
+  OpeningLawEstimates,
+} from "./law-outcome-calibration";
 import type { LibraryMaterialsStore } from "./library-materials-types";
 import type { VoterIdentificationStore } from "./voter-identification-types";
 import type { ImmigrationAdmission } from "./immigration-admission-types";
@@ -5513,8 +5516,10 @@ export interface World {
   readonly generatorVersion: WorldGeneratorVersion;
   readonly id: EntityId;
   readonly seed: string;
-  /** Opening-only development calibration targets, never outcome multipliers. */
+  /** Saved nonlegal opening estimates; absent in legacy lives. */
+  readonly openingLawEstimates?: Readonly<Record<string, OpeningLawEstimates>>;
   readonly openingLobbyistAnnualPayCents?: Readonly<Record<string, number>>;
+  /** Opening-only development calibration targets, never outcome multipliers. */
   readonly lawOutcomeCalibration?: Readonly<
     Record<string, LawOutcomeCalibration>
   >;

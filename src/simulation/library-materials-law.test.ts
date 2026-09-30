@@ -143,6 +143,9 @@ describe("library appeals reach collection records and costs", () => {
     ).toBeGreaterThan(
       libraryChallengeExpenseDollars(control, town, control.currentDate),
     );
+    expect(treated.libraryMaterials!.decisions.length).toBeGreaterThan(0);
+    for (const decision of treated.libraryMaterials!.decisions)
+      expect(decision.expenseCents).toBe((13 + 2) * 3356);
     const restored = deserializeWorld(serializeWorld(treated));
     expect(
       resolveLibraryChallenges(

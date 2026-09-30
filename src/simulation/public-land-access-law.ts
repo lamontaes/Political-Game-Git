@@ -1,4 +1,5 @@
 import research from "../../data/research/laws/public-land-access.json" with { type: "json" };
+import { openingLawEstimates } from "./law-outcome-calibration";
 import { policyTermsInForce } from "./governing/policy-bill-terms";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { townRoster } from "./living-world/town-residents";
@@ -61,10 +62,13 @@ export function publicLandVisitorSales(
   );
   const fraction = reading?.terms?.values.accessIncreaseBasisPoints;
   if (fraction === undefined) return 0;
+  const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
+  if (!stateKey) return 0;
+  const opening = openingLawEstimates(world, stateKey);
   const visits =
     ((nearbyPublicLandAcres(world, town) * fraction) / 10_000) *
-    research.visitsPerAcreAnnual;
-  return Math.round(visits * research.visitorSpendingCents * weight) / 100;
+    opening.parkVisitsPerAcre;
+  return Math.round(visits * opening.parkVisitorSpendingCents * weight) / 100;
 }
 
 /** State management spending follows the bill's service acreage and annual price. */

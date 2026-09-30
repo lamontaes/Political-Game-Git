@@ -97,6 +97,35 @@ describe("public-land access reaches visitor demand and management costs", () =>
       nearbyPublicLandAcres(yes.world, yes.town),
     );
     expect(publicLandVisitorSales(no.world, no.town, "restaurant")).toBe(0);
+    const stateKey = "US-NH";
+    const opening = {
+      parkVisitsPerAcre: 40,
+      parkVisitorSpendingCents: 8000,
+      libraryStaffHourlyCents: 3282,
+    };
+    const saved = {
+      ...yes.world,
+      openingLawEstimates: { [stateKey]: opening },
+    };
+    const doubled = {
+      ...saved,
+      openingLawEstimates: {
+        [stateKey]: { ...opening, parkVisitsPerAcre: 80 },
+      },
+    };
+    expect(publicLandVisitorSales(doubled, yes.town, "restaurant")).toBeCloseTo(
+      2 * publicLandVisitorSales(saved, yes.town, "restaurant"),
+      1,
+    );
+    expect(
+      publicLandManagementSpending(
+        doubled,
+        yes.government,
+        doubled.currentDate,
+      ),
+    ).toBe(
+      publicLandManagementSpending(saved, yes.government, saved.currentDate),
+    );
     expect(
       publicLandManagementSpending(
         no.world,

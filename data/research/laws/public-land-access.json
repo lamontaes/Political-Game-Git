@@ -11,14 +11,14 @@
       "orderByFields": "State_Nm,Own_Type,Pub_Access",
       "resultRecordCount": "2000"
     },
-    "visits": "https://www.ncparks.gov/about/news/visitation-systemsize-2023",
+    "visits": "https://www.emnrd.nm.gov/spd/wp-content/uploads/sites/7/NASPD-AIX-2019-20-Final-Data-Report-released-05272022.pdf",
     "spending": "https://www.nps.gov/nature/customcf/NPS_Data_Visualization/docs/NPS_2024_Visitor_Spending_Effects.pdf",
     "management": "https://www.govinfo.gov/content/pkg/BUDGET-2025-APP/pdf/BUDGET-2025-APP-1-13.pdf"
   },
-  "basis": "ESTIMATED FROM AVERAGE: town-nearby acreage allocates its state-owned total by recorded population, with a stable per-world 0.5-1.5 spread; it is not measured county acreage. Four missing island-area totals use national state-owned acres per resident. Access expands service on the filed fraction of these acres. Visits per serviced acre use the 2023 NC state-park average, not a causal estimate. Management proposals use FY2023 NPS operating budget authority $2.995 billion / 85 million acres; this is a state-land proxy, not measured state costs. Visitors spend the NPS 2024 gateway average $29 billion / 331,863,358 visits.",
+  "basis": "ESTIMATED FROM AVERAGE: town-nearby acreage allocates its state-owned total by recorded population, with a stable per-world 0.5-1.5 spread; it is not measured county acreage. Four missing island-area totals use national state-owned acres per resident. Access expands service on the filed fraction of these acres. Visits per serviced acre use the NASPD FY2019-20 all-50-state aggregate: 786,136,314 visits / 19,040,859 managed land/water acres. This pandemic-period report includes estimates and prior-year substitutions; it excludes DC, territories, local and federal systems and is not a causal marginal-acre estimate. Opening visitation and visitor spending are saved by place using the declared 0.5-1.5 modeling spread, not a researched confidence interval. Management proposals use FY2023 NPS operating budget authority $2.995 billion / 85 million acres; this is a state-land proxy, not measured state costs. Visitors spend the NPS 2024 gateway average $29 billion / 331,863,358 visits.",
   "nationalAcresPerResident": 0.5575250823835395,
   "nearbySpread": [0.5, 1.5],
-  "visitsPerAcreAnnual": 76.69589505254241,
+  "visitsPerAcreAnnual": 41.286809276829366,
   "visitorSpendingCents": 8739,
   "proposal": {
     "accessIncreaseBasisPoints": 1000,

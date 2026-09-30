@@ -1,3 +1,4 @@
+import { openingLawEstimates } from "./law-outcome-calibration";
 import { personName } from "./people";
 import { recordedPrinciplesForPerson } from "./governing/officeholder-principles";
 import research from "../../data/research/laws/library-materials.json" with { type: "json" };
@@ -14,7 +15,6 @@ import {
   peopleInHouseholdAt,
   organizationParticipationStateAt,
 } from "./life-queries";
-import { SeededRng } from "./rng";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
 import type { LibraryChallenge } from "./library-materials-types";
@@ -137,10 +137,10 @@ export function resolveLibraryChallenges(
     ? policyTermsInForce(next, state.id, LIBRARY_QUESTION, next.currentDate)
         ?.terms?.values
     : null;
-  const spread =
-    0.75 +
-    new SeededRng(next.seed).fork(`library-process-cost:${stateKey}`).next() *
-      0.5;
+  if (!stateKey) return next;
+  const hourlyCents =
+    terms?.staffHourlyCents ??
+    openingLawEstimates(next, stateKey).libraryStaffHourlyCents;
   for (const challenge of next.libraryMaterials?.challenges ?? []) {
     if (
       challenge.townId !== townId ||
@@ -178,11 +178,7 @@ export function resolveLibraryChallenges(
       removed: ballots.filter((r) => r.remove).length > ballots.length / 2,
       staffHours,
       legalHours,
-      expenseCents: Math.round(
-        (staffHours + legalHours) *
-          (terms?.staffHourlyCents ?? research.staffHourlyCents) *
-          spread,
-      ),
+      expenseCents: Math.round((staffHours + legalHours) * hourlyCents),
     };
     next = {
       ...next,

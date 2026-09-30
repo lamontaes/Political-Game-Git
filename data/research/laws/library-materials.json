@@ -3,15 +3,16 @@
   "challengeTitles2023": 4240,
   "challengeDemands2023": 1247,
   "staffHoursMean": 13,
-  "staffHourlyCents": 3356,
+  "staffHourlyCents": 3282,
   "proposalLegalReviewHours": 2,
   "sources": {
     "volume": "https://www.ala.org/news/2024/03/american-library-association-reports-record-number-unique-book-titles",
     "cost": "https://mblc.state.ma.us/mblc_blog/2025/04/11/how-much-do-book-challenges-cost/",
     "process": "https://www.ala.org/tools/challengesupport/requestforreconsideration",
-    "startingLaw": "data/research/laws/starting-law-2026.json"
+    "startingLaw": "data/research/laws/starting-law-2026.json",
+    "wage": "https://www.bls.gov/ooh/Education-Training-and-Library/Librarians.htm"
   },
-  "basis": "ESTIMATED FROM AVERAGE: Massachusetts library authority April 2025 estimates thirteen staff hours at 33.56 dollars per hour, 436.28 dollars per reconsideration. ALA national counts are an underreported benchmark, never a resident action probability. Two additional legal-review hours are an authored bill provision, not an observed mean. Counsel uses the staff wage as a disclosed conservative proxy where billing rates are unread.",
+  "basis": "ESTIMATED FROM AVERAGE: BLS May2025 national librarian/library-media-specialist median wage is $32.82/hour. Opening place wages use the national annual P10/P90 ($43,660/$103,990) converted at 2,080 hours, a modeled range rather than a local salary or loaded employer cost. Review-hours remain a noncompliant one-state gap: Massachusetts April2025 estimates thirteen hours; no broad national work-hours anchor was verified. Two legal-review hours are an authored bill provision. Counsel billing rates remain unread.",
   "titles": [
     {
       "key": "civic-fiction-family",
@@ -33,6 +34,7 @@
     "Faith participation and children in school strengthen an existing recorded tradition concern; neither establishes opposition alone.",
     "The state-standard branch retains these nonexplicit literary titles in the absence of a recorded prohibited-content finding. It does not infer the actual disposition of any real book.",
     "The council is the collection appeal body only in this authored town fixture; independent library trustees are not materialized.",
-    "Massachusetts staff costs are a cross-place proxy with a stable world spread; no real 2026 town salary or counsel billing rate is asserted."
-  ]
+    "Review work-hours remain a Massachusetts proxy awaiting a verified broad replacement. The national librarian wage is an occupation proxy for staff and counsel, not an observed local payroll or billing rate."
+  ],
+  "staffHourlyRangeCents": [2099, 5000]
 }

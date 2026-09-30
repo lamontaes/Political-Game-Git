@@ -1,3 +1,5 @@
+import { stateKeyForJurisdiction } from "../life-places";
+import { openingLawEstimates } from "../law-outcome-calibration";
 import lobbying from "../../../data/research/laws/lobbying-cooling-off.json" with { type: "json" };
 import libraryMaterials from "../../../data/research/laws/library-materials.json" with { type: "json" };
 import photoIdentification from "../../../data/research/laws/voter-photo-identification.json" with { type: "json" };
@@ -47,6 +49,16 @@ export function sponsorPolicyTerms(
       : { score: 0, recordIds: [] };
     const current = lawInForce(world, jurisdictionId, propositionId);
     const strength = Math.max(-1, Math.min(1, views.score / 6));
+    const jurisdiction = world.jurisdictions[jurisdictionId];
+    const stateKey = jurisdiction
+      ? stateKeyForJurisdiction(jurisdiction)
+      : null;
+    if (
+      questionKey ===
+        "us-policy-positions:civil-family-community.local-control-of-library-materials" &&
+      !stateKey
+    )
+      return [];
     const priced = (strength: number): Readonly<Record<string, number>> =>
       questionKey ===
       "us-policy-positions:government-operations.ban-lobbying-after-office"
@@ -61,7 +73,8 @@ export function sponsorPolicyTerms(
               staffReviewHours: Math.round(
                 libraryMaterials.staffHoursMean * (1 + strength / 2),
               ),
-              staffHourlyCents: libraryMaterials.staffHourlyCents,
+              staffHourlyCents: openingLawEstimates(world, stateKey!)
+                .libraryStaffHourlyCents,
               legalReviewHours: libraryMaterials.proposalLegalReviewHours,
             }
           : questionKey ===

@@ -1,5 +1,7 @@
 import web from "../../data/research/outcome-web/links.json" with { type: "json" };
 import lobbying from "../../data/research/laws/lobbying-cooling-off.json" with { type: "json" };
+import land from "../../data/research/laws/public-land-access.json" with { type: "json" };
+import library from "../../data/research/laws/library-materials.json" with { type: "json" };
 import { SeededRng } from "./rng";
 import type { World } from "./types";
 
@@ -82,6 +84,12 @@ export function assessLawOutcomeCalibration(
 }
 
 export function assertLawOutcomeCalibration(world: World): void {
+  for (const [key, row] of Object.entries(world.openingLawEstimates ?? {}))
+    if (
+      !key.startsWith("US-") ||
+      !Object.values(row).every((v) => Number.isFinite(v) && v > 0)
+    )
+      throw new Error(`Invalid saved opening law estimates: ${key}`);
   for (const [key, cents] of Object.entries(
     world.openingLobbyistAnnualPayCents ?? {},
   ))
@@ -124,4 +132,53 @@ export function createOpeningLobbyistPay(
     );
   }
   return result;
+}
+
+/** Broad nonlegal opening estimates. Filed statutory prices never read this map. */
+export interface OpeningLawEstimates {
+  readonly parkVisitsPerAcre: number;
+  readonly parkVisitorSpendingCents: number;
+  readonly libraryStaffHourlyCents: number;
+}
+export function createOpeningLawEstimates(
+  seed: string,
+): Readonly<Record<string, OpeningLawEstimates>> {
+  const result: Record<string, OpeningLawEstimates> = {};
+  for (const key of Object.keys(lobbying.capitals)) {
+    const stateKey = `US-${key}`;
+    const draw = (name: string, low: number, high: number) => {
+      const rng = new SeededRng(seed).fork(
+        `opening-law-estimate:${stateKey}:${name}`,
+      );
+      return low + ((high - low) * (rng.next() + rng.next())) / 2;
+    };
+    result[stateKey] = {
+      parkVisitsPerAcre:
+        land.visitsPerAcreAnnual *
+        draw("park-visits", land.nearbySpread[0]!, land.nearbySpread[1]!),
+      parkVisitorSpendingCents: Math.round(
+        land.visitorSpendingCents *
+          draw("park-spending", land.nearbySpread[0]!, land.nearbySpread[1]!),
+      ),
+      libraryStaffHourlyCents: Math.round(
+        draw(
+          "library-wage",
+          library.staffHourlyRangeCents[0]!,
+          library.staffHourlyRangeCents[1]!,
+        ),
+      ),
+    };
+  }
+  return result;
+}
+/** Legacy reads stay pure; new worlds retain these opening draws in their saves. */
+export function openingLawEstimates(
+  world: World,
+  stateKey: string,
+): OpeningLawEstimates {
+  const row =
+    world.openingLawEstimates?.[stateKey] ??
+    createOpeningLawEstimates(world.seed)[stateKey];
+  if (!row) throw new Error(`No opening law estimates for ${stateKey}`);
+  return row;
 }

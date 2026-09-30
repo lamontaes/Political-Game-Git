@@ -2,6 +2,7 @@ import {
   assertLawOutcomeCalibration,
   createLawOutcomeCalibration,
   createOpeningLobbyistPay,
+  createOpeningLawEstimates,
 } from "./law-outcome-calibration";
 import { assertLibraryMaterialsIntegrity } from "./library-materials-integrity";
 import { assertVoterIdentificationIntegrity } from "./voter-identification-integrity";
@@ -533,6 +534,7 @@ export function createWorld(input: CreateWorldInput): World {
     seed,
     lawOutcomeCalibration: createLawOutcomeCalibration(seed),
     openingLobbyistAnnualPayCents: createOpeningLobbyistPay(seed),
+    openingLawEstimates: createOpeningLawEstimates(seed),
     startedAt: currentDate,
     currentDate,
     currentMoment,
@@ -754,6 +756,7 @@ function validateWorldIntegrity(
   if (
     !previous ||
     previous.lawOutcomeCalibration !== world.lawOutcomeCalibration ||
+    previous.openingLawEstimates !== world.openingLawEstimates ||
     previous.openingLobbyistAnnualPayCents !==
       world.openingLobbyistAnnualPayCents
   )
