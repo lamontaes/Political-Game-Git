@@ -1,0 +1,198 @@
+{
+  "person": {
+    "id": "person_fb06c245b992a5b4",
+    "generationKey": "life-context-v1:state-legislature-candidates/v1:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:republican:self-starter",
+    "givenName": "Blair",
+    "familyName": "Gordon",
+    "birthDate": "1964-12-11",
+    "homeJurisdictionId": "jurisdiction_c7fdcd7966f6dfa8",
+    "identity": {
+      "gender": "female",
+      "pronouns": "she-her"
+    },
+    "detailLevel": "lightweight",
+    "appearance": {
+      "seed": "app_ae53a6c11f1dba0a",
+      "recipeVersion": "appearance-recipe-v2",
+      "catalogGeneration": 2
+    },
+    "establishedFacts": [
+      {
+        "id": "fact_75b18d851d7e6d82",
+        "stableKey": "birth-date",
+        "kind": "birth-date",
+        "occurredAt": "1964-12-11",
+        "jurisdictionId": null,
+        "summary": "Blair Gordon's birth date is established.",
+        "provenance": {
+          "method": "manual",
+          "sourceEventId": null,
+          "note": "Character-history bounded context population."
+        }
+      },
+      {
+        "id": "fact_6ca4204cb16cecee",
+        "stableKey": "birthplace",
+        "kind": "birthplace",
+        "occurredAt": "1964-12-11",
+        "jurisdictionId": "jurisdiction_c7fdcd7966f6dfa8",
+        "summary": "Blair Gordon's birthplace is established.",
+        "provenance": {
+          "method": "manual",
+          "sourceEventId": null,
+          "note": "Character-history bounded context population."
+        }
+      },
+      {
+        "id": "fact_049469e9f45469f8",
+        "stableKey": "residence:initial",
+        "kind": "residence",
+        "occurredAt": "2026-01-06",
+        "endedAt": null,
+        "jurisdictionId": "jurisdiction_c7fdcd7966f6dfa8",
+        "summary": "Blair Gordon resides in the recorded home jurisdiction.",
+        "provenance": {
+          "method": "manual",
+          "sourceEventId": null,
+          "note": "Character-history bounded context population."
+        }
+      }
+    ]
+  },
+  "decisionTrace": {
+    "decisionId": "decision_29cf6a195b1c6d9e",
+    "context": {
+      "stableKey": "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4",
+      "decisionType": "election.consider-state-legislative-run",
+      "actorPersonId": "person_fb06c245b992a5b4",
+      "cutoff": {
+        "asOfDate": "2026-01-06",
+        "historySequenceExclusive": 42908
+      },
+      "subject": {
+        "kind": "context:life",
+        "key": "us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1",
+        "entityId": null
+      },
+      "options": [
+        {
+          "key": "decline",
+          "label": "Decline",
+          "description": "Do not enter."
+        },
+        {
+          "key": "run",
+          "label": "Run",
+          "description": "Enter the primary."
+        }
+      ],
+      "constraints": [],
+      "considerations": [
+        {
+          "stableKey": "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:cost",
+          "optionKey": "decline",
+          "sourceType": "context:campaign-cost",
+          "direction": "supports",
+          "importance": "moderate",
+          "confidence": "high",
+          "explanation": "A campaign takes a year of their life and money.",
+          "sourceRefs": []
+        },
+        {
+          "stableKey": "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:open-seat",
+          "optionKey": "run",
+          "sourceType": "context:district-view",
+          "direction": "supports",
+          "importance": "strong",
+          "confidence": "high",
+          "explanation": "The seat is open and their party is favored, so its primary is the real race.",
+          "sourceRefs": []
+        },
+        {
+          "stableKey": "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:trait:conflict:decline:3",
+          "optionKey": "decline",
+          "sourceType": "mind:personality",
+          "direction": "supports",
+          "importance": "slight",
+          "confidence": "medium",
+          "explanation": "They would rather not fight their own party's people.",
+          "sourceRefs": [
+            {
+              "kind": "personality-tendency",
+              "tendencyRecordId": "personality-tendency_bdfae18300d3811f"
+            }
+          ]
+        },
+        {
+          "stableKey": "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:trait:risk:decline:1",
+          "optionKey": "decline",
+          "sourceType": "mind:personality",
+          "direction": "supports",
+          "importance": "slight",
+          "confidence": "medium",
+          "explanation": "They would rather not stake so much on one race.",
+          "sourceRefs": [
+            {
+              "kind": "personality-tendency",
+              "tendencyRecordId": "personality-tendency_087565cedd6873f0"
+            }
+          ]
+        }
+      ],
+      "perceptionIds": [],
+      "randomness": "none",
+      "retention": "durable"
+    },
+    "optionEvaluations": [
+      {
+        "optionKey": "decline",
+        "available": true,
+        "blockedByConstraintKeys": [],
+        "considerationKeys": [
+          "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:cost",
+          "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:trait:conflict:decline:3",
+          "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:trait:risk:decline:1"
+        ],
+        "preference": "strongly-supported",
+        "randomContribution": "none",
+        "finalRank": 2
+      },
+      {
+        "optionKey": "run",
+        "available": true,
+        "blockedByConstraintKeys": [],
+        "considerationKeys": [
+          "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:open-seat"
+        ],
+        "preference": "strongly-supported",
+        "randomContribution": "none",
+        "finalRank": 1
+      }
+    ],
+    "outcomeKind": "selected",
+    "selectedOptionKey": "run",
+    "sourceSnapshots": [
+      {
+        "reference": {
+          "kind": "personality-tendency",
+          "tendencyRecordId": "personality-tendency_087565cedd6873f0"
+        },
+        "label": "Personality \u00b7 Risk",
+        "content": "cautious; moderate strength; medium confidence"
+      },
+      {
+        "reference": {
+          "kind": "personality-tendency",
+          "tendencyRecordId": "personality-tendency_bdfae18300d3811f"
+        },
+        "label": "Personality \u00b7 Handling disagreement",
+        "content": "conciliatory; moderate strength; medium confidence"
+      }
+    ],
+    "rngVersion": "decision-rng-v1",
+    "stableKey": "state-legislature-candidates/v1:slate:us-pa-legislature-profile-v1:candidacy|us-pa-legislature-profile-v1:house|1:2026:self-starter:republican:person_fb06c245b992a5b4:trace",
+    "recordedAt": "2026-01-06",
+    "id": "decision-trace_0308a658f2fdb3e7",
+    "sequence": 42908
+  }
+}

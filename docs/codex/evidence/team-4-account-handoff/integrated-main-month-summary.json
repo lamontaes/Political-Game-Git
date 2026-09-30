@@ -1,0 +1,21 @@
+{
+  "head": "54930d427555034f3a92f335064586247985784d",
+  "seconds": 28.203328901,
+  "limitSeconds": 15,
+  "status": "FAIL",
+  "place": "4272168",
+  "seed": "b18-f375512c",
+  "from": "2026-01-05",
+  "through": "2026-02-04",
+  "people": 15024,
+  "decisions": 9225,
+  "events": 20037,
+  "fingerprint": "689a517520e1804ffe07c3d453fa9a08de7b3ccd048b3c9b077cea577817230b",
+  "comparison": {
+    "errors": [],
+    "positions": [],
+    "fingerprintsIdentical": true
+  },
+  "exitCode": 1,
+  "storage": "Generic storage run refused before starting; supported reserve API admitted 128MiB task estimate without changing 25GiB reserve. Released on completion."
+}

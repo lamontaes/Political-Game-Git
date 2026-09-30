@@ -1,0 +1,7 @@
+import { performance } from 'node:perf_hooks';
+import { advanceObservedWorld } from '../../src/presentation/observer-world';
+import { openWatchedWorld } from '../../scripts/dev-lab/world-aging';
+const world = openWatchedWorld('b18-f375512c', '4272168').world;
+const started = performance.now();
+const next = advanceObservedWorld(world, 30);
+console.log(JSON.stringify({ seconds: (performance.now() - started) / 1000, from: world.currentDate, through: next.currentDate }));
