@@ -403,3 +403,19 @@
 | Team 1 → Team 3 | `src/simulation/living-world/town-pay.ts`, `town-rent.ts`, `town-residents.ts`: ONLY job-05 compensation adapters and income-reader replacement; preserve Team 1 laws; new settleTownCompensation module is Team 3 | 2026-09-30T00:42:34.511184+00:00 |
 | Team 1 | `src/simulation/law-outcome-calibration.ts` | 2026-09-30T00:42:34.511184+00:00 |
 | Team 1 | `src/simulation/law-outcome-calibration.test.ts` | 2026-09-30T00:42:34.511184+00:00 |
+
+| Team 3 | `src/simulation/living-world/town-compensation.ts` | 2026-09-30T00:46:30.097209+00:00 |
+| Team 3 | `src/simulation/living-world/town-compensation.test.ts` | 2026-09-30T00:46:30.097760+00:00 |
+| Team 3 | `docs/release/changes/common-town-compensation.md` | 2026-09-30T00:46:30.097948+00:00 |
+Team 1 release to Team 3, September 29, 8:27 ruling and AGREED contract in 00: narrow job 05 adapters only in src/simulation/living-world/town-pay.ts, town-rent.ts, and town-residents.ts. Preserve all Team 1 law hunks; no broader file release. Canonical seam settleTownCompensation(world, { flowId, onDate, periodStart, periodEnd }): World.
+
+| Team 1 → Team 3 | `src/simulation/job-market.ts`: ONLY settleWeeklyRecordedPay settlement call/import, preserve custody/voter-ID hours and floor logic; head 2e0d8f81a, blob 6b9ce0f1d35471444d28fef4c4f267436ed18967 | 2026-09-30T00:48:50.761469+00:00 |
+| Team 1 → Team 3 | `src/simulation/life-paths2.ts`: ONLY delegated-assignment and completed-shift payout/tax adapters/imports; exclude tuition; head 2e0d8f81a, blob fc2be4b9bcdfad2675b3aa6792f1f8198d91eaf0 | 2026-09-30T00:48:50.761677+00:00 |
+
+| Team 2 | `src/simulation/governing/agenda-producers.test.ts` | 2026-09-30T00:50:00Z |
+| Team 2 | `src/simulation/world-setup/midterm-calibration.ts` | 2026-09-30T00:50:00Z |
+| Team 2 | `src/simulation/world-setup/midterm-calibration.test.ts` | 2026-09-30T00:50:00Z |
+| Team 2 | `src/simulation/world-setup/conditions.ts` | 2026-09-30T00:50:00Z |
+| Team 2 | `src/simulation/world-setup/types.ts` | 2026-09-30T00:50:00Z |
+| Team 2 | `src/simulation/world-setup/integrity.ts` | 2026-09-30T00:50:00Z |
+| Team 2 | `data/research/midterm-calibration.json` | 2026-09-30T00:50:00Z |
