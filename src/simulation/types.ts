@@ -330,6 +330,8 @@ export type PrincipleBearing = "consistent-with" | "against";
  * there is no separate row for the opposing side.
  */
 export interface PropositionPrincipleBearing {
+  /** Authored question relevance, 0–1; omitted means 1 for older packs/saves. */
+  readonly weight?: number;
   readonly principleId: EntityId;
   readonly bearing: PrincipleBearing;
 }
