@@ -239,6 +239,16 @@ describe("cannabis revenue reaches a zero-base saved budget consequence", () => 
     const amount = Math.round(
       (CANNABIS_TAX_PER_RESIDENT * initial.population) / 12,
     );
+    console.info(
+      JSON.stringify({
+        proof: "cannabis-zero-base-budget",
+        place,
+        seed,
+        population: initial.population,
+        monthlyRevenue: amount,
+        through: "2028-03-01",
+      }),
+    );
     const before = reopened.months.find(
       (row) => row.month === "2027-01-01",
     )! as BudgetMonthRow & LawEffectStampedRecord;
