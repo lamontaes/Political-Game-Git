@@ -693,7 +693,7 @@ export interface EventContext {
   readonly immediateReaction: string | null;
 }
 
-export interface HistoricalEvent {
+export interface HistoricalEvent extends LawEffectStampedRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
