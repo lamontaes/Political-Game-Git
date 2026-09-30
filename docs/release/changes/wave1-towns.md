@@ -8,9 +8,10 @@ title: Towns keep enumerated residents when a population survey reports zero
 Adds verified Census population and demographic inputs for counties, places,
 and Island Areas, plus pure population readers and an explicit saved-layer
 writer. Concho preserves a positive enumeration when its ACS survey is zero.
-Source vintages and Island Areas universes remain in the data. Missing or
-suppressed fields stay unknown; other places do not supply their counts or
-growth observations.
+Source vintages and Island Areas universes remain in the data. Missing or suppressed raw observations stay unknown. The world layer uses
+seeded distributions from nationally comparable places for opening counts.
+Ta’ū county/MCD and Chalan Kanoa I–IV are explicitly recorded calibration
+anchors, never exact observations of an unqualified village.
 
 Adds a shared income reader that distinguishes recurring compensation from
 actual irregular-pay receipts and recognizes exact biweekly cadence.

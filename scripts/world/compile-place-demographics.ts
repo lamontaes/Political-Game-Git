@@ -292,6 +292,44 @@ const portableIslandProof = JSON.parse(
       : value,
   ),
 );
+const ownPlaceAnchors = JSON.parse(
+  readFileSync(join(input, "own-place-resolution-2020.json"), "utf8"),
+) as {
+  rows: {
+    key: string;
+    relatedOwnNameSourceRecords: {
+      name: string;
+      summaryLevel: string;
+      geoId: string;
+      logrecno: string;
+      fields: Record<
+        string,
+        {
+          value: number;
+          raw: string;
+          path: string;
+          sha256: string;
+          pipeColumn1based: number;
+        }
+      >;
+    }[];
+  }[];
+};
+for (const row of ownPlaceAnchors.rows) {
+  for (const record of row.relatedOwnNameSourceRecords) {
+    for (const cell of Object.values(record.fields)) {
+      const bytes = readFileSync(cell.path);
+      if (
+        hash(bytes) !== cell.sha256 ||
+        islandRecords.get(cell.path)?.get(record.logrecno)?.[
+          cell.pipeColumn1based - 1
+        ] !== cell.raw ||
+        Number(cell.raw) !== cell.value
+      )
+        throw new Error(`Calibration anchor cell mismatch: ${row.key}`);
+    }
+  }
+}
 const territoryRows = (
   JSON.parse(
     readFileSync(join(input, "territory-key-crosswalk.json"), "utf8"),
@@ -341,6 +379,33 @@ const territoryRows = (
     name: candidate?.name ?? null,
     source: receipt?.url ?? null,
     sourceSha256: candidate?.sourceSha256 ?? null,
+    calibrationAnchor: (() => {
+      const records = ownPlaceAnchors.rows.find(
+        (item) => item.key === row.key,
+      )?.relatedOwnNameSourceRecords;
+      if (!records?.length) return null;
+      const sum = (field: string) =>
+        records.reduce(
+          (total, record) => total + record.fields[field]!.value,
+          0,
+        );
+      return {
+        kind: records.length === 1 ? "county-mcd-proxy" : "component-sum",
+        observationOfGameGeography: false,
+        population: sum("population"),
+        households: sum("households"),
+        laborForce: sum("civilianLaborForce"),
+        employed: sum("employed"),
+        adults: sum("adults18plus"),
+        records: JSON.parse(
+          JSON.stringify(records, (key, value) =>
+            key === "path" && typeof value === "string"
+              ? basename(value)
+              : value,
+          ),
+        ),
+      };
+    })(),
     estimate: null,
     vintage: 2020,
   };

@@ -53,7 +53,7 @@ describe("census counts distinguish represented residents from written samples",
     expect(reference.households).toBeGreaterThan(40_000);
     expect(reference.laborForce).toBeGreaterThan(50_000);
   });
-  it("preserves sourced jurisdiction counts and unknown territory fields", () => {
+  it("preserves source scopes and explicitly marks the two authorized calibration anchors", () => {
     expect(Object.keys(STATE_POPULATION_KEYS)).toHaveLength(56);
     for (const key of Object.values(STATE_POPULATION_KEYS)) {
       const reference = populationReference(key);
@@ -70,11 +70,14 @@ describe("census counts distinguish represented residents from written samples",
         expect(reference.population, row.key).toBeGreaterThan(0);
         expect(reference.households, row.key).toBeGreaterThan(0);
       } else {
-        expect(reference.source).toBe("unknown");
-        expect(reference.population).toBeNull();
-        expect(reference.households).toBeNull();
+        expect(reference.source).toBe("researched-calibration-anchor");
+        expect(reference.population).toBeGreaterThan(0);
+        expect(reference.households).toBeGreaterThan(0);
+        expect(row.calibrationAnchor?.observationOfGameGeography).toBe(false);
+        expect(reference.estimatedFields).toContain("population");
       }
-      expect(reference.estimatedFields).toEqual([]);
+      if (row.status === "supported")
+        expect(reference.estimatedFields).toEqual([]);
     }
   });
   it("uses observed annual changes rather than a fixed population spread", () => {
@@ -82,6 +85,50 @@ describe("census counts distinguish represented residents from written samples",
     const town = populationReference("0100124");
     expect(city.annualChanges.length).toBeGreaterThan(0);
     expect(town.annualChanges).not.toEqual(city.annualChanges);
+  });
+});
+
+describe("nationally researched per-world population", () => {
+  it("generates missing Concho counts, keeps seeds reproducible, and varies other worlds", () => {
+    const place = lifePlaceByKey("0415150")!;
+    const snapshot = (seed: string) =>
+      representedPopulation(
+        createWorld({
+          seed,
+          currentDate: makeIsoDate("2026-01-05"),
+          jurisdictions: [place.context.jurisdiction],
+          people: [],
+        }),
+        place.context.jurisdiction.id,
+      );
+    const first = snapshot("concho-generated-one");
+    expect(first.households).toBeGreaterThan(0);
+    expect(first.laborForce).toBeGreaterThan(0);
+    expect(first.estimatedFields).toContain("households");
+    expect(first).toEqual(snapshot("concho-generated-one"));
+    expect(first).not.toEqual(snapshot("concho-generated-two"));
+    expect(
+      Object.values(first.householdsByKind).reduce<number>(
+        (total, value) => total + (value ?? 0),
+        0,
+      ),
+    ).toBeLessThanOrEqual(first.households!);
+    expect(first.employed!).toBeLessThanOrEqual(first.laborForce!);
+  });
+  it("retains the actual calibration scopes and component identities", () => {
+    const tau = TERRITORY_POPULATION_ROWS.find(
+      (row) => row.key === "territory:AS:tau",
+    )!;
+    expect(tau.population).toBeNull();
+    expect(tau.calibrationAnchor?.kind).toBe("county-mcd-proxy");
+    expect(tau.calibrationAnchor?.population).toBe(236);
+    const chalan = TERRITORY_POPULATION_ROWS.find(
+      (row) => row.key === "territory:MP:chalan-kanoa",
+    )!;
+    expect(chalan.population).toBeNull();
+    expect(chalan.calibrationAnchor?.kind).toBe("component-sum");
+    expect(chalan.calibrationAnchor?.records).toHaveLength(4);
+    expect(chalan.calibrationAnchor?.population).toBe(2967);
   });
 });
 
