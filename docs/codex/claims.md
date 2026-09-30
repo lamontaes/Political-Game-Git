@@ -1,3 +1,7 @@
+## September 30, 2:00 Team7 Here-panel removal
+
+Under CTO1:46, Team7 owns ONLY the StorySceneDayPanel import removal and its sole five-line mount removal in PlayerGame.tsx, composed from current main in its temporary source candidate. OrdinaryMeetingPanel and every other renderer hunk remain untouched. Shared dirty PlayerGame.tsx is not overwritten. Existing renderer owners retain their unrelated work. Exact-main browser proof requires a matching runtime; older shared checkout is not proof.
+
 ## September 30, 1:40 AUDIT/SYSTEMS transfer
 
 Existing durable session `01a0f364-0f5e-7172-b8a5-3792039aa0dc` owns engine/code questions, national audit, shared-kind writer table and mechanism design. Production code is read-only. Its only write surfaces are `scripts/law-audit/` and its analysis docs, including `docs/codex/effects-mechanism-design.md`; coordinator stops editing that design after this handoff. At most two Sol6.1 Medium helpers report to that session, not directly to00b. National run ownership transfers only with previous runner process/checkpoint/lease receipt; no duplicate run.
