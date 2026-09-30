@@ -854,6 +854,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "business-commerce.cap-development-incentives",
+      parameters: [
+        { key: "cap", value: "usd-per-award" },
+        { key: "disclosure", value: "required-award-disclosures" },
+      ],
       issue: "us-state-and-local:business-commerce.development-incentives",
       name: "Cap development incentives",
       question:
@@ -891,6 +895,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "labor-workforce.local-minimum-wage-authority",
+      parameters: [
+        { key: "authorized", value: "yes-or-no" },
+        { key: "coverage", value: "covered-localities" },
+      ],
       issue: "us-state-and-local:labor-workforce.minimum-wage",
       name: "Let localities set their own minimum wage",
       question:
@@ -903,6 +911,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "labor-workforce.paid-family-leave",
+      parameters: [
+        { key: "duration", value: "weeks-of-paid-leave" },
+        { key: "replacement", value: "share-of-covered-weekly-wages" },
+      ],
       issue: "us-state-and-local:labor-workforce.leave-policy",
       name: "Paid family and medical leave",
       question: "Should the state run a paid family and medical leave program?",
@@ -915,6 +927,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "labor-workforce.public-sector-collective-bargaining",
+      parameters: [
+        { key: "authorized", value: "yes-or-no" },
+        { key: "coverage", value: "covered-public-employee-categories" },
+      ],
       issue: "us-state-and-local:labor-workforce.collective-bargaining",
       name: "Public-sector collective bargaining",
       question:
@@ -927,6 +943,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "labor-workforce.right-to-work",
+      parameters: [
+        { key: "fee-prohibition", value: "yes-or-no" },
+        { key: "coverage", value: "covered-employment-categories" },
+      ],
       issue: "us-state-and-local:labor-workforce.collective-bargaining",
       name: "Right to work",
       question:
@@ -952,6 +972,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "environment-energy.price-carbon",
+      parameters: [
+        { key: "price", value: "usd-per-tonne-co2-equivalent" },
+        { key: "coverage", value: "covered-emissions" },
+      ],
       issue: "us-state-and-local:environment-energy.climate-mitigation",
       name: "Price carbon emissions",
       question: "Should the state put a price on carbon emissions?",
@@ -963,6 +987,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "environment-energy.ban-new-gas-hookups",
+      parameters: [
+        { key: "prohibited", value: "yes-or-no" },
+        { key: "coverage", value: "covered-new-building-categories" },
+      ],
       issue: "us-state-and-local:environment-energy.energy-efficiency",
       name: "Ban new gas hookups",
       question:
@@ -975,6 +1003,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "environment-energy.restrict-building-in-flood-zones",
+      parameters: [
+        { key: "risk-threshold", value: "flood-risk-classification" },
+        { key: "coverage", value: "covered-development-categories" },
+      ],
       issue: "us-state-and-local:environment-energy.climate-resilience",
       name: "Restrict building in flood zones",
       question:
@@ -987,6 +1019,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "environment-energy.bottle-deposit",
+      parameters: [
+        { key: "deposit", value: "usd-per-container" },
+        { key: "coverage", value: "covered-container-categories" },
+      ],
       issue: "us-state-and-local:environment-energy.waste-and-recycling",
       name: "Container deposit",
       question: "Should beverage containers carry a refundable deposit?",
@@ -997,6 +1033,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "agriculture-natural-resources.limit-groundwater-withdrawal",
+      parameters: [
+        { key: "cap", value: "water-volume-per-permit-period" },
+        { key: "coverage", value: "covered-aquifers-and-users" },
+      ],
       issue:
         "us-state-and-local:agriculture-natural-resources.water-allocation",
       name: "Limit groundwater withdrawal",
@@ -1009,6 +1049,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "agriculture-natural-resources.protect-farmland-from-development",
+      parameters: [
+        { key: "appropriation", value: "usd-per-budget-year" },
+        { key: "coverage", value: "eligible-parcels-and-easements" },
+      ],
       issue:
         "us-state-and-local:agriculture-natural-resources.farming-and-ranching",
       name: "Protect farmland from development",
@@ -1021,6 +1065,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "agriculture-natural-resources.expand-public-land-access",
+      parameters: [
+        { key: "access", value: "permitted-recreation-categories" },
+        { key: "coverage", value: "covered-public-parcels" },
+      ],
       issue: "us-state-and-local:agriculture-natural-resources.public-lands",
       name: "Expand public land access",
       question: "Should public land be opened to more recreational access?",
@@ -1032,6 +1080,13 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "civil-family-community.ban-discrimination-in-housing-and-work",
+      parameters: [
+        {
+          key: "protected-grounds",
+          value: "protected-characteristic-categories",
+        },
+        { key: "coverage", value: "covered-housing-and-employment" },
+      ],
       issue:
         "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
       name: "Ban discrimination in housing and employment",
@@ -1058,6 +1113,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "civil-family-community.fund-public-libraries",
+      parameters: [
+        { key: "floor", value: "annual-usd-per-library-service-population" },
+        { key: "coverage", value: "eligible-public-library-systems" },
+      ],
       issue: "us-state-and-local:civil-family-community.libraries",
       name: "Fund public libraries",
       question:
@@ -1069,6 +1128,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "civil-family-community.local-control-of-library-materials",
+      parameters: [
+        { key: "authority", value: "collection-decision-body" },
+        { key: "coverage", value: "covered-library-systems" },
+      ],
       issue: "us-state-and-local:civil-family-community.libraries",
       name: "Local control of library materials",
       question:
@@ -1081,6 +1144,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "civil-family-community.dedicated-parks-funding",
+      parameters: [
+        { key: "share", value: "share-of-designated-revenue" },
+        { key: "coverage", value: "eligible-parks-and-recreation-programs" },
+      ],
       issue: "us-state-and-local:civil-family-community.parks-and-recreation",
       name: "Dedicated parks funding",
       question:
@@ -1092,6 +1159,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "technology-privacy.consumer-data-privacy-law",
+      parameters: [
+        { key: "rights", value: "covered-consumer-data-rights" },
+        { key: "coverage", value: "covered-data-and-businesses" },
+      ],
       issue: "us-state-and-local:technology-privacy.privacy-and-data-use",
       name: "Consumer data privacy law",
       question:
@@ -1104,6 +1175,13 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "technology-privacy.restrict-government-facial-recognition",
+      parameters: [
+        {
+          key: "restrictions",
+          value: "permitted-and-prohibited-use-categories",
+        },
+        { key: "coverage", value: "covered-government-agencies" },
+      ],
       issue: "us-state-and-local:technology-privacy.artificial-intelligence",
       name: "Restrict government facial recognition",
       question: "Should government use of facial recognition be restricted?",
@@ -1115,6 +1193,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "technology-privacy.age-verification-for-social-media",
+      parameters: [
+        { key: "minimum-age", value: "years-of-age" },
+        { key: "coverage", value: "covered-platform-and-user-categories" },
+      ],
       issue: "us-state-and-local:technology-privacy.platforms-and-social-media",
       name: "Age verification for social media",
       question:
@@ -1144,6 +1226,13 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "civil-family-community.city-nondiscrimination-ordinance",
+      parameters: [
+        {
+          key: "protected-grounds",
+          value: "protected-characteristic-categories",
+        },
+        { key: "coverage", value: "covered-local-housing-and-employment" },
+      ],
       issue:
         "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
       name: "City nondiscrimination ordinance",
