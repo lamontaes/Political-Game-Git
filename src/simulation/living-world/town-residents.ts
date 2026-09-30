@@ -55,6 +55,7 @@ import type { HouseholdShape } from "../household-mix";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import {
+  ensurePopulationLayer,
   representedPopulation,
   populationKeyForPlace,
 } from "../nationwide-world/represented-population";
@@ -622,9 +623,12 @@ export function ensureTownResidents(
   playerPersonId: EntityId,
 ): World {
   // Hundreds of writes; the world is checked once, whole, at the end.
-  const next = withWorldIntegrityDeferred(() =>
-    seatTownResidents(world, playerPersonId),
-  );
+  const next = withWorldIntegrityDeferred(() => {
+    const seated = seatTownResidents(world, playerPersonId);
+    if (seated === world) return world;
+    const town = playerTown(seated, playerPersonId);
+    return town ? ensurePopulationLayer(seated, town) : seated;
+  });
   assertWorldIntegrity(next);
   return next;
 }

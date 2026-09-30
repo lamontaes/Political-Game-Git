@@ -19,7 +19,9 @@ Game population and demographic readers fill missing fields from national
 comparables while preserving raw missing cells and real enumerated zeros.
 World-aware town rosters use generated population and household totals;
 released public-body staffing and local-election roster readers pass World.
-Existing saved opening values and read purity are preserved. Required cloud
-types/tests and the unowned source-classification adapters are pending; this
-continuation is work in progress. Household evolution, the remaining law-stack
+Existing saved opening values and read purity are preserved. Changed town
+seating now records its compact population layer through canonical history;
+unchanged and already-seated legacy towns retain identity. Source-classification
+adapters preserve raw observation missingness. This continuation remains under
+review, with downstream adapters and runtime acceptance pending. Household evolution, the remaining law-stack
 adapters and income consumers follow separately.

@@ -16,9 +16,18 @@ import {
 
 import { createWorld, recordWorldEvent } from "../world";
 import { makeIsoDate } from "../dates";
-import { lifePlaceByKey } from "../life-places";
+import { lifePlaceByKey, lifePlaceStateIdentities } from "../life-places";
 import { serializeWorld, deserializeWorld } from "../serialization";
-import { townRoster } from "../living-world/town-residents";
+import {
+  ensureTownResidents,
+  townRoster,
+} from "../living-world/town-residents";
+import { SeededRng } from "../rng";
+import { createStableId } from "../ids";
+import {
+  createExplicitGeographyLife,
+  sampledProofLocalityForState,
+} from "../../presentation/new-game-geography";
 
 describe("census counts distinguish represented residents from written samples", () => {
   it("does not mistake a zero ACS survey for Concho's enumeration", () => {
@@ -194,6 +203,51 @@ describe("nationally researched per-world population", () => {
 });
 
 describe("population layer save continuity", () => {
+  it("records a changed town opening once and preserves seated legacy towns", () => {
+    const seed = "population-producer-opening";
+    const state = new SeededRng(seed).pick(lifePlaceStateIdentities());
+    const place = sampledProofLocalityForState(state.jurisdictionKey);
+    const { game } = createExplicitGeographyLife({
+      placeKey: place.key,
+      seed,
+      startAge: 8,
+    });
+    const before = serializeWorld(game.world);
+    const seated = ensureTownResidents(game.world, game.playerPersonId);
+    expect(seated, `${place.displayName}; ${seed}`).not.toBe(game.world);
+    const layers = seated.history.events.filter(
+      (event) => event.type === "place.population-layer-established",
+    );
+    expect(layers).toHaveLength(1);
+    const layer = layers[0]!;
+    expect(layer.jurisdictionId).toBe(place.context.jurisdiction.id);
+    const payload = JSON.parse(layer.context.socialContext!);
+    expect(payload.writtenResidents).toContain(game.playerPersonId);
+    expect(payload.writtenResidents.length).toBeGreaterThan(1);
+    expect(serializeWorld(game.world)).toBe(before);
+    expect(ensureTownResidents(seated, game.playerPersonId)).toBe(seated);
+    const restored = deserializeWorld(serializeWorld(seated));
+    expect(ensureTownResidents(restored, game.playerPersonId)).toBe(restored);
+    expect(
+      representedPopulation(restored, place.context.jurisdiction.id),
+    ).toEqual(representedPopulation(seated, place.context.jurisdiction.id));
+    expect(layer.sequence).toBe(seated.history.nextSequence - 1);
+    const legacy = {
+      ...seated,
+      history: {
+        ...seated.history,
+        nextSequence: seated.history.nextSequence - 1,
+        events: seated.history.events.filter((event) => event.id !== layer.id),
+      },
+    };
+    expect(ensureTownResidents(legacy, game.playerPersonId)).toBe(legacy);
+    expect(
+      ensureTownResidents(
+        game.world,
+        createStableId("person", "absent-player"),
+      ),
+    ).toBe(game.world);
+  }, 30_000);
   it("fills legacy missing cells while retaining saved values and history", () => {
     const place = lifePlaceByKey("0415150")!;
     const world = createWorld({

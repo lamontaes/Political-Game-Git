@@ -57,8 +57,8 @@ were submitted to supported approval review for the 20 GiB reserve setting and
 guarded install. Review accepted; 183 packages installed. The policy is active
 at `/workspace/.ocd-dev/storage-policy.json`; all guarded checks keep the reserve.
 The earlier 8.8 MiB deficit under 25 GiB is resolved. No evidence was discarded.
-The candidate remains NOT READY: production opening establishment and the
-separate law-stack adapters still need their bounded writer/integration route.
+The candidate remains NOT READY: the separate law-stack adapters, budget fixture repair, and
+unreleased downstream reader adapters still need their bounded integration route.
 Full simulations and speed comparisons remain post-merge work.
 
 The additional existing budget test file ran: 17 passed and 10 failed of 27,
@@ -78,18 +78,34 @@ in `principles-from-life.test.ts`; the observation reader restores the intended
 raw annual-estimate missingness test. All other test and behavior hunks are
 preserved. Its seven tests passed in the focused run above.
 
-Source inspection also found no production call to `ensurePopulationLayer`.
-The reader route is now generated, but recording that opening at the producer
-needs an explicit writer adapter. The current narrow release covers roster
-reads, not a new producer/history write. The coordinator needs to release or
-route that adapter before saved-opening establishment is claimed in production.
+Team 1 released the required `ensurePopulationLayer` import and
+`ensureTownResidents` wrapper. Changed seating now records the opening layer
+through canonical history inside the existing deferred-integrity block, after
+resident/work materialization. Unchanged seating returns the original World,
+including an already-seated legacy town without a layer. The final integrity
+assertion and current-opening caller guard are retained. No person, household,
+pay, law, or materialization writer was changed. This establishes the compact
+opening cohort for the production caller; it does not complete actor demographic
+allocation, household evolution, or every downstream consumer.
+
+Producer-focused Vitest: 13/13 passed in 14.71 seconds, maxWorkers 2. The new
+fixture draws a jurisdiction from all 56 with seed `population-producer-opening`;
+it selected Aberdeen, North Carolina (3700160). Changed seating records exactly
+one canonical layer with the written resident cohort, and Save/Continue and
+repeat calls preserve it. An already-seated legacy town without the layer and
+an absent player return the same World. The initial fixture incorrectly removed
+the final event without decrementing its synthetic history counter; the final
+fixture asserts the event was last and keeps history contiguous. Production
+assertions and integrity validation were not weakened. This is focused writer
+execution, not a full watched simulation or accepted downstream outcome.
 
 The two released law-stack adapters are prepared as a narrow patch at
 `/workspace/team3-checks/law-roster-adapters.patch`. An isolated scratch Git
 index confirmed the patch applies to published Team 1 head
 `bb6b08b7ff85aab7e066945887e25380499bf93c`. It changes only existing townRoster
 arguments in public-land and immigration readers. It is not applied to this
-Census branch, which has neither law module. No combined types/runtime result
+Census branch, which has neither law module. A fresh isolated-index check also
+passes against newer law head `6e616df4249f80a42f590edda98cf00ef19476f2`. No combined types/runtime result
 is claimed; the patch preserves all law and person/household writer hunks.
 
 The requested half-hourly reporter is unavailable in this cloud runtime. The
