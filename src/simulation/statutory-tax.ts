@@ -20,7 +20,11 @@
  */
 import { createStableId } from "./ids";
 import { appendedList, recordById } from "./history-index";
-import { federalIncomeTaxUnderLaw } from "./federal-top-income-tax-law";
+import {
+  federalIncomeTaxUnderLaw,
+  RAISE_TOP_FEDERAL_RATE_QUESTION,
+} from "./federal-top-income-tax-law";
+import { lawEffectStamp } from "./law-effect-stamp";
 import {
   filingStatusAt,
   payPeriodsPerYear,
@@ -291,7 +295,10 @@ function paycheckLiabilities(
     taxKey: string,
     authorityKey: string,
     schedule: IncomeTaxSchedule,
-    law: Pick<LiabilityDraft, "lawMeasureIds" | "estimatedFromAverage"> = {},
+    law: Pick<
+      LiabilityDraft,
+      "lawMeasureIds" | "estimatedFromAverage" | "lawEffectStamps"
+    > = {},
   ): LiabilityDraft => {
     const { taxableMinor, withheldMinor } = withholdingForPaycheck(
       wages.minorUnits,
@@ -326,6 +333,13 @@ function paycheckLiabilities(
     outcome.occurredAt,
   );
   const federalSchedule = federalLaw.schedule;
+  const federalStamp = lawEffectStamp(federalLaw.governingLaw, {
+    effectKind: "federal-income-tax-withholding",
+    questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    appliedAt: outcome.occurredAt,
+    sourceRecordIds: [outcome.id, flow.id],
+  });
   const federalGap =
     taxYear < FIRST_VERIFIED_TAX_YEAR
       ? "tax-rules-before-2026"
@@ -351,7 +365,10 @@ function paycheckLiabilities(
           "US",
           federalSchedule,
           federalLaw.lawMeasureIds.length
-            ? { lawMeasureIds: federalLaw.lawMeasureIds }
+            ? {
+                lawMeasureIds: federalLaw.lawMeasureIds,
+                ...(federalStamp ? { lawEffectStamps: [federalStamp] } : {}),
+              }
             : {},
         ),
   );
