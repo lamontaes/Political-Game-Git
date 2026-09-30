@@ -30,7 +30,7 @@ import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   minimumWageSettingAt,
 } from "./minimum-wage";
-import { payAtHire, UNCOVERED_PAY_NOTE } from "./fairness-pay-law";
+import { payAtHire } from "./fairness-pay-law";
 import {
   resourceFlowTermsAt,
   resourceFlowTermsHistory,
@@ -1649,7 +1649,7 @@ export function hireAtAdultStart(
 /**
  * A hire's weekly pay under the fairness-law rule (`fairness-pay-law.ts`):
  * a man partnered with a man whom no fairness law covers where the job is,
- * hired today, is paid the job's pay over 1.027, never below the minimum wage
+ * hired today, is paid using the world's researched state wage share, never below the minimum wage
  * for his hours. The note says so, or is empty.
  */
 function weeklyPayAtHire(
@@ -1669,7 +1669,7 @@ function weeklyPayAtHire(
   });
   return {
     weeklyMinor: paid.amountMinor,
-    note: paid.belowRate ? ` Paid ${UNCOVERED_PAY_NOTE}.` : "",
+    note: paid.belowRate ? ` Paid ${paid.note}.` : "",
   };
 }
 

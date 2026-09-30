@@ -11,7 +11,7 @@ import {
   FAIRNESS_STATE_QUESTION,
   fairnessLawCovers,
   menPartneredWithMen,
-  UNCOVERED_PAY_SHARE,
+  uncoveredPayShareAt,
 } from "../../src/simulation/fairness-pay-law";
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { createStableId, stableHash } from "../../src/simulation/ids";
@@ -24,7 +24,10 @@ import { createProductionPolicyCatalog } from "../../src/simulation/production-c
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { resourceFlowTermsAt } from "../../src/simulation/resource-queries";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import {
+  recordWorldEvent,
+  withWorldIntegrityDeferred,
+} from "../../src/simulation/world";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -66,7 +69,33 @@ function flipped(world: World, state: EntityId, answer: "yes" | "no"): World {
     (row) => row.stableKey === FAIRNESS_STATE_QUESTION,
   )!.id;
   const on = makeIsoDate("2025-01-01");
-  const sequence = world.history.nextSequence;
+  const eventKey = "event:test:fairness-pay";
+  const recorded = recordWorldEvent(world, {
+    stableKey: eventKey,
+    type: "legislation.measure-enacted",
+    occurredAt: on,
+    recordedAt: world.currentDate,
+    jurisdictionId: state,
+    involvedEntityIds: [state],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["legislation", "legislation.enacted"],
+    summary: "The authored test fairness measure became law.",
+    context: {
+      location: {
+        jurisdictionId: state,
+        label: "State capitol",
+        setting: null,
+      },
+      socialContext: "Authored law fixture.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const sequence = recorded.history.nextSequence;
   const measure: LegislativeMeasureRecord = {
     id: createStableId("legislative-measure", "test:fairness-pay"),
     stableKey: "test:fairness-pay",
@@ -95,12 +124,14 @@ function flipped(world: World, state: EntityId, answer: "yes" | "no"): World {
     outcome: "enacted",
     actDesignation: null,
     effectiveAt: on,
-    outcomeEventId: null,
+    outcomeEventId: recorded.history.events.find(
+      (row) => row.stableKey === eventKey,
+    )!.id,
   };
   return {
-    ...world,
+    ...recorded,
     history: {
-      ...world.history,
+      ...recorded.history,
       nextSequence: sequence + 2,
       legislativeMeasures: [
         ...(world.history.legislativeMeasures ?? []),
@@ -127,6 +158,7 @@ function payByPerson(world: World): ReadonlyMap<EntityId, number> {
 }
 
 interface Watched {
+  readonly payShare: number;
   readonly key: string;
   readonly start: "yes" | "no";
   readonly covered: readonly {
@@ -185,7 +217,13 @@ function watch(key: string): Watched {
       expect(less, person).toBe(full);
     }
   }
-  return { key, start, covered, others };
+  return {
+    key,
+    start,
+    covered,
+    others,
+    payShare: uncoveredPayShareAt(game.world, town),
+  };
 }
 
 describe("a fairness law sets the pay of men partnered with men", () => {
@@ -225,7 +263,7 @@ describe("a fairness law sets the pay of men partnered with men", () => {
     expect(covered).toBe(28);
   });
 
-  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the law's 2.7% gain is missing where no law covers him`, () => {
+  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the world's researched pay gain is missing where no law covers him`, () => {
     const places = onePlaceEach();
     expect(places).toHaveLength(56);
     const order = [...places].sort((a, b) =>
@@ -245,7 +283,7 @@ describe("a fairness law sets the pay of men partnered with men", () => {
     for (const row of found!.covered)
       // Within rounding to the cent, and never below the minimum wage.
       expect(row.without / row.withLaw, row.person).toBeCloseTo(
-        UNCOVERED_PAY_SHARE,
+        found!.payShare,
         3,
       );
   });

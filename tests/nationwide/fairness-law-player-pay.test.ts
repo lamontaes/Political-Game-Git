@@ -9,7 +9,7 @@ import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
 import {
   FAIRNESS_STATE_QUESTION,
   fairnessLawCovers,
-  UNCOVERED_PAY_SHARE,
+  uncoveredPayShareAt,
 } from "../../src/simulation/fairness-pay-law";
 import { createStableId, stableHash } from "../../src/simulation/ids";
 import { createPartnership } from "../../src/simulation/life";
@@ -22,7 +22,10 @@ import { minimumWageSettingAt } from "../../src/simulation/minimum-wage";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { personGender } from "../../src/simulation/person-identity";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import {
+  recordWorldEvent,
+  withWorldIntegrityDeferred,
+} from "../../src/simulation/world";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -63,7 +66,33 @@ function covered(world: World, state: EntityId): World {
     (row) => row.stableKey === FAIRNESS_STATE_QUESTION,
   )!.id;
   const on = makeIsoDate("2025-01-01");
-  const sequence = world.history.nextSequence;
+  const eventKey = "event:test:fairness-player-pay";
+  const recorded = recordWorldEvent(world, {
+    stableKey: eventKey,
+    type: "legislation.measure-enacted",
+    occurredAt: on,
+    recordedAt: world.currentDate,
+    jurisdictionId: state,
+    involvedEntityIds: [state],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["legislation", "legislation.enacted"],
+    summary: "The authored test fairness measure became law.",
+    context: {
+      location: {
+        jurisdictionId: state,
+        label: "State capitol",
+        setting: null,
+      },
+      socialContext: "Authored law fixture.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const sequence = recorded.history.nextSequence;
   const measure: LegislativeMeasureRecord = {
     id: createStableId("legislative-measure", "test:fairness-player-pay"),
     stableKey: "test:fairness-player-pay",
@@ -95,12 +124,14 @@ function covered(world: World, state: EntityId): World {
     outcome: "enacted",
     actDesignation: null,
     effectiveAt: on,
-    outcomeEventId: null,
+    outcomeEventId: recorded.history.events.find(
+      (row) => row.stableKey === eventKey,
+    )!.id,
   };
   return {
-    ...world,
+    ...recorded,
     history: {
-      ...world.history,
+      ...recorded.history,
       nextSequence: sequence + 2,
       legislativeMeasures: [
         ...(world.history.legislativeMeasures ?? []),
@@ -206,12 +237,14 @@ describe("the player is hired under the fairness law's pay rule", () => {
     // The shop shift is four hours.
     expect(without.amount).toBe(
       Math.max(
-        Math.round(single.amount * UNCOVERED_PAY_SHARE),
+        Math.round(single.amount * uncoveredPayShareAt(together, home)),
         Math.min(Math.round(minimum * 4), single.amount),
       ),
     );
     expect(without.amount).toBeLessThan(withLaw.amount);
-    expect(without.note).toMatch(/no fairness law covers him where he works/);
+    expect(without.note).toMatch(
+      /no recorded state or town fairness protection covers him where he works/,
+    );
     expect(withLaw.note).not.toMatch(/fairness law/);
     console.info(
       `${lifePlaceByKey(place)!.displayName} (${place}, seed ${SEED}): the player's four-hour shift pays $${(without.amount / 100).toFixed(2)} uncovered, $${(withLaw.amount / 100).toFixed(2)} under a fairness law; single, $${(single.amount / 100).toFixed(2)} either way.`,
