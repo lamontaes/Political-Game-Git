@@ -6,6 +6,7 @@ import type {
 export interface LawConsequenceCapabilities {
   kinds: ReadonlySet<LawConsequenceKind>;
   selectors: ReadonlySet<string>;
+  selectorsByKind?: ReadonlyMap<LawConsequenceKind, ReadonlySet<string>>;
   actions: ReadonlyMap<LawConsequenceKind, ReadonlySet<string>>;
   predicates: ReadonlySet<string>;
 }
@@ -23,8 +24,18 @@ export function validateLawConsequences(
     if (!row.id || seen.has(row.id))
       errors.push(`Consequence ${row.id}: missing or duplicate row ID`);
     seen.add(row.id);
+    if (Boolean(row.amount) === Boolean(row.decision))
+      errors.push(
+        `Consequence ${row.id}: exactly one amount or decision binding is required`,
+      );
+    if (row.decision && !row.decision.key.trim())
+      errors.push(`Consequence ${row.id}: decision binding key is required`);
     if (!capabilities.kinds.has(row.kind)) missing("kind", row.kind);
-    if (!capabilities.selectors.has(row.who.selector))
+    if (
+      !(
+        capabilities.selectorsByKind?.get(row.kind) ?? capabilities.selectors
+      ).has(row.who.selector)
+    )
       missing("selector", row.who.selector);
     if (!capabilities.actions.get(row.kind)?.has(row.what))
       missing(`${row.kind} action`, row.what);

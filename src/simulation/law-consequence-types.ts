@@ -1,5 +1,5 @@
 import type { LawInForce } from "./governing/law-in-force";
-import type { EntityId, IsoDate } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 export type LawConsequenceKind =
   | "pay"
@@ -13,7 +13,15 @@ export type LawConsequenceKind =
 
 /** Units are checked by the evaluator before a handler can write a record. */
 export type LawAmountUnit =
-  "minor" | "minor/hour" | "hours" | "people" | "count" | "ratio";
+  | "minor"
+  | "minor/hour"
+  | "hours"
+  | "people"
+  | "count"
+  | "ratio"
+  | "years"
+  | "months"
+  | "days";
 export type LawAmountExpression =
   | {
       op: "term" | "record" | "capacity" | "exposure";
@@ -39,7 +47,12 @@ export interface LawConsequenceRow {
   when: "effective" | "payroll" | "assessment" | "renewal" | "service";
   who: { selector: string; predicates: LawConsequencePredicate[] };
   what: string;
-  amount: LawAmountExpression;
+  amount?: LawAmountExpression;
+  decision?: {
+    op: "term" | "record";
+    key: string;
+    type: "boolean" | "decision";
+  };
   conditions: LawConsequencePredicate[];
   lag: { days: number; sourceIds: string[] };
   onRepeal:
@@ -75,4 +88,42 @@ export interface ResolvedLawPayConsequence {
   amount: { value: number; unit: "minor/hour"; currency: "USD" };
   sourceRecordIds: EntityId[];
   action: "raise-hourly-floor";
+}
+
+/** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
+export type ResolvedLawValue =
+  | { type: "amount"; value: number; unit: LawAmountUnit; currency?: string }
+  | { type: "boolean"; value: boolean }
+  | { type: "decision"; value: string };
+export interface ResolvedLawConsequence {
+  row: LawConsequenceRow;
+  law: LawInForce;
+  questionKey: string;
+  jurisdictionId: EntityId;
+  subject: {
+    kind: "person" | "household" | "organization" | "place";
+    id: EntityId;
+  };
+  activityId: EntityId;
+  effectiveAt: IsoDate;
+  sourceRecordIds: EntityId[];
+  value: ResolvedLawValue;
+}
+export type LawConsequenceHandler = (
+  world: World,
+  resolved: ResolvedLawConsequence,
+) => World;
+export interface LawConsequenceKindRegistration {
+  kind: LawConsequenceKind;
+  owner: string;
+  selectors: readonly string[];
+  actions: readonly string[];
+  predicates: readonly string[];
+  units: readonly LawAmountUnit[];
+  resolve: (
+    world: World,
+    row: LawConsequenceRow,
+    context: LawConsequenceContext,
+  ) => readonly ResolvedLawConsequence[];
+  apply: LawConsequenceHandler;
 }
