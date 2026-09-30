@@ -1,0 +1,117 @@
+{
+  "schema": "team4-preserved-runtime-receipt/v1",
+  "team": 4,
+  "assignment": "ten housing/business laws",
+  "localBranch": "codex/team-4-housing-business-law-effects",
+  "localPreservedHead": "5885a2dc882394f5b5cad6009b36bde74324a0b0",
+  "lastShellConfirmedClean": true,
+  "localCandidatePublished": false,
+  "candidateSourceCommit": "01b8f0af1",
+  "inheritedCannabisSourceHead": "6e33158bf8e94cd9befbcfe674dd8c7584e8e637",
+  "stampSourceHead": "205c598a5adb7f77eeed69af8f3745e5cbe64ce1",
+  "mergedStampHead": "b2d0bf43794ce9ccb497b4c3eb4e2c678eb70d71",
+  "stampSourceSha256": "3123335e941d543953295fbe3e995578fec283d221802b27458ab7fd77979f2c",
+  "changes": [
+    "Zero-opening selective-tax source reads cannabis as an additive monthly amount",
+    "Fiscal adoption strips the prior saved cannabis amount and forecasts today's amount once",
+    "Saved BudgetMonthRow includes cannabisRevenue and exact canonical lawEffectStamps",
+    "Operative repeal removes the amount and stamps the saved zero-revenue consequence",
+    "Existing nonzero-opening factor path preserved"
+  ],
+  "limits": [
+    "Inherited universal $40.7/resident/year and 11-month lag remain calibration gaps",
+    "Only zero-opening-base consequences gain this new attribution",
+    "No household/business cannabis permission, government administration cost or nationwide proof claimed"
+  ],
+  "checks": [
+    {
+      "name": "cannabis amount reader and monthly consequence",
+      "result": "PASS",
+      "tests": 6
+    },
+    {
+      "name": "canonical law-effect stamp",
+      "result": "PASS",
+      "tests": 3
+    },
+    {
+      "name": "focused final two-file run",
+      "result": "PASS",
+      "tests": 9,
+      "durationSeconds": 11.96
+    },
+    {
+      "name": "broader tax laws candidate",
+      "result": "FAIL",
+      "passed": 2,
+      "failed": 3,
+      "durationSeconds": 14.44,
+      "error": "undefined state-executive history array in inherited partial fixtures"
+    },
+    {
+      "name": "same tax tests pinned clean base",
+      "source": "8c085849bd91d2e0b0d761d1645590fce15c28cb",
+      "result": "same FAIL",
+      "passed": 2,
+      "failed": 3,
+      "durationSeconds": 12.96
+    },
+    {
+      "name": "strict source/test types",
+      "result": "PASS",
+      "roots": 3,
+      "sourceFiles": 700,
+      "diagnostics": 0
+    },
+    {
+      "name": "scoped eslint/prettier/whitespace",
+      "result": "PASS"
+    },
+    {
+      "name": "release check",
+      "result": "FAIL; reproduced on pinned clean base",
+      "error": "unchanged wave1-playtest-copy.md missing --- header"
+    },
+    {
+      "name": "zero dice",
+      "result": "exit 1; identical pinned clean base result",
+      "new": 0,
+      "gone": 5
+    },
+    {
+      "name": "published inventory report",
+      "result": "PASS",
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "notRun": [
+    "whole suite",
+    "nationwide 24-month audit",
+    "browser",
+    "year/month speed (paused by owner)",
+    "independent reviewer",
+    "new remote JSON formatting/report checks"
+  ],
+  "currentExecution": {
+    "runningOwnedProcesses": 0,
+    "error": "failed to query executor configuration capabilities for environment ccarenv_b64_Y2NhcmVudl80YjA0ODdhMjZhOTQ4MTkxYjA3MmRkMjE2YjMyYjkzYQ",
+    "shellToolAvailable": false
+  },
+  "completion": {
+    "lawsAllFiveParts": 0,
+    "totalLaws": 10,
+    "linksActuallyActivated": 0,
+    "linksAdded": 0,
+    "costsWired": 0,
+    "ideologyComplete": 0,
+    "directStampEffectKindsTested": 1,
+    "directCandidatePublished": false
+  },
+  "recovery": "Recover the existing workspace. Preserve local head 5885a2dc882394f5b5cad6009b36bde74324a0b0 and all earlier branches. Remote docs advanced separately to f07195ae96020865eadc35dbe198c46fa8b8a1bb. Reconcile additively without overwriting either history; normal publication only. No new checkout, force push or merge.",
+  "termsDependency": {
+    "pr": 1245,
+    "head": "b7cde932d8f6e3e9a3457a45b8e6d891ba0b0feb",
+    "status": "open; declarations do not establish real starting terms or numeric bounds"
+  }
+}
