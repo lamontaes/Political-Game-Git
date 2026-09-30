@@ -38,6 +38,8 @@ The unchanged ordinary-state-service-cash caller fails on source 5ab3c57f1fa31fa
 
 The two-file caller command reached its existing 180-second bound and exited 124. The agenda file is NORESULT. No timeout was increased. Browser, full suite, independent helper review and same-seed after-year: NOT RUN.
 
+The release declaration is automatic-drafts-use-saved-law-terms.md. Release checking still reports the malformed wave1-playtest-copy.md header already present on the baseline. Zero-dice reports zero new findings and three stale allowances; the shared allowance file is unchanged. Independent review remains NOT RUN under the no-new-helper instruction.
+
 ## 6. Proof run
 
 No new watched year is claimed. Required after-run seed remains team2-main-proof-20260930-b, Floral, Arkansas (0524070), at an exact combined producer/compiler source. Baseline is 1 typed-operative law out of 56, zero law-linked actual money. New term completeness and a named-person rule/dollar record must be checked separately; neither is inferred from fixtures or refusal.
