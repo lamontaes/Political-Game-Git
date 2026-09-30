@@ -1,7 +1,7 @@
-import { lawEffectStamp } from "../law-effect-stamp";
-import { lawInForce } from "../governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+import { lawEffectStamp } from "../law-effect-stamp";
+import { lawInForce } from "../governing/law-in-force";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -97,6 +97,7 @@ import {
   anyTeacherFloorLawEnacted,
   TEACHER_FLOOR_EMPLOYER,
   TEACHER_FLOOR_OCCUPATION,
+  TEACHER_SALARY_FLOOR_QUESTION,
   teacherSalaryFloorAt,
   type TeacherSalaryFloor,
 } from "../teacher-salary-floor";
@@ -1096,6 +1097,38 @@ export function raiseTeacherPayToFloor(
         supersedesTermsId: current.id,
       });
       current = next.history.resourceFlowTerms.at(-1)!;
+      const proposition = Object.values(next.policyCatalog.propositions).find(
+        (row) => row.stableKey === TEACHER_SALARY_FLOOR_QUESTION,
+      );
+      const jurisdictionId = role.locationJurisdictionId;
+      const governing =
+        proposition && jurisdictionId
+          ? lawInForce(next, jurisdictionId, proposition.id, floor.from)
+          : null;
+      const stamp =
+        governing?.measureId === floor.measureId && jurisdictionId
+          ? lawEffectStamp(governing, {
+              effectKind: "teacher-pay",
+              questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+              jurisdictionId,
+              appliedAt: day,
+              sourceRecordIds: [flow.id, role.workRelationshipId, current.id],
+            })
+          : null;
+      if (stamp) {
+        const saved = { ...current, lawEffectStamps: [stamp] };
+        next = {
+          ...next,
+          history: {
+            ...next.history,
+            resourceFlowTerms: [
+              ...next.history.resourceFlowTerms.slice(0, -1),
+              saved,
+            ],
+          },
+        };
+        current = saved;
+      }
     }
   }
   return next;

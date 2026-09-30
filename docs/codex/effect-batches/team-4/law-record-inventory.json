@@ -1,0 +1,228 @@
+{
+  "schema": "team-law-record-proposal/v1",
+  "team": 4,
+  "sourceHead": "d951f9e48e954899cfde5251700facc15bd572bb",
+  "status": "inventory-and-research-requests",
+  "sharedFilesWriter": "coordinator only",
+  "applyLinkEdits": [],
+  "applyCatalogParameterEdits": [],
+  "laws": [
+    {
+      "law": "Multifamily housing in single-family zones",
+      "effects": [
+        "Permission to build additional dwellings on covered lots",
+        "Applications, construction and occupied rental supply",
+        "Rents and purchase prices",
+        "Owners, tenants, displacement and neighborhood exposure",
+        "Permit administration and infrastructure costs"
+      ],
+      "existingLinkIds": ["housing-by-right-to-new-buildings"],
+      "numbersDeskRequest": "Quantified construction response per eligible lot and time; applicable state/local zoning rules and exemptions; administrative and infrastructure cost per permitted dwelling.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Rent stabilization",
+      "effects": [
+        "Covered leases and renewal increase ceiling",
+        "Tenant rent bills and ability to remain",
+        "Landlord rental supply, conversion, maintenance and investment",
+        "Market rents for uncovered tenants",
+        "Administration and enforcement costs"
+      ],
+      "existingLinkIds": [
+        "rent-control-to-rental-supply",
+        "rent-control-to-tenant-stays"
+      ],
+      "numbersDeskRequest": "Every-place coverage, ceiling, exemptions and repeal transition; researched response intervals around supply and tenant-staying estimates; enforcement cost per covered unit.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "By-right permitting",
+      "effects": [
+        "Permit eligibility and removal of discretionary denial",
+        "Approval timing and developer compliance cost",
+        "Construction and rental supply",
+        "Rents, home prices and homelessness via affordability",
+        "Permit staffing and infrastructure costs"
+      ],
+      "existingLinkIds": ["by-right-permitting-to-homelessness"],
+      "numbersDeskRequest": "US exposure-adjusted construction/rent range; current homelessness range is an explicitly scaled proxy, not a measured US policy response; processing cost and phase-in.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Inclusionary requirement",
+      "effects": [
+        "Required affordable-unit share or lawful alternative",
+        "Income eligibility and affordable rents",
+        "Developer compliance and feasibility",
+        "New market and affordable units, prices and location",
+        "Monitoring, fees and public subsidies"
+      ],
+      "existingLinkIds": ["inclusionary-to-homelessness"],
+      "numbersDeskRequest": "Every-place set-aside/AMI rules; contextual supply and affordability intervals; no universal zero-effect inference from mixed studies; costs per unit.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Preempt local housing limits",
+      "effects": [
+        "State floor on local zoning authority",
+        "Eligible lots, permits and additional supply",
+        "Rents, prices and household access",
+        "Local infrastructure and enforcement cost",
+        "Interaction with by-right and multifamily reforms"
+      ],
+      "existingLinkIds": ["housing-preemption-to-homelessness"],
+      "numbersDeskRequest": "Actual state preemption and municipal authority; quantified exposed-lot supply/rent response; no guessed moderator or duplicated package effect.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Right to counsel in eviction",
+      "effects": [
+        "Covered tenants and civil representation eligibility",
+        "Attorney access and case participation",
+        "Case outcomes and possession orders",
+        "Displacement, homelessness and hospital visits",
+        "Legal aid spending and tenant/landlord costs"
+      ],
+      "existingLinkIds": ["right-to-counsel-to-evictions"],
+      "numbersDeskRequest": "Population and eligibility for each jurisdiction; context-qualified 45\u201378% represented-tenant risk interval; attorney cost per case and household downstream response intervals.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Cap consumer loan rates",
+      "effects": [
+        "Covered products, lenders, fees and APR ceiling",
+        "Legal origination/refinancing terms and prohibited charges",
+        "Availability and substitution to other credit",
+        "Borrower payments, defaults and business compliance",
+        "Enforcement costs"
+      ],
+      "existingLinkIds": ["loan-rate-cap-to-high-cost-borrowing"],
+      "numbersDeskRequest": "Every-state APR/product/fee exceptions and local authority; disaggregate prohibition versus municipal restrictions before applying [-0.61,-0.20]; enforcement and compliance cost.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Reduce occupational licensing",
+      "effects": [
+        "Occupations freed from licenses or reduced requirements",
+        "Application fees, training, entry and legal business eligibility",
+        "Employment, wages, competition and service prices",
+        "Safety and quality outcomes",
+        "Licensing agency revenue and compliance costs"
+      ],
+      "existingLinkIds": ["licensing-reform-to-poverty"],
+      "numbersDeskRequest": "Covered occupations and legal requirements by place; measured employment/price response intervals; poverty range currently explicitly extrapolated without a measured poverty study; fees and administration costs.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Legalize cannabis sales",
+      "effects": [
+        "Adult-use retail authorization and coverage",
+        "Retail launch, licenses and business compliance",
+        "State excise/sales revenue and administration",
+        "Youth use, violent crime and overdose outcomes",
+        "Retail access and records read by people"
+      ],
+      "existingLinkIds": [
+        "cannabis-sales-to-youth-use",
+        "cannabis-sales-to-violent-crime",
+        "cannabis-sales-to-overdose-deaths"
+      ],
+      "numbersDeskRequest": "Confirm inherited primary revenue observations and mature-market range, retail-delay interval and contextual draw; every-place age/tax/local opt-out rules; license/compliance and administration costs; youth-use response interval.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    },
+    {
+      "law": "Cap development incentives",
+      "effects": [
+        "Authorized cap, covered awards and disclosure",
+        "Foregone tax revenue and budget trade-offs",
+        "Firm application, location and hiring decisions",
+        "Targeted jobs and broader poverty outcomes",
+        "Monitoring and business compliance costs"
+      ],
+      "existingLinkIds": ["incentive-cap-to-poverty"],
+      "numbersDeskRequest": "Every-place award cap/disclosure terms and government authority; budget cost per award/job and marginal response interval; no universal poverty zero from limited spillover evidence.",
+      "fiveParts": {
+        "terms": "NOT COMPLETE",
+        "effects": "NOT COMPLETE",
+        "cost": "NOT COMPLETE",
+        "ideology": "NOT COMPLETE",
+        "proof": "NOT COMPLETE"
+      },
+      "nationwideProof": "NOT RUN"
+    }
+  ],
+  "disabledHousingChainLinkIds": [
+    "school-move-to-scores",
+    "new-apartments-to-nearby-rent",
+    "rent-burden-to-homelessness",
+    "eviction-to-homelessness",
+    "eviction-to-hospital-visits",
+    "home-prices-to-owner-births",
+    "home-prices-to-renter-births"
+  ],
+  "crossOwnerNote": "School and birth consequences require Team5/Team8 reader coordination. Seven disabled housing-origin IDs on this source differ from the older six-link allocation. Do not activate until units, range, exposure and readers are established."
+}
