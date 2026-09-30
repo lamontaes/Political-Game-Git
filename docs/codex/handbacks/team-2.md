@@ -2,6 +2,20 @@
 
 Majority-backed agendas, strongest-pressure sponsorship and principle-based cosponsors now reached main. Their nationwide watched result is unmeasured. Life formation remains on the law team's stack. Senate integration, researched election responses and opening-seat calibration remain unfinished. The cloud continuation repaired the missing-principle consent guard and received the exact shared writer release.
 
+## Main-runtime proof completed; long-life proof remains open
+
+MERGED: no Team 2 merge in this continuation. PR #1136 remains draft/WIP, with no exact-head approval. The same registered checkout returned clean to `codex/wave1-state-governing` after the read-only main window. No new team, helper or checkout was created.
+
+WHAT EMERGED: Floral, Arkansas, recorded 56 enacted laws and 134 filings during 365 observer Day presses. One law has typed operative effects. The captured period has no evictions, separate sponsor-motive records or law-linked actual money transfers. These are observations, not inferred zero consequences.
+
+DECIDED: no new quoted personal sponsor reason was present. HARDWIRED: the observer selected its opening place from the logged seed; the collector only pressed the existing Day button and read canonical records. The crime chain audit reaches `crime/producer.ts`, sampleMonthlyCrime, where a seeded rate comparison selects a victim. The turnout chain stops at a place average without a demonstrated individual ballot reader. Those are producer findings, not fixes.
+
+VITAL STATISTICS: seed `team2-main-proof-20260930-b`; source `54930d427555034f3a92f335064586247985784d`, clean at launch; collector `c0a23ba19b6e03ac6dd871818e9894d0e240d1c8:system-only-path-adapter`. January 5, 2026–January 5, 2027; 365 days; 431.722 seconds before retained-world writing. Save/Continue matched dates and history counts. The reported 23-byte save metric remains rejected; retained world size is 271,453,706 bytes.
+
+Executed: main report check, zero errors and warnings. Prior published reader tests remain 7/7 PASS, with strict scoped types/lint/format and exact release check PASS. NOT RUN: independent reviewer under the existing helper limit, browser/full suite, speed comparison, three random five-to-ten-year lives. No current-main or personal-effect claim is extended beyond the exact runtime above.
+
+Connections: Team 3 owns housing/destination/court and household/crime writers; Team 1 owns life-strength and federal law effects; Team 4 owns the save-helper metric; coordinator owns authority/effects integration and central claims; Team 9 supplies breadth research. The strengthened six-line traces identify catalog IDs, path counts, units and terminals without adding an effect or fabricating research. Next bounded checkpoint is the longer watched-life collector and its recorded people, month-by-month transfers and events.
+
 ## Replacement accepted; the first watched year completed
 
 The government proof runner completed a watched year in Cedar Hills, Utah. It observed 58 enacted laws, ten nonzero linked transfers across five laws, three eviction orders and 154 bill filings. The rent debt and later housing records show a same-day destination gap. None of those filings has a separately recorded sponsor-motive event.
@@ -1400,6 +1414,877 @@ SIMULATED: real observer Day path. RECORDS: canonical case, occupancy, legislati
 Runtime source 98a173d3cfcaaa1cda6b5902fb1819b027151d33; runtime source dirty: false; status completed-year.
 Collector 98a173d3cfcaaa1cda6b5902fb1819b027151d33; collector dirty: true.
 Save/Continue result: {"saveMs":67173.38994400005,"saveCpuMs":69951.141,"reopenMs":69271.39702200005,"reopenCpuMs":71297.609,"saveBytes":23,"reopenedMatches":true}.
+No recorded run stop.
+
+## 7. Named worked example
+
+The named case, law and sponsor records above are the worked examples. When a section has none, no example was generated to fill it. Amounts are saved currency/minor-unit amounts, not estimated losses or unobserved causal effects.
+
+## Portable records from the Floral main-runtime year
+
+The following is the unchanged generated report from the separate main-runtime run. Its source and collector identities are printed with the evidence.
+
+# Watched Floral, Arkansas: completed-year
+
+Seed team2-main-proof-20260930-b; place 0524070; January 5, 2026 through January 5, 2027; 365 actual Day presses.
+
+## 1. Why-chain
+
+The existing world produced the following records. Saved reasons are quoted; missing reasons, destinations and money links are findings, not reconstructed explanations.
+
+## 2. Source research
+
+This is an observation report, not a new causal rate. Eviction research checks require Team 9's place-type breadth evidence and exposed/comparison cohorts; case shares alone do not estimate the causal increase in shelter use or moves.
+
+## 3. Revisions and breadth
+
+No simulation changes. The selected place is seeded; each listed law/bill retains its own jurisdiction. A single year does not establish national calibration.
+
+## 4. Numbered HELD parts
+
+### 1. Eviction cases
+
+No eviction filings or resolutions recorded in this period.
+
+### 2. Enacted laws and actual money
+
+**ORD 22: Repeal: Dedicated Parks Funding Ordinance**, enacted December 21, 2026 (local; legislative-measure_1d9d6590bdc05fe7).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 20: Repeal: Dedicated Parks Funding Ordinance**, enacted September 28, 2026 (local; legislative-measure_1d9d6790bdc0634d).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 18: Repeal: Dedicated Parks Funding Ordinance**, enacted July 20, 2026 (local; legislative-measure_1da0d590bdc3540e).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 3: Fund a behavioral health crisis response**, enacted May 15, 2026 (state; legislative-measure_1bf622acce85ccac).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 14: Repeal: Dedicated Parks Funding Ordinance**, enacted May 11, 2026 (local; legislative-measure_1da0d190bdc34d42).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**LB 10: Mandatory minimum sentences**, enacted April 28, 2026 (state; legislative-measure_f826dacecfbe14b1).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 2009: End cash bail**, enacted April 20, 2026 (state; legislative-measure_af3e61c535070fc4).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: not-modeled; research law-clause-effects-by-family.
+
+**SB 13: Universal preschool**, enacted April 17, 2026 (state; legislative-measure_2b9b8927417a2a58).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**AB 13: By-right permitting**, enacted April 17, 2026 (state; legislative-measure_6eb834f8f15877cf).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 13: Work requirement for Medicaid**, enacted April 17, 2026 (state; legislative-measure_f68b0a6ef2c0d6c0).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 13: Mandatory minimum sentences**, enacted April 17, 2026 (state; legislative-measure_5435bcdcc38b9728).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 3: Reduce occupational licensing**, enacted April 17, 2026 (state; legislative-measure_84889ab90b3753b3).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**S 2: Repeal: Public funds for private schooling**, enacted April 17, 2026 (state; legislative-measure_79a041e22a7ac892).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**H 12: Mileage fee instead of fuel tax**, enacted April 17, 2026 (state; legislative-measure_2590b7f222ad205c).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 2: Mandatory minimum sentences**, enacted April 17, 2026 (state; legislative-measure_ddd7cd32c7ea99a3).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 13: Repeal: Cap property tax growth**, enacted April 17, 2026 (state; legislative-measure_7008dc9e6ffcbb11).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 2: Repeal: Restrict abortion**, enacted April 17, 2026 (state; legislative-measure_848935be26664da4).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**S22: Repeal: Cap property tax growth**, enacted April 17, 2026 (state; legislative-measure_720cba852747b9bd).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**A22: Mandatory minimum sentences**, enacted April 17, 2026 (state; legislative-measure_14ec160a7413a2cf).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**A45: Fund pensions on schedule**, enacted April 17, 2026 (state; legislative-measure_ef2fee0639290aad).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 12: Rent stabilization**, enacted April 17, 2026 (state; legislative-measure_6e22a32ae65e286c).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 17: Mandatory minimum sentences**, enacted April 17, 2026 (state; legislative-measure_5aac3f049d45b7e5).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 17: Work requirement for Medicaid**, enacted April 17, 2026 (state; legislative-measure_a7f72e59d8eb5502).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SF 19: Universal preschool**, enacted April 17, 2026 (state; legislative-measure_314da499f321a7ca).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**S.57: End cash bail**, enacted April 17, 2026 (state; legislative-measure_78920adec78dc0fd).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 14: Work requirement for Medicaid**, enacted April 17, 2026 (state; legislative-measure_2c5e2c179d8566b2).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 9: Cap development incentives**, enacted April 17, 2026 (state; legislative-measure_18bfa269852e6047).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 9: Paid family and medical leave**, enacted April 17, 2026 (state; legislative-measure_06b30a52c30eca57).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 8: Fix it first**, enacted April 17, 2026 (state; legislative-measure_d354944c68b9584f).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 8: School Crossing Signal Standards**, enacted April 17, 2026 (state; legislative-measure_8658bb06001f7fbf).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 4: Universal preschool**, enacted April 17, 2026 (state; legislative-measure_f323a3b69d4b5632).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SF 6: Paid family and medical leave**, enacted April 17, 2026 (state; legislative-measure_117e45605c05b8c9).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 5: Mandatory minimum sentences**, enacted April 17, 2026 (state; legislative-measure_163f6df4afb9e2b4).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 16: Fund pensions on schedule**, enacted April 17, 2026 (state; legislative-measure_01ecd023f3289d60).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**S 4: Cap development incentives**, enacted April 17, 2026 (state; legislative-measure_55ac694c5e7e2578).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 14: Public funds for private schooling**, enacted April 17, 2026 (state; legislative-measure_8311673c1cbb9d5d).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 7: Reduce occupational licensing**, enacted April 17, 2026 (state; legislative-measure_4f7225128bd99efb).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 7: Fund a behavioral health crisis response**, enacted April 17, 2026 (state; legislative-measure_d8f39b17c8c0b619).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 3: Fix it first**, enacted April 17, 2026 (state; legislative-measure_4f3f2e9ff9237a31).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 6: Independent redistricting commission**, enacted April 17, 2026 (state; legislative-measure_1261893324a284b8).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB26-1004: Fund pensions on schedule**, enacted April 17, 2026 (state; legislative-measure_c883e8d5f1068ae6).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 12: State Transit Appropriation**, enacted April 17, 2026 (state; legislative-measure_07dad19d8554f8bd).
+
+Clause effect: amount-provided, public-program-appropriation; applied; provision legislative-provision_13ab6dab0e6b69cb.
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Transit funding: available; authority $30,000.00. Authority is not a payment.
+Missing effect: not-modeled; research law-clause-effects-by-family.
+Missing effect: not-modeled; research law-clause-effects-by-family.
+
+**SB 2: Universal preschool**, enacted April 17, 2026 (state; legislative-measure_83c3d0396d2709a2).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 2: Work requirement for Medicaid**, enacted April 17, 2026 (state; legislative-measure_04484fc510649677).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**SB 2: Paid family and medical leave**, enacted April 17, 2026 (state; legislative-measure_7245be8e3aa053d0).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 3: Public funds for private schooling**, enacted April 17, 2026 (state; legislative-measure_291b76d86bf10187).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 2: Harbor Dredging Schedule**, enacted April 17, 2026 (state; legislative-measure_02a044a51e1a08c7).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**HB 5: Allow multifamily housing in single-family zones**, enacted April 17, 2026 (state; legislative-measure_8478447c9634a50c).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 13: Repeal: Dedicated parks funding**, enacted April 2, 2026 (local; legislative-measure_c43deb9319ecf3bd).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 9: Inclusionary Housing Requirement Ordinance**, enacted March 16, 2026 (local; legislative-measure_0f3cb3e83439961a).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 7: Fix It First Ordinance**, enacted March 2, 2026 (local; legislative-measure_0f3ca5e834397e50).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 5: Independent Ward Commission Ordinance**, enacted March 2, 2026 (local; legislative-measure_0f3ca7e8343981b6).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 4: Shift Highway Funds to Transit Ordinance**, enacted March 2, 2026 (local; legislative-measure_0f3ca8e834398369).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 3: Expand Public Land Access Ordinance**, enacted March 2, 2026 (local; legislative-measure_0f3ca9e83439851c).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 2: Repeal: Dedicated Parks Funding Ordinance**, enacted March 2, 2026 (local; legislative-measure_0f3caae8343986cf).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+**ORD 1: Restrict Building in Flood Zones Ordinance**, enacted March 2, 2026 (local; legislative-measure_0f3cabe834398882).
+
+No law-linked actual money movement recorded in this period. Authority or a future payment is not money received.
+Missing effect: no-operative-text; research law-clause-effects-by-family.
+
+### 3. Bill filing and saved sponsor reasons
+
+**ORD 1: Restrict Building in Flood Zones Ordinance**, filed January 19, 2026; sponsor Dana Dixon (person_4c594916aa12582a); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3cabe834398882.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 2: Repeal: Dedicated Parks Funding Ordinance**, filed January 19, 2026; sponsor Joel Franklin (person_3c47a3534e9b92ae); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3caae8343986cf.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 3: Expand Public Land Access Ordinance**, filed January 19, 2026; sponsor Jessica Stark (person_643483f0f92ff11f); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3ca9e83439851c.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 4: Shift Highway Funds to Transit Ordinance**, filed January 19, 2026; sponsor Reese McMillan (person_9f550bcd5b919ac4); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3ca8e834398369.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 5: Independent Ward Commission Ordinance**, filed January 19, 2026; sponsor Kai Maldonado (person_395e6484c64b7701); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3ca7e8343981b6.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 6: Limit Council Terms Ordinance**, filed January 19, 2026; sponsor Barbara McPherson (person_40b77698fe4f7b40); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3ca6e834398003.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 7: Fix It First Ordinance**, filed January 19, 2026; sponsor Jill Cannon (person_19b07e63982c24e5); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3ca5e834397e50.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 8: Cap Development Incentives Ordinance**, filed February 2, 2026; sponsor Joel Franklin (person_3c47a3534e9b92ae); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3cb4e8343997cd.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 9: Inclusionary Housing Requirement Ordinance**, filed February 2, 2026; sponsor Jessica Stark (person_643483f0f92ff11f); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_0f3cb3e83439961a.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 10: By-right Permitting Ordinance**, filed February 2, 2026; sponsor Reese McMillan (person_9f550bcd5b919ac4); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0cd90bdc34676.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 11: Housing First Ordinance**, filed February 2, 2026; sponsor Kai Maldonado (person_395e6484c64b7701); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0ce90bdc34829.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 5: Allow multifamily housing in single-family zones**, filed February 15, 2026; sponsor Lance Ford (person_460c97f91d1cbbc0); jurisdiction jurisdiction_889162829c20f922; measure legislative-measure_8478447c9634a50c.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 5: Work requirement for Medicaid**, filed February 15, 2026; sponsor Haley Navarro (person_ba905f3099ef6699); jurisdiction jurisdiction_889162829c20f922; measure legislative-measure_8507e82405a3e007.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 2: Harbor Dredging Schedule**, filed February 15, 2026; sponsor Margaret Moreno (person_ff75da109fc8bad8); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_02a044a51e1a08c7.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 3: Public funds for private schooling**, filed February 15, 2026; sponsor Sierra Jenkins (person_a0025481ba74bf97); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_291b76d86bf10187.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 2: Paid family and medical leave**, filed February 15, 2026; sponsor Haley Webb (person_6a889153f86f12f2); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_7245be8e3aa053d0.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 2009: End cash bail**, filed February 15, 2026; sponsor Andrew Gordon (person_553e8041d0e7717b); jurisdiction jurisdiction_c00c4c51bcfc2c6c; measure legislative-measure_af3e61c535070fc4.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 1009: Work requirement for Medicaid**, filed February 15, 2026; sponsor Cameron Manning (person_64fddf2eb7bf2e50); jurisdiction jurisdiction_c00c4c51bcfc2c6c; measure legislative-measure_23784ed50c084c24.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 2: Work requirement for Medicaid**, filed February 15, 2026; sponsor Xavier Stark (person_564a6eb9d3dd7f43); jurisdiction jurisdiction_8acca737ebc52bd4; measure legislative-measure_04484fc510649677.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 2: Universal preschool**, filed February 15, 2026; sponsor Micah Sweet (person_15401c44b7f04088); jurisdiction jurisdiction_8acca737ebc52bd4; measure legislative-measure_83c3d0396d2709a2.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 12: State Transit Appropriation**, filed February 15, 2026; sponsor Quinn Fleming (person_b83e0b3079fbdef5); jurisdiction jurisdiction_1e7b19669e8d2d53; measure legislative-measure_07dad19d8554f8bd.
+
+Saved compilation evidence (legislative-draft-lineage_16971df2fa8df5a5): "The seated sponsor's saved political-principle records principle_941d9b7d2d61ec45, principle_5bee0e754d119a3e, principle_bf862f06540e4520 produced a score of 9 toward yes on us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours. The provisions were compiled from the exact registered state appropriation configuration."
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB26-1004: Fund pensions on schedule**, filed February 15, 2026; sponsor Emily Copeland (person_44207df47f9d93b5); jurisdiction jurisdiction_51a962cef0f937d1; measure legislative-measure_c883e8d5f1068ae6.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB26-4: Public funds for private schooling**, filed February 15, 2026; sponsor Ray McCormick (person_bf2cdcb3c527dcb0); jurisdiction jurisdiction_51a962cef0f937d1; measure legislative-measure_355c1a444fb0e993.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 6: Independent redistricting commission**, filed February 15, 2026; sponsor Zane Montgomery (person_112ce615bebcba4f); jurisdiction jurisdiction_5d94d14fe88f2d0c; measure legislative-measure_1261893324a284b8.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 3: Mandatory minimum sentences**, filed February 15, 2026; sponsor Elena Roth (person_48415fab998af7cb); jurisdiction jurisdiction_2d97cfd7b9b1f290; measure legislative-measure_67b3862dcea2c742.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 3: Fix it first**, filed February 15, 2026; sponsor Zoe Mendoza (person_21ba9aca1d159a76); jurisdiction jurisdiction_2d97cfd7b9b1f290; measure legislative-measure_4f3f2e9ff9237a31.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 10: State Transit Appropriation**, filed February 15, 2026; sponsor Mason Parker (person_586a1876d0cdf766); jurisdiction jurisdiction_83dbdb4d39ee710d; measure legislative-measure_22e2160e9985536d.
+
+Saved compilation evidence (legislative-draft-lineage_6e0dc7d24cba105d): "The seated sponsor's saved political-principle records principle_21156358a689f76b, principle_44d9115661c96d2b produced a score of 8 toward yes on us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours. The provisions were compiled from the exact registered state appropriation configuration."
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 10: Fix it first**, filed February 15, 2026; sponsor Kyle Ramos (person_d354a9dc93923fbb); jurisdiction jurisdiction_83dbdb4d39ee710d; measure legislative-measure_f9a8398fcdf4656f.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 7: Fund a behavioral health crisis response**, filed February 15, 2026; sponsor Anika Whitfield (person_16aa7356c8913566); jurisdiction jurisdiction_23ccafc89341e657; measure legislative-measure_d8f39b17c8c0b619.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 7: Reduce occupational licensing**, filed February 15, 2026; sponsor Zane Hudson (person_1099c6de620a992c); jurisdiction jurisdiction_23ccafc89341e657; measure legislative-measure_4f7225128bd99efb.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 14: Public funds for private schooling**, filed February 15, 2026; sponsor Leon Robbins (person_a9334c5a64e2ed62); jurisdiction jurisdiction_8f69e03a6d262848; measure legislative-measure_8311673c1cbb9d5d.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**H 4: Restrict building in flood zones**, filed February 15, 2026; sponsor Brooke Nixon (person_181cfb1963b9f2a7); jurisdiction jurisdiction_b553cb6877c707f2; measure legislative-measure_6439d2e13a6faa10.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S 4: Cap development incentives**, filed February 15, 2026; sponsor Miriam Rollins (person_646a55d12664a0cb); jurisdiction jurisdiction_b553cb6877c707f2; measure legislative-measure_55ac694c5e7e2578.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 16: Fund pensions on schedule**, filed February 15, 2026; sponsor Samuel Baker (person_cd13576feafb987d); jurisdiction jurisdiction_612e8d3a1fed4dba; measure legislative-measure_01ecd023f3289d60.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 5: Mandatory minimum sentences**, filed February 15, 2026; sponsor Emerson Fletcher (person_cb698c4a297b10f9); jurisdiction jurisdiction_6d6a95d42895c878; measure legislative-measure_163f6df4afb9e2b4.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SF 6: Paid family and medical leave**, filed February 15, 2026; sponsor River Norris (person_acb931fa1480db0a); jurisdiction jurisdiction_a3e4f4601cec2839; measure legislative-measure_117e45605c05b8c9.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 4: Universal preschool**, filed February 15, 2026; sponsor Philip Bailey (person_246e7ca5eb07f9a5); jurisdiction jurisdiction_56ee73d43f5df3a5; measure legislative-measure_f323a3b69d4b5632.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 8: School Crossing Signal Standards**, filed February 15, 2026; sponsor Morgan Holloway (person_08deb02b8d944013); jurisdiction jurisdiction_6752b5a7cd79cafe; measure legislative-measure_8658bb06001f7fbf.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 8: Fix it first**, filed February 15, 2026; sponsor Zane Byrd (person_e810270476df9a79); jurisdiction jurisdiction_6752b5a7cd79cafe; measure legislative-measure_d354944c68b9584f.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 9: Paid family and medical leave**, filed February 15, 2026; sponsor Logan Snider (person_f8a22c4f1290ba05); jurisdiction jurisdiction_1d1fb29e9cc5bdb4; measure legislative-measure_06b30a52c30eca57.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 9: Cap development incentives**, filed February 15, 2026; sponsor Elizabeth Silva (person_4fa370036d07cfbb); jurisdiction jurisdiction_1d1fb29e9cc5bdb4; measure legislative-measure_18bfa269852e6047.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**LD 2: Expand public land access**, filed February 15, 2026; sponsor Parker Sykes (person_5160b99f394e2fff); jurisdiction jurisdiction_95dc3c80ebc2da09; measure legislative-measure_e933089fbac74151.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 14: Work requirement for Medicaid**, filed February 15, 2026; sponsor Ahmad Coleman (person_abc96adddc2be22c); jurisdiction jurisdiction_4b72ee154e14b52e; measure legislative-measure_2c5e2c179d8566b2.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S.57: End cash bail**, filed February 15, 2026; sponsor Kai Vargas (person_53e296e169eaf22a); jurisdiction jurisdiction_660e18bc5aac592d; measure legislative-measure_78920adec78dc0fd.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SF 19: Universal preschool**, filed February 15, 2026; sponsor Haris Gallegos (person_7aa68b3afcabcd80); jurisdiction jurisdiction_8f31b51a5d2bba64; measure legislative-measure_314da499f321a7ca.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 17: Work requirement for Medicaid**, filed February 15, 2026; sponsor Paige May (person_33e3c2f13a9665c5); jurisdiction jurisdiction_907de9c31da61f63; measure legislative-measure_a7f72e59d8eb5502.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 17: Mandatory minimum sentences**, filed February 15, 2026; sponsor Julia McGee (person_ac128fdf77cac7b8); jurisdiction jurisdiction_907de9c31da61f63; measure legislative-measure_5aac3f049d45b7e5.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 12: Rent stabilization**, filed February 15, 2026; sponsor Elliott Lin (person_8e76fdbc381c6890); jurisdiction jurisdiction_33cbfed7ea823907; measure legislative-measure_6e22a32ae65e286c.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**LB 7: Rural Transit Access**, filed February 15, 2026; sponsor Rene Bishop (person_36d1d0c60c3655da); jurisdiction jurisdiction_317641dc58effbce; measure legislative-measure_85fa3c1458ac4108.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**LB 8: Fund a behavioral health crisis response**, filed February 15, 2026; sponsor Rene Pitts (person_43d0827a4ad28042); jurisdiction jurisdiction_317641dc58effbce; measure legislative-measure_d1f25d30827d2a76.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 4: Fund a behavioral health crisis response**, filed February 15, 2026; sponsor Ella Stewart (person_7fcc4c55f1cd96c7); jurisdiction jurisdiction_036e73481ecd6dc1; measure legislative-measure_fa02a9d00f95c69f.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**A45: Fund pensions on schedule**, filed February 15, 2026; sponsor Thomas Kelly (person_659e781dbc6027c4); jurisdiction jurisdiction_8a587db997485af7; measure legislative-measure_ef2fee0639290aad.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 3: Public funds for private schooling**, filed February 15, 2026; sponsor Alex Jensen (person_513986595c633b33); jurisdiction jurisdiction_ca05aeb0981cd43a; measure legislative-measure_428ad9582821d11b.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 3: Repeal: Cap property tax growth**, filed February 15, 2026; sponsor Helen Meadows (person_74e57300fe21da46); jurisdiction jurisdiction_ca05aeb0981cd43a; measure legislative-measure_5d700878b89a6280.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**A22: Mandatory minimum sentences**, filed February 15, 2026; sponsor Zoe Norris (person_8b86c0144df2b021); jurisdiction jurisdiction_9b5979cea0ce42f6; measure legislative-measure_14ec160a7413a2cf.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S22: Repeal: Cap property tax growth**, filed February 15, 2026; sponsor Vincent Adams (person_b64f086cefd7394d); jurisdiction jurisdiction_9b5979cea0ce42f6; measure legislative-measure_720cba852747b9bd.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 2: Repeal: Restrict abortion**, filed February 15, 2026; sponsor Victoria Rocha (person_1c7bef8f34d67bb9); jurisdiction jurisdiction_cd70b9ba3c8e7584; measure legislative-measure_848935be26664da4.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 13: Repeal: Cap property tax growth**, filed February 15, 2026; sponsor Jordan Hunter (person_36d1ddab59003581); jurisdiction jurisdiction_11eee12d9a148471; measure legislative-measure_7008dc9e6ffcbb11.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 2: Mandatory minimum sentences**, filed February 15, 2026; sponsor Laura McPherson (person_e1a0e52a24e9cc5c); jurisdiction jurisdiction_517f8ff4401d685e; measure legislative-measure_ddd7cd32c7ea99a3.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**H 12: Mileage fee instead of fuel tax**, filed February 15, 2026; sponsor Isaac Larson (person_12b37a1863ac7eb8); jurisdiction jurisdiction_8a0c343862e0898a; measure legislative-measure_2590b7f222ad205c.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S 2: Repeal: Public funds for private schooling**, filed February 15, 2026; sponsor Dylan Sheppard (person_a851e02dc3118456); jurisdiction jurisdiction_e73897803685f85d; measure legislative-measure_79a041e22a7ac892.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 3: Reduce occupational licensing**, filed February 15, 2026; sponsor Eden Shaffer (person_48c494e0d821597b); jurisdiction jurisdiction_04cf043711e2f0ec; measure legislative-measure_84889ab90b3753b3.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 15: Expand public land access**, filed February 15, 2026; sponsor Holly Jennings (person_26e9a25ff32ffd19); jurisdiction jurisdiction_de176811ef2894d5; measure legislative-measure_f3120122a0c4323c.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 5: Reduce occupational licensing**, filed February 15, 2026; sponsor Aiden Farmer (person_41d2afb3ac794cb3); jurisdiction jurisdiction_01dc03d332dd4286; measure legislative-measure_b54c1eea1a91644c.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S.3: Mileage fee instead of fuel tax**, filed February 15, 2026; sponsor Kevin Martin (person_bffaa11da934f257); jurisdiction jurisdiction_ccb5f5e8b173f9f5; measure legislative-measure_b320bf9cb61fd1b4.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 12: Mandatory minimum sentences**, filed February 15, 2026; sponsor Aiko Puckett (person_b2a511ff6fed03d9); jurisdiction jurisdiction_b6689e8af16aa8e6; measure legislative-measure_7c47e25f457a4846.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 1004: Public funds for private schooling**, filed February 15, 2026; sponsor Ray Sanford (person_5364ec306c84c9bf); jurisdiction jurisdiction_057a41c4dae14607; measure legislative-measure_089506898cbb3685.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 5004: Fund a behavioral health crisis response**, filed February 15, 2026; sponsor Camila Marquez (person_85fa1f8b01f781cb); jurisdiction jurisdiction_057a41c4dae14607; measure legislative-measure_8e413a8e4c726152.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 13: Mandatory minimum sentences**, filed February 15, 2026; sponsor Derek Hunter (person_5d8d1178df50502e); jurisdiction jurisdiction_d32ed0247ef215da; measure legislative-measure_5435bcdcc38b9728.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 13: Work requirement for Medicaid**, filed February 15, 2026; sponsor Audrey Patrick (person_d2e6b9f9e9e08d0b); jurisdiction jurisdiction_d32ed0247ef215da; measure legislative-measure_f68b0a6ef2c0d6c0.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**AB 13: By-right permitting**, filed February 15, 2026; sponsor Noah Klein (person_9cdf37d8f754fd84); jurisdiction jurisdiction_613597ae5e7973bf; measure legislative-measure_6eb834f8f15877cf.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 13: Universal preschool**, filed February 15, 2026; sponsor Joy Newton (person_7b522cf15152aa46); jurisdiction jurisdiction_613597ae5e7973bf; measure legislative-measure_2b9b8927417a2a58.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 2: Repeal: Cap property tax growth**, filed February 15, 2026; sponsor Paige Vaughan (person_53c0dc27bebb9f00); jurisdiction jurisdiction_87f38f46e4bcf8cf; measure legislative-measure_1019b2c86e5a40c7.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SF 2: Allow multifamily housing in single-family zones**, filed February 15, 2026; sponsor Henry Garcia (person_2587cf0adeb7cee8); jurisdiction jurisdiction_87f38f46e4bcf8cf; measure legislative-measure_3cc5911d8fe08bc5.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 12: Fare-free Transit Ordinance**, filed March 2, 2026; sponsor Kai Maldonado (person_395e6484c64b7701); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0cb90bdc34310.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 6: Fund a behavioral health crisis response**, filed March 15, 2026; sponsor Lily Villanueva (person_4c0a4af1442716d8); jurisdiction jurisdiction_889162829c20f922; measure legislative-measure_8b3f7fc6988ab8d7.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 4: Village Transit Support**, filed March 15, 2026; sponsor Emerson Lane (person_40cd7112d6e5221c); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_60c5a4addfe92e9e.
+
+Saved compilation evidence (legislative-draft-lineage_009986d24ab02a67): "Authored appropriation configuration filed by a non-player legislature. Not a statute and not a claim about any real program."
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 5: Preempt local housing limits**, filed March 15, 2026; sponsor Ivy Graves (person_e9c40782f8246c3d); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_9c7ad327e19f59bc.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 3: Rent stabilization**, filed March 15, 2026; sponsor Luna Barnes (person_4717411f44de259c); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_9d080a01fead316c.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 1010: Repeal: Independent redistricting commission**, filed March 15, 2026; sponsor Emily Wise (person_6988f297d75ae98f); jurisdiction jurisdiction_c00c4c51bcfc2c6c; measure legislative-measure_4feda1a4e4ae2d0f.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 3: Fund a behavioral health crisis response**, filed March 15, 2026; sponsor Anna Emerson (person_edd63909829dea6e); jurisdiction jurisdiction_8acca737ebc52bd4; measure legislative-measure_1bf622acce85ccac.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 4: Restrict building in flood zones**, filed March 15, 2026; sponsor Gregory Joseph (person_56abce38ef76bb33); jurisdiction jurisdiction_2d97cfd7b9b1f290; measure legislative-measure_f4586e29be1ea67d.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 8: Paid family and medical leave**, filed March 15, 2026; sponsor Monique McKinney (person_2e53be7fbda504d6); jurisdiction jurisdiction_23ccafc89341e657; measure legislative-measure_c09f91549f71cafe.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**H 5: Allow multifamily housing in single-family zones**, filed March 15, 2026; sponsor John Marshall (person_5b08549245d40319); jurisdiction jurisdiction_b553cb6877c707f2; measure legislative-measure_4dfda58b03f3c8eb.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S 5: Repeal: Restore voting after a sentence**, filed March 15, 2026; sponsor Jonah Foster (person_e5e753e3e72e25cd); jurisdiction jurisdiction_b553cb6877c707f2; measure legislative-measure_9c095db4481d3f74.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 17: Cap development incentives**, filed March 15, 2026; sponsor Fiona Hurst (person_2eb20357a66502d0); jurisdiction jurisdiction_612e8d3a1fed4dba; measure legislative-measure_1ff8323705b8e57b.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 6: Repeal: Public funds for private schooling**, filed March 15, 2026; sponsor Jordan Nielsen (person_2550d6c4bf5ab1a9); jurisdiction jurisdiction_6d6a95d42895c878; measure legislative-measure_e8f9a1e6002668ff.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SF 7: Allow multifamily housing in single-family zones**, filed March 15, 2026; sponsor Travis Curtis (person_2a3d36db155b5012); jurisdiction jurisdiction_a3e4f4601cec2839; measure legislative-measure_ffed958d4bc2782e.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 5: End cash bail**, filed March 15, 2026; sponsor Ivan Marshall (person_44228288662d843d); jurisdiction jurisdiction_56ee73d43f5df3a5; measure legislative-measure_0286d33fa43299ad.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 9: Rural Road Sign Replacement**, filed March 15, 2026; sponsor Quinn Mack (person_dd03ff8bd166b36c); jurisdiction jurisdiction_6752b5a7cd79cafe; measure legislative-measure_d094fb0e2603ff96.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 9: Work requirement for Medicaid**, filed March 15, 2026; sponsor Rene Fisher (person_e7748720a276645f); jurisdiction jurisdiction_6752b5a7cd79cafe; measure legislative-measure_2d515cc2eececc04.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 10: State Transit Appropriation**, filed March 15, 2026; sponsor Hannah Cole (person_49fc75ac514aa3a2); jurisdiction jurisdiction_1d1fb29e9cc5bdb4; measure legislative-measure_ffebcf08c0b8b68c.
+
+Saved compilation evidence (legislative-draft-lineage_1c1f17868121ae23): "The seated sponsor's saved political-principle records principle_d6b0406c5f3a0ba1, principle_03d1e01bbc0a6781 produced a score of 8 toward yes on us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours. The provisions were compiled from the exact registered state appropriation configuration."
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 10: Work requirement for Medicaid**, filed March 15, 2026; sponsor Sasha Bowen (person_35d95fe195351f0b); jurisdiction jurisdiction_1d1fb29e9cc5bdb4; measure legislative-measure_514c2d814dedfc0d.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**LD 3: Restrict building in flood zones**, filed March 15, 2026; sponsor Emil Maynard (person_b4cea088926ff51a); jurisdiction jurisdiction_95dc3c80ebc2da09; measure legislative-measure_6c50479a2bac5b16.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S.58: Independent redistricting commission**, filed March 15, 2026; sponsor Colin Bennett (person_1afead02b921a2a1); jurisdiction jurisdiction_660e18bc5aac592d; measure legislative-measure_ebed22e2d811e1c2.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SF 20: State Transit Appropriation**, filed March 15, 2026; sponsor Carmen Bryant (person_e0e62ca334676b43); jurisdiction jurisdiction_8f31b51a5d2bba64; measure legislative-measure_fa15b40389ccdb45.
+
+Saved compilation evidence (legislative-draft-lineage_4071ef055ad50265): "The seated sponsor's saved political-principle records principle_d2d0543cb05cfd2a, principle_996024404ab2311f produced a score of 5 toward yes on us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours. The provisions were compiled from the exact registered state appropriation configuration."
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 18: Cap property tax growth**, filed March 15, 2026; sponsor Cynthia Pitts (person_8e84c7d3233d8de6); jurisdiction jurisdiction_907de9c31da61f63; measure legislative-measure_90750dfaaaabf83d.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**LB 9: School Transport Credential Recognition**, filed March 15, 2026; sponsor Julia Lin (person_ff2476aa26449ff4); jurisdiction jurisdiction_317641dc58effbce; measure legislative-measure_21aa7c0d464069a1.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**LB 10: Mandatory minimum sentences**, filed March 15, 2026; sponsor Austin Newton (person_d4c17041fb37dd48); jurisdiction jurisdiction_317641dc58effbce; measure legislative-measure_f826dacecfbe14b1.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 5: Universal preschool**, filed March 15, 2026; sponsor Ella Stewart (person_7fcc4c55f1cd96c7); jurisdiction jurisdiction_036e73481ecd6dc1; measure legislative-measure_0a4f54661a858354.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S23: Universal preschool**, filed March 15, 2026; sponsor Vincent Adams (person_b64f086cefd7394d); jurisdiction jurisdiction_9b5979cea0ce42f6; measure legislative-measure_6ee8de80fa291684.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 3: Repeal: Protect farmland from development**, filed March 15, 2026; sponsor Victoria Rocha (person_1c7bef8f34d67bb9); jurisdiction jurisdiction_cd70b9ba3c8e7584; measure legislative-measure_d1a23ea61bc915ef.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 14: Repeal: Public funds for private schooling**, filed March 15, 2026; sponsor Jordan Hunter (person_36d1ddab59003581); jurisdiction jurisdiction_11eee12d9a148471; measure legislative-measure_445823ea2ea16dd6.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**H 13: Mandatory minimum sentences**, filed March 15, 2026; sponsor Oscar Rose (person_1ad03400024c164f); jurisdiction jurisdiction_8a0c343862e0898a; measure legislative-measure_6a201b7134254da7.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S 3: Paid family and medical leave**, filed March 15, 2026; sponsor Yasmin Robinson (person_068e17e77934ef7b); jurisdiction jurisdiction_e73897803685f85d; measure legislative-measure_7ecedf6a3227260d.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S.4: Repeal: Public funds for private schooling**, filed March 15, 2026; sponsor Amy Cortez (person_1eb4f9813fca3600); jurisdiction jurisdiction_ccb5f5e8b173f9f5; measure legislative-measure_85daf38e068c57ff.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 13: Repeal: Public funds for private schooling**, filed March 15, 2026; sponsor Sara Barrett (person_f5293abade24f829); jurisdiction jurisdiction_b6689e8af16aa8e6; measure legislative-measure_d1c5f06db9429041.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 14: State Transit Appropriation**, filed March 15, 2026; sponsor Emerson Evans (person_36c5c907436ac0ec); jurisdiction jurisdiction_613597ae5e7973bf; measure legislative-measure_c8b4fd6f776deb84.
+
+Saved compilation evidence (legislative-draft-lineage_d3ab313c8f8204b0): "The seated sponsor's saved political-principle records principle_a4edc280a1eedc37, principle_156365917e671fbc, principle_59efb07bea5d281e produced a score of 8 toward yes on us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours. The provisions were compiled from the exact registered state appropriation configuration."
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 13: Repeal: Dedicated parks funding**, filed April 1, 2026; sponsor Joel Franklin (person_3c47a3534e9b92ae); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_c43deb9319ecf3bd.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 14: Repeal: Dedicated Parks Funding Ordinance**, filed April 13, 2026; sponsor Joel Franklin (person_3c47a3534e9b92ae); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0d190bdc34d42.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 15: Repeal: Independent Ward Commission Ordinance**, filed April 13, 2026; sponsor Jill Cannon (person_19b07e63982c24e5); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0d290bdc34ef5.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 16: Repeal: Expand Public Land Access Ordinance**, filed April 13, 2026; sponsor Reese McMillan (person_9f550bcd5b919ac4); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0cf90bdc349dc.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 6: Coastal Ferry Schedule Notice**, filed April 15, 2026; sponsor Richard Fox (person_1ce6c29381a8bd1f); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_cd2d84b61905cbc1.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 7: Work requirement for Medicaid**, filed April 15, 2026; sponsor Richard Fox (person_1ce6c29381a8bd1f); jurisdiction jurisdiction_7a7ff2336824055b; measure legislative-measure_aecaee2dd7bfbbd1.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 4: Paid family and medical leave**, filed April 15, 2026; sponsor Anna Emerson (person_edd63909829dea6e); jurisdiction jurisdiction_8acca737ebc52bd4; measure legislative-measure_083c625af86fa501.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 7: Cap development incentives**, filed April 15, 2026; sponsor Anika Griffith (person_ccdc532d35caa510); jurisdiction jurisdiction_6d6a95d42895c878; measure legislative-measure_ab62264ff09b64ee.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SF 8: Repeal: Public funds for private schooling**, filed April 15, 2026; sponsor River Norris (person_acb931fa1480db0a); jurisdiction jurisdiction_a3e4f4601cec2839; measure legislative-measure_ea7b43f6e3594c3f.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 10: Rural Road Sign Replacement**, filed April 15, 2026; sponsor Alan Snider (person_b86ce1930149173f); jurisdiction jurisdiction_6752b5a7cd79cafe; measure legislative-measure_66ee9b1798c37599.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 11: Restrict building in flood zones**, filed April 15, 2026; sponsor Douglas Pena (person_4f23a8f6fd188d4f); jurisdiction jurisdiction_1d1fb29e9cc5bdb4; measure legislative-measure_6dac88ec56d9b3e1.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 11: Fix it first**, filed April 15, 2026; sponsor Noah Powell (person_cc891e71cf65bfd4); jurisdiction jurisdiction_1d1fb29e9cc5bdb4; measure legislative-measure_a6ebeceac3541cdd.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S.59: State Transit Appropriation**, filed April 15, 2026; sponsor Oliver Wolfe (person_5f040581a0d8eece); jurisdiction jurisdiction_660e18bc5aac592d; measure legislative-measure_22753ebef7de23fb.
+
+Saved compilation evidence (legislative-draft-lineage_769d1b3ca2f8cb81): "The seated sponsor's saved political-principle records principle_951cd6a89b6821e6, principle_b11d9af0bc3cdd7b, principle_24a5274b20d9cd7b produced a score of 7 toward yes on us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours. The provisions were compiled from the exact registered state appropriation configuration."
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**LB 11: School Transport Credential Recognition**, filed April 15, 2026; sponsor Diego Peters (person_5e60ce81800a94ff); jurisdiction jurisdiction_317641dc58effbce; measure legislative-measure_b5429c050d23cc7e.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**S24: Allow multifamily housing in single-family zones**, filed April 15, 2026; sponsor Allison Hawkins (person_b3158e66e822c8c8); jurisdiction jurisdiction_9b5979cea0ce42f6; measure legislative-measure_c82965c8506c7699.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 4: Reduce occupational licensing**, filed April 15, 2026; sponsor Fatima Pickett (person_566732d30d6de566); jurisdiction jurisdiction_cd70b9ba3c8e7584; measure legislative-measure_72e63180ab4b511e.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**HB 15: Fund a behavioral health crisis response**, filed April 15, 2026; sponsor Alice Hines (person_cb03c7415ab44325); jurisdiction jurisdiction_11eee12d9a148471; measure legislative-measure_7b69a08d2bb0cac7.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**H 14: Cap development incentives**, filed April 15, 2026; sponsor Sara Hester (person_4c7de76c75ab51b1); jurisdiction jurisdiction_8a0c343862e0898a; measure legislative-measure_11ac5559cb8c9836.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**SB 15: Expand public land access**, filed April 15, 2026; sponsor Seth Arnold (person_9f343c3907ebd527); jurisdiction jurisdiction_613597ae5e7973bf; measure legislative-measure_21f584b6cdb14b99.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 17: Repeal: Shift Highway Funds to Transit Ordinance**, filed April 27, 2026; sponsor Jill Cannon (person_19b07e63982c24e5); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0d090bdc34b8f.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 18: Repeal: Dedicated Parks Funding Ordinance**, filed June 22, 2026; sponsor Joel Franklin (person_3c47a3534e9b92ae); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1da0d590bdc3540e.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 19: Repeal: Independent ward commission**, filed July 1, 2026; sponsor Jill Cannon (person_19b07e63982c24e5); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_e1e89a67064ff661.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 20: Repeal: Dedicated Parks Funding Ordinance**, filed August 31, 2026; sponsor Joel Franklin (person_3c47a3534e9b92ae); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1d9d6790bdc0634d.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 21: Repeal: Shift highway funds to transit**, filed October 1, 2026; sponsor Jill Cannon (person_19b07e63982c24e5); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_2415191e173078d9.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 22: Repeal: Dedicated Parks Funding Ordinance**, filed November 23, 2026; sponsor Joel Franklin (person_3c47a3534e9b92ae); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_1d9d6590bdc05fe7.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+**ORD 1: Repeal: Work requirement for assistance**, filed January 1, 2027; sponsor Jessica Stark (person_643483f0f92ff11f); jurisdiction jurisdiction_1a3bd20fcad0369a; measure legislative-measure_632864775bdec332.
+
+No separately recorded sponsor-motive event; filed text provenance is evidence of compilation, not a new inferred personal reason.
+
+## 5. SIMULATED / RECORDS / WORLD PIECES / CHECKS
+
+SIMULATED: real observer Day path. RECORDS: canonical case, occupancy, legislative and money history. WORLD PIECES: unrecorded court/moving costs and absent destination capacity remain missing; no shelter/car/motel is inferred from absent occupancy. CHECKS: none-case is retained; blocked money is not a successful payment; debt, authority and commitments are not actual cost or transfer.
+
+## 6. Random-place proof
+
+Runtime source 54930d427555034f3a92f335064586247985784d; runtime source dirty: false; status completed-year.
+Collector c0a23ba19b6e03ac6dd871818e9894d0e240d1c8:system-only-path-adapter; collector dirty: false.
+Save/Continue result: {"saveMs":66277.858144,"saveCpuMs":68727.795,"reopenMs":58148.485563000024,"reopenCpuMs":60187.547,"saveBytes":23,"reopenedMatches":true}.
 No recorded run stop.
 
 ## 7. Named worked example

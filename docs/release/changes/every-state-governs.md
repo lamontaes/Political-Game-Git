@@ -22,3 +22,5 @@ The draft now inventories governing and election-response numbers, their evidenc
 The draft preserves an unfinished watched-system report runner and why-chain for account transfer. Its new report path has not completed a watched year or final snapshot validation.
 
 The watched-system runner completed a recorded year and preserves actual case, bill and law-money reports. The reader now uses the production eviction tag, keeps missing court/destination/cost evidence explicit, and lists every supplied clause-effect outcome.
+
+A separate clean-main watched year now preserves its zero-case and zero-money observations. Source law traces distinguish catalog path counts, effect units, individual consumers and remaining dice or missing readers.
