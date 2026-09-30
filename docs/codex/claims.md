@@ -28,3 +28,10 @@ Team 5 owns `docs/codex/handbacks/team-5-why-chains.md`. This one-page causal
 audit replaces the numeric-ledger deliverable; the earlier numeric inventory
 stays preserved as supporting evidence. No behavior, coefficient or shared
 renderer edit is included.
+
+## Team 5 overnight handback — CTO September 30, 2:05 a.m.
+
+Team 5 owns `docs/codex/handbacks/team-5-overnight.md`, the seven-heading
+handback and held foreground contract. Read-only source and preserved research
+receipts support this report. No new PlayerGame, simulation, schema, renderer
+or proof-runner writer is claimed.
