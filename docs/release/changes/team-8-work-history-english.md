@@ -1,6 +1,7 @@
 ---
-release: patch
-type: Fixed
+id: team-8-work-history-english
+impact: patch
+section: Fixed
 title: Describe saved work starts without implying missing career history
 ---
 
