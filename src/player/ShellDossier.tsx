@@ -64,7 +64,7 @@ export function QuickDossier({
       onClose={onClose}
       onExpand={() => setExpandedFor(dossier.personId)}
       onTogglePin={onTogglePin}
-      onOpenPerson={(personId) => onOpenPerson?.(personId)}
+      onOpenPerson={onOpenPerson}
       onTalk={onTalk}
       onContact={onContact}
       onMeet={onMeet}
@@ -143,7 +143,7 @@ export function FullDossier({
       expanded
       mode="workspace"
       onTogglePin={onTogglePin}
-      onOpenPerson={(personId) => onOpenPerson?.(personId)}
+      onOpenPerson={onOpenPerson}
       onTalk={onTalk}
       onContact={onContact}
       onMeet={onMeet}
