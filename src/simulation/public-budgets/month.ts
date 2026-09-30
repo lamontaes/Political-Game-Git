@@ -1,4 +1,6 @@
-import { makeIsoDate } from "../dates";
+import { parksBudgetChange } from "./parks-dedication";
+import { PARKS_DEDICATION_QUESTION } from "./rules";
+import { ageVerificationCostForMonth } from "./age-verification-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -12,11 +14,12 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
+import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
+import { CANNABIS_SALES_QUESTION } from "./cannabis-sales-tax";
 import {
-  CANNABIS_FIRST_SALE_LAG_MONTHS,
-  CANNABIS_SALES_QUESTION,
-  CANNABIS_TAX_PER_RESIDENT,
-} from "./cannabis-sales-tax";
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
@@ -370,6 +373,11 @@ export function lawSpendingForMonth(
   const spending = BUDGET_PROGRAMS.map(() => 0);
   if (government.level !== "state") return spending;
   for (const effect of SPENDING_QUESTION_EFFECTS) {
+    if (effect.questionKey === PARKS_DEDICATION_QUESTION) {
+      const parks = parksBudgetChange(world, government, date);
+      if (parks) spending[BUDGET_PROGRAMS.indexOf("parks")]! += parks.dollars;
+      continue;
+    }
     const propositionId = propositionIdFor(world, effect.questionKey);
     if (!propositionId) continue;
     const now = lawInForce(
@@ -453,32 +461,10 @@ function cannabisSalesFactor(
   government: PublicBudgetGovernment,
   date: IsoDate,
 ): number {
-  const propositionId = propositionIdFor(world, CANNABIS_SALES_QUESTION);
   const opening = government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0;
-  if (!propositionId || opening <= 0) return 1;
-  const law = (on: IsoDate) =>
-    lawInForce(world, government.lawJurisdictionId, propositionId, on)?.answer;
-  const began = lawInForceAtStart(
-    world,
-    government.lawJurisdictionId,
-    propositionId,
-    date,
-  );
-  const cannabis = CANNABIS_TAX_PER_RESIDENT * government.population;
-  if (began !== "yes" && law(date) === "yes") {
-    const total =
-      Number(date.slice(0, 4)) * 12 +
-      Number(date.slice(5, 7)) -
-      1 -
-      CANNABIS_FIRST_SALE_LAG_MONTHS;
-    const storesOpenedBy = makeIsoDate(
-      `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}-${date.slice(8, 10) > "28" ? "28" : date.slice(8, 10)}`,
-    );
-    return law(storesOpenedBy) === "yes" ? (opening + cannabis) / opening : 1;
-  }
-  if (began === "yes" && law(date) === "no")
-    return Math.max(0, (opening - cannabis) / opening);
-  return 1;
+  if (opening <= 0) return 1;
+  const reading = cannabisSalesRevenueChange(world, government, date);
+  return Math.max(0, (opening + reading.annualRevenueDelta) / opening);
 }
 
 /**
@@ -576,6 +562,68 @@ export function settleGovernmentMonth(
         (lawNow / lawAtAdoption),
     );
   });
+  // A zero opening selective-tax source cannot express an added amount as
+  // a factor. Strip the amount already in the adopted forecast before adding
+  // this month's amount, so rollover neither doubles it nor blocks repeal.
+  const zeroOpeningSelectiveTax =
+    (government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0) <= 0;
+  const cannabisReading = zeroOpeningSelectiveTax
+    ? cannabisSalesRevenueChange(world, government, month)
+    : null;
+  const cannabisRevenue = cannabisReading
+    ? Math.max(0, Math.round(cannabisReading.annualRevenueDelta / 12))
+    : 0;
+  if (zeroOpeningSelectiveTax) {
+    const adoptedCannabis = Math.max(
+      0,
+      cannabisSalesRevenueChange(world, government, year.startsOn)
+        .annualRevenueDelta,
+    );
+    const nonCannabisBase = Math.max(
+      0,
+      year.expectedRevenue[SELECTIVE_TAX]! - adoptedCannabis,
+    );
+    revenue[SELECTIVE_TAX] =
+      Math.round(
+        (nonCannabisBase / 12) *
+          Math.max(
+            0,
+            1 + ECONOMY_ELASTICITY.selectiveSalesTaxes * (economy - 1),
+          ) *
+          (taxLawFactor(world, government, "selectiveSalesTaxes", month) /
+            (taxLawFactor(
+              world,
+              government,
+              "selectiveSalesTaxes",
+              year.startsOn,
+            ) || 1)),
+      ) + cannabisRevenue;
+  }
+  const previousCannabisRevenue =
+    (
+      government.months.at(-1) as
+        (BudgetMonthRow & { readonly cannabisRevenue?: number }) | undefined
+    )?.cannabisRevenue ?? 0;
+  const cannabisProposition = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const cannabisStamp =
+    zeroOpeningSelectiveTax &&
+    (cannabisRevenue > 0 || previousCannabisRevenue > 0) &&
+    cannabisProposition
+      ? lawEffectStamp(
+          lawInForce(
+            world,
+            government.lawJurisdictionId,
+            cannabisProposition,
+            month,
+          ),
+          {
+            effectKind: "cannabis-selective-tax-revenue",
+            questionKey: CANNABIS_SALES_QUESTION,
+            jurisdictionId: government.lawJurisdictionId,
+            appliedAt: month,
+          },
+        )
+      : null;
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -722,7 +770,16 @@ export function settleGovernmentMonth(
     }
   }
 
-  const row: BudgetMonthRow = {
+  const parks = parksBudgetChange(world, government, month);
+  const ageVerificationCost = ageVerificationCostForMonth(
+    world,
+    government,
+    month,
+  );
+  const row: BudgetMonthRow &
+    LawEffectStampedRecord & {
+      readonly cannabisRevenue?: number;
+    } = {
     month,
     revenue,
     spending,
@@ -734,6 +791,37 @@ export function settleGovernmentMonth(
       ? { townSales: Math.round(townSales * 10000) / 10000 }
       : {}),
     represented,
+    ...(ageVerificationCost || parks?.stamp
+      ? {
+          lawCostAttributions: [
+            ...(ageVerificationCost ? [ageVerificationCost] : []),
+            ...(parks?.stamp
+              ? [
+                  {
+                    program: "parks" as const,
+                    amountUsd: parks.dollars,
+                    basis:
+                      "ESTIMATED FROM AVERAGE: constitutional parks dedication yields from Missouri and Minnesota, fiscal-2022 dollars per 2023 resident; stable world/state range. Incremental modeled appropriation before rounding/zero floor; not observed 2026 invoice or a new tax collection.",
+                    lawEffectStamps: [parks.stamp],
+                  },
+                ]
+              : []),
+          ],
+        }
+      : {}),
+    ...(zeroOpeningSelectiveTax &&
+    (cannabisRevenue > 0 || previousCannabisRevenue > 0)
+      ? { cannabisRevenue }
+      : {}),
+    ...(cannabisStamp || ageVerificationCost || parks?.stamp
+      ? {
+          lawEffectStamps: [
+            ...(cannabisStamp ? [cannabisStamp] : []),
+            ...(ageVerificationCost?.lawEffectStamps ?? []),
+            ...(parks?.stamp ? [parks.stamp] : []),
+          ],
+        }
+      : {}),
   };
   let next: PublicBudgetGovernment = {
     ...government,
@@ -1123,6 +1211,43 @@ function adoptNextYear(
       : null;
   const expectedRevenue = BUDGET_SOURCES.map((source, at) => {
     if (rows.length === 0) return prior.expectedRevenue[at]!;
+    if (
+      source === "selectiveSalesTaxes" &&
+      (government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0) <= 0
+    ) {
+      // Cannabis is an additive amount, including months before retail opens.
+      // Restate the other taxes through the existing economy/law calculation,
+      // then forecast the current cannabis amount exactly once.
+      const otherTaxes = rows.map((row) => {
+        const cannabis =
+          (row as BudgetMonthRow & { readonly cannabisRevenue?: number })
+            .cannabisRevenue ?? 0;
+        const other = Math.max(0, row.revenue[at]! - cannabis);
+        const then = Math.max(
+          0,
+          1 + ECONOMY_ELASTICITY[source] * (row.economy - 1),
+        );
+        const now =
+          economyNow === null
+            ? then
+            : Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economyNow - 1));
+        const lawThen = taxLawFactor(world, government, source, row.month);
+        const lawNow = taxLawFactor(world, government, source, startsOn);
+        return (
+          other *
+          (then > 0 ? now / then : 1) *
+          (lawThen > 0 ? lawNow / lawThen : 1)
+        );
+      });
+      return (
+        Math.round((sum(otherTaxes) * 12) / rows.length) +
+        Math.max(
+          0,
+          cannabisSalesRevenueChange(world, government, startsOn)
+            .annualRevenueDelta,
+        )
+      );
+    }
     const elasticity = ECONOMY_ELASTICITY[source];
     const scaleAt = (economy: number) =>
       Math.max(0, 1 + elasticity * (economy - 1));

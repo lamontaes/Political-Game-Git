@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import {
@@ -155,6 +156,35 @@ describe("parks costs on the saved state budget", () => {
       expect(
         settleGovernmentMonth(enacted, after, date, flows).government,
       ).toBe(after);
+      mkdirSync("test-results/team-5-parks-cost", { recursive: true });
+      writeFileSync(
+        `test-results/team-5-parks-cost/${state.jurisdictionKey}.json`,
+        JSON.stringify(
+          {
+            seed,
+            stateKey: state.jurisdictionKey,
+            governmentKey: opened.key,
+            jurisdictionId: opened.lawJurisdictionId,
+            population: opened.population,
+            month: date,
+            lawId: cost.law.measureId,
+            beginningAnswer: began,
+            operativeAnswer: cost.law.answer,
+            researchedMonthlyComponentUsd: cost.dollars,
+            beforeParksUsd: plain.spending[at],
+            afterParksUsd: row.spending[at],
+            actualDeltaUsd: actualDelta,
+            beforeBalanceUsd: plain.balance,
+            afterBalanceUsd: row.balance,
+            lawCostAttributions: row.lawCostAttributions,
+            lawEffectStamps: stamps,
+            serializedRowEqual: true,
+            duplicateSettlementPreserved: true,
+          },
+          null,
+          2,
+        ),
+      );
       console.info(
         "PARKS-SAVED-COST",
         seed,

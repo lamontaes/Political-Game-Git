@@ -1,97 +1,86 @@
-# Parks cost research is ready; the saved budget hook awaits release
+# Five parks budget settlements retained their governing law
 
-The parks reader now uses one stable world/state amount within the existing
-research range. Five state-law fixtures and a missing-data check passed.
-The saved government-budget test is prepared but has not run. The month
-settlement row belongs to the health team first; the parks hook follows its
-exact release. No complete cost or law record is claimed.
+Three tested state budgets added parks funding and two ended an opening
+dedication. Saved expenditure and cash balance changed by the recorded amount.
+The row preserves health and cannabis attribution. This is an estimated
+appropriation component, not complete nationwide statutory cost terms.
 
 ## MERGED
 
-None. This is preserved work in progress. Government settlement remains
-unchanged. The proposed month patch is for reconciliation, not blind application.
-It must append the parks stamp while retaining the health team's stamps.
+None. The candidate consumes the released health settlement source. Its
+necessary age-verification and cannabis source dependencies are unchanged.
+No unrelated dependency documents are imported. Main integration is unclaimed.
 
 ## WHAT EMERGED
 
-HARDWIRED: the reader computes an incremental monthly appropriation after a
-state dedication changes from its opening answer. It supplies the operative law
-and a canonical stamp, but a returned stamp is not a saved cost consequence.
-Evidence: `src/simulation/public-budgets/parks-dedication.ts:parksBudgetChange`.
-
-No person receives new recreation access from this reader. The existing parks
-access map observes an aggregate budget share; individual access decisions are
-still a separate missing link.
+HARDWIRED: the operative law changes the parks expenditure once. The saved
+row retains the governing law and component; the existing cash balance absorbs
+that cost. Evidence: `src/simulation/public-budgets/month.ts:lawSpendingForMonth`.
+No new tax collection, invoice or resident recreation decision is claimed.
 
 ## VITAL STATISTICS
 
-Six reader tests passed in 11.43 seconds. Strict checking of three roots found
-zero diagnostics. Five saved-budget tests are authored but not run. There are
-zero new saved budget-cost claims and zero complete assigned law records.
+Sixteen tests passed in 11.56 seconds: six parks readers, five parks budget
+settlements and five unchanged health cost fixtures. Final dollar receipts
+passed five budget tests again in 10.89 seconds. Eight strict roots have zero
+diagnostics. Nationwide, full suite, speed and browser checks were not run.
+Full five-part completion remains zero of twelve assigned laws.
 
 ## 1. Why-chain
 
-A dedication reserves public resources for parks. The existing cost table uses
-constitutional tax dedications and measured sales-tax revenues to estimate an
-annual dollar amount per resident. The world/state parameter remains inside
-those two benchmark values. Monthly settlement must add that cost once and
-save its governing rule alongside the expenditure. The chain currently stops
-at the reader; the saved-budget consumer is awaiting its exact released hunk.
-The bedrock is the legal dedication and fiscal tax base, not a person's outcome.
+The dedication reserves public resources. The law differs from its opening
+answer, so the reader supplies an incremental component. The monthly writer
+adds it once to parks expenditure. Increased expenditure reduces the balance.
+The same saved row carries the operative law. The chain bottoms out in a legal
+dedication, sourced fiscal benchmark and actual government budget record.
 
 ## 2. Research
 
-The existing source table uses Missouri's parks half of its 0.1% sales tax,
-53.9 million dollars per year over 6,208,038 residents. Minnesota directs
-14.25% of its 0.375% Legacy sales tax to parks and trails, 56.6 million dollars
-per year over 5,753,048 residents. The resulting annual range is about
-8.68 to 9.84 dollars per resident. No new amount is invented.
-
-Source record: `src/simulation/public-budgets/rules.ts:SPENDING_QUESTION_EFFECTS`.
-It cites Missouri Constitution article IV, section 47 and Minnesota
-Constitution article XI, section 15. Fiscal data come from the Census Bureau
-2022 state/local finance table; denominators are 2023 residents. This is an
-estimated benchmark range, not exact 2026 statutory terms for every state.
-The finance corpus does not supply territorial budgets. Those gaps are not zero.
+The existing source uses Missouri's parks half of its 0.1% sales tax,
+$53.9 million per year over 6,208,038 residents. Minnesota dedicates 14.25%
+of its 0.375% Legacy sales tax, $56.6 million over 5,753,048 residents.
+The annual benchmark range is about $8.68–$9.84 per resident. It is not exact
+2026 statutory terms for all states. No new rate is invented.
+Evidence: `src/simulation/public-budgets/rules.ts:SPENDING_QUESTION_EFFECTS`.
+The source cites Missouri Constitution article IV, section 47 and Minnesota
+Constitution article XI, section 15. Census finance amounts are fiscal 2022
+and denominators are 2023 residents. Territorial budget gaps are not zero.
 
 ## 3. Revisions
 
-The fixed mean becomes a stable world/state amount within the sourced spread.
-The aggregate parks reader uses the same parameter as the proposed budget
-writer. A county budget is not silently authorized by a state dedication query.
-Unknown or unchanged law produces no incremental cost claim. Repeal unwinds the
-modeled dedication prospectively; it does not recover money already spent.
+A stable world/state draw replaces the fixed mean. The cost scales to the
+budget's population and affects existing cash. The parks stamp appends to
+health and cannabis stamps. Repeal prospectively unwinds the modeled dedication;
+it does not recover spent money. Unknown or unchanged law adds no component.
 
 ## 4. What gets built, in numbered parts
 
-1. Read the existing state dedication and compute its incremental monthly cost.
-2. Replace the old fixed parks contribution once in monthly settlement.
-3. Append a parks-spending stamp to the saved budget row without replacing
-   the health team's stamps.
-4. Compare saved expenditure and budget balance against the unchanged-law
-   branch, then verify serialization and duplicate-settlement protection.
-   Parts two through four await the released settlement row and executed proof.
+1. Read the state law and its incremental monthly component.
+2. Replace the old fixed contribution once in existing settlement.
+3. Save cost attribution and governing-law stamps without replacing other stamps.
+4. Verify expenditure, cash, serialization and repeated settlement.
 
 ## 5. Simulated, records, world pieces, checks
 
-SIMULATED: no new resident recreation decision.
-RECORDS: law, proposed cost and later saved expenditure attribution.
-WORLD PIECES: the state budget already has a parks program, balance, reserve,
-debt and shortfall decisions. The new hook must use those existing trade-offs.
-CHECKS: cost scales to the government's population and researched interval.
-The cost is not a invented universal tax rate or an individually randomized act.
+SIMULATED: existing state budget settlement, not a new resident decision.
+RECORDS: program spending, cash balance, attribution and law.
+WORLD PIECES: parks programs and existing reserve, debt and shortfall decisions.
+Exact sponsor terms and individual recreation access remain gaps.
+CHECKS: sourced range, population scaling and no duplicate cost.
 
 ## 6. Proof run
 
-Reader fixtures choose five jurisdictions from all fifty-six using seed
-`team5-five-place-parks-cost`. They check law start/repeal, date, state scope,
-range and serialization. This is reader proof only. The prepared budget test
-uses five researched state budgets and seed
-`team5-parks-saved-government-budget-five-states`. It has not executed.
+Seed `team5-parks-saved-government-budget-five-states` selects five states
+with finance data. North Carolina, North Dakota and New Hampshire add funding.
+Nebraska and New Jersey end an opening dedication. All five saved cash changes
+match the negative expenditure change. Health cost fixtures also pass.
+The adjacent `team-5-parks-five-state-cost-receipt.json` records actual amounts.
+This is controlled budget proof, not a nationwide enactment run.
 
 ## 7. Worked example
 
-No saved state expenditure from the new hook has been observed yet. The budget
-test will compare actual opening fiscal records, the signed appropriation,
-parks expenditure and cash balance. Exact government amounts will be reported
-from its run rather than invented as an example.
+North Carolina adds $8,396,736 in tested monthly parks expenditure and loses
+$8,396,736 in cash balance. North Dakota adds $588,816. Nebraska's tested
+repeal frees $1,504,929, while New Jersey's frees $7,600,046. The receipt lists
+government, population, law, date, raw component, rounded expenditure and both
+balances. These are observed fixture records, not surveyed 2026 costs.

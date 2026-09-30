@@ -1,0 +1,266 @@
+{
+  "dependency": "f6cc284c74dc888fb4690906452033cdaa0e2f99",
+  "proof": "16testsPASS11.56s; final5budgettestsPASS10.89s",
+  "worlds": [
+    {
+      "seed": "team5-parks-saved-government-budget-five-states",
+      "stateKey": "US-NC",
+      "governmentKey": "US-NC",
+      "jurisdictionId": "jurisdiction_9bf7e2c099b36a6c",
+      "population": 11046024,
+      "month": "2026-08-01",
+      "lawId": "measure_parks_budget",
+      "beginningAnswer": "no",
+      "operativeAnswer": "yes",
+      "researchedMonthlyComponentUsd": 8396735.636355124,
+      "beforeParksUsd": 23269982,
+      "afterParksUsd": 31666718,
+      "actualDeltaUsd": 8396736,
+      "beforeBalanceUsd": 1716377257,
+      "afterBalanceUsd": 1707980521,
+      "lawCostAttributions": [
+        {
+          "program": "parks",
+          "amountUsd": 8396735.636355124,
+          "basis": "ESTIMATED FROM AVERAGE: constitutional parks dedication yields from Missouri and Minnesota, fiscal-2022 dollars per 2023 resident; stable world/state range. Incremental modeled appropriation before rounding/zero floor; not observed 2026 invoice or a new tax collection.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_parks_budget",
+              "source": "enacted",
+              "effectKind": "parks-spending",
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "jurisdictionId": "jurisdiction_9bf7e2c099b36a6c",
+              "operativeAt": "2026-07-01",
+              "appliedAt": "2026-08-01",
+              "sourceRecordIds": ["jurisdiction_9bf7e2c099b36a6c"]
+            }
+          ]
+        }
+      ],
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "measure_parks_budget",
+          "source": "enacted",
+          "effectKind": "parks-spending",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "jurisdictionId": "jurisdiction_9bf7e2c099b36a6c",
+          "operativeAt": "2026-07-01",
+          "appliedAt": "2026-08-01",
+          "sourceRecordIds": ["jurisdiction_9bf7e2c099b36a6c"]
+        }
+      ],
+      "serializedRowEqual": true,
+      "duplicateSettlementPreserved": true
+    },
+    {
+      "seed": "team5-parks-saved-government-budget-five-states",
+      "stateKey": "US-ND",
+      "governmentKey": "US-ND",
+      "jurisdictionId": "jurisdiction_7e617609be5671dd",
+      "population": 796568,
+      "month": "2026-08-01",
+      "lawId": "measure_parks_budget",
+      "beginningAnswer": "no",
+      "operativeAnswer": "yes",
+      "researchedMonthlyComponentUsd": 588816.2581404945,
+      "beforeParksUsd": 2577415,
+      "afterParksUsd": 3166231,
+      "actualDeltaUsd": 588816,
+      "beforeBalanceUsd": 1172676130,
+      "afterBalanceUsd": 1172087314,
+      "lawCostAttributions": [
+        {
+          "program": "parks",
+          "amountUsd": 588816.2581404945,
+          "basis": "ESTIMATED FROM AVERAGE: constitutional parks dedication yields from Missouri and Minnesota, fiscal-2022 dollars per 2023 resident; stable world/state range. Incremental modeled appropriation before rounding/zero floor; not observed 2026 invoice or a new tax collection.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_parks_budget",
+              "source": "enacted",
+              "effectKind": "parks-spending",
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "jurisdictionId": "jurisdiction_7e617609be5671dd",
+              "operativeAt": "2026-07-01",
+              "appliedAt": "2026-08-01",
+              "sourceRecordIds": ["jurisdiction_7e617609be5671dd"]
+            }
+          ]
+        }
+      ],
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "measure_parks_budget",
+          "source": "enacted",
+          "effectKind": "parks-spending",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "jurisdictionId": "jurisdiction_7e617609be5671dd",
+          "operativeAt": "2026-07-01",
+          "appliedAt": "2026-08-01",
+          "sourceRecordIds": ["jurisdiction_7e617609be5671dd"]
+        }
+      ],
+      "serializedRowEqual": true,
+      "duplicateSettlementPreserved": true
+    },
+    {
+      "seed": "team5-parks-saved-government-budget-five-states",
+      "stateKey": "US-NE",
+      "governmentKey": "US-NE",
+      "jurisdictionId": "jurisdiction_317641dc58effbce",
+      "population": 2005465,
+      "month": "2026-08-01",
+      "lawId": "measure_parks_budget",
+      "beginningAnswer": "yes",
+      "operativeAnswer": "no",
+      "researchedMonthlyComponentUsd": -1504929.2968574755,
+      "beforeParksUsd": 6237997,
+      "afterParksUsd": 4733068,
+      "actualDeltaUsd": -1504929,
+      "beforeBalanceUsd": 645083582,
+      "afterBalanceUsd": 646588511,
+      "lawCostAttributions": [
+        {
+          "program": "parks",
+          "amountUsd": -1504929.2968574755,
+          "basis": "ESTIMATED FROM AVERAGE: constitutional parks dedication yields from Missouri and Minnesota, fiscal-2022 dollars per 2023 resident; stable world/state range. Incremental modeled appropriation before rounding/zero floor; not observed 2026 invoice or a new tax collection.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_parks_budget",
+              "source": "enacted",
+              "effectKind": "parks-spending",
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "jurisdictionId": "jurisdiction_317641dc58effbce",
+              "operativeAt": "2026-07-01",
+              "appliedAt": "2026-08-01",
+              "sourceRecordIds": ["jurisdiction_317641dc58effbce"]
+            }
+          ]
+        }
+      ],
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "measure_parks_budget",
+          "source": "enacted",
+          "effectKind": "parks-spending",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "jurisdictionId": "jurisdiction_317641dc58effbce",
+          "operativeAt": "2026-07-01",
+          "appliedAt": "2026-08-01",
+          "sourceRecordIds": ["jurisdiction_317641dc58effbce"]
+        }
+      ],
+      "serializedRowEqual": true,
+      "duplicateSettlementPreserved": true
+    },
+    {
+      "seed": "team5-parks-saved-government-budget-five-states",
+      "stateKey": "US-NH",
+      "governmentKey": "US-NH",
+      "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+      "population": 1409032,
+      "month": "2026-08-01",
+      "lawId": "measure_parks_budget",
+      "beginningAnswer": "no",
+      "operativeAnswer": "yes",
+      "researchedMonthlyComponentUsd": 1079718.8572686089,
+      "beforeParksUsd": 2551460,
+      "afterParksUsd": 3631179,
+      "actualDeltaUsd": 1079719,
+      "beforeBalanceUsd": -25440047,
+      "afterBalanceUsd": -26519766,
+      "lawCostAttributions": [
+        {
+          "program": "parks",
+          "amountUsd": 1079718.8572686089,
+          "basis": "ESTIMATED FROM AVERAGE: constitutional parks dedication yields from Missouri and Minnesota, fiscal-2022 dollars per 2023 resident; stable world/state range. Incremental modeled appropriation before rounding/zero floor; not observed 2026 invoice or a new tax collection.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_parks_budget",
+              "source": "enacted",
+              "effectKind": "parks-spending",
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+              "operativeAt": "2026-07-01",
+              "appliedAt": "2026-08-01",
+              "sourceRecordIds": ["jurisdiction_036e73481ecd6dc1"]
+            }
+          ]
+        }
+      ],
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "measure_parks_budget",
+          "source": "enacted",
+          "effectKind": "parks-spending",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+          "operativeAt": "2026-07-01",
+          "appliedAt": "2026-08-01",
+          "sourceRecordIds": ["jurisdiction_036e73481ecd6dc1"]
+        }
+      ],
+      "serializedRowEqual": true,
+      "duplicateSettlementPreserved": true
+    },
+    {
+      "seed": "team5-parks-saved-government-budget-five-states",
+      "stateKey": "US-NJ",
+      "governmentKey": "US-NJ",
+      "jurisdictionId": "jurisdiction_8a587db997485af7",
+      "population": 9500851,
+      "month": "2026-08-01",
+      "lawId": "measure_parks_budget",
+      "beginningAnswer": "yes",
+      "operativeAnswer": "no",
+      "researchedMonthlyComponentUsd": -7600045.870605546,
+      "beforeParksUsd": 27841262,
+      "afterParksUsd": 20241216,
+      "actualDeltaUsd": -7600046,
+      "beforeBalanceUsd": 8028164543,
+      "afterBalanceUsd": 8035764589,
+      "lawCostAttributions": [
+        {
+          "program": "parks",
+          "amountUsd": -7600045.870605546,
+          "basis": "ESTIMATED FROM AVERAGE: constitutional parks dedication yields from Missouri and Minnesota, fiscal-2022 dollars per 2023 resident; stable world/state range. Incremental modeled appropriation before rounding/zero floor; not observed 2026 invoice or a new tax collection.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_parks_budget",
+              "source": "enacted",
+              "effectKind": "parks-spending",
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "jurisdictionId": "jurisdiction_8a587db997485af7",
+              "operativeAt": "2026-07-01",
+              "appliedAt": "2026-08-01",
+              "sourceRecordIds": ["jurisdiction_8a587db997485af7"]
+            }
+          ]
+        }
+      ],
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "measure_parks_budget",
+          "source": "enacted",
+          "effectKind": "parks-spending",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "jurisdictionId": "jurisdiction_8a587db997485af7",
+          "operativeAt": "2026-07-01",
+          "appliedAt": "2026-08-01",
+          "sourceRecordIds": ["jurisdiction_8a587db997485af7"]
+        }
+      ],
+      "serializedRowEqual": true,
+      "duplicateSettlementPreserved": true
+    }
+  ]
+}
