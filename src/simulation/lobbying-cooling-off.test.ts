@@ -26,6 +26,9 @@ import {
 import { resourcePositionAt } from "./resource-queries";
 import { money } from "./resources";
 import { assertWorldIntegrity } from "./world";
+import { deserializeWorld, serializeWorld } from "./serialization";
+import research from "../../data/research/laws/lobbying-cooling-off.json" with { type: "json" };
+import { SeededRng } from "./rng";
 
 /** Six canonical people and one authored office; no nationwide opening or unrelated careers. */
 function boundedOfficeFixture() {
@@ -88,6 +91,61 @@ function boundedOfficeFixture() {
 }
 
 describe("post-office lobbying uses real vacancies and eligibility", () => {
+  it("posts saved communications pay and fills legacy estimates without replacing saved values", () => {
+    const fixture = boundedOfficeFixture().world;
+    const row = fixture.openingLawEstimates!["US-IL"]!;
+    const savedPay = 6_543_210; // Deliberately distinct fictional saved value.
+    const saved = {
+      ...fixture,
+      openingLawEstimates: {
+        ...fixture.openingLawEstimates,
+        "US-IL": { ...row, publicRelationsAnnualPayCents: savedPay },
+      },
+    };
+    const posted = ensureCapitalLobbyingOpening(saved, "US-IL");
+    const pay = (world: typeof fixture) =>
+      world.history.jobOpenings!.find((opening) =>
+        opening.stableKey.startsWith("capital-public-relations-firm:US-IL"),
+      )!.pay.amount.minorUnits;
+    expect(pay(posted)).toBe(savedPay);
+    expect(posted.openingLawEstimates).toBe(saved.openingLawEstimates);
+    expect(pay(deserializeWorld(serializeWorld(posted)))).toBe(savedPay);
+
+    const oldRow = {
+      parkVisitsPerAcre: row.parkVisitsPerAcre,
+      parkVisitorSpendingCents: row.parkVisitorSpendingCents,
+      libraryStaffHourlyCents: row.libraryStaffHourlyCents,
+    };
+    const retained = { ...oldRow, parkVisitorSpendingCents: 12_345 };
+    const legacy = {
+      ...fixture,
+      openingLawEstimates: {
+        ...fixture.openingLawEstimates,
+        "US-IL": retained,
+      },
+    };
+    const migrated = ensureCapitalLobbyingOpening(legacy, "US-IL");
+    const expectedPay = Math.round(
+      research.annualNonLobbyPayMedian *
+        100 *
+        (0.75 +
+          new SeededRng(fixture.seed).fork("lobbying-employers:US-IL").next() *
+            0.5),
+    );
+    expect(pay(migrated)).toBe(expectedPay);
+    expect(migrated.openingLawEstimates!["US-IL"]).toEqual({
+      ...retained,
+      publicRelationsAnnualPayCents: expectedPay,
+    });
+    expect(legacy.openingLawEstimates["US-IL"]).toEqual(retained);
+    expect(
+      deserializeWorld(serializeWorld(migrated)).openingLawEstimates,
+    ).toEqual(migrated.openingLawEstimates);
+    const repeated = ensureCapitalLobbyingOpening(migrated, "US-IL");
+    expect(repeated.openingLawEstimates).toBe(migrated.openingLawEstimates);
+    expect(repeated.history.jobOpenings).toBe(migrated.history.jobOpenings);
+    assertWorldIntegrity(migrated);
+  });
   it("blocks an actual former member from the lobbying application and leaves a lower-paid next choice", () => {
     const opened = boundedOfficeFixture();
     const question = Object.values(

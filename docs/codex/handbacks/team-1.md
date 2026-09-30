@@ -114,7 +114,6 @@ The engine draws a stable world/place size using the configured range, reads the
 
 Named-person gap: endTenancy records ended tenure, occupancy and leases; it does not establish literal homelessness. No outgoing homelessness magnitude/range/lag or named-person concern/pressure producer is present. Homelessness-to-spending, work, concern and agenda blending therefore remain explicit research and implementation gaps. Coordinator owns effects-map.md; Team 1 did not edit it. Full paired proof, named-person watched follow-through and browser acceptance are NOT RUN; Claude retains validation and merge authority.
 
-
 ## Final local handoff to the cloud
 
 Local work is frozen for the owner-authorized cloud replacement. Cloud must obtain this final branch head before writing overlapping files. The ready source checkpoint is a8dfa63bac8d6921944b4bdbb65b59423635def5 on codex/wire-last-ten-laws, PR1131. This final preservation commit adds no implementation or test result. Source is a candidate, not merged or accepted.
@@ -126,3 +125,63 @@ Team9 creation is blocked pending direct owner confirmation; it is not staffed. 
 The narrow Team3 job04 roster release is recorded in canonical claims under the atomic directory lock. At source a8dfa63b, Team3 owns only townRoster definition231–245/import/type seam, calls in townRosterPlace547, seatTownResidents668 and describeTownResidents894; townRoster consumer adapters in public-land-access-law.ts32, job-market.ts300, local-elections.ts1039, immigration-admissions-law.ts97/101–102/116. Reference-only pre-world selection stays available. Preserve law terms, legal eligibility, quotas, admissions, household/person writers, existing job05 money release and Team4 speed hunks. Cloud must not overlap these hunks until Team3 returns them. Exact baseline blobs are in claims.
 
 Continue the noncompliant-anchor replacements within existing ownership and resolve the research gaps already listed. Full paired and watched proof belongs on main after Claude's authorized merge. Claude retains merge and browser-validation authority. Keep this local chat and workspace recoverable until the cloud reports its first working checkpoint; do not archive from this handoff alone.
+
+## Cloud continuation: communications salaries stay saved
+
+Communications vacancies now use the saved opening salary estimate. The
+existing national wage anchor and opening variation produce the same pay.
+Older saves keep their recorded estimates and vacancies when the new salary
+field is filled.
+
+### MERGED
+
+Not merged. This bounded repair is ready for review on
+`codex/team1-opening-communications-pay`, based on preserved law head
+`bb6b08b7ff85aab7e066945887e25380499bf93c`. The independent readable-date
+repair remains preserved in PR1164.
+
+### WHAT EMERGED
+
+HARDWIRED: opening communications pay is now stored by
+`src/simulation/law-outcome-calibration.ts` and read by the actual capital
+vacancy writer in `src/simulation/post-office-careers.ts`. The existing
+national public-relations wage anchor is $69,780 per year. The existing seeded
+spread remains 0.75 to 1.25; it is authored opening variation, not a measured
+confidence interval or an actor decision.
+
+Measured in the bounded vacancy regression: a deliberately distinct saved pay
+value was posted by the actual communications employer and survived save/load.
+A legacy record acquired the same salary as the former calculation. Its other
+saved estimates remained intact. Repeated materialization retained the same
+opening records. This is fixture evidence, not a nationwide watched life.
+
+### Wider effects and missing links
+
+The source anchor now reaches the saved opening estimate and actual vacancy.
+The existing application and compensation regression still passes. No new
+firm-capacity, revenue, legal, library-review, ID or curriculum coefficients
+were added. Exact remaining cells and units were routed to Team9 in 00.
+Team5 received the knowledge-consumer boundary response: epistemic confidence
+remains distinct from attention and uptake.
+
+Team3's money and population seams, Team2's officeholder caller, and Team4's
+speed hunks remain released. Federal money, tax-gap and transportation work
+remain held for approved research and queue eligibility.
+
+### VITAL STATISTICS
+
+Two changed test files passed five tests in 14.80 seconds, with 574 milliseconds
+in test bodies and at most two workers. Scoped strict TypeScript passed with no
+diagnostics. Final lint, formatting, release and zero-dice receipts accompany
+the published pull request. No browser or full simulation was run. The 92-law
+proof remains a post-merge main task; the preserved incomplete proof is not a
+pass. No independent report reviewer was run under the owner's helper limit.
+
+### Method and reporting limit
+
+One registered cloud checkout was reused. No historical research or proof was
+replaced. Recurring reporting at :25 and :55 America/New_York could not be set:
+the exposed automation tools cap execution at once per hour. No automation ID
+exists. This runtime also exposes no hostlocal cross-thread sender. The exact
+limitations were posted and read back in 00; that post is not scheduled or
+direct thread delivery. Authorized law work continued after that checkpoint.

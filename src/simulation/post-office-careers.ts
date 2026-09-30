@@ -15,7 +15,10 @@ import { ensureJurisdiction } from "./national-election-geography";
 import { createOrganization } from "./life";
 import { createStableId } from "./ids";
 import { money, createResourcePosition } from "./resources";
-import { createOpeningLobbyistPay } from "./law-outcome-calibration";
+import {
+  createOpeningLobbyistPay,
+  ensureOpeningLawEstimates,
+} from "./law-outcome-calibration";
 import { SeededRng } from "./rng";
 import { addDays, daysBetween } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
@@ -80,6 +83,12 @@ function ensureCapitalEmployer(
       ...next,
       openingLobbyistAnnualPayCents: createOpeningLobbyistPay(next.seed),
     };
+  if (
+    !lobbying &&
+    next.openingLawEstimates?.[stateKey]?.publicRelationsAnnualPayCents ===
+      undefined
+  )
+    next = ensureOpeningLawEstimates(next);
   const spread =
     0.75 +
     new SeededRng(world.seed).fork(`lobbying-employers:${stateKey}`).next() *
@@ -175,7 +184,7 @@ function ensureCapitalEmployer(
       amount: money(
         lobbying
           ? next.openingLobbyistAnnualPayCents![stateKey]!
-          : Math.round(research.annualNonLobbyPayMedian * 100 * spread),
+          : next.openingLawEstimates![stateKey]!.publicRelationsAnnualPayCents!,
         "USD",
       ),
     },
