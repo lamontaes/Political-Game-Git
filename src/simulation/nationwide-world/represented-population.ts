@@ -56,20 +56,21 @@ function annualCounts(): ReadonlyMap<string, readonly number[]> {
 }
 
 export interface PopulationReference {
-  readonly population: number;
-  readonly households: number;
-  readonly laborForce: number;
-  readonly employed: number;
-  readonly adults: number;
-  readonly householdsByKind: Readonly<Record<string, number>>;
+  readonly population: number | null;
+  readonly households: number | null;
+  readonly laborForce: number | null;
+  readonly employed: number | null;
+  readonly adults: number | null;
+  readonly householdsByKind: Readonly<Record<string, number | null>>;
   readonly source:
     | "census-estimate-2025"
     | "acs-2020-2024"
     | "island-census-2020"
     | "decennial-census-2020"
-    | "ESTIMATED FROM AVERAGE";
+    | "unknown";
   readonly vintage: number;
   readonly estimatedFields: readonly string[];
+  readonly unknownFields: readonly string[];
   /** Observed net changes among comparable geographies, never a fixed percent. */
   readonly annualChanges: readonly number[];
 }
@@ -95,8 +96,8 @@ export function referencePopulationIsEmpty(key: string): boolean {
   return survey === 0 && enumerated === 0;
 }
 
-/** Positive data from a matching geography, with explicit peer estimates for
- * cells withheld by Census. A household estimate never means housing units. */
+/** Matching-geography data only. Missing and suppressed cells remain null;
+ * housing units are never substituted for households. */
 export function populationReference(key: string): PopulationReference {
   const cached = REFERENCES.get(key);
   if (cached) return cached;
@@ -111,63 +112,38 @@ export function populationReference(key: string): PopulationReference {
   let population =
     history?.at(-1) ?? row?.counts.population ?? island?.population ?? null;
   const useDecennial =
-    !(population !== null && population > 0) && (enumerated?.[0] ?? 0) > 0;
+    !history &&
+    !(population !== null && population > 0) &&
+    (enumerated?.[0] ?? 0) > 0;
   if (useDecennial) population = enumerated![0]!;
-  const estimatedFields: string[] = [];
-  const sameKind = [...demographics!.values()].filter(
-    (candidate) =>
-      candidate.geoid.length === (island ? 7 : key.length) &&
-      (candidate.counts.population ?? 0) > 0,
-  );
-  const peerRows = sameKind.filter((candidate) =>
-    candidate.geoid.startsWith(key.slice(0, 2)),
-  );
-  const peers = peerRows.length ? peerRows : sameKind;
-  const mean = (field: DemographicField) => {
-    const valid = peers.filter((candidate) => candidate.counts[field] !== null);
-    return (
-      valid.reduce((sum, candidate) => sum + candidate.counts[field]!, 0) /
-      Math.max(1, valid.length)
-    );
-  };
-  if (!(population !== null && population > 0)) {
-    const islandPeers = island
-      ? TERRITORY_POPULATION_ROWS.filter(
-          (candidate) =>
-            candidate.key.split(":")[1] === key.split(":")[1] &&
-            candidate.scope === island.scope &&
-            (candidate.population ?? 0) > 0,
-        )
-      : [];
-    population =
-      island?.estimate?.value ??
-      (islandPeers.length
-        ? islandPeers.reduce(
-            (sum, candidate) => sum + candidate.population!,
-            0,
-          ) / islandPeers.length
-        : mean("population"));
-    estimatedFields.push("population");
+  const unknownFields: string[] = [];
+  if (population === null || !Number.isFinite(population)) {
+    population = null;
+    unknownFields.push("population");
   }
-  if (!(population > 0))
-    throw new Error(`No positive census peer population for ${key}`);
   const scalingPopulation =
-    row?.counts.population && row.counts.population > 0
-      ? row.counts.population
+    (row?.counts.population ?? 0) > 0
+      ? row!.counts.population!
       : (islandCounts?.population ?? 0) > 0
         ? islandCounts!.population!
-        : mean("population");
-  const count = (field: DemographicField) => {
+        : null;
+  const count = (field: DemographicField): number | null => {
     const value =
       (row?.counts.population ?? 0) > 0
         ? row?.counts[field]
-        : (islandCounts?.[field] ?? null);
-    if (value !== null && value !== undefined && scalingPopulation > 0)
-      return (value * population!) / scalingPopulation;
-    estimatedFields.push(field);
-    const peerPopulation = mean("population");
-    return (mean(field) * population!) / peerPopulation;
+        : islandCounts?.[field];
+    if (
+      value !== null &&
+      value !== undefined &&
+      scalingPopulation !== null &&
+      population !== null
+    )
+      return (value * population) / scalingPopulation;
+    unknownFields.push(field);
+    return null;
   };
+  const rounded = (value: number | null) =>
+    value === null ? null : Math.round(value);
   const households = count("households");
   const laborForce = count("laborForce");
   const employed = count("employed");
@@ -180,7 +156,7 @@ export function populationReference(key: string): PopulationReference {
     "housemateHouseholds",
   ] as const;
   const householdsByKind = Object.fromEntries(
-    householdFields.map((field) => [field, Math.round(count(field))]),
+    householdFields.map((field) => [field, rounded(count(field))]),
   );
   let annualChanges: number[] = [];
   if (history) {
@@ -189,62 +165,44 @@ export function populationReference(key: string): PopulationReference {
       .flatMap((value, i) =>
         history[i]! > 0 ? [value / history[i]! - 1] : [],
       );
-  } else if (island) {
-    // Comparable Island Areas use the same decennial window and geography
-    // kind. Keep the place's own observed change among its nearest donors.
-    const comparable = TERRITORY_POPULATION_ROWS.filter(
-      (candidate) =>
-        candidate.scope === island.scope &&
-        (candidate.population ?? 0) > 0 &&
-        (candidate.previousPopulation ?? 0) > 0,
-    ).sort(
-      (a, b) =>
-        Math.abs(Math.log(a.population! / population!)) -
-        Math.abs(Math.log(b.population! / population!)),
-    );
-    annualChanges = comparable
-      .slice(0, 20)
-      .map(
-        (candidate) =>
-          Math.pow(
-            candidate.population! / candidate.previousPopulation!,
-            1 / 10,
-          ) - 1,
-      );
-  } else {
-    // ACS rolling estimates are noisy. Use comparable positive population
-    // rows, weighted smoothly by log population distance, as empirical donors.
-    annualChanges = peers
-      .filter((candidate) => (candidate.counts.population2023 ?? 0) > 0)
-      .sort(
-        (a, b) =>
-          Math.abs(Math.log(a.counts.population! / population!)) -
-          Math.abs(Math.log(b.counts.population! / population!)),
-      )
-      .slice(0, 50)
-      .map(
-        (candidate) =>
-          candidate.counts.population! / candidate.counts.population2023! - 1,
-      );
+  } else if (
+    island &&
+    (island.population ?? 0) > 0 &&
+    (island.previousPopulation ?? 0) > 0
+  ) {
+    annualChanges = [
+      Math.pow(island.population! / island.previousPopulation!, 1 / 10) - 1,
+    ];
+  } else if (
+    (row?.counts.population ?? 0) > 0 &&
+    (row?.counts.population2023 ?? 0) > 0
+  ) {
+    annualChanges = [row!.counts.population! / row!.counts.population2023! - 1];
   }
+  if (!annualChanges.length) unknownFields.push("annualChange");
   annualChanges.sort((a, b) => a - b);
   const reference: PopulationReference = {
-    population: Math.round(population),
-    households: Math.round(households),
-    laborForce: Math.round(laborForce),
-    employed: Math.round(employed),
-    adults: Math.round(population - under18),
-    source: estimatedFields.includes("population")
-      ? "ESTIMATED FROM AVERAGE"
-      : useDecennial
-        ? "decennial-census-2020"
-        : history
-          ? "census-estimate-2025"
-          : island
-            ? "island-census-2020"
-            : "acs-2020-2024",
+    population: rounded(population),
+    households: rounded(households),
+    laborForce: rounded(laborForce),
+    employed: rounded(employed),
+    adults:
+      population !== null && under18 !== null
+        ? Math.round(population - under18)
+        : null,
+    source:
+      population === null
+        ? "unknown"
+        : useDecennial
+          ? "decennial-census-2020"
+          : history
+            ? "census-estimate-2025"
+            : island
+              ? "island-census-2020"
+              : "acs-2020-2024",
     vintage: useDecennial ? 2020 : history ? 2025 : island ? 2020 : 2024,
-    estimatedFields,
+    estimatedFields: [],
+    unknownFields,
     annualChanges,
     householdsByKind,
   };
@@ -253,15 +211,15 @@ export function populationReference(key: string): PopulationReference {
 }
 
 export interface RepresentedPopulation extends PopulationReference {
-  readonly referencePopulation: number;
+  readonly referencePopulation: number | null;
   readonly writtenResidents: number;
   readonly writtenHouseholds: number;
-  readonly unemploymentRate: number;
+  readonly unemploymentRate: number | null;
 }
 const SNAPSHOTS = new WeakMap<World, Map<EntityId, RepresentedPopulation>>();
 interface OpeningPopulation {
   readonly reference: PopulationReference;
-  readonly annualChange: number;
+  readonly annualChange: number | null;
   readonly writtenAt?: string;
   readonly writtenResidents?: readonly EntityId[];
   readonly writtenEmployed?: readonly EntityId[];
@@ -287,7 +245,7 @@ function openingPopulation(world: World, town: EntityId): OpeningPopulation {
   const annualChange =
     (spread[lower] ?? 0) * (1 - (position - lower)) +
     (spread[upper] ?? 0) * (position - lower);
-  return { reference, annualChange };
+  return { reference, annualChange: spread.length ? annualChange : null };
 }
 /** Save the compact population layer through the existing history writer.
  * Changing a source vintage cannot change an established save's opening. */
@@ -361,7 +319,11 @@ export function representedPopulation(
   const years =
     (Date.parse(world.currentDate) - Date.parse(world.startedAt)) /
     (365.25 * 86400000);
-  const scale = (1 + annualChange) * Math.pow(1 + annualChange, years);
+  // Missing local growth observations disable projection; they are not a zero growth fact.
+  const scale =
+    annualChange === null
+      ? 1
+      : (1 + annualChange) * Math.pow(1 + annualChange, years);
   const dead = new Set(
     world.history.personDeaths
       .filter((row) => row.diedAt <= world.currentDate)
@@ -390,18 +352,26 @@ export function representedPopulation(
       world.startedAt,
     ) ?? macroConditionsAt(world, "national", world.startedAt);
   const baseRate =
-    (100 * (reference.laborForce - reference.employed)) /
-    Math.max(1, reference.laborForce);
-  const rate = Math.max(
-    0,
-    Math.min(
-      100,
-      baseRate +
-        (macro?.unemploymentPct ?? baseRate) -
-        (opening?.unemploymentPct ?? baseRate),
-    ),
-  );
-  const laborForce = Math.round(reference.laborForce * scale);
+    reference.laborForce !== null && reference.employed !== null
+      ? (100 * (reference.laborForce - reference.employed)) /
+        Math.max(1, reference.laborForce)
+      : null;
+  const rate =
+    baseRate === null
+      ? null
+      : Math.max(
+          0,
+          Math.min(
+            100,
+            baseRate +
+              (macro?.unemploymentPct ?? baseRate) -
+              (opening?.unemploymentPct ?? baseRate),
+          ),
+        );
+  const laborForce =
+    reference.laborForce === null
+      ? null
+      : Math.round(reference.laborForce * scale);
   const known = new Set(layer.writtenResidents ?? []);
   const activeKnown = (layer.writtenResidents ?? []).filter((id) =>
     residentIds.has(id),
@@ -415,7 +385,8 @@ export function representedPopulation(
     (Date.parse(world.currentDate) -
       Date.parse(layer.writtenAt ?? world.startedAt)) /
     (365.25 * 86400000);
-  const yearsGrowth = Math.pow(1 + annualChange, writtenYears);
+  const yearsGrowth =
+    annualChange === null ? 1 : Math.pow(1 + annualChange, writtenYears);
   const knownEmployed = activeKnown.filter((id) =>
     activeWorkRelationshipsAt(world, id).some(
       (work) =>
@@ -426,13 +397,16 @@ export function representedPopulation(
   const employmentResidual = layer.writtenEmployed
     ? knownEmployed - layer.writtenEmployed.length * yearsGrowth
     : 0;
-  const employed = Math.max(
-    0,
-    Math.min(
-      laborForce,
-      Math.round(laborForce * (1 - rate / 100) + employmentResidual),
-    ),
-  );
+  const employed =
+    laborForce === null || rate === null
+      ? null
+      : Math.max(
+          0,
+          Math.min(
+            laborForce,
+            Math.round(laborForce * (1 - rate / 100) + employmentResidual),
+          ),
+        );
   const populationResidual = layer.writtenResidents
     ? activeKnown.length +
       born.length -
@@ -441,26 +415,33 @@ export function representedPopulation(
   const snapshot: RepresentedPopulation = {
     ...reference,
     referencePopulation: reference.population,
-    population: Math.max(
-      residents.length,
-      Math.round(reference.population * scale + populationResidual),
-    ),
-    households: Math.max(
-      households.size,
-      Math.round(reference.households * scale),
-    ),
-    adults: Math.round(reference.adults * scale),
+    population:
+      reference.population === null
+        ? null
+        : Math.max(
+            residents.length,
+            Math.round(reference.population * scale + populationResidual),
+          ),
+    households:
+      reference.households === null
+        ? null
+        : Math.max(households.size, Math.round(reference.households * scale)),
+    adults:
+      reference.adults === null ? null : Math.round(reference.adults * scale),
     laborForce,
     employed,
     householdsByKind: Object.fromEntries(
       Object.entries(reference.householdsByKind).map(([kind, count]) => [
         kind,
-        Math.round(count * scale),
+        count === null ? null : Math.round(count * scale),
       ]),
     ),
     writtenResidents: residents.length,
     writtenHouseholds: households.size,
-    unemploymentRate: (100 * (laborForce - employed)) / Math.max(1, laborForce),
+    unemploymentRate:
+      laborForce === null || employed === null
+        ? null
+        : (100 * (laborForce - employed)) / Math.max(1, laborForce),
   };
   snapshots.set(town, snapshot);
   return snapshot;

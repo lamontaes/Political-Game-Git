@@ -341,7 +341,7 @@ const territoryRows = (
     name: candidate?.name ?? null,
     source: receipt?.url ?? null,
     sourceSha256: candidate?.sourceSha256 ?? null,
-    estimate: row.allowedEstimateCandidate ?? null,
+    estimate: null,
     vintage: 2020,
   };
 });

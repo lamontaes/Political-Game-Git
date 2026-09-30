@@ -25,7 +25,9 @@ describe("census counts distinguish represented residents from written samples",
     const reference = populationReference("0415150");
     expect(reference.population).toBe(54);
     expect(reference.source).toBe("decennial-census-2020");
-    expect(reference.estimatedFields).toContain("households");
+    expect(reference.unknownFields).toContain("households");
+    expect(reference.households).toBeNull();
+    expect(reference.estimatedFields).toEqual([]);
     expect(placeReferencePopulation("0415150")).toEqual({
       value: 54,
       source: "decennial-census-2020",
@@ -51,20 +53,28 @@ describe("census counts distinguish represented residents from written samples",
     expect(reference.households).toBeGreaterThan(40_000);
     expect(reference.laborForce).toBeGreaterThan(50_000);
   });
-  it("covers all56 jurisdictions and44 territory keys with positive sourced or labeled estimates", () => {
+  it("preserves sourced jurisdiction counts and unknown territory fields", () => {
     expect(Object.keys(STATE_POPULATION_KEYS)).toHaveLength(56);
     for (const key of Object.values(STATE_POPULATION_KEYS)) {
       const reference = populationReference(key);
       expect(reference.population, key).toBeGreaterThan(0);
-      expect(Number.isFinite(reference.laborForce), key).toBe(true);
+      expect(
+        reference.laborForce === null || Number.isFinite(reference.laborForce),
+        key,
+      ).toBe(true);
     }
     expect(TERRITORY_POPULATION_ROWS).toHaveLength(44);
     for (const row of TERRITORY_POPULATION_ROWS) {
       const reference = populationReference(row.key);
-      expect(reference.population, row.key).toBeGreaterThan(0);
-      expect(reference.households, row.key).toBeGreaterThan(0);
-      if (row.status !== "supported")
-        expect(reference.source).toBe("ESTIMATED FROM AVERAGE");
+      if (row.status === "supported") {
+        expect(reference.population, row.key).toBeGreaterThan(0);
+        expect(reference.households, row.key).toBeGreaterThan(0);
+      } else {
+        expect(reference.source).toBe("unknown");
+        expect(reference.population).toBeNull();
+        expect(reference.households).toBeNull();
+      }
+      expect(reference.estimatedFields).toEqual([]);
     }
   });
   it("uses observed annual changes rather than a fixed population spread", () => {
