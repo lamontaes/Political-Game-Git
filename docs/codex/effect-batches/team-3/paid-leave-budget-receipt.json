@@ -1,0 +1,1686 @@
+{
+  "team": 3,
+  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+  "dependencySource": "600a121e6585faba01694aa9ba91c547e96a3c3b parks with Team8 cost; composed additively with main bcb5d3030d0a66873496b2e51be516d2a6964c61 cannabis loss",
+  "executed": {
+    "fiveStateActualPayments": "5/5 PASS; 96.06 seconds; durable log /workspace/scratch/team3-paid-budget-publish.log, exit 0",
+    "scenariosPerState": [
+      "completed",
+      "positive partial",
+      "same actual partial without attribution (older save)",
+      "blocked zero"
+    ],
+    "preservation": "19/19 PASS: parks-budget-cost, age-verification-cost, cannabis-sales-revenue; previous combined run paid cases reached blocked assertion then failed +0 versus -0 comparison; fixed fixture, reran five states",
+    "types": "3 scoped roots; 0 diagnostics; final source/test imports include month/store",
+    "lint": "PASS after using removed legacy field in fixture assertion",
+    "serialization": "Canonical saved monthly rows and transfers equal after reopen; settlement/cursor idempotence checked"
+  },
+  "checkedFileSha256": {
+    "src/simulation/paid-leave-benefits.ts": "9a75657c3d4bbac0191dd45b3dce4d11f65ac1319f933d4bdc362bf08ba3323e",
+    "src/simulation/paid-leave-stamp.test.ts": "7175bb16332f9f87ca3cb96ddc5f95d08bc4ceaacee12573faec58fc34cc2779",
+    "src/simulation/public-budgets/month.ts": "43b4a36072de45a34a50df3d9dfde15ba04f6f38e136c3bdf3ed5208f083c63b",
+    "src/simulation/public-budgets/store.ts": "b9985dd9f44a83c3f50cae2146c65334e41a862f89857526ae0a3e267489b7f4"
+  },
+  "receipts": [
+    {
+      "stateKey": "US-CA",
+      "playerPersonId": "person_8a45fa7b6423f85c",
+      "person": {
+        "id": "person_8a45fa7b6423f85c",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Imani",
+        "familyName": "Alexander",
+        "birthDate": "1995-01-22",
+        "homeJurisdictionId": "jurisdiction_a1a230f85ba16b14",
+        "appearance": {
+          "seed": "app_9275117736b5ba41",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b410aeb024d7f361",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": null,
+            "summary": "Imani Alexander's birth date is established as 1995-01-22.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_015fb9c5b126b4bd",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_8e7f8ea55ee770e5",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CA",
+      "paymentId": "resource-transfer-outcome_94bfe492180274ae",
+      "flowId": "resource-flow_c8a4f19602e63727",
+      "paymentStatus": "blocked",
+      "attemptedMinor": 1000,
+      "transferredMinor": 0,
+      "actualBudgetDeltaUsd": 0,
+      "netBooksDeltaUsd": 0,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CA",
+      "playerPersonId": "person_8a45fa7b6423f85c",
+      "person": {
+        "id": "person_8a45fa7b6423f85c",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Imani",
+        "familyName": "Alexander",
+        "birthDate": "1995-01-22",
+        "homeJurisdictionId": "jurisdiction_a1a230f85ba16b14",
+        "appearance": {
+          "seed": "app_9275117736b5ba41",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b410aeb024d7f361",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": null,
+            "summary": "Imani Alexander's birth date is established as 1995-01-22.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_015fb9c5b126b4bd",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_8e7f8ea55ee770e5",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CA",
+      "paymentId": "resource-transfer-outcome_36c690eae963da40",
+      "flowId": "resource-flow_8900a0d9c9738451",
+      "paymentStatus": "completed",
+      "attemptedMinor": 1000,
+      "transferredMinor": 1000,
+      "actualBudgetDeltaUsd": 10,
+      "netBooksDeltaUsd": -10,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-CA:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_8900a0d9c9738451",
+            "organization_7ea7ec1a63e8503b",
+            "person_8a45fa7b6423f85c",
+            "resource-transfer-outcome_36c690eae963da40"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CA",
+      "playerPersonId": "person_8a45fa7b6423f85c",
+      "person": {
+        "id": "person_8a45fa7b6423f85c",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Imani",
+        "familyName": "Alexander",
+        "birthDate": "1995-01-22",
+        "homeJurisdictionId": "jurisdiction_a1a230f85ba16b14",
+        "appearance": {
+          "seed": "app_9275117736b5ba41",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b410aeb024d7f361",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": null,
+            "summary": "Imani Alexander's birth date is established as 1995-01-22.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_015fb9c5b126b4bd",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_8e7f8ea55ee770e5",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CA",
+      "paymentId": "resource-transfer-outcome_d98fb0e3a7b6c87d",
+      "flowId": "resource-flow_12b21e5665022e06",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002153,
+      "transferredMinor": 10000001153,
+      "actualBudgetDeltaUsd": 100000012,
+      "netBooksDeltaUsd": -100000012,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CA",
+      "playerPersonId": "person_8a45fa7b6423f85c",
+      "person": {
+        "id": "person_8a45fa7b6423f85c",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Imani",
+        "familyName": "Alexander",
+        "birthDate": "1995-01-22",
+        "homeJurisdictionId": "jurisdiction_a1a230f85ba16b14",
+        "appearance": {
+          "seed": "app_9275117736b5ba41",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b410aeb024d7f361",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": null,
+            "summary": "Imani Alexander's birth date is established as 1995-01-22.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_015fb9c5b126b4bd",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-01-22",
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_8e7f8ea55ee770e5",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a1a230f85ba16b14",
+            "summary": "Imani Alexander resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CA",
+      "paymentId": "resource-transfer-outcome_d98fb0e3a7b6c87d",
+      "flowId": "resource-flow_12b21e5665022e06",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002153,
+      "transferredMinor": 10000001153,
+      "actualBudgetDeltaUsd": 100000012,
+      "netBooksDeltaUsd": -100000012,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-CA:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_12b21e5665022e06",
+            "organization_7ea7ec1a63e8503b",
+            "person_8a45fa7b6423f85c",
+            "resource-transfer-outcome_d98fb0e3a7b6c87d"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CO",
+      "playerPersonId": "person_53c02a3f0b50fdcb",
+      "person": {
+        "id": "person_53c02a3f0b50fdcb",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Jade",
+        "familyName": "McGuire",
+        "birthDate": "1995-11-05",
+        "homeJurisdictionId": "jurisdiction_5735be0c64af7f76",
+        "appearance": {
+          "seed": "app_81f339270afeb025",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_6be599ab8ddf8919",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": null,
+            "summary": "Jade McGuire's birth date is established as 1995-11-05.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9a36e6f35572bf75",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_677ab0428ecb809d",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CO",
+      "paymentId": "resource-transfer-outcome_fa51e5f3e072a85b",
+      "flowId": "resource-flow_d75debcf8f4df450",
+      "paymentStatus": "blocked",
+      "attemptedMinor": 1000,
+      "transferredMinor": 0,
+      "actualBudgetDeltaUsd": 0,
+      "netBooksDeltaUsd": 0,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CO",
+      "playerPersonId": "person_53c02a3f0b50fdcb",
+      "person": {
+        "id": "person_53c02a3f0b50fdcb",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Jade",
+        "familyName": "McGuire",
+        "birthDate": "1995-11-05",
+        "homeJurisdictionId": "jurisdiction_5735be0c64af7f76",
+        "appearance": {
+          "seed": "app_81f339270afeb025",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_6be599ab8ddf8919",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": null,
+            "summary": "Jade McGuire's birth date is established as 1995-11-05.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9a36e6f35572bf75",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_677ab0428ecb809d",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CO",
+      "paymentId": "resource-transfer-outcome_1f65736eb933317d",
+      "flowId": "resource-flow_4403bc06b8429752",
+      "paymentStatus": "completed",
+      "attemptedMinor": 1000,
+      "transferredMinor": 1000,
+      "actualBudgetDeltaUsd": 10,
+      "netBooksDeltaUsd": -10,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-CO:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_51a962cef0f937d1",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_4403bc06b8429752",
+            "organization_5b1b9d82908f967f",
+            "person_53c02a3f0b50fdcb",
+            "resource-transfer-outcome_1f65736eb933317d"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CO",
+      "playerPersonId": "person_53c02a3f0b50fdcb",
+      "person": {
+        "id": "person_53c02a3f0b50fdcb",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Jade",
+        "familyName": "McGuire",
+        "birthDate": "1995-11-05",
+        "homeJurisdictionId": "jurisdiction_5735be0c64af7f76",
+        "appearance": {
+          "seed": "app_81f339270afeb025",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_6be599ab8ddf8919",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": null,
+            "summary": "Jade McGuire's birth date is established as 1995-11-05.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9a36e6f35572bf75",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_677ab0428ecb809d",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CO",
+      "paymentId": "resource-transfer-outcome_0bf295e77ac2eb5c",
+      "flowId": "resource-flow_e138594a2debe111",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002076,
+      "transferredMinor": 10000001076,
+      "actualBudgetDeltaUsd": 100000011,
+      "netBooksDeltaUsd": -100000011,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CO",
+      "playerPersonId": "person_53c02a3f0b50fdcb",
+      "person": {
+        "id": "person_53c02a3f0b50fdcb",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Jade",
+        "familyName": "McGuire",
+        "birthDate": "1995-11-05",
+        "homeJurisdictionId": "jurisdiction_5735be0c64af7f76",
+        "appearance": {
+          "seed": "app_81f339270afeb025",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_6be599ab8ddf8919",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": null,
+            "summary": "Jade McGuire's birth date is established as 1995-11-05.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9a36e6f35572bf75",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-11-05",
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_677ab0428ecb809d",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_5735be0c64af7f76",
+            "summary": "Jade McGuire resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CO",
+      "paymentId": "resource-transfer-outcome_0bf295e77ac2eb5c",
+      "flowId": "resource-flow_e138594a2debe111",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002076,
+      "transferredMinor": 10000001076,
+      "actualBudgetDeltaUsd": 100000011,
+      "netBooksDeltaUsd": -100000011,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-CO:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_51a962cef0f937d1",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_e138594a2debe111",
+            "organization_5b1b9d82908f967f",
+            "person_53c02a3f0b50fdcb",
+            "resource-transfer-outcome_0bf295e77ac2eb5c"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CT",
+      "playerPersonId": "person_b75a55687ad4c72f",
+      "person": {
+        "id": "person_b75a55687ad4c72f",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Laila",
+        "familyName": "Solomon",
+        "birthDate": "1995-06-04",
+        "homeJurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+        "appearance": {
+          "seed": "app_d3cde941316748dd",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b407d2c2519ab035",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": null,
+            "summary": "Laila Solomon's birth date is established as 1995-06-04.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9c2877438b403371",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_0bca20e80f2de229",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CT",
+      "paymentId": "resource-transfer-outcome_d39413965602b74c",
+      "flowId": "resource-flow_d781bd7aa0618155",
+      "paymentStatus": "blocked",
+      "attemptedMinor": 1000,
+      "transferredMinor": 0,
+      "actualBudgetDeltaUsd": 0,
+      "netBooksDeltaUsd": 0,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CT",
+      "playerPersonId": "person_b75a55687ad4c72f",
+      "person": {
+        "id": "person_b75a55687ad4c72f",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Laila",
+        "familyName": "Solomon",
+        "birthDate": "1995-06-04",
+        "homeJurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+        "appearance": {
+          "seed": "app_d3cde941316748dd",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b407d2c2519ab035",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": null,
+            "summary": "Laila Solomon's birth date is established as 1995-06-04.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9c2877438b403371",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_0bca20e80f2de229",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CT",
+      "paymentId": "resource-transfer-outcome_6c6ce0fd2ec5b73a",
+      "flowId": "resource-flow_7698c91f177d599b",
+      "paymentStatus": "completed",
+      "attemptedMinor": 1000,
+      "transferredMinor": 1000,
+      "actualBudgetDeltaUsd": 10,
+      "netBooksDeltaUsd": -10,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-CT:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_7698c91f177d599b",
+            "organization_a50023c6f3727820",
+            "person_b75a55687ad4c72f",
+            "resource-transfer-outcome_6c6ce0fd2ec5b73a"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CT",
+      "playerPersonId": "person_b75a55687ad4c72f",
+      "person": {
+        "id": "person_b75a55687ad4c72f",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Laila",
+        "familyName": "Solomon",
+        "birthDate": "1995-06-04",
+        "homeJurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+        "appearance": {
+          "seed": "app_d3cde941316748dd",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b407d2c2519ab035",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": null,
+            "summary": "Laila Solomon's birth date is established as 1995-06-04.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9c2877438b403371",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_0bca20e80f2de229",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CT",
+      "paymentId": "resource-transfer-outcome_519608801a415e8b",
+      "flowId": "resource-flow_6e2500a168c152b4",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002108,
+      "transferredMinor": 10000001108,
+      "actualBudgetDeltaUsd": 100000011,
+      "netBooksDeltaUsd": -100000011,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-CT",
+      "playerPersonId": "person_b75a55687ad4c72f",
+      "person": {
+        "id": "person_b75a55687ad4c72f",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Laila",
+        "familyName": "Solomon",
+        "birthDate": "1995-06-04",
+        "homeJurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+        "appearance": {
+          "seed": "app_d3cde941316748dd",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_b407d2c2519ab035",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": null,
+            "summary": "Laila Solomon's birth date is established as 1995-06-04.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_9c2877438b403371",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-04",
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_0bca20e80f2de229",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_7f67499c55dd8c5f",
+            "summary": "Laila Solomon resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-CT",
+      "paymentId": "resource-transfer-outcome_519608801a415e8b",
+      "flowId": "resource-flow_6e2500a168c152b4",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002108,
+      "transferredMinor": 10000001108,
+      "actualBudgetDeltaUsd": 100000011,
+      "netBooksDeltaUsd": -100000011,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-CT:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_6e2500a168c152b4",
+            "organization_a50023c6f3727820",
+            "person_b75a55687ad4c72f",
+            "resource-transfer-outcome_519608801a415e8b"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-DE",
+      "playerPersonId": "person_8cf2e5c440943096",
+      "person": {
+        "id": "person_8cf2e5c440943096",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Vincent",
+        "familyName": "Nielsen",
+        "birthDate": "1995-06-12",
+        "homeJurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+        "appearance": {
+          "seed": "app_6b4010347147d3af",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_2d51d49410249e2f",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": null,
+            "summary": "Vincent Nielsen's birth date is established as 1995-06-12.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_5a75be7269a1136f",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_12e6975492399767",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-DE",
+      "paymentId": "resource-transfer-outcome_c1349cfe62d91951",
+      "flowId": "resource-flow_6443ab4ede2a81fe",
+      "paymentStatus": "blocked",
+      "attemptedMinor": 1000,
+      "transferredMinor": 0,
+      "actualBudgetDeltaUsd": 0,
+      "netBooksDeltaUsd": 0,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-DE",
+      "playerPersonId": "person_8cf2e5c440943096",
+      "person": {
+        "id": "person_8cf2e5c440943096",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Vincent",
+        "familyName": "Nielsen",
+        "birthDate": "1995-06-12",
+        "homeJurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+        "appearance": {
+          "seed": "app_6b4010347147d3af",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_2d51d49410249e2f",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": null,
+            "summary": "Vincent Nielsen's birth date is established as 1995-06-12.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_5a75be7269a1136f",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_12e6975492399767",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-DE",
+      "paymentId": "resource-transfer-outcome_06149a2dd3580253",
+      "flowId": "resource-flow_9f6b9e6bdb0dec20",
+      "paymentStatus": "completed",
+      "attemptedMinor": 1000,
+      "transferredMinor": 1000,
+      "actualBudgetDeltaUsd": 10,
+      "netBooksDeltaUsd": -10,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-DE:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_2d97cfd7b9b1f290",
+          "operativeAt": "2026-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_9f6b9e6bdb0dec20",
+            "organization_902a18dc75128def",
+            "person_8cf2e5c440943096",
+            "resource-transfer-outcome_06149a2dd3580253"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-DE",
+      "playerPersonId": "person_8cf2e5c440943096",
+      "person": {
+        "id": "person_8cf2e5c440943096",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Vincent",
+        "familyName": "Nielsen",
+        "birthDate": "1995-06-12",
+        "homeJurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+        "appearance": {
+          "seed": "app_6b4010347147d3af",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_2d51d49410249e2f",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": null,
+            "summary": "Vincent Nielsen's birth date is established as 1995-06-12.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_5a75be7269a1136f",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_12e6975492399767",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-DE",
+      "paymentId": "resource-transfer-outcome_8d464e10700f515e",
+      "flowId": "resource-flow_d5d61740cbc8de4b",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002230,
+      "transferredMinor": 10000001230,
+      "actualBudgetDeltaUsd": 100000012,
+      "netBooksDeltaUsd": -100000012,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-DE",
+      "playerPersonId": "person_8cf2e5c440943096",
+      "person": {
+        "id": "person_8cf2e5c440943096",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Vincent",
+        "familyName": "Nielsen",
+        "birthDate": "1995-06-12",
+        "homeJurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+        "appearance": {
+          "seed": "app_6b4010347147d3af",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_2d51d49410249e2f",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": null,
+            "summary": "Vincent Nielsen's birth date is established as 1995-06-12.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_5a75be7269a1136f",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-06-12",
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_12e6975492399767",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_0cd8633edb2e52ff",
+            "summary": "Vincent Nielsen resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-DE",
+      "paymentId": "resource-transfer-outcome_8d464e10700f515e",
+      "flowId": "resource-flow_d5d61740cbc8de4b",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002230,
+      "transferredMinor": 10000001230,
+      "actualBudgetDeltaUsd": 100000012,
+      "netBooksDeltaUsd": -100000012,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-DE:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_2d97cfd7b9b1f290",
+          "operativeAt": "2026-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_d5d61740cbc8de4b",
+            "organization_902a18dc75128def",
+            "person_8cf2e5c440943096",
+            "resource-transfer-outcome_8d464e10700f515e"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-MA",
+      "playerPersonId": "person_24b14833ba449c54",
+      "person": {
+        "id": "person_24b14833ba449c54",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Alex",
+        "familyName": "Hanson",
+        "birthDate": "1995-02-19",
+        "homeJurisdictionId": "jurisdiction_a941594846a1993d",
+        "appearance": {
+          "seed": "app_17c121c2848fc1c3",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_70c0025a9493185b",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": null,
+            "summary": "Alex Hanson's birth date is established as 1995-02-19.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_485bddcd09bbd55b",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_b5601f8da8bfe883",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-MA",
+      "paymentId": "resource-transfer-outcome_a5de1787dffe5594",
+      "flowId": "resource-flow_6d5596d98d81eeb5",
+      "paymentStatus": "blocked",
+      "attemptedMinor": 1000,
+      "transferredMinor": 0,
+      "actualBudgetDeltaUsd": 0,
+      "netBooksDeltaUsd": 0,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-MA",
+      "playerPersonId": "person_24b14833ba449c54",
+      "person": {
+        "id": "person_24b14833ba449c54",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Alex",
+        "familyName": "Hanson",
+        "birthDate": "1995-02-19",
+        "homeJurisdictionId": "jurisdiction_a941594846a1993d",
+        "appearance": {
+          "seed": "app_17c121c2848fc1c3",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_70c0025a9493185b",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": null,
+            "summary": "Alex Hanson's birth date is established as 1995-02-19.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_485bddcd09bbd55b",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_b5601f8da8bfe883",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-MA",
+      "paymentId": "resource-transfer-outcome_b95eb14cec576662",
+      "flowId": "resource-flow_ef24d1ad037c0f4b",
+      "paymentStatus": "completed",
+      "attemptedMinor": 1000,
+      "transferredMinor": 1000,
+      "actualBudgetDeltaUsd": 10,
+      "netBooksDeltaUsd": -10,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-MA:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_ef24d1ad037c0f4b",
+            "organization_590c3cabfc486471",
+            "person_24b14833ba449c54",
+            "resource-transfer-outcome_b95eb14cec576662"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-MA",
+      "playerPersonId": "person_24b14833ba449c54",
+      "person": {
+        "id": "person_24b14833ba449c54",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Alex",
+        "familyName": "Hanson",
+        "birthDate": "1995-02-19",
+        "homeJurisdictionId": "jurisdiction_a941594846a1993d",
+        "appearance": {
+          "seed": "app_17c121c2848fc1c3",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_70c0025a9493185b",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": null,
+            "summary": "Alex Hanson's birth date is established as 1995-02-19.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_485bddcd09bbd55b",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_b5601f8da8bfe883",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-MA",
+      "paymentId": "resource-transfer-outcome_ca0b85f820fe95bb",
+      "flowId": "resource-flow_46d692c0ebd4e4ec",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002259,
+      "transferredMinor": 10000001259,
+      "actualBudgetDeltaUsd": 100000013,
+      "netBooksDeltaUsd": -100000013,
+      "costStamps": [],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    },
+    {
+      "stateKey": "US-MA",
+      "playerPersonId": "person_24b14833ba449c54",
+      "person": {
+        "id": "person_24b14833ba449c54",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Alex",
+        "familyName": "Hanson",
+        "birthDate": "1995-02-19",
+        "homeJurisdictionId": "jurisdiction_a941594846a1993d",
+        "appearance": {
+          "seed": "app_17c121c2848fc1c3",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_70c0025a9493185b",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": null,
+            "summary": "Alex Hanson's birth date is established as 1995-02-19.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_485bddcd09bbd55b",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1995-02-19",
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_b5601f8da8bfe883",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_a941594846a1993d",
+            "summary": "Alex Hanson resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "governmentKey": "US-MA",
+      "paymentId": "resource-transfer-outcome_ca0b85f820fe95bb",
+      "flowId": "resource-flow_46d692c0ebd4e4ec",
+      "paymentStatus": "partial",
+      "attemptedMinor": 10000002259,
+      "transferredMinor": 10000001259,
+      "actualBudgetDeltaUsd": 100000013,
+      "netBooksDeltaUsd": -100000013,
+      "costStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "starting-law:US-MA:us-policy-positions:labor-workforce.paid-family-leave",
+          "source": "in-force-at-start",
+          "effectKind": "paid-leave-budget-cost",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+          "operativeAt": "2000-01-01",
+          "appliedAt": "2026-02-01",
+          "sourceRecordIds": [
+            "resource-flow_46d692c0ebd4e4ec",
+            "organization_590c3cabfc486471",
+            "person_24b14833ba449c54",
+            "resource-transfer-outcome_ca0b85f820fe95bb"
+          ]
+        }
+      ],
+      "savedBudgetRowEqual": true,
+      "settlementIdempotent": true,
+      "limits": "Authored claim/completed-shift fixtures; no eligibility, watched person or nationwide proof."
+    }
+  ],
+  "costMechanism": "Existing benefit/payment amount limited by actual state account. Budget records transferred minor units /100, with existing whole-dollar rounding, into existing otherPrograms bucket; no new drawn cost level or claim of administrative overhead. Saved stamps append alongside cannabis/age/parks.",
+  "completeFiveParts": 0,
+  "assignedLaws": 13,
+  "NOT_RUN": [
+    "nationwide audit",
+    "browser",
+    "watched person decision",
+    "complete researched entitlement terms"
+  ],
+  "release": "Team8 owns only age-verification/cannabis conflict-resolution hunks; Team3 retains only paid-leave MonthFlows/readMonthFlows/settleGovernmentMonth append and optional BudgetMonthRow stamp."
+}

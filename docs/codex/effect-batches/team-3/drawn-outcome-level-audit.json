@@ -1,0 +1,64 @@
+{
+  "team": 3,
+  "standard": "CTO1:03/1:17 golden rule; outcome levels must emerge from terms times actual world base",
+  "newTeam3DrawnOutcomeLevels": 0,
+  "coverage": "Assigned tax/paid-leave readers, released town-pay seam and budget readers inspected; not a repository-wide scan",
+  "findings": [
+    {
+      "path": "src/simulation/state-income-tax-law.ts",
+      "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+      "function": "estimatedSchedule",
+      "inherited": true,
+      "draw": "rateScale and fallback deduction from SeededRng; then actual taxpayer income is assessed against generated schedule",
+      "repair": "Read enacted rate/threshold/brackets/deduction terms, retaining each state's real starting schedule; exact declarations currently omit operative values. No new mean/rate guessed.",
+      "status": "UNREPAIRED finding; not proof zero effects"
+    },
+    {
+      "path": "src/simulation/state-paid-leave-law.ts",
+      "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+      "function": "estimatedPremium",
+      "inherited": true,
+      "draw": "employee premium percentage and generic wage cap estimated when read program terms are absent",
+      "repair": "Read operative employee/employer premium and cap terms; missing values remain an explicit research/terms gap.",
+      "status": "UNREPAIRED finding; not proof zero effects"
+    },
+    {
+      "path": "src/simulation/paid-leave-benefits.ts",
+      "sourceHead": "4f09fcd408803a4cf88617d660e9c3d05738f0ae",
+      "function": "paidLeaveBenefitRate",
+      "inherited": true,
+      "draw": "fallback replacement percent drawn around mean; read programs use their actual recorded rate",
+      "repair": "Consume operative replacement/duration/benefit-cap terms against covered lost pay; no average drawn benefit rate.",
+      "status": "UNREPAIRED finding; not proof zero effects"
+    },
+    {
+      "path": "src/simulation/public-budgets/opening.ts",
+      "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+      "function": "opened",
+      "inherited": true,
+      "draw": "estimated opening revenue/spending amount times seeded lognormal spread",
+      "repair": "Coordinator must release opening seam to its owner; government terms/real bases produce levels, research used for calibration.",
+      "status": "UNREPAIRED finding; not proof zero effects"
+    },
+    {
+      "path": "src/simulation/living-world/town-pay.ts",
+      "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+      "function": "ensureTownPay",
+      "inherited": true,
+      "draw": "person seeded draw selects wage percentile; employer cadence/phase also seeded",
+      "repair": "Inherited starting pay/cadence outside released raise stamp seam; flag to coordinator for ownership, wages from actual job/employer records. No new draw in state/local stamp followup.",
+      "status": "UNREPAIRED finding; not proof zero effects"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "src/simulation/public-budgets/parks-dedication.ts",
+      "head": "600a121e6585faba01694aa9ba91c547e96a3c3b",
+      "function": "parksAnnualPerResident",
+      "owner": "Team5",
+      "status": "HOLD per CTO1:17; composed dependency only, not Team3-authored/approved golden-rule cost",
+      "draw": "annual dollars/resident via drawnLinkSize; benchmark level, not operative dedication terms",
+      "repair": "Team5 actual dedication terms times taxable world base; calibration benchmark only"
+    }
+  ]
+}

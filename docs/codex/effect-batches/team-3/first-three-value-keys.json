@@ -1,0 +1,99 @@
+{
+  "team": 3,
+  "status": "PROPOSED_VALUE_KEYS; coordinator owns catalog, engine binding still required",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "existingReader": "stateIncomeTaxUnderLaw",
+      "valueRequirements": [
+        {
+          "key": "brackets",
+          "shape": "array of overMinor and rateBasisPoints",
+          "units": "currency minor units and basis points"
+        },
+        {
+          "key": "standardDeductionMinor",
+          "units": "currency minor units by filing status"
+        },
+        {
+          "key": "effectiveAt",
+          "units": "calendar date, with explicit tax-year applicability"
+        }
+      ],
+      "currentSource": "data/research/money/state-income-tax-2026.json",
+      "gap": "Current adopted schedule is an average estimate, not authored bill terms; only single filing schedules read."
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "existingReader": "stateIncomeTaxUnderLaw",
+      "valueRequirements": [
+        {
+          "key": "shape",
+          "values": [
+            "flat",
+            "graduated"
+          ]
+        },
+        {
+          "key": "brackets",
+          "shape": "array of overMinor and rateBasisPoints",
+          "units": "currency minor units and basis points"
+        },
+        {
+          "key": "standardDeductionMinor",
+          "units": "currency minor units by filing status"
+        },
+        {
+          "key": "effectiveAt",
+          "units": "calendar date with tax-year applicability"
+        }
+      ],
+      "currentSource": "data/research/money/state-income-tax-2026.json",
+      "gap": "Real jurisdiction schedule/constitutional authority and phase-in needed, not automatic shape-average substitution."
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "existingReaders": [
+        "paidLeavePremium",
+        "paidLeaveBenefitRate",
+        "payPaidLeaveClaims"
+      ],
+      "valueRequirements": [
+        {
+          "key": "employeeRatePerMillion",
+          "units": "millionths of covered wages"
+        },
+        {
+          "key": "annualWageCapMinor",
+          "units": "currency minor units or explicitly uncapped"
+        },
+        {
+          "key": "replacementPercent",
+          "units": "percent of eligible lost pay"
+        },
+        {
+          "key": "maxWeeklyMinor",
+          "units": "currency minor units or explicitly uncapped"
+        },
+        {
+          "key": "contributionsBeginAt",
+          "units": "calendar date"
+        },
+        {
+          "key": "benefitsBeginAt",
+          "units": "calendar date"
+        },
+        {
+          "key": "coverage-and-qualifying-absence",
+          "units": "legal eligibility rule, employer exemption, waiting-period and duration"
+        }
+      ],
+      "currentSources": [
+        "data/research/money/state-paid-leave-premiums-2026.json",
+        "data/research/money/state-paid-leave-benefits-2026.json"
+      ],
+      "gap": "Starting researched amounts exist for some programs; new program averages and employer exemption gaps remain. No numeric legislative range invented."
+    }
+  ],
+  "completeFiveParts": false
+}

@@ -1,6 +1,10 @@
+import { parksBudgetChange } from "./parks-dedication";
+import { PARKS_DEDICATION_QUESTION } from "./rules";
+import { ageVerificationCostForMonth } from "./age-verification-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
+import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
 import { publicOrganizationKey } from "../tax-policy";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
 import {
@@ -15,6 +19,8 @@ import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
 import { CANNABIS_SALES_QUESTION } from "./cannabis-sales-tax";
 import {
   lawEffectStamp,
+  isLawEffectStamp,
+  type LawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
 import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
@@ -105,6 +111,10 @@ export interface MonthFlows {
   readonly represented: ReadonlyMap<string, number>;
   readonly levies: ReadonlyMap<string, readonly number[]>;
   readonly payments: ReadonlyMap<string, readonly number[]>;
+  readonly paidLeavePaymentStamps?: ReadonlyMap<
+    string,
+    readonly LawEffectStamp[]
+  >;
 }
 
 /** The budget program an appropriation's program key belongs to. */
@@ -174,15 +184,39 @@ export function readMonthFlows(
   const payers = new Map<string, Set<EntityId>>();
   const levies = new Map<string, number[]>();
   const payments = new Map<string, number[]>();
+  const paidLeavePaymentStamps = new Map<string, LawEffectStamp[]>();
   for (
     let at = store.cursor.outcomes;
     at < history.resourceTransferOutcomes.length;
     at += 1
   ) {
     const outcome = history.resourceTransferOutcomes[at]!;
-    if (outcome.status !== "completed") continue;
     const flow = relevant.get(outcome.resourceFlowId);
     if (!flow) continue;
+    const paidLeavePayment =
+      flow.basisKind === "support:paid-leave-benefit" &&
+      flow.source.kind === "organization" &&
+      flow.recipient.kind === "person";
+    const paidLeaveStamps = paidLeavePayment
+      ? (
+          (outcome as typeof outcome & LawEffectStampedRecord)
+            .lawEffectStamps ?? []
+        ).filter(
+          (stamp) =>
+            isLawEffectStamp(stamp) &&
+            stamp.questionKey === PAID_LEAVE_QUESTION &&
+            stamp.effectKind === "paid-leave-benefit" &&
+            stamp.jurisdictionId === flow.jurisdictionId &&
+            stamp.appliedAt === outcome.occurredAt &&
+            stamp.sourceRecordIds?.includes(flow.id),
+        )
+      : [];
+    // Positive partial paid-leave transfers also moved actual state cash.
+    if (
+      outcome.status !== "completed" &&
+      !(outcome.status === "partial" && paidLeavePayment)
+    )
+      continue;
     const dollars = outcome.transferredAmount.minorUnits / 100;
     if (dollars <= 0) continue;
     const into =
@@ -210,6 +244,17 @@ export function readMonthFlows(
       const row = payments.get(outOf) ?? BUDGET_PROGRAMS.map(() => 0);
       row[BUDGET_PROGRAMS.indexOf(program)]! += dollars;
       payments.set(outOf, row);
+      if (paidLeaveStamps.length > 0) {
+        const stamps = paidLeavePaymentStamps.get(outOf) ?? [];
+        stamps.push(
+          ...paidLeaveStamps.map((stamp) => ({
+            ...stamp,
+            effectKind: "paid-leave-budget-cost",
+            sourceRecordIds: [...(stamp.sourceRecordIds ?? []), outcome.id],
+          })),
+        );
+        paidLeavePaymentStamps.set(outOf, stamps);
+      }
     }
   }
   return {
@@ -220,6 +265,7 @@ export function readMonthFlows(
       ),
       levies,
       payments,
+      paidLeavePaymentStamps,
     },
     cursor: {
       flows: history.resourceFlows.length,
@@ -373,6 +419,11 @@ export function lawSpendingForMonth(
   const spending = BUDGET_PROGRAMS.map(() => 0);
   if (government.level !== "state") return spending;
   for (const effect of SPENDING_QUESTION_EFFECTS) {
+    if (effect.questionKey === PARKS_DEDICATION_QUESTION) {
+      const parks = parksBudgetChange(world, government, date);
+      if (parks) spending[BUDGET_PROGRAMS.indexOf("parks")]! += parks.dollars;
+      continue;
+    }
     const propositionId = propositionIdFor(world, effect.questionKey);
     if (!propositionId) continue;
     const now = lawInForce(
@@ -821,6 +872,15 @@ export function settleGovernmentMonth(
     }
   }
 
+  const parks = parksBudgetChange(world, government, month);
+  const ageVerificationCost = ageVerificationCostForMonth(
+    world,
+    government,
+    month,
+  );
+  const paidLeaveStamps = (
+    flows.paidLeavePaymentStamps?.get(government.key) ?? []
+  ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
   const row: BudgetMonthRow &
     LawEffectStampedRecord & {
       readonly cannabisRevenue?: number;
@@ -837,12 +897,42 @@ export function settleGovernmentMonth(
       ? { townSales: Math.round(townSales * 10000) / 10000 }
       : {}),
     represented,
+    ...(ageVerificationCost || parks?.stamp
+      ? {
+          lawCostAttributions: [
+            ...(ageVerificationCost ? [ageVerificationCost] : []),
+            ...(parks?.stamp
+              ? [
+                  {
+                    program: "parks" as const,
+                    amountUsd: parks.dollars,
+                    basis:
+                      "ESTIMATED FROM AVERAGE: constitutional parks dedication yields from Missouri and Minnesota, fiscal-2022 dollars per 2023 resident; stable world/state range. Incremental modeled appropriation before rounding/zero floor; not observed 2026 invoice or a new tax collection.",
+                    lawEffectStamps: [parks.stamp],
+                  },
+                ]
+              : []),
+          ],
+        }
+      : {}),
     ...(zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
     ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length ? { lawEffectStamps: cannabisStamps } : {}),
+    ...(cannabisStamps.length > 0 ||
+    ageVerificationCost ||
+    parks?.stamp ||
+    paidLeaveStamps.length > 0
+      ? {
+          lawEffectStamps: [
+            ...cannabisStamps,
+            ...paidLeaveStamps,
+            ...(ageVerificationCost?.lawEffectStamps ?? []),
+            ...(parks?.stamp ? [parks.stamp] : []),
+          ],
+        }
+      : {}),
   };
   let next: PublicBudgetGovernment = {
     ...government,

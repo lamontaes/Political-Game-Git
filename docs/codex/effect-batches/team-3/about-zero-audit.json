@@ -1,0 +1,80 @@
+{
+  "team": 3,
+  "sourceHead": "38c2980cd5aefb7cd6adf0d38fdbbfcc63253853",
+  "standard": "CTO12:18 measured near-zero only; unknown is not zero",
+  "rows": [
+    {
+      "linkKey": "paid-leave-to-mothers-work",
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "existingSize": null,
+      "existingSource": "to confirm",
+      "classification": "UNSIZED_RESEARCH_GAP",
+      "aboutZeroVerified": false,
+      "needed": "Exact causal estimate and uncertainty range for maternal participation, with denominator, jurisdiction, program coverage and lag.",
+      "action": "Coordinator-only map: hold unsupported numerical zero; keep missing evidence distinct from measured near-zero. No replacement number supplied."
+    },
+    {
+      "linkKey": "public-bargaining-to-graduation",
+      "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "existingSize": 0,
+      "existingSource": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
+      "classification": "ESTIMATE_AND_INTERVAL_UNVERIFIED",
+      "aboutZeroVerified": false,
+      "needed": "Exact graduation estimate and interval, matched cohort and policy exposure. Adult earnings estimates do not establish a graduation zero.",
+      "action": "Coordinator-only map: hold unsupported numerical zero; keep missing evidence distinct from measured near-zero. No replacement number supplied."
+    },
+    {
+      "linkKey": "grocery-exemption-to-poverty",
+      "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "existingSize": 0,
+      "existingSource": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+      "classification": "DEFINITIONAL_DIRECT_ZERO_NOT_MEASURED_NEAR_ZERO",
+      "aboutZeroVerified": false,
+      "needed": "Separate official pre-tax cash poverty arithmetic from indirect behavioral/disposable-income effects. A definition is not an empirical confidence interval.",
+      "action": "Coordinator-only map: hold unsupported numerical zero; keep missing evidence distinct from measured near-zero. No replacement number supplied."
+    },
+    {
+      "linkKey": "income-tax-to-poverty",
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "existingSize": 0,
+      "existingSource": "Census official poverty definition; Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "classification": "DEFINITIONAL_DIRECT_ZERO_NOT_MEASURED_NEAR_ZERO",
+      "aboutZeroVerified": false,
+      "needed": "Separate official pre-tax cash poverty arithmetic from indirect behavioral/disposable-income effects. A definition is not an empirical confidence interval.",
+      "action": "Coordinator-only map: hold unsupported numerical zero; keep missing evidence distinct from measured near-zero. No replacement number supplied."
+    },
+    {
+      "linkKey": "graduated-income-tax-to-poverty",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "existingSize": 0,
+      "existingSource": "Census official poverty definition",
+      "classification": "DEFINITIONAL_DIRECT_ZERO_NOT_MEASURED_NEAR_ZERO",
+      "aboutZeroVerified": false,
+      "needed": "Separate official pre-tax cash poverty arithmetic from indirect behavioral/disposable-income effects. A definition is not an empirical confidence interval.",
+      "action": "Coordinator-only map: hold unsupported numerical zero; keep missing evidence distinct from measured near-zero. No replacement number supplied."
+    },
+    {
+      "linkKey": "income-tax-to-out-migration",
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "existingSize": 0,
+      "existingSource": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "classification": "COHORT_AND_OUTCOME_MISMATCH",
+      "aboutZeroVerified": false,
+      "needed": "Exact millionaire migration estimate and uncertainty interval, plus evidenced conversion to total population out-migration. A small millionaire response is not universal zero.",
+      "action": "Coordinator-only map: hold unsupported numerical zero; keep missing evidence distinct from measured near-zero. No replacement number supplied."
+    },
+    {
+      "linkKey": "graduated-income-tax-to-out-migration",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "existingSize": 0,
+      "existingSource": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "classification": "COHORT_AND_OUTCOME_MISMATCH",
+      "aboutZeroVerified": false,
+      "needed": "Exact millionaire migration estimate and uncertainty interval, plus evidenced conversion to total population out-migration. A small millionaire response is not universal zero.",
+      "action": "Coordinator-only map: hold unsupported numerical zero; keep missing evidence distinct from measured near-zero. No replacement number supplied."
+    }
+  ],
+  "count": 7,
+  "directLinksChanged": 0,
+  "limit": "Source/evidence audit, not engine execution. Earlier definition-zero intake is superseded for the empirical aboutZero flag."
+}
