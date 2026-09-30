@@ -17,6 +17,7 @@ import {
   placeOutcomeRecords,
   type PlaceOutcomeRecord,
 } from "../../src/simulation/outcome-web/place-outcome-store";
+import { STATE_TRANSIT_SERVICE_QUESTION } from "../../src/simulation/legislation-transit-families";
 import { personName } from "../../src/simulation/people";
 import traces from "./trace-inventory.json" with { type: "json" };
 
@@ -189,6 +190,30 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
               "src/simulation/press/law-effect-news.ts; canonical press/knowledge evidence",
           },
         ];
+      const appropriations = (world.history.publicProgramRecords ?? []).filter(
+        (record) =>
+          record.kind === "appropriation" &&
+          record.sourceMeasureId === measure.id,
+      );
+      if (
+        question === STATE_TRANSIT_SERVICE_QUESTION ||
+        appropriations.length
+      ) {
+        effects.push(
+          {
+            effect: "spending-authority",
+            reader: "src/simulation/governing/program-governing.ts",
+          },
+          {
+            effect: "program-payment",
+            reader: "src/simulation/governing/public-program.ts",
+          },
+          {
+            effect: "public-service",
+            reader: "src/simulation/governing/public-program-transit.ts",
+          },
+        );
+      }
       if (!links.length && !direct.length)
         effects.unshift({
           effect: "rule-or-service",
@@ -361,6 +386,113 @@ export function auditWorld(opening: World, world: World): AuditRow[] {
             reason = question
               ? "no-registered-reader; research/trace coverage still required"
               : "no-catalog-answer-or-registered-effect; authored scenario needs an explicit trace";
+        }
+        if (
+          ["spending-authority", "program-payment", "public-service"].includes(
+            effect.effect,
+          )
+        ) {
+          const records = world.history.publicProgramRecords ?? [];
+          const authorities = records.filter(
+            (record) =>
+              record.kind === "appropriation" &&
+              record.sourceMeasureId === measure.id,
+          );
+          const commitments = records.filter(
+            (record) =>
+              record.kind === "commitment" &&
+              authorities.some(
+                (authority) => authority.id === record.appropriationId,
+              ),
+          );
+          const installments = records.filter(
+            (record) =>
+              record.kind === "installment" &&
+              commitments.some(
+                (commitment) => commitment.id === record.commitmentId,
+              ),
+          );
+          reason =
+            authorities.length === 0
+              ? "no-saved-appropriation; program-governing.ts admission/lineage must be traced"
+              : commitments.length === 0
+                ? "no-commitment-against-saved-appropriation"
+                : installments.length === 0
+                  ? "no-installment-record-against-commitment"
+                  : "no-completed-program-payment";
+          if (effect.effect === "spending-authority") {
+            for (const authority of authorities) {
+              if (
+                authority.kind !== "appropriation" ||
+                authority.availableFrom > world.currentDate
+              )
+                continue;
+              evidence.push({
+                record: `publicProgramRecords:${authority.id}`,
+                touched: base.jurisdiction,
+                before: "No authority under this measure at opening",
+                after: {
+                  amount: authority.amount,
+                  availableFrom: authority.availableFrom,
+                  availableThrough: authority.availableThrough,
+                },
+                detail:
+                  "Recorded legal spending authority; not cash, payment, service or a researched effect size.",
+              });
+            }
+          }
+          for (const installment of installments) {
+            if (installment.kind !== "installment") continue;
+            if (installment.status === "failed") {
+              reason = `recorded-payment-failure: ${installment.reason}`;
+              continue;
+            }
+            const payment = world.history.resourceTransferOutcomes.find(
+              (outcome) =>
+                outcome.resourceFlowId === installment.resourceFlowId &&
+                outcome.status === "completed",
+            );
+            if (!payment) {
+              reason = "posted-installment-without-completed-transfer";
+              continue;
+            }
+            const flow = world.history.resourceFlows.find(
+              (flow) => flow.id === payment.resourceFlowId,
+            );
+            if (effect.effect === "program-payment")
+              evidence.push({
+                record: `publicProgramRecords:${installment.id}; resourceTransferOutcomes:${payment.id}`,
+                touched: flow
+                  ? JSON.stringify(flow.recipient)
+                  : base.jurisdiction,
+                before: null,
+                after: payment.transferredAmount,
+                detail:
+                  "Actual completed transfer under this measure's commitment. The recipient endpoint is preserved; prior income is not inferred.",
+              });
+            if (effect.effect === "public-service") {
+              const delivered = world.history.events.filter(
+                (event) =>
+                  event.type === "transit.program-paid-service-hours" &&
+                  event.involvedEntityIds.includes(measure.id) &&
+                  event.involvedEntityIds.includes(payment.resourceFlowId),
+              );
+              for (const event of delivered)
+                evidence.push({
+                  record: `events:${event.id}`,
+                  touched:
+                    world.jurisdictions[event.jurisdictionId!]?.name ??
+                    base.jurisdiction,
+                  before: null,
+                  after: event.summary,
+                  detail:
+                    "Paid physical service record only; ridership, access and travel time remain separate effects.",
+                });
+              if (delivered.length === 0)
+                reason =
+                  "completed-payment-without-matching-paid-service-event";
+            }
+          }
         }
         if (evidence.length) reason = "recorded-effect";
         else if (effective > world.currentDate) reason = "effective-after-run";

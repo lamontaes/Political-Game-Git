@@ -1,92 +1,554 @@
 [
   {
+    "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual withholding and separate peer-budget estimates; schedules/authority/reconciliation need verification."
+  },
+  {
+    "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual withholding; fixed Illinois/Iowa fiscal ratios, constitutional shape restrictions and schedule reconciliation remain."
+  },
+  {
+    "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Fiscal rule null, aggregate math proxy; no traced changed tax bill or school spending consumer."
+  },
+  {
+    "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Government receipts; fixed Oklahoma fiscal transfer and actual tax bases unresolved; no shopper receipt traced."
+  },
+  {
+    "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual governor shortfall choice and accounts; flagged common local rule is developer data, not verified power; no resident service consumer traced."
+  },
+  {
+    "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual contributions/accounts; provisional spread range, real plan obligations and individual benefit consumer unresolved."
+  },
+  {
+    "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual reserve/debt accounts; provisional spread range and actual legal floor unresolved; no individual service/payment consumer traced."
+  },
+  {
     "questionKey": "us-policy-positions:government-operations.independent-redistricting",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Aggregate turnout multiplier, not an actual state district-map producer. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Commission boundaries and competitive-district exposure need their own records; a full new map producer belongs on the morning list."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Aggregate turnout multiplier, not an actual state district-map producer. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Commission boundaries and competitive-district exposure need their own records; a full new map producer belongs on the morning list."
   },
   {
     "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Research-marked zero aggregate links; no identification check in this runtime. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Team 1 owns the separate voter-identification branch. Its producer is absent here; do not relabel inert turnout evidence as identification enforcement."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: voter-photo-identification-law.ts applyVoterIdentification, completePhotoIdentification, castIdentifiedBallot, cureIdentifiedBallot and identifiedBallotTallies. Terminal: Recorded appointment/card/ballot actions, with single-place unit-cost/service proxies and incomplete cure law.; [Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Research-marked zero aggregate links; no identification check in this runtime. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Team 1 owns the separate voter-identification branch. Its producer is absent here; do not relabel inert turnout evidence as identification enforcement."
   },
   {
     "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Aggregate multiplier; no per-person agency registration transaction is demonstrated. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Separate registration from actual voting, and research eligible-person exposure and the front-end/back-end distinction before wiring another effect."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Aggregate multiplier; no per-person agency registration transaction is demonstrated. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Separate registration from actual voting, and research eligible-person exposure and the front-end/back-end distinction before wiring another effect."
   },
   {
     "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Recorded service plus legal eligibility; fallback eight consecutive years per chamber is an authored estimate. No additional personal consequence is inferred beyond the named legal gate or record. Next: Read counts and grandfathering from the enacted terms; verify constitutional amendment routes before treating a statute as repeal of a constitutional limit."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Recorded service plus legal eligibility; fallback eight consecutive years per chamber is an authored estimate. No additional personal consequence is inferred beyond the named legal gate or record. Next: Read counts and grandfathering from the enacted terms; verify constitutional amendment routes before treating a statute as repeal of a constitutional limit."
   },
   {
     "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "No former-official lobbying enforcement consumer was found. No additional personal consequence is inferred beyond the named legal gate or record. Next: Research each covered body, official, period and exception. A missing lobbying-act producer is a new-feature boundary, not an invented enforcement rate."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: lobbying-cooling-off.ts:59 lobbyingBar; post-office-careers.ts ensureCapitalEmployers and reviewPostOfficeCareer. Terminal: Actual eligibility/job/payroll records, plus single-place employer capacity and unrelated-industry revenue proxies.; [Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): No former-official lobbying enforcement consumer was found. No additional personal consequence is inferred beyond the named legal gate or record. Next: Research each covered body, official, period and exception. A missing lobbying-act producer is a new-feature boundary, not an invented enforcement rate."
   },
   {
     "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "A recorded state answer gates local powers; unresolved power cells remain unresolved. No additional personal consequence is inferred beyond the named legal gate or record. Next: The blanket home-rule/Dillon distinction loses subject and locality exceptions. Team 9 should supply organic-act and enabling-law cells; coordinator owns shared authority wiring."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): A recorded state answer gates local powers; unresolved power cells remain unresolved. No additional personal consequence is inferred beyond the named legal gate or record. Next: The blanket home-rule/Dillon distinction loses subject and locality exceptions. Team 9 should supply organic-act and enabling-law cells; coordinator owns shared authority wiring."
+  },
+  {
+    "questionKey": "us-policy-positions:education.equalize-school-funding",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): Two counted numeric paths; spending unproduced. Aggregate outcomes; no person feels these yet. Money/world proof NOT RUN. Needs research. Verify reform costs and causal breadth; locate a spending reader before assigning attainment."
+  },
+  {
+    "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): Two aggregate paths, no recorded voucher recipient; no person feels these yet. Needs research. Verify voucher-user effects and statewide dilution; locate funding/enrollment readers."
+  },
+  {
+    "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): Named existing pay terms and transfers: three public teachers reached $2,240 per paycheck. Aggregate graduation has no person reader. No private teacher in that payment example. Direct range fixed in READY candidate; full effects need research. Exact tiers, contracts, missing medians, and authority remain gaps."
+  },
+  {
+    "questionKey": "us-policy-positions:education.universal-preschool",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): Two aggregate paths; employment unproduced. No parent fee, earnings, or program cost proved; no person feels these yet. Needs research. Locate childcare/enrollment/employment readers and verify quality-specific effects."
+  },
+  {
+    "questionKey": "us-policy-positions:education.freeze-public-tuition",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): One direct budget path; seeded budget/repeal arithmetic passed. No person feels a demonstrated individual student-charge change yet. Direct range fixed in READY candidate. Student terms and board/territory authority need research."
+  },
+  {
+    "questionKey": "us-policy-positions:education.state-curriculum-standards",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: public-budgets/curriculum-standards.ts:17 curriculumAdoptionSpending; public-budgets/month.ts books schools spending. Terminal: An enrollment-counted budget charge priced by a California appropriation proxy.; [Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): No counted numeric path or instruction reader. No person-level change demonstrated. Needs research. Locate an instruction consumer; do not invent attainment to remove an unwired finding."
+  },
+  {
+    "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual coverage/exposure readers; fixed mortality size, program law/financing and null medical-debt size unresolved."
+  },
+  {
+    "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual coverage reader uses expected role hours; worked/reporting records, exemptions and legal dates unresolved."
+  },
+  {
+    "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Aggregate SNAP participation; no traced individual benefit eligibility, denial or payment writer."
+  },
+  {
+    "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Aggregate violence; no traced call, responder, dispatch or treatment writer for this question."
+  },
+  {
+    "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Aggregate overdose and inert crime; no traced supply, uptake or patient-care writer for this question."
+  },
+  {
+    "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Aggregate homelessness; no traced available-unit, eligibility or individual placement writer."
   },
   {
     "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Defendant cash and case records feed the decision; importance scales and fallback bail amounts remain stand-ins. Person-level reader: justice/prosecution.ts reads pretrialLawAt; court-reasoning.ts records the defendant detention decision. Null aggregate detention is distinct from this legal reader. Next: Preserve no-money-bail release decisions without treating a null detention link as zero. Research detained-person exposure, deposits, refundable principal, fees and lost work separately."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Defendant cash and case records feed the decision; importance scales and fallback bail amounts remain stand-ins. Person-level reader: justice/prosecution.ts reads pretrialLawAt; court-reasoning.ts records the defendant detention decision. Null aggregate detention is distinct from this legal reader. Next: Preserve no-money-bail release decisions without treating a null detention link as zero. Research detained-person exposure, deposits, refundable principal, fees and lost work separately."
   },
   {
     "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Recorded offense/repeat history can force the jail option; this is not a researched statutory sentence duration. Person-level reader: justice/court-reasoning.ts, evaluateSentence, reaches a defendant through recorded case and sentencing decisions; it does not supply an offense-specific minimum duration. Next: Read offense-specific minimum duration and exceptions from legal terms. Team 1 owns federal sentence effects on its separate law branch."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Recorded offense/repeat history can force the jail option; this is not a researched statutory sentence duration. Person-level reader: justice/court-reasoning.ts, evaluateSentence, reaches a defendant through recorded case and sentencing decisions; it does not supply an offense-specific minimum duration. Next: Read offense-specific minimum duration and exceptions from legal terms. Team 1 owns federal sentence effects on its separate law branch."
   },
   {
     "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Aggregate crime multiplier; the studied board powers are not independent complaint/investigation records. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: Distinguish investigation/sanction boards from review-only boards. Complaint outcomes, discipline and trust require separate supported mechanisms; no new rate is authored here."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Aggregate crime multiplier; the studied board powers are not independent complaint/investigation records. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: Distinguish investigation/sanction boards from review-only boards. Complaint outcomes, discipline and trust require separate supported mechanisms; no new rate is authored here."
   },
   {
     "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Contested aggregate proxy from right-to-carry studies, not an actual permit decision. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: The study contrasts shall-issue and may-issue, not every permit/no-permit law. Keep the proxy limitation and request wider evidence before adding effects."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Contested aggregate proxy from right-to-carry studies, not an actual permit decision. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: The study contrasts shall-issue and may-issue, not every permit/no-permit law. Keep the proxy limitation and request wider evidence before adding effects."
   },
   {
     "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Age 17 versus 18 redirects adult charging; juvenile court itself is not played. Person-level reader: justice/juvenile-court.ts, adultCourtAgeAt, changes the adult charging boundary; no separate played juvenile-court outcome is established. Next: Research transfer exceptions and offense-specific jurisdiction. The existing budget path is distinct from juvenile proceedings and personal outcomes; do not infer either from its amount."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Age 17 versus 18 redirects adult charging; juvenile court itself is not played. Person-level reader: justice/juvenile-court.ts, adultCourtAgeAt, changes the adult charging boundary; no separate played juvenile-court outcome is established. Next: Research transfer exceptions and offense-specific jurisdiction. The existing budget path is distinct from juvenile proceedings and personal outcomes; do not infer either from its amount."
   },
   {
     "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Place-specific eligible-population adjustment; restored-person turnout 0.12\u20130.22 is a research assumption, not an individual vote roll. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Keep eligible-denominator changes separate from ballot counts. Current zero places mean no post-sentence population to restore, not universal proof of no individual consequences."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Place-specific eligible-population adjustment; restored-person turnout 0.12\u20130.22 is a research assumption, not an individual vote roll. No person feels this turnout/registration link yet: the inspected producer records a place average; no ballot or agency-registration reader was established for it. Next: Keep eligible-denominator changes separate from ballot counts. Current zero places mean no post-sentence population to restore, not universal proof of no individual consequences."
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Direct prices reach leases; fixed package size/timing and legal power unresolved; building multiplier has no traced construction producer."
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual lease renewal cap; fixed empirical market/supply/mobility sizes and jurisdiction/cap exemptions need research."
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Direct prices reach leases; fixed package size and provisional homelessness link; actual permitting writer and authority missing."
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual affordable lease terms; universal set-aside estimate and surviving restrictions/authority unverified."
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Direct prices reach leases; fixed size and provisional moderated homelessness; actual state override/vested-right rules unverified."
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual case lawyer; eligibility/capacity and empirical range unresolved. Host-first destination repair source-checked; Team2 proof pending."
+  },
+  {
+    "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Actual fund ownership, transfer restrictions and service contracts; physical service does not reverse instantly. Federal grants cross-link Team 1."
+  },
+  {
+    "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Actual operator fare-setting power, dedicated revenue and contracts; no refund transaction established."
+  },
+  {
+    "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): HARDWIRED `governing/public-program-transit.ts:recordPaidTransitProgramService`; Fifty-state profile excludes D.C./territories; federal Section 5311 match conditions are separate; automatic and sponsor repeal routes need actual records."
+  },
+  {
+    "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Actual fee/tax enactment power and billing; revenue-factor reversal does not prove driver liability or refund. Fixed estimate requires owner range fix."
+  },
+  {
+    "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; State restrictions, provider ownership and local charter; federal communications seam stays Team 1. Permission is not a network or subscription."
+  },
+  {
+    "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Actual asset/fund ownership, inspection and repair authority; repaired assets persist after repeal."
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "no owner row yet; no person-level reader established"
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "no owner row yet; no person-level reader established"
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "no owner row yet; no person-level reader established"
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Provisional aggregate high-cost borrowing; no loan/APR/payment writer; national-bank rate exportation limits coverage."
+  },
+  {
+    "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual compensation terms; missing bill terms use fixed central estimates; range and jurisdiction/repeal gaps remain."
+  },
+  {
+    "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Existing city-floor applicability gate; local powers and restoration/withdrawal need verification."
+  },
+  {
+    "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual premium and benefit writers; coverage/waiting terms and null participation size need research."
+  },
+  {
+    "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Inert graduation and contested cohort-earnings proxy; no bargaining decision. Separate public-sector law needed."
+  },
+  {
+    "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Aggregate turnout link; no traced individual union or voter decision. Primary NLRA state/territorial boundary does not grant local power."
+  },
+  {
+    "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; California retail-seller rule is read; other utility/regulator powers and federal seams remain distinct. Procurement and exposure persist independently of answer reversal."
+  },
+  {
+    "questionKey": "us-policy-positions:environment-energy.price-carbon",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Operative carbon statute was not admitted from the version selector; actual taxable activity, payer and federal limits remain open. Atmospheric effects do not unwind on repeal day."
+  },
+  {
+    "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; EPCA exceptions and Ninth Circuit Berkeley holding require actual rule/product analysis; exposure in existing homes is separate."
+  },
+  {
+    "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): HARDWIRED `crisis/disaster.ts:homeLevel` / `applyDamage`; Federal NFIP minimum permits stricter rules; actual local zoning grants/maps remain open. Avoided construction persists; seeded damage is not a permit decision."
+  },
+  {
+    "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Massachusetts duties/enforcers are read; referenced fund section is repealed. Current destination and local/preemption breadth remain open; Oregon retrieval failed. Returning an answer does not settle existing deposits."
+  },
+  {
+    "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; California GSA powers are read; allocation, well rights, county delegation and actual plans remain distinct. Kansas intervention source remains unverified; water conserved is not reversed."
+  },
+  {
+    "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Federal ACEP cost-share is separate from state/local acquisition authority; recorded permanent easements persist after repeal."
+  },
+  {
+    "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: public-land-access-law.ts nearbyPublicLandAcres, publicLandVisitorSales and publicLandManagementSpending; town-finances.ts reads visitor sales. Terminal: Estimated geography/visitor demand and business sales; incomplete county management and personal visit decisions.; [Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; No counted producer; federal forest ownership, closure orders and delegated authority are read, not overridden by county permission."
+  },
+  {
+    "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Existing hire formula uses fixed group-average gain; scope/range and separate held fairness-owner branch must be reconciled.; [Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): One direct mechanical hire-pay path, wage-floor bounded; no new worker money proof. Needs research. Verify law-specific applicability/range and federal employer coverage before changing the factor."
+  },
+  {
+    "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): Birth route examined in original audit used seeded actor outcomes; Team3 owns subsequent repair. Infant target unproduced. No new birth or care-cost proof here. Needs research and owner repair. Do not infer cutoff-aware exposure or Team3 runtime acceptance from the audit."
+  },
+  {
+    "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): One aggregate reading path; no librarian pay, library appropriation, or visit proved. No person feels these yet. Needs research. Preserve intervention/version distinctions and locate spending/service readers for every supported effect."
+  },
+  {
+    "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: library-materials-law.ts:57 fileLibraryChallenges and :121 resolveLibraryChallenges; local-council-meetings.ts invokes the resolver. Terminal: Recorded concern/ballot/collection/expense with authored title samples, council body and review-hour proxy.; [Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): No counted numeric path; nothing beyond an operative law answer demonstrated. Needs research. Correct zero-evidence interpretation through the assigned effects owner; hold missing board/collection systems."
+  },
+  {
+    "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 6](https://github.com/lamontaes/Political-Game-Git/blob/285acc34692ff0724c9cae04a9681ebbcba392fd/docs/codex/handbacks/team-6-law-traces.md): no person feels this yet; Inspected spending writer acts only for states; actual earmarking and local budgets remain separate. Fixed spending estimate requires owner range fix; budget is not a visitor decision."
+  },
+  {
+    "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "no owner row yet; no person-level reader established"
   },
   {
     "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Contested aggregate association, not a police evidence/recognition decision. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: Research privacy, identification error, policing exposure and board authority separately. None is established by the one crime link."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Contested aggregate association, not a police evidence/recognition decision. Downstream reader: crime/causes.ts, crimeRateMultiplier, reads the state violent-crime ratio through links into assault, robbery, burglary and vandalism. crime/producer.ts, sampleMonthlyCrime, then uses a seeded monthly draw against the adjusted rate to choose victims. Named victims can feel it, but the chain ends in dice rather than their recorded circumstances. The four intermediary sizes are fixed [0.01, 0.01] per relative-index point; that is an existing stand-in, not fresh research. Next: Research privacy, identification error, policing exposure and board authority separately. None is established by the one crime link."
+  },
+  {
+    "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "no owner row yet; no person-level reader established"
+  },
+  {
+    "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): federal-outlay-laws.ts:63 federalOutlayChangeAt and :90 federalAidFactor; public-budgets/month.ts reads the aid factor. Terminal: A fixed deal-derived aid factor and an aggregate borrowing-cost adjustment."
+  },
+  {
+    "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): federal-top-income-tax-law.ts:58 federalIncomeTaxUnderLaw; income-tax-withholding consumers read its schedule. Terminal: Actual payroll withholding, with a fixed historic proposed rate and tax-year simplification.; [Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual withholding and estimated treasury revenue; fixed static revenue estimate and real territorial/filing applicability unresolved."
+  },
+  {
+    "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): outcome-web/index.ts outcomeFactor produces finance.high-cost-loans. household-loans.ts openHouseholdLoan accepts a caller-supplied cap, but no policy reader connects this aggregate effect to the borrower. Terminal: A place-level high-cost-borrowing measure. The generic loan cap helper is not proof that this policy reaches people.; [Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Provisional moderated aggregate high-cost borrowing; no loan contract writer; actual bill scope and exemptions unverified."
+  },
+  {
+    "questionKey": "us-federal-positions:defense.grow-defense-spending",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): federal-defense-spending.ts defenseBuildUpShare and defenseBoostPct; outcome-web/index.ts reads federal.defense-boost-pct. Terminal: Researched regional output evidence adapted into aggregate earnings; no named contract award proved."
+  },
+  {
+    "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): federal-outlay-laws.ts federalOutlayChangeAt and federalDeficitChangePctOfGdp. Terminal: A fixed historical budget increment and an aggregate interest-rate mechanism."
+  },
+  {
+    "questionKey": "us-federal-positions:trade.raise-tariffs",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): outcome-web/index.ts outcomeFactor and household.prices place-outcome readers. Terminal: A place-level price factor from a particular tariff episode."
+  },
+  {
+    "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: immigration-admissions-law.ts:51 applyImmigrationAdmissions; public-budgets/index.ts calls it. Terminal: Actual added household records, with authored admission/default location and metro rent adaptation."
+  },
+  {
+    "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): outcome-web/index.ts outcomeFactor for health.drug-out-of-pocket. Terminal: A provisional aggregate price adjustment, not a named enrollee\u2019s bill.; [Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Projected aggregate out-of-pocket proxy; no selected-drug claim or patient payment writer; agreements/coverage need legal research."
+  },
+  {
+    "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): outcome-web/index.ts outcomeFactor for older employment and poverty. Terminal: Aggregate employment/poverty factors instead of recorded retirement and benefit decisions.; [Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Aggregate older employment and poverty; no traced entitlement, claim or benefit payment writer."
+  },
+  {
+    "questionKey": "us-federal-positions:education.forgive-student-loans",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: student-debt-relief-law.ts:142 applyStudentDebtRelief and :191 studentDebtReliefOutlay; household-loans.ts and legislation.ts call it. Terminal: Canonical debt-relief records, plus authored financing/eligibility proposals; calibration never assigns defaults."
+  },
+  {
+    "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): minimum-wage.ts federalMinimumSchedule, federalMinimumHourlyMinorAt and minimumWageSettingAt; payroll readers consume the highest applicable floor. Terminal: Direct wage floor plus a place-level poverty factor; several reactions remain missing or unset.; [Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual compensation floor; authored proposed term, unquantified jobs effect and excluded/territorial coverage gaps."
+  },
+  {
+    "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): outcome-web/index.ts outcomeFactor for housing.homelessness. Terminal: An aggregate homelessness factor with no named voucher payment/move shown here.; [Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Aggregate homelessness with inert schooling/crime; no actual voucher, available unit or household benefit writer."
+  },
+  {
+    "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): federal-passenger-rail.ts:45 railExpansionPct; outcome-web/index.ts reads federal.rail-expansion-pct. Terminal: A projected aggregate ridership path with a forecast-error range."
+  },
+  {
+    "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): outcome-web/index.ts outcomeFactor for fine particles; emissions link remains unset. Terminal: A provisional aggregate co-pollutant factor; the headline carbon mechanism is unset."
+  },
+  {
+    "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): federal-farm-subsidy-law.ts:36 farmPaymentsCutAt and :60 farmPaymentsCutPctOfLandValue. Terminal: Aggregate land-value capitalization with a fixed payment-cut default."
+  },
+  {
+    "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: governing/disaster-cost-sharing.ts:29 fundDeclaredDisasterRepair; crisis/disaster.ts consumes funded physical units; monthly books read :104 disasterRepairExpenseDollars. Terminal: Actual funded unit/expense records, priced by an explicitly provisional project-equivalent."
+  },
+  {
+    "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: justice/federal-mandatory-minimums.ts:39 federalMinimumMonths and :92 reviewFederalMinimumSentences; prosecution.ts and court-reasoning.ts read the minima. Terminal: Actual minimum/review records for a narrow offense model; broader sentencing effects are absent."
+  },
+  {
+    "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): HELD ONLY: congress-stock-trading-law.ts:390 applyCongressStockBan and :508 scheduleCongressStockDeadline; enactment schedules the filed deadline. Terminal: Recorded compliance/money with a hard decision boundary and authored portfolio initialization."
+  },
+  {
+    "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): federal-data-privacy-law.ts:43 dataPrivacyCostOn; town-finances.ts business cost reader. Terminal: A business-cost proxy from European evidence; privacy behavior remains unproved.; [Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Assigned caller now draws stably by world/town inside inherited range; actual business books enact/repeal fixture passes. Core legal module unchanged; no worker outcome traced; US transfer/coverage research remains."
+  },
+  {
+    "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 1](https://github.com/lamontaes/Political-Game-Git/blob/0d64e106a5c49645bc6904952c514e30d5919b96/docs/codex/handbacks/team-1-law-traces.json): governing/statehood-admission.ts statehoodAdmittedOn; living-world/statehood-seats.ts congressSeatsIn; public-budgets/statehood-funds.ts. Terminal: Authored admission/election timing, seat assignment and fiscal changes; no actual admission-election decisions proved."
+  },
+  {
+    "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Actual compensation terms; universal premium and missing ordinance terms; local preemption needs legal verification."
+  },
+  {
+    "questionKey": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 3](https://github.com/lamontaes/Political-Game-Git/blob/b2a22dfdba4a58a3b8390edae691e4d45b165628/docs/codex/handbacks/team-3-law-table-input.json): Existing hire formula; county/city catalog levels are not verified legal coverage. Fixed group-average size and actual local protection rules unresolved.; [Team 5](https://github.com/lamontaes/Political-Game-Git/blob/d1b1e1543e35b7b8de2558ba9edc731f657a7784/docs/codex/handbacks/team-5-law-table-7am.md): Same mechanical hire-pay path; no new local worker payment proof. Needs research. Reconcile exact consumer hunks and real county/city/township authority."
   },
   {
     "questionKey": "us-policy-positions:government-operations.council-term-limits",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "Recorded council service; two consecutive terms and a 31-day break are stand-ins. No additional personal consequence is inferred beyond the named legal gate or record. Next: Consume the local charter terms and amendment authority instead of one modal limit. Do not treat repeal as permission to override a state constitutional ceiling."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): Recorded council service; two consecutive terms and a 31-day break are stand-ins. No additional personal consequence is inferred beyond the named legal gate or record. Next: Consume the local charter terms and amendment authority instead of one modal limit. Do not treat repeal as permission to override a state constitutional ceiling."
   },
   {
     "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
-    "sourceHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
-    "sourcePath": "docs/codex/handbacks/team-2-law-table.md",
-    "trace": "A recorded map can pair incumbents; home/ward eligibility is read from records. No additional personal consequence is inferred beyond the named legal gate or record. Next: Verify each charter and commission procedure. The independent state redistricting turnout proxy is not evidence for every local ward map."
+    "sourceHead": "9475433160639ba2695716d57aad7def01e277f9",
+    "sourcePath": "docs/codex/law-table-7am.md",
+    "trace": "[Team 2](https://github.com/lamontaes/Political-Game-Git/blob/0494e6c8845a49ee191111fb83e2b97910d5cb24/docs/codex/handbacks/team-2-law-table.md): A recorded map can pair incumbents; home/ward eligibility is read from records. No additional personal consequence is inferred beyond the named legal gate or record. Next: Verify each charter and commission procedure. The independent state redistricting turnout proxy is not evidence for every local ward map."
   }
 ]

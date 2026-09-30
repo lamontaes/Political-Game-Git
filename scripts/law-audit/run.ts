@@ -1,11 +1,13 @@
 /** Twelve months means twelve 30-day observer steps, not a claimed 365-day year. */
 import { execFileSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { appendFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { performance } from "node:perf_hooks";
 import { openWatchedWorld } from "../dev-lab/world-aging";
 import { advanceObservedWorld } from "../../src/presentation/observer-world";
+import { serializeWorldPayload } from "../../src/simulation/serialization";
+import { proseDate } from "../../src/presentation/prose-dates";
 import { auditWorld, summarize, type AuditRow } from "./audit";
 function option(name: string, fallback?: string): string | undefined {
   const at = process.argv.indexOf(`--${name}`);
@@ -98,6 +100,30 @@ export async function main() {
     );
     console.log(JSON.stringify(checkpoint));
   }
+  const keep = option("keep");
+  if (keep) {
+    mkdirSync(dirname(keep), { recursive: true });
+    const payload = serializeWorldPayload(world);
+    const chunks = typeof payload === "string" ? [payload] : payload;
+    writeFileSync(keep, chunks[0]!);
+    for (const chunk of chunks.slice(1)) appendFileSync(keep, chunk);
+    writeFileSync(
+      `${keep}.meta.json`,
+      JSON.stringify(
+        {
+          head,
+          dirty,
+          seed,
+          place,
+          openingDate: opening.currentDate,
+          historySequenceAtOpening: opening.history.nextSequence,
+          currentDate: world.currentDate,
+        },
+        null,
+        2,
+      ),
+    );
+  }
   const rows = auditWorld(opening, world);
   const counts = summarize(rows);
   const congress = (world.history.legislativeMeasures ?? []).filter(
@@ -131,7 +157,7 @@ export async function main() {
   writeFileSync(`${output}.json`, JSON.stringify(receipt, null, 2));
   writeFileSync(
     `${output}.md`,
-    `# What passed laws changed in ${watched.placeName}\n\nThe watched run audited ${counts.lawsAudited} enacted laws. ${counts.effectsFiring} effect rows have attributable records; ${counts.effectsMissing} lack proof or have a recorded limit. Research identifies ${counts.effectsAboutZero} about-zero effect rows. These counts do not establish complete coverage of every supported consequence.\n\n## Why-chain\n\nEnactment supplies answers. Current-law readers resolve jurisdiction, rank and dates. The audit follows saved effect records and keeps missing attribution separate from no effect. The terminal for an unproven row is an absent record or an unmeasured reader.\n\n## Research\n\nThe JSON includes each outcome link's source, size, range, delay and status, plus exact pinned trace references. No new sizes or legal power are inferred.\n\n## Revisions\n\nPlain yes/no laws can activate readers. Typed provisions are not required by this audit. Repeated starting answers are labeled without suppressing observed effects.\n\n## Numbered parts\n\n1. Reusable seed/place/month runner.\n2. One row for each registered law effect, including unsized and inert links.\n3. Explicit evidence gaps for readers without attributable records.\n\n## Simulated, records, world pieces, checks\n\nThe normal observer advances in 30-day steps. Canonical records supply evidence. Missing reader coverage remains a world or audit gap. Counts are observed records, not inferred outcomes.\n\n${table(rows)}\n\n## Proof run\n\nSource ${head}; dirty paths: ${dirty || "none"}. Seed ${seed}; place ${place}. Completed ${completedMonths} of ${months} steps from ${opening.currentDate} through ${world.currentDate}. Problem: ${problem ?? "none"}. No save/reopen or speed acceptance is claimed.\n\nCounts per reason: ${JSON.stringify(counts.reasons)}. Congress introductions: ${congress.length}; monthly classification remains pending.\n\n## Worked example\n\nNamed records and before/after values are in each row and the JSON. A missing example remains missing. A place multiplier alone does not prove a person's consequence.\n`,
+    `# What passed laws changed in ${watched.placeName}\n\nThe watched run audited ${counts.lawsAudited} enacted laws. ${counts.effectsFiring} effect rows have attributable records; ${counts.effectsMissing} lack proof or have a recorded limit. Research identifies ${counts.effectsAboutZero} about-zero effect rows. These counts do not establish complete coverage of every supported consequence.\n\n## Why-chain\n\nEnactment supplies answers. Current-law readers resolve jurisdiction, rank and dates. The audit follows saved effect records and keeps missing attribution separate from no effect. The terminal for an unproven row is an absent record or an unmeasured reader.\n\n## Research\n\nThe JSON includes each outcome link's source, size, range, delay and status, plus exact pinned trace references. No new sizes or legal power are inferred.\n\n## Revisions\n\nPlain yes/no laws can activate readers. Typed provisions are not required by this audit. Repeated starting answers are labeled without suppressing observed effects.\n\n## Numbered parts\n\n1. Reusable seed/place/month runner.\n2. One row for each registered law effect, including unsized and inert links.\n3. Explicit evidence gaps for readers without attributable records.\n\n## Simulated, records, world pieces, checks\n\nThe normal observer advances in 30-day steps. Canonical records supply evidence. Missing reader coverage remains a world or audit gap. Counts are observed records, not inferred outcomes.\n\n${table(rows)}\n\n## Proof run\n\nSource ${head}; dirty paths: ${dirty || "none"}. Seed ${seed}; place ${place}. Completed ${completedMonths} of ${months} steps from ${proseDate(opening.currentDate)} through ${proseDate(world.currentDate)}. Problem: ${problem ?? "none"}. No save/reopen or speed acceptance is claimed.\n\nCounts per reason: ${JSON.stringify(counts.reasons)}. Congress introductions: ${congress.length}; monthly classification remains pending.\n\n## Worked example\n\nNamed records and before/after values are in each row and the JSON. A missing example remains missing. A place multiplier alone does not prove a person's consequence.\n`,
   );
   console.log(
     JSON.stringify({
