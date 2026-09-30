@@ -295,7 +295,7 @@ export function townEmployerRoles(
         ? Math.max(
             1,
             Math.round(
-              townRoster(town).population *
+              townRoster(town, world).population *
                 JOB_TURNOVER.localGovernmentStaffPerResident,
             ),
           )

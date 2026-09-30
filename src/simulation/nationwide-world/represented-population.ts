@@ -4,13 +4,14 @@ import {
   TERRITORY_POPULATION_ROWS,
   PLACE_DEMOGRAPHIC_COLUMNS,
   PLACE_DEMOGRAPHIC_ROWS,
+  STATE_POPULATION_KEYS,
 } from "./place-demographics.generated";
 import {
   activeWorkRelationshipsAt,
   householdMembershipsAt,
 } from "../life-queries";
 import { SeededRng } from "../rng";
-import { lifePlaceByJurisdictionId } from "../life-places";
+import { lifePlaceByJurisdictionId, lifePlaceByKey, type LifePlace } from "../life-places";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,
@@ -20,13 +21,22 @@ import { recordWorldEvent } from "../world";
 import type { EntityId, World } from "../types";
 
 export type DemographicField = (typeof PLACE_DEMOGRAPHIC_COLUMNS)[number];
+export function populationKeyForPlace(place: LifePlace): string {
+  return place.sourceGeoid ?? (place.scope === "state" && place.stateJurisdictionKey
+    ? STATE_POPULATION_KEYS[place.stateJurisdictionKey.replace(/^US-/, "")] ?? place.key : place.key);
+}
 export interface CensusDemographics {
   readonly geoid: string;
   readonly vintage: number;
   readonly counts: Readonly<Record<DemographicField, number | null>>;
 }
+export interface GeneratedCensusDemographics extends Omit<CensusDemographics, "counts"> {
+  readonly counts: Readonly<Record<DemographicField, number>>;
+  readonly basis: "estimated-from-comparable-distributions";
+}
 let demographics: ReadonlyMap<string, CensusDemographics> | null = null;
-export function censusDemographics(geoid: string): CensusDemographics | null {
+/** Locked source observations. Missing cells remain missing at this boundary. */
+export function censusDemographicObservation(geoid: string): CensusDemographics | null {
   if (!demographics) {
     const map = new Map<string, CensusDemographics>();
     for (const row of PLACE_DEMOGRAPHIC_ROWS.split(";")) {
@@ -68,6 +78,7 @@ export interface PopulationReference {
     | "island-census-2020"
     | "decennial-census-2020"
     | "researched-calibration-anchor"
+    | "researched-comparable-distribution"
     | "unknown";
   readonly vintage: number;
   readonly estimatedFields: readonly string[];
@@ -92,7 +103,7 @@ const REFERENCES = new Map<string, PopulationReference>();
 export function referencePopulationIsEmpty(key: string): boolean {
   const annual = annualCounts().get(key);
   if (annual) return annual.at(-1) === 0;
-  const survey = censusDemographics(key)?.counts.population;
+  const survey = censusDemographicObservation(key)?.counts.population;
   const enumerated = decennialPopulation(key)?.[0];
   return survey === 0 && enumerated === 0;
 }
@@ -103,7 +114,7 @@ export function populationReference(key: string): PopulationReference {
   const cached = REFERENCES.get(key);
   if (cached) return cached;
   const island = TERRITORY_POPULATION_ROWS.find((row) => row.key === key);
-  const row = censusDemographics(key);
+  const row = censusDemographicObservation(key);
   const islandCounts = island?.demographicCounts as
     | Readonly<Partial<Record<DemographicField | "adults", number | null>>>
     | null
@@ -229,11 +240,19 @@ export function populationReference(key: string): PopulationReference {
   return reference;
 }
 
-export interface RepresentedPopulation extends PopulationReference {
-  readonly referencePopulation: number | null;
+export interface GeneratedPopulationReference extends Omit<PopulationReference, "population" | "households" | "laborForce" | "employed" | "adults" | "householdsByKind"> {
+  readonly population: number;
+  readonly households: number;
+  readonly laborForce: number;
+  readonly employed: number;
+  readonly adults: number;
+  readonly householdsByKind: Readonly<Record<string, number>>;
+}
+export interface RepresentedPopulation extends GeneratedPopulationReference {
+  readonly referencePopulation: number;
   readonly writtenResidents: number;
   readonly writtenHouseholds: number;
-  readonly unemploymentRate: number | null;
+  readonly unemploymentRate: number;
 }
 const SNAPSHOTS = new WeakMap<World, Map<EntityId, RepresentedPopulation>>();
 function quantile(values: readonly number[], fraction: number): number {
@@ -254,92 +273,97 @@ function observedChanges(key: string): number[] {
       .flatMap((value, index) =>
         history[index]! > 0 ? [value / history[index]! - 1] : [],
       );
-  const counts = censusDemographics(key)?.counts;
+  const counts = censusDemographicObservation(key)?.counts;
   return counts?.population && counts.population2023
     ? [counts.population / counts.population2023 - 1]
     : [];
 }
 const PEER_GROUPS = new Map<string, readonly CensusDemographics[]>();
+const DISTRIBUTIONS = new WeakMap<readonly CensusDemographics[], Map<DemographicField, readonly number[]>>();
+const GROWTH_DISTRIBUTIONS = new WeakMap<readonly CensusDemographics[], readonly number[]>();
+function fieldDistribution(peers: readonly CensusDemographics[], field: DemographicField): readonly number[] {
+  let fields = DISTRIBUTIONS.get(peers);
+  if (!fields) { fields = new Map(); DISTRIBUTIONS.set(peers, fields); }
+  let values = fields.get(field);
+  if (!values) {
+    values = peers.flatMap(peer => peer.counts[field] !== null && peer.counts.population! > 0
+      ? [peer.counts[field]! / peer.counts.population!] : []).sort((a, b) => a - b);
+    fields.set(field, values);
+  }
+  return values;
+}
 /** All national rows of the same geographic type and population order of
  * magnitude contribute; no selected city supplies another state's pattern. */
 function comparableDemographics(
   key: string,
   population: number | null,
 ): readonly CensusDemographics[] {
-  censusDemographics(key); // initialize the complete locked national selection
+  censusDemographicObservation(key); // initialize the complete locked national selection
   const length = /^\d+$/.test(key) ? key.length : 7;
-  const size = Math.floor(Math.log10(Math.max(1, population ?? 1)));
+  const size = population === null ? "all" : Math.floor(Math.log10(Math.max(1, population)));
   const cacheKey = `${length}:${size}`;
   const cached = PEER_GROUPS.get(cacheKey);
   if (cached) return cached;
   const sameType = [...demographics!.values()].filter(
     (row) => row.geoid.length === length && (row.counts.population ?? 0) > 0,
   );
-  const comparable = sameType.filter(
+  const comparable = population === null ? sameType : sameType.filter(
     (row) => Math.floor(Math.log10(row.counts.population!)) === size,
   );
-  const peers = comparable.length ? comparable : sameType;
+  const peers = comparable.length > 1 ? comparable : sameType;
   PEER_GROUPS.set(cacheKey, peers);
   return peers;
 }
 
 interface OpeningPopulation {
-  readonly reference: PopulationReference;
+  readonly reference: GeneratedPopulationReference;
   readonly annualChange: number | null;
   readonly writtenAt?: string;
   readonly writtenResidents?: readonly EntityId[];
   readonly writtenEmployed?: readonly EntityId[];
+  readonly demographics?: Readonly<Record<DemographicField, number>>;
 }
 const layerKey = (town: EntityId) =>
   `represented-population-v1:${town}:opening`;
-function openingPopulation(world: World, town: EntityId): OpeningPopulation {
-  const recorded = recordByStableKey(world.history.events, layerKey(town));
-  if (recorded?.context.socialContext)
-    return JSON.parse(recorded.context.socialContext) as OpeningPopulation;
-  const place = lifePlaceByJurisdictionId(town);
-  if (!place) throw new Error(`No place identity for ${town}`);
-  const reference = populationReference(place.sourceGeoid ?? place.key);
+function generateOpening(seed: string, key: string): OpeningPopulation {
+  const reference = populationReference(key);
   const peers = comparableDemographics(
-    place.sourceGeoid ?? place.key,
+    key,
     reference.population,
   );
-  const rng = new SeededRng(world.seed).fork(`population-opening:${place.key}`);
-  const growth = peers
-    .flatMap((peer) => observedChanges(peer.geoid))
-    .sort((a, b) => a - b);
+  const rng = new SeededRng(seed).fork(`population-opening:${key}`);
+  let growth = GROWTH_DISTRIBUTIONS.get(peers);
+  if (!growth) {
+    growth = peers.flatMap(peer => observedChanges(peer.geoid)).sort((a, b) => a - b);
+    GROWTH_DISTRIBUTIONS.set(peers, growth);
+  }
   const localGrowth = reference.annualChanges;
   const center = quantile(localGrowth.length ? localGrowth : growth, 0.5);
   const annualChange = growth.length
     ? center + quantile(growth, 0.25 + rng.next() * 0.5) - quantile(growth, 0.5)
     : localGrowth.length
       ? quantile(localGrowth, rng.next())
-      : null;
+      : (() => { throw new Error(`No researched annual changes for ${key}`); })();
+  const populationAnchor = reference.population ?? quantile(
+    peers.map(peer => peer.counts.population!).sort((a, b) => a - b), 0.5,
+  );
   const population =
-    reference.population === null
-      ? null
-      : Math.max(
-          0,
-          Math.round(reference.population * (1 + (annualChange ?? 0) - center)),
-        );
+    referencePopulationIsEmpty(key) ? 0 : Math.max(
+      1, Math.round(populationAnchor * (1 + annualChange - center)),
+    );
   const estimatedFields = new Set(reference.estimatedFields);
   if (population !== null) estimatedFields.add("population");
   if (annualChange !== null) estimatedFields.add("annualChange");
   const sample = (
     field: DemographicField,
     anchor: number | null,
-  ): number | null => {
-    if (population === null) return null;
+  ): number => {
     if (population === 0) return 0;
-    const ratios = peers
-      .flatMap((peer) => {
-        const value = peer.counts[field],
-          total = peer.counts.population;
-        return value !== null && total !== null && total > 0
-          ? [value / total]
-          : [];
-      })
-      .sort((a, b) => a - b);
-    if (!ratios.length) return anchor;
+    let ratios = fieldDistribution(peers, field);
+    // A sparse cohort may have no usable cell for one field. Widen within
+    // the same geographic kind, then across the national source selection.
+    if (!ratios.length) ratios = fieldDistribution(comparableDemographics(key, null), field);
+    if (!ratios.length) throw new Error(`No researched ${field} distribution for ${key}`);
     const median = quantile(ratios, 0.5);
     const draw = quantile(ratios, 0.25 + rng.next() * 0.5);
     estimatedFields.add(field);
@@ -383,26 +407,125 @@ function openingPopulation(world: World, town: EntityId): OpeningPopulation {
       remaining -= kinds[field]!;
     });
   }
+  const raw = censusDemographicObservation(key)?.counts;
+  const island = TERRITORY_POPULATION_ROWS.find(row => row.key === key);
+  const islandCounts = island?.demographicCounts as Readonly<Partial<Record<DemographicField, number | null>>> | null | undefined;
+  const sourceCounts = raw?.population ? raw : islandCounts;
+  const sourceTotal = sourceCounts?.population;
+  const demographicRng = new SeededRng(seed).fork(`population-demographics:${key}`);
+  const values = Object.fromEntries(PLACE_DEMOGRAPHIC_COLUMNS.map(field => {
+    if (field === "population") return [field, population];
+    if (field === "population2023") return [field, Math.round(population / (1 + annualChange))];
+    const ratios = fieldDistribution(peers, field);
+    const distribution = ratios.length ? ratios : fieldDistribution(comparableDemographics(key, null), field);
+    if (!distribution.length) throw new Error(`No researched ${field} distribution for ${key}`);
+    const median = quantile(distribution, 0.5);
+    const draw = quantile(distribution, 0.25 + demographicRng.fork(field).next() * 0.5);
+    const local = sourceCounts?.[field];
+    const ratio = local !== null && local !== undefined && sourceTotal
+      ? (local / sourceTotal) * (median > 0 ? draw / median : 1) : draw;
+    return [field, Math.max(0, Math.min(population, population * ratio))];
+  })) as Record<DemographicField, number>;
+  values.households = households;
+  values.under18 = under18;
+  values.age16plus = Math.round(values.age16plus);
+  values.laborForce = Math.min(laborForce, values.age16plus);
+  values.employed = Math.min(values.laborForce, employed);
+  values.unemployed = values.laborForce - values.employed;
+  if (totalKinds > 0) for (const [field, value] of Object.entries(kinds)) values[field as DemographicField] = value;
+  const reconcile = (fields: readonly DemographicField[], total: number) => {
+    // An all-zero category block with a positive universe cannot allocate
+    // that universe. Retain the raw cells and fill this game projection from
+    // the wider kind distribution, rather than inventing a category count.
+    if (total > 0 && fields.every(field => values[field] === 0)) {
+      for (const field of fields) values[field] = quantile(fieldDistribution(comparableDemographics(key, null), field), 0.5);
+    }
+    reconcileCounts(values, fields, total);
+  };
+  reconcile(Object.keys(kinds) as DemographicField[], households);
+  reconcile(["age18to24", "age25to44", "age45to61", "age62plus"], population - under18);
+  reconcile(["white", "black", "americanIndian", "asian", "pacificIslander", "otherRace", "multipleRaces"], population);
+  reconcile(["owners", "renters"], households);
+  values.englishOnly = Math.min(values.englishOnly, values.languageTotal);
+  for (const field of PLACE_DEMOGRAPHIC_COLUMNS) values[field] = Math.round(values[field]);
+  for (const field of PLACE_DEMOGRAPHIC_COLUMNS) estimatedFields.add(field);
   return {
     reference: {
       ...reference,
       population,
       households,
-      laborForce,
-      employed:
-        laborForce !== null && employed !== null
-          ? Math.min(laborForce, employed)
-          : employed,
-      adults:
-        population !== null && under18 !== null ? population - under18 : null,
-      householdsByKind: kinds,
+      laborForce: values.laborForce,
+      employed: values.employed,
+      adults: population - under18,
+      householdsByKind: Object.fromEntries(Object.keys(kinds).map(field => [field, values[field as DemographicField]])),
       estimatedFields: [...estimatedFields],
-      unknownFields: reference.unknownFields.filter(
-        (field) => !estimatedFields.has(field),
-      ),
+      unknownFields: [],
+      source: reference.source === "unknown" ? "researched-comparable-distribution" : reference.source,
     },
     annualChange,
+    demographics: values,
   };
+}
+
+/** Reconcile mutually exclusive categories without manufacturing extra people. */
+function reconcileCounts(counts: Record<DemographicField, number>, fields: readonly DemographicField[], total: number): void {
+  const sum = fields.reduce((value, field) => value + counts[field], 0);
+  if (!sum && total) throw new Error(`No researched category allocation for ${fields.join(",")}`);
+  let remaining = total;
+  fields.forEach((field, index) => {
+    counts[field] = index === fields.length - 1 ? remaining : Math.min(remaining, Math.round(total * counts[field] / (sum || 1)));
+    remaining -= counts[field];
+  });
+}
+
+function openingPopulation(world: World, town: EntityId): OpeningPopulation {
+  const place = lifePlaceByJurisdictionId(town);
+  if (!place) throw new Error(`No place identity for ${town}`);
+  const key = populationKeyForPlace(place);
+  const recorded = recordByStableKey(world.history.events, layerKey(town));
+  if (!recorded?.context.socialContext) return generateOpening(world.seed, key);
+  const saved = JSON.parse(recorded.context.socialContext) as OpeningPopulation;
+  // Established saves retain every recorded value. Missing legacy cells are
+  // completed in a read projection; neither history nor IDs are rewritten.
+  if (saved.demographics && saved.reference.unknownFields.length === 0) return saved;
+  const generated = generateOpening(world.seed, key);
+  return { ...generated, ...saved, annualChange: saved.annualChange ?? generated.annualChange,
+    reference: { ...generated.reference, ...saved.reference,
+      population: saved.reference.population ?? generated.reference.population,
+      households: saved.reference.households ?? generated.reference.households,
+      laborForce: saved.reference.laborForce ?? generated.reference.laborForce,
+      employed: saved.reference.employed ?? generated.reference.employed,
+      adults: saved.reference.adults ?? generated.reference.adults,
+      householdsByKind: Object.fromEntries(Object.entries(generated.reference.householdsByKind).map(([field, count]) => [field, saved.reference.householdsByKind[field] ?? count])),
+      unknownFields: [],
+      source: saved.reference.source === "unknown" ? generated.reference.source : saved.reference.source,
+      estimatedFields: [...new Set([...saved.reference.estimatedFields, ...generated.reference.estimatedFields])],
+    }, demographics: saved.demographics ?? generated.demographics,
+  };
+}
+
+/** Game reader. Raw Census cells live in censusDemographicObservation; this
+ * projection fills every cell from researched comparable distributions. */
+export function censusDemographics(key: string, world?: World): GeneratedCensusDemographics {
+  const place = world ? lifePlaceByKey(key) ?? lifePlaceByKey(`county:${key}`) : null;
+  const generated = world && place ? openingPopulation(world, place.context.jurisdiction.id) : generateOpening(world?.seed ?? `population-reference:${key}`, key);
+  if (!world || !place) return { geoid: key, vintage: populationReference(key).vintage, counts: generated.demographics!, basis: "estimated-from-comparable-distributions" };
+  const live = representedPopulation(world, place.context.jurisdiction.id);
+  const ratio = generated.reference.population ? live.population / generated.reference.population : 0;
+  const counts = Object.fromEntries(Object.entries(generated.demographics!).map(([field, value]) => [field, Math.round(value * ratio)])) as Record<DemographicField, number>;
+  counts.population = live.population;
+  counts.households = live.households;
+  counts.under18 = live.population - Math.min(live.population, live.adults);
+  counts.laborForce = live.laborForce;
+  counts.employed = live.employed;
+  counts.unemployed = live.laborForce - live.employed;
+  const kinds = Object.keys(live.householdsByKind) as DemographicField[];
+  for (const field of kinds) counts[field] = live.householdsByKind[field]!;
+  reconcileCounts(counts, kinds, live.households);
+  reconcileCounts(counts, ["age18to24", "age25to44", "age45to61", "age62plus"], live.population - counts.under18);
+  reconcileCounts(counts, ["white", "black", "americanIndian", "asian", "pacificIslander", "otherRace", "multipleRaces"], live.population);
+  reconcileCounts(counts, ["owners", "renters"], live.households);
+  return { geoid: key, vintage: generated.reference.vintage, counts, basis: "estimated-from-comparable-distributions" };
 }
 /** Save the compact population layer through the existing history writer.
  * Changing a source vintage cannot change an established save's opening. */
@@ -476,11 +599,12 @@ export function representedPopulation(
   const years =
     (Date.parse(world.currentDate) - Date.parse(world.startedAt)) /
     (365.25 * 86400000);
-  // Missing local growth observations disable projection; they are not a zero growth fact.
+  // The opening already contains its per-world spread. Apply only elapsed
+  // years here, so reading day one does not apply another annual change.
   const scale =
     annualChange === null
       ? 1
-      : (1 + annualChange) * Math.pow(1 + annualChange, years);
+      : Math.pow(1 + annualChange, years);
   const dead = new Set(
     world.history.personDeaths
       .filter((row) => row.diedAt <= world.currentDate)
@@ -508,15 +632,9 @@ export function representedPopulation(
       macroScopeForJurisdiction(town),
       world.startedAt,
     ) ?? macroConditionsAt(world, "national", world.startedAt);
-  const baseRate =
-    reference.laborForce !== null && reference.employed !== null
-      ? (100 * (reference.laborForce - reference.employed)) /
-        Math.max(1, reference.laborForce)
-      : null;
+  const baseRate = (100 * (reference.laborForce - reference.employed)) / Math.max(1, reference.laborForce);
   const rate =
-    baseRate === null
-      ? null
-      : Math.max(
+    Math.max(
           0,
           Math.min(
             100,
@@ -525,10 +643,7 @@ export function representedPopulation(
               (opening?.unemploymentPct ?? baseRate),
           ),
         );
-  const laborForce =
-    reference.laborForce === null
-      ? null
-      : Math.round(reference.laborForce * scale);
+  const laborForce = Math.round(reference.laborForce * scale);
   const known = new Set(layer.writtenResidents ?? []);
   const activeKnown = (layer.writtenResidents ?? []).filter((id) =>
     residentIds.has(id),
@@ -554,10 +669,7 @@ export function representedPopulation(
   const employmentResidual = layer.writtenEmployed
     ? knownEmployed - layer.writtenEmployed.length * yearsGrowth
     : 0;
-  const employed =
-    laborForce === null || rate === null
-      ? null
-      : Math.max(
+  const employed = Math.max(
           0,
           Math.min(
             laborForce,
@@ -571,34 +683,24 @@ export function representedPopulation(
     : 0;
   const snapshot: RepresentedPopulation = {
     ...reference,
-    referencePopulation: reference.population,
-    population:
-      reference.population === null
-        ? null
-        : Math.max(
+    referencePopulation: populationReference(populationKeyForPlace(place)).population ?? reference.population,
+    population: Math.max(
             residents.length,
             Math.round(reference.population * scale + populationResidual),
           ),
-    households:
-      reference.households === null
-        ? null
-        : Math.max(households.size, Math.round(reference.households * scale)),
-    adults:
-      reference.adults === null ? null : Math.round(reference.adults * scale),
+    households: Math.max(households.size, Math.round(reference.households * scale)),
+    adults: Math.round(reference.adults * scale),
     laborForce,
     employed,
     householdsByKind: Object.fromEntries(
       Object.entries(reference.householdsByKind).map(([kind, count]) => [
         kind,
-        count === null ? null : Math.round(count * scale),
+        Math.round(count * scale),
       ]),
     ),
     writtenResidents: residents.length,
     writtenHouseholds: households.size,
-    unemploymentRate:
-      laborForce === null || employed === null
-        ? null
-        : (100 * (laborForce - employed)) / Math.max(1, laborForce),
+    unemploymentRate: (100 * (laborForce - employed)) / Math.max(1, laborForce),
   };
   snapshots.set(town, snapshot);
   return snapshot;

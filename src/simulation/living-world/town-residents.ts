@@ -54,6 +54,7 @@ import { householdMixForJurisdiction } from "../household-mix";
 import type { HouseholdShape } from "../household-mix";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
+import { representedPopulation, populationKeyForPlace } from "../nationwide-world/represented-population";
 import { recordRelationshipInteraction } from "../records";
 import {
   ensureTownEmployment,
@@ -224,18 +225,21 @@ export function playerTown(world: World, personId: EntityId): EntityId | null {
 }
 
 /**
- * The town's size and household count. PLACEHOLDER: the owner decided the
- * world starts from the Census figure with realistic drift, but no drift
- * amount is set, so none is applied yet.
+ * A World's generated population and household count. Before a World exists,
+ * fixture/place selection keeps the researched reference route.
  */
-export function townRoster(town: EntityId): TownRoster {
+export function townRoster(town: EntityId, world?: World): TownRoster {
   const place = lifePlaceByJurisdictionId(town);
+  if (!place) throw new Error(`No place identity for town roster ${town}`);
+  if (world) {
+    const generated = representedPopulation(world, town);
+    return { town, referencePopulation: generated.referencePopulation,
+      population: generated.population, households: generated.households };
+  }
   // A census-designated place has no annual estimate but has the five-year
   // survey's count, which is still a Census figure, not a stand-in.
-  const reference = place?.sourceGeoid
-    ? (placeReferencePopulation(place.sourceGeoid)?.value ?? null)
-    : null;
-  const population = reference ?? UNKNOWN_TOWN_POPULATION;
+  const reference = placeReferencePopulation(populationKeyForPlace(place)).value;
+  const population = reference;
   return {
     town,
     referencePopulation: reference,
@@ -542,7 +546,7 @@ export function townRosterPlace(
   taken: ReadonlySet<string> = new Set(),
   range: readonly [number, number] | null = null,
 ): { readonly household: number; readonly member: number } | null {
-  const { households } = townRoster(town);
+  const { households } = townRoster(town, world);
   const from = range ? Math.max(0, range[0]) : 0;
   const to = range ? Math.min(households, range[1]) : households;
   if (to <= from) return null;
@@ -661,7 +665,7 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
     )
   )
     return world;
-  const roster = townRoster(town);
+  const roster = townRoster(town, world);
   if (roster.households === 0) return world;
   const townName =
     lifePlaceByJurisdictionId(town)?.displayName.split(",")[0]!.trim() ??
@@ -887,7 +891,7 @@ export function describeTownResidents(
   town: EntityId,
   sample = 2_000,
 ) {
-  const roster = townRoster(town);
+  const roster = townRoster(town, world);
   const n = Math.min(sample, roster.households);
   let people = 0;
   let children = 0;

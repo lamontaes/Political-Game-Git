@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { placeReferencePopulation } from "./place-population";
 import {
+  censusDemographicObservation,
   censusDemographics,
   decennialPopulation,
   populationReference,
@@ -13,14 +14,15 @@ import {
   STATE_POPULATION_KEYS,
 } from "./place-demographics.generated";
 
-import { createWorld } from "../world";
+import { createWorld, recordWorldEvent } from "../world";
 import { makeIsoDate } from "../dates";
 import { lifePlaceByKey } from "../life-places";
 import { serializeWorld, deserializeWorld } from "../serialization";
+import { townRoster } from "../living-world/town-residents";
 
 describe("census counts distinguish represented residents from written samples", () => {
   it("does not mistake a zero ACS survey for Concho's enumeration", () => {
-    expect(censusDemographics("0415150")!.counts.population).toBe(0);
+    expect(censusDemographicObservation("0415150")!.counts.population).toBe(0);
     expect(decennialPopulation("0415150")![0]).toBe(54);
     const reference = populationReference("0415150");
     expect(reference.population).toBe(54);
@@ -89,6 +91,33 @@ describe("census counts distinguish represented residents from written samples",
 });
 
 describe("nationally researched per-world population", () => {
+  it("fills every game demographic cell while preserving missing source cells", () => {
+    const keys = [...Object.values(STATE_POPULATION_KEYS), ...TERRITORY_POPULATION_ROWS.map(row => row.key), "0415150", "37035"];
+    for (const key of keys) {
+      const counts = censusDemographics(key).counts;
+      for (const value of Object.values(counts)) {
+        expect(Number.isSafeInteger(value), key).toBe(true);
+        expect(value, key).toBeGreaterThanOrEqual(0);
+      }
+      expect(counts.employed, key).toBeLessThanOrEqual(counts.laborForce);
+      expect(counts.owners + counts.renters, key).toBe(counts.households);
+      expect(counts.under18 + counts.age18to24 + counts.age25to44 + counts.age45to61 + counts.age62plus, key).toBe(counts.population);
+      expect(counts.white + counts.black + counts.americanIndian + counts.asian + counts.pacificIslander + counts.otherRace + counts.multipleRaces, key).toBe(counts.population);
+    }
+    expect(censusDemographicObservation("0415150")!.counts.population).toBe(0);
+    expect(TERRITORY_POPULATION_ROWS.find(row => row.key === "territory:AS:tau")!.population).toBeNull();
+  });
+  it("seats a roster from the World population without read-side writes", () => {
+    const place = lifePlaceByKey("territory:MP:chalan-kanoa")!;
+    const world = createWorld({seed: "generated-roster", currentDate: makeIsoDate("2026-01-05"), jurisdictions: [place.context.jurisdiction], people: []});
+    const before = serializeWorld(world);
+    const population = representedPopulation(world, place.context.jurisdiction.id);
+    const roster = townRoster(place.context.jurisdiction.id, world);
+    expect(roster.population).toBe(population.population);
+    expect(roster.households).toBe(population.households);
+    expect(roster.population).not.toBe(1000);
+    expect(serializeWorld(world)).toBe(before);
+  });
   it("generates missing Concho counts, keeps seeds reproducible, and varies other worlds", () => {
     const place = lifePlaceByKey("0415150")!;
     const snapshot = (seed: string) =>
@@ -133,6 +162,27 @@ describe("nationally researched per-world population", () => {
 });
 
 describe("population layer save continuity", () => {
+  it("fills legacy missing cells while retaining saved values and history", () => {
+    const place = lifePlaceByKey("0415150")!;
+    const world = createWorld({seed: "legacy-population", currentDate: makeIsoDate("2026-01-05"), jurisdictions: [place.context.jurisdiction], people: []});
+    const established = ensurePopulationLayer(world, place.context.jurisdiction.id);
+    const event = established.history.events.at(-1)!;
+    const payload = JSON.parse(event.context.socialContext!);
+    delete payload.demographics;
+    payload.reference.households = null;
+    payload.reference.householdsByKind.aloneHouseholds = null;
+    payload.reference.unknownFields = ["households", "aloneHouseholds"];
+    const { id: _id, sequence: _sequence, ...input } = event;
+    const legacy = recordWorldEvent(world, {...input, context: {...input.context, socialContext: JSON.stringify(payload)}});
+    const before = serializeWorld(legacy);
+    const counts = representedPopulation(legacy, place.context.jurisdiction.id);
+    expect(counts.population).toBe(payload.reference.population);
+    expect(counts.laborForce).toBe(payload.reference.laborForce);
+    expect(counts.households).toBeGreaterThan(0);
+    expect(counts.householdsByKind.aloneHouseholds).not.toBeNull();
+    expect(serializeWorld(legacy)).toBe(before);
+    expect(ensurePopulationLayer(legacy, place.context.jurisdiction.id)).toBe(legacy);
+  });
   it("writes through history once and survives Save/Continue without read-side writes", () => {
     const place = lifePlaceByKey("0415150")!;
     const world = createWorld({
