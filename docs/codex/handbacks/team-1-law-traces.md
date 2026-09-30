@@ -403,3 +403,19 @@ remain unmet. This is not law-money proof. Shared record/reader integration
 is preserved locally at 32d3379f75021d7bc62565aee9154d290ce2a51c; packing
 requires an exact central claim before its bounded compatibility repair.
 The latest central grant does not name that source seam.
+
+## 7 a.m. compilation contribution
+
+The JSON has one record per catalog question, with its exact questionKey,
+tableStatus, catalogJurisdictionLevels and full jurisdiction/reversal caveats.
+All 25 rows are **needs research** because each source trace names a research
+gap. Missing-feature gaps remain separately flagged and described; this
+primary classification does not erase them. No law is marked works or fixed
+tonight from an aggregate path count or the unrelated packing repair.
+
+Catalog levels describe who controls the question, not demonstrated legal
+power or complete producer coverage. For example, the public-land question
+lists state and county, while its management-spending reader is state-only.
+Territorial applicability, county/local delegation, preemption and repeal
+limits retain the full original trace. Every person/money proof remains
+unestablished. The coordinator owns the combined one-file table.
