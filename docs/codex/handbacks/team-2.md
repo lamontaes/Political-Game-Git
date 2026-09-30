@@ -185,3 +185,17 @@ For homelessness, the inspected owned concern/filing/vote consumers contain no g
 The fifth code piece needs a researched response model with compatible canonical inputs and residual spread, or an approved modeling specification. The five-year statewide and speed proofs remain NOT RUN. This handback does not claim that the estimate implementation pass or Wave 1 is complete.
 
 The later standing-research dispatch was read. The compatible midterm-model inputs, fitted parameters and residual-spread gap are ready for the coordinator to route to Team 9. Team 2 has not opened a new team or helper or taken a Wave 2 job. Independent report-agent review remains NOT RUN under the existing helper limit.
+
+## Final local migration handoff
+
+All owned source and research are preserved for the cloud replacement. Local implementation is stopped. The remaining work is explicit WIP; Claude retains merge authority. Do not write overlapping files until the coordinator delivers the final published head from this handoff.
+
+Registered local workspace: `/Users/lamontae/.codex/worktrees/succession-complete/PG-LAND`, owner OCD-SUCCESSION. Final checkout: `codex/wave1-state-governing`. The preceding published checkpoint is `22cec62c8e7a70049b48bf4dfa2a45543ba05724`; the final migration commit adds only preserved research receipts and this handoff. Its exact published head is in the coordinator's final receipt and draft PR #1136.
+
+Ready code heads are unchanged: #1146 `ad175689597a3971f93e1384fd36f4470e3ca3c4`; #1147 `c40adfb0a92789bde5e34e245b0917ab25a07c04`; #1150 `49eca5208d7c6a96a84885308117a7c05dea5815`; #1152 `0a13f1393f0225d4f238b109064923c4c4023abb`. Main-line order is #1146, #1147, #1150. Life follows Team 1's #1131 on its law branch. Check live merge state before resuming; these heads' scoped checks are recorded above.
+
+The separate mood branch `codex/wave1-smooth-midterms` at `7b8920ca13a59fe8a55453edb9bdfef0691e61a6` is preserved as WIP, not ready code. Its unsupported response coefficients must not be accepted. The draft candidate also preserves unfinished reconciliation/unanimous-consent wiring, chamber calibration and nationwide stage-count proof. No direct assignment of source seat totals is authorized. The missing model evidence has been posted for the standing research queue.
+
+Cloud-readable copies of the five public research receipts are now in `data/research/midterm-calibration.json`, under `migrationResearchReceipts`, with original local paths and SHA-256 hashes. The original temporary evidence remains on the Mac. Prior focused test/typecheck receipts and interrupted-world limits are preserved above. No new implementation or tests began for this migration.
+
+At final handoff inspection, the workspace had no dirty or untracked paths. Process metadata showed no owned Node/npm task with this workspace as its working directory, and no running command naming Team 2 task scripts. The single research helper is completed. No lock is held or queued. The workspace, evidence, other owners' work, protected play folder, saves and port remain untouched. Local chat archival waits for the cloud working checkpoint.
