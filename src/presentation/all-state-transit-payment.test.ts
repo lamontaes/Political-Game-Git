@@ -1,5 +1,6 @@
 import { propositionIdFor } from "../simulation/public-budgets/fiscal";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import { projectBudgetEconomy } from "./budget-economy";
 import { recordPaidTransitProgramService } from "../simulation/governing/public-program-transit";
 import { SeededRng } from "../simulation/rng";
 import {
@@ -54,6 +55,7 @@ import {
 } from "../simulation/nationwide-world/state-executives";
 import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { money } from "../simulation/resources";
+import { resourcePositionAt } from "../simulation/resource-queries";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import type { World } from "../simulation/types";
@@ -287,6 +289,22 @@ function paidService(
   expect(committed.ok).toBe(true);
   if (!committed.ok) throw new Error(`${stateUsps}: ${committed.reason}`);
   const saved = deserializeWorld(serializeWorld(committed.world));
+  const payer = {
+    kind: "organization" as const,
+    organizationId: account.organizationId,
+  };
+  const openingCash = resourcePositionAt(
+    world,
+    payer,
+    appropriation.amount.currency,
+  )?.liquidBalance.minorUnits;
+  const paidCash = resourcePositionAt(
+    saved,
+    payer,
+    appropriation.amount.currency,
+  )?.liquidBalance.minorUnits;
+  expect(openingCash).toBeDefined();
+  expect(paidCash).toBe(openingCash! - 10_000);
   const installments = programInstallments(saved, programKey);
   expect(installments).toHaveLength(1);
   expect(installments[0]?.status).toBe("posted");
@@ -476,6 +494,42 @@ describe("same fictional state transit bill reaches exact paid service", () => {
           row.kind === "appropriation" && row.sourceMeasureId === measure.id,
       )!;
       expect(stamp.sourceRecordIds).toContain(appropriation.id);
+      const budgetMetric = Object.values(world.metricCatalog.definitions).find(
+        (row) => row.stableKey === "government.outlays",
+      )!;
+      const budgetStates = world.history.metricStates.filter(
+        (row) =>
+          row.metricId === budgetMetric.id &&
+          row.scope.jurisdictionId === appropriation.jurisdictionId &&
+          row.scope.segmentKey === null,
+      );
+      const budget = budgetStates.at(-1)!;
+      const budgetStamp = (
+        budget as typeof budget & LawEffectStampedRecord
+      ).lawEffectStamps?.find((row) => row.effectKind === "state-spending");
+      expect(budgetStamp).toMatchObject({
+        governingLawKey: measure.id,
+        jurisdictionId: appropriation.jurisdictionId,
+      });
+      expect(budgetStamp?.sourceRecordIds).toContain(appropriation.id);
+      expect(budget.value).toMatchObject({
+        kind: "money",
+        money: { minorUnits: 10_000, currency: "USD" },
+      });
+      expect(budget.supersedesStateId).toBe(budgetStates.at(-2)?.id);
+      expect(budget.value).toEqual(budgetStates.at(-2)?.value);
+      const budgetView = projectBudgetEconomy(
+        world,
+        appropriation.jurisdictionId,
+      );
+      const outlays = budgetView.fiscalGraphs
+        .flatMap((row) => row.series)
+        .find(
+          (row) => row.seriesKey === "government.outlays:simulated-history",
+        )!;
+      expect(outlays.points).toHaveLength(1);
+      expect(outlays.points[0]?.value).toBe(10_000);
+      expect(outlays.points[0]?.pointKey).toBe(budget.id);
       expect(
         savedMetric.lawEffectStamps!.find(
           (row) => row.effectKind === "transit.paid-service-hours",
@@ -489,6 +543,15 @@ describe("same fictional state transit bill reaches exact paid service", () => {
           ) as typeof metric & LawEffectStampedRecord
         ).lawEffectStamps,
       ).toEqual(savedMetric.lawEffectStamps);
+      expect(
+        (
+          reopened.history.metricStates.find(
+            (row) => row.id === budget.id,
+          ) as typeof budget & LawEffectStampedRecord
+        ).lawEffectStamps,
+      ).toEqual(
+        (budget as typeof budget & LawEffectStampedRecord).lawEffectStamps,
+      );
     },
   );
 
