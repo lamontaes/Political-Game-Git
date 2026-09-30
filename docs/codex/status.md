@@ -1,3 +1,9 @@
+## CTO4:09 dual shipping order applied
+
+All builders received: continue shared handlers AND ship two more owned laws reaching named people through existing writers by5pm. Data-only waiting is superseded; existing writers become handler first version. Merge received explicit1295/1296/1302 stampportion/1303 queue plus1294. No new merge inferred. Shared file overlaps still require exact hunk transfer; no duplicate engines or invented person records.
+
+1305 current3723b82e06076522b65823acc8d92ce64633bf75 includes exactpayadapter, canonical catalog forwarding, shared dispatch, registry layout and tests. Three local pure-contract files12/12PASS633ms46ms tests, maxWorkers3. Newcatalog/pay/fullcomposition checks pendingTeam2. Registry remains empty until reviewed kind export; actual runtime activation NOT proven. Next: consume pay registration/test receipt and builders' two-law targets, resolve exact shared claims immediately.
+
 ## September30 parallel handler build
 
 CTO4:00 sequential hold superseded; all8builders received exact kind ownership and published registry/interfacef6b4ac826. Current1305 includes shared existing-engine dispatch6e3746cd2 and exactTeam2adapterd2064a747 integrated104138077. Registry empty; no runtimeactivation claimed. Canonicalcatalogtest andsharedpayproof pendingTeam2; oldamount/validator9PASS notnewcompositionproof.
