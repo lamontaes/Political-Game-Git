@@ -66,6 +66,14 @@ import type {
   World,
 } from "./types";
 import { recordWorldEvent } from "./world";
+import { eventById } from "./event-index";
+import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
+import {
+  recordSenateConsentRequest,
+  senateConsentRequestPermitsPassage,
+  SENATE_CONSENT_PASSAGE,
+  validSenateConsentPassage,
+} from "./governing/congress-procedure";
 
 /**
  * Canonical legislative process.
@@ -289,6 +297,7 @@ function applyRecordedAction(
   action: LegislativeActionRecord,
   pack: LegislativeRulePack,
   measure: LegislativeMeasureRecord,
+  world: World,
 ): StepOutcome {
   if (TERMINAL_PHASES.has(state.phase)) {
     return illegal(
@@ -448,7 +457,23 @@ function applyRecordedAction(
       if (!gate.ok) return gate;
       const chamber = currentChamber();
       if (!chamber) return illegal("the measure is not in a chamber");
-      if (action.floorStageKey !== state.floorStageKey) {
+      const withoutObjection =
+        eventById(world, action.eventId)?.type === SENATE_CONSENT_PASSAGE;
+      if (withoutObjection) {
+        if (
+          !validSenateConsentPassage(world, measure, action) ||
+          chamber.chamberKey !== "senate" ||
+          (state.floorStageKey !== "cloture" &&
+            state.floorStageKey !== "passage")
+        )
+          return illegal(
+            "passage without objection lacks a valid prior request for these terms",
+          );
+      }
+      if (
+        action.floorStageKey !==
+        (withoutObjection ? "passage" : state.floorStageKey)
+      ) {
         return illegal(
           `the floor vote names stage '${action.floorStageKey}' but the measure is at '${state.floorStageKey}'`,
         );
@@ -466,6 +491,7 @@ function applyRecordedAction(
         state.outcome = "failed-on-floor";
         return LEGAL;
       }
+      if (withoutObjection) state.floorStageKey = "passage";
       const onward = nextFloorStageKey(chamber, state.floorStageKey ?? "");
       if (onward) {
         const onwardStage = floorStageByKey(chamber, onward);
@@ -683,7 +709,7 @@ export function replayMeasure(
   for (const action of measureActions(world, measureId)) {
     let outcome: StepOutcome;
     try {
-      outcome = applyRecordedAction(state, action, pack, measure);
+      outcome = applyRecordedAction(state, action, pack, measure, world);
     } catch (error) {
       outcome = illegal(
         error instanceof Error ? error.message : "the action could not be read",
@@ -2251,6 +2277,78 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
       `stage:${stage.stageKey}`,
     ],
     vote,
+  });
+}
+
+/** Puts an actual member's request to the Senate; an objection keeps the vote. */
+export function requestSenateConsentPassage(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly measureId: EntityId;
+    readonly requestedByPersonId: EntityId;
+  },
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const passageKey = `${input.stableKey}:passed-without-objection`;
+  if (recordByStableKey(world.history.legislativeActions ?? [], passageKey))
+    return world;
+  const position = assertPhase(
+    world,
+    measure.id,
+    ["on-floor"],
+    "request Senate passage without objection",
+  );
+  if (
+    measure.rulePackId !== US_CONGRESS_PACK_ID ||
+    position.chamberKey !== "senate" ||
+    (position.floorStageKey !== "cloture" &&
+      position.floorStageKey !== "passage") ||
+    (position.earliestNextFloorDate !== null &&
+      world.currentDate < position.earliestNextFloorDate)
+  )
+    return world;
+  const requestKey = `${input.stableKey}:request`;
+  const requested = recordSenateConsentRequest(world, measure, {
+    stableKey: requestKey,
+    requestedByPersonId: input.requestedByPersonId,
+  });
+  const request = recordByStableKey(requested.history.events, requestKey);
+  if (
+    !request ||
+    !senateConsentRequestPermitsPassage(requested, measure, request, {
+      occurredAt: requested.currentDate,
+      sequence: requested.history.nextSequence,
+    })
+  )
+    return requested;
+  return appendAction(requested, {
+    measure,
+    kind: "floor-stage-passed",
+    stableKey: passageKey,
+    chamberKey: "senate",
+    committeeKey: null,
+    floorStageKey: "passage",
+    actorLabel: "Senate presiding officer",
+    rationale:
+      "The member requested passage and the chair put it without objection.",
+    summary: `Without objection, the Senate passed ${measure.designation}. No roll call was taken.`,
+    eventType: SENATE_CONSENT_PASSAGE,
+    tags: [
+      "legislation.passed-stage",
+      "legislation.unanimous-consent",
+      "chamber:senate",
+      "stage:passage",
+      `consent-request:${request.id}`,
+    ],
+    involvedEntityIds: [input.requestedByPersonId],
+    participants: [
+      {
+        personId: input.requestedByPersonId,
+        role: "agency:requester",
+        detail: `The Senate passed ${measure.designation} on this member's request without objection.`,
+      },
+    ],
   });
 }
 

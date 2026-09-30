@@ -1,10 +1,11 @@
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { recordByStableKey } from "../history-index";
 import { recordWorldEvent } from "../world";
-import { knownRule, fractionOf } from "../legislature-rules";
+import { eventById } from "../event-index";
 import type { LegislativeRulePack } from "../legislature-rules";
 import type {
   EntityId,
+  HistoricalEvent,
   LegislativeActionRecord,
   LegislativeMeasureRecord,
   World,
@@ -14,18 +15,230 @@ import { principledLeaning } from "./officeholder-principles";
 import { lawInForce, statuteAnswer } from "./law-in-force";
 import { FEDERAL_LAW_EFFECTS } from "../public-budgets/federal-treasury";
 import { currentMeasureProvisions } from "../legislative-politics";
+import { projectCongress } from "../living-world/congress";
+import { personName } from "../people";
 
 const VERSION = "congress-procedure/v1";
-const SOURCE = {
-  authority: "research-reference",
-  citation: "2 U.S.C. § 644; Senate unanimous consent",
-  sourceTitle: "CRS R48444 and Senate glossary",
-  sourceUrl:
-    "https://www.congress.gov/crs_external_products/R/PDF/R48444/R48444.2.pdf",
-  retrievedAt: "2026-09-29",
-  verification: "partial",
-  note: "Budget-only, deficit-reducing reconciliation profile; not a complete parliamentary ruling on all possible riders.",
-} as const;
+const CONSENT_VERSION = "senate-consent/v1";
+export const SENATE_CONSENT_REQUEST = "legislation.unanimous-consent-requested";
+export const SENATE_CONSENT_PASSAGE = "legislation.passed-without-objection";
+
+/** Saved policy and text evidence for the request, never a roll-call tally. */
+function consentEvidence(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  requesterId: EntityId,
+  checkControl = true,
+): {
+  tags: readonly string[];
+  senators: readonly EntityId[];
+  objectors: readonly EntityId[];
+} | null {
+  if (
+    measure.rulePackId !== US_CONGRESS_PACK_ID ||
+    measure.subjectClass !== "general-policy"
+  )
+    return null;
+  const answers = measure.propositionAnswers ?? [];
+  const sections = currentMeasureProvisions(world, measure.id);
+  if (
+    !answers.length ||
+    sections.some(
+      (section) =>
+        !section.answers ||
+        !answers.some(
+          (answer) =>
+            answer.propositionId === section.answers!.propositionId &&
+            answer.answer === section.answers!.answer,
+        ),
+    )
+  )
+    return null;
+  // Read directly, rather than using a sitting's pinned current roster: replay
+  // can ask about a Senate that sat before today's member was seated.
+  const senators = (projectCongress(world)?.senate.seats ?? []).flatMap(
+    (seat) =>
+      seat.occupant.kind === "member" ? [seat.occupant.member.personId] : [],
+  );
+  if (
+    !senators.length ||
+    !senators.includes(requesterId) ||
+    (checkControl &&
+      world.control.kind === "person" &&
+      senators.includes(world.control.personId))
+  )
+    return null;
+  const evidence = new Set<EntityId>();
+  const objectors: EntityId[] = [];
+  let requesterScore = 0;
+  for (const senatorId of senators) {
+    let objects = false;
+    for (const answer of answers) {
+      const leaning = principledLeaning(world, senatorId, answer.propositionId);
+      if (!leaning.recordIds.length) return null;
+      for (const id of leaning.recordIds) evidence.add(id);
+      const score = answer.answer === "yes" ? leaning.score : -leaning.score;
+      if (score < 0) objects = true;
+      if (senatorId === requesterId) requesterScore += score;
+    }
+    if (objects) objectors.push(senatorId);
+  }
+  if (requesterScore <= 0) return null;
+  return {
+    senators,
+    objectors,
+    tags: [
+      CONSENT_VERSION,
+      "chamber:senate",
+      "stage:passage",
+      `outcome:${objectors.length ? "objected" : "without-objection"}`,
+      ...senators.map((id) => `senator:${id}`),
+      ...objectors.map((id) => `objector:${id}`),
+      ...[...evidence].sort().map((id) => `principle:${id}`),
+      ...answers.map((a) => `answer:${a.propositionId}:${a.answer}`),
+      ...sections.map((s) => `provision:${s.id}`),
+    ],
+  };
+}
+
+export function recordSenateConsentRequest(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  input: { stableKey: string; requestedByPersonId: EntityId },
+): World {
+  if (recordByStableKey(world.history.events, input.stableKey)) return world;
+  const evidence = consentEvidence(world, measure, input.requestedByPersonId);
+  if (!evidence) return world;
+  const name = personName(world.people[input.requestedByPersonId]!);
+  return recordWorldEvent(world, {
+    stableKey: input.stableKey,
+    type: SENATE_CONSENT_REQUEST,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [measure.id, ...evidence.senators],
+    participants: [
+      {
+        personId: input.requestedByPersonId,
+        role: "agency:requester",
+        detail: `Requested passage of ${measure.designation} without objection.`,
+      },
+      ...evidence.objectors
+        .filter((id) => id !== input.requestedByPersonId)
+        .map((personId) => ({
+          personId,
+          role: "agency:objector" as const,
+          detail: `Objected to passage of ${measure.designation} from recorded principles.`,
+        })),
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: evidence.tags,
+    summary: `${name} requested passage of ${measure.designation} without objection. ${evidence.objectors.length ? `${evidence.objectors.map((id) => personName(world.people[id]!)).join(", ")} objected from their recorded principles; the ordinary vote remains required.` : "No seated senator's recorded principles objected to its recorded terms."}`,
+    context: {
+      location: null,
+      socialContext: "The request is put to the Senate, not a roll call.",
+      pressure: null,
+      choice: null,
+      motivation: "The requester's recorded principles support the measure.",
+      immediateReaction: evidence.objectors.length
+        ? "An objection preserves the ordinary vote."
+        : "The chair may put passage without objection.",
+    },
+  });
+}
+
+function atRequest(world: World, request: HistoricalEvent): World {
+  // A read-only frontier of actual records. Nothing is persisted or drawn.
+  return {
+    ...world,
+    currentDate: request.occurredAt,
+    history: {
+      ...world.history,
+      nextSequence: request.sequence,
+      events: world.history.events.filter((r) => r.sequence < request.sequence),
+      principles: world.history.principles.filter(
+        (r) => r.sequence < request.sequence,
+      ),
+      legislativeProvisions: (world.history.legislativeProvisions ?? []).filter(
+        (r) => r.sequence < request.sequence,
+      ),
+    },
+  };
+}
+
+/** The chair can rely only on this request's actual, unchanged text frontier. */
+export function senateConsentRequestPermitsPassage(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  request: HistoricalEvent,
+  at: Pick<LegislativeActionRecord, "occurredAt" | "sequence">,
+): boolean {
+  const requester = request.participants[0];
+  if (
+    request.type !== SENATE_CONSENT_REQUEST ||
+    request.jurisdictionId !== measure.jurisdictionId ||
+    !request.involvedEntityIds.includes(measure.id) ||
+    request.participants.length !== 1 ||
+    requester?.role !== "agency:requester" ||
+    request.occurredAt !== at.occurredAt ||
+    request.recordedAt > at.occurredAt ||
+    request.sequence >= at.sequence
+  )
+    return false;
+  const historical = atRequest(world, request);
+  const evidence = consentEvidence(
+    historical,
+    measure,
+    requester.personId,
+    false,
+  );
+  if (
+    !evidence ||
+    evidence.objectors.length ||
+    evidence.senators.some((id) => !request.involvedEntityIds.includes(id))
+  )
+    return false;
+  if (
+    [...request.tags].sort().join("\n") !== [...evidence.tags].sort().join("\n")
+  )
+    return false;
+  // Even a same-day amended section after the request needs a new request.
+  return !(world.history.legislativeProvisions ?? []).some(
+    (r) =>
+      r.measureId === measure.id &&
+      r.sequence > request.sequence &&
+      r.sequence < at.sequence,
+  );
+}
+
+export function validSenateConsentPassage(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  action: LegislativeActionRecord,
+): boolean {
+  const event = eventById(world, action.eventId);
+  const references =
+    event?.tags.filter((tag) => tag.startsWith("consent-request:")) ?? [];
+  const request =
+    references.length === 1
+      ? eventById(world, references[0]!.slice("consent-request:".length))
+      : null;
+  return !!(
+    event?.type === SENATE_CONSENT_PASSAGE &&
+    event.occurredAt === action.occurredAt &&
+    event.recordedAt <= action.occurredAt &&
+    event.sequence < action.sequence &&
+    event.involvedEntityIds.includes(measure.id) &&
+    action.kind === "floor-stage-passed" &&
+    action.chamberKey === "senate" &&
+    action.floorStageKey === "passage" &&
+    action.voteId === null &&
+    request &&
+    request.sequence < event.sequence &&
+    senateConsentRequestPermitsPassage(world, measure, request, action)
+  );
+}
 
 /**
  * Narrow automatic Byrd review: each term must change a registered fiscal line,
@@ -217,7 +430,7 @@ export function recordBudgetInstructions(
   );
 }
 
-/** Before Senate calendar placement, an objection keeps the ordinary route. */
+/** Legacy draft marker only; it cannot authorize consent passage or a vote. */
 export function recordUnanimousConsent(
   world: World,
   measure: LegislativeMeasureRecord,
@@ -290,7 +503,7 @@ function recordProcedure(
   });
 }
 
-/** Writers and action replay must use this same saved procedure. */
+/** Draft reconciliation adapter; consent passage never changes a vote rule. */
 export function congressProcedurePack(
   world: World,
   measure: LegislativeMeasureRecord,
@@ -298,7 +511,10 @@ export function congressProcedurePack(
   at?: Pick<LegislativeActionRecord, "occurredAt" | "sequence">,
 ): LegislativeRulePack {
   const procedure = recordedCongressProcedure(world, measure.id, at);
-  if (measure.rulePackId !== US_CONGRESS_PACK_ID || procedure === "ordinary")
+  if (
+    measure.rulePackId !== US_CONGRESS_PACK_ID ||
+    procedure !== "reconciliation"
+  )
     return pack;
   return {
     ...pack,
@@ -307,25 +523,9 @@ export function congressProcedurePack(
         ? chamber
         : {
             ...chamber,
-            floorStages: chamber.floorStages
-              .filter((stage) => stage.stageKey !== "cloture")
-              .map((stage) =>
-                procedure !== "unanimous-consent"
-                  ? stage
-                  : {
-                      ...stage,
-                      vote: knownRule(
-                        fractionOf(
-                          1,
-                          1,
-                          "members-voting",
-                          "unanimous consent of the senators voting",
-                          SOURCE,
-                        ),
-                        SOURCE,
-                      ),
-                    },
-              ),
+            floorStages: chamber.floorStages.filter(
+              (stage) => stage.stageKey !== "cloture",
+            ),
           },
     ),
   };

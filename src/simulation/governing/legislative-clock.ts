@@ -47,6 +47,7 @@ import {
   recordConcurrenceVote,
   recordEnactment,
   recordExecutiveAction,
+  requestSenateConsentPassage,
   referMeasure,
   requireMeasure,
   scheduleCommitteeHearing,
@@ -82,7 +83,10 @@ import {
   floorStageTakesAmendments,
 } from "./chamber-procedure";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
-import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import {
+  ensureOfficeholderPrinciples,
+  principledLeaning,
+} from "./officeholder-principles";
 import {
   adjournmentStopsPhase,
   considerSessionAdjournment,
@@ -723,7 +727,7 @@ export function applyInstitutionStep(
     // Before the question is put, a member may offer an amendment for their
     // own reasons, where this stage takes amendments and the chamber is
     // seated with people who have reasons (Build 25 step 3).
-    const onFloor =
+    let onFloor =
       body &&
       body.members.length > 0 &&
       body.members.every((member) => member.personId) &&
@@ -742,6 +746,38 @@ export function applyInstitutionStep(
                 .admissible,
           })
         : world;
+    if (isCongressMeasure(measure) && chamberKey === "senate" && body) {
+      const requester = body.members.find((member) => {
+        if (
+          !member.personId ||
+          (onFloor.control.kind === "person" &&
+            onFloor.control.personId === member.personId)
+        )
+          return false;
+        return (
+          (measure.propositionAnswers ?? []).reduce((score, answer) => {
+            const leaning = principledLeaning(
+              onFloor,
+              member.personId!,
+              answer.propositionId,
+            ).score;
+            return score + (answer.answer === "yes" ? leaning : -leaning);
+          }, 0) > 0
+        );
+      });
+      if (requester?.personId) {
+        onFloor = requestSenateConsentPassage(onFloor, {
+          stableKey: `${stableKey}:consent`,
+          measureId,
+          requestedByPersonId: requester.personId,
+        });
+        if (measurePosition(onFloor, measureId).phase !== "on-floor")
+          return applied(
+            closeResolvedMemberVoteNotices(onFloor, measureId),
+            "move-floor-vote",
+          );
+      }
+    }
     const decided = body
       ? decide(
           onFloor,
