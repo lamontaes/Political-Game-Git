@@ -1,4 +1,5 @@
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
+import { ageVerificationCostForMonth } from "./age-verification-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -867,6 +868,11 @@ export function settleGovernmentMonth(
   const paidLeaveStamps = (
     flows.paidLeavePaymentStamps?.get(government.key) ?? []
   ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
+  const ageVerificationCost = ageVerificationCostForMonth(
+    world,
+    government,
+    month,
+  );
   const row: BudgetMonthRow &
     LawEffectStampedRecord & {
       readonly cannabisRevenue?: number;
@@ -883,13 +889,22 @@ export function settleGovernmentMonth(
       ? { townSales: Math.round(townSales * 10000) / 10000 }
       : {}),
     represented,
+    ...(ageVerificationCost
+      ? { lawCostAttributions: [ageVerificationCost] }
+      : {}),
     ...(zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
     ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length || paidLeaveStamps.length
-      ? { lawEffectStamps: [...cannabisStamps, ...paidLeaveStamps] }
+    ...(cannabisStamps.length || paidLeaveStamps.length || ageVerificationCost
+      ? {
+          lawEffectStamps: [
+            ...cannabisStamps,
+            ...paidLeaveStamps,
+            ...(ageVerificationCost?.lawEffectStamps ?? []),
+          ],
+        }
       : {}),
   };
   let next: PublicBudgetGovernment = {
