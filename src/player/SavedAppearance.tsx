@@ -136,13 +136,7 @@ export function SavedAppearanceControls(
   const ownsAppearance =
     props.world.control.kind === "person" &&
     props.world.control.personId === props.personId;
-  if (!ownsAppearance)
-    return (
-      <p data-testid="appearance-read-only">
-        This is not you. Only your own appearance and wardrobe can be changed,
-        from Personal.
-      </p>
-    );
+  if (!ownsAppearance) return null;
   const person = props.world.people[props.personId];
   const engine =
     person && peoplePackAvailable()
