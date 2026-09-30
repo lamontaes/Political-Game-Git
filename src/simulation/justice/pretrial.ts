@@ -20,7 +20,8 @@ import type { EntityId, World } from "../types";
 
 export const PRETRIAL_VERSION = "justice-pretrial-v1";
 
-export const END_CASH_BAIL_QUESTION = "justice-public-safety.end-cash-bail";
+export const END_CASH_BAIL_QUESTION =
+  "us-policy-positions:justice-public-safety.end-cash-bail";
 
 /**
  * The bail schedule, the dollar conversion and what a defendant pays to go
