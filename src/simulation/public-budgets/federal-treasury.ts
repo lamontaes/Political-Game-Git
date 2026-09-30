@@ -17,6 +17,10 @@ import {
 import { lawInForce } from "../governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type { EntityId, IsoDate, World } from "../types";
+import {
+  federalProgramCostsForMonth,
+  type FederalProgramCost,
+} from "../federal-cost-ledger";
 
 /**
  * THE FEDERAL TREASURY: the United States government's own books, month by
@@ -189,6 +193,8 @@ export interface FederalTreasuryMonth {
   readonly deficit: number;
   /** Debt held by the public at the end of the month. */
   readonly debtHeldByPublic: number;
+  /** Actual paid new-program costs, with exact transfer and authority IDs. */
+  readonly programCosts?: readonly FederalProgramCost[];
   /** The laws that moved a line this month, and by how much. */
   readonly laws: readonly {
     readonly questionKey: string;
@@ -285,6 +291,7 @@ export function settleFederalTreasuryMonth(
 ): FederalTreasury {
   const laws: FederalTreasuryMonth["laws"][number][] = [];
   const debtBefore = federalDebtHeldByPublic(treasury);
+  const programCosts = federalProgramCostsForMonth(world, month);
   const line = (kind: FederalLine["kind"], key: string, base: number) => {
     let amount = base;
     for (const effect of FEDERAL_LAW_EFFECTS) {
@@ -305,15 +312,21 @@ export function settleFederalTreasuryMonth(
   const receipts = FEDERAL_RECEIPTS.map((key) =>
     line("receipt", key, RECEIPTS[key] / 12),
   );
-  const outlays = FEDERAL_OUTLAYS.map((key) =>
-    line(
-      "outlay",
-      key,
-      key === "netInterest"
-        ? (debtBefore * treasury.interestRate) / 12
-        : OUTLAYS[key] / 12,
-    ),
-  );
+  const outlays = FEDERAL_OUTLAYS.map((key) => {
+    const paidMinorUnits = programCosts
+      .filter((cost) => federalProgramLine(cost.programKey) === key)
+      .reduce((sum, cost) => sum + cost.amountMinorUnits, 0);
+    return Math.round(
+      line(
+        "outlay",
+        key,
+        key === "netInterest"
+          ? (debtBefore * treasury.interestRate) / 12
+          : OUTLAYS[key] / 12,
+      ) +
+        paidMinorUnits / 100,
+    );
+  });
   const deficit =
     outlays.reduce((sum, amount) => sum + amount, 0) -
     receipts.reduce((sum, amount) => sum + amount, 0);
@@ -327,8 +340,16 @@ export function settleFederalTreasuryMonth(
         outlays,
         deficit,
         debtHeldByPublic: debtBefore + deficit,
+        programCosts,
         laws,
       },
     ],
   };
+}
+
+/** Existing intercity rail payments use transportation; unclassified ones remain explicit. */
+function federalProgramLine(programKey: string): FederalOutlay {
+  return programKey.split(":")[0] === "passenger-rail"
+    ? "transportation"
+    : "otherPrograms";
 }
