@@ -1,6 +1,6 @@
 # Town counts vary by world; eviction still stops at lease closure
 
-The Census layer preserves exact source observations and uses nationally researched distributions to generate a town's opening counts. Two village names now have explicitly approved calibration anchors whose source geography stays visible in developer evidence. The shared compensation writer remains under repair. Ending a tenancy does not yet establish the household's next housing situation or alter earned work. No changed watched world has been measured.
+The Census layer preserves exact source observations and uses nationally researched distributions to generate a town's opening counts. Two village names now have explicitly approved calibration anchors whose source geography stays visible in developer evidence. The shared compensation writer passes focused transition checks. Ending a tenancy does not yet establish the household's next housing situation or alter earned work. No changed watched world has been measured.
 
 ## Ready Census correction
 
@@ -41,9 +41,9 @@ Claude retains merge authority. No Team 3 change is claimed merged, installed, o
 
 ## Compensation review composition
 
-The mixed local branch passes 14 of 14 focused tests, five-root typecheck with zero diagnostics, and scoped lint. This is predecessor evidence only. The review candidate is rebuilt on published Team 1 head f4880e7af06ef72645763a057db289ae6dc543d9, excluding the seven speed files unique to local 2e0d8f81a. Their public history-index symbols already exist on the published base. No money API requires those speed changes.
+The mixed local branch passes 14 of 14 focused tests, five-root typecheck with zero diagnostics, and scoped lint. This is predecessor evidence only. The first review candidate was rebuilt on published Team 1 head f4880e7af06ef72645763a057db289ae6dc543d9 and passed 18 of 18 tests and seven-root typecheck. Its source head 684a5548350f6a691a51392e8416ab50a210d62f and report leaf 59e75b16a are preserved on `codex/wave1-compensation-review-f488`. The live base then advanced to 2e0d8f81acf75a9c6173cfcd9fd7e586b7a41cbd. The current review keeps its seven speed files unchanged as published base content. Their public history-index symbols already exist on the published base. No money API requires the newer speed implementation, and none of its files appears in the owned delta.
 
-The candidate includes only the common compensation writer/test, narrow town-pay, job-market, and completed-shift adapters, the common income reader/test, and its owned release/handback. `isPayFlow` and `payPeriodsPerYear` are direct dependencies from the shared income reader. That module has no Census data import. Census population files and unowned law/speed hunks are excluded. Reviewed source head is 684a5548350f6a691a51392e8416ab50a210d62f on `codex/wave1-compensation-review`. Its nine paths are:
+The candidate includes only the common compensation writer/test, narrow town-pay, job-market, and completed-shift adapters, the common income reader/test, and its owned release/handback. `isPayFlow` and `payPeriodsPerYear` are direct dependencies from the shared income reader. That module has no Census data import. Census population files and unowned law/speed hunks are excluded. Current reviewed source head is a78035ed00fce63b8560229adac27392455b4f48 on `codex/wave1-compensation-review`. Its nine paths are:
 
 - `src/simulation/living-world/town-compensation.ts`
 
@@ -63,6 +63,6 @@ The candidate includes only the common compensation writer/test, narrow town-pay
 
 - `docs/codex/handbacks/team-3.md`
 
-The income files exactly match the compatible content in Census head 4cd9d7ad1 and must be integrated once. Exact-composition checks pass: 18 of 18 affected tests, seven-root scoped typecheck with zero diagnostics, scoped lint, and the release declaration range. This money slice is ready for a PR stacked on the published law branch.
+The income files exactly match the compatible content in Census head 4cd9d7ad1 and must be integrated once. The newer-base exact-composition checks pass: 18 of 18 affected tests, seven-root scoped typecheck with zero diagnostics, scoped lint, report checks, and its release declaration range. This composition is ready for a PR stacked on `codex/wire-last-ten-laws`. The two earlier 13/14 runs, corrected mixed-head 14/14, and older-base 18/18 remain separate predecessor evidence.
 
 Method: registered CODEX-CTO workspace, Census review branch `codex/wave1-towns`, compensation branch `codex/wave1-compensation`. The obsolete Oak Grove baseline at cdb6e4ab1d6a26aa876d99f6831570ed0c057d92 was gracefully interrupted with SIGINT to Node PID 39827 and ended with exit 130. Receipt wall time was 6,918.79046275 seconds, including recorded pauses totaling 705.007008 seconds. It produced no saved-world/report result and is INTERRUPTED/NO RESULT. Receipts remain under `test-results/team-3/baseline/`. No full simulation was restarted. The report reviewer is NOT RUN under the explicit Wave 1 restriction on helpers.
