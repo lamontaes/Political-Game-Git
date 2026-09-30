@@ -565,3 +565,42 @@ Next: publish the preserved draft increment for review, obtain admitted
 dependencies, run only the changed meeting test file, and measure any remaining
 timeout before changing its fixture. Continue the routed playtest checks and
 research gaps independently; checkpoint publication does not end the assignment.
+
+## Cloud storage admitted and complete meeting regression
+
+The direct owner delegation states that CTO yes is co-equal with owner approval.
+A supported automatic-review retry for the same cloud-only 20 GiB reserve plus
+guarded npm ci was accepted after that evidence was supplied. The initial
+rejection is preserved above; no bypass or alternate installation path occurred.
+Only /workspace/.ocd-dev/storage-policy.json changed; repository defaults and
+Mac reserve remain 25 GiB. npm ci exited 0: 183 packages, 6 seconds, guarded
+1.5 GiB reservation.
+
+On published source head 91ac721f70c649b989876475873162441a1b5447,
+`vitest run src/presentation/ordinary-meeting-scene.test.ts --maxWorkers=2`
+completed: 1 file, 10 tests PASS, 200.77 seconds total, 167.76 seconds test
+bodies. The guard held 1 GiB with 20 GiB kept free. No assertion, timeout, deep
+transition guard, fixture world or scope was weakened. This resolves the earlier
+full-file timeouts on this source/runtime; it does not establish all-world speed.
+
+Strict types for PersonCard.tsx, ShellDossier.tsx, ordinary-meeting-scene.test.ts
+and ordinary-meeting-presence.ts plus their dependencies: 0 diagnostics.
+Scoped ESLint passed. Prettier initially flagged the two meeting files; its
+format-only correction follows this executed source tree. No full suite or full
+simulation was run. Claude retains scene-people renderers and browser acceptance;
+cloud browser verification is still NOT RUN. No absent figures are declared fixed.
+
+Team 7 received the exact existing opening-archive source fixture and its limits
+in 00: recorded council-vote body/date and stable key are available, but no static
+assembled packet or enough smaller stories exist in that fixture. No new world,
+publication or headline was invented. The saved-world News assembler and Team 8
+retained-save handoff were routed for a complete front page. Team 2's final
+opening-demographics reply was read; schema/calibration remains held pending the
+owner contract and approved research.
+
+Final scoped checks: seven-file Prettier and whitespace PASS; handback/release
+report checks 0 errors, 0 warnings. Release check initially found the inherited
+fragment missing its header; it now has the required player-facing declaration,
+and the exact main-to-head PR range passes. Spelling reports only four existing
+quoted British examples in unchanged plain-american-wording.md; no owned path
+flagged. Browser verification still belongs to Claude and is NOT RUN here.

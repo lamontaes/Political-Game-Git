@@ -476,7 +476,8 @@ function writePresence(
   // Finishing the same meeting keeps the office provenance recorded on entry;
   // it does not reconstruct attendance from any later change to the roster.
   const attendanceSourceTags =
-    earlierEntry?.tags.filter((tag) => tag.startsWith("attendance-seat:")) ?? [];
+    earlierEntry?.tags.filter((tag) => tag.startsWith("attendance-seat:")) ??
+    [];
   if (!earlierEntry) {
     // This is the council's prospective meeting writer. Its seated officers
     // attend in their recorded official capacity; unrelated residents are not

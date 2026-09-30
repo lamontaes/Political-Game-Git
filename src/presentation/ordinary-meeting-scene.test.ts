@@ -307,12 +307,15 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
         (event) => event.id === after.eventId,
       )!;
       expect(
-        attendanceRecord.tags.filter((tag) => tag.startsWith("attendance-seat:")),
+        attendanceRecord.tags.filter((tag) =>
+          tag.startsWith("attendance-seat:"),
+        ),
       ).toEqual(seatTags);
       const reloaded = deserializeWorld(serializeWorld(completed));
       expect(
-        reloaded.history.events.find((event) => event.id === attendanceRecord.id)
-          ?.tags,
+        reloaded.history.events.find(
+          (event) => event.id === attendanceRecord.id,
+        )?.tags,
       ).toEqual(attendanceRecord.tags);
       expect(completed.personOrder).toEqual(entered.personOrder);
       expect(performVenueActivity(completed, personId, activity.id)).toBe(
