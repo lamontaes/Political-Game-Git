@@ -1,4 +1,3 @@
-import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -12,11 +11,7 @@ import {
   propositionIdFor,
 } from "./fiscal";
 import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
-import {
-  CANNABIS_FIRST_SALE_LAG_MONTHS,
-  CANNABIS_SALES_QUESTION,
-  CANNABIS_TAX_PER_RESIDENT,
-} from "./cannabis-sales-tax";
+import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
 import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
@@ -453,32 +448,10 @@ function cannabisSalesFactor(
   government: PublicBudgetGovernment,
   date: IsoDate,
 ): number {
-  const propositionId = propositionIdFor(world, CANNABIS_SALES_QUESTION);
   const opening = government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0;
-  if (!propositionId || opening <= 0) return 1;
-  const law = (on: IsoDate) =>
-    lawInForce(world, government.lawJurisdictionId, propositionId, on)?.answer;
-  const began = lawInForceAtStart(
-    world,
-    government.lawJurisdictionId,
-    propositionId,
-    date,
-  );
-  const cannabis = CANNABIS_TAX_PER_RESIDENT * government.population;
-  if (began !== "yes" && law(date) === "yes") {
-    const total =
-      Number(date.slice(0, 4)) * 12 +
-      Number(date.slice(5, 7)) -
-      1 -
-      CANNABIS_FIRST_SALE_LAG_MONTHS;
-    const storesOpenedBy = makeIsoDate(
-      `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}-${date.slice(8, 10) > "28" ? "28" : date.slice(8, 10)}`,
-    );
-    return law(storesOpenedBy) === "yes" ? (opening + cannabis) / opening : 1;
-  }
-  if (began === "yes" && law(date) === "no")
-    return Math.max(0, (opening - cannabis) / opening);
-  return 1;
+  if (opening <= 0) return 1;
+  const reading = cannabisSalesRevenueChange(world, government, date);
+  return Math.max(0, (opening + reading.annualRevenueDelta) / opening);
 }
 
 /**
