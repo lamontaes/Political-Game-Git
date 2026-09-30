@@ -2006,6 +2006,70 @@
       "year": 2014,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "ak-commission-constitution",
+      "title": "Alaska official constitutional text ArticleIII26 and ArticleXIII1",
+      "url": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-constitution2023",
+      "title": "Wisconsin LRB2023 Constitution; debt/credit/internal improvements and amendment history",
+      "url": "https://www.wistatedocuments.org/digital/api/collection/p267601coll4/id/32552/download",
+      "year": 2023,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-rail-law2025",
+      "title": "Michigan chapter474 official compilation throughPA14of2025; indexed text, direct read failed",
+      "url": "https://zeus-milenia.legislature.mi.gov/documents/mcl/pdf/MCL-CHAP474.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-constitution-index",
+      "title": "Michigan official constitution indexed text, III6 internal improvements",
+      "url": "https://www.legislature.mi.gov/%28S%28uvravyiuohycukdxh0r1okfs%29%29/documents/mcl/pdf/mcl-Constitution.pdf",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-credit-stock-index",
+      "title": "Michigan2011Manual constitutional text IX18\u201319; indexed text",
+      "url": "https://www.legislature.mi.gov/Home/GetObject?objectName=2011-MM-p0037-p0093",
+      "year": 2011,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-rail-constitution",
+      "title": "Minnesota constitution XI5(i) railway rehabilitation debt; XI12 local debt limit",
+      "url": "https://www.revisor.mn.gov/constitution/#article_11",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "me-rail-acquisition-law",
+      "title": "Maine23MRSA7154 department rail acquisition authority",
+      "url": "https://legislature.maine.gov/legis/statutes/23/title23sec7154.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "me-rail-conditions-law",
+      "title": "Maine23MRSA7155 rail acquisition/operation/credit conditions",
+      "url": "https://www.legislature.maine.gov/legis/statutes/23/title23sec7155.html",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -11632,8 +11696,8 @@
             "ME": {
               "status": "unresearched",
               "scope": "state, special-district",
-              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched.",
-              "sources": [],
+              "reason": "Jurisdiction-specific grant, bars, amendment procedure and charter exceptions not all researched. Current23MRSA7154\u20137155 permits department acquisition and leased/contracted operations, but prohibits direct state operation of chapter-acquired lines. State credit requires separate IX14 authorization; acquisition costs must be recovered through disposition/operating arrangements.",
+              "sources": ["me-rail-acquisition-law", "me-rail-conditions-law"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -13343,19 +13407,23 @@
               "differentLargeCityCharters": []
             },
             "MI": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "reason": "Official indexed ArticleIII6 permits legislatively provided public internal improvements; MCL474.55 authorizes maintenance assistance via grants, leases, loans and purchases within appropriated or otherwise obtained funds. IX18 credit and IX19 corporate-stock restrictions remain separate. Indexed2025 rail compilation was read by the source helper; direct retrieval and2026 refresh remain gaps. No unrestricted guarantee/equity power inferred.",
+              "sources": [
+                "mi-rail-law2025",
+                "mi-constitution-index",
+                "mi-credit-stock-index"
+              ],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "MN": {
-              "status": "unresearched",
+              "status": "yes",
               "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "reason": "ArticleXI5(i) permits targeted railway right-of-way/facility rehabilitation debt and internal improvements on public or private rail, with$200million par-value outstanding bond limit. Political subdivisions act only as authorized by law; XI12 separately limits local rail-aid debt to5percent of taxable-property value. This targeted route does not prove unlimited private credit or equity participation.",
+              "sources": ["mn-rail-constitution"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -13588,8 +13656,8 @@
             "WI": {
               "status": "unresearched",
               "scope": "state",
-              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched.",
-              "sources": [],
+              "reason": "Current jurisdiction-specific authority, exceptions and amendment route have not all been researched. Official2023 LRB text corroborates1992 rail exceptions in VIII7(2)(a)1 andVIII10(2)(e), while VIII3 separately prohibits giving/lending private credit. Current online constitution retrieval remains unresolved.",
+              "sources": ["wi-constitution2023"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -23911,9 +23979,9 @@
         {
           "level": "state",
           "body": "AK principal utility commission: membership selection",
-          "does": "Governor; joint legislative confirmation. Historical governance report, current statute fetch failed.",
+          "does": "Governor appointment; majority of legislature in joint session confirms regulatory-board members under ArticleIII26. Earlier governance report identifies this route for RCA; full current commission statute fetch remains unresolved.",
           "legalSource": "Selection evidence only; agency descriptions and biographies do not establish a complete amendment route or all regulatory powers. Historical or dated limits are stated in the route.",
-          "sources": ["commission-selection-ak"],
+          "sources": ["commission-selection-ak", "ak-commission-constitution"],
           "organizationRequirement": "Research handoff requirement only: model the body as an organization with its real members or board and staff; at least one staff job even when inactive. No roster or organization was created by this research."
         },
         {
@@ -26004,11 +26072,21 @@
               "differentLargeCityCharters": []
             },
             "AK": {
-              "status": "unresearched",
-              "scope": "state-level change to principal commission selection",
-              "reason": "Existing selection evidence is recorded in topic authorities where available; the power and constitutional/statutory route to change it have not been completely researched.",
-              "sources": [],
-              "bars": [],
+              "status": "no",
+              "scope": "ordinary-statute replacement of constitutional regulatory-board appointment",
+              "reason": "Published ArticleIII26 requires gubernatorial appointment and joint legislative confirmation for a board heading a regulatory or quasi-judicial agency. A statute alone cannot replace that constitutional route with public election; the current RCA-specific statutory consolidation remains incomplete.",
+              "sources": [
+                "ak-commission-constitution",
+                "commission-selection-ak"
+              ],
+              "bars": [
+                {
+                  "description": "Constitutional appointment and confirmation requirement for regulatory agency boards.",
+                  "lawKind": "state constitution",
+                  "changedBy": "ArticleXIII1: two-thirds of each legislative house proposes amendment for next general election; majority of proposition votes adopts. Convention/revision is a separate route and not researched here.",
+                  "sources": ["ak-commission-constitution"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
@@ -30486,8 +30564,18 @@
       "id": "verify-16-item1",
       "promptClaim": "- Availability: every state may fund it. Old \"internal improvements\" clauses once barred state railroad investment (Michigan 1850, Wisconsin 1848). Wisconsin later amended its constitution to allow transportation appropriations (**verify** the year and article), and Michigan funds its routes through its transportation fund. **Research: each state's current constitutional credit, gift and internal-improvement clauses as they apply to rail.**",
       "status": "partially verified",
-      "finding": "Wisconsin ArticleVIII\u00a710(2)(e) rail appropriation exception and\u00a77(2)(a)1 debt authority were addedApril1992; highway exception1908 and ports1960 are separate. Proposed general transportation amendment was rejected1975 and1976. Historical primary text resolves year/article; live official consolidation and nationwide clause matrix remain gaps.",
-      "sources": ["wi-constitution-history", "wi-rail"]
+      "finding": "Wisconsin ArticleVIII\u00a710(2)(e) rail appropriation exception and\u00a77(2)(a)1 debt authority were addedApril1992; highway exception1908 and ports1960 are separate. Proposed general transportation amendment was rejected1975 and1976. Historical primary text resolves year/article; live official consolidation and nationwide clause matrix remain gaps. Official2023 LRB text corroborates the rail exceptions without removing VIII3 private-credit bar. MichiganIII6 permits legislatively provided public improvements; IX18/19 credit/equity limits remain distinct. MinnesotaXI5(i) permits capped railway rehabilitation debt; Maine7155 explicitly bars direct state operation for chapter acquisitions. Some Michigan evidence is indexed official text with direct reads unavailable; full2026 and nationwide review remain incomplete.",
+      "sources": [
+        "wi-constitution-history",
+        "wi-rail",
+        "wi-constitution2023",
+        "mi-rail-law2025",
+        "mi-constitution-index",
+        "mi-credit-stock-index",
+        "mn-rail-constitution",
+        "me-rail-acquisition-law",
+        "me-rail-conditions-law"
+      ]
     },
     {
       "id": "verify-17-item1",
@@ -30722,7 +30810,8 @@
         "nm-commission-ballot",
         "nc-selection-2024",
         "nc-selection-2026",
-        "naruc-commission-scope"
+        "naruc-commission-scope",
+        "ak-commission-constitution"
       ]
     },
     {
