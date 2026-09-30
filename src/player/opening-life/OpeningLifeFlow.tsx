@@ -64,32 +64,9 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
       </div>
     );
   }
-  /*
-   * The moment is opened from the room, not standing on it.
-   *
-   * A panel docked permanently over a full room covers whoever is standing
-   * where it lands — measured at 1440x900 and 1024x768, there is no viewport
-   * where it leaves every person reachable, and the people are how a life is
-   * played. So the room offers the moment and the player opens it. An active
-   * authored scene is untouched: it still shows its own choices below, so
-   * nothing a player must decide waits behind this control.
-   */
-  const opener =
-    props.pendingAvailable && props.onOpenPending ? (
-      <button
-        type="button"
-        className="pg-moment-opener"
-        data-testid="open-moment"
-        onClick={props.onOpenPending}
-      >
-        Your choices here
-        <small>Who is here with you, and what you can do</small>
-      </button>
-    ) : null;
-  if (!scene) return <>{opener}</>;
+  if (!scene) return null;
   return (
     <>
-      {opener}
       <LifeScenePanel
         world={props.world}
         playerPersonId={props.playerPersonId}

@@ -69,7 +69,13 @@ export function QuickDossier({
       onContact={onContact}
       onMeet={onMeet}
       onTravel={onTravel}
-      onFullRecord={onFullRecord}
+      onFullRecord={
+        dossier.personId === playerId
+          ? onFullRecord
+          : expanded
+            ? undefined
+            : () => setExpandedFor(dossier.personId)
+      }
       presentPersonIds={presentPersonIds}
       talkUnavailable={talkUnavailable ?? null}
       onOpenLink={onOpenLink}
