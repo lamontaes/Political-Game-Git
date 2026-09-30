@@ -1,0 +1,101 @@
+{
+  "team": 9,
+  "schemaSourceHead": "66080657e91e79d139050f6d02cd56d7a03c7114",
+  "schemaPath": "src/simulation/law-consequence-types.ts",
+  "designSource": "1e44b588 docs/codex/one-law-consequence-contract.md",
+  "runnableRowCount": 0,
+  "reason": "No justice capability registry contract supplied. Unsupported bindings excluded from executable rows; no fabricated amount/capability/zero default.",
+  "missingCapabilities": [
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "intendedKind": "legal-outcome",
+      "knownInputs": [
+        "saved pretrial held/released HistoricalEvent",
+        "referral and charging event IDs",
+        "operative bail LawInForce"
+      ],
+      "termsTimesActualRecords": [
+        "Operative release/detention statutory conditions; no universal fixed percentage",
+        "Actual defendant money and charged-case facts"
+      ],
+      "missingBinding": "Register relevant case-activity trigger (when enum has no case stage), defendant selector and saved pretrial action; amount is a legal determination, not supported monetary/ratio calculation.",
+      "limits": "Existing1290stamp-only writer; do not execute old and new paths twice."
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "intendedKind": "legal-outcome",
+      "knownInputs": [
+        "actual convicted charge",
+        "prior convictions",
+        "sentencing outcome"
+      ],
+      "termsTimesActualRecords": [
+        "Offense-specific statutory minimum months and exceptions",
+        "Actual charge quantity/prior/final-status facts"
+      ],
+      "missingBinding": "Need sentence-duration unit (months not in approved units), matched offense selectors/exception predicates and sentence action; no universal violent/prior proxy.",
+      "limits": "Partial federal offense terms are research only, federal implementation Team1."
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "intendedKind": "coverage-eligibility",
+      "knownInputs": [
+        "defendant birth date",
+        "offense date",
+        "case jurisdiction"
+      ],
+      "termsTimesActualRecords": [
+        "Operative juvenile age/exceptions",
+        "Actual age at legally relevant date and covered offense"
+      ],
+      "missingBinding": "Need age/date eligibility predicates, court-jurisdiction action and case activity; units do not encode age. No age18 universal waiver rules.",
+      "limits": "GU researched exceptions retained; current2026 completeness not proven."
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "intendedKind": "right-permission",
+      "knownInputs": [
+        "person incarceration/release facts",
+        "registration facts"
+      ],
+      "termsTimesActualRecords": [
+        "Operative jurisdiction eligibility rule",
+        "Actual sentence/release/citizenship/residency/registration facts"
+      ],
+      "missingBinding": "Need eligibility selector and voting-right saved action, exact sentence-completion definition and proper prospective trigger. Ballot choice not same as eligibility.",
+      "limits": "GU confinement rule differs completion of all supervision; turnout-onward denominator unresolved."
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "intendedKind": "institution-rule",
+      "knownInputs": ["covered complaint and evidence records not verified"],
+      "termsTimesActualRecords": [
+        "Actual delegated board powers",
+        "Actual complaint jurisdiction and officer coverage"
+      ],
+      "missingBinding": "Need authorized board/complaint records, evidence-access powers, action and institutional selector. No invented misconduct/trust rate.",
+      "limits": "Reader absent perCTO; kindB contract pending Audit."
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "intendedKind": "right-permission",
+      "knownInputs": ["permit application/issuance records not verified"],
+      "termsTimesActualRecords": [
+        "Operative licensing criteria/exemptions/fees",
+        "Actual applicant qualification and application facts"
+      ],
+      "missingBinding": "Need permit records, applicant selectors, allowed issuance/denial action, actual lawful fee term and renewal trigger. No universal permit bound or firearm homicide coefficient.",
+      "limits": "Reader absent perCTO; kindB contract pending Audit."
+    }
+  ],
+  "onwardLimits": "All onward applications require actual saved exposure plus matching unit/lag/outcome reader. Existing numerical studies are calibration evidence, not an invented runtime action.",
+  "repeal": "Prospective legal recomputation;preserve completed consequences,not erase existing orders/votes/history. Exact each-law retroactivity must follow law.",
+  "sources": [
+    "docs/codex/effect-batches/team-9/first-three-writer-terms.json",
+    "docs/codex/effect-batches/team-9/justice-terms-nj-bail-primary.json",
+    "docs/codex/effect-batches/team-9/federal-mandatory-minimum-values-2026.json",
+    "docs/codex/effect-batches/team-9/justice-effect-list.json",
+    "PR1290 d625d460ec5cf849774fb4877cdf6924ee602f06"
+  ],
+  "nextDependency": "Audit/Systems supplies registered selectors/actions/units/triggers;coordinator admits supported rows/sharedengine. No new per-law month/index grant requested."
+}
