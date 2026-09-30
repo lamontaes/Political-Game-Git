@@ -1,5 +1,8 @@
 import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
-import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
+import {
+  SCHOOL_NAMES_V2_VERSION,
+  SCHOOL_NAMES_V3_VERSION,
+} from "../simulation/school-names";
 import {
   SCHOOL_STAGES_V1,
   SCHOOL_STAGES_V2,
@@ -423,7 +426,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     return null;
   if (
     record.schoolNameVersion !== undefined &&
-    record.schoolNameVersion !== SCHOOL_NAMES_V2_VERSION
+    record.schoolNameVersion !== SCHOOL_NAMES_V2_VERSION &&
+    record.schoolNameVersion !== SCHOOL_NAMES_V3_VERSION
   )
     return null;
   if (
@@ -541,7 +545,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       : { partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION }),
     ...(record.schoolNameVersion === undefined
       ? {}
-      : { schoolNameVersion: SCHOOL_NAMES_V2_VERSION }),
+      : {
+          schoolNameVersion:
+            record.schoolNameVersion === SCHOOL_NAMES_V3_VERSION
+              ? SCHOOL_NAMES_V3_VERSION
+              : SCHOOL_NAMES_V2_VERSION,
+        }),
     ...(record.placeNameVersion === undefined
       ? {}
       : { placeNameVersion: PLACE_NAMES_V1_VERSION }),
