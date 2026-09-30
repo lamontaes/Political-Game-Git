@@ -1,0 +1,22 @@
+{
+  "team": 3,
+  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+  "sourceHead": "38c2980cd5aefb7cd6adf0d38fdbbfcc63253853",
+  "status": "PROPOSED SHARED-CONSUMER PATCH; NOT APPLIED OR EXECUTED",
+  "sharedOwnerOrder": "CTO12:36 Team8 month.ts first; Team5 parks second; coordinator integrates Team3 payload after narrow ownership release",
+  "files": [
+    "src/simulation/public-budgets/month.ts",
+    "src/simulation/public-budgets/store.ts"
+  ],
+  "hunks": [
+    "MonthFlows optional paymentLawEffectStamps",
+    "readMonthFlows positive partial paid-leave handling and stamped outgoing-state payment attribution",
+    "settleGovernmentMonth BudgetMonthRow stamp propagation",
+    "BudgetMonthRow optional LawEffectStampedRecord"
+  ],
+  "cost": "Actual transferred minor units / 100, existing whole-dollar budget rounding; no new per-unit estimate or aggregate population multiplier. Existing otherPrograms classification retained pending researched insurance-fund classification.",
+  "sourceMeasure": "Read replacement-rate source remains on claim/payment reader; this patch only records paid amounts, not complete researched entitlement terms or administrative cost.",
+  "checks": "NOT RUN: patch is not applied. Required focused proof: completed and partial payment, zero/blocked excluded, correct state row/amount/stamp/source IDs, settlement idempotence and canonical save/reopen.",
+  "fivePartCostCount": 0,
+  "warning": "Budget figures use whole dollars; do not claim cent-exact row equality. Preserve Team8/Team5/new federal hunks when integrating."
+}
