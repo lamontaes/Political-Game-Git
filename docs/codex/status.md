@@ -2,6 +2,20 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 10:55 collection: five-part law records
+
+The deadline is now 1 p.m. Each law needs terms, all effects, cost, weighted ideology and nationwide proof. All eight cloud law teams and Merge received the new standard and the published shared stamp API. Art remains unchanged.
+
+### CONNECTIONS TABLE
+
+Team 2 published stamp PR1237 at 205c598a5adb7f77eeed69af8f3745e5cbe64ce1. Writers attach lawEffectStamps to actual saved consequences; stamp alone is not proof. Coordinator now owns both map and shared catalog-parameter integration. Team 4 can edit unclaimed housing-market and town-businesses law hunks; rent, loan and housing transfers were requested from Teams 1 and 3. Team 8 health-coverage transfer requested from Team 3. Existing unpublished bytes remain protected.
+
+### BLOCKED
+Nationwide 24-month five-start runner publication and execution receipt remain pending. No fresh national table is fabricated. Team 9 medical-debt proportional baseline and eligible-versus-covered mortality conversion requests are time-sensitive. Shared stamp is published, not yet claimed merged. Cost figures and complete why-answers remain required before map acceptance.
+
+### EFFECTS
+Zero laws independently verified complete across all five parts this collection. This is a verification count, not a claim that all laws have no effects. Existing three-world audit receipts and new producer tests remain separate from the required nationwide stamped proof.
+
 ## September 30, 10:45 laws-only dispatch
 
 Every team except art now works only on laws. The coordinator owns integrating map batches; Team 2 owns shared attribution and the nationwide audit. The new policy split in claims supersedes earlier federal and housing allocations. Speed, feature designs, county, eviction and meeting follow-ups are paused with work preserved.

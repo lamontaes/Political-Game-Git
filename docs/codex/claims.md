@@ -694,3 +694,7 @@ Team 6 owns only month.ts local cannabisSalesFactor (published line 451), select
 ## Binding laws-only allocation, CTO September 30 10:45
 
 Supersedes earlier policy splits. Team 1: 20 federal laws. Team 2: 8 government/election laws plus sole stamp helper and audit. Team 3: 13 budget/tax/labor laws. Team 4: 10 housing/business laws; speed paused. Team 5: 12 education/civil laws including parks. Team 6: 14 transport/environment/agriculture laws. Team 8: 9 health/technology laws plus noticing. Team 9: 6 justice laws plus ten-minute research desk. Team 7 art unchanged. Existing unpublished bytes must be handed off before a new writer edits overlapping files. Each team owns docs/codex/effect-batches/team-N/ for map proposals; coordinator alone integrates links.json. Shared record schema belongs to Team 2. Existing unrelated work is preserved and paused, not deleted.
+
+## CTO 10:55 catalog and narrow producer allocation
+
+Coordinator exclusively integrates shared catalog parameters and links.json from team payloads. Team 4 granted law-effect hunks in housing-market.ts and town-businesses.ts plus focused tests; no preexisting central claim found. Team 1 rent/finance loan and Team 3 housing/health transfers requested; preserve unpublished work before overlapping edits. Team 2 sole stamp module/test writer; producer owners consume its exported type. Team 8 health-coverage grant depends on receiving Team 3 active-hunk state. No general schema takeover.
