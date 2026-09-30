@@ -441,8 +441,8 @@ CTO 9:01 lock restoration: all seven teams quiescent, no open handles observed. 
 
 | Team 5 | `src/player/PlayerSurfaceProvenance.test.tsx` | 2026-09-30T01:14:26.776347+00:00 |
 
-| Team 5 | `src/simulation/press/law-effect-news.ts` | 2026-09-30T01:41:07.039133+00:00 |
-| Team 5 | `src/simulation/press/law-effect-news.test.ts` | 2026-09-30T01:41:07.039133+00:00 |
+| Team 8 | `src/simulation/press/law-effect-news.ts` | 2026-09-30T01:41:07.039133+00:00 |
+| Team 8 | `src/simulation/press/law-effect-news.test.ts` | 2026-09-30T01:41:07.039133+00:00 |
 | Team 5 | `docs/release/changes/wave1-law-news-readers.md` | 2026-09-30T01:41:07.039133+00:00 |
 
 Team 3 status 2026-09-30T01:51:39.041330+00:00: Census PR #1143 READY at published 4cd9d7ad1d1acabd5ac2f293962059df76f9837f. Compensation review source 684a5548350f6a691a51392e8416ab50a210d62f on published Team 1 base f4880e7af06ef72645763a057db289ae6dc543d9; exact nine-file scoped checks pending. Only owned money/income delta and release/handback; no Census-population or speed/law deltas. Mixed source preserved on codex/wave1-compensation at bbd82464b980ff695e4975c53e11bd1b1a9a64e7.
@@ -654,3 +654,19 @@ Team 2 is the sole writer for `src/simulation/governing/automatic-legislation.ts
 Team 8 owns the single WorldOrientationPanel.tsx import conflict in PR1213 additive main integration. Preserve both opening-family.css and projectLifeSoFarEnglish imports. Publish the integrated head for renewed CTO approval. Team 8 also supplies exact regional street/home picture coverage keys; Team 7 reconciles existing tagged sources before any proposed new generation. This assigns no overlapping renderer or new art implementation.
 
 - Team 7: art/authoring/sept30-team7/law-places/ — ten law-place candidate sets, contacts and lineage under September30 daily job; no admission/runtime edits.
+
+- Team 7: docs/codex/handbacks/team-7-sept30-law-places.md — daily art batch review only.
+
+- Team 7: docs/release/changes/team-7-sept30-law-places.md — daily art batch review only.
+
+- Team 7: art/authoring/sept30-team7/regional-reconciliation.json — exact regional packet versus supplied-bank reconciliation.
+
+- Team 7: art/authoring/sept30-team7/regional-priority/ — Southwest and Northeast illustrative candidates, native contacts and lineage; no admission/runtime edits.
+
+- Team 7: docs/codex/handbacks/team-7-regional-priority.md — priority regional candidate review batch only.
+
+- Team 7: docs/release/changes/team-7-regional-priority.md — priority regional candidate review batch only.
+
+## September 30 execution correction
+
+Team 5 explicitly released both law-effect-news files without unpublished hunks; Team 8 is now the writer. Team 3 owns reader implementation for shared federal top-income tax, loan cap, Medicare, retirement, minimum wage, vouchers and privacy rows; Team 1 retains sponsor/current-law input work. This functional split does not release other shared schemas. Team 3 retains canonical housing/work/eligibility readers; Team 5 owns education/civil consumers. Team 6 public-land handoff requested from Team 1, preserving Team 3 nearbyPublicLandAcres adapter. Team 4 may optimize its measured read-only confidants reader; Article V setup release remains requested from Team 2 and Team 1. No timeout or assertion weakening authorized.

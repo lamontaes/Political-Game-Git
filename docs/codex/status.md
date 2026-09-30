@@ -2,6 +2,16 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30 execution correction after owner escalation
+
+Five working teams had ended their turns. Teams 1, 3 and 6 cited the audit dependency despite the CTO instruction to continue known missing effects. Concrete continuation tasks were sent to Teams 1, 3, 4, 6 and 9. Delivery does not prove implementation resumed.
+
+All nine daily assignments are now explicitly acknowledged. Team 2 is implementing the audit; runnable publication requested before the full report, with partial counts due 10:45. Team 9 first sourced batch is due 11:00.
+
+Team 8 received Team 5's completed law-news release. Shared federal reader ownership was allocated to Team 3, sponsor inputs to Team 1. Public-land and curriculum/library held-source handoffs were requested. Team 4 can continue its measured confidants optimization while test-setup releases are resolved.
+
+Merge was sent the overlooked CTO approval for #1221 at 0db7f4af5ddc6518d7f6f2a55ead94fa63442fde and its sole test file. Merge reports #1213 landed at b921f76393a153067840624e1b395f5bc474bbaf; this amendment has not independently reread that merge. Team 5 reports six corrected screenshots inserted in 00; stop-route proof remains separate. No new law-effect success is claimed.
+
 ## September 30, 10:05 a.m. collection amendment
 
 Eight teams now explicitly acknowledge the daily assignment: Teams 1, 3, 4, 5, 6, 7, 8 and 9. Team 2 acknowledgment remains pending. Current report requests are being delivered to all eight cloud teams and Merge.
