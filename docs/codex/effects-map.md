@@ -629,3 +629,15 @@ Team 1 reports the complete Floral year at runtime ef64da2c4d932fc78c13203d1ff78
 ## CTO 10:35 attribution requirement
 
 Every applied-law effect record must identify the governing measure or starting-law key and effect kind. Team 2 supplies the shared stamp and audit reader; existing producer owners add it as they touch writers. Extend audit to 24 months for future-effective rows. Prior missing attribution is an explicit repair requirement, not a fabricated claim that no underlying effect occurred.
+
+## Immediate received map batch and consumer wiring
+
+Received Team 9 PR 1232 at ff9cf066786a2bcc1940f1f9add55efe39cb9325. Payload has 20 unique existing link IDs: two sized values fall inside their supplied ranges; eighteen remain unsized. This structural check is not independent scientific validation. Existing PR carries the map bytes; central integration will preserve them rather than duplicate the batch.
+
+| Effect connection | Next owner action | Limit |
+| --- | --- | --- |
+| Stand-your-ground → firearm homicide → affected person | Team 9 supplies full why/repeal/lag/place/consumer evidence in its batch | Two-sided source confidence interval alone does not answer causal questions |
+| Particulates → infant mortality → person record | Team 8 receives historical TSP conversion and identifies applicable consumer | Historical elasticity is not automatically a universal contemporary coefficient |
+| Rural transit law → appropriation → installment → completed transfer → paid service → rider → noticing | Team 6 publishes canonical record joins; Team 2 reads provenance; Team 8 notices recorded effect | Rider use and reactions must not be inferred from funding alone |
+
+All eight policy teams submit why answers and proposed link data separately; coordinator is the only links.json writer. Current batch has no complete nationwide or person-effect acceptance.
