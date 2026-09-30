@@ -230,3 +230,37 @@ Stop: none.
 ## 7. Worked example
 
 The canonical filed rows above are the worked examples. No synthetic example fills an empty group. This is source/runtime proof; browser interaction and person-level law effects are not established.
+
+# Congress intake now reports the work actually recorded
+
+An intake could record “Members of Congress filed their bills.” while creating zero measures. The bounded repair counts new Congress measure IDs and reports zero, one or two actual filings. Existing proposal selection and majority decisions remain unchanged. The requested before/after watched year is pending; this checkpoint is not ready for acceptance.
+
+## 1. Why-chain
+
+The summary was false because `congressIntakeHandler` always used the same filed-bills sentence. It used that sentence because it reported completion of an intake rather than the measures produced. An intake can produce none because `fileCongressBill` returns unchanged when no majority-backed proposal is selected. Selection requires the existing majority caucus and chamber predicates. Those predicates read each member's saved principles; their formation still includes authored seeded draws. Terminal: canonical records for reporting, own principle records and formation draws for decisions. Constituent requests, donors, groups, leadership, news and reintroductions are not all represented.
+
+## 2. Research
+
+This is a producer consistency repair, not a new empirical filing rate. Source inspection shows both selected filing paths call the canonical introduction writer and schedule Congress's next sitting (`governing/congress-lawmaking.ts`). The monthly intake and Tuesday/Thursday sitting cadence are authored assumptions. No research-backed frequency or authority is inferred from them.
+
+## 3. Revisions
+
+The repair counts IDs absent before intake and filters to Congress measures. It does not count prior bills. No member choice, proposal, threshold, majority predicate, bill writer, referral rule or calendar changes. No new effects link requires a causal size or range because the change records work already produced.
+
+## 4. Numbered built parts
+
+1. `src/simulation/governing/congress-lawmaking.ts`: only the intake reporting hunk.
+2. `src/simulation/governing/congress-lawmaking.test.ts`: empty intake, prior bill exclusion and an explicitly authored partial Senate fixture. The selected fixture measure is introduced and the next sitting handler refers it to a committee.
+3. `scripts/governance-proof/congress-year.ts`: read-only normal Day-path year, with each resolved intake linked to new measure IDs, introduction/referral/later action counts and Save/Continue date/history checks. Baseline and repaired source use the same published collector and seed.
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: existing members decide from their recorded principles. RECORDS: actual new IDs determine summary text. WORLD PIECES: jurisdiction, members, catalog, rule pack and compiled committees. CHECKS: a filed measure has a canonical introduction; its sitting can refer it; zero selected bills remain zero. No person feels a new law effect from this reporting repair. The explicit partial chamber fixture is not a watched Congress, and cannot substitute for the year.
+
+## 6. Proof run
+
+Focused tests passed 3/3 in 10.29 seconds, including actual fixture introduction and referral. The earlier fixture failures came from advancing an incomplete world through unrelated Congress turnover, then skipping unresolved fixture due items. The repaired fixture calls the handlers directly with the canonical date and moment aligned; no production guard was weakened. Allocator checks remain the prior 69/69 receipt because allocator code is unchanged. Final strict types cover six TypeScript roots, including the year collector, with zero diagnostics. Scoped lint, formatting and whitespace pass. The handback check reports zero errors and zero warnings. The watched before/after year is NOT RUN at this checkpoint. Browser, full suite and independent reviewer are NOT RUN under the no-new-helper constraint.
+
+## 7. Worked example
+
+The actual March 1 intake in the published Wadsworth month resolved with “Members of Congress filed their bills.” and zero new Congress measures. Due item `future-due-item_b1461c3e8167df4a` records that mismatch at runtime source `9d5a64b4f51cb4c62bf924117b09293fc943fc38`. The new zero-case fixture records “No bill was filed during this Congress intake.” The one-member authored fixture records “Members of Congress filed 1 bill.” and reaches committee referral. These fixture outcomes are not an invented watched sponsor story. The yearly report will preserve every actual intake and measure, including none.
