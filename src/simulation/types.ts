@@ -1,3 +1,4 @@
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import type { CrisisRecord } from "./crisis/types";
 import type {
   CampaignLifeActivityRecord,
@@ -3136,7 +3137,7 @@ export interface ResourceFlow {
 
 export type ResourceFlowStatus = "expected" | "active" | "ended";
 
-export interface ResourceFlowTermsRecord {
+export interface ResourceFlowTermsRecord extends LawEffectStampedRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -3157,7 +3158,7 @@ export type ResourceOutcomeReasonNamespace =
 export type ResourceOutcomeReasonKind =
   `${ResourceOutcomeReasonNamespace}:${string}`;
 
-export interface ResourceTransferOutcome {
+export interface ResourceTransferOutcome extends LawEffectStampedRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
