@@ -33,7 +33,7 @@ function worldWithDrawnPrinciple(): World {
     principleId,
     formedAt: world.currentDate,
     stance: "endorses",
-    strength: 0.75,
+    strength: 0.37,
     conviction: "strong",
     flexibility: "conditional",
     qualification: null,
@@ -97,6 +97,14 @@ describe("generated principles in a save", () => {
 
   it("rejects malformed tables and a packed payload under an older format", () => {
     const stored = JSON.parse(serializeWorld(world));
+    for (const strength of [-0.1, 1.1, null, "0.37"]) {
+      const invalidStrength = structuredClone(stored);
+      const row = invalidStrength.world.history.principles.find(Array.isArray);
+      row[5] = strength;
+      expect(() =>
+        readWorldSnapshot(JSON.stringify(invalidStrength)),
+      ).toThrow();
+    }
     const missingPerson = structuredClone(stored);
     missingPerson.principlesPacking.persons = [];
     expect(() => readWorldSnapshot(JSON.stringify(missingPerson))).toThrow();

@@ -16,7 +16,14 @@ export interface PackedPrinciples {
   readonly dates: readonly string[];
 }
 
-type PackedPrincipleRow = readonly [number, number, number, string, number];
+type PackedPrincipleRow = readonly [
+  number,
+  number,
+  number,
+  string,
+  number,
+  number,
+];
 
 const DRAW_PREFIX = "officeholder-principles/v1:";
 const DRAW_NOTE = "Drawn before play; see officeholder-principles.ts.";
@@ -43,6 +50,7 @@ const RECORD_KEYS = [
   "principleId",
   "formedAt",
   "stance",
+  "strength",
   "conviction",
   "flexibility",
   "qualification",
@@ -105,6 +113,9 @@ function codeFor(record: PrincipleRecord, world: World): string | null {
     record.qualification !== null ||
     record.supersedesPrincipleRecordId !== null ||
     !Number.isSafeInteger(record.sequence) ||
+    !Number.isFinite(record.strength) ||
+    record.strength < 0 ||
+    record.strength > 1 ||
     !record.formation ||
     !exactKeys(record.formation, FORMATION_KEYS) ||
     record.formation.reason !== "other:drawn-before-play" ||
@@ -166,6 +177,7 @@ export function packPrinciples(
       reference(record.formedAt, dates, dateIndex),
       code,
       record.sequence,
+      record.strength,
     ];
     return packed as unknown as PrincipleRecord;
   });
@@ -216,9 +228,9 @@ export function unpackPrinciples(world: World, packed: unknown): World {
     throw new Error("World snapshot packs principles it does not hold.");
   const rebuilt = world.history.principles.map((record) => {
     if (!Array.isArray(record)) return record;
-    if (record.length !== 5)
+    if (record.length !== 6)
       throw new Error("A packed principle row is malformed.");
-    const [personRef, principleRef, dateRef, code, sequence] =
+    const [personRef, principleRef, dateRef, code, sequence, strength] =
       record as unknown as PackedPrincipleRow;
     const personId = tableItem(packing.persons, personRef) as EntityId;
     const principleId = tableItem(
@@ -234,7 +246,10 @@ export function unpackPrinciples(world: World, packed: unknown): World {
       !principle ||
       typeof code !== "string" ||
       !/^[0-2][0-3][0-3]$/.test(code) ||
-      !Number.isSafeInteger(sequence)
+      !Number.isSafeInteger(sequence) ||
+      !Number.isFinite(strength) ||
+      strength < 0 ||
+      strength > 1
     )
       throw new Error("A packed principle row cannot be rebuilt.");
     const stableKey = `${DRAW_PREFIX}${personId}:${principle.stableKey}`;
@@ -244,6 +259,7 @@ export function unpackPrinciples(world: World, packed: unknown): World {
       principleId,
       formedAt,
       stance: STANCES[Number(code[0])]!,
+      strength,
       conviction: CONVICTIONS[Number(code[1])]!,
       flexibility: FLEXIBILITIES[Number(code[2])]!,
       qualification: null,
