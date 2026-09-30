@@ -85,8 +85,9 @@ describe("automatic legislation producer guards", () => {
         intakeKey: `all-state-draft:${usps}`,
         context: context!,
       });
-      expect(draft, `${usps} draft`).not.toBeNull();
-      expect(draft?.rulePackId).toBe(context?.rulePackId);
+      // A legal profile supplies no saved amount/window. This fixture cannot
+      // form a typed program bill; sourced starting-law terms remain missing.
+      expect(draft, `${usps} missing current-law terms`).toBeNull();
     }
     for (const key of ["US-PR", "US-DC"]) {
       const jurisdiction = stateJurisdictionForKey(key);
