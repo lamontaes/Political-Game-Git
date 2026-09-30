@@ -1,0 +1,2403 @@
+{
+  "researchDate": "2026-09-29",
+  "status": "source research only",
+  "studentEmployment": {
+    "source": "https://nces.ed.gov/programs/coe/indicator/ssa/college-student-employment",
+    "vintage": 2020,
+    "unit": "percent of undergraduates ages16–64",
+    "fullTimeEmployed": 40,
+    "partTimeEmployed": 74,
+    "fullTime35plusHours": 10,
+    "partTime35plusHours": 40,
+    "limits": "CPS October2020, pandemic year; employment not labor participation. Latest2022 Digest503.40 located but numeric cells not independently verified."
+  },
+  "olderParticipation": {
+    "source": "https://www.bls.gov/cps/cpsaat03.htm",
+    "vintage": 2025,
+    "unit": "percent civilian noninstitutional population, annual average",
+    "age60to64": {
+      "participation": 58.7,
+      "employed": 56.9,
+      "populationThousands": 21131,
+      "laborForceThousands": 12406
+    },
+    "age65to69": {
+      "participation": 33.3,
+      "employed": 32.3
+    },
+    "age70to74": {
+      "participation": 18.8,
+      "employed": 18.1
+    },
+    "age75plus": {
+      "participation": 8.5,
+      "employed": 8.2
+    },
+    "limits": "60–64 is a proxy for62–64, not exact62+ measurement.2025 excludes October shutdown; labor participation includes jobseekers."
+  },
+  "parentAtHome": {
+    "source": "https://www.bls.gov/news.release/archives/famee_04232025.htm",
+    "vintage": 2024,
+    "unit": "percent parents with children under6",
+    "mothersLaborParticipation": 68.3,
+    "fathersLaborParticipation": 94.9,
+    "derivedMothersNotInLaborForce": 31.7,
+    "derivedFathersNotInLaborForce": 5.1,
+    "derivation": "100 minus measured labor participation",
+    "limits": "Under6 proxy for requested under5; not-in-labor-force does not prove caregiving reason or full-time parent-at-home role. Marginal rates do not determine joint household probability."
+  },
+  "socialSecurity": {
+    "sources": [
+      "https://www.ssa.gov/benefits/retirement/planner/credits.html",
+      "https://www.ssa.gov/benefits/retirement/planner/stopwork.html",
+      "https://www.ssa.gov/OACT/COLA/Benefits.html",
+      "https://www.ssa.gov/cola/factsheets/2026.html",
+      "https://www.ssa.gov/OACT/ProgData/ar_drc.html",
+      "https://www.ssa.gov/benefits/retirement/planner/agereduction.html"
+    ],
+    "vintage": 2026,
+    "eligibility": {
+      "minimumAge": 62,
+      "creditsRequired": 40,
+      "creditsMaximumPerYear": 4,
+      "earningsPerCreditUsd2026": 1890,
+      "fullRetirementAgeBorn1960plus": 67
+    },
+    "benefitFormula": {
+      "aime": "Indexed highest35 years of covered earnings /420months, missing years zero; apply SSA indexing and rounding",
+      "monthlyPiaBendPointsUsd2026": [1286, 7749],
+      "rates": [0.9, 0.32, 0.15],
+      "formula": "0.9*min(AIME,1286)+0.32*max(0,min(AIME,7749)-1286)+0.15*max(0,AIME-7749)",
+      "bendPointCohort": "Year worker attains62, not claim year",
+      "earlyClaimReduction": "5/9of1percent per month first36months before FRA;5/12of1percent remaining months",
+      "delayedCredits": "8percent/year for birth1943plus, after FRA until70",
+      "rounding": "PIA rounded down to next lower dime; payable benefit rounding also applies"
+    },
+    "earningsTest": {
+      "underFraLimitAnnualUsd": 24480,
+      "withholding": "1benefit dollar per2earnings dollars over limit",
+      "fraYearLimitAnnualUsd": 65160,
+      "fraYearWithholding": "1per3 over limit, only months before FRA",
+      "afterFra": "no earnings limit"
+    },
+    "taxableMaximumUsd2026": 184500,
+    "cola2026Percent": 2.8,
+    "limits": "Retired-worker formula only; spouse/survivor/disability/SSI and coverage exceptions require separate rules. Age alone gives no entitlement; historical covered earnings and credits required."
+  },
+  "stateUnemployment": {
+    "source": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+    "method": "LAUST{stateFips}0000000000003;not seasonally adjusted;M13annualaverage;2021–2025",
+    "rawSha256": "14af6fbcb51d31b88b8ed57ad675c17dc9c7e9f5fdcd53607a83d54dc3bf02e0",
+    "rows": [
+      {
+        "stateFips": "01",
+        "seriesId": "LAUST010000000000003",
+        "annualRatesPercent": {
+          "2025": 2.9,
+          "2024": 3.0,
+          "2023": 2.5,
+          "2022": 2.5,
+          "2021": 3.4
+        },
+        "fiveYearMinPercent": 2.5,
+        "fiveYearMaxPercent": 3.4
+      },
+      {
+        "stateFips": "02",
+        "seriesId": "LAUST020000000000003",
+        "annualRatesPercent": {
+          "2025": 4.7,
+          "2024": 4.5,
+          "2023": 4.3,
+          "2022": 4.4,
+          "2021": 6.4
+        },
+        "fiveYearMinPercent": 4.3,
+        "fiveYearMaxPercent": 6.4
+      },
+      {
+        "stateFips": "04",
+        "seriesId": "LAUST040000000000003",
+        "annualRatesPercent": {
+          "2025": 4.3,
+          "2024": 3.7,
+          "2023": 3.7,
+          "2022": 3.8,
+          "2021": 5.0
+        },
+        "fiveYearMinPercent": 3.7,
+        "fiveYearMaxPercent": 5.0
+      },
+      {
+        "stateFips": "05",
+        "seriesId": "LAUST050000000000003",
+        "annualRatesPercent": {
+          "2025": 4.1,
+          "2024": 3.5,
+          "2023": 3.2,
+          "2022": 3.2,
+          "2021": 4.0
+        },
+        "fiveYearMinPercent": 3.2,
+        "fiveYearMaxPercent": 4.1
+      },
+      {
+        "stateFips": "06",
+        "seriesId": "LAUST060000000000003",
+        "annualRatesPercent": {
+          "2025": 5.5,
+          "2024": 5.3,
+          "2023": 4.7,
+          "2022": 4.3,
+          "2021": 7.3
+        },
+        "fiveYearMinPercent": 4.3,
+        "fiveYearMaxPercent": 7.3
+      },
+      {
+        "stateFips": "08",
+        "seriesId": "LAUST080000000000003",
+        "annualRatesPercent": {
+          "2025": 4.0,
+          "2024": 4.1,
+          "2023": 3.3,
+          "2022": 3.1,
+          "2021": 5.5
+        },
+        "fiveYearMinPercent": 3.1,
+        "fiveYearMaxPercent": 5.5
+      },
+      {
+        "stateFips": "09",
+        "seriesId": "LAUST090000000000003",
+        "annualRatesPercent": {
+          "2025": 4.0,
+          "2024": 3.3,
+          "2023": 3.2,
+          "2022": 4.0,
+          "2021": 6.4
+        },
+        "fiveYearMinPercent": 3.2,
+        "fiveYearMaxPercent": 6.4
+      },
+      {
+        "stateFips": "10",
+        "seriesId": "LAUST100000000000003",
+        "annualRatesPercent": {
+          "2025": 4.8,
+          "2024": 3.9,
+          "2023": 3.9,
+          "2022": 4.2,
+          "2021": 5.5
+        },
+        "fiveYearMinPercent": 3.9,
+        "fiveYearMaxPercent": 5.5
+      },
+      {
+        "stateFips": "11",
+        "seriesId": "LAUST110000000000003",
+        "annualRatesPercent": {
+          "2025": 6.3,
+          "2024": 5.3,
+          "2023": 4.9,
+          "2022": 4.7,
+          "2021": 6.8
+        },
+        "fiveYearMinPercent": 4.7,
+        "fiveYearMaxPercent": 6.8
+      },
+      {
+        "stateFips": "12",
+        "seriesId": "LAUST120000000000003",
+        "annualRatesPercent": {
+          "2025": 3.9,
+          "2024": 3.4,
+          "2023": 2.9,
+          "2022": 3.0,
+          "2021": 4.7
+        },
+        "fiveYearMinPercent": 2.9,
+        "fiveYearMaxPercent": 4.7
+      },
+      {
+        "stateFips": "13",
+        "seriesId": "LAUST130000000000003",
+        "annualRatesPercent": {
+          "2025": 3.4,
+          "2024": 3.4,
+          "2023": 3.2,
+          "2022": 3.1,
+          "2021": 3.9
+        },
+        "fiveYearMinPercent": 3.1,
+        "fiveYearMaxPercent": 3.9
+      },
+      {
+        "stateFips": "15",
+        "seriesId": "LAUST150000000000003",
+        "annualRatesPercent": {
+          "2025": 2.4,
+          "2024": 2.8,
+          "2023": 2.9,
+          "2022": 3.2,
+          "2021": 6.0
+        },
+        "fiveYearMinPercent": 2.4,
+        "fiveYearMaxPercent": 6.0
+      },
+      {
+        "stateFips": "16",
+        "seriesId": "LAUST160000000000003",
+        "annualRatesPercent": {
+          "2025": 3.7,
+          "2024": 3.6,
+          "2023": 3.2,
+          "2022": 2.9,
+          "2021": 3.6
+        },
+        "fiveYearMinPercent": 2.9,
+        "fiveYearMaxPercent": 3.7
+      },
+      {
+        "stateFips": "17",
+        "seriesId": "LAUST170000000000003",
+        "annualRatesPercent": {
+          "2025": 4.6,
+          "2024": 5.0,
+          "2023": 4.5,
+          "2022": 4.6,
+          "2021": 6.1
+        },
+        "fiveYearMinPercent": 4.5,
+        "fiveYearMaxPercent": 6.1
+      },
+      {
+        "stateFips": "18",
+        "seriesId": "LAUST180000000000003",
+        "annualRatesPercent": {
+          "2025": 3.7,
+          "2024": 4.0,
+          "2023": 3.4,
+          "2022": 3.1,
+          "2021": 3.9
+        },
+        "fiveYearMinPercent": 3.1,
+        "fiveYearMaxPercent": 4.0
+      },
+      {
+        "stateFips": "19",
+        "seriesId": "LAUST190000000000003",
+        "annualRatesPercent": {
+          "2025": 3.5,
+          "2024": 3.2,
+          "2023": 3.0,
+          "2022": 2.9,
+          "2021": 3.9
+        },
+        "fiveYearMinPercent": 2.9,
+        "fiveYearMaxPercent": 3.9
+      },
+      {
+        "stateFips": "20",
+        "seriesId": "LAUST200000000000003",
+        "annualRatesPercent": {
+          "2025": 3.8,
+          "2024": 3.5,
+          "2023": 2.9,
+          "2022": 2.8,
+          "2021": 3.4
+        },
+        "fiveYearMinPercent": 2.8,
+        "fiveYearMaxPercent": 3.8
+      },
+      {
+        "stateFips": "21",
+        "seriesId": "LAUST210000000000003",
+        "annualRatesPercent": {
+          "2025": 4.6,
+          "2024": 4.8,
+          "2023": 4.2,
+          "2022": 4.0,
+          "2021": 4.4
+        },
+        "fiveYearMinPercent": 4.0,
+        "fiveYearMaxPercent": 4.8
+      },
+      {
+        "stateFips": "22",
+        "seriesId": "LAUST220000000000003",
+        "annualRatesPercent": {
+          "2025": 4.3,
+          "2024": 4.3,
+          "2023": 3.7,
+          "2022": 3.7,
+          "2021": 5.6
+        },
+        "fiveYearMinPercent": 3.7,
+        "fiveYearMaxPercent": 5.6
+      },
+      {
+        "stateFips": "23",
+        "seriesId": "LAUST230000000000003",
+        "annualRatesPercent": {
+          "2025": 3.4,
+          "2024": 3.0,
+          "2023": 2.6,
+          "2022": 2.8,
+          "2021": 4.7
+        },
+        "fiveYearMinPercent": 2.6,
+        "fiveYearMaxPercent": 4.7
+      },
+      {
+        "stateFips": "24",
+        "seriesId": "LAUST240000000000003",
+        "annualRatesPercent": {
+          "2025": 4.0,
+          "2024": 3.2,
+          "2023": 2.2,
+          "2022": 3.0,
+          "2021": 5.2
+        },
+        "fiveYearMinPercent": 2.2,
+        "fiveYearMaxPercent": 5.2
+      },
+      {
+        "stateFips": "25",
+        "seriesId": "LAUST250000000000003",
+        "annualRatesPercent": {
+          "2025": 4.5,
+          "2024": 4.0,
+          "2023": 3.5,
+          "2022": 3.7,
+          "2021": 5.3
+        },
+        "fiveYearMinPercent": 3.5,
+        "fiveYearMaxPercent": 5.3
+      },
+      {
+        "stateFips": "26",
+        "seriesId": "LAUST260000000000003",
+        "annualRatesPercent": {
+          "2025": 5.2,
+          "2024": 4.7,
+          "2023": 3.9,
+          "2022": 4.2,
+          "2021": 5.7
+        },
+        "fiveYearMinPercent": 3.9,
+        "fiveYearMaxPercent": 5.7
+      },
+      {
+        "stateFips": "27",
+        "seriesId": "LAUST270000000000003",
+        "annualRatesPercent": {
+          "2025": 3.9,
+          "2024": 3.1,
+          "2023": 2.8,
+          "2022": 2.4,
+          "2021": 3.7
+        },
+        "fiveYearMinPercent": 2.4,
+        "fiveYearMaxPercent": 3.9
+      },
+      {
+        "stateFips": "28",
+        "seriesId": "LAUST280000000000003",
+        "annualRatesPercent": {
+          "2025": 3.8,
+          "2024": 3.2,
+          "2023": 3.1,
+          "2022": 3.8,
+          "2021": 5.4
+        },
+        "fiveYearMinPercent": 3.1,
+        "fiveYearMaxPercent": 5.4
+      },
+      {
+        "stateFips": "29",
+        "seriesId": "LAUST290000000000003",
+        "annualRatesPercent": {
+          "2025": 4.0,
+          "2024": 3.7,
+          "2023": 3.1,
+          "2022": 2.6,
+          "2021": 4.1
+        },
+        "fiveYearMinPercent": 2.6,
+        "fiveYearMaxPercent": 4.1
+      },
+      {
+        "stateFips": "30",
+        "seriesId": "LAUST300000000000003",
+        "annualRatesPercent": {
+          "2025": 3.3,
+          "2024": 3.0,
+          "2023": 2.7,
+          "2022": 2.7,
+          "2021": 3.4
+        },
+        "fiveYearMinPercent": 2.7,
+        "fiveYearMaxPercent": 3.4
+      },
+      {
+        "stateFips": "31",
+        "seriesId": "LAUST310000000000003",
+        "annualRatesPercent": {
+          "2025": 3.0,
+          "2024": 2.7,
+          "2023": 2.3,
+          "2022": 2.2,
+          "2021": 2.7
+        },
+        "fiveYearMinPercent": 2.2,
+        "fiveYearMaxPercent": 3.0
+      },
+      {
+        "stateFips": "32",
+        "seriesId": "LAUST320000000000003",
+        "annualRatesPercent": {
+          "2025": 5.3,
+          "2024": 5.4,
+          "2023": 5.1,
+          "2022": 5.2,
+          "2021": 6.8
+        },
+        "fiveYearMinPercent": 5.1,
+        "fiveYearMaxPercent": 6.8
+      },
+      {
+        "stateFips": "33",
+        "seriesId": "LAUST330000000000003",
+        "annualRatesPercent": {
+          "2025": 3.2,
+          "2024": 2.6,
+          "2023": 2.3,
+          "2022": 2.4,
+          "2021": 3.5
+        },
+        "fiveYearMinPercent": 2.3,
+        "fiveYearMaxPercent": 3.5
+      },
+      {
+        "stateFips": "34",
+        "seriesId": "LAUST340000000000003",
+        "annualRatesPercent": {
+          "2025": 5.2,
+          "2024": 4.6,
+          "2023": 4.3,
+          "2022": 3.9,
+          "2021": 6.7
+        },
+        "fiveYearMinPercent": 3.9,
+        "fiveYearMaxPercent": 6.7
+      },
+      {
+        "stateFips": "35",
+        "seriesId": "LAUST350000000000003",
+        "annualRatesPercent": {
+          "2025": 4.2,
+          "2024": 4.1,
+          "2023": 3.7,
+          "2022": 4.1,
+          "2021": 7.1
+        },
+        "fiveYearMinPercent": 3.7,
+        "fiveYearMaxPercent": 7.1
+      },
+      {
+        "stateFips": "36",
+        "seriesId": "LAUST360000000000003",
+        "annualRatesPercent": {
+          "2025": 4.3,
+          "2024": 4.2,
+          "2023": 4.0,
+          "2022": 4.3,
+          "2021": 7.1
+        },
+        "fiveYearMinPercent": 4.0,
+        "fiveYearMaxPercent": 7.1
+      },
+      {
+        "stateFips": "37",
+        "seriesId": "LAUST370000000000003",
+        "annualRatesPercent": {
+          "2025": 3.8,
+          "2024": 3.7,
+          "2023": 3.5,
+          "2022": 3.7,
+          "2021": 4.8
+        },
+        "fiveYearMinPercent": 3.5,
+        "fiveYearMaxPercent": 4.8
+      },
+      {
+        "stateFips": "38",
+        "seriesId": "LAUST380000000000003",
+        "annualRatesPercent": {
+          "2025": 2.6,
+          "2024": 2.4,
+          "2023": 2.0,
+          "2022": 2.1,
+          "2021": 3.1
+        },
+        "fiveYearMinPercent": 2.0,
+        "fiveYearMaxPercent": 3.1
+      },
+      {
+        "stateFips": "39",
+        "seriesId": "LAUST390000000000003",
+        "annualRatesPercent": {
+          "2025": 4.6,
+          "2024": 4.4,
+          "2023": 3.7,
+          "2022": 4.0,
+          "2021": 5.3
+        },
+        "fiveYearMinPercent": 3.7,
+        "fiveYearMaxPercent": 5.3
+      },
+      {
+        "stateFips": "40",
+        "seriesId": "LAUST400000000000003",
+        "annualRatesPercent": {
+          "2025": 3.4,
+          "2024": 3.2,
+          "2023": 3.1,
+          "2022": 3.0,
+          "2021": 4.0
+        },
+        "fiveYearMinPercent": 3.0,
+        "fiveYearMaxPercent": 4.0
+      },
+      {
+        "stateFips": "41",
+        "seriesId": "LAUST410000000000003",
+        "annualRatesPercent": {
+          "2025": 5.2,
+          "2024": 4.3,
+          "2023": 3.8,
+          "2022": 4.0,
+          "2021": 5.2
+        },
+        "fiveYearMinPercent": 3.8,
+        "fiveYearMaxPercent": 5.2
+      },
+      {
+        "stateFips": "42",
+        "seriesId": "LAUST420000000000003",
+        "annualRatesPercent": {
+          "2025": 4.3,
+          "2024": 3.8,
+          "2023": 3.7,
+          "2022": 4.2,
+          "2021": 5.9
+        },
+        "fiveYearMinPercent": 3.7,
+        "fiveYearMaxPercent": 5.9
+      },
+      {
+        "stateFips": "44",
+        "seriesId": "LAUST440000000000003",
+        "annualRatesPercent": {
+          "2025": 4.5,
+          "2024": 4.2,
+          "2023": 3.0,
+          "2022": 3.2,
+          "2021": 5.6
+        },
+        "fiveYearMinPercent": 3.0,
+        "fiveYearMaxPercent": 5.6
+      },
+      {
+        "stateFips": "45",
+        "seriesId": "LAUST450000000000003",
+        "annualRatesPercent": {
+          "2025": 4.5,
+          "2024": 4.1,
+          "2023": 3.0,
+          "2022": 3.2,
+          "2021": 3.9
+        },
+        "fiveYearMinPercent": 3.0,
+        "fiveYearMaxPercent": 4.5
+      },
+      {
+        "stateFips": "46",
+        "seriesId": "LAUST460000000000003",
+        "annualRatesPercent": {
+          "2025": 2.1,
+          "2024": 1.8,
+          "2023": 1.8,
+          "2022": 1.9,
+          "2021": 2.6
+        },
+        "fiveYearMinPercent": 1.8,
+        "fiveYearMaxPercent": 2.6
+      },
+      {
+        "stateFips": "47",
+        "seriesId": "LAUST470000000000003",
+        "annualRatesPercent": {
+          "2025": 3.5,
+          "2024": 3.4,
+          "2023": 3.3,
+          "2022": 3.4,
+          "2021": 4.5
+        },
+        "fiveYearMinPercent": 3.3,
+        "fiveYearMaxPercent": 4.5
+      },
+      {
+        "stateFips": "48",
+        "seriesId": "LAUST480000000000003",
+        "annualRatesPercent": {
+          "2025": 4.2,
+          "2024": 4.1,
+          "2023": 4.0,
+          "2022": 3.9,
+          "2021": 5.6
+        },
+        "fiveYearMinPercent": 3.9,
+        "fiveYearMaxPercent": 5.6
+      },
+      {
+        "stateFips": "49",
+        "seriesId": "LAUST490000000000003",
+        "annualRatesPercent": {
+          "2025": 3.6,
+          "2024": 3.3,
+          "2023": 2.7,
+          "2022": 2.4,
+          "2021": 2.8
+        },
+        "fiveYearMinPercent": 2.4,
+        "fiveYearMaxPercent": 3.6
+      },
+      {
+        "stateFips": "50",
+        "seriesId": "LAUST500000000000003",
+        "annualRatesPercent": {
+          "2025": 2.7,
+          "2024": 2.3,
+          "2023": 1.9,
+          "2022": 2.3,
+          "2021": 3.5
+        },
+        "fiveYearMinPercent": 1.9,
+        "fiveYearMaxPercent": 3.5
+      },
+      {
+        "stateFips": "51",
+        "seriesId": "LAUST510000000000003",
+        "annualRatesPercent": {
+          "2025": 3.4,
+          "2024": 2.9,
+          "2023": 2.7,
+          "2022": 2.7,
+          "2021": 3.9
+        },
+        "fiveYearMinPercent": 2.7,
+        "fiveYearMaxPercent": 3.9
+      },
+      {
+        "stateFips": "53",
+        "seriesId": "LAUST530000000000003",
+        "annualRatesPercent": {
+          "2025": 4.7,
+          "2024": 4.5,
+          "2023": 4.2,
+          "2022": 4.1,
+          "2021": 5.2
+        },
+        "fiveYearMinPercent": 4.1,
+        "fiveYearMaxPercent": 5.2
+      },
+      {
+        "stateFips": "54",
+        "seriesId": "LAUST540000000000003",
+        "annualRatesPercent": {
+          "2025": 4.2,
+          "2024": 4.1,
+          "2023": 3.9,
+          "2022": 3.9,
+          "2021": 5.1
+        },
+        "fiveYearMinPercent": 3.9,
+        "fiveYearMaxPercent": 5.1
+      },
+      {
+        "stateFips": "55",
+        "seriesId": "LAUST550000000000003",
+        "annualRatesPercent": {
+          "2025": 3.2,
+          "2024": 3.0,
+          "2023": 2.8,
+          "2022": 2.8,
+          "2021": 3.8
+        },
+        "fiveYearMinPercent": 2.8,
+        "fiveYearMaxPercent": 3.8
+      },
+      {
+        "stateFips": "56",
+        "seriesId": "LAUST560000000000003",
+        "annualRatesPercent": {
+          "2025": 3.4,
+          "2024": 3.1,
+          "2023": 2.9,
+          "2022": 3.4,
+          "2021": 4.5
+        },
+        "fiveYearMinPercent": 2.9,
+        "fiveYearMaxPercent": 4.5
+      },
+      {
+        "stateFips": "72",
+        "seriesId": "LAUST720000000000003",
+        "annualRatesPercent": {
+          "2025": 5.6,
+          "2024": 5.6,
+          "2023": 5.9,
+          "2022": 6.0,
+          "2021": 7.9
+        },
+        "fiveYearMinPercent": 5.6,
+        "fiveYearMaxPercent": 7.9
+      }
+    ],
+    "coverage": "50states,DC,PuertoRico52series; noAS/GU/MP/VI rates acquired",
+    "limits": "Range over annual rates, not monthly extremes;2025annual is11months excludingOctober. All rates use unemployed/laborforce denominator; do not apply to alladults."
+  },
+  "childcare": {
+    "source": "https://www.dol.gov/sites/dolgov/files/WB/NDCP2022-state-level-estimates-and-rankings.xlsx",
+    "technicalSource": "https://www.dol.gov/sites/dolgov/files/WB/NDCP2022-Technical-Report-508.pdf",
+    "vintage": 2022,
+    "rawSha256": "7f82e451d3f130874bd01f050c445249ad6b6d06a869ef9eccef0a010b58d4c5",
+    "unit": "USDweekly perchild; prices are medians, not family actual bills",
+    "rows": [
+      {
+        "state": "Alabama",
+        "setting": "Center",
+        "worksheetRow": 30,
+        "infantWeeklyUsd": 136.01,
+        "toddlerWeeklyUsd": 134.35,
+        "preschoolWeeklyUsd": 125.6,
+        "schoolAgeWeeklyUsd": 112.89,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Alabama",
+        "setting": "Family",
+        "worksheetRow": 31,
+        "infantWeeklyUsd": 135.57,
+        "toddlerWeeklyUsd": 129.69,
+        "preschoolWeeklyUsd": 129.32,
+        "schoolAgeWeeklyUsd": 117.4,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Alaska",
+        "setting": "Center",
+        "worksheetRow": 60,
+        "infantWeeklyUsd": 361.9,
+        "toddlerWeeklyUsd": 337.18,
+        "preschoolWeeklyUsd": 289.75,
+        "schoolAgeWeeklyUsd": 122.31,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.5347,
+          "PCT_VALID_TODDLER": 0.5347,
+          "PCT_VALID_PRESCHOOL": 0.5347,
+          "PCT_VALID_SCHOOLAGE": 0.5253
+        }
+      },
+      {
+        "state": "Alaska",
+        "setting": "Family",
+        "worksheetRow": 61,
+        "infantWeeklyUsd": 259.61,
+        "toddlerWeeklyUsd": 233.97,
+        "preschoolWeeklyUsd": 229.17,
+        "schoolAgeWeeklyUsd": 129.22,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.5288,
+          "PCT_VALID_TODDLER": 0.5288,
+          "PCT_VALID_PRESCHOOL": 0.5288,
+          "PCT_VALID_SCHOOLAGE": 0.4602
+        }
+      },
+      {
+        "state": "Arizona",
+        "setting": "Center",
+        "worksheetRow": 90,
+        "infantWeeklyUsd": 270,
+        "toddlerWeeklyUsd": 210,
+        "preschoolWeeklyUsd": 210,
+        "schoolAgeWeeklyUsd": 175,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Arizona",
+        "setting": "Family",
+        "worksheetRow": 91,
+        "infantWeeklyUsd": 180,
+        "toddlerWeeklyUsd": 171.45,
+        "preschoolWeeklyUsd": 171.45,
+        "schoolAgeWeeklyUsd": 150,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Arkansas",
+        "setting": "Center",
+        "worksheetRow": 120,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Arkansas",
+        "setting": "Family",
+        "worksheetRow": 121,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "California",
+        "setting": "Center",
+        "worksheetRow": 150,
+        "infantWeeklyUsd": 379.21,
+        "toddlerWeeklyUsd": 236.33,
+        "preschoolWeeklyUsd": 224.99,
+        "schoolAgeWeeklyUsd": 198.58,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "California",
+        "setting": "Family",
+        "worksheetRow": 151,
+        "infantWeeklyUsd": 284.37,
+        "toddlerWeeklyUsd": 238.07,
+        "preschoolWeeklyUsd": 223.63,
+        "schoolAgeWeeklyUsd": 186.06,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Colorado",
+        "setting": "Center",
+        "worksheetRow": 180,
+        "infantWeeklyUsd": 377.4,
+        "toddlerWeeklyUsd": 325.5,
+        "preschoolWeeklyUsd": 276.35,
+        "schoolAgeWeeklyUsd": 168.58,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9998,
+          "PCT_VALID_TODDLER": 0.9998,
+          "PCT_VALID_PRESCHOOL": 0.9998,
+          "PCT_VALID_SCHOOLAGE": 0.9997
+        }
+      },
+      {
+        "state": "Colorado",
+        "setting": "Family",
+        "worksheetRow": 181,
+        "infantWeeklyUsd": 246.35,
+        "toddlerWeeklyUsd": 223.65,
+        "preschoolWeeklyUsd": 223.65,
+        "schoolAgeWeeklyUsd": 198.35,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9998,
+          "PCT_VALID_TODDLER": 0.9998,
+          "PCT_VALID_PRESCHOOL": 0.9998,
+          "PCT_VALID_SCHOOLAGE": 0.9997
+        }
+      },
+      {
+        "state": "Connecticut",
+        "setting": "Center",
+        "worksheetRow": 210,
+        "infantWeeklyUsd": 350,
+        "toddlerWeeklyUsd": 350,
+        "preschoolWeeklyUsd": 285,
+        "schoolAgeWeeklyUsd": 120,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Connecticut",
+        "setting": "Family",
+        "worksheetRow": 211,
+        "infantWeeklyUsd": 250,
+        "toddlerWeeklyUsd": 245,
+        "preschoolWeeklyUsd": 245,
+        "schoolAgeWeeklyUsd": 140,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Delaware",
+        "setting": "Center",
+        "worksheetRow": 240,
+        "infantWeeklyUsd": 280.28,
+        "toddlerWeeklyUsd": 199.21,
+        "preschoolWeeklyUsd": 210.26,
+        "schoolAgeWeeklyUsd": 106.2,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Delaware",
+        "setting": "Family",
+        "worksheetRow": 241,
+        "infantWeeklyUsd": 181.67,
+        "toddlerWeeklyUsd": 153.66,
+        "preschoolWeeklyUsd": 155.1,
+        "schoolAgeWeeklyUsd": 86.17,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "District of Columbia",
+        "setting": "Center",
+        "worksheetRow": 270,
+        "infantWeeklyUsd": 490,
+        "toddlerWeeklyUsd": 450.6,
+        "preschoolWeeklyUsd": 392.5,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "District of Columbia",
+        "setting": "Family",
+        "worksheetRow": 271,
+        "infantWeeklyUsd": 400,
+        "toddlerWeeklyUsd": 393.25,
+        "preschoolWeeklyUsd": 368.25,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Florida",
+        "setting": "Center",
+        "worksheetRow": 300,
+        "infantWeeklyUsd": 225,
+        "toddlerWeeklyUsd": 180,
+        "preschoolWeeklyUsd": 165,
+        "schoolAgeWeeklyUsd": 125,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.989,
+          "PCT_VALID_TODDLER": 0.9922,
+          "PCT_VALID_PRESCHOOL": 0.9922,
+          "PCT_VALID_SCHOOLAGE": 0.991
+        }
+      },
+      {
+        "state": "Florida",
+        "setting": "Family",
+        "worksheetRow": 301,
+        "infantWeeklyUsd": 175,
+        "toddlerWeeklyUsd": 150,
+        "preschoolWeeklyUsd": 150,
+        "schoolAgeWeeklyUsd": 120,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9607,
+          "PCT_VALID_TODDLER": 0.9607,
+          "PCT_VALID_PRESCHOOL": 0.9607,
+          "PCT_VALID_SCHOOLAGE": 0.9386
+        }
+      },
+      {
+        "state": "Georgia",
+        "setting": "Center",
+        "worksheetRow": 330,
+        "infantWeeklyUsd": 205,
+        "toddlerWeeklyUsd": 187.8,
+        "preschoolWeeklyUsd": 179,
+        "schoolAgeWeeklyUsd": 82,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Georgia",
+        "setting": "Family",
+        "worksheetRow": 331,
+        "infantWeeklyUsd": 163,
+        "toddlerWeeklyUsd": 153,
+        "preschoolWeeklyUsd": 154,
+        "schoolAgeWeeklyUsd": 77,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Hawaii",
+        "setting": "Center",
+        "worksheetRow": 360,
+        "infantWeeklyUsd": 365.77,
+        "toddlerWeeklyUsd": 263.08,
+        "preschoolWeeklyUsd": 263.08,
+        "schoolAgeWeeklyUsd": 54.23,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9516,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 0.8305
+        }
+      },
+      {
+        "state": "Hawaii",
+        "setting": "Family",
+        "worksheetRow": 361,
+        "infantWeeklyUsd": 207.69,
+        "toddlerWeeklyUsd": 207.69,
+        "preschoolWeeklyUsd": 207.69,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Idaho",
+        "setting": "Center",
+        "worksheetRow": 390,
+        "infantWeeklyUsd": 166.41,
+        "toddlerWeeklyUsd": 154.45,
+        "preschoolWeeklyUsd": 140.26,
+        "schoolAgeWeeklyUsd": 134.66,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Idaho",
+        "setting": "Family",
+        "worksheetRow": 391,
+        "infantWeeklyUsd": 130,
+        "toddlerWeeklyUsd": 131.69,
+        "preschoolWeeklyUsd": 120.92,
+        "schoolAgeWeeklyUsd": 118.96,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Illinois",
+        "setting": "Center",
+        "worksheetRow": 420,
+        "infantWeeklyUsd": 278.33,
+        "toddlerWeeklyUsd": 220,
+        "preschoolWeeklyUsd": 189.17,
+        "schoolAgeWeeklyUsd": 81.45,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9364,
+          "PCT_VALID_TODDLER": 0.9326,
+          "PCT_VALID_PRESCHOOL": 0.9434,
+          "PCT_VALID_SCHOOLAGE": 0.9146
+        }
+      },
+      {
+        "state": "Illinois",
+        "setting": "Family",
+        "worksheetRow": 421,
+        "infantWeeklyUsd": 207.77,
+        "toddlerWeeklyUsd": 193.58,
+        "preschoolWeeklyUsd": 176.13,
+        "schoolAgeWeeklyUsd": 52.1,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.978,
+          "PCT_VALID_TODDLER": 0.9697,
+          "PCT_VALID_PRESCHOOL": 0.9763,
+          "PCT_VALID_SCHOOLAGE": 0.9383
+        }
+      },
+      {
+        "state": "Indiana",
+        "setting": "Center",
+        "worksheetRow": 450,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Indiana",
+        "setting": "Family",
+        "worksheetRow": 451,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Iowa",
+        "setting": "Center",
+        "worksheetRow": 480,
+        "infantWeeklyUsd": 165.98,
+        "toddlerWeeklyUsd": 143.02,
+        "preschoolWeeklyUsd": 143.02,
+        "schoolAgeWeeklyUsd": 114.42,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Iowa",
+        "setting": "Family",
+        "worksheetRow": 481,
+        "infantWeeklyUsd": 111.9,
+        "toddlerWeeklyUsd": 110.06,
+        "preschoolWeeklyUsd": 110.06,
+        "schoolAgeWeeklyUsd": 106.18,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Kansas",
+        "setting": "Center",
+        "worksheetRow": 510,
+        "infantWeeklyUsd": 157.33,
+        "toddlerWeeklyUsd": 148,
+        "preschoolWeeklyUsd": 137.6,
+        "schoolAgeWeeklyUsd": 84.8,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Kansas",
+        "setting": "Family",
+        "worksheetRow": 511,
+        "infantWeeklyUsd": 120.27,
+        "toddlerWeeklyUsd": 98,
+        "preschoolWeeklyUsd": 98,
+        "schoolAgeWeeklyUsd": 98,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Kentucky",
+        "setting": "Center",
+        "worksheetRow": 540,
+        "infantWeeklyUsd": 151.3,
+        "toddlerWeeklyUsd": 134.4,
+        "preschoolWeeklyUsd": 134.4,
+        "schoolAgeWeeklyUsd": 125.6,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Kentucky",
+        "setting": "Family",
+        "worksheetRow": 541,
+        "infantWeeklyUsd": 117.73,
+        "toddlerWeeklyUsd": 105.03,
+        "preschoolWeeklyUsd": 105.03,
+        "schoolAgeWeeklyUsd": 105.03,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Louisiana",
+        "setting": "Center",
+        "worksheetRow": 570,
+        "infantWeeklyUsd": 153.33,
+        "toddlerWeeklyUsd": 147.27,
+        "preschoolWeeklyUsd": 140.89,
+        "schoolAgeWeeklyUsd": 127,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Louisiana",
+        "setting": "Family",
+        "worksheetRow": 571,
+        "infantWeeklyUsd": 136.67,
+        "toddlerWeeklyUsd": 136.67,
+        "preschoolWeeklyUsd": 136.67,
+        "schoolAgeWeeklyUsd": 118.16,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Maine",
+        "setting": "Center",
+        "worksheetRow": 600,
+        "infantWeeklyUsd": 230,
+        "toddlerWeeklyUsd": 213.33,
+        "preschoolWeeklyUsd": 194,
+        "schoolAgeWeeklyUsd": 158.33,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Maine",
+        "setting": "Family",
+        "worksheetRow": 601,
+        "infantWeeklyUsd": 181.67,
+        "toddlerWeeklyUsd": 163.33,
+        "preschoolWeeklyUsd": 150,
+        "schoolAgeWeeklyUsd": 148.33,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Maryland",
+        "setting": "Center",
+        "worksheetRow": 630,
+        "infantWeeklyUsd": 327.39,
+        "toddlerWeeklyUsd": 230.78,
+        "preschoolWeeklyUsd": 230.78,
+        "schoolAgeWeeklyUsd": 223.43,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Maryland",
+        "setting": "Family",
+        "worksheetRow": 631,
+        "infantWeeklyUsd": 239.21,
+        "toddlerWeeklyUsd": 204.66,
+        "preschoolWeeklyUsd": 204.66,
+        "schoolAgeWeeklyUsd": 177.95,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Massachusetts",
+        "setting": "Center",
+        "worksheetRow": 660,
+        "infantWeeklyUsd": 461.55,
+        "toddlerWeeklyUsd": 408.5,
+        "preschoolWeeklyUsd": 310,
+        "schoolAgeWeeklyUsd": 210,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Massachusetts",
+        "setting": "Family",
+        "worksheetRow": 661,
+        "infantWeeklyUsd": 250,
+        "toddlerWeeklyUsd": 247.6,
+        "preschoolWeeklyUsd": 235,
+        "schoolAgeWeeklyUsd": 225,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Michigan",
+        "setting": "Center",
+        "worksheetRow": 690,
+        "infantWeeklyUsd": 173.2,
+        "toddlerWeeklyUsd": 173.2,
+        "preschoolWeeklyUsd": 155.65,
+        "schoolAgeWeeklyUsd": 139.25,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Michigan",
+        "setting": "Family",
+        "worksheetRow": 691,
+        "infantWeeklyUsd": 182.4,
+        "toddlerWeeklyUsd": 182.4,
+        "preschoolWeeklyUsd": 166.77,
+        "schoolAgeWeeklyUsd": 161.3,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Minnesota",
+        "setting": "Center",
+        "worksheetRow": 720,
+        "infantWeeklyUsd": 390,
+        "toddlerWeeklyUsd": 347.56,
+        "preschoolWeeklyUsd": 309,
+        "schoolAgeWeeklyUsd": 237,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Minnesota",
+        "setting": "Family",
+        "worksheetRow": 721,
+        "infantWeeklyUsd": 205,
+        "toddlerWeeklyUsd": 181.67,
+        "preschoolWeeklyUsd": 185,
+        "schoolAgeWeeklyUsd": 143.33,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Mississippi",
+        "setting": "Center",
+        "worksheetRow": 750,
+        "infantWeeklyUsd": 118.68,
+        "toddlerWeeklyUsd": 108.02,
+        "preschoolWeeklyUsd": 108.02,
+        "schoolAgeWeeklyUsd": 101.13,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Mississippi",
+        "setting": "Family",
+        "worksheetRow": 751,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Missouri",
+        "setting": "Center",
+        "worksheetRow": 780,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Missouri",
+        "setting": "Family",
+        "worksheetRow": 781,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Montana",
+        "setting": "Center",
+        "worksheetRow": 810,
+        "infantWeeklyUsd": 220.81,
+        "toddlerWeeklyUsd": 230.06,
+        "preschoolWeeklyUsd": 197.31,
+        "schoolAgeWeeklyUsd": 198.57,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Montana",
+        "setting": "Family",
+        "worksheetRow": 811,
+        "infantWeeklyUsd": 177.94,
+        "toddlerWeeklyUsd": 181.9,
+        "preschoolWeeklyUsd": 181.9,
+        "schoolAgeWeeklyUsd": 168.31,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Nebraska",
+        "setting": "Center",
+        "worksheetRow": 840,
+        "infantWeeklyUsd": 243.75,
+        "toddlerWeeklyUsd": 226.13,
+        "preschoolWeeklyUsd": 205,
+        "schoolAgeWeeklyUsd": 177.08,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Nebraska",
+        "setting": "Family",
+        "worksheetRow": 841,
+        "infantWeeklyUsd": 150,
+        "toddlerWeeklyUsd": 150,
+        "preschoolWeeklyUsd": 150,
+        "schoolAgeWeeklyUsd": 150,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Nevada",
+        "setting": "Center",
+        "worksheetRow": 870,
+        "infantWeeklyUsd": 275.63,
+        "toddlerWeeklyUsd": 240.47,
+        "preschoolWeeklyUsd": 229.27,
+        "schoolAgeWeeklyUsd": 212.41,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Nevada",
+        "setting": "Family",
+        "worksheetRow": 871,
+        "infantWeeklyUsd": 193.88,
+        "toddlerWeeklyUsd": 190.65,
+        "preschoolWeeklyUsd": 172.34,
+        "schoolAgeWeeklyUsd": 129.25,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "New Hampshire",
+        "setting": "Center",
+        "worksheetRow": 900,
+        "infantWeeklyUsd": 300.05,
+        "toddlerWeeklyUsd": 284.61,
+        "preschoolWeeklyUsd": 249.47,
+        "schoolAgeWeeklyUsd": 222.89,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "New Hampshire",
+        "setting": "Family",
+        "worksheetRow": 901,
+        "infantWeeklyUsd": 206.43,
+        "toddlerWeeklyUsd": 192.02,
+        "preschoolWeeklyUsd": 192.02,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "New Jersey",
+        "setting": "Center",
+        "worksheetRow": 930,
+        "infantWeeklyUsd": 313.73,
+        "toddlerWeeklyUsd": 302.99,
+        "preschoolWeeklyUsd": 302.99,
+        "schoolAgeWeeklyUsd": 146.29,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "New Jersey",
+        "setting": "Family",
+        "worksheetRow": 931,
+        "infantWeeklyUsd": 194.38,
+        "toddlerWeeklyUsd": 197.81,
+        "preschoolWeeklyUsd": 185.48,
+        "schoolAgeWeeklyUsd": 166.22,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "New Mexico",
+        "setting": "Center",
+        "worksheetRow": 960,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "New Mexico",
+        "setting": "Family",
+        "worksheetRow": 961,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "New York",
+        "setting": "Center",
+        "worksheetRow": 990,
+        "infantWeeklyUsd": 300,
+        "toddlerWeeklyUsd": 277,
+        "preschoolWeeklyUsd": 259,
+        "schoolAgeWeeklyUsd": 225,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "New York",
+        "setting": "Family",
+        "worksheetRow": 991,
+        "infantWeeklyUsd": 250,
+        "toddlerWeeklyUsd": 220,
+        "preschoolWeeklyUsd": 200,
+        "schoolAgeWeeklyUsd": 190,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "North Carolina",
+        "setting": "Center",
+        "worksheetRow": 1020,
+        "infantWeeklyUsd": 202.52,
+        "toddlerWeeklyUsd": 168.77,
+        "preschoolWeeklyUsd": 133.82,
+        "schoolAgeWeeklyUsd": 90.14,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9995,
+          "PCT_VALID_TODDLER": 0.9995,
+          "PCT_VALID_PRESCHOOL": 0.9995,
+          "PCT_VALID_SCHOOLAGE": 0.9992
+        }
+      },
+      {
+        "state": "North Carolina",
+        "setting": "Family",
+        "worksheetRow": 1021,
+        "infantWeeklyUsd": 173.99,
+        "toddlerWeeklyUsd": 146.44,
+        "preschoolWeeklyUsd": 146.27,
+        "schoolAgeWeeklyUsd": 100.43,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9978,
+          "PCT_VALID_TODDLER": 0.9978,
+          "PCT_VALID_PRESCHOOL": 0.9978,
+          "PCT_VALID_SCHOOLAGE": 0.9975
+        }
+      },
+      {
+        "state": "North Dakota",
+        "setting": "Center",
+        "worksheetRow": 1050,
+        "infantWeeklyUsd": 213.81,
+        "toddlerWeeklyUsd": 194.98,
+        "preschoolWeeklyUsd": 181,
+        "schoolAgeWeeklyUsd": 179.72,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "North Dakota",
+        "setting": "Family",
+        "worksheetRow": 1051,
+        "infantWeeklyUsd": 157.32,
+        "toddlerWeeklyUsd": 148.21,
+        "preschoolWeeklyUsd": 149.42,
+        "schoolAgeWeeklyUsd": 156.65,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Ohio",
+        "setting": "Center",
+        "worksheetRow": 1080,
+        "infantWeeklyUsd": 295,
+        "toddlerWeeklyUsd": 265,
+        "preschoolWeeklyUsd": 232,
+        "schoolAgeWeeklyUsd": 150,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Ohio",
+        "setting": "Family",
+        "worksheetRow": 1081,
+        "infantWeeklyUsd": 200,
+        "toddlerWeeklyUsd": 190,
+        "preschoolWeeklyUsd": 175,
+        "schoolAgeWeeklyUsd": 155,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Oklahoma",
+        "setting": "Center",
+        "worksheetRow": 1110,
+        "infantWeeklyUsd": 215.46,
+        "toddlerWeeklyUsd": 186.45,
+        "preschoolWeeklyUsd": 186.45,
+        "schoolAgeWeeklyUsd": 121.89,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Oklahoma",
+        "setting": "Family",
+        "worksheetRow": 1111,
+        "infantWeeklyUsd": 156.33,
+        "toddlerWeeklyUsd": 143.52,
+        "preschoolWeeklyUsd": 143.52,
+        "schoolAgeWeeklyUsd": 109.46,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Oregon",
+        "setting": "Center",
+        "worksheetRow": 1140,
+        "infantWeeklyUsd": 329.44,
+        "toddlerWeeklyUsd": 302.47,
+        "preschoolWeeklyUsd": 237.04,
+        "schoolAgeWeeklyUsd": 86.37,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Oregon",
+        "setting": "Family",
+        "worksheetRow": 1141,
+        "infantWeeklyUsd": 229.63,
+        "toddlerWeeklyUsd": 206.93,
+        "preschoolWeeklyUsd": 193.65,
+        "schoolAgeWeeklyUsd": 164.65,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Pennsylvania",
+        "setting": "Center",
+        "worksheetRow": 1170,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Pennsylvania",
+        "setting": "Family",
+        "worksheetRow": 1171,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Puerto Rico",
+        "setting": "Center",
+        "worksheetRow": 1200,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Puerto Rico",
+        "setting": "Family",
+        "worksheetRow": 1201,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Rhode Island",
+        "setting": "Center",
+        "worksheetRow": 1230,
+        "infantWeeklyUsd": 289.59,
+        "toddlerWeeklyUsd": 279.2,
+        "preschoolWeeklyUsd": 245.26,
+        "schoolAgeWeeklyUsd": 61.97,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Rhode Island",
+        "setting": "Family",
+        "worksheetRow": 1231,
+        "infantWeeklyUsd": 254.49,
+        "toddlerWeeklyUsd": 249.15,
+        "preschoolWeeklyUsd": 208.59,
+        "schoolAgeWeeklyUsd": 210.98,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "South Carolina",
+        "setting": "Center",
+        "worksheetRow": 1260,
+        "infantWeeklyUsd": 198.93,
+        "toddlerWeeklyUsd": 185.03,
+        "preschoolWeeklyUsd": 181.12,
+        "schoolAgeWeeklyUsd": 137.65,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "South Carolina",
+        "setting": "Family",
+        "worksheetRow": 1261,
+        "infantWeeklyUsd": 137.53,
+        "toddlerWeeklyUsd": 137.53,
+        "preschoolWeeklyUsd": 133.25,
+        "schoolAgeWeeklyUsd": 89.47,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "South Dakota",
+        "setting": "Center",
+        "worksheetRow": 1290,
+        "infantWeeklyUsd": 150,
+        "toddlerWeeklyUsd": 150,
+        "preschoolWeeklyUsd": 136.4,
+        "schoolAgeWeeklyUsd": 120,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "South Dakota",
+        "setting": "Family",
+        "worksheetRow": 1291,
+        "infantWeeklyUsd": 102.4,
+        "toddlerWeeklyUsd": 102.4,
+        "preschoolWeeklyUsd": 100,
+        "schoolAgeWeeklyUsd": 109.2,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Tennessee",
+        "setting": "Center",
+        "worksheetRow": 1320,
+        "infantWeeklyUsd": 211.67,
+        "toddlerWeeklyUsd": 146.35,
+        "preschoolWeeklyUsd": 146.35,
+        "schoolAgeWeeklyUsd": 76.33,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Tennessee",
+        "setting": "Family",
+        "worksheetRow": 1321,
+        "infantWeeklyUsd": 155,
+        "toddlerWeeklyUsd": 128.26,
+        "preschoolWeeklyUsd": 128.26,
+        "schoolAgeWeeklyUsd": 105,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Texas",
+        "setting": "Center",
+        "worksheetRow": 1350,
+        "infantWeeklyUsd": 185,
+        "toddlerWeeklyUsd": 172,
+        "preschoolWeeklyUsd": 167,
+        "schoolAgeWeeklyUsd": 156,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Texas",
+        "setting": "Family",
+        "worksheetRow": 1351,
+        "infantWeeklyUsd": 164,
+        "toddlerWeeklyUsd": 155,
+        "preschoolWeeklyUsd": 153,
+        "schoolAgeWeeklyUsd": 144,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Utah",
+        "setting": "Center",
+        "worksheetRow": 1380,
+        "infantWeeklyUsd": 226.27,
+        "toddlerWeeklyUsd": 183.87,
+        "preschoolWeeklyUsd": 168.06,
+        "schoolAgeWeeklyUsd": 163.68,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Utah",
+        "setting": "Family",
+        "worksheetRow": 1381,
+        "infantWeeklyUsd": 168.18,
+        "toddlerWeeklyUsd": 155.77,
+        "preschoolWeeklyUsd": 147.7,
+        "schoolAgeWeeklyUsd": 144.23,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Vermont",
+        "setting": "Center",
+        "worksheetRow": 1410,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Vermont",
+        "setting": "Family",
+        "worksheetRow": 1411,
+        "infantWeeklyUsd": null,
+        "toddlerWeeklyUsd": null,
+        "preschoolWeeklyUsd": null,
+        "schoolAgeWeeklyUsd": null,
+        "validShares": {
+          "PCT_VALID_INFANT": null,
+          "PCT_VALID_TODDLER": null,
+          "PCT_VALID_PRESCHOOL": null,
+          "PCT_VALID_SCHOOLAGE": null
+        }
+      },
+      {
+        "state": "Virginia",
+        "setting": "Center",
+        "worksheetRow": 1440,
+        "infantWeeklyUsd": 246.72,
+        "toddlerWeeklyUsd": 194.52,
+        "preschoolWeeklyUsd": 186.75,
+        "schoolAgeWeeklyUsd": 155.25,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Virginia",
+        "setting": "Family",
+        "worksheetRow": 1441,
+        "infantWeeklyUsd": 178.24,
+        "toddlerWeeklyUsd": 153.01,
+        "preschoolWeeklyUsd": 152.28,
+        "schoolAgeWeeklyUsd": 147.95,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Washington",
+        "setting": "Center",
+        "worksheetRow": 1470,
+        "infantWeeklyUsd": 357.31,
+        "toddlerWeeklyUsd": 249.06,
+        "preschoolWeeklyUsd": 249.06,
+        "schoolAgeWeeklyUsd": 199.61,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Washington",
+        "setting": "Family",
+        "worksheetRow": 1471,
+        "infantWeeklyUsd": 253.85,
+        "toddlerWeeklyUsd": 205.3,
+        "preschoolWeeklyUsd": 209.08,
+        "schoolAgeWeeklyUsd": 195.39,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "West Virginia",
+        "setting": "Center",
+        "worksheetRow": 1500,
+        "infantWeeklyUsd": 167.49,
+        "toddlerWeeklyUsd": 159.1,
+        "preschoolWeeklyUsd": 164.85,
+        "schoolAgeWeeklyUsd": 146.45,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "West Virginia",
+        "setting": "Family",
+        "worksheetRow": 1501,
+        "infantWeeklyUsd": 153.93,
+        "toddlerWeeklyUsd": 159.95,
+        "preschoolWeeklyUsd": 164.84,
+        "schoolAgeWeeklyUsd": 136.78,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Wisconsin",
+        "setting": "Center",
+        "worksheetRow": 1530,
+        "infantWeeklyUsd": 293,
+        "toddlerWeeklyUsd": 258.75,
+        "preschoolWeeklyUsd": 258.75,
+        "schoolAgeWeeklyUsd": 205,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Wisconsin",
+        "setting": "Family",
+        "worksheetRow": 1531,
+        "infantWeeklyUsd": 220,
+        "toddlerWeeklyUsd": 200,
+        "preschoolWeeklyUsd": 200,
+        "schoolAgeWeeklyUsd": 180,
+        "validShares": {
+          "PCT_VALID_INFANT": 1,
+          "PCT_VALID_TODDLER": 1,
+          "PCT_VALID_PRESCHOOL": 1,
+          "PCT_VALID_SCHOOLAGE": 1
+        }
+      },
+      {
+        "state": "Wyoming",
+        "setting": "Center",
+        "worksheetRow": 1560,
+        "infantWeeklyUsd": 161.17,
+        "toddlerWeeklyUsd": 155.62,
+        "preschoolWeeklyUsd": 155.62,
+        "schoolAgeWeeklyUsd": 126.43,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9872,
+          "PCT_VALID_TODDLER": 0.9872,
+          "PCT_VALID_PRESCHOOL": 0.9872,
+          "PCT_VALID_SCHOOLAGE": 0.823
+        }
+      },
+      {
+        "state": "Wyoming",
+        "setting": "Family",
+        "worksheetRow": 1561,
+        "infantWeeklyUsd": 148.87,
+        "toddlerWeeklyUsd": 132.55,
+        "preschoolWeeklyUsd": 132.68,
+        "schoolAgeWeeklyUsd": 120.51,
+        "validShares": {
+          "PCT_VALID_INFANT": 0.9623,
+          "PCT_VALID_TODDLER": 0.9776,
+          "PCT_VALID_PRESCHOOL": 0.9776,
+          "PCT_VALID_SCHOOLAGE": 0.9175
+        }
+      }
+    ],
+    "missingJurisdictions": ["PR", "AS", "GU", "MP", "VI"],
+    "fallbackCandidate": {
+      "Center": {
+        "infantWeeklyUsd": {
+          "value": 258.03,
+          "denominator": 45
+        },
+        "toddlerWeeklyUsd": {
+          "value": 224.78,
+          "denominator": 45
+        },
+        "preschoolWeeklyUsd": {
+          "value": 206.38,
+          "denominator": 45
+        },
+        "schoolAgeWeeklyUsd": {
+          "value": 144.56,
+          "denominator": 44
+        }
+      },
+      "Family": {
+        "infantWeeklyUsd": {
+          "value": 190.73,
+          "denominator": 44
+        },
+        "toddlerWeeklyUsd": {
+          "value": 177.28,
+          "denominator": 44
+        },
+        "preschoolWeeklyUsd": {
+          "value": 171.93,
+          "denominator": 44
+        },
+        "schoolAgeWeeklyUsd": {
+          "value": 139.81,
+          "denominator": 41
+        }
+      }
+    },
+    "fallbackStatus": "Derived unweighted arithmeticmean of available50states/DC medians; explicitly national proxy game estimate, not DOL national average",
+    "annualization": "weekly*52;monthly weekly*52/12, derived",
+    "limits": "Some state/setting/age prices missing. No territorial cost sourced.2022nominal prices; no inflation implied. Preserve setting and age differences; exclude missing/zero price values fromfallback."
+  },
+  "retirementCashEstimate": {
+    "vintage": 2022,
+    "source": "https://www.federalreserve.gov/publications/october-2023-changes-in-us-family-finances-from-2019-to-2022.htm",
+    "series": "SCF transaction accounts",
+    "unit": "2022USD stock held by family; notmonthly/annualincome",
+    "nationalConditionalMedianUsd": 8000,
+    "nationalPercentHolding": 98.6,
+    "nationalConditionalMeanUsd": 62500,
+    "ageSpecificValues": null,
+    "ageSpecificStatus": "NOT ACQUIRED: official dataviz CSVZIP returnsHTTP403 in bounded directdownloads; interactive HTML provides no numeric agecells",
+    "ageSpecificSourceRoute": "https://www.federalreserve.gov/econres/scf/dataviz/scf/table/index.html",
+    "downloadRoute": "https://www.federalreserve.gov/econres/scf/dataviz/download/zips/scf.zip",
+    "limits": [
+      "Conditionalmedian applies only to families holding transactionaccounts; families without accounts form separate group.",
+      "Household/family stock is not individual cash or monthlyincome.",
+      "Includes checking,savings,money-market,brokerage-callaccounts,prepaidcards; some tax-preferred education/medical savings included.",
+      "No age-specific figures verified; do not claim age calibration.",
+      "Use only as explicitly named game estimate when personal cash missing; do not overwrite canonical cash."
+    ]
+  }
+}

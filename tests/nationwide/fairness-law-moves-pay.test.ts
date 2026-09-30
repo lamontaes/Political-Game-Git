@@ -11,7 +11,6 @@ import {
   FAIRNESS_STATE_QUESTION,
   fairnessLawCovers,
   menPartneredWithMen,
-  UNCOVERED_PAY_SHARE,
 } from "../../src/simulation/fairness-pay-law";
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { createStableId, stableHash } from "../../src/simulation/ids";
@@ -24,7 +23,10 @@ import { createProductionPolicyCatalog } from "../../src/simulation/production-c
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { resourceFlowTermsAt } from "../../src/simulation/resource-queries";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import {
+  recordWorldEvent,
+  withWorldIntegrityDeferred,
+} from "../../src/simulation/world";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -66,6 +68,28 @@ function flipped(world: World, state: EntityId, answer: "yes" | "no"): World {
     (row) => row.stableKey === FAIRNESS_STATE_QUESTION,
   )!.id;
   const on = makeIsoDate("2025-01-01");
+  world = recordWorldEvent(world, {
+    stableKey: "test:fairness-pay:law-outcome",
+    type: "test.fairness-law-recorded",
+    occurredAt: on,
+    recordedAt: world.currentDate,
+    jurisdictionId: state,
+    involvedEntityIds: [state],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["test-fixture"],
+    summary: "A law outcome was recorded for the pay comparison.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const outcomeEventId = world.history.events.at(-1)!.id;
   const sequence = world.history.nextSequence;
   const measure: LegislativeMeasureRecord = {
     id: createStableId("legislative-measure", "test:fairness-pay"),
@@ -95,7 +119,7 @@ function flipped(world: World, state: EntityId, answer: "yes" | "no"): World {
     outcome: "enacted",
     actDesignation: null,
     effectiveAt: on,
-    outcomeEventId: null,
+    outcomeEventId,
   };
   return {
     ...world,
@@ -139,6 +163,8 @@ interface Watched {
 
 /** Opens the place's largest town and pays it under both laws. */
 function watch(key: string): Watched {
+  const started = performance.now();
+  console.info(`fairness watch ${key}: start`);
   const place = lifePlaceByKey(key)!;
   const game = generateOpeningLife(
     prepareOpeningLife({
@@ -149,6 +175,7 @@ function watch(key: string): Watched {
       questionnaire: "skipped",
     }),
   ).game!;
+  console.info(`fairness watch ${key}: opening ${(performance.now() - started).toFixed(0)}ms`);
   const since = game.world.currentDate;
   const town = place.context.jurisdiction.id;
   const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!.id;
@@ -165,12 +192,15 @@ function watch(key: string): Watched {
   expect(fairnessLawCovers(turnedWorld, town, since), key).toBe(
     !coveredAtStart,
   );
+  console.info(`fairness watch ${key}: fixture ${(performance.now() - started).toFixed(0)}ms`);
   const real = startTownJobPay(game.world, game.playerPersonId, since);
+  console.info(`fairness watch ${key}: real pay ${(performance.now() - started).toFixed(0)}ms`);
   // The act is written straight into the record, not through a legislature,
   // so the writers' checks of a whole world are left out for this copy.
   const turned = withWorldIntegrityDeferred(() =>
     startTownJobPay(turnedWorld, game.playerPersonId, since),
   );
+  console.info(`fairness watch ${key}: turned pay ${(performance.now() - started).toFixed(0)}ms`);
   const men = menPartneredWithMen(game.world, since);
   const withLaw = payByPerson(coveredAtStart ? real : turned);
   const without = payByPerson(coveredAtStart ? turned : real);
@@ -188,7 +218,7 @@ function watch(key: string): Watched {
   return { key, start, covered, others };
 }
 
-describe("a fairness law sets the pay of men partnered with men", () => {
+describe("law coverage preserves each worker’s recorded role rate", () => {
   it("in every one of the 56 places, the start covers them exactly where the law names sexual orientation", () => {
     const rows = (
       startingLaw.questions as unknown as Record<
@@ -225,7 +255,7 @@ describe("a fairness law sets the pay of men partnered with men", () => {
     expect(covered).toBe(28);
   });
 
-  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the law's 2.7% gain is missing where no law covers him`, () => {
+  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the same role rate is preserved for partnered men across the law change`, () => {
     const places = onePlaceEach();
     expect(places).toHaveLength(56);
     const order = [...places].sort((a, b) =>
@@ -242,11 +272,9 @@ describe("a fairness law sets the pay of men partnered with men", () => {
       passed.push(`${key} (${watched.others} paid, none covered)`);
     }
     expect(found, passed.join("; ")).not.toBeNull();
-    for (const row of found!.covered)
-      // Within rounding to the cent, and never below the minimum wage.
-      expect(row.without / row.withLaw, row.person).toBeCloseTo(
-        UNCOVERED_PAY_SHARE,
-        3,
-      );
+    for (const row of found!.covered) {
+      expect(row.without, row.person).toBe(row.withLaw);
+      expect(row.withLaw, row.person).toBeGreaterThan(0);
+    }
   });
 });
