@@ -14,11 +14,17 @@ import { ensurePeopleTraits } from "../people-traits";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
+import {
   bailDueMinorUnits,
   bailMinorUnits,
   moneyOnHandMinorUnits,
   PRETRIAL_VERSION,
   pretrialLawAt,
+  pretrialGoverningLawAt,
+  END_CASH_BAIL_QUESTION,
 } from "./pretrial";
 import {
   chosenReasons,
@@ -332,7 +338,7 @@ function followUp(
     (entry) => entry.role === "focus:subject",
   )!.personId;
   const decidedBy = detail.decidedBy ?? null;
-  return recordWorldEvent(world, {
+  const recorded = recordWorldEvent(world, {
     stableKey: `${referral.stableKey}:${type}${detail.ordinal ? `:${detail.ordinal}` : ""}`,
     type,
     occurredAt: world.currentDate,
@@ -378,6 +384,40 @@ function followUp(
       immediateReaction: null,
     },
   });
+  if (type !== PRETRIAL_HELD_EVENT && type !== PRETRIAL_RELEASED_EVENT)
+    return recorded;
+  const venueJurisdictionId = courtCaseOf(
+    world,
+    referral,
+    subjectId,
+  ).venueJurisdictionId;
+  if (!venueJurisdictionId || recorded === world) return recorded;
+  const event = recorded.history.events.at(-1);
+  if (!event || event.type !== type) return recorded;
+  const stamp = lawEffectStamp(
+    pretrialGoverningLawAt(world, venueJurisdictionId),
+    {
+      effectKind: type,
+      questionKey: END_CASH_BAIL_QUESTION,
+      jurisdictionId: venueJurisdictionId,
+      appliedAt: event.occurredAt,
+      sourceRecordIds: [referral.id, after.id, event.id],
+    },
+  );
+  if (!stamp) return recorded;
+  // Attach to the actual consequence after the canonical writer creates it.
+  // Older history input shapes discard unknown fields, so stamp the saved row.
+  const stampedEvent: HistoricalEvent & LawEffectStampedRecord = {
+    ...event,
+    lawEffectStamps: [stamp],
+  };
+  return {
+    ...recorded,
+    history: {
+      ...recorded.history,
+      events: [...recorded.history.events.slice(0, -1), stampedEvent],
+    },
+  };
 }
 
 function outcomeLine(
