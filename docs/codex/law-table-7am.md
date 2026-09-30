@@ -1,5 +1,7 @@
 # Law catalog — September 30, 7 a.m.
 
+The five owner packets account for 87 of 92 catalog questions. This table includes all 92, exposes the five missing handbacks, and separates bounded fixes from unproved full law effects.
+
 ## Scope and limits
 
 All 92 current question-powers catalog IDs appear exactly once. This is a synthesis of pinned owner source audits, not 92 executed law proofs. Coded levels below are catalog scope, not certification of legal authority in every state, county, city, township, D.C. or territory. Unknown powers are not permission. Each linked handback retains preemption, repeal, research and person-reader caveats.

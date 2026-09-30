@@ -2,6 +2,24 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 7:00 a.m. check-in
+
+### MERGED
+No new landing independently verified this checkpoint. Merge is executing the renewed CTO6:38 queue; repair-blocked candidates no longer hold the others.1174 remains no-retry morning item.
+
+### CONNECTIONS TABLE
+| Connection | Evidence | Action |
+| --- | --- | --- |
+| Five owner audits → one catalog table | docs/codex/law-table-7am.md,92 unique catalog rows |87 matched owner evidence;5 explicitly unmatched |
+| Enactment → typed terms → person | CTO6:38 assigns56-Floral-law reason inventory toTeam2, largest producer fix toTeam1 | Same-seed terms/total and named-person consequence still required |
+| Filing → introduction | Congress0→0 | Early-exit trace remains active; no positive proof |
+
+### BLOCKED
+Five unmatched catalog handbacks: occupational licensing, cannabis sales, development incentives, consumer privacy, social-media age verification. Table marks evidence gaps, not runtime absence. Full person-money proof, shelter allocation, fertility timing and art approval remain incomplete.
+
+### EFFECTS
+Table classifications:75 needs research,14 needs a feature,3 bounded fixes tonight. The privacy caller repair is branch evidence; teacher/tuition range repair is landed. No row is promoted to complete works from a fixture or aggregate result. Coded jurisdiction levels are not universal legal permission.
+
 ## September 30, 6:30 a.m. check-in
 
 ### MERGED
