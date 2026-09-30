@@ -10,7 +10,15 @@ import {
 import data from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
-import { stateJurisdictionForKey } from "../life-places";
+import { searchLifePlaces, stateJurisdictionForKey } from "../life-places";
+import { createLightweightPerson } from "../people";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "../life";
+import { isLawEffectStamp } from "../law-effect-stamp";
 import type {
   EntityId,
   IsoDate,
@@ -19,7 +27,7 @@ import type {
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
-import { advanceWorld } from "../world";
+import { advanceWorld, createWorld, createWorldId } from "../world";
 import { MULTIPLIER_ONE } from "./hazard";
 import {
   annualPovertyLineMinor,
@@ -99,14 +107,17 @@ function withStateLaw(
   stateKey: string,
   answer: "yes" | "no",
   effectiveAt: IsoDate,
+  questionKey = EXPANSION,
+  fixtureTag = "",
 ): World {
+  const suffix = fixtureTag ? `_${fixtureTag}` : "";
   const state = stateJurisdictionForKey(stateKey)!;
   const question = Object.values(world.policyCatalog!.propositions).find(
-    (row) => row.stableKey === EXPANSION,
+    (row) => row.stableKey === questionKey,
   )!.id;
   const measure = {
-    id: "measure_medicaid_test" as EntityId,
-    stableKey: "test:medicaid",
+    id: `measure_medicaid_test${suffix}` as EntityId,
+    stableKey: `test:medicaid${suffix}`,
     sequence: world.history.nextSequence,
     jurisdictionId: state.id,
     rulePackId: "test",
@@ -124,15 +135,15 @@ function withStateLaw(
     propositionAnswers: [{ propositionId: question, answer }],
   } as unknown as LegislativeMeasureRecord;
   const enactment = {
-    id: "enactment_medicaid_test" as EntityId,
-    stableKey: "test:medicaid:enactment",
+    id: `enactment_medicaid_test${suffix}` as EntityId,
+    stableKey: `test:medicaid${suffix}:enactment`,
     sequence: world.history.nextSequence + 1,
     measureId: measure.id,
     resolvedAt: world.currentDate,
     outcome: "enacted",
     actDesignation: null,
     effectiveAt,
-    outcomeEventId: "event_medicaid_test" as EntityId,
+    outcomeEventId: `event_medicaid_test${suffix}` as EntityId,
   } as unknown as LegislativeEnactmentRecord;
   return {
     ...world,
@@ -155,6 +166,168 @@ function write(row: unknown) {
   const watched = process.env.WATCHED_RUN_OUT;
   if (watched) appendFileSync(watched, JSON.stringify(row) + "\n");
 }
+
+
+describe("coverage consequence law stamps", () => {
+  it.each([
+    ["Quantico", "US-MD"],
+    ["Rockland", "US-ID"],
+    ["Tab", "US-IN"],
+    ["Sacramento", "US-CA"],
+    ["Seattle", "US-WA"],
+  ])("preserves starting-law and repeal attribution in %s", (query, stateKey) => {
+    const place = searchLifePlaces(query).find(
+      (p) => p.stateJurisdictionKey === stateKey,
+    )!;
+    const state = stateJurisdictionForKey(stateKey)!;
+    const date = makeIsoDate("2026-01-05");
+    const seed = `coverage-stamp:${place.key}`;
+    const person = Array.from({ length: 12 }, (_, index) =>
+      createLightweightPerson({
+        worldId: createWorldId(seed),
+        worldSeed: seed,
+        index,
+        currentDate: date,
+        homeJurisdictionId: place.context.jurisdiction.id,
+      }),
+    ).find(
+      (p) =>
+        ageOnDate(p.birthDate, date) >= 19 &&
+        ageOnDate(p.birthDate, date) <= 64,
+    )!;
+    expect(person).toBeDefined();
+    let world = createWorld({
+      seed,
+      currentDate: date,
+      jurisdictions: [place.context.jurisdiction, state],
+      people: [person],
+      policyCatalog: createProductionPolicyCatalog(),
+    });
+    const provenance = {
+      kind: "authored",
+      note: "A bounded nonworking household fixture.",
+    } as const;
+    world = createHousehold(world, {
+      stableKey: "stamp:household",
+      formedAt: date,
+      label: "Fixture household",
+      provenance,
+    });
+    const household = world.history.households.at(-1)!;
+    world = recordHouseholdLocation(world, {
+      stableKey: "stamp:home",
+      householdId: household.id,
+      effectiveAt: date,
+      jurisdictionId: place.context.jurisdiction.id,
+      label: "Fixture home",
+      kind: "residence:fixture",
+      provenance,
+      supersedesLocationId: null,
+    });
+    world = startHouseholdMembership(world, {
+      stableKey: "stamp:member",
+      personId: person.id,
+      householdId: household.id,
+      startedAt: date,
+      residenceRole: "primary",
+      kind: "resident:fixture",
+      provenance,
+    });
+    const cause = world.history.householdMemberships.at(-1)!.id;
+    const before = JSON.stringify(world);
+    const covered = recordHealthCoverage(world, date, cause);
+    expect(JSON.stringify(world)).toBe(before);
+    const first = healthCoverageRecords(covered).at(-1)!;
+    expect(first.covered).toBe(true);
+    expect(first.lawEffectStamps).toHaveLength(1);
+    const stamp = first.lawEffectStamps![0]!;
+    expect(isLawEffectStamp(stamp)).toBe(true);
+    expect(stamp).toMatchObject({
+      source: "in-force-at-start",
+      questionKey: EXPANSION,
+      effectKind: "health-coverage",
+      jurisdictionId: state.id,
+      appliedAt: date,
+      sourceRecordIds: [cause],
+    });
+    expect(stamp.governingLawKey).toMatch(/^starting-law:/);
+    expect(recordHealthCoverage(covered, date, cause)).toBe(covered);
+    const workQuestion =
+      "us-policy-positions:health-human-services.medicaid-work-requirement";
+    const workDate = addDays(date, 1);
+    const restricted = recordHealthCoverage(
+      withStateLaw(
+        { ...covered, currentDate: workDate },
+        stateKey,
+        "yes",
+        workDate,
+        workQuestion,
+        "work",
+      ),
+      workDate,
+      cause,
+    );
+    const workLoss = healthCoverageRecords(restricted).at(-1)!;
+    expect(workLoss.reasonKey).toBe("lost:work-requirement");
+    expect(workLoss.lawEffectStamps).toMatchObject([
+      {
+        governingLawKey: "measure_medicaid_test_work",
+        questionKey: workQuestion,
+        sourceRecordIds: [cause, first.id],
+      },
+    ]);
+    const restoreDate = addDays(date, 2);
+    const restored = recordHealthCoverage(
+      withStateLaw(
+        { ...restricted, currentDate: restoreDate },
+        stateKey,
+        "no",
+        restoreDate,
+        workQuestion,
+        "work_repeal",
+      ),
+      restoreDate,
+      cause,
+    );
+    const restoredRecord = healthCoverageRecords(restored).at(-1)!;
+    expect(restoredRecord.covered).toBe(true);
+    expect(restoredRecord.lawEffectStamps).toMatchObject([
+      {
+        governingLawKey: "measure_medicaid_test_work_repeal",
+        questionKey: workQuestion,
+        sourceRecordIds: [cause, workLoss.id],
+      },
+    ]);
+    const repealDate = addDays(date, 3);
+    const repealed = withStateLaw(
+      { ...restored, currentDate: repealDate },
+      stateKey,
+      "no",
+      repealDate,
+    );
+    const ended = recordHealthCoverage(repealed, repealDate, cause);
+    const loss = healthCoverageRecords(ended).at(-1)!;
+    expect(loss.covered).toBe(false);
+    expect(loss.lawEffectStamps).toMatchObject([
+      {
+        source: "enacted",
+        governingLawKey: "measure_medicaid_test",
+        questionKey: EXPANSION,
+        sourceRecordIds: [cause, restoredRecord.id],
+      },
+    ]);
+    expect(healthCoverageRecords(ended)[0]).toEqual(first);
+    write({
+      kind: "coverage-stamp-fixture",
+      seed,
+      place: place.key,
+      stateKey,
+      personId: person.id,
+      name: `${person.givenName} ${person.familyName}`,
+      records: healthCoverageRecords(ended),
+    });
+  });
+});
 
 describe("Medicaid expansion coverage reaches named people", () => {
   it("counts a covered year off a covered 55-to-64-year-old's hazard, and only while covered and in that age", () => {
