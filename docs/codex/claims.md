@@ -1,5 +1,7 @@
 # File claims
 
+CTO 1:30 assigns Team 3 the inventory/report-only bedrock ledger in `docs/codex/handbacks/team-3-bedrock-numbers.md`. It covers Team 3 Census/readers, town work/money, and preserved fairness/labor/election drafts at explicitly pinned heads. This documentation claim acquires no additional source writer scope and authorizes no calibration changes.
+
 CTO 12:40 additionally assigns Team 3 only `public-budgets/public-budgets.test.ts` partial `worldAt` fixture's missing `history.events` array; `press/outlets.ts` local population key/World reader seam and its existing caller; `outcome-web/place-outcome-store.ts` population reader key/World seams and the existing `place-outcomes.ts` weights call. Preserve press research/profile thresholds, outcome allocation logic, and all fiscal/legal values. Team 5 reviews press; coordinator reviews outcome adapters. Focused Census regression evidence remains on the owned population test path. No other writer scope is acquired.
 
 Team 1 additionally released only the required `ensurePopulationLayer` import and `ensureTownResidents` wrapper in `src/simulation/living-world/town-residents.ts`: record the canonical layer after changed seating within the existing deferred block. Unchanged seating retains identity; the final integrity assertion and current-opening caller guard remain intact. No person, household, materialization, pay, or law writer scope is acquired.
