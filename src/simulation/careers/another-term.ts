@@ -44,6 +44,8 @@ import { ANOTHER_TERM_DECISION } from "./another-term-decision";
 
 export interface AnotherTermInput {
   readonly personId: EntityId;
+  /** Internal batch caller has already seeded this actor on their decision date. */
+  readonly traitsPrepared?: boolean;
   /** The decision's own stable key. */
   readonly stableKey: string;
   /** What the decision is about, as the trace records it. */
@@ -95,11 +97,13 @@ export function decideAnotherTerm(
         made.selectedOptionKey,
       ),
     };
-  let next = ensurePeopleTraits(
-    ensurePeopleTraitCatalog(world),
-    [input.personId],
-    input.onDate < world.currentDate ? input.onDate : world.currentDate,
-  );
+  let next = input.traitsPrepared
+    ? world
+    : ensurePeopleTraits(
+        ensurePeopleTraitCatalog(world),
+        [input.personId],
+        input.onDate < world.currentDate ? input.onDate : world.currentDate,
+      );
   const cutoff = {
     asOfDate: input.onDate,
     historySequenceExclusive: next.history.nextSequence,

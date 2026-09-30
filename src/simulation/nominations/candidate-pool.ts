@@ -1,3 +1,4 @@
+import { indexOverPeople } from "../history-index";
 import type { EntityId, IsoDate, World } from "../types";
 import { isPersonAliveAt } from "../vitality-integrity";
 
@@ -25,9 +26,32 @@ export function pastCandidatesBySeat(
   world: World,
   version: string,
 ): ReadonlyMap<string, readonly PastCandidate[]> {
+  return indexOverPeople(
+    world,
+    `past-candidates:${version}`,
+    () => addPastCandidates(new Map(), world, world.personOrder, version),
+    extendPastCandidatePool(version),
+  );
+}
+
+// Keep the stored extender in its own scope so it holds only the version,
+// never the World passed to a previous read.
+function extendPastCandidatePool(version: string) {
+  return (
+    prior: ReadonlyMap<string, readonly PastCandidate[]>,
+    next: World,
+    added: readonly EntityId[],
+  ) => addPastCandidates(new Map(prior), next, added, version);
+}
+
+function addPastCandidates(
+  bySeat: Map<string, readonly PastCandidate[]>,
+  world: World,
+  people: readonly EntityId[],
+  version: string,
+): Map<string, readonly PastCandidate[]> {
   const prefix = `${CONTEXT_PREFIX}${version}:`;
-  const bySeat = new Map<string, PastCandidate[]>();
-  for (const personId of world.personOrder) {
+  for (const personId of people) {
     const key = world.people[personId]?.generationKey;
     if (!key?.startsWith(prefix)) continue;
     const parts = key.slice(prefix.length).split(":");
@@ -39,8 +63,7 @@ export function pastCandidatesBySeat(
     if (!Number.isInteger(year)) continue;
     const seatKey = parts.slice(0, -3).join(":");
     const list = bySeat.get(seatKey) ?? [];
-    list.push({ personId, year, party, kind });
-    bySeat.set(seatKey, list);
+    bySeat.set(seatKey, [...list, { personId, year, party, kind }]);
   }
   return bySeat;
 }

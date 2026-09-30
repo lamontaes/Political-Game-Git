@@ -1088,14 +1088,9 @@ function affiliationIndexes(
         { affiliationsByStableKey: new Map(), firstPartyByPerson: new Map() },
         0,
       ),
-    (index, from) =>
-      extend(
-        {
-          affiliationsByStableKey: new Map(index.affiliationsByStableKey),
-          firstPartyByPerson: new Map(index.firstPartyByPerson),
-        },
-        from,
-      ),
+    // This private index is read synchronously into scalar seat views. Its
+    // maps never escape, so the helper can transfer their ownership on append.
+    (index, from) => extend(index as Parameters<typeof extend>[0], from),
   );
 }
 

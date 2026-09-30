@@ -1,3 +1,4 @@
+import { carryPeopleReadIndexesAfterAppend } from "./history-index";
 import { adultLifeSituations } from "./adult-situations";
 import {
   addDays,
@@ -511,6 +512,20 @@ export function characterHistoryContextPersonId(
   return createStableId("person", `${world.id}:life-context-v1:${stableKey}`);
 }
 
+/** Lineage follows immutable people tables; external edits get a fresh read. */
+const CONTEXT_LINEAGES = new WeakMap<
+  World["people"],
+  ReturnType<typeof appearanceLineageFromPeople>
+>();
+
+function contextAppearanceLineage(world: World) {
+  const cached = CONTEXT_LINEAGES.get(world.people);
+  if (cached) return cached;
+  const lineage = appearanceLineageFromPeople(Object.values(world.people));
+  CONTEXT_LINEAGES.set(world.people, lineage);
+  return lineage;
+}
+
 /** Creates the smallest persistent social context person through one validated writer. */
 function buildCharacterHistoryContextPerson(
   world: World,
@@ -619,7 +634,7 @@ export function createCharacterHistoryContextPerson(
   const person = buildCharacterHistoryContextPerson(
     world,
     input,
-    appearanceLineageFromPeople(Object.values(world.people)),
+    contextAppearanceLineage(world),
   );
   if (!person) return world;
   const next: World = {
@@ -642,7 +657,8 @@ export function createCharacterHistoryContextPeople(
   world: World,
   inputs: readonly CharacterHistoryContextPersonInput[],
 ): World {
-  const lineage = appearanceLineageFromPeople(Object.values(world.people));
+  if (inputs.length === 0) return world;
+  const lineage = contextAppearanceLineage(world);
   const people = { ...world.people };
   const personOrder = [...world.personOrder];
   const probe: World = { ...world, people };
@@ -654,6 +670,9 @@ export function createCharacterHistoryContextPeople(
   }
   if (personOrder.length === world.personOrder.length) return world;
   const next: World = { ...world, people, personOrder };
+  // Appended people carry this exact lineage, so they cannot change it.
+  CONTEXT_LINEAGES.set(people, lineage);
+  carryPeopleReadIndexesAfterAppend(world, next);
   assertWorldIntegrity(next);
   return next;
 }
