@@ -81,11 +81,16 @@ export const HOUSING_SUPPLY_LAW_EFFECT = {
   actsAfterDays: 365,
 } as const;
 
-const supplyLinksByKey = new Map(
-  OUTCOME_LINKS.filter((link) => link.to === "housing.new-large-buildings").map(
-    (link) => [link.key, link],
-  ),
-);
+// Resolve after module initialization: rent/home readers and the outcome engine
+// import each other. Reuse this immutable link index after its first actual call.
+let supplyLinksByKey: Map<string, (typeof OUTCOME_LINKS)[number]> | undefined;
+function supplyLinks() {
+  return (supplyLinksByKey ??= new Map(
+    OUTCOME_LINKS.filter(
+      (link) => link.to === "housing.new-large-buildings",
+    ).map((link) => [link.key, link]),
+  ));
+}
 
 const supplyLawIdsByCatalog = new WeakMap<object, readonly EntityId[]>();
 
@@ -265,7 +270,7 @@ export function withHousingSupplyLawStamps(
   const wanted = new Set<string>(HOUSING_SUPPLY_LAWS);
   for (const cause of record.causes) {
     if (cause.factor === 1) continue;
-    const link = supplyLinksByKey.get(cause.key);
+    const link = supplyLinks().get(cause.key);
     if (!link || link.to !== record.measure || !link.from.startsWith("law:"))
       continue;
     const questionKey = link.from.slice("law:".length);

@@ -1,6 +1,8 @@
 ---
 id: team4-housing-law-stamp-batch
-impact: none
+impact: patch
+section: Changed
+title: Tenant rent and eviction records identify their governing housing laws
 ---
 
-Preserves an uncalled attribution helper and controlled fixtures; no player-facing behavior changes yet.
+Affordable leases, capped rent renewals and eviction cases with legal representation retain the housing law responsible for the recorded consequence. Rent amounts and case decisions follow the existing rules.

@@ -84,6 +84,11 @@ import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import type { LawInForce } from "../governing/law-in-force";
+import {
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import { personTrait } from "../people-traits";
 import {
@@ -981,13 +986,11 @@ export function housingLawYes(
   town: EntityId,
   key: string,
   onDate: IsoDate,
-): { readonly measureId: EntityId; readonly operativeAt: IsoDate } | null {
+): LawInForce | null {
   const id = propositionId(world, key);
   if (!id) return null;
   const law = lawInForce(world, town, id, onDate);
-  return law?.answer === "yes"
-    ? { measureId: law.measureId, operativeAt: law.operativeAt }
-    : null;
+  return law?.answer === "yes" ? law : null;
 }
 
 /** What a household's home costs it and what it earns, a month, on a date. */
@@ -1374,6 +1377,36 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       },
     });
     const flow = next.history.resourceFlows.at(-1)!;
+    if (regime === "affordable" && inclusionary) {
+      const terms = next.history.resourceFlowTerms.at(-1)!;
+      const stamp = lawEffectStamp(inclusionary.law, {
+        effectKind: "inclusionary-affordable-rent",
+        questionKey: RENT_LAW_KEYS.inclusionary,
+        jurisdictionId: town,
+        appliedAt: dueOn,
+        sourceRecordIds: [
+          flow.id,
+          terms.id,
+          tenure.id,
+          dwelling.id,
+          leaseholderId,
+        ],
+      });
+      if (stamp)
+        next = {
+          ...next,
+          history: {
+            ...next.history,
+            resourceFlowTerms: [
+              ...next.history.resourceFlowTerms.slice(0, -1),
+              {
+                ...terms,
+                lawEffectStamps: [...(terms.lawEffectStamps ?? []), stamp],
+              },
+            ],
+          },
+        };
+    }
     next = createResourceObligation(next, {
       stableKey: `${stableKey}:lease`,
       resourceFlowId: flow.id,
@@ -1436,7 +1469,7 @@ function inclusionaryHome(
   kind: TownHomeKind,
   town: EntityId,
   affordableLet: number,
-): { readonly designation: string } | null {
+): { readonly designation: string; readonly law: LawInForce } | null {
   if (!coveredKind(kind)) return null;
   const law = housingLawYes(
     world,
@@ -1457,7 +1490,7 @@ function inclusionaryHome(
           row.id.localeCompare(dwelling.id) <= 0)),
   ).length;
   if (!inclusionarySetAsideOpen(affordableLet, covered)) return null;
-  return { designation: measureDesignation(world, law.measureId) };
+  return { designation: measureDesignation(world, law.measureId), law };
 }
 
 /**
@@ -1625,6 +1658,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
     let amount = old;
     let reason: string;
     let provenance: LifeRecordProvenance = PROVENANCE;
+    let lawEffectStamps: LawEffectStampedRecord["lawEffectStamps"];
     if (lease.regime === "public") {
       const income = householdMonthlyIncome(
         members.get(lease.householdId) ?? [],
@@ -1637,6 +1671,33 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       amount = Math.round(amount * rentPriceLevel(next, lease.town, dueOn));
       amount = Math.round(amount / 100) * 100;
       reason = "The affordable rent was reset to this year's income limit.";
+      const dwelling = next.history.dwellings.find(
+        (home) => home.id === lease.dwellingId,
+      );
+      const rule =
+        dwelling &&
+        housingLawYes(
+          next,
+          lease.town,
+          RENT_LAW_KEYS.inclusionary,
+          dwelling.establishedAt,
+        );
+      if (rule && dwelling.establishedAt > rule.operativeAt) {
+        const stamp = lawEffectStamp(rule, {
+          effectKind: "inclusionary-affordable-rent",
+          questionKey: RENT_LAW_KEYS.inclusionary,
+          jurisdictionId: lease.town,
+          appliedAt: dueOn,
+          sourceRecordIds: [
+            lease.flow.id,
+            current.id,
+            lease.tenureId,
+            lease.dwellingId,
+            lease.leaseholderId,
+          ],
+        });
+        if (stamp) lawEffectStamps = [stamp];
+      }
     } else {
       const lastYear = addDays(dueOn, -365);
       const homePrices =
@@ -1661,6 +1722,19 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const { capped, cap } = renewal;
       amount = renewal.amountMinor;
       if (capped) {
+        const stamp = lawEffectStamp(rule, {
+          effectKind: "rent-stabilization-renewal",
+          questionKey: RENT_LAW_KEYS.rentStabilization,
+          jurisdictionId: lease.town,
+          appliedAt: dueOn,
+          sourceRecordIds: [
+            lease.flow.id,
+            current.id,
+            lease.tenureId,
+            lease.leaseholderId,
+          ],
+        });
+        if (stamp) lawEffectStamps = [stamp];
         const uncapped = renewal.uncappedMinor;
         const designation = measureDesignation(next, rule!.measureId);
         reason = `Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
@@ -1685,6 +1759,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       reason,
       provenance,
       supersedesTermsId: current.id,
+      ...(lawEffectStamps ? { lawEffectStamps } : {}),
     });
   }
   return next;
@@ -1961,11 +2036,13 @@ function actOnArrears(
       if (decision.outcome === "evicted") {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.evicted, {
           summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent: ${decision.reason(facts.court)}.${lawyer}`,
+          lawEffectStamps: facts.lawEffectStamps,
         });
         next = endTenancy(next, lease, dueOn, "evicted", "Evicted.");
       } else {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.settled, {
           summary: `${householdName(next, lease.householdId)} kept ${bedroomHome(lease)}, still owing ${landlordName(next, lease.flow.recipient)} ${dollarsOf(owed.owed)}: ${decision.reason(facts.court)}.${lawyer}`,
+          lawEffectStamps: facts.lawEffectStamps,
         });
       }
       continue;
@@ -2000,7 +2077,7 @@ function fileAtMonths(world: World, lease: LeaseFacts): number {
 }
 
 /** What an eviction case is decided from, read from the record. */
-export interface EvictionCaseFacts {
+export interface EvictionCaseFacts extends LawEffectStampedRecord {
   /** Rent owed over the month's rent. */
   readonly monthsBehind: number;
   /** Whether the landlord pursues the case to a hearing. */
@@ -2101,7 +2178,18 @@ function evictionCaseFacts(
   }
   const judge = trialJudge(world, lease.town, filedOn);
   const conflict = judge ? personTrait(world, judge, "conflict").value : null;
+  const counselStamp =
+    lawyer && law
+      ? lawEffectStamp(law, {
+          effectKind: "eviction-counsel-representation",
+          questionKey: RENT_LAW_KEYS.rightToCounsel,
+          jurisdictionId: lease.town,
+          appliedAt: firstOfNextMonth(filedOn),
+          sourceRecordIds: [lease.flow.id, lease.tenureId, lease.leaseholderId],
+        })
+      : null;
   return {
+    ...(counselStamp ? { lawEffectStamps: [counselStamp] } : {}),
     monthsBehind,
     landlordPursues,
     tenantAnswers,
@@ -2508,7 +2596,7 @@ function rentEvent(
   adults: readonly Member[],
   onDate: IsoDate,
   type: (typeof RENT_EVENTS)[keyof typeof RENT_EVENTS],
-  text: { readonly summary: string },
+  text: { readonly summary: string } & LawEffectStampedRecord,
 ): World {
   const stableKey = `${lease.flow.stableKey}:${type}:${onDate}`;
   if (world.history.events.some((event) => event.stableKey === stableKey))
@@ -2548,6 +2636,24 @@ function rentEvent(
     },
   });
   const eventId = next.history.events.at(-1)!.id;
+  if (text.lawEffectStamps?.length) {
+    const event = next.history.events.at(-1)!;
+    const stampedEvent: typeof event & LawEffectStampedRecord = {
+      ...event,
+      lawEffectStamps: text.lawEffectStamps.map((stamp) => ({
+        ...stamp,
+        appliedAt: onDate,
+        sourceRecordIds: [...(stamp.sourceRecordIds ?? []), eventId],
+      })),
+    };
+    next = {
+      ...next,
+      history: {
+        ...next.history,
+        events: [...next.history.events.slice(0, -1), stampedEvent],
+      },
+    };
+  }
   for (const personId of [...people, ...landlord])
     next = recordEventKnowledge(next, {
       stableKey: `${stableKey}:knowledge:${personId}`,
