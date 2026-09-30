@@ -2,6 +2,27 @@
 
 Replacement cloud teams are working. All predecessor handoffs are preserved; use only the current-session roster below.
 
+## September 30, 9:00 a.m. check-in
+
+### MERGED
+#1216 was independently verified at b99761aa570fd3f9c0633509145ac2675dff5d08 in the 8:55 collection. No later landing verified. #1219 remains open at 51ee1dbf2642ee36df5622df2f950d18d817a204. #1218 moved to 117a3987e51b990dbba22a41f25e8857a61d9f96; Merge alerted to approval/delta reconciliation.
+
+### CONNECTIONS TABLE
+
+| Connection | Actual current evidence | Action |
+| --- | --- | --- |
+| Sponsor drafting → Floral laws | #1215 987d8aeea2a21a15df2f555a8817a7eb1bb63368 and #1217 34e1734944c434610f4c3a0712e072288be24d6f verified open | Requested immediate partial date, typed/total and named-person receipt for CTO 9:05; none received at publication |
+| Today/calendar → live meeting | Team 5 reports nine new flow cases passed; six older options cases fail household setup after work-location change | Team 5 checking clean-main baseline; browser planned on 5185, one worker; no screenshots accepted yet |
+| Test repair → monthly speed | Team 4 thread in progress; #1219 still awaiting authorized merge | Return to monthly target under 15 seconds per CTO; no new timing result inferred |
+| Work history → prose | #1218 head changed from approved db1b1beb | Merge notified; verify delta and current-head approval before landing |
+| Numbering evidence → allocator | Team 9 retrieved Minnesota index, no new rule verified | Continue procedural source; examples remain distinct from legal rules |
+
+### BLOCKED
+Partial Floral report not yet received; both owners explicitly asked to report incompleteness rather than wait. Meeting browser proof remains pending for 9:30. Housing replay follows top terms task. Art is idle on owner review. County, shelter and fertility evidence gaps persist. Setup remains morning-list only; #1174 no retry.
+
+### EFFECTS
+Thread states observed in progress for Teams 1–6, 8 and Merge; this does not establish a running command or passed result. Team 9 completed its checkpoint and supplied its next research step. No new watched law-money chain, meeting screenshot or monthly speed pass is claimed.
+
 ## September 30, 8:30 a.m. check-in
 
 ### MERGED
