@@ -33,13 +33,106 @@ agency or school curriculum. It also prohibits Department funds under this
 chapter from endorsing or requiring curriculum. This is a specific federal
 constraint, not proof of every jurisdiction's curriculum authority.
 
-The attempted EEOC sexual-orientation guidance URL returned HTTP 404; no new
-employment-floor evidence is claimed from that read. Existing code cites Burn,
-Gilpin/Karger/Nencka, Dench/Pineda-Torres/Myers, Gemmill and school studies.
-Their encoded estimates below are source observations, not newly verified
-research. Every supported real effect cannot yet be certified from this packet.
-Team 9 breadth, primary effect sources and subject-specific jurisdiction law
-remain dependencies. No new rate or range was invented.
+The attempted EEOC guidance URL returned HTTP 404. Subsequent primary reads
+establish the federal employment floor directly:
+
+- [42 U.S.C. 2000e-2(a)](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title42-section2000e-2&num=0&edition=prelim)
+  prohibits covered employers from discriminating in compensation because of
+  race, color, religion, sex or national origin.
+- [Bostock v. Clayton County](https://www.supremecourt.gov/opinions/19pdf/17-1618_hfci.pdf),
+  official opinion, holds that firing someone merely for being gay or
+  transgender violates Title VII. The Court explains why discrimination on
+  these grounds necessarily relies on sex.
+- [42 U.S.C. 2000e(b)](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title42-section2000e&num=0&edition=prelim)
+  defines an employer using fifteen employees for each working day in twenty
+  calendar weeks in the current or preceding year, with listed exclusions.
+  A current town staff count alone does not prove that coverage.
+- [42 U.S.C. 2000e-7](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title42-section2000e-7&num=0&edition=prelim)
+  preserves state and political-subdivision liabilities except laws purporting
+  to require or permit conduct unlawful under Title VII. State/local repeal
+  cannot eliminate the federal protection of a covered employer's workers.
+
+All four primary reads returned HTTP 200. The definition explicitly names
+D.C., Puerto Rico, USVI, American Samoa and Guam. Northern Mariana Islands
+coverage needs its separate extension authority; it is not inferred from that
+list. Federal employees and other exclusions need their own statutory routes.
+
+New primary study read: Gilpin, Karger and Nencka's
+[Chicago Fed WP 2021-06, July 2021 revision](https://doi.org/10.21033/wp-2021-06),
+HTTP 200. Capital investment raised library visits 21%, children's checkouts
+21% and children's event attendance 18%. Usage increases persisted at least
+ten years. Reading rose 0.02 standard deviations on average over seven years;
+the study found no math effect. Capital investment also increased holdings,
+employees, salary spending and operating expenses; no numeric sizes for those
+four effects are taken from the passages read.
+
+The same working paper finds no positive or negative effect on local housing
+prices. That is an inert capital-investment result within its study scope,
+not a blanket claim about library operations or every community.
+
+The study examines library capital shocks using 1992–2018 data, not operating
+funding floors. Its test-score analysis uses nearby school districts and
+2009–2018 data. The relevant capital threshold in this revision is $1,000 per
+student. The published 2024 abstract returned through Crossref instead names
+$200 per student, usage gains of 5%–15% and reading gains of 0.01–0.04 standard
+deviations. The publisher page returned HTTP 403. Those revisions are not mixed
+into one effect size or treated as an uncertainty interval.
+
+The library-year sample concentrates on systems starting with zero or one
+branch: 90.8% of observations have one or two buildings. The school analysis
+uses libraries within five miles and excludes districts with more than twenty
+nearby buildings. Visits count occasions, not distinct people. These restrictions
+prevent a universal individual attendance rule from being inferred.
+
+These primary results reveal omitted effects and an unvalidated intervention
+conversion. They do not authorize new personal outcome multipliers. Burn's
+wage estimate and other school studies remain encoded citations awaiting
+primary verification. The attempted Burn paper returned HTTP 403. The cited
+2024 abortion article was refused by the tunnel with HTTP 403; the infant-study
+metadata query returned HTTP 429 and was not retried.
+
+A separate primary read succeeded: Dench, Myers and Pineda-Torres,
+[NBER WP 33548](https://doi.org/10.3386/w33548), revised December 2025,
+HTTP 200. Its county analysis uses individual birth records from 2021–2024.
+For counties whose nearest facility was fifty miles away before Dobbs, a total
+ban raises estimated births 0.8%–1.0% if distance does not change, and 2.1%–2.2%
+if distance rises to three hundred miles. Where appointment waits also change
+from unconstrained to at least two weeks, the latter estimate rises to
+3.0%–3.1%. Six-week gestational limits are nearly as impactful as total bans.
+These are county estimates under specified access changes, not actor outcomes.
+
+The downloaded revision differs from the Crossref abstract's 1.0%–1.2% and
+2.3%–2.4% estimates. The downloaded primary version controls this research
+statement. It is a separate later working paper, not a silent replacement for
+the game's cited 2024 study or a source for the encoded seven-month delay.
+
+New legal breadth: [20 U.S.C. 9122](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title20-section9122&num=0&edition=prelim),
+HTTP 200, defines State for library assistance to include all fifty states,
+D.C. and all five inhabited territories. The state library administrative
+agency must be charged by state law with statewide library-service development.
+Federal assistance is a distinct authority; this definition does not establish
+each local board's power or a statewide operating funding floor.
+
+Team 9 breadth and subject-specific jurisdiction law remain dependencies.
+No new runtime rate or range was added.
+
+Temporary primary bytes are preserved for reproduction, not shipped as a
+production corpus. SHA-256 values:
+
+- Title VII compensation HTML:
+  `56225cde41213ac156aef180d913a9047b8ed7c15f309bb40c7fb0f752a06373`.
+- Employer/place definitions HTML:
+  `71a2eb84b42c911ac192a52b0098a9ead87d208d9d5444dd8a0478ed34c1291c`.
+- State-law savings provision HTML:
+  `0e709f6531a4c2f1a49f19e71779bcd9af5a0ffab8cea6a5b37325bbbdc2f832`.
+- Bostock PDF:
+  `7ed4ed6f1919e99b728b8612626a0f37cb713a023c1734e88b938592e6a3b1b8`.
+- Chicago Fed working-paper PDF:
+  `d910b389f2fa3b5b992bd2f41e6e84cc43afb695d57700fb8bff7ae653219d3c`.
+- NBER December 2025 revision PDF:
+  `69e0187f39689164a5986921fdf4fa0ace595b6d66a8a0172117bd15e5232a2a`.
+- Federal library-assistance definitions HTML:
+  `57f9c8db3db2dd7d064c5568e3753a200422ffb8ff4c119c0064f39e30050a8f`.
 
 ## Revisions and authority limits
 
@@ -79,6 +172,9 @@ should reverse. Each trace below retains the distinction.
 
 All keys below have the prefix `us-policy-positions:`. Counts are the executed
 `lawEffectPaths` registry result, not observed effects in a played world.
+Current status for all eleven: **needs research**, source-only. No question is
+declared to work end to end. Total supported-effect counts remain incomplete
+until primary coverage and intervention mapping are reconciled.
 
 ### Education: equalize-school-funding — two counted paths
 
@@ -191,13 +287,14 @@ All keys below have the prefix `us-policy-positions:`. Counts are the executed
    is encoded about-zero. The source anchor also mentions lesbian employment,
    but no corresponding consumer is wired. Housing access/enforcement and
    broader protected grounds are not certified by this narrow pay module.
-3. State question and local companion, D.C. reach, unresolved territories.
-   The local question's state gate bars it only for a preempting no. Federal
-   employment floors cannot be erased by repealing state protection; fresh
-   primary verification of those floors and local preemption remains open.
+3. State question and local companion, D.C. reach, unresolved territory-local
+   powers. The local gate bars only a preempting no. The primary federal floor
+   above survives state/local repeal for covered employers. The reader does
+   not check that floor or employer coverage; local preemption remains open.
 4. Bottom: mechanical fixed pay adjustment at hire, not an employer decision.
-5. Verify the wage range and employment/housing effects; reconcile the federal
-   floor before changing state coverage. Do not invent a confidence interval.
+5. Verify the wage range and employment/housing effects. Add a coverage reader
+   only after reconciling employer duration, exceptions and existing records;
+   the federal floor is now sourced. Do not invent a confidence interval.
 6. Team 2 money proof NOT RUN; no affected worker's payment observed here.
 
 ### Civil: city-nondiscrimination-ordinance — one counted path
@@ -209,7 +306,8 @@ All keys below have the prefix `us-policy-positions:`. Counts are the executed
 3. County/city question; D.C. includes both. Subject authority may be unknown,
    then resolved generically through home rule. State preemption is gated.
    Township and territory local authority need primary verification. Repeal
-   changes later hire rates, not existing wages or higher legal floors.
+   changes later hire rates; the primary federal floor remains legally binding
+   for covered employers, but this pay reader does not consume it.
 4. Bottom: fixed pay at hire; no employer choice or local housing consumer.
 5. Share the statewide module's researched repair; keep separate local power
    and preemption evidence instead of expanding reach from a generic rule.
@@ -222,7 +320,9 @@ All keys below have the prefix `us-policy-positions:`. Counts are the executed
 2. Encoded births +2.3%, range +1.5% to +3%, seven months; infant mortality
    +6%, seven months, no explicit range and no producer. Birth size describes
    near-total bans; the question's weeks-of-pregnancy cutoff is not consumed.
-   Travel, access, household finances and maternal effects are not certified here.
+   New primary evidence varies births with distance, appointment availability
+   and six-week limits. Those mechanisms are absent from the encoded law link.
+   Household finances and maternal effects are not certified here.
 3. State question, D.C. reach, unresolved territories. Federal constraints,
    state constitutions, exceptions and local preemption need current primary
    research. Repeal ends the current birth factor; already born people remain.
@@ -235,17 +335,21 @@ All keys below have the prefix `us-policy-positions:`. Counts are the executed
 
 1. `outcomeFactor` → `advancePlaceOutcomes` moves aggregate reading; no direct
    operating-floor appropriation path is counted.
-2. Encoded reading +1%, range 0% to +3%, 36 months, provisional. The anchor
-   converts library building investment to an assumed operating-floor effect.
-   Math is encoded about-zero. Library opening hours, materials, staff and
-   access have no certified person-level mechanism in this packet.
+2. Encoded reading +1%, range 0% to +3%, 36 months, provisional; math about-zero.
+   Primary capital-investment research also supports visits, children's event
+   attendance, checkouts, holdings, employees, salary spending and operating
+   expenses. These have no demonstrated law consumer here. One counted path
+   is not complete effect coverage, and its operating-floor conversion is
+   unvalidated. Local housing prices are inert in the capital study; that effect
+   is not encoded for this law. Units, cohorts and horizons are stated above.
 3. State guarantee question, D.C. reach, unresolved territories. Local library
    operation and special-district funding require distinct enabling authority.
    Federal grants are separate. Repeal reverses the factor, not a recorded
    library budget; fiscal and home-rule limits remain unverified.
 4. Bottom: provisional aggregate reading multiplier, no library money/person.
-5. Verify the capital-versus-operating conversion and locate an existing library
-   spending consumer. Retain math's inert finding; never invent spending.
+5. Verify the capital-versus-operating conversion and route existing spending
+   and service records for every supported effect. Preserve the capital study's
+   inert math finding within its scope; never invent an operating-floor size.
 6. Team 2 money proof NOT RUN; no appropriation, librarian pay or visit observed.
 
 ### Libraries: local-control-of-library-materials — no counted path
