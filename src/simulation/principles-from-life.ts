@@ -220,14 +220,9 @@ function latestPrinciples(
   return latest;
 }
 
-/**
- * The stable-key prefix of the officeholder draw (governing/
- * officeholder-principles.ts). A seated officeholder's principles still come
- * from it: seated members have no recorded life yet (no home, family, work or
- * faith), so forming theirs from life would leave only the party (measured:
- * a Congress formed that way voted on party lines and enacted nothing in 200
- * days). This file leaves seated officeholders, and anyone the draw reached,
- * as they are.
+/** Legacy seeded rows remain intact when an old save is read. The ordinary
+ * life pass skips seated officials; the explicit officeholder pass forms new
+ * principles from their recorded lives and affiliations.
  */
 const OFFICEHOLDER_DRAW = "officeholder-principles/v1:";
 
@@ -632,6 +627,7 @@ function note(formed: FormedPrinciple): string {
 export function formPrinciplesFromLife(
   world: World,
   personIds: readonly EntityId[],
+  options: { readonly officeholders?: boolean } = {},
 ): World {
   const catalog = world.policyCatalog;
   const idForKey = new Map<string, EntityId>();
@@ -657,10 +653,11 @@ export function formPrinciplesFromLife(
     if (personId === controlled) return;
     const before = latestRows(world, personId);
     if (
-      seatedOfficeholder(world, personId) ||
-      [...before.values()].some((row) =>
-        row.stableKey.startsWith(OFFICEHOLDER_DRAW),
-      )
+      !options.officeholders &&
+      (seatedOfficeholder(world, personId) ||
+        [...before.values()].some((row) =>
+          row.stableKey.startsWith(OFFICEHOLDER_DRAW),
+        ))
     )
       return;
     const formed = principlesFromPulls(

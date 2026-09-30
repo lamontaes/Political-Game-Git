@@ -1,34 +1,126 @@
 import { currentPresidentOf } from "./crisis/offices";
 import { majorPartyOf } from "./statewide-electorate";
+import { macroConditionsAt } from "./macro-economy/readers";
+import { macroStartingConditions } from "./world-setup/conditions";
+import { observationsAcrossSeriesAt } from "./world-metrics";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { IsoDate, World } from "./types";
 
-/**
- * NATIONAL MOOD — the midterm penalty. In a midterm, voters in every seat
- * turn against the President's party. No draw: the same shift reaches every
- * seat in the country, Congress and state legislatures alike, and a change of
- * President changes which party pays it.
- *
- * MEASURED: the President's party lost 3.6 points of the two-party House
- * vote from the presidential year before, the mean of the 19 midterms from
- * 1950 to 2022 (it gained only in 2002). Brookings, Vital Statistics on
- * Congress, Table 2-2 (1948 to 2018); Clerk of the House for 2020 (Democrats
- * 50.8%, Republicans 47.7%) and 2022 (47.3%, 50.0%). 1946 is left out because
- * the table starts that year, so its swing has no year before it.
- *
- * HARDWIRED until the mood reads the President's standing: every midterm
- * takes the mean. The real swing ran from 9.0 points against (2010) to 2.3
- * points for (2002), with a spread of 2.6 points.
- *
- * GAME ASSUMPTION: an odd-year state election carries no national mood.
- */
-/** Points of the two-party vote, out of 100. */
+/** Mean two-party midterm loss, 1950–2022, retained as the neutral calibration. */
 export const MIDTERM_PENALTY_POINTS = 3.6;
+/** Gallup's historical presidential job-approval average, not an in-world poll. */
+export const PRESIDENTIAL_APPROVAL_AVERAGE = 53;
 
 /**
- * The shift in the Democratic share of the two-party vote that the national
- * mood adds on an election day: negative when a Democratic President faces a
- * midterm, positive when a Republican one does, zero otherwise.
+ * GAME PROFILE: smooth political responses, not empirical causal coefficients.
+ * Gallup's 2002/2010 readings (63%/45% approval) and the observed midterm range
+ * (+2.3/−9.0 two-party vote points) bound the calibration. The economy is the
+ * saved national growth, unemployment and inflation, not a random mood.
+ * No estimate from this module is shown as a poll or written by a screen.
  */
+export const MIDTERM_MOOD_PROFILE = {
+  approvalWeight: 0.45,
+  growthWeight: 0.6,
+  unemploymentWeight: 0.35,
+  inflationWeight: 0.2,
+  approvalEconomicWeight: 2,
+  weakestShiftPoints: -9,
+  strongestShiftPoints: 2.3,
+} as const;
+
+export function midtermPresidentPartyShift(input: {
+  readonly approvalPct: number;
+  readonly growthChange: number;
+  readonly unemploymentChange: number;
+  readonly inflationChange: number;
+}): number {
+  const p = MIDTERM_MOOD_PROFILE;
+  const impulse =
+    (input.approvalPct - PRESIDENTIAL_APPROVAL_AVERAGE) * p.approvalWeight +
+    input.growthChange * p.growthWeight -
+    input.unemploymentChange * p.unemploymentWeight -
+    input.inflationChange * p.inflationWeight;
+  const range = p.strongestShiftPoints - p.weakestShiftPoints;
+  const neutralShare = (-MIDTERM_PENALTY_POINTS - p.weakestShiftPoints) / range;
+  const neutralLogOdds = Math.log(neutralShare / (1 - neutralShare));
+  // Logistic bounds keep every marginal input effective; no outcome flips at
+  // an approval or economic cutoff. At neutral inputs this is the prior mean.
+  return (
+    p.weakestShiftPoints +
+    range / (1 + Math.exp(-(neutralLogOdds + impulse / (range / 4))))
+  );
+}
+
+export function presidentialStandingForMidterm(world: World, asOf: IsoDate) {
+  const president = currentPresidentOf(world);
+  const current = macroConditionsAt(world, "national", asOf);
+  const start = macroStartingConditions(world)?.initial;
+  const growthChange =
+    current && start ? current.growthPct - start.realGrowthAnnualPct : 0;
+  const unemploymentChange =
+    current && start ? current.unemploymentPct - start.unemploymentPct : 0;
+  const inflationChange =
+    current && start ? current.inflationPct - start.inflation12mPct : 0;
+  // Read a saved approval observation only if it belongs to this President.
+  // Candidate support and presidential vote share are different quantities.
+  const definition = Object.values(world.metricCatalog.definitions).find(
+    (d) =>
+      d.stableKey === "politics.presidential-job-approval" &&
+      d.tags.includes(`person.${president?.personId.replaceAll("_", "-")}`),
+  );
+  const cutoff = {
+    asOfDate: asOf > world.currentDate ? world.currentDate : asOf,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const observed = definition
+    ? observationsAcrossSeriesAt(
+        world,
+        definition.id,
+        { jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id, segmentKey: null },
+        cutoff,
+      )
+        .filter(
+          (row) =>
+            row.value.kind === "quantity" &&
+            row.value.quantity.unit === "rate:share",
+        )
+        .sort((a, b) => {
+          const end = (row: typeof a) =>
+            row.referencePeriod.kind === "point"
+              ? row.referencePeriod.at
+              : row.referencePeriod.endsAt;
+          return end(a).localeCompare(end(b)) || a.sequence - b.sequence;
+        })
+        .at(-1)
+    : null;
+  const economicPull = growthChange - unemploymentChange - inflationChange;
+  const meanLogOdds = Math.log(
+    PRESIDENTIAL_APPROVAL_AVERAGE / (100 - PRESIDENTIAL_APPROVAL_AVERAGE),
+  );
+  const estimate =
+    100 /
+    (1 +
+      Math.exp(
+        -(
+          meanLogOdds +
+          (economicPull * MIDTERM_MOOD_PROFILE.approvalEconomicWeight) / 25
+        ),
+      ));
+  const approvalPct =
+    observed?.value.kind === "quantity"
+      ? (100 * observed.value.quantity.numerator) /
+        observed.value.quantity.denominator
+      : estimate;
+  return {
+    approvalPct,
+    basis: observed ? "observed-poll" : "estimated-from-average",
+    growthChange,
+    unemploymentChange,
+    inflationChange,
+  } as const;
+}
+
+/** The same national conditions reach Congressional and state midterms. */
 export function nationalMoodDemocraticShift(
   world: World,
   electionDate: IsoDate,
@@ -38,6 +130,9 @@ export function nationalMoodDemocraticShift(
   const president = currentPresidentOf(world);
   if (!president) return 0;
   const party = majorPartyOf(world, president.personId, electionDate);
-  const shift = MIDTERM_PENALTY_POINTS / 100;
-  return party === "democratic" ? -shift : party === "republican" ? shift : 0;
+  const shift =
+    midtermPresidentPartyShift(
+      presidentialStandingForMidterm(world, electionDate),
+    ) / 100;
+  return party === "democratic" ? shift : party === "republican" ? -shift : 0;
 }

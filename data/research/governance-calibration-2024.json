@@ -1,0 +1,1195 @@
+{
+  "title": "NCSL sitting chamber composition after 2024 elections",
+  "vintage": "2025-01-31",
+  "retrieved": "2026-09-29",
+  "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf",
+  "source_internal_title": "Legis_Control_2025_1.29.25.xlsx",
+  "semantics": "Sitting composition on January 31, 2025; not certified November 2024 election results. Other affiliation is separate from vacancies. Source blank numeric cells in otherwise partisan rows are transcribed as zero; structural absence is null. Nonpartisan party counts are null, with nonpartisan seat counts separately preserved.",
+  "rows": [
+    {
+      "usps": "AL",
+      "name": "Alabama",
+      "upper": {
+        "size": 35,
+        "democratic": 8,
+        "republican": 26,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 105,
+        "democratic": 29,
+        "republican": 76,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "AK",
+      "name": "Alaska",
+      "upper": {
+        "size": 20,
+        "democratic": 9,
+        "republican": 11,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 40,
+        "democratic": 14,
+        "republican": 21,
+        "other": 5,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "AZ",
+      "name": "Arizona",
+      "upper": {
+        "size": 30,
+        "democratic": 13,
+        "republican": 17,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 60,
+        "democratic": 27,
+        "republican": 33,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "AR",
+      "name": "Arkansas",
+      "upper": {
+        "size": 35,
+        "democratic": 6,
+        "republican": 29,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 100,
+        "democratic": 19,
+        "republican": 81,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "CA",
+      "name": "California",
+      "upper": {
+        "size": 40,
+        "democratic": 30,
+        "republican": 9,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 80,
+        "democratic": 60,
+        "republican": 19,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "CO",
+      "name": "Colorado",
+      "upper": {
+        "size": 35,
+        "democratic": 23,
+        "republican": 12,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 65,
+        "democratic": 43,
+        "republican": 22,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "CT",
+      "name": "Connecticut",
+      "upper": {
+        "size": 36,
+        "democratic": 25,
+        "republican": 10,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 151,
+        "democratic": 101,
+        "republican": 49,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "DE",
+      "name": "Delaware",
+      "upper": {
+        "size": 21,
+        "democratic": 13,
+        "republican": 6,
+        "other": 0,
+        "vacancies": 2
+      },
+      "lower": {
+        "size": 41,
+        "democratic": 27,
+        "republican": 14,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "FL",
+      "name": "Florida",
+      "upper": {
+        "size": 40,
+        "democratic": 12,
+        "republican": 28,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 120,
+        "democratic": 33,
+        "republican": 86,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "GA",
+      "name": "Georgia",
+      "upper": {
+        "size": 56,
+        "democratic": 23,
+        "republican": 33,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 180,
+        "democratic": 80,
+        "republican": 100,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "HI",
+      "name": "Hawaii",
+      "upper": {
+        "size": 25,
+        "democratic": 22,
+        "republican": 3,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 51,
+        "democratic": 42,
+        "republican": 9,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "ID",
+      "name": "Idaho",
+      "upper": {
+        "size": 35,
+        "democratic": 6,
+        "republican": 29,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 70,
+        "democratic": 9,
+        "republican": 61,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "IL",
+      "name": "Illinois",
+      "upper": {
+        "size": 59,
+        "democratic": 40,
+        "republican": 19,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 118,
+        "democratic": 78,
+        "republican": 40,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "IN",
+      "name": "Indiana",
+      "upper": {
+        "size": 50,
+        "democratic": 10,
+        "republican": 40,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 100,
+        "democratic": 30,
+        "republican": 70,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "IA",
+      "name": "Iowa",
+      "upper": {
+        "size": 50,
+        "democratic": 16,
+        "republican": 34,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 100,
+        "democratic": 33,
+        "republican": 67,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "KS",
+      "name": "Kansas",
+      "upper": {
+        "size": 40,
+        "democratic": 9,
+        "republican": 31,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 125,
+        "democratic": 37,
+        "republican": 88,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "KY",
+      "name": "Kentucky",
+      "upper": {
+        "size": 38,
+        "democratic": 7,
+        "republican": 31,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 100,
+        "democratic": 20,
+        "republican": 80,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "LA",
+      "name": "Louisiana",
+      "upper": {
+        "size": 39,
+        "democratic": 10,
+        "republican": 27,
+        "other": 0,
+        "vacancies": 2
+      },
+      "lower": {
+        "size": 105,
+        "democratic": 32,
+        "republican": 73,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "ME",
+      "name": "Maine",
+      "upper": {
+        "size": 35,
+        "democratic": 20,
+        "republican": 15,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 151,
+        "democratic": 75,
+        "republican": 73,
+        "other": 2,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "MD",
+      "name": "Maryland",
+      "upper": {
+        "size": 47,
+        "democratic": 33,
+        "republican": 13,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 141,
+        "democratic": 100,
+        "republican": 39,
+        "other": 0,
+        "vacancies": 2
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "MA",
+      "name": "Massachusetts",
+      "upper": {
+        "size": 40,
+        "democratic": 35,
+        "republican": 5,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 160,
+        "democratic": 133,
+        "republican": 25,
+        "other": 1,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "MI",
+      "name": "Michigan",
+      "upper": {
+        "size": 38,
+        "democratic": 19,
+        "republican": 18,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 110,
+        "democratic": 52,
+        "republican": 58,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "MN",
+      "name": "Minnesota",
+      "upper": {
+        "size": 67,
+        "democratic": 34,
+        "republican": 33,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 134,
+        "democratic": 66,
+        "republican": 67,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "MS",
+      "name": "Mississippi",
+      "upper": {
+        "size": 52,
+        "democratic": 16,
+        "republican": 35,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 122,
+        "democratic": 40,
+        "republican": 78,
+        "other": 2,
+        "vacancies": 2
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "MO",
+      "name": "Missouri",
+      "upper": {
+        "size": 34,
+        "democratic": 10,
+        "republican": 24,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 163,
+        "democratic": 52,
+        "republican": 110,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "MT",
+      "name": "Montana",
+      "upper": {
+        "size": 50,
+        "democratic": 18,
+        "republican": 32,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 100,
+        "democratic": 42,
+        "republican": 58,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "NE",
+      "name": "Nebraska",
+      "upper": null,
+      "lower": null,
+      "unicameral": true,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf",
+      "unicameral_chamber": {
+        "size": 49,
+        "democratic": null,
+        "republican": null,
+        "other": null,
+        "vacancies": 0,
+        "partisan_classification": "source-labeled nonpartisan",
+        "nonpartisan": 49
+      },
+      "source_column_note": "NCSL prints unicameral size/composition in Senate columns; this JSON preserves it as unicameral_chamber, not an upper house."
+    },
+    {
+      "usps": "NV",
+      "name": "Nevada",
+      "upper": {
+        "size": 21,
+        "democratic": 13,
+        "republican": 8,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 42,
+        "democratic": 27,
+        "republican": 15,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "NH",
+      "name": "New Hampshire",
+      "upper": {
+        "size": 24,
+        "democratic": 8,
+        "republican": 16,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 400,
+        "democratic": 177,
+        "republican": 221,
+        "other": 1,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "NJ",
+      "name": "New Jersey",
+      "upper": {
+        "size": 40,
+        "democratic": 25,
+        "republican": 15,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 80,
+        "democratic": 52,
+        "republican": 28,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "NM",
+      "name": "New Mexico",
+      "upper": {
+        "size": 42,
+        "democratic": 26,
+        "republican": 16,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 70,
+        "democratic": 43,
+        "republican": 26,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "NY",
+      "name": "New York",
+      "upper": {
+        "size": 63,
+        "democratic": 41,
+        "republican": 22,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 150,
+        "democratic": 103,
+        "republican": 47,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "NC",
+      "name": "North Carolina",
+      "upper": {
+        "size": 50,
+        "democratic": 20,
+        "republican": 30,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 120,
+        "democratic": 49,
+        "republican": 71,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "ND",
+      "name": "North Dakota",
+      "upper": {
+        "size": 47,
+        "democratic": 5,
+        "republican": 42,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 94,
+        "democratic": 11,
+        "republican": 83,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "OH",
+      "name": "Ohio",
+      "upper": {
+        "size": 33,
+        "democratic": 9,
+        "republican": 24,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 99,
+        "democratic": 34,
+        "republican": 65,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "OK",
+      "name": "Oklahoma",
+      "upper": {
+        "size": 48,
+        "democratic": 8,
+        "republican": 39,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 101,
+        "democratic": 20,
+        "republican": 80,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "OR",
+      "name": "Oregon",
+      "upper": {
+        "size": 30,
+        "democratic": 18,
+        "republican": 12,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 60,
+        "democratic": 36,
+        "republican": 24,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "PA",
+      "name": "Pennsylvania",
+      "upper": {
+        "size": 50,
+        "democratic": 22,
+        "republican": 27,
+        "other": 0,
+        "vacancies": 1
+      },
+      "lower": {
+        "size": 203,
+        "democratic": 101,
+        "republican": 101,
+        "other": 0,
+        "vacancies": 1
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "RI",
+      "name": "Rhode Island",
+      "upper": {
+        "size": 38,
+        "democratic": 34,
+        "republican": 4,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 75,
+        "democratic": 64,
+        "republican": 10,
+        "other": 1,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "SC",
+      "name": "South Carolina",
+      "upper": {
+        "size": 46,
+        "democratic": 12,
+        "republican": 34,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 124,
+        "democratic": 34,
+        "republican": 88,
+        "other": 0,
+        "vacancies": 2
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "SD",
+      "name": "South Dakota",
+      "upper": {
+        "size": 35,
+        "democratic": 4,
+        "republican": 31,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 70,
+        "democratic": 7,
+        "republican": 63,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "TN",
+      "name": "Tennessee",
+      "upper": {
+        "size": 33,
+        "democratic": 6,
+        "republican": 27,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 99,
+        "democratic": 24,
+        "republican": 75,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "TX",
+      "name": "Texas",
+      "upper": {
+        "size": 31,
+        "democratic": 11,
+        "republican": 20,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 150,
+        "democratic": 62,
+        "republican": 88,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "UT",
+      "name": "Utah",
+      "upper": {
+        "size": 29,
+        "democratic": 6,
+        "republican": 23,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 75,
+        "democratic": 14,
+        "republican": 61,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "VT",
+      "name": "Vermont",
+      "upper": {
+        "size": 30,
+        "democratic": 16,
+        "republican": 13,
+        "other": 1,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 150,
+        "democratic": 87,
+        "republican": 56,
+        "other": 7,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "VA",
+      "name": "Virginia",
+      "upper": {
+        "size": 40,
+        "democratic": 21,
+        "republican": 19,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 100,
+        "democratic": 51,
+        "republican": 49,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "WA",
+      "name": "Washington",
+      "upper": {
+        "size": 49,
+        "democratic": 30,
+        "republican": 19,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 98,
+        "democratic": 59,
+        "republican": 39,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "WV",
+      "name": "West Virginia",
+      "upper": {
+        "size": 34,
+        "democratic": 2,
+        "republican": 32,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 100,
+        "democratic": 9,
+        "republican": 91,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "WI",
+      "name": "Wisconsin",
+      "upper": {
+        "size": 33,
+        "democratic": 15,
+        "republican": 18,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 99,
+        "democratic": 45,
+        "republican": 54,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "WY",
+      "name": "Wyoming",
+      "upper": {
+        "size": 31,
+        "democratic": 2,
+        "republican": 29,
+        "other": 0,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 62,
+        "democratic": 6,
+        "republican": 56,
+        "other": 0,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "AS",
+      "name": "American Samoa",
+      "upper": {
+        "size": 18,
+        "democratic": null,
+        "republican": null,
+        "other": null,
+        "vacancies": 0,
+        "partisan_classification": "source-labeled nonpartisan",
+        "nonpartisan": 18
+      },
+      "lower": {
+        "size": 21,
+        "democratic": null,
+        "republican": null,
+        "other": null,
+        "vacancies": 0,
+        "partisan_classification": "source-labeled nonpartisan",
+        "nonpartisan": 21
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "DC",
+      "name": "District of Columbia",
+      "upper": null,
+      "lower": null,
+      "unicameral": true,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf",
+      "unicameral_chamber": {
+        "size": 13,
+        "democratic": 11,
+        "republican": 0,
+        "other": 2,
+        "vacancies": 0
+      },
+      "source_column_note": "NCSL prints unicameral size/composition in Senate columns; this JSON preserves it as unicameral_chamber, not an upper house."
+    },
+    {
+      "usps": "GU",
+      "name": "Guam",
+      "upper": null,
+      "lower": null,
+      "unicameral": true,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf",
+      "unicameral_chamber": {
+        "size": 15,
+        "democratic": 6,
+        "republican": 9,
+        "other": 0,
+        "vacancies": 0
+      },
+      "source_column_note": "NCSL prints unicameral size/composition in Senate columns; this JSON preserves it as unicameral_chamber, not an upper house."
+    },
+    {
+      "usps": "MP",
+      "name": "Northern Mariana Islands",
+      "upper": {
+        "size": 9,
+        "democratic": 2,
+        "republican": 4,
+        "other": 3,
+        "vacancies": 0
+      },
+      "lower": {
+        "size": 20,
+        "democratic": 4,
+        "republican": 3,
+        "other": 13,
+        "vacancies": 0
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "PR",
+      "name": "Puerto Rico",
+      "upper": {
+        "size": 28,
+        "democratic": null,
+        "republican": null,
+        "other": 4,
+        "vacancies": 0,
+        "local_parties": {
+          "PDP": 5,
+          "NPP": 19
+        },
+        "source_party_labels": {
+          "PDP": "DPP",
+          "NPP": "NPP"
+        }
+      },
+      "lower": {
+        "size": 53,
+        "democratic": null,
+        "republican": null,
+        "other": 4,
+        "vacancies": 0,
+        "local_parties": {
+          "PDP": 13,
+          "NPP": 36
+        },
+        "source_party_labels": {
+          "PDP": "DPP",
+          "NPP": "NPP"
+        }
+      },
+      "unicameral": false,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf"
+    },
+    {
+      "usps": "VI",
+      "name": "U.S. Virgin Islands",
+      "upper": null,
+      "lower": null,
+      "unicameral": true,
+      "source_vintage": "2025-01-31",
+      "source_url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/2025-State-and-Legislative-Partisan-Composition.pdf",
+      "unicameral_chamber": {
+        "size": 15,
+        "democratic": null,
+        "republican": null,
+        "other": null,
+        "vacancies": 0,
+        "partisan_classification": "source-labeled nonpartisan",
+        "nonpartisan": 15
+      },
+      "source_column_note": "NCSL prints unicameral size/composition in Senate columns; this JSON preserves it as unicameral_chamber, not an upper house.",
+      "source_limitation": "NCSL labels this chamber nonpartisan and reports all 15 under other. This is the source classification, not independently verified party affiliations."
+    }
+  ]
+}

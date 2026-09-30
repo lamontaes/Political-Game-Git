@@ -108,6 +108,7 @@ export function seatedChamberForPack(
         memberKey: `${officeKey}:seat:${member.ordinal}`,
         name: personName(world.people[member.personId]!),
         personId: member.personId,
+        partyKey: member.party,
         caucusLabel: member.party
           ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
           : "No party",
@@ -219,20 +220,13 @@ export function decideChamberVote(
       ? seated.partyKey
       : publicPartyOf(world, personId);
   };
-  // Everyone whose name is on the bill: the sponsor and the members who
-  // signed on. A bill with names from both parties is a bill both parties
-  // have a member behind.
+  // Cosponsoring is a member's own commitment. The party cue follows only
+  // the sponsor; one cross-party signature does not change either caucus.
   const cosponsors = measureCosponsors(world, measure.id);
-  const backers = [
-    ...(measure.sponsorPersonId ? [measure.sponsorPersonId] : []),
-    ...cosponsors,
-  ];
-  const sponsorParties = new Set(
-    backers.flatMap((personId) => {
-      const party = partyOf(personId);
-      return party ? [party] : [];
-    }),
-  );
+  const sponsorParty = measure.sponsorPersonId
+    ? partyOf(measure.sponsorPersonId)
+    : null;
+  const sponsorParties = new Set(sponsorParty ? [sponsorParty] : []);
   // On an amendment a member offered, the cue comes from the amendment's
   // author: the author votes for their own amendment, the author's party
   // with them. GAME ASSUMPTION (Build 25, hand-set until the research on
