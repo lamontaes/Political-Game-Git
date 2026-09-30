@@ -155,6 +155,7 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     const [first, second] = Object.values(world.people)
       .filter((person) => person.id !== player && person.appearance)
       .slice(0, 2);
+    if (!first || !second) throw new Error("two drawn people are needed");
     const office = placeBackdropPeople(
       world,
       player,
