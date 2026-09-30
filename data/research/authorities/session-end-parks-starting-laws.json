@@ -935,6 +935,339 @@
       "accessed": "2026-09-29",
       "readBy": "lead",
       "kind": "primary"
+    },
+    {
+      "id": "ak-parks-dedication-restriction",
+      "title": "ak parks dedication restriction",
+      "url": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "vintage": "Section 7 amended 1976",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ct-parks-enactment2018",
+      "title": "ct parks enactment2018",
+      "url": "https://www.cga.ct.gov/2018/act/pa/2018PA-00007-R00SB-00429-PA.htm",
+      "vintage": "2018 enacted act, primary indexed",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ct-parks-code2023",
+      "title": "ct parks code2023",
+      "url": "https://cga.ct.gov/2023/pub/chap_447.htm",
+      "vintage": "2023 own codification, indexed; direct retrieval failed",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ks-parks-tax2025",
+      "title": "ks parks tax2025",
+      "url": "https://www.kslegislature.gov/b2025_26/laws/012_000_0000_chapter/012_060_0000_article/012_060_0004_section/012_060_0004_k/",
+      "vintage": "History2022 chapter63 section23; effectiveJuly1,2022",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ks-parks-definitions",
+      "title": "ks parks definitions",
+      "url": "https://ksrevisor.gov/statutes/chapters/ch12/012_060_0001.html",
+      "vintage": "Current own definitions",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ky-parks-tax-report",
+      "title": "ky parks tax report",
+      "url": "https://apps.legislature.ky.gov/AgencyReports/IJC/AR/OSBD/TEA/2026%20to%202028.pdf",
+      "vintage": "FY2026-2028report entry17; cited tax provision effective1994",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ky-parks-agency",
+      "title": "ky parks agency",
+      "url": "https://eec.ky.gov/Nature-Preserves/conserving_natural_areas/KHLCF/Pages/heritage-land-conservation-fund.aspx",
+      "vintage": "Current administering agency description",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "la-parks-fees",
+      "title": "la parks fees",
+      "url": "https://www.legis.la.gov/legis/Law.aspx?d=104948",
+      "vintage": "Last amendment2021Act114section16 effectiveJuly1,2022",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-parks-lfb-history",
+      "title": "wi parks lfb history",
+      "url": "https://cdm16831.contentdm.oclc.org/digital/api/collection/p16831coll3/id/1308/download",
+      "vintage": "Historical own LFB explanation, indexed",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wi-parks-budget2025",
+      "title": "wi parks budget2025",
+      "url": "https://cdm16831.contentdm.oclc.org/digital/api/collection/p16831coll3/id/2592/download",
+      "vintage": "2025-2027own budget/veto analysis, indexed",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mn-parks-constitution",
+      "title": "mn parks constitution",
+      "url": "https://www.revisor.mn.gov/constitution/",
+      "vintage": "Section15adoptedNovember4,2008",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "or-parks-cached-constitution",
+      "title": "or parks cached constitution",
+      "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+      "vintage": "OwnsourcecachedasOfSeptember6,2026;2010Measure76",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "mi-parks-budget2025",
+      "title": "mi parks budget2025",
+      "url": "https://www.house.mi.gov/HFA/PDF/Briefings/DNR_BudgetBriefing_fy25-26.pdf",
+      "vintage": "December2025briefingpage16,leadPDFread",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "me-parks-code2025",
+      "title": "me parks code2025",
+      "url": "https://legislature.maine.gov/statutes/12/title12sec1825.html",
+      "vintage": "ExtractedOctober20,2025;lastlistedamendment2019PL343PartYsection2",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "il-parks-tax2025",
+      "title": "il parks tax2025",
+      "url": "https://www.ilga.gov/legislation/publicacts/104/PDF/104-0002.pdf",
+      "vintage": "Approved June 16, 2025; subsection starts July 1, 2025; page154",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "il-parks-oslad",
+      "title": "il parks oslad",
+      "url": "https://dnr.illinois.gov/grants/openspacelandsaquisitiondevelopment-grant.html",
+      "vintage": "Current administering agency scope",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "in-parks-handbook2022",
+      "title": "in parks handbook2022",
+      "url": "https://s3.us-east-2.amazonaws.com/iga-publications/handbook/2023-01-26T16-49-45.000Z-tax-handbook-22-web.pdf",
+      "vintage": "Official 2022 handbook",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "oh-parks-base-levy",
+      "title": "oh parks base levy",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-1545.20",
+      "vintage": "Effective October30,1989",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "oh-parks-voted-levy2026",
+      "title": "oh parks voted levy2026",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-1545.21",
+      "vintage": "Version effective January1,2026; HB96,136th GA",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ok-parks-capital-code",
+      "title": "ok parks capital code",
+      "url": "https://oklahoma.gov/content/dam/ok/en/ocast/documents/OCAST_Oklahoma_Statutes.pdf",
+      "vintage": "Dated own-state codification page1610; created2006 effectiveJuly1; amendments through2016 chapter226 section2",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "wv-parks-lottery",
+      "title": "wv parks lottery",
+      "url": "https://code.wvlegislature.gov/email/29-22-18/",
+      "vintage": "Current own code read",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "va-parks-local-tax",
+      "title": "va parks local tax",
+      "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter18/section15.2-1806/",
+      "vintage": "History through2023 chapters131/132, preceding cutoff",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "me-parks-trust2025",
+      "title": "me parks trust2025",
+      "url": "https://legislature.maine.gov/statutes/12/title12sec10255.html",
+      "vintage": "Extracted October20,2025; history2023 PL405 PartA section29",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "me-parks-plates",
+      "title": "me parks plates",
+      "url": "https://legislature.maine.gov/statutes/29-A/title29-Asec455.html",
+      "vintage": "Extracted October1,2024; listed history through2013",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "al-parks-third-source",
+      "title": "AL parks revenue law source",
+      "url": "https://www.revenue.alabama.gov/tax-types/tobacco-tax/",
+      "vintage": "Current DOR distribution; 2022 legislative guide traces1967 Act309",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ar-parks-third-source",
+      "title": "AR parks revenue law source",
+      "url": "https://www.sos.arkansas.gov/uploads/elections/Arkansas_Election_Laws_and_Constitution_2025_Edition.pdf",
+      "vintage": "2025 own constitution page728 printed715",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "az-parks-third-source",
+      "title": "AZ parks revenue law source",
+      "url": "https://www.azleg.gov/ars/41/00502.htm",
+      "vintage": "Current own code with2023 agency history lead",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "co-parks-third-source",
+      "title": "CO parks revenue law source",
+      "url": "https://olls.info/crs/crs2024-title-00.htm",
+      "vintage": "2024 official constitution; amendment approved1992 effectiveJanuary14,1993",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ga-parks-third-source",
+      "title": "GA parks revenue law source",
+      "url": "https://gadnr.org/gosp",
+      "vintage": "Agency identifies2018 enactment/voter approval, effectiveJuly1,2019; originalFFY2021report corroborates share",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "mo-parks-third-source",
+      "title": "MO parks revenue law source",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=IV+++47%28a%29",
+      "vintage": "Original1984, renewal2016; own legislative budget2024",
+      "accessed": "2026-09-29",
+      "readBy": "helper",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-parks-third-source",
+      "title": "CA parks revenue law source",
+      "url": "https://cdtfa.ca.gov/lawguides/vol3/ctptl/ctptl-30124.html",
+      "vintage": "OperativeJuly1,1996;30122history through2005",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "mt-parks-third-source",
+      "title": "MT parks revenue law source",
+      "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0350/part_0010/section_0080/0150-0350-0010-0080.html",
+      "vintage": "2025 own code; separateJuly2027version excluded",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ne-parks-third-source",
+      "title": "NE parks revenue law source",
+      "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2602",
+      "vintage": "Tax history through2021; spending section history through2012",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "nj-parks-third-source",
+      "title": "NJ parks revenue law source",
+      "url": "https://www.njleg.state.nj.us/constitution",
+      "vintage": "Updated throughNovember2021; paragraph6 amendment effectiveJuly1,2015",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "wa-parks-third-source",
+      "title": "WA parks revenue law source",
+      "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=79A.25.070",
+      "vintage": "Last listed amendment2015; old82.36refund reference repealed2016 per revisor note",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ca-parks-account-scope",
+      "title": "ca parks account scope",
+      "url": "https://cdtfa.ca.gov/lawguides/vol3/ctptl/ctptl-30122.html",
+      "vintage": "History through2005",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
+    },
+    {
+      "id": "ne-parks-spending-plan",
+      "title": "ne parks spending plan",
+      "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=37-352",
+      "vintage": "History through2012",
+      "accessed": "2026-09-29",
+      "readBy": "lead",
+      "kind": "primary"
     }
   ],
   "sessionEndLaw": {
@@ -2439,87 +2772,115 @@
   },
   "parksStartingLaw": {
     "US-AL": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "40-25-23 agency lead",
+        "revenue": "Cigarette-tax receipts pay State Parks Development Authority debt first, then State Parks Fund.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["al-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Exact January fraction unresolved: dated legislative guide and current DOR components differ."
       ]
     },
     "US-AK": {
-      "status": "unresearched",
+      "status": "restriction-with-exceptions",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "Alaska Constitution article IX section 7",
+        "restriction": "State tax and license proceeds may not be dedicated, except permanent-fund provision, federal-program requirements and dedications existing at ratification.",
+        "scope": "This restriction does not establish absence of exceptions, local taxes, appropriations or user-fee routes."
+      },
+      "sources": ["ak-parks-dedication-restriction"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Full qualifying exceptions and local-law inventory not read; no exhaustive no-law conclusion."
       ]
     },
     "US-AZ": {
-      "status": "unresearched",
+      "status": "partial-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "41-502,41-503 and5-572",
+        "revenue": "Parks Heritage Fund receives appropriations, grants and donations;50% parks/open-space,30% historic,10% trails,10% education; acquisition prohibited.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["az-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Lottery funding eliminated2010; proposed2023 restoration is not enactment. January amendment and broader revenue inventory unresolved."
       ]
     },
     "US-AR": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "Constitution amendment75 sections2-3",
+        "revenue": "Additional0.125% sales/use excise tax;45% of receipts for state park purposes subject to legislative appropriation.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["ar-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Adopted November5,1996; collection July1,1997. Annual appropriation remains separate."
       ]
     },
     "US-CA": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "Revenue and Taxation30122(b)(5),30124",
+        "revenue": "After refunds and collection administration,5% section30123 surtax revenue enters Public Resources Account; equal appropriations for habitat and state/local park/recreation enhancement.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["ca-parks-third-source", "ca-parks-account-scope"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Park share is half of this account, not half of all tobacco taxes; annual appropriations remain separate. Confirm any January budget overrides."
       ]
     },
     "US-CO": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "Constitution articleXXVII section3",
+        "revenue": "Lottery net proceeds allocate40% Conservation Trust Fund for local parks/recreation/open space and10% state parks/recreation/trails; remainder GOCO subject to inflation-adjusted cap.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["co-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Continuously appropriated constitutional split; mixed GOCO purposes. Complete2025 reconciliation remains open."
       ]
     },
     "US-CT": {
-      "status": "unresearched",
+      "status": "fee-route-question-unresolved",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "2018 PA18-7; historical sections 23-15 and 23-15h",
+        "revenue": "Passport registration fees under 14-49b and park operating receipts feed Passport account.",
+        "scope": "Mixed environmental uses; registration/user fees are distinct from requested tax, lottery or royalty dedication."
+      },
+      "sources": ["ct-parks-enactment2018", "ct-parks-code2023"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "2025 amendments and current January 2026 account wording not closed. Introduced SB1527 is not enactment proof."
       ]
     },
     "US-DE": {
@@ -2562,15 +2923,19 @@
       ]
     },
     "US-GA": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "Outdoor Stewardship HB332/HR238;12-6A-5 lead",
+        "revenue": "Agency documents40% existing state sales tax on outdoor sporting goods for mixed state parks, significant local parks/trails and conservation grants/loans.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["ga-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Operative reduction conditions, sunset and January amendment inventory unread."
       ]
     },
     "US-HI": {
@@ -2604,27 +2969,35 @@
       ]
     },
     "US-IL": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "35 ILCS 200/31-35(c), PA104-0002",
+        "revenue": "After the first $300,000 each fiscal year goes to the Governor Administrative Fund, remaining real-estate-transfer-tax receipts divide 50% housing, 35% Open Space Lands Acquisition and Development and 15% Natural Areas.",
+        "scope": "OSLAD finances local acquisition and development of public parks and open space. The 35% applies to the remainder, not gross receipts."
+      },
+      "sources": ["il-parks-tax2025", "il-parks-oslad"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Annual appropriations and local grant eligibility require separate review."
       ]
     },
     "US-IN": {
-      "status": "unresearched",
+      "status": "partial-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "Official 2022 tax handbook, IC6-9-51 lead",
+        "revenue": "Handbook documents Greenwood 1% food and beverage tax with parks and recreation among several allowed purposes.",
+        "scope": "Geographically limited mixed-purpose local tax lead; not a statewide parks dedication."
+      },
+      "sources": ["in-parks-handbook2022"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Operative 2025 codification, amendment history and January cutoff remain unresolved."
       ]
     },
     "US-IA": {
@@ -2646,51 +3019,67 @@
       ]
     },
     "US-KS": {
-      "status": "unresearched",
+      "status": "conditional-local-authority",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "K.S.A.12-6004; definitions12-6001",
+        "revenue": "Majority-voter-approved Gage Park authority sales tax imposed by county commission; revenue solely finances eligible recreational facilities and is remitted at least quarterly.",
+        "scope": "Specific park authority route; not statewide parks revenue or automatic eligibility for other counties."
+      },
+      "sources": ["ks-parks-tax2025", "ks-parks-definitions"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Read creation/rate sections12-6003 and12-6005 before exact rate/population scope. State-question fit is open; introduced2026HB2503 excluded."
       ]
     },
     "US-KY": {
-      "status": "unresearched",
+      "status": "mixed-conservation-tax-lead",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "Own tax-expenditure report cites KRS132.020(2),(5)",
+        "revenue": "Own report identifies unmined-coal real-property tax devoted to Heritage Land Conservation Fund, except annual$400,000 coal education allocation. Agency also identifies plates and fines.",
+        "scope": "Mixed conservation land route, not unrestricted park operations."
+      },
+      "sources": ["ky-parks-tax-report", "ky-parks-agency"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Operative January2026 statutes/allocation unclosed; current chapter146includes2026 laws. Proposed2020HB601/2026HB723 excluded."
       ]
     },
     "US-LA": {
-      "status": "unresearched",
+      "status": "fee-route-question-unresolved",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "Louisiana R.S.56:1703",
+        "revenue": "Park-generated fees/revenue and specified donations enter account after debt obligations. Non-donation receipts split fifty percent originating parks and fifty percent statewide priorities.",
+        "scope": "Improvements, repairs, expansion, maintenance and operations; annual legislative appropriation required. Account name does not establish a tax dedication."
+      },
+      "sources": ["la-parks-fees"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Qualifying tax/lottery/royalty revenue inventory not established; do not treat fee route as absence proof."
       ]
     },
     "US-ME": {
-      "status": "unresearched",
+      "status": "fee-route-question-unresolved",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "12 M.R.S.1825 and10255; 29-A M.R.S.455",
+        "revenue": "Environmental registration plates voluntarily contribute $14 per initial or renewal plate to the Environmental Trust Fund. Section10255 allocates quarterly balances after production costs 60% to Parks General Operations and40% to endangered and nongame wildlife.",
+        "scope": "Voluntary plate contributions and product proceeds are distinct from a qualifying tax, lottery or royalty dedication. Parks fund also accepts appropriations, gifts and grants; fees and merchandise are separate."
+      },
+      "sources": ["me-parks-code2025", "me-parks-trust2025", "me-parks-plates"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Confirm plate-law amendment history through January2026 and other qualifying tax sources; no exhaustive absence finding."
       ]
     },
     "US-MD": {
@@ -2724,27 +3113,36 @@
       ]
     },
     "US-MI": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-route",
+      "proposedAnswer": true,
+      "legalRoute": {
+        "citation": "MichiganHouseFiscalAgencyDecember2025DNRbriefingpage16,constitutional funds",
+        "revenue": "Ownfiscalagencyreportsminerallease/royaltyrevenueflowtoStateParksEndowmentFundafterNaturalResourcesTrustFundreached$500millioninMay2011.",
+        "scope": "Stateparkoperations,maintenanceandlandacquisition;trustfundis separate.",
+        "detail": "Agencyprecutoffbriefing,notfulloperativeconstitutionaltext."
+      },
+      "sources": ["mi-parks-budget2025"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "OperativeconstitutionarticleIX35/35aand2020amendmentretrievalfailed;exactcaps/distributionconditionsandcutoffhistorymustberead."
       ]
     },
     "US-MN": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-route",
+      "proposedAnswer": true,
+      "legalRoute": {
+        "citation": "Minnesota Constitution articleXI section15",
+        "revenue": "Three-eighths percentage-point sales/use-tax increment July2009throughJune2034;14.25percent of increment receipts plusinterest/penalties lessrefunds goes toparks/trails fund.",
+        "scope": "Regional orstatewide significance; legislativeappropriation required andmustsupplementtraditionalfunding."
+      },
+      "sources": ["mn-parks-constitution"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Complete statutory/budget implementation andlocalgrantqualifications remainunread."
       ]
     },
     "US-MS": {
@@ -2760,39 +3158,51 @@
       ]
     },
     "US-MO": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "Constitution articleIV47(a)-(c)",
+        "revenue": "0.1% sales/use tax split half state parks/historic sites and half soil/water conservation; parks acquisition, development, maintenance, operation and administration subject to appropriation.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["mo-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "November8,2016 renewal supports January baseline. Exclude August2026 renewal. Direct47(b) retrieval failed; own2024 legislative budget corroborates half split."
       ]
     },
     "US-MT": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "MCA2025 15-35-108(6), temporary throughJune30,2027",
+        "revenue": "1.27% coal severance tax allocated to permanent parks acquisition/management fund. Income excluding unrealized gains/losses must be appropriated for qualifying sites acquisition, development, operation and maintenance.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["mt-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Principal deposit differs from current spendable income. Complete amendment effective-date comparison and site definitions remain open."
       ]
     },
     "US-NE": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "77-2602(3)(a) and37-352",
+        "revenue": "Equivalent of one cent of cigarette tax enters Outdoor Recreation Development Cash Fund with FY1997-98 minimum protected by reducing General Fund share; state park development, operation and maintenance.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["ne-parks-third-source", "ne-parks-spending-plan"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Appropriation requires legislative review and approval of multiyear recreation plan and annual updates. Related2025 fund creation amendment still requires effective-date check."
       ]
     },
     "US-NV": {
@@ -2820,15 +3230,19 @@
       ]
     },
     "US-NJ": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-source",
+      "proposedAnswer": "yes",
+      "legalRoute": {
+        "citation": "Constitution articleVIII sectionII paragraph6",
+        "revenue": "FromJuly1,2019 equivalent6% corporation business tax credited dedicated environmental account;78% account mixed recreation/conservation, farmland, historic preservation and administration.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["nj-parks-third-source"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "No park-only fraction established; appropriated from time to time. Implementing statute and current budget distribution remain to review."
       ]
     },
     "US-NM": {
@@ -2892,39 +3306,52 @@
       ]
     },
     "US-OH": {
-      "status": "unresearched",
+      "status": "conditional-local-authority",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "ORC1545.20 and1545.21",
+        "revenue": "Park districts may levy up to 0.5 mill annually subject to combined levy limits. Additional voter-approved district levy generally permits up to 2 mills per proposal, or 3 mills when the specified major metropolitan zoo operating revenue is included.",
+        "scope": "Park-district authority, not an automatic statewide share; bonds are separate."
+      },
+      "sources": ["oh-parks-base-levy", "oh-parks-voted-levy2026"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Local levy action and district eligibility must be established; state-question fit remains open."
       ]
     },
     "US-OK": {
-      "status": "unresearched",
+      "status": "partial-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "74 OS2254.1 and68 OS1004 lead",
+        "revenue": "Tourism capital-expenditure revolving fund receives gross-production-tax apportionments under section1004 and is automatically appropriated for one-time capital expenditures on departmental assets.",
+        "scope": "Excludes administrative, salary and continuing obligations; departmental tourism capital is broader than parks."
+      },
+      "sources": ["ok-parks-capital-code"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "January2026 completeness and current section1004 amount unresolved."
       ]
     },
     "US-OR": {
-      "status": "unresearched",
-      "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "status": "positive-route",
+      "proposedAnswer": true,
+      "legalRoute": {
+        "citation": "Oregon Constitution articleXV sections4(8),4a",
+        "revenue": "Fifteenpercent netlotteryproceeds,half parksandhalf naturalresources;parksallocation therefore7.5percent ofnet.",
+        "scope": "Parks operations,maintenance,acquisitionanddevelopment;atleast12percentofparks subaccount forlocal/regionalgrants,subjecttohigherrevenuegrowthrule.",
+        "detail": "Biennialappropriationofallparkssubaccount required."
+      },
+      "sources": ["or-parks-cached-constitution"],
       "priorCandidateAnswer": "yes",
       "priorEstimated": false,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Full higher-growth allocationrule,January2026cutoff andgrantimplementationremainpending. CachedSHA25625e2dfcc84c3fbd851f6dff028abd7114888607985ea6ea74252e758bc7f3673."
       ]
     },
     "US-PA": {
@@ -3052,51 +3479,67 @@
       ]
     },
     "US-VA": {
-      "status": "unresearched",
+      "status": "conditional-local-authority",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "15.2-1806(A)(2)",
+        "revenue": "A locality establishing parks or recreation facilities may levy an annual tax on locally taxable property to pay maintenance and operation, wholly or partly.",
+        "scope": "Local taxing authority, not statewide dedicated receipts; fees separately authorized."
+      },
+      "sources": ["va-parks-local-tax"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "General local tax constraints, levy action and question fit remain unresolved; this section supplies no special rate cap or referendum rule."
       ]
     },
     "US-WA": {
-      "status": "unresearched",
+      "status": "mixed-recreation-tax-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "RCW79A.25.070",
+        "revenue": "Unclaimed marine motor-fuel-tax refunds transfer monthly to recreation resource account, using34.9cents/gallon component July2016 throughJune2031; remainder motor vehicle fund.",
+        "scope": "See named conditions and source limits; no automatic local inheritance."
+      },
+      "sources": ["wa-parks-third-source"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Read79A.25.080 spending scope and applicable marine fuel/refund provisions before question fit or exact available park share."
       ]
     },
     "US-WV": {
-      "status": "unresearched",
+      "status": "annual-allocation-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "29-22-18(f),(l)",
+        "revenue": "After specified debt requirements, lottery net profits may be annually allocated by the Legislature to DNR and development purposes, including recreational facilities, parks construction and maintenance, and parks bonds.",
+        "scope": "No guaranteed parks percentage; annual proportions are legislative choices."
+      },
+      "sources": ["wv-parks-lottery"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Amendment history and January cutoff remain unresolved. Exclude2026 new parks-endowment legislation."
       ]
     },
     "US-WI": {
-      "status": "unresearched",
+      "status": "partial-source",
       "proposedAnswer": null,
-      "legalRoute": null,
-      "sources": [],
+      "legalRoute": {
+        "citation": "Own Legislative Fiscal Bureau conservation fund and2025-2027budget analyses",
+        "revenue": "Fee funding and forestry-account appropriations described; no operative qualifying tax/lottery/royalty dedication established.",
+        "scope": "Stewardship grants and bonds are not substitutes for the requested revenue rule."
+      },
+      "sources": ["wi-parks-lfb-history", "wi-parks-budget2025"],
       "priorCandidateAnswer": "no",
       "priorEstimated": true,
       "cutoffVerified": false,
       "gaps": [
-        "Own-place positive dedication or explicit scoped absence evidence, January2026 continuity and question fit remain unresearched."
+        "Current qualifying statute and full absence inventory unresolved; agency budget evidence alone insufficient."
       ]
     },
     "US-WY": {
