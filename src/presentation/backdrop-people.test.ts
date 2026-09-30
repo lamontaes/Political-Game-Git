@@ -125,6 +125,32 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     expect(new Set(drawn).size).toBe(drawn.length);
     expect(drawn).not.toContain(player);
   });
+  it("stands the scene's people on the open floor when asked, not in seats", () => {
+    const pair = Object.values(world.people)
+      .filter((person) => person.id !== player && person.appearance)
+      .slice(0, 2)
+      .map((person) => ({ personId: person.id }));
+    const office = placeBackdropPeople(
+      world,
+      player,
+      "oval-office",
+      world.currentMoment,
+      pair,
+      { standing: true },
+    );
+    const standing = staging.places["oval-office"].spots.filter(
+      (spot) => spot.pose === "stand",
+    );
+    for (const { personId } of pair) {
+      const placed = office.find((person) => person.personId === personId)!;
+      // Nothing is hidden behind furniture, and each stands centered on a
+      // standing spot.
+      expect(placed.clipBelowPercent).toBeNull();
+      const center = placed.leftPercent + placed.widthPercent / 2;
+      expect(standing.some((spot) => Math.abs(center - spot.x) < 1)).toBe(true);
+    }
+  });
+
   it("shows a seated person's legs under an open table, hiding only the tabletop's edge", () => {
     const stage = backdropStaging("public-meeting-room")!;
     const seat = stage.spots.find(
