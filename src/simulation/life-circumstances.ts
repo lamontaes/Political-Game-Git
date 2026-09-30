@@ -33,7 +33,7 @@ import type {
 
 /** Recovered from Claude OPENING-LIFE1 5767496 plus stopped dirty checkpoint.
  * Ordinary requests use existing event/work-item history. Unsupported inferred
- * rota, transport, pooling, family-business and performed-work premises remain
+ * schedule, transport, pooling, family-business and performed-work premises remain
  * withheld in the accepted bank. No reader creates its own premise.
  *
  * Three rules the LIFE-CONTENT13 repair (RETURN14 section D) added, each one a
@@ -159,7 +159,7 @@ export interface LifeCircumstanceRecord {
   readonly eventId: EntityId;
   readonly stableKey: string;
   readonly openedAt: IsoDate;
-  /** Who asked, or null where nobody did — a rota asks on nobody's behalf. */
+  /** Who asked, or null where nobody did — a schedule asks on nobody's behalf. */
   readonly counterpartPersonId: EntityId | null;
   readonly sequence: number;
 }
@@ -510,11 +510,11 @@ function tryWriteCircumstance(
         // it is, and a summary that asserted it would settle the question the
         // scene exists to leave open.
         summary:
-          "Somebody on the same rota asked you to take their shift, saying it was for a funeral.",
+          "Somebody on the same schedule asked you to take their shift, saying it was for a funeral.",
         relatedEntityIds: [],
         occasion: {
           title: "Shift you were asked to cover",
-          summary: "The shift somebody on your rota asked you to take.",
+          summary: "The shift somebody on your schedule asked you to take.",
           startHour: 16,
           endHour: 22,
           label: "Workplace",

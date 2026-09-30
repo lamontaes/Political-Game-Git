@@ -553,17 +553,11 @@ export function TitleScreen({
             Patch notes
           </button>
         ) : null}
-        <button
-          type="button"
-          data-testid="quit"
-          disabled={!nativeQuitAvailable()}
-          onClick={requestNativeQuit}
-        >
-          Quit
-          {!nativeQuitAvailable() ? (
-            <small>Not available in this build.</small>
-          ) : null}
-        </button>
+        {nativeQuitAvailable() ? (
+          <button type="button" data-testid="quit" onClick={requestNativeQuit}>
+            Quit
+          </button>
+        ) : null}
       </div>
       {savesUnavailable ? (
         <p className="game-note">
