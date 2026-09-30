@@ -442,8 +442,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should Medicaid eligibility be expanded to more low-income adults?",
       tags: ["contested"],
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.7,
+        },
       ],
     },
     {
@@ -458,9 +481,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should able adults be required to work, train or study a set number of hours a month to keep Medicaid?",
       tags: ["contested"],
       principles: [
-        { principle: "limited-government", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "consistent-with" },
-        { principle: "collective-provision", bearing: "against" },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
@@ -477,9 +527,36 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should able adults be required to work or train to keep income and food assistance?",
       tags: ["contested"],
       principles: [
-        { principle: "limited-government", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "consistent-with" },
-        { principle: "collective-provision", bearing: "against" },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "worker-protection",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
@@ -493,9 +570,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state fund a crisis response for mental health emergencies separate from police?",
       principles: [
-        { principle: "public-safety", bearing: "consistent-with" },
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -510,8 +609,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the state fund needle exchange and overdose reversal distribution?",
       tags: ["contested"],
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     {
@@ -526,8 +648,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should homelessness services place people in housing before requiring treatment or sobriety?",
       tags: ["contested"],
       principles: [
-        { principle: "collective-provision", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.75,
+        },
       ],
     },
     {
@@ -1169,8 +1314,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should residents have a legal right to see, correct and delete data companies hold about them?",
       tags: ["contested"],
       principles: [
-        { principle: "personal-liberty", bearing: "consistent-with" },
-        { principle: "market-competition", bearing: "against" },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
@@ -1187,8 +1355,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should government use of facial recognition be restricted?",
       tags: ["contested"],
       principles: [
-        { principle: "personal-liberty", bearing: "consistent-with" },
-        { principle: "public-safety", bearing: "against" },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.85,
+        },
       ],
     },
     {
@@ -1203,8 +1394,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should social media platforms be required to verify a user's age?",
       tags: ["contested"],
       principles: [
-        { principle: "public-safety", bearing: "consistent-with" },
-        { principle: "personal-liberty", bearing: "against" },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "transparency",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.55,
+        },
       ],
     },
     // A city's own versions of four state questions: its own wage floor, its
