@@ -1,5 +1,38 @@
 # Wave 1 status
 
+The latest report records new main integrations and starts the requested effects audit without assigning unsupported sizes.
+
+## September 30, 1:30 a.m. check-in
+
+### MERGED
+The English engine now supplies empty Jobs wording (#1169, main 1d8556c563415ae6fa261148ed64fbad35928996). Self-starter history copying is reduced (#1182, main 5277280fd85d022ef77288d8a44d6decfda1dbdc). Current main was fetched and verified at the latter head. Merge reports changed-file checks 31/31 and 2/2, not a fresh month proof. Communications pay #1168 reached the law branch only at d6f8b2798d0fdf1acad3ca936ad0d0169640ca76.
+
+### CONNECTIONS TABLE
+| Connection | Current receipt | Action |
+| --- | --- | --- |
+| Saved world → newspaper | Orange City April 5 save has lead plus six smaller publications; source1864116231b4ec069c14c8fd333ccd53025387a8 | Team 7 has packet and is filling one candidate; bodies sparse, no photos |
+| Census → press/outcome weights | #1143 cdffc19020cb17c29cd556ea33697299475d2bd5; 20/20 population/outcome and 27/27 budget by Team 3 | Final press/outcome review pending; missing-universe zero removed |
+| Person life → officeholder principles | CTO orders independent #1152 split from law research hold | Team 1 designs continuous conviction before coding weights |
+| Recorded request → Senate consent | Team 2 implementing approved request/no-objection path | Preserve ordinary vote integrity and actual evidence |
+| Player actions → real activities | #1183 and #1149 awaiting integration/renewal as needed | Merge reported conflicts; no landing inferred |
+| Questionnaire → public authority | Five Team 8 drafts delivered | CTO review; actual route still serves retired personal questions |
+| Scene metadata → art | 292 previews and 58 existing surface reviews delivered; TV candidate updated | Not equivalent to spot/actor acceptance; newspaper and age-14 corrections continue |
+| Measured daily work → speed proposal | District gains smaller than timing variation; reverted | Team 4 measured census/proposal, no architecture rewrite |
+| Research → laws/effects | Team 9 source work; Team 6 primary law work last observed | Bedrock ledgers due 5 a.m.; research does not authorize calibration |
+
+### BLOCKED
+Merge must renew approval after #1149/#1183 conflict resolution. The law/Census composition needs the corrected contract without overwriting authoredSkeleton/jobRound. Final adapter review is pending exact source review; no acceptance inferred from tests.
+
+Newspaper count criterion is satisfied, but all seven bodies are declined-comment sentences and bylines. No photograph or longer article is available. Team 7 will not invent them. This is now a content limitation, not a missing packet.
+
+Team 8 identified the actual questionnaire route: curated bank adds one mayor question to the legacy personal bank and retains three lived openings. CTO has five public-authority drafts; production replacement remains unapproved. All teams received the new 1:30 bedrock inventory and their specific additions.
+
+### EFFECTS
+Catalog verified on main: 221 links, 85 null sizes. First 25 null-link rows are now in effects-map.md with shapes, lags, explicit bounds/ranges where present, cited research to verify, and pending person routes/examples/extremes. This is audit intake, not 25 completed links. Team 9 received the exact research batch. Catalog links changed: 0.
+
+Source nuance for CTO: outcomeLinkStatus classifies person-level shapes before checking null size, and outcomeFactor skips non-built links. Null size proves no contribution through that place-factor route; separate person consumers still need tracing. No blanket runtime absence claimed. No newly verified watched three-step effect chain.
+
+
 The latest check-in below records landed changes and remaining integration gaps. Test receipts retain their exact source heads.
 
 ## September 30, 1:00 a.m. check-in
