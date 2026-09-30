@@ -98,7 +98,13 @@
       "findings": "Lowerachievementgrades3\u20136,strongestadverseeffectsgrade6;adverseattendance/discipline/specialeducationfindings;retentionnondetection",
       "unitAndRangeGap": "Exacttestscale,grade-specificestimate/CIandcorrectedspecialeducationcodingneeded;noinventedsizeornull-to-zero",
       "correction": "Publishedcorrection10.1037/dev0001407mustbereconciledbeforeusingnumerictables",
-      "lag": "Throughgrade6"
+      "lag": "Throughgrade6",
+      "correctionVerified": {
+        "source": "https://doi.org/10.1037/dev0001407",
+        "access": "CorrectionauthorsabstractretrievedthroughEuropePMCprimarymetadata",
+        "detail": "SupplementalTablesS1/S3usedincorrectreverse-codedtreatmentinlogisticmodels:coefficientsignsreversed;magnitudeandpvaluescorrect;updatedcoefficients/oddsratioscorrectdirection.",
+        "limits": "Thisnoticealoneprovidesnoupdatednumericcoefficient/CI. Correctedsupplementstillrequired;donotreconstructoddsratiosfromqualitativeabstract."
+      }
     },
     {
       "place": "Chicago",
@@ -144,7 +150,13 @@
     "finding": "Labor-supplyeffectsheterogeneous;reportedlittleeffectformostwomenandlargerruralGeorgiaemploymentresponse",
     "parentsWorkHours": "Exactweekly/annualhoursestimate,coveredparentpopulation,SE/CIandprogramscheduleunverified;employmentindicatorisnothours. Studyneededforrequestedconversion.",
     "childCareSpending": "Exactout-of-pocketspendingcounterfactual/substitution/fees/extendedcarehoursandCIunverified. FreepublicpreKdoesnotimplyallchildcarecostsdisappear.",
-    "mechanism": "Eligiblechildactualenrollmentandhoursreplaceotherwise-paidcareonlywherefamilieswouldpay;workrequiresactualparentjob/scheduleandavailablecare. Noinventedhours/costcoefficient."
+    "mechanism": "Eligiblechildactualenrollmentandhoursreplaceotherwise-paidcareonlywherefamilieswouldpay;workrequiresactualparentjob/scheduleandavailablecare. Noinventedhours/costcoefficient.",
+    "finalPublicationIdentified": {
+      "doi": "10.1086/648666",
+      "publicationDate": "2010-01",
+      "access": "Crossrefpublishermetadataidentifiedfinaljournalversion;nofulltableorabstractinthatmetadata",
+      "limit": "Workingpaperabstractemploymentfindingsnotclaimedfinalhourly/spendingestimates."
+    }
   },
   "integrationLimits": [
     "Do notpoolincompatibleprograms/intensity/populations/grades.",
