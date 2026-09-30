@@ -206,3 +206,26 @@ Team1 firm-capacity/all-place research incomplete; additional one-place anchors 
 
 ### EFFECTS
 Corrected map: borrowingCostChange in public-budgets/month.ts already feeds deficit debt interest; missing catalog edge does not mean no runtime effect. Rent endTenancy's housing/work/pay/reconciliation gap confirmed byTeam3. Team2 supplied concrete filing/vote consumer functions, but cause→concern producers remain unverified. Team5 now assigned local-story→resident knowledge per9:10. Downstream size/lag research and all three-step watched results remain outstanding. Map retains all40conditions/221declaredlinks and ten prioritized catalog gaps with these limits.
+
+## September 29, 10 p.m. checkpoint
+
+### MERGED
+No further merge since renderer #1148 verified. Ready stacks: #1146→#1147→#1150; #1131→#1152; #1145→#1151. Claude retains merge authority. #1143 corrected head4cd9d7ad1 and #1135eabf92a1 remain ready/open; no watched-world pass claimed.
+
+### CONNECTIONS TABLE
+| Connection | State | Owner/action |
+| --- | --- | --- |
+| Law effects → pay | Nine-file money candidatea78035ed on published2e parent, checks running | Team3; latest1131advanced740522d, requested real conflict/dependency check rather than automatic full rebuild for everybaseadvance. |
+| Recorded life → principles → votes | #1152ready0a13f1393,15tests byTeam2 | Follows1131; three other agenda/sponsor/cosponsor pieces ready. |
+| Census → generated towns | #1143ready4cd9d7ad1 | Claude gates; broader actors/watched proof pending. |
+| Speed → other proofs | #1145and1151ready | Publication block resolved; Team4reconciles removed draws only on compositions containingTeam2changes. |
+| Local story → residents | Team5reader patch validating | Canonical households/location; no subscriptions/roll. Personal attention input absent; proposal inNEEDS LAMONTAE/Claude. |
+| Scene metadata → import | New9:43Team7assignment relayed | Data-only batches~20places with measured spots/surfaces+overlays; kids/TVrevisions approved, newspapersheld. |
+
+### BLOCKED
+Allteams received9:33implementation pass withinownedfiles, not audit-only. Team6 gets expressly authorized session-end and parks-starting-law researchpacket alongside transportation. Team1lawfirm-capacity and executive evidence gaps remain; source fixes/tests continue. Team2mood coefficients unsupported; no guessed substitute. Team5owned90dayarchive/age18cutoff unresolved, no invented replacement. Team7hold nowlimitedtonewspapers; scene tagging priority and kids/TVapproved.
+
+Unowned values forWave2 (claims checked): governing/item-veto.ts maps narrower/other legal scope to common appropriation scope; governing/statute-effective-date.ts uses median session-end estimates (Team6researchassigned, codeownershipnotyetassigned); chamber-procedure.ts and body-partisanship.ts have estimated legal/procedural defaults requiring bounded audit. family-shape.ts estimates need coverage/spread review before declaring noncompliant. favors.ts and broader strategic party switching remainWave2 perCTO, no newlaneopened.
+
+### EFFECTS
+Map now includes explicit ranges/modifiers for all221links and homelessnessnumbers. Currentdeclaredhousing-voucher size−0.30,range−0.50to−0.15,lag12months; HousingFirst−0.03,range−0.10to+0.02,lag24; by-right/preemption−0.03,range−0.05to−0.01,lag60. These are catalog values, not newlyvalidatedall-place research. Rent/eviction sizesmissing; no outgoinghomelessness coefficient/lag establishes spending→budgetvote. One-place/Aucklandtrialextrapolations and hardthresholds explicitlyflagged. No three-step chainnumbersinvented. Named-person pressureblending remains unverified.

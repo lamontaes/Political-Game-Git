@@ -431,3 +431,13 @@ CTO 9:01 lock restoration: all seven teams quiescent, no open handles observed. 
 | Team 4 | `docs/release/changes/context-people-lazy-copy.md` | 2026-09-30T01:14:18.367774+00:00 — bounded context-person lazy-copy follow-up |
 
 | Team 5 | `src/player/PlayerSurfaceProvenance.test.tsx` | 2026-09-30T01:14:26.776347+00:00 |
+
+| Team 5 | `src/simulation/press/law-effect-news.ts` | 2026-09-30T01:41:07.039133+00:00 |
+| Team 5 | `src/simulation/press/law-effect-news.test.ts` | 2026-09-30T01:41:07.039133+00:00 |
+| Team 5 | `docs/release/changes/wave1-law-news-readers.md` | 2026-09-30T01:41:07.039133+00:00 |
+
+Team 3 status 2026-09-30T01:51:39.041330+00:00: Census PR #1143 READY at published 4cd9d7ad1d1acabd5ac2f293962059df76f9837f. Compensation review source 684a5548350f6a691a51392e8416ab50a210d62f on published Team 1 base f4880e7af06ef72645763a057db289ae6dc543d9; exact nine-file scoped checks pending. Only owned money/income delta and release/handback; no Census-population or speed/law deltas. Mixed source preserved on codex/wave1-compensation at bbd82464b980ff695e4975c53e11bd1b1a9a64e7.
+
+| Team 4 | `docs/release/changes/cosponsor-allowlist-reconciliation.md` | 2026-09-30T02:04:01.069786+00:00 — assigned exact-source allowlist reconciliation |
+
+| Team 4 | `docs/release/changes/officeholder-allowlist-reconciliation.md` | 2026-09-30T02:04:01.070890+00:00 — assigned exact-source allowlist reconciliation |

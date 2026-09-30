@@ -320,3 +320,243 @@ Source snapshot: main `31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4`. Research descr
 - Team 3 confirms endTenancy closes tenure/occupancy/lease; it does not write housing status, missed work/pay or aggregate reconciliation in that route. No downstream researched lag established.
 - Team 2 names fileMemberAgendaBills and fileCongressBill → principledLeaning → majorityAgendaChoice; decideChamberVote assembles memberVoteConsiderations, principleVoteConsideration, spendingPrincipleConsideration, constituentsConsideration and budgetDeadlineConsideration → evaluateDecision. Condition-change producers feeding these consumers still need verification.
 - CTO 9:10 assigns Team 5 lawNewsReaders: published local stories reach residents without subscriptions; personal attention and relevance govern uptake without a roll. Direct subjects/sponsor/voting members retain direct knowledge. This new connection is assigned, not yet verified implemented.
+
+## Numeric ranges, modifiers and person application audit
+
+These are current catalog declarations, not freshly verified research estimates. A group label is not evidence of a named-person writer. Unspecified researched ranges and downstream sizes stay evidence gaps; no invented values. Hard-threshold shapes are flagged for the newly requested continuous-response review.
+
+| Link | Declared researched range | Modifier | Named-person application |
+| --- | --- | --- | --- |
+| unemployment-to-burglary | [0.02, 0.05] | "No modifier declared" | Not established by catalog; group place |
+| unemployment-to-vandalism | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| unemployment-to-robbery | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| unemployment-to-assault | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| police-to-violent-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| police-to-property-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| police-to-low-level-arrests | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| summer-jobs-to-youth-violence | "No explicit researched range" | "No modifier declared" | Not established by catalog; group youth 14 to 21 in the program |
+| incarceration-to-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| pretrial-detention-to-future-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group defendants |
+| pretrial-detention-to-conviction | "No explicit researched range" | "No modifier declared" | Not established by catalog; group defendants |
+| pretrial-detention-to-employment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group defendants |
+| release-lower-level-to-larceny | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| child-access-law-to-youth-gun-deaths | "No explicit researched range" | "No modifier declared" | Not established by catalog; group youth |
+| stand-your-ground-to-homicide | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| min-age-to-youth-gun-suicide | "No explicit researched range" | "No modifier declared" | Not established by catalog; group youth |
+| crime-to-out-migration | "No explicit researched range" | "No modifier declared" | Not established by catalog; group families with children, higher incomes |
+| speed-limit-to-traffic-deaths | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| particles-to-infant-deaths | "No explicit researched range" | "No modifier declared" | Not established by catalog; group infants |
+| congestion-to-premature-births | "No explicit researched range" | "No modifier declared" | Not established by catalog; group mothers within 2 km |
+| birth-year-pollution-to-adult-earnings | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children |
+| water-violations-to-infant-health | "No explicit researched range" | "No modifier declared" | Not established by catalog; group less-educated mothers most |
+| heat-to-deaths | "No explicit researched range" | {"measure": "housing.ac-share", "effectAtFull": -0.75} | Not established by catalog; group older people without AC |
+| carbon-monoxide-to-absence | "No explicit researched range" | "No modifier declared" | Not established by catalog; group students |
+| emission-rules-to-particulates | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| energy-price-to-ac-use | "No explicit researched range" | "No modifier declared" | Not established by catalog; group low-income households, the elderly |
+| disaster-to-public-transfers | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| disaster-to-out-migration | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| disaster-to-home-values | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| coverage-to-catastrophic-bills | "No explicit researched range" | "No modifier declared" | Not established by catalog; group low-income adults |
+| coverage-to-medical-debt | [-0.06, -0.04] | "No modifier declared" | Not established by catalog; group low-income adults |
+| coverage-to-depression | [-0.56, -0.05] | "No modifier declared" | Not established by catalog; group low-income adults |
+| coverage-to-blood-pressure | "No explicit researched range" | "No modifier declared" | Not established by catalog; group adults |
+| coverage-to-mortality-55-64 | [-0.4, -0.1] | "No modifier declared" | Not established by catalog; group a low-income person aged 55 to 64 whose own coverage is modeled; that person is left out of the place-level expansion row |
+| work-requirement-to-coverage | [0.2, 0.4] | {"measure": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility", "effectAtFull": 1, "mode": "only-when"} | Not established by catalog; group expansion adults 19 to 64 |
+| work-requirement-to-employment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group expansion adults |
+| job-loss-to-death-risk | "No explicit researched range" | "No modifier declared" | Not established by catalog; group displaced long-tenure workers |
+| recession-to-total-mortality | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| long-hours-to-heart-and-stroke | "No explicit researched range" | "No modifier declared" | Not established by catalog; group workers |
+| eitc-to-low-birthweight | "No explicit researched range" | "No modifier declared" | Not established by catalog; group low-education mothers |
+| child-food-stamps-to-adult-health | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children |
+| child-benefit-to-child-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group families with children |
+| snap-to-food-insecurity | [-0.026, -0.015] | "No modifier declared" | Not established by catalog; group place |
+| minimum-wage-to-poverty | [-0.0046, -0.0022] | "No modifier declared" | Not established by catalog; group families at the bottom |
+| minimum-wage-to-low-wage-jobs | [-0.5, 0] | "No modifier declared" | Not established by catalog; group teens, least skilled |
+| unemployment-to-poverty | [0.033, 0.058] | "No modifier declared" | Not established by catalog; group place |
+| parent-incarceration-to-household-income | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children's households |
+| school-spending-to-attainment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children, much larger for low-income |
+| child-coverage-to-graduation | "No explicit researched range" | "No modifier declared" | Not established by catalog; group low-income children |
+| teacher-quality-to-earnings | "No explicit researched range" | "No modifier declared" | Not established by catalog; group students |
+| class-size-to-scores | "No explicit researched range" | "No modifier declared" | Not established by catalog; group K to 3 |
+| prek-to-graduation | "No explicit researched range" | "No modifier declared" | Not established by catalog; group 4-year-olds |
+| family-income-to-scores | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children, larger for disadvantaged |
+| neighborhood-years-to-adult-outcomes | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children, strongest young |
+| homicide-nearby-to-scores | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children (found for Black children) |
+| police-killing-to-graduation | "No explicit researched range" | "No modifier declared" | Not established by catalog; group Black and Hispanic students |
+| school-move-to-scores | "No explicit researched range" | "No modifier declared" | Not established by catalog; group movers and their classmates |
+| lead-to-reading | "No explicit researched range" | "No modifier declared" | Not established by catalog; group young children |
+| heat-to-learning | "No explicit researched range" | {"measure": "school.ac-share", "effectAtFull": -0.9} | Not established by catalog; group schools without AC |
+| home-internet-to-scores | "No explicit researched range" | "No modifier declared" | Not established by catalog; group students |
+| enforcement-to-hispanic-enrollment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group Hispanic students |
+| daca-to-graduation | "No explicit researched range" | "No modifier declared" | Not established by catalog; group undocumented youth |
+| graduation-to-earnings | "No explicit researched range" | "No modifier declared" | Not established by catalog; group graduates |
+| graduation-to-incarceration | "No explicit researched range" | "No modifier declared" | Not established by catalog; group men |
+| graduation-to-turnout | [0, 0.004] | "No modifier declared" | Not established by catalog; group graduates |
+| education-to-mortality | "No explicit researched range" | "No modifier declared" | Not established by catalog; group adults |
+| new-apartments-to-nearby-rent | "No explicit researched range" | "No modifier declared" | Not established by catalog; group nearby renters |
+| rent-control-to-rental-supply | "No explicit researched range" | "No modifier declared" | Not established by catalog; group covered buildings |
+| rent-control-to-tenant-stays | "No explicit researched range" | "No modifier declared" | Not established by catalog; group covered tenants |
+| rent-burden-to-homelessness | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| eviction-to-homelessness | "No explicit researched range" | "No modifier declared" | Not established by catalog; group tenants, esp. women and Black tenants |
+| eviction-to-hospital-visits | "No explicit researched range" | "No modifier declared" | Not established by catalog; group tenants |
+| home-prices-to-owner-births | "No explicit researched range" | "No modifier declared" | Not established by catalog; group owners |
+| home-prices-to-renter-births | "No explicit researched range" | "No modifier declared" | Not established by catalog; group renters |
+| property-tax-to-rent | "No explicit researched range" | "No modifier declared" | Not established by catalog; group renters |
+| transit-loss-to-unemployment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group transit-dependent residents |
+| broadband-to-employment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group rural counties most |
+| broadband-to-married-women-work | "No explicit researched range" | "No modifier declared" | Not established by catalog; group married women |
+| road-condition-to-vehicle-costs | "No explicit researched range" | "No modifier declared" | Not established by catalog; group drivers |
+| corporate-tax-incidence | [0, 0.7] | "No modifier declared" | Not established by catalog; group workers |
+| incentive-deal-to-industry-jobs | "No explicit researched range" | "No modifier declared" | Not established by catalog; group the deal's industry |
+| incentive-deal-to-broad-growth | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| unemployment-to-births | [-0.014, -0.005] | "No modifier declared" | Not established by catalog; group place |
+| enforcement-to-undocumented-employment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group likely undocumented |
+| enforcement-to-us-born-employment | "No explicit researched range" | "No modifier declared" | Not established by catalog; group U.S.-born workers |
+| child-tax-credit-to-births | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| baby-bonus-to-births | "No explicit researched range" | "No modifier declared" | Not established by catalog; group families |
+| marriage-equality-to-marriages | "No explicit researched range" | "No modifier declared" | Not established by catalog; group same-sex couples |
+| marriage-equality-to-coverage | "No explicit researched range" | "No modifier declared" | Not established by catalog; group men in same-sex couples |
+| abortion-ban-to-births | [0.015, 0.03] | "No modifier declared" | Not established by catalog; group place |
+| abortion-ban-to-infant-deaths | "No explicit researched range" | "No modifier declared" | Not established by catalog; group infants |
+| abortion-denied-to-financial-distress | "No explicit researched range" | "No modifier declared" | Not established by catalog; group women denied |
+| universal-childcare-to-mothers-work | "No explicit researched range" | "No modifier declared" | Not established by catalog; group mothers of young children |
+| voter-id-to-turnout | "No explicit researched range" | "No modifier declared" | Not established by catalog; group every group |
+| same-day-registration-to-youth-turnout | "No explicit researched range" | "No modifier declared" | Not established by catalog; group ages 18 to 24 |
+| all-mail-voting-to-turnout | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| all-mail-voting-to-party-share | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| polling-distance-to-turnout | "No explicit researched range" | "No modifier declared" | Not established by catalog; group non-white areas, local elections most |
+| newspaper-closure-to-borrowing-cost | "No explicit researched range" | "No modifier declared" | Not established by catalog; group local governments |
+| newspaper-closure-to-engagement | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| exposed-corruption-to-reelection | "No explicit researched range" | {"measure": "press.local-outlets", "effectAtFull": 1.0} | Not established by catalog; group incumbents |
+| press-attacks-to-media-trust | "No explicit researched range" | "No modifier declared" | Not established by catalog; group the official's supporters |
+| relief-spending-to-votes | "No explicit researched range" | "No modifier declared" | Not established by catalog; group voters in the area |
+| preparedness-spending-to-votes | "No explicit researched range" | "No modifier declared" | Not established by catalog; group voters |
+| preparedness-to-disaster-damage | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| economy-to-approval | "No explicit researched range" | "No modifier declared" | Not established by catalog; group voters |
+| medicaid-expansion-to-coverage | [-0.2, -0.1] | "No modifier declared" | Not established by catalog; group low-income adults |
+| medicaid-expansion-to-mortality | "No explicit researched range" | "No modifier declared" | Not established by catalog; group low-income adults 55 to 64 |
+| medicaid-expansion-to-medical-debt | "No explicit researched range" | "No modifier declared" | Not established by catalog; group low-income adults |
+| snap-work-requirement-to-participation | [-0.063, -0.025] | "No modifier declared" | Not established by catalog; group able adults without dependents |
+| universal-prek-to-graduation | [-0.02, 0.08] | "No modifier declared" | Not established by catalog; group 4-year-olds, later |
+| equalized-funding-to-spending | "No explicit researched range" | "No modifier declared" | Not established by catalog; group low-income districts |
+| end-cash-bail-to-pretrial-detention | "No explicit researched range" | "No modifier declared" | Not established by catalog; group defendants |
+| mandatory-minimums-to-incarceration | "No explicit researched range" | "No modifier declared" | Not established by catalog; group people convicted |
+| concealed-carry-permit-to-firearm-homicide | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| voter-id-to-registration | "No explicit researched range" | "No modifier declared" | Not established by catalog; group every group |
+| automatic-registration-to-turnout | [0.005, 0.055] | "No modifier declared" | Not established by catalog; group place |
+| restore-voting-to-turnout | "No explicit researched range" | "No modifier declared" | Not established by catalog; group people barred from voting after their sentence |
+| housing-by-right-to-new-buildings | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| right-to-counsel-to-evictions | "No explicit researched range" | "No modifier declared" | Not established by catalog; group tenants |
+| housing-first-to-homelessness | [-0.1, 0.02] | "No modifier declared" | Not established by catalog; group people experiencing homelessness |
+| cannabis-sales-to-youth-use | "No explicit researched range" | "No modifier declared" | Not established by catalog; group teens |
+| loan-rate-cap-to-high-cost-borrowing | [-0.61, -0.2] | "No modifier declared" | Not established by catalog; group borrowers |
+| paid-leave-to-mothers-work | "No explicit researched range" | "No modifier declared" | Not established by catalog; group new mothers |
+| carbon-price-to-emissions | [-0.08, 0] | "No modifier declared" | Not established by catalog; group place |
+| container-deposit-to-litter | [-0.64, -0.3] | "No modifier declared" | Not established by catalog; group place |
+| container-deposit-to-prices | [0.0002, 0.0011] | "No modifier declared" | Not established by catalog; group households |
+| clean-electricity-to-price | [0.03, 0.17] | "No modifier declared" | Not established by catalog; group ratepayers |
+| flood-zone-limits-to-damage | [-0.06, 0] | "No modifier declared" | Not established by catalog; group place |
+| container-deposit-to-recycling | [20, 55] | "No modifier declared" | Not established by catalog; group place |
+| unemployment-to-uninsured | [0.03, 0.08] | {"measure": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility", "effectAtFull": -0.5} | Not established by catalog; group working-age men; women and children shielded by public insurance |
+| federal-minimum-wage-to-poverty | [-0.045, -0.02] | {"measure": "labor.minimum-wage-gap-to-15", "effectAtFull": 1, "mode": "only-when"} | Not established by catalog; group families at the bottom |
+| federal-minimum-wage-to-low-wage-jobs | "No explicit researched range" | "No modifier declared" | Not established by catalog; group teens, least skilled |
+| mandatory-minimum-cut-to-federal-prisoners | "No explicit researched range" | "No modifier declared" | Not established by catalog; group federal prisoners |
+| power-plant-carbon-to-emissions | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| power-plant-carbon-to-particulates | [-0.015, -0.001] | "No modifier declared" | Not established by catalog; group people downwind of coal plants |
+| tariffs-to-prices | [0.005, 0.01] | "No modifier declared" | Not established by catalog; group households |
+| housing-vouchers-to-homelessness | [-0.5, -0.15] | "No modifier declared" | Not established by catalog; group families who qualify |
+| retirement-age-to-older-work | [0.04, 0.22] | "No modifier declared" | Not established by catalog; group people 62 to 67 |
+| drug-negotiation-to-out-of-pocket | [-0.1, -0.06] | "No modifier declared" | Not established by catalog; group Medicare enrollees |
+| federal-loan-cap-to-high-cost-loans | [-0.61, -0.2] | {"measure": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates", "effectAtFull": -1, "mode": "scale"} | Not established by catalog; group borrowers |
+| student-debt-relief-to-finances | "No explicit researched range" | "No modifier declared" | Not established by catalog; group borrowers |
+| more-immigration-to-workforce | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| universal-prek-to-math-proficiency | [-0.03, 0.01] | "No modifier declared" | Not established by catalog; group children who enrolled, later |
+| equalized-funding-to-math-proficiency | [0.02, 0.1] | "No modifier declared" | Not established by catalog; group students in low-income districts |
+| equalized-funding-to-graduation | [0.005, 0.04] | "No modifier declared" | Not established by catalog; group students in low-income districts |
+| vouchers-to-math-proficiency | [-0.03, 0.005] | "No modifier declared" | Not established by catalog; group students who use them |
+| vouchers-to-graduation | [0, 0.015] | "No modifier declared" | Not established by catalog; group students who use them |
+| poverty-to-math-proficiency | [-0.02, 0] | "No modifier declared" | Not established by catalog; group children |
+| uninsured-to-graduation | [-0.004, 0] | "No modifier declared" | Not established by catalog; group children, over their school years |
+| graduation-to-poverty | [-0.008, -0.001] | "No modifier declared" | Not established by catalog; group adults, years later |
+| crime-level-to-burglary | [0.01, 0.01] | "No modifier declared" | Not established by catalog; group place |
+| crime-level-to-robbery | [0.01, 0.01] | "No modifier declared" | Not established by catalog; group place |
+| crime-level-to-assault | [0.01, 0.01] | "No modifier declared" | Not established by catalog; group place |
+| crime-level-to-vandalism | [0.01, 0.01] | "No modifier declared" | Not established by catalog; group place |
+| births-level-to-births | [0.01, 0.01] | "No modifier declared" | Not established by catalog; group place |
+| right-to-work-to-turnout | [-0.046, -0.015] | "No modifier declared" | Not established by catalog; group place |
+| public-bargaining-to-graduation | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| juvenile-court-age-to-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| crisis-response-to-crime | [-0.02, 0] | "No modifier declared" | Not established by catalog; group place |
+| curriculum-standards-to-math | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| teacher-minimum-salary-to-graduation | [0.001, 0.005] | "No modifier declared" | Not established by catalog; group place |
+| property-tax-cap-to-math | [-0.11, 0] | "No modifier declared" | Not established by catalog; group place |
+| grocery-exemption-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| civilian-oversight-to-crime | [-0.04, 0.01] | "No modifier declared" | Not established by catalog; group place |
+| harm-reduction-to-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| licensing-reform-to-poverty | [-0.006, 0] | "No modifier declared" | Not established by catalog; group place |
+| independent-redistricting-to-turnout | [0, 0.015] | "No modifier declared" | Not established by catalog; group place |
+| term-limits-to-turnout | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| library-funding-to-math | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| income-tax-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| graduated-income-tax-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| facial-recognition-limit-to-crime | [0, 0.02] | "No modifier declared" | Not established by catalog; group place |
+| anti-discrimination-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| incentive-cap-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| by-right-permitting-to-homelessness | [-0.05, -0.01] | "No modifier declared" | Not established by catalog; group place |
+| housing-preemption-to-homelessness | [-0.05, -0.01] | {"measure": "law:us-policy-positions:housing-land-use.by-right-permitting", "effectAtFull": -0.5, "mode": "scale"} | Not established by catalog; group place |
+| inclusionary-to-homelessness | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| carry-permit-to-violent-crime | [-0.15, -0.04] | "No modifier declared" | Not established by catalog; group place |
+| end-cash-bail-to-violent-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| cannabis-sales-to-violent-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| mandatory-minimums-to-violent-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| clean-electricity-to-particulates | [-0.03, 0] | "No modifier declared" | Not established by catalog; group place |
+| carbon-price-to-particulates | [-0.02, 0] | "No modifier declared" | Not established by catalog; group place |
+| retirement-age-to-poverty | [0.011, 0.034] | "No modifier declared" | Not established by catalog; group people 65 and older |
+| immigration-to-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| federal-mandatory-minimums-to-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| housing-vouchers-to-graduation | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children in families who qualify |
+| housing-vouchers-to-crime | "No explicit researched range" | "No modifier declared" | Not established by catalog; group children in families who qualify |
+| top-income-tax-rate-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| student-loan-forgiveness-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| grocery-exemption-to-food-insecurity | [-0.035, -0.005] | "No modifier declared" | Not established by catalog; group place |
+| harm-reduction-to-overdose-deaths | [-0.11, 0.02] | "No modifier declared" | Not established by catalog; group place |
+| public-bargaining-to-earnings | [-0.02, 0] | "No modifier declared" | Not established by catalog; group place |
+| library-funding-to-reading | [0, 0.03] | "No modifier declared" | Not established by catalog; group place |
+| public-broadband-to-home-access | [0, 0.02] | "No modifier declared" | Not established by catalog; group place |
+| gas-hookup-ban-to-child-asthma | [-0.03, 0] | "No modifier declared" | Not established by catalog; group place |
+| tuition-freeze-to-college-completion | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| income-tax-to-out-migration | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| graduated-income-tax-to-out-migration | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| balanced-budget-to-borrowing-cost | [-20, 0] | "No modifier declared" | Not established by catalog; group place |
+| pension-funding-to-borrowing-cost | [-8, 0] | "No modifier declared" | Not established by catalog; group place |
+| reserve-balance-to-borrowing-cost | [-6, 0] | "No modifier declared" | Not established by catalog; group place |
+| fare-free-transit-to-ridership | [0.22, 0.65] | "No modifier declared" | Not established by catalog; group place |
+| cannabis-sales-to-overdose-deaths | [-0.2, 0.1] | "No modifier declared" | Not established by catalog; group place |
+| congress-stock-ban-to-member-returns | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| privacy-law-to-earnings | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| social-media-age-check-to-graduation | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| library-materials-to-reading | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| city-anti-discrimination-to-poverty | "No explicit researched range" | "No modifier declared" | Not established by catalog; group place |
+| highway-money-for-transit-to-service | [0.01, 0.18] | "No modifier declared" | Not established by catalog; group place |
+| farmland-easements-to-farmland-lost | [-0.55, -0.4] | "No modifier declared" | Not established by catalog; group place |
+| groundwater-limits-to-irrigation-pumping | [-0.4, -0.21] | "No modifier declared" | Not established by catalog; group place |
+| defense-contracts-to-earnings | "No explicit researched range" | "No modifier declared" | Not established by catalog; group workers in the states that get the contracts |
+| farm-payments-cut-to-land-values | [-0.3, -0.13] | "No modifier declared" | Not established by catalog; group farmland owners |
+| transit-service-to-ridership | [0.003, 0.01] | "No modifier declared" | Not established by catalog; group place |
+| federal-deficit-to-borrowing-cost | "No explicit researched range" | "No modifier declared" | Not established by catalog; group state governments |
+| fix-it-first-to-poor-roads | [-0.3, -0.08] | "No modifier declared" | Not established by catalog; group place |
+| poor-roads-to-prices | [0.00015, 0.0005] | "No modifier declared" | Not established by catalog; group households |
+| federal-rail-expansion-to-riders | [0.00205, 0.00767] | "No modifier declared" | Not established by catalog; group place |
+| parks-spending-to-exercise-access | [-0.000279, 0.000575] | "No modifier declared" | Not established by catalog; group place |
+
+## Homelessness chain first: existing numbers and missing evidence
+
+- rent-burden-to-homelessness: size None; range not supplied; lag 12 months; shape {"kind": "threshold", "at": 22, "steeperAt": 32, "steeperExtraSize": null}; source Zillow and UNH 2018; Colburn and Aldern 2022.
+- eviction-to-homelessness: size None; range not supplied; lag 0 months; shape {"kind": "linear"}; source Collinson et al. 2024 (QJE).
+- housing-first-to-homelessness: size -0.03; range [-0.1, 0.02]; lag 24 months; shape {"kind": "linear"}; source Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial.
+- housing-vouchers-to-homelessness: size -0.3; range [-0.5, -0.15]; lag 12 months; shape {"kind": "linear"}; source HUD Family Options Study, three-year impacts (2016).
+- by-right-permitting-to-homelessness: size -0.03; range [-0.05, -0.01]; lag 60 months; shape {"kind": "linear"}; source Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5).
+- housing-preemption-to-homelessness: size -0.03; range [-0.05, -0.01]; lag 60 months; shape {"kind": "linear"}; source Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5).
+- inclusionary-to-homelessness: size 0; range not supplied; lag 0 months; shape {"kind": "linear"}; source Schuetz, Meltzer and Been 2011, Urban Studies.
+
+No outgoing homelessness link is declared. Therefore homelessness → county spending → next budget vote has no established numeric size/range/lag or watched result here. Team 1 owns the link evidence review, Team 3 named housing/work records, Team 2 the concern/vote consumer. The catalog includes Auckland, Boston/San Francisco and trial-to-universal extrapolations: these require the current all-place anchor audit, not automatic admission. Rent thresholds22/32 and absent slope are not a completed sliding-scale person model. Several simultaneous housing/transport/family-income pressures have not been shown blending on one named person.
