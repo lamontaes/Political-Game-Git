@@ -563,3 +563,41 @@ Team 4: district-residence.ts establishDistrictResidence openSameChamber/copy/st
 | Team 7 | `docs/release/changes/team-7-tv-colors.md` | 2026-09-30T04:59:01.731003+00:00 — approved station-color candidate correction |
 
 September 30, 1:00: CTO12:40 assigns Team3 press localProfileFor/caller and outcome areaResidents/localResidents/localWeights World/key adapters plus place-outcomes forwarding. Team5 reviews press, coordinator outcome. These exact seams supersede old Team4 place-outcome-store claim; other coefficients/monthlywriters retained. Team3 budget fixture ONLY missing history.events array. Team2 legislation-integrity vote forum/floor-stage pack lookup/action-loop released by Team1 for approved recorded consent; ordinary integrity retained.
+
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/recorded-issue-packet.json` | 2026-09-30T05:34:11.910628+00:00 — one exact recorded newspaper candidate |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/filled-frontpage.svg` | 2026-09-30T05:34:11.911633+00:00 — one exact recorded newspaper candidate |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/filled-frontpage.png` | 2026-09-30T05:34:11.911968+00:00 — one exact recorded newspaper candidate |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/filled-frontpage-contact.jpg` | 2026-09-30T05:34:11.912291+00:00 — one exact recorded newspaper candidate |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/render-recorded.py` | 2026-09-30T05:34:11.912616+00:00 — one exact recorded newspaper candidate |
+| Team 7 | `art/authoring/sept29-team7/newspaper-kit/filled-frontpage-receipt.json` | 2026-09-30T05:34:11.912930+00:00 — one exact recorded newspaper candidate |
+
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-08/inherited-staging.json` | 2026-09-30T05:42:12.915870+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-08/spot-audit.json` | 2026-09-30T05:42:12.916633+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-08/spot-contact-sheet.jpg` | 2026-09-30T05:42:12.916941+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-09/inherited-staging.json` | 2026-09-30T05:42:12.917258+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-09/spot-audit.json` | 2026-09-30T05:42:12.917623+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-09/spot-contact-sheet.jpg` | 2026-09-30T05:42:12.917961+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-10/inherited-staging.json` | 2026-09-30T05:42:12.918329+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-10/spot-audit.json` | 2026-09-30T05:42:12.918682+00:00 — existing canonical spot audit; data-only |
+| Team 7 | `art/authoring/sept29-team7/scenes/batch-10/spot-contact-sheet.jpg` | 2026-09-30T05:42:12.918982+00:00 — existing canonical spot audit; data-only |
+
+| Team 7 | `docs/codex/handbacks/team-7-bedrock-numbers.md` | 2026-09-30T05:50:55.463147+00:00 — CTO own-area numeric inventory only |
+| Team 7 | `docs/release/changes/team-7-bedrock-numbers.md` | 2026-09-30T05:50:55.464090+00:00 — CTO own-area numeric inventory only |
+| Team 7 | `art/authoring/sept29-team7/bedrock/numbers.csv` | 2026-09-30T05:50:55.464356+00:00 — CTO own-area numeric inventory only |
+| Team 7 | `art/authoring/sept29-team7/bedrock/source-manifest.json` | 2026-09-30T05:50:55.464609+00:00 — CTO own-area numeric inventory only |
+
+| Team 7 | `art/authoring/sept29-team7/bedrock/extract.py` | 2026-09-30T05:56:04.040299+00:00 — numeric inventory regeneration |
+
+| Team 7 | `docs/codex/handbacks/team-7-why-chains.md` | CTO why-chain correction; read-only art boundary audit |
+
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/inherited-staging.json` | Remaining canonical scene spot review under all-places brief |
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/spot-audit.json` | Remaining canonical scene spot review under all-places brief |
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/spot-contact-01.jpg` | Remaining canonical scene spot review under all-places brief |
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/spot-contact-02.jpg` | Remaining canonical scene spot review under all-places brief |
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/spot-contact-03.jpg` | Remaining canonical scene spot review under all-places brief |
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/review.py` | Remaining canonical scene spot review under all-places brief |
+| Team 7 | `docs/codex/handbacks/team-7-remaining-canonical-spots.md` | Remaining canonical scene spot review under all-places brief |
+| Team 7 | `docs/release/changes/team-7-remaining-canonical-spots.md` | Remaining canonical scene spot review under all-places brief |
+
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/proposed-corrections.json` | Barbershop standing point candidate correction |
+| Team 7 | `art/authoring/sept29-team7/scenes/remaining-canonical/barbershop-spot-06-review.jpg` | Barbershop standing point candidate correction |

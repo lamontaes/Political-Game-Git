@@ -1,5 +1,32 @@
 # Wave 1 status
 
+Cloud teams are preserving their work for the account transfer. Eight final handoffs are received; Team 4 is finishing its receipt.
+
+## September 30, 2:30 a.m. account-transfer checkpoint
+
+### MERGED
+No new merge independently verified during this checkpoint. Merge has stopped safely; #1183 still needs renewed exact-head approval and a disposition for its unrun changed browser test.
+
+### CONNECTIONS TABLE
+| Owner | Transfer receipt | Next route |
+| --- | --- | --- |
+| Team 1 | d28a19740fddb940ce5d43041d88ad8b7c7e96f1; #1184 held | Federal and held-law traces not started |
+| Team 2 | 98a173d3cfcaaa1cda6b5902fb1819b027151d33; #1136 WIP | Final reader edits untested; law proof pending |
+| Team 3 | 7e6899cb57e242623601ff031bf7933085d02ba2; #1189 WIP | Destination/exclusion unfinished; Census #1143 source ready |
+| Team 4 | Handoff in progress | Completed main profile receipt being preserved; no result inferred |
+| Team 5 | c72bdaae0dac53eaa7c09c988a75d510d87c4bfc | Separate failing dossier regression preserved; law traces not started |
+| Team 6 | f0735b3809f37ef4733660bf7661e7f7ce0cef89; #1133 | Partial parks/mileage traces preserved |
+| Team 8 | 1864116231b4ec069c14c8fd333ccd53025387a8; #1169 merged | 25 conversation traces in 00; evidence ZIP still cloud-local |
+| Team 9 | 76d3841a6c624309ccf0a3dd1fbc90fb0aaa74e6; #1188 WIP | Research and helper evidence preserved |
+| Merge | eb9d6f35b6b70a846011af30a8347ae9c61e347a; #1183 pending | Queue handoff complete; no live gate |
+
+### BLOCKED
+Eight of nine cloud handoffs received; Team 4 is preparing its final receipt. These are team-reported publication/check receipts, not coordinator reruns. Owner requested account-transfer handoffs; do not restart old sessions automatically. Team 8 reports automatic approval review rejected its evidence ZIP upload because an exact Drive destination and payload authorization were missing. Request CTO disposition before retry; preserve the original bundle. Team 8's Vite server remains live, with no simulation/test process reported.
+
+### EFFECTS
+No new runtime connection verified in this checkpoint. Latest CTO 2:30 adds jurisdiction/repeal wiring, scene-resolver parts for Teams 8/5, watched lives for Team 2, and famous-American research for Team 9. Latest 2:50 requires every supported effect per law, each size/range/delay and inert reaction, with wired-effect counts in the table. Preserve these assignments for replacement routing. Team 7 remains local; source-only art receipts are not pixel approval.
+
+
 The latest report records new main integrations and starts the requested effects audit without assigning unsupported sizes.
 
 ## September 30, 1:30 a.m. check-in
