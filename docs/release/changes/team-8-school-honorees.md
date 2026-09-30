@@ -1,6 +1,7 @@
 ---
-release: patch
-type: Fixed
+id: team-8-school-honorees
+impact: patch
+section: Fixed
 title: Use historical honorees for newly generated school names
 ---
 
