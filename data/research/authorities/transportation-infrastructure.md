@@ -1,6 +1,6 @@
 # Transportation rules need more jurisdiction evidence
 
-The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1679 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
+The first transportation research tranche records 33 legislative decisions across ten topics. It corrects several claims in the worked example and keeps unsupported effects unsized. It is a research draft. Transportation is not ready for approval: 1675 availability cells remain unresearched, and the remaining verification work is listed below. No game behavior has changed.
 
 ## What the evidence establishes
 
@@ -16,7 +16,7 @@ Every admitted decision has 56 explicit availability cells and 56 separate start
 
 | Topic                                | Decisions | Sourced availability cells | Barred cells | Unresearched cells |
 | ------------------------------------ | --------: | -------------------------: | -----------: | -----------------: |
-| roads-and-bridges                    |         6 |                         12 |            5 |                319 |
+| roads-and-bridges                    |         6 |                         16 |            5 |                315 |
 | transit                              |         5 |                          5 |            0 |                275 |
 | rail                                 |         4 |                         11 |            0 |                213 |
 | airports-and-ports                   |         3 |                         58 |            0 |                110 |
@@ -31,7 +31,7 @@ Nine barred cells record two fluoride operator restrictions, five ordinary local
 
 ### Unresearched availability by decision
 
-- `fuel-tax`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
+- `fuel-tax`: `AK, CO, CT, DE, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `ev-registration`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `congestion-toll`: `AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, DC, PR, GU, VI, AS, MP`.
 - `speed-camera`: `AL, AK, AZ, AR, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, MD, MA, MI, MN, MS, MO, MT, NE, NV, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SD, TN, VT, VA, WA, WI, WY, DC, PR, GU, VI, AS, MP`.
@@ -133,3 +133,9 @@ Source baseline: `cdb6e4ab1d6a26aa876d99f6831570ed0c057d92`.
 Research files: `data/research/authorities/transportation-infrastructure.json` and `authorities.schema.json`.
 
 Command: `node scripts/research/validate-authorities.mjs data/research/authorities/transportation-infrastructure.json`. Add `--ready` for readiness.
+
+## Newer CTO ruling: active transportation research
+
+The8:27 ruling restores transportation priority. The six numerical-evidence decision connections are held pending Lamontae’s job13 decision. All figures are calibration targets with researched treatment scope and uncertainty; future simulation uses a seeded per-world spread and produces outcomes through people and institutions. No fixed multiplier or guessed missing-place value is authorized.
+
+This increment adds state-specific fuel-tax authority in Alabama,Arizona,Arkansas and Florida. Dated rate evidence supports January2026 details in Alabama,Arkansas and Florida; Arizona’s current statute is recorded with its constitutional revenue-increase vote rule, while baseline amendment history remains unknown. Florida’s county fuel levies have their own votes,dates and distribution rules.

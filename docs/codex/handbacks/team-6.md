@@ -10,7 +10,7 @@ Nothing merged. [Pull request 1133](https://github.com/lamontaes/Political-Game-
 
 DECIDED: the approved outline says, “Nothing is invented.” Availability without evidence remains unresearched. The same outline requires “Sourced sizes only”; unsized effects remain labeled “no sized evidence.”
 
-Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 169 have source references and 1,679 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
+Measured research coverage: ten topic records, 33 admitted decisions, and 1,848 availability cells. Of those cells, 173 have source references and 1,675 remain unresearched. 27 of forty worked-example verification markers are resolved or corrected. A referenced cell still needs complete legal-route review before approval.
 
 Follow-up source review distinguishes official management-reported rail ridership from audited financial statements, records the EV-fee study's separate enactment and implementation estimates, and corrects two fluoride operator-permission cells to statutory bars.
 
@@ -65,7 +65,7 @@ The canonical claims file also contains other teams. It will not be staged in Te
 
 ## Team 1 transportation handoff after CTO dispatch
 
-PR 1133 is ready for review as a bounded research increment; the transportation area remains incomplete. Research is frozen after the already-authored passenger-charge entry, bringing the packet from 32 to 33 decisions. No additional transportation research is scheduled. Six decisions contain numerical outcome evidence. This is a list of source-backed sizes with their limitations, not authorization to turn every estimate into a universal causal coefficient.
+PR 1133 is ready for review as a bounded research increment; the transportation area remains incomplete. Newer CTO8:27 restores transportation priority. Research continues on all remaining verification and availability cells; housing expansion waits. This six-decision handoff is HELD pending Lamontae’s job13 decision. Six decisions contain numerical outcome evidence. This is a list of source-backed sizes with their limitations, not authorization to turn every estimate into a universal causal coefficient.
 
 Inspected main: `31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4`. Team 1 owns `data/research/outcome-web/links.json` and the implementation. The outcome connections below are proposed handoff routes, except the named existing housing target. None of these six laws is claimed connected or moved in a watched world by Team 6.
 
@@ -150,3 +150,9 @@ Each column refers to that decision’s January 2026 starting-law entry. `U` mea
 Availability to change a law is separately recorded for all 56 places in each decision’s `availability`; an in-force baseline does not settle that authority. All other 27 decisions retain “no sized evidence” for downstream effects. Statutory fees, tax credits, appropriation shares and wage terms can support direct money accounting with recorded eligible units; they are not sized estimates of riders, jobs, health or completed roads.
 
 Exact gap for Team 1: most baseline cells above remain unresearched, and five of the six proposed outcome targets have no corresponding inspected-main link. The fuel study requires pass-through; the EV, airport and broadband studies do not identify a universal causal response. Team 1 must preserve these limits when wiring laws. No game code or watched-world test was run by Team 6.
+
+## Newer owner calibration ruling and transportation resumption
+
+All real outcome figures are calibration targets, never fixed multipliers. A future implementation must draw a deterministic per-world value from a researched realistic spread and produce outcomes through affected people/institutions. Research does not supply missing-place proxies or invent uncertainty. Citations and developer labels remain in research/test data only. Team6 edits no game code.
+
+Four fuel-tax authority cells now cite their own Alabama,Arizona,Arkansas and Florida primary records. Alabama,Arkansas and Florida have dated January2026 rate details; Arizona’s current statutory rate is recorded but its January2026 amendment history is still unknown. Florida’s county levy and voting routes are distinct from unrestricted city tax power.

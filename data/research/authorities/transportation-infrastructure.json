@@ -2118,6 +2118,70 @@
       "year": 2020,
       "accessed": "2026-09-29",
       "kind": "primary"
+    },
+    {
+      "id": "al-gas-law2019",
+      "title": "Alabama Revenue Act2019-2 tax and construction-cost index",
+      "url": "https://www.revenue.alabama.gov/act-2019-2-rebuild-alabama-act/",
+      "year": 2019,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "al-gas-rate2025",
+      "title": "Alabama Revenue dated July2025 gasoline/diesel rate notice",
+      "url": "https://www.revenue.alabama.gov/wp-content/uploads/2025/02/Rebuild-Alabama-Act-Notice-February-2025.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "az-gas-current",
+      "title": "Arizona Revised Statutes28-5606 motor fuel tax",
+      "url": "https://www.azleg.gov/ars/28/05606.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "az-revenue-vote",
+      "title": "Arizona ConstitutionIX22 revenue increase votes",
+      "url": "https://www.azleg.gov/const/9/22.htm",
+      "year": null,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "ar-gas-rate2025",
+      "title": "Arkansas DFA October2025 through September2026 fuel rates",
+      "url": "https://www.dfa.arkansas.gov/wp-content/uploads/2025MotorFuelsTaxRateAnnouncement.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-gas-rate2026",
+      "title": "Florida Revenue2026 county/state fuel-rate chart",
+      "url": "https://www.floridarevenue.com/taxes/Documents/fuel_charts/25B05-05_chart.pdf",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-gas-law2025",
+      "title": "Florida2025 Statutes206.41 state motor fuel taxes",
+      "url": "https://www.flsenate.gov/Laws/Statutes/2025/206.41",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
+    },
+    {
+      "id": "fl-local-gas2025",
+      "title": "Florida2025 Statutes336.025 county local option fuel authority",
+      "url": "https://www.flsenate.gov/Laws/Statutes/2025/336.025",
+      "year": 2025,
+      "accessed": "2026-09-29",
+      "kind": "primary"
     }
   ],
   "topics": [
@@ -2188,10 +2252,10 @@
           ],
           "availability": {
             "AL": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state fuel-tax statute; local route only where explicitly recorded",
+              "reason": "Act2019-2 supplies the state fuel-tax rate and highway-construction-cost index. The index adjusts by at most1cent per gallon every other July after October2023. Local grants, constitutional amendment rules and large-city exceptions remain unresearched.",
+              "sources": ["al-gas-law2019", "al-gas-rate2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -2206,19 +2270,26 @@
               "differentLargeCityCharters": []
             },
             "AZ": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
-              "bars": [],
+              "status": "yes",
+              "scope": "state fuel-tax statute; local route only where explicitly recorded",
+              "reason": "ARS28-5606 establishes the state motor-fuel levy. A net state-revenue increase requires two-thirds of each house; governor veto override requires three-fourths underIX22. This state route establishes no local levy grant.",
+              "sources": ["az-gas-current", "az-revenue-vote"],
+              "bars": [
+                {
+                  "description": "IX22 requires two-thirds of each house for acts causing specified net state-revenue increases and three-fourths after governor veto; statutory administrative fees and local taxes have exceptions.",
+                  "lawKind": "state constitution",
+                  "changedBy": "Constitutional amendment required to changeIX22 itself; proposal and election route not yet researched.",
+                  "sources": ["az-revenue-vote"]
+                }
+              ],
               "localGrant": null,
               "differentLargeCityCharters": []
             },
             "AR": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state fuel-tax statute; local route only where explicitly recorded",
+              "reason": "DFA administers a legislated wholesale fuel-tax calculation under26-64-101etseq using the previous-year Gulf Coast wholesale average. State legislative rate authority is evidenced; full constitutional/local amendment and charter routes remain unresearched.",
+              "sources": ["ar-gas-rate2025"],
               "bars": [],
               "localGrant": null,
               "differentLargeCityCharters": []
@@ -2267,12 +2338,21 @@
               "differentLargeCityCharters": []
             },
             "FL": {
-              "status": "unresearched",
-              "scope": "state, dc, territory",
-              "reason": "Jurisdiction-specific grant, bars, amendment route and large-city charter exceptions have not all been researched.",
-              "sources": [],
+              "status": "yes",
+              "scope": "state fuel-tax statute; local route only where explicitly recorded",
+              "reason": "State206.41 authorizes fuel taxes. County336.025 separately authorizes1\u20136cent local option fuel levy via majority ordinance/referendum and additional1\u20135cent gasoline levy via majority-plus-one ordinance/referendum; calendar,distribution and bond protections apply. Municipality receives or participates in statutory routes; no unrestricted city levy inferred.",
+              "sources": [
+                "fl-gas-law2025",
+                "fl-local-gas2025",
+                "fl-gas-rate2026"
+              ],
               "bars": [],
-              "localGrant": null,
+              "localGrant": {
+                "description": "County336.025 grants constrained local option fuel-tax routes. Additional1\u20135cent motor-fuel levy has majority-plus-one/referendum requirement. Large-city charter exceptions remain unresearched.",
+                "lawKind": "state statute",
+                "changedBy": "State legislature changes enabling statute; county follows ordinance/referendum,time,distribution and outstanding-bond protections.",
+                "sources": ["fl-local-gas2025"]
+              },
               "differentLargeCityCharters": []
             },
             "GA": {
@@ -2717,15 +2797,15 @@
                 "venue": "Energy Journal29(1),113\u2013134"
               },
               "sources": ["hks2008"],
-              "transferLimit": "Gasoline price response, not directly a tax response. Requires separately sourced tax pass-through; historical coefficient cannot be assumed current or universal. No long-run coefficient admitted."
+              "transferLimit": "Gasoline price response, not directly a tax response. Requires separately sourced tax pass-through; historical coefficient cannot be assumed current or universal. No long-run coefficient admitted. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
             }
           ],
           "directMechanism": "Collect the enacted charge on taxable fuel and allocate actual revenue.",
           "startingLaw": {
             "AL": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Gasoline30cents/gallon and undyed diesel31cents effectiveJuly1,2025; next scheduled biennial index adjustmentJuly2027. Exemptions/refunds and local levies need separate records.",
+              "sources": ["al-gas-law2019", "al-gas-rate2025"]
             },
             "AK": {
               "status": "unresearched",
@@ -2734,13 +2814,13 @@
             },
             "AZ": {
               "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "detail": "Current28-5606 imposes18cents/gallon motor vehicle fuel,26cents use-class vehicle use fuel,18cents light-class use fuel; alternative-fuel and exempt-use-class exceptions apply. January2026 amendment history remains to be reconciled; starting-law status remains unknown.",
+              "sources": ["az-gas-current", "az-revenue-vote"]
             },
             "AR": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "Dated notice appliesOctober1,2025\u2013September30,2026: gasoline24.7cents/gallon,clear diesel28.5cents,plus0.3cent Petroleum Environment Assurance Fee. Gasoline border zones have different published rates.",
+              "sources": ["ar-gas-rate2025"]
             },
             "CA": {
               "status": "in force",
@@ -2763,9 +2843,13 @@
               "sources": []
             },
             "FL": {
-              "status": "unresearched",
-              "detail": "January 1, 2026 rule not established for this place.",
-              "sources": []
+              "status": "in force",
+              "detail": "January2026 chart: gasoline4cent state excise+18cent state sales tax,0.125cent inspection fee,6cent minimum local option,9.9cent SCETS;38.025cent statewide collection minimum. County additional local option/ninth-cent vary; county totals need their own cells,not a single statewide all-in tax.",
+              "sources": [
+                "fl-gas-law2025",
+                "fl-local-gas2025",
+                "fl-gas-rate2026"
+              ]
             },
             "GA": {
               "status": "unresearched",
@@ -3561,7 +3645,7 @@
                 "venue": "UC Davis ITS Research Report18-27, p15 and AppendixA3"
               },
               "sources": ["jenn2018"],
-              "transferLimit": "Observational fixed-effects model. Enactment coefficient\u22120.00238 (p<.05); implementation\u22120.00160 is not statistically significant. Do not assign universal causal response or extrapolate linearly to arbitrary fees."
+              "transferLimit": "Observational fixed-effects model. Enactment coefficient\u22120.00238 (p<.05); implementation\u22120.00160 is not statistically significant. Do not assign universal causal response or extrapolate linearly to arbitrary fees. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
             }
           ],
           "directMechanism": "Charge eligible registered vehicles; allocate proceeds.",
@@ -4392,7 +4476,7 @@
                 "venue": "MTA board reporting"
               },
               "sources": ["mta-results"],
-              "transferLimit": "Observed program result, not a transportable causal coefficient; no confidence interval supplied."
+              "transferLimit": "Observed program result, not a transportable causal coefficient; no confidence interval supplied. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
             }
           ],
           "directMechanism": "Collect tolls on liable entries and dedicate revenue to the statutory program.",
@@ -16363,7 +16447,7 @@
                 "venue": "UC Berkeley Institute of Industrial Relations original airport report pp35,54,65"
               },
               "sources": ["sfo-wage2003"],
-              "transferLimit": "Turnover94.7% to18.7%; annual wages13400 to20800 byJan2001. Observational bundled-policy comparison, not isolated wage-law causal effect. Selected employment7339 to8484(+15.6%) is headcount growth, not jobs caused. No transfer to SeaTac or current airports."
+              "transferLimit": "Turnover94.7% to18.7%; annual wages13400 to20800 byJan2001. Observational bundled-policy comparison, not isolated wage-law causal effect. Selected employment7339 to8484(+15.6%) is headcount growth, not jobs caused. No transfer to SeaTac or current airports. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
             }
           ],
           "directMechanism": "Sets covered employment standards. Airport enforcement allowed by2015 court decision; projected coverage is not observed wage or headcount effect.",
@@ -18366,8 +18450,7 @@
       "remainingWork": [
         "Complete every recurring decision with a qualifying enacted or seriously debated 2010\u20132026 measure.",
         "Complete grants, bars, amendment procedures and differing charters for cities of 250,000 or more.",
-        "Complete January 1, 2026 starting law for all 56 places.",
-        "PFC decision retained as research lead only: 2022 FAA action alone does not meet owner enacted/debated-law admission rule; find qualifying 2010\u20132026 legislative measure."
+        "Complete January 1, 2026 starting law for all 56 places."
       ]
     },
     {
@@ -19802,7 +19885,7 @@
                 "venue": "Cochrane Database of Systematic Reviews"
               },
               "sources": ["cochrane"],
-              "transferLimit": "Low-certainty initiation evidence; confidence interval includes no benefit. Cannot invert into a certain cessation harm."
+              "transferLimit": "Low-certainty initiation evidence; confidence interval includes no benefit. Cannot invert into a certain cessation harm. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
             }
           ],
           "directMechanism": "Permit or prohibit intentional additives; natural fluoride is a separate condition.",
@@ -25386,7 +25469,7 @@
                 "venue": "Applied Economics51(55),5923\u20135936"
               },
               "sources": ["molnar2019"],
-              "transferLimit": "Published model controls potential endogeneity and reports about$5977 overall,$5099 rural premium. Measures available speed, not adoption or a guaranteed municipal-build causal return. No effect assigned to grant amount or current market prices."
+              "transferLimit": "Published model controls potential endogeneity and reports about$5977 overall,$5099 rural premium. Measures available speed, not adoption or a guaranteed municipal-build causal return. No effect assigned to grant amount or current market prices. Owner8:27 rule: this evidence is calibration only. Any future world parameter must use a deterministic seeded realistic spread supported by researched evidence; reached people/institutions produce outcomes. No fixed multiplier or invented missing-place estimate. Integration is held pending job13."
             }
           ],
           "directMechanism": "Award appropriated program funds to eligible deployment projects under statutory and current program conditions.",
@@ -32612,6 +32695,7 @@
     "Every worked-example verify marker is tracked individually below; unresolved items are not facts.",
     "The187-topic input cto-notes/codex/issues-187.json is absent from this checkout; current source catalog provides keys.",
     "No game code or organization records were changed.",
-    "Remaining177 catalog topics and the separate federal area batches have not been researched in this tranche."
+    "Remaining177 catalog topics and the separate federal area batches have not been researched in this tranche.",
+    "Newer CTO8:27 restores transportation priority: resolve remaining verification and availability research before continuing housing; six-decision integration handoff held pending owner job13 decision."
   ]
 }
