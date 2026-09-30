@@ -67,6 +67,10 @@ boundary test failed on the local loop variable. Candidate standard build
 passed. Final boundary tests passed 5/5 in 2.83 seconds, maxWorkers 2.
 Scoped ESLint, formatting, and whitespace checks passed. The separate standard
 typecheck passed with exit 0 after the final boundary changes.
+Release check failed on the unchanged `wave1-playtest-copy.md` missing header.
+Zero-dice exited 1 with zero new and three stale allowance entries. Both
+failures were reproduced on clean main at the exact baseline head; no shared
+release note or allowance was changed to mask them.
 
 ## 6. Proof run
 
