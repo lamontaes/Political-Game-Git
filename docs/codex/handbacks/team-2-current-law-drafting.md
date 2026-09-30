@@ -16,7 +16,9 @@ The actual source evidence is the complete Floral inventory at `4236c2b6c48b7e25
 
 The same rule applies to each supported federal/state/county/municipality configuration. It does not infer territory or township authority. Starting-law rows lacking quantitative/structured terms refuse, even if their answer is known. No range or new effects link is added; legislative amounts are saved bill terms, not causal rates.
 
-Only the current governing measure at the same jurisdiction supplies a single compatible unbundled lineage. Its bank version and all parameters must exist. Amounts are copied exactly, never clamped or rounded. Current saved clauses must match the source configuration; amendments, changed clauses, future records, ambiguous lineages and unsupported values refuse. This deliberately does not reconstruct structured parameters from amendment prose.
+Only the current governing measure at the same jurisdiction supplies a single compatible unbundled lineage. Its bank version and all parameters must exist. Amounts are copied exactly, never clamped or rounded. Current saved clauses must match the source configuration, including beneficiary, fiscal period, fiscal labels and section identity. Amendments, changed clauses, future records, ambiguous lineages and unsupported values refuse. This deliberately does not reconstruct structured parameters from amendment prose.
+
+Team1 identified the omitted beneficiary and fiscal-period comparison in PR1215 comment5910839953. Both now have executed rejection fixtures. Timing remains a separate contract limit: source validation uses the original introduction date, while the new draft uses its current filing date. Saved relative rules are reused; this does not copy an absolute old start. An agreed sponsor start/phase decision is still required before claiming complete terms.
 
 ## 4. Numbered parts
 
@@ -30,13 +32,19 @@ Only the current governing measure at the same jurisdiction supplies a single co
 
 SIMULATED: existing sponsor principles and majority decisions, unchanged. RECORDS: governing law, saved draft lineage and current provisions. WORLD PIECES: actual current-law parameters and compatible clauses must exist; authored opening profiles and treasury balances do not substitute for them. CHECKS: exact amount/choice preservation, no seed variation, no future/stale/default terms and no write during reads.
 
-Changed focused tests: 9/9 PASS in 13.53 seconds. Scoped strict TypeScript covers the module and both test roots with build globals: zero diagnostics. Scoped ESLint, formatting and whitespace PASS. The existing all-state fixture now expects refusal when a profile has no saved appropriation terms; it retains profile/jurisdiction assertions.
+Changed focused tests: 11/11 PASS in 13.43 seconds after the saved-beneficiary and annual-period guards. Scoped strict TypeScript covers the module and both test roots with build globals: zero diagnostics. Scoped ESLint PASS. The existing all-state fixture now expects refusal when a profile has no saved appropriation terms; it retains profile/jurisdiction assertions.
 
-Two direct presentation callers are being checked separately. The ordinary-state-service-cash test has reported a failure; the member-agenda batch remains pending until its bounded command finishes. Neither is a passing receipt. They expect first money bills from worlds lacking this compiler's saved-law source. No expectations in those files were changed. Browser, full suite, independent helper review and same-seed after-year: NOT RUN.
+The unchanged ordinary-state-service-cash caller fails on source 5ab3c57f1fa31fa26eacf7fa0a7c505b75adc3f4: line 159 expects introduced not to be null; actual is null. Its standalone run completed with exit 1 in 20.44 seconds. The identical test passed on clean baseline a8c8d091e61303424a265dd1f27e8c9c8c5dff7b: 1/1, exit 0, 21.88 seconds. This is a changed previously valid caller. It attempts the first typed service bill without the enacted saved-law source this compiler now requires. PR1215 comment5911001254 routes the exact failure to Team1 for a valid fixture/producer repair while retaining honest refusal. No caller expectation was weakened.
+
+The two-file caller command reached its existing 180-second bound and exited 124. The agenda file is NORESULT. No timeout was increased. Browser, full suite, independent helper review and same-seed after-year: NOT RUN.
 
 ## 6. Proof run
 
 No new watched year is claimed. Required after-run seed remains team2-main-proof-20260930-b, Floral, Arkansas (0524070), at an exact combined producer/compiler source. Baseline is 1 typed-operative law out of 56, zero law-linked actual money. New term completeness and a named-person rule/dollar record must be checked separately; neither is inferred from fixtures or refusal.
+
+The CTO's 8:05 entry names PR1215 and PR1217 as the intended pair and requires a working sponsor draft rather than a silent legislature. Team1's transferred state filing source is db709d641cd53fdf3863a15e127083250acf7d9b; its latest read-only audit is a0f68fa44442c04d7656ce2970a5d89fe086c13d. Team1 still owns sponsor terms. Positive support is also suppressed when the law already says yes in positionBillAnswer; that filing interaction remains unresolved. No combined after-run should be called acceptance while those dependencies remain.
+
+The next Cedar Hills eviction replay retains Team3's corrected source aa6575a9b03175e46b342d35cdffcea72543c958. It has not been replayed here and stays behind the combined terms checkpoint.
 
 ## 7. Worked example
 

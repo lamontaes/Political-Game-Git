@@ -553,10 +553,29 @@ export function compileAutomaticLawDraft(input: {
       const recorded = sourceProvisions.find(
         (provision) => provision.provisionKey === clause.provisionKey,
       );
+      const savedBeneficiary = recorded?.beneficiary;
+      const beneficiaryMatches =
+        savedBeneficiary?.kind === "general-application" &&
+        clause.beneficiary.kind === "general-application"
+          ? savedBeneficiary.appliesToLabel ===
+            clause.beneficiary.appliesToLabel
+          : savedBeneficiary?.kind === "particularized" &&
+            clause.beneficiary.kind === "particularized" &&
+            savedBeneficiary.particularization ===
+              clause.beneficiary.particularization &&
+            savedBeneficiary.beneficiaryLabel ===
+              clause.beneficiary.beneficiaryLabel &&
+            savedBeneficiary.placeLabel === clause.beneficiary.placeLabel &&
+            savedBeneficiary.statedGround === clause.beneficiary.statedGround;
       return (
         !recorded ||
+        recorded.sectionNumber !== clause.sectionNumber ||
+        recorded.heading !== clause.heading ||
         recorded.text !== clause.text ||
+        !beneficiaryMatches ||
+        recorded.fiscalExposureLabel !== clause.fiscalExposureLabel ||
         recorded.fiscalExposureMinorUnits !== clause.fiscalExposureMinorUnits ||
+        recorded.fiscalPeriod !== clause.fiscalPeriod ||
         recorded.operativeEffect?.kind !== clause.operativeEffect?.kind
       );
     })

@@ -257,4 +257,50 @@ describe("automatic draft parameters from current saved law", () => {
       }),
     ).toBeNull();
   });
+
+  it("refuses independently changed saved beneficiaries without restating bank coverage", () => {
+    const { world, compile } = fixture();
+    expect(
+      compile({
+        ...world,
+        history: {
+          ...world.history,
+          legislativeProvisions: world.history.legislativeProvisions!.map(
+            (row) =>
+              row.provisionKey === "amount-provided"
+                ? {
+                    ...row,
+                    beneficiary: {
+                      kind: "general-application" as const,
+                      appliesToLabel: "A different saved beneficiary group.",
+                    },
+                  }
+                : row,
+          ),
+        },
+      }),
+    ).toBeNull();
+  });
+
+  it("refuses a changed annual-versus-whole-program fiscal period", () => {
+    const { world, compile } = fixture();
+    expect(
+      compile({
+        ...world,
+        history: {
+          ...world.history,
+          legislativeProvisions: world.history.legislativeProvisions!.map(
+            (row) =>
+              row.provisionKey === "amount-provided"
+                ? {
+                    ...row,
+                    fiscalPeriod:
+                      row.fiscalPeriod === "annual" ? undefined : "annual",
+                  }
+                : row,
+          ),
+        },
+      }),
+    ).toBeNull();
+  });
 });
