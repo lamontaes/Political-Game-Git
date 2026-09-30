@@ -7,6 +7,9 @@ import type {
   LegislativeMeasureRecord,
   LegislativeEnactmentRecord,
 } from "../../src/simulation/types";
+import { lawEffectStamp } from "../../src/simulation/law-effect-stamp";
+import { lawInForce } from "../../src/simulation/governing/law-in-force";
+import { nationalSummary } from "./national";
 import { auditWorld, summarize } from "./audit";
 const QUESTION =
   "us-policy-positions:transportation-infrastructure.fix-it-first";
@@ -124,4 +127,60 @@ describe("law-effect audit attribution", () => {
     expect(row.fired).toBe(false);
     expect(row.reason).toBe("effective-after-run");
   });
+});
+
+it("reads actual stamped consequences but never promotes a stamp alone or a wrong law into proof", () => {
+  const { opening, world } = fixture(1);
+  const at = makeIsoDate("2032-08-01");
+  const jurisdictionId = stateJurisdictionForKey("US-OH")!.id;
+  const stamp = lawEffectStamp(lawInForce(world, jurisdictionId, PROP, at), {
+    effectKind: "test.saved-service",
+    questionKey: QUESTION,
+    jurisdictionId,
+    appliedAt: at,
+    sourceRecordIds: ["service_test" as EntityId],
+  })!;
+  expect(stamp).not.toBeNull();
+  const records = [
+    { id: "service_test", sequence: 3, amount: 123, lawEffectStamps: [stamp] },
+    {
+      id: "stamp_only",
+      sequence: 4,
+      lawEffectStamps: [{ ...stamp, effectKind: "test.stamp-only" }],
+    },
+    {
+      id: "wrong_law",
+      sequence: 5,
+      amount: 456,
+      lawEffectStamps: [
+        {
+          ...stamp,
+          governingLawKey: "measure_unrelated",
+          effectKind: "test.wrong-law",
+        },
+      ],
+    },
+  ];
+  const candidate = {
+    ...world,
+    history: { ...world.history, stampedTestRecords: records },
+  } as World;
+  const rows = auditWorld(opening, candidate);
+  expect(
+    rows.find((row) => row.effect === "stamped:test.saved-service")?.evidence[0]
+      ?.after,
+  ).toEqual({ amount: 123 });
+  expect(
+    rows.find((row) => row.effect === "stamped:test.stamp-only")?.fired,
+  ).toBe(false);
+  expect(
+    rows.find((row) => row.effect === "stamped:test.wrong-law"),
+  ).toBeUndefined();
+  const nation = nationalSummary(candidate, rows);
+  expect(nation.states).toHaveLength(56);
+  expect(nation.states.filter((row) => row.lawsAudited > 0)).toHaveLength(1);
+  expect(nation.national.lawsAudited).toBe(1);
+  expect(
+    nation.states.find((row) => row.jurisdictionKey === "US-OH")?.lawsAudited,
+  ).toBe(1);
 });
