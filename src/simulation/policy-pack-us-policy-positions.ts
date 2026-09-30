@@ -1474,9 +1474,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should small multifamily housing be allowed by right in areas zoned for single-family homes?",
       tags: ["contested"],
       principles: [
-        { principle: "property-rights", bearing: "consistent-with" },
-        { principle: "market-competition", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "property-rights",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "market-competition",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.7,
+        },
       ],
     },
     {
@@ -1491,9 +1513,26 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should annual rent increases on existing tenancies be limited by law?",
       tags: ["contested"],
       principles: [
-        { principle: "worker-protection", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
-        { principle: "market-competition", bearing: "against" },
+        {
+          principle: "worker-protection",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.85,
+        },
       ],
     },
     {
@@ -1507,9 +1546,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should housing that meets the zoning code be approved without discretionary review?",
       principles: [
-        { principle: "property-rights", bearing: "consistent-with" },
-        { principle: "local-control", bearing: "against" },
-        { principle: "transparency", bearing: "against" },
+        {
+          principle: "property-rights",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "market-competition",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "transparency",
+          bearing: "against",
+          weight: 0.65,
+        },
       ],
     },
     {
@@ -1524,8 +1585,26 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should new developments be required to include below-market homes?",
       tags: ["contested"],
       principles: [
-        { principle: "equal-opportunity", bearing: "consistent-with" },
-        { principle: "property-rights", bearing: "against" },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.75,
+        },
       ],
     },
     {
@@ -1539,9 +1618,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should the state override local rules that block housing?",
       tags: ["contested"],
       principles: [
-        { principle: "market-competition", bearing: "consistent-with" },
-        { principle: "local-control", bearing: "against" },
-        { principle: "transparency", bearing: "against" },
+        {
+          principle: "market-competition",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "property-rights",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.95,
+        },
+        {
+          principle: "transparency",
+          bearing: "against",
+          weight: 0.65,
+        },
       ],
     },
     {
@@ -1554,8 +1655,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Right to counsel in eviction",
       question: "Should a tenant facing eviction be provided a lawyer?",
       principles: [
-        { principle: "equal-treatment", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "against" },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "collective-provision",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
@@ -1824,9 +1948,26 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the state remove licensing requirements from occupations that do not need them for safety?",
       tags: ["contested"],
       principles: [
-        { principle: "market-competition", bearing: "consistent-with" },
-        { principle: "limited-government", bearing: "consistent-with" },
-        { principle: "public-safety", bearing: "against" },
+        {
+          principle: "market-competition",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "limited-government",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.85,
+        },
       ],
     },
     {
@@ -1841,8 +1982,26 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should the sale of cannabis to adults be legal and regulated?",
       tags: ["contested"],
       principles: [
-        { principle: "personal-liberty", bearing: "consistent-with" },
-        { principle: "tradition", bearing: "against" },
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "market-competition",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.75,
+        },
       ],
     },
     {
@@ -1856,9 +2015,31 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should tax incentives offered to attract employers be capped and disclosed?",
       principles: [
-        { principle: "transparency", bearing: "consistent-with" },
-        { principle: "fiscal-restraint", bearing: "consistent-with" },
-        { principle: "market-competition", bearing: "against" },
+        {
+          principle: "transparency",
+          bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "local-control",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
@@ -1869,8 +2050,26 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       parameters: [{ key: "cap", value: "annual-percentage-rate" }],
       tags: ["contested"],
       principles: [
-        { principle: "worker-protection", bearing: "consistent-with" },
-        { principle: "market-competition", bearing: "against" },
+        {
+          principle: "worker-protection",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.65,
+        },
       ],
     },
     {
