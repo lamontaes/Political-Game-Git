@@ -269,6 +269,7 @@ function exposureTouches(world: World, sinceSequence: number): Touch[] {
 function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
   const touches: Touch[] = [];
   const prior = new Map<EntityId, boolean>();
+  const ordinals = new Map<string, number>();
   for (const row of crisisRecords(world)) {
     if (
       row.kind !== "health-coverage" ||
@@ -280,7 +281,6 @@ function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
     // Initial non-coverage and a new reason without a coverage change are
     // not gained/lost coverage. Old unstamped rows still establish the prior.
     if (
-      row.sequence <= sinceSequence ||
       before === row.covered ||
       (before === undefined && !row.covered) ||
       !world.people[row.personId]
@@ -301,6 +301,10 @@ function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
         stamp.effectKind !== "health-coverage" ||
         stamp.appliedAt !== row.effectiveAt
       ) continue;
+      const key = `${stamp.governingLawKey}|${row.personId}`;
+      const ordinal = ordinals.get(key) ?? 0;
+      ordinals.set(key, ordinal + 1);
+      if (row.sequence <= sinceSequence) continue;
       for (const town of towns) touches.push({
         measureId: stamp.governingLawKey,
         town,
@@ -308,7 +312,7 @@ function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
         reach: "health-coverage",
         changeMinor: null,
         movedMinor: null,
-        step: `coverage:${row.effectiveAt}:${row.covered ? "began" : "ended"}`,
+        step: `coverage:${row.effectiveAt}:${row.covered ? "began" : "ended"}:${ordinal}`,
         reason: null,
         sourceRecordIds: [row.id, ...(stamp.sourceRecordIds ?? [])],
         sectionKey: stamp.questionKey,
