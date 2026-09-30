@@ -1,0 +1,23 @@
+{
+  "team": 9,
+  "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+  "parameterKey": "limit",
+  "source": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/debt_subject_to_limit?filter=record_date:eq:2026-09-28&page[size]=100",
+  "recordDate": "2026-09-28",
+  "table": "Daily Treasury Statement IIIC, Debt Subject to Limit",
+  "rowSelector": { "debt_catg": "Statutory Debt Limit", "src_line_nbr": "9" },
+  "rawField": "close_today_bal",
+  "rawValue": "41103996",
+  "metadataFormat": "$1,000,000",
+  "reportedLimitUsd": 41103996000000,
+  "reportedPrecisionUsd": 1000000,
+  "conversion": "41103996 million USD *1000000. This is the statutory-limit row, not debt held by public or debt outstanding.",
+  "legalSource": "31USC3101 statutory note, PublicLaw119-21 section72001 July4,2025 increase5000000000000USD to prior reinstated limit.",
+  "supersedesGap": "Absolute current ceiling gap in federal-current-values-2026-cost-coverage.json is now resolved at Treasury's reported million-dollar precision.",
+  "scope": "Federal debt subject to statutory limit; not appropriation, GDP, annual deficit or additional spending authority.",
+  "selectableRange": {
+    "status": "needs-research",
+    "missing": "A proposed legislative ceiling/offset is a policy term; current Treasury amount does not define a universally permissible selection interval."
+  },
+  "runtimeProof": "NOT RUN; coordinator and existing fiscal reader owner integrate this source value."
+}
