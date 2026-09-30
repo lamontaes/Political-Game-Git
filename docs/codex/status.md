@@ -165,3 +165,23 @@ MERGED: Live GitHub shows no new wave merge since the prior checkpoint. Ready sp
 CONNECTIONS TABLE: Team1/3 money contract and narrow job-market/life-paths2 handoff are confirmed in 00 at Team1 2e0d8f81a; implementation continues, not connected on main yet. History-to-life formation, census-to-watched worlds, speed-to-proofs and art-to-import remain unmerged/unverified. Job13 research-to-law link stays removed.
 
 BLOCKED / ACTIONS: Sent exact CTO 8:54/8:56 anchor rules to all seven teams and requested bounded audits of touched fields, source coverage and generation-time spread. Legal values require exact per-place law; nonlaw anchors require research covering game places, adjusted for kind/size with seeded spread. Compliant existing estimates stay; one-place extrapolations and invented numbers do not. Corrected persistent-file advisory flock procedure across all teams, including Team5's stale renderer claim blocker. Confirmed Team1's adapter release to Team3; authorized graceful termination of only its verified obsolete premerge baseline with evidence retained and NO RESULT. Team4 reports no new anchors in speed delta and is profiling one remaining bottleneck under shared load without pauses. All other anchor audits remain pending; no blanket compliance claim. Updated recurring coordination instructions to prevent obsolete rules returning.
+
+## September 29, 9:15 p.m. CTO 9:01 follow-through
+
+### MERGED
+No new wave merge verified in live inventory. #1146 ready ad1756895 is Team2 majority-backed agenda filing, five focused tests team-reported passed. #1145 ready c20e411 remains below performance goal (107.994-second month, not under15).
+
+### CONNECTIONS TABLE
+| Link | State | Owner/action |
+| --- | --- | --- |
+| Laws → compensation → paychecks | Contract agreed; implementation unmerged | Team3 has narrow Team1 weekly/shift release; focused checks continue. |
+| Person history → life formation → voting | Contract named; unmerged | Team2 uses Team5 factsForPerson/eventById. |
+| Census → watched worlds | #1143 needs newer9:01 correction | Team3 replacing runtime nulls with broadly researched comparable anchors and seeded spread, including explicit Ta'u/ChalanKanoa anchors. |
+| Speed → proofs | #1145 ready; target failed | Team4 measured context-person copy cost43.015s; bounded lazy-copy fix authorized in already-owned writer. |
+| Art tags → import | Owner review pending | Team7 art modifications held; Claude/Lamontae review. |
+
+### BLOCKED
+Restored atomic mkdir claims lock after all seven acknowledged no handles/queued acquisitions; lsof showed none. Old regular file preserved, no source removed. All seven notified and publisher updated. Renderer belongs toClaude; Team5 leaves it untouched and fixes1135 stale News test. Team3 obsolete baseline gracefully ended exit130, no result; evidence preserved. Missing runtime values now require broad researched generation anchors under9:01; missing research observations must not be fabricated. Team6 single-place studies are contextual evidence, not nationwide runtime anchors. Team5 flags fixed90-day editorial window and unchangedage18 attendee cutoff for CTO interpretation/source review; no invented replacements.
+
+### EFFECTS
+Built coordinator-owned effects-map.md at main31edf5da5:40conditions,221declaredlinks, full incoming/outgoing ledger with existing source,size,lag,shape. Reportcheck0errors/0warnings. Ten priority conditions lack outgoing catalog links: homelessness, median earnings, prices, rental supply, transit ridership, borrowing cost, food insecurity, drug out-of-pocket cost, farmland developed acres, irrigation groundwater. Proposed downstream research questions and existing owners are in the map. No new coefficient or researched lag is invented. Assigned Team1 existing link-source trace, Team3 housing/work/pay reconciliation, Team2 concerns/filing/vote trace. All three-step watched-chain proofs NOT RUN, Claude-owned. Catalog gaps are not a claim that all dynamic runtime consumers are absent.

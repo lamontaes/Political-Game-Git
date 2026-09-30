@@ -419,3 +419,15 @@ Team 1 release to Team 3, September 29, 8:27 ruling and AGREED contract in 00: n
 | Team 2 | `src/simulation/world-setup/types.ts` | 2026-09-30T00:50:00Z |
 | Team 2 | `src/simulation/world-setup/integrity.ts` | 2026-09-30T00:50:00Z |
 | Team 2 | `data/research/midterm-calibration.json` | 2026-09-30T00:50:00Z |
+
+| Team 5 | `src/player/PlayerGame.tsx` | 2026-09-30T01:05:04.609558+00:00 |
+| Team 5 | `src/presentation/backdrop-people.ts` | 2026-09-30T01:05:04.609558+00:00 |
+| Team 5 | `src/presentation/backdrop-people.test.ts` | 2026-09-30T01:05:04.609558+00:00 |
+
+| Coordinator | `docs/codex/effects-map.md` | CTO September 29 9:01 effects-map assignment |
+
+CTO 9:01 lock restoration: all seven teams quiescent, no open handles observed. Atomic mkdir protocol restored; acquire by mkdir /private/tmp/ocd-wave1-claims.lock and release only your acquired directory by rmdir. No flock acquisition. Previous regular file preserved outside the lock path.
+
+| Team 4 | `docs/release/changes/context-people-lazy-copy.md` | 2026-09-30T01:14:18.367774+00:00 — bounded context-person lazy-copy follow-up |
+
+| Team 5 | `src/player/PlayerSurfaceProvenance.test.tsx` | 2026-09-30T01:14:26.776347+00:00 |
