@@ -1,0 +1,222 @@
+{
+  "sourceInventoryHead": "4236c2b6c48b7e25f23e6dec75542b5f1dad74cb",
+  "sourceInventoryPath": "docs/codex/handbacks/team-2-floral-terms-table.json",
+  "diagnosticCombinedHead": "2707dd368d099a1b7d68311cae5220fd83bfc3e9",
+  "soleNextProofPin": "916e70fa7fd88af5bbdf210654e000f5b5862b9c",
+  "stateFallbacks": 41,
+  "startingAnswerCount": 26,
+  "noLawCount": 15,
+  "questionCount": 18,
+  "ruralTransitStartingQuestionPresent": false,
+  "questions": [
+    {
+      "question": "us-policy-positions:business-commerce.cap-development-incentives",
+      "filings": 2,
+      "knownStartingAnswers": 0,
+      "noRecordedLaw": 2,
+      "measureIds": [
+        "legislative-measure_55ac694c5e7e2578",
+        "legislative-measure_18bfa269852e6047"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+      "filings": 2,
+      "knownStartingAnswers": 0,
+      "noRecordedLaw": 2,
+      "measureIds": [
+        "legislative-measure_4f7225128bd99efb",
+        "legislative-measure_84889ab90b3753b3"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:civil-family-community.restrict-abortion",
+      "filings": 1,
+      "knownStartingAnswers": 1,
+      "noRecordedLaw": 0,
+      "measureIds": ["legislative-measure_848935be26664da4"],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:education.public-funds-for-private-schooling",
+      "filings": 3,
+      "knownStartingAnswers": 3,
+      "noRecordedLaw": 0,
+      "measureIds": [
+        "legislative-measure_291b76d86bf10187",
+        "legislative-measure_8311673c1cbb9d5d",
+        "legislative-measure_79a041e22a7ac892"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:education.universal-preschool",
+      "filings": 4,
+      "knownStartingAnswers": 4,
+      "noRecordedLaw": 0,
+      "measureIds": [
+        "legislative-measure_83c3d0396d2709a2",
+        "legislative-measure_f323a3b69d4b5632",
+        "legislative-measure_314da499f321a7ca",
+        "legislative-measure_2b9b8927417a2a58"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "filings": 2,
+      "knownStartingAnswers": 2,
+      "noRecordedLaw": 0,
+      "measureIds": [
+        "legislative-measure_720cba852747b9bd",
+        "legislative-measure_7008dc9e6ffcbb11"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "filings": 3,
+      "knownStartingAnswers": 3,
+      "noRecordedLaw": 0,
+      "measureIds": [
+        "legislative-measure_c883e8d5f1068ae6",
+        "legislative-measure_01ecd023f3289d60",
+        "legislative-measure_ef2fee0639290aad"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:government-operations.independent-redistricting",
+      "filings": 1,
+      "knownStartingAnswers": 1,
+      "noRecordedLaw": 0,
+      "measureIds": ["legislative-measure_1261893324a284b8"],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "filings": 2,
+      "knownStartingAnswers": 0,
+      "noRecordedLaw": 2,
+      "measureIds": [
+        "legislative-measure_d8f39b17c8c0b619",
+        "legislative-measure_1bf622acce85ccac"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "filings": 4,
+      "knownStartingAnswers": 4,
+      "noRecordedLaw": 0,
+      "measureIds": [
+        "legislative-measure_04484fc510649677",
+        "legislative-measure_2c5e2c179d8566b2",
+        "legislative-measure_a7f72e59d8eb5502",
+        "legislative-measure_f68b0a6ef2c0d6c0"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "filings": 1,
+      "knownStartingAnswers": 1,
+      "noRecordedLaw": 0,
+      "measureIds": ["legislative-measure_8478447c9634a50c"],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:housing-land-use.by-right-permitting",
+      "filings": 1,
+      "knownStartingAnswers": 0,
+      "noRecordedLaw": 1,
+      "measureIds": ["legislative-measure_6eb834f8f15877cf"],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:housing-land-use.rent-stabilization",
+      "filings": 1,
+      "knownStartingAnswers": 1,
+      "noRecordedLaw": 0,
+      "measureIds": ["legislative-measure_6e22a32ae65e286c"],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "filings": 2,
+      "knownStartingAnswers": 2,
+      "noRecordedLaw": 0,
+      "measureIds": [
+        "legislative-measure_af3e61c535070fc4",
+        "legislative-measure_78920adec78dc0fd"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "filings": 6,
+      "knownStartingAnswers": 0,
+      "noRecordedLaw": 6,
+      "measureIds": [
+        "legislative-measure_163f6df4afb9e2b4",
+        "legislative-measure_5aac3f049d45b7e5",
+        "legislative-measure_14ec160a7413a2cf",
+        "legislative-measure_ddd7cd32c7ea99a3",
+        "legislative-measure_5435bcdcc38b9728",
+        "legislative-measure_f826dacecfbe14b1"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:labor-workforce.paid-family-leave",
+      "filings": 3,
+      "knownStartingAnswers": 3,
+      "noRecordedLaw": 0,
+      "measureIds": [
+        "legislative-measure_7245be8e3aa053d0",
+        "legislative-measure_117e45605c05b8c9",
+        "legislative-measure_06b30a52c30eca57"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+      "filings": 2,
+      "knownStartingAnswers": 0,
+      "noRecordedLaw": 2,
+      "measureIds": [
+        "legislative-measure_4f3f2e9ff9237a31",
+        "legislative-measure_d354944c68b9584f"
+      ],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "filings": 1,
+      "knownStartingAnswers": 1,
+      "noRecordedLaw": 0,
+      "measureIds": ["legislative-measure_2590b7f222ad205c"],
+      "typedDraftConfigurationPresent": false,
+      "formability": "NOT DETERMINED: a known rule is not a numeric appropriation, and no reader is inferred"
+    }
+  ]
+}
