@@ -1,4 +1,5 @@
 import { ageVerificationCostForMonth } from "./age-verification-cost";
+import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -860,6 +861,7 @@ export function settleGovernmentMonth(
         }
       : {}),
   };
+  const settledRow = appendConsumerPrivacyCostToMonth(world, government, row);
   let next: PublicBudgetGovernment = {
     ...government,
     balance,
@@ -879,7 +881,7 @@ export function settleGovernmentMonth(
             },
           ]
         : government.years,
-    months: [...government.months, row],
+    months: [...government.months, settledRow],
   };
   if (!yearEnds) return { government: next, adjustments };
 
