@@ -2,7 +2,7 @@
 
 MERGED: The coverage and news producers were previously merged. This new proof extension is not merged.
 
-WHAT EMERGED: HARDWIRED coverage bookkeeping produced four changes for each fixture person. The existing news reader reported each saved change and included the actual affected person among its readers.
+WHAT EMERGED: HARDWIRED coverage bookkeeping produced four changes for each recorded person. The existing news reader reported each saved change and included the actual affected person among its readers.
 
 VITAL STATISTICS: Five controlled state cases passed. Each produced four saved coverage changes and four corresponding news events. Three other tests were skipped by the explicit focused filter. No new law, budget cost, actor decision or person consequence was built.
 
