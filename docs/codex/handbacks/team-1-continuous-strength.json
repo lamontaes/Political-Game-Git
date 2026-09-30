@@ -1,0 +1,82 @@
+{
+  "status": "HELD WIP: pure arithmetic only; no runtime caller or effects acceptance",
+  "baseBranch": "codex/team1-officeholder-life-main",
+  "baseHead": "88a87c49db31dd448180c0f8c8e34220f38f0f03",
+  "branch": "codex/team1-continuous-strength",
+  "sourceTestIdentity": "Tests ran against uncommitted new files; hashes below identify tested source. Parent HEAD is not an exact-head runtime measurement.",
+  "sourceSha256": {
+    "src/simulation/principle-strength.ts": "e32335d5f03af2f2fc08ee3acd726e032010a8544e1194ab2e2c38284c125808",
+    "src/simulation/principle-strength.test.ts": "6d88ff4d9c7495546712d55c0ea5df9f6bde556a3630395a1d51472b2b1fd1d6"
+  },
+  "checks": [
+    {
+      "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_WORKSPACE_OWNER=team-1-laws npm run storage -- run test -- npx vitest run src/simulation/principle-strength.test.ts --maxWorkers=2",
+      "exitCode": 0,
+      "result": "8/8 PASS",
+      "durationSeconds": 0.171,
+      "maxWorkers": 2,
+      "log": "/tmp/team1-strength-math-tests-final.log"
+    },
+    {
+      "command": "npx tsc -p test-results/team1/strength-math-tsconfig.json --noEmit",
+      "exitCode": 0,
+      "result": "two-root strict TypeScript; zero diagnostics",
+      "log": "/tmp/team1-strength-math-types-final.log"
+    },
+    {
+      "command": "npx eslint src/simulation/principle-strength.ts src/simulation/principle-strength.test.ts",
+      "exitCode": 0,
+      "result": "PASS",
+      "log": "/tmp/team1-strength-math-lint-final.log"
+    },
+    {
+      "command": "npm run release:check -- --mode pr",
+      "exitCode": 1,
+      "result": "only inherited wave1-playtest-copy.md header failure",
+      "log": "/tmp/team1-strength-math-release.log"
+    },
+    {
+      "command": "npm run zero-dice",
+      "exitCode": 1,
+      "result": "zero new findings, five stale inherited allowances; shared allowlist untouched",
+      "log": "/tmp/team1-strength-math-zero-dice.log"
+    },
+    {
+      "command": "npm run report:check -- docs/codex/handbacks/team-1-continuous-strength.md",
+      "exitCode": 0,
+      "result": "zero errors, zero warnings"
+    }
+  ],
+  "scopedTypeConfig": {
+    "extends": "../../tsconfig.node.json",
+    "compilerOptions": {
+      "composite": false,
+      "incremental": false,
+      "noUncheckedIndexedAccess": true
+    },
+    "files": [
+      "../../src/simulation/principle-strength.ts",
+      "../../src/simulation/principle-strength.test.ts"
+    ],
+    "include": [],
+    "exclude": []
+  },
+  "notRun": [
+    "continuous same-seed month",
+    "full build",
+    "full test suite",
+    "browser",
+    "year run",
+    "law-money proof",
+    "independent helper review"
+  ],
+  "connections": {
+    "personReader": "none; unwired helper",
+    "canonicalRecordsChanged": false,
+    "sharedValidatorsChanged": false,
+    "authoredPullWeightsAdded": false,
+    "newEffectsLinksAdded": false,
+    "moneyOutcomesMeasured": false
+  },
+  "next": "After recorded shared clearance, wire the life adapter, strength field and three named readers, then execute same-seed parent/candidate month comparison."
+}
