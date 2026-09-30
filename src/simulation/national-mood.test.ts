@@ -19,6 +19,8 @@ import {
   ensureNationalElectionJurisdiction,
 } from "./national-election-geography";
 import { createExactQuantity } from "./quantity";
+import { createDemoWorld } from "./demo";
+import { createWorld, recordWorldEvent } from "./world";
 import {
   createWorldMetricCatalog,
   createWorldMetricDefinition,
@@ -48,7 +50,38 @@ describe("the national mood", () => {
     expect(midterm).toBe((party === "democratic" ? 1 : -1) * shift);
   });
 
-  function withApprovalMetric(base: World) {
+  function withApprovalMetric() {
+    const demo = createDemoWorld("national-mood-poll-fixture");
+    let base = createWorld({
+      seed: "national-mood-poll-fixture",
+      currentDate: world.currentDate,
+      jurisdictions: demo.jurisdictionOrder.map(
+        (id) => demo.jurisdictions[id]!,
+      ),
+      people: demo.personOrder.map((id) => demo.people[id]!),
+    });
+    const personId = base.personOrder[0]!;
+    base = recordWorldEvent(base, {
+      stableKey: "national-mood-fixture:president",
+      type: "world.office-tenure",
+      occurredAt: base.currentDate,
+      recordedAt: base.currentDate,
+      visibility: "public",
+      summary: "The poll fixture records a fictional President's term.",
+      jurisdictionId: null,
+      involvedEntityIds: [personId],
+      participants: [{ personId, role: "focus:subject", detail: "President" }],
+      personFactConstraints: [],
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+      tags: ["office:us-president"],
+    });
     const definition = createWorldMetricDefinition({
       stableKey: "politics.presidential-job-approval",
       name: "Presidential job approval",
@@ -111,7 +144,7 @@ describe("the national mood", () => {
   }
 
   it("uses the newest national poll period even if an older sample is appended later", () => {
-    const fixture = withApprovalMetric(world);
+    const fixture = withApprovalMetric();
     let polled = approvalPoll(
       fixture.world,
       fixture.metricId,
@@ -134,8 +167,8 @@ describe("the national mood", () => {
   });
 
   it("does not use a local poll or a poll recorded after the date being read", () => {
-    const fixture = withApprovalMetric(world);
-    const local = Object.values(world.jurisdictions).find(
+    const fixture = withApprovalMetric();
+    const local = Object.values(fixture.world.jurisdictions).find(
       (j) => j.id !== NATIONAL_ELECTION_JURISDICTION.id,
     )!;
     let polled = approvalPoll(
