@@ -2703,7 +2703,8 @@
           "depth": 1,
           "clipBelowY": 39,
           "seatY": 41.8,
-          "group": "table"
+          "group": "table",
+          "clipBandEndY": 40.4
         },
         {
           "x": 57.5,
@@ -2713,7 +2714,8 @@
           "depth": 1,
           "clipBelowY": 39,
           "seatY": 41.8,
-          "group": "table"
+          "group": "table",
+          "clipBandEndY": 40.4
         },
         {
           "x": 44,

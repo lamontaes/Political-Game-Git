@@ -630,6 +630,12 @@ const SEATED_POSES = [
   "seated-leaning",
   "seated-legs-crossed",
   "seated-ankle-on-knee",
+  "seated-reading",
+  "seated-writing",
+  "seated-phone",
+  "seated-hands-folded",
+  "seated-listening",
+  "seated-relaxed",
 ] as const satisfies readonly NamedBodyPose[];
 /** Rows (at half size) a standing pose's head may sit from the standing one. */
 const HEAD_TOLERANCE = 2;
@@ -945,18 +951,25 @@ for (const sex of ["feminine", "masculine"] as const) {
           : (raster: Raster) => raster;
         const bareFull = transform(source);
         const bare = downscaleHalf(bareFull);
-        const anchors = measureBodyAnchors(bare);
+        const measured = measureBodyAnchors(bare);
+        let anchors = measured;
         if (!seatedPose && headOfStanding) {
+          // A hand raised beside the head widens the rows around the neck, so
+          // the measured neck moves although the head has not. Compare the head
+          // itself (its top and the middle of its width), then keep the
+          // standing body's head, neck and shoulder marks, which a standing
+          // pose shares with it by construction.
           const standing = headOfStanding[build].anchors;
+          const middle = (a: BodyAnchors) => (a.head.left + a.head.right) / 2;
           const drift = Math.max(
-            Math.abs(anchors.top - standing.top),
-            Math.abs(anchors.neck.row - standing.neck.row),
-            Math.abs(anchors.neck.centerX - standing.neck.centerX),
+            Math.abs(measured.top - standing.top),
+            Math.abs(middle(measured) - middle(standing)),
           );
           if (drift > HEAD_TOLERANCE)
             throw new Error(
               `${pose} ${sex} ${build}: the head is ${drift} pixels from the standing body's; paint it where the standing head is.`,
             );
+          anchors = { ...measured, ...standing, feet: measured.feet };
         }
         const name = pose === "standing" ? "" : `-${pose}`;
         bodiesInPose[build] = {
