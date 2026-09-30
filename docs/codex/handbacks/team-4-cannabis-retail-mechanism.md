@@ -1,6 +1,6 @@
 # Cannabis revenue needs a legal-sales base
 
-The held revenue draw is preserved. A replacement accounting calculation uses the law's tax terms and a legal-sales base. It introduces no revenue pick, response curve or calibration clamp. The world adapter remains blocked on sourced buyer inputs and a legal-market mechanism. Passing arithmetic tests does not establish real-state revenue or repair the merged reader.
+The held revenue draw is preserved. A replacement accounting calculation uses the law's tax terms and a legal-sales base. It introduces no revenue pick, response curve or calibration clamp. An exact saved tax-term contract reader is also implemented. The world adapter remains blocked on sourced buyer inputs, filing/current-law term production and a legal-market mechanism. Passing arithmetic tests does not establish real-state revenue or repair the merged reader.
 
 ## Status
 
@@ -19,6 +19,8 @@ The state collects tax only on a taxable sales base. The sales base requires adu
 The old revenue spread is a calibration check only. No spending, buyer-share, market-response coefficient or new tax rate is inferred from it. The numbers desk was asked for the matched adult buyer denominator, survey definition, annual spending, tax terms, retail dates and competition response. No complete input batch was received before this checkpoint. Past cannabis use is not automatically purchasing, and business loan interest is not consumer borrowing.
 
 ## 3. Revisions
+
+The added tax-term reader follows the canonical tax policy to its proposal, enacted measure and exact levy provision. It returns the rational rate and source record IDs. A declaration, unbound series, starting yes/no, future policy or unsupported levy revision returns no numeric term. The reader refuses exemptions and per-sale allowances that the aggregate accounting helper cannot yet represent. No saved schema or catalog is changed.
 
 The checkpoint requires explicit source references and finite inputs. Missing sources and unknown numeric inputs fail explicitly; they do not mean zero revenue. It keeps excise and state sales-tax receipts separate. The sales-tax base includes excise only when the supplied law terms require it. Revenue can land outside the old observed range.
 
@@ -39,6 +41,8 @@ SIMULATED: no new actor choice or world event. RECORDS: accounting result only. 
 
 ## 6. Proof run
 
+Four added contract tests verify exact rational terms and source identities, persistence, unknown versus explicit zero, measure/base binding, amended levy rejection and unsupported aggregate exclusions. The first strict check found an unbranded fixture currency; the existing constructor corrected it without changing assertions. The first combined run passed eight tests in 13.73 seconds before that type-only correction. Final validation is reported in the publication receipt.
+
 Four authored arithmetic fixtures passed. They verify separate excise and sales-tax amounts, whether excise belongs in the sales-tax base, proportional changes in an actual base, persistence and explicit missing-input failure. Their values are toy inputs, not real-state estimates. They do not prove high-tax, low-tax or new-market state outcomes. Strict and scoped static checks are reported in the publication receipt. No assertions or timeouts were weakened.
 
 ## 7. Worked example
@@ -47,4 +51,4 @@ An arithmetic fixture supplies one thousand adults, a buyer share of one fifth, 
 
 ## Ownership and next step
 
-The new source and focused test stay in the cannabis public-budget surface. No settled-row, shared map, catalog, privacy or other team's source changes. Production cutover requires verified tax terms, actual market inputs and a sourced legal-share mechanism. The next cost batch must follow the same law-terms-times-world-base rule.
+The new source and focused test stay in the cannabis public-budget surface. No settled-row, shared map, catalog, privacy or other team's source changes. The current-main contract was traced at e3182daa79e221604c5a328a1b6b4e055ebf648e. Existing TaxTerms already holds an exact rate; the missing producer is the cannabis clause-to-tax-policy binding and sourced numeric starting terms. Minimum age, tax-base composition and non-ad-valorem instruments need explicit linked terms. Those additions are proposed in the own-path adapter payload; shared schemas remain unchanged. Production cutover requires that producer, actual market inputs and a sourced legal-share mechanism. The next cost batch must follow the same law-terms-times-world-base rule.
