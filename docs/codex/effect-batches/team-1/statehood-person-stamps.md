@@ -66,8 +66,13 @@ coverage or canonical Save/Continue. JSON reload and repeat settlement are
 checked. The final targeted run passed one case in 20.99 seconds; test bodies took
 1.49 seconds. Two scoped source/test roots returned zero type diagnostics and
 lint passed. The ten unrelated cases were not run for this bounded addition.
-The inherited opening fixture is in Kentucky, not a five-state drawn sample;
-DC is the law's actual jurisdiction. Nationwide and five-state proof are NOT RUN.
+The first receipt uses the inherited Kentucky opening. The additional five
+drawn observer-state cases passed 5/5 in 26.45 seconds, with test bodies taking
+7.21 seconds. They save fifteen actual named voting-seat tenures. DC remains
+the law's actual jurisdiction; observer states are not additional admitted
+states. Exact places and seeds are in statehood-five-place-stamps-proof.json.
+These remain controlled authored-law fixtures with the inherited integrity mock.
+Nationwide and canonical Save/Continue proof are NOT RUN.
 
 ## 7. Worked example
 
