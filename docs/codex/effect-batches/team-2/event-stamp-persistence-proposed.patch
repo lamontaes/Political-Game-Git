@@ -1,0 +1,50 @@
+--- a/src/simulation/history.ts
++++ b/src/simulation/history.ts
+@@ -1,4 +1,5 @@
+ import { createStableId } from "./ids";
++import { isLawEffectStamp, type LawEffectStampedRecord } from "./law-effect-stamp";
+ import { appendedList, hasStableKey, stableKeysOf } from "./history-index";
+ import type {
+   AppraisalMeaning,
+@@ -66,7 +67,7 @@
+   DecisionTraceRecord,
+ } from "./types";
+ 
+-export interface HistoricalEventInput {
++export interface HistoricalEventInput extends LawEffectStampedRecord {
+   readonly stableKey: string;
+   readonly type: EventType;
+   readonly occurredAt: IsoDate;
+@@ -443,6 +444,16 @@
+     tags: canonicalTags(input.tags),
+     summary: input.summary,
+     context: cloneEventContext(input.context),
++    ...(input.lawEffectStamps === undefined
++      ? {}
++      : {
++          lawEffectStamps: input.lawEffectStamps.filter(isLawEffectStamp).map((stamp) => ({
++            ...stamp,
++            ...(stamp.sourceRecordIds === undefined
++              ? {}
++              : { sourceRecordIds: [...stamp.sourceRecordIds] }),
++          })),
++        }),
+   };
+ 
+   return {
+--- a/src/simulation/types.ts
++++ b/src/simulation/types.ts
+@@ -1,3 +1,4 @@
++import type { LawEffectStampedRecord } from "./law-effect-stamp";
+ import type { CrisisRecord } from "./crisis/types";
+ import type {
+   CampaignLifeActivityRecord,
+@@ -690,7 +691,7 @@
+   readonly immediateReaction: string | null;
+ }
+ 
+-export interface HistoricalEvent {
++export interface HistoricalEvent extends LawEffectStampedRecord {
+   readonly id: EntityId;
+   readonly stableKey: string;
+   readonly sequence: number;
