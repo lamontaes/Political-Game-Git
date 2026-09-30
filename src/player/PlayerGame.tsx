@@ -198,12 +198,14 @@ import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { ordinaryMeetingEntry } from "../simulation/ordinary-meeting-presence";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
+import { StorySceneDayPanel } from "./StorySceneDayPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -2190,6 +2192,31 @@ function PlayingScreen({
    * sentence beside it, so the two cannot disagree.
    */
   const talkingInTheRoom = conversation !== null && view.surface === "scene";
+  const meeting = useMemo(
+    () =>
+      view.surface === "scene" &&
+      !readOnly &&
+      !showOrientation &&
+      !conversation &&
+      (projectOrdinaryMeetingScene(session.world, session.personId) !== null ||
+        session.world.history.scheduledActivities.some(
+          (activity) =>
+            activity.location.locationKey === "ordinary-life:meeting-room" &&
+            ordinaryMeetingEntry(
+              session.world,
+              session.personId,
+              activity.id,
+            ) !== null,
+        )),
+    [
+      view.surface,
+      readOnly,
+      showOrientation,
+      conversation,
+      session.world,
+      session.personId,
+    ],
+  );
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2541,13 +2568,20 @@ function PlayingScreen({
               !readOnly &&
               !showOrientation &&
               !conversation ? (
-                <OrdinaryMeetingPanel
-                  world={session.world}
-                  personId={session.personId}
-                  onWorldChange={onWorldChange}
-                  onOpenEntity={openEntity}
-                  onOutcome={setPassOutcome}
-                />
+                <>
+                  <StorySceneDayPanel
+                    world={session.world}
+                    personId={session.personId}
+                    onOpenEntity={openEntity}
+                  />
+                  <OrdinaryMeetingPanel
+                    world={session.world}
+                    personId={session.personId}
+                    onWorldChange={onWorldChange}
+                    onOpenEntity={openEntity}
+                    onOutcome={setPassOutcome}
+                  />
+                </>
               ) : null}
               {view.surface === "scene" &&
               !readOnly &&
@@ -2894,9 +2928,15 @@ function PlayingScreen({
                 stand in the room while somebody is being spoken to there: the
                 conversation is the one surface in front of the people, and at
                 720 px tall a note beside it leaves the box no room for its
-                replies. Both come back, undismissed, when the talk ends.
+                replies. Meeting controls and a selected person's dossier
+                also take the foreground. Both notes return undismissed when
+                that panel closes.
               */}
-              {!showOrientation && !talkingInTheRoom && dayRhythm.summary ? (
+              {!showOrientation &&
+              !talkingInTheRoom &&
+              !meeting &&
+              !selectedDossier &&
+              dayRhythm.summary ? (
                 <WorldRecapPanel
                   summary={dayRhythm.summary}
                   onDismiss={(throughSequence, throughMoment) =>
@@ -2916,6 +2956,8 @@ function PlayingScreen({
               ) : null}
               {!showOrientation &&
               !talkingInTheRoom &&
+              !meeting &&
+              !selectedDossier &&
               !dayRhythm.summary &&
               dayRhythm.morningThought ? (
                 <MorningThoughtPanel

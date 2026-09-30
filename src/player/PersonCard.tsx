@@ -150,7 +150,7 @@ export function PersonCard({
   readonly onClose?: () => void;
   readonly onExpand?: () => void;
   readonly onTogglePin: () => void;
-  readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
   readonly onContact?: () => void;
   readonly onMeet?: () => void;
@@ -522,7 +522,7 @@ export function PersonCard({
             </section>
           ) : null}
 
-          {expanded && connections.length > 0 ? (
+          {expanded && connections.length > 0 && onOpenPerson ? (
             <section
               className="pg-dossier-section"
               aria-label="Connected people"
@@ -590,12 +590,11 @@ export function PersonCard({
         className="pg-person-card-actions"
         data-testid="person-contact-actions"
       >
-        {reachable && onTalk ? (
+        {reachable && onTalk && talkUnavailable === null ? (
           <button
             type="button"
             className="ui-action ui-action--primary"
             data-testid="dossier-talk"
-            disabled={talkUnavailable !== null}
             aria-describedby={`person-talk-reason-${dossier.personId}`}
             onClick={onTalk}
           >
@@ -607,7 +606,6 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-travel"
-            disabled={!contact.travel.available || !onTravel}
             aria-describedby={`person-travel-reason-${dossier.personId}`}
             onClick={onTravel}
           >
@@ -619,7 +617,6 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-meet"
-            disabled={!contact.meet.available || !onMeet}
             aria-describedby={`person-meet-reason-${dossier.personId}`}
             onClick={onMeet}
           >
@@ -631,7 +628,6 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-contact"
-            disabled={!contact.contact.available || !onContact}
             onClick={onContact}
             aria-describedby={`person-contact-reason-${dossier.personId}`}
           >

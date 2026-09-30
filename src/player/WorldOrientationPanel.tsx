@@ -1,4 +1,6 @@
 import "./world-orientation.css";
+import "./opening-legislature.css";
+import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
   useMemo,
@@ -38,6 +40,10 @@ import {
   type OpeningFamilyMember,
 } from "../presentation/opening-story";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
+import {
+  openingLegislaturePeople,
+  openingTourStagedPeople,
+} from "../presentation/opening-tour-people";
 import {
   capitolPlaceFor,
   middayBackdropUrl,
@@ -189,7 +195,10 @@ export function WorldOrientationPanel({
                   ? "Your state's lawmakers, by party."
                   : "Your state's lawmakers.",
               lines: [...legislature.chambers, ...legislature.yours],
-              people: [],
+              people:
+                world && personId
+                  ? openingLegislaturePeople(world, personId)
+                  : [],
               chambers: [],
             },
           ]
@@ -237,17 +246,10 @@ export function WorldOrientationPanel({
         title: "Your life so far",
         // Parents are on the family screen, so they are not named twice; and
         // an empty household is left unsaid rather than reported as a record.
-        summary: (
-          snapshot.beats.find((beat) => beat.key === "your-life")?.facts ?? []
-        )
-          .filter(
-            (fact) =>
-              !/^No one else is recorded/.test(fact) &&
-              !(family?.parents ?? []).some((parent) =>
-                fact.startsWith(parent.introduction.split(",")[0]!),
-              ),
-          )
-          .join(" "),
+        summary:
+          world && personId
+            ? projectLifeSoFarEnglish(world, personId).sentences.join(" ")
+            : "",
         people: [],
         chambers: [],
       },
@@ -343,6 +345,17 @@ export function WorldOrientationPanel({
     [officePlace, world, personId, step.people],
   );
   const officeStaged = officePlace !== null && officePeople.length > 0;
+  const legislatureStage = useRef<HTMLDivElement>(null);
+  const legislaturePeople = useMemo(
+    () =>
+      step.key === "legislature" &&
+      backdrop.kind === "place" &&
+      world &&
+      personId
+        ? openingTourStagedPeople(world, personId, backdrop.place, step.people)
+        : [],
+    [step.key, backdrop, world, personId, step.people],
+  );
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
@@ -389,7 +402,11 @@ export function WorldOrientationPanel({
               data-testid="opening-office-staged"
             >
               <SceneBackdrop backdrop={backdrop} />
-              <PlacePeopleLayer people={officePeople} stageRef={officeStage} />
+              <PlacePeopleLayer
+                people={officePeople}
+                stageRef={officeStage}
+                nameplates
+              />
             </div>
           ) : step.key === "executive" && !plate && !establishingPlate ? (
             <SceneBackdrop backdrop={backdrop} />
@@ -446,7 +463,27 @@ export function WorldOrientationPanel({
                 </div>
               </div>
             </div>
-          ) : (
+          ) : step.key === "legislature" && legislaturePeople.length > 0 ? (
+            <div
+              ref={legislatureStage}
+              className="pg-orientation-backdrop pg-orientation-staged"
+              data-testid="opening-legislature-staged"
+              aria-label="Illustration of your recorded state representatives"
+            >
+              <SceneBackdrop backdrop={backdrop} />
+              <PlacePeopleLayer
+                people={legislaturePeople}
+                stageRef={legislatureStage}
+                nameplates
+                onSelectPerson={(id) => {
+                  const person = step.people.find(
+                    (entry) => entry.personId === id,
+                  );
+                  if (person) onOpenPerson(person.personId);
+                }}
+              />
+            </div>
+          ) : step.key === "locality" ? null : (
             <SceneBackdrop backdrop={backdrop} />
           )}
           <div className="pg-orientation-scrim" aria-hidden="true" />

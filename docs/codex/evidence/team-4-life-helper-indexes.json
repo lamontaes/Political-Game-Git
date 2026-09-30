@@ -1,0 +1,143 @@
+{
+  "status": "measured source candidate; overall FAIL15; no merge",
+  "before": {
+    "head": "1d45a8a45d3823c80cac917525b444984deca591",
+    "seconds": 28.895292985,
+    "seed": "b18-f375512c",
+    "place": "4272168",
+    "days": 30,
+    "through": "2026-02-04",
+    "fingerprint": "689a517520e1804ffe07c3d453fa9a08de7b3ccd048b3c9b077cea577817230b",
+    "people": 15024,
+    "decisions": 9225,
+    "events": 20037
+  },
+  "after": {
+    "head": "65e0b4caa810094bac422f8d7ad601fcedbad5ac",
+    "seconds": 23.616000082,
+    "seed": "b18-f375512c",
+    "place": "4272168",
+    "days": 30,
+    "through": "2026-02-04",
+    "fingerprint": "689a517520e1804ffe07c3d453fa9a08de7b3ccd048b3c9b077cea577817230b",
+    "people": 15024,
+    "decisions": 9225,
+    "events": 20037
+  },
+  "savedSeconds": 5.279292903000002,
+  "savedPercent": 18.270425241026505,
+  "comparison": {
+    "errors": [],
+    "positions": [],
+    "fingerprintsIdentical": true
+  },
+  "checks": {
+    "focused": "30/30 PASS, four files, maxWorkers2, 15.73s",
+    "finalCompatibility": "4/4 PASS, 11.23s after branded-date correction",
+    "types": "2 roots, 696 source files, 0 diagnostics",
+    "lint": "PASS",
+    "format": "PASS",
+    "release": "FAIL unchanged wave1-playtest-copy.md header; reproduced on pinned main",
+    "zeroDice": "FAIL 0 new, 3 gone; reproduced on pinned main",
+    "mainGateExitCodes": {
+      "release": 1,
+      "zeroDice": 1
+    },
+    "spelling": "FAIL four quoted British examples in unchanged plain-american-wording.md; pinned-main source verified identical"
+  },
+  "notRun": [
+    "year speed",
+    "full suite",
+    "browser",
+    "random-place acceptance",
+    "independent reviewer"
+  ],
+  "commands": {
+    "baseline": "node --max-old-space-size=4096 --import tsx scripts/speed-years/month.ts --out test-results/speed/life-index-before.json",
+    "candidate": "node --max-old-space-size=4096 --import tsx scripts/speed-years/month.ts --out test-results/speed/life-index-after.json --before test-results/speed/life-index-before.json --limit 15",
+    "tests": "vitest run src/simulation/life-helper-indexes-speed.test.ts src/simulation/life-foundation.test.ts src/simulation/life-batch-writers.test.ts src/simulation/history-index.test.ts --maxWorkers=2",
+    "storage": "createStorageGuard via storage/cli.mjs run test; 1 GiB reservation, unchanged 25 GiB reserve"
+  },
+  "artifacts": [
+    {
+      "path": "test-results/speed/life-index-before.json",
+      "bytes": 8500532,
+      "sha256": "8f515af44267b9f397c3359655a9ad82a41715f9cc5cdf9b7da6ab638b88d8fb"
+    },
+    {
+      "path": "test-results/speed/life-index-after.json",
+      "bytes": 8500532,
+      "sha256": "b5f90e48f58cbaa43b583cc69dbe8d448d8243b46e338db95e87648bedefef00"
+    },
+    {
+      "path": "test-results/speed/life-index-after.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/life-index-before.log",
+      "bytes": 218,
+      "sha256": "040caf2e743a8ae83aa1e398a0dcedfd9d03e153b2e7924fc9592e7f022f05b4"
+    },
+    {
+      "path": "test-results/speed/life-index-after.log",
+      "bytes": 711,
+      "sha256": "90e05c39a14ba82761004fa02bf76f749853b067161a5ac3f7909181ee7df8c0"
+    },
+    {
+      "path": "test-results/speed/life-index-tests.log",
+      "bytes": 5139,
+      "sha256": "c0417b0c2a0d0405ee46f54039fd19c4eede08caa89dd8cad670b9ac66498e3e"
+    },
+    {
+      "path": "test-results/speed/life-index-final-tests.log",
+      "bytes": 5136,
+      "sha256": "e127e8a5c95c756203d1cfe4de211d5aa38c8e16a38fb2d2d1727eaef0899443"
+    },
+    {
+      "path": "test-results/speed/life-index-types.log",
+      "bytes": 123,
+      "sha256": "867d32b59a3a87ed434433b2f56cadc501c225d88076f1714022e77065a44e82"
+    },
+    {
+      "path": "test-results/speed/life-index-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-results/speed/life-index-format.log",
+      "bytes": 66,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "test-results/speed/life-index-release.log",
+      "bytes": 477,
+      "sha256": "d1d5a04389dce8ced9478b91af52e17b54547ec6da014712b2b1f2cae939b9ce"
+    },
+    {
+      "path": "test-results/speed/life-index-zero-dice.log",
+      "bytes": 619,
+      "sha256": "050d6a46e5f45fff490927011f7ae00e785bc30602af583a7a2b3e8fa0a4f86a"
+    },
+    {
+      "path": "test-results/speed/life-index-main-release.log",
+      "bytes": 477,
+      "sha256": "d1d5a04389dce8ced9478b91af52e17b54547ec6da014712b2b1f2cae939b9ce"
+    },
+    {
+      "path": "test-results/speed/life-index-main-zero-dice.log",
+      "bytes": 827,
+      "sha256": "b8ca0e04ee4d077b7ceecae108a665ad481ae8c5b59bb178c89d7152f57e7b12"
+    },
+    {
+      "path": "test-results/speed/life-index-main-gates.json",
+      "bytes": 27,
+      "sha256": "d5b2e7c2b887c6309bb2cabf9cb8b5c51372328f337910a3e64bdc5f298347c4"
+    },
+    {
+      "path": "test-results/speed/life-index-spelling.log",
+      "bytes": 631,
+      "sha256": "5de2a2d8b5ec4169a6b81c300baecceaa8e3ce83efeeb2c8c6776068d3fa966c"
+    }
+  ]
+}

@@ -10,11 +10,8 @@ import {
 import { populationCaption } from "./OpeningStatePopulation";
 
 /**
- * The intro surface itself, with a plate and without one.
- *
- * The case that matters is the second: a player whose place no region covers
- * must reach the locality step and see it render with no picture, not a broken
- * image and not somebody else's landscape.
+ * The locality card keeps its recorded text and navigation, with no picture.
+ * Backdrop selection for the other cards remains independently covered.
  */
 
 const VIEW: OrientationView = {
@@ -57,39 +54,17 @@ function render(regionalPlate?: RegionalOpeningResult): string {
   );
 }
 
-describe("the regional plate on the locality step", () => {
-  it("paints the resolved plate, at its real dimensions", () => {
+describe("the text-only locality step", () => {
+  it("keeps the recorded place and government text without a regional picture", () => {
     const markup = render(PLATE);
-    expect(markup).toContain('data-testid="orientation-region-plate"');
-    expect(markup).toContain("/assets/env_regional_sonoran_desert_v1.png");
-    expect(markup).toContain('width="2208"');
-    expect(markup).toContain('data-region="sonoran-desert"');
-    expect(markup).toContain('data-matched-by="state"');
+    expect(markup).not.toContain("<img");
+    expect(markup).not.toContain("orientation-region-plate");
+    expect(markup).not.toContain("/assets/env_regional_sonoran_desert_v1.png");
+    expect(markup).toContain("Tucson");
+    expect(markup).toContain("Regina Romero is Mayor.");
   });
 
-  it("describes the picture as an illustration of the area, not this address", () => {
-    const markup = render(PLATE);
-    expect(markup).toContain("Illustration, not this address");
-    expect(markup).toContain("alt=");
-    expect(markup).toContain("sonoran desert");
-  });
-
-  it("captions a street as a street, not as countryside", () => {
-    const markup = render({
-      kind: "plate",
-      plate: {
-        ...PLATE.plate,
-        regionKey: "buchanan-small-town",
-        displayName: "Great Lakes / Midwest: low-rise main street",
-        sceneKind: "street",
-      },
-    });
-    expect(markup).toContain("A street of the kind common near here.");
-    expect(markup).not.toContain("Typical countryside");
-    expect(markup).toContain("Illustration, not this address");
-  });
-
-  it("renders the step over city hall, not a region, when no region covers the place", () => {
+  it("keeps the text without a city-hall fallback when a regional picture is unavailable", () => {
     for (const miss of [
       undefined,
       {
@@ -114,9 +89,9 @@ describe("the regional plate on the locality step", () => {
       } as RegionalOpeningResult,
     ]) {
       const markup = render(miss);
+      expect(markup).not.toContain("<img");
+      expect(markup).not.toContain("orientation-place-backdrop");
       expect(markup).not.toContain("orientation-region-plate");
-      expect(markup).toContain('data-place="city-hall-exterior"');
-      // The step itself still works: the place's own facts are unaffected.
       expect(markup).toContain("Tucson");
       expect(markup).toContain("Regina Romero is Mayor.");
     }
@@ -124,7 +99,7 @@ describe("the regional plate on the locality step", () => {
 });
 
 describe("the full-screen opening card", () => {
-  it("fills the window with the place and offers no motion control", () => {
+  it("keeps the full-screen text and navigation without motion controls", () => {
     const markup = render(PLATE);
     expect(markup).toContain('class="pg-orientation"');
     expect(markup).toContain('class="pg-orientation-stage"');
@@ -141,10 +116,10 @@ describe("the full-screen opening card", () => {
     expect(markup).toContain(">Done</button>");
   });
 
-  it("stands over city hall when no regional picture resolves", () => {
+  it("omits the city-hall picture when no regional picture resolves", () => {
     const markup = render(undefined);
     expect(markup).toContain('data-backdrop="place"');
-    expect(markup).toContain("orientation-place-backdrop");
+    expect(markup).not.toContain("orientation-place-backdrop");
     expect(markup).not.toContain("orientation-region-plate");
   });
 });

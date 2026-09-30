@@ -151,6 +151,29 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     }
   });
 
+  it("carries the title the scene gives each of its people, for their name plate", () => {
+    const [first, second] = Object.values(world.people)
+      .filter((person) => person.id !== player && person.appearance)
+      .slice(0, 2);
+    if (!first || !second) throw new Error("two drawn people are needed");
+    const office = placeBackdropPeople(
+      world,
+      player,
+      "oval-office",
+      world.currentMoment,
+      [
+        { personId: first.id, title: "President of the United States" },
+        { personId: second.id },
+      ],
+      { standing: true },
+    );
+    const titleOf = (id: string) =>
+      office.find((person) => person.personId === id)?.title;
+    expect(titleOf(first.id)).toBe("President of the United States");
+    // No title named: the plate shows the name alone.
+    expect(titleOf(second.id)).toBe("");
+  });
+
   it("shows a seated person's legs under an open table, hiding only the tabletop's edge", () => {
     const stage = backdropStaging("public-meeting-room")!;
     const seat = stage.spots.find(

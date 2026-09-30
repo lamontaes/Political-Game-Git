@@ -969,20 +969,31 @@ function drawnAdultFamily(
       ? []
       : [{ parentKey: secondParentKey, parentBirth: secondBirthDate }]),
   ];
+  // The family name comes down the father's side when there is a father and
+  // the first recorded parent is the mother; otherwise down the first side.
+  const namingSide = shape.secondParent && firstGender === "female" ? 1 : 0;
   const grandparentKeys: { stableKey: string; side: number }[] = [];
-  for (const [side, { parentBirth }] of sides.entries())
+  for (const [side, { parentBirth }] of sides.entries()) {
+    // A grandparent couple shares the surname their child was born with: the
+    // naming side carries the player's, and the other side's couple shares
+    // one drawn surname (the other parent's birth name).
+    let sideFamilyName: string | null =
+      side === namingSide ? player.familyName : null;
     for (const [slot, gender] of (["female", "male"] as const).entries()) {
       const stableKey = `${key}:grandparent:${side + 1}:${slot + 1}`;
       grandparentKeys.push({ stableKey, side });
+      const drawn = drawCloseRelativeName(
+        world,
+        stableKey,
+        gender,
+        corpusVersion,
+        taken,
+      );
+      sideFamilyName ??= drawn.familyName;
       people.push({
         stableKey,
-        ...drawCloseRelativeName(
-          world,
-          stableKey,
-          gender,
-          corpusVersion,
-          taken,
-        ),
+        ...drawn,
+        familyName: sideFamilyName,
         identity: { gender, pronouns: defaultPronounsForGender(gender) },
         birthDate: yearsBefore(
           parentBirth,
@@ -991,6 +1002,7 @@ function drawnAdultFamily(
         homeJurisdictionId: jurisdictionId,
       });
     }
+  }
   let next = createCharacterHistoryContextPeople(world, people);
   const secondParentId =
     secondBirthDate === null

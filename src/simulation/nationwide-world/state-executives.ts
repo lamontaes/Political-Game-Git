@@ -6,7 +6,7 @@ import { executiveRulePackForJurisdiction } from "../executive-authority-rule-pa
 import { activeElectedExecutiveTermEvidence } from "../executive-work-context";
 import { createStableId } from "../ids";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { drawCanonicalNameForGender, personName } from "../people";
+import { drawGeneratedPersonName, personName } from "../people";
 import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
@@ -299,7 +299,7 @@ export function ensureStateExecutiveIncumbent(
       kind: "context-person",
       input: {
         stableKey: holderKey,
-        ...drawCanonicalNameForGender(rng, "unstated"),
+        ...drawGeneratedPersonName(rng),
         birthDate: makeIsoDate(`${anchorYear - rng.integer(45, 70)}-01-01`),
         homeJurisdictionId: office.jurisdictionId,
       },
@@ -430,7 +430,7 @@ function seatOpeningGovernorElect(
         kind: "context-person",
         input: {
           stableKey: holderKey,
-          ...drawCanonicalNameForGender(rng, "unstated"),
+          ...drawGeneratedPersonName(rng),
           birthDate: makeIsoDate(
             `${Number(termEnds.slice(0, 4)) - rng.integer(45, 70)}-01-01`,
           ),

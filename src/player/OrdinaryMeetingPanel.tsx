@@ -8,7 +8,11 @@ import {
   ordinaryMeetingEntry,
   speakAtOrdinaryMeeting,
 } from "../simulation/ordinary-meeting-presence";
-import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { projectStoryMeetingScene } from "../presentation/story-scene-day";
+import {
+  storyScenePlayerOffers,
+  revalidateStoryScenePlayerOffer,
+} from "../presentation/story-scene-player-options";
 import {
   ordinaryMeetingLeaveOffer,
   leaveOrdinaryMeeting,
@@ -38,7 +42,7 @@ export function OrdinaryMeetingPanel({
   const [outcome, setOutcome] = useState<string | null>(null);
   const [reading, setReading] = useState(false);
   const [speaking, setSpeaking] = useState(false);
-  const scene = projectOrdinaryMeetingScene(world, personId);
+  const scene = projectStoryMeetingScene(world, personId);
   const entry = scene
     ? null
     : world.history.scheduledActivities
@@ -49,6 +53,14 @@ export function OrdinaryMeetingPanel({
         .map((activity) => ordinaryMeetingEntry(world, personId, activity.id))
         .find(Boolean);
   const activityId = scene?.activityId ?? entry?.activity.id;
+  const request = activityId
+    ? {
+        viewerPersonId: personId,
+        place: { kind: "activity" as const, activityId },
+        moment: world.currentMoment,
+      }
+    : null;
+  const offers = request ? storyScenePlayerOffers(world, request) : [];
   if (!activityId) return null;
   const agenda = projectLivingSceneSurface(world, personId, {
     kind: "agenda",
@@ -129,11 +141,15 @@ export function OrdinaryMeetingPanel({
           onClick={() =>
             runner.perform(
               (current) => {
-                const next = enterOrdinaryMeeting(
-                  current,
-                  personId,
-                  activityId,
-                );
+                const next =
+                  current.id === world.id &&
+                  current.history.nextSequence === world.history.nextSequence &&
+                  current.actionSequence === world.actionSequence &&
+                  JSON.stringify(current.currentMoment) ===
+                    JSON.stringify(world.currentMoment) &&
+                  ordinaryMeetingEntry(current, personId, activityId)
+                    ? enterOrdinaryMeeting(current, personId, activityId)
+                    : current;
                 return {
                   world: next,
                   outcome:
@@ -175,12 +191,32 @@ export function OrdinaryMeetingPanel({
                   onClick={() =>
                     runner.perform(
                       (current) => {
-                        const next = speakAtOrdinaryMeeting(
-                          current,
-                          personId,
-                          activityId,
-                          choice.key,
+                        const offered = offers.find(
+                          (offer) =>
+                            offer.option.kind === "meeting-speech" &&
+                            offer.option.choice === choice.key &&
+                            offer.option.words === choice.words,
                         );
+                        const checked =
+                          offered && request
+                            ? revalidateStoryScenePlayerOffer(
+                                current,
+                                {
+                                  ...request,
+                                  moment: current.currentMoment,
+                                },
+                                offered,
+                              )
+                            : null;
+                        const next =
+                          checked?.status === "ready"
+                            ? speakAtOrdinaryMeeting(
+                                current,
+                                personId,
+                                activityId,
+                                choice.key,
+                              )
+                            : current;
                         const comment = next.history.events.find(
                           (event) =>
                             event.stableKey ===

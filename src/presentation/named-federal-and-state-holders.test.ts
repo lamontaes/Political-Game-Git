@@ -10,6 +10,19 @@ import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectGovernmentBrowser } from "./politics-government";
 
 describe("the people who govern a home are named", () => {
+  it("gives every generated officeholder a stated gender, so name and body agree", () => {
+    const { world } = adultLifeIn("AK", "named-holders");
+    const holders = currentPublicOfficeholders(world);
+    expect(holders.length).toBeGreaterThan(1);
+    for (const holder of holders) {
+      const gender = world.people[holder.personId]?.identity?.gender;
+      // A generated person's identity is drawn first and the name follows
+      // it; "unstated" would let the body be drawn for another gender.
+      expect(gender, holder.title).toBeDefined();
+      expect(gender, holder.title).not.toBe("unstated");
+    }
+  });
+
   it("names the seated state legislators for the home and on the state screen, and the President who signs a bill", () => {
     const { world, personId } = adultLifeIn("AK", "named-holders");
     const members = stateLegislators(

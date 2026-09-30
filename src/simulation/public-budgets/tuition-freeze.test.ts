@@ -20,6 +20,7 @@ import {
   TUITION_GROWTH_PER_YEAR,
   frozenSchoolYears,
   tuitionFreezeFactor,
+  tuitionGrowthPerYearAt,
   tuitionShareOfCharges,
 } from "./tuition-freeze";
 
@@ -38,10 +39,15 @@ interface Law {
   readonly effectiveAt: string;
 }
 
-function worldWith(stateKey: string, laws: readonly Law[]): World {
+function worldWith(
+  stateKey: string,
+  laws: readonly Law[],
+  seed?: string,
+): World {
   const jurisdictionId = stateJurisdictionForKey(stateKey)!.id;
   return {
     id: "world_test" as EntityId,
+    seed,
     currentDate: makeIsoDate("2026-01-05"),
     jurisdictions: {},
     jurisdictionOrder: [],
@@ -51,6 +57,7 @@ function worldWith(stateKey: string, laws: readonly Law[]): World {
       },
     },
     history: {
+      events: [],
       organizations: [],
       resourceFlows: [],
       resourceTransferOutcomes: [],
@@ -121,6 +128,35 @@ const FROZEN_THEN_REPEALED: readonly Law[] = [
 ];
 
 describe("a state tuition freeze", () => {
+  it("keeps researched growth stable across reads and saves, varying by world and state", () => {
+    const state = stateJurisdictionForKey(STATE_KEYS[0]!)!.id;
+    const other = stateJurisdictionForKey(STATE_KEYS[1]!)!.id;
+    const world = worldWith(
+      STATE_KEYS[0]!,
+      FROZEN_THEN_REPEALED,
+      "tuition-range",
+    );
+    const size = tuitionGrowthPerYearAt(world, state);
+    expect(size).toBeGreaterThanOrEqual(
+      tuitionRevenue.tuitionGrowthPerYear.low,
+    );
+    expect(size).toBeLessThanOrEqual(tuitionRevenue.tuitionGrowthPerYear.high);
+    expect(tuitionGrowthPerYearAt(world, state)).toBe(size);
+    expect(
+      tuitionGrowthPerYearAt(JSON.parse(JSON.stringify(world)) as World, state),
+    ).toBe(size);
+    expect(
+      tuitionGrowthPerYearAt({ ...world, seed: "other-tuition-world" }, state),
+    ).not.toBe(size);
+    expect(tuitionGrowthPerYearAt(world, other)).not.toBe(size);
+    expect(
+      tuitionGrowthPerYearAt(
+        { ...world, seed: undefined } as unknown as World,
+        state,
+      ),
+    ).toBe(TUITION_GROWTH_PER_YEAR);
+  });
+
   it("measures the tuition share of charges for all 50 states from Census and SHEEO, and none for D.C. or a territory", () => {
     expect(STATE_KEYS).toHaveLength(50);
     expect(TUITION_GROWTH_PER_YEAR).toBe(0.031);
@@ -164,17 +200,21 @@ describe("a state tuition freeze", () => {
       STATE_KEYS[new SeededRng(seed).nextUint32() % STATE_KEYS.length]!;
     const note = `${stateKey}, seed ${seed}`;
     const share = tuitionShareOfCharges(stateKey)!;
-    const lawful = settled(
-      worldWith(stateKey, FROZEN_THEN_REPEALED),
+    const world = worldWith(stateKey, FROZEN_THEN_REPEALED, seed);
+    const growth = tuitionGrowthPerYearAt(
+      world,
+      stateJurisdictionForKey(stateKey)!.id,
+    );
+    const lawful = settled(world, stateKey, "2029-09-01");
+    const asBegun = settled(
+      worldWith(stateKey, [], seed),
       stateKey,
       "2029-09-01",
     );
-    const asBegun = settled(worldWith(stateKey, []), stateKey, "2029-09-01");
     const charges = (month: string) =>
       revenueIn(lawful, "chargesAndFees", month) /
       revenueIn(asBegun, "chargesAndFees", month);
-    const held = (years: number) =>
-      1 - share * (1 - (1 + TUITION_GROWTH_PER_YEAR) ** -years);
+    const held = (years: number) => 1 - share * (1 - (1 + growth) ** -years);
     // Enacted in March, but tuition is set for the school year in July.
     expect(charges("2026-06-01"), note).toBeCloseTo(1, 6);
     expect(charges("2026-07-01"), note).toBeCloseTo(held(1), 3);

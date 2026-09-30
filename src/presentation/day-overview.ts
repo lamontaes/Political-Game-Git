@@ -26,6 +26,7 @@ import { legislativeTermForRelationship } from "../simulation/legislative-office
 import { completedActivityHere } from "./scene-venues";
 import { careerOfferAccepted } from "../simulation/career-path7";
 import { currentSchooling } from "../simulation/school-stages";
+import { openingWorkLocation } from "./opening-work-location";
 
 /**
  * Today, as four answers rather than a stack of panels.
@@ -74,10 +75,12 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
   const day = projectOrdinaryDay(world, personId);
   const finished = completedActivityHere(world, personId);
   const scene = finished ? null : currentOpeningLifeScene(world, personId);
+  const openingLocation =
+    !finished && !scene ? openingWorkLocation(world, personId) : null;
   // What was finished there is said once, by the activity panel that did it.
   const now = finished
     ? `You are at ${finished.location.label}.`
-    : (scene?.prose ?? day.opening);
+    : (scene?.prose ?? openingLocation?.summary ?? day.opening);
 
   const moment = world.currentMoment;
   const calendar = projectPlayerCalendar(world, personId);
@@ -95,9 +98,16 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
   return {
     dateLabel: day.dateLabel,
     timeLabel: day.timeLabel,
-    placeName: finished ? finished.location.label : day.placeName,
+    placeName: finished
+      ? finished.location.label
+      : (openingLocation?.context.location?.label ?? day.placeName),
     now,
-    nowKind: finished ? "activity" : scene ? "scene" : "day",
+    nowKind:
+      finished || openingLocation?.context.location?.setting === "work"
+        ? "activity"
+        : scene
+          ? "scene"
+          : "day",
     next: upcoming
       ? {
           activityId: upcoming.activityId,
