@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "delivery_date": "2026-09-29",
+  "source_root": "repository",
+  "source_index_sha256": "bdaba2201835f762c56ab32412b299a08e6e1b5291cbd341f71fba0cd2f93078",
+  "review_policy": {
+    "approved_for_game": "yes requires recorded CTO and owner approval; no is the conservative state before review or when issues remain.",
+    "preview_limit": "These tags are for candidate selection. Full-size files, lineage verification, figure cutting and runtime import belong to job 08.",
+    "facing_extensions": "side-left, threequarter-left and mixed preserve observed non-front/back sources; they require explicit view support and are held from import."
+  },
+  "images": [
+    {
+      "file": "art/authoring/sept29-team7/tv/cable-panel.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "15c52541b232b47ae6711643361e502882d3b12ef74557c91b38f97470270e37",
+      "width": 1672,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-5251fd37-a32d-4e43-8e7d-5723fd635059.png"
+      ],
+      "kind": "cable-panel",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/debate.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "c11d2ea48eb5dc33cdf431450577abcee31387657f16acae2753a6d200e8c030",
+      "width": 1672,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-ad460876-95df-4792-bd04-bf3893fa0c43.png"
+      ],
+      "kind": "debate",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/local-news.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "30c13257cc528dd5bc0663caa946c7464a3d29794d2d8f040f5ef359cf0c5d96",
+      "width": 1672,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png"
+      ],
+      "kind": "local-news",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "file": "art/authoring/sept29-team7/tv/press-briefing.png",
+      "file_root": "repository",
+      "category": "tv",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "65222ce93f9146cef5a5d165190429e5ca7efa5e4b1eb8215d9cdbf556756386",
+      "width": 1672,
+      "height": 941,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/tv.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-news-studio__midday.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/tv/place-tv-debate-green-room__mid.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/place-county-clerk-office__midd.png"
+      ],
+      "kind": "press-briefing",
+      "dynamic_surfaces": "blank",
+      "setting": "interior-broadcast-set",
+      "image_qa": {
+        "width": 1672,
+        "height": 941,
+        "aspectRatio": "1672:941",
+        "hasTransparency": "none"
+      }
+    }
+  ],
+  "source_readme_sha256": "e66b0bb103f3358a798866c8e8e14a141eefb7aa772a2ffce830f7956ad60b5d",
+  "summary": {
+    "generated_count": 4,
+    "approved_count": 0,
+    "category": "tv"
+  },
+  "shared_input_inventory": "art/authoring/sept29-team7/tags.json"
+}
