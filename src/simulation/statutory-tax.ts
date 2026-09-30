@@ -61,8 +61,15 @@ import {
   placeWageIncomeTax,
   type FederalEmploymentRule,
 } from "./statutory-tax-rules";
-import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
-import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";
+import {
+  stateIncomeTaxUnderLaw,
+  stateIncomeTaxEffectStamps,
+} from "./state-income-tax-law";
+import {
+  paidLeavePremium,
+  premiumOn,
+  paidLeavePremiumEffectStamps,
+} from "./state-paid-leave-law";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
 import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 import type {
@@ -521,6 +528,13 @@ function paycheckLiabilities(
       dueAt: employeePays ? outcome.occurredAt : null,
       sourceUrl: leave.sourceUrl,
       researchQuestionId: null,
+      lawEffectStamps: paidLeavePremiumEffectStamps(
+        world,
+        stateKey,
+        outcome.occurredAt,
+        leave.lawMeasureIds ?? [],
+        [outcome.id, flow.id, flow.recipient.personId],
+      ),
       ...(leave.lawMeasureIds ? { lawMeasureIds: leave.lawMeasureIds } : {}),
       ...(leave.estimatedFromAverage
         ? { estimatedFromAverage: leave.estimatedFromAverage }
@@ -549,7 +563,19 @@ function paycheckLiabilities(
         rule.sourceUrl,
       ),
     );
-  return rows;
+  return rows.map((row) => {
+    if (row.taxKey !== placeTaxKey || row.liability === null) return row;
+    const stamps = stateIncomeTaxEffectStamps(
+      world,
+      stateKey,
+      outcome.occurredAt,
+      row.lawMeasureIds ?? [],
+      [outcome.id, flow.id, flow.recipient.personId],
+    );
+    return stamps.length
+      ? { ...row, lawEffectStamps: [...(row.lawEffectStamps ?? []), ...stamps] }
+      : row;
+  });
 }
 
 /**
@@ -778,7 +804,28 @@ function withholdTo(
     const amount = Math.min(remaining, liability.liability!.minorUnits);
     if (amount === 0) break;
     remaining -= amount;
+    const effectKind = liability.taxKey.endsWith(":wage-income-tax")
+      ? "state-income-tax-payment"
+      : liability.taxKey.endsWith(":paid-leave-premium")
+        ? "paid-leave-premium-payment"
+        : null;
     payments.push({
+      ...(effectKind && liability.lawEffectStamps?.length
+        ? {
+            lawEffectStamps: liability.lawEffectStamps.map((stamp) => ({
+              ...stamp,
+              effectKind,
+              appliedAt: next.currentDate,
+              sourceRecordIds: [
+                ...new Set([
+                  liability.id,
+                  transfer.id,
+                  ...(stamp.sourceRecordIds ?? []),
+                ]),
+              ],
+            })),
+          }
+        : {}),
       stableKey: `${liability.stableKey}:withholding`,
       liabilityId: liability.id,
       method: "withholding",
