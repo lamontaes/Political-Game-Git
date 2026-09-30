@@ -1,0 +1,81 @@
+{
+  "format": "team-effect-batch/v1",
+  "team": 8,
+  "integrationOwner": "coordinator",
+  "sourceHead": "8c085849bd91d2e0b0d761d1645590fce15c28cb",
+  "sizingSourceHead": "ff9cf066786a2bcc1940f1f9add55efe39cb9325",
+  "sizingSourcePath": "docs/codex/effect-batches/team-9/preserved-first-20.json",
+  "links": [
+    {
+      "key": "particles-to-infant-deaths",
+      "to": "health.infant-mortality",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0045,
+      "per": "one percentage-point increase in TSP concentration relative to place start; local linear elasticity approximation near start",
+      "lagMonths": 0,
+      "group": "infant birth cohorts exposed to TSP; internal-cause deaths per live births",
+      "owner": "O",
+      "anchor": "IV elasticity 0.45; reported design/subsample elasticity spread 0.3 to 0.7. Per pct-of-start point divide each elasticity by 100.",
+      "source": "Chay and Greenstone 2003, Air Quality, Infant Mortality, and the Clean Air Act of 1970, NBER w10053, pp.20-21,26-27; https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+      "from": "env.particulates:pct-of-start",
+      "evidence": "researched",
+      "research": {
+        "batch": "team-9-effects-01",
+        "status": "sized",
+        "result": "Page 26: inverse-sampling-error-weighted IV elasticity 0.45. Pages 20 to 21 report 0.3 to 0.6; page 27 reports 0.6 to 0.7 near the regulatory cutoff.",
+        "breadth": "US monitored counties, 1971 to 1972 changes induced by Clean Air Act nonattainment. TSP, not PM2.5 or an air-quality index. Outcome is internal-cause infant deaths per live births.",
+        "access": "Working paper full text and tables read.",
+        "primarySource": "https://www.nber.org/system/files/working_papers/w10053/w10053.pdf",
+        "conversion": "size = 0.45 / 100; range = [0.3 / 100, 0.7 / 100]. The cause is percent of starting TSP, so a one-point increase gives a 0.45% local proportional mortality increase.",
+        "transportLimit": "Study specification/subsample spread is not a CI or modern PM2.5 coefficient. Requires TSP-specific cause and infant internal-cause outcome readers; neither was verified. No supported general air-quality-index conversion.",
+        "readerStatus": "No person feels this yet: no cause or outcome reader was verified in this research batch. A numeric entry is not runtime activation proof."
+      },
+      "range": [0.003, 0.007],
+      "whyAnswers": {
+        "chain": [
+          "Clean Air Act nonattainment restrictions changed industrial emissions in monitored US counties.",
+          "Measured historical TSP concentrations fell under those restrictions.",
+          "The study used regulation-driven concentration changes to identify an effect on internal-cause infant mortality per live birth.",
+          "Most measured benefit occurred within one month of birth; fetal exposure is a suggested physical pathway, not a biologically isolated mechanism."
+        ],
+        "bedrock": "Regulatory constraints and measured physical TSP exposure. The biological mechanism remains a hypothesis; no person-level treatment or decision is inferred.",
+        "reverseOnRepeal": "Removing a restriction may change future emissions only if actual emitters respond. It cannot reverse a past birth exposure or death; causal symmetry at current PM2.5 levels is unproven.",
+        "affected": "Historical monitored county birth cohorts, 1971–1972; internal-cause infant deaths per live births. Not every current resident or all-cause mortality.",
+        "lag": "Study annual changes; greatest effect within one month of birth suggests prenatal exposure. Existing lagMonths=0 is not proof of an instantaneous individual hazard.",
+        "placeVariation": "Only a TSP-qualified exposure metric and matching cohort/baseline support this historical coefficient. No universal PM2.5 conversion.",
+        "aboutZero": false
+      },
+      "integrationStatus": "HOLD_INCOMPATIBLE_CAUSE_UNIT",
+      "causeMismatch": {
+        "existingCause": "env.particulates:pct-of-start",
+        "currentBasePath": "data/research/outcome-web/place-outcome-bases-2024.json",
+        "currentBaseUnit": "population-weighted annual average PM2.5, micrograms per cubic meter, 2022–2024",
+        "researchUnit": "TSP monitored-county concentration, 1971–1972",
+        "required": "Separate historical-TSP input or researched transport coefficient/baseline; no assumed TSP/PM2.5 ratio."
+      },
+      "personConsumer": {
+        "status": "no person feels this yet",
+        "existing": "crisis person/mortality records and actual saved birth dates exist; TSP exposure-to-person and internal-cause infant outcome writer are not verified",
+        "examples": [
+          {
+            "personId": "person_dcf08b9e8268654d",
+            "name": "Jackson Rowland",
+            "birthDate": "2025-12-25",
+            "save": "test-results/team8/team8-opening-1-a-family.json"
+          },
+          {
+            "personId": "person_c8ef7d56bd8a54bd",
+            "name": "Maya Perkins",
+            "birthDate": "2025-07-27",
+            "save": "test-results/team8/team8-opening-1-b-family.json"
+          }
+        ],
+        "rule": "Read actual prenatal/residence exposure and age-under-one interval; preserve cause and stamp IDs on a real consequence. These saved infants have no verified TSP exposure or law-linked infant outcome; do not apply the coefficient or invent a death."
+      }
+    }
+  ],
+  "linksSwitchedOn": 0
+}

@@ -1,0 +1,335 @@
+{
+  "schema": "team-8-central-link-batch/v1",
+  "sourceHead": "8c085849bd91d2e0b0d761d1645590fce15c28cb",
+  "sourcePath": "data/research/outcome-web/links.json",
+  "policy": "Coordinator sole links.json writer; metadata proposals do not activate unsized links or grant research acceptance.",
+  "patches": [
+    {
+      "operation": "update",
+      "linkKey": "medicaid-expansion-to-coverage",
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "The law expands adult eligibility.",
+            "Eligible low-income adults can obtain public insurance.",
+            "Coverage lowers the number recorded uninsured.",
+            "The terminal is legal eligibility plus a recorded enrollment; income, age, residency and service availability must be read, not assumed."
+          ],
+          "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+          "who": "The ACA raised coverage 5.9 points in expansion states and 3.0 in others: about 2.9 points among adults 19 to 64 from expansion, about 1.8 points across all ages, about -15% of a non-expansion state's 2024 uninsured rate.",
+          "lagMonths": 0,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": -0.15,
+      "existingRange": [-0.2, -0.1],
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "medicaid-expansion-to-mortality",
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "Expansion makes insurance available to eligible low-income adults.",
+            "Insurance can reduce financial barriers to care.",
+            "Treatment and access can reduce some fatal risks.",
+            "The terminal is access to care and physical illness; a population association cannot be copied onto every enrolled person."
+          ],
+          "reverseOnRepeal": "Future exposure can stop; past deaths and treatments do not reverse.",
+          "who": "-9.4% annual mortality, -11.9% by year 3",
+          "lagMonths": 12,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Miller, Johnson and Wherry 2021 (QJE)",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": -0.094,
+      "existingRange": null,
+      "status": "NEEDS_EXPLICIT_RESEARCHED_RANGE"
+    },
+    {
+      "operation": "update",
+      "linkKey": "medicaid-expansion-to-medical-debt",
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "Expansion makes insured care available.",
+            "Insurance pays covered costs that a patient would otherwise owe.",
+            "Smaller unpaid patient balances can mean fewer bills sent to collections.",
+            "The terminal is an actual covered bill and payment; the dollar total in the study lacks the denominator needed by this proportional link."
+          ],
+          "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+          "who": "ACA expansion: -$3.4 billion in collections in its first 2 years; better credit and loan terms",
+          "lagMonths": 6,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": null,
+      "existingRange": null,
+      "status": "NEEDS_RESEARCHED_SIZE_AND_RANGE"
+    },
+    {
+      "operation": "update",
+      "linkKey": "work-requirement-to-coverage",
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "The law adds work or exemption conditions to coverage.",
+            "A recipient must satisfy and document those conditions.",
+            "Recorded failure or administrative loss can end coverage.",
+            "The terminal is a legal eligibility decision or paperwork process, not a presumed decision to avoid work."
+          ],
+          "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+          "who": "CBO: the 2025 law's community engagement requirement adds 5.3 million uninsured by 2034. It applies to expansion adults, so it falls on expansion states: about 16.4 million uninsured there in 2024, so about +32%. Arkansas 2018: nearly 1 in 4 of those subject lost coverage within months, mostly over paperwork.",
+          "lagMonths": 6,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM)",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": 0.32,
+      "existingRange": [0.2, 0.4],
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "work-requirement-to-employment",
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "A rule may ask a recipient to work but does not create a job.",
+            "Many recipients already work or qualify for exemptions.",
+            "The cited Arkansas evaluation found no employment gain.",
+            "The terminal is an observed about-zero result; no hiring effect is manufactured."
+          ],
+          "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+          "who": "No change; 97% already met the rule",
+          "lagMonths": 0,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": true,
+          "source": "Sommers et al. 2019 (NEJM)",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": 0,
+      "existingRange": null,
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "snap-work-requirement-to-participation",
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "Assistance eligibility adds work or training conditions.",
+            "Recipients outside exemptions must satisfy the rule.",
+            "A refusal or coverage exit reduces recorded participation.",
+            "The terminal is an actual benefit eligibility/refusal record; a population reduction is not an automatic deduction from every household."
+          ],
+          "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+          "who": "Work requirements cut participation 53% among adults subject to them, with no gain in employment; adults 18 to 49 without a disability in childless households, those the requirement reaches, are 9.8% of SNAP participants, so about 5.2% fewer residents receive SNAP. The range runs from the 64% exit rate among incumbents to half the effect, for states where many of those adults are already exempt or covered by a waiver.",
+          "lagMonths": 3,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Gray, Leive, Prager, Pukelis and Zaki 2023, American Economic Journal: Economic Policy 15(1); USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023, Table 3.6",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": -0.052,
+      "existingRange": [-0.063, -0.025],
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "crisis-response-to-crime",
+      "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "A crisis-response service can dispatch health responders to some low-level calls.",
+            "Their treatment and diversion can replace arrest or offense recording in those calls.",
+            "The Denver study measured targeted low-level offenses, not a reduction in serious crime.",
+            "The terminal is actual responder dispatch and case handling; this existing violent-crime proxy requires correction/research rather than being called proven."
+          ],
+          "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+          "who": "Denver's health-responder program cut reports of the targeted low-level offenses 34% where it ran, with no effect on serious crime; scaled down because those offenses are a small share of all crime and a state program reaches part of the state",
+          "lagMonths": 6,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Dee and Pyne 2022, Science Advances 8, eabm2106",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": -0.01,
+      "existingRange": [-0.02, 0],
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "harm-reduction-to-crime",
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "Needle exchange and overdose reversal are health services.",
+            "Their availability does not directly settle all causes of violent crime.",
+            "The map records disputed or small crime findings.",
+            "The terminal is the limited crime evidence; an about-zero map slot does not prove absence of every local consequence."
+          ],
+          "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+          "who": "Naloxone access raised opioid-related theft in one study, disputed by a reanalysis; either way too small a slice to move all crime. The real effect is on overdose deaths, a measure the game does not keep",
+          "lagMonths": 0,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": true,
+          "source": "Doleac and Mukherjee 2022, Journal of Law and Economics 65(2); Alexeev 2026, Economic Inquiry",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": 0,
+      "existingRange": null,
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "harm-reduction-to-overdose-deaths",
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "Reversal distribution can put naloxone within reach during an opioid overdose.",
+            "Timely administration can reverse opioid respiratory depression.",
+            "Survival depends on the actual overdose, access and administration.",
+            "The terminal is a physical treatment mechanism; statewide law availability alone is not treatment delivered."
+          ],
+          "reverseOnRepeal": "Future exposure can stop; past deaths and treatments do not reverse.",
+          "who": "Naloxone access laws: opioid deaths 9 to 11% lower in one study, no net drop in another; opioids are most, not all, overdose deaths",
+          "lagMonths": 12,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": -0.05,
+      "existingRange": [-0.11, 0.02],
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "housing-first-to-homelessness",
+      "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "Housing First removes treatment or sobriety as a precondition for placement.",
+            "Available supportive units can admit people before those conditions are met.",
+            "Actual placement increases time housed for people served.",
+            "The terminal is a recorded placement and available unit; an eligibility change does not create beds and cannot erase homelessness mechanically."
+          ],
+          "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+          "who": "Housing First trials show large gains in housing stability for the people served, but community panels find a small effect on the count: about one fewer homeless person per 10 permanent supportive beds",
+          "lagMonths": 24,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": -0.03,
+      "existingRange": [-0.1, 0.02],
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "privacy-law-to-earnings",
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "The law grants qualifying consumers access, correction and deletion rights.",
+            "Covered businesses face compliance and enforcement obligations.",
+            "Only part of the business and worker population falls within the statutes.",
+            "The terminal is a legal right and covered-business duty; the about-zero median-earnings slot is not proof that no business pays compliance costs."
+          ],
+          "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+          "who": "State privacy laws bind only large data holders: the common model reaches a business handling data on 100,000 of the state's consumers, and California's also one with $25 million in revenue. The cost falls on data firms and app makers, which lost investment and apps under Europe's rule, too small a share of a state's workers to move its median earnings",
+          "lagMonths": 0,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": true,
+          "source": "Va. Code 59.1-576; Cal. Civ. Code 1798.140(d); Jia, Jin and Wagman 2021, Marketing Science 40(4); Janssen, Kesler, Kummer and Waldfogel 2022, NBER Working Paper 30028",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": 0,
+      "existingRange": null,
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "social-media-age-check-to-graduation",
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "An operative platform rule requires an age check.",
+            "A platform may refuse access when verification fails.",
+            "A refusal is different from a measured change in school completion.",
+            "The terminal is a legal rule and access decision; injunctions and absent outcome evidence prevent inferring a graduation gain."
+          ],
+          "reverseOnRepeal": "No unsupported opposite outcome is inferred.",
+          "who": "Courts blocked most state laws requiring platforms to check ages before they took effect (Arkansas, Ohio, Utah, California, Texas, Maryland), and no study has measured an effect on students. Facebook's arrival at colleges hurt students' mental health and schoolwork, but an age check on a platform teenagers already use is not the reverse of its arrival",
+          "lagMonths": 0,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": true,
+          "source": "NetChoice v. Griffin, W.D. Ark. 2025; Braghieri, Levy and Makarin 2022, American Economic Review 112(11)",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": 0,
+      "existingRange": null,
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    },
+    {
+      "operation": "update",
+      "linkKey": "facial-recognition-limit-to-crime",
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "patch": {
+        "whyAnswers": {
+          "chain": [
+            "A restriction changes which identification tools government can use.",
+            "A covered investigation may use alternatives or lack a face match.",
+            "The cited city study reports associations between adoption and crime.",
+            "The terminal is an investigative/legal constraint; adoption correlations do not establish the causal reverse of a repeal."
+          ],
+          "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
+          "who": "268 cities, 1997 to 2020: police facial recognition went with lower violent crime and homicide, more so the earlier it was adopted; restricting it gives some of that up, and violence is a small part of all crime",
+          "lagMonths": 12,
+          "placeVariation": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
+          "aboutZero": false,
+          "source": "Johnson, Johnson, Topalli, McCurdy and Wallace 2024, Cities",
+          "sourceValidation": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
+        }
+      },
+      "existingSize": 0.01,
+      "existingRange": [0, 0.02],
+      "status": "CTO_REVIEW_METADATA_ONLY"
+    }
+  ],
+  "linksAdded": 0,
+  "linksSwitchedOn": 0
+}
