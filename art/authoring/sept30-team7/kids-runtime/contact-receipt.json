@@ -1,0 +1,22 @@
+[
+  {
+    "file": "art/authoring/sept30-team7/kids-runtime/boy-8-crop-contact.jpg",
+    "sha256": "de25eab2c8551e2ceda9df3f83e282f3e34cf7eb3c22d4ccdeb7a1fa52ce2f0d",
+    "purpose": "reduced review contact, not source or pixel approval"
+  },
+  {
+    "file": "art/authoring/sept30-team7/kids-runtime/girl-8-crop-contact.jpg",
+    "sha256": "ba02e7e6cd1b85374dddd194545a6f49b27fd81d11b445052a4d0a5c7dfdf4d1",
+    "purpose": "reduced review contact, not source or pixel approval"
+  },
+  {
+    "file": "art/authoring/sept30-team7/kids-runtime/boy-14-crop-contact.jpg",
+    "sha256": "ed6f08e02f9874a908a6a25f0633fc857cff3ad5c1dcb66d5fcca967aa7d1a0a",
+    "purpose": "reduced review contact, not source or pixel approval"
+  },
+  {
+    "file": "art/authoring/sept30-team7/kids-runtime/girl-14-crop-contact.jpg",
+    "sha256": "82ab9692fb8df40d8a90e0a02f317e6b666bafe27ce47dc413c1bba6ba724c52",
+    "purpose": "reduced review contact, not source or pixel approval"
+  }
+]
