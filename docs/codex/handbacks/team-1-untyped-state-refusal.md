@@ -49,6 +49,14 @@ Third, the source check compiles at the original introduction date; the new draf
 
 CTO 7:38 assigns filing/introduction to Team2 and sponsor terms to Team1. Team1 has handed over this exact filing candidate without further source edits; compiler configuration and parameter-selection ownership remains Team2. The next proof needs agreed source pins and a complete sponsor-term contract.
 
+The diagnostic combined source at `2707dd368d099a1b7d68311cae5220fd83bfc3e9` applies both published candidates to main's September 30 baseline. It ran seven saved-law tests and two registry tests successfully. The ordinary cash caller failed at its nonnull introduction assertion. Scoped strict types have zero diagnostics. The older eight-test filing receipt is not a combined pass. The agenda caller and after-year were not rerun before resolving this regression.
+
+Team2's newer combined source at `916e70fa7fd88af5bbdf210654e000f5b5862b9c` is the sole next proof pin. The local diagnostic assembly is not a competing product candidate; its results do not validate that newer source.
+
+The sponsor-source audit accounts for all 41 state fallbacks across 18 questions. Team2's retained prior-day queries report 26 starting-law answers and 15 missing laws. None is an enacted source accepted by the current compiler. That does not establish that all 41 bills are truly unformable: existing rule proposals require a supported rule contract, rather than being mistaken for money appropriations.
+
+The starting-law bank has 2,802 answer rows containing answers, dates, citations and preemption metadata, without structured money/service parameters. The rural-transit question is absent. Treasury cash and author defaults cannot supply the missing legal terms. The explicit dependency is a researched, structured starting-law amount or rule, timing, phase and scope contract connected to its actual world reader. Detailed attributed question counts are in `team-1-sponsor-source-audit.json`.
+
 Feature-walkthrough invoked before this handback. No new helper or team was created. No merge approval is inferred.
 
 ## 7. Worked example
