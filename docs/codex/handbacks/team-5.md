@@ -37,6 +37,8 @@ Meeting attendees, agenda-driven speech, full pre-play leader history, and most 
 - Changed-file typecheck: passed for 18 files. Current candidate behavior tests: running. Full project typecheck, release check, zero-dice, watched worlds and timing: NOT RUN.
 - The resumed eight-file default-loader invocation produced no test results and was interrupted by Team 5, exit 130, NO RESULT. The same files are running with the runner config loader; no exclusions or timeout changes.
 - Browser and GitHub validation: NOT RUN locally, per the latest direction assigning these to Claude.
+- Current bounded behavior results: dossier 3 tests passed; archive 2 tests passed after an absent-collection fixture repair; guard and headline 2 tests passed after removal of an obsolete comment caption. These are separate invocations, not a passing eight-file suite.
+- Original eight-file suite: 3 meeting failures among 10 meeting tests observed. Cause unresolved pending assertion/stack output. The failed entries are local-chair attendance in 2743000, and explicit entry/staying through the remaining meeting in 2743000 and 1150000. Full file duration: 551,217 ms. No timeout or exclusion change.
 - Dossier date-guard increment: ESLint, Prettier and whitespace checks passed. The behavior run is still pending. Changed-file typecheck now passes for 18 files with zero diagnostics after fixture ID/date repairs. The repair commit is `658af24ed0b411734500a77de485d706e7d245ea`.
 - Report agent review: NOT RUN. The wave permits one source-research helper only; no reviewer helper was started.
 
@@ -71,6 +73,14 @@ One permitted Low source-research helper inspected the existing initialization p
 Local civilian hiring already backdates canonical work through `fillTownJobs` in `src/simulation/living-world/town-employment.ts:1354`. It writes work relationships, roles and statuses, but no historical hiring event or favor. This file belongs to Team 3, so Team 5 did not change it.
 
 Appointment favors require an actual personal appointment decision trace in `src/simulation/patronage/appointments.ts:580`. Missing favors cannot be filled by arbitrary rows. A full D-9 pre-play history producer remains work to implement through these boundaries.
+
+## History producer requirements (design only)
+
+This is a source-only handoff, not implemented history. The opening officeholder producer needs an earlier career plan before publishing its current tenure. It must use canonical person-history writers, preserve the seeded identity, and carry occurrence dates and source event IDs into each supported work or education fact. It must not treat the current office as proof of earlier jobs.
+
+The employment producer can expose the work relationship's existing start date and employer as recorded work history. It cannot derive a hiring conversation, supporter, appointer or motive from that date alone. A personal appointment favor requires the actual selection trace; campaign favors require recorded contribution outcomes. Team 5's dossier renderer must not author these decisions while somebody reads it.
+
+Each produced history record needs its intended audience and knowledge grant. A public career event can appear on the public dossier. Private work or education needs accurate learned knowledge before another person sees it. The date guard now also requires the source record to exist by the current date. Acceptance must exercise the five officeholder/neighbor dossiers, an actual hiring or appointment sequence, its favor when supported, and save/reload through the same player route.
 
 ## Claude's required browser checks and screenshots
 
@@ -123,6 +133,7 @@ Claimed paths were appended under the atomic shared lock before edits. Only Team
 - `src/presentation/day-opening-english.test.ts` (claimed; unedited)
 - `src/simulation/person-context.ts` (roommate wording repaired)
 - `src/presentation/people-continuation.ts` (roommate wording repaired)
+- `src/simulation/macro-economy/sources.ts` (obsolete caption removed)
 
 # NEEDS LAMONTAE
 
