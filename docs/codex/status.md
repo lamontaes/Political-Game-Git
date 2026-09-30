@@ -1,3 +1,23 @@
+## September 30, 1:45 new workflow receipt
+
+AUDIT/SYSTEMS is the existing durable session `01a0f364-0f5e-7172-b8a5-3792039aa0dc`, Sol6.1 High. Its acknowledgment of the ordered queue and production read-only boundary was observed at1:45:49 Eastern. It reports Git network access recovered and1284 still unmerged; no national run started. First action: post takeover and request prior runner process/checkpoint/lease handoff. First national partials due2:30; shared-kind table due2:15.
+
+Engineering Teams1/2/3/4/5/6/8/9 received build-only routing. Audit questions go to AUDIT/SYSTEMS. Team2 keeps its four unread laws, stamp batch and sponsor-amount repair. All teams owe stamped/firing/unread counts2:00 and one already-read-law stamp PR3:30. Team5 recovery instruction was delivered to its existing session; recovery success not yet verified. See the shared play-test queue below.
+
+## Shared play-test queue — CTO1:31, assigned1:36, after laws
+
+| Item | Build owner | Diagnostic owner | State |
+| --- | --- | --- | --- |
+| Butte-Silver Bow has no local government; check consolidated jurisdictions nationwide | Team2 | AUDIT/SYSTEMS | Queued after laws; nationwide extent unverified |
+| Empty name tags on four opening slides | Team7 | AUDIT/SYSTEMS if code question | Queued; no visual fix claimed |
+| Blank family slide | Team7 | AUDIT/SYSTEMS if code question | Queued; do not fabricate family |
+| Repetitive life-so-far and record text | Team8 | AUDIT/SYSTEMS | Queued after laws |
+| Sister drawn as a ghost | Team7 kids import | AUDIT/SYSTEMS if runtime question | Queued; preserve approved sources |
+| Missing appearance picker | Team5 | AUDIT/SYSTEMS | Queued after laws and executor recovery |
+| No household news in week one | Team5 implementation | AUDIT/SYSTEMS | Queued; trace actual delivery before repair |
+
+Title-screen national landmark rotation at all times of day is queued for Team7 behind kids sheets; later player-character mix is separate. No new generation or pixel approval inferred.
+
 ## September 30, 1:30 active coordination
 
 Current CTO document: [00b](https://docs.google.com/document/d/1CdLLy4zFAmr0dmDNp9wEEemyA-fBdHthNCX4gZcv4R0/edit). Old 00 reached its size limit. All existing sessions and both coordinator automations now point to 00b.
