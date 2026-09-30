@@ -1,18 +1,84 @@
 # The final ten laws have direct operations; the full year proof restarted
 
-MERGED: Nothing. The laws remain in a draft pull request for Claude CTO to review. The owner-authorized full proof restarted on September 29 at 7:06 p.m. Eastern. It is running, with no completed paired-year rows yet. The earlier incomplete run and its diagnostics are preserved.
+MERGED: Nothing. PR 1131 is ready for review and held for Lamontae’s research-number review; Claude CTO retains merge authority. The owner-authorized full proof restarted on September 29 at 7:06 p.m. Eastern. It resumed in the same process chain after Team 4’s timing pause, with no completed paired-year rows yet. The earlier incomplete run and its diagnostics are preserved.
 
 ## Current restart
 
 - Head: `32fd449dbbd51eece4c79c076b8ef5de5ebf465f`; branch `codex/wire-last-ten-laws`, registered workspace `/private/tmp/wt-main`.
 - Command: `npm run storage -- run test -- npm run laws:proof -- --jobs 1 --seed wave1-team1-restart-20260929-190627`.
 - Runner PID at launch: `37950`; first worker PID: `37986`. Source fingerprint remains `1c0dc135a1349e808af3512da93bddc942aed28d3169b9924bd5bddb47fe8889`.
-- Current result: RUNNING, 0 of 92 completed paired years. The first comparison is income tax in Ridgeville, South Carolina; its control reached 60 days. Team 1 holds non-Team4 heavy slot A, with one heavy chain and no competing typecheck or focused tests.
+- Current result: RESUMED, 0 of 92 completed paired years. The first comparison is income tax in Ridgeville, South Carolina; its control reached 360 days. The existing owned simulation continues; focused checks finished separately.
 - New log: `/private/tmp/team1-proof-restart-20260929-190627.log`; result directory: `test-results/laws-proof/1c0dc135a134/07115f3da5b4/`.
 - Previous report: `/private/tmp/team1-proof-incomplete-before-restart-20260929-190627.md`, SHA-256 `f6808059c51322b98d89b9f4eb1981cfa707b11c3c1782a45f81238009c2786b`. Earlier logs and profiles remain intact.
 - Scoped speed ownership release: Team 4 owns only batching around `decideAnotherTerm` at published lines 935 and 1379 of `src/simulation/living-world/local-elections.ts`. Baseline blob is `03830617c5e8e5a98b439348690ba7fdb800dcab`; Team 1 had no unpublished changes. Other law hunks remain Team 1. The release was appended under the canonical claims lock.
 
 The following sections describe the earlier bounded run until replacement completed-year receipts exist. They are not completion evidence for this restart.
+
+## Team 4 helper ownership receipt
+
+Team 1 releases only the four helper/import scopes below to Team 4 under the urgent owner-priority speed instruction. The release applies in Team 4’s workspace. All other law hunks remain Team 1. No patch was applied to the running proof’s source, and no proof process was interrupted.
+
+At verification, all four working files matched their published blobs exactly, with no staged or unstaged changes. Head: `e7317b119442dac762048020d09c163c48363654`. The only dirty path was the proof’s generated Markdown table. Four narrow release rows were appended to canonical `docs/codex/claims.md` under the atomic lock; existing rows were preserved.
+
+| File | Released scope | Published blob |
+| --- | --- | --- |
+| `src/simulation/queries.ts` | `personalityTendencyHistory` and its history-index import | `a7dd8b756f80156e3ac230a70e1d55fd1415297e` |
+| `src/simulation/mind.ts` | `validateImmediateSupersession` and its history-index import | `a66e6941c2297c06f7025e80f155f7a562670a9f` |
+| `src/simulation/life-queries.ts` | `recordsForId`, its private append-index cache, and history-index import | `caa08c5344063900b452e0421b543d4715e48833` |
+| `src/simulation/nationwide-world/state-legislature-opening.ts` | `affiliationIndexes`, its private cache definition, and history-index import | `6092171d29bae0fad05819a126b2a3635cd71d52` |
+
+Proposed patch: `/private/tmp/team4-proposed-trait-indexes.patch`, SHA-256 `19aaec36bd427468715067f786d85bcd1a0940311a813f3a451f00ab49b32727`. Team 4 should receive these bounded changes in its speed source and preserve the law changes. Its speed gate and Claude review remain required. This receipt is available in the local hand-back because coordinator messaging was blocked by automatic approval review.
+
+## Earlier timing-pause preparation
+
+The owner-priority speed override grants Team 4 immediate editing of the four helpers above. Team 1 will leave those helpers untouched during speed work and receive or rebase onto the speed PR afterward, preserving current law work. The new Team 4 timing gate is one month under 15 seconds. Write-order-only differences may be accepted when people, decisions, and results remain equivalent; this receipt does not establish that equivalence.
+
+The running proof is in process group `37884`, anchored by its owned shell. A full group inventory confirmed every member descends from that shell. At verification, the group contained seven owned processes, including the runner and its first worker. No member was stopped, and no signal was sent. The complete process inventory is retained in the pause-plan receipt.
+
+Pause preparation is recorded in `/private/tmp/team1-proof-pause-plan.json`. When root requests the timing pause, Team 1 must reverify group identity and ownership, then send SIGSTOP to that isolated group. After root’s resume instruction, SIGCONT resumes the same group, followed by running-state and progress confirmation. This preserves the world in memory, output streams, source fingerprint, and process chain without termination or restart. The storage reservation stays held during the pause.
+
+## Historical 8:00 p.m. checkpoint
+
+The newest owner correction classifies only full simulations and baselines as heavy. Team 1 kept the law proof running and immediately started focused checks without waiting for a slot. No helper source was changed.
+
+At the initial checkpoint, the proof runner was PID 37950 and its first worker was PID 37986, still in group 37884. Ridgeville, South Carolina’s control had reached 360 days. The full run had zero completed paired-year rows. The prepared timing pause has not been applied. The release check used the actual PR declaration range `31edf5da5eedc83ebaff2b63cf3d41e9b241d7e4..e7317b119442dac762048020d09c163c48363654`.
+
+Focused action: eleven law/budget test files run with one Vitest worker; changed-file typechecks use 60 application roots and 19 script/test roots with the existing compiler settings; changed-code Prettier and ESLint passed with exit 0. Both focused typecheck scopes passed with independently captured exit 0 and no diagnostics: 60 application roots and 19 script/test roots. Focused law tests remain RUNNING, with no completed result claimed. Release validation passed at the current head, zero-dice remained at 217 allowed lines, and the catalog guard again reported all 92 questions wired. This correction supersedes the earlier restriction that stopped focused checks.
+
+Focused logs:
+
+- Law tests: `/private/tmp/team1-focused-law-tests-20260929.log`.
+- Application typecheck: `/private/tmp/team1-focused-typecheck-app-20260929.log`.
+- Independent application confirmation: `/private/tmp/team1-focused-typecheck-app-confirm-20260929.log`.
+- Script/test typecheck: `/private/tmp/team1-focused-typecheck-node-20260929.log`.
+
+Generated typecheck configurations are under `test-results/team1-focused-typecheck-20260929/`; they do not alter tracked source or the proof fingerprint.
+
+## Earlier reversible pause (now resumed)
+
+The owned full law simulation was paused with SIGSTOP at 8:02:15 p.m. Eastern on September 29, 2026. Process group 37884 was reverified immediately before the signal. Every member was owned by Team 1, and no focused test or typecheck belonged to the group.
+
+All seven group members are confirmed stopped: shell 37884, wrappers 37900 and 37912, log writer 37901, npm proof launcher 37934, proof runner 37950, and first worker 37986. All states begin with T. Memory, output streams, and the existing process chain remain preserved. No termination, restart, or source edit occurred.
+
+The focused lobbying file subsequently reported one failed test while the overall suite continued. It emitted lower treated annual pay ($83,688.82 versus $96,317.70) and lower treated cash ($1,609.40 versus $1,852.26), but those printed values do not establish a pass. The failure stack has not yet been emitted, so no cause is claimed. Team 1 will diagnose the actual failure when the runner supplies it; no timeout change was made.
+
+The pause receipt is `/private/tmp/team1-proof-pause-active.json`. Focused checks continue outside this group. At that checkpoint Team 1 awaited CONT. The subsequent resume and actual pause duration are recorded below.
+
+## CTO dispatch and exact focused-test errors
+
+PR 1131 was marked ready for review under the direct shipping instruction. It remains unmerged. The live 00 document then disclosed an 8:18 correction that holds this PR for Lamontae’s research-number review and withdraws transportation job 13 from Wave 1. No research number was changed. Full proof and watched-world results are follow-up work on main after merge; they do not gate the code merge.
+
+The eleven-file focused run exited 1: nine files passed and two timed out; 46 tests passed out of 48. The exact lobbying error is `Error: Test timed out in 180000ms.` The failing test is “blocks an actual former member from the lobbying application and leaves a lower-paid next choice” in `src/simulation/lobbying-cooling-off.test.ts:28:3`. Its recorded duration was 711,028 milliseconds. No assertion failure was reported.
+
+The second exact error is also `Error: Test timed out in 180000ms.` The test is “pays only for a resident’s recorded intent and counts a provisional ballot only after an actual return” in `src/simulation/voter-photo-identification-law.test.ts:29:3`. Its recorded duration was 214,798 milliseconds. No assertion failure was reported. These are measured test-timeout failures, not a diagnosed defect in either law. No timeout was raised and no assertion was removed. The full log remains `/private/tmp/team1-focused-law-tests-20260929.log`.
+
+The printed controlled outcomes were lower post-office annual pay ($83,688.82 versus $96,317.70), lower cash ($1,609.40 versus $1,852.26), and an identification trip of 106 minutes that reduced hourly pay by $35.33. Because both tests timed out, these printed values do not establish acceptance.
+
+The proof group resumed with SIGCONT at 8:16:18 p.m. Eastern. All seven original members left stopped states; no restart occurred. Actual pause duration was 843.61773 seconds (14 minutes 3.6 seconds), exceeding the newly stated six-minute maximum. The existing run is preserved while the post-merge transition to main is coordinated.
+
+Exact blocker: Lamontae review of the provisional mandatory-minimum, student-debt, and immigration effect sizes and newly added law research in PR 1131. Job 13 is not being started. The laws-to-single-money-function connection with Team 3 still needs a named interface before Team 3 writes it.
+
+The requested TEAM 1 reply was appended at the end of the live 00 coordinator Google Doc and independently read back: seven paragraphs, with a native heading. It records the exact errors, research hold, post-merge proof plan, and pause receipt.
 
 ## WHAT EMERGED
 
@@ -30,18 +96,18 @@ Individual ballot casting and cure have canonical writers but no autonomous resi
 
 - Workspace: registered `CODEX-LAWS`, `/private/tmp/wt-main`.
 - Branch: `codex/wire-last-ten-laws`; published source head `bff446ee8f3f3158f835241e9340c38c87c17a00`.
-- [Pull request 1131 wires the last ten laws and adds the complete-law proof runner](https://github.com/lamontaes/Political-Game-Git/pull/1131), draft and unmerged.
+- [Pull request 1131 wires the last ten laws and adds the complete-law proof runner](https://github.com/lamontaes/Political-Game-Git/pull/1131), ready for review, unmerged, and held for research review.
 - The seven remaining laws each have a separate commit. Shared integration is `bff446ee8`.
 - Catalog: 92 of 92; allowlist empty.
 - ESLint, PR release check, zero-dice, spelling, and seven law-report checks pass. Zero-dice remains at 217 allowed lines.
-- Typecheck and eleven focused law/budget test files were stopped with SIGTERM to release host load at the coordinator request. Both returned 143: NO RESULT. They must be rerun serially. The preserved partial proof report requires final formatting when the proof resumes.
+- Earlier checks stopped with exit 143. Replacement scoped typechecks passed; replacement related tests returned 46 passes and two timeouts, described above.
 - Full proof: INCOMPLETE, 0 of 92 paired-year rows; no completed-law passes or failures.
 - Speed comparison: NOT RUN. Team 4 receives the next exclusive timing slot.
 - Claims: 115 exact paths registered in the shared canonical `docs/codex/claims.md`, including all inherited branch changes and this hand-back. Claims were appended under the atomic lock. No conflicts were found. Coordinator owns `status.md`.
 
 ## NEEDS LAMONTAE
 
-No product decision is required at this stopped checkpoint. The coordinator/Claude must decide when the full proof resumes after the speed work. The measured chamber-vote bottleneck was routed to the coordinator because that file belongs to Team 2. Browser and GitHub validation are NOT RUN locally under the latest owner direction; Claude owns them. The wave permits only a research helper, so the skill's separate report reviewer was not spawned. Claude CTO must review this hand-back before acceptance.
+Lamontae must review the provisional research effect sizes before merge. The existing proof has resumed; the full 92-law follow-up belongs on main after authorized merge. The measured chamber-vote bottleneck was routed to the coordinator because that file belongs to Team 2. Browser and GitHub validation are NOT RUN locally under the latest owner direction; Claude owns them. The wave permits only a research helper, so the skill's separate report reviewer was not spawned. Claude CTO must review this hand-back before acceptance.
 
 ## PLACEHOLDERS
 
@@ -49,7 +115,7 @@ Each law report discloses its source-backed estimates. Identification uses owner
 
 ## Claude validation handoff
 
-No screen files changed in this task. Browser and GitHub validation are NOT RUN locally by owner direction. For a player-clock smoke check, use the title screen’s **Watch the world** button and then **A day**. Record the place that the ordinary entry actually opens. That button supplies its configured setup directly; it does not offer a Clearbrook selector. Capture the opening place and date, then the date after an ordinary day; check Save/Continue in that same build. These screenshots would verify the entry and clock route, not all 92 law effects. The law proof still needs its paired-year receipts. Claude should rerun the stopped typecheck and focused law/budget tests after the speed slot.
+No screen files changed in this task. Browser and GitHub validation are NOT RUN locally by owner direction. For a player-clock smoke check, use the title screen’s **Watch the world** button and then **A day**. Record the place that the ordinary entry actually opens. That button supplies its configured setup directly; it does not offer a Clearbrook selector. Capture the opening place and date, then the date after an ordinary day; check Save/Continue in that same build. These screenshots would verify the entry and clock route, not all 92 law effects. The law proof still needs its paired-year receipts. Both scoped typechecks passed. The two related-test timeouts require reproduction; browser proof remains Claude’s responsibility.
 
 ## Method
 
