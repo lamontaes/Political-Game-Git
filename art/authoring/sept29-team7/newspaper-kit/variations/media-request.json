@@ -62,5 +62,29 @@
     "imageSha256",
     "recordedCaption"
   ],
-  "rule": "No inferred identity, generated likeness, stock photo or unrelated location substituted for saved people/events."
+  "rule": "No inferred identity, generated likeness, stock photo or unrelated location substituted for saved people/events.",
+  "restorationDependency": {
+    "status": "exact-save-not-found-in-checked-paths",
+    "producerRelativePath": "test-results/team8/newspaper-run/month-3-world.json",
+    "requiredSha256": "f38b18d11778ad0fda1e8f9d5a8539daefcde0ecadb6205e575d48da1b8f1663",
+    "sourceHead": "1864116231b4ec069c14c8fd333ccd53025387a8",
+    "checkedRoots": [
+      "/Users/lamontae/Documents/PG-LAND/test-results",
+      "/Users/lamontae/Documents/PG-LAND/output",
+      "/Users/lamontae/Documents/PG-LAND/art/authoring",
+      "/Users/lamontae/Documents/Political Game/test-results",
+      "/Users/lamontae/Documents/OCD-Art-Sept29",
+      "/private/tmp"
+    ],
+    "gitTreeCheck": "No month-3-world or newspaper world/save path at sourceHead",
+    "producerReceipt": "Shared00 historical Team8 report identifies test-results/team8/newspaper-run/; latest Team8 reports file absent from restored tree.",
+    "requiredAction": "Restore exact immutable save bytes from original producer export/backup and verify SHA-256 before rendering canonical people. Restore any actual event-photo/caption records separately.",
+    "notPerformed": [
+      "World regeneration",
+      "Same-name stand-ins",
+      "Portrait identity invention",
+      "Event-photo invention"
+    ],
+    "countClarification": "Seven unique publication records rendered in three styles (21 copies), not 21 distinct stories."
+  }
 }
