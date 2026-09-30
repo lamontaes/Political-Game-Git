@@ -724,13 +724,6 @@
       "code": "if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;"
     },
     {
-      "file": "src/simulation/governing/congress-lawmaking.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0"
-    },
-    {
       "file": "src/simulation/governing/officeholder-principles.ts",
       "kind": "roll",
       "build": "Build 27",
