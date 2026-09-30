@@ -1,0 +1,76 @@
+{
+  "team": 9,
+  "integrationOwner": "coordinator; no shared catalog edits",
+  "scope": "First three primary legal-rule packets; statutory values are not legislative selectable bounds or causal ranges.",
+  "entries": [
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "placeKey": "us-nj",
+      "parameter": "coverage",
+      "source": "https://pub.njleg.gov/bills/2014/PL14/31_.PDF",
+      "sections": ["2A:162-15", "2A:162-16", "2A:162-17"],
+      "rule": "Complaint-warrant indictable/disorderly-persons cases, subject to exceptions; nonmonetary release prioritized. Money permitted only if other conditions cannot reasonably assure appearance. Detention requires prosecutor motion and clear-and-convincing statutory findings.",
+      "decisionDeadlineHours": 48,
+      "neededCaseFacts": [
+        "warrant versus summons",
+        "charge classification",
+        "prosecutor motion",
+        "appearance findings",
+        "safety and obstruction findings",
+        "adequacy of proposed conditions",
+        "detention hearing exceptions"
+      ],
+      "currentLawLimit": "Original enacted 2014 statute; 2026 amendments not verified. No categorical no-money or violent-only detention claim.",
+      "selectableRange": {
+        "status": "needs-research",
+        "missing": "Current higher-level legal limits and operative amendments; existing statute is not a proposed-law min/max."
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "placeKey": "us-gu",
+      "parameter": "age-and-coverage",
+      "source": "https://col.guamcourts.gov/sites/default/files/19gc005.pdf",
+      "sections": ["5102(c)-(d)", "5103(a)(4)", "5106(a)"],
+      "sourceVersion": "Compiler footer 11/29/2022; subsequent amendments not verified",
+      "adultAgeYears": 18,
+      "ageBasis": "Ordinary juvenile violation jurisdiction uses age when proceedings commence; transfer provisions use age at offense.",
+      "transfer": "Age16+ first/second-degree felony automatically adult, including related scheme charges; age16+ misdemeanor/third-degree felony discretionary certification after investigation; under16 homicide discretionary certification after investigation. Traffic exception also applies.",
+      "neededCaseFacts": [
+        "age at offense",
+        "age at proceedings",
+        "charge degree",
+        "related scheme",
+        "traffic charge",
+        "judicial certification and investigation"
+      ],
+      "selectableRange": {
+        "status": "needs-research",
+        "missing": "Current amendments and higher-level constraints on proposed age;18 is a statutory starting value, not a selectable interval."
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "placeKey": "us-gu",
+      "parameters": ["restoration-event", "coverage"],
+      "source": "https://col.guamcourts.gov/sites/default/files/03gc003.pdf",
+      "sections": ["3101", "3102", "3121(c)"],
+      "rule": "Voting exclusion is incarceration under a sentence of imprisonment. Removal of that exclusion does not itself register the person or cast a ballot; citizenship, age, residency, registration and other statutory eligibility remain.",
+      "restorationEvent": "No longer incarcerated under sentence; not generic completion of all probation/parole obligations.",
+      "registration": "Cancellation may follow certification of confinement; actual registration status must be read and restored through the registration writer.",
+      "neededPersonFacts": [
+        "current imprisonment under sentence",
+        "citizenship",
+        "age/election date",
+        "residency",
+        "registration cancellation/status",
+        "other eligibility findings"
+      ],
+      "selectableRange": {
+        "status": "needs-research",
+        "missing": "Current consolidated law/higher-level constraints on proposed exclusion categories; no invented numerical range."
+      }
+    }
+  ],
+  "runtimeProof": "Pretrial saved-consequence attribution tested separately. These three jurisdiction-specific rule packets are not nationwide runtime proof."
+}
