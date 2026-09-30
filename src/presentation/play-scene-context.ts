@@ -77,6 +77,9 @@ type ContextScene =
       readonly presentPeople: readonly ScenePerson[];
     };
 
+/** A short walk out from home, into the person's own neighborhood. */
+export const NEIGHBORHOOD_LOCATION_KEY = "opening:neighborhood";
+
 /** The visible introduction/opening scene is not the later ranked story. */
 export function resolveOpeningPlaySceneContext(
   world: World,
@@ -123,7 +126,10 @@ export function resolveOpeningPlaySceneContext(
   if (setting === "neighborhood" || setting === null)
     return {
       purpose: "unspecified",
-      locationKey: null,
+      // Out in the neighborhood, the screen shows the street the person
+      // lives on (place-backdrops.ts). An unknown setting shows nothing.
+      locationKey:
+        setting === "neighborhood" ? NEIGHBORHOOD_LOCATION_KEY : null,
       sceneId: null,
       reason:
         "No released plate is bound to this opening location; household art is not substituted.",

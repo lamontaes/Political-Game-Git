@@ -21,10 +21,16 @@ import { projectStoryMoment, type StoryScene } from "./life-story";
 import { DOMESTIC_SCENE_IDS } from "./scene-registry";
 import {
   householdResidentIds,
+  NEIGHBORHOOD_LOCATION_KEY,
   resolveOpeningPlaySceneContext,
   resolvePlaySceneContext,
 } from "./play-scene-context";
-import { currentOpeningLifeScene, openNextLifeScene } from "./life-scene-flow";
+import {
+  currentOpeningLifeScene,
+  openNextLifeScene,
+  walkOpeningNeighborhood,
+} from "./life-scene-flow";
+import { backdropForLocation } from "./place-backdrops";
 import { resolveLifeScene } from "./life-scene";
 import { sceneVenueForLocationKey } from "./scene-venues";
 
@@ -362,5 +368,28 @@ describe("Who is actually in the house", () => {
       moment.scene,
     );
     expect(resolved.presentPeople).toEqual([]);
+  });
+
+  it("shows the street you live on after a short walk nearby", () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "custom",
+      household: "shares-a-home",
+      startAge: 36,
+      seed: "neighborhood-street-walk",
+    });
+    const out = walkOpeningNeighborhood(
+      openNextLifeScene(game.world, game.playerPersonId),
+      game.playerPersonId,
+      "neighborhood",
+    );
+    const context = resolveOpeningPlaySceneContext(out, game.playerPersonId);
+    expect(context.locationKey).toBe(NEIGHBORHOOD_LOCATION_KEY);
+    const backdrop = backdropForLocation(
+      out,
+      game.playerPersonId,
+      context.locationKey,
+    );
+    expect(backdrop?.place).toMatch(/^door-knocking-(urban|suburban|rural)$/);
   });
 });

@@ -343,6 +343,8 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
   "executive-office": "governor-office",
   "executive-work:office": "governor-office",
   "campaign-doors": "doors",
+  // A walk nearby is out on the street you live on.
+  "opening:neighborhood": "doors",
   "campaign-remote-phone": "phone-bank-room",
   "private-field-call": "phone-bank-room",
   "campaign-call-desk": "phone-bank-room",
