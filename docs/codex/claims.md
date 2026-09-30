@@ -743,3 +743,7 @@ CTO 12:18 explicitly assigns coordinator elasticity shape in src/simulation/outc
 ## September 30, 12:36 budget-row sequence
 
 CTO grants Team 8 the public-budgets/month.ts settled-row age-verification cost attribution hunk first, its new age-verification-cost module/test, and store.ts optional cost attribution field. Team 5 receives the parks settled-row hunk only after Team 8 publishes and explicitly releases the first hunk. Team 5 can prepare disjoint research and code meanwhile. Coordinator records the handoff; no concurrent writer of the row.
+
+## September 30, 12:50 live handoffs
+
+Team 8 released month.ts/store.ts age-cost attribution at c64928d112c5c57c460b44f60244e6726fa050ed; final PR1274 f6cc284c74dc888fb4690906452033cdaa0e2f99. Team 5 now owns the parks settled-row addition, preserving Team 8 bytes. Team 3 takes only state/local floor stamping in raiseTownPayToMinimum after PR1267 lands, preserving coordinator federal stamping and shared paid-transfer propagation. Drop the old copied law-effect-stamp helper; no duplicate wage writer. Fresh audit owner owns generalized saved-stamp collector and national run; original Team 2 owns weighted Georgia vote comparison.
