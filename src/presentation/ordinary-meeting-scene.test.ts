@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  type EntityId,
   advanceWorldMinutes,
   deserializeWorld,
   serializeWorld,
@@ -97,6 +98,29 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       "ask",
     );
     expect(spoken.history.events.at(-1)?.context.choice).toBe(words);
+    const comment = spoken.history.events.at(-1)!;
+    const entry = first.world.history.events.find(
+      (event) => event.id === active.eventId,
+    )!;
+    for (const listenerId of new Set(
+      entry.participants
+        .filter(
+          (participant) =>
+            participant.role === "presence:participant" ||
+            participant.role === "coordination:chair",
+        )
+        .map((participant) => participant.personId),
+    )) {
+      expect(comment.involvedEntityIds).toContain(listenerId);
+      expect(
+        spoken.history.knowledge.some(
+          (record) =>
+            record.eventId === comment.id &&
+            record.personId === listenerId &&
+            record.source.kind === "direct",
+        ),
+      ).toBe(true);
+    }
     expect(
       speakAtOrdinaryMeeting(spoken, personId, activity.id, "support"),
     ).toBe(spoken);
@@ -285,7 +309,7 @@ describe("prospective meeting presence", { timeout: 60_000 }, () => {
       );
       const scene = projectOrdinaryMeetingScene(recorded, personId)!;
       const town = activity.location.jurisdictionId!;
-      const belongs = (id: string) =>
+      const belongs = (id: EntityId) =>
         activeOrganizationParticipationsAt(completed, id).length;
       console.log(
         JSON.stringify({

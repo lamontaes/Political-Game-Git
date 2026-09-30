@@ -602,7 +602,7 @@ export function PersonCard({
             Talk
           </button>
         ) : null}
-        {reachable && (expanded || contact.travel.available) ? (
+        {reachable && contact.travel.available && onTravel ? (
           <button
             type="button"
             className="ui-action"
@@ -614,7 +614,7 @@ export function PersonCard({
             Travel to
           </button>
         ) : null}
-        {reachable && (expanded || contact.meet.available) ? (
+        {reachable && contact.meet.available && onMeet ? (
           <button
             type="button"
             className="ui-action"
@@ -626,7 +626,7 @@ export function PersonCard({
             Meet
           </button>
         ) : null}
-        {reachable && (expanded || contact.contact.available) ? (
+        {reachable && contact.contact.available && onContact ? (
           <button
             type="button"
             className="ui-action"
@@ -653,17 +653,17 @@ export function PersonCard({
         {talkUnavailable ??
           "Starts the established conversation with this person."}
       </p>
-      {reachable && (expanded || contact.contact.available) ? (
+      {reachable && contact.contact.available && onContact ? (
         <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
           {contact.contact.reason}
         </p>
       ) : null}
-      {reachable && (expanded || contact.meet.available) ? (
+      {reachable && contact.meet.available && onMeet ? (
         <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
           {contact.meet.reason}
         </p>
       ) : null}
-      {reachable && (expanded || contact.travel.available) ? (
+      {reachable && contact.travel.available && onTravel ? (
         <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
           {contact.travel.reason}
         </p>
