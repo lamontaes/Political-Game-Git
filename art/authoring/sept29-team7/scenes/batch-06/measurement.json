@@ -1,0 +1,767 @@
+{
+  "schema": "team7-scene-measurements/v1",
+  "coordinateOrigin": "upper-left",
+  "coordinateUnit": "source-image-edge pixels",
+  "approval": "pending-cto-and-owner",
+  "baseHead": "7eee3bedd6f532cb10709d887a10837289864c93",
+  "sourceRoot": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "sourceGroups": 20,
+  "images": [
+    {
+      "sourceKey": "place-national-convention-floor",
+      "file": "places/place-national-convention-floor.png",
+      "kind": "national-convention-floor",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "6f026e354b98390fa7d69a9a030977348a530d093ad98273929aadbc676c0703",
+      "group": "place-national-convention-floor",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Foreground chair238px to floor258px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away. Bleachers and dense rear floor seats unresolved; no exhaustive seating claim. Stage floor scale needs full-size actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-newspaper-newsroom__midda",
+      "file": "places/place-newspaper-newsroom__midda.png",
+      "kind": "newspaper-newsroom",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "7bea50e679b1a70a3e707ca4576767a0702e286925f9056620aaf1487ffc2a68",
+      "group": "place-newspaper-newsroom",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near office cushion292px to floor333px; assume0.45m seat.",
+      "unresolved": [
+        "Desk chairs face away; hidden floor points estimated. Private planning surfaces do not imply public news."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-oval-office__midday",
+      "file": "places/place-oval-office__midday.png",
+      "kind": "oval-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "9f4fbc1c145e22ca2f2dfedfb754317cd05c71ec2fa413df372e3d425d1dec38",
+      "group": "place-oval-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Sofa cushion246px to floor288px; assume0.45m seat.",
+      "unresolved": [
+        "Desk foot hidden; sofas partly occluded by side tables."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-police-station-lobby__mid",
+      "file": "places/place-police-station-lobby__mid.png",
+      "kind": "police-station-lobby",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "9a64d6f9383705979f96db4be434b112a063a9f0138c0824cb30a76825596f41",
+      "group": "place-police-station-lobby",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Waiting cushion265px to floor303px; assume0.45m seat.",
+      "unresolved": [
+        "Reception feet hidden; partial left edge chair needs crop fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-polling-place-exterior__m--2",
+      "file": "places/place-polling-place-exterior__m--2.png",
+      "kind": "polling-place-exterior",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "62815973e1521c89a1a97cb006090885e97d1fc75f48dc2745ca9332c16ce03c",
+      "group": "place-polling-place-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School door112px to landing235px; assume2.1m door.",
+      "unresolved": [
+        "No poll access or voting authority created; ramp and steps require separate floor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-polling-place-exterior__m",
+      "file": "places/place-polling-place-exterior__m.png",
+      "kind": "polling-place-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "6255652b4d3e493c7d1cb773543690ecb3d378ac8a577b2b92d8577b44ae7902",
+      "group": "place-polling-place-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School door112px to landing235px; assume2.1m door.",
+      "unresolved": [
+        "No poll access or voting authority created; ramp and steps require separate floor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-polling-place-exterior__n",
+      "file": "places/place-polling-place-exterior__n.png",
+      "kind": "polling-place-exterior",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "fd2af3325f9bca24154bdb064ad345c3f6c1f6640110caa58ea2681da8cf8336",
+      "group": "place-polling-place-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School door112px to landing235px; assume2.1m door.",
+      "unresolved": [
+        "No poll access or voting authority created; ramp and steps require separate floor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-polling-place-exterior__r",
+      "file": "places/place-polling-place-exterior__r.png",
+      "kind": "polling-place-exterior",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "5151fddf9c7cfe9884a5a3637fcad02bbddad96201fa06533d47866adc8c3f96",
+      "group": "place-polling-place-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "School door112px to landing235px; assume2.1m door.",
+      "unresolved": [
+        "No poll access or voting authority created; ramp and steps require separate floor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-post-office__midday--2",
+      "file": "places/place-post-office__midday--2.png",
+      "kind": "post-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "4ae535cc28d3d5980186c6cc34a8861566d7d86ba30a8f24859328a1ecb63f6f",
+      "group": "place-post-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter151px to floor222px; assume1.0m counter.",
+      "unresolved": [
+        "Staff foot hidden; paper form has no civic assignment. Other small loose forms require full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-post-office__midday",
+      "file": "places/place-post-office__midday.png",
+      "kind": "post-office",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "f70e9a92d3dbf5b63c7097031bb0867db17399a1407c9a23ee41dfce2127ef1c",
+      "group": "place-post-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter316px to floor381px on600x600 camera; assume1.0m counter.",
+      "unresolved": [
+        "Independent square camera; hidden staff foot estimated."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-post-office__morning",
+      "file": "places/place-post-office__morning.png",
+      "kind": "post-office",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "2156ad92c7114a6e404c9dd9d183692b965b806db7c29ca8e0abfa79e4b18867",
+      "group": "place-post-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter151px to floor222px; assume1.0m counter.",
+      "unresolved": [
+        "Staff foot hidden; paper form has no civic assignment. Other small loose forms require full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-post-office__night",
+      "file": "places/place-post-office__night.png",
+      "kind": "post-office",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "953c9cfade0bc1269b3b9ebcebfdce7b95325668ed560644f6e180c3f8b1c691",
+      "group": "place-post-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter151px to floor222px; assume1.0m counter.",
+      "unresolved": [
+        "Staff foot hidden; paper form has no civic assignment. Other small loose forms require full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-post-office__rain",
+      "file": "places/place-post-office__rain.png",
+      "kind": "post-office",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "050081cc6144a0820e439fe06462e91f5f6f8384aeaec541ec0ca708ee905735",
+      "group": "place-post-office",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Counter151px to floor222px; assume1.0m counter.",
+      "unresolved": [
+        "Staff foot hidden; paper form has no civic assignment. Other small loose forms require full-size review."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-press-briefing-room__midd",
+      "file": "places/place-press-briefing-room__midd.png",
+      "kind": "press-briefing-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "20f042e1d0e6ac0a004d37875c6823e51ec2590b9d3c5f71ab19790afa797388",
+      "group": "place-press-briefing-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front chair300px to floor330px; assume0.45m seat.",
+      "unresolved": [
+        "Audience faces away; stage and camera deck elevated fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-protest-at-capitol__midda",
+      "file": "places/place-protest-at-capitol__midda.png",
+      "kind": "protest-at-capitol",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "af320f3af683a8930c66224a637956f16154b24591b6c35d552b7f1c53eb86de",
+      "group": "place-protest-at-capitol",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Platform surface211px to base238px; assume0.30m platform.",
+      "unresolved": [
+        "Placard assignment needs recorded speaker message; no protest cause or authority created. Raised platform actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-protest-at-capitol__morni",
+      "file": "places/place-protest-at-capitol__morni.png",
+      "kind": "protest-at-capitol",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "ff2507abbc830dc7830e9e5632b8cfdbfcb221e181c3a0a4eb2573c47c322c90",
+      "group": "place-protest-at-capitol",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Platform surface211px to base238px; assume0.30m platform.",
+      "unresolved": [
+        "Placard assignment needs recorded speaker message; no protest cause or authority created. Raised platform actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-protest-at-capitol__night",
+      "file": "places/place-protest-at-capitol__night.png",
+      "kind": "protest-at-capitol",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "59146d4233f1d9da9f624aeba58dd5440b9bd0eaed2026b03b5c38d7bd1e2389",
+      "group": "place-protest-at-capitol",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Platform surface211px to base238px; assume0.30m platform.",
+      "unresolved": [
+        "Placard assignment needs recorded speaker message; no protest cause or authority created. Raised platform actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-protest-at-capitol__rain",
+      "file": "places/place-protest-at-capitol__rain.png",
+      "kind": "protest-at-capitol",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "592f67ed794635bf725c7a0554786c6386871c31f660ce241eb4d7922269fd08",
+      "group": "place-protest-at-capitol",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Platform surface211px to base238px; assume0.30m platform.",
+      "unresolved": [
+        "Placard assignment needs recorded speaker message; no protest cause or authority created. Raised platform actor fit pending."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-public-library__midday",
+      "file": "places/place-public-library__midday.png",
+      "kind": "public-library",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "941d0de2e88fdf63f7ada4102842e8ef99c5054a21a97d16df306bb8f8786962",
+      "group": "place-public-library",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near reading seat258px to floor287px; assume0.45m seat.",
+      "unresolved": [
+        "Computer chairs face away; obscured far reading seats unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-school-cafeteria__midday",
+      "file": "places/place-school-cafeteria__midday.png",
+      "kind": "school-cafeteria",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "2d20a2208d48fce5396ae3570fd8626ba0b12d882c2f0a3f4614acd6b6d12545",
+      "group": "place-school-cafeteria",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest bench294px to floor316px; assume0.45m seat.",
+      "unresolved": [
+        "Near-side bench sitters face away; opposite/hidden bench contacts unresolved. No enrollment or school facts created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-school-cafeteria__morning",
+      "file": "places/place-school-cafeteria__morning.png",
+      "kind": "school-cafeteria",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "c7e23eaa0c90ef10d1ec5cc74050b8c4e033b2def858d195434309d3f02ecf6d",
+      "group": "place-school-cafeteria",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest bench294px to floor316px; assume0.45m seat.",
+      "unresolved": [
+        "Near-side bench sitters face away; opposite/hidden bench contacts unresolved. No enrollment or school facts created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-school-cafeteria__night",
+      "file": "places/place-school-cafeteria__night.png",
+      "kind": "school-cafeteria",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "f54a082c37bff120d122dcabfa4192e7d59b083415ddc1573adc6ab0145019c1",
+      "group": "place-school-cafeteria",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest bench294px to floor316px; assume0.45m seat.",
+      "unresolved": [
+        "Near-side bench sitters face away; opposite/hidden bench contacts unresolved. No enrollment or school facts created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-school-cafeteria__rain",
+      "file": "places/place-school-cafeteria__rain.png",
+      "kind": "school-cafeteria",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "2600281dca8c99f20daae3b7f43e1348b4724092d5932317363666e5e5d1ade3",
+      "group": "place-school-cafeteria",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest bench294px to floor316px; assume0.45m seat.",
+      "unresolved": [
+        "Near-side bench sitters face away; opposite/hidden bench contacts unresolved. No enrollment or school facts created."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-sidewalk-downtown__midday",
+      "file": "places/place-sidewalk-downtown__midday.png",
+      "kind": "sidewalk-downtown",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "444d1e2f49a42993fe2662f8ea89b547804daadcdb8f58bc564bb095fcb23407",
+      "group": "place-sidewalk-downtown",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench272px to floor291px; assume0.45m seat.",
+      "unresolved": [
+        "Bench depth estimate; bus shelter glass is not a content face."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-sidewalk-main-street__mid",
+      "file": "places/place-sidewalk-main-street__mid.png",
+      "kind": "sidewalk-main-street",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "a62aed9d71f3f0067cf971f91c453c8cbf33e01196562da89510801c6d2ab9b4",
+      "group": "place-sidewalk-main-street",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Bench230px to floor247px; assume0.45m seat.",
+      "unresolved": [],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-sidewalk-suburban__midday",
+      "file": "places/place-sidewalk-suburban__midday.png",
+      "kind": "sidewalk-suburban",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "0eedec9d6af7c180c49ea61da94f23ac545e82b51d0a128ff9bd6fde49209edc",
+      "group": "place-sidewalk-suburban",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest mailbox172px to pavement268px; assume1.1m post height.",
+      "unresolved": [
+        "Mailbox does not produce mail or location identity."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-state-house-chamber__midd",
+      "file": "places/place-state-house-chamber__midd.png",
+      "kind": "state-house-chamber",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "75e3a6f62e805e9dba9017a3c548e5379cd41579afe3a1a20b533a31b0d39ebd",
+      "group": "place-state-house-chamber",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Desk seats face away; upper gallery and obscured edge positions unresolved. Dais height requires actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-state-house-chamber__morn",
+      "file": "places/place-state-house-chamber__morn.png",
+      "kind": "state-house-chamber",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "119daf9ac2fe9fda06b8e02664c400a3e9b659ba1032a49f4b4886d2c5bacb16",
+      "group": "place-state-house-chamber",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Desk seats face away; upper gallery and obscured edge positions unresolved. Dais height requires actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-state-house-chamber__nigh",
+      "file": "places/place-state-house-chamber__nigh.png",
+      "kind": "state-house-chamber",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "65d2dc3c488093023f0d38717ab1bf3d514930fd0b7cf7e7ac513c3447367ad2",
+      "group": "place-state-house-chamber",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Desk seats face away; upper gallery and obscured edge positions unresolved. Dais height requires actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-state-house-chamber__rain",
+      "file": "places/place-state-house-chamber__rain.png",
+      "kind": "state-house-chamber",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "614145905469bd0d8a4da28ac554b81d046199465040b8f10691f73414d4625e",
+      "group": "place-state-house-chamber",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Front cushion278px to floor329px; assume0.45m seat.",
+      "unresolved": [
+        "Desk seats face away; upper gallery and obscured edge positions unresolved. Dais height requires actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-steakhouse-private-room__--2",
+      "file": "places/place-steakhouse-private-room__--2.png",
+      "kind": "steakhouse-private-room",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "d85ae6fc25c14812a68d4d1fadd72b93527ed6529a4fd20b1f1e6bf54f6b5759",
+      "group": "place-steakhouse-private-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side cushion290px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Near head chair faces away; feet under table inferred; far seats partly hidden. Hero is beside table, pending actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-steakhouse-private-room__--3",
+      "file": "places/place-steakhouse-private-room__--3.png",
+      "kind": "steakhouse-private-room",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "a00c27c6e0e57e766d336560da0620ca7893ee7e7213c63ca7dac5d87a80fd07",
+      "group": "place-steakhouse-private-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side cushion290px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Near head chair faces away; feet under table inferred; far seats partly hidden. Hero is beside table, pending actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-steakhouse-private-room__--4",
+      "file": "places/place-steakhouse-private-room__--4.png",
+      "kind": "steakhouse-private-room",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "984c50979e978fa176cd9dd1edca9723fe3c471460166f56587057fffa1a866d",
+      "group": "place-steakhouse-private-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side cushion290px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Near head chair faces away; feet under table inferred; far seats partly hidden. Hero is beside table, pending actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-steakhouse-private-room__",
+      "file": "places/place-steakhouse-private-room__.png",
+      "kind": "steakhouse-private-room",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "65ac2808222192f1a680431247889ef936c6894de63ab6f5dbab5d2bf96995dd",
+      "group": "place-steakhouse-private-room",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Near side cushion290px to floor321px; assume0.45m seat.",
+      "unresolved": [
+        "Near head chair faces away; feet under table inferred; far seats partly hidden. Hero is beside table, pending actor fit."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-strip-mall-parking-lot__m",
+      "file": "places/place-strip-mall-parking-lot__m.png",
+      "kind": "strip-mall-parking-lot",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "f55b5fcb1e316bf8655ac666b40380d6c4d3675f345882e0d532a32077e41231",
+      "group": "place-strip-mall-parking-lot",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest store door184px to pavement235px; assume2.1m door.",
+      "unresolved": [
+        "Hero requires near parking space occupancy fit; no collision proof."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-supreme-court-exterior__m--2",
+      "file": "places/place-supreme-court-exterior__m--2.png",
+      "kind": "supreme-court-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "a1a206fe637ff606d5c5bb7d2d2798cfdd12921e930350acfe8350fb46b6b641",
+      "group": "place-supreme-court-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Central doors140px to threshold209px; assume2.1m door.",
+      "unresolved": [
+        "Stair contact and raised building approach not calibrated; far spot lies on stairs and remains unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-supreme-court-exterior__m--3",
+      "file": "places/place-supreme-court-exterior__m--3.png",
+      "kind": "supreme-court-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "0d6f502f36948975c12d985d7ba4d32314b1bfb72d7612eb845f461444d15d6c",
+      "group": "place-supreme-court-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Central doors140px to threshold209px; assume2.1m door.",
+      "unresolved": [
+        "Stair contact and raised building approach not calibrated; far spot lies on stairs and remains unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-supreme-court-exterior__m",
+      "file": "places/place-supreme-court-exterior__m.png",
+      "kind": "supreme-court-exterior",
+      "variant": "midday",
+      "width": 600,
+      "height": 600,
+      "sha256": "0c374fa31df3fd953fa5e8c7be5bbb06f554b103364f5ac08c2f40abe2e7c228",
+      "group": "place-supreme-court-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Central door288px to threshold359px on600x600 camera; assume2.1m door.",
+      "unresolved": [
+        "Independent angled square camera; stairs unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-supreme-court-exterior__n",
+      "file": "places/place-supreme-court-exterior__n.png",
+      "kind": "supreme-court-exterior",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "a3bc6d38b716203db0ca98a2eeabf085a4b535d3253d256dbf656c5512c99d6c",
+      "group": "place-supreme-court-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Central doors140px to threshold209px; assume2.1m door.",
+      "unresolved": [
+        "Stair contact and raised building approach not calibrated; far spot lies on stairs and remains unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-supreme-court-exterior__r",
+      "file": "places/place-supreme-court-exterior__r.png",
+      "kind": "supreme-court-exterior",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "5d7bdd322d06c32e4810b62b0770ed4322f336c5ad5e17ec32822bba42e363fe",
+      "group": "place-supreme-court-exterior",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Central doors140px to threshold209px; assume2.1m door.",
+      "unresolved": [
+        "Stair contact and raised building approach not calibrated; far spot lies on stairs and remains unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tavern__midday--2",
+      "file": "places/place-tavern__midday--2.png",
+      "kind": "tavern",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "36ea723de200f14285cb510005a15c26131ed693e1dcdbfa9b688332c855d706",
+      "group": "place-tavern",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool280px to floor324px; assume0.6m stool.",
+      "unresolved": [
+        "Booth feet hidden; pool-table standing interactions unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tavern__midday",
+      "file": "places/place-tavern__midday.png",
+      "kind": "tavern",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "096eb096b9e661caa1483e98c3ecbea652dd1694e5bad64b77cc1e48dd51cc4b",
+      "group": "place-tavern",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool291px to floor333px; assume0.6m stool.",
+      "unresolved": [
+        "Independent reverse-bar camera. Booth feet hidden."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tavern__morning",
+      "file": "places/place-tavern__morning.png",
+      "kind": "tavern",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "2e92fc0675624d678361ad1ec73e4acfcd6d0c33bd1151b8a3bebc56151aed8d",
+      "group": "place-tavern",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool280px to floor324px; assume0.6m stool.",
+      "unresolved": [
+        "Booth feet hidden; pool-table standing interactions unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tavern__night",
+      "file": "places/place-tavern__night.png",
+      "kind": "tavern",
+      "variant": "night",
+      "width": 600,
+      "height": 334,
+      "sha256": "3b574566a96183152f13709f67db73c5bd2311577e78af737a6d46d9c55995f9",
+      "group": "place-tavern",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool280px to floor324px; assume0.6m stool.",
+      "unresolved": [
+        "Booth feet hidden; pool-table standing interactions unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tavern__rain",
+      "file": "places/place-tavern__rain.png",
+      "kind": "tavern",
+      "variant": "rain",
+      "width": 600,
+      "height": 334,
+      "sha256": "c2b0c0a75248931d12fcaba2cbccd5bec852489e66928246689148f25094ac9f",
+      "group": "place-tavern",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest stool280px to floor324px; assume0.6m stool.",
+      "unresolved": [
+        "Booth feet hidden; pool-table standing interactions unresolved."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tornado-damage-neighborho",
+      "file": "places/place-tornado-damage-neighborho.png",
+      "kind": "tornado-damage-neighborhood",
+      "variant": "midday",
+      "width": 600,
+      "height": 334,
+      "sha256": "bc15e13a4630cd27915d95e98a2ef80c445d284506b6e0090e1e1ba402f286d8",
+      "group": "place-tornado-damage-neighborho",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest house door126px to porch204px; assume2.1m door.",
+      "unresolved": [
+        "Candidate sidewalk points avoid large visible debris only; hazards, safety and access are not proven or authored."
+      ],
+      "approval": "pending"
+    },
+    {
+      "sourceKey": "place-tornado-damage-neighborho--2",
+      "file": "places/place-tornado-damage-neighborho--2.png",
+      "kind": "tornado-damage-neighborhood",
+      "variant": "morning",
+      "width": 600,
+      "height": 334,
+      "sha256": "f71c6ac2d24f59d80717b9ac1c475b1f87fe0d07ae16c73a66a5f4bdec862223",
+      "group": "place-tornado-damage-neighborho--2",
+      "cameraReview": "individually inspected; geometry candidate",
+      "estimated": "Nearest house door126px to porch204px; assume2.1m door.",
+      "unresolved": [
+        "Candidate sidewalk points avoid large visible debris only; hazards, safety and access are not proven or authored."
+      ],
+      "approval": "pending"
+    }
+  ],
+  "limits": [
+    "No actual actor composites tested.",
+    "Hidden seat cushion and foot points are estimated from furniture; annotated as candidates.",
+    "No staging variant support exists in current v2 consumer; independent source keys must be mapped by job08.",
+    "No geometry claim about missing or full-size versions."
+  ]
+}

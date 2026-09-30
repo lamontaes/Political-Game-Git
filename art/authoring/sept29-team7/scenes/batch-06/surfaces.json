@@ -1,0 +1,2196 @@
+{
+  "schema": "ocd-place-surfaces/v1",
+  "note": "Candidate quads in each source image native pixels, TL/TR/BR/BL. Independent source keys prevent accidental sharing across changed cameras. No enlargement. Job08 must remeasure full-size rasters or apply exact source mapping.",
+  "places": {
+    "place-national-convention-floor": {
+      "checked": [
+        "place-national-convention-floor.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-national-convention-floor-stage-screen",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Convention screen",
+          "quad": [
+            [
+              266,
+              144
+            ],
+            [
+              334,
+              144
+            ],
+            [
+              334,
+              174
+            ],
+            [
+              266,
+              174
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news",
+            "candidates",
+            "results"
+          ]
+        }
+      ],
+      "skipped": [
+        "Delegation placards, speakers and stage set remain painted; placards require full-size corners."
+      ]
+    },
+    "place-newspaper-newsroom__midda": {
+      "checked": [
+        "place-newspaper-newsroom__midda.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-newspaper-newsroom__midda-near-left-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private newsroom workstation",
+          "quad": [
+            [
+              92,
+              186
+            ],
+            [
+              132,
+              187
+            ],
+            [
+              132,
+              224
+            ],
+            [
+              92,
+              223
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-newspaper-newsroom__midda-near-right-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Private newsroom workstation",
+          "quad": [
+            [
+              478,
+              185
+            ],
+            [
+              535,
+              183
+            ],
+            [
+              535,
+              226
+            ],
+            [
+              478,
+              225
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-newspaper-newsroom__midda-right-cork",
+          "kind": "board",
+          "finish": "cork",
+          "what": "Newsroom planning board",
+          "quad": [
+            [
+              410,
+              80
+            ],
+            [
+              469,
+              80
+            ],
+            [
+              469,
+              117
+            ],
+            [
+              410,
+              117
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "place-newspaper-newsroom__midda-back-board",
+          "kind": "board",
+          "finish": "whiteboard",
+          "what": "Newsroom planning board",
+          "quad": [
+            [
+              336,
+              77
+            ],
+            [
+              397,
+              77
+            ],
+            [
+              397,
+              118
+            ],
+            [
+              336,
+              118
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Other small monitors, document stacks and individual wall notes require full-size corner review."
+      ]
+    },
+    "place-oval-office__midday": {
+      "checked": [
+        "place-oval-office__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Flags, windows and desk blotter retain paint."
+      ]
+    },
+    "place-police-station-lobby__mid": {
+      "checked": [
+        "place-police-station-lobby__mid.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-police-station-lobby__mid-public-notices",
+          "kind": "board",
+          "finish": "cork",
+          "what": "Police public notice board",
+          "quad": [
+            [
+              271,
+              83
+            ],
+            [
+              362,
+              83
+            ],
+            [
+              362,
+              140
+            ],
+            [
+              271,
+              140
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Seal, flag and computer backs retain paint."
+      ]
+    },
+    "place-polling-place-exterior__m--2": {
+      "checked": [
+        "place-polling-place-exterior__m--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-polling-place-exterior__m--2-near-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              524,
+              218
+            ],
+            [
+              565,
+              230
+            ],
+            [
+              545,
+              294
+            ],
+            [
+              511,
+              282
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-polling-place-exterior__m--2-far-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              480,
+              184
+            ],
+            [
+              500,
+              189
+            ],
+            [
+              482,
+              236
+            ],
+            [
+              466,
+              231
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Cone tape, windows and inaccessible reverse sign faces retain paint."
+      ]
+    },
+    "place-polling-place-exterior__m": {
+      "checked": [
+        "place-polling-place-exterior__m.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-polling-place-exterior__m-near-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              524,
+              218
+            ],
+            [
+              565,
+              230
+            ],
+            [
+              545,
+              294
+            ],
+            [
+              511,
+              282
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-polling-place-exterior__m-far-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              480,
+              184
+            ],
+            [
+              500,
+              189
+            ],
+            [
+              482,
+              236
+            ],
+            [
+              466,
+              231
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Cone tape, windows and inaccessible reverse sign faces retain paint."
+      ]
+    },
+    "place-polling-place-exterior__n": {
+      "checked": [
+        "place-polling-place-exterior__n.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-polling-place-exterior__n-near-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              524,
+              218
+            ],
+            [
+              565,
+              230
+            ],
+            [
+              545,
+              294
+            ],
+            [
+              511,
+              282
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-polling-place-exterior__n-far-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              480,
+              184
+            ],
+            [
+              500,
+              189
+            ],
+            [
+              482,
+              236
+            ],
+            [
+              466,
+              231
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Cone tape, windows and inaccessible reverse sign faces retain paint."
+      ]
+    },
+    "place-polling-place-exterior__r": {
+      "checked": [
+        "place-polling-place-exterior__r.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-polling-place-exterior__r-near-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              524,
+              218
+            ],
+            [
+              565,
+              230
+            ],
+            [
+              545,
+              294
+            ],
+            [
+              511,
+              282
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        },
+        {
+          "id": "place-polling-place-exterior__r-far-sign",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Polling direction sign",
+          "quad": [
+            [
+              480,
+              184
+            ],
+            [
+              500,
+              189
+            ],
+            [
+              482,
+              236
+            ],
+            [
+              466,
+              231
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Cone tape, windows and inaccessible reverse sign faces retain paint."
+      ]
+    },
+    "place-post-office__midday--2": {
+      "checked": [
+        "place-post-office__midday--2.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-post-office__midday--2-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Postal counter form",
+          "quad": [
+            [
+              524,
+              185
+            ],
+            [
+              546,
+              181
+            ],
+            [
+              557,
+              186
+            ],
+            [
+              535,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Mailboxes, seal, flag and brochure stack retain paint. Other small table forms require full-size review."
+      ]
+    },
+    "place-post-office__midday": {
+      "checked": [
+        "place-post-office__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-post-office__midday-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Postal counter form",
+          "quad": [
+            [
+              104,
+              330
+            ],
+            [
+              141,
+              330
+            ],
+            [
+              136,
+              341
+            ],
+            [
+              99,
+              339
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Mailboxes, flag, seal and brochure rack retain paint."
+      ]
+    },
+    "place-post-office__morning": {
+      "checked": [
+        "place-post-office__morning.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-post-office__morning-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Postal counter form",
+          "quad": [
+            [
+              524,
+              185
+            ],
+            [
+              546,
+              181
+            ],
+            [
+              557,
+              186
+            ],
+            [
+              535,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Mailboxes, seal, flag and brochure stack retain paint. Other small table forms require full-size review."
+      ]
+    },
+    "place-post-office__night": {
+      "checked": [
+        "place-post-office__night.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-post-office__night-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Postal counter form",
+          "quad": [
+            [
+              524,
+              185
+            ],
+            [
+              546,
+              181
+            ],
+            [
+              557,
+              186
+            ],
+            [
+              535,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Mailboxes, seal, flag and brochure stack retain paint. Other small table forms require full-size review."
+      ]
+    },
+    "place-post-office__rain": {
+      "checked": [
+        "place-post-office__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-post-office__rain-table-paper",
+          "kind": "paper",
+          "finish": "panel",
+          "what": "Postal counter form",
+          "quad": [
+            [
+              524,
+              185
+            ],
+            [
+              546,
+              181
+            ],
+            [
+              557,
+              186
+            ],
+            [
+              535,
+              190
+            ]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "Mailboxes, seal, flag and brochure stack retain paint. Other small table forms require full-size review."
+      ]
+    },
+    "place-press-briefing-room__midd": {
+      "checked": [
+        "place-press-briefing-room__midd.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-press-briefing-room__midd-left-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Briefing monitor",
+          "quad": [
+            [
+              15,
+              75
+            ],
+            [
+              52,
+              78
+            ],
+            [
+              52,
+              120
+            ],
+            [
+              15,
+              123
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        },
+        {
+          "id": "place-press-briefing-room__midd-right-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Briefing monitor",
+          "quad": [
+            [
+              325,
+              80
+            ],
+            [
+              362,
+              81
+            ],
+            [
+              362,
+              105
+            ],
+            [
+              325,
+              105
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Camera equipment, stage backdrop and blank side panels retain paint."
+      ]
+    },
+    "place-protest-at-capitol__midda": {
+      "checked": [
+        "place-protest-at-capitol__midda.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-protest-at-capitol__midda-placard-1",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              57,
+              214
+            ],
+            [
+              80,
+              207
+            ],
+            [
+              84,
+              235
+            ],
+            [
+              63,
+              244
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-2",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              88,
+              190
+            ],
+            [
+              111,
+              185
+            ],
+            [
+              115,
+              214
+            ],
+            [
+              93,
+              220
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-3",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              119,
+              155
+            ],
+            [
+              139,
+              151
+            ],
+            [
+              143,
+              172
+            ],
+            [
+              124,
+              177
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-4",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              150,
+              178
+            ],
+            [
+              162,
+              175
+            ],
+            [
+              168,
+              193
+            ],
+            [
+              156,
+              197
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-5",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              146
+            ],
+            [
+              181,
+              147
+            ],
+            [
+              180,
+              166
+            ],
+            [
+              166,
+              165
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-6",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              125,
+              227
+            ],
+            [
+              147,
+              220
+            ],
+            [
+              156,
+              245
+            ],
+            [
+              134,
+              256
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-7",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              196
+            ],
+            [
+              178,
+              193
+            ],
+            [
+              182,
+              207
+            ],
+            [
+              170,
+              211
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-8",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              189,
+              184
+            ],
+            [
+              200,
+              181
+            ],
+            [
+              204,
+              194
+            ],
+            [
+              194,
+              198
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-9",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              199,
+              151
+            ],
+            [
+              208,
+              150
+            ],
+            [
+              210,
+              165
+            ],
+            [
+              202,
+              166
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__midda-placard-10",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              217,
+              152
+            ],
+            [
+              230,
+              152
+            ],
+            [
+              230,
+              166
+            ],
+            [
+              218,
+              167
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        }
+      ],
+      "skipped": [
+        "Reverse faces and small background placards require full-size review."
+      ]
+    },
+    "place-protest-at-capitol__morni": {
+      "checked": [
+        "place-protest-at-capitol__morni.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-protest-at-capitol__morni-placard-1",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              57,
+              214
+            ],
+            [
+              80,
+              207
+            ],
+            [
+              84,
+              235
+            ],
+            [
+              63,
+              244
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-2",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              88,
+              190
+            ],
+            [
+              111,
+              185
+            ],
+            [
+              115,
+              214
+            ],
+            [
+              93,
+              220
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-3",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              119,
+              155
+            ],
+            [
+              139,
+              151
+            ],
+            [
+              143,
+              172
+            ],
+            [
+              124,
+              177
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-4",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              150,
+              178
+            ],
+            [
+              162,
+              175
+            ],
+            [
+              168,
+              193
+            ],
+            [
+              156,
+              197
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-5",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              146
+            ],
+            [
+              181,
+              147
+            ],
+            [
+              180,
+              166
+            ],
+            [
+              166,
+              165
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-6",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              125,
+              227
+            ],
+            [
+              147,
+              220
+            ],
+            [
+              156,
+              245
+            ],
+            [
+              134,
+              256
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-7",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              196
+            ],
+            [
+              178,
+              193
+            ],
+            [
+              182,
+              207
+            ],
+            [
+              170,
+              211
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-8",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              189,
+              184
+            ],
+            [
+              200,
+              181
+            ],
+            [
+              204,
+              194
+            ],
+            [
+              194,
+              198
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-9",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              199,
+              151
+            ],
+            [
+              208,
+              150
+            ],
+            [
+              210,
+              165
+            ],
+            [
+              202,
+              166
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__morni-placard-10",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              217,
+              152
+            ],
+            [
+              230,
+              152
+            ],
+            [
+              230,
+              166
+            ],
+            [
+              218,
+              167
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        }
+      ],
+      "skipped": [
+        "Reverse faces and small background placards require full-size review."
+      ]
+    },
+    "place-protest-at-capitol__night": {
+      "checked": [
+        "place-protest-at-capitol__night.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-protest-at-capitol__night-placard-1",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              57,
+              214
+            ],
+            [
+              80,
+              207
+            ],
+            [
+              84,
+              235
+            ],
+            [
+              63,
+              244
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-2",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              88,
+              190
+            ],
+            [
+              111,
+              185
+            ],
+            [
+              115,
+              214
+            ],
+            [
+              93,
+              220
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-3",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              119,
+              155
+            ],
+            [
+              139,
+              151
+            ],
+            [
+              143,
+              172
+            ],
+            [
+              124,
+              177
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-4",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              150,
+              178
+            ],
+            [
+              162,
+              175
+            ],
+            [
+              168,
+              193
+            ],
+            [
+              156,
+              197
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-5",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              146
+            ],
+            [
+              181,
+              147
+            ],
+            [
+              180,
+              166
+            ],
+            [
+              166,
+              165
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-6",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              125,
+              227
+            ],
+            [
+              147,
+              220
+            ],
+            [
+              156,
+              245
+            ],
+            [
+              134,
+              256
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-7",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              196
+            ],
+            [
+              178,
+              193
+            ],
+            [
+              182,
+              207
+            ],
+            [
+              170,
+              211
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-8",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              189,
+              184
+            ],
+            [
+              200,
+              181
+            ],
+            [
+              204,
+              194
+            ],
+            [
+              194,
+              198
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-9",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              199,
+              151
+            ],
+            [
+              208,
+              150
+            ],
+            [
+              210,
+              165
+            ],
+            [
+              202,
+              166
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__night-placard-10",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              217,
+              152
+            ],
+            [
+              230,
+              152
+            ],
+            [
+              230,
+              166
+            ],
+            [
+              218,
+              167
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        }
+      ],
+      "skipped": [
+        "Reverse faces and small background placards require full-size review."
+      ]
+    },
+    "place-protest-at-capitol__rain": {
+      "checked": [
+        "place-protest-at-capitol__rain.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-protest-at-capitol__rain-placard-1",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              57,
+              214
+            ],
+            [
+              80,
+              207
+            ],
+            [
+              84,
+              235
+            ],
+            [
+              63,
+              244
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-2",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              88,
+              190
+            ],
+            [
+              111,
+              185
+            ],
+            [
+              115,
+              214
+            ],
+            [
+              93,
+              220
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-3",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              119,
+              155
+            ],
+            [
+              139,
+              151
+            ],
+            [
+              143,
+              172
+            ],
+            [
+              124,
+              177
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-4",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              150,
+              178
+            ],
+            [
+              162,
+              175
+            ],
+            [
+              168,
+              193
+            ],
+            [
+              156,
+              197
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-5",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              146
+            ],
+            [
+              181,
+              147
+            ],
+            [
+              180,
+              166
+            ],
+            [
+              166,
+              165
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-6",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              125,
+              227
+            ],
+            [
+              147,
+              220
+            ],
+            [
+              156,
+              245
+            ],
+            [
+              134,
+              256
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-7",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              167,
+              196
+            ],
+            [
+              178,
+              193
+            ],
+            [
+              182,
+              207
+            ],
+            [
+              170,
+              211
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-8",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              189,
+              184
+            ],
+            [
+              200,
+              181
+            ],
+            [
+              204,
+              194
+            ],
+            [
+              194,
+              198
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-9",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              199,
+              151
+            ],
+            [
+              208,
+              150
+            ],
+            [
+              210,
+              165
+            ],
+            [
+              202,
+              166
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        },
+        {
+          "id": "place-protest-at-capitol__rain-placard-10",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Demonstration placard",
+          "quad": [
+            [
+              217,
+              152
+            ],
+            [
+              230,
+              152
+            ],
+            [
+              230,
+              166
+            ],
+            [
+              218,
+              167
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "plans"
+          ]
+        }
+      ],
+      "skipped": [
+        "Reverse faces and small background placards require full-size review."
+      ]
+    },
+    "place-public-library__midday": {
+      "checked": [
+        "place-public-library__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Computer backs, books, lamps and wall clock retain paint."
+      ]
+    },
+    "place-school-cafeteria__midday": {
+      "checked": [
+        "place-school-cafeteria__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Food counter equipment, trays and windows retain paint."
+      ]
+    },
+    "place-school-cafeteria__morning": {
+      "checked": [
+        "place-school-cafeteria__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Food counter equipment, trays and windows retain paint."
+      ]
+    },
+    "place-school-cafeteria__night": {
+      "checked": [
+        "place-school-cafeteria__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Food counter equipment, trays and windows retain paint."
+      ]
+    },
+    "place-school-cafeteria__rain": {
+      "checked": [
+        "place-school-cafeteria__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Food counter equipment, trays and windows retain paint."
+      ]
+    },
+    "place-sidewalk-downtown__midday": {
+      "checked": [
+        "place-sidewalk-downtown__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-sidewalk-downtown__midday-bus-poster",
+          "kind": "poster",
+          "finish": "panel",
+          "what": "Public bus-stop poster",
+          "quad": [
+            [
+              231,
+              180
+            ],
+            [
+              265,
+              176
+            ],
+            [
+              265,
+              238
+            ],
+            [
+              231,
+              242
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "programs"
+          ]
+        }
+      ],
+      "skipped": [
+        "Traffic signals, road signs and shop glass retain paint."
+      ]
+    },
+    "place-sidewalk-main-street__mid": {
+      "checked": [
+        "place-sidewalk-main-street__mid.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Storefront lettering and signs retain paint."
+      ]
+    },
+    "place-sidewalk-suburban__midday": {
+      "checked": [
+        "place-sidewalk-suburban__midday.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Mailbox sides, home windows and distant signs retain paint."
+      ]
+    },
+    "place-state-house-chamber__midd": {
+      "checked": [
+        "place-state-house-chamber__midd.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, desk blotters, balcony and seal retain paint."
+      ]
+    },
+    "place-state-house-chamber__morn": {
+      "checked": [
+        "place-state-house-chamber__morn.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, desk blotters, balcony and seal retain paint."
+      ]
+    },
+    "place-state-house-chamber__nigh": {
+      "checked": [
+        "place-state-house-chamber__nigh.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, desk blotters, balcony and seal retain paint."
+      ]
+    },
+    "place-state-house-chamber__rain": {
+      "checked": [
+        "place-state-house-chamber__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Microphones, desk blotters, balcony and seal retain paint."
+      ]
+    },
+    "place-steakhouse-private-room__--2": {
+      "checked": [
+        "place-steakhouse-private-room__--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Place settings, wall medallion, closed menu covers and decorative fixtures retain paint."
+      ]
+    },
+    "place-steakhouse-private-room__--3": {
+      "checked": [
+        "place-steakhouse-private-room__--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Place settings, wall medallion, closed menu covers and decorative fixtures retain paint."
+      ]
+    },
+    "place-steakhouse-private-room__--4": {
+      "checked": [
+        "place-steakhouse-private-room__--4.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Place settings, wall medallion, closed menu covers and decorative fixtures retain paint."
+      ]
+    },
+    "place-steakhouse-private-room__": {
+      "checked": [
+        "place-steakhouse-private-room__.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Place settings, wall medallion, closed menu covers and decorative fixtures retain paint."
+      ]
+    },
+    "place-strip-mall-parking-lot__m": {
+      "checked": [
+        "place-strip-mall-parking-lot__m.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Shop signs, vehicle plates and storefront glass retain paint."
+      ]
+    },
+    "place-supreme-court-exterior__m--2": {
+      "checked": [
+        "place-supreme-court-exterior__m--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building reliefs, windows, statuary and fountains retain paint."
+      ]
+    },
+    "place-supreme-court-exterior__m--3": {
+      "checked": [
+        "place-supreme-court-exterior__m--3.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building reliefs, windows, statuary and fountains retain paint."
+      ]
+    },
+    "place-supreme-court-exterior__m": {
+      "checked": [
+        "place-supreme-court-exterior__m.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building reliefs, statuary and fountains retain paint."
+      ]
+    },
+    "place-supreme-court-exterior__n": {
+      "checked": [
+        "place-supreme-court-exterior__n.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building reliefs, windows, statuary and fountains retain paint."
+      ]
+    },
+    "place-supreme-court-exterior__r": {
+      "checked": [
+        "place-supreme-court-exterior__r.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Building reliefs, windows, statuary and fountains retain paint."
+      ]
+    },
+    "place-tavern__midday--2": {
+      "checked": [
+        "place-tavern__midday--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Bottle labels, dartboards, framed art and chalk menu retain paint. Pool table is not a drawable paper."
+      ]
+    },
+    "place-tavern__midday": {
+      "checked": [
+        "place-tavern__midday.png"
+      ],
+      "surfaces": [
+        {
+          "id": "place-tavern__midday-television",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "Tavern television",
+          "quad": [
+            [
+              427,
+              73
+            ],
+            [
+              489,
+              64
+            ],
+            [
+              499,
+              115
+            ],
+            [
+              433,
+              121
+            ]
+          ],
+          "perspective": true,
+          "shows": [
+            "news"
+          ]
+        }
+      ],
+      "skipped": [
+        "Bottle labels, menu and decorative picture faces retain paint."
+      ]
+    },
+    "place-tavern__morning": {
+      "checked": [
+        "place-tavern__morning.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Bottle labels, dartboards, framed art and chalk menu retain paint. Pool table is not a drawable paper."
+      ]
+    },
+    "place-tavern__night": {
+      "checked": [
+        "place-tavern__night.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Bottle labels, dartboards, framed art and chalk menu retain paint. Pool table is not a drawable paper."
+      ]
+    },
+    "place-tavern__rain": {
+      "checked": [
+        "place-tavern__rain.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Bottle labels, dartboards, framed art and chalk menu retain paint. Pool table is not a drawable paper."
+      ]
+    },
+    "place-tornado-damage-neighborho": {
+      "checked": [
+        "place-tornado-damage-neighborho.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Damaged homes, fallen wires and debris retain paint."
+      ]
+    },
+    "place-tornado-damage-neighborho--2": {
+      "checked": [
+        "place-tornado-damage-neighborho--2.png"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "Damaged homes, fallen wires and debris retain paint."
+      ]
+    }
+  }
+}
