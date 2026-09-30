@@ -1,0 +1,161 @@
+{
+  "scope": "Illustrative priority candidates; no admission key or named geography assigned",
+  "sets": [
+    {
+      "kind": "southwest-street",
+      "file": "art/authoring/sept30-team7/regional-priority/southwest-street.png",
+      "sha256": "d7eaeff82dd1f5a896759c867c30783dbd5eb46b509eb7a6ddda00cacc0fda81",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-priority/southwest-street-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+          "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        },
+        {
+          "path": "/Users/lamontae/Documents/PG-LAND/art/families/regional-opening/env_regional_sonoran_desert_v1.png",
+          "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
+          "role": "landscape cues only; not street/home admission",
+          "license": "not documented in this batch"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-309f6d93-a2af-4832-91df-bd2a403e2e72.png",
+      "promptSummary": "Illustrated desert Southwest small-town street, first-person sidewalk, Sonoran visual cues, blank signs, no people.",
+      "visualReview": "Clear sidewalk and blank signs; foliage/gravel detail heavier than master; geography and actor fit unverified.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "201557b0ff58c3ebe940769f06be40f2e5b2a5de822b38a4522e06cc5a1c2f7c",
+      "canonicalAdmissionKey": null
+    },
+    {
+      "kind": "southwest-home",
+      "file": "art/authoring/sept30-team7/regional-priority/southwest-home.png",
+      "sha256": "c165323c1bb0f67aa8d74624c3f2467a9e08b3cbdfc89105a4f60860d11c7d94",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-priority/southwest-home-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/suburban-house__midday.jpg",
+          "sha256": "857ffa02ebc7f124f63b3f83e7a980eebb68a6f361998a90a865489c559334e9",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        },
+        {
+          "path": "/Users/lamontae/Documents/PG-LAND/art/families/regional-opening/env_regional_sonoran_desert_v1.png",
+          "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
+          "role": "landscape cues only; not street/home admission",
+          "license": "not documented in this batch"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8d10d18e-c6c1-4d8e-bcda-9b384501cb1e.png",
+      "promptSummary": "Southwest living room with dry landscape through windows, clear foreground, cel-shaded style.",
+      "visualReview": "Clear foreground; source layout retained; rug texture heavier than master; actor fit unverified.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "845f3fa959ce0b87fb402b5940953242f941ad256795612a1f1bdf7af5fab41e",
+      "canonicalAdmissionKey": null
+    },
+    {
+      "kind": "northeast-street",
+      "file": "art/authoring/sept30-team7/regional-priority/northeast-street.png",
+      "sha256": "bef2b68ccead08962e4cef3f7a6fe1357d3333685903d52f4a7a9de8dff95225",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-priority/northeast-street-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+          "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-9dd7bdca-686b-412a-8f75-a974567f84b1.png",
+      "promptSummary": "Northeast small-town summer main street, brick and clapboard, wooded hills, blank signs.",
+      "visualReview": "Clear sidewalk; generic brick streetscape remains; requested clapboard transition not evident; regional distinction needs owner review.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "86a0d4c5b6ec1f06246762590cd00fb1340195f37b26673776b9500ab3242ffe",
+      "canonicalAdmissionKey": null
+    },
+    {
+      "kind": "northeast-home",
+      "file": "art/authoring/sept30-team7/regional-priority/northeast-home.png",
+      "sha256": "1950aeb02f271d0ee874f40950cf3a5c22ff792743c902bee023e9e949f2cb9e",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-priority/northeast-home-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/rural-farmhouse__midday.jpg",
+          "sha256": "5e1618ea67eea76cf469a43a9fd7db7fa7baa0d68aa860ca0d8bbe3a9cc9d209",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-97d08b23-5f3d-4759-96df-64d46b205afb.png",
+      "promptSummary": "Northeast small-town kitchen, neighboring clapboard homes through windows, clear floor.",
+      "visualReview": "Clear door approach and floor; no visible people or text; houses outside replace farm view; regional identity unverified.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "15dc1ce946385629fc81593f0d8b79563ff1d5cdd4501859199c3805c928a331",
+      "canonicalAdmissionKey": null
+    }
+  ]
+}

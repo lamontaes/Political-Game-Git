@@ -1,0 +1,307 @@
+{
+  "packetHead": "438a6129fc2d81391709397294bd5b4cef4b2a7d",
+  "sourceCount": 825,
+  "sourceHashMismatches": [],
+  "coverage": [
+    {
+      "regionKey": "appalachian-town-january",
+      "requestKey": "playtest65-region-appalachian-town-january",
+      "kind": "street",
+      "seasons": "winter",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "basalt-coulee-steppe",
+      "requestKey": "playtest65-region-basalt-coulee-steppe",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "buchanan-small-town",
+      "requestKey": "playtest65-region-buchanan-small-town",
+      "kind": "street",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "champlain-lake-lowland",
+      "requestKey": "playtest65-region-champlain-lake-lowland",
+      "kind": "shoreline",
+      "seasons": "summer",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "colorado-plateau-redrock",
+      "requestKey": "playtest65-region-colorado-plateau-redrock",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn, winter",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "cross-timbers-oak-prairie",
+      "requestKey": "playtest65-region-cross-timbers-oak-prairie",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "Delivered landscape; SHA-256 verified",
+      "geography": "4013500, 4031700, 4066800, 4070300, 4819528, 4827984, 4837168",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "fort-pierre-prairie-pond",
+      "requestKey": "playtest65-region-fort-pierre-prairie-pond",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "great-plains-january",
+      "requestKey": "playtest65-region-great-plains-january",
+      "kind": "open-landscape",
+      "seasons": "winter",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "green-mountain-forest",
+      "requestKey": "playtest65-region-green-mountain-forest",
+      "kind": "open-landscape",
+      "seasons": "summer",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "lower-mississippi-delta-marsh",
+      "requestKey": "playtest65-region-lower-mississippi-delta-marsh",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "norcal-oak-woodland",
+      "requestKey": "playtest65-region-norcal-oak-woodland",
+      "kind": "open-landscape",
+      "seasons": "summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "0630028, 0633056, 0670098, 0672646, 0685922",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "north-atlantic-granite-coast",
+      "requestKey": "playtest65-region-north-atlantic-granite-coast",
+      "kind": "shoreline",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "northwoods-lake-forest",
+      "requestKey": "playtest65-region-northwoods-lake-forest",
+      "kind": "shoreline",
+      "seasons": "summer",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "pacific-temperate-rainforest",
+      "requestKey": "playtest65-region-pacific-temperate-rainforest",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn, winter",
+      "packetPlateStatus": "No plate entry",
+      "geography": "5301780, 5324810, 5332650, 5356905",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "pikeville-valley-street",
+      "requestKey": "playtest65-region-pikeville-valley-street",
+      "kind": "street",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "rocky-mountain-montane",
+      "requestKey": "playtest65-region-rocky-mountain-montane",
+      "kind": "open-landscape",
+      "seasons": "winter",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "socal-inland-bungalow-neighborhood",
+      "requestKey": "playtest65-region-socal-inland-bungalow-neighborhood",
+      "kind": "street",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "0656000",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "sonoran-desert",
+      "requestKey": "playtest65-region-sonoran-desert",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn, winter",
+      "packetPlateStatus": "Delivered landscape; SHA-256 verified",
+      "geography": "0400870, 0402830, 0410180, 0411160, 0411230, 0411300, 0425300, 0444270, 0451600, 0455000, 0455300, 0465000, 0477000, 0477035, 0477179",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "southern-high-plains",
+      "requestKey": "playtest65-region-southern-high-plains",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "southern-pine-hardwood",
+      "requestKey": "playtest65-region-southern-pine-hardwood",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "subtropical-mangrove-wetland",
+      "requestKey": "playtest65-region-subtropical-mangrove-wetland",
+      "kind": "shoreline",
+      "seasons": "spring, summer, autumn, winter",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "trans-pecos-desert-mountain",
+      "requestKey": "playtest65-region-trans-pecos-desert-mountain",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn, winter",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    },
+    {
+      "regionKey": "upper-midwest-tallgrass-prairie",
+      "requestKey": "playtest65-region-upper-midwest-tallgrass-prairie",
+      "kind": "open-landscape",
+      "seasons": "spring, summer, autumn",
+      "packetPlateStatus": "No plate entry",
+      "geography": "None declared",
+      "exactTaggedKeyMatches": [],
+      "admissionInference": "none; broad region_fit tags are not exact coverage"
+    }
+  ],
+  "presentationTaxonomyKeys": [
+    "great-plains-grassland",
+    "appalachian-coal-region-town",
+    "fishing-coast",
+    "beach-coast",
+    "northern-california-oak-woodland",
+    "southern-california-inland-bungalow",
+    "southern-high-plains",
+    "trans-pecos-desert-mountain",
+    "southern-pine-hardwood",
+    "cross-timbers-oak-prairie",
+    "northwoods-lake-forest",
+    "upper-midwest-tallgrass-prairie",
+    "green-mountain-forest",
+    "champlain-lake-lowland",
+    "pacific-temperate-rainforest",
+    "sonoran-desert",
+    "colorado-plateau-redrock",
+    "rocky-mountain-montane",
+    "subtropical-mangrove-wetland",
+    "north-atlantic-granite-coast",
+    "lower-mississippi-delta-marsh",
+    "basalt-coulee-steppe"
+  ],
+  "knownCandidateHashMatches": {
+    "2cfa09f644d30749d8a129d7441f9bbde46b0b5875c1e9e8c6a253cd85e5377f": null,
+    "85720edf325911f8bbc741c2c88fa8b23cb40ba237e455390f6e4e1341515af0": null,
+    "0df680c304a6ae6d0d7a1e7d8dfe43f35a8236ef19f696e191ba3207e98d5814": null
+  },
+  "limitations": [
+    "No exact key match in tags does not prove a missing original elsewhere.",
+    "All825 source entries are candidate/no approval, not admission evidence.",
+    "Four street requests have null plates per packet; no home-scene contract.",
+    "External filename search covered OCD-UI-Kit, OCD-Art-Sept29 and repository art; no entire-machine hash scan or installed snapshot audit."
+  ],
+  "relatedStreetReferences": [
+    {
+      "file": "places/place-main-street-small-town__m.png",
+      "sha256": "c451b239eabc8ab3f7f215a0d2487db6420abe4dc8675057e4cf42c7fb255f2e",
+      "region_fit": [
+        "northeast",
+        "midwest",
+        "southeast",
+        "great-plains"
+      ],
+      "approved_for_game": "no"
+    },
+    {
+      "file": "places/place-sidewalk-downtown__midday.png",
+      "sha256": "444d1e2f49a42993fe2662f8ea89b547804daadcdb8f58bc564bb095fcb23407",
+      "region_fit": [
+        "northeast",
+        "midwest",
+        "southeast",
+        "great-plains"
+      ],
+      "approved_for_game": "no"
+    },
+    {
+      "file": "places/place-sidewalk-main-street__mid.png",
+      "sha256": "a62aed9d71f3f0067cf971f91c453c8cbf33e01196562da89510801c6d2ab9b4",
+      "region_fit": [
+        "northeast",
+        "midwest",
+        "southeast",
+        "great-plains"
+      ],
+      "approved_for_game": "no"
+    }
+  ]
+}
