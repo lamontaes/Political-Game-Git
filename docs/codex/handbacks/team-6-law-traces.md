@@ -268,6 +268,14 @@ This is an actual repeal/preexisting-obligation seam for the bottle-deposit row.
 
 Portable receipts: section 323F, 73172 bytes, SHA-256 `12dbc7335652bf45c60855a132261e28bc98e97a9bb60b1d1d92dd49fb128936`; section 327, 74288 bytes, SHA-256 `7d98cea98d6f19388e0a9eb767d8c5a9b14f6de4f17c4c17293f8cb045596821`. Raw HTML/text/receipts remain in existing research scratch. No current receiving-fund conclusion is inferred from the repeal annotation alone.
 
+### Receiving-fund retrieval limit and current ownership
+
+The next read attempted the official [2003 Acts chapter 26](https://malegislature.gov/Laws/SessionLaws/Acts/2003/Chapter26), the session-law citation on the repeal annotation. HTTP 200 returned the fiscal-year 2004 appropriations title, but its law-content block was empty. Section 296 and current fund-routing text were not read. Acquired response: 79088 bytes, SHA-256 `daa58f1aab5861efb3605a709eab4cd1859109dbd378208bfbac40b9e6dcc35e`. This response does not supply substantive repeal-transition or destination proof. The attempted Massachusetts DOR beverage-container regulation URL returned HTTP 404; no regulatory text was admitted. Both retrieval outcomes remain recorded in existing scratch.
+
+The already-read section 323F repeal annotation remains evidence of its stated repeal; these failed follow-ups neither erase it nor establish a replacement fund. The bottle-deposit row therefore stays **needs research**. Next is a complete official fiscal/session-law or revenue-regulation source, followed by the actual remittance/account consumer. No general-fund destination, local authority or repeal discharge is inferred.
+
+END00 read through CTO7:38. Team 2 owns filing/introduction and the centrally released configuration-selection/compiler hunks; Team 1 owns sponsor terms. Team 6 takes none of those paths. The coordinator's 7:30 receipt confirms Team 6's table refinement is included in the 92-row reconciliation; that is delivery, not legal or runtime acceptance. Existing legal evidence and failed retrievals remain separate from Team 2's required law/person-money proof. No new team, helper, production effect, actor or file claim was created.
+
 ### Pay to protect farmland from development
 
 1. **Change:** `outcome-web/index.ts` reads the state's protection answer and reduces the developed-farmland outcome. Monthly records save acres. A funding permission is not an observed easement purchase, recorded land interest or landowner payment in this path.
