@@ -61,6 +61,10 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  activeDwellingOccupanciesAt,
+  dwellingOccupancyStateAt,
+} from "../resource-queries";
 import { TOWN_RESIDENTS_VERSION, townRoster } from "./town-residents";
 import { townWorkplaceWeights } from "./town-employment";
 import { homePurchaseTerms } from "../home-purchase";
@@ -362,6 +366,7 @@ interface HomesView {
   /** Town homes with nobody in them, by kind, oldest first. */
   readonly vacant: ReadonlyMap<TownHomeKind, readonly EntityId[]>;
   readonly working: ReadonlySet<EntityId>;
+  readonly excluded: ReadonlyMap<EntityId, ReadonlySet<EntityId>>;
 }
 
 function latestBy<T extends { readonly effectiveAt: IsoDate }>(
@@ -461,6 +466,7 @@ function readHomes(world: World, town: EntityId): HomesView {
   }
   const vacant = new Map<TownHomeKind, EntityId[]>();
   for (const dwelling of h.dwellings) {
+    if (dwelling.establishedAt > today) continue;
     if (!dwelling.stableKey.startsWith(`${TOWN_HOMES_VERSION}:${town}:`))
       continue;
     if (occupied.has(dwelling.id)) continue;
@@ -481,7 +487,14 @@ function readHomes(world: World, town: EntityId): HomesView {
     if (workLatest.get(relationship.id)?.status === "active")
       working.add(relationship.personId);
 
-  return { households, homeOf, everHoused, vacant, working };
+  return {
+    households,
+    homeOf,
+    everHoused,
+    vacant,
+    working,
+    excluded: excludedEvictionHomes(world),
+  };
 }
 
 /** The household the player lives in, if any. */
@@ -501,6 +514,173 @@ interface Writer {
   readonly today: IsoDate;
   readonly prefix: string;
   readonly vacant: Map<TownHomeKind, EntityId[]>;
+  readonly excluded: ReadonlyMap<EntityId, ReadonlySet<EntityId>>;
+}
+
+const FORMER_HOME_TAG = "eviction:former-home:";
+export const EVICTION_DESTINATION_TYPE = "housing.eviction-destination";
+
+/** Records the same-day destination that actual occupancy establishes.
+ * A vacant building alone proves neither an accepted lease nor host consent.
+ * Reuses the existing allocation choice only with actual vacant stock.
+ * With no destination, the household has no fixed home; no bed, vehicle,
+ * room capacity, price or dwelling is manufactured. */
+export function recordEvictionDestination(
+  world: World,
+  householdId: EntityId,
+  formerDwellingId: EntityId,
+  orderEventId: EntityId,
+): World {
+  const order = world.history.events.find((row) => row.id === orderEventId);
+  if (
+    !order ||
+    order.type !== RENT_EVENTS.evicted ||
+    !order.involvedEntityIds.includes(householdId)
+  )
+    throw new Error("An eviction destination requires its household's order.");
+  const former = world.history.dwellingOccupancies.some(
+    (row) =>
+      row.dwellingId === formerDwellingId &&
+      row.occupant.kind === "household" &&
+      row.occupant.householdId === householdId &&
+      row.startedAt <= order.occurredAt,
+  );
+  if (!former)
+    throw new Error(
+      "An eviction destination requires the recorded former home.",
+    );
+  const stableKey = `${order.stableKey}:destination`;
+  if (world.history.events.some((row) => row.stableKey === stableKey))
+    return world;
+  const cutoff = {
+    asOfDate: order.occurredAt,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const primary = activeDwellingOccupanciesAt(world, cutoff).filter(
+    (row) =>
+      row.occupant.kind === "household" &&
+      row.occupant.householdId === householdId &&
+      dwellingOccupancyStateAt(world, row.id, cutoff)?.residenceRole ===
+        "primary",
+  );
+  if (primary.some((row) => row.dwellingId === formerDwellingId))
+    throw new Error("End the evicted home's occupancy before its destination.");
+  let next = world;
+  if (primary.length === 0 && order.jurisdictionId !== null) {
+    const view = readHomes(
+      { ...world, currentDate: order.occurredAt },
+      order.jurisdictionId,
+    );
+    const household = view.households.find((row) => row.id === householdId);
+    if (household) {
+      const found = homeForNewHousehold(household, false, null, 0, false);
+      const excluded = new Set(view.excluded.get(householdId));
+      excluded.add(formerDwellingId);
+      const pool = view.vacant.get(found.kind) ?? [];
+      // Reuse the existing household-size choice, but only actual vacant
+      // stock. The ordinary allocator's synthetic-stock fallback is barred.
+      if (pool.some((id) => !excluded.has(id))) {
+        const writer: Writer = {
+          world,
+          town: order.jurisdictionId,
+          today: order.occurredAt,
+          prefix: `${TOWN_HOMES_VERSION}:${order.jurisdictionId}:eviction:${order.id}:`,
+          vacant: new Map(
+            [...view.vacant].map(([kind, ids]) => [kind, [...ids]]),
+          ),
+          excluded: new Map([[householdId, excluded]]),
+        };
+        enterHome(
+          writer,
+          "destination",
+          householdId,
+          found.kind,
+          found.tenure,
+          {
+            kind: "simulated-event",
+            eventId: order.id,
+          },
+        );
+        next = writer.world;
+      }
+    }
+  }
+  const destination = activeDwellingOccupanciesAt(next, {
+    ...cutoff,
+    historySequenceExclusive: next.history.nextSequence,
+  }).find(
+    (row) =>
+      row.occupant.kind === "household" &&
+      row.occupant.householdId === householdId &&
+      row.dwellingId !== formerDwellingId &&
+      dwellingOccupancyStateAt(next, row.id, {
+        ...cutoff,
+        historySequenceExclusive: next.history.nextSequence,
+      })?.residenceRole === "primary",
+  );
+  const dwelling = destination
+    ? next.history.dwellings.find((row) => row.id === destination.dwellingId)
+    : undefined;
+  const household = world.history.households.find(
+    (row) => row.id === householdId,
+  );
+  const summary = destination
+    ? `${household?.label ?? "The household"} stayed at ${dwelling!.locationLabel} after the eviction.`
+    : `${household?.label ?? "The household"} had no fixed home after the eviction.`;
+  return recordWorldEvent(next, {
+    stableKey,
+    type: EVICTION_DESTINATION_TYPE,
+    occurredAt: order.occurredAt,
+    recordedAt: world.currentDate,
+    jurisdictionId: dwelling?.jurisdictionId ?? order.jurisdictionId,
+    involvedEntityIds: [
+      householdId,
+      formerDwellingId,
+      ...(destination ? [destination.dwellingId, destination.id] : []),
+      ...order.participants.map((row) => row.personId),
+    ],
+    participants: order.participants,
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      "life.home",
+      `eviction:order:${order.id}`,
+      `${FORMER_HOME_TAG}${formerDwellingId}`,
+      destination ? "housing:recorded-destination" : "housing:no-fixed-home",
+      "housing:destination-cost-unavailable",
+    ],
+    summary,
+    context: {
+      ...order.context,
+      location: dwelling
+        ? {
+            jurisdictionId: dwelling.jurisdictionId,
+            label: dwelling.locationLabel,
+            setting: null,
+          }
+        : null,
+    },
+  });
+}
+
+/** Former homes stay excluded even after the quarterly recent-eviction window. */
+function excludedEvictionHomes(world: World): Map<EntityId, Set<EntityId>> {
+  const byHousehold = new Map<EntityId, Set<EntityId>>();
+  for (const row of world.history.events) {
+    if (
+      row.type !== EVICTION_DESTINATION_TYPE ||
+      row.occurredAt > world.currentDate
+    )
+      continue;
+    const householdId = row.involvedEntityIds[0];
+    if (!householdId) continue;
+    const excluded = byHousehold.get(householdId) ?? new Set<EntityId>();
+    for (const tag of row.tags)
+      if (tag.startsWith(FORMER_HOME_TAG))
+        excluded.add(tag.slice(FORMER_HOME_TAG.length) as EntityId);
+    byHousehold.set(householdId, excluded);
+  }
+  return byHousehold;
 }
 
 /** Ends a household's home: the occupancy, and the tenure when it has one. */
@@ -549,7 +729,9 @@ function enterHome(
   provenance: LifeRecordProvenance,
 ) {
   const pool = writer.vacant.get(kind) ?? [];
-  let dwellingId = pool.shift();
+  const excluded = writer.excluded.get(householdId);
+  const available = pool.findIndex((id) => !excluded?.has(id));
+  let dwellingId = available < 0 ? undefined : pool.splice(available, 1)[0];
   if (!dwellingId) {
     writer.world = createDwelling(writer.world, {
       stableKey: `${writer.prefix}${key}:dwelling`,
@@ -600,6 +782,7 @@ export function ensureTownHomes(world: World, town: EntityId): World {
     today: world.currentDate,
     prefix: `${TOWN_HOMES_VERSION}:${town}:opening:`,
     vacant: new Map(),
+    excluded: view.excluded,
   };
   const provenance: LifeRecordProvenance = {
     kind: "generated",
@@ -661,6 +844,7 @@ export function reviewTownHomes(
     vacant: new Map(
       [...view.vacant].map(([kind, ids]) => [kind, [...ids]] as const),
     ),
+    excluded: view.excluded,
   };
   const lived = new Set(view.households.map((household) => household.id));
   const settledBefore = addDays(today, -SETTLED_DAYS);
@@ -780,6 +964,12 @@ export function reviewTownHomes(
             addDays(today, -TOWN_HOME_DECISIONS.evictionOnRecordDays),
         ),
       );
+      const excluded = view.excluded.get(household.id);
+      if (
+        excluded?.size &&
+        !(writer.vacant.get(found.kind) ?? []).some((id) => !excluded.has(id))
+      )
+        continue;
       const provenance = event(
         key,
         found.tenure === TOWN_TENURE_KINDS.rented
