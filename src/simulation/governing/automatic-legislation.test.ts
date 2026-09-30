@@ -85,8 +85,9 @@ describe("automatic legislation producer guards", () => {
         intakeKey: `all-state-draft:${usps}`,
         context: context!,
       });
-      expect(draft, `${usps} draft`).not.toBeNull();
-      expect(draft?.rulePackId).toBe(context?.rulePackId);
+      // A profile grants no saved appropriation terms. The bank default
+      // cannot substitute for current law in an automatic filing.
+      expect(draft, `${usps} missing current-law terms`).toBeNull();
     }
     for (const key of ["US-PR", "US-DC"]) {
       const jurisdiction = stateJurisdictionForKey(key);
