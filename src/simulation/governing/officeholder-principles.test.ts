@@ -193,6 +193,38 @@ describe("officeholder principles", () => {
     expect(
       principledLeaning(one, personId, propositionId).recordIds,
     ).toHaveLength(1);
+    // One principle can support equal standards and oppose unequal access.
+    // Both arguments must contribute, even though they read the same record.
+    const bothWays: World = {
+      ...weighted,
+      policyCatalog: {
+        ...weighted.policyCatalog,
+        propositions: {
+          ...weighted.policyCatalog.propositions,
+          [propositionId]: {
+            ...weighted.policyCatalog.propositions[propositionId]!,
+            principles: [
+              {
+                principleId: supportId!,
+                bearing: "consistent-with",
+                weight: 0.2,
+              },
+              { principleId: supportId!, bearing: "against", weight: 0.9 },
+            ],
+          },
+        },
+      },
+    };
+    expect(
+      principledLeaning(bothWays, personId, propositionId).score,
+    ).toBeCloseTo(-2.1);
+    const bothWaysVote = principleVoteConsideration(
+      bothWays,
+      personId,
+      billAnswering(propositionId, "yes"),
+    );
+    expect(bothWaysVote?.optionKey).toBe("vote-nay");
+    expect(bothWaysVote?.sourceRefs).toHaveLength(1);
   });
 
   it("all three readers use fractional strength instead of categorical conviction", () => {
