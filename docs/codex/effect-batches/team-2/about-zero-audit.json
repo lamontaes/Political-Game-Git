@@ -20,7 +20,7 @@
         "method": "difference in differences; state/year/voter fixed effects and time-varying controls"
       },
       "changes": {
-        "aboutZero": true,
+        "aboutZero": false,
         "why": [
           "The statute adds an identification condition to casting a counted ballot.",
           "The condition can require documents or use of a lawful alternative/cure by an eligible voter.",
@@ -35,9 +35,14 @@
         ],
         "reverseOnRepeal": "Repeal removes the extra statutory condition; past uncounted votes do not return. A repeal effect is not automatically the negative of an adoption estimate.",
         "who": "Eligible voters subject to the actual identification rule; nonwhite relative turnout is a separate reported estimate, not an every-group identical effect.",
-        "lagWhy": "The legal rule acts at an election/cure deadline; the estimate pools elections within the study window, not a measured zero-month delivery lag."
+        "lagWhy": "The legal rule acts at an election/cure deadline; the estimate pools elections within the study window, not a measured zero-month delivery lag.",
+        "size": null,
+        "evidence": "researched",
+        "anchor": "Measured point estimate is -0.1 percentage points, with the published uncertainty interval preserved. This does not establish exact neutrality or statistical equivalence."
       },
-      "runtimeDisposition": "Do not treat size0 as exact universal neutrality. Preserve the measured estimate and95CI; numerical activation awaits target-unit normalization review and a real voter reader. No shared map mutation byTeam2."
+      "runtimeDisposition": "Preserve this researched effect and its uncertainty. Disable exact-zero gating; numeric size is pending actual target-unit normalization. Do not interpret the unavailable size as no effect. No direct voter record or registration reader is inferred.",
+      "nearZeroPointEstimate": true,
+      "measuredEquivalence": false
     },
     {
       "key": "voter-id-to-registration",
@@ -52,7 +57,7 @@
         "coverage": "US nationwide voter panel2008–2018,1.6bobservations"
       },
       "changes": {
-        "aboutZero": true,
+        "aboutZero": false,
         "why": [
           "A polling-place identification rule does not itself register or unregister a resident.",
           "Registration changes only through a separate eligible application, cancellation or agency registration action.",
@@ -67,9 +72,14 @@
         ],
         "reverseOnRepeal": "Repealing polling-place ID does not manufacture registration transactions or restore separately cancelled registration.",
         "who": "People eligible to register under their jurisdiction’s actual registration law.",
-        "lagWhy": "A registration effect requires a registration transaction and legal deadline; no measured instantaneous registration writer is established."
+        "lagWhy": "A registration effect requires a registration transaction and legal deadline; no measured instantaneous registration writer is established.",
+        "size": null,
+        "evidence": "researched",
+        "anchor": "Measured point estimate is -0.1 percentage points, with the published uncertainty interval preserved. This does not establish exact neutrality or statistical equivalence."
       },
-      "runtimeDisposition": "voting.registration is not a produced person registration record in the current web. Keep reader absence explicit; a measured near-zero estimate is not proof a direct writer exists."
+      "runtimeDisposition": "Preserve this researched effect and its uncertainty. Disable exact-zero gating; numeric size is pending actual target-unit normalization. Do not interpret the unavailable size as no effect. No direct voter record or registration reader is inferred.",
+      "nearZeroPointEstimate": true,
+      "measuredEquivalence": false
     },
     {
       "key": "term-limits-to-turnout",
@@ -125,5 +135,5 @@
     "normalization": "For targetturnout baselineB measuredinpercentagepoints, a relativefactorcoefficient for an absolute effectD isD/B; Bmustbeactualrecordedplacebase>0. Do notdivideDby100 andapplyasrelativefraction. Registrationdenominator/readerunresolved.",
     "request": "Team9 verify units andcoverage before rangeactivation. Confidenceinterval is samplinguncertainty, not measured placeheterogeneity."
   },
-  "status": "auditpayload; no mapactivation, producerwrites orworldeffectproof claimed"
+  "status": "qualification payload: no exact-zero/equivalence claim for any of the three links; no shared map activation or producer proof"
 }
