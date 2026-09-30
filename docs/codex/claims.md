@@ -542,3 +542,7 @@ Team 6 local writer and helper are stopped. Ownership of its existing claimed pa
 Team 9 cloud chat 01a0f031-51fd-71b1-a8d5-feb9e66270d6 owns only data/research/standing-research/team-9/homelessness-outgoing.md, data/research/standing-research/team-9/wave-2-queue.md, docs/codex/handbacks/team-9.md and docs/release/changes/team-9-standing-research.md. Research only; no simulation paths.
 
 Team 1 local writer is stopped and archived. Existing Team 1 claims transfer to cloud chat 01a0f02e-e6f1-71bc-968b-a74bc4c920dc, preserving all Team 3 and Team 4 hunk releases. Cloud checkout at a8dfa63b passed three calibration tests; final bb6b08b7ff85aab7e066945887e25380499bf93c was fetched and its handback read through origin. Coordinator relayed that final head for continuation. Final-head tests are NOT RUN; local workspace and research remain preserved.
+
+Team 4 claims transfer to cloud chat 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 after its actual current-main month profile and working receipt. Local Team 4 chat is archived; evidence remains preserved. Team 5 claims transfer to cloud chat 01a0f030-4338-73d2-9537-17649ef680fb after published checkpoint bc28a855c01eed87dcbea6d89323dcff0c2671a0. Local Team 5 is archived; no shared-schema release is implied.
+
+Team 8 cloud owns src/player/JobListingsPanel.tsx, src/presentation/job-listings-english.ts, its new test and docs/release/changes/team-8-jobs-english.md for one grounded screen migration. Proposed calendar claims are released without edits. Team 3 job-market and Team 5 callers remain separately owned.

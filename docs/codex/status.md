@@ -11,8 +11,8 @@ Lamontae created cloud Teams 1–6, 8 and 9 and authorized their assignments and
 | 1 | Sol 6.1 Medium | 01a0f02e-e6f1-71bc-968b-a74bc4c920dc | Working checkout verified; final handback fetched/read. Local chat archived. |
 | 2 | Sol 6.1 High | 01a0f02f-580d-75fb-8495-9b7cb80ae0d1 | Final local handoff requested; cloud setup active. |
 | 3 | Sol 6.1 Medium | 01a0f02f-b5e1-72f4-aa6d-04bb752e50ec | Preserve fairness candidate before source transfer. |
-| 4 | Sol 6.1 Medium | 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 | PR #1160 handoff delivered; cloud setup active. |
-| 5 | Sol 6.1 Medium | 01a0f030-4338-73d2-9537-17649ef680fb | Published continuation packet delivered; cloud setup active. |
+| 4 | Sol 6.1 Medium | 01a0f02f-f74d-7524-8ab7-dcc8cbb060e2 | Cloud month measured 29.45 seconds; local chat archived. |
+| 5 | Sol 6.1 Medium | 01a0f030-4338-73d2-9537-17649ef680fb | Cloud checkpoint bc28a855 verified; local chat archived. |
 | 6 | Sol 6.1 Medium | 01a0f030-a052-773a-9258-ca86c99570f5 | Cloud verified final head 17ee27b69; local chat archived. |
 | 8 | Sol 6.1 Medium | 01a0f031-01c1-7471-89e5-b592f54830f3 | English engine assignment delivered. |
 | 9 | Sol 6.1 Low | 01a0f031-51fd-71b1-a8d5-feb9e66270d6 | Working checkout verified at 4a2be71b; two Low research helpers active. |
@@ -283,3 +283,27 @@ CTO10:17 lists Teams8EnglishMedium and9ResearchLowwithtwoLowhelpers. Roster/stat
 
 ### EFFECTS
 Existing map remains40conditions/221links withnumericranges/lag/modifiers andnamedpersonlimits. Standingresearchqueue approval ispending, so no inventeddownstreamnumbers or newresearchteamclaim. Homelessness→spending/concerns andeviction→housing/work chains remainunimplemented/unproved. Verifiedborrowingcost→debtinterestpreserved. No newthree-stepwatchedresult.
+
+## September 29, 11 p.m. checkpoint
+
+### MERGED
+Correction: merged PR status did not establish main integration. GitHub confirms #1151 targeted the speed branch, #1147 the agenda branch, and #1150 the sponsor branch. Team 4 verified #1151 is absent from main. Merge has been asked to verify ancestry and prepare missing additive integrations, speed first. No new main merge is claimed here.
+
+### CONNECTIONS TABLE
+
+| Connection | Current evidence | Action |
+| --- | --- | --- |
+| Speed changes → main proofs | Cloud month 29.449912 seconds; target 15 seconds failed. Lazy-copy delta absent from main. | Merge handles integration; Team 4 measures existing delta. |
+| Agenda → sponsorship → cosponsors | Feature-branch merges verified; main ancestry under review. | Merge verifies and integrates missing pieces. |
+| Census → town people | Team 1 released narrow population-reader adapters. | Team 3 final local WIP publication pending. |
+| News → residents and personal uptake | Team 5 cloud checkpoint verified; installation blocked. | Research continues; shared-schema ownership remains explicit. |
+| Recorded listings → English engine | Team 8 chose Jobs, releasing calendar scope. | Central claims updated; browser capture blocked by capacity. |
+| Scene tags → art import | Team 7 stays local, candidate work preserved. | Local storage block remains; no pixel approval. |
+
+### BLOCKED
+Local Teams 1, 4, 5 and 6 are archived after cloud working receipts. Teams 2 and 3 still need final transfer completion. Team 3's local fairness WIP is committed but its remote branch is not yet visible. Cloud requests for Teams 4, 5 and 8 progressed despite stale chat summaries; current Doc receipts establish actual activity.
+
+Cloud storage blocks Team 3 installation by 8.8 MiB, Team 5 by 152 MiB, and Team 8 browser capture by 510 MiB. Owner approval requested for a cloud-only reserve adjustment; no policy change made. The Mac reserve remains unchanged.
+
+### EFFECTS
+Team 9 has a verified cloud checkout and two authorized Low researchers. Outgoing homelessness evidence is first. No new runtime effect, calibrated coefficient or watched-world result is claimed. The existing effects map and missing numeric links remain the implementation guide.
