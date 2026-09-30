@@ -1,12 +1,16 @@
-# Team 5 is ready to hand off to the cloud
+# Team 5 is in the cloud; news-habit research still has gaps
 
-The cloud transfer is pending. No destination session or working checkpoint has been confirmed. The basic resident-reader candidate is published and tested. The newly resolved personal news-habit model has not been implemented. Local claims remain held until a cloud working checkpoint; no local habit-model edits or full proof runs have started.
+The coordinator accepted the cloud transfer and archived the local predecessor with its work and evidence preserved. Canned-news retirement and recorded dossiers have merged. The personal news-habit model remains unimplemented. Bounded research now verifies the survey questions and adult sampling methods, but youth, territory and joint demographic coverage remain unresolved. Cloud behavior checks are blocked by dependency-install capacity.
 
-The new candidate connects published law-effect stories to the people living in the story's place. Current household records determine that reach, including moves and ended residences. Personal news attention still needs an owner-approved input. The existing News test repair is published. Meeting controls remain a separate draft with unresolved test failures, and Claude owns browser acceptance and merges.
+The resident-reader candidate connects published law-effect stories to the people living in the story's place. Current household records determine that reach, including moves and ended residences. The News test repair is published. Meeting controls remain a separate draft with unresolved tests. The cloud Merge session alone handles approved current heads; Team 5 does not merge.
 
 # MERGED
 
-No Team 5 product changes have merged. The routing table is ready for review. Both product pull requests are READY for the CTO gate. The assignment remains incomplete.
+GitHub verifies that the canned-news retirement and recorded-history PR #1134
+merged at `a18f22a76b2b41c01ff030026024eb940ccefbef`. The playtest-copy PR #1135
+and resident-news PR #1156 remain open in the latest read. Meeting-controls
+PR #1149 remains draft. Earlier states below are evidence at their named heads,
+not the current merge state. The assignment remains incomplete.
 
 # WHAT EMERGED
 
@@ -325,11 +329,14 @@ The checkout is `/workspace/Political-Game-Git`, on
 `18f9b22488a58ea3d1359186459861d63d6ff9b9`. The cloud read the pinned handback,
 current main AGENTS.md, WAVE-1, README, prompts 07/12/09, and the latest
 coordinator entries including the 10:27 merge route and 10:33 migration.
+
 Fetched main is `4a2be71b13f5361ebedb4d49d63c0ce4deddb35f`.
 
 Live GitHub reads show the record-backed-content PR #1134 OPEN and unmerged at
 `cf9400971806c4b4f6400afc834563555c52f44a`. The playtest-copy PR #1135 is OPEN
-and unmerged at `789c7e28527a2c024f1e7912600abcc99e3db238`. The resident-news
+and unmerged at `789c7e28527a2c024f1e7912600abcc99e3db238`.
+
+The resident-news
 PR #1156 is OPEN and unmerged at `9e51bb00f0a939fe22180567188ba304816e029a`.
 Their approvals name older heads and need renewal. Meeting-controls PR #1149
 is still DRAFT at `256759bb88b54b92f8e4c61d74f41586b5880f16`; GitHub reports
@@ -375,3 +382,128 @@ coefficient or youth/territory coverage is inferred from the Pew candidates.
 Capacity provisioning is NEEDS LAMONTAE/coordinator. Independent prose review
 is NOT RUN under the authorized helper limit. No helper was started and no PR
 was merged by Team 5.
+
+## Accepted transfer and bounded news-habit research
+
+The coordinator accepted this cloud transfer and archived the local Team 5
+session. Its source and evidence remain preserved. Inherited Team 5 claims are
+now held by this continuation and restated in the branch claims file. Team 8's
+latest migration is limited to JobListingsPanel and its new job-listings English
+module and test; its earlier calendar plan is superseded. No product edit or
+additional helper occurred in this increment.
+
+### Survey population and question meaning
+
+Measured research read: Pew's [Wave 141 methodology](https://www.pewresearch.org/journalism/2024/05/07/local-news-trends-methodology/)
+now loads. The January 22–28, 2024 survey had 5,146 respondents. The stated target
+population is noninstitutionalized people ages 18 and older living in the United
+States, including Alaska and Hawaii. Recruitment is address based; interviews
+are in English and Spanish. Oversampled groups are weighted back to their
+population shares. The full-sample margin of error is 1.7 percentage points.
+These methods do not establish under-18 coverage or separate estimates for the
+five territories. No all-place coverage claim is made.
+
+Measured research read: the [published topline, page 2](https://www.pewresearch.org/wp-content/uploads/sites/20/2024/08/PJ_2024.08.29_local-crime-news_topline.pdf)
+asks NEWS_LEVEL, “How closely do you follow…” local news. The published rounded
+responses are 22% very closely, 45% somewhat closely, 26% not very closely, 7%
+not at all closely, and less than 1% no answer. The report says 66% at least
+somewhat closely; adding the separately rounded first two cells produces 67%.
+Retain the reported combined figure rather than invent precision from rounded
+cells. These answers describe attention, not receipt or comprehension of a
+particular law story.
+
+The same topline's page 5 asks TOPICUSE about how often respondents get news and
+information on “Local government and politics.” It reports 22% often, 46%
+sometimes, 23% rarely, 8% never, and less than 1% no answer. This is a closer
+candidate to public affairs, but it measures frequency rather than the amount
+learned. It does not supply a continuous attention score or stake multiplier.
+
+The [attention report](https://www.pewresearch.org/journalism/2024/05/07/attention-to-local-news/)
+confirms the earlier marginal observations: 9% of ages 18–29 and 35% of ages 65
+and older follow local news very closely. The corresponding education figures
+are 17% for college graduates and 28% for high-school-or-less respondents.
+Neither marginal comparison establishes age-by-education joint rates. No joint
+distribution or numeric game mapping was fitted or invented.
+
+### Rights and data-access boundary
+
+The [Wave 141 dataset page](https://www.pewresearch.org/dataset/american-trends-panel-wave-141/)
+requires a Pew account for download. No account was created, login attempted,
+or microdata downloaded. Joint demographic cells remain unverified.
+
+Pew's [general terms](https://www.pewresearch.org/about/terms-and-conditions/)
+allow specified uses with attribution and notices, prohibit implying endorsement,
+and restrict reproducing content in full or principal part. They explicitly
+exclude American Trends Panel datasets from their general survey-data license;
+ATP datasets have separate terms. The general page therefore does not establish
+production rights for the account-gated microdata. Research citations here are
+not a production corpus or permission to ship the pages.
+
+Highest completed source link: public primary-page and questionnaire research.
+Temporary research copies were read and hashed; none were imported into the
+source substrate or shipped. Source-domain plan, production acquisition,
+artifact lock, rights classification, normalized corpus, runtime adapter,
+calibration and player uptake proof remain NOT DONE. No production acquisition
+command was run.
+
+The questionnaire research copy is `/tmp/team5-pew-wave141-topline.pdf`,
+SHA-256 `78dd2bf371b21229ad41f80c302d7d7b0a26bfb8478ea96c7657a03774f21550`.
+
+The methodology research copy is `/tmp/team5-pew-methodology.html`, SHA-256
+`040062eb76a4cb01216e5d9b77c82a2b7010a69e239a9c842fdc208e9bfbf0e5`.
+These identify actual temporary research bytes, not production artifact locks.
+All five temporary primary research copies and extracted text remain preserved.
+
+### Saved-generation and knowledge ownership requests
+
+Measured static source order: openedWorld calls ensurePressOpening before
+ensureTownResidents in `src/presentation/opening-life.ts:447`. The press
+initializer therefore cannot initialize habits for all town residents by
+itself. Town households add people later through the batch character-history
+writer. Migration arrivals also use that batch writer during play in
+`src/simulation/migration/review.ts:411`. Campaign opponents and newsroom staff
+use the single context-person writer. An opening-only scan misses later people;
+a daily scan would violate the speed rule.
+
+Team 4 coordination request: provide a bounded initialization hook for only
+newly appended IDs through both context-person writers, preserving lineage,
+identity, history and existing-only fast paths. Opening people supplied directly
+to createWorld need their own initialization pass after demographic inputs are
+available. Team 2 should identify the supported world-generation boundary.
+These are requested contracts, not authored hooks.
+
+Measured schema read: EventKnowledgeRecord has accuracy and discrete
+low/medium/high confidence in `src/simulation/types.ts:749`. It has no continuous
+uptake amount. Team 1 coordination request: agree how saved habit and uptake
+records reach knowledge consumers without redefining confidence as attention.
+A separate sequenced press record is a candidate; a numeric side record alone
+would not prove that dialogue or decisions consume it.
+
+The existing appendPressRecord writer supplies stable identity, sequence and
+recording date in `src/simulation/press/store.ts:157`. A new habit kind would
+require press integrity and index handling plus save/reload verification.
+Serialization stores World history and performs full integrity validation on
+load. Existing serialization alone is not a passing test for an unimplemented
+record kind. No shared schema or generator path was edited.
+
+Lightweight people can lack an education fact until later materialization.
+Absence must not become a high-school-or-less observation. Agree the canonical
+education input and initialization timing before taking its generation snapshot;
+later materialization must not reroll the saved habit.
+
+### Checks and next work
+
+Cloud agent preflight PASS at this increment's starting head. Primary HTML and
+the public questionnaire PDF were read; the PDF was extracted with pdftotext.
+This is research and static source inspection, not behavior acceptance. The
+document-only report check passes with zero errors and warnings; whitespace
+check passes. Independent prose review remains NOT RUN under the helper limit.
+Dependency-install capacity remains blocked as previously measured; no retry,
+override or cleanup occurred. Focused behavior tests, scoped types, ESLint,
+Prettier, spelling, release checks and headless browser acceptance are NOT RUN.
+
+Next bounded work is the research packet's youth/territory coverage and joint
+demographic access, plus the three ownership contracts above. The archive's
+90-day limit and meeting age-18 cutoff retain their earlier coverage gaps.
+The coordinator's new wave-two list is acknowledged but is not a new Team 5
+dispatch; no favors, Journal, death-history or heir feature was started.
