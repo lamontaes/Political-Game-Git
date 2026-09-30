@@ -6,6 +6,7 @@ import { makeIsoDate } from "../../src/simulation/dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import { introduceMeasure } from "../../src/simulation/legislation";
 import { US_CONGRESS_PACK_ID } from "../../src/simulation/congress-rule-pack";
+import { TOWN_RENT_VERSION } from "../../src/simulation/living-world/town-rent";
 import type {
   EntityId,
   EventType,
@@ -19,6 +20,7 @@ import {
   filingProof,
   lawProof,
   plainSystemReport,
+  type EvictionObservation,
 } from "./systems";
 
 const id = (value: string) => value as EntityId;
@@ -74,7 +76,7 @@ function event(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: [`town-rent/v1:lease:${lease}`],
+    tags: [`${TOWN_RENT_VERSION}:lease:${lease}`],
     summary: `${key}: unpaid rent is debt, not court cost.`,
     context: {
       location: null,
@@ -110,6 +112,8 @@ describe("canonical watched-system report evidence", () => {
     expect(report).toContain("No laws enacted");
     expect(report).toContain("No bills introduced");
     expect(report).toContain("A year was not completed");
+    expect(report).toContain("January 1, 2026 through December 31, 2026");
+    expect(report).not.toContain("2026-01-01");
   });
   it("keeps serial filings distinct and does not turn an open case into eviction", () => {
     const { person, world: base } = fixture();
@@ -235,6 +239,45 @@ describe("canonical watched-system report evidence", () => {
     expect(row.immediateDestination).toEqual([]);
     expect(row.laterDestination?.[0]?.location).toBe("Later recorded home");
     expect(row.costs).toBeNull();
+  });
+  it("consumes the separate court and lease projection without inventing a destination", () => {
+    const { person, world: base } = fixture();
+    const world = event(
+      base,
+      person.id,
+      "housing.eviction-filed",
+      period.from,
+      "projection-case",
+    );
+    const filing = world.history.events.at(-1)!;
+    const observation: EvictionObservation = {
+      caseId: filing.id,
+      leaseFlowId: "lease-a",
+      filedOn: filing.occurredAt,
+      filing,
+      lease: {
+        state: "observed",
+        householdId: id("household"),
+        dwellingId: id("former-home"),
+        townId: id("town"),
+      },
+      resolution: { state: "open" },
+      publicCourtRecord: { state: "observed", eventId: id("court-record") },
+    };
+    const before = JSON.stringify(world);
+    const row = evictionProof(world, period, (_world, through) => {
+      expect(through).toBe(period.through);
+      return [observation];
+    })[0]!;
+    expect(row.evictedFrom).toBe(id("former-home"));
+    expect(row.publicCourtRecordId).toBe(id("court-record"));
+    expect(row.caseProjectionAvailable).toBe(true);
+    expect(row.immediateDestination).toBeNull();
+    expect(row.costs).toBeNull();
+    expect(JSON.stringify(world)).toBe(before);
+    expect(evictionProof(world, period)[0]!.caseProjectionAvailable).toBe(
+      false,
+    );
   });
   it("does not reconstruct a sponsor motive from the current world", () => {
     const { person, world: base } = fixture();

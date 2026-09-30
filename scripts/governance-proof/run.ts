@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { execFileSync } from "node:child_process";
@@ -12,6 +12,7 @@ import {
   collectSystemProof,
   plainSystemReport,
   type ProofSystem,
+  type ReadEvictionObservations,
 } from "./systems";
 import {
   governanceStages,
@@ -70,6 +71,9 @@ const sourceDirty =
 const collectorHead = execFileSync("git", ["rev-parse", "HEAD"], {
   encoding: "utf8",
 }).trim();
+const collectorDirty =
+  execFileSync("git", ["status", "--porcelain"], { encoding: "utf8" }).trim()
+    .length > 0;
 console.log(
   JSON.stringify({
     status: "opening",
@@ -79,6 +83,7 @@ console.log(
     sourceHead,
     sourceDirty,
     collectorHead,
+    collectorDirty,
     system: systemOption ?? "stages",
   }),
 );
@@ -123,6 +128,16 @@ if (systemOption) {
     pathToFileURL(resolve(sourceRoot, "src/simulation/enacted-law-effects.ts"))
       .href
   )) as typeof LawEffects;
+  const caseModulePath = resolve(
+    sourceRoot,
+    "src/simulation/living-world/eviction-observations.ts",
+  );
+  const readCases: ReadEvictionObservations | undefined = existsSync(
+    caseModulePath,
+  )
+    ? (await import(pathToFileURL(caseModulePath).href))
+        .evictionCaseObservations
+    : undefined;
   const proof = collectSystemProof(
     button.world,
     {
@@ -132,6 +147,7 @@ if (systemOption) {
     },
     systemOption as ProofSystem,
     effects.enactedLawsWithEffects,
+    readCases,
   );
   let save: unknown = null;
   try {
@@ -151,6 +167,7 @@ if (systemOption) {
     placeKey: place.key,
     sourceHead,
     collectorHead,
+    collectorDirty,
     sourceDirty,
     status,
     days,

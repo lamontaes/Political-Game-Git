@@ -1,7 +1,10 @@
 import { personName } from "../../src/simulation/people";
+import { proseDate } from "../../src/presentation/prose-dates";
+import { TOWN_RENT_VERSION } from "../../src/simulation/living-world/town-rent";
 import type { EnactedLawEffects } from "../../src/simulation/enacted-law-effects";
 import type {
   EntityId,
+  HistoricalEvent,
   IsoDate,
   ResourceEndpoint,
   World,
@@ -14,6 +17,32 @@ export interface ProofPeriod {
   /** Excludes opening/pre-run records even when they share the opening date. */
   readonly openingSequence: number;
 }
+
+/** Structural consumer of Team 3's held, pure case projection. No producer copy. */
+export interface EvictionObservation {
+  readonly caseId: EntityId;
+  readonly leaseFlowId: string;
+  readonly filedOn: IsoDate;
+  readonly filing: HistoricalEvent;
+  readonly lease:
+    | {
+        readonly state: "observed";
+        readonly householdId: EntityId;
+        readonly dwellingId: EntityId;
+        readonly townId: EntityId;
+      }
+    | { readonly state: "unavailable"; readonly reason: string };
+  readonly resolution:
+    | { readonly state: "open" }
+    | { readonly state: "resolved"; readonly event: HistoricalEvent };
+  readonly publicCourtRecord:
+    | { readonly state: "unavailable" }
+    | { readonly state: "observed"; readonly eventId: EntityId };
+}
+export type ReadEvictionObservations = (
+  world: World,
+  onDate: IsoDate,
+) => readonly EvictionObservation[];
 
 function inPeriod(date: IsoDate, sequence: number, period: ProofPeriod) {
   return (
@@ -100,8 +129,15 @@ function destinations(
 }
 
 /** Repeated filings stay separate; an unresolved case is never an order. */
-export function evictionProof(world: World, period: ProofPeriod) {
-  const prefix = "town-rent/v1:lease:";
+export function evictionProof(
+  world: World,
+  period: ProofPeriod,
+  readCases?: ReadEvictionObservations,
+) {
+  const prefix = `${TOWN_RENT_VERSION}:lease:`;
+  const observations = readCases
+    ? new Map(readCases(world, period.through).map((row) => [row.caseId, row]))
+    : null;
   const unresolved = new Map<string, number>();
   const cases: {
     filingId: EntityId;
@@ -119,6 +155,8 @@ export function evictionProof(world: World, period: ProofPeriod) {
     laterDestination: ReturnType<typeof destinations> | null;
     evictedFrom: EntityId | null;
     returnedToEvictedHome: boolean;
+    caseProjectionAvailable: boolean;
+    publicCourtRecordId: EntityId | null;
     costs: null;
     costEvidence: string;
   }[] = [];
@@ -131,7 +169,8 @@ export function evictionProof(world: World, period: ProofPeriod) {
   for (const event of [...world.history.events].sort(
     (a, b) => a.sequence - b.sequence,
   )) {
-    if (event.occurredAt > period.through) continue;
+    if (event.occurredAt > period.through || event.recordedAt > period.through)
+      continue;
     const tag = event.tags.find((t) => t.startsWith(prefix));
     if (!tag) continue;
     const flowId = tag.slice(prefix.length);
@@ -148,6 +187,7 @@ export function evictionProof(world: World, period: ProofPeriod) {
         id: p.personId,
         name: namedPerson(world, p.personId),
       }));
+      const observation = observations?.get(event.id);
       unresolved.set(flowId, cases.length);
       cases.push({
         filingId: event.id,
@@ -165,8 +205,16 @@ export function evictionProof(world: World, period: ProofPeriod) {
         reason: null,
         immediateDestination: null,
         laterDestination: null,
-        evictedFrom: tenure?.dwellingId ?? null,
+        evictedFrom:
+          observation?.lease.state === "observed"
+            ? observation.lease.dwellingId
+            : (tenure?.dwellingId ?? null),
         returnedToEvictedHome: false,
+        caseProjectionAvailable: observations !== null,
+        publicCourtRecordId:
+          observation?.publicCourtRecord.state === "observed"
+            ? observation.publicCourtRecord.eventId
+            : null,
         costs: null,
         costEvidence:
           "No linked court or moving-cost transaction contract in the inspected rent records. Unpaid rent in the reason is debt, not case cost.",
@@ -419,12 +467,13 @@ export function collectSystemProof(
   period: ProofPeriod,
   system: ProofSystem,
   readEffects: (world: World) => readonly EnactedLawEffects[],
+  readCases?: ReadEvictionObservations,
 ) {
   return {
     period,
     evictions:
       system === "all" || system === "evictions"
-        ? evictionProof(world, period)
+        ? evictionProof(world, period, readCases)
         : null,
     laws:
       system === "all" || system === "laws"
@@ -445,6 +494,7 @@ export function plainSystemReport(
     placeKey: string;
     sourceHead: string;
     collectorHead: string;
+    collectorDirty?: boolean;
     sourceDirty: boolean;
     status: string;
     days: number;
@@ -455,7 +505,7 @@ export function plainSystemReport(
   const lines = [
     `# Watched ${context.place}: ${context.status}`,
     "",
-    `Seed ${context.seed}; place ${context.placeKey}; ${proof.period.from} through ${proof.period.through}; ${context.days} actual Day presses.`,
+    `Seed ${context.seed}; place ${context.placeKey}; ${proseDate(proof.period.from)} through ${proseDate(proof.period.through)}; ${context.days} actual Day presses.`,
     "",
     "## 1. Why-chain",
     "",
@@ -473,13 +523,16 @@ export function plainSystemReport(
     "",
   ];
   const moneyText = (amount: { minorUnits: number; currency: string }) =>
-    `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: amount.currency,
+    }).format(amount.minorUnits / 100);
   const placeText = (rows: ReturnType<typeof destinations> | null) =>
     rows?.length
       ? rows
           .map(
             (d) =>
-              `${d.location ?? d.dwellingId} (${d.kind}, occupancy ${d.occupancyId}, started ${d.startedAt})`,
+              `${d.location ?? d.dwellingId} (${d.kind}, occupancy ${d.occupancyId}, started ${proseDate(d.startedAt)})`,
           )
           .join("; ")
       : "No active destination occupancy recorded. This does not establish shelter, car, motel or street residence.";
@@ -492,10 +545,11 @@ export function plainSystemReport(
       );
     for (const row of proof.evictions) {
       lines.push(
-        `**${row.people.map((p) => p.name).join(", ") || "Unnamed lease household"}; filed ${row.filedOn}.** ${row.filingReason}`,
+        `**${row.people.map((p) => p.name).join(", ") || "Unnamed lease household"}; filed ${proseDate(row.filedOn)}.** ${JSON.stringify(row.filingReason)}`,
         "",
         `Landlord: ${row.landlord?.label ?? "not recorded"}. Filing ${row.filingId}; lease ${row.leaseFlowId}; jurisdiction ${row.jurisdictionId ?? "not recorded"}.`,
-        `Outcome: ${row.outcome}${row.resolvedOn ? ` on ${row.resolvedOn}` : " at observation end"}. ${row.reason ?? "No resolution recorded."}`,
+        `Outcome: ${row.outcome}${row.resolvedOn ? ` on ${proseDate(row.resolvedOn)}` : " at observation end"}. ${row.reason ? JSON.stringify(row.reason) : "No resolution recorded."}`,
+        `Public court record: ${row.publicCourtRecordId ?? (row.caseProjectionAvailable ? "unavailable in the case projection" : "case projection unavailable in this runtime")}.`,
         `Destination on outcome day: ${row.immediateDestination === null ? "Not applicable: unresolved case." : placeText(row.immediateDestination)}`,
         `First later recorded destination: ${placeText(row.laterDestination)}`,
         ...(row.returnedToEvictedHome
@@ -514,30 +568,54 @@ export function plainSystemReport(
       lines.push("No laws enacted in this period.", "");
     for (const law of proof.laws) {
       lines.push(
-        `**${law.designation}: ${law.shortTitle}**, enacted ${law.enactedOn} (${law.level}; ${law.measureId}).`,
+        `**${law.designation}: ${law.shortTitle}**, enacted ${proseDate(law.enactedOn)} (${law.level}; ${law.measureId}).`,
         "",
       );
       for (const p of law.payments)
         lines.push(
-          `Program transfer: ${p.from.label} → ${p.to.label}, ${moneyText(p.amount)} on ${p.date}; ${p.status}; record ${p.id}.`,
+          `Program transfer: ${p.from.label} → ${p.to.label}, ${moneyText(p.amount)} on ${proseDate(p.date)}; ${p.status}; record ${p.id}.`,
+        );
+      for (const effect of law.operativeEffectOutcomes)
+        lines.push(
+          `Clause effect: ${effect.provisionKey}, ${effect.effectKind}; ${effect.status}${effect.refusalReason ? `: ${effect.refusalReason}` : ""}; provision ${effect.provisionId}.`,
         );
       for (const t of law.taxes)
         lines.push(
-          `Tax collection: ${t.from?.label ?? "payer missing"} → ${t.to?.label ?? "recipient missing"}, ${moneyText(t.amount)} on ${t.date}; ${t.status}; record ${t.id}.`,
+          `Tax collection: ${t.from?.label ?? "payer missing"} → ${t.to?.label ?? "recipient missing"}, ${moneyText(t.amount)} on ${proseDate(t.date)}; ${t.status}; record ${t.id}.`,
         );
       for (const t of law.withholding)
         lines.push(
-          `Withholding: ${t.from.label}, ${moneyText(t.amount)} on ${t.date}; record ${t.id}. ${t.attribution} Joint law references: ${t.jointLawIds?.join(", ") ?? "none"}.`,
+          `Withholding: ${t.from.label}, ${moneyText(t.amount)} on ${proseDate(t.date)}; record ${t.id}. ${t.attribution} Joint law references: ${t.jointLawIds?.join(", ") ?? "none"}.`,
         );
       if (law.missingMoneyLink) lines.push(law.missingMoneyLink);
       for (const line of law.lines) {
+        if (line.kind === "rule-change")
+          lines.push(
+            `Rule: ${line.officeKey}, ${line.field}; ${line.status} from ${proseDate(line.operativeAt)}; basis ${line.operativeBasis}.`,
+          );
+        if (line.kind === "program-term")
+          lines.push(
+            `Program term: ${line.heading}, ${line.change}; last day ${proseDate(line.lastDay)}; ${line.status}; superseded ${line.superseded}.`,
+          );
+        if (line.kind === "duty")
+          lines.push(
+            `Duty: ${line.heading}, ${line.coveredLabel}; ${line.status}; comply by ${proseDate(line.complyBy)}; ${line.complied} complied, ${line.complianceUnknown} compliance unknown, ${line.coverageUnknown} coverage unknown.`,
+          );
+        if (line.kind === "eligibility")
+          lines.push(
+            `Eligibility: ${line.heading}, ${line.coveredLabel}; ${line.qualifying ?? "unavailable"} qualifying, ${line.unknown} unknown; coverage ${line.coverage}.`,
+          );
+        if (line.kind === "transit")
+          lines.push(
+            `Transit funding: ${line.status}${line.reason ? `: ${line.reason}` : ""}; authority ${line.amountMinorUnits === null ? "unavailable" : moneyText({ minorUnits: line.amountMinorUnits, currency: "USD" })}. Authority is not a payment.`,
+          );
         if (line.kind === "authorization")
           lines.push(
             `Authorized ceiling: ${moneyText({ minorUnits: line.ceilingMinorUnits, currency: "USD" })}; this is not a transfer.`,
           );
         if (line.kind === "appropriation")
           lines.push(
-            `Appropriation: ${moneyText({ minorUnits: line.amountMinorUnits, currency: "USD" })}; available ${line.availableFrom} through ${line.availableThrough}, ${line.status}. Authority is separate from transfers above.`,
+            `Appropriation: ${moneyText({ minorUnits: line.amountMinorUnits, currency: "USD" })}; available ${proseDate(line.availableFrom)} through ${proseDate(line.availableThrough)}, ${line.status}. Authority is separate from transfers above.`,
           );
         if (line.kind === "not-modeled" || line.kind === "no-operative-text")
           lines.push(
@@ -555,14 +633,16 @@ export function plainSystemReport(
       lines.push("No bills introduced in this period.", "");
     for (const bill of proof.filing) {
       lines.push(
-        `**${bill.designation}: ${bill.title}**, filed ${bill.introducedAt}; sponsor ${bill.sponsor ?? "not recorded"} (${bill.sponsorId ?? "no person ID"}); jurisdiction ${bill.jurisdictionId}; measure ${bill.measureId}.`,
+        `**${bill.designation}: ${bill.title}**, filed ${proseDate(bill.introducedAt)}; sponsor ${bill.sponsor ?? "not recorded"} (${bill.sponsorId ?? "no person ID"}); jurisdiction ${bill.jurisdictionId}; measure ${bill.measureId}.`,
         "",
       );
       for (const reason of bill.savedReasons)
-        lines.push(`Saved reason (${reason.id}): ${reason.reason}`);
+        lines.push(
+          `Saved reason (${reason.id}): ${JSON.stringify(reason.reason)}`,
+        );
       for (const evidence of bill.compilationEvidence)
         lines.push(
-          `Saved compilation evidence (${evidence.id}): ${evidence.provenance}`,
+          `Saved compilation evidence (${evidence.id}): ${JSON.stringify(evidence.provenance)}`,
         );
       if (bill.missingReason) lines.push(bill.missingReason);
       lines.push("");
@@ -575,7 +655,8 @@ export function plainSystemReport(
     "",
     "## 6. Random-place proof",
     "",
-    `Runtime source ${context.sourceHead}; collector ${context.collectorHead}; runtime source dirty: ${context.sourceDirty}; status ${context.status}.`,
+    `Runtime source ${context.sourceHead}; runtime source dirty: ${context.sourceDirty}; status ${context.status}.`,
+    `Collector ${context.collectorHead}; collector dirty: ${context.collectorDirty ?? false}.`,
     `Save/Continue result: ${JSON.stringify(context.save)}.`,
     context.problem
       ? `Run stopped: ${context.problem}. A year was not completed.`
