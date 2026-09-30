@@ -1,0 +1,60 @@
+{
+  "schema": "team-8-age-budget-integration-review/v1",
+  "pr": 1274,
+  "publishedHead": "f6cc284c74dc888fb4690906452033cdaa0e2f99",
+  "preparedBaseMain": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+  "preparedTree": "ce1fe0bcf7be803de82ce5db2334e2781885e674",
+  "pathsAndBlobs": [
+    [
+      "src/simulation/public-budgets/month.ts",
+      "8307e655368552cebcd35e954a59cde71f6864b9"
+    ],
+    [
+      "src/simulation/public-budgets/store.ts",
+      "c4486b3f5e2b2e413dfa35a8d8c6421853428220"
+    ],
+    [
+      "src/simulation/public-budgets/age-verification-cost.ts",
+      "319220083013711276250bd4bf9da5bc26a3c5c1"
+    ],
+    [
+      "src/simulation/public-budgets/age-verification-cost.test.ts",
+      "be5fb6f0c5bdbe60645b9d5c980f3f7f79b0e43d"
+    ],
+    [
+      "docs/codex/handbacks/team-8-age-verification-budget-cost.md",
+      "e3ef43d5f57131c4c842d8bd88bdf9c93b820bd7"
+    ],
+    [
+      "docs/release/changes/team-8-age-verification-budget-cost.md",
+      "d8ed06a76946f44865938f1201ffc223f81a1ae7"
+    ]
+  ],
+  "change": "Keep current-main cannabis revenue/loss and full cannabis stamp array; append existing age-cost attribution and stamps. No rate or amount change. Add simultaneous actual-loss/age-cost saved-row assertions in California/Washington fixtures.",
+  "hunkRelease": {
+    "sourceHead": "b2475773a5374482551cdcb61fb78225cef2d2af",
+    "owner": "Team3",
+    "release": "Age/cannabis conflict-resolution only. Team3 retains paid-leave filter/map/append and optional stamp seam; its branch unchanged.",
+    "preservation": "Exact month/store saved under ignored test-results/team8/team3-handoff-b2475773. Unmerged paid-leave/heldparks not carried into this PR."
+  },
+  "checks": {
+    "costTest": "5/5PASS12.23s; Maryland/Idaho/Indiana/California/Washington. California/Washington additionally save BOTH cannabis loss and age cost stamps, preserve loss amounts/cash arithmetic, reopen exact saved row, and reject repeat settlement.",
+    "strict": "4 roots;0diagnostics",
+    "lint": "PASS",
+    "format": "PASS",
+    "dependencyScope": "Restored dependency stack plus exact pinned-main budget/cannabis sources. Full current-main checkout/nationwide NOTRUN."
+  },
+  "publicationBlock": {
+    "rejectedAction": "github_create_commit",
+    "rejectedParents": [
+      "f6cc284c74dc888fb4690906452033cdaa0e2f99",
+      "e3182daa79e221604c5a328a1b6b4e055ebf648e"
+    ],
+    "rejectedTree": "73dd1ab79313568aa8270e0e263af3b162eb996e",
+    "reason": "Automatic approval review requires explicit CTO/Merge integration approval before commit creation; old head/repair scope insufficient.",
+    "currentTreeChange": "ce1fe0... differs from rejected tree only by strengthened own cost test blob.",
+    "request": "Explicit permission to create this prepared feature integration commit; publish resulting exact head for CTO renewal. Team8 does not merge PR/main.",
+    "refUpdated": false
+  },
+  "lawPartLimit": "Existing fiscal-note attribution only; no fully researched 2026 appropriation/workload cost claimed."
+}
