@@ -1,3 +1,4 @@
+import { ruralTransitOperatingCostAt } from "../simulation/rural-transit-operating-cost";
 import { propositionIdFor } from "../simulation/public-budgets/fiscal";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import { projectBudgetEconomy } from "./budget-economy";
@@ -338,7 +339,11 @@ function paidService(
     return saved;
   }
   expect(service).toHaveLength(1);
-  expect(service[0]?.summary).toContain("1 vehicle-service hour");
+  expect(service[0]?.summary).toContain("estimated vehicle-service");
+  const price = ruralTransitOperatingCostAt(
+    saved,
+    enacted.jurisdictionId,
+  ).minorUnitsPerVehicleRevenueHour;
   const servicePlace = service[0]?.jurisdictionId
     ? lifePlaceByJurisdictionId(service[0].jurisdictionId)
     : null;
@@ -349,11 +354,25 @@ function paidService(
         row.provenance.kind === "simulated" &&
         row.provenance.sourceEntityIds.includes(service[0]!.id) &&
         row.value.kind === "quantity" &&
-        row.value.quantity.numerator === 1 &&
-        row.value.quantity.denominator === 1 &&
+        Math.abs(
+          row.value.quantity.numerator / row.value.quantity.denominator -
+            10_000 / price,
+        ) < 1e-12 &&
         row.value.quantity.unit === "duration:vehicle-service-hour",
     ),
   ).toHaveLength(1);
+  const savedHours = saved.history.metricStates.find(
+    (row) =>
+      row.provenance.kind === "simulated" &&
+      row.provenance.sourceEntityIds.includes(service[0]!.id),
+  );
+  expect(
+    (
+      savedHours as typeof savedHours & {
+        operatingCostBasis: ReturnType<typeof ruralTransitOperatingCostAt>;
+      }
+    ).operatingCostBasis,
+  ).toEqual(ruralTransitOperatingCostAt(saved, enacted.jurisdictionId));
   expect(
     programAppropriations(saved, programKey).filter(
       (row) => row.sourceMeasureId === enacted.measureId,
@@ -462,7 +481,7 @@ describe("same fictional state transit bill reaches exact paid service", () => {
     ).toThrow("exact posted payment");
   });
   it.each(US_STATE_USPS)(
-    "%s: enacted authority pays one saved hour",
+    "%s: enacted authority pays saved service at researched cost",
     (usps) => {
       const world: World = paidService(usps);
       expect(

@@ -6,7 +6,7 @@ import { lawInForce } from "./law-in-force";
 import { propositionIdFor } from "../public-budgets/fiscal";
 import { STATE_TRANSIT_SERVICE_QUESTION } from "../legislation-transit-families";
 import { TRANSIT_METRIC_INPUT } from "../transit-contract-definitions";
-import { TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR } from "../legislation-transit-families";
+import { ruralTransitOperatingCostAt } from "../rural-transit-operating-cost";
 import { publishPublicEvent } from "../public-information";
 import { ageOnDate } from "../dates";
 import { stableHash } from "../ids";
@@ -29,23 +29,12 @@ import type {
   World,
 } from "../types";
 
-/**
- * The Wave 2 game price is authored contract arithmetic, not a sourced
- * transit cost, observed ridership, travel time, or household access result.
- */
-export const TRANSIT_PROGRAM_COST_BASIS = "PLACEHOLDER(wave2)";
+/** NTD 2023 average rural demand-response operating cost; not marginal cost. */
+export const TRANSIT_PROGRAM_COST_BASIS = "NTD-2023-rural-general-public-DR";
 
-function hoursText(minorUnits: number): string {
-  const price = TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR;
-  const whole = Math.floor(minorUnits / price);
-  const rest = minorUnits % price;
-  const hours =
-    rest === 0
-      ? String(whole)
-      : `${whole}.${String(rest)
-          .padStart(String(price).length - 1, "0")
-          .replace(/0+$/, "")}`;
-  return `${hours} vehicle-service ${hours === "1" ? "hour" : "hours"}`;
+function hoursText(minorUnits: number, price: number): string {
+  const hours = minorUnits / price;
+  return `${hours.toLocaleString("en-US", { maximumFractionDigits: 3 })} estimated vehicle-service ${hours === 1 ? "hour" : "hours"}`;
 }
 
 /** One posted operating installment produces one counted service outturn. */
@@ -182,6 +171,8 @@ export function recordPaidTransitProgramService(
       },
     });
   }
+  const cost = ruralTransitOperatingCostAt(world, appropriation.jurisdictionId);
+  const price = cost.minorUnitsPerVehicleRevenueHour;
   const eligibleResidents = Object.values(world.people).filter((person) => {
     const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
     return (
@@ -266,7 +257,7 @@ export function recordPaidTransitProgramService(
     personFactConstraints: [],
     visibility: "public",
     tags: ["transit.service", `program:${profile.programKey}`],
-    summary: `The state paid ${plan.amount.minorUnits / 100} USD for ${hoursText(plan.amount.minorUnits)} of modeled added rural-transit service under ${measure!.designation}. This paid service record does not establish ridership, travel time, access, or who learned of the payment.`,
+    summary: `The state paid ${plan.amount.minorUnits / 100} USD for ${hoursText(plan.amount.minorUnits, price)} of modeled added rural-transit service under ${measure!.designation}. This paid service record does not establish ridership, travel time, access, or who learned of the payment.`,
     context: {
       location: null,
       socialContext: "Paid state rural-transit service",
@@ -298,6 +289,7 @@ export function recordPaidTransitProgramService(
     sourceRecordIds: [...sources, serviceEventId],
   });
   next = recordWorldMetricState(next, {
+    ...{ operatingCostBasis: cost },
     ...(spendingStamp || serviceStamp
       ? {
           lawEffectStamps: [spendingStamp, serviceStamp].filter(
@@ -316,7 +308,7 @@ export function recordPaidTransitProgramService(
       kind: "quantity",
       quantity: createExactQuantity(
         plan.amount.minorUnits,
-        TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR,
+        price,
         "duration:vehicle-service-hour",
       ),
     },
@@ -416,7 +408,7 @@ export function recordPaidTransitProgramService(
     personFactConstraints: [],
     visibility: "public",
     tags: ["transit.service", `program:${profile.programKey}`],
-    summary: `${personName(sponsor)} sponsored ${measure!.designation}; Governor ${personName(governor)} committed its saved appropriation to this paid service period. The payment funded ${hoursText(plan.amount.minorUnits)} of modeled added service.`,
+    summary: `${personName(sponsor)} sponsored ${measure!.designation}; Governor ${personName(governor)} committed its saved appropriation to this paid service period. The payment funded ${hoursText(plan.amount.minorUnits, price)} of modeled added service.`,
     context: {
       location: null,
       socialContext:

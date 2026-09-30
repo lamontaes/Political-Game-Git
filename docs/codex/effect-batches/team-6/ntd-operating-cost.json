@@ -1,0 +1,49 @@
+{
+  "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+  "ntdYear": 2023,
+  "sourceData": "data/research/transit/ntd-2023-rural-demand-response-costs.json",
+  "sampleCount": 1025,
+  "excludedZeroOrMissing": 4,
+  "empiricalRangeUSDPerVehicleRevenueHour": [
+    8.535186930568646, 351.02472527472526
+  ],
+  "selection": "Stable empirical observation per immutable world seed and appropriation jurisdiction; no actor decision uses the draw. Full observed distribution, not one-system proxy.",
+  "costKind": "Average operating cost, nominal2023; not marginal expansion or inflation-adjusted2026",
+  "proof": [
+    {
+      "fixture": "HI",
+      "seed": "all-state-transit-payment:HI",
+      "rateUSD": 66.04,
+      "ntdId": "60143",
+      "paymentUSD": 100,
+      "exactHours": [10000, 6604]
+    },
+    {
+      "fixture": "DE",
+      "rateUSD": 60.47,
+      "ntdId": "70078",
+      "paymentUSD": 100
+    },
+    {
+      "fixture": "MN",
+      "rateUSD": 59.77,
+      "ntdId": "70211",
+      "paymentUSD": 100
+    },
+    {
+      "fixture": "NH",
+      "rateUSD": 56.06,
+      "ntdId": "41177",
+      "paymentUSD": 100
+    },
+    {
+      "fixture": "NJ",
+      "rateUSD": 56.59,
+      "ntdId": "77079",
+      "paymentUSD": 100
+    }
+  ],
+  "checks": "Hawaii operating/maintenance 2pass51skip; after saved metadata assertion four operating 4pass49skip; strict owned diagnostics0; scoped lint/format/report/diff pass.",
+  "notRun": ["Nationwide watched proof", "Full suite", "Paused speed checks"],
+  "ownership": "Only public-program-transit writer, its fixture, new rate helper/data changed. Old transit-service adapter uses authored price pending owning-team integration; shared catalog/links untouched."
+}
