@@ -23,7 +23,10 @@ import { withWorldIntegrityDeferred } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
 import * as lawEffects from "../enacted-law-effects";
 import { LAW_CONSEQUENCE_REGISTRATIONS } from "../law-consequence-registry";
-import { STATE_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+import {
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "./pay-rows";
 import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
 import { settleTownCompensations } from "../living-world/town-pay";
 import { PLACE_POPULATION_ROWS } from "../nationwide-world/place-population.generated";
@@ -75,17 +78,29 @@ describe.each(sampled)("pay kind in %s", (placeKey) => {
         entry.organizationId,
     )!;
     expect(work).toBeDefined();
-    const proposition = Object.values(world.policyCatalog.propositions).find(
-      (entry) => entry.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
-    )!;
-    const row = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
+    const stateProposition = Object.values(
+      world.policyCatalog.propositions,
+    ).find((entry) => entry.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY)!;
+    const federalProposition = Object.values(
+      world.policyCatalog.propositions,
+    ).find((entry) => entry.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY)!;
+    const stateRow = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
+    const federalRow =
+      MINIMUM_WAGE_PAY_ROWS[FEDERAL_MINIMUM_WAGE_QUESTION_KEY]!;
     world = {
       ...world,
       policyCatalog: {
         ...world.policyCatalog,
         propositions: {
           ...world.policyCatalog.propositions,
-          [proposition.id]: { ...proposition, consequences: [row] },
+          [stateProposition.id]: {
+            ...stateProposition,
+            consequences: [stateRow],
+          },
+          [federalProposition.id]: {
+            ...federalProposition,
+            consequences: [federalRow],
+          },
         },
       },
     };
@@ -112,18 +127,38 @@ describe.each(sampled)("pay kind in %s", (placeKey) => {
       subjectIds: [work.personId],
     };
     const place = lifePlaceByKey(placeKey)!;
+    const stateLaw = lawInForce(
+      world,
+      place.context.jurisdiction.id,
+      stateProposition.id,
+    );
+    // The unchanged MS sample has no state increase. It uses the actual federal
+    // question and source, never a fabricated Mississippi wage statute.
+    const usesStateFloor = stateLaw?.answer === "yes";
+    const proposition = usesStateFloor ? stateProposition : federalProposition;
+    const row = usesStateFloor ? stateRow : federalRow;
+    const key = usesStateFloor ? "target" : "floor";
     const governing = lawInForce(
       world,
       place.context.jurisdiction.id,
       proposition.id,
+    )!;
+    expect(governing).not.toBeNull();
+    expect(governing.level).toBe(
+      usesStateFloor ? "state-statute" : "federal-statute",
     );
-    if (!governing) {
-      expect(resolvePayConsequences(world, row, context)).toEqual([]);
-      return;
-    }
+    expect(governing.measureId).toBe(
+      `starting-law:${usesStateFloor ? place.stateJurisdictionKey : "US"}:${proposition.stableKey}`,
+    );
+    const federalResolved = resolvePayConsequences(
+      world,
+      federalRow,
+      context,
+    )[0]!;
+    expect(federalResolved.law.level).toBe("federal-statute");
     const finalTerm = readFinalEnactedLawTerm(world, governing, {
-      questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
-      termKey: "target",
+      questionKey: proposition.stableKey,
+      termKey: key,
       unit: "minor/hour",
       onDate: since,
     });
@@ -131,8 +166,8 @@ describe.each(sampled)("pay kind in %s", (placeKey) => {
       placeKey,
       onDate: since,
       jurisdictionId: place.context.jurisdiction.id,
-      questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
-      termKey: "target",
+      questionKey: proposition.stableKey,
+      termKey: key,
       unit: "minor/hour",
       governingLawKey: governing.measureId,
       finalTerm,
@@ -147,6 +182,15 @@ describe.each(sampled)("pay kind in %s", (placeKey) => {
       value: finalTerm!.value,
       unit: "minor/hour",
     });
+    expect(input.value.type).toBe("amount");
+    expect(federalResolved.value.type).toBe("amount");
+    if (
+      input.value.type === "amount" &&
+      federalResolved.value.type === "amount"
+    )
+      expect(input.value.value).toBeGreaterThanOrEqual(
+        federalResolved.value.value,
+      );
     const raised = applyLawConsequences(world, context, registrations);
     const terms = resourceFlowTermsAt(raised, flow.id)!;
     expect(terms.amount.minorUnits).toBeGreaterThan(100);

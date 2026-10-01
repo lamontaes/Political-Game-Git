@@ -2720,6 +2720,27 @@
         }
       }
     },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "source": "https://www.dol.gov/agencies/whd/minimum-wage/faq",
+      "note": "Federal statutory floor; stronger applicable state and local wage floors remain independently applicable.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "lawTerms": [
+            {
+              "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "key": "floor",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/faq",
+          "cite": "29 U.S.C. 206(a)(1)(C); Fair Minimum Wage Act of 2007",
+          "note": "Standard federal floor for covered nonexempt work. The categorical answer remains no because this question asks about raising the floor above the existing federal standard. Coverage and statutory exceptions require actual work facts; stronger applicable state or local floors remain in force."
+        }
+      }
+    },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "source": "data/research/money/minimum-wage-2026.json (U.S. Department of Labor, July 1, 2026): yes where the state's basic rate is above the federal $7.25.",
       "note": "",

@@ -6,6 +6,7 @@ import {
   recordsWithFieldValue,
 } from "./history-index";
 import { createStableId } from "./ids";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   organizationProfileAt,
   workRoleAt,
@@ -108,15 +109,27 @@ export function determineWorkPayCoverage(
       [];
     const sources = new Set(SOURCES);
     for (const proposition of propositions) {
-      const law = workplace.jurisdictionId
-        ? lawInForce(
-            world,
-            workplace.jurisdictionId,
-            proposition.id,
-            world.currentDate,
-          )
-        : null;
-      if (!law || law.answer !== "yes") continue;
+      // This is federal legal authority, not a replacement workplace fact.
+      // With no recorded place its chain cannot contain a state/local law.
+      const jurisdictionId =
+        workplace.jurisdictionId ??
+        (proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
+          ? NATIONAL_ELECTION_JURISDICTION.id
+          : null);
+      if (!jurisdictionId) continue;
+      const law = lawInForce(
+        world,
+        jurisdictionId,
+        proposition.id,
+        world.currentDate,
+      );
+      if (!law || (law.origin === "enacted" && law.answer !== "yes")) continue;
+      if (
+        proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
+        law.origin === "in-force-at-start" &&
+        law.answer === "no"
+      )
+        continue;
       governingLaws.push({
         questionKey: proposition.stableKey,
         governingLawKey: law.measureId,

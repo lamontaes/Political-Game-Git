@@ -37,12 +37,12 @@ export const MINIMUM_WAGE_PAY_ROWS: Readonly<
             "https://www.dol.gov/agencies/whd/minimum-wage/state",
           ],
           population:
-            "Recorded workers with an actual compensation flow, work jurisdiction and hours.",
+            "Recorded workers with actual compensation flows and hours; federal authority applies without a saved workplace location, while state/local floors require a dated workplace.",
           scope:
             "Governing federal or genuine state law, final legal floor and actual operative date; starting coverage and phase-ins belong to canonical law records.",
           why: "The operative legal minimum raises the worker's prospective recorded contract; actual payroll transfers and withholding use that contract.",
           uncertainty:
-            "Existing whole-period conversion is a game simplification; missing coverage, hours, special rates and final terms are unsupported, never inferred permission or a guessed level.",
+            "Existing whole-period conversion is a game simplification; standard coverage is the approved default and exceptions require saved facts. Missing hours, exception rates and final terms remain unsupported, never guessed levels.",
         },
       } satisfies LawConsequenceRow,
     ],
