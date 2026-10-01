@@ -99,7 +99,7 @@ export function incidentFixture() {
     label: "Fixture incident",
     description: "No recovery or personal knowledge recorded",
     incidentKind: "incident:natural-hazard",
-    occurrenceMode: "probabilistic",
+    occurrenceMode: "condition",
     baseLikelihood: createExactQuantity(1, 1, "rate:share"),
     prerequisites: [],
     blockers: [],

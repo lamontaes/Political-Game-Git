@@ -38,7 +38,6 @@ import {
   enactmentOperative,
   enactmentsAnswering,
   judicialRulingKey,
-  stateJurisdictionOf,
 } from "../governing/law-in-force";
 import {
   ensureOfficeholderPrinciples,
@@ -46,10 +45,6 @@ import {
 } from "../governing/officeholder-principles";
 import { mayAnswerQuestion } from "../governing/question-authority";
 import { hasStableKey } from "../history-index";
-import { stateJurisdictionForKey } from "../life-places";
-import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
-import { STATES } from "../state-reference";
-import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionConsideration,
@@ -63,7 +58,7 @@ import type {
 import { measureAnswersAt } from "../vote-bundle";
 import { recordWorldEvent } from "../world";
 import { seatHolderAt, seatsForCourt } from "./courts";
-import { JUDICIAL_SELECTION_PROFILES } from "./generated/selection-profiles";
+import { courtFor } from "./court-for";
 import type { JudicialCourt } from "./types";
 
 export const JUDICIAL_REVIEW_EVENT = "court.judicial-review";
@@ -114,37 +109,7 @@ export function reviewingCourt(
   world: World,
   jurisdictionId: EntityId,
 ): JudicialCourt | null {
-  const state = stateJurisdictionOf(jurisdictionId);
-  if (!state) return null;
-  // Courts are filed under the place's chief-executive jurisdiction, which
-  // for D.C. is not the record laws are filed under.
-  const seats = new Set([state, courtJurisdictionOf(state)]);
-  return (
-    Object.values(world.judiciary?.courts ?? {})
-      .filter(
-        (court) =>
-          court.jurisdictionId !== null &&
-          seats.has(court.jurisdictionId) &&
-          court.level === "local-highest" &&
-          JUDICIAL_SELECTION_PROFILES.find(
-            (profile) => profile.recordId === court.sourceRecordId,
-          )?.officeFamily !== "highest_court_criminal",
-      )
-      .sort((a, b) => a.courtId.localeCompare(b.courtId))[0] ?? null
-  );
-}
-
-let courtJurisdictions: ReadonlyMap<EntityId, EntityId> | null = null;
-
-function courtJurisdictionOf(state: EntityId): EntityId {
-  courtJurisdictions ??= new Map(
-    Object.keys(STATES).flatMap((usps) => {
-      const law = stateJurisdictionForKey(`US-${usps}`)?.id;
-      const court = chiefExecutiveJurisdiction(usps)?.id;
-      return law && court ? [[law, court] as const] : [];
-    }),
-  );
-  return courtJurisdictions.get(state) ?? state;
+  return courtFor(world, jurisdictionId, "local-highest", "law-review");
 }
 
 function considerationsFor(
@@ -368,8 +333,6 @@ function awaitingReview(world: World): readonly AwaitingReview[] {
       world,
       propositionId,
     )) {
-      if (measure.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id)
-        continue;
       const answer = measureAnswersAt(
         world,
         measure.id,

@@ -1,3 +1,8 @@
+import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "./invented-person-age";
 import { makeIsoDate } from "./dates";
 import {
   createCharacterHistoryContextPeople,
@@ -18,6 +23,7 @@ import {
 } from "./life-queries";
 import { localBusinessSupplyFor } from "./local-business-counts";
 import { townJobRate } from "./living-world/town-pay";
+import { townBusinesses } from "./living-world/town-businesses";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   drawCanonicalNameForGender,
@@ -384,15 +390,6 @@ export function localBusinessesIn(
     .map(({ organization, kind }) => ({ organization, kind }));
 }
 
-function birthDateFor(rng: SeededRng, today: IsoDate, age: number): IsoDate {
-  const year = Number(today.slice(0, 4)) - age - 1;
-  const month = rng.integer(1, 13);
-  const day = rng.integer(1, 29);
-  return makeIsoDate(
-    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-  );
-}
-
 function yearsBefore(date: IsoDate, years: number): IsoDate {
   return makeIsoDate(
     `${Number(date.slice(0, 4)) - years}${date.slice(4, 7)}-01`,
@@ -486,7 +483,7 @@ function seatMissingLocalBusinesses(
     const kindRng = rng.fork(
       planned.index === 0 ? kind.key : `${kind.key}:${planned.index + 1}`,
     );
-    const draw = (role: string, minAge: number, maxAge: number) => {
+    const draw = (role: string, ageRole: InventedPersonRole) => {
       const personRng = kindRng.fork(role);
       const identity = generatePersonIdentity(personRng.fork("identity"));
       let name = drawCanonicalNameForGender(
@@ -512,24 +509,24 @@ function seatMissingLocalBusinesses(
         stableKey: `${businessKey(jurisdictionId, kind, planned.index)}:${role}`,
         ...name,
         identity,
-        birthDate: birthDateFor(
-          personRng.fork("age"),
-          today,
-          personRng.integer(minAge, maxAge + 1),
-        ),
+        birthDate: inventedPersonBirthDate(personRng.fork("age"), {
+          role: ageRole,
+          referenceDate: today,
+          age: inventedPersonAge(personRng, ageRole),
+        }),
         homeJurisdictionId: jurisdictionId,
       };
       people.push(input);
       return input;
     };
-    const owner = draw("owner", 30, 64);
+    const owner = draw("owner", "business-owner");
     const ownerAdult = yearsBefore(owner.birthDate, -22);
     const formedAt = later(
       yearsBefore(today, kindRng.integer(1, 31)),
       ownerAdult,
     );
     const workers = Array.from({ length: planned.workers }, (_, index) => {
-      const input = draw(`worker:${index + 1}`, 18, 60);
+      const input = draw(`worker:${index + 1}`, "business-worker");
       const since = later(
         yearsBefore(today, kindRng.integer(0, 6)),
         later(formedAt, yearsBefore(input.birthDate, -16)),
@@ -847,13 +844,49 @@ export function adultStartEmployer(
   world: World,
   personId: EntityId,
   jurisdictionId: EntityId,
-): { organization: Organization; kind: LocalBusinessKind } | null {
+): {
+  organization: Organization;
+  kind: Pick<LocalBusinessKind, "workerTitle" | "workerOccupation">;
+} | null {
+  if (!world.people[personId]) return null;
   const past = world.history.workRelationships.filter(
     (work) => work.personId === personId,
   );
-  const fit = localBusinessesIn(world, jurisdictionId).filter(
-    ({ kind }) => !kind.workerOccupation.startsWith("profession:"),
-  );
+  // Borrow only roles that an actual open town business employs today.
+  // A legacy player-only business and its fixed revenue are never candidates.
+  const fit = townBusinesses(world, jurisdictionId).flatMap((business) => {
+    const organization = world.history.organizations.find(
+      (record) => record.id === business.organizationId,
+    );
+    if (!organization || organization.formedAt > world.currentDate) return [];
+    const seen = new Set<string>();
+    return business.jobs.flatMap((job) => {
+      const work = world.history.workRelationships.find(
+        (record) => record.id === job.relationshipId,
+      );
+      const role = workRoleAt(world, job.relationshipId);
+      if (
+        !work ||
+        work.startedAt > world.currentDate ||
+        work.compensation !== "paid" ||
+        job.directsOthers ||
+        !role ||
+        !role.occupationClassification ||
+        role.occupationClassification.startsWith("profession:") ||
+        role.locationJurisdictionId !== jurisdictionId
+      )
+        return [];
+      const kind = {
+        workerTitle: role.title,
+        workerOccupation: role.occupationClassification,
+      };
+      if (!localBusinessWageMinor(kind, jurisdictionId).sourced) return [];
+      const key = JSON.stringify(kind);
+      if (seen.has(key)) return [];
+      seen.add(key);
+      return [{ organization, kind }];
+    });
+  });
   if (fit.length === 0) return null;
   const known = new Set<EntityId>();
   for (const kin of kinshipRelationshipsAt(world, personId))
@@ -884,7 +917,7 @@ export function adultStartEmployer(
   );
   const pool =
     vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
-  const pay = (kind: LocalBusinessKind) =>
+  const pay = (kind: Pick<LocalBusinessKind, "workerOccupation">) =>
     localBusinessWageMinor(kind, jurisdictionId).monthlyMinor;
   return [...pool].sort(
     (left, right) =>

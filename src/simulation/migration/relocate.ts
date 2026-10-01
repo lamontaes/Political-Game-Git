@@ -19,7 +19,11 @@
  */
 
 import { createStableId } from "../ids";
-import { buildHouseholdLocationRecord, recordWorkStatus } from "../life";
+import {
+  buildHouseholdLocationRecord,
+  recordOrganizationParticipationState,
+  recordWorkStatus,
+} from "../life";
 import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
 import { TOWN_HOMES_VERSION } from "../living-world/town-homes";
 import { activeCampaignForCandidate } from "../campaign-queries";
@@ -30,6 +34,7 @@ import {
   currentLifeCutoff,
   householdLocationAt,
   householdMembershipsAt,
+  organizationParticipationStateAt,
   peopleInHouseholdAt,
   workStatusAt,
 } from "../life-queries";
@@ -74,6 +79,8 @@ export interface MoveRequest {
   readonly endsHousing?: boolean;
   /** The record that caused the move, such as a disaster's damage to the home. */
   readonly causeId?: EntityId;
+  /** Why they decided to go, in the words the move event records. */
+  readonly why?: string;
 }
 
 /** A move checked against the world and ready to write. */
@@ -90,7 +97,11 @@ export interface PlannedMove {
   readonly endsTenureIds: readonly EntityId[];
   /** Town jobs the movers leave behind, each ended on the move. */
   readonly endsWorkRelationshipIds?: readonly EntityId[];
+  /** Memberships the movers leave behind, each ended on the move. */
+  readonly endsParticipationIds?: readonly EntityId[];
   readonly causeId: EntityId | null;
+  /** Why they decided to go, when a decision recorded it. */
+  readonly why?: string;
 }
 
 export type MovePlan =
@@ -124,6 +135,11 @@ export interface MoveTieReader {
   readonly townHomesLeftBehind: (personId: EntityId) => HeldHousing;
   /** Jobs in the town being left that the move itself ends. */
   readonly jobsLeftBehind: (personId: EntityId) => readonly EntityId[];
+  /**
+   * Ordinary memberships (a member or participant, not a leader or an
+   * advisor) that end when their member leaves town, as a town job does.
+   */
+  readonly membershipsLeftBehind: (personId: EntityId) => readonly EntityId[];
 }
 
 export function moveTieReader(world: World): MoveTieReader {
@@ -209,8 +225,14 @@ export function moveTieReader(world: World): MoveTieReader {
         return "has a job";
       if (activeEducationEnrollmentsAt(world, personId).length > 0)
         return "is enrolled in school";
-      if (activeOrganizationParticipationsAt(world, personId).length > 0)
-        return "belongs to an organization or party";
+      // A member or participant leaves an organization or party behind
+      // when they move; a leader or an advisor is still held by the role.
+      if (
+        activeOrganizationParticipationsAt(world, personId).some(
+          (active) => !isOrdinaryMembership(active.state.roleKind),
+        )
+      )
+        return "leads or advises an organization or party";
       if (activeCampaignForCandidate(world, personId))
         return "is running a campaign";
       return null;
@@ -233,11 +255,23 @@ export function moveTieReader(world: World): MoveTieReader {
         tenureIds: held.tenureIds.filter((id) => townHomes.has(id)),
       };
     },
+    membershipsLeftBehind: (personId) =>
+      activeOrganizationParticipationsAt(world, personId)
+        .filter((active) => isOrdinaryMembership(active.state.roleKind))
+        .map((active) => active.participation.id),
     jobsLeftBehind: (personId) =>
       activeWorkRelationshipsAt(world, personId)
         .filter((active) => isTownEmploymentJob(active.relationship.stableKey))
         .map((active) => active.relationship.id),
   };
+}
+
+function isOrdinaryMembership(roleKind: string | null): boolean {
+  return (
+    roleKind === null ||
+    roleKind.startsWith("member:") ||
+    roleKind.startsWith("participant:")
+  );
 }
 
 function isTownHome(stableKey: string): boolean {
@@ -361,9 +395,13 @@ export function planMove(
       reason: request.reason,
       waveKey: request.waveKey,
       causeId: request.causeId ?? null,
+      ...(request.why ? { why: request.why } : {}),
       ...endedHousing(personIds, context.ties, request.endsHousing ?? false),
       endsWorkRelationshipIds: personIds.flatMap((id) =>
         context.ties.jobsLeftBehind(id),
+      ),
+      endsParticipationIds: personIds.flatMap((id) =>
+        context.ties.membershipsLeftBehind(id),
       ),
     },
   };
@@ -473,10 +511,11 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       ...(move.waveKey ? [`wave:${move.waveKey}`] : []),
       ...(move.causeId ? [`cause:${move.causeId}`] : []),
     ],
-    summary:
+    summary: `${
       move.personIds.length === 1
-        ? `${personLabel(world, move.personIds[0]!)} moved from ${fromName} to ${toName}.`
-        : `${personLabel(world, move.personIds[0]!)} and ${move.personIds.length - 1} others in the household moved from ${fromName} to ${toName}.`,
+        ? `${personLabel(world, move.personIds[0]!)} moved from ${fromName} to ${toName}`
+        : `${personLabel(world, move.personIds[0]!)} and ${move.personIds.length - 1} others in the household moved from ${fromName} to ${toName}`
+    }${move.why ? `: ${move.why}` : ""}.`,
     context: {
       location: {
         jurisdictionId: move.toJurisdictionId,
@@ -521,6 +560,20 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       reason: "labor:moved-away",
       provenance: { kind: "simulated-event", eventId: event.id },
       supersedesStatusId: status.id,
+    });
+  }
+  for (const participationId of move.endsParticipationIds ?? []) {
+    const state = organizationParticipationStateAt(next, participationId);
+    if (state?.status !== "active") continue;
+    next = recordOrganizationParticipationState(next, {
+      stableKey: `${eventStableKey}:membership:${participationId}`,
+      participationId,
+      effectiveAt: date,
+      status: "ended",
+      roleKind: state.roleKind,
+      context: "moved-away",
+      provenance: { kind: "simulated-event", eventId: event.id },
+      supersedesStateId: state.id,
     });
   }
   for (const tenureId of move.endsTenureIds) {

@@ -1,0 +1,526 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ × src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records the duty without mistaking workers for fulfillment 182ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > writes nothing twice 57ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records coverage as unknown where the Act turns on a size the world does not hold 68ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > stands with no body under it when the Act reaches only bodies that act first 49ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that says who it applies to > counts the bodies on record it names 53ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that says who it applies to > leaves the count unknown where the test turns on a size no record holds 45ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that says who it applies to > names households it applies to without inventing how many there are 52ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that says who it applies to > says whom it covers in the words the law was passed with 44ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that says who it applies to > reaches local governments only when the law was passed to 47ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that says who it applies to > reads a purpose section as the Act's reason, not as a part nothing acts on 49ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law's money sections > turns a family's own appropriating section into money the state can spend 48ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law's money sections > keeps a pilot's money available for the pilot's own term 44ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law's money sections > reads an authorization as a ceiling that provides no money 40ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law's money sections > counts what a later law appropriates against the ceiling 42ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law's money sections > reads a yearly salary cap as a cap 41ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > stops new spending under a repealed program once the repeal takes effect 38ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > lets a later extension supersede an earlier end date 34ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > does not bring a repealed program back with a later extension 35ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > leaves the same program in another jurisdiction untouched 40ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > says which law ended a program a bill set up 36ms
+   → Player-required work must be assigned to the controlled person.
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > covers all 50 states, D.C. and the five territories 1ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AL reaches its own towns and no other place's 57ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AK reaches its own towns and no other place's 10ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AS reaches its own towns and no other place's 11ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AZ reaches its own towns and no other place's 20ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AR reaches its own towns and no other place's 40ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-CA reaches its own towns and no other place's 42ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-CO reaches its own towns and no other place's 14ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-CT reaches its own towns and no other place's 6ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-DE reaches its own towns and no other place's 2ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-DC reaches its own towns and no other place's 19ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-FL reaches its own towns and no other place's 29ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-GA reaches its own towns and no other place's 13ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-GU reaches its own towns and no other place's 4ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-HI reaches its own towns and no other place's 7ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-ID reaches its own towns and no other place's 41ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-IL reaches its own towns and no other place's 44ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-IN reaches its own towns and no other place's 34ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-IA reaches its own towns and no other place's 28ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-KS reaches its own towns and no other place's 28ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-KY reaches its own towns and no other place's 19ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-LA reaches its own towns and no other place's 10ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-ME reaches its own towns and no other place's 12ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MD reaches its own towns and no other place's 13ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MA reaches its own towns and no other place's 21ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MI reaches its own towns and no other place's 38ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MN reaches its own towns and no other place's 29ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MS reaches its own towns and no other place's 56ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MO reaches its own towns and no other place's 27ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MT reaches its own towns and no other place's 15ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NE reaches its own towns and no other place's 11ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NV reaches its own towns and no other place's 5ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NH reaches its own towns and no other place's 13ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NJ reaches its own towns and no other place's 19ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NM reaches its own towns and no other place's 29ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NY reaches its own towns and no other place's 37ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NC reaches its own towns and no other place's 21ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-ND reaches its own towns and no other place's 8ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MP reaches its own towns and no other place's 23ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-OH reaches its own towns and no other place's 39ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-OK reaches its own towns and no other place's 24ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-OR reaches its own towns and no other place's 72ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-PA reaches its own towns and no other place's 32ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-PR reaches its own towns and no other place's 8ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-RI reaches its own towns and no other place's 8ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-SC reaches its own towns and no other place's 15ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-SD reaches its own towns and no other place's 15ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-TN reaches its own towns and no other place's 42ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-TX reaches its own towns and no other place's 35ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-VI reaches its own towns and no other place's 6ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-UT reaches its own towns and no other place's 13ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-VT reaches its own towns and no other place's 18ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-VA reaches its own towns and no other place's 26ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WA reaches its own towns and no other place's 19ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WV reaches its own towns and no other place's 22ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WI reaches its own towns and no other place's 18ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WY reaches its own towns and no other place's 13ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > reaches every place for a federal law 611ms
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > turns a passed Nebraska appropriation into money the state can spend 183ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses the selected availability clause's saved date and reports no omitted duty 55ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > honors a supplemental appropriation's shorter lapse section 66ms
+   → Player-required work must be assigned to the controlled person.
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > classifies a passed Charlottesville council ordinance as local under its state jurisdiction 99ms
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > funds every part of a multi-part bill, a transit part included 62ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses Nebraska's saved effective date and transit profile without creating cash 66ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > does not invent a state transit start date when the enactment has none 51ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > writes each effect once, however many routes apply it 50ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > says plainly which parts of a passed Alaska law the world cannot act on yet 54ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > reports the exact missing-authority result for a typed but unapplied amount 42ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > reads a law's effects without spending a day or writing a fact 43ms
+   → Player-required work must be assigned to the controlled person.
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > tells the player on the bill's page what the law changed 43ms
+   → Player-required work must be assigned to the controlled person.
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > shows nothing on the page of a bill that is not law 20ms
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > has nothing to say about a bill that is not law 19ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 31 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records the duty without mistaking workers for fulfillment
+ FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > writes nothing twice
+ FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records coverage as unknown where the Act turns on a size the world does not hold
+ FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > stands with no body under it when the Act reaches only bodies that act first
+ FAIL  src/presentation/enacted-duties.test.ts > a law that says who it applies to > counts the bodies on record it names
+ FAIL  src/presentation/enacted-duties.test.ts > a law that says who it applies to > leaves the count unknown where the test turns on a size no record holds
+ FAIL  src/presentation/enacted-duties.test.ts > a law that says who it applies to > names households it applies to without inventing how many there are
+ FAIL  src/presentation/enacted-duties.test.ts > a law that says who it applies to > says whom it covers in the words the law was passed with
+ FAIL  src/presentation/enacted-duties.test.ts > a law that says who it applies to > reaches local governments only when the law was passed to
+ FAIL  src/presentation/enacted-duties.test.ts > a law that says who it applies to > reads a purpose section as the Act's reason, not as a part nothing acts on
+ FAIL  src/presentation/enacted-duties.test.ts > a law's money sections > turns a family's own appropriating section into money the state can spend
+ FAIL  src/presentation/enacted-duties.test.ts > a law's money sections > keeps a pilot's money available for the pilot's own term
+ FAIL  src/presentation/enacted-duties.test.ts > a law's money sections > reads an authorization as a ceiling that provides no money
+ FAIL  src/presentation/enacted-duties.test.ts > a law's money sections > reads a yearly salary cap as a cap
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-duties.test.ts:132:20
+ ❯ pass src/presentation/enacted-duties.test.ts:207:9
+ ❯ enact src/presentation/enacted-duties.test.ts:238:32
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/31]⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law's money sections > counts what a later law appropriates against the ceiling
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-duties.test.ts:132:20
+ ❯ pass src/presentation/enacted-duties.test.ts:207:9
+ ❯ src/presentation/enacted-duties.test.ts:562:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/31]⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > stops new spending under a repealed program once the repeal takes effect
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-duties.test.ts:132:20
+ ❯ pass src/presentation/enacted-duties.test.ts:207:9
+ ❯ src/presentation/enacted-duties.test.ts:620:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/31]⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > lets a later extension supersede an earlier end date
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-duties.test.ts:132:20
+ ❯ pass src/presentation/enacted-duties.test.ts:207:9
+ ❯ src/presentation/enacted-duties.test.ts:672:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/31]⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > does not bring a repealed program back with a later extension
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-duties.test.ts:132:20
+ ❯ pass src/presentation/enacted-duties.test.ts:207:9
+ ❯ src/presentation/enacted-duties.test.ts:693:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/31]⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > leaves the same program in another jurisdiction untouched
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-duties.test.ts:132:20
+ ❯ pass src/presentation/enacted-duties.test.ts:207:9
+ ❯ src/presentation/enacted-duties.test.ts:715:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/31]⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > says which law ended a program a bill set up
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-duties.test.ts:132:20
+ ❯ pass src/presentation/enacted-duties.test.ts:207:9
+ ❯ src/presentation/enacted-duties.test.ts:731:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > turns a passed Nebraska appropriation into money the state can spend
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:308:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses the selected availability clause's saved date and reports no omitted duty
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:335:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > honors a supplemental appropriation's shorter lapse section
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:363:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > funds every part of a multi-part bill, a transit part included
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ src/presentation/enacted-law-effects.test.ts:428:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses Nebraska's saved effective date and transit profile without creating cash
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:474:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > does not invent a state transit start date when the enactment has none
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:537:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > writes each effect once, however many routes apply it
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:556:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > says plainly which parts of a passed Alaska law the world cannot act on yet
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:569:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > reports the exact missing-authority result for a typed but unapplied amount
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:590:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > reads a law's effects without spending a day or writing a fact
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:654:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/31]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > tells the player on the bill's page what the law changed
+Error: Player-required work must be assigned to the controlled person.
+ ❯ validateInitialWorkResponsibility src/simulation/time-work.ts:2126:11
+    2124|     (!controlledPersonId || !assignedPersonIds.includes(controlledPers…
+    2125|   ) {
+    2126|     throw new Error(
+       |           ^
+    2127|       "Player-required work must be assigned to the controlled person.…
+    2128|     );
+ ❯ assertTimeWorkIntegrity src/simulation/time-work.ts:2574:5
+ ❯ validateHistoryIntegrity src/simulation/world.ts:2278:3
+ ❯ validateWorldIntegrity src/simulation/world.ts:877:24
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ recordDurableDecisionTrace src/simulation/decisions.ts:290:3
+ ❯ decideGoverningMatter src/simulation/governing/state-governing.ts:2119:12
+ ❯ signAtActualGovernorDesk src/presentation/enacted-law-effects.test.ts:97:20
+ ❯ enactFromDocket src/presentation/enacted-law-effects.test.ts:169:9
+ ❯ src/presentation/enacted-law-effects.test.ts:666:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/31]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  31 failed | 61 passed (92)
+   Start at  16:52:30
+   Duration  27.39s (transform 15.32s, setup 23ms, import 23.28s, tests 3.79s, environment 1ms)
+

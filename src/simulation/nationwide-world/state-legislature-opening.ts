@@ -1,3 +1,7 @@
+import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+} from "../invented-person-age";
 import { indexFollowingAppends } from "../history-index";
 import {
   applyCharacterHistoryPlan,
@@ -12,7 +16,7 @@ import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
@@ -654,7 +658,9 @@ export function ensureStateLegislatureOpening(
         democraticShare = logistic(lean);
         party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
-      const age = seatRng.integer(minimumAge + 7, 81);
+      const age = inventedPersonAge(seatRng, "sitting-legislator-at-opening", {
+        legalMinimumAge: minimumAge,
+      });
       // A state that limits its legislators' terms has no sitting member
       // past the limit: service so far is spread over the years under it
       // (the current term is part of it), not piled at the limit.
@@ -663,10 +669,12 @@ export function ensureStateLegislatureOpening(
         limitYears === null ? drawnYears : drawnYears % limitYears,
         Math.max(0, age - minimumAge - 1),
       );
-      const year = Number(date.slice(0, 4));
-      const birthDate = makeIsoDate(
-        `${year - age - 1}-${pad(seatRng.integer(1, 13))}-${pad(seatRng.integer(1, 29))}`,
-      );
+      const birthDate = inventedPersonBirthDate(seatRng, {
+        role: "sitting-legislator-at-opening",
+        referenceDate: date,
+        legalMinimumAge: minimumAge,
+        age,
+      });
       const serviceSince = addDays(date, -Math.max(1, yearsServed * 365));
       if (serviceSince < earliest.value) earliest.value = serviceSince;
       const identity = generatePersonIdentity(seatRng.fork("identity"));
@@ -902,10 +910,6 @@ export function ensureStateLegislatureOpening(
       immediateReaction: null,
     },
   });
-}
-
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
 }
 
 /** "democratic" or "republican" for a national party's organization id. */

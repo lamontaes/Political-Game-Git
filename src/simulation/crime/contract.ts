@@ -27,7 +27,11 @@ export interface CrimeOffenseRule {
    * (aged `minimumVictimAge` or older) or one represented household.
    */
   readonly annualRate: number;
-  /** UNRESEARCHED. Share of offenses the victim reports to police. */
+  /**
+   * UNRESEARCHED. Share of offenses reported to police, for the town's
+   * police log mix only. Whether a named victim reports is their own
+   * decision (`./reporting`).
+   */
   readonly reportedShare: number;
   /**
    * UNRESEARCHED. Share of reported offenses that end in an arrest: a check
