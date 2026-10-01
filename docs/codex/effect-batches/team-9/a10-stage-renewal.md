@@ -14,22 +14,24 @@ This source composition introduces no timing, bail amount, or sentence value. It
 
 ## 3. Revisions
 
-Current main was merged additively. The only conflict was imports; both stage scheduling and cash-bail imports were retained. Actual cash deposits, case-close refunds, and release behavior remain. No old whole-file overlay was used. No shared composer or opening/load file was edited.
+Current main was merged additively. The only conflict was imports; both stage scheduling and cash-bail imports were retained. Actual cash deposits, case-close refunds, and release behavior remain. No old whole-file overlay was used. The separately released composer import and prosecution registration are now included. No opening/load file was edited.
 
 ## 4. What gets built
 
 1. Retain the published stage scheduler and its targeted case consumer.
 2. Retain the actual post-seatJudge recovery callback and saved bench evidence.
-3. Give Team 7 the exact refreshed source for its composer, and Audit the unchanged recovery export.
+3. Register the prosecution adapter after the tax handler in the existing composer; Audit retains its recovery caller.
 4. Keep weekly fallback until NPC petition creation and current native boundary composition survive its removal.
 
 ## 5. Simulated, records, world pieces, checks
 
-SIMULATED: existing prosecutors, defendants, jurors, and judges keep their current decision path. RECORDS: actual stages, due items, and bench changes append their existing facts. WORLD PIECES: a saved stage and actual defendant are required; no judge means no sentence. CHECKS: stage-event parity, pending/no-judge behavior, explicit overdue recovery, actual bench activation, canonical reload, and repeat safety. Missing composer admission remains a dependency, not a claimed outcome.
+SIMULATED: existing prosecutors, defendants, jurors, and judges keep their current decision path. RECORDS: actual stages, due items, and bench changes append their existing facts. WORLD PIECES: a saved stage and actual defendant are required; no judge means no sentence. CHECKS: stage-event parity, pending/no-judge behavior, explicit overdue recovery, actual bench activation, canonical reload, and repeat safety. Clemency composer admission and opening/load recovery remain dependencies.
 
 ## 6. Proof run
 
-Measured at production source `8fd006b910d7ef185bb383d2ac2a20ae0bb7ba26`: 20 of 20 tests passed in two changed court files, in 223.34 seconds. Five owned type roots have zero errors. ESLint, formatting, and whitespace checks passed. Five actual named stage receipts are saved in `a10-stage-renewal-proof.json`. These are controlled adapter and recovery proofs, not renewed shared-composer or opening/load acceptance. The historical b640 receipt is not credited to this source. Whole-suite, browser, year-speed, and final-main checks were not run.
+Measured at production source `8fd006b910d7ef185bb383d2ac2a20ae0bb7ba26`: 20 of 20 tests passed in two changed court files, in 223.34 seconds. Five owned type roots have zero errors. ESLint, formatting, and whitespace checks passed. Five actual named stage receipts are saved in `a10-stage-renewal-proof.json`. These are controlled adapter and recovery proofs, not renewed shared-composer or opening/load acceptance. The historical b640 receipt is not credited to this source.
+
+Measured on current main `a721474cf` composition: the new five-place `prosecution-composer.test.ts` passed all five cases in 100.22 seconds. The real production composer dispatched the saved case stage. Reload/replay preserved events and due items. Two owned type roots have zero errors; lint, formatting, and diff checks passed. Unrelated saved commitments were canonically cancelled to isolate this case path. Exact source blobs and five named receipts are in `a10-composer-proof.json`. Whole-suite, browser, year-speed, and final-main checks were not run.
 
 ## 7. Worked example
 
@@ -37,4 +39,4 @@ In Iowa, George Vance’s actual referral `event_508362cfc0ad0f28` supplied the 
 
 ## Delivery
 
-Addresses A10’s owned stage and bench recovery portion. The full A10 item remains unfinished: Team 7 owns shared composer renewal and Audit owns opening/load. NPC petition creation still needs an actual justice activity before both weekly calls are removed. The shared press caller remains intact. This source is ready for CTO review, with no Team 9 merge.
+Addresses A10’s owned stage and bench recovery portion. The full A10 item remains unfinished: the prosecution registration is installed under the exact new transfer; Team 7 retains the separate clemency composer and Audit owns opening/load. NPC petition creation still needs an actual justice activity before both weekly calls are removed. The shared press caller remains intact. This source is ready for CTO review, with no Team 9 merge.
