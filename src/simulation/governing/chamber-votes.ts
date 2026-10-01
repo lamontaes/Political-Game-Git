@@ -7,6 +7,7 @@ import {
 } from "../constitutional-process";
 import { institutionOfficeBindingAt } from "../enacted-rule-changes";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
+import { seatsForChamber } from "../legislature-game-profile";
 import { organizationProfileAt, workStatusAt } from "../life-queries";
 import { requireMeasure } from "../legislation";
 import {
@@ -304,6 +305,7 @@ export function stateConstitutionalRoster(
   world: World,
   jurisdictionId: EntityId,
   bodyKey: string,
+  purpose: "proposal" | "ratification" = "proposal",
 ): {
   readonly seated: SeatedChamber;
   readonly sourceRecordIds: readonly EntityId[];
@@ -311,15 +313,29 @@ export function stateConstitutionalRoster(
 } | null {
   const cutoff = currentHistoricalCutoff(world);
   const pack = legislativePackForJurisdiction(jurisdictionId);
-  const profile = pack && stateAmendmentProfile(pack.jurisdictionKey);
+  const profile =
+    purpose === "proposal" && pack
+      ? stateAmendmentProfile(pack.jurisdictionKey)
+      : null;
   const chamber = pack?.chambers.find((row) => row.chamberKey === bodyKey);
   const ruleBody = profile?.bodies.find((row) => row.bodyKey === bodyKey);
+  const actualSeats =
+    purpose === "ratification" && pack ? seatsForChamber(pack, bodyKey) : null;
+  // A federal amendment is ratified by the state's actual legislature, not
+  // the bodies/thresholds of its separate state-amendment proposal profile.
+  // The proposal arm retains its original profile guard and seat count.
+  const expectedSeats =
+    purpose === "ratification"
+      ? (actualSeats?.seats ?? null)
+      : (ruleBody?.members ?? null);
   if (
     !world.jurisdictions[jurisdictionId] ||
     !pack ||
-    !profile ||
     !chamber ||
-    !ruleBody
+    expectedSeats === null ||
+    (purpose === "proposal" && (!profile || !ruleBody)) ||
+    (purpose === "ratification" &&
+      !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey))
   )
     return null;
   const seated = seatedChamberForPack(
@@ -343,7 +359,7 @@ export function stateConstitutionalRoster(
     binding && organizationProfileAt(world, binding.organizationId, cutoff);
   if (
     !seated ||
-    seated.seats !== ruleBody.members ||
+    seated.seats !== expectedSeats ||
     !binding ||
     !organization ||
     organization.sequence >= cutoff.historySequenceExclusive ||
@@ -414,7 +430,12 @@ export function stateConstitutionalRoster(
   return {
     seated: body,
     sourceRecordIds: [...new Set(sources)],
-    profileBasis: profile.basis,
+    profileBasis:
+      purpose === "ratification"
+        ? actualSeats!.basis === "researched"
+          ? "sourced"
+          : "game-profile"
+        : profile!.basis,
   };
 }
 
@@ -436,6 +457,7 @@ function constitutionalVoteContext(
         world,
         input.ratificationJurisdictionId,
         input.bodyKey,
+        "ratification",
       )
     : null;
   const body = ratification

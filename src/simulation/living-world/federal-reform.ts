@@ -413,7 +413,12 @@ export function decideArticleVStateMemberVotes(
     return null;
   const rosters = pack.chambers.map((body) => ({
     bodyKey: body.chamberKey,
-    roster: stateConstitutionalRoster(world, jurisdictionId, body.chamberKey),
+    roster: stateConstitutionalRoster(
+      world,
+      jurisdictionId,
+      body.chamberKey,
+      "ratification",
+    ),
   }));
   if (!rosters.length || rosters.some(({ roster }) => roster === null))
     return null;

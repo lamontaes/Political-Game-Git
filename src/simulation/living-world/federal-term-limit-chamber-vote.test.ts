@@ -11,7 +11,10 @@ import {
   searchLifePlaces,
   stateJurisdictionForKey,
 } from "../life-places";
-import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
+import {
+  ensureStateLegislatureOpening,
+  prepareNationwideStateLegislatureOpeningChunks,
+} from "../nationwide-world/state-legislature-opening";
 import { ensureNationalElectionJurisdiction } from "../national-election-geography";
 import { createOrganizationParticipations } from "../life";
 import { personName } from "../people";
@@ -41,6 +44,15 @@ beforeAll(() => {
   world = ensureNationalElectionJurisdiction(
     smallWorld({ place: place.key, seed, offices: ["congress"] }).world,
   );
+  if (world.control.kind !== "person")
+    throw Error("The fixture needs its actual controlled person.");
+  // Current main's small world deliberately opens only requested offices.
+  // Build the required state bodies through their ordinary saved producer.
+  for (const chunk of prepareNationwideStateLegislatureOpeningChunks(
+    world,
+    world.control.personId,
+  ))
+    world = chunk.world;
   cause = {
     direction: "extend",
     holderPersonId: currentPresidentOf(world)!.personId,
@@ -262,6 +274,7 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
           voteWorld,
           jurisdiction.id,
           (input as chamber.ChamberConstitutionalVoteInput).bodyKey,
+          "ratification",
         )!;
         expect(input.members).toEqual(roster.seated.body.members);
       }
