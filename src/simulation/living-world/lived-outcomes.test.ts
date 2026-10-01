@@ -2,16 +2,29 @@ import { describe, expect, it } from "vitest";
 import { adultLifeIn } from "../../../tests/fixtures/state-executive-entry";
 import { passOrdinaryDays } from "../../presentation/ordinary-life";
 import { officialViewLine } from "../../presentation/small-talk-english";
+import { schoolYearMovesOf } from "../childhood-record";
 import { currentGovernorOf } from "../crisis/offices";
 import { ageOnDate } from "../dates";
 import { stableHash } from "../ids";
-import { lifePlaceStateIdentities } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
+import {
+  deadPeople,
+  moveTieReader,
+  planMove,
+  playerHouseholdPeople,
+  relocateHousehold,
+} from "../migration";
+import { childrenOf, parentsOf } from "../people-family";
+import { currentSchooling, schoolTermOn } from "../school-stages";
 import { activeWorkRelationshipsAt, workStatusHistory } from "../life-queries";
 import { townSupportFromViews, viewOfOfficial } from "../official-view-reads";
 import type { EntityId, World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import { livedOutcomeReflectionKey } from "../law-exposure";
-import { livedOutcomesOf } from "./lived-outcomes";
+import { livedOutcomesOf, officialAnsweringFor } from "./lived-outcomes";
 import {
   LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
   livedOutcomeReflectionEventKey,
@@ -131,6 +144,157 @@ describe(`a resident's lost job shifts their view of the governor (seed ${SEED})
     const official = after.people[governor!.personId]!;
     const line = officialViewLine(after, workerId!, playerId, []);
     console.log(`${label}: ${line?.text}`);
+    expect(line?.text, label).toContain(
+      `${official.givenName} ${official.familyName}`,
+    );
+  }, 60_000);
+});
+
+/**
+ * A pupil in school today, outside the player's household, whose household
+ * (with a grown parent of theirs) can move to the state's own jurisdiction.
+ */
+function movingFamilyIn(seed: string) {
+  const stateKey = drawState(seed);
+  const { world, personId: playerId } = adultLifeIn(stateKey.slice(3), seed);
+  const to = stateJurisdictionForKey(stateKey)!.id;
+  const context = {
+    ties: moveTieReader(world),
+    playerHousehold: playerHouseholdPeople(world),
+    dead: deadPeople(world),
+  };
+  for (const pupilId of [
+    ...new Set(world.history.educationEnrollments.map((row) => row.personId)),
+  ].sort()) {
+    if (currentSchooling(world, pupilId)?.status !== "active") continue;
+    if (world.people[pupilId]!.homeJurisdictionId === to) continue;
+    const plan = planMove(
+      world,
+      {
+        stableKey: "probe",
+        personId: pupilId,
+        toJurisdictionId: to,
+        reason: "life-course:unrecorded",
+        waveKey: null,
+        endsHousing: true,
+      },
+      context,
+    );
+    if (plan.kind !== "planned") continue;
+    const parentId = parentsOf(world, pupilId).find(
+      (id) =>
+        plan.move.personIds.includes(id) &&
+        ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
+    );
+    if (parentId) return { world, playerId, stateKey, to, pupilId, parentId };
+  }
+  return { world, playerId, stateKey, to, pupilId: null, parentId: null };
+}
+
+/** How many of a parent's children have a school-year move on record. */
+function parentsOfMoved(world: World, parentId: EntityId): number {
+  return childrenOf(world, parentId).filter(
+    (childId) => schoolYearMovesOf(world, childId).length > 0,
+  ).length;
+}
+
+const SCHOOL_SEED = "lives-step-3b-school-move";
+
+describe(`a child pulled out of school mid-year shifts a parent's view (seed ${SCHOOL_SEED})`, () => {
+  it("the move writes the child's entry, the parent reflects on it, and says so", () => {
+    const { world, playerId, stateKey, to, pupilId, parentId } =
+      movingFamilyIn(SCHOOL_SEED);
+    const label = `${stateKey}, seed ${SCHOOL_SEED}, opening ${world.currentDate}`;
+    expect(schoolTermOn(world.currentDate), label).not.toBeNull();
+    expect(pupilId, label).not.toBeNull();
+    const moved = relocateHousehold(world, {
+      stableKey: "lives-3b-move",
+      personId: pupilId!,
+      toJurisdictionId: to,
+      reason: "life-course:unrecorded",
+      waveKey: null,
+      endsHousing: true,
+    });
+    const [entry] = schoolYearMovesOf(moved, pupilId!);
+    expect(entry, label).toBeDefined();
+    // One outcome for each of the parent's children who left school in the
+    // move, each read from that child's own entry.
+    const children = parentsOfMoved(moved, parentId!);
+    expect(
+      livedOutcomesOf(moved, parentId!).filter(
+        (row) => row.kind === "school-move",
+      ),
+      label,
+    ).toHaveLength(children);
+    expect(livedOutcomesOf(moved, parentId!), label).toContainEqual({
+      kind: "school-move",
+      at: moved.currentDate,
+      sourceRecordId: entry!.id,
+      direction: "cost",
+      felt: { share: 0.1, estimated: true },
+    });
+    expect(
+      moved.history.futureDueItems.some(
+        (item) =>
+          item.stableKey === livedOutcomeReflectionKey(parentId!, entry!.id),
+      ),
+      label,
+    ).toBe(true);
+
+    const after = passOrdinaryDays(moved, 4);
+    const officialId = officialAnsweringFor(
+      after,
+      parentId!,
+      "local-executive",
+    );
+    // The family now lives at the state's own jurisdiction, where no local
+    // government is recorded, so the view falls to the governor.
+    expect(officialId, label).toBe(
+      currentGovernorOf(after, stateKey.slice(3))?.personId,
+    );
+    const reflection = after.history.events.find(
+      (event) =>
+        event.stableKey ===
+        livedOutcomeReflectionEventKey(parentId!, {
+          sourceRecordId: entry!.id,
+        }),
+    );
+    expect(reflection?.type, label).toBe(LIVED_OUTCOME_REFLECTION_EVENT_TYPE);
+    // The parent thinks over each child's move; the saved view is the latest.
+    const reflections = livedOutcomesOf(after, parentId!)
+      .filter((row) => row.kind === "school-move")
+      .map(
+        (row) =>
+          after.history.events.find(
+            (event) =>
+              event.stableKey ===
+              livedOutcomeReflectionEventKey(parentId!, row),
+          )!.id,
+      );
+    expect(reflections, label).toHaveLength(children);
+    const view = viewOfOfficial(after, parentId!, officialId!);
+    expect(
+      view.belief?.formation.relevantEventIds.some((id) =>
+        reflections.includes(id),
+      ),
+      label,
+    ).toBe(true);
+    expect(view.belief!.position, label).not.toBe("support");
+    assertWorldIntegrity(after);
+    const official = after.people[officialId!]!;
+    const line = officialViewLine(after, parentId!, playerId, []);
+    console.log(
+      `${label}: ${official.givenName} ${official.familyName} answers; points ${view.points.toFixed(2)}; "${line?.text}"`,
+    );
+    expect(view.points, label).toBeLessThan(0);
+    // The child named is the one whose move the latest view weighed.
+    const named = childrenOf(after, parentId!)
+      .filter((childId) => schoolYearMovesOf(after, childId).length > 0)
+      .map((childId) => after.people[childId]!.givenName);
+    expect(
+      named.some((name) => line?.text.includes(name)),
+      label,
+    ).toBe(true);
     expect(line?.text, label).toContain(
       `${official.givenName} ${official.familyName}`,
     );

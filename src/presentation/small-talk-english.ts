@@ -14,6 +14,7 @@ import {
   type LivedOutcome,
 } from "../simulation/living-world/lived-outcomes";
 import { TOWN_JOB_END_REASONS } from "../simulation/living-world/town-labor-market";
+import { childhoodRecordEntries } from "../simulation/childhood-record";
 import type {
   LawExposureRecord,
   OfficialViewRecord,
@@ -448,7 +449,8 @@ const OFFICIAL_VIEW: ComposedLineBank = {
  * A person saying what they hold against the official who answers for
  * something that happened to them (LIVES slice, step 3). Every clause copies
  * a recorded fact: the official, that the speaker blames them, and what
- * happened (a layoff or a closed workplace, from the ended job's own record).
+ * happened (a layoff or a closed workplace, from the ended job's own record;
+ * a child who left school mid-year, from the child's own record).
  * Nothing shows the size of the view as a number. Drafted for Lamontae's
  * editorial review; not yet reviewed.
  */
@@ -483,6 +485,18 @@ const LIVED_OUTCOME_VIEW: ComposedLineBank = {
           kind: "template",
           text: "I lost my job when the place I worked closed, and I hold it against {{official-name}}.",
           requiresFacts: ["blame", "business-closed"],
+        },
+        {
+          key: "school-move-blame",
+          kind: "template",
+          text: "{{child-name}} had to leave school in the middle of the year, and I hold it against {{official-name}}.",
+          requiresFacts: ["blame", "school-move", "child-name"],
+        },
+        {
+          key: "school-move-watch",
+          kind: "template",
+          text: "We moved partway through the school year and {{child-name}} had to leave school. That was on {{official-name}}'s watch, and I haven't forgotten it.",
+          requiresFacts: ["blame", "school-move", "child-name"],
         },
       ],
     },
@@ -530,6 +544,42 @@ export function strongestLivedOutcomeView(
   };
 }
 
+/** What happened, as facts read from the outcome's own record. */
+function outcomeFacts(
+  world: World,
+  outcome: LivedOutcome,
+): GroundedEnglishPacket["facts"] | null {
+  const source = [outcome.sourceRecordId];
+  switch (outcome.kind) {
+    case "job-lost": {
+      const reason = world.history.workStatuses.find(
+        (row) => row.id === outcome.sourceRecordId,
+      )?.reason;
+      const how =
+        reason === TOWN_JOB_END_REASONS.laidOff
+          ? "laid-off"
+          : reason === TOWN_JOB_END_REASONS.businessClosed
+            ? "business-closed"
+            : null;
+      return how ? { [how]: { text: how, sourceRecordIds: source } } : null;
+    }
+    case "school-move": {
+      const childId = childhoodRecordEntries(world).find(
+        (entry) => entry.id === outcome.sourceRecordId,
+      )?.personId;
+      const child = childId ? world.people[childId] : undefined;
+      if (!childId || !child) return null;
+      return {
+        "school-move": { text: "school-move", sourceRecordIds: source },
+        "child-name": {
+          text: child.givenName,
+          sourceRecordIds: [childId, outcome.sourceRecordId],
+        },
+      };
+    }
+  }
+}
+
 /** A person saying what they hold against an official over what happened to them. */
 function livedOutcomeViewLine(
   world: World,
@@ -541,23 +591,15 @@ function livedOutcomeViewLine(
   const official = view ? world.people[view.officialId] : undefined;
   if (!view || !official || view.points >= 0) return null;
   const sources = [view.belief.id, view.reflectionEventId];
-  const reason = world.history.workStatuses.find(
-    (row) => row.id === view.outcome.sourceRecordId,
-  )?.reason;
-  const how =
-    reason === TOWN_JOB_END_REASONS.laidOff
-      ? "laid-off"
-      : reason === TOWN_JOB_END_REASONS.businessClosed
-        ? "business-closed"
-        : null;
-  if (!how) return null;
+  const what = outcomeFacts(world, view.outcome);
+  if (!what) return null;
   const facts: GroundedEnglishPacket["facts"] = {
     "official-name": {
       text: `${official.givenName} ${official.familyName}`,
       sourceRecordIds: [view.officialId, view.belief.id],
     },
     blame: { text: "blame", sourceRecordIds: sources },
-    [how]: { text: how, sourceRecordIds: [view.outcome.sourceRecordId] },
+    ...what,
   };
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
