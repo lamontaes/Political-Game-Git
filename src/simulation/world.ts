@@ -44,6 +44,10 @@ import {
 } from "./enacted-rule-changes";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import {
+  assertLawPermissionIntegrity,
+  lawPermissionRecords,
+} from "./law-consequences/permission-records";
+import {
   assertPublicProgramIntegrity,
   publicProgramRecords,
 } from "./public-program-integrity";
@@ -2130,6 +2134,7 @@ function validateHistoryIntegrity(
         ...crisisRecords(world),
         ...publicProgramRecords(world),
         ...enactedDutyRecords(world),
+        ...lawPermissionRecords(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2320,6 +2325,7 @@ function validateHistoryIntegrity(
   assertCrisisIntegrity(world);
   assertLawExposureIntegrity(world, ids);
   assertOfficialViewIntegrity(world, ids);
+  assertLawPermissionIntegrity(world, ids);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
