@@ -397,12 +397,14 @@ export function applyLawServiceConsequence(
     onDate: resolved.effectiveAt,
     subjectIds: [resolved.subject.id],
   };
+  const authority = "authority" in resolved ? resolved.authority : null;
+  if (authority && authority.kind !== "standing-program-appropriation")
+    return world;
+  const appropriationId = authority?.appropriationId;
   const standing = "authority" in resolved;
   const canonical = standing
     ? resolveStandingServiceConsequences(world, context).find(
-        (candidate) =>
-          candidate.authority.appropriationId ===
-          resolved.authority.appropriationId,
+        (candidate) => candidate.authority.appropriationId === appropriationId,
       )
     : resolveLawServiceConsequence(world, resolved.row, {
         ...context,
