@@ -1,0 +1,74 @@
+{
+  "scope": "A153 existing saved-role lookup parity, authored fixtures only",
+  "sourceBase": "1184ebd61",
+  "selectionSeed": "team8-a153-existing-reporter-all56",
+  "matchedCases": 5,
+  "rows": [
+    {
+      "usps": "DC",
+      "seed": "team8-a153-existing-reporter-all56:DC",
+      "name": "Rebekah Nelson",
+      "personId": "person_013058c19d4002ae",
+      "roleId": "work-role_a8ecc0af39724dfd",
+      "beforeSha256": "84f40be139a02b0c31d7af8a4d8f4d5d1513348e26607e317bc0f43c94821b1f",
+      "afterSha256": "84f40be139a02b0c31d7af8a4d8f4d5d1513348e26607e317bc0f43c94821b1f",
+      "reloadSha256": "84f40be139a02b0c31d7af8a4d8f4d5d1513348e26607e317bc0f43c94821b1f"
+    },
+    {
+      "usps": "DE",
+      "seed": "team8-a153-existing-reporter-all56:DE",
+      "name": "Thomas Murphy",
+      "personId": "person_a6136000512659f9",
+      "roleId": "work-role_0b8d53e9b5858e8a",
+      "beforeSha256": "47d70a0fef01756c867f4ae70ec256340a2954b29066988c1e54a0fb1fb112af",
+      "afterSha256": "47d70a0fef01756c867f4ae70ec256340a2954b29066988c1e54a0fb1fb112af",
+      "reloadSha256": "47d70a0fef01756c867f4ae70ec256340a2954b29066988c1e54a0fb1fb112af"
+    },
+    {
+      "usps": "GA",
+      "seed": "team8-a153-existing-reporter-all56:GA",
+      "name": "Yara Stanley",
+      "personId": "person_fcbeef245b0a1f1e",
+      "roleId": "work-role_1c6cd40ab5ae370f",
+      "beforeSha256": "bbf9f537ca76f95f11c4a68ac4b4e6d8ae37c99192a0baf1507ceaf203db350e",
+      "afterSha256": "bbf9f537ca76f95f11c4a68ac4b4e6d8ae37c99192a0baf1507ceaf203db350e",
+      "reloadSha256": "bbf9f537ca76f95f11c4a68ac4b4e6d8ae37c99192a0baf1507ceaf203db350e"
+    },
+    {
+      "usps": "GU",
+      "seed": "team8-a153-existing-reporter-all56:GU",
+      "name": "Lucas Velasquez",
+      "personId": "person_d5511d2aa0e784f2",
+      "roleId": "work-role_c092494e49d6ac51",
+      "beforeSha256": "7c9ad747a13d8a432baf34118aba0bf8c467481556e4480143469abf486b59f6",
+      "afterSha256": "7c9ad747a13d8a432baf34118aba0bf8c467481556e4480143469abf486b59f6",
+      "reloadSha256": "7c9ad747a13d8a432baf34118aba0bf8c467481556e4480143469abf486b59f6"
+    },
+    {
+      "usps": "FL",
+      "seed": "team8-a153-existing-reporter-all56:FL",
+      "name": "Mira Sparks",
+      "personId": "person_ddb29e244128d6ea",
+      "roleId": "work-role_6e47d1e748329b3a",
+      "beforeSha256": "ec260caea0fbf95dd3838b423a1cfcee34023e74a83d9ddf8da39e90d25181ec",
+      "afterSha256": "ec260caea0fbf95dd3838b423a1cfcee34023e74a83d9ddf8da39e90d25181ec",
+      "reloadSha256": "ec260caea0fbf95dd3838b423a1cfcee34023e74a83d9ddf8da39e90d25181ec"
+    }
+  ],
+  "ignoredReceipts": {
+    "baseline": {
+      "filename": "a153-existing-reporter-baseline.jsonl",
+      "sha256": "343244727381b29ed0243a7faabcc0d9518b8f68ef51bdac806591f81e146312"
+    },
+    "candidate": {
+      "filename": "a153-existing-reporter-candidate.jsonl",
+      "sha256": "343244727381b29ed0243a7faabcc0d9518b8f68ef51bdac806591f81e146312"
+    }
+  },
+  "inheritedPresentationFailures": [
+    "filed campaign-reaction missing",
+    "won campaign-reaction view missing",
+    "lost campaign-reaction view missing"
+  ],
+  "notRun": ["browser", "full suite", "year-speed", "final-main acceptance"]
+}
