@@ -331,6 +331,7 @@ export function evaluateGovernorBill(
   input: {
     readonly stableKey: string;
     readonly governorId: EntityId;
+    readonly executiveTitle?: string;
     readonly measure: LegislativeMeasureRecord;
     readonly staff: {
       readonly optionKey: string;
@@ -366,6 +367,16 @@ export function evaluateGovernorBill(
       input.governorId,
       input.measure,
       input.staff,
+    ).map((reason) =>
+      input.executiveTitle
+        ? {
+            ...reason,
+            explanation: reason.explanation.replace(
+              /\bgovernor\b/g,
+              input.executiveTitle.toLowerCase(),
+            ),
+          }
+        : reason,
     ),
     perceptionIds: [],
     randomness: "none",

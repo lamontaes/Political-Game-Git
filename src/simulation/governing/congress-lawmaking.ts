@@ -5,13 +5,8 @@ import {
 } from "../congress-rule-pack";
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
-import {
-  introduceMeasure,
-  measurePosition,
-  measureVotes,
-} from "../legislation";
+import { introduceMeasure, measurePosition } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
-import { publicPartyAffiliation } from "../living-world/congress";
 import { livingWorldEstablished } from "../living-world/opening";
 import { nextMeasureNumbering } from "../measure-numbering";
 import {
@@ -32,8 +27,6 @@ import {
   CONGRESS_SITTING_TRANSITION,
   COSPONSOR_EVENT,
   isCongressMeasure,
-  measureCosponsors,
-  nationalPartyKeys,
   scheduleCongressSitting,
   seatedCongressChamber,
   withSittingSeating,
@@ -56,6 +49,12 @@ import {
   introduceAutomaticLawMeasure,
 } from "./automatic-legislation";
 import { hasStableKey } from "../history-index";
+import { recordDurableDecisionTrace } from "../decisions";
+import {
+  BILL_SIGN,
+  BILL_RETURN,
+  evaluateGovernorBill,
+} from "./governor-bill-decision";
 
 /**
  * CONGRESS MAKES LAW — members of Congress file bills on the questions their
@@ -513,72 +512,6 @@ function gatherCosponsors(
  * The President's desk
  * ------------------------------------------------------------------ */
 
-function partyKeyOf(world: World, personId: EntityId): string | null {
-  const organizationId = publicPartyAffiliation(world, personId);
-  return organizationId
-    ? (nationalPartyKeys(world).get(organizationId) ?? null)
-    : null;
-}
-
-/**
- * What a non-player President does with a bill.
- *
- * PLACEHOLDER until research question how-congress-moves-bills is
- * answered. The President signs a bill that carries the name of a member of
- * their own party. Otherwise they veto it when most of their own party's
- * members who voted on it in either House voted no, and sign it when their
- * party did not object.
- */
-export function presidentialDecision(
-  world: World,
-  measure: LegislativeMeasureRecord,
-  presidentPersonId: EntityId,
-): { readonly action: "signed" | "vetoed"; readonly rationale: string } {
-  const party = partyKeyOf(world, presidentPersonId);
-  const backers = [
-    ...(measure.sponsorPersonId ? [measure.sponsorPersonId] : []),
-    ...measureCosponsors(world, measure.id),
-  ];
-  if (
-    party &&
-    backers.some((personId) => partyKeyOf(world, personId) === party)
-  )
-    return {
-      action: "signed",
-      rationale:
-        "The bill carries the name of a member of the President's party.",
-    };
-  if (party) {
-    const sameParty = new Set<EntityId>();
-    for (const chamberKey of ["house", "senate"]) {
-      for (const member of seatedCongressChamber(world, chamberKey)?.body
-        .members ?? [])
-        if (member.personId && member.partyKey === party)
-          sameParty.add(member.personId);
-    }
-    for (const vote of measureVotes(world, measure.id)) {
-      if (vote.purpose !== "floor-stage") continue;
-      let yea = 0;
-      let nay = 0;
-      for (const entry of vote.dispositions) {
-        if (!entry.personId || !sameParty.has(entry.personId)) continue;
-        if (entry.disposition === "yea") yea += 1;
-        if (entry.disposition === "nay") nay += 1;
-      }
-      if (nay > yea)
-        return {
-          action: "vetoed",
-          rationale:
-            "Most of the President's own party in Congress voted against the bill.",
-        };
-    }
-  }
-  return {
-    action: "signed",
-    rationale: "The President's party raised no objection to the bill.",
-  };
-}
-
 /**
  * A Congress bill on the President's desk. A non-player President decides it
  * on the day it arrives. A player President's desk is not built yet, so the
@@ -594,13 +527,32 @@ export function presidentDesk(
   const president = currentPresidentOf(world);
   if (!president) return world;
   if (president.personId === controlledPersonId(world)) return world;
-  const decision = presidentialDecision(world, measure, president.personId);
+  const principled = ensureOfficeholderPrinciples(world, [president.personId]);
+  const evaluation = evaluateGovernorBill(principled, {
+    stableKey: `${measure.stableKey}:president-desk`,
+    governorId: president.personId,
+    executiveTitle: "President",
+    measure,
+    staff: null,
+  });
+  const traced = recordDurableDecisionTrace(principled, evaluation);
+  if (
+    evaluation.selectedOptionKey !== BILL_SIGN &&
+    evaluation.selectedOptionKey !== BILL_RETURN
+  )
+    return traced;
+  const action =
+    evaluation.selectedOptionKey === BILL_SIGN ? "signed" : "vetoed";
+  const rationale = evaluation.context.considerations
+    .filter((reason) => reason.optionKey === evaluation.selectedOptionKey)
+    .map((reason) => reason.explanation)
+    .join(" ");
   return scheduleInstitutionStep(
     recordGovernorDecisionOnMeasure(
-      world,
+      traced,
       measure.id,
-      decision.action,
-      decision.rationale,
+      action,
+      rationale,
       president.personId,
     ),
     measure.id,
