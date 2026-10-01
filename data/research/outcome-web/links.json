@@ -2698,7 +2698,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Waiting on a base: no complete state series of eviction filings exists (the Eviction Lab covers some states and cities only), so the outcome has no starting level."
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead."
     },
     {
       "key": "housing-first-to-homelessness",
