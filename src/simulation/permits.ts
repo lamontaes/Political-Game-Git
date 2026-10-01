@@ -232,7 +232,7 @@ export function assertPermitIntegrity(world: World, ids: Set<EntityId>): void {
       throw new Error("Permit application has no matching operative law.");
     const measure =
       law.origin === "enacted"
-        ? recordById(world.history.legislativeMeasures, law.measureId)
+        ? recordById(world.history.legislativeMeasures ?? [], law.measureId)
         : null;
     if (
       law.origin === "enacted" &&

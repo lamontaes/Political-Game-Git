@@ -15,7 +15,12 @@ import {
   createWorldId,
   recordWorldEvent,
 } from "./world";
-import { applyForPermit, permitApplications, permitStatuses } from "./permits";
+import {
+  applyForPermit,
+  assertPermitIntegrity,
+  permitApplications,
+  permitStatuses,
+} from "./permits";
 
 const questionKey =
   "us-policy-positions:justice-public-safety.permit-to-carry-concealed";
@@ -195,6 +200,26 @@ describe("actual decision-backed permit applications", () => {
       expect(repeated.applicationId).toBe(result.applicationId);
     },
   );
+  it("validates actual evidence before unrelated ID collection reaches it", () => {
+    const { world, input } = fixture(supported[0]!);
+    const result = applyForPermit(world, input);
+    expect(result.status).toBe("applied");
+    const ids = new Set<EntityId>();
+    expect(() => assertPermitIntegrity(result.world, ids)).not.toThrow();
+    const row = permitApplications(result.world)[0]!;
+    expect(ids.has(row.id)).toBe(true);
+    expect(ids.has(row.decisionTraceId)).toBe(false);
+    expect(() => assertPermitIntegrity(result.world, ids)).toThrow(/identity/);
+    const history = {
+      ...result.world.history,
+      permitApplications: [
+        { ...row, sourceRecordIds: [row.issuingAuthorityOrganizationId] },
+      ],
+    };
+    expect(() =>
+      assertPermitIntegrity({ ...result.world, history }, new Set<EntityId>()),
+    ).toThrow(/source evidence/);
+  });
   it("keeps missing authority unsupported in all56 jurisdictions", () => {
     expect(selected).toHaveLength(56);
     for (const usps of selected) {
