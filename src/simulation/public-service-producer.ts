@@ -15,8 +15,10 @@ import { hasStableKey, recordById, recordByStableKey } from "./history-index";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
+  careResponsibilityStateHistory,
   currentLifeCutoff,
   householdMembershipsAt,
+  peopleInHouseholdAt,
   organizationProfileAt,
 } from "./life-queries";
 import {
@@ -29,11 +31,16 @@ import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
 } from "./life-places";
+import {
+  activeHealthEpisodes,
+  latestHealthState,
+} from "./crisis/health-queries";
 import { publicProgramRecords } from "./public-program-integrity";
 import {
   livesInServiceArea,
   requestPublicService,
-  serviceLawForCommitment,
+  eligibleServiceOperator,
+  serviceAuthorityForCommitment,
 } from "./public-service-requests";
 import {
   cancelScheduledActivity,
@@ -92,9 +99,16 @@ export function serviceRequestFormForCommitment(
   world: World,
   commitment: PublicProgramCommitmentRecord,
 ): ServiceRequestForm | null {
-  if (!commitment.recipientOrganizationId) return null;
-  const served = serviceLawForCommitment(world, commitment, world.currentDate);
-  return served ? (SERVICE_REQUEST_FORMS[served.questionKey] ?? null) : null;
+  const operatorId = commitment.recipientOrganizationId;
+  if (!operatorId) return null;
+  const served = serviceAuthorityForCommitment(
+    world,
+    commitment,
+    world.currentDate,
+  );
+  return served && eligibleServiceOperator(world, served, operatorId)
+    ? (SERVICE_REQUEST_FORMS[served.questionKey] ?? null)
+    : null;
 }
 
 /**
@@ -111,7 +125,7 @@ export function scheduleResidentServiceRequests(
   if (commitment.installments[installmentIndex]?.purpose !== "operating")
     return world;
   const form = serviceRequestFormForCommitment(world, commitment);
-  if (!form || form.need === "on-call") return world;
+  if (!form) return world;
   const stableKey = `${commitment.stableKey}:installment:${installmentIndex}${REQUESTS_SUFFIX}`;
   if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
   return scheduleFutureDueItem(world, {
@@ -146,7 +160,7 @@ export function produceResidentServiceRequests(
   if (!commitment || commitment.kind !== "commitment") return empty;
   const operatorId = commitment.recipientOrganizationId;
   const form = serviceRequestFormForCommitment(world, commitment);
-  if (!operatorId || !form || form.need === "on-call") return empty;
+  if (!operatorId || !form) return empty;
   const asked: EntityId[] = [];
   const declined: EntityId[] = [];
   const undecided: EntityId[] = [];
@@ -312,7 +326,8 @@ function residentRecordIndex(world: World): ResidentRecordIndex {
 }
 
 function lifeRef(
-  family: "work-role" | "education-enrollment" | "kinship",
+  family:
+    "work-role" | "education-enrollment" | "kinship" | "care-responsibility",
   recordId: EntityId,
 ): MindSourceReference {
   return { kind: "life-history", reference: { family, recordId } };
@@ -378,6 +393,65 @@ function needConsiderations(
       (place ? stateKeyForJurisdiction(place) : null);
     return !!servedState && state === servedState;
   };
+
+  if (form.need === "on-call") {
+    // A crisis team is asked for from the person's own health record: an
+    // episode that is acute or serious today. The episode names no condition (no
+    // researched condition pack is installed), so it is weighed as being
+    // unwell, never as a diagnosis.
+    for (const episode of activeHealthEpisodes(world, personId)) {
+      const state =
+        latestHealthState(world, episode.id)?.state ?? episode.severity;
+      if ((state !== "acute" && state !== "serious") || !episode.eventId)
+        continue;
+      out.push(
+        consideration(
+          personId,
+          `health:${episode.id}`,
+          "ask",
+          state === "acute" ? "strong" : "moderate",
+          "high",
+          state === "acute"
+            ? "Is acutely unwell right now."
+            : "Is seriously unwell right now.",
+          [{ kind: "historical-event", eventId: episode.eventId }],
+          "context:health",
+        ),
+      );
+    }
+    if (out.length === 0) return out;
+    // Help at home counts only when a saved care record says someone living
+    // there looks after this person; sharing a house alone is not support.
+    const home = new Set(
+      householdMembershipsAt(world, personId).flatMap((entry) =>
+        peopleInHouseholdAt(world, entry.household.id),
+      ),
+    );
+    for (const care of world.history.careResponsibilities) {
+      if (
+        care.recipientPersonId !== personId ||
+        care.startedAt > world.currentDate ||
+        records.dead.has(care.caregiverPersonId) ||
+        !home.has(care.caregiverPersonId) ||
+        careResponsibilityStateHistory(world, care.id).at(-1)?.status !==
+          "active"
+      )
+        continue;
+      out.push(
+        consideration(
+          personId,
+          `care:${care.id}`,
+          "wait",
+          "slight",
+          "high",
+          "Someone at home looks after them.",
+          [lifeRef("care-responsibility", care.id)],
+          "social:family",
+        ),
+      );
+    }
+    return out;
+  }
 
   if (form.need === "travel") {
     for (const { relationship, role } of work) {
