@@ -6,7 +6,7 @@ The newspaper's weekly sweep no longer advances prosecutions or clemency petitio
 
 MERGED: none of this renewal; #1574 remains a draft for exact-source CTO review.
 
-WHAT EMERGED: DECIDED — Nicholas Guzman’s actual saved sentencing judge recorded “They had been found at fault for the same thing before. The offense was violent.” HARDWIRED — the ordinary 15-month term remains the labeled UNRESEARCHED sentence rule in prosecution.ts; A103 is not completed here. Recovery preserved his original referral and charge, saved today’s judgment and sentence, and made repeat/SaveContinue idempotent. Observer and retired saves stayed unchanged. This was an authored historical-date stale fixture, not a naturally stranded play case.
+WHAT EMERGED: DECIDED — Nicholas Guzman’s actual saved sentencing judge recorded “They had been found at fault for the same thing before. The offense was violent.” HARDWIRED — the ordinary 15-month term remains the labeled UNRESEARCHED sentence rule in prosecution.ts:219; A103 is not completed here. Recovery preserved his original referral and charge, saved today’s judgment and sentence, and made repeat/SaveContinue idempotent. Observer and retired saves stayed unchanged. This was an authored historical-date stale fixture, not a naturally stranded play case.
 
 VITAL STATISTICS: the final current-main composition passed all 13 cases in 228.38 seconds. Eight strict roots loaded 1,558 files with zero diagnostics. Lint, formatting, whitespace, zero-dice and the five A10 source scan checks passed. Release checking has the same unchanged-main prose failure documented below. No browser, full suite, year run, or all-56 watched proof ran.
 
