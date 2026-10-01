@@ -128,7 +128,6 @@ import {
   publicInformationHistoryRecords,
 } from "./public-information-integrity";
 import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
   assertFutureTransitionIntegrity,
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
@@ -270,6 +269,7 @@ import type {
   WorldGeneratorVersion,
   WorldLineage,
 } from "./types";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
   "birth-date",
@@ -1386,7 +1386,7 @@ export function recordWorldEvent(
 export function advanceWorld(
   world: World,
   days: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   if (!Number.isSafeInteger(days) || days <= 0) {
     throw new Error(
