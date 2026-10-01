@@ -1,6 +1,7 @@
 import { ageOnDate } from "../dates";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
+  lawExposureFeltSize,
   monthlyPay,
   officialViewReflectionKey,
   recordHeardExposure,
@@ -569,17 +570,24 @@ export function heardShare(world: World, exposure: LawExposureRecord): number {
  * against both their pays together (couples pool their income; Pahl, 1989).
  */
 function felt01(world: World, exposure: LawExposureRecord): number {
-  if (exposure.amount === null) return 0;
   const household =
-    exposure.relation === "family" && exposure.viaPersonId
+    exposure.relation === "family" &&
+    exposure.viaPersonId &&
+    exposure.amount !== null
       ? (monthlyPay(world, exposure.viaPersonId, exposure.recordedAt)
           ?.minorUnits ?? 0)
       : 0;
-  const pay = (exposure.monthlyPay?.minorUnits ?? 0) + household;
-  if (pay <= 0) return UNMEASURED_WEIGHT;
+  // A right or an eligibility with no money on record is felt at the one
+  // estimated size every reader shares (`lawExposureFeltSize`).
+  const felt = lawExposureFeltSize(
+    exposure,
+    (exposure.monthlyPay?.minorUnits ?? 0) + household,
+  );
+  if (felt === null) return 0;
+  if (felt === "unmeasured") return UNMEASURED_WEIGHT;
   // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
   // square root keeps small amounts noticeable.
-  return Math.min(1, Math.sqrt((exposure.amount.minorUnits / pay) * 10));
+  return Math.min(1, Math.sqrt(felt.share * 10));
 }
 
 /**

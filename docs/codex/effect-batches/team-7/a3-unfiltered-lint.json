@@ -1,0 +1,35 @@
+{
+  "head": "ee4344f33a1136456051380e22f04f2dd0b389de",
+  "rows": [
+    {
+      "file": "src/simulation/world.ts",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "src/simulation/demo.ts",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "src/simulation/people-continuation.ts",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "src/simulation/character-history.ts",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "scripts/engine-proof/day-adapter.test.ts",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}
