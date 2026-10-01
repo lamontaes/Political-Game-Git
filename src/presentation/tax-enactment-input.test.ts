@@ -237,7 +237,7 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
         /Tax draft identity/,
       );
       expect(
-        readFiledTaxContentIdentity(snapshot.world, result.measureId).kind,
+        readFiledTaxContentIdentity(snapshot.world as unknown as World, result.measureId).kind,
       ).toBe("unavailable");
     }
   });
