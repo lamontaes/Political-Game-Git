@@ -32,9 +32,9 @@ No researched rate or amount was introduced. The tests' $10 appropriations and c
 
 ## 3. Revisions
 
-Availability alone does not authorize hold-flat. The NPC branch ignores the chief's existing missing-priority fallback. If the chief advises the same backed saved priority, the existing reason is retained. The default-policy question remains with the CTO.
+Availability alone does not authorize hold-flat. The NPC branch ignores the chief's existing missing-priority fallback. If the chief advises the same backed saved priority, the existing reason is retained. The CTO's October 1, 7:41 a.m. ruling confirms no silent default: the player chooses, and an NPC reads saved priorities. Missing preference never becomes hold-flat. This slice leaves the existing callback cadence unchanged; it does not add a legislature's session-end stalemate producer.
 
-Annual and biennial source amounts, calendar, governor lapse, institution driver, program commitment and payment behavior are unchanged. No score threshold, quota or weight changed.
+Annual and biennial source amounts, calendar, governor lapse, institution driver, program commitment and payment behavior are unchanged. No score threshold, quota or weight changed. Budget-date timing and national session-end coverage remain outside this controlled selection proof.
 
 ## 4. What gets built, in numbered parts
 

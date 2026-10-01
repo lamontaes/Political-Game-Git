@@ -64,5 +64,6 @@
   "spelling": {
     "findings": 50,
     "allInherited": true
-  }
+  },
+  "cto741": "No silent default; player chooses; NPC uses saved priorities. This bounded branch leaves callback cadence unchanged and does not add session-end stalemate production."
 }
