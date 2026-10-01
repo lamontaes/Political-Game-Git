@@ -2801,7 +2801,21 @@
           "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.azica.gov/news/2026-minimum-wage-increase-effective-january-1-2026",
+          "note": "Source-stated standard hourly rate. The Industrial Commission of Arizona site refused automated reading (403); the date is the official notice's own title as listed by search, and the amount is the DOL state table's 'Basic Minimum Rate (per hour): $15.15' (updated July 1, 2026). A.R.S. 23-363(B): 'The minimum wage shall be increased on January 1, 2021 and on January 1 of successive years, by the increase in the cost of living.' Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1515,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-CA": {
           "answer": "yes",
@@ -2976,20 +2990,36 @@
         },
         "US-FL": {
           "answer": "yes",
-          "operativeAt": "2026-09-30",
-          "source": "https://floridajobs.org/florida-minimum-wage",
-          "note": "Source-stated standard hourly rate. From September 2027 the rate is adjusted for inflation, taking effect the following January 1. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "operativeAt": "2025-09-30",
+          "source": "https://www.floridajobs.org/docs/default-source/business-growth-and-partnerships/for-employers/posters-and-required-notices/2025-minimum-wage/2025-minimum-wage-announcement.pdf",
+          "note": "Source-stated standard hourly rate. Florida Department of Commerce history table: '2025 $7.25 $14.00 $1.00 9/30/2025 – 9/29/2026'. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
               "key": "target",
-              "value": 1500,
+              "value": 1400,
               "unit": "minor/hour"
             }
           ],
           "before": {
             "answer": "yes"
-          }
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-09-30",
+              "source": "https://floridajobs.org/florida-minimum-wage",
+              "note": "Source-stated standard hourly rate. From September 2027 the rate is adjusted for inflation, taking effect the following January 1. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-GA": {
           "answer": "no"
@@ -3101,7 +3131,21 @@
           "answer": "no"
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "note": "Known in force on this source snapshot date; not a claim about the original enactment date. Still in force at the game's opening: a later row or the current state page shows the same rate. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-MD": {
           "answer": "yes",
@@ -3506,14 +3550,14 @@
         },
         "US-VI": {
           "answer": "yes",
-          "operativeAt": "2026-04-24",
-          "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
-          "note": "Source-stated standard hourly rate. Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a). Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "note": "Known in force on this source snapshot date; not a claim about the original enactment date. Act No. 9069 raised it 'from $10.50 per hour to $12.00 per hour, effective April 24, 2026'. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
               "key": "target",
-              "value": 1200,
+              "value": 1050,
               "unit": "minor/hour"
             }
           ],
@@ -3521,6 +3565,20 @@
             "answer": "yes"
           },
           "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-04-24",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "note": "Source-stated standard hourly rate. Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a). Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1200,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
             {
               "answer": "yes",
               "operativeAt": "2027-06-01",
