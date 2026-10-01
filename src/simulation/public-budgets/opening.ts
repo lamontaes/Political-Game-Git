@@ -24,6 +24,7 @@ import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import {
   openingFundedRatio,
+  openingLiabilityToSpending,
   openingPaidShare,
   pensionFlows,
   pensionPayment,
@@ -543,19 +544,20 @@ function emptySpending(): number[] {
  * The opening pension and its actuarial contribution. The assets are the
  * liability times the government's own reported funded ratio
  * (`openingFundedRatio`), and the contribution's normal cost is its own
- * plans' (`pensionFlows`); the liability's size against spending is still
- * PLACEHOLDER.
+ * plans' (`pensionFlows`); the liability is a year's spending times its
+ * state's measured ratio (`openingLiabilityToSpending`).
  */
 export function openingPension(
   spending: number,
   paidShare: number,
   fundedRatio: number,
   normalCostShare: number,
+  liabilityToSpending: number,
 ): {
   pension: PensionRecord;
   required: number;
 } {
-  const liability = Math.round(spending * PENSION.liabilityToSpending);
+  const liability = Math.round(spending * liabilityToSpending);
   const assets = Math.round(liability * fundedRatio);
   return {
     pension: { liability, assets, paidShare },
@@ -847,11 +849,13 @@ export function openGovernmentBudget(
     candidate.name,
   );
   const flows = pensionFlows(candidate);
+  const size = openingLiabilityToSpending(candidate.stateKey);
   const { pension, required } = openingPension(
     sum(spending),
     paid.share,
     funding.fundedRatio,
     flows.normalCostShare,
+    size.liabilityToSpending,
   );
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
@@ -893,7 +897,9 @@ export function openGovernmentBudget(
     openingNotes: [
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
-      "Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying programs.",
+      size.basis === "state-plans"
+        ? `Pension liability: ${size.liabilityToSpending} times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.`
+        : `Pension liability: ESTIMATED FROM AVERAGE, ${size.liabilityToSpending} times a year's spending, the median of the states' measured ratios; no plan in its place is listed. The contribution is carved out of salary-paying programs.`,
       funding.basis === "reported"
         ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans filed with the Public Plans Database.`
         : `Pension funded ratio: ESTIMATED FROM AVERAGE, ${funding.fundedRatio}, the median of every plan in the Public Plans Database; its own plans are not listed.`,
