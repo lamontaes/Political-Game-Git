@@ -48,7 +48,9 @@ import {
   yearOf,
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { lawInForce, type LawInForce } from "../governing/law-in-force";
+import type { LawInForce } from "../governing/law-in-force";
+import { readEligibilityLawsInForce } from "../enacted-eligibility";
+import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility-rows";
 import { lawEffectStamp } from "../law-effect-stamp";
 import {
   activeEducationEnrollmentsAt,
@@ -112,11 +114,6 @@ export function ensureHealthCoveragePass(
     return world;
   return scheduleHealthCoveragePass(world, world.currentDate, sourceEntityId);
 }
-
-const EXPANSION_QUESTION =
-  "us-policy-positions:health-human-services.expand-medicaid-eligibility";
-const WORK_REQUIREMENT_QUESTION =
-  "us-policy-positions:health-human-services.medicaid-work-requirement";
 
 const MEDICAID = programs.federal.medicaid;
 const MORTALITY_LINK = (
@@ -199,11 +196,25 @@ const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
   monthly: 12,
 };
 
+// Coverage writes only crisis history. Reuse the pay index while its
+// immutable source arrays and review date remain unchanged.
+const MONTHLY_PAY_CACHE = new WeakMap<
+  World["history"]["resourceFlowTerms"],
+  {
+    flows: World["history"]["resourceFlows"];
+    onDate: IsoDate;
+    pay: ReadonlyMap<EntityId, number>;
+  }
+>();
+
 /** Each person's recorded pay a month on a date, in cents, from pay terms. */
 function monthlyPayByPerson(
   world: World,
   onDate: IsoDate,
 ): ReadonlyMap<EntityId, number> {
+  const cached = MONTHLY_PAY_CACHE.get(world.history.resourceFlowTerms);
+  if (cached?.flows === world.history.resourceFlows && cached.onDate === onDate)
+    return cached.pay;
   const recipients = new Map<EntityId, EntityId>();
   for (const flow of world.history.resourceFlows)
     // Wages, salaries and an owner's draw from their own business.
@@ -231,6 +242,11 @@ function monthlyPayByPerson(
       (byPerson.get(personId) ?? 0) + (row.amount.minorUnits * perYear) / 12,
     );
   }
+  MONTHLY_PAY_CACHE.set(world.history.resourceFlowTerms, {
+    flows: world.history.resourceFlows,
+    onDate,
+    pay: byPerson,
+  });
   return byPerson;
 }
 
@@ -257,14 +273,6 @@ interface PassCache {
   readonly laws: Map<string, readonly [LawInForce | null, LawInForce | null]>;
 }
 
-function propositionId(world: World, stableKey: string): EntityId | null {
-  return (
-    Object.values(world.policyCatalog?.propositions ?? {}).find(
-      (row) => row.stableKey === stableKey,
-    )?.id ?? null
-  );
-}
-
 function statePrograms(
   world: World,
   stateKey: string,
@@ -274,13 +282,17 @@ function statePrograms(
   const cached = cache.laws.get(stateKey);
   if (cached) return cached;
   const state = stateJurisdictionForKey(stateKey);
-  const read = (question: string) => {
-    const id = propositionId(world, question);
-    return state && id ? lawInForce(world, state.id, id, onDate) : null;
-  };
+  const read = state
+    ? readEligibilityLawsInForce(
+        world,
+        state.id,
+        Object.values(COVERAGE_QUESTION_KEYS),
+        onDate,
+      )
+    : new Map<string, LawInForce | null>();
   const laws = [
-    read(EXPANSION_QUESTION),
-    read(WORK_REQUIREMENT_QUESTION),
+    read.get(COVERAGE_QUESTION_KEYS.expansion) ?? null,
+    read.get(COVERAGE_QUESTION_KEYS.workRequirement) ?? null,
   ] as const;
   cache.laws.set(stateKey, laws);
   return laws;
@@ -468,11 +480,58 @@ function basisFor(decision: CoverageDecision): string {
   }
 }
 
+/** Missing input records never establish an eligibility loss. */
+export function coverageDecisionIsKnown(decision: CoverageDecision): boolean {
+  return ![
+    "outside:no-residence",
+    "outside:no-household",
+    "outside:income-unrecorded",
+    "outside:law-unrecorded",
+  ].includes(decision.reasonKey);
+}
+
+/** One indexed pay/law pass for the actual subjects of an activity. */
+export function coverageDecisionsForSubjects(
+  world: World,
+  subjectIds: readonly EntityId[],
+  onDate: IsoDate,
+): ReadonlyMap<EntityId, CoverageDecision> {
+  const cutoff = {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const cache: PassCache = {
+    pay: monthlyPayByPerson(world, onDate),
+    laws: new Map(),
+  };
+  const decisions = new Map<EntityId, CoverageDecision>();
+  for (const personId of new Set(subjectIds))
+    if (world.people[personId])
+      decisions.set(personId, decide(world, personId, onDate, cutoff, cache));
+  return decisions;
+}
+
 /** Records every change of coverage on `onDate`, one record per change. */
 export function recordHealthCoverage(
   world: World,
   onDate: IsoDate,
   causeId: EntityId,
+): World {
+  return recordHealthCoverageForSubjects(
+    world,
+    onDate,
+    causeId,
+    world.personOrder,
+  );
+}
+
+/** Existing append-only writer, restricted to recorded activity subjects. */
+export function recordHealthCoverageForSubjects(
+  world: World,
+  onDate: IsoDate,
+  causeId: EntityId,
+  subjectIds: readonly EntityId[],
+  sourceRecordIds: readonly EntityId[] = [],
 ): World {
   const cutoff = {
     asOfDate: onDate,
@@ -485,7 +544,7 @@ export function recordHealthCoverage(
   const latest = latestCoverage(world);
   const rules = MEDICAID_EXPANSION_RULES.mortality;
   let next = world;
-  for (const personId of world.personOrder) {
+  for (const personId of new Set(subjectIds)) {
     const person = world.people[personId];
     if (!person || person.birthDate > onDate) continue;
     const prior = latest.get(personId);
@@ -501,13 +560,7 @@ export function recordHealthCoverage(
     const decision = decide(world, personId, onDate, cutoff, cache);
     // Missing facts cannot revoke an existing entitlement. Wait for the
     // person's recorded residence, household, income or governing law.
-    if (
-      decision.reasonKey === "outside:no-residence" ||
-      decision.reasonKey === "outside:no-household" ||
-      decision.reasonKey === "outside:income-unrecorded" ||
-      decision.reasonKey === "outside:law-unrecorded"
-    )
-      continue;
+    if (!coverageDecisionIsKnown(decision)) continue;
     if (decision.covered === (prior?.covered ?? false)) continue;
     if (!decision.covered && !prior) {
       // Never covered: only a loss to the work requirement is a change worth
@@ -539,11 +592,17 @@ export function recordHealthCoverage(
         ? lawEffectStamp(laws[workRuleChangedCoverage ? 1 : 0], {
             effectKind: "health-coverage",
             questionKey: workRuleChangedCoverage
-              ? WORK_REQUIREMENT_QUESTION
-              : EXPANSION_QUESTION,
+              ? COVERAGE_QUESTION_KEYS.workRequirement
+              : COVERAGE_QUESTION_KEYS.expansion,
             jurisdictionId: state.id,
             appliedAt: onDate,
-            sourceRecordIds: [causeId, ...(prior ? [prior.id] : [])],
+            sourceRecordIds: [
+              ...new Set([
+                causeId,
+                ...sourceRecordIds,
+                ...(prior ? [prior.id] : []),
+              ]),
+            ],
           })
         : null;
     next = appendCrisisRecord(next, {

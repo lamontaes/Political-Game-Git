@@ -476,6 +476,12 @@ export interface ExecutiveRule {
   readonly presentmentRequired: RuleValue<boolean>;
   readonly actionWindowDaysInSession: RuleValue<number>;
   readonly actionWindowDaysAfterAdjournment: RuleValue<number>;
+  readonly actionWindowDayBasisInSession?: RuleValue<
+    "CALENDAR" | "BUSINESS" | "SUNDAYS_EXCEPTED"
+  >;
+  readonly actionWindowDayBasisAfterAdjournment?: RuleValue<
+    "CALENDAR" | "BUSINESS" | "SUNDAYS_EXCEPTED"
+  >;
   readonly inactionOutcomeInSession: RuleValue<ExecutiveInactionOutcome>;
   readonly lineItemVeto: RuleValue<boolean>;
   readonly override: OverrideForum;
