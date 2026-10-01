@@ -1,3 +1,5 @@
+import { recordGovernorDecisionOnMeasure } from "./governing/legislative-clock";
+import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as lawEffects from "./enacted-law-effects";
 afterEach(() => vi.restoreAllMocks());
@@ -102,15 +104,28 @@ function fundedFixture(saveAppropriation = true) {
     step < 40 && measurePosition(world, measureId).phase !== "enacted";
     step++
   ) {
+    if (measurePosition(world, measureId).phase === "awaiting-executive") {
+      world = recordGovernorDecisionOnMeasure(
+        world,
+        measureId,
+        "signed",
+        "Authored test contract: the governor signs the appropriation.",
+      );
+      continue;
+    }
     const key = availableMeasureSteps(world, measureId).find(
       (row) => row !== "offer-amendment",
     );
     if (!key) throw new Error("No supported next appropriation step.");
-    world = applyLegislativeStep(procedure, world, key).world;
+    world = publishLegislativeTransition(
+      world,
+      applyLegislativeStep(procedure, world, key).world,
+    );
   }
   const enactment = world.history.legislativeEnactments!.find(
     (row) => row.measureId === measureId && row.outcome === "enacted",
   )!;
+  if (!enactment) throw new Error("The funding fixture did not enact its appropriation.");
   const availableAt = addDays(enactment.resolvedAt, 90);
   const adopted = saveAppropriation
     ? recordAdoptedAppropriation(world, {
