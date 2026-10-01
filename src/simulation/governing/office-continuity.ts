@@ -1378,11 +1378,10 @@ function rulingFor(
  *   to confirm one. The two times it has happened took 57 days (1973) and
  *   121 days (1974) from nomination to confirmation; the profile below sits
  *   between them and is not a finding.
- * - whom a President nominates. The amendment lets the President name anyone
- *   eligible to be Vice President; the game has no rule for whom a President
- *   would choose. Blanket rule meanwhile: an even draw among every living
- *   person in the World old enough for the office (35), other than the
- *   President, the player's own character, who would have to be asked, and
+ * - eligibility is incomplete. The President's existing appointment decision
+ *   selects among recorded colleagues and contacts. Without a selection, the
+ *   nomination is blocked and the office stays vacant. The eligible pool excludes
+ *   the President, the player's own character, who would have to be asked, and
  *   sitting governors. Citizenship and fourteen years' residence are not recorded on a person,
  *   so they are not checked. A nominee who sat in Congress leaves the seat,
  *   which is then filled the way any vacated seat is.
@@ -1530,11 +1529,11 @@ export function vicePresidentNominationHandler(
       world,
       "There is no sitting President to nominate a Vice President.",
     );
-  // PLACEHOLDER: whom the President chooses (see the profile above).
+  // Eligibility remains incomplete (see the profile above).
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
-  // A sitting governor is not drawn: the game has no route for them to give
+  // A sitting governor is not eligible here: the game has no route for them to give
   // up the governorship.
   const governors = new Set(
     currentStateExecutiveHolders(world).map((holder) => holder.personId),
@@ -1555,9 +1554,8 @@ export function vicePresidentNominationHandler(
     return resolved(world, "Nobody in the World is eligible to be nominated.");
   // The President names someone they know: the people the game records them
   // knowing, anyone they owe or who owes them, and the members of Congress
-  // and the governors they work with (appointments-v1). Only when nobody
-  // there is eligible does the old draw from every eligible adult remain,
-  // and that draw is still the PLACEHOLDER above.
+  // and the governors they work with (appointments-v1). An empty decision
+  // does not authorize naming someone else.
   const eligible = new Set(pool);
   const choice = chooseAppointee(world, {
     stableKey: due.stableKey,
@@ -1570,17 +1568,22 @@ export function vicePresidentNominationHandler(
     ),
     eligible: (personId) => eligible.has(personId),
   });
-  const nomineeId =
-    choice?.personId ??
-    new SeededRng(world.seed).fork(due.stableKey).pick(pool);
-  let chosenWorld = choice?.world ?? world;
-  if (choice)
-    chosenWorld = recordPassedOver(chosenWorld, {
-      stableKey: due.stableKey,
-      appointerPersonId: president.personId,
-      passedOver: choice.passedOver,
-      post: VICE_PRESIDENT_POST,
-    });
+  if (!choice)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "government:vice-president-no-nominee",
+      context:
+        "The President has not selected a nominee; the vice presidency remains vacant.",
+      outcomeEventId: null,
+    };
+  const nomineeId = choice.personId;
+  const chosenWorld = recordPassedOver(choice.world, {
+    stableKey: due.stableKey,
+    appointerPersonId: president.personId,
+    passedOver: choice.passedOver,
+    post: VICE_PRESIDENT_POST,
+  });
   const nominee = { personId: nomineeId };
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nominee.personId]!);

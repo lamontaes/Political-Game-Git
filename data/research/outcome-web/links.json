@@ -368,7 +368,7 @@
       },
       "aboutZero": false,
       "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader.",
-      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause has no reader; firearm homicide also has no starting level, because CDC WONDER's state rates cannot be pulled through its API."
+      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause law.stand-your-ground has no reader; firearm homicide is kept, so this acts once one exists."
     },
     {
       "key": "min-age-to-youth-gun-suicide",
@@ -424,16 +424,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "55 to 65 mph",
+      "size": 0.0076,
+      "per": "mile per hour of the maximum (rural interstate) speed limit",
       "lagMonths": 0,
       "group": "place",
       "owner": "M",
-      "anchor": "+35% fatality rate",
-      "source": "Ashenfelter and Greenstone 2004 (JPE)",
+      "anchor": "Across 1993-2017 state panels, each 5 mph higher maximum state speed limit raised fatality rates per mile driven 8.5% on interstates and freeways and 2.8% on other roads. Interstates and freeways carried 17.6% of 2022 traffic deaths (7,484 of 42,514), so all roads move about 3.8% per 5 mph, 0.76% per mph. The range runs from other roads alone (0.56% per mph) to interstates alone (1.7% per mph); Ashenfelter and Greenstone's +35% for 55 to 65 mph on rural interstates (3.5% per mph) is the rural-interstate-only check.",
+      "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the +35% is for the step from 55 to 65 mph, but the game records no rural speed limit by place and keeps no traffic fatality rate."
+      "notes": "Sized, waiting on its cause and outcome: the game records no maximum speed limit by place and keeps no traffic fatality rate, so the link moves nothing until both exist.",
+      "range": [0.0056, 0.017]
     },
     {
       "key": "particles-to-infant-deaths",
@@ -1672,16 +1673,18 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "+$10,000: +5%",
-      "lagMonths": 0,
+      "size": 0.05,
+      "per": "$10,000 higher metro home prices",
+      "lagMonths": 12,
       "group": "owners",
       "owner": "B",
-      "anchor": "+5% births for owners",
-      "source": "Dettling and Kearney 2014 (JPubE)",
+      "anchor": "Metro-area panel, 1990s-2000s: a $10,000 rise in house prices raised births among homeowners 5% the next year (a wealth effect) and lowered them 2.4% among non-owners (a price effect); at the U.S. ownership rate the net is +0.8%. The study gives no interval here, so the range is the default 25% spread for researched links.",
+      "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game keeps no home price level by place and splits births by neither owners nor renters."
+      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
+      "range": [0.0375, 0.0625],
+      "lagWhy": "The study relates home prices in one year to births in the next."
     },
     {
       "key": "home-prices-to-renter-births",
@@ -1690,16 +1693,18 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "+$10,000: -2.4%",
-      "lagMonths": 0,
+      "size": -0.024,
+      "per": "$10,000 higher metro home prices",
+      "lagMonths": 12,
       "group": "renters",
       "owner": "B",
-      "anchor": "-2.4% births for renters",
-      "source": "Dettling and Kearney 2014 (JPubE)",
+      "anchor": "Metro-area panel: a $10,000 rise in house prices lowered births among non-owners 2.4% the next year while raising them 5% among owners. The study gives no interval here, so the range is the default 25% spread for researched links.",
+      "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game keeps no home price level by place and splits births by neither owners nor renters."
+      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
+      "range": [-0.03, -0.018],
+      "lagWhy": "The study relates home prices in one year to births in the next."
     },
     {
       "key": "property-tax-to-rent",
@@ -1772,8 +1777,7 @@
       "source": "Dettling 2017 (ILR Review)",
       "from": "broadband.home-access",
       "evidence": "researched",
-      "range": [0.0005, 0.0009],
-      "notes": "Waiting on a base: married women's labor force participation by state has no starting level yet; ACS table B12006 (marital status by labor force status) is the candidate source."
+      "range": [0.0005, 0.0009]
     },
     {
       "key": "road-condition-to-vehicle-costs",
@@ -1934,7 +1938,7 @@
       "source": "Milligan 2005",
       "from": "program.birth-bonus-dollars",
       "evidence": "researched",
-      "notes": "Unsupported until a bill sets the bonus: Quebec's +5 to 10% came from its own payment schedule, and the game records no birth bonus dollars by place."
+      "notes": "Unsupported as a straight line: Milligan finds +16.9% births per C$1,000 of first-year benefit (an elasticity near 0.11) around Quebec's own amounts, which would overstate a large U.S. bonus if applied per dollar; it needs a bill's own payment schedule, and the game records no birth bonus dollars by place."
     },
     {
       "key": "marriage-equality-to-marriages",
@@ -2182,16 +2186,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "closure",
+      "size": -0.006,
+      "per": "local daily newspaper closing",
       "lagMonths": 12,
       "group": "place",
       "owner": "C",
-      "anchor": "Fewer candidates, less knowledge, lower local turnout",
-      "source": "Hayes and Lawless 2021",
+      "anchor": "U.S. dailies 1869-2004: one more newspaper raised presidential and congressional turnout about 0.3 points, mostly from a market's first paper. A closure is read as -0.3 points on a turnout near 50%, about -0.6%. It is provisional because the measured turnout is federal, not local; local races may lose more (Rubado and Jennings 2020 find fewer mayoral candidates and suggestive turnout losses where newsrooms shrank), so the range runs to twice the size, and to zero for a market that keeps another paper.",
+      "source": "Gentzkow, Shapiro and Sinkinson 2011 (AER); Rubado and Jennings 2020 (Urban Affairs Review); Hayes and Lawless 2021",
       "from": "press.local-newspaper",
-      "evidence": "researched",
-      "notes": "Unsupported until measured: the game records no local newspapers by place and keeps no local turnout outcome."
+      "evidence": "provisional",
+      "notes": "Sized, waiting on its cause and outcome: the game records no local newspapers by place and keeps no local turnout outcome.",
+      "range": [-0.012, 0]
     },
     {
       "key": "exposed-corruption-to-reelection",
@@ -2367,7 +2372,7 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Waiting on a base: deaths per 100,000 people 55 to 64 by state come only from CDC WONDER's web form, whose API refuses state groupings, so the outcome has no starting level."
+      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead."
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -2399,8 +2404,7 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "range": [-0.42, -0.25],
-      "notes": "Waiting on a base: the Urban Institute state series was not reachable, and the 2023 credit-reporting changes (some states now report zero) make medical debt in collections a poor starting level."
+      "range": [-0.42, -0.25]
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -2567,8 +2571,7 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
       "to": "crime.firearm-homicide",
-      "range": [-0.11, -0.045],
-      "notes": "Waiting on a base: state firearm homicide rates come only from CDC WONDER's web form, whose API refuses state groupings, so the outcome has no starting level."
+      "range": [-0.11, -0.045]
     },
     {
       "key": "voter-id-to-registration",
@@ -2697,7 +2700,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Waiting on a base: no complete state series of eviction filings exists (the Eviction Lab covers some states and cities only), so the outcome has no starting level."
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead."
     },
     {
       "key": "housing-first-to-homelessness",
@@ -2957,7 +2960,7 @@
       "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
       "to": "labor.low-wage-jobs",
       "range": [-0.16, 0],
-      "notes": "Waiting on a base: the game keeps no count of jobs paying near the minimum by place, and the study's bunching measure needs that count."
+      "notes": "Unsupported: the study's 8% is jobs lost among workers who earned under $15, a group a $15 minimum empties by definition, so a state base of jobs paying under $15 would read zero once the law is in force whatever happened to employment; the outcome needs a count of those workers' jobs, which the game does not keep."
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
@@ -2976,7 +2979,7 @@
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
       "to": "justice.incarcerated-per-100k",
       "range": [-0.012, -0.004],
-      "notes": "Waiting on a base: BJS state imprisonment rates leave out federal prisoners, so there is no per-place federal prisoner level to move."
+      "notes": "Unsupported: the game's prison measure is the BJS state imprisonment rate, which leaves out federal prisoners, and federal counts are kept by the prison's location, not the prisoner's home state, so there is no state level for a cut in federal sentences to move; it needs a national federal-prisoner measure."
     },
     {
       "key": "power-plant-carbon-to-emissions",

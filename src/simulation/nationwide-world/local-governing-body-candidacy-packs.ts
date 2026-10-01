@@ -4,6 +4,7 @@ import type { GovernmentUnitIdentity } from "../government-units";
 import { unknownRule } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { localChiefExecutiveRules } from "./local-chief-executive-rules";
+import { countyGoverningBodyRules } from "./county-governing-body-rules";
 import { localGoverningBodyName } from "./local-governing-body-names";
 
 /**
@@ -71,18 +72,24 @@ export interface LocalGoverningBodyIdentity {
 const displayName = governmentUnitDisplayName;
 
 /**
- * The governing body of one municipal government, or null for anything that
- * is not an active municipality. Counties and townships are not offered here:
- * a township reaches no place today, and a county's board is a separate piece.
+ * The governing body of an active municipal or county government. A county
+ * keeps its recorded body name and member title. Identity does not establish
+ * an election calendar, district residence or eligibility; those remain rules.
  */
 export function localGoverningBodyIdentity(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyIdentity | null {
-  if (unit.unitType !== "municipality" || !unit.functionalActive) return null;
+  if (!unit.functionalActive) return null;
+  if (unit.unitType !== "municipality" && unit.unitType !== "county")
+    return null;
   const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${OFFICE_SUFFIX}`;
   const governmentName = displayName(unit);
   // Display only: the office key above never depends on the body's name.
-  const body = localGoverningBodyName(unit);
+  const body =
+    unit.unitType === "county"
+      ? countyGoverningBodyRules(unit)
+      : localGoverningBodyName(unit);
+  if (!body) return null;
   return {
     unit,
     seat: "governing-body",
@@ -160,6 +167,20 @@ export function localGoverningBodyCandidacyPack(
   identity: LocalGoverningBodyIdentity,
 ): CandidacyPack {
   const mayor = identity.seat === "chief-executive";
+  const county = identity.unit.unitType === "county";
+  const form = county
+    ? "This county's district boundaries, seat phases and selection procedure have not been recorded in this candidacy pack."
+    : mayor
+      ? MAYOR_FORM
+      : NO_FORM;
+  const filing = county
+    ? "This county's nomination and filing procedure must be read before a campaign can use its calendar."
+    : mayor
+      ? NO_MAYOR_FILING
+      : NO_FILING_PROCEDURE;
+  const qualification = county
+    ? "This county office's qualifications and term must be read from its own rules at filing."
+    : QUALIFICATION_AT_FILING;
   const option: ElectiveOfficeOption = {
     officeKey: identity.officeKey,
     chamberName: identity.bodyName,
@@ -169,18 +190,18 @@ export function localGoverningBodyCandidacyPack(
       seatKey: null,
       occupationClassification: "service:elected-local-official",
     },
-    seats: unknownRule(mayor ? MAYOR_FORM : NO_FORM),
+    seats: unknownRule(form),
     recordedBy: {
       packId: identity.candidacyPackId,
       packName: identity.governmentName,
     },
     qualification: {
-      minimumAge: unknownRule(QUALIFICATION_AT_FILING),
-      residency: unknownRule(QUALIFICATION_AT_FILING),
-      termYears: unknownRule(QUALIFICATION_AT_FILING),
-      filing: unknownRule(mayor ? NO_MAYOR_FILING : NO_FILING_PROCEDURE),
+      minimumAge: unknownRule(qualification),
+      residency: unknownRule(qualification),
+      termYears: unknownRule(qualification),
+      filing: unknownRule(filing),
     },
-    unresolvedGaps: mayor ? [NO_MAYOR_FILING] : [NO_FORM, NO_FILING_PROCEDURE],
+    unresolvedGaps: mayor ? [filing] : [form, filing],
   };
   return {
     packId: identity.candidacyPackId,
@@ -189,6 +210,8 @@ export function localGoverningBodyCandidacyPack(
     legislativeRulePackId: identity.unit.id,
     offices: [option],
     // Player-facing: what is not known, never where the listing came from.
-    unresolvedGaps: [LOCAL_GOVERNING_BODY_PROFILE_NOTE, NO_FILING_PROCEDURE],
+    unresolvedGaps: county
+      ? [form, filing]
+      : [LOCAL_GOVERNING_BODY_PROFILE_NOTE, NO_FILING_PROCEDURE],
   };
 }

@@ -1,0 +1,1461 @@
+{
+  "schemaVersion": 1,
+  "stage": "research-not-production",
+  "readOn": "2026-10-01",
+  "states": {
+    "AL": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": "County commission ordinary four years; Barbour, Bullock and Perry six years. Actual county district phase must be read from county, not inferred from chart.",
+          "url": "https://www.sos.alabama.gov/sites/default/files/2026-05/Alabama%20Election%20Chart%202026-2036%2012.4.2025.pdf",
+          "section": "page2 County Commission, revised December4 2025",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualifications": {
+          "value": "County commissioner18, registered voter; county residence at least one year prior to taking office; specific district residence one year prior to taking office if district seat. Party-primary registered voter requirement in footnote1. No saved person binding admitted.",
+          "url": "https://www.sos.alabama.gov/alabama-votes/candidates/qualifications-public-office",
+          "section": "County Commission row and footnotes1/7/21",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "primary": {
+          "value": "2026 May19 primary and June16 runoff;2026 November3 general. Chart states presidential primary first Tuesday March, otherwise Tuesday May preceding MemorialDay; runoff fourthTuesday afterprimary. Actual county phase remains unknown.",
+          "url": "https://www.sos.alabama.gov/sites/default/files/2026-05/Alabama%20Election%20Chart%202026-2036%2012.4.2025.pdf",
+          "section": "page2 election dates/rules",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "cycle",
+        "dateRule",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "charterExceptions"
+      ]
+    },
+    "AK": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "AZ": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://www.azleg.gov/ars/11/00211.htm",
+          "section": "11-211(A)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "cycle": {
+          "value": "Presidential general-election years for ordinary board seats",
+          "url": "https://www.azleg.gov/ars/11/00211.htm",
+          "section": "11-211(A)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "January 1 following election",
+          "url": "https://www.azleg.gov/ars/11/00211.htm",
+          "section": "11-211(A)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "First Tuesday after first Monday in November in even years for county officers whose terms expire",
+          "url": "https://www.azleg.gov/ars/16/00211.htm",
+          "section": "16-211",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "qualification": {
+          "value": "Qualified elector of supervisorial district; incompatible with other county or precinct office",
+          "url": "https://www.azleg.gov/ars/11/00211.htm",
+          "section": "11-211(A)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "exception": {
+          "value": "Population-driven board-size transition can create staggered four-year terms; actual transition needed",
+          "url": "https://www.azleg.gov/ars/11/00211.htm",
+          "section": "11-211(B),(C)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "primary": {
+          "value": "Second-to-last Tuesday in July in an election year",
+          "url": "https://www.azleg.gov/ars/16/00201.htm",
+          "section": "16-201",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "runoff",
+        "qualifying",
+        "actualDistricts",
+        "countyTransitionStatus"
+      ]
+    },
+    "AR": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "CA": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=25000",
+          "section": "GOV25000(a)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "stagger": {
+          "value": "Five members, no more than three elected at same general election; transitional two-year terms then four years",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=25000",
+          "section": "GOV25000(a)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termLimits": {
+          "value": "County adopted voter-approved limits and prior effective limits require separate binding",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=25000",
+          "section": "GOV25000(b)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "dateRule",
+        "primaryMajorityRule",
+        "termStart",
+        "qualifying",
+        "districtPhase",
+        "charterExceptions",
+        "qualifications"
+      ],
+      "retrievalFailures": [
+        {
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=ELEC&sectionNum=1300",
+          "result": "tool internal error; no field filled"
+        }
+      ]
+    },
+    "CO": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "CT": {
+      "status": "not-applicable-county-board",
+      "claims": {
+        "applicability": {
+          "value": "County government abolished October1,1960; geographical counties have no county seats",
+          "url": "https://portal.ct.gov/SOTS/Register-Manual/Section-VI/Counties---Table-of-Contents",
+          "section": "Secretary of the State register",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "distinctPlanningRegionCouncilSemanticsNotCountyElection"
+      ]
+    },
+    "DE": {
+      "status": "partially-inspected",
+      "claims": {
+        "newCastleQualifications": {
+          "value": "US citizen,county elector,district residence1year before election, age24",
+          "url": "https://delcode.delaware.gov/title9/c011/sc04/index.html",
+          "section": "1142",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "newCastleTermStartConflict": {
+          "value": "1141(e): firstWednesdayNovember after general;1169: followingTuesday takingoffice. Both read; conflict unresolved, no admitted date.",
+          "url": "https://delcode.delaware.gov/title9/c011/sc04/index.html",
+          "section": "1141(e)/1169",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "newCastlePresidentCycle": {
+          "value": "District13(atlarge president):4year presidential-year election",
+          "url": "https://delcode.delaware.gov/title9/c011/sc04/index.html",
+          "section": "1166(b)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "FL": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://www.flsenate.gov/Laws/Constitution",
+          "section": "ArticleVIII1(e), except county charter",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "stagger": {
+          "value": "Staggered four-year terms for five or seven members; charter exceptions separate",
+          "url": "https://www.flsenate.gov/Laws/Constitution",
+          "section": "ArticleVIII1(e)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "First Tuesday after first Monday November in even years for offices whose term expires before next general election",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2026/100.031",
+          "section": "100.031",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "districtResidence": {
+          "value": "One resident commissioner for each district; exact charter selection rule required",
+          "url": "https://www.flsenate.gov/Laws/Constitution",
+          "section": "ArticleVIII1(e)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "districtPhase",
+        "charterExceptions",
+        "termStart",
+        "qualifying",
+        "primary",
+        "runoff",
+        "qualifications"
+      ]
+    },
+    "GA": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "HI": {
+      "status": "partially-inspected",
+      "claims": {
+        "honoluluCalendar": {
+          "value": {
+            "termYears": 4,
+            "termStart": "noon January2 after election",
+            "districts2026": [
+              2,
+              4,
+              6,
+              8
+            ],
+            "districts2028": [
+              1,
+              3,
+              5,
+              7,
+              9
+            ],
+            "primary2026": "2026-08-08",
+            "general2026": "2026-11-03"
+          },
+          "url": "https://elections.hawaii.gov/councilmembers/",
+          "section": "Honolulu council table only, not all Hawaii counties",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "ID": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ],
+      "retrievalFailures": [
+        {
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-703/",
+          "result": "tool internal error"
+        }
+      ]
+    },
+    "IL": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "IN": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "IA": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "KS": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "KY": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+          "section": "Kentucky Constitution Section 99",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "cycle": {
+          "value": "1998 and every four years thereafter for Section 99 county officers and district justices of peace",
+          "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+          "section": "Kentucky Constitution Section 99",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "First Monday in January after election",
+          "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+          "section": "Kentucky Constitution Section 99",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "First Tuesday after first Monday in November for regular county elections",
+          "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=169",
+          "section": "Kentucky Constitution Section148",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "LA": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://legis.la.gov/Legis/Law.aspx?d=88684",
+          "section": "33:1221 police-jury governments",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "calendar2027": {
+          "value": {
+            "primary": "2027-10-09",
+            "general": "2027-11-20",
+            "qualifyingStart": "2027-08-03",
+            "qualifyingEnd": "2027-08-05"
+          },
+          "url": "https://www.sos.la.gov/media/byfpyc5f/elections-calendar-2027.pdf",
+          "section": "Revised August 2026; prohibited-day adjustments",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "Gubernatorial fall cycle; October primary and later Saturday general; prohibited-day adjustments apply",
+          "url": "https://legis.la.gov/Legis/LawPrint.aspx?d=81545",
+          "section": "18:402(A),(B)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "Second Monday in January following election",
+          "url": "https://www.legis.la.gov/Legis/Law.aspx?d=88690",
+          "section": "33:1226",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "presidentSelection": {
+          "value": "Chosen by police jury from its members",
+          "url": "https://www.legis.la.gov/Legis/Law.aspx?d=88690",
+          "section": "33:1226",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "qualification": {
+          "value": "By qualification: age18, preceding2years Louisiana residence, preceding1year actual domicile in district; qualified elector; charter exceptions",
+          "url": "https://www.sos.la.gov/media/ammgvu21/qualifications-of-candidates.pdf",
+          "section": "June2026 version p2 Police Juror/Parish Council Member",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "filingOfficer": {
+          "value": "Local candidates qualify at parish Clerk of Court, by qualifying fee or nominating petition; no write-ins",
+          "url": "https://www.sos.la.gov/elections-voting/qualify-for-an-election",
+          "section": "Congressional,state,and local candidates",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "homeRuleParishProfiles",
+        "qualifications",
+        "districts",
+        "futureCalendarAdjustments",
+        "ballotAndRunoffRules"
+      ]
+    },
+    "ME": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec62.html",
+          "section": "30-A62(1)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "Tuesday following first Monday November in biennial election year when term expires",
+          "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec62.html",
+          "section": "30-A62",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "countyPhase",
+        "primary",
+        "qualifying",
+        "termStart",
+        "qualifications",
+        "charterExceptions",
+        "2026AmendmentCheck"
+      ]
+    },
+    "MD": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "MA": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://www.sec.state.ma.us/divisions/elections/research-and-statistics/effective-dates-of-office.htm",
+          "section": "County Commissioner",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "First Wednesday January following election",
+          "url": "https://www.sec.state.ma.us/divisions/elections/research-and-statistics/effective-dates-of-office.htm",
+          "section": "County Commissioner",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "applicability": {
+          "value": "County commissioner elected only in Barnstable, Bristol, Dukes, Norfolk and Plymouth; overlapping terms except Dukes",
+          "url": "https://www.sec.state.ma.us/divisions/elections/research-and-statistics/effective-dates-of-office.htm",
+          "section": "County Commissioner note",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "stagger": {
+          "value": "General statute: two elected1940+4n,one1942+4n; actual special county provisions control exceptions",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter54/Section158",
+          "section": "54:158",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "DukesSpecialLaw",
+        "BarnstableCharter",
+        "NantucketConsolidatedGovernment",
+        "exactDateRule",
+        "primary",
+        "qualifying",
+        "qualifications"
+      ]
+    },
+    "MI": {
+      "status": "partially-inspected",
+      "sourceVintage": "Complete through PA35 of2025, rendered November21,2025; 2026 amendments not checked",
+      "claims": {
+        "term": {
+          "value": "Before2024 November general: concurrent with state representatives; at/after2024 November general: four years",
+          "url": "https://zeus-milenia.legislature.mi.gov/documents/mcl/pdf/MCL-CHAP46.pdf",
+          "section": "46.410",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "January1 after election",
+          "url": "https://zeus-milenia.legislature.mi.gov/documents/mcl/pdf/MCL-CHAP46.pdf",
+          "section": "46.410",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "qualification": {
+          "value": "Resident and registered voter of district at candidacy and throughout service",
+          "url": "https://zeus-milenia.legislature.mi.gov/documents/mcl/pdf/MCL-CHAP46.pdf",
+          "section": "46.411",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "nomination": {
+          "value": "Partisan election; county clerk filing by petition or100-dollar nonrefundable fee; deadline same as state representative",
+          "url": "https://zeus-milenia.legislature.mi.gov/documents/mcl/pdf/MCL-CHAP46.pdf",
+          "section": "46.411",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "convictionBar": {
+          "value": "Specified MCL38.412a(1) conviction bars commissioner eligibility20years",
+          "url": "https://zeus-milenia.legislature.mi.gov/documents/mcl/pdf/MCL-CHAP46.pdf",
+          "section": "46.411",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "vacancy": {
+          "value": "Board appointment within30days; remaining term except intervening general-election boundary defined in46.412(2)",
+          "url": "https://zeus-milenia.legislature.mi.gov/documents/mcl/pdf/MCL-CHAP46.pdf",
+          "section": "46.412",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "2026AmendmentCheck",
+        "exactElectionDateRule",
+        "primary",
+        "qualifyingDate",
+        "charterExceptions",
+        "actualDistricts"
+      ],
+      "retrievalFailures": [
+        {
+          "url": "https://www.legislature.mi.gov/documents/mcl/pdf/mcl-Act-261-of-1966.pdf",
+          "result": "403; search excerpt not admitted as complete inspected statute"
+        },
+        {
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-46-410",
+          "result": "403"
+        }
+      ]
+    },
+    "MN": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "MS": {
+      "status": "partially-inspected",
+      "claims": {
+        "officeFamily": {
+          "value": "County Board of Supervisors",
+          "url": "https://www.sos.ms.gov/sites/default/files/publications/County%20Offices%20and%20Directory_2026.pdf",
+          "section": "p42 Supervisor",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "qualification": {
+          "value": "Qualified elector of county; resides in supervisor district sought; $100 qualifying fee",
+          "url": "https://www.sos.ms.gov/sites/default/files/publications/County%20Offices%20and%20Directory_2026.pdf",
+          "section": "p42 Supervisor",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "datedCalendar2027": {
+          "value": {
+            "primary": "2027-08-03",
+            "primaryRunoff": "2027-08-31",
+            "general": "2027-11-02",
+            "generalRunoff": "2027-11-30"
+          },
+          "url": "https://www.sos.ms.gov/sites/default/files/publications/County%20Offices%20and%20Directory_2026.pdf",
+          "section": "p128: 2027 calendar explicitly includes Supervisors",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "applicability",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "charterExceptions"
+      ]
+    },
+    "MO": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "MT": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "NE": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "NV": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "NH": {
+      "status": "partially-inspected",
+      "claims": {
+        "selection": {
+          "value": "Commissioners at state general election; Hillsborough/Strafford district elections default two-year terms; other named counties alternate two/four-year terms with rotating four-year district",
+          "url": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+          "section": "653:1(VI)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "countyException": {
+          "value": "Carroll and Sullivan countywide voting; Cheshire,Belknap,Rockingham,Merrimack,Coos,Grafton district voters with named rotating terms; retain exact county anchors",
+          "url": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+          "section": "653:1(VI)(b),(d)-(j)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "separateConvention": {
+          "value": "County convention consists of state representatives for county districts",
+          "url": "https://gc.nh.gov/rsa/html/II/24/24-1.htm",
+          "section": "24:1",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "countyRotationProfiles",
+        "exactDateRule",
+        "termStart",
+        "primary",
+        "qualifying",
+        "qualifications"
+      ]
+    },
+    "NJ": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "NM": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "NY": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "NC": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "ND": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://www.legis.nd.gov/cencode/t11c11.pdf",
+          "section": "11-11-03; except other law",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "First Monday in December following election; statutory qualifying grace and vacancy distinctions retained",
+          "url": "https://www.legis.nd.gov/cencode/t11c10.pdf",
+          "section": "11-10-05.1",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "First Tuesday after first Monday in November in even years",
+          "url": "https://www.legis.nd.gov/cencode/t16-1c13.pdf",
+          "section": "16.1-13-01",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "actualCountyPhase",
+        "primary",
+        "qualifying",
+        "qualifications",
+        "countyHomeRule"
+      ]
+    },
+    "OH": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-305.01",
+          "section": "305.01(C)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "stagger": {
+          "value": "One commissioner1974+4n; two commissioners1972+4n",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-305.01",
+          "section": "305.01(A),(B)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "One midterm-cycle commissioner starts January1; two presidential-cycle commissioners start January2 andJanuary3 respectively",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-305.01",
+          "section": "305.01(A),(B)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "charterCounties",
+        "exactDateRule",
+        "primary",
+        "qualifying",
+        "qualifications"
+      ]
+    },
+    "OK": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "OR": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ],
+      "retrievalFailures": [
+        {
+          "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors203.html",
+          "result": "403"
+        }
+      ]
+    },
+    "PA": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/16/00.123.001.000..HTM",
+          "section": "16 Pa.C.S.12301(b)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "First Monday in January after election",
+          "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/16/00.123.001.000..HTM",
+          "section": "12301(b)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "Regular county officers on Tuesday after first Monday in November of odd years; constitution permits prescribed legislative variation",
+          "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.007..HTM",
+          "section": "Constitution VII section3",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "cycle": {
+          "value": "Four-year sequence tied to expiration of officers serving October 10, 1955; modern phase still requires official county evidence",
+          "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/16/00.123.001.000..HTM",
+          "section": "12301(b)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "currentFourYearPhase",
+        "charterExceptions",
+        "primary",
+        "runoff",
+        "qualifying",
+        "qualifications",
+        "limitedVoteAndDistricts"
+      ]
+    },
+    "RI": {
+      "status": "partially-inspected",
+      "claims": {
+        "historicalApplicability": {
+          "value": "2017 treasury disclosure:5statisticalcounties, no county governmental structure,39cities/towns; current2026 confirmation remains separate",
+          "url": "https://treasury.ri.gov/sites/g/files/xkgbur646/files/assets/5a286fb323f81205cb1f6d50/State_of_RI_COPS_2017_Series_A_B_C_D_E_Supplement.pdf",
+          "section": "AppendixA4/PDFp96",
+          "vintage": "2017",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "SC": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "SD": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://sdlegislature.gov/api/Statutes/7-8-1.html?all=true",
+          "section": "7-8-1",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "First Tuesday in January after election",
+          "url": "https://sdlegislature.gov/api/Statutes/7-8-1.html?all=true",
+          "section": "7-8-1",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "cycle": {
+          "value": "Even district numbers in presidential years; odd or unnumbered in gubernatorial years",
+          "url": "https://sdlegislature.gov/api/Statutes/7-8-1.html?all=true",
+          "section": "7-8-1",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "exactDateRule",
+        "primary",
+        "qualifying",
+        "qualifications",
+        "actualDistrictNumbers"
+      ]
+    },
+    "TN": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://www.ctas.tennessee.edu/eli/membership-clb",
+          "section": "CTAS-11; TCA5-5-102",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "cycle": {
+          "value": "County legislative body elected in gubernatorial-cycle August elections",
+          "url": "https://www.ctas.tennessee.edu/eli/membership-clb",
+          "section": "CTAS-11",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "dateRule": {
+          "value": "First Thursday in August of applicable even year",
+          "url": "https://www.ctas.tennessee.edu/eli/dates-regular-elections",
+          "section": "CTAS-867; TCA2-3-202",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "termStart": {
+          "value": "September 1 following election after qualification",
+          "url": "https://www.ctas.tennessee.edu/eli/membership-clb",
+          "section": "CTAS-11",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "exception": {
+          "value": "Consolidated city-county forms excluded from ordinary county legislative body rule; actual charter admission still open",
+          "url": "https://www.ctas.tennessee.edu/eli/membership-clb",
+          "section": "CTAS-11",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "countyPhaseBinding": {
+          "value": "Loudon47105 commission districts/seats appear on actual August6,2026 county-general sample ballot",
+          "url": "https://loudoncountyvotes.com/files/August_2026_SampleBallot_General.pdf",
+          "section": "page1",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "TX": {
+      "status": "partially-inspected",
+      "claims": {
+        "dateRule": {
+          "value": "First Tuesday after first Monday in November of even-numbered years",
+          "url": "https://tcss.legis.texas.gov/resources/EL/htm/EL.41.htm",
+          "section": "41.002",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "term": {
+          "value": 4,
+          "url": "https://tcss.legis.texas.gov/resources/CN/htm/CN.5.htm",
+          "section": "ArticleV18(b)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "selection": {
+          "value": "One commissioner elected by qualified voters of each of four commissioner precincts; county judge presides",
+          "url": "https://tcss.legis.texas.gov/resources/CN/htm/CN.5.htm",
+          "section": "ArticleV18(b)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "cycle2026": {
+          "value": "Precincts2 and4 listed for four-year terms; SOS warns historical staggering language was omitted in1999 and newly created offices may differ. Actual county records required.",
+          "url": "https://www.sos.state.tx.us/elections/candidates/guide/2026/offices2026.shtml",
+          "section": "2026 offices table and note on JC-0519",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "stagger",
+        "termStart",
+        "primary",
+        "runoff",
+        "qualifying",
+        "qualifications",
+        "countyProfiles"
+      ]
+    },
+    "UT": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "VT": {
+      "status": "partially-inspected",
+      "claims": {
+        "officeFamily": {
+          "value": "Assistant judges elected by district; four-year terms begin February1 after election",
+          "url": "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/",
+          "section": "ChapterII50",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "actualCountyFiscalRoleBinding",
+        "dateRule",
+        "cycleAnchor",
+        "primary",
+        "qualifying",
+        "qualifications"
+      ]
+    },
+    "VA": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    },
+    "WA": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 4,
+          "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.32.030",
+          "section": "36.32.030(1)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "stagger": {
+          "value": "One or two commissioners at each even-year general; noncharter population400000+ redistricting transition terms follow actual plan",
+          "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.32.030",
+          "section": "36.32.030(1),(2)",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "countyPhase",
+        "charterExceptions",
+        "termStart29A60280",
+        "exactDateRule",
+        "primary",
+        "qualifying",
+        "qualifications"
+      ]
+    },
+    "WV": {
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "value": 6,
+          "url": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
+          "section": "ArticleIX10",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "stagger": {
+          "value": "One commissioner every two years; no two from same magisterial district; alternate-form exceptions separate",
+          "url": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
+          "section": "ArticleIX9,10,13",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "presidentSelection": {
+          "value": "Commissioners annually choose president from members",
+          "url": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
+          "section": "ArticleIX10",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        }
+      },
+      "openFields": [
+        "actualSeatPhase",
+        "alternateForms",
+        "exactDateRule",
+        "termStart",
+        "primary",
+        "qualifying",
+        "qualifications"
+      ]
+    },
+    "WI": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ],
+      "retrievalFailures": [
+        {
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/59/iii/10",
+          "result": "tool internal error; no current field admitted"
+        }
+      ]
+    },
+    "WY": {
+      "status": "unread",
+      "claims": {},
+      "openFields": [
+        "applicability",
+        "officeFamily",
+        "term",
+        "cycle",
+        "dateRule",
+        "primary",
+        "runoff",
+        "qualifying",
+        "stagger",
+        "termStart",
+        "qualifications",
+        "charterExceptions"
+      ]
+    }
+  },
+  "dc": {
+    "status": "distinct-general-government-not-county-profile"
+  },
+  "retrievalFailures": [
+    {
+      "state": "TN",
+      "url": "https://sos.tn.gov/elections/calendar",
+      "result": "403 Forbidden",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "AK",
+      "url": "https://www.akleg.gov/statutesPDF/Title-29.pdf",
+      "result": "tool Internal Error; indexed snippet not full statute admission",
+      "readOn": "2026-10-01"
+    }
+  ]
+}
