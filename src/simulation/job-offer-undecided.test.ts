@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import * as decisionEngine from "./decisions";
+import { simulationMomentOnLocalDate } from "./dates";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,
@@ -91,7 +92,14 @@ beforeAll(() => {
   const application = applicationsFor(applied.world, worker).at(-1)!;
   applicationId = application.id;
   offered = advanceApplications(
-    { ...applied.world, currentDate: application.decisionAt },
+    {
+      ...applied.world,
+      currentDate: application.decisionAt,
+      currentMoment: simulationMomentOnLocalDate(
+        applied.world.currentMoment,
+        application.decisionAt,
+      ),
+    },
     worker,
   );
   expect(latestApplicationStep(offered, applicationId)?.kind).toBe("offered");
