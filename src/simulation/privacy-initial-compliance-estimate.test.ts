@@ -17,6 +17,7 @@ describe("approved initial privacy compliance estimate", () => {
         initialDollars,
         timing: "one-time-initial",
         sourcePage: 11,
+        bandSource: expect.stringContaining("territory_naics_2022.xlsx"),
       });
     expect(initialPrivacyComplianceEstimate(19)?.sourceLimit).toContain(
       "overestimating the compliance costs for smaller firms",

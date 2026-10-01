@@ -39,6 +39,7 @@ export interface InitialPrivacyComplianceEstimate {
   /** The SRIA warns its survey extrapolation may overstate small-firm costs. */
   readonly sourceLimit: string;
   readonly boundaryConvention?: string;
+  readonly bandSource: string;
 }
 
 /**
@@ -53,11 +54,10 @@ export function initialPrivacyComplianceEstimate(
   employeeCount: number,
 ): InitialPrivacyComplianceEstimate | null {
   if (!Number.isSafeInteger(employeeCount) || employeeCount < 1) return null;
-  const bandCount = employeeCount === 100 ? 101 : employeeCount;
   const bands = ccpaCosts.centralEstimate.bySize.filter(
     (row) =>
-      bandCount >= row.minEmployees &&
-      (row.maxEmployees === null || bandCount <= row.maxEmployees),
+      employeeCount >= row.minEmployees &&
+      (row.maxEmployees === null || employeeCount <= row.maxEmployees),
   );
   if (bands.length !== 1) return null;
   const band = bands[0]!;
@@ -68,6 +68,7 @@ export function initialPrivacyComplianceEstimate(
     sourcePage: ccpaCosts.centralEstimate.page,
     timing: "one-time-initial",
     sourceLimit: ccpaCosts.checksOnly.smallFirmUpperBound.quote,
+    bandSource: ccpaCosts.centralEstimate.bandConvention.source,
     ...([100, 500].includes(employeeCount)
       ? {
           boundaryConvention: `CTO October 1, 5:16: exactly ${employeeCount} employees takes $450,000. This is an explicit boundary convention, not a claim that SUSB 100–499 includes 500.`,
@@ -83,9 +84,10 @@ export interface DataPrivacyCost {
   readonly lawEffectStamps: readonly LawEffectStamp[];
 }
 
-export const ESTIMATED_PRIVACY_REVENUE_THRESHOLD_DOLLARS = 25_000_000;
+export const ESTIMATED_PRIVACY_REVENUE_THRESHOLD_DOLLARS =
+  ccpaCosts.centralEstimate.applicability.revenueThresholdDollars;
 export const ESTIMATED_PRIVACY_APPLICABILITY_SOURCE =
-  "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.140.&lawCode=CIV";
+  ccpaCosts.centralEstimate.applicability.source;
 
 export interface InitialPrivacyComplianceCost {
   readonly law: LawInForce;
@@ -232,6 +234,7 @@ export function privacyInitialOccurrence(
     costSource: cost.estimate.source,
     costSourcePage: cost.estimate.sourcePage,
     employeeSizeClass: cost.estimate.employeeSizeClass,
+    bandSource: cost.estimate.bandSource,
     sourceLimit: cost.estimate.sourceLimit,
     ...(cost.estimate.boundaryConvention
       ? { boundaryConvention: cost.estimate.boundaryConvention }

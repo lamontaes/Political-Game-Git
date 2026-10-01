@@ -62,6 +62,7 @@ export interface TownBusinessBooks {
     readonly costSource: string;
     readonly costSourcePage: number;
     readonly employeeSizeClass: string;
+    readonly bandSource: string;
     readonly sourceLimit: string;
     readonly boundaryConvention?: string;
   }[];
