@@ -1,3 +1,19 @@
+# Current permission, compliance and financial transfers
+
+The permission handler has one receiving owner, and the compliance reader has one builder. Approved saved-record contracts now separate historical admission from new writes.
+
+## Exact ownership
+
+- Coordinator received Team 8's right-permission.ts and its test from 16f5fb09c493f1b4d0f5e5117e0eeb524673eaf8 and owns the sole-registry registration. Published draft #1636 at 0f54a7d785f0250a6d9a7ce56aa38d035c2b908e. No core/type replacement or new permission rows are included.
+- Team 2 released to Team 1 only settleEnactedDuty's compliance-outcome reader, required imports and staffed/no-duty-receipt/qualifying-receipt tests. Clean donor 072a2d976a40e24e8764e24981c1554828495fa7; source blob 7c3c52f36955a54f18828a8aff2d125a4bd45908 and test blob f34ab865fc557476157d7d738d05e3d3c3cd4549. Positive fulfillment still needs Audit's exact same-duty/body/Act receipt contract. Other duty writers, declarations and provenance stay with existing owners.
+- Team 2's requested A108 municipal council projection and action-date reader transfer is pending Team 1's exact clean release. No overlap is authorized.
+- CTO Ruling 19 authorizes Coordinator's append-only statutory tax attribution receipt, once per saved liability or payment. No amounts, cash or old records may change. Team 6 retains source admission and authority research; Coordinator retains the previously released tax authority selector and shared handler.
+- CTO Ruling 20 admits historical first-of-month monthly point payments read-only for the preceding calendar month. Team 3 owns the pure shared coverage query and producer; Coordinator owns the matching resource guards. January 20 remains outside that rule; all new writes remain strict.
+- CTO 3:24 assigns A63 drift to claude/a63-no-dice-drift, missing measure base data to claude/outcome-bases-new-measures and eight policy questions to claude/new-policy-questions-fable. Existing teams must not duplicate those surfaces.
+- Team 8's heard-exposure consumer request in press/law-effect-news.ts still needs the current owner's clean release. Coordinator retains law-exposure.ts; the separate law-effects-noticed.ts release also remains pending.
+
+## Earlier checkpoints
+
 # Ratification and tax ownership transfers
 
 The ratification writer now has one assigned builder. The tax integration has a narrow receiving boundary. Existing records, unrelated branches and unpublished work remain protected.
