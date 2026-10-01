@@ -586,6 +586,71 @@ function runningSentences(world: World) {
   return out;
 }
 
+/** A saved sentence wakes only its actual NPC's existing petition decision. */
+export function considerClemencyAfterSentence(
+  world: World,
+  sentenceId: EntityId,
+): World {
+  const sentenced = eventById(world, sentenceId);
+  if (sentenced?.type !== PROSECUTION_SENTENCED_EVENT) return world;
+  const personId = sentencedPersonOf(sentenced);
+  if (
+    !personId ||
+    !world.people[personId] ||
+    controlledPersonId(world) === personId ||
+    !isPersonAliveAt(world, personId, currentLifeCutoff(world))
+  )
+    return world;
+  const sentence = runningSentence(world, personId, sentenced.id);
+  if (
+    !sentence ||
+    sentence.clemency ||
+    sentence.from > world.currentDate ||
+    sentence.until <= world.currentDate
+  )
+    return world;
+  const route = routeFor(world, sentenced, personId);
+  if (typeof route === "string") return world;
+  if (
+    clemencyPetitions(world).some(
+      (petition) =>
+        petition.tags.includes(`${CLEMENCY_SENTENCE_TAG}${sentenced.id}`) &&
+        clemencyPetitionStatus(world, petition.id) === "open",
+    )
+  )
+    return world;
+  const decided = decideWhetherToAsk(
+    world,
+    personId,
+    sentenced,
+    sentence,
+    route,
+  );
+  const stableKey = `${CLEMENCY_VERSION}:petition:${sentenced.id}:${answererKey(route)}`;
+  const petition = clemencyPetitions(decided).find(
+    (row) => row.stableKey === stableKey,
+  );
+  return petition ? advanceClemencyPetition(decided, petition.id) : decided;
+}
+
+/** The real desk's saved term, not a planned winner or a home-place proxy. */
+export function considerClemencyAfterExecutiveDesk(
+  world: World,
+  termId: EntityId,
+): World {
+  const office = currentGoverningOffices(world).find(
+    (row) => row.termId === termId,
+  );
+  if (!office) return world;
+  let next = world;
+  for (const { sentenced } of runningSentences(world)) {
+    if (clemencyPlaceKeyFor(world, sentenced) !== `US-${office.stateUsps}`)
+      continue;
+    next = considerClemencyAfterSentence(next, sentenced.id);
+  }
+  return next;
+}
+
 function produceRequests(world: World): World {
   let next = world;
   for (const { personId, sentenced, sentence } of runningSentences(world)) {

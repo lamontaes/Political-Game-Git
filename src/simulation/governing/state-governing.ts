@@ -52,7 +52,10 @@ import {
   evaluateGovernorBill,
   ownPartyPassageVote,
 } from "./governor-bill-decision";
-import { advanceClemencyPetition } from "../justice/clemency";
+import {
+  advanceClemencyPetition,
+  considerClemencyAfterExecutiveDesk,
+} from "../justice/clemency";
 import { CLEMENCY_KIND_TAG } from "../justice/jail-terms";
 import {
   CLEMENCY_DENY,
@@ -2226,7 +2229,10 @@ export function governingTransitionHandler(
       "The term this transition belonged to is not current.",
     );
   return resolved(
-    openTransitionMatters(world, office.officeKey),
+    considerClemencyAfterExecutiveDesk(
+      openTransitionMatters(world, office.officeKey),
+      office.termId,
+    ),
     "The new office's first matters were opened.",
   );
 }
