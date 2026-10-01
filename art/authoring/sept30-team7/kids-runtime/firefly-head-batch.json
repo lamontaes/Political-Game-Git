@@ -1,0 +1,119 @@
+{
+  "status": "queued-awaiting-owner-Firefly-sign-in",
+  "authorization": "CTO child-art ruling in shared00b, September30; missing child head/face/hair sources authorized; no renders until heads exist",
+  "generationStarted": false,
+  "pixelsApproved": false,
+  "scope": "Separate reusable child head/face/hair layers matched to approved age8 and age14 source presentations. Preserve individual identity and fit; do not paste adult heads or generate new bodies.",
+  "styleReference": {
+    "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+    "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d"
+  },
+  "sourceReferences": [
+    {
+      "id": "boy-14-standing-casual-average",
+      "file": "art/authoring/sept30-team7/kids-runtime/boy-14-standing-casual-average.png",
+      "sha256": "4e5d6506a2feb2d8ae87ad648ae102a4ce3b0a053ce83cdab172c83db32f40c6",
+      "source": "art/authoring/sept29-team7/kids/boy-14-standing-casual.png",
+      "sourceSha256": "a29fbdafc33502d137f49880dd9d2919a6f1d5136c4c471d243d9800dda74a5a",
+      "anchors": {
+        "top": 29,
+        "feet": 983,
+        "neck": {
+          "row": 155,
+          "centerX": 220,
+          "width": 69
+        },
+        "head": {
+          "left": 158,
+          "right": 282,
+          "top": 29,
+          "bottom": 155
+        },
+        "shoulderRow": 250
+      }
+    },
+    {
+      "id": "boy-8-standing-casual-average",
+      "file": "art/authoring/sept30-team7/kids-runtime/boy-8-standing-casual-average.png",
+      "sha256": "5e29f643254a31796479f633ad965aa8be0826bfca4a5f5ada8c124922dfddd3",
+      "source": "art/authoring/sept29-team7/kids/boy-8-standing-casual.png",
+      "sourceSha256": "19729c6dd41bc335a1aae06f6e34164903839ed8a73f3bca0f00d9c4532d53b3",
+      "anchors": {
+        "top": 58,
+        "feet": 968,
+        "neck": {
+          "row": 224,
+          "centerX": 220,
+          "width": 73
+        },
+        "head": {
+          "left": 132,
+          "right": 302,
+          "top": 58,
+          "bottom": 224
+        },
+        "shoulderRow": 315
+      }
+    },
+    {
+      "id": "girl-14-standing-casual-average",
+      "file": "art/authoring/sept30-team7/kids-runtime/girl-14-standing-casual-average.png",
+      "sha256": "833bf92570b7edda93c935c350b5724a146c3604c76ff3ecc7ba55e9dafaf9d9",
+      "source": "art/authoring/sept29-team7/kids/girl-14-standing-casual.png",
+      "sourceSha256": "8925f0b8ad8cd1a5b5634b123ba39e0d8318791bdf64c349e1c89aea3306cf59",
+      "anchors": {
+        "top": 25,
+        "feet": 979,
+        "neck": {
+          "row": 154,
+          "centerX": 225.5,
+          "width": 58
+        },
+        "head": {
+          "left": 165,
+          "right": 287,
+          "top": 25,
+          "bottom": 154
+        },
+        "shoulderRow": 248
+      }
+    },
+    {
+      "id": "girl-8-standing-casual-average",
+      "file": "art/authoring/sept30-team7/kids-runtime/girl-8-standing-casual-average.png",
+      "sha256": "90d237f6496e52cccc2e01e986a410e217c6afbdf25af5fc3713ea3aa447c1de",
+      "source": "art/authoring/sept29-team7/kids/girl-8-standing-casual.png",
+      "sourceSha256": "c5d7b44a6f6de446cf0a7c96044fbbdde06480600c3a82b611ce2e1a19a28786",
+      "anchors": {
+        "top": 58,
+        "feet": 974,
+        "neck": {
+          "row": 244,
+          "centerX": 218.5,
+          "width": 64
+        },
+        "head": {
+          "left": 128,
+          "right": 310,
+          "top": 58,
+          "bottom": 244
+        },
+        "shoulderRow": 335
+      }
+    }
+  ],
+  "requirements": [
+    "Keep face and hair separate from clothing and body pixels.",
+    "Fit measured native head and neck frames; no raster enlargement.",
+    "Use existing skin/material ownership and engine assembly after approved source intake.",
+    "Validate standing and seated neck alignment across lean, average and fuller crops.",
+    "Retain source lineage, native output hashes, contact sheets and owner approval."
+  ],
+  "notAuthorizedByThisBrief": [
+    "Automatic pixel approval",
+    "Generation before owner sign-in",
+    "New body paintings",
+    "Adult face substitution",
+    "Production child rendering before completed head sources"
+  ]
+}

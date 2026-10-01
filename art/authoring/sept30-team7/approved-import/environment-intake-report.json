@@ -1,0 +1,536 @@
+{
+  "candidateCount": 15,
+  "productionCount": 15,
+  "records": [
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_appalachian_town_january_sept30",
+      "byteLength": 2495293,
+      "contentHash": "dcb44fc44058dd7494c0d78499bd28feecfd5484539218b855c11225f692b4e2",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-streets/appalachian-town-january.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_buchanan_small_town_sept30",
+      "byteLength": 2325067,
+      "contentHash": "ab4789b2b77260f8ab614947a63d8010a70869280f8f5f7c6402eae5fdabd9ca",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-streets/buchanan-small-town.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_green_mountain_home_exterior_sept30",
+      "byteLength": 2349179,
+      "contentHash": "690f66629106f0864495cfb41f75874328c18f838f97008c96764e7affd748c3",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-exteriors/green-mountain-home-exterior.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_green_mountain_street_sept30",
+      "byteLength": 2372431,
+      "contentHash": "13786f7a95823078a5a66e3cafd78a62e12fc9c7923a4b15545654a1048f8515",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-exteriors/green-mountain-street.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_northeast_home_sept30",
+      "byteLength": 1851708,
+      "contentHash": "1950aeb02f271d0ee874f40950cf3a5c22ff792743c902bee023e9e949f2cb9e",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-priority/northeast-home.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_northeast_street_sept30",
+      "byteLength": 2118986,
+      "contentHash": "bef2b68ccead08962e4cef3f7a6fe1357d3333685903d52f4a7a9de8dff95225",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-priority/northeast-street.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_pikeville_valley_street_sept30",
+      "byteLength": 2283067,
+      "contentHash": "61133f2f84afc5cc49e30be350bb6633d25a0ff71a21620e5a3e34fab374d9a4",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-streets/pikeville-valley-street.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_socal_inland_bungalow_neighborhood_sept30",
+      "byteLength": 2275851,
+      "contentHash": "f48ed1cd1f60bc9c659a3f896e93cdfba9464fa288ce8ae3311f97a0775731f3",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-streets/socal-inland-bungalow-neighborhood.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_sonoran_home_exterior_sept30",
+      "byteLength": 2231783,
+      "contentHash": "07b1ad12bd0b2705466d72f2a1ae735a8d60e3fe51380d32d8b412120f79d69d",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-exteriors/sonoran-home-exterior.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_southwest_home_sept30",
+      "byteLength": 1806763,
+      "contentHash": "c165323c1bb0f67aa8d74624c3f2467a9e08b3cbdfc89105a4f60860d11c7d94",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-priority/southwest-home.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "env_team7_southwest_street_sept30",
+      "byteLength": 2241159,
+      "contentHash": "d7eaeff82dd1f5a896759c867c30783dbd5eb46b509eb7a6ddda00cacc0fda81",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "later-high-resolution-pass",
+          "message": "Display admission only; a later high-resolution pass is required for the 4608px print-master minimum.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "highResolutionPassRequired": true,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept30-team7/regional-priority/southwest-street.png",
+      "resolutionProfile": "native-display",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "ui_team7_tv_cable_panel_v2",
+      "byteLength": 1205253,
+      "contentHash": "71166e9f2fcb076cfc1e99912e214e307d4c9f6a4d51345a6e3599150fb0de23",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept29-team7/tv/cable-panel-v2.png",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "interface-graphic",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7758,
+      "assetId": "ui_team7_tv_debate_v2",
+      "byteLength": 1460399,
+      "contentHash": "36ea3eb7707ad65feb015adc9f3d2bf70f68f328d4d8dbdb818688dd6d5e98d9",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1671,
+      "path": "art/authoring/sept29-team7/tv/debate-v2.png",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "interface-graphic",
+      "width": 1671
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "ui_team7_tv_local_news_v2",
+      "byteLength": 1341734,
+      "contentHash": "48f3cb396676af5cec75bf08c5e6e40458e7c03b9f358c30819d4f39fc61c274",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept29-team7/tv/local-news-v2.png",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "interface-graphic",
+      "width": 1672
+    },
+    {
+      "aspectRatio": 1.7768,
+      "assetId": "ui_team7_tv_press_briefing_v2",
+      "byteLength": 1269614,
+      "contentHash": "9dd50dde3e84ba4a373afc8334c81589d42ead0c520c28d9ef1081d70d592e59",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "png",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 941,
+      "lineageClass": "original-master",
+      "nativeDetailState": "native",
+      "nativeDetailWidth": 1672,
+      "path": "art/authoring/sept29-team7/tv/press-briefing-v2.png",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "interface-graphic",
+      "width": 1672
+    }
+  ],
+  "referenceCount": 0,
+  "rejectCount": 0,
+  "tool": "environment-master-intake-v1"
+}

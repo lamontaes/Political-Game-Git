@@ -43,7 +43,7 @@ import {
  *   OUTSIDE this repository: an upscaler, a retouch pass, a paint-over. Its
  *   pixel count exceeds the detail behind it and it must say by how much.
  * - `production-normalized` — a derivative made INSIDE this repository by a
- *   deterministic, reproducible normalization (crop, color-space, container).
+ *   deterministic, reproducible normalization (crop, colour-space, container).
  *   Normalization never enlarges, so detail is preserved exactly.
  * - `runtime-tier` — a member of a raster ladder, derived by the tier
  *   pipeline. Registered through the tier plan, not through master intake.
@@ -158,7 +158,7 @@ export interface AssetLineageDeclaration {
   readonly nativeDetail: NativeDetailDeclaration;
   /**
    * Rights status, carried through from the manifest vocabulary. Unknown stays
-   * unknown; visibility is never evidence of a license.
+   * unknown; visibility is never evidence of a licence.
    */
   readonly rightsStatus?: "public-domain" | "licensed" | "owned" | "unknown";
   readonly approvedBy?: string;
@@ -192,6 +192,8 @@ export interface EnvironmentMasterCandidate {
   /** Repository-relative POSIX path. */
   readonly path: string;
   readonly targetClass: AssetTargetClass;
+  /** Explicit display admission; omission preserves the print-master contract. */
+  readonly resolutionProfile?: "print-master" | "native-display";
   readonly lineage: AssetLineageDeclaration;
   /** Family this plate is intended to serve, when already decided. */
   readonly familyId?: string;
@@ -203,12 +205,16 @@ export interface EnvironmentMasterCandidate {
 
 /**
  * - `production` — may become a plate and a runtime tier ladder.
- * - `reference` — kept and cataloged, never shipped as a plate.
+ * - `reference` — kept and catalogued, never shipped as a plate.
  * - `reject` — not admissible; the reasons say why.
  */
 export type IntakeDisposition = "production" | "reference" | "reject";
 
 export type IntakeFindingCode =
+  | "resolution-profile-invalid"
+  | "display-width-below-minimum"
+  | "display-requires-native-detail"
+  | "later-high-resolution-pass"
   | "lineage-class-unknown"
   | "derivative-without-parent"
   | "upscale-without-declared-detail"
@@ -252,6 +258,8 @@ export interface EnvironmentMasterIntakeRecord {
    * not vouch for it.
    */
   readonly nativeDetailWidth: number | null;
+  readonly resolutionProfile?: "print-master" | "native-display";
+  readonly highResolutionPassRequired?: boolean;
   readonly nativeDetailState: NativeDetailState;
   readonly derivationMethod: string | null;
   readonly sourceAssetId: string | null;
@@ -325,7 +333,7 @@ export function targetClassUsesEnvironmentMasterFloor(
 }
 
 /**
- * The whole intake judgment for one candidate, as a value.
+ * The whole intake judgement for one candidate, as a value.
  *
  * Nothing here reads a filename to decide anything that matters. Naming
  * conventions are a convenience for humans and a source of confident errors for
@@ -345,7 +353,7 @@ export function evaluateEnvironmentMasterIntake(
       finding(
         "lineage-class-unknown",
         "error",
-        `Lineage class '${lineage.lineageClass}' is not one this pipeline recognizes.`,
+        `Lineage class '${lineage.lineageClass}' is not one this pipeline recognises.`,
       ),
     );
   }
@@ -421,6 +429,9 @@ export function evaluateEnvironmentMasterIntake(
       hasAlphaChannel: null,
       hasVaryingAlpha: null,
       nativeDetailWidth: null,
+      ...(candidate.resolutionProfile
+        ? { resolutionProfile: candidate.resolutionProfile }
+        : {}),
       nativeDetailState: detail.state,
       derivationMethod: detail.derivationMethod ?? null,
       sourceAssetId: lineage.sourceAssetId ?? null,
@@ -448,9 +459,60 @@ export function evaluateEnvironmentMasterIntake(
   const nativeDetailWidth = effectiveNativeDetailWidth(detail, measured.width);
 
   // --- Size contract, applied to full-bleed plates only --------------------
+  const display = candidate.resolutionProfile === "native-display";
+  if (
+    candidate.resolutionProfile !== undefined &&
+    candidate.resolutionProfile !== "print-master" &&
+    !display
+  ) {
+    findings.push(
+      finding(
+        "resolution-profile-invalid",
+        "error",
+        "Unknown resolution profile.",
+      ),
+    );
+  }
+  if (display && candidate.targetClass !== "environment-plate") {
+    findings.push(
+      finding(
+        "resolution-profile-invalid",
+        "error",
+        "Native display admission is only for environment backgrounds.",
+      ),
+    );
+  }
+  if (display && detail.state !== "native") {
+    findings.push(
+      finding(
+        "display-requires-native-detail",
+        "error",
+        "Native display admission requires native pixels; an upscale cannot qualify.",
+      ),
+    );
+  }
   const ships = targetClassShips(candidate.targetClass);
   if (ships) {
-    if (targetClassUsesEnvironmentMasterFloor(candidate.targetClass)) {
+    if (display && candidate.targetClass === "environment-plate") {
+      if (measured.width < 1_600) {
+        findings.push(
+          finding(
+            "display-width-below-minimum",
+            "error",
+            `Native width ${measured.width}px is below the 1600px display minimum.`,
+          ),
+        );
+      }
+      if (measured.width < ENVIRONMENT_MASTER_MINIMUM_WIDTH) {
+        findings.push(
+          finding(
+            "later-high-resolution-pass",
+            "warning",
+            `Display admission only; a later high-resolution pass is required for the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px print-master minimum.`,
+          ),
+        );
+      }
+    } else if (targetClassUsesEnvironmentMasterFloor(candidate.targetClass)) {
       if (measured.width < ENVIRONMENT_MASTER_MINIMUM_WIDTH) {
         findings.push(
           finding(
@@ -496,7 +558,7 @@ export function evaluateEnvironmentMasterIntake(
       finding(
         "reference-only-cannot-ship",
         "note",
-        "Cataloged as reference. It informs authoring and is never painted as a plate.",
+        "Catalogued as reference. It informs authoring and is never painted as a plate.",
       ),
     );
   }
@@ -506,9 +568,6 @@ export function evaluateEnvironmentMasterIntake(
       finding(
         "rights-status-unknown",
         "warning",
-        // Committed intake reports under art/intake/ quote this message byte for
-        // byte; change it only together with regenerating them.
-        // british-spelling-ok: kept as those reports quote it.
         "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
       ),
     );
@@ -545,6 +604,15 @@ export function evaluateEnvironmentMasterIntake(
     hasAlphaChannel: measured.hasAlphaChannel,
     hasVaryingAlpha: measured.hasVaryingAlpha,
     nativeDetailWidth,
+    ...(candidate.resolutionProfile
+      ? {
+          resolutionProfile: candidate.resolutionProfile,
+          highResolutionPassRequired:
+            candidate.resolutionProfile === "native-display" &&
+            measured !== null &&
+            measured.width < ENVIRONMENT_MASTER_MINIMUM_WIDTH,
+        }
+      : {}),
     nativeDetailState: detail.state,
     derivationMethod: detail.derivationMethod ?? null,
     sourceAssetId: lineage.sourceAssetId ?? null,

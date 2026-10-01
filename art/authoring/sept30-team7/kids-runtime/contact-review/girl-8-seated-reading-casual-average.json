@@ -1,0 +1,25 @@
+{
+  "schema": "ocd-child-contact-review/v1",
+  "id": "girl-8-seated-reading-casual-average",
+  "source": "art/authoring/sept30-team7/kids-runtime/girl-8-seated-reading-casual-average.png",
+  "sourceSha256": "39a9e334c6109582f3fb0e124d933a785abe437a8365df4be17dd51cef8d85d8",
+  "width": 496,
+  "height": 1024,
+  "coordinates": "Native pixel centers; origin upper left, x right, y down.",
+  "observation": "Front-facing seated figure; outer lower thigh contours visible, but chair surface and pelvis contact are hidden.",
+  "estimatedContactBand": {
+    "xMin": 115,
+    "xMax": 401,
+    "yMin": 660,
+    "yMax": 675,
+    "normalizedY": [
+      0.64453125,
+      0.6591796875
+    ],
+    "status": "visual candidate only; not a measured chair plane"
+  },
+  "measuredSoleRow": 980,
+  "seatRow": null,
+  "runtimeAccepted": false,
+  "requiredReview": "Overlay completed child composite on actual chair; verify pelvis and both soles before accepting seatRow. Do not transfer this estimate to other builds/outfits."
+}
