@@ -1,6 +1,14 @@
 # Newspapers stop advancing court cases
 
-The newspaper's weekly sweep no longer advances prosecutions or clemency petitions. Existing court due items retain that work. Controlled fixtures check a newspaper-only boundary and a court-only boundary for the same saved case or petition. Load recovery remains a separate gap: the recovery function exists, but the checked main has no production caller.
+The newspaper's weekly sweep no longer advances prosecutions or clemency petitions. Existing court due items retain that work. Controlled fixtures check a newspaper-only boundary and a court-only boundary for the same saved case or petition. The admitted Audit load/opening callers now invoke the existing recovery writer on the actual played boundary, preserving observer and retired saves. The original missing-caller evidence below remains historical.
+
+## Acceptance and observed outcomes
+
+MERGED: none of this renewal; #1574 remains a draft for exact-source CTO review.
+
+WHAT EMERGED: DECIDED — Nicholas Guzman’s actual saved sentencing judge recorded “They had been found at fault for the same thing before. The offense was violent.” HARDWIRED — the ordinary 15-month term remains the labeled UNRESEARCHED sentence rule in prosecution.ts; A103 is not completed here. Recovery preserved his original referral and charge, saved today’s judgment and sentence, and made repeat/SaveContinue idempotent. Observer and retired saves stayed unchanged. This was an authored historical-date stale fixture, not a naturally stranded play case.
+
+VITAL STATISTICS: the final current-main composition passed all 13 cases in 228.38 seconds. Eight strict roots loaded 1,558 files with zero diagnostics. Lint, formatting, whitespace, zero-dice and the five A10 source scan checks passed. Release checking has the same unchanged-main prose failure documented below. No browser, full suite, year run, or all-56 watched proof ran.
 
 ## 1. Why-chain
 
@@ -24,7 +32,7 @@ The weekly sweep still runs its existing news, disaster-reaction, spending, scru
 
 ## 5. Simulated, records, world pieces, checks
 
-SIMULATED: existing court actors and petition decisions retain their existing inputs and choices. RECORDS: canonical stage and petition due items retain the actual subject, saved activity, and date. WORLD PIECES: both court registries are composed on checked main. CHECKS: newspaper-only delivery leaves justice records unchanged; court delivery matches the existing prosecution writer and preserves repeat/reload behavior. Missing load recovery is reported rather than replaced with polling or a guessed retry.
+SIMULATED: existing court actors and petition decisions retain their existing inputs and choices. RECORDS: canonical stage and petition due items retain the actual subject, saved activity, and date. WORLD PIECES: both court registries are composed on checked main. CHECKS: newspaper-only delivery leaves justice records unchanged; court delivery matches the existing prosecution writer and preserves repeat/reload behavior. Recovery runs at the actual played load/opening boundary; no polling or guessed retry is added.
 
 ## 6. Proof run
 
@@ -40,6 +48,10 @@ The prosecution fixture's saved referral for George Vance in Iowa is due on Marc
 
 The additive production/test commit is `974b3d4801a383ba64c6eedaff3f890d1d5667a2`, based on main `2e78c9c155e6dcfbf400f21cad56266c2dcfc97b`. The A102 branch and both untracked research files remain preserved. No shared composer, court schema, clock, law map, or other team's writer is edited.
 
-Audit owns the missing opening/load recovery connection. A103 follows: its researched first-offense ranges still need an admitted grade/applicability and numeric judge-choice contract before the existing sentence writer can consume them safely. A100 follows that row.
+Audit released its exact five-file load/opening connection at c22464d3652180419358c1489b5518b211c8352b for Team9 composition. The new tested composition is 9d45c506275381c7fbdd419f9375debb40c638b7 on fetched main 16d1176f9cb09074e97a008613d47e1d133e00c8; the five payload blobs match Audit exactly. CTO order is A10, then A100, then A103. A100 remains preserved at #1598/8643ef865549abec063ef56fd0d3bb3fb3da153f. A103 still needs the admitted applicability record and numeric judge-choice contract.
 
 Scoped TypeScript checked 995 files with 0 diagnostics. Changed-file lint, formatting, report check, diff check, and zero-dice passed. The release check fails on unchanged main declaration `ci-changed-tests-only.md` for the word “merge”; candidate and main both have blob `d6c9921a82b800d9c0b27d0a9da55c2feb676ff8`. The main-to-main comparison reproduces that failure. No unrelated declaration was changed.
+
+## Current composition receipt
+
+The original ten due-boundary cases and Audit’s three load/opening cases passed together at 9d45c506275381c7fbdd419f9375debb40c638b7 in 228.38 seconds. Assertions and 30-second limits remain unchanged. Raw tests, source blobs, the initial precollection Git EPERM failure, corrected run, strict types and audit scan are preserved in a10-recovery-composed-proof/. The five released Audit payload blobs match c224 exactly. A10 source scan reports 5/5 rules satisfied; this is not whole-game acceptance. Next is exact-source CTO review and the preserved A100 dependency composition. A103 remains blocked on its actual-record and numeric-choice contracts.
