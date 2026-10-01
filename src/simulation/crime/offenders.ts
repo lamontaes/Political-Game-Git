@@ -77,8 +77,10 @@ export const UNRESEARCHED_OFFENDERS = {
 const W = UNRESEARCHED_OFFENDERS.weight;
 
 /**
- * ESTIMATED FROM AVERAGE: how a recorded high-school diploma bears on
- * offending.
+ * PLACEHOLDER size: how a recorded high-school diploma bears on offending.
+ * The direction and its being the same for everybody come from the study
+ * below; the size of the step does not, because the study measures
+ * incarceration in percentage points, not a weight beside these others.
  *
  * Source: Lance Lochner and Enrico Moretti, "The Effect of Education on
  * Crime: Evidence from Prison Inmates, Arrests, and Self-Reports," American
@@ -89,8 +91,8 @@ const W = UNRESEARCHED_OFFENDERS.weight;
  * game weighs nobody by race (the split the study reports is filed as a
  * research note, `does-a-diploma-change-who-offends`).
  *
- * The gap between a graduate and someone who left school without one is
- * `gap` points of offender weight, the slightest size the weights above use,
+ * The gap between a graduate and someone who left school without one is a
+ * PLACEHOLDER `gap` of one point, the slightest size the weights above use,
  * split evenly either side of the blanket weights: a graduate half a point
  * below, a dropout half a point above. A resident whose schooling is not on
  * record keeps the blanket weights: no change, never a guess. Centering on
@@ -98,8 +100,8 @@ const W = UNRESEARCHED_OFFENDERS.weight;
  * Census Bureau, Educational Attainment in the United States: 2022) waits on
  * that figure being read from place data rather than written here.
  */
-export const DIPLOMA_OFFENDING_ESTIMATE = {
-  provenance: "estimated-from-average",
+export const UNRESEARCHED_DIPLOMA_OFFENDING = {
+  provenance: "unresearched-blanket-rule",
   source:
     "Lochner and Moretti 2004, American Economic Review 94(1), NBER working paper 8605",
   gap: 1,
@@ -170,7 +172,7 @@ export function recordedDiplomas(
  * weights, a dropout above them, nobody without a record moved.
  */
 export function diplomaWeight(diploma: RecordedDiploma): number {
-  const { gap } = DIPLOMA_OFFENDING_ESTIMATE;
+  const { gap } = UNRESEARCHED_DIPLOMA_OFFENDING;
   if (diploma === "graduated") return -gap / 2;
   if (diploma === "left-without") return gap / 2;
   return 0;
