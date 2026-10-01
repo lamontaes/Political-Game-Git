@@ -43,7 +43,6 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
     const small = smallWorld({
       place: "US-LA",
       seed: "team9-a25-boolean-act",
-      date: "2026-08-01",
     });
     const proposition = Object.values(
       small.world.policyCatalog.propositions,
@@ -60,37 +59,49 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
       jurisdictionId: small.stateJurisdictionId,
       propositionIds: [proposition.id],
       propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
-      introducedAt: makeIsoDate("2026-01-05"),
-    } as LegislativeMeasureRecord;
+      rulePackId: "fixture",
+      designation: "HB fixture",
+      shortTitle: "Authored Boolean reader fixture",
+      summary: "No numeric age provision supplied.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+      sponsorPersonId: null,
+      sourceDocumentKey: null,
+      policyAlternativeIds: [],
+      introducedAt: makeIsoDate("2026-01-01"),
+    } satisfies LegislativeMeasureRecord;
     const enactment = {
       id: "enactment_a25_boolean_fixture" as EntityId,
       stableKey: "fixture:a25:boolean:enacted",
       sequence: 2,
       measureId,
-      resolvedAt: makeIsoDate("2026-02-01"),
+      resolvedAt: makeIsoDate("2026-01-02"),
       outcome: "enacted",
-      effectiveAt: makeIsoDate("2026-07-01"),
-    } as LegislativeEnactmentRecord;
+      actDesignation: null,
+      outcomeEventId: "event_a25_authored_enactment" as EntityId,
+      effectiveAt: makeIsoDate("2026-01-04"),
+    } satisfies LegislativeEnactmentRecord;
     // Authored records isolate a reader boundary; they are not canonical enactment proof.
     const world = {
       ...small.world,
       history: {
         ...small.world.history,
         legislativeMeasures: [
-          ...small.world.history.legislativeMeasures,
+          ...(small.world.history.legislativeMeasures ?? []),
           measure,
         ],
         legislativeEnactments: [
-          ...small.world.history.legislativeEnactments,
+          ...(small.world.history.legislativeEnactments ?? []),
           enactment,
         ],
       },
     };
     expect(
-      adultCourtAgeAt(world, small.jurisdictionId, makeIsoDate("2026-06-30")),
+      adultCourtAgeAt(world, small.jurisdictionId, makeIsoDate("2026-01-03")),
     ).toBe(17);
     expect(
-      adultCourtAgeAt(world, small.jurisdictionId, makeIsoDate("2026-07-01")),
+      adultCourtAgeAt(world, small.jurisdictionId, makeIsoDate("2026-01-04")),
     ).toBeNull();
   });
   it.each([
