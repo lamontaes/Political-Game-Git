@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/simulation/county-election-calendar.test.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/nationwide-world/county-election-calendar.ts",
+    "exitCode": 0,
+    "output": ""
+  }
+]

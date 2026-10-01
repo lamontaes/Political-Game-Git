@@ -60,4 +60,16 @@ describe("sourced county dates remain distinct from municipal defaults", () => {
         "unknown",
       );
   });
+  it("does not let a returned source list mutate the recorded calendar profile", () => {
+    const first = nextCountyElection(deSoto, makeIsoDate("2026-01-01"));
+    expect(first.status).toBe("read");
+    if (first.status !== "read") throw new Error("Published calendar missing");
+    const original = [...first.dates.sourceUrls];
+    (first.dates.sourceUrls as string[]).push("https://invalid.example");
+    const again = nextCountyElection(deSoto, makeIsoDate("2026-01-01"));
+    expect(again).toMatchObject({
+      status: "read",
+      dates: { sourceUrls: original },
+    });
+  });
 });
