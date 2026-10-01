@@ -3,7 +3,9 @@ import { describe, expect, it } from "vitest";
 // World first: on main, entering the module graph at new-game reaches the
 // school stage handlers before their key is set (the lazy registries fix is
 // pending); loading world first is the order the game itself uses.
-import { assertWorldIntegrity } from "./world";
+import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import { composeWorldTimeHandlers } from "./campaigns";
+import { resolveFutureDueItemsThrough } from "./future-transitions";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,
@@ -34,8 +36,15 @@ import {
   schoolGradeOn,
   schoolStageForGrade,
 } from "./school-calendar";
-import { attendingSchool, startSchoolAfterMove } from "./school-moves";
-import type { EntityId, World } from "./types";
+import {
+  attendingSchool,
+  leaveSchoolOnMove,
+  startSchoolAfterMove,
+} from "./school-moves";
+import { onCalendar } from "./school-calendar";
+import { recordFamilyAddition } from "./people-family";
+import { currentSchooling } from "./school-stages";
+import type { EntityId, IsoDate, World } from "./types";
 
 /** The place of all 56 this seed draws, with a locality to start in. */
 function drawPlace(): { seed: string; usps: string; placeKey: string } {
@@ -223,4 +232,74 @@ describe(`LIVES step 1c: a moved child starts school in the new place, in ${labe
     expect(depth).toBeLessThanOrEqual(1);
     expect(schoolYearDepth(start.world, start.playerId)).toBe(0);
   });
+  it("a fifth grader who moves in reaches middle school on the calendar's day, running due items only", () => {
+    // A fifth grader arriving in the town: the move event, the old school
+    // left, and the opener's place at the town's school (its records hold
+    // schools for every stage).
+    // A fifth grader of the player's, born on record in spring 2015 (grade
+    // 5 in the 2025-2026 school year the opening falls in), arriving from a
+    // place whose school the World never recorded.
+    const born = recordFamilyAddition(start.world, {
+      kind: "birth",
+      stableKey: "step1c-fifth-grader",
+      occurredAt: "2015-03-01",
+      parentPersonIds: [start.playerId],
+    });
+    const fifth: EntityId | undefined =
+      schoolGradeOn(born.world, born.childPersonId, born.world.currentDate) ===
+      5
+        ? born.childPersonId
+        : undefined;
+    expect(fifth, `a fifth grader in ${label}`).toBeDefined();
+    let world = recordWorldEvent(born.world, {
+      stableKey: "step1c-fifth-grader-arrives",
+      type: "migration.moved",
+      occurredAt: born.world.currentDate,
+      recordedAt: born.world.currentDate,
+      jurisdictionId: town,
+      involvedEntityIds: [fifth!],
+      participants: [{ personId: fifth!, role: "agency:mover", detail: null }],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: [],
+      summary: "A fifth grader arrives in town.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const eventId = world.history.events.at(-1)!.id;
+    world = leaveSchoolOnMove(world, fifth!, eventId, world.currentDate);
+    world = startSchoolAfterMove(
+      world,
+      fifth!,
+      eventId,
+      town,
+      world.currentDate,
+    );
+    expect(currentSchooling(world, fifth!)?.status).toBe("active");
+    const year = Number(world.currentDate.slice(0, 4));
+    const stageEnds = onCalendar(year, "ends") as IsoDate;
+    const middleStarts = onCalendar(year, "starts") as IsoDate;
+    const handlers = composeWorldTimeHandlers();
+    // Through the last day of fifth grade: elementary is completed and a
+    // middle-school place waits for the fall.
+    const ended = resolveFutureDueItemsThrough(world, stageEnds, handlers);
+    const waiting = currentSchooling(ended, fifth!);
+    expect(waiting?.status).toBe("expected");
+    expect(waiting?.enrollment.startedAt).toBe(middleStarts);
+    expect(["schooling:middle", "schooling:general"]).toContain(
+      waiting?.enrollment.programKind,
+    );
+    // Through the first day of sixth grade: attending middle school.
+    const started = resolveFutureDueItemsThrough(ended, middleStarts, handlers);
+    const attending = currentSchooling(started, fifth!);
+    expect(attending?.status).toBe("active");
+    expect(schoolGradeOn(started, fifth!, middleStarts)).toBe(6);
+    assertWorldIntegrity(started);
+  }, 60_000);
 });

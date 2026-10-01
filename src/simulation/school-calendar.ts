@@ -10,6 +10,13 @@ import type { EducationEnrollment, EntityId, IsoDate, World } from "./types";
  * A leaf: dates only, so the migration move can read the calendar without
  * loading the school stage handlers.
  */
+/**
+ * The transition every school stage change runs under. In the leaf so the
+ * handler registry (`life-paths2.ts`) reads it without entering the stage
+ * handlers' module first.
+ */
+export const SCHOOL_STAGE_TRANSITION_KEY = "schooling:stage-change" as const;
+
 export const SCHOOL_STAGE_CALENDAR = {
   schoolAgeCutoff: "09-01",
   /** The first Monday on or after this day. */

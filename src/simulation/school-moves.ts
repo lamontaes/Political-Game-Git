@@ -2,25 +2,19 @@ import {
   appendChildhoodEntry,
   childhoodRecordEntries,
 } from "./childhood-record";
-import { recordsByStringField } from "./history-index";
-import {
-  createEducationEnrollment,
-  recordEducationEnrollmentState,
-} from "./life";
+import { recordEducationEnrollmentState } from "./life";
 import {
   educationEnrollmentHistoryForPerson,
   educationEnrollmentStateAt,
-  organizationProfileAt,
 } from "./life-queries";
 import {
   onCalendar,
-  SCHOOL_STAGE_CONTEXT,
-  SCHOOL_STAGE_PROGRAM,
   schoolGradeOn,
   schoolStageForGrade,
   schoolTermOn,
 } from "./school-calendar";
-import type { EducationEnrollment, EntityId, IsoDate, World } from "./types";
+import { enrollClassInStage, recordedSchoolFor } from "./school-stages";
+import type { EntityId, IsoDate, World } from "./types";
 
 /** Whether a person holds a grade-school place today, attending or waiting. */
 export function holdsSchoolPlace(world: World, personId: EntityId): boolean {
@@ -29,64 +23,6 @@ export function holdsSchoolPlace(world: World, personId: EntityId): boolean {
     const status = educationEnrollmentStateAt(world, row.id)?.status;
     return status === "active" || status === "expected";
   });
-}
-
-// Organizations by the place any of their profiles names, built once per
-// profile list (append-only, so a new list means a new index).
-const BY_PLACE = new WeakMap<
-  World["history"]["organizationProfiles"],
-  Map<EntityId, Set<EntityId>>
->();
-
-function organizationsByPlace(world: World): Map<EntityId, Set<EntityId>> {
-  const profiles = world.history.organizationProfiles;
-  let index = BY_PLACE.get(profiles);
-  if (!index) {
-    index = new Map();
-    for (const profile of profiles) {
-      if (!profile.locationJurisdictionId) continue;
-      let set = index.get(profile.locationJurisdictionId);
-      if (!set) index.set(profile.locationJurisdictionId, (set = new Set()));
-      set.add(profile.organizationId);
-    }
-    BY_PLACE.set(profiles, index);
-  }
-  return index;
-}
-
-/**
- * The schools recorded in a place that teach a program: an organization
- * located there whose own pupils were enrolled in it. A building nobody has
- * attended teaches no grade the World knows, so it is not counted.
- */
-function schoolsTeaching(
-  world: World,
-  jurisdictionId: EntityId,
-  program: EducationEnrollment["programKind"],
-): readonly { id: EntityId; pupils: number }[] {
-  const organizationIds =
-    organizationsByPlace(world).get(jurisdictionId) ?? new Set<EntityId>();
-  const schools: { id: EntityId; pupils: number }[] = [];
-  for (const id of organizationIds) {
-    const profile = organizationProfileAt(world, id);
-    if (
-      !profile ||
-      profile.closed ||
-      profile.locationJurisdictionId !== jurisdictionId
-    )
-      continue;
-    const taught = recordsByStringField(
-      world.history.educationEnrollments,
-      "organizationId",
-      id,
-    ).filter((row) => row.programKind === program);
-    if (taught.length === 0) continue;
-    const pupils = taught.filter(
-      (row) => educationEnrollmentStateAt(world, row.id)?.status === "active",
-    ).length;
-    schools.push({ id, pupils });
-  }
-  return schools;
 }
 
 /**
@@ -117,17 +53,7 @@ export function startSchoolAfterMove(
   const grade = schoolGradeOn(world, personId, startsAt);
   if (grade === null) return world;
   const stage = schoolStageForGrade(grade);
-  const choices = [
-    ...schoolsTeaching(
-      world,
-      toJurisdictionId,
-      SCHOOL_STAGE_PROGRAM[stage],
-    ).map((school) => ({ ...school, program: SCHOOL_STAGE_PROGRAM[stage] })),
-    ...schoolsTeaching(world, toJurisdictionId, "schooling:general").map(
-      (school) => ({ ...school, program: "schooling:general" as const }),
-    ),
-  ].sort((a, b) => b.pupils - a.pupils || a.id.localeCompare(b.id));
-  const school = choices[0];
+  const school = recordedSchoolFor(world, toJurisdictionId, stage);
   if (!school)
     return appendChildhoodEntry(world, {
       kind: "no-school-on-record",
@@ -138,15 +64,18 @@ export function startSchoolAfterMove(
       toJurisdictionId,
       grade,
     });
-  return createEducationEnrollment(world, {
-    stableKey: `${moveEventId}:school:${personId}`,
-    personId,
+  return enrollClassInStage(world, {
+    schoolKey: `${moveEventId}:school:${personId}`,
+    anchorPersonId: personId,
+    pupils: [{ stableKey: `${moveEventId}:school:${personId}`, personId }],
     organizationId: school.id,
+    stage,
+    programKind: school.programKind,
     startedAt: startsAt,
-    initialStatus: inSession ? "active" : "expected",
-    programKind: school.program,
-    contextKind: SCHOOL_STAGE_CONTEXT[stage],
+    status: inSession ? "active" : "expected",
     provenance: { kind: "simulated-event", eventId: moveEventId },
+    jurisdictionId: toJurisdictionId,
+    scheduleProvenance: { kind: "simulated", sourceEntityIds: [personId] },
   });
 }
 
