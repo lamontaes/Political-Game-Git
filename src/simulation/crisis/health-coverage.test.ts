@@ -243,6 +243,11 @@ describe("coverage consequence law stamps", () => {
       expect(JSON.stringify(world)).toBe(before);
       const first = healthCoverageRecords(covered).at(-1)!;
       expect(first.covered).toBe(true);
+      expect(first.hazardMultiplierMicros).toBe(MULTIPLIER_ONE);
+      expect(first.hazardFrom).toBe(first.effectiveAt);
+      expect(first.hazardBasis).toContain(
+        "population mortality evidence is calibration only",
+      );
       expect(first.lawEffectStamps).toHaveLength(1);
       const stamp = first.lawEffectStamps![0]!;
       expect(isLawEffectStamp(stamp)).toBe(true);
@@ -335,7 +340,7 @@ describe("coverage consequence law stamps", () => {
 });
 
 describe("Medicaid expansion coverage reaches named people", () => {
-  it("counts a covered year off a covered 55-to-64-year-old's hazard, and only while covered and in that age", () => {
+  it("keeps the population mortality estimate out of an individual coverage hazard", () => {
     const record = {
       covered: true,
       effectiveAt: makeIsoDate("2026-04-01"),
@@ -352,13 +357,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
     // Turns 55 on 1/1/2027.
     expect(
       coverageHazardIntervals(makeIsoDate("1972-01-01"), [record, lost]),
-    ).toEqual([
-      {
-        start: "2027-01-01",
-        end: "2028-01-01",
-        micros: MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
-      },
-    ]);
+    ).toEqual([]);
     expect(MEDICAID_EXPANSION_RULES.mortality.multiplierMicros).toBe(906_000);
     // The HHS guideline, and a state's own where it has one.
     const day = makeIsoDate("2026-06-01");
@@ -391,8 +390,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
         expect(row.stateKey).toBe(stateKey);
       }
 
-      // Death risk: a covered 55-to-64-year-old's hazard carries the
-      // multiplier, and their crossing day never comes sooner for it.
+      // Legal eligibility alone cannot change a person's death-risk course.
       const older = covered.filter((row) => {
         const age = ageOnDate(
           world.people[row.personId]!.birthDate,
@@ -418,7 +416,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
               change.micros ===
               MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
           ),
-        ).toBe(true);
+        ).toBe(false);
         const withCoverage = mortalityCrossingDay(
           world,
           row.personId,
@@ -431,8 +429,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
           world.currentDate,
           horizon,
         );
-        if (uncovered !== null)
-          expect(withCoverage === null || withCoverage >= uncovered).toBe(true);
+        expect(withCoverage).toBe(uncovered);
         if (uncovered !== null && withCoverage !== uncovered) later += 1;
       }
 
@@ -452,8 +449,8 @@ describe("Medicaid expansion coverage reaches named people", () => {
         );
       expect(lostToHours.length).toBeGreaterThan(0);
 
-      // A repeal enacted in play ends everyone's coverage at the next pass,
-      // and with it the lower hazard.
+      // A repeal enacted in play ends everyone's legal coverage at the next pass.
+      // No person-level health mechanism is inferred from this legal record.
       const repealAt = addDays(world.currentDate, 30);
       const passAt = addDays(world.currentDate, 60);
       world = withStateLaw(world, stateKey, "no", repealAt);
@@ -479,10 +476,10 @@ describe("Medicaid expansion coverage reaches named people", () => {
       expect(ended.filter((row) => !row.covered).length).toBe(alive.length);
       expect(ended.every((row) => !row.covered)).toBe(true);
       for (const row of older) {
-        // The lower hazard ends at the repeal's pass, or sooner at 65.
-        const last = hazardMultipliersOf(repealed, row.personId).at(-1)!;
-        expect(last.micros).toBe(MULTIPLIER_ONE);
-        expect(last.effectiveAt <= passAt).toBe(true);
+        // Repeal changes the legal record, not any independent clinical hazard.
+        expect(hazardMultipliersOf(repealed, row.personId)).toEqual(
+          hazardMultipliersOf(without, row.personId),
+        );
       }
 
       write({

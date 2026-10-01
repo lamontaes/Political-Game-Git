@@ -1,26 +1,27 @@
+import type { LawConsequenceKind } from "../law-consequence-types";
 /**
- * Who holds Medicaid expansion coverage, person by person, and what it does to
- * their risk of dying.
+ * Medicaid expansion legal eligibility projected from recorded facts.
  *
- * Coverage is decided from the person, the law and the place, never a roll:
+ * Eligibility is decided from the person, the law and the place, never a roll:
  * an adult aged 19 to 64 whose household's recorded pay is at or under the
  * program's share of the poverty line, living in a state whose law in force
- * expands Medicaid, is covered. Where a work requirement is in force (a
+ * expands Medicaid, passes this eligibility projection. A saved application
+ * and enrollment remain separate. Where a work requirement is in force (a
  * state's own, or the federal one from its operative date), an adult who
- * works under the required hours a month, and is not exempt, loses it.
+ * works under the required hours a month, and is not exempt, fails the rule.
  *
- * On the 15th of each month a pass reads everyone once and records a change
- * of coverage (never a repeat), so a law enacted, repealed or amended in play
- * starts or ends coverage at the next pass, and so does a raise, a lost job
- * or a birthday. The pass re-plans the quarter's death day of anyone whose
- * hazard it changed (`health-coverage-pass.ts`).
+ * The existing 15th-of-month review still records eligibility changes without
+ * repeats. Its cadence is a compatibility scheduler, not a sourced benefit
+ * application or renewal deadline. Replacing that scheduler needs the actual
+ * saved application/enrollment activity; this boundary repair does not create
+ * that activity or change the scheduler.
  *
- * Death risk: Miller, Johnson and Wherry (2021, QJE) found expansion lowered
- * annual mortality 9.4% among low-income adults aged 55 to 64, measured over
- * everyone eligible, enrolled or not. The same share lowers each covered
- * person's all-cause hazard while they are 55 to 64, from a year after the
- * expansion took effect (the study's first-year lag, the outcome web's
- * `medicaid-expansion-to-mortality` row), and stops the day coverage ends.
+ * The existing coverage records describe the legal coverage projection, not
+ * an actual application or enrollment. Enrollment and a person-level health
+ * mechanism remain separate unsupported bindings. Miller, Johnson and Wherry
+ * (2021, QJE) is population evidence; its mortality estimate must not multiply
+ * an eligible person's all-cause hazard. The study metadata is retained for
+ * population calibration only.
  *
  * Game rules, labeled:
  * - Income is the household's recorded pay (Medicaid counts income, not
@@ -40,13 +41,7 @@
  */
 import links from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import programs from "../../../data/research/money/public-programs-2026.json" with { type: "json" };
-import {
-  addDays,
-  ageOnDate,
-  dateAtAge,
-  isoDateFromParts,
-  yearOf,
-} from "../dates";
+import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import type { LawInForce } from "../governing/law-in-force";
 import { readEligibilityLawsInForce } from "../enacted-eligibility";
@@ -133,6 +128,7 @@ export const MEDICAID_EXPANSION_RULES = {
   maximumAge: 64,
   requiredHoursPerMonth: MEDICAID.pl119_21.workRequirement.hoursPerMonth.value,
   childExemptionMaximumAge: 13,
+  // Population study metadata only; not a person-level simulation input.
   mortality: {
     multiplierMicros: Math.round((1 + MORTALITY_LINK.size) * MULTIPLIER_ONE),
     minimumAge: 55,
@@ -532,6 +528,7 @@ export function recordHealthCoverageForSubjects(
   causeId: EntityId,
   subjectIds: readonly EntityId[],
   sourceRecordIds: readonly EntityId[] = [],
+  effectKind?: LawConsequenceKind,
 ): World {
   const cutoff = {
     asOfDate: onDate,
@@ -542,7 +539,6 @@ export function recordHealthCoverageForSubjects(
     laws: new Map(),
   };
   const latest = latestCoverage(world);
-  const rules = MEDICAID_EXPANSION_RULES.mortality;
   let next = world;
   for (const personId of new Set(subjectIds)) {
     const person = world.people[personId];
@@ -567,15 +563,6 @@ export function recordHealthCoverageForSubjects(
       // recording, since the person would otherwise hold coverage.
       if (decision.reasonKey !== "lost:work-requirement") continue;
     }
-    const hazardFrom = decision.covered
-      ? [
-          onDate,
-          addDays(
-            decision.expansion!.operativeAt,
-            Math.round(rules.lagMonths * 30.44),
-          ),
-        ].sort()[1]!
-      : null;
     const state = decision.stateKey
       ? stateJurisdictionForKey(decision.stateKey)
       : null;
@@ -590,7 +577,7 @@ export function recordHealthCoverageForSubjects(
     const stamp =
       state && laws
         ? lawEffectStamp(laws[workRuleChangedCoverage ? 1 : 0], {
-            effectKind: "health-coverage",
+            effectKind: effectKind ?? "health-coverage",
             questionKey: workRuleChangedCoverage
               ? COVERAGE_QUESTION_KEYS.workRequirement
               : COVERAGE_QUESTION_KEYS.expansion,
@@ -621,11 +608,11 @@ export function recordHealthCoverageForSubjects(
       householdSize: decision.householdSize,
       monthlyIncomeMinor: decision.monthlyIncomeMinor,
       monthlyWorkHours: decision.monthlyWorkHours,
-      hazardMultiplierMicros: decision.covered
-        ? rules.multiplierMicros
-        : MULTIPLIER_ONE,
-      hazardFrom,
-      hazardBasis: decision.covered ? rules.basis : basisFor(decision),
+      hazardMultiplierMicros: MULTIPLIER_ONE,
+      // Preserve the existing neutral-record shape; this is not a study lag.
+      hazardFrom: decision.covered ? onDate : null,
+      hazardBasis:
+        "Legal eligibility alone supplies no person-level health mechanism; population mortality evidence is calibration only.",
       basis: basisFor(decision),
     });
   }
@@ -639,25 +626,17 @@ export interface HazardInterval {
 }
 
 /**
- * The spans a person's coverage lowers their hazard: from the record's
- * `hazardFrom` (and their 55th birthday) until coverage ends (or their 65th
- * birthday).
+ * Compatibility reader for saved coverage records. These records do not prove
+ * enrollment or a person-level health mechanism, including older study-based
+ * multiplier fields. Retain the records; do not apply a population estimate to
+ * an individual's hazard. Health episodes keep their independent consumer.
  */
 export function coverageHazardIntervals(
-  birthDate: IsoDate,
-  records: readonly HealthCoverageRecord[],
+  _birthDate: IsoDate,
+  _records: readonly HealthCoverageRecord[],
 ): readonly HazardInterval[] {
-  const rules = MEDICAID_EXPANSION_RULES.mortality;
-  const from = dateAtAge(birthDate, rules.minimumAge);
-  const until = dateAtAge(birthDate, rules.maximumAge + 1);
-  const intervals: HazardInterval[] = [];
-  records.forEach((record, index) => {
-    if (!record.covered || record.hazardFrom === null) return;
-    const ends = records[index + 1]?.effectiveAt ?? null;
-    const start = record.hazardFrom > from ? record.hazardFrom : from;
-    const end = ends === null || ends > until ? until : ends;
-    if (start < end)
-      intervals.push({ start, end, micros: record.hazardMultiplierMicros });
-  });
-  return intervals;
+  // Keep the legacy call signature while refusing its unsupported inference.
+  void _birthDate;
+  void _records;
+  return [];
 }
