@@ -8,8 +8,8 @@ activity.
 After: The owned reader accepts an explicit historical cutoff and uses the
 canonical organization and profile queries. Existing callers keep their
 current-query return shape. A companion evidence result identifies the
-actual saved records. The shared municipal identity validator remains
-unchanged and is an explicit incomplete boundary.
+actual saved records. Municipal identity validation reads the same cutoff,
+so a later municipal profile cannot block an earlier valid account read.
 
 ## 1. Why-chain
 
@@ -46,7 +46,8 @@ completed liabilities and historical payment records are untouched.
 3. Expose saved evidence without changing existing callers' return shape.
 4. Prove current-query compatibility, dated reads and canonical reload for
    all 56 jurisdictions.
-5. Preserve the shared-validator refusal until its exact seam is released.
+5. Use the same cutoff for saved municipal identity validation. Account
+   creation keeps current validation and does not acquire a historical cutoff.
 
 ## 5. Simulated, records, world pieces, checks
 
@@ -57,23 +58,23 @@ Missing accounts remain unsupported. An explicit local key stays local;
 there is no local-to-state alias.
 Checks: later same-day and later-date profiles do not replace earlier
 evidence. Default current reads preserve the old API. Frozen recipients and
-saved bytes remain unchanged. The shared validator's current-only local
-profile check can still block a historical municipal read.
+saved bytes remain unchanged. Both municipal identity and public-account
+ownership read the activity's cutoff.
 
 ## 6. Proof run
 
 The focused file covers all 56 jurisdiction accounts, plus date visibility,
-missing-account rejection, an actual compiled municipal key and an executed
-shared-validator boundary. The first run passed all 60 tests. The boundary
-test correctly records unsupported; it is not proof of full municipal
-historical parity. Current-query compatibility assertions and all 60 tests
-passed again after composition with main b0affa0328df4a5cdf5e64270a2a62c88dfa58a3.
-The executed source is 5886c5a4a352b99ccef1a28a0f6391d1754a90cf.
-Scoped TypeScript checked two roots and loaded 730 source files with zero
-owned diagnostics. Lint, formatting, report, release and diff checks passed.
-The dice gate reports zero new findings and five stale inherited allowlist
-entries. No full suite, browser, campaign, money
-draw, account migration or tax-family admission is claimed.
+missing-account rejection, an actual compiled local key and a saved municipal
+profile boundary. All 60 tests passed after the released seam and composition
+with main e4577f32762a496cd44717c819721be962c0eae6. The municipal case now proves
+historical success, current refusal and canonical reload without changing
+saved bytes. This is authored query proof, not nationwide settlement proof.
+The executed source is 235839379399d1a4df2e51dfca600144919dae8f.
+Scoped TypeScript checked three roots and loaded 732 source files with zero
+owned diagnostics. Lint, formatting and diff checks passed. The earlier dice
+gate reported zero new findings and five stale inherited allowlist entries;
+that gate was not rerun for the released seam. No full suite, browser,
+campaign, account migration or tax-family admission was run.
 
 ## 7. Worked example
 
@@ -85,15 +86,14 @@ classifies it as government. Neither query changes the organization ID or
 any saved recipient. The same-day cases also exclude a profile appended
 after the activity's exclusive sequence cutoff and survive canonical reload.
 
-## Exact shared seam still needed
+## Applied shared seam and remaining endpoints
 
-On the verified source, public-government-identity.ts lines 93 through 103
-find the municipal-government organization and select its profile using the
-current world date. Proposed signature: assertPublicGovernmentIdentity(world,
-identity, cutoff?: HistoricalCutoff). Only that profile query and its cutoff
-argument/import need release. Keep the compiled government checks and actual
-government key unchanged. Use organizationsAt and organizationProfileAt at
-the supplied cutoff.
-The owned candidate preserves the existing assertion and its refusal; it
-does not manufacture a historical World or bypass validation.
-M7 annual tax-family mapping remains held. This draft does not complete M5.
+CTO CHECK-IN18 released the corrected proposal at
+1e089b47d54a498ed2d1e821815bd4d07d253d1f. The applied seam adds the optional
+HistoricalCutoff argument and uses organizationsAt and organizationProfileAt
+only for saved municipal identity evidence. The historical account reader
+forwards its cutoff. The account writer keeps current validation. Compiled
+government checks and actual government keys are unchanged. The checked-in
+patch records the approved proposal; it has already been applied to source.
+M7 annual tax-family mapping remains held. This endpoint does not complete
+M5 settlement or establish spending authority.
