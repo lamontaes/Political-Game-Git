@@ -1,0 +1,287 @@
+{
+  "gap": "A79",
+  "scope": "Cause-backed governor term-limit filing preflight through actual shared state rollcall",
+  "runtimeSource": "8492fb4adc36f952188a6a622602444bbe103113",
+  "mainBase": "2b28298d55c8d5fd88af84b71a12196f31914aac",
+  "ownerAuthorization": "Coordinator explicitly confirmed CTO5:16 proposal-first ruling covers reviewTermLimit; rejected proposal keeps rollcall",
+  "native": {
+    "passed": 17,
+    "failed": 0,
+    "seconds": 52.58,
+    "governorCases": 6,
+    "statePolicyAndBodyGuardCases": 11
+  },
+  "strict": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "changedChecks": {
+    "lint": "PASS",
+    "format": "PASS",
+    "whitespace": "PASS",
+    "release": "PASS",
+    "zeroDice": {
+      "new": 0,
+      "inheritedStale": 5,
+      "exitCode": 1
+    },
+    "spelling": {
+      "existingFindings": 23,
+      "newBatchProseFindings": 0,
+      "exitCode": 1
+    }
+  },
+  "remainingDistinction": "General policy principlesAmendment/reviewBackground still uses private/scaled filing gate; no general-policy ordering approval inferred",
+  "unchangedPredecessors": {
+    "1529": "efd8b60eb1f5ee116dbe0a5fc87017a666dca100",
+    "1538": "6da7e1f69cab5fe380f3a4680269790656ef1e89"
+  },
+  "unchanged": [
+    "Cause profile and its disclosed placeholders",
+    "Cause terms",
+    "Applicability",
+    "Actual body/seat/tenure admission",
+    "Proposal thresholds",
+    "Existing consideration weights",
+    "Existing policy filing gate"
+  ],
+  "intendedDifference": "Old preflight would file zero proposals for the observed recorded cause; new route saves one genuine rejected proposal with151 actual House dispositions. No Senate vote after House rejection. No individual ballot/reason change claimed. Same-year repeat retains original proposal/actions.",
+  "notRun": [
+    "Full suite",
+    "Year-speed",
+    "Natural multiyear tenure",
+    "Statewide ratification",
+    "All56 populated worlds",
+    "General-policy preflight migration"
+  ],
+  "fixtureFailures": [
+    "Initial calendar accessor call omitted required onDate; native failed and strict2 errors",
+    "Supplied historical tenure initially referenced organization not yet formed; canonical writer refused it; fixture corrected to actual person-only reference, no integrity guard weakened"
+  ],
+  "observed": [
+    {
+      "receipt": "A79 state substrate",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "state": "US-OR",
+        "place": "Adair Village, Oregon",
+        "fullIdentityPool": 56,
+        "supportedGameProfileStatePool": 49,
+        "measureId": "constitutional-measure_9c99489d1d9b25ed",
+        "members": 90,
+        "bodies": [
+          {
+            "bodyKey": "house",
+            "members": 60,
+            "example": "Haley O'Brien"
+          },
+          {
+            "bodyKey": "senate",
+            "members": 30,
+            "example": "Andrew Rice"
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "A79 state shared-vote receipt",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "place": "Adair Village, Oregon",
+        "state": "US-OR",
+        "comparisons": 90,
+        "changedDirections": 0,
+        "yea": 2,
+        "examples": [
+          {
+            "name": "Haley O'Brien",
+            "ballot": "yea"
+          },
+          {
+            "name": "Patrick Jackson",
+            "ballot": "nay"
+          },
+          {
+            "name": "Andrew Rice",
+            "ballot": "yea"
+          },
+          {
+            "name": "Cassandra Copeland",
+            "ballot": "nay"
+          }
+        ],
+        "fixture": "Authored opposed principles on actual saved state legislators; not natural filing"
+      }
+    },
+    {
+      "receipt": "A79 intended chamber outcome correction",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "state": "US-OR",
+        "measureId": "constitutional-measure_9c99489d1d9b25ed",
+        "oldScaledWouldCarry": true,
+        "newPhase": "rejected",
+        "opposedBody": "senate",
+        "example": "Andrew Rice",
+        "exampleDisposition": "nay",
+        "fixture": "Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic"
+      }
+    },
+    {
+      "receipt": "A79 actual state policy caller",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "state": "US-OR",
+        "place": "Adair Village, Oregon",
+        "proposalId": "constitutional-measure_ee5912a25b77c788",
+        "phase": "ratification",
+        "voters": 90,
+        "fixture": "Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year"
+      }
+    },
+    {
+      "receipt": "A79 cause-backed governor filing",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "place": "Ansonia, Connecticut",
+        "state": "US-CT",
+        "cause": "the sitting governor has served 3 terms in a row",
+        "proposalId": "constitutional-measure_fe5463ba463c3517",
+        "phase": "rejected",
+        "oldWouldFile": false,
+        "actualVotes": 151,
+        "example": {
+          "name": "Jordan Murray",
+          "personId": "person_16b8603621962b70",
+          "ballot": "yea",
+          "reason": "member:other-party"
+        },
+        "fixture": "Supplied canonical prior tenure records; actual one-day review caller, not natural multiyear office service"
+      }
+    },
+    {
+      "receipt": "A79 governor parity",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "place": "Ansonia, Connecticut",
+        "state": "US-CT",
+        "fullIdentityPool": 56,
+        "admittedPool": 49,
+        "governorId": "person_30bde75d8912da85",
+        "compared": 374,
+        "directionChanges": 0,
+        "examples": [
+          {
+            "body": "house",
+            "seats": 151,
+            "yea": 98,
+            "cast": 151,
+            "example": "Jordan Murray",
+            "ballot": "nay",
+            "reason": "member:other-party",
+            "direction": "extend",
+            "oldProjectedYea": 99
+          },
+          {
+            "body": "senate",
+            "seats": 36,
+            "yea": 24,
+            "cast": 36,
+            "example": "Russell Sanchez",
+            "ballot": "nay",
+            "reason": "member:other-party",
+            "direction": "extend",
+            "oldProjectedYea": 23
+          },
+          {
+            "body": "house",
+            "seats": 151,
+            "yea": 53,
+            "cast": 151,
+            "example": "Jordan Murray",
+            "ballot": "yea",
+            "reason": "member:other-party",
+            "direction": "restore",
+            "oldProjectedYea": 52
+          },
+          {
+            "body": "senate",
+            "seats": 36,
+            "yea": 12,
+            "cast": 36,
+            "example": "Russell Sanchez",
+            "ballot": "yea",
+            "reason": "member:other-party",
+            "direction": "restore",
+            "oldProjectedYea": 13
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "A79 governor recorded",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "measureId": "constitutional-measure_65419a77520164dc",
+        "phase": "rejected",
+        "bodies": [
+          {
+            "body": "house",
+            "outcome": "failed",
+            "dispositions": 151
+          }
+        ]
+      }
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/team2-a79-term-filing-first.log",
+      "sha256": "ad1cd3a2a93eb0aeabe3c99501c48918393a591155b293ca1e7a30e37d1af091"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-types.log",
+      "sha256": "ec602052e018e13e5837047f4e16f6698b8ce1c85703241872ff70cf22a239b9"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-corrected.log",
+      "sha256": "5f63b29752054c148154ac089e22e25baef11260ea2e5a5103a5df734bdc9451"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-corrected-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-dated.log",
+      "sha256": "04a3242c48000bf763c59c37c6f9457ffca345d4a1596f774fd9aa89b84f9c47"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final.log",
+      "sha256": "c65ad877f67fafe7775a76eb86cae079c3a17190bdba5382cdbd8b1d30bdb334"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-release.log",
+      "sha256": "bc7557ebd485eb13436cdfdb4307c0914114e554a85ecc0159bee1641702ca11"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-zero.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-spelling.log",
+      "sha256": "056df64fe761e0dcc83c4225d4679f45d02b9089d73038dca65a988411b3a2b5"
+    }
+  ]
+}
