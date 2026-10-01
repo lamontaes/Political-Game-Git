@@ -2,6 +2,14 @@
 
 The latest transfers below supersede the historical checkpoints retained afterward.
 
+## Replacement teams and narrow releases, October 1 at 4:41 p.m. Eastern
+
+- Team 1 is now the owner-created replacement chat 01a0f92d-7edc-707a-b728-03688195800c, Making Laws, Sol 6.1 High. Its A77 and A97 published work and exact existing claims transfer intact. The old chat receives no new work. Assignment delivery succeeded; a working-source receipt is pending.
+- Team 4 is now the owner-created replacement chat 01a0f92d-d8e9-7630-bb41-ee43da95f009, Your Home, Sol 6.1 Medium. Its preserved A57 branch ends at b6502af37a86e875f38b6563966c7e6688559727. Claude J retains A54 purchase-price work. Assignment delivery succeeded; a working-source receipt is pending.
+- Team 3 owns ONLY the minimumWageSettingAt fallback hunk in src/simulation/minimum-wage.ts for A39/A40. Coordinator has no unpublished overlap and retains stateMinimumSettingAt, dated cutoffs and regional data/readers. Canonical federal law terms may supply an explicitly established no-higher-state-floor case; unknown regional or industry coverage must remain unknown. Audit owns the contract question; Team 3 builds.
+- Claude G owns the approved Ruling 28 recordStoryHeardExposure API/schema boundary. Team 8's overlapping reader is parked at 47db087ba5bc9d2f7cb129025b71d4870d84d023. Coordinator's #1616 starting-law identity changes remain protected. The prior Team 8 reader claim below is superseded.
+- Team 7 received Audit’s exact time-work.ts speech import/wrapper release from #1446 at 4be70ec5a246b3361096a47508d7bcdc147bf552. Preserve every enclosed consumer and its order, saved-noon, oath and clock hunks. Claude retains composer/starting registration; activation awaits that release. Team 7's draft #1665 is published at 35ef6ef855ef7dc53c9f0819454011dc7b24ac95; runtime and LOAD checks are NOT RUN.
+
 ## Parallel playable-slice transfers, CTO October 1 4:22 correction
 
 All slices build their existing Fable Part 5 and owned audit items in parallel toward at least 80 percent. This is a target, not a measured completion claim. Finish in-flight work only when it is on the slice path. Shared functions still have one writer.
