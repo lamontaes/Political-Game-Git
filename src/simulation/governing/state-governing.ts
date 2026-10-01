@@ -52,6 +52,7 @@ import {
   evaluateGovernorBill,
   ownPartyPassageVote,
 } from "./governor-bill-decision";
+import { advanceClemencyPetition } from "../justice/clemency";
 import { CLEMENCY_KIND_TAG } from "../justice/jail-terms";
 import {
   CLEMENCY_DENY,
@@ -1978,6 +1979,11 @@ function recordDecision(
     option ? "completed" : "cancelled",
   );
   const outcome = applyConsequence(next, office, matter, option, decision.id);
+  if (matter.family === "clemency" && option) {
+    const petitionId = tagValue(matter.openedEvent, "source-event:");
+    if (petitionId)
+      return advanceClemencyPetition(outcome, petitionId as EntityId);
+  }
   // The commitment writer may refuse when authority, cash plans, or the
   // availability window changed. A refused commitment is no decision.
   return matter.family === "program" && option && outcome === next
