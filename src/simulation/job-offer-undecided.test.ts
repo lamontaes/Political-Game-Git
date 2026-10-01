@@ -25,7 +25,7 @@ import {
 } from "./people-goal-pursuit-content";
 import { reviewPeopleGoals } from "./people-goal-review";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import type { EntityId, World } from "./types";
+import type { DecisionOutcomeKind, EntityId, World } from "./types";
 
 let offered: World;
 let worker: EntityId;
@@ -100,21 +100,26 @@ beforeAll(() => {
 describe("job offer without a selected answer", () => {
   it.each(["no-available-option", "selected", "undecided"] as const)(
     "leaves the offer unanswered through review, reload and repeat (%s)",
-    (outcomeKind) => {
+    (outcomeKind: DecisionOutcomeKind) => {
       const evaluate = decisionEngine.evaluateDecision;
       let calls = 0;
       const spy = vi
         .spyOn(decisionEngine, "evaluateDecision")
-        .mockImplementation((world, context) => {
-          const result = evaluate(world, context);
-          if (
-            context.decisionType !== "people.job-offer-answer" ||
-            context.actorPersonId !== worker
-          )
-            return result;
-          calls++;
-          return { ...result, outcomeKind, selectedOptionKey: null };
-        });
+        .mockImplementation(
+          (
+            world: World,
+            context: Parameters<typeof decisionEngine.evaluateDecision>[1],
+          ) => {
+            const result = evaluate(world, context);
+            if (
+              context.decisionType !== "people.job-offer-answer" ||
+              context.actorPersonId !== worker
+            )
+              return result;
+            calls++;
+            return { ...result, outcomeKind, selectedOptionKey: null };
+          },
+        );
       try {
         const before = applicationSteps(offered, applicationId);
         for (const world of [
