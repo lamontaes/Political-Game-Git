@@ -1,4 +1,4 @@
-import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
@@ -9,6 +9,12 @@ import {
   recordEducationEnrollmentState,
 } from "./life";
 import { residentNameForJurisdiction } from "./life-places";
+import {
+  kindergartenYear,
+  onCalendar,
+  SCHOOL_STAGE_CALENDAR,
+  schoolGradeOn,
+} from "./school-calendar";
 import {
   educationEnrollmentStateAt,
   organizationProfileAt,
@@ -64,20 +70,12 @@ export const SCHOOL_STAGES_V2 = "school-stages-v2" as const;
 export type SchoolStageVersion =
   typeof SCHOOL_STAGES_V1 | typeof SCHOOL_STAGES_V2;
 
-export const SCHOOL_STAGE_CALENDAR = {
-  schoolAgeCutoff: "09-01",
-  /** The first Monday on or after this day. */
-  termStarts: { month: 8, day: 24 },
-  /**
-   * A school year runs forty weeks, to the Friday of the last: about 180
-   * days of instruction and twenty of holidays and breaks.
-   */
-  termEnds: { weeksLong: 40 },
-  /** Years after kindergarten begins that each stage ends. */
-  endsAfterYears: { elementary: 6, middle: 9, high: 13 },
-  /** Years after kindergarten begins that each stage starts. */
-  startsAfterYears: { elementary: 0, middle: 6, high: 9 },
-} as const;
+export {
+  kindergartenYear,
+  SCHOOL_STAGE_CALENDAR,
+  schoolGradeOn,
+  schoolTermOn,
+} from "./school-calendar";
 
 export type SchoolStageKey = keyof typeof SCHOOL_STAGE_CALENDAR.endsAfterYears;
 
@@ -105,42 +103,6 @@ const PROVENANCE = {
   kind: "generated" as const,
   generatorKey: "school-stages-v1",
 };
-
-/** The fall a child starts kindergarten, which is also the class they are in. */
-export function kindergartenYear(birthDate: IsoDate): number {
-  const year = Number(birthDate.slice(0, 4));
-  return birthDate.slice(5) <= SCHOOL_STAGE_CALENDAR.schoolAgeCutoff
-    ? year + 5
-    : year + 6;
-}
-
-/**
- * The first day of the school year that starts in `year`: the first Monday on
- * or after August 24. Every child in a district shares it, so classmates start
- * and finish together; nothing is drawn per child or per school (A140).
- */
-function termStartsIn(year: number): IsoDate {
-  const { month, day } = SCHOOL_STAGE_CALENDAR.termStarts;
-  const earliest = makeIsoDate(
-    `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-  );
-  const weekday = new Date(`${earliest}T00:00:00Z`).getUTCDay();
-  return addDays(earliest, (8 - weekday) % 7);
-}
-
-/**
- * A date on the school calendar: the first day of the school year that
- * starts in `year`, or the last day of the one that ends in `year`, the
- * Friday of its fortieth week.
- */
-function onCalendar(year: number, which: "starts" | "ends"): IsoDate {
-  return which === "starts"
-    ? termStartsIn(year)
-    : addDays(
-        termStartsIn(year - 1),
-        SCHOOL_STAGE_CALENDAR.termEnds.weeksLong * 7 - 3,
-      );
-}
 
 /**
  * The day a stage's last school year ends for this child. A start that placed
@@ -276,29 +238,6 @@ function openSchooling(
       enrollment.programKind.startsWith("schooling:") &&
       educationEnrollmentStateAt(world, enrollment.id)?.status === status,
   );
-}
-
-/**
- * The grade the school calendar puts a child in on a date: 0 for
- * kindergarten, then 1 through 12, or null before kindergarten or after
- * senior year.
- *
- * The same calendar that moves children through school: kindergarten in the
- * fall after they are five by September 1. The summer counts as the grade
- * just finished, until this child's next school year starts.
- */
-export function schoolGradeOn(
-  world: World,
-  personId: EntityId,
-  date: IsoDate = world.currentDate,
-): number | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const year = Number(date.slice(0, 4));
-  const starts = onCalendar(year, "starts");
-  const schoolYear = date >= starts ? year : year - 1;
-  const grade = schoolYear - kindergartenYear(person.birthDate);
-  return grade >= 0 && grade <= 12 ? grade : null;
 }
 
 export interface CurrentSchooling {

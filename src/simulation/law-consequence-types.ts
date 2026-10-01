@@ -208,10 +208,28 @@ export interface ResolvedSavedRuleConsequence extends Omit<
 > {
   authority: ResolvedSavedHourlyPayConsequence["authority"];
 }
-export type ResolvedSavedAuthorityConsequence =
-  ResolvedSavedRuleConsequence | ResolvedStandingServiceConsequence;
+/** Actual adopted typed levy, without fabricating a catalog question. */
+export interface ResolvedTypedTaxConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: {
+    kind: "enacted-typed-tax-policy";
+    measureId: EntityId;
+    proposalId: EntityId;
+    policyId: EntityId;
+    enactmentId: EntityId;
+    levyProvisionId: EntityId;
+  };
+}
+export type ResolvedSavedLawConsequence =
+  | ResolvedStandingServiceConsequence
+  | ResolvedTypedTaxConsequence
+  | ResolvedSavedRuleConsequence;
 export type ResolvedAnyLawConsequence =
-  ResolvedLawConsequence | ResolvedSavedAuthorityConsequence;
+  ResolvedLawConsequence | ResolvedSavedLawConsequence;
+
+export type ResolvedSavedAuthorityConsequence = ResolvedSavedLawConsequence;
 
 export type LawConsequenceHandler = (
   world: World,
@@ -231,15 +249,12 @@ export interface LawConsequenceKindRegistration<
     row: LawConsequenceRow,
     context: LawConsequenceContext,
   ) => readonly ResolvedLawConsequence[];
-  resolveSavedRules?: Extract<
-    T,
-    ResolvedSavedAuthorityConsequence
-  > extends never
+  resolveSavedRules?: Extract<T, ResolvedSavedLawConsequence> extends never
     ? never
     : (
         world: World,
         context: LawConsequenceContext,
-      ) => readonly Extract<T, ResolvedSavedAuthorityConsequence>[];
+      ) => readonly Extract<T, ResolvedSavedLawConsequence>[];
   apply(world: World, resolved: T): World;
 }
 

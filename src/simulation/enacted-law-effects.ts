@@ -858,6 +858,20 @@ export function applyLawConsequences(
             `Consequence ${row.id}: unsupported saved-rule amount unit`,
           );
         if (input.effectiveAt > context.onDate) continue;
+        if (authority.kind === "enacted-typed-tax-policy") {
+          if (
+            row.kind !== "tax" ||
+            context.activity !== "assessment" ||
+            context.origin === "in-force-at-start" ||
+            context.standingAppropriationId ||
+            (context.governingLawId &&
+              authority.measureId !== context.governingLawId)
+          )
+            continue;
+          // The tax registration re-resolves the saved policy/base/enactment and compares the entire result before the common assessment writer runs.
+          next = registration.apply(next, input);
+          continue;
+        }
         if (authority.kind === "enacted-hourly-pay-rule") {
           if (
             context.origin === "in-force-at-start" ||
