@@ -25,3 +25,9 @@ LOUDON_SEAT_REVIEW_CANDIDATES is separate from countySeatCatalog. No production 
 ## Method
 
 The official two-page ballot was retrieved on October 1, 2026. Its 69,037 bytes have SHA-256 63284ff62d2e83ca8dbc3a93d32bee033dbdeced4c8e53749d7da067b1158b6d. Its page 1 text was inspected. Resolution SHA-256 remains 85dad2ed49cd9b7edc868e577f6208d4c5e770e5dcf5fd9fd6963bf00b3b3bee. The raw PDFs remain referenced in the source lane. Current-main composition and changed checks are recorded in the companion receipt; passing them establishes code behavior, not legal admission or CTO approval.
+
+## Current-main revalidation
+
+The unchanged county source candidate was composed over main 8a02acfa4548185e4f0b5f12a678bf6c822a9128 as 631ebe3ec2e72c00ce14c3b4ff7f53f2573063b8. Both focused test files passed all nine cases in 14.02 seconds. Twelve strict roots loaded 842 files with zero diagnostics. The pinned loader read Git objects and reused installed dependencies; this is controlled source proof. Shared source and the real index were preserved.
+
+The original receipt remains at its original heads. Dice and the full metadata gate were not rerun for this receipt update. Ordinary county filing, browser, full-suite, year and speed checks remain unrun. Catalog admission, home evidence and voter evidence remain open.

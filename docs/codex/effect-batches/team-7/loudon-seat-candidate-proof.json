@@ -68,5 +68,64 @@
     "speed"
   ],
   "approval": "CTO review pending; no merge or runtime admission",
-  "sharedPreserved": true
+  "sharedPreserved": true,
+  "currentMainRevalidation": {
+    "main": "8a02acfa4548185e4f0b5f12a678bf6c822a9128",
+    "source": "9d074654457303cc913c37a91464ac15a1d40e6e",
+    "composition": "631ebe3ec2e72c00ce14c3b4ff7f53f2573063b8",
+    "overlayPaths": [
+      "src/districts/county-seat-binding.test.ts",
+      "src/districts/county-seat-catalog.ts",
+      "src/districts/county-seat-types.ts",
+      "src/districts/loudon-seat-candidate.ts",
+      "src/districts/query.ts",
+      "src/districts/types.ts",
+      "src/simulation/candidacy.ts",
+      "src/simulation/county-residence-binding.test.ts",
+      "src/simulation/district-residence.ts",
+      "src/simulation/types.ts",
+      "src/simulation/world.ts"
+    ],
+    "runtime": {
+      "passed": 9,
+      "failed": 0,
+      "files": 2,
+      "exitCode": 0,
+      "receiptSha256": "645fb3be2521c603a80d4ebefd5b1758ee1ed555575d1e015ea1e5b2e49d40fe",
+      "durationSeconds": 14.02
+    },
+    "types": {
+      "head": "631ebe3ec2e72c00ce14c3b4ff7f53f2573063b8",
+      "roots": [
+        "src/districts/loudon-seat-candidate.ts",
+        "src/districts/county-seat-types.ts",
+        "src/districts/county-seat-catalog.ts",
+        "src/districts/county-seat-binding.test.ts",
+        "src/districts/types.ts",
+        "src/districts/query.ts",
+        "src/simulation/types.ts",
+        "src/simulation/district-residence.ts",
+        "src/simulation/world.ts",
+        "src/simulation/candidacy.ts",
+        "src/simulation/county-residence-binding.test.ts",
+        "src/presentation/campaign-projection.ts"
+      ],
+      "files": 842,
+      "diagnostics": 0,
+      "sourceMode": "exact committed Git objects; no dirty source reads"
+    },
+    "sourceMode": "exact Git-object composition; installed dependencies reused; shared dirty source not loaded",
+    "sharedPreserved": true,
+    "zeroDice": "not rerun; older result retained at its named heads",
+    "fullMetadataGate": "not rerun for receipt-only update",
+    "notRun": [
+      "ordinary-player county filing",
+      "browser",
+      "full suite",
+      "year",
+      "nationwide",
+      "speed"
+    ],
+    "admission": "unchanged: catalog0, missing home/voter refusal, CTO review pending"
+  }
 }
