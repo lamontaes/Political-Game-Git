@@ -31,7 +31,11 @@ export function attributePaycheckTaxLaws(
       activityId: liability.id,
       subjectIds: [source.payer.personId],
     });
-    for (const payment of recordsByStringField(world.history.statutoryTaxPayments ?? [], "liabilityId", liability.id)) {
+    for (const payment of recordsByStringField(
+      world.history.statutoryTaxPayments ?? [],
+      "liabilityId",
+      liability.id,
+    )) {
       paymentSources.add(payment.resourceOutcomeId);
     }
   }
