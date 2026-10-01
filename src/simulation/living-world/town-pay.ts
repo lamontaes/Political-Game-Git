@@ -5,6 +5,7 @@ import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
 import type { ResolvedLawPayConsequence } from "../law-consequence-types";
 import { createStableId } from "../ids";
+import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { paidOfficeOf, PAY_LAW_FIELD } from "../office-pay";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
@@ -1126,9 +1127,11 @@ export function applyLawPayConsequence(
       if (!enactment || enactment.sequence >= cutoff.historySequenceExclusive)
         refuse("pay.completed-shift.authority-at-earned-sequence");
     }
-    const floor = Math.round((resolved.amount.value * completed.minutes) / 60);
-    if (!Number.isSafeInteger(floor))
-      refuse("pay.completed-shift.amount-safe-integer");
+    const floor = assessedCompletedHourlyGrossMinor(
+      resolved.amount.value,
+      completed.minutes,
+      current!.amount.minorUnits,
+    );
     if (floor <= current!.amount.minorUnits) return world;
     const stableKey = `earned-law-pay:${flow!.id}:${completed.completion.id}:${current!.id}:${resolved.rowId}:${governing!.measureId}`;
     const id = createStableId(
