@@ -2,11 +2,11 @@
 
 Before: the meeting caller prepared council ballots and chose a separate floor writer.
 
-After: the shared driver reads the saved council members and calls the existing council decision engine. Five controlled council cases preserve each ballot, reason and tally. The meeting caller retains the existing passage handler. This is a partial build: town-profile work admission is still missing, and state-bill parity has not been run.
+After: the shared driver reads the saved council members and calls the existing council decision engine. Five controlled council cases preserved each ballot, reason and tally on the earlier composition. The newest run fails during module loading, before collecting those cases. The meeting caller retains the existing passage handler. This is a partial build: town-profile work admission is still missing, and state-bill parity has not been run.
 
 ## MERGED
 
-This build is unmerged and held for the missing institution binding. Earlier source and failed receipts remain preserved.
+This build is unmerged and held for the missing institution binding and the latest test-load failure. Earlier source and failed receipts remain preserved.
 
 ## WHAT EMERGED
 
@@ -18,11 +18,13 @@ The meeting route saves a floor vote and follows its existing passage route. No 
 
 ## VITAL STATISTICS
 
-Five council cases passed in 19.18 seconds of test time, with 32.49 seconds total after receiving current main. The prior composition passed in 19.91 seconds of test time. Every new case keeps the stock 30-second limit. The selected places are Worcester, Boise, Fort Smith, Tallahassee and Annapolis. Selection considers recorded municipalities across all 56 jurisdictions, then retains admitted packs. Five executed places do not prove 56 runtime jurisdictions.
+Historical proof at `7140e5bd95bebf07bb692beb06a282037c730e39`, with main `7e8bbbd62e4f967e496ace38335839cb3f6ee3d9`: five council cases passed in 19.18 seconds of test time, with 32.49 seconds total. The prior composition passed in 19.91 seconds of test time. Every new case keeps the stock 30-second limit. The selected places are Worcester, Boise, Fort Smith, Tallahassee and Annapolis. Selection considers recorded municipalities across all 56 jurisdictions, then retains admitted packs. Five executed places do not prove 56 runtime jurisdictions.
 
 The earlier Charlottesville controlled case passed in 4.24 seconds. It preserved the declared four-day introduction guard. Strict checking reported zero diagnostics across four changed roots and their imports. Changed-file lint passed. The complete static audit scanned all 149 rules; it reported 20 done, 39 partial, 89 not started and one unknown. Those are static findings, not gameplay results.
 
 The legacy thirty-day fiscal case was not rerun under the owner's instruction against speculative 900-second tests. Its earlier candidate and exact-main failures remain in the preparation report. Full changed-file acceptance, browser play, state-bill parity and nationwide behavior are not claimed.
+
+After receiving current main and the merged #1644 revert, the new composition failed to load the council test: zero cases collected, 10.27 seconds total. The unchanged main test also fails collection with the same undefined transition key at `life-paths2.ts:1129` through budget staffing. This comparison establishes the shared failure, not its cause or an acceptance waiver. Audit owns the shared repair. The macro-economy load check collects 25 cases successfully; it executes none. Four strict roots and imports, lint and formatting pass. The newest static scan reports 24 done, 42 partial, 81 not started and two unknown across 149 items; these counts are not runtime proof. Exact source pins and raw logs are in `a77-common-driver-proof/post-revert-receipt.json`.
 
 ## 1. Why-chain (five whys, to bedrock)
 
