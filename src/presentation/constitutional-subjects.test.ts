@@ -48,7 +48,19 @@ import { resolvePlayerCapabilities } from "./player-capabilities";
  */
 const GRAND_ISLAND = "3119595";
 
+let openedGrandIsland:
+  { readonly world: World; readonly governmentKey: string } | undefined;
+
+/**
+ * One Grand Island life, opened once and shared by every case: a World is an
+ * immutable value, so each case amends its own copy of the same opening.
+ */
 function grandIsland() {
+  openedGrandIsland ??= openGrandIsland();
+  return openedGrandIsland;
+}
+
+function openGrandIsland() {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -149,6 +161,16 @@ function review(world: World, year: number): FutureDueItem {
 }
 
 describe("a state amendment on how towns recall their officials", () => {
+  // Opening the shared life is most of this file's time; it is paid here,
+  // once, rather than inside whichever amendment case happens to run first.
+  it("opens a Grand Island life under a town government", () => {
+    const { world, governmentKey } = grandIsland();
+    expect(governmentKey).toBeTruthy();
+    expect(municipalRecallRule(governmentKey, world)).toMatchObject({
+      available: true,
+    });
+  });
+
   it("takes recall away, then gives it back, and the petition reads it", () => {
     const { world, governmentKey } = grandIsland();
     const before = municipalRecallRule(governmentKey, world);

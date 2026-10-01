@@ -61,7 +61,12 @@ const starts = new Map<string, OrdinaryStart>();
 function ordinaryStart(placeKey: string, seed: string): OrdinaryStart {
   const key = `${placeKey}:${seed}`;
   const known = starts.get(key);
-  if (known) return known;
+  if (known) {
+    // Most recently used last, so the place still in use is the one kept.
+    starts.delete(key);
+    starts.set(key, known);
+    return known;
+  }
   const opened = openStart(placeKey, seed);
   starts.set(key, opened);
   while (starts.size > 2) starts.delete(starts.keys().next().value!);
@@ -342,39 +347,6 @@ describe("recalling a town official", () => {
     expect(recallPetitions(closed)[0]!.phase).toBe("lapsed");
   }, 60_000);
 
-  it("refuses where the law gives no recall", () => {
-    const reason = "Towns in Indiana cannot recall their officials.";
-    const town = ordinaryStart("1805860", "recall-B");
-    expect(municipalRecallRule(town.governmentKey)).toEqual({
-      available: false,
-      reason,
-    });
-    expect(
-      canStartRecallPetition(town.world, {
-        petitionerPersonId: town.player,
-        governmentKey: town.governmentKey,
-        targetPersonId: town.member,
-      }),
-    ).toEqual({ allowed: false, reason });
-    expect(() =>
-      petition(town.world, town.governmentKey, town.player, town.member),
-    ).toThrow(reason);
-  }, 60_000);
-
-  it("gives an unsettled state the national modal rule, chosen by no hash (A118)", () => {
-    // New Mexico's pack does not settle town recall, so its rule is the one
-    // the most state packs name: towns may not recall (17 of the 41 packs
-    // that settle it), ESTIMATED FROM AVERAGE, the same for every unread
-    // place and save. A recall law enacted in play still replaces it.
-    const town = ordinaryStart("3570500", "recall-B");
-    const rule = municipalRecallRule(town.governmentKey);
-    expect(rule).toEqual({
-      available: false,
-      reason: "Towns in New Mexico cannot recall their officials.",
-    });
-    expect(municipalRecallRule(town.governmentKey)).toEqual(rule);
-  }, 60_000);
-
   it("refuses a petitioner from out of town and a target with no seat", () => {
     const { world, governmentKey, player, member, townId } = ordinaryStart(
       GRAND_ISLAND,
@@ -459,5 +431,38 @@ describe("recalling a town official", () => {
       targets: [],
       petitions: [],
     });
+  }, 60_000);
+
+  it("refuses where the law gives no recall", () => {
+    const reason = "Towns in Indiana cannot recall their officials.";
+    const town = ordinaryStart("1805860", "recall-B");
+    expect(municipalRecallRule(town.governmentKey)).toEqual({
+      available: false,
+      reason,
+    });
+    expect(
+      canStartRecallPetition(town.world, {
+        petitionerPersonId: town.player,
+        governmentKey: town.governmentKey,
+        targetPersonId: town.member,
+      }),
+    ).toEqual({ allowed: false, reason });
+    expect(() =>
+      petition(town.world, town.governmentKey, town.player, town.member),
+    ).toThrow(reason);
+  }, 60_000);
+
+  it("gives an unsettled state the national modal rule, chosen by no hash (A118)", () => {
+    // New Mexico's pack does not settle town recall, so its rule is the one
+    // the most state packs name: towns may not recall (17 of the 41 packs
+    // that settle it), ESTIMATED FROM AVERAGE, the same for every unread
+    // place and save. A recall law enacted in play still replaces it.
+    const town = ordinaryStart("3570500", "recall-B");
+    const rule = municipalRecallRule(town.governmentKey);
+    expect(rule).toEqual({
+      available: false,
+      reason: "Towns in New Mexico cannot recall their officials.",
+    });
+    expect(municipalRecallRule(town.governmentKey)).toEqual(rule);
   }, 60_000);
 });

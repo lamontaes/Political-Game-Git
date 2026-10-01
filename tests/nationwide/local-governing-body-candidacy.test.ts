@@ -76,7 +76,12 @@ const openedLives = new Map<string, { world: World; personId: EntityId }>();
  */
 function adultLifeAt(placeKey: string) {
   const known = openedLives.get(placeKey);
-  if (known) return known;
+  if (known) {
+    // Most recently used last, so the place still in use is the one kept.
+    openedLives.delete(placeKey);
+    openedLives.set(placeKey, known);
+    return known;
+  }
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -231,6 +236,51 @@ describe("a town's governing body, across the country", () => {
   }, 60_000);
 });
 
+describe("a council campaign saved before the body had its own name", () => {
+  it("still opens: the office's title is display text, not its identity", () => {
+    // Saves written before a town's body was named recorded every council
+    // contest's office as "Member of the governing body". The pack now says
+    // "Council member", and the load check once compared the two titles, so
+    // every such save refused to open (a San Antonio life, playtest 9/24).
+    const { world, personId } = adultLifeAt(BOISE);
+    const home = world.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    expect(body.officeTitle).not.toBe("Member of the governing body");
+    const filed = fileForOffice(
+      world,
+      personId,
+      null,
+      body.officeKey,
+      addDays(world.currentDate, 28),
+    );
+    const contests = filed.history.electionContests!;
+    const saved: World = {
+      ...filed,
+      history: {
+        ...filed.history,
+        electionContests: contests.map((contest, index) =>
+          index === contests.length - 1
+            ? {
+                ...contest,
+                office: {
+                  ...contest.office,
+                  title: "Member of the governing body",
+                },
+              }
+            : contest,
+        ),
+      },
+    };
+    const reloaded = deserializeWorld(serializeWorld(saved));
+    expect(projectCampaign(reloaded, personId, body.officeKey).phase).toBe(
+      projectCampaign(filed, personId, body.officeKey).phase,
+    );
+  }, 60_000);
+});
+
+// 19,480 municipalities join to a place; 18 of them are not functionally active.
+const OFFERED_TOWN_GOVERNMENTS = 19_462;
+
 describe("standing for the town's governing body and taking the seat", () => {
   // Bowling Green's government has been read in depth; Paducah's and American
   // Falls' have not, and are seated in the government the listing records.
@@ -299,6 +349,62 @@ describe("standing for the town's governing body and taking the seat", () => {
     },
     60_000,
   );
+});
+
+describe("when a town's race is held", () => {
+  // Filed on the opening day, January 5, 2026.
+  it.each([
+    // Minnesota and Kentucky elect towns on the even-year November general
+    // election day; Idaho on the odd-year one.
+    ["American Falls, Idaho", AMERICAN_FALLS, "2027-11-02"],
+    ["Paducah, Kentucky", PADUCAH, "2026-11-03"],
+    ["Ely, Minnesota", ELY, "2026-11-03"],
+  ])(
+    "%s is elected on the day state law sets",
+    (_, placeKey, expected) => {
+      const { world, personId } = adultLifeAt(placeKey);
+      const home = world.people[personId]!.homeJurisdictionId;
+      const body = localGoverningBodiesForJurisdiction(home)[0]!;
+      expect(world.currentDate).toBe("2026-01-05");
+      expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
+      const filed = fileForOffice(world, personId, null, body.officeKey);
+      expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(
+        expected,
+      );
+    },
+    60_000,
+  );
+
+  it("a town whose state law leaves the timing open takes the option most states name, chosen by no hash (A118)", () => {
+    // Maine lets each town choose town meeting day or November. Of those,
+    // November is the one the most state packs name, so Presque Isle votes
+    // on the November general election day, ESTIMATED FROM AVERAGE, and the
+    // race's date is that day, at least the filing lead out.
+    const read = nextTownElection("ME", "2360825", makeIsoDate("2026-01-05"));
+    expect(read).toMatchObject({
+      electionDate: "2026-11-03",
+      basis: "local-choice-estimated",
+    });
+    const { world, personId } = adultLifeAt("2360825");
+    const home = world.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    expect(campaignElectionDate(world, home, body.officeKey)).toBe(
+      read!.electionDate,
+    );
+    expect(
+      read!.electionDate >= addDays(world.currentDate, FILING_LEAD_DAYS),
+    ).toBe(true);
+  }, 60_000);
+
+  it("never sets an election closer than the filing lead", () => {
+    expect(
+      nextTownElection("MN", "2719142", makeIsoDate("2026-10-10")),
+    ).toEqual({
+      electionDate: "2028-11-07",
+      timing: "even-year-november-consolidated",
+      basis: "state-law-unverified",
+    });
+  });
 });
 
 describe("standing again after a race is over", () => {
@@ -429,104 +535,3 @@ describe("a player's campaign and the town's own race", () => {
     expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
   }, 120_000);
 });
-
-describe("when a town's race is held", () => {
-  // Filed on the opening day, January 5, 2026.
-  it.each([
-    // Minnesota and Kentucky elect towns on the even-year November general
-    // election day; Idaho on the odd-year one.
-    ["Ely, Minnesota", ELY, "2026-11-03"],
-    ["Paducah, Kentucky", PADUCAH, "2026-11-03"],
-    ["American Falls, Idaho", AMERICAN_FALLS, "2027-11-02"],
-  ])(
-    "%s is elected on the day state law sets",
-    (_, placeKey, expected) => {
-      const { world, personId } = adultLifeAt(placeKey);
-      const home = world.people[personId]!.homeJurisdictionId;
-      const body = localGoverningBodiesForJurisdiction(home)[0]!;
-      expect(world.currentDate).toBe("2026-01-05");
-      expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
-      const filed = fileForOffice(world, personId, null, body.officeKey);
-      expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(
-        expected,
-      );
-    },
-    60_000,
-  );
-
-  it("a town whose state law leaves the timing open takes the option most states name, chosen by no hash (A118)", () => {
-    // Maine lets each town choose town meeting day or November. Of those,
-    // November is the one the most state packs name, so Presque Isle votes
-    // on the November general election day, ESTIMATED FROM AVERAGE, and the
-    // race's date is that day, at least the filing lead out.
-    const read = nextTownElection("ME", "2360825", makeIsoDate("2026-01-05"));
-    expect(read).toMatchObject({
-      electionDate: "2026-11-03",
-      basis: "local-choice-estimated",
-    });
-    const { world, personId } = adultLifeAt("2360825");
-    const home = world.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    expect(campaignElectionDate(world, home, body.officeKey)).toBe(
-      read!.electionDate,
-    );
-    expect(
-      read!.electionDate >= addDays(world.currentDate, FILING_LEAD_DAYS),
-    ).toBe(true);
-  }, 60_000);
-
-  it("never sets an election closer than the filing lead", () => {
-    expect(
-      nextTownElection("MN", "2719142", makeIsoDate("2026-10-10")),
-    ).toEqual({
-      electionDate: "2028-11-07",
-      timing: "even-year-november-consolidated",
-      basis: "state-law-unverified",
-    });
-  });
-});
-
-describe("a council campaign saved before the body had its own name", () => {
-  it("still opens: the office's title is display text, not its identity", () => {
-    // Saves written before a town's body was named recorded every council
-    // contest's office as "Member of the governing body". The pack now says
-    // "Council member", and the load check once compared the two titles, so
-    // every such save refused to open (a San Antonio life, playtest 9/24).
-    const { world, personId } = adultLifeAt(BOISE);
-    const home = world.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    expect(body.officeTitle).not.toBe("Member of the governing body");
-    const filed = fileForOffice(
-      world,
-      personId,
-      null,
-      body.officeKey,
-      addDays(world.currentDate, 28),
-    );
-    const contests = filed.history.electionContests!;
-    const saved: World = {
-      ...filed,
-      history: {
-        ...filed.history,
-        electionContests: contests.map((contest, index) =>
-          index === contests.length - 1
-            ? {
-                ...contest,
-                office: {
-                  ...contest.office,
-                  title: "Member of the governing body",
-                },
-              }
-            : contest,
-        ),
-      },
-    };
-    const reloaded = deserializeWorld(serializeWorld(saved));
-    expect(projectCampaign(reloaded, personId, body.officeKey).phase).toBe(
-      projectCampaign(filed, personId, body.officeKey).phase,
-    );
-  }, 60_000);
-});
-
-// 19,480 municipalities join to a place; 18 of them are not functionally active.
-const OFFERED_TOWN_GOVERNMENTS = 19_462;
