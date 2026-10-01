@@ -1,0 +1,50 @@
+{
+  "testedSourceHead": "74e99e7666fe87a26d6bff5aedd3b6def96bad58",
+  "mainIncluded": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+  "ownedProductionCommit": "ca284e8691f8191d5ea056556d893e1dbb9f65db",
+  "native": {
+    "file": "src/simulation/office-salary-payroll.test.ts",
+    "passed": 8,
+    "failed": 0,
+    "durationSeconds": 15.34,
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/office-salary-payroll.test.ts --maxWorkers=1 --silent=false"
+  },
+  "types": {
+    "roots": 3,
+    "loadedFiles": 753,
+    "diagnostics": 0
+  },
+  "sourceSha256": {
+    "src/simulation/office-salary.ts": "67551124a1133511d619e9291e3435297763cc13b42cf22d0fca57e0e1ebc804",
+    "src/simulation/living-world/town-pay.ts": "8ed27d3f841bca0e9e4b21967ab1130bc5ec1a19e76ddca8b3b37a1ed0bca387",
+    "src/simulation/office-salary-payroll.test.ts": "03c8bfe650e5be54403d3b166b9e9a851b195e14a629bb495a1812ece5d68247",
+    "vite.config.ts": "fec68ee468fc1498d230b63fb4c9a4d9e3b119124df1f4c07a0adbf8e25f0db6",
+    "tests/support/deep-transition-guard.ts": "ad688450f5134f820db89857c9436fa59d1de4545bea214b06c003022b3b6b17"
+  },
+  "evidenceSha256": {
+    "parity-pass.txt": "0eca15b838d7374b26199cb237c399783ac28e64831d55075eb28c8a0917b178",
+    "initial-pass.txt": "818b8b89b59d6938a66a2555ba1927197d4f4308dc78a8790f95f2c0657e97f8",
+    "main-pass.txt": "94b94a52392665cb57f94e8397d7c7747c129e59abf74b919821d5af08833ed0",
+    "fixture-failure.txt": "434242a280d194237af2a3aa04d2674d267a13d34d61a569689f3b74ffbfd2e3",
+    "format.txt": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "identities.jsonl": "b5044147e65f5c28b6ef9461c8f18411f265e648399f0b8253feb97be327245f",
+    "lint.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "types.txt": "441bd3644069f7df870a7b0cf8f1a3b7f0505f2cf4fb2b34c31ca525695b311e",
+    "boundary-pass.txt": "56917334892562f22d3526c7611db64e3ed2bf5b3c617483dd250a31b2425dfe",
+    "parity-fixture-failure.txt": "e07e73ad1a75ea6dfad4838ae8ee64702418bb954f04c51f8f0d732efbe6284c",
+    "parity-types-failure.txt": "197610fae236c117d9fd7f38e94a3d4642a0293c694899c1d6b8d81382504be9"
+  },
+  "limits": [
+    "Controlled actual saved office/town contracts, not natural appointment or enactment.",
+    "Current-main ancestry included; shared root receiving guard repair not consumed or tested.",
+    "Local-economy worker wage flow work linkage/release remains pending.",
+    "Legacy annual office rule term adjustment remains until shared annual dispatch admission.",
+    "No final-main/full56 payroll/game-year/browser proof."
+  ],
+  "identityEvidence": "Identical seeded lightweight-person constructor inputs replayed independently; not an extra payroll runner.",
+  "nativeExecutionCheckoutHead": "fe187867bb4e2e910e3123a2216f1a65f111d4f7",
+  "nativeExecutionWorkingTreeDelta": [
+    "src/simulation/office-salary-payroll.test.ts"
+  ],
+  "sourceIdentity": "Native execution used the owned test delta on fe187; its final checked code is committed byte-identically at testedSourceHead."
+}
