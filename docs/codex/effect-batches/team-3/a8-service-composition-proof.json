@@ -1,0 +1,72 @@
+{
+  "a8": {
+    "source": "6c81f544c7b86dc2ad81900392bf07113022a0af",
+    "passed": 0,
+    "failed": 1,
+    "notRun": 9,
+    "seconds": 24.29,
+    "person": "Parker Clark",
+    "workId": "work-relationship_7440353f49a4b921",
+    "flowId": "resource-flow_853b8fe4cdb184b5",
+    "from": "2026-01-05",
+    "to": "2026-01-12",
+    "actualPayments": 0,
+    "expectedPayments": 1,
+    "actualInitialDueKeys": ["living-world:payday"],
+    "typesRoots": 2,
+    "typesDiagnostics": 0,
+    "productionCallerPreserved": true,
+    "callerRemovalCommit": "e8181dbd821cc5d308996be344d003e184c0a8bf",
+    "callerRestoreCommit": "80840d88751dafe3c5e979dff07e75885d786ddc"
+  },
+  "service": {
+    "source": "9e54b1f837c748abe117fdc5f5fb7bcf029f62f1",
+    "testDonor": "692941da8eb0ecfa8582f07efaa850a28b2158dd",
+    "testBlob": "1f9d8798f2a26f395d8648cd4b2f004fffe104b1",
+    "rowsBlob": "a0c76b210ee60fc036f640fb087fe7bd648323ec",
+    "productionBlob": "10ba386f4469274f394cebe6a45491d0c4ccd0a9",
+    "passed": 117,
+    "failed": 0,
+    "seconds": 45.56,
+    "fileCounts": {
+      "service-delivered.test.ts": 115,
+      "service-delivered-rows.test.ts": 2
+    },
+    "processes": 1,
+    "typesRoots": 3,
+    "typesDiagnostics": 2,
+    "typeFailure": "New test findLast unsupported by configured ES2022 lib; callback implicit any is consequent diagnostic. Exact supplied test blob preserved.",
+    "priorFailureReceipt": "hourly-shift-service-r1.txt",
+    "productionChangedForThisCheck": false,
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 VITE_CONFIG_NATIVE_IGNORE_WARNING=true node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/law-consequences/service-delivered.test.ts src/simulation/law-consequences/service-delivered-rows.test.ts --maxWorkers=1 --reporter=verbose",
+    "typesCommand": "node /workspace/scratch/team3-service-1530-types.mjs",
+    "typesDuration": "NOT RECORDED",
+    "importSeconds": 25.44,
+    "testSeconds": 19.85
+  },
+  "notRun": [
+    "A8 caller removal acceptance",
+    "Missing scheduled weekly-pay producer repair",
+    "Raised completed-shift floor payment",
+    "Full suite",
+    "Final main acceptance"
+  ],
+  "receipts": [
+    {
+      "path": "docs/codex/effect-batches/team-3/a8-clock-prerequisite-r1.txt",
+      "sha256": "373731d23a50938354abf157a6f7f75240f16faa9858849f73972abe9a35abfb"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a8-clock-prerequisite-types-r1.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/service-1530-1537-r2.txt",
+      "sha256": "8fdc7f1b3cdc389b59fbc34f2fcf972bd43df89b71df8fcd1ecf189324b331b6"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/service-1530-1537-types-r2.txt",
+      "sha256": "6a40ae3a7029633b20fcf36a656ebc1aaf8fe1bda0e1e4f17fa83a84f26f91b4"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay-city.test.ts > A8 saved job contract pays from the actual clock before a presentation refresh
+A8_CLOCK_JOB_PAY {
+  person: 'Parker Clark',
+  flowId: 'resource-flow_853b8fe4cdb184b5',
+  workId: 'work-relationship_7440353f49a4b921',
+  startsAt: '2026-01-05',
+  endsAt: '2026-01-12',
+  payments: 0,
+  savedDueKeys: [ 'living-world:payday' ]
+}
+
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A38 saved state wage rule reaches scheduled actual payroll
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A38 actual job-market week retains the governing city law on terms and pay
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms
+ × src/simulation/law-consequences/pay-city.test.ts > A8 saved job contract pays from the actual clock before a presentation refresh 259ms
+   → expected [] to have a length of 1 but got +0
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A8 saved job contract pays from the actual clock before a presentation refresh
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/simulation/law-consequences/pay-city.test.ts:792:20
+    790|     savedDueKeys: before.history.futureDueItems.map((row) => row.trans…
+    791|   });
+    792|   expect(outcomes).toHaveLength(1);
+       |                    ^
+    793|   const outcome = outcomes[0]!;
+    794|   expect(outcome.status).toBe("completed");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  11:31:14
+   Duration  24.29s (transform 18.76s, setup 19ms, import 23.88s, tests 261ms, environment 0ms)
+
