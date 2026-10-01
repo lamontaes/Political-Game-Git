@@ -96,7 +96,7 @@ export function assertCampaignOpponentIntegrity(
       fail("Campaign opponent is duplicated for its contest", opponent.id);
     }
     opponentPairs.add(pair);
-    if (!EMPHASES.includes(opponent.emphasis)) {
+    if (opponent.emphasis !== null && !EMPHASES.includes(opponent.emphasis)) {
       fail("Campaign opponent has an unknown emphasis", opponent.id);
     }
     for (const organizationId of [

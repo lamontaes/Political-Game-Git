@@ -14,6 +14,7 @@ import {
   createScenarioWorld,
   deserializeWorld,
   electionContestResult,
+  electiveOfficesForJurisdiction,
   ensureCampaignOpponents,
   fileCampaign,
   makeCurrencyCode,
@@ -35,6 +36,7 @@ import { CAMPAIGN_WEEKLY_EVALUATION_KEY } from "./campaign-life-types";
 import { campaignOperatingSpending } from "./campaign-operating-costs";
 import { canonicalSupportBasisPoints } from "./campaigns";
 import { canonicalJson } from "./canonical-json";
+import { daysBetween } from "./dates";
 import { cancelFutureDueItem } from "./future-transitions";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { createOrganization, createOrganizationParticipation } from "./life";
@@ -46,6 +48,8 @@ import {
 import { ensureHomePartyChapters } from "./living-world/party-chapters";
 import { resourcePositionAt } from "./resource-queries";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
+import type { LifePlace } from "./life-places";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import type { CampaignRecord, EntityId, World } from "./types";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
@@ -72,9 +76,18 @@ function firstAdult(world: World): EntityId {
  */
 function fileRace(
   seed: string,
-  options: { electionInDays?: number; chapters?: boolean } = {},
+  options: {
+    electionInDays?: number;
+    chapters?: boolean;
+    /** Anywhere but the Kentucky scenario: its first office is the race. */
+    place?: LifePlace;
+  } = {},
 ): Filed {
-  const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
+  const context = options.place?.context ?? KENTUCKY_CONTEXT;
+  const officeKey = options.place
+    ? electiveOfficesForJurisdiction(context.jurisdiction.id)[0]!.officeKey
+    : candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey;
+  const created = createScenarioWorld(seed, context, {
     peopleCount: 6,
   });
   const candidatePersonId = firstAdult(created);
@@ -100,7 +113,7 @@ function fileRace(
   }
   const opponents = ensureCampaignOpponents(world, {
     stableKey: "opponent-race",
-    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    jurisdictionId: context.jurisdiction.id,
     count: 1,
     excludePersonIds: [candidatePersonId],
   });
@@ -124,13 +137,9 @@ function fileRace(
   const filed = fileCampaign(world, {
     stableKey: "opponent-race",
     candidatePersonId,
-    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
-    officeKey: candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
-    districtBinding: namedSeatForFixture(
-      world,
-      candidatePersonId,
-      candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
-    ),
+    jurisdictionId: context.jurisdiction.id,
+    officeKey,
+    districtBinding: namedSeatForFixture(world, candidatePersonId, officeKey),
     electionDate: addDays(world.currentDate, options.electionInDays ?? 28),
     rivalPersonIds: [rivalPersonId],
     existingContestId: null,
@@ -152,6 +161,31 @@ const registry = createCampaignElectionTransitionRegistry();
 
 function advance(world: World, days: number): World {
   return advanceWorld(world, days, registry);
+}
+
+/**
+ * Test fixture only: the race runs until the rival's committee opens on its
+ * first weekly evaluation, and the rival's emphasis is then set to working
+ * through the people around them, so the party-chapter paths are reached
+ * without searching for a seed whose rival's temperament leans that way.
+ */
+function withRelationshipsRival(filed: Filed): Filed {
+  let world = filed.world;
+  for (let day = 0; day < 14 && !campaignOpponentRecords(world).length; day++)
+    world = advance(world, 1);
+  return {
+    ...filed,
+    world: {
+      ...world,
+      history: {
+        ...world.history,
+        campaignOpponents: campaignOpponentRecords(world).map((opponent) => ({
+          ...opponent,
+          emphasis: "relationships" as const,
+        })),
+      },
+    },
+  };
 }
 
 function scheduledEvaluations(world: World) {
@@ -282,13 +316,18 @@ describe("CRUNCH46 opponent campaigns", () => {
   }, 300_000);
 
   it.each([
-    // Pinned seeds: the organizer's own seeded decision differs between them.
-    ["opponents-support-47", "deferred"],
+    // Pinned seeds whose rival raises enough to ask within the window. The
+    // organizer reads the same records in both: a candidate of the
+    // chapter's own party, no finding against them, and no other candidate
+    // already helped. Those records grant the request.
     ["opponents-support-8", "granted"],
+    ["opponents-support-2", "granted"],
   ] as const)(
-    "records a chapter's %s decision on a support request without touching the race",
+    "records a chapter's decision on a support request without touching the race (%s)",
     (seed, expectedDecision) => {
-      const filed = fileRace(seed, { electionInDays: 42, chapters: true });
+      const filed = withRelationshipsRival(
+        fileRace(seed, { electionInDays: 42, chapters: true }),
+      );
       const played = advance(filed.world, 34);
       const step = campaignOpponentStepRecords(played).find(
         (record) => record.kind === "support-request",
@@ -355,7 +394,7 @@ describe("CRUNCH46 opponent campaigns", () => {
   );
 
   it("scores a field event like a player's canvass and strengthens only a repeat contact", () => {
-    // Pinned seed: this rival favors field work and holds several events.
+    // Pinned seed: this rival holds several field events.
     const filed = fileRace("opponents-money-b", { electionInDays: 60 });
     const world = advance(filed.world, 59);
     const opponent = campaignOpponentRecords(world)[0]!;
@@ -379,7 +418,7 @@ describe("CRUNCH46 opponent campaigns", () => {
       expect(event.participants.map((participant) => participant.role)).toEqual(
         ["presence:participant", "presence:participant"],
       );
-      // Ninety minutes, two people, swing 60-140: the player's own formula.
+      // Ninety minutes, two people: the player's own formula, with no swing.
       const rivalState = world.history.metricStates.find(
         (state) =>
           step.supportStateIds.includes(state.id) &&
@@ -398,7 +437,7 @@ describe("CRUNCH46 opponent campaigns", () => {
         .at(-1)!;
       const gain = rivalShare(rivalState.id) - rivalShare(previous.id);
       expect(gain).toBeGreaterThanOrEqual(0);
-      expect(gain).toBeLessThanOrEqual(Math.floor((90 * 2 * 3 * 140) / 200));
+      expect(gain).toBeLessThanOrEqual((90 * 2 * 3) / 2);
 
       const contacts = world.history.relationshipInteractions.filter(
         (interaction) => interaction.eventId === event.id,
@@ -434,10 +473,14 @@ describe("CRUNCH46 opponent campaigns", () => {
   }, 300_000);
 
   it("does not keep choosing a chapter request a rival has no chapter for", () => {
-    // Pinned seed: this rival values relationships, and the World has no
-    // party chapters, so asking one is not a real option.
-    const filed = fileRace("opponents-money-a", { electionInDays: 60 });
-    const world = advance(filed.world, 59);
+    // This rival values relationships, and the World has no party chapters,
+    // so asking one is not a real option.
+    const race = fileRace("opponents-money-a", { electionInDays: 60 });
+    const filed = withRelationshipsRival(race);
+    const world = advance(
+      filed.world,
+      59 - daysBetween(race.world.currentDate, filed.world.currentDate),
+    );
     expect(campaignOpponentRecords(world)[0]!.emphasis).toBe("relationships");
     const fallbacks = campaignOpponentStepRecords(world).filter((step) => {
       const event = world.history.events.find(
@@ -621,4 +664,81 @@ describe("CRUNCH46 opponent campaigns", () => {
       }).status,
     ).toBe("blocked");
   }, 300_000);
+});
+
+describe("A123: a rival campaign acts from its records, not draws", () => {
+  // A place drawn at random from all 56 among those with an office to run
+  // for; the title names it and the seed.
+  const PLACE_SEED = "a123-rival-place";
+  const place = drawRandomPlace(
+    PLACE_SEED,
+    (candidate) =>
+      electiveOfficesForJurisdiction(candidate.context.jurisdiction.id).length >
+      0,
+  );
+  const where = `${place.displayName}, place seed ${PLACE_SEED}`;
+  const race = fileRace("a123-rival-race", { electionInDays: 60, place });
+
+  it(`decides each rival's emphasis from their recorded temperament alone (${where})`, () => {
+    for (const seed of ["a123-first-seed", "a123-second-seed"]) {
+      let world = fileRace(seed, { electionInDays: 60, place }).world;
+      for (
+        let day = 0;
+        day < 14 && !campaignOpponentRecords(world).length;
+        day++
+      )
+        world = advance(world, 1);
+      const opponent = campaignOpponentRecords(world)[0]!;
+      const trace = world.history.decisionTraces.find(
+        (record) =>
+          record.context.decisionType === "campaign.opponent-emphasis" &&
+          record.context.actorPersonId === opponent.candidatePersonId,
+      );
+      // A rival with no leaning trait holds no emphasis and records no
+      // decision; otherwise the recorded decision's reasons are all the
+      // rival's own personality records, and its answer is the emphasis.
+      if (opponent.emphasis === null) {
+        expect(trace).toBeUndefined();
+        continue;
+      }
+      expect(trace?.selectedOptionKey).toBe(opponent.emphasis);
+      expect(trace!.context.considerations.length).toBeGreaterThan(0);
+      for (const consideration of trace!.context.considerations) {
+        expect(consideration.sourceType).toBe("mind:personality");
+        expect(consideration.sourceRefs[0]?.kind).toBe("personality-tendency");
+      }
+    }
+  }, 120_000);
+
+  it(`spends what the account holds on a message, up to the planned amount (${where})`, () => {
+    const world = advance(race.world, 59);
+    const committee =
+      campaignOpponentRecords(world)[0]!.committeeOrganizationId;
+    const billsBefore = (sequence: number) =>
+      campaignOperatingSpending(world, committee) -
+      campaignOperatingSpending(world, committee, sequence);
+    let raisedLessSpent = 0;
+    let messages = 0;
+    for (const step of campaignOpponentStepRecords(world)) {
+      if (step.kind === "fundraising")
+        raisedLessSpent += step.amount!.minorUnits;
+      if (step.kind === "messaging") {
+        messages += 1;
+        // The account before the message: money raised, less earlier
+        // messages and the committee's ordinary bills.
+        const account = raisedLessSpent - billsBefore(step.sequence);
+        expect(step.amount!.minorUnits).toBe(Math.min(account, 70_000));
+        raisedLessSpent -= step.amount!.minorUnits;
+      }
+    }
+    expect(campaignOpponentStepRecords(world).length).toBeGreaterThan(0);
+    console.log(
+      JSON.stringify({
+        a123: "rival steps",
+        place: place.displayName,
+        steps: campaignOpponentStepRecords(world).map((step) => step.kind),
+        messages,
+      }),
+    );
+  }, 120_000);
 });
