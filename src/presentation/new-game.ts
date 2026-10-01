@@ -47,6 +47,10 @@ import {
   FAMILY_BIRTHDAYS_V1,
   PARENT_PARTNERS_V1,
   ADULT_START_WORK_V1,
+  DEPENDENT_AGE_CEILING,
+  OTHER_PARENT_MINIMUM_AGE,
+  openingFamilyShape,
+  type OpeningOtherParent,
 } from "./production-world";
 import { assignSplitHomeDistricts } from "../simulation/district-residence";
 import {
@@ -100,6 +104,9 @@ export type NewGameStartingLife =
  */
 export type NewGameHousehold = "lives-alone" | "shares-a-home";
 
+/** The player's answer about the other parent; see `NewGameSetup.otherParent`. */
+export type NewGameOtherParent = OpeningOtherParent;
+
 /**
  * Which of the two routes into a life the player took.
  *
@@ -136,6 +143,14 @@ export interface NewGameSetup {
   readonly depth: NewGameDepth;
   readonly startingLife: NewGameStartingLife;
   readonly household: NewGameHousehold;
+  /**
+   * The player's answer about the parent who is not raising their character,
+   * when the opening family has one (`otherParentQuestionApplies`). Optional
+   * and absent means unanswered, and then nothing about that parent is
+   * recorded. It is not part of the world's identity, which decides whether
+   * the question is asked at all.
+   */
+  readonly otherParent?: OpeningOtherParent;
   readonly seed: string;
   /** Blank means "generate one" rather than "leave it empty". */
   readonly givenName: string | null;
@@ -500,6 +515,19 @@ export function resolvedDepth(setup: NewGameSetup): NewGameDepth {
     : "summarize-earlier-life";
 }
 
+/**
+ * Whether this setup's opening family has a parent who is not raising the
+ * character, so that the player is asked about them. Read from the world's
+ * identity, which the answer itself never changes.
+ */
+export function otherParentQuestionApplies(setup: NewGameSetup): boolean {
+  return (
+    setup.startAge >= OTHER_PARENT_MINIMUM_AGE &&
+    setup.startAge < DEPENDENT_AGE_CEILING &&
+    openingFamilyShape(worldSeedFor(setup)) === "one-parent"
+  );
+}
+
 export function createNewGameWorld(setup: NewGameSetup): NewGame {
   const problems = newGameSetupProblems(setup);
   if (problems.length > 0) {
@@ -541,6 +569,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
         ? "ordinary-life"
         : setup.startingLife,
     household: resolvedHousehold(setup),
+    ...(setup.otherParent === undefined
+      ? {}
+      : { otherParent: setup.otherParent }),
     depth: resolvedDepth(setup),
     priors,
     // The custom route is the one where the calibration does not shape the
