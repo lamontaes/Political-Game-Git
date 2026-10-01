@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { writeFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -35,7 +36,8 @@ import {
   refundCashBailAtCaseClose,
   heldCashBailMinorUnits,
 } from "../justice/cash-bail";
-import { ensurePublicBudgets } from "./index";
+import { ensureNationalElectionJurisdiction } from "../national-election-geography";
+import { ensurePublicBudgets, withOpenedBudgets } from "./index";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import type { PublicBudgetGovernment, PublicBudgetStore } from "./store";
 
@@ -96,9 +98,19 @@ describe("refundable bail is excluded from the existing government's spendable c
           }),
         ).game!;
         subjectId = game.playerPersonId;
-        let world = ensurePublicBudgets(
-          ensureStartingPersonalMoney(game.world, subjectId).world,
+        let world = ensureNationalElectionJurisdiction(
+          ensurePublicBudgets(
+            ensureStartingPersonalMoney(game.world, subjectId).world,
+          ),
         );
+        world = {
+          ...world,
+          publicBudgets: withOpenedBudgets(
+            world,
+            world.publicBudgets!,
+            world.currentDate,
+          ),
+        };
         const court = Object.values(world.judiciary!.courts).find(
           (row) =>
             row.level === "local-general-trial" &&
@@ -475,7 +487,7 @@ describe("refundable bail is excluded from the existing government's spendable c
           });
           expect(
             Math.round(
-              (settled.balance +
+              ((settled.balance ?? NaN) +
                 ("reserve" in settled ? (settled.reserve ?? 0) : 0)) *
                 100,
             ),
