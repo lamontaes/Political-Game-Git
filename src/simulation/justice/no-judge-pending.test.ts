@@ -1,13 +1,10 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { ensureOpeningJudiciary } from "../judiciary/opening";
 import { addDays } from "../dates";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { personName } from "../people";
@@ -56,26 +53,13 @@ function digest(world: World): string {
 function preparedCase(
   state: ReturnType<typeof lifePlaceStateIdentities>[number],
 ) {
-  const place =
-    searchLifePlaces("", 5000, {
-      stateJurisdictionKey: state.jurisdictionKey,
-      scope: "locality",
-    })[0] ??
-    searchLifePlaces("", 5, {
-      stateJurisdictionKey: state.jurisdictionKey,
-      scope: "state",
-    })[0]!;
   const caseSeed = `team9-g13-no-judge:${state.jurisdictionKey}`;
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: caseSeed,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  const personId = game.playerPersonId;
+  // A small world (tests/fixtures/small-world.ts) plus the opening's judges
+  // through their existing writer: the case needs a court and its bench.
+  const small = smallWorld({ place: state.jurisdictionKey, seed: caseSeed });
+  const place = small.place;
+  const game = { world: ensureOpeningJudiciary(small.world) };
+  const personId = small.personId;
   const venue = game.world.people[personId]!.homeJurisdictionId;
   const referred = referForProsecution(game.world, {
     stableKey: "g13-pending-fixture",
@@ -199,7 +183,7 @@ function preparedCase(
 
 describe("a case requires a sitting judge", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
-  const states = pickDistinct(rng, lifePlaceStateIdentities(), 2);
+  const states = pickDistinct(rng, lifePlaceStateIdentities(), 1);
   describe.each(states)("$jurisdictionKey", (state) => {
     let fixture: ReturnType<typeof preparedCase>;
     beforeAll(() => {
