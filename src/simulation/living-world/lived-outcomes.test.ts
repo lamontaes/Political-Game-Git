@@ -104,6 +104,7 @@ describe(`a resident's lost job shifts their view of the governor (seed ${SEED})
       (item) => item.stableKey === key,
     )?.dueAt;
     expect(due, label).toBeDefined();
+    if (!due) throw new Error("expected a reflection due item");
 
     // Days pass the way the player passes them.
     const after = passOrdinaryDays(laidOff, 4);
