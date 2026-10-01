@@ -340,7 +340,7 @@ describe("starting-law numeric predecessor uses canonical dated terms", () => {
         const draft = compileAutomaticLawDraft(input(start, place))!;
         expect(draft).not.toBeNull();
         expect(draft.appropriatedMinorUnits).toBe(
-          Math.round(population(start, place) * 25),
+          Math.round(population(start, place) * 15),
         );
         expect(draft.sponsorRequest!.sourceRecordIds).toContain(law.measureId);
         expect(start.history.legislativeMeasures).toHaveLength(count);

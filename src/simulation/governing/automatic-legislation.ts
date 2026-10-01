@@ -219,7 +219,9 @@ export interface SponsorRequestedLawTerm {
   readonly value: number;
   readonly unit: LawAmountUnit;
   readonly referenceMeasureId: EntityId;
-  readonly referenceProvisionId: EntityId;
+  readonly referenceProvisionId: EntityId | null;
+  /** Operative date of an admitted current-law reference, when it is law rather than a filed bill. */
+  readonly referenceOperativeAt?: IsoDate;
   readonly principleRecordIds: readonly EntityId[];
   readonly score: number;
   readonly sourceRecordIds: readonly EntityId[];
@@ -250,16 +252,9 @@ function referenceDistance(world: World, target: EntityId, source: EntityId) {
     : 2;
 }
 
-function selectSortedSponsorReference<T extends { readonly value: number }>(
-  references: readonly T[],
-  strength: number,
-): T | null {
-  const unique = references.filter(
-    (row, index) => index === 0 || row.value !== references[index - 1]!.value,
-  );
-  return unique.length
-    ? unique[Math.floor(Math.min(1, strength) * (unique.length - 1))]!
-    : null;
+function selectSortedSponsorReference<T>(references: readonly T[]): T | null {
+  // CTO October 1: nearest admitted directional value, with no invented increment.
+  return references[0] ?? null;
 }
 
 function referenceState(world: World, jurisdictionId: EntityId): string | null {
@@ -302,7 +297,7 @@ export function sponsorRequestedLawTerm(
   const current = currentLaw
     ? readFinalEnactedLawTerm(world, currentLaw, input)
     : null;
-  if (!current) return null;
+  if (!currentLaw || !current) return null;
   const targetPopulation =
     input.basis === "appropriation-per-resident"
       ? publicBudgetFor(world, measure.jurisdictionId)?.population
@@ -315,14 +310,8 @@ export function sponsorRequestedLawTerm(
   )
     return null;
   const increasing = leaning.score > 0 === (input.supportDirection === "raise");
-  const targetState = referenceState(world, measure.jurisdictionId);
-  const knownRegions = new Set(censusRegionStates());
-  const targetRegion =
-    targetState && knownRegions.has(targetState)
-      ? censusRegionOf(targetState)
-      : null;
-  const references = (world.history.legislativeMeasures ?? [])
-    .flatMap((reference) => {
+  const references = (world.history.legislativeMeasures ?? []).flatMap(
+    (reference) => {
       if (
         reference.id === measure.id ||
         reference.introducedAt > world.currentDate ||
@@ -339,15 +328,11 @@ export function sponsorRequestedLawTerm(
           !Number.isFinite(sourcePopulation))
       )
         return [];
-      const state = referenceState(world, reference.jurisdictionId);
-      const region =
-        state && knownRegions.has(state) ? censusRegionOf(state) : null;
-      const distance =
-        targetState && state === targetState
-          ? 0
-          : targetRegion && region === targetRegion
-            ? 1
-            : 2;
+      const distance = referenceDistance(
+        world,
+        measure.jurisdictionId,
+        reference.jurisdictionId,
+      );
       const adopted = (world.history.legislativeEnactments ?? []).find(
         (row) =>
           row.measureId === reference.id &&
@@ -382,35 +367,96 @@ export function sponsorRequestedLawTerm(
       )
         return [];
       return [
-        { value, provision, reference, distance, enactmentId: adopted?.id },
+        {
+          value,
+          referenceMeasureId: reference.id,
+          referenceProvisionId: provision.id,
+          distance,
+          recordedAt: provision.recordedAt,
+          sequence: provision.sequence,
+          sourceRecordIds: [
+            reference.id,
+            provision.id,
+            ...(adopted ? [adopted.id] : []),
+          ],
+        },
       ];
-    })
-    .sort(
-      (a, b) =>
-        (increasing ? a.value - b.value : b.value - a.value) ||
-        a.distance - b.distance ||
-        b.provision.recordedAt.localeCompare(a.provision.recordedAt) ||
-        b.provision.sequence - a.provision.sequence ||
-        a.provision.id.localeCompare(b.provision.id),
-    );
-  const selected = selectSortedSponsorReference(
-    references,
-    Math.abs(leaning.score) / maximumScore,
+    },
   );
+  // Ruling 4 admits only the same question/key/unit's currently operative text.
+  // Higher-level text inherited by several places is one source, not new local law.
+  const currentLawReferences = world.jurisdictionOrder.flatMap(
+    (jurisdictionId) => {
+      if (jurisdictionId === measure.jurisdictionId) return [];
+      const law = lawInForce(world, jurisdictionId, question.id);
+      if (!law || law.measureId === currentLaw.measureId) return [];
+      const term = readFinalEnactedLawTerm(world, law, input);
+      if (!term) return [];
+      const sourcePopulation =
+        input.basis === "appropriation-per-resident"
+          ? publicBudgetFor(world, jurisdictionId)?.population
+          : null;
+      if (
+        input.basis === "appropriation-per-resident" &&
+        (!(sourcePopulation && sourcePopulation > 0) ||
+          !Number.isFinite(sourcePopulation))
+      )
+        return [];
+      const value =
+        input.basis === "appropriation-per-resident"
+          ? Math.round((term.value / sourcePopulation!) * targetPopulation!)
+          : term.value;
+      if (
+        !Number.isFinite(value) ||
+        !(increasing ? value > current.value : value < current.value)
+      )
+        return [];
+      return [
+        {
+          value,
+          referenceMeasureId: term.measureId,
+          referenceProvisionId: term.provisionId,
+          referenceOperativeAt: law.operativeAt,
+          distance: referenceDistance(
+            world,
+            measure.jurisdictionId,
+            jurisdictionId,
+          ),
+          recordedAt: law.operativeAt,
+          sequence: 0,
+          sourceRecordIds: term.sourceRecordIds,
+        },
+      ];
+    },
+  );
+  const ranked = [...references, ...currentLawReferences].sort(
+    (a, b) =>
+      (increasing ? a.value - b.value : b.value - a.value) ||
+      a.distance - b.distance ||
+      b.recordedAt.localeCompare(a.recordedAt) ||
+      b.sequence - a.sequence ||
+      (a.referenceProvisionId ?? a.referenceMeasureId).localeCompare(
+        b.referenceProvisionId ?? b.referenceMeasureId,
+      ),
+  );
+  const selected = selectSortedSponsorReference(ranked);
   if (!selected) return null;
   return {
     value: selected.value,
     unit: input.unit,
-    referenceMeasureId: selected.reference.id,
-    referenceProvisionId: selected.provision.id,
+    referenceMeasureId: selected.referenceMeasureId,
+    referenceProvisionId: selected.referenceProvisionId,
+    ...("referenceOperativeAt" in selected
+      ? { referenceOperativeAt: selected.referenceOperativeAt }
+      : {}),
     principleRecordIds: leaning.recordIds,
     score: leaning.score,
     sourceRecordIds: [
-      ...current.sourceRecordIds,
-      selected.reference.id,
-      selected.provision.id,
-      ...(selected.enactmentId ? [selected.enactmentId] : []),
-      ...leaning.recordIds,
+      ...new Set([
+        ...current.sourceRecordIds,
+        ...selected.sourceRecordIds,
+        ...leaning.recordIds,
+      ]),
     ],
   };
 }
@@ -428,6 +474,7 @@ export function recordSponsorRequestedLawTerm(
 ): {
   readonly world: World;
   readonly provision: LegislativeProvisionRecord | null;
+  readonly refusalReason?: string;
 } {
   const existing = (world.history.legislativeProvisions ?? []).find(
     (row) => row.stableKey === input.provision.stableKey,
@@ -440,7 +487,55 @@ export function recordSponsorRequestedLawTerm(
   if (measurePosition(world, input.measureId).terminal)
     throw new Error("A terminal measure cannot acquire a new requested term.");
   const term = sponsorRequestedLawTerm(world, input);
-  if (!term) return { world, provision: null };
+  if (!term) {
+    const refusalReason =
+      "Saved current terms, sponsor reasons and an exact directional reference do not establish a supported numeric request.";
+    const measure = measureById(world, input.measureId);
+    if (!measure?.sponsorPersonId)
+      return { world, provision: null, refusalReason };
+    const stableKey = `${input.provision.stableKey}:requested-term-refusal`;
+    const existingRefusal = world.history.events.find(
+      (row) => row.stableKey === stableKey,
+    );
+    if (existingRefusal) return { world, provision: null, refusalReason };
+    const next = recordWorldEvent(world, {
+      stableKey,
+      type: "legislation.sponsor-requested-term-refused",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: measure.jurisdictionId,
+      involvedEntityIds: [measure.id, measure.sponsorPersonId],
+      participants: [
+        {
+          personId: measure.sponsorPersonId,
+          role: "agency:sponsor",
+          detail: refusalReason,
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `question:${input.questionKey}`,
+        `term:${input.termKey}`,
+        `unit:${input.unit}`,
+        "reason:unsupported-numeric-request",
+      ],
+      summary: refusalReason,
+      context: {
+        location: {
+          jurisdictionId: measure.jurisdictionId,
+          label: world.jurisdictions[measure.jurisdictionId]!.name,
+          setting: null,
+        },
+        socialContext: measure.designation,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    return { world: next, provision: null, refusalReason };
+  }
   let next = recordFiledProvision(world, {
     ...input.provision,
     measureId: input.measureId,
@@ -467,7 +562,7 @@ export function recordSponsorRequestedLawTerm(
         personId: measure.sponsorPersonId!,
         role: "agency:sponsor",
         detail:
-          "Requested the numeric term from recorded principles and an existing bill.",
+          "Requested the numeric term from recorded principles and an admitted legislative reference.",
       },
     ],
     personFactConstraints: [],
@@ -475,6 +570,9 @@ export function recordSponsorRequestedLawTerm(
     tags: [
       ...term.sourceRecordIds.map((id) => `source-record:${id}`),
       `term:${input.termKey}`,
+      ...(term.referenceOperativeAt
+        ? [`reference-operative-at:${term.referenceOperativeAt}`]
+        : []),
       `principle-score:${term.score}`,
     ],
     summary: `The sponsor requested ${input.provision.heading} from a recorded legislative reference.`,
@@ -1223,10 +1321,7 @@ export function compileAutomaticLawDraft(input: {
         b.lineage.sequence - a.lineage.sequence ||
         a.lineage.id.localeCompare(b.lineage.id),
     );
-  const selected = selectSortedSponsorReference(
-    ranked,
-    Math.abs(leaning.score) / maximumScore,
-  );
+  const selected = selectSortedSponsorReference(ranked);
   if (!selected) return null;
   // Copy every declared service/eligibility/timing choice from the selected verified reference.
   // No option-bearing declaration exists for an independent service-window change.
