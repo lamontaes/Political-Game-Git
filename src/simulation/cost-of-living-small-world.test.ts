@@ -96,8 +96,8 @@ describe.each(places)(
         }),
       ]);
       expect(
-        resourcePositionAt(paid, fixture.owner, "USD")!.liquidBalance
-          .minorUnits,
+        resourcePositionAt(paid, fixture.owner, terms.amount.currency)!
+          .liquidBalance.minorUnits,
       ).toBe(fixture.amount * 2);
       expect(settleLivingCosts(paid, fixture.small.personId)).toBe(paid);
       const reopened = deserializeWorld(serializeWorld(paid));

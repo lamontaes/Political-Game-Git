@@ -139,7 +139,7 @@ describe("living costs are charged on the first of each month", () => {
       buildAdultLifeContext(broke, personId),
     ).find((situation) => situation.key === "adult.household-money-shortfall");
     expect(offered?.prose).toMatch(
-      /^[A-Z][a-z]+'s food and bills came to \$600\.00/,
+      /^[A-Z][a-z]+'s food and bills came to \$791\.25/,
     );
     const answered = chooseAdultOption(broke, {
       personId,
