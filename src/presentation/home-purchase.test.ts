@@ -18,11 +18,7 @@ import {
   homePurchaseTerms,
   personOwnsHome,
 } from "../simulation/home-purchase";
-import {
-  macroConditionsAt,
-  macroMonthHistory,
-  macroScopeForJurisdiction,
-} from "../simulation/macro-economy/readers";
+import { homePriceLevel } from "../simulation/living-world/housing-market";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
 import type { EntityId, World } from "../simulation";
@@ -301,14 +297,7 @@ describe("buying a home", () => {
       60,
       createCampaignElectionTransitionRegistry(),
     );
-    const now =
-      macroConditionsAt(
-        later,
-        macroScopeForJurisdiction(home),
-        later.currentDate,
-      ) ?? macroConditionsAt(later, "national", later.currentDate)!;
-    const first = macroMonthHistory(later, "national", later.currentDate)[0]!;
-    const factor = now.priceIndex / first.priceIndex;
+    const factor = homePriceLevel(later, home, later.currentDate);
     expect(factor).not.toBe(1);
     const terms = homePurchaseTerms(later, home);
     expect(terms.priceMinor).toBe(
