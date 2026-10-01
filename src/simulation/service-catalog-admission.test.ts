@@ -1,11 +1,11 @@
-import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
-import { createProductionPolicyCatalog } from "./production-catalog";
+import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import { describe, expect, it } from "vitest";
 import { POLICY_PACKS, loadedPolicyRegistry } from "./policy-pack-registry";
 import { US_POLICY_POSITIONS_PACK } from "./policy-pack-us-policy-positions";
-import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
+import { createProductionPolicyCatalog } from "./production-catalog";
 
-describe("coverage rows join the existing policy pack", () => {
+describe("service rows join the existing policy pack", () => {
   it("preserves proposition order and existing consequences while admitting both reviewed rows", () => {
     const pack = POLICY_PACKS.find(
       (entry) => entry.pack === US_POLICY_POSITIONS_PACK.pack,
@@ -21,7 +21,7 @@ describe("coverage rows join the existing policy pack", () => {
       const key = `${pack.pack}:${original.key}`;
       const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
       const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
-      if (coverage !== undefined) attached++;
+      if (service.length > 0) attached++;
       if (coverage || service.length) {
         expect(row.consequences).toEqual([
           ...(original.consequences ?? []),
@@ -31,21 +31,18 @@ describe("coverage rows join the existing policy pack", () => {
       } else expect(row).toBe(original);
     }
     expect(attached).toBe(2);
-    const loaded = loadedPolicyRegistry();
     const savedCatalog = createProductionPolicyCatalog();
-    for (const [stableKey, consequence] of Object.entries(
-      COVERAGE_ELIGIBILITY_ROWS,
-    )) {
-      const loadedProposition = loaded.propositions.find(
-        (entry) => entry.stableKey === stableKey,
+    for (const [key, rows] of Object.entries(SERVICE_DELIVERED_LAW_ROWS)) {
+      const loaded = loadedPolicyRegistry().propositions.find(
+        (row) => row.stableKey === key,
       );
-      expect(loadedProposition, stableKey).toBeDefined();
-      expect(loadedProposition!.consequences).toContainEqual(consequence);
-      const savedProposition = Object.values(savedCatalog.propositions).find(
-        (entry) => entry.stableKey === stableKey,
+      expect(loaded).toBeDefined();
+      for (const row of rows) expect(loaded!.consequences).toContainEqual(row);
+      const saved = Object.values(savedCatalog.propositions).find(
+        (row) => row.stableKey === key,
       );
-      expect(savedProposition, stableKey).toBeDefined();
-      expect(savedProposition!.consequences).toContainEqual(consequence);
+      expect(saved).toBeDefined();
+      for (const row of rows) expect(saved!.consequences).toContainEqual(row);
     }
   });
 });

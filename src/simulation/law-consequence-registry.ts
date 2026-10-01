@@ -1,3 +1,4 @@
+import { SERVICE_DELIVERED_REGISTRATION } from "./law-consequences/service-delivered";
 import { COVERAGE_ELIGIBILITY_REGISTRATION } from "./law-consequences/coverage-eligibility";
 import { TEAM_4_PRICE_COST_REGISTRATION } from "./law-consequences/price-cost";
 import type {
@@ -14,7 +15,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly LawConsequenceKindRegistrat
     COVERAGE_ELIGIBILITY_REGISTRATION,
     // tax: Team3
     TEAM_4_PRICE_COST_REGISTRATION,
-    // service-delivered: Team5 (Team6 transit contributor)
+    SERVICE_DELIVERED_REGISTRATION,
     // right-permission: Team1
     // institution-rule: Team1
   ];
