@@ -12,6 +12,7 @@ import { advanceWorld } from "../simulation/world";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { personName } from "../simulation/people";
 import { HouseholdServiceSchedule } from "./HouseholdServiceSchedule";
+import { PersonalWorkspace } from "./ShellWorkspaces";
 
 const seeds = Array.from(
   { length: 5 },
@@ -55,7 +56,18 @@ describe("Public Services: the family reads its existing child-service schedule"
         renderToStaticMarkup(
           <HouseholdServiceSchedule world={world} parentId={parentId} />,
         );
+      const renderPersonal = (world: typeof f.funded, personId = f.parentId) =>
+        renderToStaticMarkup(
+          <PersonalWorkspace
+            world={world}
+            personId={personId}
+            onOpenPerson={() => {}}
+          />,
+        );
       expect(render(f.funded)).toBe("");
+      expect(renderPersonal(f.funded)).not.toContain(
+        "Children&#x27;s service schedule",
+      );
       const asked = requestPublicService(f.funded, {
         personId: f.parentId,
         forPersonId: f.childId,
@@ -76,13 +88,21 @@ describe("Public Services: the family reads its existing child-service schedule"
       expect(html).toContain("Session scheduled.");
       expect(html).not.toContain("Session completed.");
       expect(render(asked.world, f.governorId)).toBe("");
+      const personal = renderPersonal(asked.world);
+      expect(personal).toContain('data-testid="personal-household"');
+      expect(personal).toContain(html);
+      expect(renderPersonal(asked.world, f.governorId)).not.toContain(
+        "Children&#x27;s service schedule",
+      );
       expect(serializeWorld(asked.world)).toBe(before);
       const restored = deserializeWorld(before);
       expect(render(restored)).toBe(html);
+      expect(renderPersonal(restored)).toBe(personal);
       const attended = advanceWorld(restored, 1);
       const completed = render(attended);
       expect(completed).toContain("Session completed.");
       expect(completed).toContain("Attendance check finished.");
+      expect(renderPersonal(attended)).toContain(completed);
       const receipts = attended.history.events.filter(
         (event) => event.type === "service.delivery-recorded",
       );
@@ -103,8 +123,5 @@ describe("Public Services: the family reads its existing child-service schedule"
         }) + "\n",
       );
     },
-  );
-  it.todo(
-    "the normal player's Household section renders these saved sessions after the shared shell seam is released",
   );
 });

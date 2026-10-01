@@ -1,4 +1,5 @@
 import { InterruptionChecklist } from "./InterruptionChecklist";
+import { HouseholdServiceSchedule } from "./HouseholdServiceSchedule";
 import {
   dollars,
   readableDatesIn,
@@ -1675,6 +1676,8 @@ export function PersonalWorkspace({
         </button>
         <p className="game-note">Change only your own saved appearance.</p>
       </section>
+
+      <HouseholdServiceSchedule world={world} parentId={personId} />
 
       {record.household.length > 0 ? (
         <section className="pg-personal-section">
