@@ -63,8 +63,9 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
  * How a person asks for each service whose request producer exists, and what
  * the saved activity is called. A service law with no form here has no
  * request producer yet: a request for it is unsupported, never improvised.
- * Wording only; who may ask and what counts as delivered are the same rule
- * for every row.
+ * Who may ask and what counts as delivered are the same rule for every row;
+ * the form names the activity, which of the person's own records bear on
+ * wanting it (`need`), and when the visit runs.
  */
 export interface ServiceRequestForm {
   /** What the person asked for, after "Asked {operator} for". */
@@ -74,6 +75,25 @@ export interface ServiceRequestForm {
   /** The membership's context, with {operator} and {place}. */
   readonly membership: string;
   readonly activityKind: "travel" | "confirmed";
+  /**
+   * Which saved records the resident producer reads to decide whether a
+   * person asks. `travel`: work or classes to get to inside the served place,
+   * against work outside the place the service runs. `outdoors`: children at home and the person's own
+   * time-for-yourself or time-with-people goal, against hours held by work or
+   * a job search. `reading`: classes, a learning goal and children at home,
+   * against hours held by work. `on-call` services (a crisis team) are asked
+   * for only from the record of the crisis itself, so the resident producer
+   * never asks for them.
+   */
+  readonly need: "travel" | "outdoors" | "reading" | "on-call";
+  /**
+   * Authored game profile, not research: the local start time and length of
+   * the visit a resident asks for on the day the service is paid.
+   */
+  readonly visit: {
+    readonly startMinuteOfDay: number;
+    readonly minutes: number;
+  };
 }
 
 const TRANSIT_TRIP: ServiceRequestForm = {
@@ -81,6 +101,8 @@ const TRANSIT_TRIP: ServiceRequestForm = {
   activityTitle: "Ride with {operator}",
   membership: "Registered as a rider with {operator}; home is in {place}.",
   activityKind: "travel",
+  need: "travel",
+  visit: { startMinuteOfDay: 7 * 60 + 30, minutes: 45 },
 };
 
 export const SERVICE_REQUEST_FORMS: Readonly<
@@ -90,11 +112,43 @@ export const SERVICE_REQUEST_FORMS: Readonly<
     TRANSIT_TRIP,
   "us-policy-positions:transportation-infrastructure.fare-free-transit":
     TRANSIT_TRIP,
+  // Highway money moved to transit buys what a rider uses: a trip.
+  "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit":
+    TRANSIT_TRIP,
+  "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+    asked: "a park program visit",
+    activityTitle: "Park program with {operator}",
+    membership:
+      "Signed up for park programs with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "outdoors",
+    visit: { startMinuteOfDay: 17 * 60 + 30, minutes: 90 },
+  },
+  "us-policy-positions:agriculture-natural-resources.expand-public-land-access":
+    {
+      asked: "a day on the opened public land",
+      activityTitle: "Day on public land with {operator}",
+      membership:
+        "Holds a public land access pass from {operator}; home is in {place}.",
+      activityKind: "confirmed",
+      need: "outdoors",
+      visit: { startMinuteOfDay: 9 * 60, minutes: 180 },
+    },
+  "us-policy-positions:civil-family-community.fund-public-libraries": {
+    asked: "a library visit",
+    activityTitle: "Library visit at {operator}",
+    membership: "Holds a library card from {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "reading",
+    visit: { startMinuteOfDay: 16 * 60, minutes: 60 },
+  },
   "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response":
     {
       asked: "a crisis response",
       activityTitle: "Crisis response visit from {operator}",
       membership: "Case opened with {operator}; home is in {place}.",
       activityKind: "confirmed",
+      need: "on-call",
+      visit: { startMinuteOfDay: 0, minutes: 90 },
     },
 };
