@@ -1,10 +1,10 @@
 import { expect, it } from "vitest";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, daysBetween, simulationMomentOnLocalDate } from "../dates";
 import { createScenarioWorld } from "../demo";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { advanceWorld } from "../world";
-import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {
   availableMeasureSteps,
   introduceMeasure,
@@ -24,7 +24,11 @@ import { recordFiledProvision } from "../legislative-politics";
 import { createOrganization, createWorkRelationship } from "../life";
 import { requireLifePlace, stateJurisdictionForKey } from "../life-places";
 import { congressSeats } from "../living-world/congress-seats";
-import { settleTownCompensations } from "../living-world/town-pay";
+import {
+  settleTownCompensations,
+  ensurePaydaySchedule,
+  TOWN_PAY_VERSION,
+} from "../living-world/town-pay";
 import {
   LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
   localMinimumSettingAt,
@@ -40,6 +44,7 @@ import {
 import { createPolicyCatalog } from "../policy";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { personName } from "../people";
+import { recordedPayStubs } from "../resource-income";
 import { resourceFlowTermsAt, resourcePositionAt } from "../resource-queries";
 import {
   createResourcePosition,
@@ -236,7 +241,7 @@ function enact(
   throw new Error("Controlled city law did not reach enactment");
 }
 
-function worker(start: World, jurisdictionId: EntityId) {
+function worker(start: World, jurisdictionId: EntityId, townPayroll = false) {
   const personId = start.personOrder[0]!;
   let world = createOrganization(start, {
     stableKey: "fixture:city-pay:employer",
@@ -276,7 +281,9 @@ function worker(start: World, jurisdictionId: EntityId) {
   });
   const work = world.history.workRelationships.at(-1)!;
   world = createWorkCompensation(world, {
-    stableKey: "fixture:city-pay:flow",
+    stableKey: townPayroll
+      ? `${TOWN_PAY_VERSION}:job-pay:${work.id}`
+      : "fixture:city-pay:flow",
     workRelationshipId: work.id,
     startsAt: world.currentDate,
     amount: money(100, "USD"),
@@ -488,4 +495,94 @@ it("A39 lower city amount cannot reduce an actual stronger federal floor", () =>
     100_000,
     federal.measureId,
   );
+});
+
+it("A38 scheduled town payday preserves the city law's canonical pay terms", () => {
+  const o = opened("3137000");
+  const law = enact(
+    o.world,
+    o.pack,
+    o.place.context.jurisdiction.id,
+    CITY_MINIMUM_WAGE_QUESTION_KEY,
+    1875,
+  );
+  const f = worker(law.world, o.place.context.jurisdiction.id, true);
+  const scheduled = ensurePaydaySchedule(f.world);
+  expect(ensurePaydaySchedule(scheduled)).toBe(scheduled);
+  const registry = createCampaignElectionTransitionRegistry();
+  const paid = advanceWorld(scheduled, 14, registry);
+  const terms = resourceFlowTermsAt(paid, f.flow.id)!;
+  expect(terms.amount.minorUnits).toBe(75_000);
+  const outcomes = paid.history.resourceTransferOutcomes.filter(
+    (row) => row.resourceFlowId === f.flow.id,
+  );
+  expect(outcomes.length).toBeGreaterThan(0);
+  expect(
+    outcomes.every((row) => row.transferredAmount.minorUnits === 75_000),
+  ).toBe(true);
+  expect(
+    paid.history.statutoryTaxLiabilities!.some((row) =>
+      outcomes.some((outcome) => outcome.id === row.sourceOutcomeId),
+    ),
+  ).toBe(true);
+  expect(
+    serializeWorld(
+      advanceWorld(deserializeWorld(serializeWorld(scheduled)), 14, registry),
+    ),
+  ).toBe(serializeWorld(paid));
+  const stubs = recordedPayStubs(paid, f.personId).filter(
+    (row) => row.paycheck.resourceFlowId === f.flow.id,
+  );
+  expect(stubs.length).toBe(outcomes.length);
+  expect(stubs.map((row) => row.withheld.minorUnits)).toEqual([12_606]);
+  expect(stubs.map((row) => row.netPaid.minorUnits)).toEqual([62_394]);
+  expect(stubs.every((row) => row.assessmentStatus === "recorded")).toBe(true);
+  expect(
+    stubs.every(
+      (row) =>
+        row.netPaid.minorUnits ===
+        row.paidGross.minorUnits - row.withheld.minorUnits,
+    ),
+  ).toBe(true);
+  const cashMinor = resourcePositionAt(
+    paid,
+    { kind: "organization", organizationId: f.organizationId },
+    money(1, "USD").currency,
+  )!.liquidBalance.minorUnits;
+  expect(cashMinor).toBe(1_000_000 - outcomes.length * 75_000);
+  console.info("TOWN_SCHEDULED_CITY_PAY", {
+    person: personName(paid.people[f.personId]!),
+    flowId: f.flow.id,
+    grossMinor: stubs.map((row) => row.paidGross.minorUnits),
+    withheldMinor: stubs.map((row) => row.withheld.minorUnits),
+    netMinor: stubs.map((row) => row.netPaid.minorUnits),
+    employerCashMinor: cashMinor,
+    termsKind: terms.lawEffectStamps?.[0]?.effectKind ?? null,
+  });
+  expect(terms.lawEffectStamps?.[0]?.effectKind).toBe("pay");
+  expect(terms.lawEffectStamps![0]!.governingLawKey).toBe(law.measureId);
+  for (const outcome of outcomes) {
+    expect(outcome.lawEffectStamps?.at(-1)?.effectKind).toBe("pay");
+    expect(outcome.lawEffectStamps?.at(-1)?.governingLawKey).toBe(
+      law.measureId,
+    );
+  }
+  const exposure = paid.history.lawExposures?.find(
+    (row) => row.personId === f.personId && row.sourceRecordId === terms.id,
+  );
+  expect(exposure?.measureId).toBe(law.measureId);
+  expect(exposure?.recordedAt).toBe(outcomes[0]!.occurredAt);
+  expect(
+    settleTownCompensations(
+      paid,
+      outcomes.map((row) => ({
+        payFlowId: row.resourceFlowId,
+        activityId: row.resourceFlowId,
+        stableKey: row.stableKey,
+        periodStartsAt: row.periodStartsAt,
+        periodEndsAt: row.periodEndsAt,
+        onDate: row.occurredAt,
+      })),
+    ),
+  ).toBe(paid);
 });
