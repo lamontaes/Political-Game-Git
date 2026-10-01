@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
 
 import { crisisOfficeContinuityNotices } from "../simulation/crisis/notices";
 import { projectCongress } from "../simulation/living-world/congress";
@@ -12,7 +13,6 @@ import type { EntityId, World } from "../simulation";
 import { recordOfficialContinuity } from "../simulation/crisis/continuity";
 import { recordPersonDeath } from "../simulation/vitality";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /**
@@ -28,10 +28,14 @@ const VITALITY = {
 };
 
 function openingWorld(seed: string): World {
-  const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
-  ).game!;
-  return openOrdinaryLife(game.world, game.playerPersonId);
+  // The cases read the seated governor and members of Congress, not the
+  // opening's households or town.
+  const small = smallWorld({
+    place: DEFAULT_NEW_GAME_SETUP.placeKey,
+    seed,
+    offices: ["congress", "governor"],
+  });
+  return openOrdinaryLife(small.world, small.personId);
 }
 
 /** A death written the way CRISIS writes one, including its office notice. */

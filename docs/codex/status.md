@@ -1,3 +1,29 @@
+# Foundation repair and current integration blockers
+
+The foundation repair is published for cloud checking. Ratification ownership is closed, and the sentencing check has a concrete repair route. Monthly payroll and wage-tax attribution still require decisions about existing saved records.
+
+## Published source and evidence
+
+- Foundation #1611 is draft at a57a71daa9806f6e268098cdb56c8973eec45092, containing main 5d6bb239d3c62c056a4337fccfab991793078c2c. The tax fixture now binds the production excise question and preserves the controlled character. Current-head runtime is pending. Earlier 2-pass, 4-fail fiscal evidence remains historical, not a pass.
+- Payroll #1575 is draft at f1c9b6d0c6f2237b95cafd7c20542e481345823a. It includes Team 3's genuine pre-change payment fixture. The new writer remains strict; saved-record compatibility is unresolved. Team 3 reported 15 passes and one legacy failure on its earlier composition.
+- Team 2 #1625 is verified open and ready at afc31d7dca56bb88e007b2708e2d62109bcebf42. Its unchanged seven-case test passed in the team receipt. CTO cloud routing remains pending.
+- Team 7 #1510 is published at 953d3ef38fffd6c309fc328d4e885da2e31f7365. Current-head runtime is pending. Its A5 source renewal is local at 9b3a8de13c170e0dd6bb3c83a71f4fc994f13e60; the proposed dependency #1619 is verified open, not merged.
+- Team 9 #1621 remains draft at cf9fb053f0d3656d122bc678db033fddc97773a5. Audit supplied the existing executive-signature route; Team 9 received the fixture repair instructions. No repaired enactment result is claimed.
+- Team 6 #1610 source admission is published at ed100d549bd10457cbbf0b7608a855bd10e801a8. Team 6 reports 13 source tests passing; wage-authority artifacts, attribution and selected-levy activation remain incomplete.
+- Team 5's latest Standby Claude receipt reports #1624 ready, with 15 changed-file cases passing. Its remaining content-pack draw and authored preference mapping are explicitly under CTO review.
+
+## Connections and next actions
+
+Checker 3 checks the foundation fiscal file on current main. Team 2 builds ratification through the shared decider after receiving the narrow writer release. Team 9 repairs the executive-signature fixture. Team 7 prepares its existing A5 callers while the CTO routes its clock tests and fixture dependency.
+
+Coordinator retains the monthly guards, tax handler and starting-law exposure writer. The missing wage-authority source packet and saved-record contracts remain explicit blockers. The notice consumer is not released. No player, nationwide or installed-build acceptance is inferred from these source checks.
+
+## Verification
+
+Live GitHub confirmed #1617 merged, #1619 open and #1625 ready. This update was prepared October 1 after checking the system clock. Publication uses Git objects and an isolated index; the shared working files remain untouched.
+
+## Earlier checkpoints
+
 # Teams resume blocked work; law connections remain under review
 
 The fiscal repair is on main. Monthly payroll, rent coverage and the referral extraction now have decisions or a working publication route. The foundation connects more saved activities, but its runtime checks are still pending.

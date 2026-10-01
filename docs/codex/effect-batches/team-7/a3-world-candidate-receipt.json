@@ -1,0 +1,9 @@
+{
+  "base": "ce0e3f8740a1f51f78f5b501821cd4303a109445",
+  "main": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+  "candidateSha256": "3dc0bbe6d7d3d46acbb58fb2b32390540c885d03e5b586154b0b8a2ca07d38c6",
+  "applied": false,
+  "scope": "advanceWorld/unchecked and clock-only imports",
+  "semantics": "target local moment, actual elapsed minutes across DST; existing complete composer; sole minute completion",
+  "tests": "NOT RUN; boundary review pending"
+}
