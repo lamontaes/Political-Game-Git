@@ -9,6 +9,8 @@
  *   reader   `dataFile` is read by some non-test file under src/
  *
  * A `file` ending in "/" means every non-test code file under that folder.
+ * Patterns are tested line by line with comments blanked out, so a name in a
+ * doc comment neither keeps a bad call alive nor proves a replacement.
  * An item is done only when every one of its rules passes and its rules
  * cover the whole item (`covers: "whole"`); rules that cover part of an
  * item can at most make it partly done. Some rules passing is partly, none is
@@ -24,7 +26,12 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { codeFiles, REPO_ROOT, researchReaders } from "./readers";
+import {
+  codeFiles,
+  REPO_ROOT,
+  researchReaders,
+  withoutComments,
+} from "./readers";
 
 export const VERIFIED_PATH = "docs/codex/audit-verified-2026-10-01.json";
 export const RULES_PATH = "scripts/audit/rules.json";
@@ -90,7 +97,10 @@ function textOf(path: string): string | null {
     const absolute = join(REPO_ROOT, path);
     textCache.set(
       path,
-      existsSync(absolute) ? readFileSync(absolute, "utf8") : null,
+      // Comments are blanked: a name in a doc comment is not a live call.
+      existsSync(absolute)
+        ? withoutComments(readFileSync(absolute, "utf8"))
+        : null,
     );
   }
   return textCache.get(path)!;
