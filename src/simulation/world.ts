@@ -1,3 +1,7 @@
+import {
+  privateBeliefSubjectId,
+  validatePrivateBeliefSubject,
+} from "./political-opinion-subjects";
 import { applyDateBoundary } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
@@ -3289,11 +3293,7 @@ function validatePoliticalHistory(
       belief.formedAt,
       belief.id,
     );
-    if (!world.policyCatalog.propositions[belief.propositionId]) {
-      throw new Error(
-        `Private belief references a missing proposition: ${belief.id}`,
-      );
-    }
+    validatePrivateBeliefSubject(world, belief);
     assertMember(BELIEF_POSITIONS, belief.position, "belief position");
     assertMember(CONVICTIONS, belief.conviction, "belief conviction");
     assertMember(SALIENCES, belief.salience, "belief salience");
@@ -3321,7 +3321,7 @@ function validatePoliticalHistory(
       belief,
       belief.supersedesBeliefId,
       beliefsById,
-      (record) => record.propositionId,
+      privateBeliefSubjectId,
       (record) => record.formedAt,
       "private belief",
     );

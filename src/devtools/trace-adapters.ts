@@ -1094,14 +1094,16 @@ function privateBeliefNode(record: PrivateBeliefRecord): TraceNode {
     recordedAt: record.formedAt,
     entityRefs: [
       { role: "personId", entityId: record.personId },
-      { role: "propositionId", entityId: record.propositionId },
+      ...(record.propositionId === null
+        ? []
+        : [{ role: "propositionId", entityId: record.propositionId }]),
     ],
     links: [...formation.links, ...supersedes.links],
     unrecordedLinks: [
       ...formation.unrecordedLinks,
       ...supersedes.unrecordedLinks,
     ],
-    developmentSummary: `private-belief position=${record.position} conviction=${record.conviction} salience=${record.salience} ${formation.note}`,
+    developmentSummary: `private-belief subject=${record.subject?.key ?? record.propositionId} option=${record.optionKey ?? record.position} conviction=${record.conviction} salience=${record.salience} ${formation.note}`,
     recordText: record.rationale,
   });
 }

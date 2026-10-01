@@ -990,7 +990,10 @@ export interface PrivateBeliefRecord {
   readonly stableKey: string;
   readonly sequence: number;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /** Absent on legacy policy beliefs; party questions have no proposition. */
+  readonly subject?: { readonly kind: "party-question"; readonly key: string };
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;

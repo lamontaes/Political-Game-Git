@@ -358,6 +358,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     latestBelief.set(belief.propositionId, belief);
   }
   for (const belief of latestBelief.values()) {
+    if (belief.propositionId === null) continue;
     const proposition = world.policyCatalog.propositions[belief.propositionId];
     if (!proposition) continue;
     entries.push({
