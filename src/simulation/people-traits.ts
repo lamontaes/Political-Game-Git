@@ -15,18 +15,20 @@ import {
   upbringingCoreValue,
   upbringingFor,
   upbringingTraitTendencies,
+  type PersonUpbringing,
 } from "./people-upbringing";
 import {
   latestPersonalityTendenciesForPerson,
   latestPersonalityTendency,
 } from "./queries";
-import { SeededRng } from "./rng";
 import {
   isOneSided,
   strengthForMagnitude,
   traitDefinitionFromPack,
   type RegisteredTrait,
 } from "./trait-packs";
+import type { TraitLifePart } from "./personality-trait-registry";
+import { SeededRng } from "./rng";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
 import { writeWithWorldIntegrityOnce } from "./world";
@@ -92,7 +94,7 @@ export function ensurePeopleTraitCatalog(world: World): World {
   };
 }
 
-/** The value this person was born with, from their own stream. Pure. */
+/** This person's core value, from their upbringing alone. Pure. */
 export function seededTraitValue(
   world: World,
   personId: EntityId,
@@ -395,18 +397,72 @@ function seedPeopleTraits(
   return next;
 }
 
+/** One notable quality an upbringing leans a person toward. */
+export interface UpbringingQuality {
+  /** The qualified key of the personality-catalog trait. */
+  readonly trait: string;
+  /** Which end of the scale the upbringing leans toward. */
+  readonly value: 1 | -1;
+  /** How strongly, as the summed weight of every row that names it. */
+  readonly weight: number;
+  readonly because: readonly string[];
+  readonly lifePart: TraitLifePart | null;
+}
+
 /**
- * Writes age-appropriate notable qualities from inborn draws and upbringing.
+ * How many notable qualities an upbringing is allowed to write: one for a
+ * small child, two for an older child, three for an adult. The catalog stays
+ * sparse; every other scale reads as unknown, not as "not like that".
+ */
+export function notableQualityRoom(age: number): number {
+  return age < 6 ? 1 : age < 18 ? 2 : 3;
+}
+
+/**
+ * The notable qualities an upbringing leans toward, strongest first. Pure:
+ * the same upbringing gives the same list in every world. Rows that name the
+ * same trait add up, and rows that pull it both ways cancel, leaving that
+ * trait at the middle (unrecorded). Ties go by trait key.
+ */
+export function upbringingQualities(
+  upbringing: PersonUpbringing,
+): readonly UpbringingQuality[] {
+  const byTrait = new Map<
+    string,
+    { net: number; because: string[]; lifePart: TraitLifePart | null }
+  >();
+  for (const row of upbringingTraitTendencies(upbringing)) {
+    const entry = byTrait.get(row.trait) ?? {
+      net: 0,
+      because: [],
+      lifePart: null,
+    };
+    entry.net += row.pole === "low" ? -row.weight : row.weight;
+    if (!entry.because.includes(row.because)) entry.because.push(row.because);
+    entry.lifePart ??= row.lifePart;
+    byTrait.set(row.trait, entry);
+  }
+  return [...byTrait.entries()]
+    .filter(([, entry]) => entry.net !== 0)
+    .map(([trait, entry]): UpbringingQuality => ({
+      trait,
+      value: entry.net > 0 ? 1 : -1,
+      weight: Math.abs(entry.net),
+      because: entry.because,
+      lifePart: entry.lifePart,
+    }))
+    .sort((a, b) =>
+      b.weight !== a.weight ? b.weight - a.weight : a.trait < b.trait ? -1 : 1,
+    );
+}
+
+/**
+ * Writes age-appropriate notable qualities from the person's upbringing.
  *
- * Sparse on purpose: every other scale in the catalog stays unrecorded,
- * which reads as unknown, not as "not like that". Nothing is inferred from
- * sex, race, location or party.
- *
- * A one-sided quality is only ever written at its marked end; a two-ended one
- * leans either way with equal odds. Adults receive three to five notable
- * qualities and children one or two. One to three are inborn for adults, one
- * for children, and an inborn quality is strong one time in eight. The rest
- * come from the person's generated upbringing.
+ * Nothing is drawn: the upbringing's strongest leans fill the room the
+ * person's age allows (see `notableQualityRoom`), and an upbringing with no
+ * lean writes nothing, which leaves every scale at the middle. Nothing is
+ * inferred from sex, race, location or party.
  *
  * Existing records are counted and never overwritten, so calling this again
  * writes nothing twice and never erases a quality a life has moved.
@@ -432,70 +488,29 @@ function seedSalientQualities(
     .map((record) => byDefinitionId.get(record.tendencyId))
     .filter((trait): trait is RegisteredTrait => trait !== undefined);
   const selected = new Set(existing.map(({ qualifiedKey }) => qualifiedKey));
-  const rng = new SeededRng(world.seed).fork(
-    `${PERSONALITY_PACK}:starting:${personId}`,
-  );
-  const targetCount = age < 6 ? 1 : age < 18 ? 2 : rng.integer(3, 6);
-  const inbornCount = age < 18 ? 1 : rng.integer(1, 4);
+  const room = notableQualityRoom(age);
   let next = world;
-  const remaining = [...catalogue].filter(
-    ({ qualifiedKey }) => !selected.has(qualifiedKey),
-  );
-
-  for (
-    let index = existing.length;
-    index < Math.min(inbornCount, targetCount) && remaining.length > 0;
-    index += 1
-  ) {
-    const trait = remaining.splice(rng.integer(0, remaining.length), 1)[0]!;
-    selected.add(trait.qualifiedKey);
-    const magnitude = rng.integer(0, 8) === 0 ? 2 : 1;
-    const value =
-      isOneSided(trait) || rng.integer(0, 2) === 1 ? magnitude : -magnitude;
-    next = ensureTraitDefinition(next, trait);
-    next = recordPersonalityTendency(next, {
-      stableKey: `${trait.qualifiedKey}:${personId}:inborn:${index}`,
-      personId,
-      tendencyId: traitDefinitionFromPack(trait).id,
-      recordedAt: laterOf(person.birthDate, onDate),
-      ...encodeRegisteredTrait(trait, value),
-      confidence: "medium",
-      scopeTags: [`${PERSONALITY_PACK}.inborn`],
-      provenance: createMindProvenance("authored", {
-        note: "An inborn notable quality, drawn once from this person's own stream.",
-      }),
-      supersedesTendencyId: null,
-    });
-  }
-
-  const upbringing = upbringingFor(next, personId);
-  const pool = upbringingTraitTendencies(upbringing)
-    .filter(({ trait }) => byQualifiedKey.has(trait) && !selected.has(trait))
-    .flatMap((candidate) =>
-      Array.from({ length: candidate.weight }, () => candidate),
-    );
   let slot = selected.size;
-  while (selected.size < targetCount && pool.length > 0) {
-    const candidate = pool.splice(rng.integer(0, pool.length), 1)[0]!;
-    if (selected.has(candidate.trait)) continue;
-    const trait = byQualifiedKey.get(candidate.trait)!;
-    selected.add(candidate.trait);
+  for (const quality of upbringingQualities(upbringingFor(world, personId))) {
+    if (selected.size >= room) break;
+    const trait = byQualifiedKey.get(quality.trait);
+    if (!trait || selected.has(quality.trait)) continue;
+    if (quality.value < 0 && isOneSided(trait)) continue;
+    selected.add(quality.trait);
     next = ensureTraitDefinition(next, trait);
     next = recordPersonalityTendency(next, {
       stableKey: `${trait.qualifiedKey}:${personId}:upbringing:${slot}`,
       personId,
       tendencyId: traitDefinitionFromPack(trait).id,
       recordedAt: laterOf(person.birthDate, onDate),
-      ...encodeRegisteredTrait(trait, candidate.pole === "low" ? -1 : 1),
+      ...encodeRegisteredTrait(trait, quality.value),
       confidence: "medium",
       scopeTags: [
         `${PERSONALITY_PACK}.upbringing`,
-        ...(candidate.lifePart === null
-          ? []
-          : [`life-part:${candidate.lifePart}`]),
+        ...(quality.lifePart === null ? [] : [`life-part:${quality.lifePart}`]),
       ],
       provenance: createMindProvenance("authored", {
-        note: `This person's upbringing tended toward this quality because of ${candidate.because}.`,
+        note: `This person's upbringing tended toward this quality because of ${quality.because.join(" and ")}.`,
       }),
       supersedesTendencyId: null,
     });

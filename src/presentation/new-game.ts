@@ -517,7 +517,6 @@ export function createNewGameWorld(
       // change what the generator draws, and never which world this is.
       seed: buildSeedFor(setup),
       familyStructureSeed: worldSeedFor(setup),
-      personalitySeed: setup.seed,
       place,
       age: setup.startAge,
       ...(setup.birthMonth === undefined || setup.birthDay === undefined

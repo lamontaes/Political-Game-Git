@@ -125,8 +125,6 @@ export type ProductionHousehold = "lives-alone" | "shares-a-home";
 export interface ProductionWorldInput {
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
-  /** Independent raw seed; excludes names, demographics and setup identity. */
-  readonly personalitySeed?: string;
   /** World identity seed, before calibration; topology is not a shaped age range. */
   readonly familyStructureSeed?: string;
   readonly place: LifePlace;
@@ -449,10 +447,7 @@ export function buildProductionWorld(
       )
     )
       continue;
-    world = establishLifePersonality(world, personId, {
-      seed: input.personalitySeed ?? input.seed,
-      key: `person:${world.personOrder.indexOf(personId)}`,
-    });
+    world = establishLifePersonality(world, personId);
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
   world = syncDistrictMembershipFromCanonicalHome(
@@ -615,10 +610,7 @@ export function finalizePreStartPlayer(
       )
     )
       continue;
-    world = establishLifePersonality(world, personId, {
-      seed: input.personalitySeed ?? input.seed,
-      key: `person:${world.personOrder.indexOf(personId)}`,
-    });
+    world = establishLifePersonality(world, personId);
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
   world = syncDistrictMembershipFromCanonicalHome(
