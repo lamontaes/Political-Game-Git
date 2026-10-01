@@ -7,7 +7,7 @@ import {
   privateBeliefSubjectId,
   validatePrivateBeliefSubject,
 } from "./political-opinion-subjects";
-import { applyDateBoundary } from "./time-work";
+import { applyDateBoundariesThrough } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
   changedHistoryCheckCounts,
@@ -133,7 +133,6 @@ import {
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
   futureTransitionHistoryRecords,
-  resolveFutureDueItemsThrough,
 } from "./future-transitions";
 import {
   appendHistoricalEvent,
@@ -1412,9 +1411,9 @@ function advanceWorldUnchecked(
   const nextDate = addDays(world.currentDate, days);
   const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
   const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;
-  const transitioned = resolveFutureDueItemsThrough(
+  const transitioned = applyDateBoundariesThrough(
     world,
-    nextDate,
+    nextMoment,
     transitionHandlers,
   );
   const advanced: World = {
@@ -1424,7 +1423,7 @@ function advanceWorldUnchecked(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyDateBoundary(world.currentDate, advanced);
+  const continued = advanced;
   return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
