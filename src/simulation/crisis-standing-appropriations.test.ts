@@ -8,6 +8,7 @@ import { deserializeWorld, serializeWorld } from "./serialization";
 import { resourcePositionAt } from "./resource-queries";
 import { money } from "./resources";
 import { stableHash } from "./ids";
+import { personName } from "./people";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   BUDGET_PROGRAMS,
@@ -289,9 +290,12 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
       "988_PAYMENT_FIXTURE",
       selected.row.placeKey,
       "seed team6-988-cash-limits",
+      personName(paid.world.people[governor.personId]!),
       governor.personId,
       appropriation.id,
+      funded.recordId,
       paid.installment.id,
+      paid.installment.resourceFlowId,
       outcome.id,
     );
   });
