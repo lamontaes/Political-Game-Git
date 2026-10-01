@@ -166,6 +166,22 @@ describe("the actual anniversary renewal calls native price-cost dispatch", () =
         currentDate: day,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, day),
       };
+      // Same actual anniversary fixture without the controlled price row:
+      // distinguish a pre-existing save failure from the handler consequence.
+      const baselineWorld = {
+        ...world,
+        policyCatalog: {
+          ...world.policyCatalog,
+          propositions: {
+            ...world.policyCatalog.propositions,
+            [proposition.id]: proposition,
+          },
+        },
+      };
+      const baseline = withWorldIntegrityDeferred(() =>
+        renewTownLeases(baselineWorld, day),
+      );
+      expect(() => serializeWorld(baseline)).not.toThrow();
       const beforePayments = world.history.resourceTransferOutcomes;
       const beforeFlows = world.history.resourceFlows;
       const beforeObligations = world.history.resourceObligations;
