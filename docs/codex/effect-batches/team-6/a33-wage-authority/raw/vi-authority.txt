@@ -1,0 +1,861 @@
+                1
+
+
+
+
+TAX STRUCTURE BOOKLET
+         OF THE
+  U.S. VIRGIN ISLANDS
+
+
+
+
+    ALBERT A. BRYAN, JR.
+        GOVERNOR
+
+      JOEL A. LEE, CPA
+        DIRECTOR
+                                                                                              2
+
+
+                                              FOREWORD
+
+
+       This booklet is issued to provide general information regarding taxation in the U.S. Virgin
+Islands. It contains information that was current at the time of publication.
+
+
+       The Tax Structure of the U.S. Virgin Islands booklet has been prepared by the Virgin Islands
+Bureau of Internal Revenue (BIR). While every effort has been made to ensure that the information
+contained in this publication is complete and accurate, it is not intended to be a substitute for the
+provisions of the statutes themselves or for court decisions, regulations, or rulings interpreting
+applicable statutory provisions in light of specific facts.
+
+
+                      The contact information for the BIR’s St. Thomas office is:
+                             Virgin Islands Bureau of Internal Revenue
+                             6115 Estate Smith Bay Ste 225
+                             St. Thomas, U.S. Virgin Islands 00802
+                             Telephone: (340) 715-1040
+                             Fax: (340) 774-2672
+                      The contact information for the BIR’s St. John office is:
+                             Virgin Islands Bureau of Internal Revenue
+                             P. O. Box 8305
+                             St. John, Virgin Islands 00831
+                             Telephone: (340) 777-1446
+                             Fax: (340) 777-1425
+                      The contact information for the BIR’s St. Croix office is:
+                             Virgin Islands Bureau of Internal Revenue
+                             Leroy A. Quinn Government Finance Center
+                             4008 Estate Diamond, Plot 7B
+                             Christiansted, US Virgin Islands 00820
+                             Telephone: (340) 773-1040
+                             Fax: (340) 773-1006
+                                                                                               3
+
+
+
+
+                     ORGANIZATION OF THE VIRGIN ISLANDS GOVERNMENT
+
+
+       The organization of the Government of the United States Virgin Islands (the Virgin Islands)
+rests upon the Revised Organic Act of 1954, 48 U.S.C. §1397, 68 Stat. 497, in which the U.S.
+Congress declared the U.S. Virgin Islands (the Virgin Islands) to be an unincorporated U.S. territory.
+The executive power of the Virgin Islands is vested in the Governor who, together with the
+Lieutenant Governor, is elected by qualified Virgin Islands voters for a four-year term.           The
+Governor is limited to two consecutive terms.
+
+
+       The Virgin Islands Bureau of Internal Revenue (the BIR) is responsible for the administration
+of the internal revenue laws of the Virgin Islands. The Director of the BIR is appointed by the
+Governor, with the advice and consent of the Virgin Islands Legislature, and serves at the discretion
+of the Governor.
+
+
+       The legislative power of the Virgin Islands is vested in a unicameral legislature consisting of
+15 senators: seven from St. Croix, seven from St. Thomas, and one Senator-at-Large from St.
+John. Senatorial elections are held every two years.
+
+
+       A non-voting delegate, who is elected by Virgin Islands’ voters for a two-year term,
+represents the Virgin Islands in the United States House of Representatives. The delegate can sit
+and vote in committee.
+
+
+       The judicial power of the Virgin Islands is vested in the District Court of the Virgin Islands,
+Supreme Court and Superior Court of the Virgin Islands, as provided in the Revised Organic Act of
+1954. The District Court of the Virgin Islands functions as a United States Federal district court in
+all causes arising under the Constitution, treaties, and laws of the United States. The Supreme
+Court of the Virgin Islands functions as an appellate court for appeals from the decisions of the
+                                                                                                 4
+
+
+Superior Court. Appeals from the decisions of the District Court of the Virgin Islands are made to
+the U.S. Court of Appeals for the Third Circuit, which is based in Philadelphia, Pennsylvania.
+
+
+       The U.S. Tax Court does not have jurisdiction to hear tax cases arising under the income
+tax laws applicable in the Virgin Islands. However, a V.I. taxpayer can file a timely petition in the
+District Court of the Virgin Islands prior to payment of any asserted income tax deficiency, similar
+to the procedure that applies in the U.S. Tax Court.
+
+
+       The Virgin Islands tax system includes income, container, gross receipts, excise, highway
+user’s, hotel room, real property, entertainment, franchise, fuel, gift, inheritance, tire and stamp
+taxes. Other fees and license requirements are also in effect for such services as registering
+vehicles, obtaining driver’s licenses, and obtaining business licenses.
+
+
+       Whenever the Virgin Islands tax laws require the filing of tax returns, statements, notices,
+or schedules, the form or other documents should be directed to the Bureau of Internal Revenue,
+6115 Estate Smith Bay Ste 225, St. Thomas, US Virgin Islands, 00802, unless otherwise indicated
+in this or another BIR publication or release. All checks must be made payable to the Virgin Islands
+Bureau of Internal Revenue.
+                                                                                               5
+
+
+                  INCOME TAX LAWS IN EFFECT IN THE VIRGIN ISLANDS
+
+
+                                        GENERAL PRINCIPLES
+
+
+       The sources of the Virgin Islands income taxing authority include the Internal Revenue Code
+of 1986 (the IRC) and the Naval Service Appropriations Act of 1922, which established the principle
+that the IRC applies in the Virgin Islands under a “mirror system” whereby the “Virgin Islands” is
+substituted for the “United States” wherever necessary to give the IRC the proper effect in the
+Virgin Islands, and vice versa.
+
+
+       Specifically, the Naval Service Appropriations Act provided in pertinent part that “the income
+tax laws in force in the United States of America and those which may hereafter be enacted shall
+be held to be likewise in force in the Virgin Islands of the United States, except that proceeds of
+such taxes shall be paid into the treasuries of said islands.”       Consequently, the income tax
+provisions of the IRC, the Treasury Regulations promulgated thereunder, and Revenue Rulings and
+Revenue Procedures issued by the Internal Revenue Service (the IRS) are generally applicable in
+the Virgin Islands with certain limitations.
+
+
+       Three principles underscore the application of the IRC to the Virgin Islands. First, the effect
+of the Naval Service Appropriations Act was to create a separate taxing structure in the Virgin
+Islands by mirroring the provisions of the IRC. Second, for the purposes of applying the IRC to
+the Virgin Islands, a domestic corporation is a corporation incorporated in the Virgin Islands, while
+a foreign corporation is one chartered elsewhere, including the Untied States. Third, provisions of
+the IRC are not mirrored if to do so would produce a clearly erroneous result, such as the provisions
+which deal specifically with the territories.
+                                                                                                6
+
+
+
+
+                      Significant Changes Made by the Tax Reform Act of 1986
+
+
+        The Tax Reform Act of 1986 (TRA) made several changes to the income tax laws applicable
+to the Virgin Islands. First, TRA provided that the Revised Organic Act of 1954 would be treated
+as if it had been enacted before the IRC, so that the IRC controls in cases of conflict. TRA specified
+that the Revised Organic Act of 1954 will have no effect on any person’s liability to the United
+States.
+
+
+        Second, the U.S. Treasury Department was also given the authority to specify sections of
+the IRC that would not be mirrored in the Virgin Islands, but it has not done so to date.
+
+
+        Third, TRA allowed the Virgin Islands to enact nondiscriminatory local income taxes in
+addition to those contained in the mirror system. However, the Virgin Islands Legislature has not
+enacted such taxes to date.
+
+
+        Fourth, TRA gave the Virgin Islands the authority to reduce or rebate all or part of the Virgin
+Islands tax liabilities of individuals and corporations attributable to V.I. source income or income
+effectively connected with a V.I. trade or business, other than the V.I. tax liabilities of citizens or
+residents of the United States who are not bona-fide residents of the Virgin Islands (IRC § 934 (b)
+(1)).
+
+
+        Fifth, TRA gave the Virgin Islands the authority to reduce or rebate the tax on all non-U.S.
+income of certain qualified foreign corporations, generally defined as a corporation where less than
+10 percent of the total voting power is the corporation’s stock and the total value of the
+corporation’s stock is owned by one or more U.S. persons (IRC § 934 (b) (3)).
+
+
+               Finally, the enactment of §932 of the IRC altered the way that U.S. individuals are
+taxed in the Virgin Islands, as more fully discussed later in this booklet.
+                                                                                               7
+
+
+
+
+                                         Tax Administration
+
+
+       Utilizing the IRC, Treasury Regulations, IRS Revenue Rulings, and IRS Revenue Procedures
+gives the Virgin Islands the benefit of a sophisticated and successful income tax system. Further,
+it enables V.I. taxpayers to use the hundreds of IRS forms and accompanying instructions in print
+for filing returns, preparing supporting schedules, filing claims, making payments, and so forth.
+Only a few of these forms have been modified for local use. In particular, the forms for transmitting
+payroll withholding, Forms 501VI and 941VI, and the form for informing employees of the amount
+of tax withheld, Form W-2VI, have been modified for use in the Virgin Islands. Any questions in
+interpreting Federal Forms for use in the Virgin Islands should be referred to the BIR.
+
+
+       All references to the District Director or the Commissioner of the Internal Revenue Service
+should be interpreted to mean the Director of the Virgin Islands Bureau of Internal Revenue.
+Similarly, all references to the Internal Revenue Service, the Federal Depository, and similar
+references should be interpreted as the BIR. Directions in forms or in instructions pamphlets that
+refer to District Directors, the Commissioner of Internal Revenue, the Internal Revenue Service,
+Federal Depository, and so forth are appropriate for use in the Virgin Islands, with the above
+mentioned caveat.
+
+
+       A Virgin Islands taxpayer has the same appeal rights concerning disputed income taxes as
+his or her counterpart does in the United States. The taxpayer is entitled to a “one level of appeal”
+hearing, at which the standards and guidelines for settlement are substantially similar to those in
+the United States.
+
+
+       A statutory notice of deficiency (a 90-day letter) is issued in cases where agreement on
+income tax matters is not reached. Since the U.S. Tax Court does not have jurisdiction to hear V.I.
+income taxes cases, the taxpayer may take his or her case directly to the District Court of the Virgin
+Islands without first paying the deficiency.
+                                                                                                 8
+
+
+
+       The Processing Accounts and Returns Branch of all three islands is centrally located on St.
+Thomas. The primary responsibilities of this branch are the processing of all tax returns and the
+depositing of all revenues received by the BIR. St. Croix has its own daily deposit function. Excise
+tax collections are also carried out separately on all three islands. Other processing functions, such
+as the issuance of tax clearance letters for the Stop Tax Evasion Program (STEP), have also been
+decentralized to the St. Croix and St. John districts.
+
+
+       The Computer Operations Branch is responsible for the automated processing of all tax
+information on computer systems located on both St. Thomas and St. Croix. The primary services
+rendered by the BIR’s computer branch are transmittal of taxpayer refunds to the Department of
+Finance for issuance, billing for outstanding tax liabilities, and provisions of current management
+information.
+
+
+       The Audit Enforcement Branch has agents on St. Thomas and on St. Croix. The agents
+receive IRS training. Audit procedures and forms are generally the same as those of the IRS. This
+branch is responsible for the classification and examination of income tax and local tax returns.
+
+
+       The Delinquent Accounts and Returns Branch is responsible for the collection of all unpaid
+internal revenue taxes of the Virgin Islands, other than real property taxes, stamp taxes, and
+franchise taxes. Revenue Officers in the Delinquent Accounting and Returns Branch receive IRS
+training, and collection procedures and forms are generally the same as those used in the United
+States, including levies, liens and seizures. The Delinquent Accounts and Return Branch posts
+revenue officers on both St. Thomas and St. Croix as well.
+
+
+       The Criminal Investigations Division is responsible for the investigation of tax fraud and tax
+evasion cases. Criminal cases are referred to the Department of Justice for prosecution. The
+special agents of the Criminal Investigation Division receive IRS training at Glenco, Georgia.
+                                                                                               9
+
+
+                                        INDIVIDUAL INCOME TAX
+
+
+       General. Individuals who are bona fide residents of the Virgin Islands file Form 1040 with
+the Virgin Islands and pay tax on their worldwide income to the Virgin Islands. If a V.I. resident
+taxpayer has non-V.I. source income, he or she must also complete V.I. Form 1040 INFO (Non-
+Virgin Islands source income of Virgin Islands residents) and attach it to Form 1040 before filing it
+with the BIR.
+
+
+       The V.I. tax liability for all other U.S. citizens or residents with V.I. income is computed a
+fraction of the taxpayer’s total liability, based on the ratio of adjusted gross income.        Such
+individuals must file signed identical returns with the United States and the Virgin Islands by April
+15 of the following year (assuming a calendar year taxpayer), using IRS Form 8689 to figure out
+what portion of their income tax must be paid to the Virgin Islands. This form must be attached
+to both returns. The U.S. return should be filed with the IRS Center, Philadelphia, PA 19255, and
+the V.I. return should be filed with the BIR in St. Thomas. When this procedure is followed, both
+a taxpayer’s payments to the Virgin Islands and V.I. employer withholdings are credited against
+his or her U.S. tax liability.
+
+
+       Section 932 of the IRC provides that the United States will be treated as including the Virgin
+Islands for purposes of determining the U.S. tax liability of U.S. citizens or residents with Virgin
+Islands income, and the Virgin Islands will be treated as including the United States for purposes
+of determining V.I. tax liability. In effect, this ensures that U.S. citizens who do not reside in the
+Virgin Islands are not treated as non-resident aliens by the Virgin Islands for tax purposes. IRS
+Publication 570, Tax Guide for Individuals With Income From U.S. Possessions, discusses the filing
+requirements of V.I. residents and U.S. residents with V.I. income.
+
+
+       In addition, taxpayers who fall under §932 of the IRC can exchange Virgin Islands and U.S.
+real estate free of tax under the like-kind exchange rules of the IRC §1031.
+
+
+                                 Bona fide residents of the Virgin Islands
+                                                                                             10
+
+
+
+             The American Jobs Creation Act of 2004 imposed new rules for determining who is a
+      bona fide resident of the Virgin Islands. Beginning in tax year 2006, the following three
+      tests must be met in order to be considered a bona resident of the Virgin Islands:
+                    1. Taxpayer must meet the Presence Test
+                    2. Taxpayer must not have another tax home; and
+                    3. Taxpayer must not have a closer connection to the U.S. or a foreign
+                    country.
+
+
+      Presence Test: Taxpayers meet the presence test for the tax year if they meet one of the
+      following conditions:
+             1. They were present in the Virgin Islands for at least 183 days during the year.
+             2. They were present in the U.S. for no more than 90 days during the tax year.
+             3. They had $3,000.00 or less of earned income from U.S. sources and were present
+             for more days in the Virgin Islands than in the U.S. during the year.
+             4. They had no significant connection to the U.S. during the tax year.
+
+
+      Tax Home and Closer Connection Tests: Under the tax home test, to be a bona fide resident,
+      an individual generally cannot have a tax home outside of the Virgin Islands during any part
+      of the taxable year. There are special rules for students, government officials and seafarers.
+      Under the closer connection test, to be a bona fide resident, an individual cannot have a
+      closer connection to the U.S. or a foreign country than to the Virgin Islands.
+
+
+Regulation §1.937-1, 2006-9 I.R.B. 524, provides greater details and examples of the new
+residency rules.
+
+
+      Temporary Workers.       Persons who perform any work in the Virgin Islands receive V.I.
+source income and thus must pay tax to the Virgin Islands on their V.I. source incoming using
+Form 8689 as discussed above.
+                                                                                             11
+
+
+       Tax Procedures for Non-resident Alien Individuals. Individuals who are not U.S. citizens or
+residents of the United States or the Virgin Islands must continue to file Form 1040NR with the
+Virgin Islands and pay tax to the Virgin Islands on V.I. income, taking a foreign credit where
+applicable for the taxes paid.
+
+
+       Puerto Rico Residents. U. S. citizens who reside in Puerto Rico and have Virgin Islands or
+Virgin Islands and U.S. source income must file Forms 1040 and 8689 with BIR and the IRS
+reporting only the Virgin Islands and U.S. source income.
+
+
+       Puerto Rico Residents who are resident aliens with Virgin Islands income are required to file
+Form 1040 with the BIR. While the law is unclear regarding the filing requirements of Puerto Rico
+resident aliens with Virgin Islands and U.S. income, the BIR suggests those individuals file Form
+1040 and 8689 with the BIR and the IRS Philadelphia Service Center.
+
+
+       If the individual also has Puerto Rico income, deductions must be prorated by the percentage
+of the Virgin Islands and U.S. adjusted gross income to the total adjusted gross income. The
+individuals are allowed the full personal exemption(s) deduction, however, Puerto Rico residents
+who work in the Virgin Islands are not entitled to the Earned Income Credit.
+
+
+
+
+                                 CHANGE OF RESIDENCY NOTIFICATION
+       Internal Revenue Code section 937(c) establishes a new requirement that individuals notify
+the IRS of any changes in residency to or from the Virgin Islands. Taxpayers must file Form 8898
+with the IRS on the due date of the income tax returns, including extensions. Form 8898 must not
+be attached to the Form 1040 or 1040NR. Form 8898 must be filed with the Philadelphia Service
+Center.
+
+
+
+
+                                           CORPORATE TAX
+                                                                                                12
+
+
+       Tax Procedures for Domestic and Foreign Corporations. A domestic corporation for Virgin
+Islands income tax purposes is one that is organized under the laws of the Virgin Islands. A foreign
+corporation is one that is not organized in the Virgin Islands, including a corporation organized in
+the United States. A domestic corporation pays income taxes on its worldwide income to the Virgin
+Islands, generally using Form 1120. A foreign corporation pays V.I. income taxes only on its V.I.
+source income and its income effectively connected with a Virgin Islands trade or business, using
+Form 1120F. The subchapter S election of corporations organized in the U.S. is not valid in the
+Virgin Islands, therefore, such corporations are deemed foreign corporations required to file Form
+1120F.
+
+
+       Ten Percent Surcharge. The Virgin Islands imposes a ten-percent surcharge on the total
+Virgin Islands income tax liability of all corporations, both domestic and foreign. This surcharge
+was authorized by the U.S. Congress in 1976 and first enacted by the Virgin Islands Legislature for
+calendar year 1985. It is found in §581, Chapter 16, Title 33 of the Virgin Islands Code. The
+surcharge is due when regular tax payments (estimated and final) are due. For example, a
+corporation that falls within the 21 percent bracket under the IRC would owe tax at a 23.1 percent
+rate (21 percent plus 2.1 percent) and would pay 110 percent of the amount otherwise due under
+the Internal Revenue Code as estimated tax payments and with the extension request and/or final
+return. This ten-percent surcharge cannot be claimed as a deduction by the corporate taxpayer.
+
+
+       Consolidated Returns. A Virgin Islands corporation cannot file a consolidated income tax
+return with a related U.S. tax liability.
+
+
+       Sales of V.I. Real Property by Foreign Corporations.        The Foreign Investment in Real
+Property Tax Act of 1980 is applicable to foreign corporation owning real property interest in the
+Virgin Islands, as well as to nonresident alien individuals. Under this Act as applicable to the Virgin
+Islands, a foreign corporation (or nonresident alien individual) pay tax attributable to gain from the
+sale of V.I. real property to the BIR under the terms of §897 of the IRC. IRS §1445 provides for a
+withholding tax on a disposition of V.I. real property that occurs after January 1, 1985, if the
+                                                                                            13
+
+
+disposition does not meet one of the specific exceptions set out in IRC §1445. U.S. corporations,
+trust, and partnerships, but not individuals, are subject to withholding rules.
+       Requests for reduced withholding pursuant to the treasury regulations promulgated under
+IRC §1445, should be directed to Office of the Chief Counsel, at 6115 Estate Smith Bay Ste 225,
+St. Thomas, V.I. 00802, or 4008 Estate Diamond – Lot 7B, Christiansted, St. Croix, V.I. 00820-
+4421 on St. Croix.
+
+
+       Ruling Requirements for Certain Outbound Transactions. Section 367 of the IRC, which
+requires a ruling where a reorganization occurs between a domestic corporation and a foreign
+subsidiary or parent, must be considered whenever a liquidation, merger, or other form of
+reorganization occurs between a V.I. corporation and its foreign subsidiary or parent, including a
+U.S. corporation. Ruling requests should be directed to the Director of the BIR at 6115 Estate
+Smith Bay Ste 225, St. Thomas, V.I. 00802.
+
+
+                                             PARTNERSHIPS
+
+
+       Virgin Islands partnerships and foreign partnerships with Virgin Islands income file their
+Form 1065, U.S. Partnership Return of Income with the BIR. If the partnership is engaged in a
+trade or business in the Virgin Islands, then each member, whether a resident or non-resident of
+the Virgin Islands, must report his or her share of the partnership income to the BIR. If the
+partnership is created or organized in a jurisdiction other than the Virgin Islands, but has V.I.
+income, it must file a Form 1065 with the BIR and report its Virgin Islands source income. The
+partnership’s resident or non-resident partners must report their share of V.I. income to the BIR,
+following the filing procedures set out in IRC §932 if they are individuals.
+
+
+                     WITHHOLDING FROM WAGES, SOCIAL SECURITY TAXES
+                               AND UNEMPLOYMENT TAXES
+
+
+
+       General Rules. The V.I. law covering the withholding on wages by employers and remittance
+to the V.I. Government is the same as the United States as it relates to the dates of remittance,
+                                                                                            14
+
+
+the amounts to be remitted, the calculation of withholding amounts, and the notification to
+employees of the amounts withheld by January 31 of the following year. Taxpayers should consult
+Circular E (Publication 15) for the applicable amounts and dates. The withholding and remittance
+of social security taxes (FICA) and Federal Unemployment Taxes (FUTA) also follow the same
+procedures as in the United States.
+
+
+      Remittance of Income Tax Withholding. Income tax withheld from wages paid for services
+performed in the Virgin Islands, whether by a V.I. employer, an U.S. employer, or an employer
+based elsewhere, are remitted to the BIR. Deposits made during the quarter as required by Circular
+E are made to the BIR on Form 501VI, Withholding Tax Deposit. Form 941VI Employer’s Quarterly
+Withholding Tax Return, must be filed by the last day of the following quarter. At this time, the
+employer must pay the amount due on the return minus the credit given for any deposits made.
+IRS Forms 941 and 809 cannot be used for this purpose. All payments must be made directly to
+the BIR. There is no procedure in place for deposits to be made to a bank or to the IRS and then
+transferred to the BIR.
+
+
+      Rules for FICA and FUTA. FICA and FUTA are enforced in the Virgin Islands, but are remitted
+to the IRS Center, Philadelphia, PA 19255, not to the BIR. IRS Circular SS (Publication 80) sets
+out the procedures for handling FICA and FUTA taxes.
+
+
+      Form W-2VI and Form W-3SS. By January 31, each employer must give a wage and tax
+statement to each employee who earned wages for services performed in the Virgin Islands during
+the preceding year. In the Virgin Islands a special Form W-2VI (See Appendix: Exhibit 9) must be
+used. Similarly, Form W-3SS (See Appendix: Exhibit 10), also a special form used in the Virgin
+Islands, must be used to transmit Copy Form A of Form W-2VI to the Social Security Administration,
+while Copy 1 of Form W-3SS must be used to transmit Copy 1 of Form W-2VI to the BIR.
+
+
+      Self-employed residents of the Virgin Islands must use Form 1040SS to report self-
+employment income and pay self-employment tax to the IRS Center, Philadelphia, PA 19255. Form
+                                                                                              15
+
+
+1040SS may be obtained at the Federal Building, Room 216, Veteran’s Drive, Charlotte Amalie,
+St.Thomas, Virgin Islands 00802, (340) 774-7870 or at the BIR offices.
+
+
+                  PENSION, PROFIT SHARING AND EMPLOYEE BENEFIT PLANS
+
+
+       The Virgin Islands is considered to be a state for the provisions of the Employee Retirement
+Income Security Act of 1974. Generally, the IRS must approve a plan falling within the purview of
+the Act. Additionally, all provisions governing employee benefits are mirrored to the Virgin Islands.
+For example, a V.I. employer can set up a “cafeteria plan” under IRC §125 if the plan otherwise
+qualifies.
+
+
+                                   CHARITABLE ORGANIZATIONS
+
+
+       Tax-Exempt Charitable Organizations.      A charitable organization that is a branch of a
+national charity, such as the American Red Cross, does not need to file an application for tax-
+exempt status with the BIR for recognition as a charitable organization. Such an organization
+should, however, provide the BIR with a copy of the national organization’s exemption letter from
+the IRS in order to obtain a letter exempting the organization from certain V.I. taxes. Other
+organizations can apply for tax-exempt status under IRC §501(c)(3) by filing Form directly with the
+IRS.   Upon receiving a favorable determination letter, contributions to the organization are
+deductible as charitable contributions.
+
+
+       Once the IRS issues a letter granting tax-exempt status, the BIR issues a similar letter
+granting exemption from certain V.I. taxes, including the gross receipts tax, excise tax, and
+entertainment tax, which are separately discussed in this publication. IRS approval takes four to
+five months on average, but can take longer. Form 1024 is used to apply for tax exemption by
+organizations that do not qualify as charities, such as business leagues.
+                                                                                             16
+
+
+       Exempt organizations are required to file Form 990, Return of Organization Exempt Form
+Income Tax, with the IRS by the 15th day of the fifth month after the organization’s accounting
+period ends. A copy of the Form 990 should be filed with the Bureau.
+
+
+       Homeowners’ Associations. Form 1120H (See Appendix: Exhibit 13) is used by homeowners’
+associations to request a partial tax exemption, and must be filed with the BIR annually. Exemption
+is automatic with the filing; a letter of approval from the BIR is not issued.
+
+
+                                         FEDERAL ESTATE TAX
+
+
+      The Federal estate tax is not mirrored in the Virgin Islands, but is administered by the IRS.
+Federal estate tax returns are filed with, and any taxes owed are paid to, the IRS Center,
+Philadelphia, PA 19255 not to the Virgin Islands. Federal estate tax is payable by all U.S. estates
+having a value that exceeds the total of the exemptions granted by the IRS. Certain exemptions
+for non-U.S. situs assets apply to persons who are born or naturalized in the Virgin Islands and
+who die while resident in the Virgin Islands (or another possession).
+                                                                                                17
+
+
+                              VIRGIN ISLANDS INHERITANCE TAXES
+
+
+      Although a Virgin Islands inheritance tax is set out in Chapter 1, Title 33 of the V.I. Code, all
+inheritances after 1984 are exempt from taxation. Specifically, under Section 5 of Chapter 1, an
+inheritance is exempt from the payment of inheritance taxes if the decedent, when living, would
+have been considered a “nonresident not a citizen of the United States” under 26 U.S.C. §2501(c),
+if the decedent was a resident of the Virgin Islands, or if the decedent owned property in the Virgin
+Islands at the time of his or her death.
+
+
+                                               GIFT TAXES
+
+
+      Federal Gift Tax. U.S. citizens residing in the Virgin Islands who make gifts in excess of the
+annual exclusion (generally $14,000 per recipient) must file a Federal gift tax return with the IRS
+Center, Philadelphia, PA 19255. Again, a limited exemption may apply for gifts of V.I. assets by
+V.I. residents who were naturalized or born in the Virgin Islands.
+
+
+      Virgin Islands Gift Tax. Similar to the Virgin Islands inheritance tax, although Virgin Islands
+law contains gift tax provisions in Chapter 2, Title 33, VIC, all gifts are exempt from the tax.
+Specially, a person is exempt from gift tax if he or she is considered a “nonresident not a citizen of
+the United States” under 26 U.S.C. §2501(c), or if the person was a resident of the Virgin Islands
+at the time the gift was made. The exemption from gift tax is in effect for gifts made after
+September 18, 1984.
+
+
+                                           CUSTOMS DUTIES
+
+
+      Customs and Border Protection duties in the Virgin Islands are imposed under the U.S.
+Customs law and are administered by the Customs and Border Protection Service, a division of the
+U.S. Treasury Department. Customs duties are generally imposed at the rate of six percent ad
+valorem on all articles, goods, merchandise, and commodities that are manufactured or that
+originate outside the territorial sovereignty of the United States and are brought into the Virgin
+                                                                                               18
+
+
+Islands. However, the Virgin Islands Legislature has the authority to reduce the customs duties,
+and has exempted certain tourist and construction items from all custom duties. Certain other
+exemptions apply, including exemptions stemming from Danish law.
+
+
+                      MISCELLANEOUS LOCAL INTERNAL REVENUE TAXES
+
+
+      The following local internal revenue taxes are codified in Chapters 3, 4, and 5 of Title 33 of
+the Virgin Islands Code.
+
+
+                                       Gross Receipts Tax
+
+
+      In General. The Virgin Islands gross receipts tax is a tax on total receipts from the conduct
+of a business within the Virgin Islands, without reduction for cost of goods sold or services or any
+other expenses. A taxpayer’s tax year for gross receipts tax purposes should generally follow the
+taxpayer’s fiscal year for income tax purposes.
+
+
+      $9,000–Per–Month Exemption. The gross receipts tax falls into the following two categories:
+
+
+      1.     Those businesses with annual gross receipts of $225,000 or more, and
+      2.     Those businesses with annual gross receipts of less than $225,000.
+
+
+      Businesses in the first category pay a tax of five percent on their entire gross receipts, while
+businesses in the second category pay a tax of five percent on receipts in excess of $9,000 per
+month. The $9,000–per–month exemption is lost if not used in one month. For example, a
+business with gross receipts of $7,000 in one month and $10,000 in a second month would owe
+tax on $50 in the second month, while a business with gross receipts of $8,000 in each month
+would owe no tax.
+
+
+      Gross Receipts Tax Exemption. Commissions earned on the sale of V.I. lottery tickets, gross
+income of banks, gross income of franchised bus operators, receipt of certain costume jewelry
+                                                                                               19
+
+
+manufacturers, and receipts from farming and fishing are not subject to gross receipts tax. Reverse
+osmosis water product plant operators may be eligible for a partially exempt from the gross receipts
+tax. The tax does not apply to premiums on insurance written or on airline tickets, but commissions
+earned by insurance agents and travel agents are subject to the gross receipts tax. Also, Economic
+Development Commission beneficiaries may also be exempt from the gross receipts tax.
+
+
+      Filing Requirements. Businesses with gross receipts of more than $225,000 per year are
+required to file monthly reports on Form 720V.I. The returns are due 30 days following the last
+day of the month concerned. Businesses with gross receipts of $225,000 or less per year are
+required to file an annual report with the BIR by the 30th day following the last day of the year
+concerned on Form 720-B. For a calendar year business, the return is due on January 30th of the
+following year.
+
+
+      A business that is exempt from payment of the gross receipts tax is still required to file a
+return. Beneficiaries of the territory’s Economic Development Program are required to file Form
+720V.I. monthly, indicate on their gross receipts, and write “EDC Beneficiary – Exempt” across the
+bottom of the return. Tax-exempt charitable organizations, homeowners’ associations, and other
+entities and individuals that receive business receipts but are not required to pay gross receipts tax
+should still file monthly or annually returns, depending on whether or not their actual gross receipts
+exceed $225,000.
+
+
+      Related Entities or Individuals. Corporations sharing more than 50 percent common
+ownership, businesses owned by the same taxpayer or members of a family, and other related
+businesses only get one $9,000-per-month exemption for all related businesses and must combine
+all receipts from all the businesses to determine whether the $225,000 threshold has been reached.
+
+
+                                               Excise Tax
+
+
+       In General. All persons, firms and corporations doing business in the Virgin Islands, except
+those that are specifically exempt, must pay excise tax on all goods, merchandise, or commodities
+                                                                                              20
+
+
+manufactured in or brought into the Virgin Islands for sale or disposition in the course of a trade
+or business, for processing or manufacturing, or for any other business purpose. The excise tax is
+based on the invoice value of such merchandise, plus a mark-up of five percent. Rates of tax
+depend upon the applicable category. The excise tax payment is an online filing and payment
+process, utilizing credit cards for the payment of the tax. Taxpayers can access the excise tax
+website by going to https:excise.bir.vi.gov.
+      Drugs, medicine, and clothing are taxed at two percent; tires are taxed at five percent; self-
+propelled vehicles, firearms, ammunition and bicycles are taxed at ten percent; U.S. beers are
+taxed at $5.00 per case; foreign beers at $6.08 per case; all liquors, rum, and spirits at $6.00 per
+case of a nine liter bottle, or its equivalent; cigarettes at $11.00 per carton and carbonated drinks
+at a rate of 3 percent plus $1.44 per case, or its equivalent. Items not specifically listed will be
+taxed at the “catch-all” rate for other items is four percent, unless an exemption applies.
+
+
+      Contractors doing business in the Virgin Islands on government projects are liable for excise
+tax on their imports. For equipment imported under a lease or rental agreement for a period of
+180 days or fewer, the excise tax is based on the actual rental charge or on an appropriate arms-
+length rental charge.
+
+
+      Payment. Cargo (both foreign and domestic) imported into the Virgin Islands for business
+purpose is cleared by the U.S. Customs and Border Protection Service and the BIR. An importer is
+required to pay excise tax on cargo to the BIR at the time of entry unless the importer has a
+qualifying excise tax bond or rider to its Custom bond. Most merchants have such bond or riders,
+which give them until the 15th day of the following month to pay the BIR. Payment of the excise
+tax is submitted using Form 721V.I., Excise Tax Return.
+
+
+      Exemptions. The importation or manufacture of the following categories of merchandise is
+exempt from the V.I. excise tax: certain educational materials including books; most food stuff;
+coal; fuel oil; molasses used in the production of rum, animal and poultry feed; commercial
+fertilizers; motor vehicles requiring licensing for highway use; goods, merchandise and
+commodities brought into the Virgin Islands for disposition in the course of export trade; and
+                                                                                                 21
+
+
+certain sales to the U.S. or V.I. Governments. Certain specific tourist and construction items are
+exempt from excise taxes as well as from customs duties.
+
+
+      Imports of exempt items are required to complete Form 721-TC V.I., Non-Taxable Excise Tax
+Return, for items exempted pursuant to Bill No. 14-0411 (Tourist and Construction Items) or Form
+721 EP V.I., Non-Taxable Excise Return, for items not exempted under Bill 14-0411.
+
+
+
+
+                                            Hotel Room Tax
+
+
+      The Virgin Islands imposes a tax on hotel room rentals. The tax applies to an individual who
+stays in a hotel or a guest house as well as one who rents or leases an apartment, condominium,
+or residence for a day, week or month if the total rental or lease period is less than 90 days. Guests
+pay a hotel room tax of twelve and half percent (12.5%) of their gross room rate, which is the
+total sum charged to a guest for the use of one or more rooms plus any additional charges, such
+as an energy surcharge or a maintenance fee, but not charges for food, beverages, and gratuities.
+It is collected by the hotel or other lessor and remitted to the Bureau monthly on Form 722 V.I. by
+the 30th day of the following month. New tax returns have been prepared so that taxpayers can
+inform the Bureau of the type of property rental, such as hotel, villa, condominium, etc. Taxpayers
+are asked to ensure that the correct box is checked prior to filing the hotel room tax return.
+
+
+                        ENVIRONMENTAL INFRASTRUCTURE IMPACT FEE
+
+
+On May 1, 2017, the new Environmental/Infrastructure Impact Fee for Timeshares became law.
+The law imposes a $25 per night fee on the occupancy of a timeshare by the owner/user. The
+fee is collected by the timeshare plan manager and remitted to the Bureau of Internal Revenue
+on a monthly basis. Timeshare plan managers must file the Form 722EI on the 30th day after the
+close of the month concerned, along with the schedule provided by the Bureau. The return can
+be obtained from the Bureau’s offices or on the website.
+                                                                                                 22
+
+
+
+                                           Highway User’s Tax
+
+
+      A highway user’s tax is imposed in the Virgin Islands to provide funding for highway
+construction and maintenance. Every person or firm registering a vehicle requiring licensing in the
+Virgin Islands for the first time must pay a highway user’s tax based upon the unladen weight of
+the vehicle at the rate of sixteen cents per pound, with a minimum tax of $25.00.
+
+
+      Automobiles that are imported for use as taxicabs are exempt from the imposition of highway
+user’s tax. However, when such a vehicle is first registered in the Virgin Islands as a private vehicle,
+the person registering and licensing the vehicle must pay the highway user’s tax no matter what
+period of time has elapsed since the vehicle was imported for use as a taxicab. Qualified charitable
+organizations are granted an exemption from the tax on up to two motor vehicles at a time.
+                                                                                               23
+
+
+                                           Entertainment Tax
+
+
+      A five percent tax is imposed on the gross receipts derived from performances and
+entertainment including theatrical performances, motion pictures, boxing matches, circuses and
+concerts, but not dances. However, no tax is imposed where the performance or entertainment is
+sponsored by a recognized religious, charitable, civic educational or other organization not giving
+or promoting the performance or entertainment for profit.
+      The entertainment tax is due the business day following the performance or entertainment,
+if a BIR employee is not assigned to collect the tax at the performance or entertainment. The
+entertainment tax should be reported using Form 720-ENT, Entertainment Tax Return.
+
+
+
+
+                                                 Fuel Tax
+
+
+      A tax of 14 cents per gallon is imposed upon the sale of gasoline and diesel fuel imported,
+manufactured, sold, or consumed in the Virgin Islands. The tax is imposed upon the manufacturer
+or importer of fuel at the time of entry and a tax return is due within thirty (30) days after the end
+of the month concerned.
+
+
+      Fuel sold to the V.I. Government or fuel used to fuel aircraft, motorboats, yachts, or any
+other motor vehicle not operating on the public highways, or for industrial or other purposes not
+connected with the fueling of motor vehicles, is exempt from this tax.
+
+
+                                             Container Tax
+
+
+      The V.I. imposes a container tax on every individual, firm, business or association that brings
+in a container or flat rack container into the territory, a tax of $50 on containers up to 39 feet and
+$100 on containers that measure 40 or more feet. Transhipment or in-bond containers are exempt
+from the container tax. The tax is filed on Form 721VI.
+                                                                                               24
+
+
+                                            Vehicle Tire Tax
+
+
+       There is imposed on every person, business, partnership, firm, corporation or any association
+in the Virgin Islands that purchases tires, a tire tax of $1.00 for tires 18 inches or under and $2.00
+on tires over 18 inches. The importer of the tire is responsible for submitting the tire tax to the
+BIR.
+                                           Rental Surcharge
+
+
+       There V.I. imposes a rental surcharge on the rental of automobiles. The tax is imposed on
+every person who rents a drive-yourself car in the Virgin Islands. The tax rate is $3.75 per day.
+The tax is collected by the licensee, who is then responsible for making the reports and submitting
+the payments to the Bureau. The returns are due 30 days after the month concerned.
+
+
+                                          Gross Revenue Tax
+
+
+       The V.I. imposes a tax on the gross revenue of a casino licensee’s gaming operations. The
+tax rate varies between 8 and 12 percent, depending on the number of years in existence. Gross
+revenue is defined as the total of all sums, including checks, whether collected or not, actually
+received by a casino licensee from gaming operations, less only the total of all sums paid out as
+winnings to patrons and a deduction for uncollectible gaming receivables. The deduction for
+uncollectible gaming receivables shall no exceed the lesser of: (1) 4 percent of the total sums
+received minus winnings paid to patrons; or (2) a reasonable provision for uncollectible patron
+checks received from gaming operations. The casino licensee must file a monthly tax return with
+the BIR within 30 calendar days following the last day of the month concerned to report the gross
+revenue tax.
+
+
+                                     Investment Alternative Tax
+
+
+       An investment alternative tax is imposed on the gross revenue of a casino licensee. The tax,
+in the amount of 2.5 percent of gross revenue, is due within 30 days following the last day of the
+                                                                                           25
+
+
+fiscal year. Casino licensees must make partial payment of the investment alternative tax to the
+BIR on or before the 15th day of the first, fourth, seventh and tenth month of each year. The
+amount of the partial payment due is determined by calculating 1.25% of the estimated gross
+revenues for the three-month period immediately preceding the first day of the due date months.
+Casino licensees are exempt from paying the investment alternative tax on gross revenues received
+during the first fiscal year. An investment tax credit against the investment alternative tax is
+available for casino licensees who purchase bonds issued by the Casino Reinvestment Development
+Authority or who make approved eligible investments.
+     *************************************************************
+                    The contact information for the BIR for the St. Thomas
+                           Virgin Islands Bureau of Internal Revenue
+                           6115 Estate Smith Bay Suite 225
+                           St. Thomas, U.S. Virgin Islands 00802
+                           Telephone: (340) 715-1040
+                           Fax: (340) 774-2672
+
+
+                    The contact information for the BIR’s St. John office is:
+                           Virgin Islands Bureau of Internal Revenue
+                           P. O. Box 8305
+                           St. John, Virgin Islands 00831
+                           Telephone: (340) 777-1446
+                           Fax: (340) 777-1425
+
+
+                    The contact information for the BIR’s St. Croix office is:
+                           Virgin Islands Bureau of Internal Revenue
+                           Leroy A. Quinn Government Finance Center
+                           4008 Estate Diamond, Plot 7B
+                           Christiansted, US Virgin Islands 00820
+                           Telephone: (340) 773-1040
+                           Fax: (340) 773-1006
+

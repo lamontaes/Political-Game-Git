@@ -1,0 +1,962 @@
+[
+  {
+    "recordId": "a33-wage-income-authority-al-2026-10-01",
+    "stateUsps": "AL",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-al-2026-10-01",
+      "citation": "https://www.revenue.alabama.gov/individual-corporate/individual-income-tax-filing-information/",
+      "url": "https://www.revenue.alabama.gov/individual-corporate/individual-income-tax-filing-information/",
+      "evidenceLocator": "raw/al.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-al-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Resident income scope; nonresident, thresholds and exemptions must be read separately.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-ca-2026-10-01",
+    "stateUsps": "CA",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-ca-withholding-2026-10-01",
+      "citation": "https://edd.ca.gov/en/payroll_taxes/step-5-withhold-and-pay-payroll-taxes/",
+      "url": "https://edd.ca.gov/en/payroll_taxes/step-5-withhold-and-pay-payroll-taxes/",
+      "evidenceLocator": "raw/ca-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-ca-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Only PIT is wage-income tax; SDI, UI and ETT remain distinct.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-de-2026-10-01",
+    "stateUsps": "DE",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-de-2026-10-01",
+      "citation": "https://revenue.delaware.gov/frequently-asked-questions/personal-income-tax-faqs/",
+      "url": "https://revenue.delaware.gov/frequently-asked-questions/personal-income-tax-faqs/",
+      "evidenceLocator": "raw/de.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-de-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Quote is the New Jersey resident working in Delaware case; no universal residency/reciprocity rule.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-hi-2026-10-01",
+    "stateUsps": "HI",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-hi-evidence-2026-10-01",
+      "citation": "https://files.hawaii.gov/tax/forms/current/bookleta.pdf",
+      "url": "https://files.hawaii.gov/tax/forms/current/bookleta.pdf",
+      "evidenceLocator": "raw/hi-evidence.raw-extract.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-hi-evidence-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Hawaii HW-4 rules, exemptions and own state recipient; current Booklet A revision2024 says withholding January1,2025 and thereafter.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-ia-2026-10-01",
+    "stateUsps": "IA",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-ia-authority-2026-10-01",
+      "citation": "https://revenue.iowa.gov/taxes/tax-guidance/withholding-tax/iowa-withholding-tax-information",
+      "url": "https://revenue.iowa.gov/taxes/tax-guidance/withholding-tax/iowa-withholding-tax-information",
+      "evidenceLocator": "raw/ia-authority.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-ia-authority-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Office/business nexus and federal-withholding condition; military-spouse exemptions and other sourced exclusions remain.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-id-2026-10-01",
+    "stateUsps": "ID",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-id-withholding-2026-10-01",
+      "citation": "https://tax.idaho.gov/taxes/income-tax/withholding/",
+      "url": "https://tax.idaho.gov/taxes/income-tax/withholding/",
+      "evidenceLocator": "raw/id-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-id-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Apply employee/nexus/exemption conditions in the linked Idaho guidance; no numeric rate supplied.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-il-2026-10-01",
+    "stateUsps": "IL",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-il-authority-2026-10-01",
+      "citation": "https://tax.illinois.gov/research/publications/pubs/illinois-income-tax-withholding-for-household-employees.html",
+      "url": "https://tax.illinois.gov/research/publications/pubs/illinois-income-tax-withholding-for-household-employees.html",
+      "evidenceLocator": "raw/il-authority.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-il-authority-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "HOUSEHOLD EMPLOYEE scope only, not all employers; federal-withholding or voluntary-agreement condition.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": "Original HTML is locally preserved but withheld from publication after push protection; receiving owner must verify original source bytes before admission.",
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-in-2026-10-01",
+    "stateUsps": "IN",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-in-withholding-2026-10-01",
+      "citation": "https://www.in.gov/dor/i-am-a/business-corp/withholding/",
+      "url": "https://www.in.gov/dor/i-am-a/business-corp/withholding/",
+      "evidenceLocator": "raw/in-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-in-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Agency employer guide; state authority only in this packet, county power/rate is not admitted.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-ks-2026-10-01",
+    "stateUsps": "KS",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-ks-authority-2026-10-01",
+      "citation": "https://www.ksrevenue.gov/k4info.html",
+      "url": "https://www.ksrevenue.gov/k4info.html",
+      "evidenceLocator": "raw/ks-authority.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-ks-authority-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Kansas-source wages, allowance certificate and employee-specific exemptions; no catalog rate.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-ky-2026-10-01",
+    "stateUsps": "KY",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-ky-withholding-2026-10-01",
+      "citation": "https://revenue.ky.gov/Business/Pages/Employer-Payroll-Withholding.aspx",
+      "url": "https://revenue.ky.gov/Business/Pages/Employer-Payroll-Withholding.aspx",
+      "evidenceLocator": "raw/ky-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-ky-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Residents/nonresidents unless exempted by law; KRS141.310 and103KAR18:150 named by the source.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-la-2026-10-01",
+    "stateUsps": "LA",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-la-withholding-2026-10-01",
+      "citation": "https://revenue.louisiana.gov/businesses/widely-used-tax-types/withholding/",
+      "url": "https://revenue.louisiana.gov/businesses/widely-used-tax-types/withholding/",
+      "evidenceLocator": "raw/la-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-la-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Resident/nonresident service-in-Louisiana and exemptions; other-state withholding can change resident coverage.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-me-2026-10-01",
+    "stateUsps": "ME",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-me-detail-2026-10-01",
+      "citation": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax-1040me",
+      "url": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax-1040me",
+      "evidenceLocator": "raw/me-detail.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-me-detail-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Maine-source individual income; exact withholding/exemptions and nonresident allocation remain separate.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-mi-2026-10-01",
+    "stateUsps": "MI",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-mi-evidence-2026-10-01",
+      "citation": "https://www.michigan.gov/taxes/business-taxes/withholding/withholding-tax-faqs",
+      "url": "https://www.michigan.gov/taxes/business-taxes/withholding/withholding-tax-faqs",
+      "evidenceLocator": "raw/mi-evidence.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-mi-evidence-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Federal-withholding condition; reciprocal-state and employee exemption clauses must be preserved.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-mn-2026-10-01",
+    "stateUsps": "MN",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-mn-withholding-2026-10-01",
+      "citation": "https://www.revenue.state.mn.us/withholding-tax",
+      "url": "https://www.revenue.state.mn.us/withholding-tax",
+      "evidenceLocator": "raw/mn-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-mn-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Deposit is to Minnesota Department of Revenue; exemptions and residency conditions are not defaults.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-mo-2026-10-01",
+    "stateUsps": "MO",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-mo-withholding-2026-10-01",
+      "citation": "https://dor.mo.gov/taxation/business/tax-types/withholding/",
+      "url": "https://dor.mo.gov/taxation/business/tax-types/withholding/",
+      "evidenceLocator": "raw/mo-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-mo-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Missouri agency withholding guidance; exemptions and specific scope must be read before collection.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-mt-2026-10-01",
+    "stateUsps": "MT",
+    "level": "STATE",
+    "effectiveFrom": "2026-01-01",
+    "effectiveThrough": "2026-12-31",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-mt-guide-2026-10-01",
+      "citation": "https://revenuefiles.mt.gov/files/Forms/Publication-1/Publication-1-2026.pdf",
+      "url": "https://revenuefiles.mt.gov/files/Forms/Publication-1/Publication-1-2026.pdf",
+      "evidenceLocator": "raw/mt-guide.raw-extract.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-01-01",
+      "effectiveDateDerivation": "Publication explicitly for use in2026; this is guide applicability, not statute enactment.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-mt-guide-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "CONTINUOUS_INTERVAL"
+    },
+    "constraints": [
+      "2026 Montana Publication1; applicable federal/Montana exemptions and Montana-source wage scope.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-nc-2026-10-01",
+    "stateUsps": "NC",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-nc-authority-2026-10-01",
+      "citation": "https://www.ncdor.gov/taxes-forms/withholding-tax/withholding-tax-frequently-asked-questions",
+      "url": "https://www.ncdor.gov/taxes-forms/withholding-tax/withholding-tax-frequently-asked-questions",
+      "evidenceLocator": "raw/nc-authority.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-nc-authority-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Exception in same source: other work state requiring income withholding; nonresident/service conditions separate.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-nd-2026-10-01",
+    "stateUsps": "ND",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-nd-withholding-2026-10-01",
+      "citation": "https://www.tax.nd.gov/income-tax-withholding",
+      "url": "https://www.tax.nd.gov/income-tax-withholding",
+      "evidenceLocator": "raw/nd-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-nd-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Who-must-register clause; farm/ranch wages not federally withheld have separate exclusion.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-nj-2026-10-01",
+    "stateUsps": "NJ",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-nj-withholding-2026-10-01",
+      "citation": "https://www.nj.gov/treasury/taxation/businesses/payroll/index.shtml",
+      "url": "https://www.nj.gov/treasury/taxation/businesses/payroll/index.shtml",
+      "evidenceLocator": "raw/nj-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-nj-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Source immediately enumerates resident employees unless higher other-state tax and New Jersey-working nonresidents; retain those conditions.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-nm-2026-10-01",
+    "stateUsps": "NM",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-nm-withholding-2026-10-01",
+      "citation": "https://www.tax.newmexico.gov/businesses/withholding-tax-and-workers-compensation/",
+      "url": "https://www.tax.newmexico.gov/businesses/withholding-tax-and-workers-compensation/",
+      "evidenceLocator": "raw/nm-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-nm-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "New Mexico employer guidance; exemptions and worker-compensation obligations stay distinct.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-ny-2026-10-01",
+    "stateUsps": "NY",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-ny-withholding-2026-10-01",
+      "citation": "https://www.tax.ny.gov/bus/wt/wtidx.htm",
+      "url": "https://www.tax.ny.gov/bus/wt/wtidx.htm",
+      "evidenceLocator": "raw/ny-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-ny-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Read New York employee nexus/exemptions separately; city taxes are not this state authority row.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-ok-2026-10-01",
+    "stateUsps": "OK",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-ok-evidence-2026-10-01",
+      "citation": "https://oklahoma.gov/tax/businesses/withholding.html",
+      "url": "https://oklahoma.gov/tax/businesses/withholding.html",
+      "evidenceLocator": "raw/ok-evidence.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-ok-evidence-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Oklahoma employee income-tax credit; exemptions and interstate rules remain source-dependent.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-pa-2026-10-01",
+    "stateUsps": "PA",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-pa-2026-10-01",
+      "citation": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax",
+      "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax",
+      "evidenceLocator": "raw/pa.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-pa-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Agency PIT page plus compensation category; no wage rate/annualization inferred from this authority packet.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-pr-2026-10-01",
+    "stateUsps": "PR",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-pr-guide-2026-10-01",
+      "citation": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion-withholding-tables",
+      "url": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion-withholding-tables",
+      "evidenceLocator": "raw/pr-guide.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-pr-guide-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Puerto Rico own wages/local withholding guidance; no federal recipient proxy or invented starting-law binding.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-sc-2026-10-01",
+    "stateUsps": "SC",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-sc-2026-10-01",
+      "citation": "https://dor.sc.gov/iit",
+      "url": "https://dor.sc.gov/iit",
+      "evidenceLocator": "raw/sc.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-sc-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "South Carolina resident/nonresident filing and source-income conditions; enacted tax questions are not starting-law IDs.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-us-2026-10-01",
+    "stateUsps": "US",
+    "level": "FEDERAL",
+    "effectiveFrom": "2026-01-01",
+    "effectiveThrough": "2026-12-31",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-us-2026-10-01",
+      "citation": "https://www.irs.gov/publications/p15",
+      "url": "https://www.irs.gov/publications/p15",
+      "evidenceLocator": "raw/us.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-01-01",
+      "effectiveDateDerivation": "Publication explicitly for use in2026; this is guide applicability, not statute enactment.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-us-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "CONTINUOUS_INTERVAL"
+    },
+    "constraints": [
+      "Covered federal wage withholding only; federal FICA and territory-local income taxes are distinct.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-va-2026-10-01",
+    "stateUsps": "VA",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-va-authority-2026-10-01",
+      "citation": "https://www.tax.virginia.gov/withholding-tax",
+      "url": "https://www.tax.virginia.gov/withholding-tax",
+      "evidenceLocator": "raw/va-authority.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-va-authority-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Virginia employer wage nexus; source explicitly qualifies general rule, preserve exceptions.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-vi-2026-10-01",
+    "stateUsps": "VI",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-vi-authority-2026-10-01",
+      "citation": "https://bir.vi.gov/content/booklets/tax_structure.pdf",
+      "url": "https://bir.vi.gov/content/booklets/tax_structure.pdf",
+      "evidenceLocator": "raw/vi-authority.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-vi-authority-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Virgin Islands own BIR recipient, mirror-code rules; IRS Forms941/809 not interchangeable and FICA is distinct.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-vt-2026-10-01",
+    "stateUsps": "VT",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-vt-broker-2026-10-01",
+      "citation": "https://tax.vermont.gov/personal-income-tax",
+      "url": "https://tax.vermont.gov/personal-income-tax",
+      "evidenceLocator": "raw/vt-broker.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-vt-broker-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Vermont own Department of Taxes recipient; current observed guide, not2025-return filing-season rate or historical continuity.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  },
+  {
+    "recordId": "a33-wage-income-authority-wi-2026-10-01",
+    "stateUsps": "WI",
+    "level": "STATE",
+    "effectiveFrom": "2026-10-01",
+    "effectiveThrough": "2026-10-01",
+    "sourceAsOf": "2026-10-01",
+    "source": {
+      "artifactId": "a33-wage-authority-wi-withholding-2026-10-01",
+      "citation": "https://www.revenue.wi.gov/Pages/FAQS/pcs-with.aspx",
+      "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-with.aspx",
+      "evidenceLocator": "raw/wi-withholding.txt; exact quoted paragraph in dispositions.json",
+      "enactedDate": null,
+      "effectiveDate": "2026-10-01",
+      "effectiveDateDerivation": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "effectiveDateEvidenceArtifactIds": [
+        "a33-wage-authority-wi-withholding-2026-10-01"
+      ],
+      "lastAmendedDate": null,
+      "observedDate": "2026-10-01",
+      "versionApplicability": "FOUNDATIONAL_AND_OBSERVED_POINTS"
+    },
+    "constraints": [
+      "Source employer two-condition test; Wisconsin resident wages or services in Wisconsin plus employer nexus, reciprocal IL/IN/KY/MI exclusions.",
+      "Authority evidence applies only within quoted source scope; terms, actual bases and exceptions remain necessary.",
+      "No rate, threshold, liability, recipient account or canonical starting-law consequence row is invented."
+    ],
+    "uncertainty": null,
+    "kind": "TAX_INSTRUMENT",
+    "instrument": "INDIVIDUAL_INCOME_TAX",
+    "authorization": "AUTHORIZED"
+  }
+]

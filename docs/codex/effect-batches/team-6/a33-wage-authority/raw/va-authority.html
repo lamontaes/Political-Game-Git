@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# ">
+  <head>    
+
+    <meta charset="utf-8" />
+<link rel="canonical" href="https://www.tax.virginia.gov/withholding-tax" />
+<link rel="image_src" href="https://www.virginia.gov/media/vagov/images/agencies/tax.png" />
+<meta property="og:site_name" content="Virginia Tax" />
+<meta property="og:url" content="https://www.tax.virginia.gov/withholding-tax" />
+<meta property="og:title" content="Virginia Tax" />
+<meta property="og:image" content="https://www.virginia.gov/media/vagov/images/agencies/tax.png" />
+<meta property="og:image:url" content="https://www.virginia.gov/media/vagov/images/agencies/tax.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="| Virginia Tax" />
+<meta name="twitter:image" content="https://www.tax.virginia.gov/sites/default/files/VirginiaTaxlogoforautopopulation500x500_white.png" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/themes/vatax/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<script type="text/template" id="alert-template">
+      <div class="container-fluid alert ${ alert_severity } alert-dismissible fade show" id="${ cookie_id }" role="alert">
+          <div class="container">
+
+            <button type="button" class="btn-close ${ is_sticky }" data-bs-dismiss="alert" data-alertID="${ cookie_id }" aria-label="Close"><i class="fa fa-times"></i></button>
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                                    <div class="h5">${ alert_title }</div>
+                    ${ alert_body }
+                </div>
+            </div>
+          </div>
+      </div>
+      <script>
+      jQuery(document).ready(function() {
+        var hidden = '${ is_sticky }';
+        var pinned = (hidden == 'hide') ? true : false;
+        // NO COOKIE SET
+        if (!Cookies.get('${ cookie_id }')) {
+          // SHOW THE ALERT
+            jQuery('#${ cookie_id }').show();
+            if (pinned == true) {
+if(${ cookie_expires } > 0) {
+              //Cookies.set(jQuery('#${ cookie_id }').prop('id'), 'true', { secure: true, expires: ${ cookie_expires } });
+} else {
+	 Cookies.set(jQuery('#${ cookie_id }').prop('id'), 'true', { secure: true, });
+
+}
+
+            }
+        } 
+
+        if (Cookies.get('${ cookie_id }') && (pinned == true)) {
+          jQuery('#${ cookie_id }').show();
+        } 
+
+        jQuery('#${ cookie_id }').find('.btn-close').on('click', function() {
+          var closedAlertID = jQuery('#${ cookie_id }').prop('id');
+if(${ cookie_expires } > 0) {
+          Cookies.set(closedAlertID, 'true', { secure: true, expires: ${ cookie_expires } });
+} else {
+	 Cookies.set(closedAlertID, 'true', { secure: true, });
+
+}
+jQuery('#${ cookie_id }').hide();
+        });
+      });
+      </script>   
+
+    <title>Withholding Tax | Virginia Tax</title>
+    <link rel="stylesheet" media="all" href="/core/modules/system/css/components/align.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/fieldgroup.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/container-inline.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/clearfix.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/details.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/hidden.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/item-list.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/js.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/nowrap.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/position-container.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/reset-appearance.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/resize.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/system-status-counter.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/system-status-report-counters.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/system-status-report-general-info.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/tablesort.module.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/themes/base/core.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/themes/base/theme.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/modules/contrib/blocktabs/css/blocktabs.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/core/modules/layout_discovery/layouts/onecol/onecol.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/responsive_menu_breakpoint.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/libraries/mmenu/dist/mmenu.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/modules/contrib/responsive_menu/css/responsive_menu.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/themes/base/tabs.css?tm4t25" />
+<link rel="stylesheet" media="all" href="/themes/vatax/css/va-tax.build.css?tm4t25" />
+
+	
+	
+
+
+    <script src="/themes/vatax/js/google_tag_manager.js?v=1.x"></script>
+
+
+
+<!-- Google Tag Manager  -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KZMM52K2');</script>
+  </head>
+
+  
+
+  <body class="anonymous">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZMM52K2"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+    
+        <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N9CFK9C" height="0" width="0" style="display:none;visibility:hidden" sandbox></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<header role="banner">
+ <div id="vaCommonBanner"></div>
+<script src="https://www.developer.virginia.gov/media/developer/resources/branding-bar/brandingbar.php" data-item="va_aabrandingbar" aaname="Virginia Department of Taxation" aatheme="aatheme-black" aaPlacement-id="vaCommonBanner" defer="" ></script>
+
+ 
+    <div id="agency">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+            <div>
+    <div id="block-responsivemenumobileicon" class="responsive-menu-toggle-wrapper responsive-menu-toggle">
+  
+    
+      <a id="toggle-icon" class="toggle responsive-menu-toggle-icon" title="Menu" href="#off-canvas">
+  <span class="icon"></span><span class="label">Menu</span>
+</a>
+  </div>
+<div id="block-vatax-branding">
+  
+    
+        <a href="/" rel="home">
+      <img src="/themes/vatax/logo.svg" alt="Home" fetchpriority="high" />
+    </a>
+      
+</div>
+<div id="block-horizontalmenu">
+  
+    
+      <nav class="responsive-menu-block-wrapper">
+  
+              <ul id="horizontal-menu" class="horizontal-menu">
+                    <li class="menu-item menu-item--expanded menu-item--active-trail">
+        <span class="forms-and-filing" target="">Forms &amp; Filing</span>
+                                <ul class="menu sub-nav">
+                    <li class="menu-item">
+        <a href="/forms" target="" data-drupal-link-system-path="forms">Forms &amp; Instructions</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/individual-income-tax-filing" target="" data-drupal-link-system-path="individual-income-tax-filing">Individual Income Tax Filing</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/deceased-individuals" target="" data-drupal-link-system-path="node/68">Estates, Trusts, and the Deceased</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/retail-sales-and-use-tax" target="" data-drupal-link-system-path="node/29846">Sales and Use Tax</a>
+              </li>
+                <li class="menu-item menu-item--active-trail">
+        <a href="/withholding-tax" target="" data-drupal-link-system-path="withholding-tax" class="is-active" aria-current="page">Employer Withholding</a>
+              </li>
+                <li class="menu-item">
+        <a href="/corporation-income-tax" target="" data-drupal-link-system-path="node/36031">Corporation Income Tax</a>
+              </li>
+                <li class="menu-item">
+        <a href="/pass-through-entities" data-drupal-link-system-path="node/110">Pass-Through Entities</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/all-other-business-taxes" target="" data-drupal-link-system-path="node/1205">All Other Business Taxes</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item menu-item--expanded">
+        <span class="refunds" target="">Refunds</span>
+                                <ul class="menu sub-nav">
+                    <li class="menu-item">
+        <a href="/wheres-my-refund" target="" data-drupal-link-system-path="wheres-my-refund">Where&#039;s My Refund?</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/refund-fraud-prevention" data-drupal-link-system-path="node/44">Refund Fraud Prevention</a>
+              </li>
+                <li class="menu-item">
+        <a href="/refund-verification-letter" data-drupal-link-system-path="node/30415">Refund Verification Letter</a>
+              </li>
+                <li class="menu-item">
+        <a href="/why-was-your-refund-reduced-or-withheld-offset" target="" data-drupal-link-system-path="node/58">Refund Reduced or Withheld (Offset)?</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item menu-item--expanded">
+        <span class="payments-and-penalties" target="">Payments &amp; Penalties</span>
+                                <ul class="menu sub-nav">
+                    <li class="menu-item menu-item--collapsed">
+        <a href="/audits" data-drupal-link-system-path="node/2">Audits</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/pay-bill-notice-assessment" data-drupal-link-system-path="node/70">Bills</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/payments" data-drupal-link-system-path="node/586">Payments</a>
+              </li>
+                <li class="menu-item">
+        <a href="/penalties-and-interest" data-drupal-link-system-path="node/67">Penalties &amp; Interest</a>
+              </li>
+                <li class="menu-item">
+        <a href="/voluntary-disclosure-businesses" target="" data-drupal-link-system-path="node/79">Voluntary Disclosure for Businesses</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item menu-item--expanded">
+        <span class="rulings-and-decisions" target="">Rulings &amp; Decisions</span>
+                                <ul class="menu sub-nav">
+                    <li class="menu-item">
+        <a href="/guidance-documents" data-drupal-link-system-path="node/21">Guidance Documents</a>
+              </li>
+                <li class="menu-item menu-item--collapsed">
+        <a href="/laws-rules-decisions" data-drupal-link-system-path="node/228">Laws, Rules, &amp; Decisions</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item menu-item--expanded">
+        <span class="credits-and-deductions" target="">Credits &amp; Deductions</span>
+                                <ul class="menu sub-nav">
+                    <li class="menu-item menu-item--collapsed">
+        <a href="/tax-credits" target="" data-drupal-link-system-path="tax-credits">Tax Credits</a>
+              </li>
+                <li class="menu-item">
+        <a href="/deductions" data-drupal-link-system-path="node/121">Deductions</a>
+              </li>
+                <li class="menu-item">
+        <a href="/age-deduction-calculator" target="" data-drupal-link-system-path="age-deduction-calculator">Age Deduction Calculator</a>
+              </li>
+                <li class="menu-item">
+        <a href="/spouse-tax-adjustment" target="" data-drupal-link-system-path="spouse-tax-adjustment">Spouse Adjustment Calculator</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item menu-item--expanded">
+        <span class="business-resources" target="">Business Resources</span>
+                                <ul class="menu sub-nav">
+                    <li class="menu-item menu-item--collapsed">
+        <a href="/register-business-virginia" data-drupal-link-system-path="node/99">Register a Business</a>
+              </li>
+                <li class="menu-item">
+        <a href="/how-report-changes-your-business" data-drupal-link-system-path="node/96">Report Changes to Your Business</a>
+              </li>
+                <li class="menu-item">
+        <a href="/closing-your-business" data-drupal-link-system-path="node/92">Closing Your Business</a>
+              </li>
+                <li class="menu-item">
+        <a href="/nonprofit-organizations" data-drupal-link-system-path="node/129">Nonprofit Organizations</a>
+              </li>
+                <li class="menu-item">
+        <a href="/electronic-filing-requirements" data-drupal-link-system-path="node/62">Electronic Filing Requirements</a>
+              </li>
+                <li class="menu-item">
+        <a href="/recordkeeping-requirements-businesses" data-drupal-link-system-path="node/61">Recordkeeping Requirements</a>
+              </li>
+                <li class="menu-item">
+        <a href="/business-taxes-common-mistakes" data-drupal-link-system-path="node/91">Common Mistakes</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://account.tax.virginia.gov/online-services/link?=fips">Locality Code Lookup (FIPS)</a>
+              </li>
+                <li class="menu-item">
+        <a href="/north-american-industry-classification-system-naics-codes" data-drupal-link-system-path="node/88">North American Industry Classification System (NAICS) Codes</a>
+              </li>
+        </ul>
+  
+              </li>
+        </ul>
+  
+
+
+</nav>
+  </div>
+<div id="block-login" class="login-block">
+  
+    
+      
+            <div>
+<div id="login"><div id="login-wrap"><button class="tax-primary-button-sm" id="login-button" type="button"><span>Log In</span></button></div><div id="login-arrow">&nbsp;</div><div id="login-window"><ul><li data-list-item-id="eea06cfe2473d4df16e336789edf7423b"><p><a class="tax-secondary-button-sm loginb" href="https://www.individual.tax.virginia.gov/VTOL/IndLogin.seam" target="_blank">Individual Account</a></p><p>Don’t have an individual account? <a href="https://www.individual.tax.virginia.gov/VTOL/IndSignUp.xhtml" target="_blank">Sign up now</a></p></li><li data-list-item-id="e1312620f247af8e6db79990f9fefb679"><p><a class="tax-secondary-button-sm loginb" href="https://www.business.tax.virginia.gov/VTOL/Login.seam" target="_blank">Business Account</a></p><p>Ready to try the new online experience? <a href="https://account.tax.virginia.gov/online-services" target="_blank">Sign up&nbsp;now</a></p></li></ul></div></div></div>
+      
+  </div>
+
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <div id="search">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+            <div>
+    <div id="block-googlecsesearchbox">
+  
+    
+      
+            <div>
+<form accept-charset="UTF-8" action="/search/cse" block="block-exposedformacquia-searchpage-2" data-drupal-form-fields="edit-search" id="views-exposed-form-acquia-search-page" method="get">
+<div class="js-form-item form-item js-form-type-search form-item-search js-form-item-search form-no-label"><input class="form-search" data-drupal-selector="edit-search" id="edit-search" maxlength="128" name="keys" placeholder="Search our site (for forms, instructions, or anything else)" size="60" type="search" value></div>
+
+<div class="js-form-item form-item js-form-type-item form-item-icon-clear js-form-item-icon-clear form-no-label" id="edit-icon-clear">
+<div id="icon-clear" style="display: none;">&nbsp;</div>
+</div>
+
+<div class="form-actions js-form-wrapper form-wrapper" data-drupal-selector="edit-actions" id="edit-actions"><input class="button js-form-submit form-submit" data-drupal-selector="edit-submit-acquia-search" id="edit-submit-acquia-search" type="submit" value></div>
+</form>
+</div>
+      
+  </div>
+
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<script>
+var parentID = -1;
+</script>
+
+<main role="main">
+    <a id="main-content" tabindex="-1"></a>
+  <div class="banner-alert">  <div>
+      
+<div class="views-element-container block block-views block-views-blockalerts-and-notifications-block-1" id="block-vatax-views-block-alerts-and-notifications-block-1">
+    
+    <section class="notice-bar notice-bar-global">
+        
+    </section>
+
+    <section class="notice-bar notice-bar-selected">
+    
+    </section>
+</div>
+  
+
+<div class="views-element-container block block-views block-views-blockalerts-and-notifications-block-2" id="block-vatax-views-block-alerts-and-notifications-block-2">
+    
+    <section class="notice-bar notice-bar-global">
+        
+    </section>
+
+    <section class="notice-bar notice-bar-selected">
+    
+    </section>
+</div>
+
+
+  </div>
+</div>
+
+    <section id="breadcrumbs">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+          <div>
+    <div id="block-vatax-breadcrumbs">
+  
+    
+        <nav role="navigation" aria-labelledby="system-breadcrumb">
+    <h2 id="system-breadcrumb" class="visually-hidden">Breadcrumb</h2>
+    <ol>
+          <li>
+                  <a href="/">Home</a>
+              </li>
+          <li>
+                  Withholding Tax
+              </li>
+        </ol>
+  </nav>
+
+  </div>
+<div id="block-vatax-page-title">
+  
+    
+      
+
+
+
+  </div>
+
+  </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+        <section id="highlighted">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+          <div>
+    
+
+  </div>
+
+      </div>
+    </div>
+  </div>
+</section>  
+  <section id="basic-content">
+    <div class="container">
+      <div class="row">
+                            <div class="col-xs-12 col-lg-9 push-lg-3">
+            
+<div id="content">
+      <div>
+      <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      <div class="block-region-content"><div>
+  
+    
+      
+            <div>
+<h3>Employer Withholding General Requirements</h3><p>In general, an employer who pays wages to one or more employees in Virginia is required to deduct and withhold state income tax from those wages. Since Virginia law substantially conforms to federal law, if federal law requires an employer to withhold tax from any payment, we also require Virginia withholding.&nbsp;</p><p><a class="tax-primary-button-sm" href="https://account.tax.virginia.gov/online-services/" target="_blank">File with your business account</a><br>&nbsp;</p><p><a class="tax-primary-button-sm" href="/eforms" target="_blank">File with eForms</a></p><p>Find more details about registering as an employer, filing requirements, and payment options below.&nbsp;</p></div>
+      
+  </div>
+<div>
+  
+    
+      
+<div id="blocktabs-withholding_tax" class="blocktabs click default">
+<ul>
+<li><a href="#blocktabs-withholding_tax--50">Filing Requirements</a></li>
+<li><a href="#blocktabs-withholding_tax--49">W-2 and 1099 Filing Guidelines</a></li>
+<li><a href="#blocktabs-withholding_tax--48">Filing Options</a></li>
+<li><a href="#blocktabs-withholding_tax--47">Form 1099-K</a></li>
+<li><a href="#blocktabs-withholding_tax--46">Household Employer (Nanny Tax)</a></li>
+</ul>
+
+<div id="blocktabs-withholding_tax--50">
+            <div>
+<h3>Filing Requirements</h3><p>As an employer required to file withholding returns, you must <a href="/register-business-virginia" data-entity-type="node" data-entity-uuid="29997354-1d5c-40b2-8428-90f2fd66b25b" data-entity-substitution="canonical">register for withholding tax</a>, file income tax withholding returns, and pay the income tax to Virginia Tax.</p><p>Employers must file&nbsp;withholding returns whether or not there is withholding tax owed. The Commonwealth deems the amounts withheld as payment in trust for the employees' tax liabilities.</p><h5>Filing Frequencies</h5><ul><li data-list-item-id="eee91b1f8b61c4a91bbeb67bd9d1cc7ad">If your withholding liability is less than $100 per month, your withholding returns and tax payments are due quarterly.</li><li data-list-item-id="ec722eeab7d33c94bda94e0ff9dce3fa2">If your withholding liability is more than $100 but less than $1,000, your withholding returns and tax payments are due monthly.&nbsp;</li><li data-list-item-id="e9aa2a0d5887c177009b0744296ca71fe">If your withholding liability is $1,000&nbsp;or more, your withholding returns and tax payments are due semi-weekly.&nbsp;</li></ul><p>See below for details&nbsp;for each filing frequency.</p><h3>Quarterly Filers</h3><p>If your average tax liability is less than $100 per month, you will be assigned a quarterly filing status. Quarterly returns and payments are due on the last day of the month following the close of each quarter, as shown below. File&nbsp;your returns on Form VA-5 using eForms&nbsp;(<a href="https://www.business.tax.virginia.gov/tax-eforms/va5q.php">VA-5 Quarterly eForm</a>), your&nbsp;<a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services Account</a>&nbsp;or&nbsp;<a href="/web-upload" target="_blank">Web Upload</a>.</p><table class="table"><thead><tr><th scope="col">FOR THE QUARTER ENDING...</th><th scope="col">FILE YOUR RETURN AND PAYMENT BY...</th></tr></thead><tbody><tr><td>March 31</td><td>April 30</td></tr><tr><td>June 30</td><td>July 31</td></tr><tr><td>September 30</td><td>October 31</td></tr><tr><td>December 31</td><td>January 31</td></tr></tbody></table><p><br>Quarterly filers must also file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 is due to Virginia Tax by Jan. 31 of the following calendar year, or within 30 days of the final payment of wages by your company. When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit Form VA-6 and all W-2 and 1099 forms electronically.</p><h3>Monthly Filers</h3><p>If your average tax liability is more than $100, but less than $1,000 per month, you will be assigned a monthly filing status. You must&nbsp;file your returns on Form VA-5 using our free online filing services:&nbsp;<a href="/eforms">eForms</a>,&nbsp;your <a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a>&nbsp;or&nbsp;<a href="https://www.webupload.tax.virginia.gov/user/login" target="_blank">Web Upload</a>. The VA-5 is due on the 25th of each month (for example, the return for January is due February 25).</p><p>Monthly filers must also file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 is due to Virginia Tax by Jan. 31 of the following calendar year, or within 30 days after the last payment of wages by your company. When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit Form VA-6 and all W-2 and 1099 forms electronically.</p><h3>Semi-Weekly Filers</h3><p>If your average tax liability is more than $1,000 per month, you will be assigned a semi-weekly filing status. Your payments will be due within 3&nbsp;banking days if the amount of Virginia income tax withheld exceeds $500 on any federal cutoff date for semi-weekly withholding. Federal cutoff dates are generally on Tuesday and Friday of each week. You must submit your payments electronically using Form VA-15. If your liability exceeds $500 for a payday that falls on a:</p><ul><li data-list-item-id="e3fc328aa332081c0bcb185d277015aea">Wednesday, Thursday or Friday, file your VA-15 by the following Wednesday.&nbsp;</li><li data-list-item-id="ed070b514518fb5e59f968f2391d1f801">Saturday, Sunday, Monday, or Tuesday, file your VA-15 by the following Friday.</li></ul><p>Semi-weekly filers must file Form VA-16, Employer's Payments Quarterly Reconciliation and Return of Virginia Income Tax Withheld, for each quarter. The VA-16 must be filed electronically and is due by the end of the month following the close of the quarter:</p><p>Certain employers may request a waiver from the Virginia semi-weekly filing requirement. To request this waiver, the employer must have no more than 5&nbsp;employees subject to Virginia income tax withholding. See&nbsp;<a href="/laws-rules-decisions/rulings-tax-commissioner/15-3-0">Tax Bulletin 15-3</a>&nbsp;for more information.</p><p>Semi-weekly filers must also file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 is due to Virginia Tax by Jan. 31 of the following calendar year, or within 30 days after the last payment of wages by your company. When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit Form VA-6 and all W-2 and 1099 forms electronically.</p><h3>Annual Filing Option for Household Employers (Nanny Tax)</h3><p>Employers of household service employees may elect to file and pay the Virginia income tax withheld from their employees' salaries on an annual basis, at the same time they submit the employees' Forms W-2 for the year. In order to qualify for the annual filing, the employment must consist exclusively of domestic service in the private home of the employer as defined in the Federal Employment Tax Regulations. Employers may <a href="/register-business-virginia">register for this filing option online</a>,&nbsp;or by using <a href="/forms/search?search=R-1H&amp;year=All&amp;category=All"><strong>Form&nbsp;R-1H</strong></a>. See <a href="/withholding-tax#blocktabs-withholding_tax--46"><strong>Household Employer (Nanny Tax)</strong></a> for more information.</p><h3>Employer's Annual or Final Summary of Virginia Income Tax Withheld</h3><p><strong>All </strong>filers must file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld or Form VA-6H, Household Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 and VA-6H are due to Virginia Tax by <strong>Jan. 31</strong> of the following calendar year, or within 30 days after the final payment of wages by your company. You may file your VA-6 or VA-6H using <a href="/node/132" target="_blank">eForms</a>, <a href="/node/125" target="_blank">Web Upload</a>, or your <a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a>.&nbsp;</p><p>When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit these forms electronically using your <a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a>, <a href="/node/132" target="_blank">eForms</a>, or <a href="/node/125" target="_blank">Web Upload</a>.</p></div>
+      </div>
+<div id="blocktabs-withholding_tax--49">
+            <div>
+<h3>W-2 and 1099 Filing Guidelines</h3><p>You are required to file W-2&nbsp;and 1099 statements with Virginia Tax when those statements reflect Virginia income tax withheld.</p><ul><li data-list-item-id="e7849d526093ab90cf8191ca1cb6c4d13">W-2s and 1099s are due <strong>Jan. 31</strong></li><li data-list-item-id="eead8aa6f900c493ae789626ffb11a8b8">W-2s and 1099s must be submitted electronically</li></ul><p><strong>Important: </strong>Failure to file your withholding information by the due date may cause significant delays in processing a number of your employees' and retirees' tax returns as we will need to verify their identity and return information.</p><h3>How to file W-2s and 1099s</h3><ul><li data-list-item-id="e46cce4db60bde113750a619f212f9965"><a href="https://www.webupload.tax.virginia.gov/user/login" target="_blank"><strong>Web Upload</strong></a><strong>&nbsp;</strong>- file-based system, multiple file types accepted, files often created using payroll software</li><li data-list-item-id="ec04b5409a4bb3022167b1fccec22adab"><a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a> - file returns and make payments using your banking information, schedule payments up to the due date, and view your return filing history through an online account&nbsp;</li><li data-list-item-id="ebbbb4467934ab8bc174c43972acd4871"><strong>eForms </strong>- fillable electronic forms, no files or signup required, best for companies (or household employers) with a small number of employees or payees<ul><li class="ck-list-marker-bold" data-list-item-id="eb951e98f99bed7f53b13ce5f2d3910cf"><a href="https://www.business.tax.virginia.gov/tax-eforms/w2.php" target="_blank"><strong>W-2 eForm</strong></a></li><li class="ck-list-marker-bold" data-list-item-id="ecd3ce46e06186824f87849ad3fbc072a"><a href="https://www.business.tax.virginia.gov/tax-eforms/w2c.php"><strong>W-2C eForm</strong></a></li><li class="ck-list-marker-bold" data-list-item-id="e1d313219740e019019c1d13218561abc"><a href="https://www.business.tax.virginia.gov/tax-eforms/1099misc.php" target="_blank"><strong>1099-MISC eForm</strong></a></li><li class="ck-list-marker-bold" data-list-item-id="eec061290a1e3bd6e4b8f37e44763ca14"><a href="https://www.business.tax.virginia.gov/tax-eforms/1099nec.php" target="_blank"><strong>1099-NEC eForm</strong></a></li><li class="ck-list-marker-bold" data-list-item-id="e8872acd239f2715a0dc27e0f35802fc1"><a href="https://www.business.tax.virginia.gov/tax-eforms/1099r.php" target="_blank"><strong>1099-R eForm</strong></a></li><li data-list-item-id="ea72b9d107d83e62350ff714249cf4784"><a href="https://www.business.tax.virginia.gov/tax-eforms/w2-va6h.php" target="_blank"><strong>Combined VA6H/ W-2</strong></a> (for household employers with 10 employees or less)</li></ul></li></ul><p><strong>Note: </strong>Your Annual or Final Withholding Summary (Form VA-6 / Form VA-6H) is separate from W-2 and 1099 data. You are required to send both by Jan. 31. You can file your VA-6 using your regular filing method (your <a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a>, <a href="https://www.webupload.tax.virginia.gov/user/login" target="_blank"><strong>Web Upload</strong></a>, your <a href="https://www.business.tax.virginia.gov/VTOL/Login.seam" target="_blank"><strong>Business Account</strong></a><strong>, </strong>or <a href="/eforms"><strong>eForms</strong></a>).&nbsp;</p><p>Each method requires authentication as described in the guides below:</p><ul><li data-list-item-id="e06b694b72173c0ec17d43bd48000420d"><a href="https://youtu.be/HP5UpqUj9uI" target="_blank">Online Services account</a> (video)</li><li data-list-item-id="eb3d82b6c599d378975740df6a47a73e6"><a href="/sites/default/files/inline-files/web-upload-w2-1099-guide.pdf" data-entity-uuid="75db3fd8-cbae-468e-a5a1-641ea7d1a048" data-entity-type="file"><strong>Web Upload W-2 and 1099 Guide</strong></a>&nbsp;(pdf)</li><li data-list-item-id="e2b0aa94fbe66b9d7600e4bc94db51517"><a href="/sites/default/files/inline-files/eforms-w2-1099-guide.pdf" data-entity-uuid="99b8be58-f1a8-4e2f-8f10-2758264a7142" data-entity-type="file"><strong>eForms W-2 and1099 Guide</strong></a>&nbsp;(pdf)</li></ul><p>If you need help with Web Upload, email us at&nbsp;<a href="mailto:WebUpload@tax.virginia.gov"><strong>WebUpload@tax.virginia.gov</strong></a>. If you need help with eForms or have questions about your filing requirements, please call <a href="/contact-us"><strong>Customer Services</strong></a>.&nbsp;</p></div>
+      </div>
+<div id="blocktabs-withholding_tax--48">
+            <div>
+<h3>Filing Options</h3><p>Every withholding tax filer is required to file all withholding tax returns and payments electronically. Employers can meet these electronic filing and paying requirements without purchasing tax filing software. We offer several online services at no cost:</p><ul><li data-list-item-id="e5dfee6d8bee0766c1e6b3e6403d91ae2">Your <a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a> allows you to file returns and make payments using your banking information, schedule payments up to the due date, view your return filing history, make updates to your business and contact information, and manage other account activities.&nbsp;</li><li data-list-item-id="e4c5c8d4366afd16d5653c5ba5fe32da9"><a href="/eforms">eForms</a>&nbsp;allows you to file and pay tax returns using your bank account information. No separate signup is required. eForms also allows you to save your information and reuse it with each filing.</li><li data-list-item-id="e26f88dd782e2adbe2b27e0e9db1c03da"><a href="/web-upload">Web Upload</a>&nbsp;is a file-based system that's best if you're submitting more than a few documents and payments at once. The system accepts withholding tax data files such as spreadsheets or text files created using payroll software.</li></ul><p>You can also pay using ACH Credit (initiating payments from your bank account to Virginia Tax's bank account). For more information about initiating ACH creditand set up with financial institutions, see our <a href="https://tax.virginia.gov/sites/default/files/inline-files/virginia-tax-electronic-payment-guide.pdf" onclick="ga('send', 'event', { eventCategory: 'Downloads', eventAction: 'PDF', eventLabel: 'electronic_payment_guide', eventValue: 0});">Electronic Payment Guide</a>.</p><p><strong>Note: </strong>You do not need to file&nbsp;W2s or 1099s with us if there is no Virginia withholding.&nbsp;See <a href="/withholding-tax#blocktabs-withholding_tax--49">W-2 and 1099 Filing Guidelines for more information</a>.</p></div>
+      </div>
+<div id="blocktabs-withholding_tax--47">
+            <div>
+<p>If your business is required to file Form 1099-K with the IRS, you’ll also need to file a copy of each 1099-K related to a Virginia taxpayer or an individual with a Virginia mailing address with Virginia Tax.</p>
+
+<p>If your business is a third-party settlement organization and paid $600 or more to a Virginia payee, or to a payee at a Virginia mailing address, you will also need to file a Form 1099-K for that payee with Virginia Tax. This may mean you’ll need to file 1099-K forms with Virginia Tax that you would not need to otherwise submit to the IRS. You should also send a copy of this form to the payee by February 28.&nbsp;</p>
+
+<h3>How to File</h3>
+
+<ul>
+	<li>File Form 1099-K using <a href="https://www.webupload.tax.virginia.gov/user/login" target="_blank"><strong>Web Upload</strong></a>.&nbsp;</li>
+</ul>
+
+<p>If you’re unable to file electronically, or if filing creates an undue burden, you may <a href="/forms/search?search=efw"><strong>request a waiver</strong></a>. &nbsp;</p>
+
+<h3>Filing Deadlines</h3>
+
+<p>Form 1099-Ks are due to Virginia Tax by:</p>
+
+<ul>
+	<li>March 31 if you filed paper 1099-Ks with the IRS</li>
+	<li>April 30 if you filed your 1099-Ks with IRS electronically</li>
+	<li>April 30 if you were not required to file with the IRS, but do have to file with us.&nbsp;</li>
+</ul>
+
+<p>If the deadline falls on a weekend or holiday, you have until the next business day to file.&nbsp;</p>
+
+<p>For more information, please see <a href="/sites/default/files/inline-files/tb-20-10-virginia-1099-k-filing-requirements.pdf"><strong>Tax Bulletin 20-10</strong></a>.</p>
+</div>
+      </div>
+<div id="blocktabs-withholding_tax--46">
+            <div>
+<h3>Household Employer Withholding Tax (Nanny Tax)</h3><p>Employers of certain household employees have the option of reporting and paying the Virginia income tax withheld from those employees on an annual basis. For the employer to qualify, the employment must consist exclusively of domestic service in the private home of the employer, as defined in the Federal Employment Tax Regulations.</p><p>The annual filing provision is a filing option for qualified employers. It&nbsp;does not establish a new requirement for withholding. Unlike the federal "nanny tax," the Virginia household employer's withholding tax is filed on a separate return, and is not included in the employer's personal income tax filing. If you choose to register for this annual filing option, you will be required to file Form VA-6H, the Virginia Household Employer's Annual Summary of Income Tax Withheld,&nbsp;by Jan. 31 each year to report and pay the Virginia income tax withheld for the preceding calendar year. You must file Form VA-6H online, either through your&nbsp;<a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a>&nbsp;or through <a href="/eforms">eForms</a>. &nbsp;</p><h5>Basic Instructions for Household Employers</h5><p>Before you begin, make sure you are liable to withhold Virginia income tax from the wages of your household employee(s). If the wages are not subject to federal withholding, they are not subject to Virginia withholding.</p><p>Complete instructions for withholding Virginia income tax from wages, salaries, and other payments are contained in the <a href="/forms/search?search=withholding+instructions&amp;year=All&amp;category=6&amp;type=All">Virginia Employer Withholding Instructions</a>. Information on corresponding federal requirements is available from the IRS, and unemployment tax information, including an annual filing option, is provided by the <a href="http://www.vec.virginia.gov/" target="_blank">Virginia Employment Commission</a>.</p><h5>Registration</h5><p>To register for a household employer's withholding tax account, complete <a href="/forms/search?search=R-1H&amp;year=All&amp;category=All">Form R-1H</a>, or <a href="https://account.tax.virginia.gov/online-services/?link=businessregistration" target="_blank">register online.</a>&nbsp;If you are already filing for a domestic employee under a regular quarterly or monthly withholding tax account, be sure to close that account when you register for your new household employer's account, and request that any payments made for the current year be transferred to the new account. For assistance, contact us at <a href="tel://804.367.8037">804.367.8037</a>.</p><p>Once you register for a household employer's withholding tax account, you must file a Form VA-6H for each year that you keep the account open, even if you have no tax to report. Failure to file&nbsp;could result in penalties of up to 30%&nbsp;of the tax due.</p><h5>How to File and Pay</h5><p>Form VA-6H must be filed by <strong>Jan. 31</strong> each year, with copies of each W-2 issued to a household employee during the previous calendar year and payment for the tax due.&nbsp;</p><p>To file W-2 information and pay the tax due, file Form VA-6H through your&nbsp;<a href="https://account.tax.virginia.gov/online-services/" target="_blank"><strong>Online Services account</strong></a><strong>.</strong></p><p>If you don't have an account, you can file using eForms:&nbsp;</p><ul><li data-list-item-id="e03ccc9c69f158309368e390a973a4893"><a href="https://www.business.tax.virginia.gov/tax-eforms/w2-va6h.php">VA-6H/ W-2 combined eForm </a>(for&nbsp;household employers who employ up to 10 household employees - see the <a href="/sites/default/files/inline-files/va-6h-w2-eform-instructions.pdf" data-entity-uuid="35fa8b5a-b654-47b0-badc-6e54bd0051d0" data-entity-type="file">VA-6H/ W-2 eForm Instructions</a> for more information)</li><li data-list-item-id="ef7ba072f9c62f350d9af07d35e132f19"><a href="https://www.business.tax.virginia.gov/tax-eforms/va6h.php">VA-6H eForm</a></li><li data-list-item-id="e83f24f8d06cfaf5a0123925bed49f8e9"><a href="https://www.business.tax.virginia.gov/tax-eforms/w2.php">W-2 eForm</a></li></ul><p>To compute the withholding tax, use the <a href="/forms/search?search=employer+withholding+tables&amp;year=All&amp;category=6&amp;type=All">Virginia Employer Withholding Tables</a>.</p><h3>Frequently Asked Questions</h3><h5>Qualified Employers and Employees</h5><p><strong>What is a household employer? What does it mean to have household employer status?</strong></p><p>A household employer is an individual who employs 1&nbsp;or more people solely for the purpose of domestic service in the home of the employer. For Virginia purposes, "household employer status" means that you meet this requirement and have registered for a Virginia household employer's withholding tax account. This registration allows you to file your withholding tax on an annual basis, rather than using the quarterly or monthly filing status required for most other employers.</p><p><strong>How do I know if an employee qualifies as a household employee?</strong></p><p>The employee must be classified as an employee performing domestic service under federal definitions. This category includes employees such as nannies, babysitters, housekeepers, gardeners, elder-care workers, in-home nursing care providers, and others who provide domestic services. For details, refer to the Federal Employment Tax Regulations, which are available at <a href="https://www.irs.gov/" target="_blank">www.irs.gov</a>.</p><p><strong>If I have a household employee and other business employees, can I include tax for all of them on my annual Virginia Household Employer's return?</strong></p><p>No. You must report information on non-household employees under a separate withholding tax account for your business.</p><p><strong>I have a small business that I run from my home with only 1 or 2&nbsp;employees. Can I sign up for household employer status?</strong></p><p>No. The household employer annual filing option is available only to employers whose employees provide domestic service in the home. You should register for an employer withholding tax account to report the taxes for your business employees.</p><h5>Who Should Register</h5><p><strong>Federal law allows me to file my "nanny tax" on an annual basis, and I would like to do that for Virginia. Should I register for a household employer's withholding account?</strong></p><p>As long as you meet the federal requirements, you may register as a household employer for Virginia purposes. Keep in mind, however, that the reporting and payment is done on a separate return, Form VA-6H.</p><p><strong>I just hired a nanny. Do I have to register for a household employer's withholding tax account?</strong></p><p>Not necessarily. As described under Basic Instructions for Household Employers, you need to determine whether you are required to withhold Virginia income tax from your employee's wages. If withholding is required, you may register for a household employer's account, which allows you to file annually, or you may register for an employer withholding tax account, which will require quarterly filing.</p><p><strong>I have a gardener who has always handled his own taxes, because the wage amounts are too low for withholding to be required. Do I need to sign up for a household employer's account?</strong></p><p>No. You don't need to register for an account unless you are actually required to withhold Virginia income tax from your employee's wages.</p><p><strong>I already file withholding taxes for my household employees on a quarterly basis, and I prefer to keep my books that way. Am I required to register for a household employer's account?</strong></p><p>No. The household employer status offers an annual filing option for qualifying employers. You may continue to file on a quarterly basis under your existing account.</p><h5>Filing and Payment</h5><p><strong>How do I file and pay the tax due for my household employees?</strong></p><p>You may file Form VA-6H through your&nbsp;<a href="https://account.tax.virginia.gov/online-services/" target="_blank">Online Services account</a>&nbsp;to report the tax due and remit your tax payment, as well as copies of the W-2s for your employees. You can also file using <a href="/eforms">eForms</a>.</p><p><strong>When are the return and payment due?</strong></p><p>Form VA-6H must be filed <a href="https://account.tax.virginia.gov/online-services/" target="_blank">online</a> by Jan. 31 of each year, along with payment for the tax due and copies of any W-2s issued to your household employees for the preceding year.</p><p><strong>Can I report and pay the tax due with my individual income tax return?</strong></p><p>No. You must make a separate filing on Form VA-6-H&nbsp;by Jan. 31.</p><p><strong>I registered for a household employer withholding tax account, but I didn't have any employees this year. Do I still need to file a return?</strong></p><p>Yes. You will still need to file your annual return, <a href="/forms/search?search=VA-6H&amp;year=All&amp;category=6">Form VA-6H</a>, by Jan. 31. If you don't anticipate hiring household employees in the future, you should request that your account be closed. Otherwise, you will need to file annual returns as long as the account remains open.</p><p><strong>What should I do if I stop having employees during the year?</strong></p><p>You will still need to file your annual return, <a href="/forms/search?search=VA-6H&amp;year=All&amp;category=6">Form VA-6H</a>, by Jan. 31 of the following year, along with copies of the W-2s issued to your employees. If you don't anticipate hiring household employees in the future, you should request that your account be closed. Otherwise, you will need to file annual returns as long as the account remains open.</p><p><strong>What will happen if I file Form VA-6H or pay the tax due after Jan. 31?</strong></p><p>Late filing or late payment of the tax may result in the assessment of penalties and interest. The minimum penalty is $10, and the maximum penalty is 30%&nbsp;of the tax due. Interest accrues on the tax due until the tax is paid.</p><p><strong>Can payroll service providers file the annual returns (Form VA-6H) for household employers?</strong></p><p>Yes. The service providers need to be sure to reference the proper account number, particularly the suffix. Although many accounts will carry a suffix of F001, this will not always be the case. For example, if you have accounts for both business and household employees, or if you switched to the annual filing status from a previously existing quarterly account, your household employer account may carry a suffix of F002, F003, etc. It is important to use the correct suffix to make sure that payments are applied correctly. To avoid errors, check both the name and the account number of the return being submitted. For faster processing, the provider may wish to use our <a href="https://www.webupload.tax.virginia.gov/user/login" target="_blank">Web Upload</a> service.</p></div>
+      </div>
+
+</div>
+
+
+  </div>
+</div>
+    </div>
+  </div>
+
+  </div>
+
+</div>
+
+          </div>
+                    <aside id="sidebar" class="col-xs-12 col-lg-3 pull-lg-9" role="complementary">  <div>
+    <nav role="navigation" aria-labelledby="block-mainnavigation-menu" id="block-mainnavigation">
+            
+  <h2 class="visually-hidden" id="block-mainnavigation-menu">Main navigation</h2>
+  
+
+          
+          
+                      <ul block="block-mainnavigation" class="sidenav-menu">
+                            
+                                                                       
+      
+              <li class="menu-item menu-item--expanded menu-item--active-trail">
+        <span class="forms-and-filing" target="">Forms &amp; Filing</span>
+      
+                
+          
+                      <ul class="submenu">
+                            
+                                                                               <li  class="sibling-active">
+                     <a href="/forms" target="" data-drupal-link-system-path="forms">Forms &amp; Instructions</a>
+                </li>
+                                 
+      
+      
+      
+      
+                
+                                                                               <li  class="sibling-active">
+                     <a href="/individual-income-tax-filing" target="" data-drupal-link-system-path="individual-income-tax-filing">Individual Income Tax Filing</a>
+                </li>
+                                 
+      
+      
+      
+      
+                
+                                                                               <li  class="sibling-active">
+                     <a href="/deceased-individuals" target="" data-drupal-link-system-path="node/68">Estates, Trusts, and the Deceased</a>
+                </li>
+                                 
+      
+      
+      
+      
+                
+                                                                               <li  class="sibling-active">
+                     <a href="/retail-sales-and-use-tax" target="" data-drupal-link-system-path="node/29846">Sales and Use Tax</a>
+                </li>
+                                 
+      
+      
+      
+      
+                
+                                                                                                             
+              <li class="currentNoKids">
+        <a href="/withholding-tax" target="" data-drupal-link-system-path="withholding-tax" class="is-active" aria-current="page">Employer Withholding</a>
+              
+      
+      
+      
+                
+                                                                               <li  class="sibling-active">
+                     <a href="/corporation-income-tax" target="" data-drupal-link-system-path="node/36031">Corporation Income Tax</a>
+                </li>
+                                 
+      
+      
+      
+      
+                
+                                                                               <li  class="sibling-active">
+                     <a href="/pass-through-entities" data-drupal-link-system-path="node/110">Pass-Through Entities</a>
+                </li>
+                                 
+      
+      
+      
+      
+                
+                                                                               <li  class="sibling-active">
+                     <a href="/all-other-business-taxes" target="" data-drupal-link-system-path="node/1205">All Other Business Taxes</a>
+                </li>
+                                 
+      
+      
+      
+      
+        
+      </ul>
+      
+
+      
+              </li>
+      
+                
+                                     
+      
+      
+                
+          
+          
+
+      
+      
+                
+                                     
+      
+      
+                
+          
+          
+
+      
+      
+                
+                                     
+      
+      
+                
+          
+          
+
+      
+      
+                
+                                     
+      
+      
+                
+          
+          
+
+      
+      
+                
+                                     
+      
+      
+                
+          
+          
+
+      
+      
+        
+      </ul>
+      
+
+
+
+  </nav>
+<div id="block-sidebarcaptureemailaddresses" class="sidebar-content-block">
+  
+    
+      
+            <div>
+<h5>Sign up for email updates</h5>
+
+<p>Get Virginia tax filing reminders and tax news for individuals and businesses.</p>
+
+<p><a class="tax-primary-button-sm" href="https://public.govdelivery.com/accounts/VATAX/subscriber/new" target="_blank">Subscribe</a></p>
+</div>
+      
+  </div>
+
+  </div>
+</aside>
+              </div>
+    </div>
+  </section>
+</main>
+
+<footer role="contentinfo">
+    <div id="footerBar">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-3 footer-menu">
+            <div>
+    <nav role="navigation" aria-labelledby="block-aboutus-menu" id="block-aboutus">
+      
+  <h2 id="block-aboutus-menu">About Virginia Tax</h2>
+  
+
+        
+              <ul block="block-aboutus">
+              <li>
+              <a href="/who-we-are" data-drupal-link-system-path="node/509">Who We Are</a>
+                    </li>
+          <li>
+              <a href="/work-with-us" target="" data-drupal-link-system-path="node/32307">Careers</a>
+                    </li>
+          <li>
+              <a href="/facts-figures" target="" data-drupal-link-system-path="node/17">Facts, Figures &amp; Reports</a>
+                    </li>
+          <li>
+              <a href="/taxpayer-rights-advocate-office" data-drupal-link-system-path="node/35099">Taxpayer Rights Advocate</a>
+                    </li>
+          <li>
+              <a href="https://law.lis.virginia.gov/vacode/title58.1/" target="_blank" class="" rel="noopener noreferrer">Tax Code of Virginia<span class="visually-hidden"> (opens in new window)</span></a>
+                    </li>
+          <li>
+              <a href="/contact-us" target="" data-drupal-link-system-path="node/242">Contact Us</a>
+                    </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+        </div>
+        <div class="col-xs-12 col-md-3 footer-menu">
+            <div>
+    <nav role="navigation" aria-labelledby="block-gethelp-menu" id="block-gethelp">
+      
+  <h2 id="block-gethelp-menu">Web Resources</h2>
+  
+
+        
+              <ul block="block-gethelp">
+              <li>
+              <a href="/accessibility" data-drupal-link-system-path="node/35983">Accessibility</a>
+                    </li>
+          <li>
+              <a href="/website-disclaimer" target="" data-drupal-link-system-path="node/1307">Website Disclaimer</a>
+                    </li>
+          <li>
+              <a href="http://translate.google.com/translate?hl=en&amp;ie=UTF8&amp;sl=en&amp;tl=es&amp;u=http://www.tax.virginia.gov" target="_blank" class="" rel="noopener noreferrer">Change Language/ Translate Site<span class="visually-hidden"> (opens in new window)</span></a>
+                    </li>
+          <li>
+              <a href="/site-help" target="" data-drupal-link-system-path="node/189">Site Help</a>
+                    </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+        </div>
+        <div class="col-xs-12 col-md-3 footer-menu">
+            <div>
+    <nav role="navigation" aria-labelledby="block-additionalresources-menu" id="block-additionalresources">
+      
+  <h2 id="block-additionalresources-menu">Other Resources</h2>
+  
+
+        
+              <ul block="block-additionalresources">
+              <li>
+              <a href="/refund-fraud-prevention" target="" data-drupal-link-system-path="node/44">Identity Theft</a>
+                    </li>
+          <li>
+              <a href="/virginia-freedom-information-act" target="" data-drupal-link-system-path="node/39">FOIA</a>
+                    </li>
+          <li>
+              <a href="/summons-subpoenas-and-other-legal-process" target="" data-drupal-link-system-path="node/38">Legal Process</a>
+                    </li>
+          <li>
+              <a href="/faqs" target="" data-drupal-link-system-path="faqs">FAQs</a>
+                    </li>
+          <li>
+              <a href="/localities" target="" data-drupal-link-system-path="node/20">For Localities</a>
+                    </li>
+          <li>
+              <a href="/e-file-developer-specifications" target="" data-drupal-link-system-path="node/142">For Software Developers</a>
+                    </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+        </div>
+        <div class="col-xs-12 col-md-3 footer-menu">
+            <div>
+    <nav role="navigation" aria-labelledby="block-connectwithus-menu" id="block-connectwithus" class="social-footer-menu">
+      
+  <h2 id="block-connectwithus-menu">Connect with Us</h2>
+  
+
+        
+              <ul block="block-connectwithus">
+              <li>
+              <a href="/newsroom" target="" data-drupal-link-system-path="node/32511">Latest News &amp; Resources</a>
+                    </li>
+          <li>
+              <a href="https://www.facebook.com/VaTax/" target="_blank" class="social-icon facebook-icon" rel="noopener noreferrer">Facebook<span class="visually-hidden"> (opens in new window)</span></a>
+                    </li>
+          <li>
+              <a href="https://x.com/vatax" target="_blank" class="social-icon x-icon" rel="noopener noreferrer">X<span class="visually-hidden"> (opens in new window)</span></a>
+                    </li>
+          <li>
+              <a href="https://www.youtube.com/user/VATaxDepartment" target="_blank" class="social-icon youtube-icon" rel="noopener noreferrer">YouTube<span class="visually-hidden"> (opens in new window)</span></a>
+                    </li>
+          <li>
+              <a href="https://www.linkedin.com/company/2290817/" target="_blank" class="social-icon linkedin-icon" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new window)</span></a>
+                    </li>
+          <li>
+              <a href="https://public.govdelivery.com/accounts/VATAX/subscriber/new" target="_blank" class="social-icon email-icon" rel="noopener noreferrer">Sign Up for Email Updates<span class="visually-hidden"> (opens in new window)</span></a>
+                    </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div id="copyrightBar">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+            <div>
+    <div id="block-copyrightlegal">
+  
+    
+      
+            <div>
+<p>Copyright © 2019&nbsp;Virginia Department of Taxation. All rights reserved.</p><p><a href="https://logi.cgieva.com/Public/rdPage.aspx">Procurement</a>&nbsp; &nbsp;| &nbsp;&nbsp;<a href="http://datapoint.apa.virginia.gov/dashboard.php">Expenses</a>&nbsp; &nbsp;| &nbsp;&nbsp;<a href="/online-privacy-statement">Web Policy</a>&nbsp; &nbsp;| &nbsp;&nbsp;<a href="/accessibility" data-entity-type="node" data-entity-uuid="a857497d-fe71-4b4c-82ba-e4786746dc97" data-entity-substitution="canonical">WAI Compliant</a>&nbsp; &nbsp;| &nbsp;&nbsp;<a href="/public-notices">Public Notices</a>&nbsp; &nbsp;| &nbsp;&nbsp;<a href="/archived-public-notices">Archived Public Notices</a>&nbsp; &nbsp;| &nbsp;&nbsp;</p></div>
+      
+  </div>
+
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  </div>
+
+    <div class="off-canvas-wrapper"><div id="off-canvas">
+              <ul>
+                    <li class="menu-item--_cc38bd3-b7b4-46bc-b94f-0b2ca7055b6f menu-name--main menu-item--active-trail">
+        <span class="forms-and-filing" target="">Forms &amp; Filing</span>
+                                <ul>
+                    <li class="menu-item--_d09c428-49f9-4238-901f-8f875f5f50c7 menu-name--main">
+        <a href="/forms" target="" data-drupal-link-system-path="forms">Forms &amp; Instructions</a>
+              </li>
+                <li class="menu-item--d9e99c5c-8da5-479e-8210-26c5046448d3 menu-name--main">
+        <a href="/individual-income-tax-filing" target="" data-drupal-link-system-path="individual-income-tax-filing">Individual Income Tax Filing</a>
+                                <ul>
+                    <li class="menu-item--b97fe0ea-0e68-48fb-adca-36681667376b menu-name--main">
+        <a href="/free-file" data-drupal-link-system-path="node/75">Free File</a>
+              </li>
+                <li class="menu-item--e6d7a7e5-33d1-4fc6-9a69-4b36d6a663cf menu-name--main">
+        <a href="/tax-preparation-software-products-individuals" data-drupal-link-system-path="node/76">Tax Preparation Software</a>
+              </li>
+                <li class="menu-item--c8414337-01a0-4091-9c81-bc6689c68e36 menu-name--main">
+        <a href="/individual-income-tax-filing#blocktabs-individual_income_tax_filing--10" target="" data-drupal-link-system-path="individual-income-tax-filing">General Filing Information</a>
+                                <ul>
+                    <li class="menu-item--be99af6b-498f-4f77-8e26-f47709368c97 menu-name--main">
+        <a href="/who-must-file" data-drupal-link-system-path="node/116">Who Must File</a>
+              </li>
+                <li class="menu-item--c7c08312-c65d-411e-9f9a-5f997b47c0d0 menu-name--main">
+        <a href="/filing-status" target="" data-drupal-link-system-path="filing-status">Filing Status</a>
+              </li>
+                <li class="menu-item--_ac1aa82-6f7c-4129-a689-f8a5f6db79d5 menu-name--main">
+        <a href="/residency-status" target="" data-drupal-link-system-path="residency-status">Residency Status</a>
+                                <ul>
+                    <li class="menu-item--_6535150-0b74-4952-be1a-f31284e2d9e8 menu-name--main">
+        <a href="/reciprocity" data-drupal-link-system-path="node/1259">Reciprocity</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_2d9841e-f66e-4e64-adc8-c17995a25516 menu-name--main">
+        <a href="/when-to-file" target="" data-drupal-link-system-path="when-to-file">When to File</a>
+                                <ul>
+                    <li class="menu-item--f2d3bf5b-24e9-478b-884a-4e7e27a65401 menu-name--main">
+        <a href="/missed-filing-deadline" data-drupal-link-system-path="node/29928">Missed the filing deadline?</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--de86c6f5-29a2-4488-b0c6-caca9eeb2f57 menu-name--main">
+        <a href="/recordkeeping-individual-income-tax-purposes" data-drupal-link-system-path="node/1257">Recordkeeping for Individual Income Tax Purposes</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--dbc8b458-4f75-413f-96c1-fdcf7a0fb897 menu-name--main">
+        <a href="/individual-income-tax-filing#blocktabs-individual_income_tax_filing--8" target="" data-drupal-link-system-path="individual-income-tax-filing">Completing Your Return</a>
+                                <ul>
+                    <li class="menu-item--a42b9993-54fe-40a8-bf2a-722574f4f8af menu-name--main">
+        <a href="/exemptions" data-drupal-link-system-path="node/141">Exemptions</a>
+              </li>
+                <li class="menu-item--_776c306-e4f8-45ec-b86b-600fa9ede2a8 menu-name--main">
+        <a href="/additions" data-drupal-link-system-path="node/140">Additions</a>
+              </li>
+                <li class="menu-item--_19e182e-7dd9-4a76-823b-14f6454bd501 menu-name--main">
+        <a href="/subtractions" data-drupal-link-system-path="node/1263">Subtractions</a>
+                                <ul>
+                    <li class="menu-item--_bac47e5-b86d-495b-9a6e-0e6ba99aa367 menu-name--main">
+        <a href="/first-time-home-buyer-savings-account-subtraction" data-drupal-link-system-path="node/30611">First Time Home Buyer Savings Account Subtraction</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--b197e60a-fd6a-4113-8591-01c758d9700f menu-name--main">
+        <a href="/voluntary-contributions" data-drupal-link-system-path="node/137">Voluntary Contributions</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_8a84384-40d4-401a-9943-91a041d2a21c menu-name--main">
+        <a href="/individual-income-tax-filing#blocktabs-individual_income_tax_filing--7" target="" data-drupal-link-system-path="individual-income-tax-filing">Tools, Tips, &amp; Calculators</a>
+                                <ul>
+                    <li class="menu-item--_006cbf0-500e-49ce-8c66-444d86ae04e6 menu-name--main">
+        <a href="/free-help-your-taxes" data-drupal-link-system-path="node/111">Free Help with your Taxes</a>
+              </li>
+                <li class="menu-item--f5df91b2-e7f6-49e8-a825-e212fc4ad0cf menu-name--main">
+        <a href="/military-tax-tips" data-drupal-link-system-path="node/115">Military Tax Tips</a>
+              </li>
+                <li class="menu-item--_4477166-f163-406d-a5da-4598e7afb48b menu-name--main">
+        <a href="/what-form-should-you-file" data-drupal-link-system-path="node/147">What Form Should I File?</a>
+              </li>
+                <li class="menu-item--_44dfb14-654d-483e-97cd-d97bacc232f7 menu-name--main">
+        <a href="/income-tax-calculator" target="" data-drupal-link-system-path="income-tax-calculator">Individual Income Calculator</a>
+              </li>
+                <li class="menu-item--_7a45fd2-7597-402b-a551-bd89ebf01a09 menu-name--main">
+        <a href="/spouse-tax-adjustment" target="" data-drupal-link-system-path="spouse-tax-adjustment">Spouse Adjustment Tax Calculator</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_37a55eb-d006-4146-920c-6bb3a232ce24 menu-name--main">
+        <a href="/individual-income-tax-filing#blocktabs-individual_income_tax_filing--6" target="" data-drupal-link-system-path="individual-income-tax-filing">Forms and Paper Filing</a>
+                                <ul>
+                    <li class="menu-item--bf3baf32-464a-496d-82ad-5b1691b48885 menu-name--main">
+        <a href="/forms/search?category=1&amp;year=56" target="" data-drupal-link-query="{&quot;category&quot;:&quot;1&quot;,&quot;year&quot;:&quot;56&quot;}" data-drupal-link-system-path="forms/search">Forms and Instructions</a>
+              </li>
+                <li class="menu-item--_6789289-6254-49d5-bf1e-1b91ceb82048 menu-name--main">
+        <a href="/where-to-file" target="" data-drupal-link-system-path="where-to-file">Where to File</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--e2e6a49f-a33e-4daa-8c90-74fd67e49734 menu-name--main">
+        <a href="/individual-income-tax-filing#blocktabs-individual_income_tax_filing-5" target="" data-drupal-link-system-path="individual-income-tax-filing">Other Filing Information</a>
+                                <ul>
+                    <li class="menu-item--_5535ab2-d2a5-4564-9a9f-bc7e3dce4058 menu-name--main">
+        <a href="/individual-estimated-tax-payments" data-drupal-link-system-path="node/1311">Estimated Taxes</a>
+              </li>
+                <li class="menu-item--_decda62-9df3-4d80-9c84-2849269a1825 menu-name--main">
+        <a href="/consumers-use-tax" data-drupal-link-system-path="node/1312">Consumer&#039;s Use Tax</a>
+              </li>
+                <li class="menu-item--_f2baa57-3537-4602-b087-46c4983ec6e6 menu-name--main">
+        <a href="/amending-your-return" data-drupal-link-system-path="node/101">Fix, or Correct a Return</a>
+              </li>
+                <li class="menu-item--_7398958-c456-42de-b1a5-a28a3fc0fb74 menu-name--main">
+        <a href="/request-copy-tax-return" target="" data-drupal-link-system-path="node/86">Request a Copy of a Tax Return</a>
+              </li>
+        </ul>
+  
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_ef22e54-7ab9-441b-8c4e-e4a684f19288 menu-name--main">
+        <a href="/deceased-individuals" target="" data-drupal-link-system-path="node/68">Estates, Trusts, and the Deceased</a>
+                                <ul>
+                    <li class="menu-item--_7b36cbc-ffdd-477a-98a3-db6f26e9a67b menu-name--main">
+        <a href="/estate-and-inheritance-taxes" data-drupal-link-system-path="node/64">Estate and Inheritance Taxes</a>
+              </li>
+                <li class="menu-item--_8bf657c-ad49-4b09-baed-f04e585eb36b menu-name--main">
+        <a href="/fiduciary-income-tax" data-drupal-link-system-path="node/66">Fiduciary Income Tax</a>
+              </li>
+                <li class="menu-item--_520faec-c92b-48c1-95be-17ba3016ef97 menu-name--main">
+        <a href="/power-attorney-and-tax-information-authorization" data-drupal-link-system-path="node/80">Power of Attorney and Tax Information Authorization</a>
+              </li>
+                <li class="menu-item--_2c1f897-9344-48f6-b1b1-48147a38135d menu-name--main">
+        <a href="/probate-tax" data-drupal-link-system-path="node/94">Probate Tax</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--c28d2ff7-1d27-4f5d-8e43-ea8c1c2ac285 menu-name--main">
+        <a href="/retail-sales-and-use-tax" target="" data-drupal-link-system-path="node/29846">Sales and Use Tax</a>
+                                <ul>
+                    <li class="menu-item--_32b10d5-48d8-4d41-b6ff-8baa41535d0a menu-name--main">
+        <a href="/sales-tax-rate-and-locality-code-lookup" data-drupal-link-system-path="node/30915">Sales Tax Rate and Locality Code Lookup</a>
+              </li>
+                <li class="menu-item--_30516a9-0ee8-472a-836a-0876e9a08940 menu-name--main">
+        <a href="/grocery-tax" data-drupal-link-system-path="node/29849">Grocery Tax</a>
+              </li>
+                <li class="menu-item--_1b70aca-6b87-4c5e-8fe0-0ab72b23cd1b menu-name--main">
+        <a href="/sales-tax-exemptions" target="" data-drupal-link-system-path="sales-tax-exemptions">Sales Tax Exemptions</a>
+              </li>
+                <li class="menu-item--da5a854a-f4f2-4990-9260-7a38c1c40bf9 menu-name--main">
+        <a href="/remote-sellers-marketplace-facilitators-economic-nexus" target="" data-drupal-link-system-path="remote-sellers-marketplace-facilitators-economic-nexus">Remote Sellers, Marketplace Facilitators &amp; Economic Nexus</a>
+              </li>
+                <li class="menu-item--b3fac92c-eb84-4b3f-bfc6-a7dc70b5b96d menu-name--main">
+        <a href="/retail-sales-tax-accommodations" data-drupal-link-system-path="node/32431">Retail Sales Tax on Accommodations</a>
+              </li>
+                <li class="menu-item--_118c07d-c02d-459a-bc54-fbacce2077b9 menu-name--main">
+        <a href="/motor-vehicle-rental-tax-and-fee" data-drupal-link-system-path="node/29850">Motor Vehicle Rental Tax</a>
+              </li>
+                <li class="menu-item--eff8b7d0-2db4-41b9-9589-6974843c5c9f menu-name--main">
+        <a href="/peer-peer-vehicle-sharing-tax" data-drupal-link-system-path="node/31735">Peer-to-Peer Vehicle Sharing Tax</a>
+              </li>
+                <li class="menu-item--_5125e0b-143a-40e6-bb74-2db346cbac1d menu-name--main">
+        <a href="/communications-taxes" data-drupal-link-system-path="node/29848">Communications Taxes</a>
+              </li>
+                <li class="menu-item--fdf8bc01-bb83-4cc3-b64c-0c35bc1f3bf9 menu-name--main">
+        <a href="/aircraft-and-watercraft" data-drupal-link-system-path="node/29847">Aircraft and Watercraft</a>
+              </li>
+                <li class="menu-item--_0342b2b-9bee-4a3d-9b2c-2be1c3ef63ec menu-name--main">
+        <a href="/other-sales-and-use-tax" target="" data-drupal-link-system-path="node/29851">Other Sales Taxes</a>
+              </li>
+                <li class="menu-item--d0b6bff9-65fd-448f-a3d4-0cec8cfc0a43 menu-name--main">
+        <a href="/disposable-plastic-bag-tax" data-drupal-link-system-path="node/32433">Disposable Plastic Bag Tax</a>
+              </li>
+                <li class="menu-item--_965e607-78ad-406b-b0c2-4e5c8c54d027 menu-name--main">
+        <a href="/virginia-sales-tax-holiday" target="" data-drupal-link-system-path="node/24">Sales Tax Holiday</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_a7338f8-dcdc-41a6-8643-17219bf785f9 menu-name--main menu-item--active-trail">
+        <a href="/withholding-tax" target="" data-drupal-link-system-path="withholding-tax" class="is-active" aria-current="page">Employer Withholding</a>
+              </li>
+                <li class="menu-item--c3b6920e-08f3-47d5-8c20-36e02d59c2f7 menu-name--main">
+        <a href="/corporation-income-tax" target="" data-drupal-link-system-path="node/36031">Corporation Income Tax</a>
+              </li>
+                <li class="menu-item--_63acee0-fd96-43b3-96ba-abb5e3bcfc58 menu-name--main">
+        <a href="/pass-through-entities" data-drupal-link-system-path="node/110">Pass-Through Entities</a>
+              </li>
+                <li class="menu-item--_a31fcf5-7131-4579-ab95-92d049aa5f30 menu-name--main">
+        <a href="/all-other-business-taxes" target="" data-drupal-link-system-path="node/1205">All Other Business Taxes</a>
+                                <ul>
+                    <li class="menu-item--_7c35388-8c12-4d8b-bc87-7b5b6fef7dc3 menu-name--main">
+        <a href="/bank-franchise-tax" data-drupal-link-system-path="node/1258">Bank Franchise Tax</a>
+              </li>
+                <li class="menu-item--_a6119ef-9c7a-4feb-9d81-4e5012071fc4 menu-name--main">
+        <a href="/cigarette-and-tobacco-taxes" data-drupal-link-system-path="node/123">Cigarette and Tobacco Taxes</a>
+                                <ul>
+                    <li class="menu-item--d86f34ac-4695-48d7-ab5f-086a106d8079 menu-name--main">
+        <a href="/cigarette-manufacturers" data-drupal-link-system-path="node/120">Cigarette Manufacturers</a>
+              </li>
+                <li class="menu-item--_2f98d2b-bd29-497a-948d-02749435a2e4 menu-name--main">
+        <a href="/cigarette-retailers" data-drupal-link-system-path="node/31491">Cigarette Retailers</a>
+              </li>
+                <li class="menu-item--_46edc1c-cbb5-4a49-b4e4-1f7d5667a38f menu-name--main">
+        <a href="/cigarette-resale-exemption-certificates" data-drupal-link-system-path="node/30399">Cigarette Resale Exemption Certificates</a>
+              </li>
+                <li class="menu-item--_39a80e3-716e-435b-a756-13847980d0f8 menu-name--main">
+        <a href="/cigarette-tax-consumers" data-drupal-link-system-path="node/31493">Cigarette Tax for Consumers</a>
+              </li>
+                <li class="menu-item--e9033f66-00c4-4775-a928-9e0efa22b448 menu-name--main">
+        <a href="/regional-cigarette-tax-boards" data-drupal-link-system-path="node/32849">Regional Cigarette Tax Boards</a>
+              </li>
+                <li class="menu-item--_26eae2a-d5f0-4d8c-8cd2-82164ba79132 menu-name--main">
+        <a href="/cigarette-tax" data-drupal-link-system-path="node/119">Cigarette Tax</a>
+              </li>
+                <li class="menu-item--_e11db34-a9ba-4811-920d-60e2c8e6ff65 menu-name--main">
+        <a href="/tobacco-products-tax" data-drupal-link-system-path="node/113">Tobacco Products Tax</a>
+              </li>
+                <li class="menu-item--f42050b8-0bb8-4a5c-9fc8-540bbd6d1ec3 menu-name--main">
+        <a href="/liquid-nicotine-and-nicotine-vapor-products-license" data-drupal-link-system-path="node/35193">Vape Products License Requirements</a>
+              </li>
+                <li class="menu-item--e582cdde-c400-4b04-88bb-5630231d2ab0 menu-name--main">
+        <a href="/economic-nexus-out-state-tobacco-products-distributors" data-drupal-link-system-path="node/31827">Economic Nexus for Out-of-State Tobacco Products Distributors</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--afcb7633-a53b-47cc-abeb-1b48bdad12ed menu-name--main">
+        <a href="/insurance-premiums-license-tax" data-drupal-link-system-path="node/117">Insurance Premiums License Tax</a>
+              </li>
+                <li class="menu-item--_fb269f4-3589-48f1-bede-af64491cfc48 menu-name--main">
+        <a href="/litter-tax" data-drupal-link-system-path="node/84">Litter Tax</a>
+              </li>
+                <li class="menu-item--_69b9994-7dcf-41ee-9fa6-1516ff20314c menu-name--main">
+        <a href="/miscellaneous-taxes" data-drupal-link-system-path="node/98">Miscellaneous Taxes</a>
+              </li>
+        </ul>
+  
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--e699e8fa-8ec4-4905-b775-345136d3d31a menu-name--main">
+        <span class="refunds" target="">Refunds</span>
+                                <ul>
+                    <li class="menu-item--ca5af9a6-3137-439e-90a1-97a711dddbef menu-name--main">
+        <a href="/wheres-my-refund" target="" data-drupal-link-system-path="wheres-my-refund">Where&#039;s My Refund?</a>
+              </li>
+                <li class="menu-item--_a25c22e-f345-4e98-820d-3af7b1e9c51b menu-name--main">
+        <a href="/refund-fraud-prevention" data-drupal-link-system-path="node/44">Refund Fraud Prevention</a>
+                                <ul>
+                    <li class="menu-item--_d37ab5a-a68d-4385-8ba1-c9f73612a0a6 menu-name--main">
+        <a href="/report-data-breach" data-drupal-link-system-path="node/30112">Report a Data Breach</a>
+              </li>
+                <li class="menu-item--a949bf16-e041-42ca-923e-7f801545563c menu-name--main">
+        <a href="/tax-professionals-reporting-data-breaches" data-drupal-link-system-path="node/30564">Tax Professionals - Reporting Data Breaches</a>
+              </li>
+                <li class="menu-item--_c897522-5f41-47b4-9a88-2493e90783e0 menu-name--main">
+        <a href="/pin" data-drupal-link-system-path="node/1309">Virginia Tax Personal Identification Number (PIN)</a>
+              </li>
+                <li class="menu-item--_cc2e563-19d1-4fda-aee2-1100bd96c377 menu-name--main">
+        <a href="/what-can-you-do-help-us-process-your-return-more-smoothly" target="" data-drupal-link-system-path="node/1310">What Can You Do To Help Us Process Your Return More Smoothly?</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_bc31832-7971-40de-8903-8d6e3070a230 menu-name--main">
+        <a href="/refund-verification-letter" data-drupal-link-system-path="node/30415">Refund Verification Letter</a>
+              </li>
+                <li class="menu-item--e83041bb-82d9-4eaf-b5a5-2285b42e1731 menu-name--main">
+        <a href="/why-was-your-refund-reduced-or-withheld-offset" target="" data-drupal-link-system-path="node/58">Refund Reduced or Withheld (Offset)?</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--a43c8569-b309-41b4-9c04-d7c0d3e22a6d menu-name--main">
+        <span class="payments-and-penalties" target="">Payments &amp; Penalties</span>
+                                <ul>
+                    <li class="menu-item--_f68f9d8-e046-4b51-9b25-1a0a4e3a4dd7 menu-name--main">
+        <a href="/audits" data-drupal-link-system-path="node/2">Audits</a>
+                                <ul>
+                    <li class="menu-item--c0a3033c-8fde-4764-87dc-08f065945bdd menu-name--main">
+        <a href="/worker-misclassification" data-drupal-link-system-path="node/32317">Worker Misclassification</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--ef400500-c55d-4a0e-ada9-f070631c9980 menu-name--main">
+        <a href="/pay-bill-notice-assessment" data-drupal-link-system-path="node/70">Bills</a>
+                                <ul>
+                    <li class="menu-item--_bf3c14b-5218-462c-a6c5-70f9c0647442 menu-name--main">
+        <a href="/paymentplan" target="" data-drupal-link-system-path="node/29954">Payment Plans</a>
+                                <ul>
+                    <li class="menu-item--_f90d925-2dd1-42a4-baaa-c590bce731ea menu-name--main">
+        <a href="/existing-payment-plans" target="" data-drupal-link-system-path="node/30436">Existing Payment Plans</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_6eef6e8-7f1a-4e5e-9c7a-d8f75dc646aa menu-name--main">
+        <a href="/administrative-appeals" target="" data-drupal-link-system-path="node/104">Appeals</a>
+              </li>
+                <li class="menu-item--eeab4866-8cf4-4a76-961b-7a569c9ef8e0 menu-name--main">
+        <a href="/offer-compromise" data-drupal-link-system-path="node/29989">Offer in Compromise</a>
+              </li>
+                <li class="menu-item--e09d589d-5fe1-465e-88ab-53f9e3b3350b menu-name--main">
+        <a href="/collections" data-drupal-link-system-path="node/31771">Collections</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_d1b55c6-fcf9-4e52-bfea-7fe35988e291 menu-name--main">
+        <a href="/payments" data-drupal-link-system-path="node/586">Payments</a>
+                                <ul>
+                    <li class="menu-item--_1fb7ca8-d7b6-4325-9dce-0384bb46c34b menu-name--main">
+        <a href="/individual-income-tax-payment-options" target="" data-drupal-link-system-path="node/34595">Individual Tax Payments</a>
+              </li>
+                <li class="menu-item--d44a5d4f-37c1-412a-a018-50f4b9338ff4 menu-name--main">
+        <a href="/business-tax-payment-options" target="" data-drupal-link-system-path="node/85">Business Tax Payments</a>
+                                <ul>
+                    <li class="menu-item--_7d1a8d5-744e-451b-8bd2-809fd4f5ce00 menu-name--main">
+        <a href="/debit-block" data-drupal-link-system-path="node/35809">ACH Debit Block Information</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--fa2a4400-59ec-45b0-9929-ef0cbbe84a19 menu-name--main">
+        <a href="/credit-card-payments" data-drupal-link-system-path="node/69">Credit Card Payments</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_c395db2-66fe-4139-9fc2-97a5b0490ea7 menu-name--main">
+        <a href="/penalties-and-interest" data-drupal-link-system-path="node/67">Penalties &amp; Interest</a>
+              </li>
+                <li class="menu-item--_2e67ad6-abfd-4bba-b644-5ff53f80380a menu-name--main">
+        <a href="/voluntary-disclosure-businesses" target="" data-drupal-link-system-path="node/79">Voluntary Disclosure for Businesses</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--ff620c1f-a1df-4da3-96a0-4a7947e27b2f menu-name--main">
+        <span class="rulings-and-decisions" target="">Rulings &amp; Decisions</span>
+                                <ul>
+                    <li class="menu-item--_9f56acd-5b86-4bc2-a2ca-f3e3590d4e50 menu-name--main">
+        <a href="/guidance-documents" data-drupal-link-system-path="node/21">Guidance Documents</a>
+              </li>
+                <li class="menu-item--_4c25a37-0dd4-4867-929e-6470a439992c menu-name--main">
+        <a href="/laws-rules-decisions" data-drupal-link-system-path="node/228">Laws, Rules, &amp; Decisions</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--cf40c56e-eed0-486a-b49a-39ba177f61fb menu-name--main">
+        <span class="credits-and-deductions" target="">Credits &amp; Deductions</span>
+                                <ul>
+                    <li class="menu-item--_4104750-67d2-4487-adcd-ebb1b9704532 menu-name--main">
+        <a href="/tax-credits" target="" data-drupal-link-system-path="tax-credits">Tax Credits</a>
+                                <ul>
+                    <li class="menu-item--f8c49d93-3656-41ba-890c-ac48b04c6d96 menu-name--main">
+        <a href="/common-individual-credits" data-drupal-link-system-path="node/30113">Common Individual Credits</a>
+                                <ul>
+                    <li class="menu-item--b44e90ee-b445-4301-979f-16c91c4477fb menu-name--main">
+        <a href="/credit-for-taxes-paid-to-another-state" target="" data-drupal-link-system-path="credit-for-taxes-paid-to-another-state">Credit for Taxes Paid to Another State</a>
+                                <ul>
+                    <li class="menu-item--_4dabcfd-7ba4-405a-8820-e357f03e992d menu-name--main">
+        <a href="/supporting-forms-claiming-credit-taxes-paid-another-state" data-drupal-link-system-path="node/1260">Credit for Taxes Paid to Another State - Supporting Forms</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_3ade410-7d37-4da8-b001-c641531a49b0 menu-name--main">
+        <a href="/low-income-individuals-credit" target="" data-drupal-link-system-path="node/238">Low Income Individuals Credit</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--dbcd7750-b331-426f-91a2-fe567f0c7df4 menu-name--main">
+        <a href="/agriculture-and-farming-credits" data-drupal-link-system-path="node/30566">Farming &amp; Agriculture Credits</a>
+              </li>
+                <li class="menu-item--_5732727-9aa1-485a-9b77-2489bb54150b menu-name--main">
+        <a href="/environmental-credits" data-drupal-link-system-path="node/233">Environmental Credits</a>
+                                <ul>
+                    <li class="menu-item--c23ac829-9ed3-448d-bc56-4ec7e705143c menu-name--main">
+        <a href="/land-preservation-tax-credit" data-drupal-link-system-path="node/74">Land Preservation Tax Credit</a>
+                                <ul>
+                    <li class="menu-item--_1e2da9c-b713-403c-838c-f8ddecbf9721 menu-name--main">
+        <a href="/land-preservation-credit-affidavit-requirements" target="" data-drupal-link-system-path="node/30565">Land Preservation Credit Affidavit Requirements</a>
+              </li>
+                <li class="menu-item--_6b99f56-390c-4746-9b49-ad92deda18ea menu-name--main">
+        <a href="/transferring-land-preservation-tax-credit" data-drupal-link-system-path="node/30627">Transferring a Land Preservation Tax Credit</a>
+              </li>
+                <li class="menu-item--_cbe122c-0253-44ea-841b-6b1ad2e67dd2 menu-name--main">
+        <a href="/land-preservation-credit-appraisers-information" data-drupal-link-system-path="node/30628">Land Preservation Credit Appraisers Information</a>
+              </li>
+        </ul>
+  
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--a30ad329-0d7b-4f43-b504-1b3036dd687b menu-name--main">
+        <a href="/business-development-credits" data-drupal-link-system-path="node/232">Business Development Credits</a>
+              </li>
+                <li class="menu-item--_7a424b4-84d4-4e0b-b786-35c2a75f3fdd menu-name--main">
+        <a href="/housing-and-community-development-tax-credits" data-drupal-link-system-path="node/30567">Housing &amp; Community Development Credits</a>
+              </li>
+                <li class="menu-item--_54398c0-7939-4c15-9172-f37781f08b4b menu-name--main">
+        <a href="/other-credits" target="" data-drupal-link-system-path="node/237">Miscellaneous Credits</a>
+              </li>
+                <li class="menu-item--_d9a12c8-1bb5-4820-a61a-61b7fc27c914 menu-name--main">
+        <a href="/expired-or-repealed-credits" data-drupal-link-system-path="node/234">Expired or Repealed Credits</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_9677ee7-9422-4363-928b-f1e51b60f3ba menu-name--main">
+        <a href="/deductions" data-drupal-link-system-path="node/121">Deductions</a>
+              </li>
+                <li class="menu-item--_870a342-f683-43b6-a0f9-8fee41f59605 menu-name--main">
+        <a href="/age-deduction-calculator" target="" data-drupal-link-system-path="age-deduction-calculator">Age Deduction Calculator</a>
+              </li>
+                <li class="menu-item--_1a7dff7-929a-4d91-8a89-d2aceb53f1ae menu-name--main">
+        <a href="/spouse-tax-adjustment" target="" data-drupal-link-system-path="spouse-tax-adjustment">Spouse Adjustment Calculator</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--ced3f579-2ce7-4dfd-b125-ba6411c76846 menu-name--main">
+        <span class="business-resources" target="">Business Resources</span>
+                                <ul>
+                    <li class="menu-item--_24cb9a8-c6a8-4646-a519-f683d4f3b5c4 menu-name--main">
+        <a href="/register-business-virginia" data-drupal-link-system-path="node/99">Register a Business</a>
+                                <ul>
+                    <li class="menu-item--e21eb96d-553b-471f-b273-a532ef226075 menu-name--main">
+        <a href="/registration-nonresident-property-owners" data-drupal-link-system-path="node/93">Registration of Nonresident Property Owners</a>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item--_0f58a0f-11c6-4d6c-b06e-be65d8e0a00a menu-name--main">
+        <a href="/how-report-changes-your-business" data-drupal-link-system-path="node/96">Report Changes to Your Business</a>
+              </li>
+                <li class="menu-item--_f47d3a7-fd12-4e32-a7e6-0dd3b9bfe7b6 menu-name--main">
+        <a href="/closing-your-business" data-drupal-link-system-path="node/92">Closing Your Business</a>
+              </li>
+                <li class="menu-item--_a647613-c3e7-4157-b419-84e9705fe59a menu-name--main">
+        <a href="/nonprofit-organizations" data-drupal-link-system-path="node/129">Nonprofit Organizations</a>
+              </li>
+                <li class="menu-item--b2c48b12-8672-4ed8-8e55-0b7eb55e3e36 menu-name--main">
+        <a href="/electronic-filing-requirements" data-drupal-link-system-path="node/62">Electronic Filing Requirements</a>
+              </li>
+                <li class="menu-item--_43c8f39-911d-4a90-87f9-ad483db4cd17 menu-name--main">
+        <a href="/recordkeeping-requirements-businesses" data-drupal-link-system-path="node/61">Recordkeeping Requirements</a>
+              </li>
+                <li class="menu-item--b47a946f-a11d-445c-b5e4-60df352b59a8 menu-name--main">
+        <a href="/business-taxes-common-mistakes" data-drupal-link-system-path="node/91">Common Mistakes</a>
+              </li>
+                <li class="menu-item--_650df2e-ee79-499c-9f6f-1440a24d68f1 menu-name--main">
+        <a href="https://account.tax.virginia.gov/online-services/link?=fips">Locality Code Lookup (FIPS)</a>
+              </li>
+                <li class="menu-item--_817183d-d8be-4880-869d-ed6ca52f1f11 menu-name--main">
+        <a href="/north-american-industry-classification-system-naics-codes" data-drupal-link-system-path="node/88">North American Industry Classification System (NAICS) Codes</a>
+              </li>
+        </ul>
+  
+              </li>
+        </ul>
+  
+
+</div></div>
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"withholding-tax","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"responsive_menu":{"position":"left","theme":"theme-dark","pagedim":"pagedim","modifyViewport":true,"use_bootstrap":false,"breakpoint":"all and (min-width: 992px)","drag":false,"mediaQuery":"all and (min-width: 992px)"},"miniorange_2fa":{"kba_answer_length":3},"user":{"uid":0,"permissionsHash":"b629d854eda92d261e7e6677e43ebbea3c00d43c7ae0a52ee068abff0c2a2ada"}}</script>
+<script src="/core/assets/vendor/jquery/jquery.min.js?v=3.7.1"></script>
+<script src="/core/misc/drupalSettingsLoader.js?v=10.6.17"></script>
+<script src="/core/misc/drupal.js?v=10.6.17"></script>
+<script src="/core/misc/drupal.init.js?v=10.6.17"></script>
+<script src="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/ui/version-min.js?v=1.13.2"></script>
+<script src="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/ui/keycode-min.js?v=1.13.2"></script>
+<script src="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/ui/safe-active-element-min.js?v=1.13.2"></script>
+<script src="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/ui/unique-id-min.js?v=1.13.2"></script>
+<script src="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/ui/widget-min.js?v=1.13.2"></script>
+<script src="/modules/contrib/jquery_ui/assets/vendor/jquery.ui/ui/widgets/tabs-min.js?v=1.13.2"></script>
+<script src="/modules/contrib/blocktabs/js/blocktabs.js?v=10.6.17"></script>
+<script src="/core/misc/debounce.js?v=10.6.17"></script>
+<script src="/core/misc/announce.js?v=10.6.17"></script>
+<script src="/core/misc/message.js?v=10.6.17"></script>
+<script src="/modules/contrib/miniorange_2fa/includes/js/mo_kba_validation.js?v=10.6.17"></script>
+<script src="/libraries/mmenu/dist/mmenu.js?v=10.6.17"></script>
+<script src="/modules/contrib/responsive_menu/js/responsive_menu.config.js?v=10.6.17"></script>
+<script src="/themes/vatax/js/vatax.js?tm4t25"></script>
+<script src="/themes/vatax/js/jquery-ui.js?tm4t25"></script>
+<script src="/themes/vatax/js/cookie.min.js?tm4t25"></script>
+<script src="/themes/vatax/js/google-translate.js?tm4t25"></script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+  </body>
+</html>

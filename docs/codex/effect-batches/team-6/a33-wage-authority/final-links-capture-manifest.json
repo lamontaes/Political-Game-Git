@@ -1,0 +1,152 @@
+{
+  "scope": "official document links and explicit none-source queries, same research pass",
+  "captures": [
+    {
+      "place": "AK-source",
+      "requestedUrl": "https://tax.alaska.gov/programs/programs/help/index.aspx?10000",
+      "capturedAt": "2026-10-01T19:27:01.761559+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "AR-source",
+      "requestedUrl": "https://www.dfa.arkansas.gov/wp-content/uploads/NEWSRELEASE_WithholdingChanges.pdf",
+      "capturedAt": "2026-10-01T19:27:02.147405+00:00",
+      "status": 200,
+      "finalUrl": "https://www.dfa.arkansas.gov/wp-content/uploads/NEWSRELEASE_WithholdingChanges.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-ar-source-2026-10-01",
+      "path": "raw/ar-source.pdf",
+      "sha256": "767a6aae752d827baa62cafacc1f5d7264d1ab02267adf3144f1f7a321c0d10c",
+      "byteLength": 63870,
+      "textPath": "raw/ar-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "FL-source",
+      "requestedUrl": "https://floridarevenue.com/faq/pages/faqsearch.aspx?keywords=personal%20income%20tax&cat=4&subcat=0",
+      "capturedAt": "2026-10-01T19:27:01.700995+00:00",
+      "status": 200,
+      "finalUrl": "https://floridarevenue.com/faq/pages/faqsearch.aspx?keywords=personal%20income%20tax&cat=4&subcat=0",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-fl-source-2026-10-01",
+      "path": "raw/fl-source.html",
+      "sha256": "5b8dd4f9a595f3d0b41b50384725a9ed5c3b8f54f0ccbd6d458a51a4a48feb3d",
+      "byteLength": 81256,
+      "textPath": "raw/fl-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MD-source",
+      "requestedUrl": "https://www.marylandcomptroller.gov/content/dam/mdcomp/taxpayer/tax-forms-and-instructions/2026/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:27:01.379938+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MP-source",
+      "requestedUrl": "https://www.finance.gov.mp/forms.php",
+      "capturedAt": "2026-10-01T19:27:01.378226+00:00",
+      "status": 200,
+      "finalUrl": "https://www.finance.gov.mp/forms.php",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-mp-source-2026-10-01",
+      "path": "raw/mp-source.html",
+      "sha256": "3e6030978d5c292f690864091f21efd9ae85e52e516cba071371dafea48c9ae3",
+      "byteLength": 51925,
+      "textPath": "raw/mp-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MT-source",
+      "requestedUrl": "https://revenue.mt.gov/publications/publication-1",
+      "capturedAt": "2026-10-01T19:27:01.379172+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.mt.gov/publications/publication-1",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-mt-source-2026-10-01",
+      "path": "raw/mt-source.html",
+      "sha256": "9cd7c701a1d79e960196ad770ce016fd5752e3ebd286ed85b7db1abd51573e0c",
+      "byteLength": 52591,
+      "textPath": "raw/mt-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NE-source",
+      "requestedUrl": "https://revenue.nebraska.gov/sites/default/files/doc/business/Cir_En_2026/2027cir_en_whole.pdf",
+      "capturedAt": "2026-10-01T19:27:02.020380+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.nebraska.gov/sites/default/files/doc/business/Cir_En_2026/2027cir_en_whole.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-ne-source-2026-10-01",
+      "path": "raw/ne-source.pdf",
+      "sha256": "89fd17545c174583295dd25ea47a2e509fc10d07435a623197c819bb7a470ba6",
+      "byteLength": 2793733,
+      "textPath": "raw/ne-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OH-source",
+      "requestedUrl": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/Forms/ohio_individual/individual/2025/it1040-booklet.pdf",
+      "capturedAt": "2026-10-01T19:27:02.253873+00:00",
+      "status": 200,
+      "finalUrl": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/Forms/ohio_individual/individual/2025/it1040-booklet.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-oh-source-2026-10-01",
+      "path": "raw/oh-source.pdf",
+      "sha256": "931b21e7484ba96e561cf2346d8a7d2a8005bd990724b5903c9a90acede5f50e",
+      "byteLength": 3427251,
+      "textPath": "raw/oh-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "PR-source",
+      "requestedUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores",
+      "capturedAt": "2026-10-01T19:27:01.377451+00:00",
+      "status": 200,
+      "finalUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-pr-source-2026-10-01",
+      "path": "raw/pr-source.html",
+      "sha256": "2296ef5cfc6115fbae7d6341dd27e9968b7e7babc8541a77fabbce8d7b159bd2",
+      "byteLength": 43097,
+      "textPath": "raw/pr-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "TX-source",
+      "requestedUrl": "https://comptroller.texas.gov/economy/fiscal-notes/archive/2019/sep/ballot.php",
+      "capturedAt": "2026-10-01T19:27:02.003887+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "WI-source",
+      "requestedUrl": "https://www.revenue.wi.gov/Pages/FAQS/pcs-indreq.aspx",
+      "capturedAt": "2026-10-01T19:27:01.378774+00:00",
+      "status": 200,
+      "finalUrl": "https://www.revenue.wi.gov/Pages/FAQS/pcs-indreq.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-wi-source-2026-10-01",
+      "path": "raw/wi-source.html",
+      "sha256": "de8719c1dcf7641edd8be0fe8602776f95844386854b9df7b247e7db38f48b49",
+      "byteLength": 54608,
+      "textPath": "raw/wi-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "WV-source",
+      "requestedUrl": "https://tax.wv.gov/Business/Withholding/Pages/default.aspx",
+      "capturedAt": "2026-10-01T19:27:01.379531+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "WY-source",
+      "requestedUrl": "https://revenue.wyo.gov/faqs",
+      "capturedAt": "2026-10-01T19:27:01.964140+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    }
+  ]
+}

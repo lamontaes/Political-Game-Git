@@ -1,0 +1,334 @@
+{
+  "scope": "same authorized first-party research pass; repaired official URL and authority-detail retrievals; initial bytes retained",
+  "captures": [
+    {
+      "place": "AK-detail",
+      "requestedUrl": "https://www.tax.alaska.gov/programs/programs/index.aspx?10000&90000",
+      "capturedAt": "2026-10-01T19:16:55.012499+00:00",
+      "status": 200,
+      "finalUrl": "https://www.tax.alaska.gov/programs/programs/index.aspx?10000&90000",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-ak-detail-2026-10-01",
+      "path": "raw/ak-detail.html",
+      "sha256": "1a26c5709bf6322d04c3d804e916b90db639235918a6b8e3517cee9b6037bcbc",
+      "byteLength": 19488,
+      "textPath": "raw/ak-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "AZ-detail",
+      "requestedUrl": "https://azdor.gov/forms/individual",
+      "capturedAt": "2026-10-01T19:16:53.890194+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "CA-detail",
+      "requestedUrl": "https://edd.ca.gov/en/Payroll_Taxes/Withholding_Tax/",
+      "capturedAt": "2026-10-01T19:16:55.472757+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "CO-detail",
+      "requestedUrl": "https://tax.colorado.gov/withholding-tax",
+      "capturedAt": "2026-10-01T19:16:53.890952+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "CT-detail",
+      "requestedUrl": "https://portal.ct.gov/drs/individuals/individual-income-tax",
+      "capturedAt": "2026-10-01T19:16:55.492899+00:00",
+      "status": 200,
+      "finalUrl": "https://portal.ct.gov/drs/individuals/individual-income-tax",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-ct-detail-2026-10-01",
+      "path": "raw/ct-detail.html",
+      "sha256": "5e5f667ef621a87f6984889d462bdb23116502317c0e650cd363f73c5989c79c",
+      "byteLength": 27390,
+      "textPath": "raw/ct-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "DC-detail",
+      "requestedUrl": "https://otr.cfo.dc.gov/page/individual-income-tax",
+      "capturedAt": "2026-10-01T19:16:53.891467+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "FL-detail",
+      "requestedUrl": "https://floridarevenue.com/taxes/taxesfees/Pages/corporate.aspx",
+      "capturedAt": "2026-10-01T19:16:53.891865+00:00",
+      "status": 200,
+      "finalUrl": "https://floridarevenue.com/taxes/taxesfees/Pages/corporate.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-fl-detail-2026-10-01",
+      "path": "raw/fl-detail.html",
+      "sha256": "eb5494d5f786e6423763de8c00b3dfe43ed55e7990e3b120abd20725c4cf7117",
+      "byteLength": 83903,
+      "textPath": "raw/fl-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "GA-detail",
+      "requestedUrl": "https://dor.georgia.gov/taxes/individual-taxes",
+      "capturedAt": "2026-10-01T19:16:53.892315+00:00",
+      "status": 200,
+      "finalUrl": "https://dor.georgia.gov/taxes/taxes-individuals",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-ga-detail-2026-10-01",
+      "path": "raw/ga-detail.html",
+      "sha256": "43888873d459dd41fca97b0d275ceb07403de9d6d86f41c46dd56ef8041615ec",
+      "byteLength": 155502,
+      "textPath": "raw/ga-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "GU-detail",
+      "requestedUrl": "https://www.guamtax.com/forms/",
+      "capturedAt": "2026-10-01T19:16:55.910128+00:00",
+      "status": 200,
+      "finalUrl": "https://www.guamtax.com/forms/",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-gu-detail-2026-10-01",
+      "path": "raw/gu-detail.html",
+      "sha256": "3c5bdf216af97caa831db15711c71172e21f7afb5acb96f8edb48f807b6e736d",
+      "byteLength": 17650,
+      "textPath": "raw/gu-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "HI-detail",
+      "requestedUrl": "https://tax.hawaii.gov/",
+      "capturedAt": "2026-10-01T19:16:53.893450+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.hawaii.gov/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-hi-detail-2026-10-01",
+      "path": "raw/hi-detail.html",
+      "sha256": "65359538b6c9def31a1f50e1451ec479db11edc35610fb4be79d66677cb0d101",
+      "byteLength": 241893,
+      "textPath": "raw/hi-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "KS-detail",
+      "requestedUrl": "https://www.ksrevenue.gov/personal.html",
+      "capturedAt": "2026-10-01T19:16:55.508592+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ksrevenue.gov/personal.html",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-ks-detail-2026-10-01",
+      "path": "raw/ks-detail.html",
+      "sha256": "0e867591e1d65e31c4c94871e0877e700e35b0dcd4617528937c08e59deb8e6a",
+      "byteLength": 32273,
+      "textPath": "raw/ks-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "LA-detail",
+      "requestedUrl": "https://revenue.louisiana.gov/tax-information/individual-income-tax/",
+      "capturedAt": "2026-10-01T19:16:54.048220+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MD-detail",
+      "requestedUrl": "https://www.marylandcomptroller.gov/individuals/income-and-withholding-taxes.html",
+      "capturedAt": "2026-10-01T19:16:54.072911+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "ME-detail",
+      "requestedUrl": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax-1040me",
+      "capturedAt": "2026-10-01T19:16:54.142334+00:00",
+      "status": 200,
+      "finalUrl": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax-1040me",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-me-detail-2026-10-01",
+      "path": "raw/me-detail.html",
+      "sha256": "b3c8f27663ee9e5738639e10c49ecf951b09af4fe9a8d1823f3e84d888174dfa",
+      "byteLength": 32841,
+      "textPath": "raw/me-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MP-detail",
+      "requestedUrl": "https://www.finance.gov.mp/",
+      "capturedAt": "2026-10-01T19:16:54.199140+00:00",
+      "status": 200,
+      "finalUrl": "https://www.finance.gov.mp/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-mp-detail-2026-10-01",
+      "path": "raw/mp-detail.html",
+      "sha256": "c7ee5fb9ec96dc114e72f69be37955bbc80e61d956ba8516b312cbced0e26a82",
+      "byteLength": 18931,
+      "textPath": "raw/mp-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MT-detail",
+      "requestedUrl": "https://revenue.mt.gov/taxes/individual-income-tax",
+      "capturedAt": "2026-10-01T19:16:54.313975+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.mt.gov/taxes/individual-income-tax/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-mt-detail-2026-10-01",
+      "path": "raw/mt-detail.html",
+      "sha256": "60160f33826b68b228a806012236ea815fc1954c0dedc2765210976e8cae50d5",
+      "byteLength": 57094,
+      "textPath": "raw/mt-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NH-detail",
+      "requestedUrl": "https://www.revenue.nh.gov/",
+      "capturedAt": "2026-10-01T19:16:54.515623+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "NJ-detail",
+      "requestedUrl": "https://www.nj.gov/treasury/taxation/individuals.shtml",
+      "capturedAt": "2026-10-01T19:16:54.536491+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "NV-detail",
+      "requestedUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/",
+      "capturedAt": "2026-10-01T19:16:56.026769+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-nv-detail-2026-10-01",
+      "path": "raw/nv-detail.html",
+      "sha256": "fd85b7c619a77337773afb1dcde829af1e75571f277b8023370797b221ca09ed",
+      "byteLength": 120058,
+      "textPath": "raw/nv-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OH-detail",
+      "requestedUrl": "https://tax.ohio.gov/individual/resources",
+      "capturedAt": "2026-10-01T19:16:54.614053+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "OK-detail",
+      "requestedUrl": "https://oklahoma.gov/tax/individuals.html",
+      "capturedAt": "2026-10-01T19:16:54.702242+00:00",
+      "status": 200,
+      "finalUrl": "https://oklahoma.gov/tax/individuals.html",
+      "contentType": "text/html;charset=utf-8",
+      "artifactId": "a33-wage-authority-ok-detail-2026-10-01",
+      "path": "raw/ok-detail.html",
+      "sha256": "fde470a4040366d636770b4ef92b137ff67980e32ca8b39a82d42597a1e6c67b",
+      "byteLength": 61581,
+      "textPath": "raw/ok-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OR-detail",
+      "requestedUrl": "https://www.oregon.gov/dor/programs/individuals/Pages/PIT.aspx",
+      "capturedAt": "2026-10-01T19:16:55.650958+00:00",
+      "status": 200,
+      "finalUrl": "https://www.oregon.gov/dor/programs/individuals/Pages/PIT.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-or-detail-2026-10-01",
+      "path": "raw/or-detail.html",
+      "sha256": "6f3901b3e7dc387cbd927a5704605d8bfbca1a872a438d79c30d8aeb1ad83da2",
+      "byteLength": 157061,
+      "textPath": "raw/or-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "PR-detail",
+      "requestedUrl": "https://hacienda.pr.gov/individuos/retencion-de-contribuciones-sobre-salarios",
+      "capturedAt": "2026-10-01T19:16:55.660958+00:00",
+      "status": 200,
+      "finalUrl": "https://hacienda.pr.gov/pagina-no-encontrada",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-pr-detail-2026-10-01",
+      "path": "raw/pr-detail.html",
+      "sha256": "a2b7a75c8108a9c3f29a1f20affc8d1a71b3d5b49f88eac7b77fa959ef3141d5",
+      "byteLength": 29379,
+      "textPath": "raw/pr-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "RI-detail",
+      "requestedUrl": "https://tax.ri.gov/",
+      "capturedAt": "2026-10-01T19:16:54.824815+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "TN-detail",
+      "requestedUrl": "https://revenue.support.tn.gov/hc/en-us/articles/360059407931-HIT-1-Tennessee-Income-Tax-on-Interest-and-Dividends",
+      "capturedAt": "2026-10-01T19:16:54.849140+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "TX-detail",
+      "requestedUrl": "https://comptroller.texas.gov/taxes/individuals/",
+      "capturedAt": "2026-10-01T19:16:56.148621+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "VA-detail",
+      "requestedUrl": "https://www.tax.virginia.gov/individuals",
+      "capturedAt": "2026-10-01T19:16:54.960328+00:00",
+      "status": 200,
+      "finalUrl": "https://www.tax.virginia.gov/individuals",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-va-detail-2026-10-01",
+      "path": "raw/va-detail.html",
+      "sha256": "f89f38b8b955684823a962642e3d96e0ffab173e8305db15c24148f4249630fd",
+      "byteLength": 68561,
+      "textPath": "raw/va-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "VI-detail",
+      "requestedUrl": "https://bir.vi.gov/individual-income-tax/",
+      "capturedAt": "2026-10-01T19:16:55.847429+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "VT-detail",
+      "requestedUrl": "https://tax.vermont.gov/",
+      "capturedAt": "2026-10-01T19:16:54.969099+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "WV-detail",
+      "requestedUrl": "https://tax.wv.gov/Individuals/Pages/Individuals.aspx",
+      "capturedAt": "2026-10-01T19:16:54.978783+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.wv.gov/Individuals/Pages/Individuals.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-wv-detail-2026-10-01",
+      "path": "raw/wv-detail.html",
+      "sha256": "2bdee40f645ffe2fb29b5baded67a24a954a38b9bc3aea800d969ab03fd421c9",
+      "byteLength": 99775,
+      "textPath": "raw/wv-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "WY-detail",
+      "requestedUrl": "https://revenue.wyo.gov/tax-information",
+      "capturedAt": "2026-10-01T19:16:56.307074+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    }
+  ]
+}

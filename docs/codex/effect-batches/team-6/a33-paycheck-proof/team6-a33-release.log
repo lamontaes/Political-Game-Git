@@ -1,0 +1,6 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr
+
+release:check — docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping ("merge"). Internal identifiers belong in the traceability ledger, not in patch notes.
+release:check — Post-rollout eligible change 730f90034c67c3593d2b74b4892a2b32f68a7fd4..4cfd814b2eff1cfd3833aa27fb61c465be619d12 modifies 2 non-declaration path(s) but adds or changes no declaration in docs/release/changes. Declare impact: patch, minor, or explicit none. The undeclared path(s): src/simulation/paycheck-tax-consumer.test.ts, src/simulation/tax-policy.ts.

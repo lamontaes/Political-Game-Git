@@ -1,0 +1,36 @@
+[
+  {
+    "code": "az",
+    "requestedUrl": "https://azdor.gov/individual-income-tax",
+    "capturedAt": "2026-10-01T19:50:48.170678+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "code": "co",
+    "requestedUrl": "https://tax.colorado.gov/individual-income-tax",
+    "capturedAt": "2026-10-01T19:50:48.171400+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "code": "nh",
+    "requestedUrl": "https://www.revenue.nh.gov/taxes-glance",
+    "capturedAt": "2026-10-01T19:50:48.171649+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "code": "ri",
+    "requestedUrl": "https://tax.ri.gov/tax-sections/personal-income-tax",
+    "capturedAt": "2026-10-01T19:50:48.171909+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "code": "vt",
+    "requestedUrl": "https://tax.vermont.gov/individuals/personal-income-tax",
+    "capturedAt": "2026-10-01T19:50:48.172114+00:00",
+    "status": 200,
+    "finalUrl": "https://tax.vermont.gov/personal-income-tax",
+    "contentType": "text/html; charset=UTF-8",
+    "byteLength": 70016,
+    "sha256": "5927eee10ea02d0026675eea67f2f632d20c0e6b5ba5a709a4194a0fc52fccf5"
+  }
+]

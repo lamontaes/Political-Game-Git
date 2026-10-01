@@ -1,0 +1,103 @@
+{
+  "scope": "direct resolved withholding links, same authorized pass; no source substitutions",
+  "captures": [
+    {
+      "place": "AR-evidence",
+      "requestedUrl": "https://www.dfa.arkansas.gov/office/taxes/income-tax-administration/withholding-tax-branch/withholding-tax-forms-instructions/",
+      "capturedAt": "2026-10-01T19:33:55.919499+00:00",
+      "status": 200,
+      "finalUrl": "https://www.dfa.arkansas.gov/office/taxes/income-tax-administration/withholding-tax-branch/withholding-tax-forms-instructions/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-ar-evidence-2026-10-01",
+      "path": "raw/ar-evidence.html",
+      "sha256": "f650b5a01c9d49defadcfedb937e52c522445d23a144a82bc1a89927b0ec9d69",
+      "byteLength": 165342,
+      "textPath": "raw/ar-evidence.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "GA-2026",
+      "requestedUrl": "https://dor.georgia.gov/taxes/tax-registration",
+      "capturedAt": "2026-10-01T19:33:56.516029+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "GA-evidence",
+      "requestedUrl": "https://dor.georgia.gov/taxes/withholding-tax",
+      "capturedAt": "2026-10-01T19:33:55.919118+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "HI-2026",
+      "requestedUrl": "https://files.hawaii.gov/tax/forms/2026/26bookleta.pdf",
+      "capturedAt": "2026-10-01T19:33:56.431466+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "HI-evidence",
+      "requestedUrl": "https://files.hawaii.gov/tax/forms/current/bookleta.pdf",
+      "capturedAt": "2026-10-01T19:33:55.918737+00:00",
+      "status": 200,
+      "finalUrl": "https://files.hawaii.gov/tax/forms/current/bookleta.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-hi-evidence-2026-10-01",
+      "path": "raw/hi-evidence.pdf",
+      "sha256": "db0d6ab07373559889e92cdef8e94cfdcc001a147feb23039ac88d268e8b6849",
+      "byteLength": 1250665,
+      "textPath": "raw/hi-evidence.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MD-evidence",
+      "requestedUrl": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/tax-forms/2026/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:33:56.222052+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MI-evidence",
+      "requestedUrl": "https://www.michigan.gov/taxes/business-taxes/withholding/withholding-tax-faqs",
+      "capturedAt": "2026-10-01T19:33:55.918201+00:00",
+      "status": 200,
+      "finalUrl": "https://www.michigan.gov/taxes/business-taxes/withholding/withholding-tax-faqs",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-mi-evidence-2026-10-01",
+      "path": "raw/mi-evidence.html",
+      "sha256": "a55aea6e49669c045518e2bb32d8c0e8320017ee81b643b6d74502a8c656cc6f",
+      "byteLength": 353522,
+      "textPath": "raw/mi-evidence.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OK-evidence",
+      "requestedUrl": "https://oklahoma.gov/tax/businesses/withholding.html",
+      "capturedAt": "2026-10-01T19:33:55.917532+00:00",
+      "status": 200,
+      "finalUrl": "https://oklahoma.gov/tax/businesses/withholding.html",
+      "contentType": "text/html;charset=utf-8",
+      "artifactId": "a33-wage-authority-ok-evidence-2026-10-01",
+      "path": "raw/ok-evidence.html",
+      "sha256": "1d17daa4cbf2f1e2543fef8b6b2094addacfe8e20dadaa4b25fb20dcad8fc69e",
+      "byteLength": 51115,
+      "textPath": "raw/ok-evidence.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "PR-evidence",
+      "requestedUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/certificado-de-exencion-para-la-retencion-withholding-exemption-certificate",
+      "capturedAt": "2026-10-01T19:33:55.919900+00:00",
+      "status": 200,
+      "finalUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/certificado-de-exencion-para-la-retencion-withholding-exemption-certificate",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-pr-evidence-2026-10-01",
+      "path": "raw/pr-evidence.html",
+      "sha256": "44a069e0a46636eda60522b0967a11eee0fe809124da412e39c0bfa00ba640ab",
+      "byteLength": 31108,
+      "textPath": "raw/pr-evidence.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    }
+  ]
+}
