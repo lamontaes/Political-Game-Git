@@ -45,7 +45,7 @@ import {
   ensureJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
-import { createPolicyCatalog } from "./policy";
+import { createPolicyCatalog, createSyntheticPolicyCatalog } from "./policy";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { personName } from "./people";
 import { recordedPayStubs } from "./resource-income";
@@ -70,37 +70,36 @@ const provenance = {
 
 function opened(placeKey: string) {
   const place = requireLifePlace(placeKey);
-  const base = createScenarioWorld(`city-pay:${placeKey}`, place.context, {
-    peopleCount: 8,
-  });
+  const initialCatalog = createSyntheticPolicyCatalog();
   const production = createProductionPolicyCatalog();
   const catalog = createPolicyCatalog({
     catalogVersion: "fixture:city-pay-preserving-demo-identities",
     domains: Object.values({
-      ...base.policyCatalog.domains,
+      ...initialCatalog.domains,
       ...production.domains,
     }),
     issues: Object.values({
-      ...base.policyCatalog.issues,
+      ...initialCatalog.issues,
       ...production.issues,
     }),
     propositions: Object.values({
-      ...base.policyCatalog.propositions,
+      ...initialCatalog.propositions,
       ...production.propositions,
     }),
     subjects: Object.values({
-      ...base.policyCatalog.subjects,
+      ...initialCatalog.subjects,
       ...production.subjects,
     }),
     principles: Object.values({
-      ...base.policyCatalog.principles,
+      ...initialCatalog.principles,
       ...production.principles,
     }),
   });
-  let world = ensureJurisdiction(
-    { ...base, policyCatalog: catalog },
-    NATIONAL_ELECTION_JURISDICTION,
-  );
+  const base = createScenarioWorld(`city-pay:${placeKey}`, place.context, {
+    peopleCount: 8,
+    policyCatalog: catalog,
+  });
+  let world = ensureJurisdiction(base, NATIONAL_ELECTION_JURISDICTION);
   world = ensureJurisdiction(
     world,
     stateJurisdictionForKey(place.stateJurisdictionKey!)!,
