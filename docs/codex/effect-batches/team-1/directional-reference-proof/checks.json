@@ -1,0 +1,152 @@
+{
+  "runtimeHead": "851b087d897ec0d90ebc009f86adfaba037ac2c8",
+  "main": "123f7dc77e80fb1d9abd78e34956f91afceb3e60",
+  "ownedSource": "fe8bae4f9b8b354d99ca70c0aff03cd9beb65686",
+  "beforeHead": "21cdd68df7e6d1315a2a257523f04016d1a71403",
+  "before": {
+    "failed": 10,
+    "passed": 0,
+    "seconds": 12.04
+  },
+  "after": {
+    "passed": 18,
+    "failed": 0,
+    "files": 3,
+    "seconds": 21.05
+  },
+  "types": {
+    "roots": 5,
+    "scoped": 0,
+    "imported": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "release": "Same-main ci-changed-tests-only.md inherited prose failure",
+  "dice": "0 new / 5 stale inherited findings",
+  "spelling": "Inherited findings; no owned-path finding",
+  "proofBinding": "Proof JSON retained from prior identical candidate source; final renewed tests did not set the exact optional proof-output env key. No outcomes inferred beyond executed assertions.",
+  "limits": [
+    "No natural one-year filings",
+    "No automatic generic wage/tax draft binding",
+    "No transport of future phase schedules into lawTerms",
+    "No new numeric increment",
+    "No bare other-jurisdiction program draft without verified lineage/service clauses",
+    "No nationwide enacted effect/cost/payment proof",
+    "Two unchanged legacy suites previously stop during enactment setup on candidate and exact main33e8; not renewed or reached here"
+  ],
+  "logs": {
+    "before.log": {
+      "originalPath": "/tmp/team1-directional-reference-before.log",
+      "originalSha256": "6b5ff368191f3556ec95ddbd3b0b67cd64387ad9a4cbf3f64289f0da131b1b65",
+      "publishedSha256": "295f028ca60c36657d38046d5eba1857bfb7a58b03440d861c4b706fcea3e0fa",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "after-main.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-test.log",
+      "originalSha256": "aaea8fb7c605180c4342fc028cd1f2a693c2e558585b6a44622a0df57d732ef7",
+      "publishedSha256": "810196696df6e162eadf6abd171d9cb86c7c3e1c0322641f296094674cd45f81",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "after-original.log": {
+      "originalPath": "/tmp/team1-directional-reference-final.log",
+      "originalSha256": "f863f70299ae593ea06b75963b59117c579337e89323b361d3c62bd9fcca1005",
+      "publishedSha256": "dced3a844a2b523e7ad2ad0725c1c5009e2c786a7b26b66f81c57d814fc75675",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "initial-identity-fixture-failure.log": {
+      "originalPath": "/tmp/team1-directional-reference-first.log",
+      "originalSha256": "5a20ac093929a0c71ac7087d1f74ca1e854b0de25474527d32d45f1cd433eedd",
+      "publishedSha256": "1cbf87396818efa26454d65aad7e464ce91c18e228c0ec50d7cb508dc965311b",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "types.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "lint.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-lint.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "format.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-format.log",
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "publishedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "release.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-release.log",
+      "originalSha256": "3a41edc89a65bc946141493e8e163010c90ba0ef29152adc47a77f809fa40285",
+      "publishedSha256": "3a41edc89a65bc946141493e8e163010c90ba0ef29152adc47a77f809fa40285",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "push-release.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-push-release.log",
+      "originalSha256": "595126f9ae9392a92fb0816af2ff55ad2f7caa7d8044e0c50e4f115b426fe6a6",
+      "publishedSha256": "595126f9ae9392a92fb0816af2ff55ad2f7caa7d8044e0c50e4f115b426fe6a6",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "dice.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-dice.log",
+      "originalSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "publishedSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "spelling.log": {
+      "originalPath": "/tmp/team1-directional-reference-main-spelling.log",
+      "originalSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "publishedSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "typecheck.mjs": {
+      "originalPath": "/tmp/team1-directional-reference-types.mjs",
+      "originalSha256": "c9f43b32c683d41bfaf43e4f7d120e0805b139420830a437bc57bdf07eefc090",
+      "publishedSha256": "c9f43b32c683d41bfaf43e4f7d120e0805b139420830a437bc57bdf07eefc090",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "proof.json": {
+      "originalPath": "/tmp/team1-directional-reference-final-proof.json",
+      "originalSha256": "c74304b487ca7ea35e9306e4153378ee881c62e58754cecf6680a2d99927ba7d",
+      "publishedSha256": "c74304b487ca7ea35e9306e4153378ee881c62e58754cecf6680a2d99927ba7d",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "before-source-binding.json": {
+      "originalPath": "/tmp/team1-directional-reference-source-binding.json",
+      "originalSha256": "33f35a3f9262b880fa81965b926b3cb5bd418b4bfa5cf07e5d94308d1ff6dfd3",
+      "publishedSha256": "33f35a3f9262b880fa81965b926b3cb5bd418b4bfa5cf07e5d94308d1ff6dfd3",
+      "normalization": "Trailing blank lines only for log copies; raw source preserved."
+    },
+    "report.log": {
+      "originalPath": "/tmp/team1-directional-report.log",
+      "originalSha256": "8f66f4c07faa9a1b9bb6b012115eccf386b59dfac7eaf2a0c2ce5503471c4308",
+      "publishedSha256": "8f66f4c07faa9a1b9bb6b012115eccf386b59dfac7eaf2a0c2ce5503471c4308"
+    }
+  },
+  "files": {
+    "src/simulation/governing/automatic-legislation.ts": {
+      "blob": "d8378ac5ccbb86abdd818c722bc95f9de688ae1d",
+      "sha256": "5af0d60ddb3ff27c7847dc786331151873f841c0b35e3bd87b64e77351dacb1d"
+    },
+    "src/simulation/governing/automatic-law-directional-reference.test.ts": {
+      "blob": "1c76df2372f16d01784ea47d0f1f7601664dc65a",
+      "sha256": "d927be94d2f9dfd44b2b398a72243132c17599a215aef0254dbe915d1e2aa54a"
+    },
+    "src/simulation/governing/automatic-legislation-starting-predecessor.test.ts": {
+      "blob": "d874d19f7a91d373b37097c22b652e81726755f0",
+      "sha256": "a4547fe366cffb43fae6923a48b90ebb4acfa374f9f4a276a19bc9e2724e23e3"
+    },
+    "src/simulation/governing/law-in-force.ts": {
+      "blob": "b2bd680e6055c275cd5eb18f57bc53a34682bc04",
+      "sha256": "29586379e93c04f15833e733ae22f6c9ac7e131bdc28199c952f5099cdef8c5f"
+    },
+    "src/simulation/governing/starting-law-terms.test.ts": {
+      "blob": "cafbec5132d78585afa55c94f45fa87a265e0f23",
+      "sha256": "ff362852968c70b438464f99fc58febd17ef1b9c07daf8b68414f88f4d822036"
+    }
+  },
+  "inheritedDeclarationBlob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8",
+  "report": "PASS 0 errors / 0 warnings; self-review under no-helper rule"
+}

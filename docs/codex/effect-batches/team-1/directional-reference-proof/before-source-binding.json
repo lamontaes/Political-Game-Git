@@ -1,0 +1,7 @@
+{
+  "baselineHead": "21cdd68df7e6d1315a2a257523f04016d1a71403",
+  "path": "src/simulation/governing/automatic-legislation.ts",
+  "baselineSha256": "6c92c3571fb0596551ff18db216ea76cef814bd3722fd3eb2e09ee7bf9581e03",
+  "candidateBackup": "/tmp/team1-directional-reference-candidate-source.ts",
+  "candidateSha256": "5af0d60ddb3ff27c7847dc786331151873f841c0b35e3bd87b64e77351dacb1d"
+}
