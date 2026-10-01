@@ -159,8 +159,8 @@ describe("sourced member bill cap reader", () => {
   it("requires an actual biennium window instead of inferring parity", () => {
     const limits = table([{ ...row, period: "biennium" }]);
     expect(memberFilingCap([], input, limits)).toMatchObject({
-      allowed: false,
-      reason: "unbound-rule",
+      allowed: true,
+      reason: "exemption-unread",
     });
     const dated = {
       ...input,
@@ -177,46 +177,59 @@ describe("sourced member bill cap reader", () => {
       ),
     ).toMatchObject({ allowed: false, reason: "cap-reached" });
   });
-  it("refuses unbound exemption prose and missing historical session evidence", () => {
+  it("does not apply unbound exemption prose or missing historical session evidence", () => {
     expect(
       memberFilingCap([], input, table([{ ...row, exempts: ["local bills"] }])),
-    ).toMatchObject({ allowed: false, reason: "unbound-rule" });
+    ).toMatchObject({ allowed: true, reason: "exemption-unread" });
     expect(
       memberFilingCap(
         [bill({ numberingSession: undefined })],
         input,
         table([row]),
       ),
-    ).toMatchObject({ allowed: false, reason: "unbound-rule" });
+    ).toMatchObject({ allowed: true, reason: "exemption-unread" });
     expect(
       memberFilingCap([], input, table([{ ...row, limit: -1 }])),
     ).toMatchObject({ allowed: false, reason: "unbound-rule" });
   });
-  it("does not let an exemption in one row override another applicable cap", () => {
+  it("does not apply competing conditional rows without an actual selector", () => {
+    const result = memberFilingCap(
+      [bill(), bill()],
+      input,
+      table([
+        { ...row, limit: 1 },
+        { ...row, chamber: "joint", limit: 5 },
+      ]),
+    );
+    expect(result).toMatchObject({ allowed: true, reason: "exemption-unread" });
+    expect(result.notAppliedLimits).toHaveLength(2);
     expect(
-      memberFilingCap(
-        [bill(), bill()],
-        input,
-        table([
-          { ...row, exempts: ["general-policy"] },
-          { ...row, chamber: "joint" },
-        ]),
+      result.notAppliedLimits!.every(
+        (item) => item.message === "limit not applied: exemption unread",
       ),
-    ).toMatchObject({ allowed: false, reason: "cap-reached" });
+    ).toBe(true);
   });
-  it("labels quoted unbound exemptions without silently applying or dropping them", () => {
+  it("does not apply a whole sourced row with any unread exemption, even at the cap", () => {
     const limits = table([{ ...row, unboundExemptions: ["local bills"] }]);
-    expect(memberFilingCap([bill()], input, limits)).toEqual({
-      allowed: true,
-      reason: "within-cap",
-      unboundExemptions: ["local bills"],
-    });
-    expect(memberFilingCap([bill(), bill()], input, limits)).toEqual({
-      allowed: false,
-      reason: "unbound-rule",
-      citation: row.citation,
-      unboundExemptions: ["local bills"],
-    });
+    for (const measures of [
+      [],
+      [bill()],
+      [bill(), bill()],
+      Array.from({ length: 20 }, () => bill()),
+    ]) {
+      expect(memberFilingCap(measures, input, limits)).toMatchObject({
+        allowed: true,
+        reason: "exemption-unread",
+        unboundExemptions: ["local bills"],
+        notAppliedLimits: [
+          {
+            citation: row.citation,
+            quote: row.quote,
+            message: "limit not applied: exemption unread",
+          },
+        ],
+      });
+    }
     expect(
       memberFilingCap(
         [bill(), bill()],
@@ -229,10 +242,6 @@ describe("sourced member bill cap reader", () => {
           },
         ]),
       ),
-    ).toEqual({
-      allowed: true,
-      reason: "exempt",
-      unboundExemptions: ["local bills"],
-    });
+    ).toMatchObject({ allowed: true, reason: "exemption-unread" });
   });
 });

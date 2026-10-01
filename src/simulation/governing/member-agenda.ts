@@ -873,8 +873,9 @@ export function fileMemberAgendaBills(
       )!;
       // Inspect the actual compiled subject, then admit the pure writer result.
       // A rejected candidate has no saved bill, terms, control or reason side effects.
-      if (
-        !memberFilingCap(beforeIntroduction.history.legislativeMeasures ?? [], {
+      const cap = memberFilingCap(
+        beforeIntroduction.history.legislativeMeasures ?? [],
+        {
           place: pack.jurisdictionKey,
           jurisdictionId: input.jurisdictionId,
           chamberKey: chamber.chamberKey,
@@ -882,10 +883,46 @@ export function fileMemberAgendaBills(
           subjectClass: measure.subjectClass,
           introducedAt: measure.introducedAt,
           numberingSession: numbering.numberingSession,
-        }).allowed
-      ) {
+        },
+      );
+      if (!cap.allowed) {
         next = beforeIntroduction;
         continue;
+      }
+      if (cap.notAppliedLimits?.length) {
+        const explanationKey = `${batchKey}:limit-not-applied:${sponsor.personId}:${chamber.chamberKey}`;
+        if (
+          !next.history.events.some(
+            (event) => event.stableKey === explanationKey,
+          )
+        )
+          next = recordWorldEvent(next, {
+            stableKey: explanationKey,
+            type: "legislation.member-filing-limit-not-applied",
+            occurredAt: next.currentDate,
+            recordedAt: next.currentDate,
+            jurisdictionId: input.jurisdictionId,
+            involvedEntityIds: [measure.id, sponsor.personId!],
+            participants: [
+              {
+                personId: sponsor.personId!,
+                role: "agency:sponsor",
+                detail: "limit not applied: exemption unread",
+              },
+            ],
+            personFactConstraints: [],
+            visibility: "public",
+            tags: [
+              settings.intakeVersion,
+              "limit-not-applied:exemption-unread",
+              ...cap.notAppliedLimits.map((row) => `citation:${row.citation}`),
+            ],
+            summary: "limit not applied: exemption unread",
+            context: {
+              ...agendaEventContext(),
+              choice: cap.notAppliedLimits.map((row) => row.quote).join("\n"),
+            },
+          });
       }
       claimedMembers.add(sponsor.personId!);
       claimedQuestions.add(best.propositionId);

@@ -40,18 +40,31 @@ export interface MemberFilingCapInput {
   readonly bienniumWindow?: { readonly start: IsoDate; readonly end: IsoDate };
 }
 
+export interface MemberLimitNotApplied {
+  readonly citation: string;
+  readonly quote: string;
+  readonly message: "limit not applied: exemption unread";
+}
+
 export type MemberFilingCapDecision = (
   | {
       readonly allowed: true;
       readonly reason:
-        "no-recorded-cap" | "unread-cap" | "within-cap" | "exempt";
+        | "no-recorded-cap"
+        | "unread-cap"
+        | "within-cap"
+        | "exempt"
+        | "exemption-unread";
     }
   | {
       readonly allowed: false;
       readonly reason: "cap-reached" | "unbound-rule";
       readonly citation: string;
     }
-) & { readonly unboundExemptions?: readonly string[] };
+) & {
+  readonly unboundExemptions?: readonly string[];
+  readonly notAppliedLimits?: readonly MemberLimitNotApplied[];
+};
 
 const SUBJECT_CLASSES: readonly string[] = [
   "general-policy",
@@ -101,25 +114,44 @@ export function memberFilingCap(
   ];
   let applies = false;
   let exempt = false;
+  const notAppliedLimits: MemberLimitNotApplied[] = [];
+  const doNotApply = (row: MemberBillLimitRow) =>
+    notAppliedLimits.push({
+      citation: row.citation,
+      quote: row.quote,
+      message: "limit not applied: exemption unread",
+    });
+  const sourcedRows = rows.filter(
+    (row) => row.status === "sourced" && row.limit !== null,
+  );
   for (const row of rows) {
     if (row.status !== "sourced" || row.limit === null) continue;
-    applies = true;
-    // The table's free text is not permission to guess a legal exemption.
+    // CTO 10:30: a partially bound rule is not allowed to block an exempt bill.
+    // Multiple conditional rows need an actual declared period/condition selector.
+    // Quoted odd/even/session rules are not runnable predicates.
     if (
-      !Number.isSafeInteger(row.limit) ||
-      row.limit < 0 ||
-      !row.citation ||
-      !row.url ||
-      !row.quote ||
+      sourcedRows.length > 1 ||
+      row.unboundExemptions?.length ||
       row.exempts.some((value) => !SUBJECT_CLASSES.includes(value)) ||
       !row.period ||
       (row.period === "biennium" &&
         (!input.bienniumWindow ||
           input.bienniumWindow.start > input.introducedAt ||
           input.bienniumWindow.end < input.introducedAt))
+    ) {
+      doNotApply(row);
+      continue;
+    }
+    if (
+      !Number.isSafeInteger(row.limit) ||
+      row.limit < 0 ||
+      !row.citation ||
+      !row.url ||
+      !row.quote
     )
       return { allowed: false, reason: "unbound-rule", citation: row.citation };
     if (row.exempts.includes(input.subjectClass)) {
+      applies = true;
       exempt = true;
       continue;
     }
@@ -135,8 +167,11 @@ export function memberFilingCap(
     if (
       row.period === "session" &&
       candidates.some((measure) => !measure.numberingSession)
-    )
-      return { allowed: false, reason: "unbound-rule", citation: row.citation };
+    ) {
+      doNotApply(row);
+      continue;
+    }
+    applies = true;
     const count = candidates.filter((measure) => {
       if (row.period === "session")
         return measure.numberingSession!.key === input.numberingSession.key;
@@ -152,18 +187,22 @@ export function memberFilingCap(
     if (count >= row.limit)
       return {
         allowed: false,
-        reason: row.unboundExemptions?.length ? "unbound-rule" : "cap-reached",
+        reason: "cap-reached",
         citation: row.citation,
         ...(unboundExemptions.length ? { unboundExemptions } : {}),
+        ...(notAppliedLimits.length ? { notAppliedLimits } : {}),
       };
   }
   return {
     allowed: true,
     ...(unboundExemptions.length ? { unboundExemptions } : {}),
+    ...(notAppliedLimits.length ? { notAppliedLimits } : {}),
     reason: !applies
-      ? rows.some((row) => row.status === "unread")
-        ? "unread-cap"
-        : "no-recorded-cap"
+      ? notAppliedLimits.length
+        ? "exemption-unread"
+        : rows.some((row) => row.status === "unread")
+          ? "unread-cap"
+          : "no-recorded-cap"
       : exempt
         ? "exempt"
         : "within-cap",

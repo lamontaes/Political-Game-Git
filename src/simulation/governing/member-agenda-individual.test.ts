@@ -182,6 +182,7 @@ describe("individual member agendas", () => {
         intakeKey: "minority-filing",
       };
       let cappedReceipt: unknown = null;
+      let unreadReceipt: unknown = null;
       if (place) {
         // Authored two-bill control tests the real writer; no production limit inferred.
         const capSpy = vi
@@ -229,6 +230,64 @@ describe("individual member agendas", () => {
           };
         } finally {
           capSpy.mockRestore();
+        }
+      }
+      if (place) {
+        const unreadSpy = vi
+          .spyOn(capReader, "memberFilingCap")
+          .mockImplementation((measures, context) =>
+            actualMemberFilingCap(measures, context, {
+              version: "member-bill-limits-2026-v1",
+              rows: [
+                {
+                  place: pack.jurisdictionKey,
+                  chamber: "joint",
+                  limit: 0,
+                  period: "session",
+                  exempts: [],
+                  unboundExemptions: [
+                    "A quoted exception without an admitted saved-record binding.",
+                  ],
+                  status: "sourced",
+                  citation: "Authored unread-exemption control",
+                  url: "https://example.com/test-rule",
+                  quote: "Controlled rule with an unread exception.",
+                  note: "Not production research.",
+                },
+              ],
+            }),
+          );
+        try {
+          const unblocked = fileMemberAgendaBills(world, input);
+          expect(unblocked.history.legislativeMeasures!.length).toBeGreaterThan(
+            1,
+          );
+          const explanations = unblocked.history.events.filter(
+            (event) =>
+              event.type === "legislation.member-filing-limit-not-applied",
+          );
+          expect(explanations).toHaveLength(1);
+          expect(explanations[0]!.summary).toBe(
+            "limit not applied: exemption unread",
+          );
+          expect(explanations[0]!.participants[0]!.personId).toBe(
+            minority.personId,
+          );
+          expect(explanations[0]!.context.choice).toBe(
+            "Controlled rule with an unread exception.",
+          );
+          const loadedUnblocked = deserializeWorld(serializeWorld(unblocked));
+          expect(fileMemberAgendaBills(loadedUnblocked, input)).toBe(
+            loadedUnblocked,
+          );
+          unreadReceipt = {
+            actualBills: unblocked.history.legislativeMeasures!.length,
+            explanationEventId: explanations[0]!.id,
+            message: explanations[0]!.summary,
+            repeatAndCanonicalReload: true,
+          };
+        } finally {
+          unreadSpy.mockRestore();
         }
       }
       const next = fileMemberAgendaBills(world, input);
@@ -298,6 +357,7 @@ describe("individual member agendas", () => {
         repeatAndCanonicalReload: true,
         pendingQuestionCapPreserved: true,
         sourcedCapControl: cappedReceipt,
+        unreadExemptionControl: unreadReceipt,
         limits:
           "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects.",
       });
