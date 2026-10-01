@@ -1,3 +1,4 @@
+import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { eventById } from "./event-index";
 import {
@@ -123,6 +124,7 @@ export interface RecordResourceFlowTermsInput extends LawEffectStampedRecord {
 }
 
 export interface RecordResourceTransferOutcomeInput {
+  readonly earnedLawPayAssessmentId?: EntityId;
   readonly stableKey: string;
   readonly resourceFlowId: EntityId;
   readonly periodStartsAt: string;
@@ -593,7 +595,55 @@ function buildResourceTransferOutcome(
   }
   validateMoney(input.attemptedAmount, "Attempted transfer", true);
   validateMoney(input.transferredAmount, "Transferred amount");
-  if (!sameMoney(input.attemptedAmount, terms.amount)) {
+  const assessment =
+    input.earnedLawPayAssessmentId === undefined
+      ? undefined
+      : recordById(
+          world.history.earnedLawPayAssessments ?? [],
+          input.earnedLawPayAssessmentId,
+        );
+  if (input.earnedLawPayAssessmentId !== undefined) {
+    if (!assessment) throw new Error("Earned pay assessment was not recorded.");
+    // A saved assessment is evidence, not permission to bypass the writer.
+    validateEarnedLawPayAssessment(world, assessment);
+    const cutoff = resourceTransferTermsCutoff(
+      world,
+      flow,
+      periodStartsAt,
+      periodEndsAt,
+      input.provenance,
+    );
+    if (
+      input.provenance.kind !== "simulated-event" ||
+      input.provenance.eventId !== assessment.completionEventId ||
+      assessment.sequence >= world.history.nextSequence ||
+      assessment.recordedAt > occurredAt ||
+      assessment.recordedAt < assessment.earnedCutoff.asOfDate ||
+      assessment.resourceFlowId !== flow.id ||
+      assessment.earnedTermsId !== terms.id ||
+      assessment.periodStartsAt !== periodStartsAt ||
+      assessment.periodEndsAt !== periodEndsAt ||
+      assessment.earnedCutoff.asOfDate !== cutoff.asOfDate ||
+      assessment.earnedCutoff.historySequenceExclusive !==
+        cutoff.historySequenceExclusive ||
+      flow.basisReference.kind !== "work" ||
+      flow.basisReference.workRelationshipId !==
+        assessment.workRelationshipId ||
+      flow.source.kind !== "organization" ||
+      flow.source.organizationId !== assessment.organizationId ||
+      flow.recipient.kind !== "person" ||
+      flow.recipient.personId !== assessment.personId ||
+      !sameMoney(assessment.contractualGross, terms.amount) ||
+      assessment.assessedGross.currency !== terms.amount.currency ||
+      assessment.assessedGross.minorUnits < terms.amount.minorUnits
+    )
+      throw new Error(
+        "Earned pay assessment must bind this exact completed transfer.",
+      );
+  }
+  const expectedAmount = assessment?.assessedGross ?? terms.amount;
+  validateMoney(expectedAmount, "Expected earned transfer", true);
+  if (!sameMoney(input.attemptedAmount, expectedAmount)) {
     throw new Error(
       "Attempted transfer must match the effective expected terms.",
     );
@@ -673,14 +723,15 @@ function buildResourceTransferOutcome(
     transferredAmount: { ...input.transferredAmount },
     provenance: { ...input.provenance },
   };
+  const payStamps = assessment?.lawEffectStamps ?? terms.lawEffectStamps;
   if (
     flow.basisReference.kind === "work" &&
     input.transferredAmount.minorUnits > 0 &&
-    terms.lawEffectStamps?.length
+    payStamps?.length
   ) {
     return {
       ...record,
-      lawEffectStamps: terms.lawEffectStamps.map((stamp) => ({
+      lawEffectStamps: payStamps.map((stamp) => ({
         ...stamp,
         effectKind: "pay",
         appliedAt: occurredAt,
@@ -689,6 +740,7 @@ function buildResourceTransferOutcome(
             ...(stamp.sourceRecordIds ?? []),
             terms.id,
             flow.id,
+            ...(assessment ? [assessment.id] : []),
             record.id,
           ]),
         ],
