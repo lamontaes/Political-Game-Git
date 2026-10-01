@@ -117,6 +117,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  MoneyAmount,
   OrganizationClassification,
   ResourceFlow,
   ResourceFlowTermsRecord,
@@ -1373,6 +1374,13 @@ export interface TownCompensationPeriod {
   readonly periodEndsAt: IsoDate;
   readonly onDate: IsoDate;
   readonly note?: string;
+  readonly provenance?: RecordResourceTransferOutcomeInput["provenance"];
+  /** Existing completed-work evidence and the earnings calculated by its caller. */
+  readonly completedShift?: {
+    readonly eventId: EntityId;
+    readonly termsId: EntityId;
+    readonly amount: MoneyAmount;
+  };
 }
 
 /** One period writer for actual job contracts: laws, earned pay, tax and leave. */
@@ -1427,6 +1435,32 @@ export function settleTownCompensations(
       throw new Error(
         "Pay period requires its saved pay-flow or work identity.",
       );
+    const completion = period.completedShift
+      ? recordById(next.history.events, period.completedShift.eventId)
+      : null;
+    const earnedTerms = completion
+      ? resourceFlowTermsAt(next, flow.id, {
+          asOfDate: completion.occurredAt,
+          historySequenceExclusive: completion.sequence + 1,
+        })
+      : null;
+    if (
+      period.completedShift &&
+      (!completion ||
+        completion.type !== "life-paths2.work-session" ||
+        !completion.involvedEntityIds.includes(work.id) ||
+        !completion.involvedEntityIds.includes(work.personId) ||
+        completion.occurredAt !== period.periodStartsAt ||
+        completion.occurredAt !== period.periodEndsAt ||
+        earnedTerms?.id !== period.completedShift.termsId ||
+        earnedTerms.status !== "active" ||
+        period.completedShift.amount.currency !== earnedTerms.amount.currency ||
+        !Number.isSafeInteger(period.completedShift.amount.minorUnits) ||
+        period.completedShift.amount.minorUnits < earnedTerms.amount.minorUnits)
+    )
+      throw new Error(
+        "Completed shift pay must bind its saved work and earned terms.",
+      );
     const window = {
       startsAt: period.periodStartsAt,
       endsAt: period.periodEndsAt,
@@ -1443,22 +1477,28 @@ export function settleTownCompensations(
     });
     // A raise takes effect on the first day of a period, and a period is
     // paid at the terms in force the day it began.
-    const terms = resourceFlowTermsAt(next, flow.id, {
-      asOfDate: window.startsAt,
-      historySequenceExclusive: next.history.nextSequence,
-    });
+    const terms =
+      earnedTerms ??
+      resourceFlowTermsAt(next, flow.id, {
+        asOfDate: window.startsAt,
+        historySequenceExclusive: next.history.nextSequence,
+      });
     if (!terms || terms.status !== "active") continue;
     // Days out sick, or home with a sick child, go unpaid in a job that
     // carries no paid sick leave.
-    const absence = absencesIn(window.startsAt, window.endsAt).get(recipientId);
+    // A saved completed shift is work actually performed, not an inferred absence.
+    const absence = completion
+      ? undefined
+      : absencesIn(window.startsAt, window.endsAt).get(recipientId);
     const workdays = workdaysBetween(window.startsAt, window.endsAt);
     const unpaidDays =
       absence && workdays > 0 && !jobPaysSickLeave(world, workId)
         ? Math.min(absence.missedDays, workdays)
         : 0;
+    const gross = period.completedShift?.amount ?? terms.amount;
     const amount =
       unpaidDays === 0
-        ? terms.amount
+        ? gross
         : money(
             Math.round(
               (terms.amount.minorUnits * (workdays - unpaidDays)) / workdays,
@@ -1503,7 +1543,7 @@ export function settleTownCompensations(
           : amount.minorUnits > 0
             ? "partial"
             : "missed",
-      attemptedAmount: terms.amount,
+      attemptedAmount: gross,
       transferredAmount: amount,
       reasonKind:
         unpaidDays === 0
@@ -1515,7 +1555,9 @@ export function settleTownCompensations(
         unpaidDays === 0
           ? (period.note ?? "Pay for the period.")
           : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${caring ? "home with a sick child" : "out sick"}.`,
-      provenance: flow.provenance,
+      provenance: completion
+        ? { kind: "simulated-event", eventId: completion.id }
+        : (period.provenance ?? flow.provenance),
     });
     recipients.add((flow.recipient as { personId: EntityId }).personId);
     pending.add(stableKey);

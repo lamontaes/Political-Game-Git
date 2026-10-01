@@ -58,6 +58,8 @@ export function resourceHousingHistoryRecords(world: World): readonly {
     ...(h.loanTerms ?? []),
     ...(h.debtCharges ?? []),
     ...(h.debtStandings ?? []),
+    ...(h.loanRepaymentAllocations ?? []),
+    ...(h.loanDischarges ?? []),
   ];
 }
 
