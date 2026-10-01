@@ -69,7 +69,8 @@ saved bytes.
 
 ## 6. Proof run
 
-Source 45768d95e from main 2afdc30b07b8f2a73f2042521abd86c254d111e6
+Source 45768d95e079c3abdd08724ff8a9ca8ea70896e0 from main
+2afdc30b07b8f2a73f2042521abd86c254d111e6
 passed all seven cases in the changed office-pay.test.ts. Six original cases
 retain published salary coverage and the fallback's positive amount, rounding
 and replay checks. The old cross-seed variation assertion is changed to seed
@@ -80,8 +81,11 @@ canonical Save/Continue without changing serialized bytes.
 An intermediate saved-work fixture passed six cases and failed one because
 it omitted a nullable occupation and used two unsupported role enum values.
 Those authored inputs were corrected to the existing taxonomy. The production
-fallback did not change during that repair. Final scoped check receipts are
-recorded in the PR before publication.
+fallback did not change during that repair. Two scoped strict TypeScript
+roots load 734 files with zero owned diagnostics. Scoped lint, formatting,
+whitespace, report and PR-range release checks pass. Zero-dice exits 1 with
+zero new findings and five inherited stale entries. Spelling exits 1 with
+19 inherited findings outside this patch. Shared baselines remain untouched.
 
 No natural office appointment, payment, wage-law phase or all-56 watched-world
 proof is claimed. Browser, game-year, full suite and the other teams' annual-
