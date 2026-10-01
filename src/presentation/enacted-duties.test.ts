@@ -173,7 +173,7 @@ function fallDue(world: World, measureId: EntityId): World {
 }
 
 describe("a law that places a duty on a class of body", () => {
-  it("records the duty, and on its date finds who complied and who did not", () => {
+  it("records the duty without mistaking workers for fulfillment", () => {
     const { world, measureId, staffedId, emptyId } = enact(
       "continuity-planning-duty",
       "critical-infrastructure",
@@ -205,11 +205,13 @@ describe("a law that places a duty on a class of body", () => {
       Object.fromEntries(
         findings.map((row) => [row.organizationId, row.outcome]),
       ),
-    ).toEqual({ [staffedId]: "complied", [emptyId]: "compliance-unknown" });
-    // The provisional rule is marked as one on the record, and an unstaffed
-    // body is unknown, never a breach.
+    ).toEqual({
+      [staffedId]: "compliance-unknown",
+      [emptyId]: "compliance-unknown",
+    });
+    // Neither a worker nor missing staffing proves performance or a breach.
     expect(findings.map((row) => row.basis).sort()).toEqual([
-      "game-profile",
+      "unknown",
       "unknown",
     ]);
     const read = enactedLawEffects(after, measureId)!.lines.find(
@@ -217,11 +219,11 @@ describe("a law that places a duty on a class of body", () => {
     );
     expect(read).toMatchObject({
       status: "in-effect",
-      complied: 1,
-      complianceUnknown: 1,
+      complied: 0,
+      complianceUnknown: 2,
     });
     expect(lawEffectSentences(after, measureId).join(" ")).toContain(
-      "Of those on record, 1 of 2 met it; for 1, whether it was met is not known.",
+      "Of those on record, 0 of 2 met it; for 2, whether it was met is not known.",
     );
   });
 
