@@ -29,7 +29,12 @@ import { createStableId } from "../ids";
 // Not `school-stages.ts`: importing it from here makes the module loader
 // enter the stage handlers before the campaign clock's registries read them.
 import { schoolGradeOn, schoolTermOn } from "../school-calendar";
-import { attendingSchool, leaveSchoolOnMove } from "../school-moves";
+import {
+  attendingSchool,
+  holdsSchoolPlace,
+  leaveSchoolOnMove,
+  startSchoolAfterMove,
+} from "../school-moves";
 import {
   buildHouseholdLocationRecord,
   recordOrganizationParticipationState,
@@ -563,9 +568,11 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   // A pupil's childhood record notes a move that lands while school is in
   // session, and the school they leave reads it.
   const term = schoolTermOn(date);
+  const pupils: EntityId[] = [];
   for (const personId of move.personIds) {
     const grade = schoolGradeOn(next, personId, date);
     const child = ageOnDate(next.people[personId]!.birthDate, date) < 18;
+    if (child && holdsSchoolPlace(next, personId)) pupils.push(personId);
     if (term && child && grade !== null && attendingSchool(next, personId)) {
       next = appendChildhoodEntry(next, {
         kind: "school-year-move",
@@ -704,6 +711,16 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       },
     };
   }
+  // Each pupil who left a school starts at one in the new place, or the
+  // childhood record says the place holds none for their grade.
+  for (const personId of pupils)
+    next = startSchoolAfterMove(
+      next,
+      personId,
+      event.id,
+      move.toJurisdictionId,
+      date,
+    );
   return next;
 }
 
