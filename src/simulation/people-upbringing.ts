@@ -561,7 +561,18 @@ export function upbringingCoreValue(
   personId: EntityId,
   trait: PeopleTrait,
 ): TraitValue {
-  const upbringing = upbringingFor(world, personId);
+  return upbringingCoreValueFrom(upbringingFor(world, personId), trait);
+}
+
+/**
+ * A core direction from an upbringing alone. Pure: the same upbringing gives
+ * the same value in every world. An upbringing that says nothing about this
+ * trait, or pulls both ways equally, leaves the person at the middle.
+ */
+export function upbringingCoreValueFrom(
+  upbringing: PersonUpbringing,
+  trait: PeopleTrait,
+): TraitValue {
   let score = 0;
   if (trait === "deliberation") {
     if (upbringing.caregiving === "consistent-firm") score -= 1;
@@ -595,12 +606,6 @@ export function upbringingCoreValue(
     )
       score -= 1;
     if (upbringing.firstJob === "autonomy") score += 1;
-  }
-  if (score === 0) {
-    const rng = new SeededRng(world.seed).fork(
-      `upbringing-v1:core:${personId}:${trait}`,
-    );
-    score = rng.pick([-1, 0, 0, 0, 1] as const);
   }
   return Math.max(-2, Math.min(2, score)) as TraitValue;
 }

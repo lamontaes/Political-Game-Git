@@ -1,5 +1,12 @@
 import { stableHash } from "../simulation";
-import type { ClaimAudience } from "../simulation";
+import type { ClaimAudience, EntityId } from "../simulation";
+import { composeCostObjection } from "./legislative-cost-objection-english";
+import {
+  ENGLISH_MOTIF_FAMILIES,
+  composeMotifEnglish,
+  type MotifFactKey,
+} from "./legislative-motif-english";
+import type { GroundedEnglishFact } from "./grounded-english";
 
 /**
  * What legislators actually say to each other.
@@ -76,6 +83,31 @@ export interface LegislativeMotifFacts {
   readonly nextStep: string;
   /** What the speaker said earlier, when a beat refers back to it. */
   readonly priorStatement: string | null;
+  /** The ground the requested section states for itself, when it states one. */
+  readonly statedGround?: string | null;
+}
+
+/**
+ * The records the words in a beat's facts come from. A beat the English
+ * engine words (`ENGINE_FAMILIES`) cites these; the authored banks below do
+ * not yet.
+ */
+export interface LegislativeMotifGrounding {
+  readonly worldSeed: string;
+  readonly speakerPersonId: EntityId;
+  readonly listenerPersonId: EntityId;
+  /** The measure the designation, sections and requested place belong to. */
+  readonly measureId: EntityId;
+  /** What the bill's current total is read from (its provisions, or the measure). */
+  readonly billAmountSourceIds: readonly EntityId[];
+  /**
+   * Where the speaker's section is the one being requested: whether the bill
+   * now holds it (the adopted provision) or not. Null when the speaker is
+   * talking about another section.
+   */
+  readonly requestedSection?: {
+    readonly adoptedProvisionId: EntityId | null;
+  } | null;
 }
 
 export interface LegislativeMotifContext {
@@ -87,6 +119,18 @@ export interface LegislativeMotifContext {
   /** The turn's own stable key. Identical state and action reuse it. */
   readonly variantSeed: string;
   readonly facts: LegislativeMotifFacts;
+  readonly grounding: LegislativeMotifGrounding;
+}
+
+/** Beats the English engine words from their fact packet, not a line bank. */
+const ENGINE_FAMILIES = ["object-on-cost", ...ENGLISH_MOTIF_FAMILIES] as const;
+type EngineFamily = (typeof ENGINE_FAMILIES)[number];
+type BankFamily = Exclude<LegislativeMotifFamily, EngineFamily>;
+
+function isEngineFamily(
+  family: LegislativeMotifFamily,
+): family is EngineFamily {
+  return (ENGINE_FAMILIES as readonly string[]).includes(family);
 }
 
 interface Variant {
@@ -115,7 +159,7 @@ const hasPrior = (facts: LegislativeMotifFacts) =>
 const hasBillAmount = (facts: LegislativeMotifFacts) =>
   facts.billAmount !== null;
 
-const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
+const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
   "ask-for-commitment": {
     shared: [
       {
@@ -265,39 +309,6 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
     },
   },
 
-  "object-on-cost": {
-    shared: [
-      {
-        key: "recurring",
-        line: (f) =>
-          `“My problem isn't the first year of ${f.designation}. It's the third, when the money's baked in and the pilot language is gone.”`,
-      },
-    ],
-    byVoice: {
-      "fiscal-guardian": [
-        {
-          key: "exposure",
-          needs: hasBillAmount,
-          line: (f) =>
-            `“As it reads now this bill commits ${f.billAmount}. I've voted no on smaller. Tell me what comes out to make room for it.”`,
-        },
-        {
-          key: "offset",
-          line: () =>
-            `“Where's the offset? Every bill in this building is somebody's priority. This one doesn't get to skip the part where we say what it costs.”`,
-        },
-      ],
-      "district-advocate": [
-        {
-          key: "share",
-          needs: hasPlace,
-          line: (f) =>
-            `“I'm not against spending it. I'm against spending it where none of it lands anywhere near ${f.place}.”`,
-        },
-      ],
-    },
-  },
-
   "object-on-implementation": {
     shared: [
       {
@@ -358,31 +369,6 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
           key: "counsel",
           line: (f) =>
             `“I want counsel to look at whether that's even germane at ${f.nextStep}. If it isn't, none of the rest of this matters.”`,
-        },
-      ],
-    },
-  },
-
-  "district-beneficiary-concern": {
-    shared: [
-      {
-        key: "nothing-here",
-        line: (f) =>
-          `“I've read ${f.designation} twice. There is nothing in it for the people who send me here, and they can read too.”`,
-      },
-    ],
-    byVoice: {
-      "district-advocate": [
-        {
-          key: "specific-place",
-          needs: hasPlace,
-          line: (f) =>
-            `“The garage in ${f.place} has been on a replacement list since before I was elected. This bill funds a study and calls it progress.”`,
-        },
-        {
-          key: "competing-need",
-          line: () =>
-            `“I'm not asking you for a favor. I'm telling you my people are already paying for a service they can't get, and this bill doesn't change that.”`,
         },
       ],
     },
@@ -467,36 +453,6 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
     },
   },
 
-  "leadership-pressure": {
-    shared: [
-      {
-        key: "leadership-position",
-        line: (f) =>
-          `“You should know the people who set the calendar have a view about ${f.designation}, and it isn't yours.”`,
-      },
-      {
-        key: "caucus-count",
-        line: () =>
-          `“I can hold four of ours if the amendment is clean. I can't hold anybody if this turns into a floor fight in front of the press.”`,
-      },
-    ],
-  },
-
-  "timing-warning": {
-    shared: [
-      {
-        key: "clock",
-        line: (f) =>
-          `“Whatever you're going to do to ${f.sectionLabel}, do it before ${f.nextStep}. After that the only motion left is one nobody wins.”`,
-      },
-      {
-        key: "sine-die",
-        line: (f) =>
-          `“You've got days, not weeks. ${f.designation} dies where it sits if it isn't across before we adjourn, and it won't be the first one.”`,
-      },
-    ],
-  },
-
   "press-visibility-concern": {
     shared: [
       {
@@ -509,21 +465,6 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
         key: "explain-it",
         line: (f) =>
           `“I can defend ${f.sectionLabel} on the merits. I'd just rather do it in committee than in a headline.”`,
-      },
-    ],
-  },
-
-  "reciprocal-support": {
-    shared: [
-      {
-        key: "trade",
-        line: (f) =>
-          `“All right. I'll be with you on ${f.designation}. When my water bill comes up in the ${f.chamber}, I'm going to come find you, and I'd like you to remember this conversation.”`,
-      },
-      {
-        key: "even",
-        line: () =>
-          `“We've both been on the short end of this. Help me and I'll help you, and neither of us has to pretend it's anything else.”`,
       },
     ],
   },
@@ -600,6 +541,8 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
  * replaying the same session produces the same conversation word for word.
  */
 export function legislativeMotifLine(context: LegislativeMotifContext): string {
+  // Spoken aloud, so quoted like every other line in the room.
+  if (isEngineFamily(context.family)) return `“${engineLine(context).text}”`;
   const candidates = eligibleVariants(context);
   const index = Number(
     BigInt(
@@ -613,17 +556,85 @@ export function legislativeMotifLine(context: LegislativeMotifContext): string {
 export function eligibleMotifVariantKeys(
   context: LegislativeMotifContext,
 ): readonly string[] {
+  if (isEngineFamily(context.family))
+    return engineLine(context).parts.map((part) => part.partKey);
   return eligibleVariants(context).map((variant) => variant.key);
 }
 
 export function motifFamilies(): readonly LegislativeMotifFamily[] {
-  return Object.keys(CONTENT) as LegislativeMotifFamily[];
+  return [...(Object.keys(CONTENT) as BankFamily[]), ...ENGINE_FAMILIES];
+}
+
+/**
+ * A beat worded by the English engine, from facts each sourced to the record
+ * that establishes it.
+ */
+export function engineLine(context: LegislativeMotifContext) {
+  const { facts, grounding } = context;
+  const measure = [grounding.measureId];
+  if (context.family !== "object-on-cost") {
+    const word = (text: string | null | undefined, ids = measure) =>
+      text ? { text, sourceRecordIds: ids } : undefined;
+    const requested = grounding.requestedSection ?? null;
+    const packetFacts: Partial<Record<MotifFactKey, GroundedEnglishFact>> = {
+      designation: word(facts.designation),
+      listener: word(facts.listener, [grounding.listenerPersonId]),
+      "section-label": word(facts.sectionLabel),
+      chamber: word(facts.chamber),
+      "next-step": word(facts.nextStep),
+      beneficiary: word(facts.beneficiary),
+      place: word(facts.place),
+      amount: word(facts.amount),
+      "stated-ground": word(facts.statedGround),
+      "section-absent":
+        requested && requested.adoptedProvisionId === null
+          ? word("absent")
+          : undefined,
+      "section-adopted": requested?.adoptedProvisionId
+        ? word("adopted", [requested.adoptedProvisionId])
+        : undefined,
+    };
+    return composeMotifEnglish({
+      family: context.family as (typeof ENGLISH_MOTIF_FAMILIES)[number],
+      voice: context.voice,
+      worldSeed: grounding.worldSeed,
+      momentKey: `${context.variantSeed}:${context.voice}`,
+      speakerPersonId: grounding.speakerPersonId,
+      listenerPersonId: grounding.listenerPersonId,
+      facts: packetFacts,
+    });
+  }
+  return composeCostObjection({
+    worldSeed: grounding.worldSeed,
+    momentKey: `${context.variantSeed}:${context.voice}`,
+    speakerPersonId: grounding.speakerPersonId,
+    listenerPersonId: grounding.listenerPersonId,
+    voice: context.voice,
+    facts: {
+      designation: { text: facts.designation, sourceRecordIds: measure },
+      listener: {
+        text: facts.listener,
+        sourceRecordIds: [grounding.listenerPersonId],
+      },
+      billAmount:
+        facts.billAmount === null || grounding.billAmountSourceIds.length === 0
+          ? null
+          : {
+              text: facts.billAmount,
+              sourceRecordIds: grounding.billAmountSourceIds,
+            },
+      place:
+        facts.place === null
+          ? null
+          : { text: facts.place, sourceRecordIds: measure },
+    },
+  });
 }
 
 function eligibleVariants(
   context: LegislativeMotifContext,
 ): readonly Variant[] {
-  const content = CONTENT[context.family];
+  const content = CONTENT[context.family as BankFamily];
   const voiced = content.byVoice?.[context.voice] ?? [];
   const usable = (variant: Variant) =>
     (variant.needs === undefined || variant.needs(context.facts)) &&

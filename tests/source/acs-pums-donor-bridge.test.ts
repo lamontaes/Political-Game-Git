@@ -1,11 +1,12 @@
 import {
   existsSync,
   mkdtempSync,
+  readdirSync,
   readFileSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   ACS_PUMS_2024_PRODUCTION_GATE,
@@ -443,5 +444,43 @@ describe("ACS PUMS one-way character-history bridge", () => {
         ],
       }),
     ).toThrow(/age does not match donor AGEP/);
+  });
+});
+
+// A151: the donor pick is still a seeded weighted draw. Until it becomes a
+// largest-remainder weight allocation it must stay unreachable from play, so
+// only tests may name it.
+describe("A151: the household donor draw has no production caller", () => {
+  const CODE = /\.(?:ts|tsx|mts|cts|js|mjs|cjs)$/;
+  const TEST = /\.(?:test|spec)\.[cm]?[jt]sx?$/;
+  const SKIP = new Set(["node_modules", "dist", "dist-electron", "release"]);
+  const DEFINITION = "src/source/adapters/acs-pums-character-history.ts";
+
+  function codeFiles(dir: string): string[] {
+    if (!existsSync(dir)) return [];
+    return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory())
+        return SKIP.has(entry.name) ? [] : codeFiles(path);
+      return CODE.test(entry.name) && !TEST.test(entry.name) ? [path] : [];
+    });
+  }
+
+  it("is named only by its own module and tests", () => {
+    const callers = ["src", "scripts", "desktop", "tooling"]
+      .flatMap((root) => codeFiles(resolve(REPO, root)))
+      .map((path) => relative(REPO, path).split("\\").join("/"))
+      .filter((path) => path !== DEFINITION)
+      .filter((path) =>
+        readFileSync(resolve(REPO, path), "utf8").includes(
+          "selectAcsPumsHouseholdDonor",
+        ),
+      );
+    expect(
+      callers,
+      "selectAcsPumsHouseholdDonor picks a donor by seeded weighted draw. " +
+        "Replace that draw with a largest-remainder weight allocation " +
+        "before any production code calls it.",
+    ).toEqual([]);
   });
 });
