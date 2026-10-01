@@ -6,6 +6,8 @@ MERGED: No. The preserved council-driver draft includes this bounded admission c
 
 ## What emerged
 
+This receipt covers the earlier admission stage. The later controlled town-profile votes and enacted records are reported separately in `a77-town-profile-roll-call.md`; they do not repair the presentation-entry import failure recorded here.
+
 HARDWIRED, measured in source: `src/simulation/legislative-institutions.ts:82` calls the existing validated town-profile resolver. Its local branch at line 131 reads the government's canonical jurisdiction and place clock.
 
 DECIDED: No new council decision was observed. Measured: `a77-local-admission-proof/receipt.json:12` records a failed suite with zero cases collected or executed.

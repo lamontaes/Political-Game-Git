@@ -1,0 +1,322 @@
+[
+  {
+    "seed": "a77-town-profile-roll-call-20261001",
+    "place": "2112898",
+    "unit": "gus2025:212020",
+    "organizationId": "organization_36d745e49a763c36",
+    "measureId": "legislative-measure_66117b5cb8fc8224",
+    "pack": "us-ky-town-council-profile-v1:gus2025:212020",
+    "vote": {
+      "outcome": "passed",
+      "tally": {
+        "yea": 5,
+        "nay": 0,
+        "presentNotVoting": 0,
+        "absent": 0,
+        "excused": 0
+      },
+      "members": [
+        {
+          "personId": "person_3bd1c4322b88dc80",
+          "name": "David Peterson",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_651035f48fad58d1",
+          "name": "Amber Medina",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_c78dc00ddf605fd3",
+          "name": "Rosa Hayes",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_5537d286188631d6",
+          "name": "Robert Weiss",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_bc562b08951004a9",
+          "name": "Taylor Anderson",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    "enactments": [
+      {
+        "id": "legislative-enactment_c55af7fae7b13479",
+        "stableKey": "a77-town-profile-controlled-proposal:enactment",
+        "sequence": 162,
+        "measureId": "legislative-measure_66117b5cb8fc8224",
+        "resolvedAt": "2026-01-05",
+        "outcome": "enacted",
+        "actDesignation": "ORD 1",
+        "effectiveAt": "2026-02-04",
+        "finalPassageAt": "2026-01-05",
+        "outcomeEventId": "event_a63b3b20373fab80"
+      }
+    ]
+  },
+  {
+    "seed": "a77-town-profile-roll-call-20261001",
+    "place": "3661489",
+    "unit": "gus2025:186657",
+    "organizationId": "organization_9e8a4bfcbe4b776a",
+    "measureId": "legislative-measure_95ffa8fd01fe51dd",
+    "pack": "us-ny-town-council-profile-v1:gus2025:186657",
+    "vote": {
+      "outcome": "passed",
+      "tally": {
+        "yea": 5,
+        "nay": 0,
+        "presentNotVoting": 0,
+        "absent": 0,
+        "excused": 0
+      },
+      "members": [
+        {
+          "personId": "person_1d2e860fc9e0e0c5",
+          "name": "Joseph Nguyen",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_22654e24c4986621",
+          "name": "Ann Terrell",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_f9cf9506e445ec32",
+          "name": "Riley Moon",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_31161fc9888c8401",
+          "name": "Aaron Mathis",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_7bb50f87ca1df265",
+          "name": "Ronald Kent",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    "enactments": [
+      {
+        "id": "legislative-enactment_acfee2d1aeda6de4",
+        "stableKey": "a77-town-profile-controlled-proposal:enactment",
+        "sequence": 136,
+        "measureId": "legislative-measure_95ffa8fd01fe51dd",
+        "resolvedAt": "2026-01-05",
+        "outcome": "enacted",
+        "actDesignation": "ORD 1",
+        "effectiveAt": "2026-02-04",
+        "finalPassageAt": "2026-01-05",
+        "outcomeEventId": "event_a63b3b20373fab80"
+      }
+    ]
+  },
+  {
+    "seed": "a77-town-profile-roll-call-20261001",
+    "place": "0567370",
+    "unit": "gus2025:161073",
+    "organizationId": "organization_493e13a0faa556db",
+    "measureId": "legislative-measure_6b53737f3e62071a",
+    "pack": "us-ar-town-council-profile-v1:gus2025:161073",
+    "vote": {
+      "outcome": "passed",
+      "tally": {
+        "yea": 5,
+        "nay": 0,
+        "presentNotVoting": 0,
+        "absent": 0,
+        "excused": 0
+      },
+      "members": [
+        {
+          "personId": "person_57431946a555a2fe",
+          "name": "Samuel Peterson",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_7331f1cf3680a07b",
+          "name": "Matthew Richard",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_c5a499b05b75e73c",
+          "name": "Barbara Kemp",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_18d9ad0b6dce963f",
+          "name": "Lindsey Kelley",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_30e3edd9882439fc",
+          "name": "Timothy Serrano",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    "enactments": [
+      {
+        "id": "legislative-enactment_70aa038740602c93",
+        "stableKey": "a77-town-profile-controlled-proposal:enactment",
+        "sequence": 134,
+        "measureId": "legislative-measure_6b53737f3e62071a",
+        "resolvedAt": "2026-01-05",
+        "outcome": "enacted",
+        "actDesignation": "ORD 1",
+        "effectiveAt": "2026-02-04",
+        "finalPassageAt": "2026-01-05",
+        "outcomeEventId": "event_a63b3b20373fab80"
+      }
+    ]
+  },
+  {
+    "seed": "a77-town-profile-roll-call-20261001",
+    "place": "4543495",
+    "unit": "gus2025:112865",
+    "organizationId": "organization_74934dbcbbcd6b42",
+    "measureId": "legislative-measure_53ad7de25b7b45ef",
+    "pack": "us-sc-town-council-profile-v1:gus2025:112865",
+    "vote": {
+      "outcome": "passed",
+      "tally": {
+        "yea": 5,
+        "nay": 0,
+        "presentNotVoting": 0,
+        "absent": 0,
+        "excused": 0
+      },
+      "members": [
+        {
+          "personId": "person_7ae723ff7ce168cd",
+          "name": "Julian Kent",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_5594ab765fee0b91",
+          "name": "Lauren Ortega",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_fc70d1595b12f178",
+          "name": "Nicholas Tillman",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_2000b77b49fb9a51",
+          "name": "Carol Noel",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_1f2a23d09788b6c6",
+          "name": "Maria Rivers",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    "enactments": [
+      {
+        "id": "legislative-enactment_5ff15c7c90e4482a",
+        "stableKey": "a77-town-profile-controlled-proposal:enactment",
+        "sequence": 125,
+        "measureId": "legislative-measure_53ad7de25b7b45ef",
+        "resolvedAt": "2026-01-05",
+        "outcome": "enacted",
+        "actDesignation": "ORD 1",
+        "effectiveAt": "2026-02-04",
+        "finalPassageAt": "2026-01-05",
+        "outcomeEventId": "event_a63b3b20373fab80"
+      }
+    ]
+  },
+  {
+    "seed": "a77-town-profile-roll-call-20261001",
+    "place": "4284272",
+    "unit": "gus2025:139800",
+    "organizationId": "organization_a3e3a72d9b16f4de",
+    "measureId": "legislative-measure_dc531a99192f0f85",
+    "pack": "us-pa-town-council-profile-v1:gus2025:139800",
+    "vote": {
+      "outcome": "passed",
+      "tally": {
+        "yea": 5,
+        "nay": 0,
+        "presentNotVoting": 0,
+        "absent": 0,
+        "excused": 0
+      },
+      "members": [
+        {
+          "personId": "person_b100ac40eb21ad7b",
+          "name": "Tristan Butler",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_40f0b829cde9f4b3",
+          "name": "Warren Dunn",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_659a0355b85ae035",
+          "name": "Paul Liu",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_b779f49c05b22d3a",
+          "name": "Stephen Davis",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_1fcd6ad139576af5",
+          "name": "Judith Fernandez",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    "enactments": [
+      {
+        "id": "legislative-enactment_87c77d78fe12a0b9",
+        "stableKey": "a77-town-profile-controlled-proposal:enactment",
+        "sequence": 129,
+        "measureId": "legislative-measure_dc531a99192f0f85",
+        "resolvedAt": "2026-01-05",
+        "outcome": "enacted",
+        "actDesignation": "ORD 1",
+        "effectiveAt": "2026-02-04",
+        "finalPassageAt": "2026-01-05",
+        "outcomeEventId": "event_a63b3b20373fab80"
+      }
+    ]
+  }
+]
