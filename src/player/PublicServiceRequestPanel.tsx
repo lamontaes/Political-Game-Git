@@ -2,9 +2,11 @@ import { useState } from "react";
 import { addSimulationMinutes } from "../simulation/dates";
 import {
   residentTransitOffers,
+  residentTransitRecords,
   requestPublicServiceFromLife,
 } from "../presentation/public-service-work";
 import type { World } from "../simulation/types";
+import { scheduledActivityState } from "../simulation/time-work";
 
 function serviceDate(date: string): string {
   const [year, month, day] = date.split("-");
@@ -20,6 +22,9 @@ export function PublicServiceRequestPanel({
   readonly onWorldChange: (world: World) => void;
 }) {
   const offers = residentTransitOffers(world);
+  const personId =
+    world.control.kind === "person" ? world.control.personId : null;
+  const records = personId ? residentTransitRecords(world, personId) : [];
   const [feedback, setFeedback] = useState<string | null>(null);
   const [minutesAhead, setMinutesAhead] = useState("30");
   return (
@@ -93,6 +98,32 @@ export function PublicServiceRequestPanel({
         </>
       )}
       {feedback && <p role="status">{feedback}</p>}
+      {records.length > 0 && (
+        <section aria-label="Your transit records">
+          <h4>Your requested trips</h4>
+          {records.map((activity) => {
+            const receipt = world.history.events.find(
+              (event) =>
+                event.type === "service.delivery-recorded" &&
+                event.participants.some(
+                  (participant) => participant.personId === personId,
+                ) &&
+                event.lawEffectStamps?.some((stamp) =>
+                  stamp.sourceRecordIds?.includes(activity.id),
+                ),
+            );
+            return (
+              <p key={activity.id}>
+                {activity.title} —{" "}
+                {scheduledActivityState(world, activity.id).status}.
+                {receipt
+                  ? " Service receipt recorded."
+                  : " No completed service receipt yet."}
+              </p>
+            );
+          })}
+        </section>
+      )}
     </section>
   );
 }

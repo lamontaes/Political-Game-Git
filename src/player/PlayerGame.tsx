@@ -228,6 +228,8 @@ import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { TransitWorkspace } from "./TransitWorkspace";
+import { PublicServiceRequestPanel } from "./PublicServiceRequestPanel";
+import { residentTransitAccess } from "../presentation/public-service-work";
 import { TaxWorkWorkspace } from "./TaxWorkWorkspace";
 import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
@@ -3347,7 +3349,9 @@ function renderWorkspace({
         ? [
             { key: "budget", label: "Budget and constitution" },
             { key: "conditions", label: "Conditions" },
-            ...(access?.transit || section === "transit"
+            ...(access?.transit ||
+            residentTransitAccess(session.world, session.personId) ||
+            section === "transit"
               ? [{ key: "transit", label: "Transit" }]
               : []),
             ...(access?.tax || section === "tax"
@@ -4067,9 +4071,16 @@ function renderWorkspace({
         <>
           {politicsTabs("issues", "transit")}
           {!politicsIssueAccess(session.world, session.personId).transit ? (
-            <p className="game-note" data-testid="transit-withheld">
-              {ISSUE_WITHHELD.transit}
-            </p>
+            residentTransitAccess(session.world, session.personId) ? (
+              <PublicServiceRequestPanel
+                world={session.world}
+                onWorldChange={onWorldChange}
+              />
+            ) : (
+              <p className="game-note" data-testid="transit-withheld">
+                {ISSUE_WITHHELD.transit}
+              </p>
+            )
           ) : (
             <TransitWorkspace
               world={session.world}

@@ -1,9 +1,9 @@
 # 1. Why-chain
 
-MERGED: none of this resident adapter. Source checkpoint
-173fcd9d0231dffab14106878452118c06f0aff9 is based on main
-589757593. This is Public Money & Services step 6; whole-slice acceptance is
-still 0 of the eight published player-script steps.
+MERGED: none of this resident adapter. Draft PR #1676 contains Public Money &
+Services step 6, based on main 589757593. The released PlayerGame route is
+included. Whole-slice acceptance is still 0 of the eight published player-script
+steps; the real-root browser walk and CTO play are not complete.
 
 WHAT EMERGED: HARDWIRED bookkeeping checks actual saved operating payments,
 authority and the resident's service area. The player chooses when to request
@@ -38,9 +38,11 @@ not nationwide activation. Maintenance payments do not offer operating trips.
 4. Preserve existing financial, request, service-kind and pre-K writers.
 
 The only shared simulation edit exports `operatingPaymentPosted` without
-changing its body. The only TransitWorkspace edit imports and renders the
-resident panel. Team F, now Overflow 4, owns pre-K request, enrollment and
-provider payment.
+changing its body. TransitWorkspace imports and renders the resident panel.
+The released PlayerGame hunks admit Transit for a controlled resident with an
+actual offer or joined record and render the panel in the existing withheld
+branch. Existing office and tax permissions remain unchanged. Team F, now
+Overflow 4, owns pre-K request, enrollment and provider payment.
 
 # 5. Simulated, records, world pieces, checks
 
@@ -52,27 +54,32 @@ CHECKS: authority alone creates no offer; maintenance creates no operating
 offer; a request creates no delivery; a completed trip creates one named
 receipt; repeat dispatch and Save/Continue create no further cash or delivery.
 
-Missing links: the ordinary resident's PlayerGame navigation/render seam is
-requested from the coordinator. The browser launch was refused for storage:
+Missing links: the real player-root browser walk and CTO play remain unverified.
+The browser launch was refused for storage:
 2 GiB required against 1 GiB usable, 988 MiB more needed. No override or cleanup
 was performed. Full player-root and CTO browser acceptance remain absent.
 
 # 6. Proof run
 
-VITAL STATISTICS at source 173fcd9d: changed service test 8/8 PASS, 20.28 seconds.
+VITAL STATISTICS: changed service test 8/8 PASS, 23.50 seconds, including rendered
+requested/completed receipt states and unchanged resident office/tax access.
 Five places are drawn without replacement from all 56 using seed
 `public-money-service-controlled-resident`: VA, VI, VT, WV and WY. Each positive
 case joins the exact saved person, commitment, request, participation,
 activity, completion and stamped delivery; no aggregate payment is rider proof.
-Eight changed TypeScript roots, 1,097 transitive files, zero diagnostics.
-Changed-file lint/format and exact-range release check pass.
+Nine changed TypeScript roots pass with existing build and Node ambient types,
+1,597 transitive files and zero diagnostics. Two earlier harness attempts
+omitted the test's Node ambient context; their failures remain recorded.
+Changed-file lint/format and the exact release range are scoped to this PR.
 
-Browser spec and isolated component entry are written; browser NOT RUN because
-storage refused before launch. The browser's drawn place is OR, seed
-`resident-transit-browser-slice`. Earlier completed Node/macro load, full audit
-and zero-dice receipts are retained historical evidence. The later direct owner
-override restricts validation to changed files; those extra checks are not
-repeated or used as new gates.
+The browser entry only seeds a disclosed canonical save. The spec opens that
+save in the normal application, navigates to Transit, requests the trip, uses
+the real calendar, saves, reloads and reads the same receipt. Browser NOT RUN
+because storage refused before launch. Its drawn place is OR, seed
+`resident-transit-browser-slice`. Earlier extra checks remain historical;
+the direct owner override restricts validation to changed files, and those
+extras are not repeated or used as new gates. Prospective repeal is not a
+verified runtime case in this batch.
 
 # 7. Worked example
 
@@ -81,8 +88,12 @@ desk. An authored receipts payer transfers $200 into the government's actual
 account. The saved appropriation permits $200; the governor commits an actual
 $200 operating installment to the recorded transit operator. The canonical
 same-day installment posts during commitment. The operator now has $200.
-The resident asks for a 45-minute trip starting 30 minutes ahead. No ride is
-recorded at booking. Completing the activity produces one stamped receipt for
-that resident. Reopening the save and redispatching preserve the same transfers
-and delivery. These inputs demonstrate the resident caller and existing writer
-join; they do not prove naturally generated spending terms or the full slice.
+In the Virginia case, Alexander Williamson (`person_581500295a39b951`) asks for
+a 45-minute trip starting 30 minutes ahead. No ride is recorded at booking.
+Completing `scheduled-activity_4cd1c4b0b17ef6a7` produces one stamped receipt,
+`event_1b2d35b2f580451b`, whose source IDs include the actual operating transfer
+`resource-transfer-outcome_7e98ade7b9925ddd` and commitment
+`public-program-record_cd1e459ee1260aea`. Reopening the save and redispatching
+preserve the same transfers and delivery. These authored inputs demonstrate
+the resident caller and existing writer join; they do not prove naturally
+generated spending terms or the full slice.

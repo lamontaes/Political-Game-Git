@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { stdout } from "node:process";
 import { stableHash } from "../simulation/ids";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { addSimulationMinutes } from "../simulation/dates";
@@ -11,6 +12,8 @@ import {
 import {
   requestPublicServiceFromLife,
   residentTransitOffers,
+  residentTransitAccess,
+  residentTransitRecords,
 } from "./public-service-work";
 import { money } from "../simulation/resources";
 import { settleProgramInstallment } from "../simulation/governing/public-program";
@@ -22,6 +25,10 @@ import { applyLawConsequences } from "../simulation/enacted-law-effects";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
 import { personName } from "../simulation/people";
+import { politicsIssueAccess } from "./politics-issues";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { PublicServiceRequestPanel } from "../player/PublicServiceRequestPanel";
 
 const SEED = "public-money-service-controlled-resident";
 const places = lifePlaceStateIdentities();
@@ -71,6 +78,11 @@ describe(`public service requests use the saved controlled character (${PLACE}, 
       expect(paid.installment.status).toBe("posted");
       let world = deserializeWorld(serializeWorld(paid.world));
       const beforeProjection = serializeWorld(world);
+      expect(residentTransitAccess(world, f.personId)).toBe(true);
+      expect(politicsIssueAccess(world, f.personId)).toEqual({
+        transit: false,
+        tax: false,
+      });
       expect(residentTransitOffers(world)).toMatchObject([
         { commitmentId: f.commitmentId, operatorId: f.operator },
       ]);
@@ -99,6 +111,16 @@ describe(`public service requests use the saved controlled character (${PLACE}, 
           (e) => e.type === "service.delivery-recorded",
         ),
       ).toEqual([]);
+      const requestedMarkup = renderToStaticMarkup(
+        createElement(PublicServiceRequestPanel, {
+          world: asked.world,
+          onWorldChange: () => {
+            throw new Error("A read-only render wrote the world.");
+          },
+        }),
+      );
+      expect(requestedMarkup).toContain("Your requested trips");
+      expect(requestedMarkup).toContain("No completed service receipt yet.");
       expect(requestPublicServiceFromLife(asked.world, input).kind).toBe(
         "unsupported",
       );
@@ -128,6 +150,23 @@ describe(`public service requests use the saved controlled character (${PLACE}, 
         ]),
       );
       const restored = deserializeWorld(serializeWorld(world));
+      expect(
+        residentTransitRecords(restored, f.personId).map(
+          (activity) => activity.id,
+        ),
+      ).toEqual([asked.activityId]);
+      expect(residentTransitAccess(restored, f.personId)).toBe(true);
+      const completedMarkup = renderToStaticMarkup(
+        createElement(PublicServiceRequestPanel, {
+          world: restored,
+          onWorldChange: () => {
+            throw new Error("A read-only render wrote the world.");
+          },
+        }),
+      );
+      expect(completedMarkup).toContain("Service receipt recorded.");
+      expect(completedMarkup).toContain("completed");
+      expect(completedMarkup).not.toContain("File transit appropriation");
       const repeated = applyLawConsequences(restored, {
         activity: "service",
         activityId: asked.activityId,
@@ -136,7 +175,7 @@ describe(`public service requests use the saved controlled character (${PLACE}, 
       });
       expect(repeated).toBe(restored);
       expect(repeated.history.resourceTransferOutcomes).toEqual(transfers);
-      console.info(
+      stdout.write(
         JSON.stringify({
           place,
           seed,
@@ -147,7 +186,7 @@ describe(`public service requests use the saved controlled character (${PLACE}, 
           deliveryId: deliveries[0]!.id,
           sourceRecordIds: deliveries[0]!.lawEffectStamps?.[0]?.sourceRecordIds,
           actualOperatorPaymentMinorUnits: operatorCash.minorUnits,
-        }),
+        }) + "\n",
       );
     },
   );

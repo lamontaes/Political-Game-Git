@@ -10,7 +10,11 @@ import {
 import { organizationProfileAt } from "../simulation/life-queries";
 import { publicProgramRecords } from "../simulation/public-program-integrity";
 import { SERVICE_REQUEST_FORMS } from "../simulation/law-consequences/service-delivered-data";
-import type { EntityId, World } from "../simulation/types";
+import type {
+  EntityId,
+  PublicProgramCommitmentRecord,
+  World,
+} from "../simulation/types";
 
 export interface ResidentTransitOffer {
   readonly commitmentId: EntityId;
@@ -19,6 +23,53 @@ export interface ResidentTransitOffer {
   readonly title: string;
   readonly visitMinutes: number;
   readonly availableThrough: World["currentDate"];
+}
+
+/** Saved requests keep a resident's transit record reachable after a law lapses. */
+export function residentTransitRecords(world: World, personId: EntityId) {
+  const commitments = publicProgramRecords(world).filter(
+    (record): record is PublicProgramCommitmentRecord =>
+      record.kind === "commitment" && !!record.recipientOrganizationId,
+  );
+  const requests = new Set(
+    world.history.events
+      .filter(
+        (event) =>
+          event.type === "service.requested" &&
+          event.participants.some(
+            (participant) =>
+              participant.personId === personId &&
+              participant.role === "agency:service-request",
+          ),
+      )
+      .map((event) => event.id),
+  );
+  return world.history.scheduledActivities.filter(
+    (activity) =>
+      activity.kind === "travel" &&
+      activity.responsiblePersonId === personId &&
+      activity.participantPersonIds.includes(personId) &&
+      activity.sourceEntityIds.some((id) => requests.has(id)) &&
+      commitments.some(
+        (commitment) =>
+          activity.sourceEntityIds.includes(commitment.eventId) &&
+          activity.location?.locationKey ===
+            `public-service:${commitment.recipientOrganizationId}`,
+      ),
+  );
+}
+
+/** Admission to the resident view grants no legislative or tax authority. */
+export function residentTransitAccess(
+  world: World,
+  personId: EntityId,
+): boolean {
+  return (
+    world.control.kind === "person" &&
+    world.control.personId === personId &&
+    (residentTransitOffers(world).length > 0 ||
+      residentTransitRecords(world, personId).length > 0)
+  );
 }
 
 /** A screen reads existing paid operating commitments; it creates no offers. */
