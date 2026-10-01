@@ -269,10 +269,10 @@ describe("migration scaffold", () => {
   });
 
   it("a disaster that wrecks newcomers' homes sends some away for good", () => {
-    // A quarter of arrivals at one newcomer for every four residents a year,
+    // A quarter of arrivals at one newcomer for every two residents a year,
     // so the town holds newcomers' households a disaster can reach.
     const settled = review(opened.world, 0, {
-      arrivalsPerResidentPerYear: 0.25,
+      arrivalsPerResidentPerYear: 0.5,
     });
     const newcomers = settled.history.events
       .filter((event) => event.type === "migration.arrived")
