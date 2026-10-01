@@ -32,6 +32,7 @@ import {
   ANNUAL_OFFICE_PAY_ACTION,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
 } from "./pay-rows";
 export { PAY_SELECTOR, PAY_ACTION, MINIMUM_WAGE_PAY_ROWS } from "./pay-rows";
 import { paidOfficeOf, officePayInForce, PAY_LAW_FIELD } from "../office-pay";
@@ -161,7 +162,8 @@ export function resolvePayConsequences(
     const workplace = payWorkplaceAt(world, work.id, cutoff);
     const minimum =
       proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY ||
-      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY;
+      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY ||
+      proposition.stableKey === CITY_MINIMUM_WAGE_QUESTION_KEY;
     // Federal law applies without inventing a missing workplace. The national
     // chain contains no state/local authority; the coverage fact stays null.
     const jurisdictionId =
