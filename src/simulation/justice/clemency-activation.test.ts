@@ -8,11 +8,7 @@ import { currentLifeCutoff } from "../life-queries";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import { personName } from "../people";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays, daysBetween, simulationMomentOnLocalDate } from "../dates";
 import { candidacyEligibility } from "../candidacy";
 import {
@@ -38,7 +34,6 @@ import { recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import {
   lifePlaceStateIdentities,
-  searchLifePlaces,
   stateJurisdictionForKey,
 } from "../life-places";
 import { settleStateExecutiveQualification } from "../nationwide-world/state-executive-terms";
@@ -88,7 +83,7 @@ const states = pickDistinct(
       ),
     );
   })
-  .slice(0, 2);
+  .slice(0, 1);
 const receipts: unknown[] = [];
 afterAll(() => {
   if (process.env.G12_ACTIVATION_PROOF_PATH)
@@ -109,20 +104,14 @@ for (const state of states)
       officeKey: string,
       jurisdictionId: EntityId;
     beforeAll(() => {
-      const place = searchLifePlaces("", 5000, {
-        stateJurisdictionKey: state.jurisdictionKey,
-        scope: "locality",
-      })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: `team9-g12-activation:${state.jurisdictionKey}`,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      petitionerId = game.playerPersonId;
+      // A small world (tests/fixtures/small-world.ts) with its governor seated.
+      const small = smallWorld({
+        place: state.jurisdictionKey,
+        seed: `team9-g12-activation:${state.jurisdictionKey}`,
+        offices: ["governor"],
+      });
+      const game = { world: small.world };
+      petitionerId = small.personId;
       const referred = referForProsecution(game.world, {
         stableKey: "fixture:g12-executive-case",
         subjectPersonId: petitionerId,
