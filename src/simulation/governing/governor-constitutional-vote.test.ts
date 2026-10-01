@@ -4,6 +4,8 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
+import { considerationScore } from "../decisions";
+import type { DecisionConsideration } from "../types";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
   constitutionalActions,
@@ -16,7 +18,15 @@ import {
   searchLifePlaces,
   stateJurisdictionForKey,
 } from "../life-places";
-import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
+import {
+  ensureStateLegislatureOpening,
+  stateLegislators,
+} from "../nationwide-world/state-legislature-opening";
+import { introduceMeasure } from "../legislation";
+import { createFormationContext, recordPrivateBelief } from "../politics";
+import { legislativePackForJurisdiction } from "../legislative-institutions";
+import { deriveMemberDisposition } from "../legislative-member-decisions";
+import { jointAssemblyCandidates, jointAssemblyVote } from "./joint-assembly";
 import {
   currentStateExecutiveHolders,
   ensureStateExecutiveIncumbent,
@@ -135,6 +145,230 @@ function bodies(at: World, measureId: EntityId) {
   }));
 }
 describe("A79 governor term-limit actual-member rollcall", () => {
+  it("preserves legacy reason magnitudes for every supported importance, confidence and direction", () => {
+    // Retained former reason-only arithmetic; the decision engine stays unchanged.
+    const oldImportance = { slight: 1, moderate: 2, strong: 4, decisive: 6 };
+    const oldConfidence = { low: 1, medium: 2, high: 3 };
+    const reasons: DecisionConsideration[] = [];
+    for (const importance of Object.keys(
+      oldImportance,
+    ) as (keyof typeof oldImportance)[])
+      for (const confidence of Object.keys(
+        oldConfidence,
+      ) as (keyof typeof oldConfidence)[])
+        for (const direction of ["supports", "opposes"] as const)
+          reasons.push({
+            stableKey: `member:principle:${importance}:${confidence}:${direction}`,
+            optionKey: "vote-yea",
+            sourceType: "context:reason-parity",
+            direction,
+            importance,
+            confidence,
+            explanation:
+              "Supplied reason for complete legacy weight equivalence.",
+            sourceRefs: [],
+          });
+    const oldMagnitude = (reason: DecisionConsideration) =>
+      oldImportance[reason.importance] * oldConfidence[reason.confidence];
+    expect(reasons).toHaveLength(24);
+    for (const reason of reasons)
+      expect(Math.abs(considerationScore(reason))).toBe(oldMagnitude(reason));
+    // Every ordered pair includes unequal magnitudes, opposite signs and ties.
+    for (const left of reasons)
+      for (const right of reasons)
+        expect(
+          Math.abs(considerationScore(right)) -
+            Math.abs(considerationScore(left)),
+        ).toBe(oldMagnitude(right) - oldMagnitude(left));
+    expect(
+      [...reasons].sort(
+        (a, b) =>
+          Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
+      ),
+    ).toEqual([...reasons].sort((a, b) => oldMagnitude(b) - oldMagnitude(a)));
+  });
+
+  function suppliedReason(
+    key: string,
+    direction: "supports" | "opposes" = "supports",
+  ): DecisionConsideration {
+    return {
+      stableKey: `member:principle:${key}`,
+      optionKey: "vote-yea",
+      sourceType: "context:reason-parity",
+      direction,
+      importance: "decisive",
+      confidence: "high",
+      explanation: "Supplied equal-weight reason on an actual seated member.",
+      sourceRefs: [],
+    };
+  }
+  function actualMemberReason(extra: readonly DecisionConsideration[]) {
+    const fixture = proposal();
+    const { body, seated } = bodies(fixture.world, fixture.measureId)[0]!;
+    const member = seated.body.members[0]!;
+    const voter = { memberKey: member.memberKey, personId: member.personId! };
+    const ballot = termLimitBallot(
+      fixture.world,
+      "a79:reason-parity",
+      voter,
+      fixture.cause,
+      governorReasons,
+      extra,
+    );
+    const [shared] = decideChamberVote(fixture.world, {
+      kind: "constitutional",
+      stableKey: "a79:reason-parity",
+      constitutionalMeasureId: fixture.measureId,
+      bodyKey: body.bodyKey,
+      purpose: "proposal",
+      members: seated.body.members,
+      playerPersonId: playerId,
+      considerationsByMember: new Map([
+        [
+          member.memberKey,
+          termLimitConsiderations(
+            fixture.world,
+            voter,
+            fixture.cause,
+            governorReasons,
+            extra,
+          ),
+        ],
+      ]),
+    });
+    expect(shared!.disposition).toBe(ballot.ballot);
+    expect(shared!.reason).toBe(ballot.reason);
+    expect(ballot.ballot).toBe("yea");
+    return ballot.reason;
+  }
+  it("keeps input order when equally weighted reasons tie in both callers", () => {
+    const first = suppliedReason("z-first");
+    const second = suppliedReason("a-second");
+    expect(actualMemberReason([first, second])).toBe(first.stableKey);
+    expect(actualMemberReason([second, first])).toBe(second.stableKey);
+  });
+  it("keeps an opposing reason's full magnitude and tie position in both callers", () => {
+    const negative = suppliedReason("z-negative-first", "opposes");
+    expect(considerationScore(negative)).toBe(-18);
+    expect(
+      actualMemberReason([
+        negative,
+        suppliedReason("a-positive"),
+        suppliedReason("b-positive"),
+      ]),
+    ).toBe(negative.stableKey);
+  });
+  it("records the ordinary member caller's exact decisions, accounts and durable traces", () => {
+    const members = bodies(
+      proposal().world,
+      proposal().measureId,
+    )[0]!.seated.body.members.slice(0, 3);
+    const pack = legislativePackForJurisdiction(jurisdiction.id)!;
+    const propositionId = world.policyCatalog.propositionOrder.find((id) => {
+      const proposition = world.policyCatalog.propositions[id]!;
+      return world.policyCatalog.issues[proposition.issueId]?.levels?.includes(
+        "state",
+      );
+    })!;
+    expect(propositionId).toBeDefined();
+    let inputWorld = introduceMeasure(world, {
+      stableKey: "a79:reason-weight:ordinary-bill",
+      jurisdictionId: jurisdiction.id,
+      rulePackId: pack.packId,
+      designation: "Supplied A79 Bill",
+      shortTitle: "Recorded ordinary member reason comparison",
+      summary:
+        "Controlled explicit bill answer on the existing actual state chamber.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+      sponsorPersonId: members[0]!.personId,
+      propositionIds: [propositionId],
+      propositionAnswers: [{ propositionId, answer: "yes" }],
+    });
+    const measureId = inputWorld.history.legislativeMeasures!.at(-1)!.id;
+    for (const [index, position] of ["support", "oppose"].entries())
+      inputWorld = recordPrivateBelief(inputWorld, {
+        stableKey: `a79:reason-weight:authored-belief:${index}`,
+        personId: members[index]!.personId!,
+        propositionId,
+        formedAt: inputWorld.currentDate,
+        position: position as "support" | "oppose",
+        conviction: "strong",
+        salience: "high",
+        flexibility: "firm",
+        rationale:
+          "Controlled belief for the old/new reason-ranking comparison.",
+        formation: createFormationContext("reflection:initial"),
+        supersedesBeliefId: null,
+      });
+    const rows = members.map((member) => {
+      const result = deriveMemberDisposition(inputWorld, {
+        stableKey: `a79:reason-weight:${member.memberKey}`,
+        personId: member.personId!,
+        question: {
+          question: {
+            measureId,
+            purpose: "floor-stage",
+            forumKey: "house",
+            floorStageKey: null,
+            amendmentStableKey: null,
+            provisionKey: null,
+          },
+          questionLabel: "Pass the supplied bill?",
+        },
+      });
+      expect(result.account.length).toBeGreaterThan(0);
+      expect(result.world.history.decisionTraces.length).toBeGreaterThan(
+        inputWorld.history.decisionTraces.length,
+      );
+      return {
+        personId: member.personId,
+        disposition: result.disposition,
+        account: result.account,
+        selectedOptionKey: result.evaluation.selectedOptionKey,
+        trace: result.world.history.decisionTraces.at(-1),
+      };
+    });
+    expect(rows[0]!.disposition).toBe("yea");
+    expect(rows[1]!.disposition).toBe("nay");
+    expect(rows[2]!.disposition).toBe("present-not-voting");
+    console.info(
+      "A79 ordinary reason receipt",
+      JSON.stringify({
+        seed,
+        place: place.displayName,
+        measureId,
+        members: rows.length,
+        rows,
+      }),
+    );
+  });
+  it("records the joint assembly caller's exact ballots and reasons on actual state members", () => {
+    const members = stateLegislators(
+      world,
+      stateCandidacyPack(state.jurisdictionKey)!.packId,
+    );
+    expect(members.length).toBeGreaterThan(0);
+    const candidates = jointAssemblyCandidates(members, null);
+    expect(candidates.length).toBeGreaterThan(0);
+    const vote = jointAssemblyVote(world, {
+      stableKey: "a79:reason-weight:joint-assembly",
+      members,
+      candidates,
+    });
+    expect(vote.ballots).toHaveLength(members.length);
+    console.info(
+      "A79 joint reason receipt",
+      JSON.stringify({
+        seed,
+        place: place.displayName,
+        members: members.length,
+        vote,
+      }),
+    );
+  });
   it("preserves both legacy directions for the same saved people and consideration weights", () => {
     let compared = 0;
     const examples: unknown[] = [];
