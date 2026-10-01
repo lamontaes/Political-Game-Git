@@ -274,10 +274,100 @@ export function outstandingDebtAt(
       reduced = addExact(reduced, terms.principalReduction.minorUnits);
     }
   }
+  for (const discharge of world.history.loanDischarges ?? []) {
+    if (
+      discharge.resourceObligationId === obligation.id &&
+      availableOn(discharge, discharge.effectiveAt, cutoff)
+    )
+      reduced = addExact(
+        reduced,
+        addExact(discharge.principal.minorUnits, discharge.interest.minorUnits),
+      );
+  }
   return money(
     Math.max(0, obligation.principal.minorUnits + charged - paid - reduced),
     obligation.principal.currency,
   );
+}
+
+/** Component history is unknown if an old cash repayment lacks a saved allocation. */
+export function loanBalanceComponentsAt(
+  world: World,
+  resourceObligationId: EntityId,
+  cutoff: HistoricalCutoff = currentResourceCutoff(world),
+): { principal: MoneyAmount; interest: MoneyAmount; fees: MoneyAmount } | null {
+  const debt = world.history.resourceObligations.find(
+    (row) => row.id === resourceObligationId,
+  );
+  if (!debt?.principal || !availableOn(debt, debt.establishedAt, cutoff))
+    return null;
+  let principal = debt.principal.minorUnits;
+  let interest = 0;
+  let fees = 0;
+  for (const charge of world.history.debtCharges ?? []) {
+    if (
+      charge.resourceObligationId !== debt.id ||
+      !availableOn(charge, charge.chargedAt, cutoff)
+    )
+      continue;
+    if (charge.kind === "interest")
+      interest = addExact(interest, charge.amount.minorUnits);
+    else fees = addExact(fees, charge.amount.minorUnits);
+  }
+  for (const terms of world.history.loanTerms ?? []) {
+    if (
+      terms.resourceObligationId === debt.id &&
+      terms.principalReduction &&
+      availableOn(terms, terms.effectiveAt, cutoff)
+    )
+      principal -= terms.principalReduction.minorUnits;
+  }
+  for (const discharge of world.history.loanDischarges ?? []) {
+    if (
+      discharge.resourceObligationId !== debt.id ||
+      !availableOn(discharge, discharge.effectiveAt, cutoff)
+    )
+      continue;
+    principal -= discharge.principal.minorUnits;
+    interest -= discharge.interest.minorUnits;
+  }
+  for (const outcome of resourceTransferOutcomesForFlow(
+    world,
+    debt.resourceFlowId,
+    cutoff,
+  )) {
+    if (
+      outcome.sequence <= debt.sequence ||
+      outcome.occurredAt < debt.establishedAt ||
+      outcome.transferredAmount.minorUnits === 0
+    )
+      continue;
+    const allocation = (world.history.loanRepaymentAllocations ?? []).find(
+      (row) =>
+        row.resourceTransferOutcomeId === outcome.id &&
+        row.resourceObligationId === debt.id &&
+        availableOn(row, row.occurredAt, cutoff),
+    );
+    if (
+      !allocation ||
+      allocation.unsupportedReason ||
+      !allocation.principal ||
+      !allocation.interest ||
+      !allocation.fees
+    )
+      return null;
+    principal -= allocation.principal.minorUnits;
+    interest -= allocation.interest.minorUnits;
+    fees -= allocation.fees.minorUnits;
+  }
+  if (principal < 0 || interest < 0 || fees < 0)
+    throw new Error("Recorded loan components cannot be negative.");
+  const currency = debt.principal.currency;
+  return {
+    principal: money(principal, currency),
+    interest: money(interest, currency),
+    fees: money(fees, currency),
+  };
 }
 
 export type AffordabilityStatus = "available" | "strained" | "blocked";

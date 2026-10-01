@@ -12,24 +12,38 @@ import { publicGovernmentOrganizationKey } from "./public-government-identity";
 import {
   householdLoansOf,
   loanTermsAt,
+  recordLoanRepaymentAllocation,
+  recordLoanDischarge,
   reduceLoanPrincipal,
   reviseLoanTerms,
 } from "./household-loans";
 import { personName } from "./people";
+import { addDays } from "./dates";
+import { advanceWorld } from "./world";
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import {
+  completeStudyPeriod,
+  completedStudyPeriods,
+} from "./education-study-progression";
+import { lifePathDefinition } from "./life-paths2-catalog";
 import {
   createResourceFlow,
   createResourcePosition,
   money,
   recordResourceTransferOutcome,
 } from "./resources";
-import { outstandingDebtAt, resourcePositionAt } from "./resource-queries";
+import {
+  outstandingDebtAt,
+  loanBalanceComponentsAt,
+  resourcePositionAt,
+} from "./resource-queries";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { financeRecordedStudentTuition } from "./student-debt";
 import type { RecordedStudentFinancingInput } from "./student-debt";
 
 // Controlled accounting inputs, not empirical rates or admitted law terms.
 const USD = money(0, "USD").currency;
-function fixture(placeKey: string) {
+function fixture(placeKey: string, studyCaller = false) {
   const created = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     placeKey,
@@ -100,7 +114,9 @@ function fixture(placeKey: string) {
     provenance,
   });
   world = createResourceFlow(world, {
-    stableKey: "x7-tuition",
+    stableKey: studyCaller
+      ? `life-paths2.study-period:${enrollmentId}:1`
+      : "x7-tuition",
     source: owner,
     recipient: { kind: "organization", organizationId: schoolId },
     startsAt: world.currentDate,
@@ -118,7 +134,7 @@ function fixture(placeKey: string) {
     tuitionFlowId,
     annualLimit: money(100_000, USD),
     academicYearStartsAt: world.currentDate,
-    academicYearEndsAt: world.currentDate,
+    academicYearEndsAt: addDays(world.currentDate, 365),
     source: {
       kind: "source-record",
       reference:
@@ -134,6 +150,17 @@ function fixture(placeKey: string) {
     },
   };
   return { world, personId, lenderId, openingCash, input };
+}
+
+function advanceLoanMonth(world: ReturnType<typeof fixture>["world"]) {
+  const [year, month] = world.currentDate.split("-").map(Number);
+  const nextMonth =
+    month === 12
+      ? `${year! + 1}-01-01`
+      : `${year}-${String(month! + 1).padStart(2, "0")}-01`;
+  let days = 0;
+  while (addDays(world.currentDate, days) < nextMonth) days++;
+  return advanceWorld(world, days, createCampaignElectionTransitionRegistry());
 }
 
 describe("recorded student tuition financing", () => {
@@ -188,6 +215,95 @@ describe("recorded student tuition financing", () => {
         `X7 ${place}: ${personName(world.people[personId]!)}, recorded tuition ${input.tuitionFlowId}, principal ${loans[0]!.obligation.id}; 100000 cents lender cash disbursed, repeat/SaveContinue unchanged.`,
       );
     });
+  for (const place of ["4752006", "3918000", "1150000", "1571550", "2836000"])
+    it(`allocates real monthly cash and reuses one tuition charge in ${place}`, () => {
+      const { world, personId, input } = fixture(place, true);
+      const funded = financeRecordedStudentTuition(world, input);
+      const debt = householdLoansOf(funded, { kind: "person", personId })[0]!
+        .obligation;
+      const monthly = advanceLoanMonth(funded);
+      const allocation = monthly.history.loanRepaymentAllocations!.find(
+        (row) => row.resourceObligationId === debt.id,
+      )!;
+      const actual = monthly.history.resourceTransferOutcomes.find(
+        (row) => row.id === allocation.resourceTransferOutcomeId,
+      )!;
+      expect(allocation.unsupportedReason).toBeNull();
+      expect(allocation.fees!.minorUnits).toBe(0);
+      expect(allocation.interest!.minorUnits).toBe(500);
+      expect(allocation.principal!.minorUnits).toBe(
+        actual.transferredAmount.minorUnits - 500,
+      );
+      expect(
+        loanBalanceComponentsAt(monthly, debt.id)!.principal.minorUnits,
+      ).toBe(100_000 - allocation.principal!.minorUnits);
+      expect(outstandingDebtAt(monthly, debt.id)!.minorUnits).toBe(
+        100_000 + 500 - actual.transferredAmount.minorUnits,
+      );
+      expect(
+        recordLoanRepaymentAllocation(
+          monthly,
+          debt.id,
+          actual.id,
+          allocation.stableKey,
+        ),
+      ).toBe(monthly);
+      const saved = deserializeWorld(serializeWorld(monthly));
+      expect(loanBalanceComponentsAt(saved, debt.id)).toEqual(
+        loanBalanceComponentsAt(monthly, debt.id),
+      );
+      // Explicit test program inputs, not an automatic eligibility award.
+      const path = {
+        ...lifePathDefinition("college-bachelors"),
+        daysPerPeriod: 1,
+        minimumElapsedDays: 8,
+        periodCostMinor: world.history.resourceFlowTerms.find(
+          (row) => row.resourceFlowId === input.tuitionFlowId,
+        )!.amount.minorUnits,
+      };
+      const due = advanceWorld(
+        world,
+        1,
+        createCampaignElectionTransitionRegistry(),
+      );
+      const unfunded = completeStudyPeriod(due, input.enrollmentId, path);
+      expect(completedStudyPeriods(unfunded, input.enrollmentId, path)).toBe(0);
+      expect(
+        unfunded.history.resourceFlows.filter((row) =>
+          row.stableKey.startsWith(
+            `life-paths2.study-period:${input.enrollmentId}:`,
+          ),
+        ),
+      ).toHaveLength(1);
+      const enrollmentId = input.enrollmentId;
+      const financing = input;
+      const completed = completeStudyPeriod(
+        unfunded,
+        enrollmentId,
+        path,
+        financing,
+      );
+      expect(completedStudyPeriods(completed, enrollmentId, path)).toBe(1);
+      const payments = completed.history.resourceTransferOutcomes.filter(
+        (row) => row.resourceFlowId === input.tuitionFlowId,
+      );
+      expect(payments).toHaveLength(1);
+      expect(payments[0]!.status).toBe("completed");
+      expect(
+        completed.history.resourceFlows.filter((row) =>
+          row.stableKey.startsWith(
+            `life-paths2.study-period:${input.enrollmentId}:`,
+          ),
+        ),
+      ).toHaveLength(1);
+      const afterSave = deserializeWorld(serializeWorld(completed));
+      expect(
+        completeStudyPeriod(afterSave, enrollmentId, path, financing),
+      ).toBe(afterSave);
+      console.log(
+        `X7 ${place}: ${personName(world.people[personId]!)} actual repayment ${actual.id} allocated fee/interest/principal; tuition payment ${payments[0]!.id} reused ${input.tuitionFlowId}.`,
+      );
+    });
   it("caps principal at remaining annual authorization without inventing the balance", () => {
     const { world, personId, input } = fixture("3918000");
     const next = financeRecordedStudentTuition(world, {
@@ -199,6 +315,125 @@ describe("recorded student tuition financing", () => {
         .principal,
     ).toEqual(money(60_000, USD));
     expect(financeRecordedStudentTuition(next, input)).toBe(next);
+  });
+  it("pays saved fees before interest and principal; discharges without cash or a terms rewrite", () => {
+    const { world, personId, lenderId, openingCash, input } =
+      fixture("3918000");
+    const funded = financeRecordedStudentTuition(world, {
+      ...input,
+      loan: { ...input.loan, lateFee: money(3_000, USD) },
+    });
+    const debt = householdLoansOf(funded, { kind: "person", personId })[0]!
+      .obligation;
+    const provenance = {
+      kind: "authored",
+      note: "Controlled repayment allocation fixture.",
+    } as const;
+    const paidTuition = recordResourceTransferOutcome(funded, {
+      stableKey: "x7-fees-school-paid",
+      resourceFlowId: input.tuitionFlowId,
+      periodStartsAt: funded.currentDate,
+      periodEndsAt: funded.currentDate,
+      occurredAt: funded.currentDate,
+      status: "completed",
+      attemptedAmount: money(openingCash + 100_000, USD),
+      transferredAmount: money(openingCash + 100_000, USD),
+      reasonKind: null,
+      note: "Actual tuition payment empties test cash.",
+      provenance,
+    });
+    const missed = advanceLoanMonth(paidTuition);
+    expect(loanBalanceComponentsAt(missed, debt.id)!.fees.minorUnits).toBe(
+      3_000,
+    );
+    let cashFunded = createResourceFlow(missed, {
+      stableKey: "x7-fees-cash",
+      source: { kind: "organization", organizationId: lenderId },
+      recipient: { kind: "person", personId },
+      startsAt: missed.currentDate,
+      amount: money(50_000, USD),
+      cadenceKind: "schedule:one-time",
+      basisKind: "support:test-fixture",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance,
+    });
+    cashFunded = recordResourceTransferOutcome(cashFunded, {
+      stableKey: "x7-fees-cash-paid",
+      resourceFlowId: cashFunded.history.resourceFlows.at(-1)!.id,
+      periodStartsAt: missed.currentDate,
+      periodEndsAt: missed.currentDate,
+      occurredAt: missed.currentDate,
+      status: "completed",
+      attemptedAmount: money(50_000, USD),
+      transferredAmount: money(50_000, USD),
+      reasonKind: null,
+      note: "Recorded test funds from the existing lender.",
+      provenance,
+    });
+    const repaid = advanceLoanMonth(cashFunded);
+    const allocation = repaid.history
+      .loanRepaymentAllocations!.filter(
+        (row) => row.resourceObligationId === debt.id,
+      )
+      .at(-1)!;
+    const actual = repaid.history.resourceTransferOutcomes.find(
+      (row) => row.id === allocation.resourceTransferOutcomeId,
+    )!;
+    expect(actual.transferredAmount.minorUnits).toBeGreaterThan(0);
+    expect(allocation.fees!.minorUnits).toBe(
+      actual.transferredAmount.minorUnits,
+    );
+    expect(allocation.interest!.minorUnits).toBe(0);
+    expect(allocation.principal!.minorUnits).toBe(0);
+    const before = loanBalanceComponentsAt(repaid, debt.id)!;
+    const discharged = recordLoanDischarge(
+      repaid,
+      debt.id,
+      { principal: money(40_000, USD), interest: before.interest },
+      "x7-separate-discharge",
+      input.source,
+    );
+    expect(discharged.history.loanTerms).toBe(repaid.history.loanTerms);
+    expect(discharged.history.resourceTransferOutcomes).toBe(
+      repaid.history.resourceTransferOutcomes,
+    );
+    expect(loanBalanceComponentsAt(discharged, debt.id)).toEqual({
+      principal: money(60_000, USD),
+      interest: money(0, USD),
+      fees: before.fees,
+    });
+    expect(outstandingDebtAt(discharged, debt.id)!.minorUnits).toBe(
+      60_000 + before.fees.minorUnits,
+    );
+    const saved = deserializeWorld(serializeWorld(discharged));
+    expect(
+      recordLoanDischarge(
+        saved,
+        debt.id,
+        { principal: money(40_000, USD), interest: before.interest },
+        "x7-separate-discharge",
+        input.source,
+      ),
+    ).toBe(saved);
+    const oldSave = {
+      ...repaid,
+      history: { ...repaid.history, loanRepaymentAllocations: undefined },
+    };
+    expect(outstandingDebtAt(oldSave, debt.id)).toEqual(
+      outstandingDebtAt(repaid, debt.id),
+    );
+    expect(loanBalanceComponentsAt(oldSave, debt.id)).toBeNull();
+    expect(() =>
+      reduceLoanPrincipal(
+        oldSave,
+        debt.id,
+        money(1, USD),
+        "x7-unknown-old-principal",
+        input.source,
+      ),
+    ).toThrow("recorded repayment allocations");
   });
   it("rejects enrollment alone and mismatched school charges without writing", () => {
     const { world, input } = fixture("3918000");
@@ -287,19 +522,19 @@ describe("recorded student tuition financing", () => {
         "x7-too-large",
         input.source,
       ),
-    ).toThrow("recorded debt");
+    ).toThrow("recorded component");
     const corrupt = {
       ...saved,
       history: {
         ...saved.history,
-        loanTerms: saved.history.loanTerms!.map((row) =>
+        loanDischarges: saved.history.loanDischarges!.map((row) =>
           row.stableKey === "x7-credit-one"
-            ? { ...row, principalReduction: { minorUnits: -1, currency: USD } }
+            ? { ...row, principal: { minorUnits: -1, currency: USD } }
             : row,
         ),
       },
     };
-    expect(() => serializeWorld(corrupt)).toThrow("principal reductions");
+    expect(() => serializeWorld(corrupt)).toThrow("Loan discharges");
   });
   it("does not convert cash-paid tuition or cash sufficient for tuition into debt", () => {
     const { world: opening, personId, lenderId, input } = fixture("3918000");
