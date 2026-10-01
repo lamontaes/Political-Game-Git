@@ -164,9 +164,16 @@ export function inventedPersonBirthDate(
   },
 ): IsoDate {
   const bounds = inventedPersonAgeBounds(input.role, input);
-  const age = input.age ?? rng.integer(bounds.minimum, bounds.maximumExclusive);
-  if (age < bounds.minimum || age >= bounds.maximumExclusive)
-    throw new Error(`An age of ${age} is outside the ${input.role} window.`);
+  // A supplied age must already sit inside the role's window.
+  const supplied = input.age;
+  if (
+    supplied !== undefined &&
+    (supplied < bounds.minimum || supplied >= bounds.maximumExclusive)
+  )
+    throw new Error(
+      `An age of ${supplied} is outside the ${input.role} window.`,
+    );
+  const age = supplied ?? rng.integer(bounds.minimum, bounds.maximumExclusive);
   const year =
     Number(input.referenceDate.slice(0, 4)) -
     age -
