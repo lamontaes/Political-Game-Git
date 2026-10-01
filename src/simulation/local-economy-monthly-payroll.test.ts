@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import legacyMonthlyPoint from "./fixtures/a37-legacy-monthly-point.json";
 import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
@@ -15,6 +16,7 @@ import {
   settleTrackedBusinessPayroll,
 } from "./local-economy";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { monthlyWorkPay } from "./monthly-work-pay";
 import { createLightweightPerson, personName } from "./people";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { recordedPayStubs } from "./resource-income";
@@ -23,9 +25,11 @@ import {
   createResourceFlow,
   createResourcePosition,
   money,
-  recordResourceTransferOutcome,
+  recordResourceFlowTerms,
 } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import type { EntityId, ResourceTransferOutcome, World } from "./types";
+import { recordPersonDeath } from "./vitality";
 import { advanceWorld, createWorld, createWorldId } from "./world";
 const authored = {
   kind: "authored" as const,
@@ -129,6 +133,140 @@ function fixture(
     });
   return { world: ensurePaydaySchedule(world), person, employer, work, flow };
 }
+
+// Read-only query controls. These snapshots do not stand in for clock/payment proof.
+function monthQueryWorld(world: World): World {
+  const currentDate = makeIsoDate("2026-01-31");
+  return {
+    ...world,
+    currentDate,
+    currentMoment: simulationMomentOnLocalDate(
+      world.currentMoment,
+      currentDate,
+    ),
+  };
+}
+function monthlyQuery(
+  world: World,
+  resourceFlowId: EntityId,
+  frontier = world.history.nextSequence,
+) {
+  return monthlyWorkPay(monthQueryWorld(world), {
+    resourceFlowId,
+    periodStartsAt: makeIsoDate("2026-01-16"),
+    periodEndsAt: makeIsoDate("2026-01-31"),
+    onDate: makeIsoDate("2026-01-31"),
+    historySequenceExclusive: frontier,
+  });
+}
+it("A37 monthly query includes the hire day and preserves its input", () => {
+  const f = fixture("1150000");
+  const before = serializeWorld(f.world);
+  expect(monthlyQuery(f.world, f.flow.id)).toMatchObject({
+    resourceFlowId: f.flow.id,
+    workRelationshipId: f.work.id,
+    personId: f.person.id,
+    organizationId: f.employer.id,
+    termsId: f.world.history.resourceFlowTerms.at(-1)!.id,
+    heldDays: 16,
+    calendarDays: 31,
+    gross: money(258065, "USD"),
+  });
+  expect(serializeWorld(f.world)).toBe(before);
+});
+it("A37 monthly query excludes the end day only after its saved frontier", () => {
+  const f = fixture("1150000");
+  const before = advanceWorld(f.world, 9, registry);
+  const ended = recordWorkStatus(before, {
+    stableKey: "fixture:monthly:query-ended",
+    workRelationshipId: f.work.id,
+    effectiveAt: before.currentDate,
+    status: "ended",
+    reason: "Controlled actual end date",
+    provenance: authored,
+    supersedesStatusId: before.history.workStatuses.at(-1)!.id,
+  });
+  expect(monthlyQuery(ended, f.flow.id)).toMatchObject({
+    heldDays: 9,
+    gross: money(145161, "USD"),
+  });
+  expect(
+    monthlyQuery(ended, f.flow.id, before.history.nextSequence),
+  ).toMatchObject({ heldDays: 16, gross: money(258065, "USD") });
+});
+it("A37 monthly query excludes the death day only after its saved frontier", () => {
+  const f = fixture("1150000");
+  const before = advanceWorld(f.world, 9, registry);
+  const died = recordPersonDeath(before, {
+    stableKey: "fixture:monthly:query-death",
+    personId: f.person.id,
+    diedAt: before.currentDate,
+    causeKey: "custom:controlled-death",
+    sourceEntityIds: [f.person.id],
+    summary: "Explicit controlled death; not a mortality mechanism.",
+    provenance: authored,
+  });
+  expect(monthlyQuery(died, f.flow.id)).toMatchObject({
+    heldDays: 9,
+    gross: money(145161, "USD"),
+  });
+  expect(
+    monthlyQuery(died, f.flow.id, before.history.nextSequence),
+  ).toMatchObject({ heldDays: 16, gross: money(258065, "USD") });
+});
+it("A37 monthly query refuses a saved intra-period terms change", () => {
+  const f = fixture("1150000");
+  const before = advanceWorld(f.world, 9, registry);
+  const changed = recordResourceFlowTerms(before, {
+    stableKey: "fixture:monthly:query-terms",
+    resourceFlowId: f.flow.id,
+    effectiveAt: before.currentDate,
+    status: "active",
+    amount: money(600000, "USD"),
+    cadenceKind: "schedule:monthly",
+    reason: "Explicit controlled revision",
+    provenance: authored,
+    supersedesTermsId: before.history.resourceFlowTerms.at(-1)!.id,
+  });
+  expect(() => monthlyQuery(changed, f.flow.id)).toThrow(
+    "cannot cross an unprorated terms change",
+  );
+  expect(
+    monthlyQuery(changed, f.flow.id, before.history.nextSequence).gross,
+  ).toEqual(money(258065, "USD"));
+});
+it("A37 monthly query refuses mismatched work and employer joins", () => {
+  const f = fixture("1150000");
+  const malformed = {
+    ...f.world,
+    history: {
+      ...f.world.history,
+      workRelationships: f.world.history.workRelationships.map((work) => ({
+        ...work,
+        organizationId: null,
+      })),
+    },
+  };
+  expect(() => monthlyQuery(malformed, f.flow.id)).toThrow(
+    "must bind the actual worker and employer",
+  );
+});
+it("A37 monthly query refuses a non-month-end payment or future frontier", () => {
+  const f = fixture("1150000");
+  const input = {
+    resourceFlowId: f.flow.id,
+    periodStartsAt: makeIsoDate("2026-01-16"),
+    periodEndsAt: makeIsoDate("2026-01-31"),
+    onDate: makeIsoDate("2026-01-30"),
+    historySequenceExclusive: f.world.history.nextSequence,
+  };
+  expect(() => monthlyWorkPay(monthQueryWorld(f.world), input)).toThrow(
+    "actual calendar-month end",
+  );
+  expect(() =>
+    monthlyQuery(f.world, f.flow.id, f.world.history.nextSequence + 1),
+  ).toThrow("actual saved history frontier");
+});
 it("A37 full calendar month reaches the existing payday and withholding writer", () => {
   const f = fixture("2836000", false, "2026-01-01");
   const paid = advanceWorld(f.world, 30, registry);
@@ -271,22 +409,34 @@ it("A37 month-end pay counts only actual active days before the job ended", () =
   );
   expect(settleBusinessMoney(paid, f.employer.id)).toBe(paid);
 });
-it("A37 preserves a legacy paid point date and begins the next interval the following day", () => {
+it("A37 preserves a legacy paid point date and begins the next interval the following day", async () => {
   const f = fixture("1150000");
   let world = advanceWorld(f.world, 4, registry);
-  world = recordResourceTransferOutcome(world, {
-    stableKey: "fixture:legacy-paid",
-    resourceFlowId: f.flow.id,
-    periodStartsAt: world.currentDate,
-    periodEndsAt: world.currentDate,
-    occurredAt: world.currentDate,
-    status: "completed",
-    attemptedAmount: money(500000, "USD"),
-    transferredAmount: money(500000, "USD"),
-    reasonKind: null,
-    note: "Explicit saved legacy payment",
-    provenance: authored,
-  });
+  // Actual pre-change canonical-writer output, not a new off-payday transfer.
+  expect(world.id).toBe(legacyMonthlyPoint.worldId);
+  expect(f.flow.id).toBe(legacyMonthlyPoint.resourceFlowId);
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(world.history)),
+  );
+  expect(
+    Array.from(new Uint8Array(digest), (byte) =>
+      byte.toString(16).padStart(2, "0"),
+    ).join(""),
+  ).toBe(legacyMonthlyPoint.baseHistorySha256);
+  world = deserializeWorld(
+    serializeWorld({
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: legacyMonthlyPoint.nextSequence,
+        resourceTransferOutcomes: [
+          ...world.history.resourceTransferOutcomes,
+          legacyMonthlyPoint.outcome as ResourceTransferOutcome,
+        ],
+      },
+    }),
+  );
   const legacy = world.history.resourceTransferOutcomes.at(-1)!;
   const paid = advanceWorld(world, 11, registry);
   const outcomes = paid.history.resourceTransferOutcomes.filter(
