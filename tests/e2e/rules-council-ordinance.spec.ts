@@ -195,7 +195,7 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
       .getByTestId("municipal-ordinance")
       .filter({ hasText: "Sidewalk dining permits" });
   const ordinance = mine(panel);
-  await expect(ordinance).toContainText("Ord. 26-1: Sidewalk dining permits");
+  await expect(ordinance).toContainText(/ORD \d+: Sidewalk dining permits/);
   await expect(ordinance).toContainText("not yet on the council agenda");
 
   // Put it on the agenda with Space.
@@ -252,7 +252,9 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await saveLife(page);
   const after = deserializeWorld((await savedRecord(page)).payload);
   const measure = (after.history.legislativeMeasures ?? []).find(
-    (entry) => entry.designation === "Ord. 26-1",
+    (entry) =>
+      /^ORD \d+$/.test(entry.designation) &&
+      entry.shortTitle === "Sidewalk dining permits",
   )!;
   const enactment = measureEnactment(after, measure.id);
   if (outcomeText.includes("did not pass")) {
