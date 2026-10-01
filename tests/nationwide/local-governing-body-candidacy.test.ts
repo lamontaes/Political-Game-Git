@@ -450,21 +450,31 @@ describe("when a town's race is held", () => {
     60_000,
   );
 
-  it("a town whose state law leaves the timing open, and names no day, keeps the estimated filing lead", () => {
-    // Maine lets each town choose town meeting day or November; the choice
-    // the most state packs name among those is town meeting day, whose date
-    // has not been read, so the race is the filing lead out.
-    expect(nextTownElection("ME", "2360825", "2026-01-05" as never)).toBeNull();
+  it("a town whose state law leaves the timing open takes the option most states name, chosen by no hash (A118)", () => {
+    // Maine lets each town choose town meeting day or November. Of those,
+    // November is the one the most state packs name, so Presque Isle votes
+    // on the November general election day, ESTIMATED FROM AVERAGE, and the
+    // race's date is that day, at least the filing lead out.
+    const read = nextTownElection("ME", "2360825", makeIsoDate("2026-01-05"));
+    expect(read).toMatchObject({
+      electionDate: "2026-11-03",
+      basis: "local-choice-estimated",
+    });
     const { world, personId } = adultLifeAt("2360825");
     const home = world.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
     expect(campaignElectionDate(world, home, body.officeKey)).toBe(
-      addDays(world.currentDate, FILING_LEAD_DAYS),
+      read!.electionDate,
     );
+    expect(
+      read!.electionDate >= addDays(world.currentDate, FILING_LEAD_DAYS),
+    ).toBe(true);
   }, 60_000);
 
   it("never sets an election closer than the filing lead", () => {
-    expect(nextTownElection("MN", "2719142", "2026-10-10" as never)).toEqual({
+    expect(
+      nextTownElection("MN", "2719142", makeIsoDate("2026-10-10")),
+    ).toEqual({
       electionDate: "2028-11-07",
       timing: "even-year-november-consolidated",
       basis: "state-law-unverified",
