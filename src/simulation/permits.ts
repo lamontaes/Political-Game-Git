@@ -4,7 +4,7 @@ import {
   recordDurableDecisionTrace,
 } from "./decisions";
 import { makeIsoDate } from "./dates";
-import { appendedList } from "./history-index";
+import { appendedList, recordById } from "./history-index";
 import { createStableId } from "./ids";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import type {
@@ -128,6 +128,12 @@ export function applyForPermit(
       applicationId: null,
     };
   }
+  // An absence of recorded motives is not a decision to submit. The existing
+  // engine must not turn its option-order fallback into an application.
+  if (!decision.considerations.length)
+    return { world, status: "undecided", applicationId: null };
+  if (decision.considerations.some((factor) => !factor.sourceRefs.length))
+    throw new Error("Permit motives require actual saved source evidence.");
   const evaluated = evaluateDecision(world, decision);
   let next = recordDurableDecisionTrace(world, evaluated);
   const trace = next.history.decisionTraces.at(-1)!;
@@ -184,6 +190,10 @@ export function assertPermitIntegrity(world: World, ids: Set<EntityId>): void {
         "Permit application has an invalid identity or sequence.",
       );
     ids.add(row.id);
+    const authority = recordById(
+      world.history.organizations,
+      row.issuingAuthorityOrganizationId,
+    );
     makeIsoDate(row.appliedAt);
     makeIsoDate(row.recordedAt);
     if (
@@ -191,14 +201,14 @@ export function assertPermitIntegrity(world: World, ids: Set<EntityId>): void {
       row.appliedAt > row.recordedAt ||
       row.recordedAt > world.currentDate ||
       !world.people[row.personId] ||
-      !ids.has(row.issuingAuthorityOrganizationId) ||
+      !authority ||
+      authority.formedAt > row.appliedAt ||
+      authority.sequence >= row.sequence ||
       !row.permitKind.trim() ||
       !row.ruleSourceUrl.trim()
     )
       throw new Error("Invalid saved permit application.");
-    const trace = world.history.decisionTraces.find(
-      (t) => t.id === row.decisionTraceId,
-    );
+    const trace = recordById(world.history.decisionTraces, row.decisionTraceId);
     if (
       !trace ||
       trace.sequence >= row.sequence ||
@@ -212,13 +222,6 @@ export function assertPermitIntegrity(world: World, ids: Set<EntityId>): void {
       throw new Error(
         "Permit application requires its actual selected saved decision.",
       );
-    if (
-      new Set(row.sourceRecordIds).size !== row.sourceRecordIds.length ||
-      !row.sourceRecordIds.includes(trace.id) ||
-      !row.sourceRecordIds.includes(row.issuingAuthorityOrganizationId) ||
-      row.sourceRecordIds.some((id) => !ids.has(id))
-    )
-      throw new Error("Permit application has invalid source evidence.");
     const question = Object.values(world.policyCatalog.propositions).find(
       (q) => q.stableKey === row.questionKey,
     );
@@ -227,6 +230,30 @@ export function assertPermitIntegrity(world: World, ids: Set<EntityId>): void {
       : null;
     if (!law || law.answer !== "yes" || law.measureId !== row.governingLawKey)
       throw new Error("Permit application has no matching operative law.");
+    const measure =
+      law.origin === "enacted"
+        ? recordById(world.history.legislativeMeasures, law.measureId)
+        : null;
+    if (
+      law.origin === "enacted" &&
+      (!measure ||
+        measure.sequence >= row.sequence ||
+        measure.introducedAt > row.appliedAt)
+    )
+      throw new Error(
+        "Permit application has unavailable enacted-law evidence.",
+      );
+    const expectedSources = [
+      trace.id,
+      authority.id,
+      ...(measure ? [measure.id] : []),
+    ];
+    if (
+      new Set(row.sourceRecordIds).size !== row.sourceRecordIds.length ||
+      row.sourceRecordIds.length !== expectedSources.length ||
+      expectedSources.some((id) => !row.sourceRecordIds.includes(id))
+    )
+      throw new Error("Permit application has invalid actual source evidence.");
     sequence = row.sequence;
   }
   // No status producer is admitted until actual eligibility evidence and a
