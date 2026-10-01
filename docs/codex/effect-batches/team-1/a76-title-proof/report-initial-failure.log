@@ -1,0 +1,6 @@
+
+> political-life-rpg@0.4.0 report:check
+> node scripts/report-check/cli.mjs docs/codex/effect-batches/team-1/a76-title-templates.md
+
+error docs/codex/effect-batches/team-1/a76-title-templates.md:3: lead contains how the test was run ("rerun"); the lead says what happened and why it matters, method goes at the end
+docs/codex/effect-batches/team-1/a76-title-templates.md: 1 error(s), 0 warning(s)

@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 report:check
+> node scripts/report-check/cli.mjs docs/codex/effect-batches/team-1/a76-title-templates.md
+
+docs/codex/effect-batches/team-1/a76-title-templates.md: 0 error(s), 0 warning(s)

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../presentation/opening-life";
+import { createScenarioWorld } from "./demo";
+import { createWorld } from "./world";
+import { createProductionPolicyCatalog } from "./production-catalog";
+import { ensureStateExecutiveIncumbent } from "./nationwide-world/state-executives";
+import { scheduleDcCouncilSitting } from "./dc-council-sittings";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import {
   introduceProjectedOrdinance,
@@ -14,7 +14,7 @@ import {
 } from "../presentation/municipal-governing";
 import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import { personName } from "./people";
-import { dcCouncilActTitle } from "./dc-council-sittings";
+import { renderMeasureTitle } from "./measure-title";
 import { lifePlaceSearch } from "./life-places";
 import { recordOrganizationParticipationState } from "./life";
 import { organizationParticipationStateAt } from "./life-queries";
@@ -41,7 +41,10 @@ import {
   passMunicipalOrdinance,
 } from "./municipal-ordinance-procedure";
 import { municipalMeasures, municipalSeats } from "./municipal-public-work";
-import { DC_GOVERNMENT_KEY } from "./nationwide-world/district-of-columbia-council-opening";
+import {
+  DC_GOVERNMENT_KEY,
+  ensureDistrictOfColumbiaCouncilOpening,
+} from "./nationwide-world/district-of-columbia-council-opening";
 import { seatMunicipalMember } from "./municipal-public-work";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { FutureDueItem, World } from "./types";
@@ -57,13 +60,23 @@ function openWashington(seed: string): World {
   const place = lifePlaceSearch("Washington", 40).find(
     (candidate) => candidate.displayName === "Washington, District of Columbia",
   )!;
-  return generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      placeKey: place.key,
-      seed,
-    }),
-  ).game!.world;
+  // Reuse the existing small-world primitives and canonical office openings.
+  // This procedure fixture needs its Council, Mayor and actual scheduled clock,
+  // rather than the unrelated household, career and business opening.
+  const base = createScenarioWorld(seed, place.context, { peopleCount: 16 });
+  const playerPersonId = base.personOrder[0]!;
+  let world = createWorld({
+    seed: base.seed,
+    currentDate: base.currentDate,
+    currentMoment: base.currentMoment,
+    people: base.personOrder.map((id) => base.people[id]!),
+    jurisdictions: base.jurisdictionOrder.map((id) => base.jurisdictions[id]!),
+    policyCatalog: createProductionPolicyCatalog(),
+    control: { kind: "person", personId: playerPersonId },
+  });
+  world = ensureDistrictOfColumbiaCouncilOpening(world, [playerPersonId]);
+  world = ensureStateExecutiveIncumbent(world, playerPersonId, "DC");
+  return scheduleDcCouncilSitting(world);
 }
 
 /**
@@ -155,9 +168,18 @@ describe("the D.C. Council's procedure, compiled from the Home Rule Act", () => 
   });
 
   it("titles an act from its question", () => {
-    expect(dcCouncilActTitle("Consumer data privacy law", "2026")).toBe(
-      "Consumer Data Privacy Act of 2026",
+    const pack = municipalRulePackFor(
+      municipalGovernmentByKey(DC_GOVERNMENT_KEY)!,
     );
+    if (!pack.ok) throw new Error("Expected recorded council pack");
+    expect(
+      renderMeasureTitle(
+        pack.pack.titleTemplate!,
+        "Consumer data privacy law",
+        "2026",
+        false,
+      ),
+    ).toBe("Consumer Data Privacy Act of 2026");
   });
 });
 

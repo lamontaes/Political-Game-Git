@@ -3,6 +3,14 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { createScenarioWorld } from "../demo";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
+import { governmentUnitsForPlace } from "../government-units";
+import {
+  ensureLocalGovernmentSeatsForUnit,
+  sittingLocalOfficers,
+} from "../living-world/local-government-seats";
+import { townCouncilProfilePack } from "../town-council-profile";
+import { createFormationContext, recordPrinciples } from "../politics";
+import { personName } from "../people";
 import { requireLifePlace, stateJurisdictionForKey } from "../life-places";
 import {
   DC_GOVERNMENT_KEY,
@@ -18,7 +26,6 @@ import { mayAnswerQuestion } from "./question-authority";
 import { ensureCouncilPrinciples } from "./council-lawmaking";
 import { fileMemberAgendaBills } from "./member-agenda";
 import { principledLeaning } from "./officeholder-principles";
-import { dcCouncilActTitle } from "../dc-council-sittings";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
@@ -83,7 +90,6 @@ function file(world: World) {
       measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
       playerPersonId:
         world.control.kind === "person" ? world.control.personId : null,
-      title: dcCouncilActTitle,
       measureKey: (numbering) =>
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },
@@ -170,6 +176,159 @@ describe("council filing survivor", () => {
       expect(next.control).toEqual(world.control);
     },
   );
+  it("records today's council act titles on actual filed bills", () => {
+    const next = file(opened.world);
+    const rows = municipalMeasures(next, DC_GOVERNMENT_KEY).map((bill) => ({
+      question: next.policyCatalog.propositions[bill.propositionIds![0]!]!.name,
+      answer: bill.propositionAnswers![0]!.answer,
+      title: bill.shortTitle,
+      sponsor: personName(next.people[bill.sponsorPersonId!]!),
+    }));
+    expect(rows).toEqual([
+      {
+        question: "Fund a behavioral health crisis response",
+        answer: "yes",
+        title: "Fund a Behavioral Health Crisis Response Act of 2026",
+        sponsor: "Rebecca Snyder",
+      },
+    ]);
+    expect(rows.length).toBeGreaterThan(0);
+  });
+
+  it("records today's town ordinance titles through the same filer", () => {
+    const place = requireLifePlace("0162328");
+    const unit = governmentUnitsForPlace(place.sourceGeoid!).find(
+      (candidate) =>
+        candidate.unitType === "municipality" && candidate.functionalActive,
+    )!;
+    const base = createScenarioWorld("a76-town-titles", place.context, {
+      peopleCount: 8,
+    });
+    let world = createWorld({
+      seed: base.seed,
+      currentDate: base.currentDate,
+      currentMoment: base.currentMoment,
+      jurisdictions: base.jurisdictionOrder.map(
+        (id) => base.jurisdictions[id]!,
+      ),
+      people: base.personOrder.map((id) => base.people[id]!),
+      policyCatalog: createProductionPolicyCatalog(),
+    });
+    world = ensureLocalGovernmentSeatsForUnit(
+      world,
+      unit,
+      place.context.jurisdiction.id,
+    );
+    const members = sittingLocalOfficers(world, unit).filter(
+      (seat) => !seat.mayor,
+    );
+    expect(members.length).toBeGreaterThan(0);
+    world = ensureCouncilPrinciples(world, members);
+    const proposition = world.policyCatalog.propositionOrder
+      .map((id) => world.policyCatalog.propositions[id]!)
+      .find(
+        (question) =>
+          mayAnswerQuestion(
+            world,
+            place.context.jurisdiction.id,
+            question.id,
+          ) &&
+          (question.principles ?? []).reduce(
+            (sum, bearing) => sum + (bearing.weight ?? 1),
+            0,
+          ) >= 1,
+      )!;
+    expect(proposition).toBeDefined();
+    const bearings = new Map(
+      proposition.principles!.map((bearing) => [
+        bearing.principleId,
+        bearing.bearing,
+      ]),
+    );
+    world = recordPrinciples(
+      world,
+      members.flatMap((member) =>
+        world.policyCatalog.principleOrder.map((principleId) => ({
+          stableKey: `a76:title-view:${member.personId}:${principleId}`,
+          personId: member.personId,
+          principleId,
+          formedAt: world.currentDate,
+          stance: bearings.has(principleId)
+            ? bearings.get(principleId) === "against"
+              ? ("rejects" as const)
+              : ("endorses" as const)
+            : ("conflicted" as const),
+          strength: 1,
+          conviction: "settled" as const,
+          flexibility: "firm" as const,
+          qualification: null,
+          formation: createFormationContext("experience:life", {
+            note: "Controlled saved council views exercise the existing filing title writer.",
+          }),
+          supersedesPrincipleRecordId:
+            world.history.principles
+              .filter(
+                (record) =>
+                  record.personId === member.personId &&
+                  record.principleId === principleId,
+              )
+              .at(-1)?.id ?? null,
+        })),
+      ),
+    );
+    const pack = townCouncilProfilePack(unit)!;
+    const input = {
+      jurisdictionId: place.context.jurisdiction.id,
+      intakeKey: "a76:town-titles",
+      chamberKey: "council",
+      council: {
+        pack,
+        members,
+        questions: world.policyCatalog.propositionOrder.filter((id) =>
+          mayAnswerQuestion(world, place.context.jurisdiction.id, id),
+        ),
+        measures: [],
+        playerPersonId: null,
+        measureKey: (numbering: { designation: string }) =>
+          `a76:town:${numbering.designation}`,
+      },
+    };
+    const next = fileMemberAgendaBills(world, input);
+    const bills = next.history.legislativeMeasures ?? [];
+    const rows = bills.map((bill) => ({
+      question: next.policyCatalog.propositions[bill.propositionIds![0]!]!.name,
+      answer: bill.propositionAnswers![0]!.answer,
+      title: bill.shortTitle,
+      sponsor: personName(next.people[bill.sponsorPersonId!]!),
+    }));
+    expect(rows).toEqual([
+      {
+        question: "Limit council terms",
+        answer: "yes",
+        title: "Limit Council Terms Ordinance",
+        sponsor: "Rachel Thompson",
+      },
+      {
+        question: "Independent ward commission",
+        answer: "yes",
+        title: "Independent Ward Commission Ordinance",
+        sponsor: "Joseph McGee",
+      },
+    ]);
+    expect(rows.length).toBeGreaterThan(0);
+    for (const bill of bills)
+      expect(
+        members.some((member) => member.personId === bill.sponsorPersonId),
+      ).toBe(true);
+    const continued = deserializeWorld(serializeWorld(next));
+    expect(continued).toEqual(next);
+    expect(
+      fileMemberAgendaBills(continued, {
+        ...input,
+        council: { ...input.council, measures: bills },
+      }),
+    ).toEqual(next);
+  });
   it("preserves bills and refuses duplicate questions through canonical Save/Continue", () => {
     const next = file(opened.world);
     const reloaded = deserializeWorld(serializeWorld(next));

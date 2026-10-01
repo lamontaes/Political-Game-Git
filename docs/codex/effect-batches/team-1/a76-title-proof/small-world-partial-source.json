@@ -1,0 +1,29 @@
+{
+  "sourceHead": "917e28a1da98f51c9055a11493e5729625d045a5",
+  "fetchedMain": "16d1176f9cb09074e97a008613d47e1d133e00c8",
+  "executedCompositionIncludesMain": "65c736c636e3bac1324e54483fa18fa9e33aaf36",
+  "result": {
+    "passed": 9,
+    "failed": 1,
+    "total": 10,
+    "durationSeconds": 19.82,
+    "caseBodyMilliseconds": 342,
+    "scopedTypeDiagnostics": 0,
+    "importedTypeDiagnostics": 0
+  },
+  "limits": [
+    "Member-act case stops at original refusal-text assertion before later Mayor route.",
+    "No changed assertions, timeouts, calendar or production clock.",
+    "Shared G1 builder not yet delivered.",
+    "Fetched newer main has not been integrated or executed."
+  ],
+  "sourceSha256": {
+    "src/simulation/dc-council-acts.test.ts": "3d12e7eac4ced5dd9f5d0fe5b6e417c18cec28126252db5cb1c62964027a5319",
+    "src/simulation/legislation.ts": "3d804cfa66ea1291700e64af55999d90a9596f70e1790801cb4cd66e9c747593",
+    "src/simulation/municipal-ordinance-procedure.ts": "d459cfcebc40de05dc2a85ad9fc16832f527efb0f748452fe3997c941fce2fc3"
+  },
+  "evidenceSha256": {
+    "small-world-partial.log": "ac4785b0f0978ba03d7cd8c1b2221d3f691c9dd8be5aced3020036525ea17936",
+    "small-world-partial-types.log": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd"
+  }
+}

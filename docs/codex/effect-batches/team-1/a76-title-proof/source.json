@@ -1,0 +1,77 @@
+{
+  "baseline": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+  "branch": "codex/team1-a76-title-templates",
+  "sourceFiles": {
+    "src/simulation/dc-council-acts.test.ts": "bc877536d726a3fddd36c58829aa5b0eedc1c07ef037238c1310300c3645de96",
+    "src/simulation/dc-council-sittings.ts": "71f0725982e008df9c04a37d74c728ebce389633b3d3e455135fe052d64a604a",
+    "src/simulation/governing/member-agenda-council.test.ts": "5c38fde690951793a625d29797688bc2be274f1c270ee9ace7c8cec03071e0e0",
+    "src/simulation/governing/member-agenda-settings.ts": "9bfd7a32511915d5a5646d36785c22ebcab53b4424ee2ee863f2df25784b6e85",
+    "src/simulation/governing/member-agenda.ts": "7d86cfcb62c87e4c2df09e47dd0f8d6cafcad6eff4d906de70739ab2cef86fbd",
+    "src/simulation/legislature-rules.ts": "dbf1a4860c0b685b5d427fad50a4f3017c034349dd84b3e5accca5ded8e8ef48",
+    "src/simulation/living-world/local-council-meetings.ts": "48716f0e8f35c87f1f4cee388fff6b17b99b44694e75cab76fb9a68d2ef16d31",
+    "src/simulation/measure-title.test.ts": "08d657c9f507319d63016fdcf73cdad7e102bf5cdc0f5472411c79c7ead83327",
+    "src/simulation/measure-title.ts": "1a5301c20bb8150adae6af9d5fb513e9b6f5998fee65d13b52b17a5b3ed3c499",
+    "src/simulation/municipal-government.ts": "92dcbcf9ee88591834d7dc2e5f801bd0aa9ee55018eb6475136c256f4e0887ee",
+    "src/simulation/town-council-profile.ts": "dffd6f607128cb84eaed22ab94647a9516f2cade3ffe068125bba3c1c09530ce"
+  },
+  "gateLimits": {
+    "nativeFocused": "80/80 across three files, 13.86s",
+    "dcTitleCase": "1/1 selected, nine unchanged cases not selected, 21.34s",
+    "types": "11 strict roots, zero scoped/imported diagnostics",
+    "fullClockBrowserYearNationwideSpeed": "NOT RUN",
+    "noHelpers": "owner instruction; self-reviewed"
+  },
+  "inheritedChecks": {
+    "release": "ci-changed-tests-only.md prose error; file unchanged from exact main",
+    "zeroDice": "exit 1; zero new, five gone/stale",
+    "spelling": "exit 1; 26 inherited findings, zero owned"
+  },
+  "earlierChecks": {
+    "first-title-selection": "76 pass on earlier 2e78 main composition",
+    "two-town-failures": "explicit fixture attempts before controlled views",
+    "controlled-title-cases": "intermediate two-case run; current-main receipt is final-focused.log"
+  },
+  "renewal": {
+    "sourceHead": "badf997dd189e2816d87438822cd8ccd709a0f55",
+    "main": "badcbc32b6799f0de411e3d6efda6085b5d12898",
+    "sourceFiles": {
+      "src/simulation/dc-council-acts.test.ts": "bc877536d726a3fddd36c58829aa5b0eedc1c07ef037238c1310300c3645de96",
+      "src/simulation/dc-council-sittings.ts": "71f0725982e008df9c04a37d74c728ebce389633b3d3e455135fe052d64a604a",
+      "src/simulation/governing/member-agenda-council.test.ts": "5c38fde690951793a625d29797688bc2be274f1c270ee9ace7c8cec03071e0e0",
+      "src/simulation/governing/member-agenda-settings.ts": "9bfd7a32511915d5a5646d36785c22ebcab53b4424ee2ee863f2df25784b6e85",
+      "src/simulation/governing/member-agenda.ts": "ed55528ba0ce4abef0794d07645a4cb82314e9faa8e1d69aba9be171d4d0df5c",
+      "src/simulation/legislature-rules.ts": "dbf1a4860c0b685b5d427fad50a4f3017c034349dd84b3e5accca5ded8e8ef48",
+      "src/simulation/living-world/local-council-meetings.ts": "48716f0e8f35c87f1f4cee388fff6b17b99b44694e75cab76fb9a68d2ef16d31",
+      "src/simulation/measure-title.test.ts": "08d657c9f507319d63016fdcf73cdad7e102bf5cdc0f5472411c79c7ead83327",
+      "src/simulation/measure-title.ts": "1a5301c20bb8150adae6af9d5fb513e9b6f5998fee65d13b52b17a5b3ed3c499",
+      "src/simulation/municipal-government.ts": "92dcbcf9ee88591834d7dc2e5f801bd0aa9ee55018eb6475136c256f4e0887ee",
+      "src/simulation/town-council-profile.ts": "dffd6f607128cb84eaed22ab94647a9516f2cade3ffe068125bba3c1c09530ce"
+    },
+    "focused": "80/80PASS14.83s",
+    "strictTypes": "11roots0scoped0imported",
+    "fullDcClock": "NOT RERUN after this newer main; comparison below remains at its exact source",
+    "lintFormat": "PASS",
+    "spelling": "78 inherited/0owned",
+    "release": "inherited CI prose error",
+    "zeroDice": "0new/5stale"
+  },
+  "fullDcComparison": {
+    "before": {
+      "main": "8c63a1e87b674cc65956b78f69efc059d239a640",
+      "passed": 8,
+      "failed": 2,
+      "seconds": 301.99
+    },
+    "after": {
+      "source": "11a7bb19f7e993eb8bcd4c8718c34c4d6a72d900",
+      "passed": 8,
+      "failed": 2,
+      "seconds": 290.7
+    },
+    "sameFailures": [
+      "180000ms clock timeout",
+      "expected 13 whole intervening days; actual 14 elapsed days refusal"
+    ],
+    "allNineSourcesRestored": true
+  }
+}
