@@ -979,10 +979,12 @@ export interface OfficialViewReason {
 }
 
 /**
- * One reflection on one official: what the official did about a law that
- * reached this person, how far it moved the person's view of them, and why.
- * A person's standing view of an official is the sum of these rows; nothing
- * fades on its own (no passive decay).
+ * One reflection on one official, as saves from before A158 kept it: what the
+ * official did about a law that reached this person, how far it moved the
+ * person's view of them, and why. Nothing writes these any more; a view of an
+ * official is now a private belief whose subject is the official. Old rows
+ * still load and are read for a person who has formed no saved view of that
+ * official since (`official-view-reads.ts`).
  */
 export interface OfficialViewRecord {
   readonly id: EntityId;
@@ -999,14 +1001,25 @@ export interface OfficialViewRecord {
   readonly reasons: readonly OfficialViewReason[];
 }
 
+/**
+ * What a private belief is about, when it is not a policy proposition: a
+ * party question, or one official (what a person thinks of them).
+ */
+export type PrivateBeliefSubject =
+  | { readonly kind: "party-question"; readonly key: string }
+  | { readonly kind: "official"; readonly personId: EntityId };
+
 export interface PrivateBeliefRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly personId: EntityId;
   readonly propositionId: EntityId | null;
-  /** Absent on legacy policy beliefs; party questions have no proposition. */
-  readonly subject?: { readonly kind: "party-question"; readonly key: string };
+  /**
+   * Absent on legacy policy beliefs. Party questions and officials have no
+   * proposition.
+   */
+  readonly subject?: PrivateBeliefSubject;
   readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;

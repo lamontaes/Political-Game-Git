@@ -147,9 +147,8 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "Economy, family, housing cost, age and life stage as reasons to move.",
     status: "not-built",
-    rule: "BLANKET: each eligible adult in a town is reviewed once a year and leaves with a flat chance, reason life-course:unrecorded. Active waves scale the chance for places they cover. Nothing reads the economy, family or age yet.",
-    where:
-      "src/simulation/migration/review.ts BLANKET_DEPARTURE_CHANCE_PER_YEAR",
+    rule: "Each eligible adult in a town is reviewed once a year; the yearly share of residents of their age band in their state who move to another county or state (American Community Survey 2024, data/research/migration/mover-rates-acs-2024.json) sets how strongly leaving weighs on them, scaled by the town's waves, state push, crime and jobs and by a lost job. The leave itself is still a seeded draw against that chance (flagged, zero-dice inventory), reason life-course:unrecorded unless a job loss, near kin or a wave names it. Housing cost and life stage beyond age are not read yet.",
+    where: "src/simulation/migration/review.ts moverDepartureRate()",
   },
   {
     key: "where-people-go",

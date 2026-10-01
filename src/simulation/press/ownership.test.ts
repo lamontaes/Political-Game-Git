@@ -286,7 +286,7 @@ describe("media owners", () => {
     assertWorldIntegrity(opened);
   });
 
-  it("cuts newsroom jobs across every outlet one owner holds, in one decision", () => {
+  it("keeps newsroom jobs when outlet cash and payroll are not recorded", () => {
     const registry = loadOwnershipPacks([
       chainPack("reduce-newsroom-staff", {
         shareOfPositions: 0.5,
@@ -301,70 +301,28 @@ describe("media owners", () => {
     const before = reporterRoles(owned).filter((role) =>
       reporterIsCurrent(owned, role),
     );
-
-    const result = review(owned, "Test Chain Capital", registry);
-    const after = result.world;
+    const after = review(owned, "Test Chain Capital", registry).world;
     assertWorldIntegrity(after);
-
-    const [directive] = ownerDirectives(after, owner.id);
-    expect(directive).toMatchObject({ simulated: true });
-    const cut = before.filter((role) => !reporterIsCurrent(after, role));
-    expect(cut.length).toBe(Math.floor(before.length * 0.5));
-    expect(directive!.endedWorkRelationshipIds).toEqual(
-      cut.map((role) => role.workRelationshipId),
-    );
-    // Spread across outlets: every outlet keeps at least one reporter, and
-    // more than one outlet lost somebody.
+    expect(ownerDirectives(after, owner.id)).toEqual([]);
+    expect(
+      reporterRoles(after).filter((role) => reporterIsCurrent(after, role)),
+    ).toEqual(before);
+    expect(after.history.workStatuses).toBe(owned.history.workStatuses);
+    expect(
+      after.history.events.filter(
+        (event) => event.type === "press.reporter-position-eliminated",
+      ),
+    ).toEqual([]);
     for (const outlet of held) {
-      expect(
-        reporterRoles(after, outlet.id).some((role) =>
-          reporterIsCurrent(after, role),
-        ),
-      ).toBe(true);
-    }
-    expect(new Set(cut.map((role) => role.outletId)).size).toBeGreaterThan(1);
-    const summary = after.history.events.find(
-      (event) => event.id === directive!.eventId,
-    )!.summary;
-    expect(summary).toBe(
-      `Test Chain Capital eliminated ${cut.length} newsroom positions across ${new Set(cut.map((role) => role.outletId)).size} outlets it owns.`,
-    );
-    // Each person who lost a job has it in their own history.
-    for (const role of cut) {
-      expect(
-        after.history.events.some(
-          (event) =>
-            event.type === "press.reporter-position-eliminated" &&
-            event.participants.some(
-              (participant) => participant.personId === role.personId,
-            ),
-        ),
-      ).toBe(true);
-    }
-    // Each outlet now works fewer stories at once, in step with the reporters
-    // it kept, and none drops to nothing while somebody is left.
-    for (const outlet of held) {
-      const roles = reporterRoles(after, outlet.id);
-      const kept = roles.filter((role) => reporterIsCurrent(after, role));
       const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
-      expect(outletAssignmentCapacity(after, outlet)).toBe(
-        Math.min(full, Math.ceil((full * kept.length) / roles.length)),
-      );
+      expect(outletAssignmentCapacity(after, outlet)).toBe(full);
       expect(outletAssignmentCapacity(owned, outlet)).toBe(full);
     }
     expect(
-      held.some(
-        (outlet) =>
-          outletAssignmentCapacity(after, outlet) <
-          MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier],
-      ),
-    ).toBe(true);
-    // The owner reviews again on its own cadence.
-    expect(
-      after.history.futureDueItems.some((item) =>
+      after.history.futureDueItems.filter((item) =>
         item.stableKey.endsWith(":review:1"),
       ),
-    ).toBe(true);
+    ).toHaveLength(1);
   });
 
   it("buys an outlet from an owner that sells, and the sale supersedes the old holding", () => {

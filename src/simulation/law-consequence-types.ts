@@ -17,6 +17,38 @@ export type LawConsequenceKind =
   | "legal-outcome"
   | "institution-rule";
 
+/** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
+export type LegacyEffectKind =
+  | "business-compliance-cost"
+  | "cannabis-selective-tax-revenue"
+  | "congress-voting-seat-tenure"
+  | "election.state-legislative-candidacy-intent"
+  | "eviction-counsel-representation"
+  | "federal-income-tax-withholding"
+  | "government-outlay-change"
+  | "government-program-payment"
+  | "health-coverage"
+  | "housing-permit-units"
+  | "inclusionary-affordable-rent"
+  | "justice.held-before-trial"
+  | "justice.released-before-trial"
+  | "law.pay-compensation"
+  | "local.officeholder-retired"
+  | "local.wards-drawn"
+  | "minimum-custody-months"
+  | "minimum-wage-compensation"
+  | "paid-leave-benefit"
+  | "paid-leave-budget-cost"
+  | "public-program-appropriation"
+  | "rent-stabilization-renewal"
+  | "state-revenue-loss"
+  | "state-spending"
+  | "tax-assessment"
+  | "tax-collection"
+  | "tax-policy"
+  | "teacher-pay"
+  | "work-compensation-payment";
+
 /** Units are checked by the evaluator before a handler can write a record. */
 export type LawAmountUnit =
   | "minor"
