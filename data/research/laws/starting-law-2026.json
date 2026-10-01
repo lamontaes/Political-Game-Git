@@ -2918,10 +2918,32 @@
           "answer": "yes"
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.vermont.gov/rights-and-wages",
+          "cite": "Vermont Department of Labor minimum wage information; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1442,
+              "unit": "minor/hour"
+            }
+          ]
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://lawfilesext.leg.wa.gov/law/wsrpdf/2025/20/25-20-097.pdf",
+          "cite": "Washington State Register WSR 25-20-097; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1713,
+              "unit": "minor/hour"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no"
