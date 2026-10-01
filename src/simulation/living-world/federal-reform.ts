@@ -14,7 +14,7 @@ import {
   type TermLimitRule,
 } from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { evaluateDecision } from "../decisions";
+import { considerationScore, evaluateDecision } from "../decisions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
@@ -385,6 +385,55 @@ export function termLimitBallot(
     world.control.kind === "person" ? world.control.personId : null;
   if (voter.personId === player)
     return { ballot: "absent", reason: "member:player-not-asked" };
+  const considerations = termLimitConsiderations(
+    world,
+    voter,
+    cause,
+    holder,
+    extra,
+  );
+  const evaluation = evaluateDecision(world, {
+    stableKey,
+    decisionType: holder.decisionType,
+    actorPersonId: voter.personId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:constitutional-amendment",
+      key: stableKey,
+      entityId: null,
+    },
+    options: [
+      { key: "vote-yea", label: "Vote yes", description: "Propose it." },
+      { key: "vote-nay", label: "Vote no", description: "Leave it out." },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
+  const reason =
+    considerations
+      .filter((c) => c.optionKey === `vote-${ballot}`)
+      .sort(
+        (a, b) =>
+          Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
+      )[0]?.stableKey ?? "member:no-reason";
+  return { ballot, reason };
+}
+
+/** Existing term-limit reasons, also used by actual state chamber rollcalls. */
+export function termLimitConsiderations(
+  world: World,
+  voter: Voter,
+  cause: {
+    readonly direction: "extend" | "restore";
+    readonly holderPersonId: EntityId;
+  },
+  holder: TermLimitHolder = PRESIDENT,
+  extra: readonly DecisionConsideration[] = [],
+): readonly DecisionConsideration[] {
   // Extending the limit keeps the officeholder eligible; restoring it bars them.
   const forPresident = cause.direction === "extend" ? "vote-yea" : "vote-nay";
   const againstPresident =
@@ -433,40 +482,7 @@ export function termLimitBallot(
         ? { ...reason, optionKey: againstPresident, direction: "supports" }
         : reason,
     );
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: holder.decisionType,
-    actorPersonId: voter.personId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:constitutional-amendment",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [
-      { key: "vote-yea", label: "Vote yes", description: "Propose it." },
-      { key: "vote-nay", label: "Vote no", description: "Leave it out." },
-    ],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-  const reason =
-    considerations
-      .filter((c) => c.optionKey === `vote-${ballot}`)
-      .sort((a, b) => weight(b) - weight(a))[0]?.stableKey ??
-    "member:no-reason";
-  return { ballot, reason };
-}
-
-function weight(c: DecisionConsideration): number {
-  return (
-    { slight: 1, moderate: 2, strong: 4, decisive: 6 }[c.importance] *
-    { low: 1, medium: 2, high: 3 }[c.confidence]
-  );
+  return considerations;
 }
 
 /** Proposes the amendment, records both houses, and dates each state's action. */

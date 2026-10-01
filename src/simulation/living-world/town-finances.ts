@@ -34,10 +34,7 @@
  * closures and unemployment feed upward.
  */
 
-import {
-  dataPrivacyCostOn,
-  NATIONAL_DATA_PRIVACY_QUESTION,
-} from "../federal-data-privacy-law";
+import { privacyInitialOccurrence } from "../federal-data-privacy-law";
 import { addDays } from "../dates";
 import { recordOrganizationProfile, recordWorkStatus } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
@@ -119,12 +116,23 @@ export const TOWN_FINANCE_POLICY = {
       realty: 47,
       "*": 27,
     } as Readonly<Record<string, number>>,
-    /** PLACEHOLDER: a line of credit up to this many days of revenue. */
+    /**
+     * PLACEHOLDER (A71), pending research question
+     * `small-business-credit-line-size`: a line of credit up to this many
+     * days of revenue, a tenth of a year's sales, set by hand. No defensible
+     * source sizes it yet: the Federal Reserve Small Business Credit Survey
+     * reports amounts sought by revenue band, not a line's limit over the
+     * firm's own revenue. The question names the datasets that can settle it.
+     */
     creditLineDaysOfRevenue: 36.5,
     /**
-     * PLACEHOLDER: how far a business's revenue follows what the town's
-     * employers pay: the percent its sales move for each percent the town's
-     * pay moves (the rest comes from outside or does not follow).
+     * PLACEHOLDER (A71), pending research question
+     * `local-sales-response-to-town-pay`: how far a business's revenue
+     * follows what the town's employers pay: the percent its sales move for
+     * each percent the town's pay moves (the rest comes from outside or does
+     * not follow), set by hand. Moretti's local multiplier (2010) counts jobs
+     * per job, not this elasticity; the question names the datasets that can
+     * settle it (Moretti 2010 with its conversion, BEA RIMS II, QCEW panels).
      */
     localDemandElasticity: 0.5,
     /**
@@ -723,7 +731,6 @@ export function stepTownFinances(
 ): TownFinanceQuarter {
   const economy = economyOf(world);
   if (!economy) return { world, closing: [] };
-  const privacyLaw = dataPrivacyCostOn(world, world.currentDate, town);
   const store: TownFinanceStore = world.townFinances ?? {
     version: TOWN_FINANCES_VERSION,
     businesses: {},
@@ -1003,10 +1010,16 @@ export function stepTownFinances(
     // rest (rent, insurance, upkeep) does not (`TOWN_BUSINESS_KIND_BOOKS`).
     const annualOtherCosts = otherCostsAtSales({ ...existing, annualRevenue });
     const interest = (existing.debt * realDebtRatePct) / 400;
-    // A national data privacy law in force adds its share of the business's
-    // yearly costs (`federal-data-privacy-law.ts`).
-    const privacyCost =
-      ((quarterPay * 4 + annualOtherCosts) * privacyLaw.share) / 4;
+    // Charge initial compliance once per saved firm and operative law. The
+    // approved temporary scope uses saved revenue, labeled ESTIMATED. Missing
+    // applicability refuses a cost; recurring expense remains an evidence gap.
+    const privacy = privacyInitialOccurrence(
+      world,
+      organizationId,
+      world.currentDate,
+      existing.privacyComplianceOccurrences,
+    );
+    const privacyCost = privacy?.occurrence.initialCostDollars ?? 0;
     const net =
       annualRevenue / 4 -
       annualOtherCosts / 4 -
@@ -1050,16 +1063,17 @@ export function stepTownFinances(
       bankId,
       lastQuarterNet: round2(net),
       lastQuarterPrivacyCost: round2(privacyCost),
+      ...(privacy
+        ? {
+            privacyComplianceOccurrences: [
+              ...(existing.privacyComplianceOccurrences ?? []),
+              privacy.occurrence,
+            ],
+          }
+        : {}),
       lawEffectStamps: [
-        ...(existing.lawEffectStamps ?? []).filter(
-          (stamp) =>
-            stamp.questionKey !== NATIONAL_DATA_PRIVACY_QUESTION ||
-            stamp.effectKind !== "business-compliance-cost",
-        ),
-        ...privacyLaw.lawEffectStamps.map((stamp) => ({
-          ...stamp,
-          sourceRecordIds: [...(stamp.sourceRecordIds ?? []), organizationId],
-        })),
+        ...(existing.lawEffectStamps ?? []),
+        ...(privacy?.stamps ?? []),
       ],
       lastRound: round,
     };

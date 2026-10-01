@@ -236,6 +236,7 @@ export type EntityKind =
   | "resource-obligation"
   | "resource-obligation-state"
   | "resource-position"
+  | "earned-law-pay-assessment"
   | "resource-transfer-outcome"
   | "scheduled-activity"
   | "scheduled-activity-state"

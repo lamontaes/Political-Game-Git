@@ -2,10 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createWorld } from "./world";
 import { makeIsoDate } from "./dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { SeededRng } from "./rng";
-import { isLawEffectStamp } from "./law-effect-stamp";
 import {
-  DATA_PRIVACY_COST_RANGE,
   NATIONAL_DATA_PRIVACY_QUESTION,
   dataPrivacyCostOn,
   drawnDataPrivacyCostShare,
@@ -72,15 +69,15 @@ function fixture(answer: "yes" | "no" = "yes") {
 }
 
 describe("federal privacy compliance cost attribution", () => {
-  it("uses stable per-place researched-range sizes and preserves the legacy national draw", () => {
+  it("keeps a read-only cost stable across repeated reads and reloading", () => {
     const { world } = fixture();
+    const before = JSON.stringify(world);
     const places = ["place_one", "place_two", "place_three"] as EntityId[];
     const shares = places.map((place) =>
       drawnDataPrivacyCostShare(world, place),
     );
     for (const [index, share] of shares.entries()) {
-      expect(share).toBeGreaterThanOrEqual(DATA_PRIVACY_COST_RANGE[0]);
-      expect(share).toBeLessThanOrEqual(DATA_PRIVACY_COST_RANGE[1]);
+      expect(share).toBe(0);
       expect(
         drawnDataPrivacyCostShare(
           JSON.parse(JSON.stringify(world)) as World,
@@ -88,32 +85,25 @@ describe("federal privacy compliance cost attribution", () => {
         ),
       ).toBe(share);
     }
-    expect(new Set(shares).size).toBe(3);
-    const rng = new SeededRng(world.seed).fork(
-      "federal-data-privacy-law:firm-cost",
-    );
-    expect(drawnDataPrivacyCostShare(world)).toBe(
-      0.001 + 0.005 * ((rng.next() + rng.next()) / 2),
-    );
+    expect(JSON.stringify(world)).toBe(before);
   });
-  it("stamps the controlling federal law at the consequence's application place", () => {
+  it("does not change a recorded law's compliance cost when only the seed changes", () => {
+    const { world } = fixture();
+    const place = NATIONAL_ELECTION_JURISDICTION.id;
+    const expected = dataPrivacyCostOn(world, world.currentDate, place);
+    for (const seed of ["privacy-comparison-a", "privacy-comparison-b", ""]) {
+      const comparison = { ...world, seed };
+      expect(
+        dataPrivacyCostOn(comparison, comparison.currentDate, place),
+      ).toEqual(expected);
+    }
+  });
+  it("retains the controlling measure without inventing a recurring expense or stamp", () => {
     const { world, measure } = fixture();
-    const town = "place_application" as EntityId;
-    const cost = dataPrivacyCostOn(world, world.currentDate, town);
-    expect(cost.share).toBeGreaterThan(0);
+    const cost = dataPrivacyCostOn(world, world.currentDate);
+    expect(cost.share).toBe(0);
     expect(cost.lawMeasureIds).toEqual([measure.id]);
-    expect(cost.lawEffectStamps).toHaveLength(1);
-    expect(isLawEffectStamp(cost.lawEffectStamps[0])).toBe(true);
-    expect(cost.lawEffectStamps[0]).toMatchObject({
-      governingLawKey: measure.id,
-      source: "enacted",
-      effectKind: "business-compliance-cost",
-      questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
-      jurisdictionId: town,
-      operativeAt: "2026-04-01",
-      appliedAt: "2026-07-01",
-      sourceRecordIds: [measure.id],
-    });
+    expect(cost.lawEffectStamps).toEqual([]);
   });
   it("does not stamp an absent, future or repealed compliance duty", () => {
     const { world } = fixture();

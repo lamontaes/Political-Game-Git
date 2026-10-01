@@ -1,0 +1,33 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/federal-data-privacy-law.test.ts src/simulation/privacy-initial-compliance-estimate.test.ts src/simulation/privacy-initial-compliance-writer.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-a28-writer-five-places.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/privacy-initial-compliance-estimate.test.ts (3 tests) 4ms
+ ✓ src/simulation/federal-data-privacy-law.test.ts (4 tests) 82ms
+stdout | src/simulation/privacy-initial-compliance-writer.test.ts > one initial privacy expense through saved business writer, place draw 0 > subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice
+A28_SAVED_INITIAL_EXPENSE team6-a28-one-time:0 Pasadena, Texas Rene Griffith Authored A28 firm organization_5637e519f7846687 legislative-measure_d77d06c7a34128bc 50000
+
+stdout | src/simulation/privacy-initial-compliance-writer.test.ts > one initial privacy expense through saved business writer, place draw 1 > subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice
+A28_SAVED_INITIAL_EXPENSE team6-a28-one-time:1 Charlestown, Rhode Island Naomi Rosario Authored A28 firm organization_5edf48dd8abf4dfb legislative-measure_760f2cff2b33710c 50000
+
+stdout | src/simulation/privacy-initial-compliance-writer.test.ts > one initial privacy expense through saved business writer, place draw 2 > subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice
+A28_SAVED_INITIAL_EXPENSE team6-a28-one-time:2 Wyndham, Virginia Ruby Shields Authored A28 firm organization_a4f099051459f86d legislative-measure_f81e1510af5aed7a 50000
+
+stdout | src/simulation/privacy-initial-compliance-writer.test.ts > one initial privacy expense through saved business writer, place draw 3 > subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice
+A28_SAVED_INITIAL_EXPENSE team6-a28-one-time:3 New Milford, New Jersey Laila O'Donnell Authored A28 firm organization_7c4dc3ba2cbc08c4 legislative-measure_7eb1dcb42fa6ccb5 50000
+
+stdout | src/simulation/privacy-initial-compliance-writer.test.ts > one initial privacy expense through saved business writer, place draw 4 > subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice
+A28_SAVED_INITIAL_EXPENSE team6-a28-one-time:4 Many Farms, Arizona Aditi Griffin Authored A28 firm organization_862b945226dc6608 legislative-measure_e612f23141e61a75 50000
+
+ ✓ src/simulation/privacy-initial-compliance-writer.test.ts (15 tests) 372ms
+
+ Test Files  3 passed (3)
+      Tests  22 passed (22)
+   Start at  09:45:17
+   Duration  21.22s (transform 30.27s, setup 46ms, import 41.46s, tests 459ms, environment 1ms)
+
+JSON report written to /tmp/team6-a28-writer-five-places.json

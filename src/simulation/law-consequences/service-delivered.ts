@@ -404,9 +404,7 @@ export function applyLawServiceConsequence(
   const standing = "authority" in resolved;
   const canonical = standing
     ? resolveStandingServiceConsequences(world, context).find(
-        (candidate) =>
-          candidate.authority.appropriationId ===
-          appropriationId,
+        (candidate) => candidate.authority.appropriationId === appropriationId,
       )
     : resolveLawServiceConsequence(world, resolved.row, {
         ...context,
