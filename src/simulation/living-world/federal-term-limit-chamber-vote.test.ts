@@ -1,3 +1,4 @@
+import { legacyTermLimitBallot as termLimitBallot } from "../../../tests/fixtures/legacy-term-limit-ballot";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
@@ -34,7 +35,6 @@ import {
   decideArticleVStateMemberVotes,
   recordArticleVStateMemberVote,
   federalReformStateActionHandler,
-  termLimitBallot,
   termLimitCount,
   type FederalReformCause,
 } from "./federal-reform";
