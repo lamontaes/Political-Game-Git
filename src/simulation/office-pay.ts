@@ -1,4 +1,8 @@
 import {
+  reciprocalRankedReferences,
+  weightedReferenceMean,
+} from "./income-tax-withholding";
+import {
   GOVERNOR_SALARY_ROWS,
   LEGISLATOR_SALARY_ROWS,
   OFFICE_PAY_META,
@@ -168,16 +172,12 @@ export function estimatedStatePay(
   ) =>
     Number(b.sameRegion) - Number(a.sameRegion) ||
     a.incomeDistance - b.incomeDistance;
-  references.sort((a, b) => compare(a, b) || a.state.localeCompare(b.state));
-  let rank = 1;
-  const weighted = references.map((ref, index) => {
-    if (index > 0 && compare(ref, references[index - 1]!) !== 0)
-      rank = index + 1;
-    return { ...ref, weight: 1 / rank };
-  });
-  const mean =
-    weighted.reduce((sum, ref) => sum + ref.annualDollars * ref.weight, 0) /
-    weighted.reduce((sum, ref) => sum + ref.weight, 0);
+  const weighted = reciprocalRankedReferences(
+    references,
+    compare,
+    (ref) => ref.state,
+  );
+  const mean = weightedReferenceMean(weighted, (ref) => ref.annualDollars);
   const annualDollars = Math.round(mean / 100) * 100;
   const estimate = {
     office,

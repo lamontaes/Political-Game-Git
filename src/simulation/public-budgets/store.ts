@@ -376,11 +376,11 @@ export interface PublicBudgetStore {
    */
   readonly staffing?: readonly StaffingBaseline[];
   /**
-   * The federal government's books (`federal-treasury.ts`). Absent in a world
-   * opened before it existed; the next monthly pass opens it.
+   * Archived federal forecast bytes from older saves. New worlds never open
+   * these books, and monthly passes preserve them without advancing them.
    */
   readonly federal?: FederalTreasury;
-  /** Federal saved-payment path, alongside the legacy forecast pending parity. */
+  /** The sole live federal budget, settled from the saved government account. */
   readonly federalGovernment?: FederalBudgetGovernment;
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
