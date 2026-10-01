@@ -3,17 +3,14 @@ import { recordSupportLoss } from "../campaign-support";
 import { recheckRoutedClaims } from "../claim-contradictions";
 import { claimStancesBy } from "../claim-stances";
 import { electionContestStatus } from "../election-contests";
-import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { personName } from "../people";
-import { createOrganization } from "../life";
 import { recordEventKnowledge } from "../records";
 import { resourcePositionAt } from "../resource-queries";
 import {
   createResourceFlow,
-  createResourcePosition,
   recordResourceTransferOutcome,
 } from "../resources";
-import { ensureTaxPublicAccount, publicOrganizationKey } from "../tax-policy";
+import { publicOrganizationKey } from "../tax-policy";
 import type { EntityId, HistoricalEvent, MoneyAmount, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { referForProsecution, regulatorRefers } from "../justice/prosecution";
@@ -320,75 +317,28 @@ function stateOf(world: World, jurisdictionId: EntityId): EntityId | null {
 function receivingGovernment(
   world: World,
   proceeding: MatterProceedingRecord,
-): {
-  readonly world: World;
-  readonly organizationId: EntityId;
-  readonly label: string;
-} {
+): { readonly organizationId: EntityId; readonly label: string } | null {
   const matter = requirePressRecord(world, "matter", proceeding.matterId);
+  const federal = proceeding.procedureKey === "fec-enforcement";
   const stateId =
-    proceeding.procedureKey === "fec-enforcement"
-      ? null
-      : matter.jurisdictionId && stateOf(world, matter.jurisdictionId);
-  if (stateId) {
-    const next = ensureTaxPublicAccount(world, stateId);
-    return {
-      world: next,
-      organizationId: next.history.organizations.find(
-        (row) => row.stableKey === publicOrganizationKey(stateId),
-      )!.id,
-      label: `state of ${next.jurisdictions[stateId]!.name}`,
-    };
-  }
+    !federal && matter.jurisdictionId
+      ? stateOf(world, matter.jurisdictionId)
+      : null;
+  if (!federal && !stateId) return null;
+  const key = federal ? US_TREASURY_KEY : publicOrganizationKey(stateId!);
+  const organization = world.history.organizations.find(
+    (row) => row.stableKey === key && row.formedAt <= world.currentDate,
+  );
+  if (!organization) return null;
   return {
-    ...ensureUnitedStatesTreasury(world),
-    label: "United States Treasury",
+    organizationId: organization.id,
+    label: federal
+      ? "United States Treasury"
+      : `state of ${world.jurisdictions[stateId!]!.name}`,
   };
 }
 
 const US_TREASURY_KEY = "public-government:united-states:treasury";
-
-function ensureUnitedStatesTreasury(world: World): {
-  readonly world: World;
-  readonly organizationId: EntityId;
-} {
-  let next = world;
-  let organization = next.history.organizations.find(
-    (row) => row.stableKey === US_TREASURY_KEY,
-  );
-  if (!organization) {
-    next = createOrganization(next, {
-      stableKey: US_TREASURY_KEY,
-      formedAt: next.currentDate,
-      provenance: {
-        kind: "authored",
-        note: "Sparse federal receipts account for money federal bodies order paid; no factual treasury cash is asserted.",
-      },
-      initialProfile: {
-        name: "United States Treasury",
-        classification: "sector:government",
-        locationJurisdictionId: null,
-      },
-    });
-    organization = next.history.organizations.find(
-      (row) => row.stableKey === US_TREASURY_KEY,
-    )!;
-    next = createResourcePosition(next, {
-      stableKey: `${US_TREASURY_KEY}:modeled-receipts:USD`,
-      owner: { kind: "organization", organizationId: organization.id },
-      openedAt: next.currentDate,
-      openingBalance: {
-        minorUnits: 0,
-        currency: "USD" as MoneyAmount["currency"],
-      },
-      provenance: {
-        kind: "authored",
-        note: "Known zero opening of the modeled receipts account.",
-      },
-    });
-  }
-  return { world: next, organizationId: organization.id };
-}
 
 function restitutionConsequence(
   world: World,
@@ -402,7 +352,7 @@ function restitutionConsequence(
     const name = personName(next.people[respondentId]!);
     const dollars = formatDollars(owed.amount);
     const government = receivingGovernment(next, proceeding);
-    next = government.world;
+    if (!government) continue;
     const governmentName = government.label;
     next = orderPayment(next, proceeding, respondentId, {
       key: `${step.stableKey}:restitution:${respondentId}:${owed.organizationId}`,
@@ -442,10 +392,13 @@ function civilPenaltyConsequence(
   const body = generatedStateOversightBody(world, matter.jurisdictionId);
   const payments = misused.reduce((sum, row) => sum + row.payments, 0);
   if (!body || payments === 0) return world;
-  let next = ensureTaxPublicAccount(world, body.stateJurisdictionId);
-  const state = next.history.organizations.find(
-    (row) => row.stableKey === publicOrganizationKey(body.stateJurisdictionId),
-  )!;
+  const state = world.history.organizations.find(
+    (row) =>
+      row.stableKey === publicOrganizationKey(body.stateJurisdictionId) &&
+      row.formedAt <= world.currentDate,
+  );
+  if (!state) return world;
+  let next = world;
   const prior = priorAdverseFindings(world, respondentId, step).length;
   const amount: MoneyAmount = {
     minorUnits: Math.round(
@@ -507,15 +460,16 @@ function orderPayment(
   respondentId: EntityId,
   order: PaymentOrder,
 ): World {
-  // Money the respondent took is on their own account; a life that has none
-  // tracked yet gets its checkpoint first, carrying what it already received.
-  let next = ensureLifePathPersonalPosition(
-    world,
-    respondentId,
-    order.amount.currency,
-  );
+  // Missing cash or recipient records do not establish a payable obligation.
   const payer = { kind: "person" as const, personId: respondentId };
-  const position = resourcePositionAt(next, payer, order.amount.currency);
+  const position = resourcePositionAt(world, payer, order.amount.currency);
+  const recipient = world.history.organizations.find(
+    (row) =>
+      row.id === order.recipientOrganizationId &&
+      row.formedAt <= world.currentDate,
+  );
+  if (!position || !recipient) return world;
+  let next = world;
   const paid =
     position !== undefined &&
     position.liquidBalance.minorUnits >= order.amount.minorUnits;
