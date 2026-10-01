@@ -703,7 +703,7 @@
       "from": "health.coverage-pct",
       "evidence": "researched",
       "range": [-0.06, -0.04],
-      "notes": "Unsupported until measured: the game keeps no covered share by place, and medical debt in collections has no usable base after the 2023 credit-reporting changes; it may also double count with the Medicaid expansion link."
+      "notes": "Unsupported: counted through the expansion link until coverage is tracked. The Medicaid expansion link is the reduced form the study measured, so this per-point link stays off to avoid counting the same debt twice (CTO ruling 8)."
     },
     {
       "key": "coverage-to-depression",
@@ -2400,8 +2400,7 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "range": [-0.42, -0.25],
-      "notes": "Waiting on a base: the Urban Institute state series was not reachable, and the 2023 credit-reporting changes (some states now report zero) make medical debt in collections a poor starting level."
+      "range": [-0.42, -0.25]
     },
     {
       "key": "snap-work-requirement-to-participation",
