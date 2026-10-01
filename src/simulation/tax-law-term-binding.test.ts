@@ -1,3 +1,5 @@
+import { money } from "./resources";
+import { makeIsoDate } from "./dates";
 import { describe, expect, it } from "vitest";
 import { bindTaxLawTerms } from "./tax-law-term-binding";
 import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
@@ -17,7 +19,7 @@ const id = (value: string) => value as EntityId;
  */
 function fixture() {
   const jurisdiction = stateJurisdictionForKey("US-AK")!;
-  const date = "2026-10-01";
+  const date = makeIsoDate("2026-10-01");
   const terms: TaxTerms = {
     seriesKey: "tax:binding-test",
     baseKey: "tax-base:binding-test",
@@ -26,7 +28,7 @@ function fixture() {
     rateDenominator: 100,
     allowanceMinorUnits: 100,
     exemptBaseKeys: [],
-    currency: "USD",
+    currency: money(0, "USD").currency,
     effectiveDelayDays: 90,
     collectionLagDays: 2,
     publicPurpose: "Authored test public services",
