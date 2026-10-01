@@ -1,6 +1,8 @@
-import { lawInForce } from "../governing/law-in-force";
-import { recordById } from "../history-index";
-import { draftLineageComponents } from "../legislation-draft-lineage";
+import { lawInForce, type LawInForce } from "../governing/law-in-force";
+import {
+  readFinalEnactedLawTerm,
+  type FinalEnactedLawTerm,
+} from "../governing/automatic-legislation";
 import {
   lawEffectStamp,
   type LawEffectStampedRecord,
@@ -9,7 +11,7 @@ import type {
   LawConsequenceKindRegistration,
   LawConsequenceRow,
 } from "../law-consequence-types";
-import type { IsoDate, World } from "../types";
+import type { EntityId, IsoDate, World } from "../types";
 import type { CourtCase } from "../justice/court-reasoning";
 import {
   PROSECUTION_SENTENCED_EVENT,
@@ -47,21 +49,42 @@ export const minimumCustodyRow: LawConsequenceRow = {
   },
 };
 
-/** Read an operative law's actual saved terms, including component lineages. */
+/** Numeric rules come exclusively from the final provision at enactment. */
+export function readMinimumCustodyTerm(
+  world: World,
+  law: LawInForce,
+  questionKey = MINIMUM_CUSTODY_QUESTION,
+  row: LawConsequenceRow = minimumCustodyRow,
+): FinalEnactedLawTerm | null {
+  const amount = row.amount;
+  if (law.answer !== "yes" || amount?.op !== "term" || amount.unit !== "months")
+    return null;
+  const term = readFinalEnactedLawTerm(world, law, {
+    questionKey,
+    termKey: amount.key,
+    unit: amount.unit,
+  });
+  return term && Number.isSafeInteger(term.value) && term.value >= 0
+    ? term
+    : null;
+}
+
+interface CustodyFloor {
+  readonly months: number;
+  readonly law: LawInForce;
+  readonly questionKey: string;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+/** Resolve the case's operative law; a numeric amount alone grants no coverage. */
 export function custodyFloorAt(
   world: World,
   courtCase: Pick<CourtCase, "venueJurisdictionId" | "offenseKey">,
   questionKey = MINIMUM_CUSTODY_QUESTION,
   row: LawConsequenceRow = minimumCustodyRow,
   onDate: IsoDate = world.currentDate,
-) {
-  const amount = row.amount;
-  if (
-    !courtCase.venueJurisdictionId ||
-    amount?.op !== "term" ||
-    amount.unit !== "months"
-  )
-    return null;
+): CustodyFloor | null {
+  if (!courtCase.venueJurisdictionId) return null;
   const proposition = Object.values(world.policyCatalog.propositions).find(
     (entry) => entry.stableKey === questionKey,
   );
@@ -72,52 +95,12 @@ export function custodyFloorAt(
     proposition.id,
     onDate,
   );
-  if (law?.answer !== "yes" || law.origin !== "enacted") return null;
-  // Filed parameters cannot speak for subsequently amended operative text.
-  if (
-    (world.history.legislativeAmendments ?? []).some((entry) => {
-      if (entry.measureId !== law.measureId || entry.status !== "adopted")
-        return false;
-      const vote = recordById(
-        world.history.legislativeVotes ?? [],
-        entry.voteId,
-      );
-      return !vote || vote.takenAt <= onDate;
-    })
-  )
+  if (!law || !readMinimumCustodyTerm(world, law, questionKey, row))
     return null;
-  const coverageKey = row.conditions.find(
-    (entry) => entry.capability === "court.covered-offense",
-  )?.parameters.term;
-  if (typeof coverageKey !== "string") return null;
-  const matches = [];
-  for (const lineage of draftLineageComponents(world, law.measureId)) {
-    const coverage = lineage.parameters.find(
-      (term) => term.parameterKey === coverageKey,
-    );
-    const floor = lineage.parameters.find(
-      (term) => term.parameterKey === amount.key,
-    );
-    if (
-      coverage?.kind !== "enumerated" ||
-      coverage.value !== courtCase.offenseKey
-    )
-      continue;
-    if (
-      floor?.kind !== "integer" ||
-      !Number.isSafeInteger(floor.value) ||
-      floor.value < 0
-    )
-      continue;
-    matches.push({
-      months: floor.value,
-      law,
-      questionKey,
-      sourceRecordIds: [lineage.id],
-    });
-  }
-  // Two components setting a floor need an explicit priority; never pick one.
-  return matches.length === 1 ? matches[0]! : null;
+  // CTO-approved final lawCategories reader is a separate Team1 publication.
+  // Until its actual covered-offense record is available, this case is unsupported.
+  // Neither draft lineage nor a blanket offense list can establish coverage.
+  return null;
 }
 
 /** First legal-outcome caller: attribution of the floor the sentencing writer applied. */
