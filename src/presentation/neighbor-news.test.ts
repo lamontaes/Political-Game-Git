@@ -10,11 +10,11 @@ import {
   createPartnership,
   createWorkRelationship,
   recordHouseholdLocation,
-  recordWorkStatus,
   startHouseholdMembership,
 } from "../simulation/life";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { workStatusAt } from "../simulation/life-queries";
+import { recordTownJobLoss } from "../simulation/living-world/town-labor-market";
 import { relocateHousehold } from "../simulation/migration/relocate";
 import {
   JOB_ENDED_EVENT,
@@ -182,7 +182,9 @@ describe(`LIVES tell-paths in ${state!.jurisdictionKey} (seed ${SEED})`, () => {
       },
     });
     const job = world.history.workRelationships.at(-1)!;
-    world = recordWorkStatus(world, {
+    // The one writer of a lost job (labor layoff, closing, budget layoff) also
+    // writes the job-ended event and tells the people tied to the worker.
+    world = recordTownJobLoss(world, {
       stableKey: "lives-tell-paths:job-lost",
       workRelationshipId: job.id,
       effectiveAt: world.currentDate,
@@ -192,8 +194,7 @@ describe(`LIVES tell-paths in ${state!.jurisdictionKey} (seed ${SEED})`, () => {
       supersedesStatusId: workStatusAt(world, job.id)!.id,
     });
     const statusId = world.history.workStatuses.at(-1)!.id;
-    // The same writer the labor market and a business closure call as the job ends.
-    const told = recordJobEndedNews(world, statusId, { closedBusiness: false });
+    const told = world;
     // Asked again for the same ended job, it writes nothing more.
     expect(recordJobEndedNews(told, statusId, { closedBusiness: false })).toBe(
       told,
