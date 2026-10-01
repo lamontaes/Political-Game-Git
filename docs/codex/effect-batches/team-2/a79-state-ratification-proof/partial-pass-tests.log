@@ -1,0 +1,20 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"extend","body":"house","voters":435,"changed":0,"example":"Elizabeth Schultz","before":"yea","after":"yea","measureId":"constitutional-measure_cde9560f42ff9903"}
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"extend","body":"senate","voters":100,"changed":0,"example":"Deborah McIntyre","before":"yea","after":"yea","measureId":"constitutional-measure_cde9560f42ff9903"}
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"restore","body":"house","voters":435,"changed":0,"example":"Elizabeth Schultz","before":"nay","after":"nay","measureId":"constitutional-measure_cde9560f42ff9903"}
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"restore","body":"senate","voters":100,"changed":0,"example":"Deborah McIntyre","before":"nay","after":"nay","measureId":"constitutional-measure_cde9560f42ff9903"}
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > preserves old non-neutral extend ballots for the same actual members 85ms
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > preserves old non-neutral restore ballots for the same actual members 37ms
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > retains the real rejection rollcall and its IDs across repeat and Save/Continue 4066ms
+A79 state ratification member comparison {"seed":"A79-recorded-term-limit-chamber","startingPlace":"Ashaway, Rhode Island","ratifyingState":"US-NE","body":"legislature","compared":49,"changed":0,"example":"Madeline Lewis","ballot":"yea","reason":"member:presidents-party","measureId":"constitutional-measure_cde9560f42ff9903","stateApproval":"NOT DERIVED: sourced ratification rules missing"}
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > records both successful chambers before scheduling the existing state actions 14340ms
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > preserves a controlled member's absence and never votes for the player 27ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  19:18:29
+   Duration  35.96s (transform 11.96s, setup 20ms, import 14.92s, tests 20.90s, environment 0ms)
+
