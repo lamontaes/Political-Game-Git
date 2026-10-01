@@ -391,6 +391,7 @@ export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
 export function enactmentStatuteDateContext(
   world: World,
   enactment: LegislativeEnactmentRecord,
+  cutoff?: HistoricalCutoff,
 ): StatuteDateContext {
   return {
     finalPassageAt: () => enactment.finalPassageAt ?? null,
@@ -399,7 +400,7 @@ export function enactmentStatuteDateContext(
         (row) => row.id === enactment.measureId,
       );
       const adjourned = measure
-        ? recordedSessionAdjournment(world, measure.rulePackId, year)
+        ? recordedSessionAdjournment(world, measure.rulePackId, year, cutoff)
         : null;
       return adjourned ? [adjourned.adjournedOn] : null;
     },
@@ -1072,13 +1073,29 @@ export function fileRuleChangeProvision(
 }
 
 /** Every change a law has made, whether or not it is operative yet. */
-export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
+export function enactedRuleChanges(
+  world: World,
+  cutoff?: HistoricalCutoff,
+): readonly EnactedRuleChange[] {
   const changes: EnactedRuleChange[] = [];
   for (const provision of ruleChangeProvisionHistoryRecords(world)) {
+    if (
+      cutoff &&
+      (provision.sequence >= cutoff.historySequenceExclusive ||
+        provision.filedAt > cutoff.asOfDate)
+    )
+      continue;
     const enactment = (world.history.legislativeEnactments ?? []).find(
       (row) => row.measureId === provision.measureId,
     );
-    if (!enactment || enactment.outcome !== "enacted") continue;
+    if (
+      !enactment ||
+      enactment.outcome !== "enacted" ||
+      (cutoff &&
+        (enactment.sequence >= cutoff.historySequenceExclusive ||
+          enactment.resolvedAt > cutoff.asOfDate))
+    )
+      continue;
     // No caller in play passes an effective date, so an enactment's own date
     // is usually null, and a null date is not "effective now". The state's
     // own effective-date rule dates it where that rule is researched
@@ -1093,7 +1110,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
         : stateStatuteOperativeAt(
             `US-${provision.stateUsps}`,
             enactment.resolvedAt,
-            enactmentStatuteDateContext(world, enactment),
+            enactmentStatuteDateContext(world, enactment, cutoff),
           );
     changes.push({
       stateUsps: provision.stateUsps,
@@ -1114,7 +1131,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
           ? stateRuleBasis(
               `US-${provision.stateUsps}`,
               enactment.resolvedAt,
-              enactmentStatuteDateContext(world, enactment),
+              enactmentStatuteDateContext(world, enactment, cutoff),
             )
           : "game-default",
       instrument: "statute",
@@ -1127,6 +1144,12 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
     });
   }
   for (const measure of world.history.constitutionalMeasures ?? []) {
+    if (
+      cutoff &&
+      (measure.sequence >= cutoff.historySequenceExclusive ||
+        measure.introducedAt > cutoff.asOfDate)
+    )
+      continue;
     const delta = measure.ruleDelta;
     if (delta.kind !== "rule-field") continue;
     const federal = measure.jurisdictionKey === FEDERAL_JURISDICTION_KEY;
@@ -1134,7 +1157,12 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       ? FEDERAL_JURISDICTION_KEY
       : constitutionalStateUsps(measure.jurisdictionKey);
     if (!stateUsps) continue;
-    const position = constitutionalPosition(world, measure.id);
+    const position = constitutionalPosition(
+      world,
+      measure.id,
+      cutoff?.asOfDate ?? world.currentDate,
+      cutoff,
+    );
     if (!position.operativeAt) continue;
     changes.push({
       stateUsps,
@@ -1184,10 +1212,11 @@ export function enactedRuleChangeAt(
     readonly officeKey: string | null;
     readonly field: string;
     readonly onDate: IsoDate;
+    readonly cutoff?: HistoricalCutoff;
   },
 ): EnactedRuleChange | null {
   if (!query.officeKey || !isAmendableRuleField(query.field)) return null;
-  const inForce = enactedRuleChanges(world).filter(
+  const inForce = enactedRuleChanges(world, query.cutoff).filter(
     (change) =>
       change.stateUsps === query.stateUsps &&
       change.officeKey === query.officeKey &&
