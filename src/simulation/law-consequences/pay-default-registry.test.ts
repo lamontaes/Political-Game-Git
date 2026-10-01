@@ -25,7 +25,9 @@ import {
   LAW_CONSEQUENCE_REGISTRATIONS,
   createLawConsequenceRegistry,
 } from "../law-consequence-registry";
-import { loadedPolicyRegistry } from "../policy-pack-registry";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import { COVERAGE_ELIGIBILITY_ROWS } from "./coverage-eligibility-rows";
+import { SERVICE_DELIVERED_LAW_ROWS } from "./service-delivered-data";
 import {
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
@@ -72,14 +74,40 @@ it("A13 admits one default pay handler and refuses duplicate ownership", () => {
 it.each([FEDERAL_MINIMUM_WAGE_QUESTION_KEY, STATE_MINIMUM_WAGE_QUESTION_KEY])(
   "A13 loads the actual build catalog pay row for %s",
   (questionKey) => {
-    const proposition = loadedPolicyRegistry().propositions.find(
-      (entry) => entry.stableKey === questionKey,
-    )!;
+    const proposition = Object.values(
+      createProductionPolicyCatalog().propositions,
+    ).find((entry) => entry.stableKey === questionKey)!;
     expect(proposition.consequences).toContainEqual(
       MINIMUM_WAGE_PAY_ROWS[questionKey],
     );
+    expect(
+      proposition.consequences!.filter(
+        (row) => row.id === MINIMUM_WAGE_PAY_ROWS[questionKey]!.id,
+      ),
+    ).toHaveLength(1);
   },
 );
+
+it("A13 preserves the existing coverage and service catalog rows", () => {
+  const catalog = createProductionPolicyCatalog();
+  const existing = [
+    ...Object.entries(COVERAGE_ELIGIBILITY_ROWS).map(
+      ([key, row]) => [key, [row]] as const,
+    ),
+    ...Object.entries(SERVICE_DELIVERED_LAW_ROWS),
+  ];
+  for (const [questionKey, rows] of existing) {
+    const proposition = Object.values(catalog.propositions).find(
+      (entry) => entry.stableKey === questionKey,
+    )!;
+    for (const row of rows) {
+      expect(proposition.consequences).toContainEqual(row);
+      expect(
+        proposition.consequences!.filter((entry) => entry.id === row.id),
+      ).toHaveLength(1);
+    }
+  }
+});
 
 describe.each(sampled)("A13 default pay kind in %s", (placeKey) => {
   it("uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity", () => {
