@@ -84,6 +84,17 @@ describe("recorded applicability and sourced sentencing options", () => {
       expect(range, state.jurisdictionKey).not.toBeNull();
       expect(range!.basis).toMatch(/SOURCED|ESTIMATED FROM AVERAGE/);
       expect(
+        sentencingRangeForCase({
+          ...input,
+          sentencingApplicability: {
+            allegations: {
+              injury: { value: "bodily", sourceEventIds: [] },
+            },
+            priorConvictionEventIds: [],
+          },
+        }),
+      ).toBeNull();
+      expect(
         sentencingRangeForCase({ ...input, offenseKey: "crime:assault" }),
       ).toBeNull();
       expect(

@@ -54,7 +54,7 @@ export function sentencingRangeForCase(
   // The matrix's robbery row is the unenhanced base charge. Missing facts
   // mean not alleged, not a finding that a weapon/injury did not happen.
   if (courtCase.offenseKey === "crime:robbery") {
-    if (facts.weapon?.value === true || facts.injury?.value === "serious")
+    if (facts.weapon?.value === true || facts.injury !== undefined)
       return null;
   } else if (recordedGrade !== row.offense) {
     // The published other rows already assume a particular statutory grade.
