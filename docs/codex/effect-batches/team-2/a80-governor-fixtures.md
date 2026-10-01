@@ -66,4 +66,6 @@ Executed source 2691d22cc follows additive main composition 2c8afb18e86f5ec6129c
 
 The composed source includes the separately merged A79 change. The initial desk repair passed 61 and failed 31 because raw control changes violated player-work responsibility. Canonical handoff repaired that. The next run passed 87 and failed five. Registry repair passed 88 and failed four. The updated missing-date fixture leaves only the three producer failures.
 
+Release checking still fails on the inherited CI declaration's merge-bookkeeping prose. The main-ref declaration check fails on the identical manifest. Zero-dice reports no new findings and five stale entries. Spelling reports 78 inherited findings, none in this slice. Source/document whitespace passes; raw logs retain their original terminal blank lines. These are disclosed limits, not a green gate.
+
 NOT RUN: full suite, browser, speed years, natural NPC signing, unattended-desk behavior, nationwide populated fiscal worlds or the combined Team 6 repair. Next: consume Team 6's exact approved fiscal source and rerun these same two files. Until both pass, this candidate remains draft. No team merge or full A80 completion is claimed.

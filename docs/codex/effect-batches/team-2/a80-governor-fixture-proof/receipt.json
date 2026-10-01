@@ -25,7 +25,14 @@
     "format": "PASS",
     "report": "0errors0warnings",
     "reportReviewer": "PASS",
-    "release": "initial declaration not committed yet; recheck pending",
+    "release": {
+      "exit": 1,
+      "sameMainRefExit": 1,
+      "inheritedFile": "docs/release/changes/ci-changed-tests-only.md",
+      "mainAndCandidateBlob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8",
+      "reason": "Inherited player-facing merge-bookkeeping prose; owned declaration now included",
+      "proofLimit": "main-ref declaration invocation in same workspace and exact byte-identical manifest; no independent full-main check"
+    },
     "zeroDice": {
       "new": 0,
       "gone": 5,
@@ -90,6 +97,8 @@
     "main-6cc29-types.log": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3",
     "negative-date-types.log": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3",
     "typecheck.mjs": "408987c6b518f85a8835d15e698b6c806413cc54a1f3085600b0bbedaa66a4d8",
-    "main-6cc29-tests.log": "211abd13d57c302ec1b6c517358e243a882dba9237d46399f19024ac35170966"
+    "main-6cc29-tests.log": "211abd13d57c302ec1b6c517358e243a882dba9237d46399f19024ac35170966",
+    "release.log": "6eb5bb28650e3c05c9d05a1dc41d146e3ade4518ed125d481e4b6ac6bcf79424",
+    "release-main-ref.log": "7bd883acbb8b02889c9e7df56860ec64c0a25e4eba8c97ec0f20927495bd4385"
   }
 }
