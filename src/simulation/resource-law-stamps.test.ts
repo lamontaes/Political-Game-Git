@@ -11,7 +11,7 @@ import {
   money,
 } from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
-import { lawEffectStamp } from "./law-effect-stamp";
+import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId } from "./types";
 const provenance = {
@@ -71,6 +71,29 @@ describe("a wage law's terms reach the actual payment", () => {
           sourceRecordIds: [flow.id, old.id],
         },
       )!;
+      const clauseId = "rule-change_fixture" as EntityId;
+      const enactmentId = "enactment_fixture" as EntityId;
+      // Explicit attribution fixture, not proof of a naturally enacted salary.
+      const annualStamp = lawEffectStamp(
+        {
+          measureId: "legislative-measure_office_fixture" as EntityId,
+          origin: "enacted",
+          operativeAt: w.currentDate,
+        },
+        {
+          effectKind: "pay",
+          questionKey: null,
+          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+          appliedAt: w.currentDate,
+          sourceRecordIds: [clauseId, enactmentId],
+          ruleAuthority: {
+            ruleChangeProvisionId: clauseId,
+            enactmentId,
+            field: "pay.governor.annualDollars",
+          },
+        },
+      )!;
+      expect(isLawEffectStamp(annualStamp)).toBe(true);
       w = recordResourceFlowTerms(w, {
         stableKey: "stamp-raise",
         resourceFlowId: flow.id,
@@ -81,7 +104,7 @@ describe("a wage law's terms reach the actual payment", () => {
         reason: "Fixture wage floor",
         provenance,
         supersedesTermsId: old.id,
-        lawEffectStamps: [stamp],
+        lawEffectStamps: [stamp, annualStamp],
       });
       const terms = w.history.resourceFlowTerms.at(-1)!;
       w = recordResourceTransferOutcome(w, {
@@ -100,9 +123,29 @@ describe("a wage law's terms reach the actual payment", () => {
       const paid = w.history.resourceTransferOutcomes.at(-1)!;
       expect(paid.lawEffectStamps?.[0]).toMatchObject({
         governingLawKey: stamp.governingLawKey,
-        effectKind: "work-compensation-payment",
+        effectKind: "pay",
         appliedAt: paid.occurredAt,
       });
+      expect(paid.lawEffectStamps).toHaveLength(2);
+      expect(paid.lawEffectStamps![1]).toMatchObject({
+        effectKind: "pay",
+        questionKey: null,
+        governingLawKey: annualStamp.governingLawKey,
+        ruleAuthority: annualStamp.ruleAuthority,
+        appliedAt: paid.occurredAt,
+      });
+      expect(paid.lawEffectStamps!.every(isLawEffectStamp)).toBe(true);
+      expect(paid.lawEffectStamps![1]!.sourceRecordIds).toEqual(
+        expect.arrayContaining([
+          clauseId,
+          enactmentId,
+          terms.id,
+          flow.id,
+          paid.id,
+        ]),
+      );
+      expect(terms.lawEffectStamps).toEqual([stamp, annualStamp]);
+      expect(paid.transferredAmount).toEqual(money(7500, "USD"));
       expect(paid.lawEffectStamps![0]!.sourceRecordIds).toEqual(
         expect.arrayContaining([terms.id, flow.id, paid.id]),
       );
