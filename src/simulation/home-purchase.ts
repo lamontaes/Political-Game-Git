@@ -119,7 +119,7 @@ export function homePurchaseTerms(
         )
       : null) ?? macroConditionsAt(world, "national", today);
   const first = macroMonthHistory(world, "national", today)[0] ?? null;
-  const factor =
+  const legacyPaymentFactor =
     now && first && first.priceIndex > 0
       ? now.priceIndex / first.priceIndex
       : 1;
@@ -132,11 +132,11 @@ export function homePurchaseTerms(
   return {
     priceMinor: roundTo(openingPriceMinor * housingFactor, 100_000),
     downPaymentMinor: roundTo(
-      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,
+      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * legacyPaymentFactor,
       100_000,
     ),
     monthlyPaymentMinor: roundTo(
-      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * factor,
+      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * legacyPaymentFactor,
       1_000,
     ),
   };

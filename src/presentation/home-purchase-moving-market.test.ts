@@ -5,13 +5,14 @@ import { createCampaignElectionTransitionRegistry } from "../simulation/campaign
 import { homeValueForJurisdiction } from "../simulation/county-home-value";
 import { ageOnDate } from "../simulation/dates";
 import {
+  MORTGAGE_BASIS,
   buyHome,
   homePurchaseTerms,
   personOwnsHome,
 } from "../simulation/home-purchase";
 import { homePriceLevel } from "../simulation/living-world/housing-market";
-import { createHousehold, startHouseholdMembership } from "../simulation/life";
 import { personName } from "../simulation/people";
+import { resourcePositionAt } from "../simulation/resource-queries";
 import { startValuesFromLatents } from "../simulation/macro-economy/kernel";
 import { ensureMacroEconomyStarted } from "../simulation/macro-economy/producer";
 import { macroMonthHistory } from "../simulation/macro-economy/readers";
@@ -37,6 +38,7 @@ describe("A54 home quotes follow the moving recorded housing market", () => {
         place: place.key,
         date: "2026-01-01",
         seed,
+        household: true,
       });
       const adult = fixture.world.personOrder.find(
         (id) =>
@@ -61,21 +63,6 @@ describe("A54 home quotes follow the moving recorded housing market", () => {
           effectiveDate: fixture.world.currentDate,
         },
       );
-      world = createHousehold(world, {
-        stableKey: "test:a54:buyer-household",
-        formedAt: world.currentDate,
-        label: "Buyer's household",
-        provenance: { kind: "authored", note: "Controlled buyer household." },
-      });
-      world = startHouseholdMembership(world, {
-        stableKey: "test:a54:buyer-membership",
-        personId: adult,
-        householdId: world.history.households.at(-1)!.id,
-        startedAt: world.currentDate,
-        residenceRole: "primary",
-        kind: "resident:member",
-        provenance: { kind: "authored", note: "Controlled buyer household." },
-      });
       world = createResourcePosition(world, {
         stableKey: "test:a54:buyer-savings",
         owner: { kind: "person", personId: adult },
@@ -121,12 +108,31 @@ describe("A54 home quotes follow the moving recorded housing market", () => {
       const bought = buyHome(reopened, adult);
       expect(bought.status).toBe("bought");
       expect(personOwnsHome(bought.world, adult)).toBe(true);
+      const owner = { kind: "person" as const, personId: adult };
+      expect(
+        resourcePositionAt(bought.world, owner, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(
+        resourcePositionAt(reopened, owner, money(0, "USD").currency)!
+          .liquidBalance.minorUnits - terms.downPaymentMinor,
+      );
+      const mortgage = bought.world.history.resourceObligations.find(
+        (row) => row.basisKind === MORTGAGE_BASIS,
+      );
+      expect(mortgage?.principal?.minorUnits).toBe(
+        terms.priceMinor - terms.downPaymentMinor,
+      );
       const event = bought.world.history.events.find(
         (row) => row.type === "life.home-bought",
       );
       expect(event?.summary).toContain(`for ${dollars(terms.priceMinor)},`);
       const purchaseSummary = event!.summary;
       const saved = deserializeWorld(serializeWorld(bought.world));
+      expect(
+        saved.history.resourceObligations.find(
+          (row) => row.id === mortgage!.id,
+        ),
+      ).toEqual(mortgage);
       const movedAgain = advanceWorld(
         saved,
         30,
