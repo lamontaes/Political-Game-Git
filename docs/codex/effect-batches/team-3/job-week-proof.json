@@ -1,0 +1,74 @@
+{
+  "gap": "A38",
+  "testedHead": "16a98f2833b70624fb04854f44f0a2bf6aa11a0e",
+  "basePR": 1521,
+  "baseHead": "fbdcfdce132fd4824f217f173713d4f5814a67aa",
+  "branch": "codex/team-3-a38-job-weekly-caller",
+  "ownedProductionHunks": [
+    "src/simulation/job-market.ts settleRecordedJobPay legacy pre-raise call",
+    "private raiseWeeklyPayToMinimum and its unused recordResourceFlowTerms import"
+  ],
+  "native": {
+    "pass": 1,
+    "deliberatelyNotRun": 7,
+    "durationSeconds": 25.29,
+    "testMilliseconds": 381,
+    "route": "actual advanceWorld 7 days then settleJobPay",
+    "timeoutChanged": false
+  },
+  "types": {
+    "roots": 2,
+    "diagnostics": 0
+  },
+  "measured": {
+    "seed": "city-pay:3137000",
+    "place": "Omaha, Nebraska",
+    "person": "Parker Clark",
+    "flowId": "resource-flow_853b8fe4cdb184b5",
+    "grossMinor": 75000,
+    "withheldMinor": 12606,
+    "netMinor": 62394,
+    "employerCashBeforeMinor": 1000000,
+    "employerCashAfterMinor": 925000,
+    "beforeTermsKind": null,
+    "afterTermsKind": "pay"
+  },
+  "baselineSource": "Published fbdc prerequisite plus owned new regression overlay; production unmodified. Actual money/repeat/reload passed before absent canonical stamp assertion failed.",
+  "checks": [
+    "actual terms and payment canonical stamp and city measure",
+    "actual withholding and net from saved payments",
+    "employer cash parity",
+    "weekly period settlement idempotence",
+    "canonical Save/Continue"
+  ],
+  "limits": [
+    "authored law/hiring/work/cash controls, not natural hiring or enactment",
+    "one controlled place, not all56",
+    "seven completed city/scheduled cases deliberately not repeated",
+    "older prerequisite composition, not latest main",
+    "current main already contains1364 shift writer; candidate older shift source reported for central integration",
+    "no fullclock/year/speed/browser/fullsuite/finalmain claim"
+  ],
+  "receipts": {
+    "baseline-r1": {
+      "path": "docs/codex/effect-batches/team-3/job-week-baseline-r1.txt",
+      "sha256": "d45baf115960b99e7c9655ae73afed9b86148e1aa02962530a8d49f821ff880e",
+      "exit": 1
+    },
+    "repair-r2": {
+      "path": "docs/codex/effect-batches/team-3/job-week-repair-r2.txt",
+      "sha256": "42701bcadd7c4b05ac2b950c1faa9e253392bfed5aa3fff11e7c2672bf1077f6",
+      "exit": 0
+    },
+    "types-r1": {
+      "path": "docs/codex/effect-batches/team-3/job-week-types-r1.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b",
+      "exit": 0
+    },
+    "zero-dice-r1": {
+      "path": "docs/codex/effect-batches/team-3/job-week-zero-dice-r1.txt",
+      "sha256": "e8c5e5fec426714c753853ba097d4e473844deab72c610fa86ce4a3b0217a17f",
+      "exit": 1
+    }
+  }
+}

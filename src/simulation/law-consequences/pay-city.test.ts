@@ -6,6 +6,7 @@ import { createScenarioWorld } from "../demo";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { advanceWorld } from "../world";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
+import { settleJobPay } from "../job-market";
 import {
   availableMeasureSteps,
   introduceMeasure,
@@ -242,7 +243,12 @@ function enact(
   throw new Error("Controlled city law did not reach enactment");
 }
 
-function worker(start: World, jurisdictionId: EntityId, townPayroll = false) {
+function worker(
+  start: World,
+  jurisdictionId: EntityId,
+  townPayroll = false,
+  jobPayroll = false,
+) {
   const personId = start.personOrder[0]!;
   let world = createOrganization(start, {
     stableKey: "fixture:city-pay:employer",
@@ -284,11 +290,13 @@ function worker(start: World, jurisdictionId: EntityId, townPayroll = false) {
   world = createWorkCompensation(world, {
     stableKey: townPayroll
       ? `${TOWN_PAY_VERSION}:job-pay:${work.id}`
-      : "fixture:city-pay:flow",
+      : jobPayroll
+        ? `job-pay:${work.id}`
+        : "fixture:city-pay:flow",
     workRelationshipId: work.id,
     startsAt: world.currentDate,
     amount: money(100, "USD"),
-    cadenceKind: "schedule:town-weekly",
+    cadenceKind: jobPayroll ? "schedule:weekly" : "schedule:town-weekly",
     restrictionKind: null,
     jurisdictionId: null,
     provenance,
@@ -373,6 +381,64 @@ it("A39 default city row pays the explicit ordinance amount and retains repeat/r
   payment(
     worker(law.world, o.place.context.jurisdiction.id),
     75_000,
+    law.measureId,
+  );
+});
+
+it("A38 actual job-market week retains the governing city law on terms and pay", () => {
+  const o = opened("3137000");
+  const law = enact(
+    o.world,
+    o.pack,
+    o.place.context.jurisdiction.id,
+    CITY_MINIMUM_WAGE_QUESTION_KEY,
+    1875,
+  );
+  const f = worker(law.world, o.place.context.jurisdiction.id, false, true);
+  const before = advanceWorld(
+    f.world,
+    7,
+    createCampaignElectionTransitionRegistry(),
+  );
+  const paid = settleJobPay(before, f.personId);
+  const terms = resourceFlowTermsAt(paid, f.flow.id)!;
+  const stubs = recordedPayStubs(paid, f.personId).filter(
+    (row) => row.paycheck.resourceFlowId === f.flow.id,
+  );
+  expect(stubs.length).toBe(1);
+  expect(terms.amount.minorUnits).toBe(75_000);
+  expect(stubs[0]!.paidGross.minorUnits).toBe(75_000);
+  expect(stubs[0]!.withheld.minorUnits).toBe(12_606);
+  expect(stubs[0]!.netPaid.minorUnits).toBe(62_394);
+  expect(stubs[0]!.assessmentStatus).toBe("recorded");
+  expect(stubs[0]!.netPaid.minorUnits).toBe(
+    75_000 - stubs[0]!.withheld.minorUnits,
+  );
+  const cashMinor = resourcePositionAt(
+    paid,
+    { kind: "organization", organizationId: f.organizationId },
+    money(1, "USD").currency,
+  )!.liquidBalance.minorUnits;
+  expect(cashMinor).toBe(925_000);
+  expect(settleJobPay(paid, f.personId)).toBe(paid);
+  expect(
+    serializeWorld(
+      settleJobPay(deserializeWorld(serializeWorld(before)), f.personId),
+    ),
+  ).toBe(serializeWorld(paid));
+  console.info("JOB_WEEK_CITY_PAY", {
+    person: personName(paid.people[f.personId]!),
+    flowId: f.flow.id,
+    grossMinor: stubs[0]!.paidGross.minorUnits,
+    withheldMinor: stubs[0]!.withheld.minorUnits,
+    netMinor: stubs[0]!.netPaid.minorUnits,
+    employerCashMinor: cashMinor,
+    termsKind: terms.lawEffectStamps?.[0]?.effectKind ?? null,
+  });
+  expect(terms.lawEffectStamps?.[0]?.effectKind).toBe("pay");
+  expect(terms.lawEffectStamps?.[0]?.governingLawKey).toBe(law.measureId);
+  expect(stubs[0]!.paycheck.lawEffectStamps?.at(-1)?.effectKind).toBe("pay");
+  expect(stubs[0]!.paycheck.lawEffectStamps?.at(-1)?.governingLawKey).toBe(
     law.measureId,
   );
 });
