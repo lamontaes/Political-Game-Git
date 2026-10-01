@@ -425,6 +425,8 @@ export function applyPayConsequence(
   resolved: ResolvedAnyLawConsequence,
 ): World {
   if ("authority" in resolved) {
+    if (resolved.authority.kind !== "enacted-office-rule")
+      throw new Error("Pay cannot consume standing service authority");
     const current = resolveAnnualOfficePayConsequences(world, {
       onDate: resolved.effectiveAt,
       activity: "payroll",

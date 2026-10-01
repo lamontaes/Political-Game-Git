@@ -3,7 +3,12 @@ import type {
   RuleChangeApplicability,
 } from "./enacted-rule-changes";
 import type { LawInForce } from "./governing/law-in-force";
-import type { EntityId, IsoDate, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  PublicProgramAppropriationRecord,
+} from "./types";
 
 export type LawConsequenceKind =
   | "pay"
@@ -87,6 +92,8 @@ export interface LawConsequenceContext {
   origin?: LawInForce["origin"];
   governingLawId?: EntityId;
   questionKey?: string;
+  /** Exact saved standing authority; never an invented legislative measure. */
+  standingAppropriationId?: EntityId;
 }
 
 /** The engine resolves legal authority and actual job records before invoking pay. */
@@ -160,8 +167,28 @@ export interface ResolvedSavedRuleConsequence extends Omit<
 > {
   authority: ResolvedAnnualOfficePayConsequence["authority"];
 }
+/** Actual sourced appropriation already saved by the common program writer. */
+export interface StandingProgramAuthority {
+  kind: "standing-program-appropriation";
+  appropriationId: EntityId;
+  programKey: string;
+  jurisdictionId: EntityId;
+  accountOrganizationId: EntityId;
+  publicGovernmentIdentity: PublicProgramAppropriationRecord["publicGovernmentIdentity"];
+  availableFrom: IsoDate;
+  availableThrough: IsoDate;
+  sourceBasis: PublicProgramAppropriationRecord["basis"];
+}
+export interface ResolvedStandingServiceConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: StandingProgramAuthority;
+}
+export type ResolvedSavedAuthorityConsequence =
+  ResolvedSavedRuleConsequence | ResolvedStandingServiceConsequence;
 export type ResolvedAnyLawConsequence =
-  ResolvedLawConsequence | ResolvedSavedRuleConsequence;
+  ResolvedLawConsequence | ResolvedSavedAuthorityConsequence;
 
 export type LawConsequenceHandler = (
   world: World,
@@ -181,13 +208,16 @@ export interface LawConsequenceKindRegistration<
     row: LawConsequenceRow,
     context: LawConsequenceContext,
   ) => readonly ResolvedLawConsequence[];
-  /** Only a kind admitting saved-rule inputs can supply this adapter. */
-  resolveSavedRules?: Extract<T, ResolvedSavedRuleConsequence> extends never
+  /** Only a kind admitting saved-authority inputs can supply this adapter. */
+  resolveSavedRules?: Extract<
+    T,
+    ResolvedSavedAuthorityConsequence
+  > extends never
     ? never
     : (
         world: World,
         context: LawConsequenceContext,
-      ) => readonly Extract<T, ResolvedSavedRuleConsequence>[];
+      ) => readonly Extract<T, ResolvedSavedAuthorityConsequence>[];
   apply(world: World, resolved: T): World;
 }
 
