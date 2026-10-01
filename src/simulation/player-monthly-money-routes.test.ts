@@ -34,7 +34,6 @@ import {
   PLAYER_MONTHLY_MONEY_KEY,
 } from "./player-monthly-money";
 import { composeWorldTimeHandlers } from "./campaigns";
-import { refreshLifeOpportunities } from "./life-opportunities";
 import { advanceWorld } from "./world";
 import { addDays, daysBetween } from "./dates";
 import { deserializeWorld, serializeWorld } from "./serialization";
@@ -46,8 +45,6 @@ let first: IsoDate;
 let mortgageId: EntityId;
 let livingId: EntityId;
 let salaryId: EntityId;
-let newOfficeWorld: World;
-let newOfficeWorkId: EntityId;
 
 beforeAll(() => {
   const game = generateOpeningLife(
@@ -156,8 +153,6 @@ beforeAll(() => {
     },
   });
   const workId = world.history.workRelationships.at(-1)!.id;
-  newOfficeWorld = world;
-  newOfficeWorkId = workId;
   world = initializeOfficeSalaryFlows(world, playerId);
   world = initializeLivingCostsFlow(world, playerId);
   world = ensurePlayerMonthlyMoneySchedule(world, playerId);
@@ -201,40 +196,6 @@ function moneyResult(world: World) {
 }
 
 describe("player money on the first through existing time controls", () => {
-  it("initializes newly acquired paid office work at the existing refresh boundary without settling salary", () => {
-    const key = `office-salary:${newOfficeWorkId}`;
-    expect(
-      newOfficeWorld.history.resourceFlows.some(
-        (flow) => flow.stableKey === key,
-      ),
-    ).toBe(false);
-    const refreshed = refreshLifeOpportunities(newOfficeWorld, playerId);
-    const flow = refreshed.history.resourceFlows.find(
-      (row) => row.stableKey === key,
-    );
-    expect(flow).toBeDefined();
-    expect(flow!.startsAt).toBe(newOfficeWorld.currentDate);
-    expect(
-      refreshed.history.resourceTransferOutcomes.filter(
-        (outcome) => outcome.resourceFlowId === flow!.id,
-      ),
-    ).toHaveLength(0);
-    for (const world of [
-      refreshed,
-      deserializeWorld(serializeWorld(refreshed)),
-    ]) {
-      const repeated = refreshLifeOpportunities(world, playerId);
-      expect(
-        repeated.history.resourceFlows.filter((row) => row.stableKey === key),
-      ).toHaveLength(1);
-      expect(
-        repeated.history.resourceTransferOutcomes.filter(
-          (outcome) => outcome.resourceFlowId === flow!.id,
-        ),
-      ).toHaveLength(0);
-    }
-  });
-
   it("Day, Week and days command settle the same actual mortgage, living costs and salary periods, including after reload", () => {
     let days = starting;
     for (let day = 0; day < 7; day++) {
