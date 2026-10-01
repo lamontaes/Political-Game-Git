@@ -2,7 +2,6 @@ import { addDays, daysBetween, simulationMinutesBetween } from "./dates";
 import { recordById, recordsWithFieldValue } from "./history-index";
 import { recordLawExposure } from "./law-exposure";
 import { resourceFlowTermsAt } from "./resource-queries";
-import { isLawEffectStamp } from "./law-effect-stamp";
 import { money } from "./resources";
 import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 
@@ -121,6 +120,7 @@ function completedAssessmentPayChanges(
   through: IsoDate,
 ): RecordedLawPayChange[] {
   const changes: RecordedLawPayChange[] = [];
+  if (!world.history.earnedLawPayAssessments?.length) return changes;
   const seen = new Set<EntityId>();
   for (const paid of world.history.resourceTransferOutcomes) {
     if (
@@ -164,6 +164,21 @@ function completedAssessmentPayChanges(
       resolved.action === "raise-saved-rule-hourly-floor"
         ? resolved.authority.measureId
         : resolved.law.measureId;
+    const rule =
+      resolved.action === "raise-saved-rule-hourly-floor"
+        ? recordById(
+            world.history.ruleChangeProvisions ?? [],
+            resolved.authority.ruleChangeProvisionId,
+          )
+        : null;
+    const ruleStamp =
+      stamp && "ruleAuthority" in stamp
+        ? (stamp.ruleAuthority as {
+            ruleChangeProvisionId?: EntityId;
+            enactmentId?: EntityId;
+            field?: string;
+          })
+        : null;
     const enactment = (world.history.legislativeEnactments ?? []).find(
       (row) =>
         row.measureId === measureId &&
@@ -227,12 +242,24 @@ function completedAssessmentPayChanges(
       resolved.completedShift?.eventId !== completion.id ||
       resolved.completedShift.termsId !== terms.id ||
       resolved.effectiveAt !== completion.occurredAt ||
+      assessment.lawEffectStamps.length !== 1 ||
       !stamp ||
-      !isLawEffectStamp(stamp) ||
+      stamp.version !== "law-effect-stamp/v1" ||
       stamp.effectKind !== "pay" ||
       stamp.source !== "enacted" ||
       stamp.governingLawKey !== measureId ||
       stamp.operativeAt > assessment.earnedCutoff.asOfDate ||
+      stamp.appliedAt !== assessment.recordedAt ||
+      stamp.jurisdictionId !== resolved.jurisdictionId ||
+      ![
+        assessment.id,
+        work.id,
+        flow.id,
+        terms.id,
+        completion.id,
+        activity.id,
+        state.id,
+      ].every((id) => stamp.sourceRecordIds?.includes(id)) ||
       !(paid.lawEffectStamps ?? []).some(
         (row) =>
           row.governingLawKey === measureId &&
@@ -240,7 +267,16 @@ function completedAssessmentPayChanges(
           row.sourceRecordIds?.includes(assessment.id),
       ) ||
       (resolved.action === "raise-saved-rule-hourly-floor" &&
-        resolved.authority.enactmentId !== enactment.id) ||
+        (resolved.authority.enactmentId !== enactment.id ||
+          resolved.authority.operativeAt !== stamp.operativeAt ||
+          !rule ||
+          rule.measureId !== measureId ||
+          rule.officeKey !== resolved.authority.officeKey ||
+          rule.field !== resolved.authority.field ||
+          rule.value !== resolved.amount.value ||
+          ruleStamp?.ruleChangeProvisionId !== rule.id ||
+          ruleStamp.enactmentId !== enactment.id ||
+          ruleStamp.field !== rule.field)) ||
       (resolved.action === "raise-hourly-floor" &&
         resolved.law.origin !== "enacted")
     )
