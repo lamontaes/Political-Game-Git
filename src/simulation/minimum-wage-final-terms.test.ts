@@ -6,6 +6,7 @@ import { lifePlaceStateIdentities } from "./life-places";
 import {
   CITY_MINIMUM_WAGE_QUESTION_KEY,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
   federalMinimumSchedule,
   localMinimumSettingAt,
 } from "./minimum-wage";
@@ -61,6 +62,64 @@ describe("A38 adopted federal floor through one reader", () => {
     },
   );
 
+  it("retains distinct adopted amounts for successive yes laws and a later no", () => {
+    const { world } = smallWorld({ place: "MS", date: enactedAt, seed: SEED });
+    const first = authoredWageTerm(world, {
+      key: `${SEED}:first-amount`,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+      answer: "yes",
+      effectiveAt,
+      designation: "First adopted floor",
+      termKey: "floor",
+      amountMinor: 1601,
+    });
+    const firstSnapshot = { ...first, currentDate: effectiveAt };
+    expect(
+      federalMinimumSchedule(firstSnapshot).map((row) => row.hourlyMinor),
+    ).toEqual([1601]);
+    const secondDate = makeIsoDate("2026-03-01");
+    const second = authoredWageTerm(firstSnapshot, {
+      key: `${SEED}:second-amount`,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+      answer: "yes",
+      effectiveAt: secondDate,
+      designation: "Second adopted floor",
+      termKey: "floor",
+      amountMinor: 1802,
+    });
+    const secondSnapshot = { ...second, currentDate: secondDate };
+    expect(
+      federalMinimumSchedule(secondSnapshot).map((row) => [
+        row.from,
+        row.hourlyMinor,
+      ]),
+    ).toEqual([
+      [effectiveAt, 1601],
+      [secondDate, 1802],
+    ]);
+    const thirdDate = makeIsoDate("2026-04-01");
+    const third = authoredWageTerm(secondSnapshot, {
+      key: `${SEED}:third-amount`,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+      answer: "no",
+      effectiveAt: thirdDate,
+      designation: "Explicit replacement floor",
+      termKey: "floor",
+      amountMinor: 903,
+    });
+    expect(
+      federalMinimumSchedule({ ...third, currentDate: thirdDate }).map(
+        (row) => row.hourlyMinor,
+      ),
+    ).toEqual([1601, 1802, 903]);
+    expect(
+      federalMinimumSchedule(firstSnapshot).map((row) => row.hourlyMinor),
+    ).toEqual([1601]);
+  });
+
   it("refuses an operative yes without an adopted hourly floor", () => {
     const { world } = smallWorld({
       place: "MS",
@@ -111,6 +170,69 @@ describe("A38 adopted city target", () => {
       localMinimumSettingAt(operative, jurisdictionId, 1700, effectiveAt)
         ?.hourlyMinor,
     ).toBe(2341);
+  });
+
+  it("supplies no local floor without an ordinance", () => {
+    const { world, jurisdictionId } = smallWorld({
+      place: "NE",
+      date: effectiveAt,
+      seed: SEED,
+    });
+    expect(
+      localMinimumSettingAt(world, jurisdictionId, 1500, effectiveAt),
+    ).toBeNull();
+  });
+
+  it("ends the city floor when the actual state's later law removes local authority", () => {
+    const { world, jurisdictionId, stateJurisdictionId } = smallWorld({
+      place: "NE",
+      date: enactedAt,
+      seed: SEED,
+    });
+    const authorized = authoredWageTerm(world, {
+      key: `${SEED}:allow-city`,
+      jurisdictionId: stateJurisdictionId,
+      questionKey: LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
+      answer: "yes",
+      effectiveAt: enactedAt,
+      designation: "Explicit local authority control",
+      termKey: "target",
+      amountMinor: null,
+    });
+    const city = authoredWageTerm(authorized, {
+      key: `${SEED}:preempted-city`,
+      jurisdictionId,
+      questionKey: CITY_MINIMUM_WAGE_QUESTION_KEY,
+      answer: "yes",
+      effectiveAt,
+      designation: "Authored city target",
+      termKey: "target",
+      amountMinor: 2341,
+    });
+    const operative = { ...city, currentDate: effectiveAt };
+    expect(
+      localMinimumSettingAt(operative, jurisdictionId, 1500, effectiveAt)
+        ?.hourlyMinor,
+    ).toBe(2341);
+    const preemptedAt = makeIsoDate("2026-03-01");
+    const barred = authoredWageTerm(operative, {
+      key: `${SEED}:bar-city`,
+      jurisdictionId: stateJurisdictionId,
+      questionKey: LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
+      answer: "no",
+      effectiveAt: preemptedAt,
+      designation: "Remove local authority control",
+      termKey: "target",
+      amountMinor: null,
+    });
+    const later = { ...barred, currentDate: preemptedAt };
+    expect(
+      localMinimumSettingAt(later, jurisdictionId, 1500, effectiveAt)
+        ?.hourlyMinor,
+    ).toBe(2341);
+    expect(
+      localMinimumSettingAt(later, jurisdictionId, 1500, preemptedAt),
+    ).toBeNull();
   });
 
   it("does not invent a premium for a city yes with no numeric target", () => {
