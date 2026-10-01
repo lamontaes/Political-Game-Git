@@ -2,11 +2,11 @@
 
 Before: Downstream law tests waited for an executive fallback that production no longer supplies. Bills stayed pending, or tests supplied a signature without the governor's recorded desk action.
 
-After: The fixtures install an actual governor, open the actual bill matter, and record the controlled governor's signing choice. All original assertions remain. Both complete test files now pass 89 of 92 cases. The three remaining failures concern fiscal producers assigned to Team 6; the original end-date and ceiling assertions remain unchanged.
+After: The fixtures install an actual governor, open the actual bill matter, and record the controlled governor's signing choice. Team 6's narrow fiscal repairs preserve the law's written end dates and count its actual saved target appropriation. All original assertions remain. The 92 original cases and six target-isolation cases pass.
 
 ## Delivery status
 
-MERGED: None for this fixture repair. This is a draft because both files are not yet green.
+MERGED: None for this fixture repair. The complete composed candidate is ready for exact-head CTO review; passing tests are not merge approval.
 
 WHAT EMERGED: DECIDED in controlled fixtures: Governor Cameron Wilkerson signs actual Nebraska bill matters. The signing choice is supplied by the fixture. It is not evidence of an ordinary NPC choice or unattended-desk behavior. HARDWIRED: downstream fixtures choose signing through their existing real-office route (`enacted-law-effects.test.ts:118`).
 
@@ -44,28 +44,30 @@ The genuinely missing-date fixture uses Alaska's existing source-resolved enactm
 
 SIMULATED: the controlled signing choice is authored fixture input. RECORDS: actual incumbent, governor matter, participant, executive action and enactment are created through existing production writers. WORLD PIECES: existing office, person and player-required-work identity are required. Missing office or matter fails the fixture instead of inventing a signature.
 
-The saved fiscal evidence includes compiled, enacted and operative dates; final availability clauses; and present or absent appropriation records. These are read-only logs of the actual fixture world (`a80-governor-fixture-proof/saved-law-records.json`). No shared fiscal producer is modified.
+The saved fiscal evidence includes compiled, enacted and operative dates; final availability clauses; and present or absent appropriation records. These are read-only logs of the actual fixture world (`a80-governor-fixture-proof/saved-law-records.json`). The composed candidate includes Team 6's published, narrowly released producer and reader changes. Team 2 did not write those shared hunks.
 
 The existing 56-jurisdiction duty-reach cases remain. They check jurisdiction reach; they are not 56 populated governor or fiscal lifecycles. No additional researched calibration is claimed.
 
 ## Proof run
 
-Measured: both complete changed test files passed 89 cases and failed three in 34.18 seconds, with no filter, skipped cases or timeout increase (`a80-governor-fixture-proof/negative-date-repaired-tests.log`). Two strict roots have zero diagnostics; scoped lint and formatting pass. This is not a passing readiness result.
+Measured: all three complete changed test files passed 98 cases in 36.93 seconds, with no filter, skipped cases or timeout increase (`a80-governor-fixture-proof/final-combined-tests.log`). These comprise the original 92 cases and six target-authority cases. Three strict roots have zero diagnostics; five changed source/test files pass lint and formatting.
 
-Measured unresolved assertions: the written availability end is January 5, 2028, but the producer returns January 13, 2028. The supplemental lapse is January 5, 2027, but the producer returns January 13, 2027. The later enacted appropriation has no saved appropriation record to count against the original ceiling (`a80-governor-fixture-proof/negative-date-repaired-tests.log`). Team 6 owns the narrow producer repairs; no expectation is relaxed.
+Measured: the original availability and supplemental lapse assertions now retain January 5, 2028, and January 5, 2027. The later law's actual appropriation counts against its target's ceiling. Target-authority tests preserve repeat after Continue and refuse unread or missing final authorization. Exact component isolation prevents a sibling record from being counted (`a80-governor-fixture-proof/final-combined-tests.log`).
 
 ## Worked example
 
-Measured Nebraska seed `legislative-core-nebraska-2026`: Cameron Wilkerson signs the actual Hardening Grants matter. Its saved authorization is $15 million and provides no money. The later bill appropriates $12 million for that actual saved target. It also records Cameron's signature and enactment, but the observed appropriation list is empty (`a80-governor-fixture-proof/saved-law-records.json`). The saved target link and second law's amount have been sent to Team 6.
+Measured Nebraska seed `legislative-core-nebraska-2026`: Cameron Wilkerson signs the actual Hardening Grants matter. Its saved authorization is $15 million and provides no money. The later bill appropriates $12 million for that actual saved target. It records Cameron's signature and enactment, and its actual saved appropriation now counts against the original ceiling (`a80-governor-fixture-proof/final-combined-tests.log`). Spending authority remains distinct from payment or delivery.
 
 Measured Alaska seed `legislative-core-alaska-2026`: Frances Zamora signs the transit appropriation. The negative fixture preserves its real source-default basis while removing its saved effective date. The canonical operative query returns null, and the original zero-appropriation assertion passes (`a80-governor-fixture-proof/negative-date-repaired-tests.log`).
 
 ## Vital statistics and method
 
-Executed source 2691d22cc follows additive main composition 2c8afb18e86f5ec6129ce058799dcea4be32dc91 and actual main 6cc29fb8a6e4efd149e8c916343d88922e2cad7c. Exact commands, full source IDs and raw hashes are in the companion receipt. One test process ran both complete changed files, under the existing 300-second cap. Initial failures and raw saved-law records are retained.
+Final executed source 8ade3671dc095a76b6db8d515dd0bff9c85675a7 includes actual main 16d1176f9cb09074e97a008613d47e1d133e00c8 and Team 6's published 7db7aee2fb58ab0a84001fcfbee7ec078855bbbd. Exact commands, full source IDs and raw hashes are in the companion receipt. One native process ran all three complete changed files under the existing 300-second cap. Initial failures and raw saved-law records are retained.
 
-The composed source includes the separately merged A79 change. The initial desk repair passed 61 and failed 31 because raw control changes violated player-work responsibility. Canonical handoff repaired that. The next run passed 87 and failed five. Registry repair passed 88 and failed four. The updated missing-date fixture leaves only the three producer failures.
+The composed source includes the separately merged A79 change. The initial desk repair passed 61 and failed 31 because raw control changes violated player-work responsibility. Canonical handoff repaired that. The next run passed 87 and failed five. Registry repair passed 88 and failed four. The updated missing-date fixture left three fiscal failures. Team 6's producer and reader repairs subsequently closed all three without relaxing the original expectations.
 
 Release checking still fails on the inherited CI declaration's merge-bookkeeping prose. The main-ref declaration check fails on the identical manifest. Zero-dice reports no new findings and five stale entries. Spelling reports 78 inherited findings, none in this slice. Source/document whitespace passes; raw logs retain their original terminal blank lines. These are disclosed limits, not a green gate.
 
-NOT RUN: full suite, browser, speed years, natural NPC signing, unattended-desk behavior, nationwide populated fiscal worlds or the combined Team 6 repair. Next: consume Team 6's exact approved fiscal source and rerun these same two files. Until both pass, this candidate remains draft. No team merge or full A80 completion is claimed.
+The new scoped `audit:scan` command completed for A80, but reported `unknown` because that item has no scanner rules. Its verified entry remains `partly`. The passing native fixture proof does not close that whole audit item.
+
+NOT RUN: full suite, browser, speed years, natural NPC signing, unattended-desk behavior or nationwide populated fiscal worlds. Next: exact-head CTO review and Merge's current-main admission. Team 6's producer/reader source is included additively; its separate publication remains its author's work. No team merge or full A80 completion is claimed.
