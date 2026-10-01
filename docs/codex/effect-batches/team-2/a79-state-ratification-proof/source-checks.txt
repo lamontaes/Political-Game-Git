@@ -1,2 +1,0 @@
-The owned-source ESLint output is empty (zero bytes), with no diagnostics. The final source-check process 82587 terminated with exit 0.
-The owned-source Prettier output says all matched files use Prettier code style; the retained format.log supplies the raw output.
