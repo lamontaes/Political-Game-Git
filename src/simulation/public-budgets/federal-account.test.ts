@@ -77,6 +77,7 @@ import {
   FEDERAL_RECEIPTS,
   FEDERAL_OUTLAYS,
   openFederalTreasury,
+  settleFederalTreasuryMonth,
 } from "./federal-treasury";
 import { PUBLIC_BUDGETS_VERSION, type PublicBudgetStore } from "./store";
 import type { World } from "../types";
