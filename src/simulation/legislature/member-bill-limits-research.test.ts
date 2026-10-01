@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
 import limits from "../../../data/research/legislature/member-bill-limits-2026.json" with { type: "json" };
+import type { LegislativeSessionYearParity } from "../legislative-starting-procedures";
+import type {
+  LegislativeMeasureOrigin,
+  LegislativeSubjectClass,
+} from "../types";
 
 const PLACE_KEYS = [
   "AL",
@@ -77,7 +82,53 @@ interface LimitRow {
   readonly url: string;
   readonly quote: string | null;
   readonly note: string | null;
+  readonly exemptionBindings?: readonly ExemptionBinding[];
+  readonly applied?: boolean;
+  readonly notAppliedReason?: string;
 }
+
+type PeriodCondition =
+  | {
+      readonly kind: "calendar-year-parity";
+      readonly of: "introducedAt";
+      readonly parity: NonNullable<LegislativeSessionYearParity>;
+    }
+  | { readonly kind: "unbound"; readonly text: string };
+
+/** Each binding names a value the simulation already records. */
+type ExemptionBinding =
+  | { readonly kind: "timing"; readonly introducedAfterSessionDay: number }
+  | {
+      readonly kind: "subject";
+      readonly subjectClass: LegislativeSubjectClass;
+      readonly text: string;
+    }
+  | {
+      readonly kind: "sponsor";
+      readonly sponsorKind: LegislativeMeasureOrigin;
+      readonly text: string;
+    }
+  | {
+      readonly kind: "period";
+      readonly window: "session" | "year" | "biennium";
+      readonly condition?: PeriodCondition;
+    };
+
+// Records, so a value added to or removed from the source type fails to compile here.
+const SUBJECT_CLASSES: Record<LegislativeSubjectClass, true> = {
+  "general-policy": true,
+  appropriation: true,
+  revenue: true,
+};
+const SPONSOR_KINDS: Record<LegislativeMeasureOrigin, true> = {
+  "member-introduction": true,
+  "committee-introduction": true,
+  "executive-request": true,
+};
+const YEAR_PARITIES: Record<NonNullable<LegislativeSessionYearParity>, true> = {
+  odd: true,
+  even: true,
+};
 
 /** A lookup that must exist: fails the test, and narrows the type, when it does not. */
 function defined<T>(value: T | undefined, label: string): T {
@@ -177,6 +228,70 @@ describe("member bill limits research file", () => {
         expect(chambers.has("house") && chambers.has("senate"), place).toBe(
           true,
         );
+      }
+    }
+  });
+
+  it("binds every exemption to a recorded subject, sponsor or period value, or marks the row not applied", () => {
+    const sourced = withStatus("sourced");
+    let applied = 0;
+    for (const row of sourced) {
+      const label = `${row.place} ${row.chamber} ${row.limit}`;
+      const bindings = defined(row.exemptionBindings, `${label} bindings`);
+      const periods = bindings.filter((entry) => entry.kind === "period");
+      expect(periods, label).toHaveLength(1);
+      expect(periods[0]?.window, label).toBe(row.period);
+      for (const binding of bindings) {
+        if (binding.kind === "subject") {
+          expect(Object.keys(SUBJECT_CLASSES), label).toContain(
+            binding.subjectClass,
+          );
+        } else if (binding.kind === "sponsor") {
+          expect(Object.keys(SPONSOR_KINDS), label).toContain(
+            binding.sponsorKind,
+          );
+        } else if (binding.kind === "timing") {
+          expect(Number.isInteger(binding.introducedAfterSessionDay)).toBe(
+            true,
+          );
+        } else if (binding.condition?.kind === "calendar-year-parity") {
+          expect(Object.keys(YEAR_PARITIES), label).toContain(
+            binding.condition.parity,
+          );
+        }
+        if (binding.kind === "subject" || binding.kind === "sponsor") {
+          expect(binding.text.length, label).toBeGreaterThan(0);
+        }
+      }
+      const unboundCondition = periods.some(
+        (entry) => entry.condition?.kind === "unbound",
+      );
+      const fullyBound =
+        row.unboundExemptions.length === 0 && !unboundCondition;
+      expect(row.applied, label).toBe(fullyBound);
+      if (fullyBound) {
+        applied += 1;
+        expect(row.notAppliedReason, label).toBeUndefined();
+      } else {
+        expect(row.notAppliedReason, label).toMatch(/^limit not applied: /);
+      }
+    }
+    expect(applied).toBe(sourced.filter((row) => row.applied).length);
+  });
+
+  it("lets the reader tell two rows for one chamber apart by a recorded condition", () => {
+    const pairs = new Map<string, LimitRow[]>();
+    for (const row of withStatus("sourced")) {
+      const key = `${row.place} ${row.chamber}`;
+      pairs.set(key, [...(pairs.get(key) ?? []), row]);
+    }
+    for (const [key, group] of pairs) {
+      if (group.length < 2) continue;
+      for (const row of group) {
+        const period = row.exemptionBindings?.find(
+          (entry) => entry.kind === "period",
+        );
+        expect(period?.kind === "period" && period.condition, key).toBeTruthy();
       }
     }
   });
