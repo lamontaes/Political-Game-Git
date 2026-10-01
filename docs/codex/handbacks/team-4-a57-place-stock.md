@@ -4,7 +4,7 @@ Recorded homes now carry building-year and structure-unit estimates from their o
 
 ## 1. Why-chain
 
-A rent restriction can exempt newer buildings because the legal rule defines which homes it covers. The handler previously had no construction fact to read. A dwelling's record date cannot supply that fact: recording an existing home does not construct it. The opening housing writer now saves sourced stock estimates once. The handler joins the priced flow to its obligation, tenure and dwelling. Its terminal is the saved physical building fact and the law row's age rule.
+A rent restriction can exempt newer buildings because the legal rule defines which homes it covers. The handler previously had no construction fact to read. A dwelling's record date cannot supply that fact: recording an existing home does not construct it. The opening housing writer saves sourced stock estimates once in src/simulation/living-world/town-homes.ts:558. The handler joins the priced flow to its obligation, tenure and dwelling in src/simulation/law-consequences/price-cost.ts:126. Its terminal is the saved representative building-age estimate and the law row's age rule.
 
 ## 2. Research
 
