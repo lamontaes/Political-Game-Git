@@ -1,3 +1,11 @@
+Coordinator has received the released tax implementation. Team 6 continues its other assigned financial work without overlapping these files.
+
+## October 1: A13 four-file release received by coordinator
+
+Team 6 released tax.ts and tax.test.ts under src/simulation/law-consequences/, plus src/simulation/tax-law-term-binding.ts and its test, at published 890f9ceaf8714539d4319b8985f073036c83e0d9. Team 6 confirmed no active or unpublished bytes and will not edit these surfaces. Coordinator fetched and received those four files into A13. This supersedes the earlier Team 6 binding ownership.
+
+Coordinator A13 also owns the presentation/tax-work.ts filing and assessment calls, tax-policy.ts filed levy term hunk, and policy-pack-tax-terms.ts consequence rows and affected test. Existing payer, recipient, liability, collection and repeat guards remain required. Audit is read-only on the adopted-reference schema question; no second writer is assigned.
+
 ## October 1: worker-pay and council handoffs closed
 
 Team 4 released only local-economy.ts worker-wage actual-work binding and settleFlows wage delegation to Team 3, reporting clean working/index bytes at 4c87202d4531278db04665ff2d2fb673fca4b12f. Revenue, owner draws, other creation and rent remain protected. Actual work identity must come from the existing producer; ambiguous job matching is not authorized.

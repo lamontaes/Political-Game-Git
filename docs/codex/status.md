@@ -1,3 +1,15 @@
+Excise filing now reaches the shared tax path in a published work-in-progress branch. It still needs adopted identity binding and payment proof before review.
+
+## October 1: excise filing connected; adopted identity binding remains open
+
+A13 WIP is published on codex/a13-excise-shared-dispatch at 007792263502108caeef5ee0910443755b000fe3, based on main e1fc68cfc6c33b7d1bb867f01487ae6032db2a2a. The filer names the actual excise question, the existing levy stores exact numeric terms, both personal assessment calls use the shared dispatcher, and excise questions carry the recorded-base tax consequence. Three scoped roots traversed 937 files with zero diagnostics. The earlier invalid answer type was repaired, not waived.
+
+This is not ready: adopted base, series and recipient identities cannot currently pass the catalog category validator, which requires declared allowed values. Audit and CTO have the exact schema question. No runtime assessment or collection pass is claimed. A13's catalog test is prepared but not started: process inspection found CTO checker2 PID 87740 still running, so the one-local-test-process rule remains in effect.
+
+Team 7 reports A3's three changed files passed all 10 tests unfiltered in 34.07 seconds at ee4344f33a1136456051380e22f04f2dd0b389de, including thirty daily-route comparisons and a sixty-minute stopped route. Coordinator received the terminal release; it is team-reported evidence, not an independent rerun or core approval. Team 3 published draft #1582 at 55e57d68869f35fdb4029ec514835637a8aac058, reporting office payroll 8/8. Team 1's #1583 has two clock/wording failures under exact-main comparison; neither is called inherited yet.
+
+The restitution connection from Audit to Team 8 is delivered: preserve the existing saved-finding restitution slot, rather than append another payment. Effects remain 94/220; no new execution total or merge is inferred.
+
 ## October 1: payroll assertions pass after two fixture repairs
 
 All seven changed payroll test files have passing results. The remaining nationwide applicability decisions still prevent calling the whole wage system complete. The worker-pay, council and clock ownership handoffs are now explicit so teams can proceed without replacing each other's work.
