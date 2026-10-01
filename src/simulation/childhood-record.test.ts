@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
 
+// World first: on main, entering the module graph at new-game reaches the
+// school stage handlers before their key is set (the lazy registries fix is
+// pending), and loading world first is the order the game itself uses.
+import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,
@@ -28,7 +32,6 @@ import { currentSchooling, schoolTermOn } from "./school-stages";
 import { leaveSchoolOnMove } from "./school-moves";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, World } from "./types";
-import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 /** The place of all 56 this seed draws, with a locality to start in. */
 function drawPlace(): { seed: string; usps: string; placeKey: string } {
@@ -235,7 +238,8 @@ describe(`Fable gap 5: the childhood record, in ${label}`, () => {
   });
 
   it("an old save with no childhood records loads with an empty record", () => {
-    const { childhoodRecords: _dropped, ...history } = start.world.history;
+    const history = { ...start.world.history };
+    delete (history as { childhoodRecords?: unknown }).childhoodRecords;
     const old = { ...start.world, history } as World;
     assertWorldIntegrity(old);
     expect(childhoodRecordEntries(old)).toEqual([]);
