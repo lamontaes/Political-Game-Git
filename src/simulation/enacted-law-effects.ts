@@ -860,7 +860,7 @@ export function applyLawConsequences(
           if (
             row.kind !== "tax" ||
             context.activity !== "assessment" ||
-            context.origin === "starting" ||
+            context.origin === "in-force-at-start" ||
             context.standingAppropriationId ||
             (context.governingLawId &&
               authority.measureId !== context.governingLawId)

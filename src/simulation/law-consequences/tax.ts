@@ -195,7 +195,7 @@ export function resolveSavedTaxConsequences(
     context.activity !== "assessment" ||
     context.onDate !== world.currentDate ||
     context.questionKey ||
-    context.origin === "starting" ||
+    context.origin === "in-force-at-start" ||
     context.standingAppropriationId
   )
     return [];
