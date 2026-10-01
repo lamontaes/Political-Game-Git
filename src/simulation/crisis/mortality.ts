@@ -25,6 +25,12 @@ import {
   SSA_2023_TABLE_ID,
   type MortalityCalibrationCategory,
 } from "./mortality-table";
+import {
+  CONDITION_ONSET_KEY,
+  recordStartingConditions,
+  scheduleConditionOnsets,
+  type ConditionStrainInput,
+} from "./condition-pack";
 import { recordOfficialContinuity } from "./continuity";
 import {
   DEATH_CAUSE_ILLNESS_WITH_COURSE,
@@ -330,6 +336,31 @@ export function strainDrivers(
   return { conditionIds, coverage, multiplierMicros };
 }
 
+/**
+ * What this person's condition strains read (./condition-pack.ts): their
+ * first exposure, calibration, coverage records and the pack conditions
+ * they hold today. Null before the model exposes them.
+ */
+export function conditionStrainInput(
+  world: World,
+  personId: EntityId,
+): ConditionStrainInput | null {
+  const context = mortalityContext(world);
+  const exposureStart = context.starts.get(personId);
+  const person = world.people[personId];
+  if (!exposureStart || !person) return null;
+  const held = new Set<string>();
+  for (const { episode, end } of context.conditions.get(personId) ?? [])
+    if (episode.conditionKey && end === null) held.add(episode.conditionKey);
+  return {
+    birthDate: person.birthDate,
+    category: context.calibrations.get(personId) ?? "equal-mixture",
+    exposureStart,
+    coverage: context.coverage.get(personId) ?? [],
+    held,
+  };
+}
+
 /** The serious episode a crossing began, while it runs its course. */
 export function seriousStrainEpisode(
   world: World,
@@ -489,6 +520,18 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
     dueItemId: item.id,
   });
   const windowId = crisisRecordId(next, windowStableKey(start));
+  // People the model first exposes today start with the chronic conditions
+  // people of their age hold (Ruling 38), written once, before any strain is
+  // read.
+  next = recordStartingConditions(
+    next,
+    newly.map((personId) => ({
+      personId,
+      category: mortalityCalibrationOf(next, personId),
+    })),
+    start,
+    windowId,
+  );
   // Monthly coverage passes re-plan an onset when coverage changes the strain.
   next = ensureHealthCoveragePass(next, windowId);
   for (const personId of next.personOrder) {
@@ -496,6 +539,16 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
     next = scheduleStrainOnset(next, personId, start, end, {
       sourceEntityId: windowId,
     });
+    const strain = conditionStrainInput(next, personId);
+    if (strain)
+      next = scheduleConditionOnsets(
+        next,
+        personId,
+        strain,
+        start,
+        end,
+        windowId,
+      );
   }
   next = scheduleFutureDueItem(next, {
     stableKey: `${windowStableKey(end)}:due`,
@@ -573,7 +626,8 @@ export function nextMortalityFrontier(
       item.transitionKey === MORTALITY_WINDOW_KEY ||
       item.transitionKey === HEALTH_COVERAGE_KEY ||
       ((item.transitionKey === MORTALITY_DEATH_KEY ||
-        item.transitionKey === FATAL_ILLNESS_ONSET_KEY) &&
+        item.transitionKey === FATAL_ILLNESS_ONSET_KEY ||
+        item.transitionKey === CONDITION_ONSET_KEY) &&
         item.entityIds.includes(personId));
     if (relevant && (next === null || item.dueAt < next)) next = item.dueAt;
   }

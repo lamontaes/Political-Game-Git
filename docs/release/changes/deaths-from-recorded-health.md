@@ -15,3 +15,11 @@ and the death names the illness.
 Two people with the same records fall ill on the same day. A recorded
 condition brings the illness sooner. Deaths that earlier saves wrote as
 sudden or as accidents still read the way they were written.
+
+People now start with the long-term conditions people of their age commonly
+have, such as heart disease, diabetes or COPD, in national survey shares. The
+conditions are written once on their health record, and the person sees them
+there by name. Later in life a condition begins on the day its own strain
+crosses the same level. A household under the poverty line on its coverage
+record reaches that day sooner, and so does someone who lost coverage. Each
+condition weighs on the strain toward a serious illness.

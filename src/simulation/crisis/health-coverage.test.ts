@@ -457,11 +457,26 @@ describe("Medicaid expansion coverage reaches named people", () => {
       const horizon = addDays(world.currentDate, 365 * 12);
       let later = 0;
       for (const row of older) {
+        // Coverage multiplies the strain, alongside any starting condition
+        // the person holds (Ruling 38): without it, the multipliers differ by
+        // exactly the coverage factor from the day it applies.
+        const covering = hazardMultipliersOf(world, row.personId);
+        const bare = hazardMultipliersOf(without, row.personId);
+        const microsOn = (
+          changes: readonly { effectiveAt: IsoDate; micros: number }[],
+          day: IsoDate,
+        ) =>
+          changes.filter((change) => change.effectiveAt <= day).at(-1)
+            ?.micros ?? MULTIPLIER_ONE;
         expect(
-          hazardMultipliersOf(world, row.personId).some(
+          covering.some(
             (change) =>
-              change.micros ===
-              MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
+              Math.abs(
+                (microsOn(bare, change.effectiveAt) *
+                  MEDICAID_EXPANSION_RULES.mortality.multiplierMicros) /
+                  MULTIPLIER_ONE -
+                  change.micros,
+              ) <= 1,
           ),
         ).toBe(true);
         const withCoverage = strainCrossingDay(
@@ -525,8 +540,21 @@ describe("Medicaid expansion coverage reaches named people", () => {
       expect(ended.every((row) => !row.covered)).toBe(true);
       for (const row of older) {
         // The lower hazard ends at the repeal's pass, or sooner at 65.
+        // What remains is the person's own recorded conditions, if any.
         const last = hazardMultipliersOf(repealed, row.personId).at(-1)!;
-        expect(last.micros).toBe(MULTIPLIER_ONE);
+        const conditionsOnly = hazardMultipliersOf(
+          {
+            ...repealed,
+            history: {
+              ...repealed.history,
+              crisisRecords: repealed.history.crisisRecords!.filter(
+                (record) => record.kind !== "health-coverage",
+              ),
+            },
+          },
+          row.personId,
+        ).at(-1);
+        expect(last.micros).toBe(conditionsOnly?.micros ?? MULTIPLIER_ONE);
         expect(last.effectiveAt <= passAt).toBe(true);
       }
 

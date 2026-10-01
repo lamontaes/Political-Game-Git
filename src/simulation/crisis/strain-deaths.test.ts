@@ -15,6 +15,7 @@ import { beginHealthEpisode } from "./health";
 import {
   ensureCrisisMortality,
   seriousStrainEpisode,
+  conditionStrainInput,
   strainCrossingDay,
 } from "./mortality";
 import { ssa2023AnnualProbability } from "./mortality-table";
@@ -80,6 +81,10 @@ describe(`deaths from recorded strain (${STATE.name}, ${STATE.usps}, seed ${SEED
     ]);
     const open = exposed(world);
     const [a, b] = ids as [EntityId, EntityId];
+    // Identical records: the same birth day and the same starting conditions.
+    expect([...conditionStrainInput(open, a)!.held]).toEqual([
+      ...conditionStrainInput(open, b)!.held,
+    ]);
     expect(crossing(open, a)).not.toBeNull();
     expect(crossing(open, a)).toBe(crossing(open, b));
     // One day older crosses on nearly the same day.
@@ -190,6 +195,10 @@ describe(`deaths from recorded strain (${STATE.name}, ${STATE.usps}, seed ${SEED
       const { world, ids } = withPeople(small.world, [born]);
       const open = exposed(world);
       const start = open.currentDate;
+      // A person whose records multiply nothing: no starting condition.
+      expect(conditionStrainInput(open, ids[0]!)!.held.size, `age ${age}`).toBe(
+        0,
+      );
       const day = crossing(open, ids[0]!)!;
       // The same median from the table's own probabilities (equal mixture).
       let survival = 1;
