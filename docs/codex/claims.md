@@ -1,3 +1,17 @@
+# Current engine rebuild ownership
+
+The following transfers preserve one writer for each named part of the rebuild. They override older entries only for the exact functions and changes listed. They record ownership, not completion or approval to merge.
+
+## October 1 transfers
+
+- Team 9 owns only the prosecution handler import and registration in campaigns.ts composeWorldTimeHandlers. Team 7 explicitly released both with no unpublished changes or live runner. Other handler registrations remain protected. Preserve the existing petition producer until its replacement paths are proved.
+- Coordinator owns pay.ts handler/action dispatch and the pay-rows.ts annual-action export. Team 3 released these unchanged at fa47a1c5f0915917254ebae122f09a39709efe09 and retains town-pay.ts, office-salary migration and payroll tests. The annual rule-origin contract requires CTO review; no invented policy proposition or second payroll writer is authorized.
+- Team 8 completed and returned the narrow coverage-catalog-admission.test.ts wage-row expectation and right-permission.test.ts default-registry proof. Both are integrated in foundation 2c5cf28db1c4048eea89033cb6262064fa83e3ae. Coordinator retains policy-pack and registry composition.
+- Team 2 owns only nullable deadline display/day-count guards in presentation/governing-briefing.ts and player/GoverningBriefing.tsx alongside its bill-deadline changes. Its proposed additional post-office-opening clemency callback in state-governing.ts has NOT transferred to Team 9; exact release is pending.
+- For A19, Team 3 owns the canonical pay stamp in its converted pay writer; Team 8 owns the canonical coverage stamp in coverage-eligibility.ts; Team 9 owns canonical legal-outcome stamps in legal-outcome.ts. Each changes only its converted writer and focused assertions. Coordinator retains the shared stamp contract. Historical saved records and unconverted readers are not silently rewritten.
+
+## Historical claims
+
 ## September 30, 2:00 Team7 Here-panel removal
 
 Under CTO1:46, Team7 owns ONLY the StorySceneDayPanel import removal and its sole five-line mount removal in PlayerGame.tsx, composed from current main in its temporary source candidate. OrdinaryMeetingPanel and every other renderer hunk remain untouched. Shared dirty PlayerGame.tsx is not overwritten. Existing renderer owners retain their unrelated work. Exact-main browser proof requires a matching runtime; older shared checkout is not proof.
