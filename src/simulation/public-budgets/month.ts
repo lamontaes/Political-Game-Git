@@ -1,3 +1,4 @@
+import { tuitionFreezeRevenueStamps } from "./tuition-freeze-stamps";
 import { ageVerificationCostForMonth } from "./age-verification-cost";
 import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
@@ -717,6 +718,13 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
+  const tuitionStamps = tuitionFreezeRevenueStamps(
+    world,
+    government,
+    month,
+    revenue[BUDGET_SOURCES.indexOf("chargesAndFees")]!,
+  );
+
   let balance = government.balance + sum(revenue) - sum(spending);
   let reserve = government.reserve;
   let debt = government.debt;
@@ -852,10 +860,11 @@ export function settleGovernmentMonth(
       ? { cannabisRevenue }
       : {}),
     ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length || ageVerificationCost
+    ...(cannabisStamps.length || tuitionStamps.length || ageVerificationCost
       ? {
           lawEffectStamps: [
             ...cannabisStamps,
+            ...tuitionStamps,
             ...(ageVerificationCost?.lawEffectStamps ?? []),
           ],
         }
