@@ -1,6 +1,7 @@
 ---
 id: completed-hourly-law-payroll
 impact: patch
+section: Fixed
 ---
 
 Completed hourly work can use its dated wage-law assessment through the existing
