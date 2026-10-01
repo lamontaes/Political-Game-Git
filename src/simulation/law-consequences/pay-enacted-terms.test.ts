@@ -7,6 +7,8 @@ import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { addDays, daysBetween, simulationMomentOnLocalDate } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
+import { organizationProfileAt } from "../life-queries";
+import { recordOrganizationProfile } from "../life";
 import {
   introduceMeasure,
   referMeasure,
@@ -423,4 +425,90 @@ it("keeps the job-market flow's original weekly boundary when applying a floor",
   expect(world.history.resourceFlowTerms).toEqual(
     f.world.history.resourceFlowTerms,
   );
+});
+
+it("uses the employer's dated profile for catch-up coverage and preserves its source through Save/Continue", () => {
+  const f = fixture(1500, "schedule:weekly");
+  const profile = organizationProfileAt(f.world, f.work.organizationId!)!;
+  const other = f.world.history.organizationProfiles.find(
+    (entry) => entry.classification !== profile.classification,
+  )!;
+  expect(other).toBeDefined();
+  const row = {
+    ...f.row,
+    who: {
+      ...f.row.who,
+      predicates: [
+        {
+          capability: "pay-employer-classification",
+          parameters: { value: profile.classification },
+        },
+      ],
+    },
+  };
+  const opening = {
+    ...f.world,
+    policyCatalog: {
+      ...f.world.policyCatalog,
+      propositions: {
+        ...f.world.policyCatalog.propositions,
+        [f.proposition.id]: { ...f.proposition, consequences: [row] },
+      },
+    },
+  };
+  const later = addDays(opening.currentDate, 7);
+  const paused = withWorldIntegrityDeferred(() => {
+    let next = opening;
+    for (const due of opening.history.futureDueItems) {
+      const state = opening.history.futureDueItemStates
+        .filter((entry) => entry.dueItemId === due.id)
+        .at(-1);
+      if (state?.status === "scheduled" && due.dueAt <= later)
+        next = cancelFutureDueItem(next, {
+          stableKey: `fixture:pay-coverage-clock:${due.id}`,
+          dueItemId: due.id,
+          effectiveAt: opening.currentDate,
+          reasonKey: "fixture:focused-payroll",
+          context:
+            "Explicit employer-profile date control, not an ordinary-calendar proof.",
+        });
+    }
+    return next;
+  });
+  const shifted = advanceWorld(
+    paused,
+    7,
+    createFutureTransitionHandlerRegistry([]),
+  );
+  const world = recordOrganizationProfile(shifted, {
+    stableKey: "fixture:pay-coverage:later-classification",
+    organizationId: f.work.organizationId!,
+    effectiveAt: later,
+    name: profile.name,
+    classification: other.classification,
+    locationJurisdictionId: profile.locationJurisdictionId,
+    supersedesProfileId: profile.id,
+    provenance: {
+      kind: "authored",
+      note: "Explicit later employer reclassification control; no inference of statutory FLSA coverage.",
+    },
+  });
+  const nextProfile = world.history.organizationProfiles.at(-1)!;
+  const resolved = resolvePayConsequences(world, row, f.context);
+  expect(resolved).toHaveLength(1);
+  expect(resolved[0]!.sourceRecordIds).toContain(profile.id);
+  expect(resolved[0]!.sourceRecordIds).not.toContain(nextProfile.id);
+  expect(
+    resolvePayConsequences(world, row, { ...f.context, onDate: later }),
+  ).toEqual([]);
+  const reopened = deserializeWorld(serializeWorld(world));
+  expect(resolvePayConsequences(reopened, row, f.context)).toEqual(resolved);
+  const raised = canonicalDispatch(world, f.context, registrations);
+  const terms = resourceFlowTermsAt(raised, f.flow.id)!;
+  expect(terms.amount.minorUnits).toBe(60_000);
+  expect(terms.lawEffectStamps![0]!.sourceRecordIds).toContain(profile.id);
+  expect(canonicalDispatch(raised, f.context, registrations)).toBe(raised);
+  expect(
+    serializeWorld(canonicalDispatch(reopened, f.context, registrations)),
+  ).toBe(serializeWorld(raised));
 });

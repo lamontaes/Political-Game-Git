@@ -141,6 +141,7 @@ export function resolvePayConsequences(
     if (!jurisdictionId)
       throw new Error("Missing pay recorded work jurisdiction capability");
     let covered = true;
+    const coverageRecordIds: EntityId[] = [];
     for (const predicate of [...row.who.predicates, ...row.conditions]) {
       if (
         Object.keys(predicate.parameters).length !== 1 ||
@@ -152,11 +153,16 @@ export function resolvePayConsequences(
           covered &&=
             role.occupationClassification === predicate.parameters.value;
           break;
-        case EMPLOYER:
-          covered &&=
-            organizationProfileAt(world, work.organizationId!)
-              ?.classification === predicate.parameters.value;
+        case EMPLOYER: {
+          const profile = organizationProfileAt(
+            world,
+            work.organizationId!,
+            cutoff,
+          );
+          covered &&= profile?.classification === predicate.parameters.value;
+          if (profile) coverageRecordIds.push(profile.id);
           break;
+        }
         default:
           throw new Error(
             `Missing pay predicate capability '${predicate.capability}'`,
@@ -176,7 +182,13 @@ export function resolvePayConsequences(
     const terms = resourceFlowTermsAt(world, flow.id, cutoff);
     if (!terms || terms.status !== "active" || terms.amount.currency !== "USD")
       continue;
-    const sourceRecordIds = [work.id, role.id, flow.id, terms.id];
+    const sourceRecordIds = [
+      work.id,
+      role.id,
+      flow.id,
+      terms.id,
+      ...coverageRecordIds,
+    ];
     const legalTerms: Record<string, { value: number; unit: LawAmountUnit }> =
       {};
     for (const [key, unit] of termUnits(row.amount)) {
