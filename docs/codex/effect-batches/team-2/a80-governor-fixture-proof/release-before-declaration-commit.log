@@ -1,0 +1,11 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr --base origin/main
+
+release:check — docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping ("merge"). Internal identifiers belong in the traceability ledger, not in patch notes.
+release:check — Post-rollout eligible change 6cc29fb8a6e4efd149e8c916343d88922e2cad7c..2691d22cc858b250cfb674cb2252f27491d1686e modifies 2 non-declaration path(s) but adds or changes no declaration in docs/release/changes. Declare impact: patch, minor, or explicit none. The undeclared path(s): src/presentation/enacted-duties.test.ts, src/presentation/enacted-law-effects.test.ts.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

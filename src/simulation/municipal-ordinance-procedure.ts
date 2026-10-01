@@ -24,6 +24,7 @@
  */
 import { applyInstitutionStep } from "./governing/legislative-clock";
 import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
+import { recordWorldEvent } from "./world";
 
 import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
@@ -549,7 +550,7 @@ export function recordCouncilReadingVote(
   }
   return {
     ok: true,
-    world: afterFinalPassage(next, input.governmentKey, measure),
+    world: completeCouncilPassage(next, measure, input.governmentKey),
   };
 }
 
@@ -778,20 +779,47 @@ function executiveWindow(governmentKey: string) {
 }
 
 /** Enroll, present, or record as law, whichever the pack says comes next. */
-function afterFinalPassage(
+export function completeCouncilPassage(
   world: World,
-  governmentKey: string,
   measure: LegislativeMeasureRecord,
+  governmentKey: string | null = null,
 ): World {
-  const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = municipalProcedureReading(government);
+  if (measurePosition(world, measure.id).phase !== "awaiting-enrollment")
+    return world;
+  const government = governmentKey
+    ? municipalGovernmentByKey(governmentKey)
+    : null;
+  const reading = government ? municipalProcedureReading(government) : null;
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const presentment = pack.executive.presentmentRequired;
   let next = enrollMeasure(world, {
     stableKey: `${measure.stableKey}:enrolled`,
     measureId: measure.id,
   });
-  if (measurePosition(next, measure.id).phase === "awaiting-enactment") {
+  if (presentment.kind === "known" && presentment.value === false) {
+    next = recordWorldEvent(next, {
+      stableKey: `${measure.stableKey}:executive-not-presented`,
+      type: "legislation.executive-not-presented",
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: measure.jurisdictionId,
+      involvedEntityIds: [measure.id],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["legislation.executive-not-presented", `pack:${pack.packId}`],
+      summary: `${measure.designation} was not presented to the ${pack.executive.titleLabel} under this profile.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
     const effectiveFromPassage =
-      reading.procedure.effectivePublication?.includes(
+      reading?.procedure.effectivePublication?.includes(
         "from the date of its passage",
       ) === true;
     next = recordEnactment(next, {
@@ -807,10 +835,13 @@ function afterFinalPassage(
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);
   }
+  // An unread rule does not permit enactment or an invented executive route.
+  if (presentment.kind !== "known" || presentment.value !== true) return next;
   next = presentMeasureToExecutive(next, {
     stableKey: `${measure.stableKey}:presented`,
     measureId: measure.id,
   });
+  if (!governmentKey || !government) return next;
   const actionWindow = executiveWindow(governmentKey);
   if (!actionWindow) return next;
   const dueAt =

@@ -306,7 +306,7 @@ function body(unit: GovernmentUnitIdentity): { name: string; seats: number } {
         // The same typical size localGoverningBodyRules gives a town that was
         // not read, so its seats, elections and ordinance votes count one
         // council. A read size replaces this through the procedure reading.
-        seats: typicalCouncilSeats(unit.id) ?? 5,
+        seats: typicalCouncilSeats() ?? 5,
       };
   }
 }

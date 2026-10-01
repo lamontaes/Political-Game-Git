@@ -1,12 +1,21 @@
-import { stableHash } from "../ids";
 import { municipalGovernments, primaryReading } from "../municipal-government";
 
 /**
- * The ICMA typical council size and term draw, on its own so the local
- * ordinance game profile and `localGoverningBodyRules` count one council with
- * one number. See local-governing-body-rules.ts for the sources and the
- * placeholders this draw carries.
+ * The typical council size and term, on its own so the local ordinance game
+ * profile and `localGoverningBodyRules` count one council with one number.
+ *
+ * A town nothing about which was read takes the modal value of ICMA's 2018
+ * Municipal Form of Government Survey shares: 5 seats (39.3%) and 4-year
+ * terms (63.6%). No hash or draw decides it, so every unread town in all 56
+ * places gets the same council through one path until its charter is read.
+ * See local-governing-body-rules.ts for the sources.
  */
+
+/** Where a typical council value comes from, for the record. */
+export const TYPICAL_COUNCIL_SOURCE =
+  "ESTIMATED FROM AVERAGE: the most common council size and at-large term in ICMA's " +
+  "2018 Municipal Form of Government Survey (n=3,910 for size, n=3,254 for terms), as reported in " +
+  "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/. Not a claim about this town's charter.";
 
 export type LocalRuleBasis = "read" | "typical";
 
@@ -15,7 +24,7 @@ export interface LocalRuleValue {
   readonly basis: LocalRuleBasis;
 }
 
-interface Share {
+export interface Share {
   readonly value: number;
   /** Percent of responding municipalities. */
   readonly percent: number;
@@ -82,28 +91,29 @@ export function localGoverningBodyReadSpread(): {
   };
 }
 
-export function draw(
-  table: readonly Share[],
-  unitId: string,
-  what: string,
-): LocalRuleValue | null {
+/**
+ * The modal value of a share table: the value the largest share of
+ * municipalities report, ties going to the smaller value. No draw.
+ */
+export function modalShare(table: readonly Share[]): LocalRuleValue | null {
   if (table.length === 0) return null;
-  const total = table.reduce((sum, share) => sum + share.percent, 0);
-  // A stable point in [0, 1) for this town and this rule.
-  const point =
-    Number(
-      BigInt(`0x${stableHash(`local-governing-body:${what}:${unitId}`)}`) %
-        1_000_000n,
-    ) / 1_000_000;
-  let reached = 0;
+  let best = table[0]!;
   for (const share of table) {
-    reached += share.percent / total;
-    if (point < reached) return { value: share.value, basis: "typical" };
+    if (
+      share.percent > best.percent ||
+      (share.percent === best.percent && share.value < best.value)
+    )
+      best = share;
   }
-  return { value: table.at(-1)!.value, basis: "typical" };
+  return { value: best.value, basis: "typical" };
 }
 
-/** The typical council size drawn for a town nothing about which was read. */
-export function typicalCouncilSeats(unitId: string): number | null {
-  return draw(typicalShares().seats, unitId, "seats")?.value ?? null;
+/** The typical council size for a town nothing about which was read. */
+export function typicalCouncilSeats(): number | null {
+  return modalShare(typicalShares().seats)?.value ?? null;
+}
+
+/** The typical council term, in years, for a town with no read term. */
+export function typicalCouncilTermYears(): number | null {
+  return modalShare(typicalShares().termYears)?.value ?? null;
 }

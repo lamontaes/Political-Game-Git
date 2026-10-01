@@ -130,6 +130,41 @@ export function stateDeductionSpread(shape: "flat" | "graduated"): Spread {
   );
 }
 
+/**
+ * The existing similar-state estimator's shared ranking step. Closeness comes
+ * from each consumer's sourced facts. Ties share a competition rank; the
+ * stable key orders display only. Reciprocal weights are authored estimates.
+ */
+export function reciprocalRankedReferences<T>(
+  rows: readonly T[],
+  compareCloseness: (a: T, b: T) => number,
+  stableKey: (row: T) => string,
+): readonly (T & { readonly rank: number; readonly weight: number })[] {
+  const candidates = [...rows].sort(
+    (a, b) =>
+      compareCloseness(a, b) || stableKey(a).localeCompare(stableKey(b)),
+  );
+  let rank = 1;
+  return candidates.map((candidate, index) => {
+    if (index > 0 && compareCloseness(candidate, candidates[index - 1]!) !== 0)
+      rank = index + 1;
+    return { ...candidate, rank, weight: 1 / rank };
+  });
+}
+
+/** The same weighted mean used by the existing deduction estimator. */
+export function weightedReferenceMean<T extends { readonly weight: number }>(
+  references: readonly T[],
+  value: (reference: T) => number,
+): number {
+  if (references.length === 0)
+    throw new Error("No sourced references for the weighted estimate.");
+  return (
+    references.reduce((sum, row) => sum + value(row) * row.weight, 0) /
+    references.reduce((sum, row) => sum + row.weight, 0)
+  );
+}
+
 export interface StateDeductionReference {
   readonly stateKey: string;
   readonly deductionDollars: number;
@@ -180,41 +215,31 @@ export function stateDeductionEstimate(
     Number(b.sameTaxStructure) - Number(a.sameTaxStructure) ||
     Number(b.sameRegion) - Number(a.sameRegion) ||
     a.incomeDistanceDollars - b.incomeDistanceDollars;
-  const candidates = Object.entries(STATE_PLACES)
-    .flatMap(([key, place]) =>
-      place.standardDeductionSingle !== null &&
-      ["flat", "graduated"].includes(place.wageIncomeTax)
-        ? [
-            {
-              stateKey: key,
-              deductionDollars: place.standardDeductionSingle,
-              sameTaxStructure: place.wageIncomeTax === target.wageIncomeTax,
-              sameRegion: censusRegionOf(key.slice(3)) === targetRegion,
-              incomeDistanceDollars: Math.abs(
-                householdIncomeDollars(key) - targetIncome,
-              ),
-            },
-          ]
-        : [],
-    )
-    // A key orders equally close rows for display only; tied weights stay equal.
-    .sort(
-      (a, b) => compareCloseness(a, b) || a.stateKey.localeCompare(b.stateKey),
-    );
+  const candidates = Object.entries(STATE_PLACES).flatMap(([key, place]) =>
+    place.standardDeductionSingle !== null &&
+    ["flat", "graduated"].includes(place.wageIncomeTax)
+      ? [
+          {
+            stateKey: key,
+            deductionDollars: place.standardDeductionSingle,
+            sameTaxStructure: place.wageIncomeTax === target.wageIncomeTax,
+            sameRegion: censusRegionOf(key.slice(3)) === targetRegion,
+            incomeDistanceDollars: Math.abs(
+              householdIncomeDollars(key) - targetIncome,
+            ),
+          },
+        ]
+      : [],
+  );
   if (candidates.length === 0)
     throw new Error("No read state deductions for the similar-state estimate.");
-  let rank = 1;
-  const references = candidates.map((candidate, index) => {
-    if (index > 0 && compareCloseness(candidate, candidates[index - 1]!) !== 0)
-      rank = index + 1;
-    return { ...candidate, rank, weight: 1 / rank };
-  });
+  const references = reciprocalRankedReferences(
+    candidates,
+    compareCloseness,
+    (row) => row.stateKey,
+  );
   const estimate = {
-    mean:
-      references.reduce(
-        (sum, ref) => sum + ref.deductionDollars * ref.weight,
-        0,
-      ) / references.reduce((sum, ref) => sum + ref.weight, 0),
+    mean: weightedReferenceMean(references, (ref) => ref.deductionDollars),
     references,
   };
   DEDUCTION_ESTIMATES.set(stateKey, estimate);
