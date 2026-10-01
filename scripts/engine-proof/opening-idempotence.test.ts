@@ -14,7 +14,7 @@ import { applyStartingLawConsequences } from "../../src/simulation/enacted-law-e
 import { searchLifePlaces } from "../../src/simulation/life-places";
 import { hasStableKey } from "../../src/simulation/history-index";
 
-const observed = vi.hoisted(() => ({ calls: 0 }));
+const observed = vi.hoisted(() => ({ calls: 0, dispatches: 0 }));
 const questionKey =
   "us-policy-positions:health-human-services.expand-medicaid-eligibility";
 const row: LawConsequenceRow = {
@@ -106,6 +106,7 @@ vi.mock("../../src/simulation/enacted-law-effects", async (importOriginal) => {
   return {
     ...original,
     applyStartingLawConsequences(world: World) {
+      observed.dispatches++;
       const proposition = Object.values(world.policyCatalog.propositions).find(
         (p) => p.stableKey === questionKey,
       );
@@ -127,6 +128,7 @@ vi.mock("../../src/simulation/enacted-law-effects", async (importOriginal) => {
 
 it("does not apply an admitted starting writer twice through nested production finalizers", () => {
   observed.calls = 0;
+  observed.dispatches = 0;
   const place = searchLifePlaces("", 5000, {
     stateJurisdictionKey: "US-MD",
     scope: "locality",
@@ -134,10 +136,12 @@ it("does not apply an admitted starting writer twice through nested production f
   const game = createNewGameWorld(
     observerSetup("c5-opening-finalizer-20260930", place.key),
   );
+  expect(observed.dispatches).toBe(1);
   const once = game.world.history.events.filter(
     (e) => e.type === "proof.opening-dispatch",
   );
   const repeated = applyStartingLawConsequences(game.world);
+  expect(observed.dispatches).toBe(2);
   const records = repeated.history.events.filter(
     (e) => e.type === "proof.opening-dispatch",
   );
@@ -145,8 +149,9 @@ it("does not apply an admitted starting writer twice through nested production f
     JSON.stringify({
       name: personName(game.world.people[game.playerPersonId]!),
       place: game.place.displayName,
-      nestedCalls: once.length,
-      repeatedCalls: records.length,
+      dispatcherCalls: observed.dispatches,
+      openingReceiptCount: once.length,
+      repeatedReceiptCount: records.length,
       originalCause: once[0]?.stableKey,
       repeatedCause: records.at(-1)?.stableKey,
     }),
