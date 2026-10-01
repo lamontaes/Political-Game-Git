@@ -49,7 +49,7 @@ describe("the town's election calendar, in every state", () => {
       expect(day.electionDate > onDate).toBe(true);
       expect([
         "state-law-unverified",
-        "local-choice-drawn",
+        "local-choice-estimated",
         "game-default",
       ]).toContain(day.basis);
       // An election day is a Tuesday.

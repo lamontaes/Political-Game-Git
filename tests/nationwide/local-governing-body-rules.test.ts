@@ -3,9 +3,8 @@ import {
   allGovernmentUnits,
   governmentUnitsForPlace,
 } from "../../src/simulation/government-units";
-import { placePopulation } from "../../src/simulation/nationwide-world/place-population";
 import {
-  SMALL_TOWN_POPULATION,
+  TYPICAL_COUNCIL_SOURCE,
   localGoverningBodyReadSpread,
   localGoverningBodyRules,
   localRuleCoverage,
@@ -96,7 +95,9 @@ describe("a town nobody has read", () => {
       expect(rules.termYears?.basis).toBe("typical");
       expect(spread.seats).toContain(rules.seats!.value);
       expect(spread.termYears).toContain(rules.termYears!.value);
-      // The same town draws the same council every time it is asked.
+      // A118: the national mode, chosen by no hash.
+      expect(rules.seats).toEqual({ value: 5, basis: "typical" });
+      expect(rules.termYears).toEqual({ value: 4, basis: "typical" });
       expect(rulesAt(geoid)).toEqual(rules);
     },
   );
@@ -108,45 +109,23 @@ describe("a town nobody has read", () => {
     expect(termYears).toEqual([2, 3, 4, 6]);
   });
 
-  it("across the country, unread towns come out in ICMA's national shares", () => {
-    // ICMA 2018 as ChatGPT reported it: 5 seats 39.3%, 7 seats 26.1%, 4-year
-    // terms 63.6% of those with a stated length.
+  it("gives every unread town ICMA's modal council, marked as an estimate", () => {
+    // ICMA 2018 as ChatGPT reported it: 5 seats is the largest share (39.3%)
+    // and 4-year terms the largest (63.6%).
     const unread = allGovernmentUnits()
       .map((unit) => localGoverningBodyRules(unit))
       .filter(
         (rules) => rules !== null && rules.researchedGovernmentKey === null,
       );
     expect(unread.length).toBeGreaterThan(19_000);
-    const share = (pick: (r: (typeof unread)[number]) => boolean) =>
-      unread.filter(pick).length / unread.length;
-    expect(share((r) => r!.seats!.value === 5)).toBeCloseTo(0.393, 1);
-    expect(share((r) => r!.seats!.value === 7)).toBeCloseTo(0.261, 1);
-    expect(share((r) => r!.termYears!.value === 4)).toBeCloseTo(0.652, 1);
-  });
-
-  it("gives the large councils only to towns of 2,500 people or more", () => {
-    // ICMA's "8 or more" band (10.1%) is drawn only where the town is known
-    // to be at least ICMA's smallest population group.
-    const rows = allGovernmentUnits().flatMap((unit) => {
-      const rules = localGoverningBodyRules(unit);
-      const population = unit.placeGeoid
-        ? placePopulation(unit.placeGeoid)
-        : null;
-      return rules &&
-        rules.researchedGovernmentKey === null &&
-        population !== null
-        ? [{ seats: rules.seats!.value, population }]
-        : [];
-    });
-    const small = rows.filter((row) => row.population < SMALL_TOWN_POPULATION);
-    const large = rows.filter((row) => row.population >= SMALL_TOWN_POPULATION);
-    expect(small.length).toBeGreaterThan(5_000);
-    expect(small.every((row) => row.seats < 8)).toBe(true);
-    expect(
-      large.filter((row) => row.seats >= 8).length / large.length,
-    ).toBeCloseTo(0.101, 1);
-    // Balta, North Dakota, about 60 people, drew eleven seats before.
-    expect(rulesAt("3804580").seats).toEqual({ value: 6, basis: "typical" });
+    expect(new Set(unread.map((r) => r!.seats!.value))).toEqual(new Set([5]));
+    expect(new Set(unread.map((r) => r!.termYears!.value))).toEqual(
+      new Set([4]),
+    );
+    expect(TYPICAL_COUNCIL_SOURCE).toMatch(/^ESTIMATED FROM AVERAGE: .*ICMA/);
+    // Balta, North Dakota, about 60 people, drew eleven seats under the old
+    // hash draw.
+    expect(rulesAt("3804580").seats).toEqual({ value: 5, basis: "typical" });
   });
 });
 

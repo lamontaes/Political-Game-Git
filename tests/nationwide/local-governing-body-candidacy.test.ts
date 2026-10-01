@@ -16,7 +16,10 @@ import {
 import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
 import { addDays } from "../../src/simulation/dates";
 import { campaignElectionDate } from "../../src/presentation/campaign-projection";
-import { nextTownElection } from "../../src/simulation/nationwide-world/town-election-calendar";
+import {
+  FILING_LEAD_DAYS,
+  nextTownElection,
+} from "../../src/simulation/nationwide-world/town-election-calendar";
 import { personName } from "../../src/simulation";
 import { projectCampaignGuidance } from "../../src/simulation/campaign-life-activities";
 import { projectWorkRole } from "../../src/presentation/day-overview";
@@ -423,15 +426,16 @@ describe("when a town's race is held", () => {
     60_000,
   );
 
-  it("a town whose state law leaves the timing open, and names no day, keeps the four-week placeholder", () => {
-    // Maine lets each town choose town meeting day or November; Presque Isle's
-    // drawn choice is town meeting day, whose date has not been read.
+  it("a town whose state law leaves the timing open, and names no day, keeps the estimated filing lead", () => {
+    // Maine lets each town choose town meeting day or November; the choice
+    // the most state packs name among those is town meeting day, whose date
+    // has not been read, so the race is the filing lead out.
     expect(nextTownElection("ME", "2360825", "2026-01-05" as never)).toBeNull();
     const { world, personId } = adultLifeAt("2360825", "calendar-presque-isle");
     const home = world.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
     expect(campaignElectionDate(world, home, body.officeKey)).toBe(
-      addDays(world.currentDate, 28),
+      addDays(world.currentDate, FILING_LEAD_DAYS),
     );
   }, 60_000);
 

@@ -184,7 +184,7 @@ describe("a state amendment on how towns recall their officials", () => {
       doctrine: "two-question-standalone",
       doctrineBasis: "enacted-in-game",
       threshold: null,
-      circulationBasis: "national-range-drawn",
+      circulationBasis: "national-estimated",
     });
     expect(() => assertWorldIntegrity(changed)).not.toThrow();
   });

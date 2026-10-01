@@ -345,8 +345,8 @@ describe("recalling a town official", () => {
     expect(rule).toMatchObject({
       available: true,
       stateUsps: "NM",
-      doctrineBasis: "national-range-drawn",
-      circulationBasis: "national-range-drawn",
+      doctrineBasis: "national-estimated",
+      circulationBasis: "national-estimated",
       threshold: null,
     });
     expect(municipalRecallRule(town.governmentKey)).toEqual(rule);
