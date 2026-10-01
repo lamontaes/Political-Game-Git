@@ -52,7 +52,6 @@ import {
 import { healthCoveragePassHandler } from "../crisis/health-coverage-pass";
 import {
   COVERAGE_ELIGIBILITY_ROWS,
-  COVERAGE_ELIGIBILITY_REGISTRATION,
   resolveCoverageEligibility,
 } from "./coverage-eligibility";
 
@@ -184,16 +183,12 @@ describe("coverage kind reuses the existing saved-record writer", () => {
                   ).toEqual([]);
                 }
               }
-              output = applyLawConsequences(
-                output,
-                {
-                  onDate: item.dueAt,
-                  activity: "renewal",
-                  activityId: item.id,
-                  subjectIds: item.entityIds.slice(),
-                },
-                [COVERAGE_ELIGIBILITY_REGISTRATION],
-              );
+              output = applyLawConsequences(output, {
+                onDate: item.dueAt,
+                activity: "renewal",
+                activityId: item.id,
+                subjectIds: item.entityIds.slice(),
+              });
               const changed = healthCoverageRecords(output).slice(beforeCount);
               output = scheduleHealthCoveragePass(
                 output,
@@ -238,6 +233,9 @@ describe("coverage kind reuses the existing saved-record writer", () => {
       for (const record of records) {
         expect(record.personId).toBe(person.id);
         expect(record.causalParentIds).toEqual([activityId]);
+        expect(record.lawEffectStamps?.[0]?.effectKind).toBe(
+          "coverage-eligibility",
+        );
         expect(record.lawEffectStamps?.[0]?.sourceRecordIds).toContain(
           activityId,
         );

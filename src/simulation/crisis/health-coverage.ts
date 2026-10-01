@@ -1,3 +1,4 @@
+import type { LawConsequenceKind } from "../law-consequence-types";
 /**
  * Who holds Medicaid expansion coverage, person by person, and what it does to
  * their risk of dying.
@@ -539,6 +540,7 @@ export function recordHealthCoverageForSubjects(
   causeId: EntityId,
   subjectIds: readonly EntityId[],
   sourceRecordIds: readonly EntityId[] = [],
+  effectKind?: LawConsequenceKind,
 ): World {
   const cutoff = {
     asOfDate: onDate,
@@ -597,7 +599,7 @@ export function recordHealthCoverageForSubjects(
     const stamp =
       state && laws
         ? lawEffectStamp(laws[workRuleChangedCoverage ? 1 : 0], {
-            effectKind: "health-coverage",
+            effectKind: effectKind ?? "health-coverage",
             questionKey: workRuleChangedCoverage
               ? COVERAGE_QUESTION_KEYS.workRequirement
               : COVERAGE_QUESTION_KEYS.expansion,
