@@ -134,7 +134,9 @@ describe("starting laws use the shared consequence entry", () => {
         registration("in-force-at-start", apply),
       );
       try {
-        const world = opening(key);
+        const prepared = opening(key);
+        expect(apply).not.toHaveBeenCalled();
+        const world = applyStartingLawConsequences(prepared);
         expect(apply).toHaveBeenCalledTimes(1);
         expect(
           apply.mock.calls[0]![0].history.legislativeEnactments ?? [],

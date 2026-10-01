@@ -1,3 +1,4 @@
+import { applyStartingLawConsequences } from "../simulation/enacted-law-effects";
 import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
 import {
   type SCHOOL_NAMES_V2_VERSION,
@@ -610,7 +611,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       : { ok: true as const, world: office.world };
   if (!agency.ok) throw new Error(agency.reason);
   return {
-    world: agency.world,
+    world: applyStartingLawConsequences(agency.world),
     playerPersonId: built.playerPersonId,
     place,
     setup,

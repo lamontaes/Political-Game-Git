@@ -1,3 +1,4 @@
+import { applyStartingLawConsequences } from "../simulation/enacted-law-effects";
 import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
@@ -457,6 +458,7 @@ export function buildProductionWorld(
     player.id,
     input.districtHomeJoinVersion,
   );
+  world = applyStartingLawConsequences(world);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }
