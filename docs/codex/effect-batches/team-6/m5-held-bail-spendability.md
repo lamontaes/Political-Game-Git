@@ -64,24 +64,43 @@ Forfeiture remains unsupported until its separate saved event exists.
 ## 6. Proof run
 
 The selection seed is team6-held-bail-five-places. It selects actual places
-in New Hampshire, Maine, Arkansas, Virginia and North Dakota. Identity
+in New Hampshire, Maine, Arkansas, Virginia and South Dakota. Identity
 selection is the only test draw; no monetary outcome is drawn.
 The first run passed ten deposit/refund checks. Its five canonical reload
 failures came from an undefined optional field authored by the fixture.
 That field was removed without changing production serialization.
-Renewed proof and exact saved examples are recorded after terminal results.
+The expanded run passed 30 of 35 checks. Its five federal fixture failures
+were missing national budget openings, repaired through existing canonical
+national-jurisdiction and budget-opening helpers. No production logic changed
+for either fixture repair. The renewed run passed all 35 checks on current
+main 8194aed3 plus the exact Team 9 dependency. Five named-person court
+fixtures cover deposits, refunds, reload/repeat, forecast refusal and ordinary
+cash. Ten additional controlled ledger checks cover existing state and
+federal accounts; they do not assert new court authority.
+Scoped TypeScript checked three roots and loaded 975 source files, with zero
+owned diagnostics. Lint, formatting, release and report checks passed. The
+dice gate reports zero new findings and five stale inherited allowlist entries.
+Exact saved IDs and tested heads are in m5-held-bail-proof.json beside this
+walkthrough.
 No whole suite, browser, natural campaign or nationwide effect proof is
 claimed by these direct accounting fixtures.
 
 ## 7. Worked example
 
-The fixture records a charge for an actual saved person and court, then
-pays a controlled $100.00 deposit through Team 9's canonical producer.
-Physical account cash increases by $100.00. Held liability also increases
-by $100.00, so spendable balance plus government reserve does not increase.
-The actual case-close refund pays the original payer. Physical cash and held
-liability both decrease by $100.00. Neither transfer becomes operating money.
-Canonical reload and repeat settlement must preserve the exact saved IDs.
+Lance Ross in Alton, New Hampshire is person_a94014641d35ebff. The fixture
+records his charge at saved court us-nh:general_trial and pays $100.00 through
+Team 9's producer. Deposit resource-flow_d388c14aa887b361 and completed outcome
+resource-transfer-outcome_693aad25179b9151 reach organization_a634a08569fa4590.
+Physical cash becomes $100,000,100.00; spendable balance plus government
+reserve remains $100,000,000.00. That opening account amount comes from the
+existing fixture account writer, not a researched government balance.
+Held liability is $100.00. The saved case-close refund uses
+resource-flow_faeaa2629dcbaf69 and resource-transfer-outcome_c2b96cd0eaf635f4.
+Physical cash and held liability both decrease by $100.00. Neither transfer
+becomes operating money. Canonical reload and repeat preserve the exact IDs.
+Riley Park in Alfred, Maine; Kevin Ortiz in Acorn, Arkansas; Kenneth Le in
+Abbs Valley, Virginia; and Elliott Wynn in Aberdeen, South Dakota pass the
+same checks, with their separate saved identities recorded in the proof.
 
 ## Remaining contracts
 
