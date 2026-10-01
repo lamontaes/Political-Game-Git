@@ -6,11 +6,14 @@ import {
   referForProsecution,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
+import { prosecutionTimingFor } from "../simulation/justice/prosecution-timing";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { composeWorldTimeHandlers } from "../simulation/campaigns";
+import { addDays } from "../simulation/dates";
+import { resolveFutureDueItemsThrough } from "../simulation/future-transitions";
+import type { World } from "../simulation/types";
 import { projectLegalRecord } from "./legal-record";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { observerPlace } from "./observer-world";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /**
  * The Legal tab's record follows the player's own case from the charge to
@@ -20,17 +23,17 @@ import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 describe("the player's legal record", () => {
   const seed = "legal-record-1";
   const place = observerPlace(seed);
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  const playerId = game.playerPersonId;
-  const opened = openOrdinaryLife(game.world, playerId);
+  // A small world (tests/fixtures/small-world.ts) with its governor seated,
+  // advanced only to each case's due date: no opening life, no daily run.
+  const small = smallWorld({ place: place.key, seed, offices: ["governor"] });
+  const playerId = small.personId;
+  const opened = small.world;
+  const passDays = (world: World, days: number): World =>
+    resolveFutureDueItemsThrough(
+      world,
+      addDays(world.currentDate, days),
+      composeWorldTimeHandlers(),
+    );
   const referred = referForProsecution(opened, {
     stableKey: `legal-record:${seed}`,
     subjectPersonId: playerId,
@@ -48,7 +51,7 @@ describe("the player's legal record", () => {
       cases: [],
       sentences: [],
     });
-    const charged = passOrdinaryDays(
+    const charged = passDays(
       referred.world,
       UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
     );
@@ -78,9 +81,9 @@ describe("the player's legal record", () => {
       /^You will plead guilty at the hearing on /,
     );
 
-    const sentenced = passOrdinaryDays(
+    const sentenced = passDays(
       entered.world,
-      UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
+      prosecutionTimingFor(place.stateJurisdictionKey).resolveAfterDays + 14,
     );
     const record = projectLegalRecord(sentenced, playerId);
     expect(record.cases[0]!.status).toMatch(/^Ended in a guilty plea on /);
@@ -108,5 +111,5 @@ describe("the player's legal record", () => {
         "A request on this sentence is already waiting.",
       );
     }
-  }, 600_000);
+  });
 });

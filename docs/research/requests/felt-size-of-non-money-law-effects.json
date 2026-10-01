@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-10-01T19:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "law effects and public opinion",
+  "notes": [
+    "Under A159 (Fable audit, card L3) a law effect recorded with no money (a right or an eligibility lost or granted) is felt like a tenth of a month's pay. The size is one constant, NON_MONEY_FELT_SIZE in src/simulation/law-exposure.ts, marked PLACEHOLDER, and read through lawExposureFeltSize by both readers: the official views a person forms (living-world/official-views.ts) and whether they band together against the law (living-world/law-interest-groups.ts).",
+    "A tenth of a month's pay is where a money loss starts to count toward a group and where a view feels it fully; it was chosen so a lost right is never smaller than the smallest money loss that matters. It is a placeholder, not a measured equivalence.",
+    "Every non-money effect is the same size today. A lost vote, a lost license and a lost benefit eligibility likely differ by a large factor, and by the person's circumstances."
+  ],
+  "priority": "P2",
+  "question": "How large, in money or as a share of income, does a person feel the loss of a right or an eligibility under a law (a benefit they no longer qualify for, a license, a vote, a protection), and how does that size vary by what was lost and by the person's income?",
+  "questionId": "felt-size-of-non-money-law-effects",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Tversky and Kahneman, Loss Aversion in Riskless Choice, Quarterly Journal of Economics, 1991",
+      "whatItDidNotSettle": "Losses weigh about twice equal gains; it gives no money size for a lost right or eligibility."
+    },
+    {
+      "source": "Sommers et al., Medicaid Work Requirements: Results from the First Year in Arkansas, New England Journal of Medicine, 2019",
+      "whatItDidNotSettle": "How many people lost coverage and what followed for them; it does not value the loss or measure how strongly they reacted against the law."
+    }
+  ],
+  "title": "How big a lost right or eligibility feels",
+  "usableAnswer": "Willingness-to-pay or willingness-to-accept figures, or survey reaction strengths, for losing named eligibilities and rights, as a share of monthly income by income band, so NON_MONEY_FELT_SIZE can become a table by kind of loss.",
+  "whyItMatters": "A law that strips an eligibility moves no money on the record, so without a size the people it hurts would never blame its sponsors or organize against it, and a player who passes such a law would face no response."
+}

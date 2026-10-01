@@ -1,13 +1,8 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { projectGoverningOfficeDesk } from "../../presentation/governing-office-desk";
 import type { World } from "../types";
-import { searchLifePlaces } from "../index";
 import {
   executiveStaffOffice,
   hireOfficeStaff,
@@ -29,29 +24,20 @@ import {
   type GoverningOffice,
 } from "./state-governing";
 
-// Each case opens a new life, which now seats all fifty state legislatures.
+// Kept from when each case opened a whole new life seating all fifty state
+// legislatures; the cases now build only the governor they read.
 vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 /** Plays as the sitting governor of Oregon: a test fixture's control swap. */
 function asGovernor(seed: string): World {
-  const place = searchLifePlaces("", 1, {
-    stateJurisdictionKey: "US-OR",
-    scope: "locality",
-  })[0]!;
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  const office = currentGoverningOffices(game.world).find(
+  // The cases read Oregon's seated governor and its office; nothing else in
+  // an opening.
+  const world = smallWorld({ place: "OR", seed, offices: ["governor"] }).world;
+  const office = currentGoverningOffices(world).find(
     (entry) => entry.stateUsps === "OR",
   )!;
   return {
-    ...game.world,
+    ...world,
     control: { kind: "person", personId: office.holderPersonId },
   };
 }

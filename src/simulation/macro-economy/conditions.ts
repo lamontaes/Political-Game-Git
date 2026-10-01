@@ -1,4 +1,3 @@
-import type { SeededRng } from "../rng";
 import {
   stepCredit,
   type MacroCreditState,
@@ -6,7 +5,7 @@ import {
 } from "./credit";
 import { CRUNCH46_PROVISIONAL_POLICY as POLICY } from "./policy";
 import {
-  drawInnovations,
+  NO_INNOVATIONS,
   roundMacro,
   stepEraConditions,
   stepMonth,
@@ -18,9 +17,11 @@ import {
 
 /**
  * One national month under Build 19's conditions: the era moves (with no
- * recession drawn), the credit stocks move from last month's record and the
- * policy rate in force, and the month steps with everything that pushed it,
- * each push recorded as a driver. Pure.
+ * recession drawn and nothing else drawn either), the credit stocks move from
+ * last month's record and the policy rate in force, and the month steps with
+ * everything that pushed it, each push recorded as a driver. With no recorded
+ * shock and the central bank holding its rate, the economy moves only by what
+ * the stocks and anchors already hold. Pure.
  */
 export interface NationalConditionsInput {
   readonly previous: MacroMonthlyState;
@@ -30,7 +31,6 @@ export interface NationalConditionsInput {
   readonly startTightness: number;
   /** Recorded shocks this month (disasters, trade, public money...). */
   readonly shockImpulses: MacroImpulses;
-  readonly rng: SeededRng;
 }
 
 export interface NationalConditionsResult {
@@ -45,12 +45,8 @@ export interface NationalConditionsResult {
 export function stepNationalConditions(
   input: NationalConditionsInput,
 ): NationalConditionsResult {
-  const innovations = drawInnovations(input.rng);
-  const era = stepEraConditions(
-    input.previousEra,
-    input.previous,
-    input.rng.fork("era"),
-  );
+  const innovations = NO_INNOVATIONS;
+  const era = stepEraConditions(input.previousEra, input.previous);
   const credit = stepCredit(input.credit, {
     previousGrowthPct: input.previous.growthPct,
     previousUnemploymentPct: input.previous.unemploymentPct,

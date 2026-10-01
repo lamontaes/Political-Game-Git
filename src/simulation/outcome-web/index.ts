@@ -56,6 +56,9 @@ export const OUTCOME_WEB_CALIBRATED_AT = web.calibratedAt as IsoDate;
 
 const FEDERAL_MINIMUM_HOURLY = minimumWages.federalHourly;
 
+/** Hours in a full-time work year, as pay and local-economy code count them. */
+const WORK_HOURS_PER_YEAR = 2_080;
+
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
 export type OutcomeStrength = "strong" | "moderate" | "weak" | "about-zero";
@@ -205,6 +208,29 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     read: (world, jurisdictionId, asOf) => {
       const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
       return minimum === null ? null : (minimum.now / minimum.before - 1) * 100;
+    },
+  },
+  "labor.minimum-wage-to-median": {
+    key: "labor.minimum-wage-to-median",
+    unit: "the state minimum wage in force as a share of the place's typical hourly pay",
+    // The minimum wage in force (`minimum-wage.ts`, `stateMinimumSettingAt`)
+    // over the place's own recorded median earnings (`place-outcomes.ts`, the
+    // `labor.median-earnings` record) spread over a 2,080-hour year. Both are
+    // saved: a law that sets the wage or a month that moves the earnings
+    // changes the reading. Median earnings count people with part-year work,
+    // so the ratio reads a little above one built on full-time hourly pay.
+    // Null until the place has a recorded month.
+    read: (world, jurisdictionId, asOf) => {
+      const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
+      if (minimum === null) return null;
+      const earnings = placeOutcomeAt(
+        world,
+        "labor.median-earnings",
+        jurisdictionId,
+        asOf,
+      );
+      if (earnings === null || !(earnings.value > 0)) return null;
+      return minimum.now / (earnings.value / WORK_HOURS_PER_YEAR);
     },
   },
 

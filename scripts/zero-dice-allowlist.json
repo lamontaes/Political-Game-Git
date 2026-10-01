@@ -927,34 +927,6 @@
       "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
     },
     {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"era\").next() < t.eraJumpMonthlyChance)"
-    },
-    {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"price-shock\").next() < i.shockMonthlyChance)"
-    },
-    {
-      "file": "src/simulation/macro-economy/policy.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "eraJumpMonthlyChance: 0.00125,"
-    },
-    {
-      "file": "src/simulation/macro-economy/policy.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "shockMonthlyChance: 0.003,"
-    },
-    {
       "file": "src/simulation/migration/review.ts",
       "kind": "fixed-share",
       "build": "Build 24",
@@ -1086,34 +1058,6 @@
       "build": "Build 2",
       "count": 1,
       "code": "if (place.stateJurisdictionKey === \"US-DC\") return null;"
-    },
-    {
-      "file": "src/simulation/outcome-web/place-outcomes.ts",
-      "kind": "roll",
-      "build": "Build 2",
-      "count": 1,
-      "code": "rng.fork(\"wave\").next() < drift.waveMonthlyChance"
-    },
-    {
-      "file": "src/simulation/people-traits.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "const magnitude = rng.integer(0, 8) === 0 ? 2 : 1;"
-    },
-    {
-      "file": "src/simulation/people-traits.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "isOneSided(trait) || rng.integer(0, 2) === 1 ? magnitude : -magnitude;"
-    },
-    {
-      "file": "src/simulation/people-traits.ts",
-      "kind": "roll",
-      "build": "Build 22",
-      "count": 1,
-      "code": "while (selected.size < targetCount && pool.length > 0) {"
     },
     {
       "file": "src/simulation/people-upbringing.ts",
@@ -1288,7 +1232,7 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "roll < 48 ? \"female\" : roll < 96 ? \"male\" : \"nonbinary\";"
+      "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";"
     },
     {
       "file": "src/simulation/press/ownership-pack-default.ts",

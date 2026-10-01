@@ -271,7 +271,7 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     const game = openLife("pressure-events-international-retired");
     const states = worldStates(game.world).map((row) => row.stateKey);
     const angry = seedAnger(game.world, states, 3);
-    expect(internationalFriction(angry, [])).toEqual(new Map());
+    expect(internationalFriction()).toEqual(new Map());
     expect(stepInternationalFriction(angry)).toBe(angry);
     expect(
       crisisRecords(angry).filter(
