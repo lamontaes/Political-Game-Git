@@ -25,6 +25,7 @@ import {
 
 const SHAPES = new Set([
   "linear",
+  "elasticity",
   "threshold",
   "diminishing",
   "exposure-years",
