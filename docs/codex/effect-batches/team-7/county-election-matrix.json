@@ -41,8 +41,16 @@
       ]
     },
     "AK": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "anchorage2026Assembly": {
+          "value": "Actual Anchorage notice publishedJan11,2026: April7election; filingJan16at8a.m. throughJan30at5p.m.; district1B/2C/3E/4G/5I/6K each three-year term ending on April2029election certification. Assembly candidates must be qualified municipal/Alaska voters with one year residence in their assembly district before this election; district electorate. Voter registration/update deadlineMarch8. Other boroughs, future cycles, exact saved district/voter facts and office-entry rule remain open. School/service boards are outside this reading.",
+          "url": "https://www.muni.org/Departments/Assembly/Clerk/Elections/Documents/Notices/2026%20Notice%20of%20Vacancy%20for%204-7-26%20Regular%20Election.pdf",
+          "section": "2026notice, page1Assembly/filing/voterdeadline",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -395,8 +403,30 @@
       ]
     },
     "ID": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryRotation": {
+          "value": "Official current web text: after the 1936 initial two two-year/one four-year arrangement, each biennial election selects one two-year and one four-year commissioner. Four-year term rotates districts 1,2,3. Actual seat phase, office entry and optional county form remain open.",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-703/",
+          "section": "31-703; official HTML SHA256 ff7fce96788df0d554e78356d2dbb1a922914285d2dde373bf187a649bf96602",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "optionalSevenMember": {
+          "value": "Optional seven-member form petition/resolution specifies terms. Additional seats ordinarily two years with numerical four-year rotation; voter-approved petition/resolution can instead make all members four-year, existing members converting when current terms expire. Actual adopted plan remains unbound.",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH56/SECT31-5602/",
+          "section": "31-5602; official HTML SHA256 a8e2b95af3ea9ce356e4385aee253fee2423129000b94220880d78686ddd0ebf",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "candidateStages": {
+          "value": "Official current web text: age21 at election, U.S. citizenship, county residence one year before election and represented district residence90days before primary. Declaration goes to county clerk with40dollar filing fee. Actual district/electorate and calendar remain open.",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH6/SECT34-617/",
+          "section": "34-617(1)-(4), linked by31-702; official HTML SHA256 6e68ff30ccd3c8837fdca400dee64c0e8b3a2378b543047b459016cbbb9429a5",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1715,8 +1745,16 @@
       ]
     },
     "WY": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "termAndCountyPlan": {
+          "value": "Official title18PDF: ordinary three qualified electors, one seat1980+4n/two1978+4n, four-year terms; county residence throughout office. Voter-approved five-member expansion permits at most one initial two-year term. Adopted districting can mix district, multi-member and at-large representation and assign phases; court/population-triggered initial plan requires at least51percent initial two-year terms, remainder four. Actual county plan, filing qualifications and term entry remain open.",
+          "url": "https://www.wyoleg.gov/statutes/compress/title18.pdf",
+          "section": "18-3-501(a)-(k), PDFpages67-71",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1765,6 +1803,12 @@
       "state": "OR",
       "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
       "result": "web tool 403/Internal Error; direct official HTML read succeeded using legacy cp1252 encoding and hash bound in claim",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "ID",
+      "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-703/",
+      "result": "web reader Internal Error; direct official HTML succeeded; source hashes recorded",
       "readOn": "2026-10-01"
     }
   ]

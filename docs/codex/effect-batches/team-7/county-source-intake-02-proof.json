@@ -72,5 +72,18 @@
     "productionProfilesAdmitted": 0,
     "validation": "JSON parsed; 50 state identities and D.C. preserved; all prior claim values unchanged; primary 2025 MCA text read; no runtime changes",
     "matrixSha256": "b342233c3486da4bb7c6e2c7e193f923de076fcee9bf2fd09f9a0eb7acafb748"
+  },
+  "renewal06": {
+    "previousHead": "50cc17582f92a99d4c58cb98fa1ba8685265f120",
+    "changedStates": ["AK", "ID", "WY"],
+    "counts": {
+      "partially-inspected": 41,
+      "unread": 8,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed;50state identities/DC and prior claims preserved; official full source readings only; no runtime changes",
+    "matrixSha256": "6e522b8effc8c806cb15809fec552432d496a96eea7f024dbaaff6e95bad1756"
   }
 }
