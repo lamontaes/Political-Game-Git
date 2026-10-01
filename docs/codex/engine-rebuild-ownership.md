@@ -140,3 +140,9 @@ Team 4 released only town-rent.ts evictionCaseFacts counsel/judge binding, trial
 Audit returned the existing court/seat/holder contract. Team 9 may preserve those actual identities and leave judgment pending without an actual judge or venue. A statute or tenant answer does not establish a lawyer. A new civil-representation record requires CTO disposition; no such schema is granted here. This is an ownership transfer, not proof of implementation.
 
 Team 4 additionally confirmed the adjacent rentEvent judgment-only input and actual court, seat, tenure and judge provenance additions are clean and released at the same f417d5f2183bc5ec3e2cfa263629321d0528463e head. Team 9 owns only those additions. Other event branches, filing, payment and lease behavior stay protected.
+
+## A8 weekly-pay clock handoff
+
+Team 3 published the saved-work/flow wrapper at 5131c40cb818d10e3f7b999d6656a15f04740adb and reported its focused parity test passed. Audit owns the dated adapter and default composer. Team 3 clean-released only job-market.ts beginWork's post-createWorkCompensation hook before addStep, payWeekly's returned-world scheduling hook, and life.ts recordWorkStatus's post-coverage scheduling hook for actually activated work, plus required imports. Preserve existing-flow early return, stable keys, amounts, dates, coverage and status validation. Team 3 retains period arithmetic, pay terms and the common payment writer.
+
+No generic resource creation hook is transferred. Opening and later hires both require clock proof. The unchanged clock-only prerequisite previously failed; the held presentation caller retirement must not be applied until it passes. Wrapper parity is not clock integration completion.
