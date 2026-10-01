@@ -2441,6 +2441,7 @@ function recordedProgramFollowUp(
   world: World,
   matter: GoverningMatter,
   decision: HistoricalEvent,
+  outturnIds?: ReadonlySet<EntityId>,
 ): FollowUpOutcome | null {
   const records = (world.history.publicProgramRecords ?? []).filter(
     (record) => record.recordedAt <= world.currentDate,
@@ -2504,6 +2505,7 @@ function recordedProgramFollowUp(
         record.kind === "capacity-outturn" &&
         record.restoredUnits !== null &&
         record.restoredUnits > 0 &&
+        (!outturnIds || outturnIds.has(record.id)) &&
         record.sequence > decision.sequence &&
         commitmentIds.has(record.commitmentId) &&
         installmentIds.has(record.installmentId),
@@ -2539,6 +2541,136 @@ function returnedBillOutcome(
         summary: `The legislature did not pass the bill on ${subject} again; it does not become law.`,
         overridden,
       };
+}
+
+function recordGoverningFollowUp(
+  world: World,
+  matter: GoverningMatter,
+  decision: HistoricalEvent,
+  outcome: FollowUpOutcome,
+  stableKey: string,
+  jurisdictionId: EntityId | null = matter.openedEvent.jurisdictionId,
+): World {
+  if (
+    outcome.sourceRecordIds?.length &&
+    world.history.events.some(
+      (event) =>
+        event.type === GOVERNING_OUTCOME &&
+        event.tags.includes(`matter:${matter.id}`) &&
+        event.tags.includes(`decision:${decision.id}`) &&
+        outcome.sourceRecordIds!.every((id) =>
+          event.tags.includes(`source-record:${id}`),
+        ),
+    )
+  )
+    return world;
+  return recordWorldEvent(world, {
+    stableKey,
+    type: GOVERNING_OUTCOME,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [matter.holderPersonId],
+    participants: [
+      {
+        personId: matter.holderPersonId,
+        role: "focus:responsible-office",
+        detail: outcome.tag,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      STATE_GOVERNING_VERSION,
+      `office:${matter.officeKey}`,
+      outcome.tag,
+      `matter:${matter.id}`,
+      `decision:${decision.id}`,
+      ...(matter.subjectKey ? [`subject:${matter.subjectKey}`] : []),
+      ...(outcome.sourceEventId
+        ? [`source-event:${outcome.sourceEventId}`]
+        : []),
+      ...(outcome.sourceRecordIds ?? []).map((id) => `source-record:${id}`),
+    ],
+    summary: outcome.summary,
+    context: emptyContext(),
+  });
+}
+
+/** Called at a saved delivery boundary, never as a daily or dated review. */
+export function reviewGoverningOutturns(
+  world: World,
+  newlySavedOutturnIds: ReadonlySet<EntityId>,
+): World {
+  if (newlySavedOutturnIds.size === 0) return world;
+  const records = world.history.publicProgramRecords ?? [];
+  const commitmentIds = new Set<EntityId>();
+  const outturnIds = new Set(
+    records.flatMap((record) => {
+      if (
+        !newlySavedOutturnIds.has(record.id) ||
+        record.kind !== "capacity-outturn" ||
+        record.recordedAt !== world.currentDate ||
+        record.restoredUnits === null ||
+        record.restoredUnits <= 0
+      )
+        return [];
+      commitmentIds.add(record.commitmentId);
+      return [record.id];
+    }),
+  );
+  if (outturnIds.size === 0) return world;
+  const appropriationIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "commitment" && commitmentIds.has(record.id)
+        ? [record.appropriationId]
+        : [],
+    ),
+  );
+  const measureIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "appropriation" &&
+      appropriationIds.has(record.id) &&
+      record.sourceMeasureId
+        ? [record.sourceMeasureId]
+        : [],
+    ),
+  );
+  let next = world;
+  for (const event of world.history.events) {
+    if (event.type !== GOVERNING_MATTER_OPENED) continue;
+    const appropriationId = tagValue(event, "appropriation:");
+    const measureId = tagValue(event, "measure:");
+    if (
+      !(appropriationId && appropriationIds.has(appropriationId as EntityId)) &&
+      !(measureId && measureIds.has(measureId as EntityId))
+    )
+      continue;
+    const matter = matterFromEvent(world, event);
+    if (
+      !matter ||
+      (matter.family !== "program" && matter.family !== "implementation") ||
+      matter.status !== "decided" ||
+      !matter.decision ||
+      (matter.workItemId && !completedGoverningMatterWork(world, matter.id))
+    )
+      continue;
+    const outcome = recordedProgramFollowUp(
+      next,
+      matter,
+      matter.decision,
+      outturnIds,
+    );
+    if (outcome)
+      next = recordGoverningFollowUp(
+        next,
+        matter,
+        matter.decision,
+        outcome,
+        `${matter.stableKey}:delivery:${outcome.sourceRecordIds!.join(":")}`,
+      );
+  }
+  return next;
 }
 
 /** A dated follow-up: the recorded consequence of an earlier decision. */
@@ -2588,37 +2720,14 @@ export function governingFollowUpHandler(
       };
     outcome = receipt;
   }
-  let next = recordWorldEvent(world, {
-    stableKey: `${due.stableKey}:outcome`,
-    type: GOVERNING_OUTCOME,
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: due.jurisdictionId ?? matter.openedEvent.jurisdictionId,
-    involvedEntityIds: [matter.holderPersonId],
-    participants: [
-      {
-        personId: matter.holderPersonId,
-        role: "focus:responsible-office",
-        detail: outcome.tag,
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: [
-      STATE_GOVERNING_VERSION,
-      `office:${matter.officeKey}`,
-      outcome.tag,
-      `matter:${matter.id}`,
-      `decision:${decision.id}`,
-      ...(matter.subjectKey ? [`subject:${matter.subjectKey}`] : []),
-      ...(outcome.sourceEventId
-        ? [`source-event:${outcome.sourceEventId}`]
-        : []),
-      ...(outcome.sourceRecordIds ?? []).map((id) => `source-record:${id}`),
-    ],
-    summary: outcome.summary,
-    context: emptyContext(),
-  });
+  let next = recordGoverningFollowUp(
+    world,
+    matter,
+    decision,
+    outcome,
+    `${due.stableKey}:outcome`,
+    due.jurisdictionId ?? matter.openedEvent.jurisdictionId,
+  );
   if (reopen && currentOffice && matter.subjectKey)
     next = openMatter(next, currentOffice, {
       family: "implementation",
