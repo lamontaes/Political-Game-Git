@@ -1,0 +1,58 @@
+{
+  "sourceHead": "c892dc635c4e3eb5f89caa17c241b69cd12321a0",
+  "currentMain": "8a02acfa4548185e4f0b5f12a678bf6c822a9128",
+  "composition": "ddca33824283e9105c448d872271ad23bbcdb0e6",
+  "changedTestFiles": {
+    "src/simulation/law-consequences/tax.test.ts": {
+      "passed": 8,
+      "failed": 0,
+      "scope": "Injected TAX_REGISTRATION, actual canonical saved records; no production admission.",
+      "raw": "team6-m7-tax-current-main.log"
+    },
+    "src/simulation/tax-kind-contract.test.ts": {
+      "passed": 3,
+      "failed": 0,
+      "seconds": 48.01,
+      "raw": "team6-m7-prototype-repair.log",
+      "controlledBoundary": "Declared executive action recorded by canonical writer; original assertions retained.",
+      "prior": "BeforeAll failure; three cases skipped. team6-m7-tax-current-main.log"
+    }
+  },
+  "separateMainTaxPolicyResult": {
+    "passed": 3,
+    "failed": 8,
+    "sameOnCandidateAndMain": true,
+    "mainSource": "2b28298d55c8d5fd88af84b71a12196f31914aac",
+    "raw": "team6-m7-tax-main.log"
+  },
+  "gates": {
+    "scopedTypes": {
+      "roots": 6,
+      "traversedFiles": 1042,
+      "ownedDiagnostics": 0,
+      "raw": "team6-m7-tax-types-admitted.log"
+    },
+    "lint": "PASS",
+    "format": "PASS",
+    "release": "Inherited main ci-changed-tests-only.md merge-bookkeeping failure",
+    "zeroDice": "0 new; 5 stale removed entries; no allowlist edit",
+    "spelling": "24 findings in 15 files; all 15 blobs identical to received main",
+    "report": "PASS: zero errors, zero warnings after clarity edit"
+  },
+  "notRun": [
+    "full suite",
+    "browser",
+    "year benchmark",
+    "all 56 actual tax activations",
+    "naturally earned or legal sales tax base",
+    "production catalog admission"
+  ],
+  "remaining": [
+    "CTO optional tax-history stamp review",
+    "coordinator registry integration",
+    "catalog numeric terms mapper",
+    "starting-law admission",
+    "questionless typed-proposal binding"
+  ],
+  "selfReview": "No new helper per session restriction. Reviewed canonical law/base/payer/measure/date join, preview delegation, immutable assessment, collection/reload idempotence, zero/blocked distinction, saved stamp IDs and unsupported mappings."
+}

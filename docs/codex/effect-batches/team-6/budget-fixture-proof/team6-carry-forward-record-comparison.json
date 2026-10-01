@@ -1,0 +1,91 @@
+{
+  "FY2027": {
+    "fiscalYear": 2027,
+    "startsOn": "2026-07-01",
+    "endsOn": "2027-06-30",
+    "adoptedOn": "2026-07-01",
+    "basis": "automatic",
+    "expectedRevenue": [
+      26255897244, 11139481488, 17686052880, 12222644752, 79556232, 4985572776,
+      6690474576, 6709486176, 49240629312, 619339440, 0
+    ],
+    "appropriations": [
+      9371232085, 9708511121, 39750785785, 4244205622, 5739372326, 0, 730845306,
+      0, 2003677432, 112574470, 958067985, 348092110, 3237997240, 11476522788,
+      43418731243, 11201903013, 2567833221, 0
+    ],
+    "reserveDeposit": 0,
+    "pensionRequired": 15288526018,
+    "pensionShare": 0.7327,
+    "economyAtAdoption": null,
+    "laws": {
+      "balanced": {
+        "answer": "yes",
+        "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+        "level": "state-statute"
+      },
+      "reserve": {
+        "answer": "no",
+        "measureId": "measure_0",
+        "level": "state-statute"
+      },
+      "pensions": {
+        "answer": "no",
+        "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+        "level": "state-statute"
+      }
+    },
+    "carriedBalance": 9241216869,
+    "stateLocalAidAtAdoption": null
+  },
+  "FY2028": {
+    "fiscalYear": 2028,
+    "startsOn": "2027-07-01",
+    "endsOn": "2028-06-30",
+    "adoptedOn": "2027-07-01",
+    "basis": "automatic",
+    "expectedRevenue": [
+      26255897244, 11139481488, 17686052880, 12198247895, 79556232, 4985572776,
+      6690474576, 6709486176, 49240629312, 619339440, 0
+    ],
+    "appropriations": [
+      8694521739, 9007445364, 36880323529, 3937725340, 5324923874, 0, 678069900,
+      0, 1858988960, 104445303, 888884498, 322955871, 3004176734, 10647786328,
+      40283401292, 11403256067, 2567833221, 0
+    ],
+    "reserveDeposit": 0,
+    "pensionRequired": 15563335699,
+    "pensionShare": 0.7327,
+    "economyAtAdoption": null,
+    "laws": {
+      "balanced": {
+        "answer": "yes",
+        "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+        "level": "state-statute"
+      },
+      "reserve": {
+        "answer": "no",
+        "measureId": "measure_0",
+        "level": "state-statute"
+      },
+      "pensions": {
+        "answer": "no",
+        "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+        "level": "state-statute"
+      }
+    },
+    "carriedBalance": 0,
+    "stateLocalAidAtAdoption": null
+  },
+  "recurringCuttableDelta": -225749912,
+  "expectedRevenueDelta": -24396857,
+  "pensionContributionDelta": 201353054,
+  "interestDelta": 0,
+  "reserveDepositDelta": 0,
+  "recurringFundingDelta": -225749911,
+  "differenceAfterRecurringFunding": -1,
+  "priorOneTimeCarriedBalance": 9241216869,
+  "nextOneTimeCarriedBalance": 0,
+  "originalTolerance": 131100615.513,
+  "note": "Arithmetic from retained adopted records, not permission to alter the original assertion or evidence of a cash-paid budget."
+}

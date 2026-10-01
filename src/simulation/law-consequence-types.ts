@@ -1,5 +1,10 @@
 import type { LawInForce } from "./governing/law-in-force";
-import type { EntityId, IsoDate, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  PublicProgramAppropriationRecord,
+} from "./types";
 
 export type LawConsequenceKind =
   | "pay"
@@ -79,6 +84,8 @@ export interface LawConsequenceContext {
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
   subjectIds: EntityId[];
+  origin?: LawInForce["origin"];
+  standingAppropriationId?: EntityId;
   governingLawId?: EntityId;
   questionKey?: string;
 }
@@ -118,11 +125,34 @@ export interface ResolvedLawConsequence {
   sourceRecordIds: EntityId[];
   value: ResolvedLawValue;
 }
+/** Actual sourced appropriation already saved by the common program writer. */
+export interface StandingProgramAuthority {
+  kind: "standing-program-appropriation";
+  appropriationId: EntityId;
+  programKey: string;
+  jurisdictionId: EntityId;
+  accountOrganizationId: EntityId;
+  publicGovernmentIdentity: PublicProgramAppropriationRecord["publicGovernmentIdentity"];
+  availableFrom: IsoDate;
+  availableThrough: IsoDate;
+  sourceBasis: PublicProgramAppropriationRecord["basis"];
+}
+export interface ResolvedStandingServiceConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: StandingProgramAuthority;
+}
+export type ResolvedAnyLawConsequence =
+  ResolvedLawConsequence | ResolvedStandingServiceConsequence;
+
 export type LawConsequenceHandler = (
   world: World,
   resolved: ResolvedLawConsequence,
 ) => World;
-export interface LawConsequenceKindRegistration {
+export interface LawConsequenceKindRegistration<
+  T extends ResolvedAnyLawConsequence = ResolvedLawConsequence,
+> {
   kind: LawConsequenceKind;
   owner: string;
   selectors: readonly string[];
@@ -134,5 +164,17 @@ export interface LawConsequenceKindRegistration {
     row: LawConsequenceRow,
     context: LawConsequenceContext,
   ) => readonly ResolvedLawConsequence[];
-  apply: LawConsequenceHandler;
+  resolveSavedRules?: Extract<
+    T,
+    ResolvedStandingServiceConsequence
+  > extends never
+    ? never
+    : (
+        world: World,
+        context: LawConsequenceContext,
+      ) => readonly Extract<T, ResolvedStandingServiceConsequence>[];
+  apply(world: World, resolved: T): World;
 }
+
+export type AnyLawConsequenceKindRegistration =
+  LawConsequenceKindRegistration<ResolvedAnyLawConsequence>;
