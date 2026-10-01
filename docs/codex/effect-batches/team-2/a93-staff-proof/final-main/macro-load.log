@@ -1,0 +1,30 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > reproduces the authored baseline at zero latents
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > applies the stated startup equations and volatility scales
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > steps one month with the lagged unemployment response
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > brings unemployment back toward its normal rate once growth recovers
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > holds a long slowdown at a raised level instead of a climb
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > raises a place's unemployment on a local shock and lets it rejoin the nation
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > keeps unemployment inside mathematical bounds in an adverse tail
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > publishes discrete rates from recorded levels, not the model rate
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > draws normals deterministically per stream
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > writes nothing for a world without WORLD's starting record
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > starts from WORLD's persisted draw in an ordinary seeded opening
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > records each crossed month exactly once, with releases published to News
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > replays exactly and is independent of how time was chunked, across Save/Continue
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > publishes 12-month inflation and quarterly output once history exists
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > reading history never changes it
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > offers campaigns only released figures as public concerns
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > an adequate-housing start never reads as a shortage
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > two seeds with the same start give the same economy for as long as the same rate is in force, and no month holds a drawn surprise
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > an identical start diverges only when a canonical shock exists
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > recovers gradually after the origin ends, with no fixed timer
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > rejects a tampered history on load
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > draws nothing: no month carries a surprise, and the same inputs give the same century
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > with no recorded crisis and the rate held, a century has no recession, only the opening's own credit cycle settling to the long run
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > a recorded crisis is the only thing that separates two worlds with the same board
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > recessions arise from recorded conditions, with no recession drawn
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > a recorded crisis shrinks output within a year of its date, and a recession it starts counts its shock among the drivers
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > recessions last as long as the record's: most about a year, long ones rare
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > a 1970s-style inflation comes only after a recorded oil shock
+src/simulation/macro-economy/macro-economy.test.ts > the economy moves only from recorded causes: nothing is drawn > every value stays inside its bounds
