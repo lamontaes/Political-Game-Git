@@ -504,13 +504,6 @@
       "kind": "roll",
       "build": "Build 21",
       "count": 1,
-      "code": "reported: rng.next() < rule.reportedShare,"
-    },
-    {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
       "code": "while (product > limit && count < 25) {"
     },
     {
