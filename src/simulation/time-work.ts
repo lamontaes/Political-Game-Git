@@ -15,6 +15,7 @@ import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
+import { growingIndex, type GrowingIndexKind } from "./history-index";
 import {
   addDays,
   addSimulationMinutes,
@@ -1626,6 +1627,85 @@ function advanceStoppingAtNewCommitments(
   throw new Error("Advancing to a newly scheduled activity did not converge.");
 }
 
+interface ActivityCompletionIndex {
+  readonly latest: Map<EntityId, ScheduledActivityStateRecord>;
+  readonly byUtcDay: Map<number, Map<EntityId, ScheduledActivityStateRecord>>;
+}
+
+const ACTIVITY_COMPLETION_RECORDS: GrowingIndexKind<
+  Map<EntityId, ScheduledActivityRecord>
+> = {
+  create: () => new Map(),
+  add(index, record) {
+    const activity = record as ScheduledActivityRecord;
+    index.set(activity.id, activity);
+  },
+};
+
+const ACTIVITY_COMPLETION_INDEX: GrowingIndexKind<ActivityCompletionIndex> = {
+  create: () => ({ latest: new Map(), byUtcDay: new Map() }),
+  add(index, record) {
+    const state = record as ScheduledActivityStateRecord;
+    const previous = index.latest.get(state.activityId);
+    if (previous?.status === "scheduled") {
+      const day = Math.floor(simulationMomentEpochMinute(previous.end) / 1440);
+      const bucket = index.byUtcDay.get(day);
+      bucket?.delete(state.activityId);
+      if (bucket?.size === 0) index.byUtcDay.delete(day);
+    }
+    index.latest.set(state.activityId, state);
+    if (state.status !== "scheduled") return;
+    const day = Math.floor(simulationMomentEpochMinute(state.end) / 1440);
+    let bucket = index.byUtcDay.get(day);
+    if (!bucket) {
+      bucket = new Map();
+      index.byUtcDay.set(day, bucket);
+    }
+    bucket.set(state.activityId, state);
+  },
+};
+
+function addActivityCompletionTransitions(
+  transitions: ExactTransition[],
+  world: World,
+  after: SimulationMoment,
+  through: SimulationMoment,
+  includeCurrentBoundary = false,
+): void {
+  const index = growingIndex(
+    ACTIVITY_COMPLETION_INDEX,
+    world.history.scheduledActivityStates,
+  );
+  const activities = growingIndex(
+    ACTIVITY_COMPLETION_RECORDS,
+    world.history.scheduledActivities,
+  );
+  const firstDay = Math.floor(simulationMomentEpochMinute(after) / 1440);
+  const lastDay = Math.floor(simulationMomentEpochMinute(through) / 1440);
+  for (let day = firstDay; day <= lastDay; day++) {
+    for (const state of index.byUtcDay.get(day)?.values() ?? []) {
+      if (
+        compareSimulationMoments(state.end, after) < 0 ||
+        (!includeCurrentBoundary && sameSimulationMoment(state.end, after)) ||
+        compareSimulationMoments(state.end, through) > 0
+      )
+        continue;
+      const activity = activities.get(state.activityId);
+      if (!activity)
+        throw new Error("Scheduled completion activity identity is missing.");
+      transitions.push({
+        at: state.end,
+        priority: 2,
+        creationSequence: activity.sequence,
+        stableId: activity.id,
+        kind: "activity-completion",
+        entityId: activity.id,
+        completedEffortMinutes: null,
+      });
+    }
+  }
+}
+
 function advanceCanonicalMinutes(
   inputWorld: World,
   minutes: number,
@@ -1689,21 +1769,16 @@ function advanceCanonicalMinutes(
         "Performed activity must resolve at its exact scheduled end.",
       );
     }
-    transitions.push({
-      at: target,
-      priority: 2,
-      creationSequence: activity.sequence,
-      stableId: completedActivityId,
-      kind: "activity-completion",
-      entityId: completedActivityId,
-      completedEffortMinutes: null,
-    });
   }
+  addActivityCompletionTransitions(transitions, inputWorld, start, target);
   transitions.sort(compareExactTransitions);
 
   let world = inputWorld;
   for (let index = 0; index < transitions.length; index++) {
     const transition = transitions[index]!;
+    const activitiesBefore = world.history.scheduledActivities;
+    const activityStatesBefore = world.history.scheduledActivityStates;
+    const nationalRecordsBefore = world.history.nationalElectionRecords;
     if (
       transition.kind === "date-boundary" ||
       transition.kind === "national-term-boundary"
@@ -1723,17 +1798,6 @@ function advanceCanonicalMinutes(
         crossedFrom,
         crossedMoment,
       );
-      // Due receivers can create a term plan on this date. Its saved noon
-      // belongs in the remaining clock interval, before any later activity.
-      const remaining = transitions.slice(index + 1);
-      addNationalBoundaryTransitions(
-        remaining,
-        world,
-        world.currentMoment,
-        target,
-      );
-      remaining.sort(compareExactTransitions);
-      transitions.splice(index + 1, transitions.length, ...remaining);
     } else if (transition.kind === "work-completion" && transition.entityId) {
       world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeStaffWork(
@@ -1754,6 +1818,12 @@ function advanceCanonicalMinutes(
       transition.kind === "activity-completion" &&
       transition.entityId
     ) {
+      const state = latestActivityStateUnchecked(world, transition.entityId);
+      if (
+        state?.status !== "scheduled" ||
+        !sameSimulationMoment(state.end, transition.at)
+      )
+        continue;
       world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeActivity(
         world,
@@ -1765,6 +1835,49 @@ function advanceCanonicalMinutes(
           world,
           transition.entityId,
         );
+    }
+    // A normal completion changes only its own terminal state. Keep its
+    // already queued peers instead of scanning/sorting them once per person.
+    const completedOnlyThisActivity =
+      transition.kind === "activity-completion" &&
+      world.history.scheduledActivities === activitiesBefore &&
+      world.history.scheduledActivityStates.length ===
+        activityStatesBefore.length + 1 &&
+      world.history.scheduledActivityStates.at(-1)?.activityId ===
+        transition.entityId &&
+      world.history.scheduledActivityStates.at(-1)?.status === "completed";
+    const activitiesChanged =
+      world.history.scheduledActivities !== activitiesBefore ||
+      (world.history.scheduledActivityStates !== activityStatesBefore &&
+        !completedOnlyThisActivity);
+    const termsChanged =
+      world.history.nationalElectionRecords !== nationalRecordsBefore ||
+      transition.kind === "date-boundary" ||
+      transition.kind === "national-term-boundary";
+    if (activitiesChanged || termsChanged) {
+      const remaining = transitions
+        .slice(index + 1)
+        .filter(
+          (candidate) =>
+            !activitiesChanged || candidate.kind !== "activity-completion",
+        );
+      if (termsChanged)
+        addNationalBoundaryTransitions(
+          remaining,
+          world,
+          world.currentMoment,
+          target,
+        );
+      if (activitiesChanged)
+        addActivityCompletionTransitions(
+          remaining,
+          world,
+          world.currentMoment,
+          target,
+          true,
+        );
+      remaining.sort(compareExactTransitions);
+      transitions.splice(index + 1, transitions.length, ...remaining);
     }
   }
   world = setCurrentMomentWithDue(world, target, transitionHandlers);
