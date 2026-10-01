@@ -1,4 +1,4 @@
-import { afterAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -53,145 +53,171 @@ function digest(world: World): string {
   return createHash("sha256").update(serializeWorld(world)).digest("hex");
 }
 
+function preparedCase(
+  state: ReturnType<typeof lifePlaceStateIdentities>[number],
+) {
+  const place =
+    searchLifePlaces("", 5000, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    })[0] ??
+    searchLifePlaces("", 5, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "state",
+    })[0]!;
+  const caseSeed = `team9-g13-no-judge:${state.jurisdictionKey}`;
+  const game = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: caseSeed,
+      placeKey: place.key,
+      startAge: 40,
+      questionnaire: "skipped",
+    }),
+  ).game!;
+  const personId = game.playerPersonId;
+  const venue = game.world.people[personId]!.homeJurisdictionId;
+  const referred = referForProsecution(game.world, {
+    stableKey: "g13-pending-fixture",
+    subjectPersonId: personId,
+    jurisdictionId: venue,
+    offenseKey: "crime:robbery",
+    referredBy: { kind: "police", label: "police", personId: null },
+    basisEventIds: [],
+    evidence: "documentary",
+    standingFindings: 6,
+  });
+  // Historical fixture dates make this real saved case due without moving
+  // the world's clock or creating a decision for the player.
+  const due: World = {
+    ...referred.world,
+    history: {
+      ...referred.world.history,
+      events: referred.world.history.events.map((event) =>
+        event.id === referred.referralId
+          ? { ...event, occurredAt: addDays(game.world.currentDate, -200) }
+          : event,
+      ),
+    },
+  };
+  const charged = advanceProsecutions(due);
+  expect(
+    charged.history.events.some(
+      (event) =>
+        event.type === PROSECUTION_CHARGED_EVENT &&
+        event.involvedEntityIds.includes(personId),
+    ),
+  ).toBe(true);
+  const trialDue: World = {
+    ...charged,
+    history: {
+      ...charged.history,
+      events: charged.history.events.map((event) =>
+        event.type === PROSECUTION_CHARGED_EVENT &&
+        event.involvedEntityIds.includes(personId)
+          ? {
+              ...event,
+              occurredAt: addDays(
+                charged.currentDate,
+                -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+              ),
+            }
+          : event,
+      ),
+    },
+  };
+  const referral = trialDue.history.events.find(
+    (event) => event.id === referred.referralId,
+  )!;
+  const courtCase: CourtCase = {
+    caseKey: referral.stableKey,
+    defendantId: personId,
+    offenseKey: "crime:robbery",
+    offenseLabel: "robbery",
+    evidence: "documentary",
+    standingFindings: 6,
+    venueJurisdictionId: venue,
+    stateKey: state.jurisdictionKey,
+  };
+  expect(sentencingJudge(trialDue, courtCase, 0)).not.toBeNull();
+  const judgments = (world: World) =>
+    world.history.events.filter(
+      (event) =>
+        [
+          PROSECUTION_ENDED_EVENT,
+          PROSECUTION_SENTENCED_EVENT,
+          PROSECUTION_MISTRIAL_EVENT,
+        ].includes(event.type) && event.involvedEntityIds.includes(personId),
+    );
+  let vacant = trialDue;
+  const eligibleJudge = sentencingJudge(trialDue, courtCase, 0)!;
+  const eligibleTenure = trialDue.judiciary!.seatTenures.find(
+    (tenure) =>
+      tenure.personId === eligibleJudge &&
+      tenure.endedAt === null &&
+      trialDue.judiciary!.courts[
+        trialDue.judiciary!.seats[tenure.seatId]!.courtId
+      ]?.level === "local-general-trial",
+  )!;
+  expect(eligibleTenure).toBeDefined();
+  const vacated: string[] = [];
+  for (const seat of Object.values(trialDue.judiciary!.seats)) {
+    const court = trialDue.judiciary!.courts[seat.courtId];
+    if (
+      court?.level !== "local-general-trial" ||
+      court.jurisdictionId !==
+        chiefExecutiveJurisdiction(state.jurisdictionKey.slice(3))?.id
+    )
+      continue;
+    const holder = seatHolderAt(vacant, seat.seatId);
+    if (!holder) continue;
+    vacant = vacateJudicialSeat(vacant, {
+      seatId: seat.seatId,
+      vacatedAt: vacant.currentDate,
+      reason: "resignation",
+    });
+    vacated.push(seat.seatId);
+  }
+  expect(vacated.length).toBeGreaterThan(0);
+  expect(sentencingJudge(vacant, courtCase, 0)).toBeNull();
+  assertWorldIntegrity(vacant);
+  return {
+    place,
+    caseSeed,
+    personId,
+    venue,
+    trialDue,
+    referral,
+    courtCase,
+    judgments,
+    vacant,
+    eligibleJudge,
+    eligibleTenure,
+    vacated,
+  };
+}
+
 describe("a case requires a sitting judge", () => {
-  const seed = "team9-g10-floor-five-20260930";
-  const rng = new SeededRng(seed);
+  const rng = new SeededRng("team9-g10-floor-five-20260930");
   const states = pickDistinct(rng, lifePlaceStateIdentities(), 5);
-  it.each(states)(
-    "preserves the actual pending defendant in $jurisdictionKey",
-    (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
-      const caseSeed = `team9-g13-no-judge:${state.jurisdictionKey}`;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: caseSeed,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      const personId = game.playerPersonId;
-      const venue = game.world.people[personId]!.homeJurisdictionId;
-      const referred = referForProsecution(game.world, {
-        stableKey: "g13-pending-fixture",
-        subjectPersonId: personId,
-        jurisdictionId: venue,
-        offenseKey: "crime:robbery",
-        referredBy: { kind: "police", label: "police", personId: null },
-        basisEventIds: [],
-        evidence: "documentary",
-        standingFindings: 6,
-      });
-      // Historical fixture dates make this real saved case due without moving
-      // the world's clock or creating a decision for the player.
-      const due: World = {
-        ...referred.world,
-        history: {
-          ...referred.world.history,
-          events: referred.world.history.events.map((event) =>
-            event.id === referred.referralId
-              ? { ...event, occurredAt: addDays(game.world.currentDate, -200) }
-              : event,
-          ),
-        },
-      };
-      const charged = advanceProsecutions(due);
-      expect(
-        charged.history.events.some(
-          (event) =>
-            event.type === PROSECUTION_CHARGED_EVENT &&
-            event.involvedEntityIds.includes(personId),
-        ),
-      ).toBe(true);
-      const trialDue: World = {
-        ...charged,
-        history: {
-          ...charged.history,
-          events: charged.history.events.map((event) =>
-            event.type === PROSECUTION_CHARGED_EVENT &&
-            event.involvedEntityIds.includes(personId)
-              ? {
-                  ...event,
-                  occurredAt: addDays(
-                    charged.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                  ),
-                }
-              : event,
-          ),
-        },
-      };
-      const referral = trialDue.history.events.find(
-        (event) => event.id === referred.referralId,
-      )!;
-      const courtCase: CourtCase = {
-        caseKey: referral.stableKey,
-        defendantId: personId,
-        offenseKey: "crime:robbery",
-        offenseLabel: "robbery",
-        evidence: "documentary",
-        standingFindings: 6,
-        venueJurisdictionId: venue,
-        stateKey: state.jurisdictionKey,
-      };
-      expect(sentencingJudge(trialDue, courtCase, 0)).not.toBeNull();
+  describe.each(states)("$jurisdictionKey", (state) => {
+    let fixture: ReturnType<typeof preparedCase>;
+    beforeAll(() => {
+      fixture = preparedCase(state);
+    });
+    it("preserves the actual pending defendant", () => {
+      const {
+        place,
+        caseSeed,
+        personId,
+        trialDue,
+        referral,
+        judgments,
+        vacant,
+        vacated,
+      } = fixture;
       const staffed = advanceProsecutions(trialDue);
-      const overdueSave = deserializeWorld(serializeWorld(trialDue));
-      const recovered = recoverOverdueProsecutions(overdueSave);
-      expect(recovered.history.events).toEqual(staffed.history.events);
-      expect(recoverOverdueProsecutions(recovered)).toBe(recovered);
-      const judgments = (world: World) =>
-        world.history.events.filter(
-          (event) =>
-            [
-              PROSECUTION_ENDED_EVENT,
-              PROSECUTION_SENTENCED_EVENT,
-              PROSECUTION_MISTRIAL_EVENT,
-            ].includes(event.type) &&
-            event.involvedEntityIds.includes(personId),
-        );
       expect(judgments(staffed).length).toBeGreaterThan(0);
-      let vacant = trialDue;
-      const eligibleJudge = sentencingJudge(trialDue, courtCase, 0)!;
-      const eligibleTenure = trialDue.judiciary!.seatTenures.find(
-        (tenure) =>
-          tenure.personId === eligibleJudge &&
-          tenure.endedAt === null &&
-          trialDue.judiciary!.courts[
-            trialDue.judiciary!.seats[tenure.seatId]!.courtId
-          ]?.level === "local-general-trial",
-      )!;
-      expect(eligibleTenure).toBeDefined();
-      const vacated: string[] = [];
-      for (const seat of Object.values(trialDue.judiciary!.seats)) {
-        const court = trialDue.judiciary!.courts[seat.courtId];
-        if (
-          court?.level !== "local-general-trial" ||
-          court.jurisdictionId !==
-            chiefExecutiveJurisdiction(state.jurisdictionKey.slice(3))?.id
-        )
-          continue;
-        const holder = seatHolderAt(vacant, seat.seatId);
-        if (!holder) continue;
-        vacant = vacateJudicialSeat(vacant, {
-          seatId: seat.seatId,
-          vacatedAt: vacant.currentDate,
-          reason: "resignation",
-        });
-        vacated.push(seat.seatId);
-      }
-      expect(vacated.length).toBeGreaterThan(0);
-      expect(sentencingJudge(vacant, courtCase, 0)).toBeNull();
-      assertWorldIntegrity(vacant);
       const pending = advanceProsecutions(vacant);
       expect(judgments(pending)).toHaveLength(0);
       expect(pending).toBe(vacant);
@@ -211,6 +237,28 @@ describe("a case requires a sitting judge", () => {
       expect(advanceProsecutions(reloaded).history.events).toEqual(
         pending.history.events,
       );
+    });
+    it("recovers a canonical overdue save at the current boundary", () => {
+      const { trialDue, vacant } = fixture;
+      const staffed = advanceProsecutions(trialDue);
+      const overdueSave = deserializeWorld(serializeWorld(trialDue));
+      const recovered = recoverOverdueProsecutions(overdueSave);
+      expect(recovered.history.events).toEqual(staffed.history.events);
+      expect(recoverOverdueProsecutions(recovered)).toBe(recovered);
+      expect(recoverOverdueProsecutions(vacant)).toBe(vacant);
+    });
+    it("reactivates the named case after an actual saved bench tenure", () => {
+      const {
+        caseSeed,
+        personId,
+        venue,
+        referral,
+        judgments,
+        vacant,
+        eligibleJudge,
+        eligibleTenure,
+      } = fixture;
+      const reloaded = deserializeWorld(serializeWorld(vacant));
       expect(recoverOverdueProsecutions(reloaded)).toBe(reloaded);
       let isolated = reloaded;
       for (const item of isolated.history.futureDueItems) {
@@ -301,6 +349,6 @@ describe("a case requires a sitting judge", () => {
         originalReferralDate: referral.occurredAt,
         judgments: judgments(restored),
       });
-    },
-  );
+    });
+  });
 });
