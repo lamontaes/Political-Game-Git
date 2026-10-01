@@ -137,9 +137,27 @@ export interface ResolvedAnnualOfficePayConsequence {
   };
 }
 
+/** A saved hourly clause has legal authority without a synthetic policy question. */
+export interface ResolvedSavedHourlyPayConsequence extends Omit<
+  ResolvedAnnualOfficePayConsequence,
+  "amount" | "action" | "authority"
+> {
+  amount: { value: number; unit: "minor/hour"; currency: "USD" };
+  action: "raise-saved-rule-hourly-floor";
+  authority: Omit<
+    ResolvedAnnualOfficePayConsequence["authority"],
+    "kind" | "field"
+  > & {
+    kind: "enacted-hourly-pay-rule";
+    field: "labor.minimumWage.hourlyCents";
+  };
+}
+
 /** Both actions use the existing pay writer and actual recorded pay cadence. */
 export type ResolvedLawPayConsequence =
-  ResolvedHourlyLawPayConsequence | ResolvedAnnualOfficePayConsequence;
+  | ResolvedHourlyLawPayConsequence
+  | ResolvedAnnualOfficePayConsequence
+  | ResolvedSavedHourlyPayConsequence;
 
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
@@ -165,7 +183,9 @@ export interface ResolvedSavedRuleConsequence extends Omit<
   ResolvedLawConsequence,
   "law" | "questionKey"
 > {
-  authority: ResolvedAnnualOfficePayConsequence["authority"];
+  authority:
+    | ResolvedAnnualOfficePayConsequence["authority"]
+    | ResolvedSavedHourlyPayConsequence["authority"];
 }
 /** Actual sourced appropriation already saved by the common program writer. */
 export interface StandingProgramAuthority {

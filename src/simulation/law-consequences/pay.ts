@@ -30,6 +30,7 @@ import {
   PAY_ACTION,
   NON_ELECTIVE_PAY_PREDICATE,
   ANNUAL_OFFICE_PAY_ACTION,
+  MINIMUM_WAGE_PAY_ROWS,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
   CITY_MINIMUM_WAGE_QUESTION_KEY,
@@ -39,9 +40,14 @@ import { paidOfficeOf, officePayInForce, PAY_LAW_FIELD } from "../office-pay";
 import {
   enactedRuleChangeAt,
   officePayLawOfficeKey,
+  laborLawOfficeKey,
   ruleChangeProvisionHistoryRecords,
 } from "../enacted-rule-changes";
-import { stateJurisdictionForKey } from "../life-places";
+import {
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
+} from "../life-places";
+import { stateMinimumSettingAt } from "../minimum-wage";
 import { resourceFlowTermsAt } from "../resource-queries";
 import type { EntityId, ResourceFlow, World } from "../types";
 
@@ -436,12 +442,224 @@ export function resolveAnnualOfficePayConsequences(
   return results;
 }
 
+/** An adopted hourly clause uses the same pay kind, with actual saved authority. */
+export function resolveSavedHourlyPayConsequences(
+  world: World,
+  context: LawConsequenceContext,
+): readonly ResolvedSavedRuleConsequence[] {
+  if (
+    context.activity !== "payroll" ||
+    context.questionKey ||
+    context.origin === "in-force-at-start"
+  )
+    return [];
+  if (context.onDate > world.currentDate)
+    throw new Error("Pay activity cannot be in the future");
+  const cutoff = {
+    asOfDate: context.onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const results: ResolvedSavedRuleConsequence[] = [];
+  const template = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
+  for (const flow of activityFlows(world, context.activityId)) {
+    if (
+      flow.basisReference.kind !== "work" ||
+      flow.recipient.kind !== "person" ||
+      flow.source.kind !== "organization"
+    )
+      continue;
+    const personId = flow.recipient.personId;
+    if (!context.subjectIds.includes(personId)) continue;
+    const work = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    );
+    if (
+      !work ||
+      work.personId !== personId ||
+      work.organizationId !== flow.source.organizationId
+    )
+      throw new Error("Hourly rule must bind its actual worker and employer");
+    if (workStatusAt(world, work.id, cutoff)?.status !== "active") continue;
+    const role = workRoleAt(world, work.id, cutoff),
+      terms = resourceFlowTermsAt(world, flow.id, cutoff);
+    if (
+      !role ||
+      !terms ||
+      terms.status !== "active" ||
+      terms.amount.currency !== "USD"
+    )
+      continue;
+    const workplace = payWorkplaceAt(world, work.id, cutoff);
+    const place = workplace.jurisdictionId
+      ? world.jurisdictions[workplace.jurisdictionId]
+      : null;
+    const stateKey = place ? stateKeyForJurisdiction(place) : null;
+    if (!stateKey) continue;
+    const match = matchPayCoveragePredicates(
+      world,
+      work.id,
+      template.who.predicates,
+      cutoff,
+    );
+    if (!match.matches) continue;
+    const coverage = workPayCoverageAt(world, work.id, cutoff);
+    const exception = coverage?.exceptions.find(
+      (e) => e.questionKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+    );
+    if (exception && exception.rowId !== template.id) continue;
+    const state = stateKey.slice(3),
+      officeKey = laborLawOfficeKey(state);
+    const field = "labor.minimumWage.hourlyCents" as const;
+    const rule = enactedRuleChangeAt(world, {
+      stateUsps: state,
+      officeKey,
+      field,
+      onDate: context.onDate,
+    });
+    const legal = stateMinimumSettingAt(world, stateKey, context.onDate);
+    if (!rule || !legal?.measureId) continue;
+    if (
+      rule.measureId !== legal.measureId ||
+      rule.operativeAt !== legal.effectiveAt ||
+      rule.value !== legal.hourlyMinor
+    )
+      throw new Error("Hourly rule differs from operative state floor");
+    if (context.governingLawId && context.governingLawId !== rule.measureId)
+      continue;
+    const clauses = ruleChangeProvisionHistoryRecords(world).filter(
+      (p) =>
+        p.measureId === rule.measureId &&
+        p.stateUsps === state &&
+        p.officeKey === officeKey &&
+        p.field === field &&
+        p.filedAt <= context.onDate,
+    );
+    const enactments = (world.history.legislativeEnactments ?? []).filter(
+      (e) =>
+        e.measureId === rule.measureId &&
+        e.outcome === "enacted" &&
+        e.resolvedAt <= context.onDate,
+    );
+    if (clauses.length !== 1 || enactments.length !== 1)
+      throw new Error("Missing or ambiguous adopted hourly authority");
+    const clause = clauses[0]!,
+      enactment = enactments[0]!;
+    if (
+      clause.sequence >= enactment.sequence ||
+      clause.filedAt > enactment.resolvedAt ||
+      clause.value !== rule.value
+    )
+      throw new Error("Hourly clause was not adopted by this enactment");
+    if (!Number.isSafeInteger(legal.hourlyMinor) || legal.hourlyMinor < 0)
+      throw new Error("Hourly rule requires nonnegative integer USD cents");
+    const jurisdiction = stateJurisdictionForKey(stateKey);
+    if (!jurisdiction || !world.jurisdictions[jurisdiction.id])
+      throw new Error("Missing actual hourly rule jurisdiction");
+    const sourceRecordIds = [
+      ...new Set([
+        work.id,
+        role.id,
+        flow.id,
+        terms.id,
+        clause.id,
+        enactment.id,
+        rule.measureId,
+        ...workplace.factRecordIds,
+        ...match.factRecordIds,
+        ...(coverage ? [coverage.id, ...coverage.factRecordIds] : []),
+      ]),
+    ];
+    results.push({
+      row: {
+        ...template,
+        id: `pay:hourly-rule:${clause.id}`,
+        amount: { op: "term", key: field, unit: "minor/hour" },
+        evidence: {
+          ...template.evidence,
+          sourceIds: [clause.id, enactment.id],
+        },
+      },
+      authority: {
+        kind: "enacted-hourly-pay-rule",
+        ruleChangeProvisionId: clause.id,
+        enactmentId: enactment.id,
+        measureId: rule.measureId,
+        officeKey,
+        stateUsps: state,
+        field,
+        operativeAt: rule.operativeAt,
+        applicability: rule.applicability,
+      },
+      jurisdictionId: jurisdiction.id,
+      subject: { kind: "person", id: personId },
+      activityId: context.activityId,
+      effectiveAt: context.onDate,
+      sourceRecordIds,
+      value: {
+        type: "amount",
+        value: legal.hourlyMinor,
+        unit: "minor/hour",
+        currency: "USD",
+      },
+    });
+  }
+  return results;
+}
+
 /** The existing pay-term writer remains the sole writer behind this kind. */
 export function applyPayConsequence(
   world: World,
   resolved: ResolvedAnyLawConsequence,
 ): World {
   if ("authority" in resolved) {
+    if (resolved.authority.kind === "enacted-hourly-pay-rule") {
+      const current = resolveSavedHourlyPayConsequences(world, {
+        onDate: resolved.effectiveAt,
+        activity: "payroll",
+        activityId: resolved.activityId,
+        subjectIds: [resolved.subject.id],
+        governingLawId: resolved.authority.measureId,
+      }).find(
+        (input) =>
+          input.row.id === resolved.row.id &&
+          input.subject.id === resolved.subject.id,
+      );
+      if (
+        !current ||
+        JSON.stringify(current) !== JSON.stringify(resolved) ||
+        current.authority.kind !== "enacted-hourly-pay-rule" ||
+        current.value.type !== "amount" ||
+        current.value.unit !== "minor/hour" ||
+        current.value.currency !== "USD"
+      )
+        throw new Error("Hourly resolution differs from its saved authority");
+      const flow = activityFlows(world, current.activityId).find(
+        (f) =>
+          f.recipient.kind === "person" &&
+          f.recipient.personId === current.subject.id &&
+          current.sourceRecordIds.includes(f.id),
+      );
+      if (!flow || flow.basisReference.kind !== "work")
+        throw new Error("Missing actual hourly rule flow");
+      return applyLawPayConsequence(world, {
+        rowId: current.row.id,
+        jurisdictionId: current.jurisdictionId,
+        personId: current.subject.id,
+        workId: flow.basisReference.workRelationshipId,
+        payFlowId: flow.id,
+        activityId: current.activityId,
+        effectiveAt: current.effectiveAt,
+        amount: {
+          value: current.value.value,
+          unit: "minor/hour",
+          currency: "USD",
+        },
+        sourceRecordIds: current.sourceRecordIds,
+        action: "raise-saved-rule-hourly-floor",
+        authority: current.authority,
+      });
+    }
     if (resolved.authority.kind !== "enacted-office-rule")
       throw new Error("Pay cannot consume standing service authority");
     const current = resolveAnnualOfficePayConsequences(world, {
@@ -455,7 +673,11 @@ export function applyPayConsequence(
         input.row.id === resolved.row.id &&
         input.subject.id === resolved.subject.id,
     );
-    if (!current || JSON.stringify(current) !== JSON.stringify(resolved))
+    if (
+      !current ||
+      current.authority.kind !== "enacted-office-rule" ||
+      JSON.stringify(current) !== JSON.stringify(resolved)
+    )
       throw new Error(
         "Office salary resolution differs from its saved authority",
       );
@@ -531,6 +753,9 @@ export const PAY_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawCons
     predicates: PAY_COVERAGE_PREDICATES,
     units: ["minor/hour", "minor"],
     resolve: resolvePayConsequences,
-    resolveSavedRules: resolveAnnualOfficePayConsequences,
+    resolveSavedRules: (world, context) => [
+      ...resolveAnnualOfficePayConsequences(world, context),
+      ...resolveSavedHourlyPayConsequences(world, context),
+    ],
     apply: applyPayConsequence,
   };
