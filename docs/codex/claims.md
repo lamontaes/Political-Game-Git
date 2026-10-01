@@ -1,3 +1,13 @@
+## October 1, 4:12 a.m. current transfers and overrides
+
+- CTO 3:41 defers groundwater. This supersedes the older 3:20 Team 4 assignment below. Preserve its source; no new parcel or well proxy.
+- Team 3 released the A45 estimate-draw hunks at f76bc5b63f21ab6171ade6e8ca8e5dc9377b0c09 in state-paid-leave-law.ts and paid-leave-benefits.ts to Team 6. The transfer excludes current law terms, claims and financial writers. Team 6 published #1491.
+- Audit retains world.ts, time-work.ts, default composition, day bridge and opening clock work. References to Audit's root mean the Audit lead, not the coordinator.
+- Team 7 owns only the released advancement calls/imports in demo.ts, people-continuation.ts and character-history.ts. Preserve exact local date/time and complete handler composition; no competing clock.
+- Team 7 retains the narrow county timing/qualification consumer hunks in campaign-projection.ts, campaign-office-discovery.ts, life-talk-running.ts and CampaignWorkspace.tsx. Its #1492 does not admit unknown district qualifications.
+- Coordinator retains canonical starting-law JSON and shared final-law reader integration. Team 3 owns minimum-wage.ts dated consumer changes. Published coordinator wage head is dbc66c17a8285cb8b856796c09239ced96a50023.
+- Team 1 builds the CTO 4:08 session budget intake in its existing survivors. Audit answers code-contract questions; no duplicate filer or manufactured budget amounts.
+
 ## October 1, 3:38 ownership additions
 
 - Coordinator owns the standing-appropriation additions to law-consequence-types.ts, enacted-law-effects.ts and law-effect-stamp.ts, the pay authority discriminator and corresponding contract tests. Published d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec is WIP. Team 5 owns its existing service resolver and consumer; Team 6 owns actual authority and payment records. No synthetic bill or second service engine.

@@ -1,3 +1,7 @@
+## October 1, 4:12 a.m. integration evidence
+
+Coordinator dated starting terms at dbc66c17a8285cb8b856796c09239ced96a50023 have 45 focused passes covering 26 places, not nationwide payroll proof. Ohio applicability remains unresolved. Standing authority composition eef98ed6809094d6c4eec6bf62442ef111c436e2 has four focused authority/payment passes; actual service completion belongs to Team 5's #1494 producer, currently under CTO review. Team 1 now builds real session appropriations from adopted government program spending. No completed link or law total is inferred from these candidates.
+
 ## October 1, 3:38 integration checkpoint
 
 Standing appropriations now have a published shared authority contract at d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec. Actual service delivery remains unproved until Team 5 connects the paid operating installment and completed recipient activity. X5 wage research #1482 awaits canonical dated and tiered admission. Audit completion 78ae4c9453d3e30dbed003fa925e5e7900046e78 reports focused graph proof only; day-route migration and natural attendance remain open. No link is marked runtime-complete from these source receipts. See status.md for owners and limits.
