@@ -11,7 +11,7 @@ import {
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
 import {
-  researchedLinkSize,
+  drawnLinkSize,
   OUTCOME_LINKS,
   OUTCOME_WEB_CALIBRATED_AT,
   outcomeLinkStatus,
@@ -220,7 +220,7 @@ describe("civil and social laws move the world", () => {
     expect(causeIn(lastBefore.month)?.factor ?? 1).toBe(1);
 
     // Once they have been open a month: the drawn size, in the law's direction.
-    const size = researchedLinkSize(world, link!, STATE);
+    const size = drawnLinkSize(world, link!, STATE);
     const direction = flipped === "yes" ? 1 : -1;
     expect(size).toBeGreaterThanOrEqual(-0.2);
     expect(size).toBeLessThanOrEqual(0.1);

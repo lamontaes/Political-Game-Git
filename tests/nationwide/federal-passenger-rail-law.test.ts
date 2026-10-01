@@ -13,7 +13,7 @@ import {
 } from "../../src/simulation/life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import {
-  researchedLinkSize,
+  drawnLinkSize,
   OUTCOME_LINKS,
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
@@ -177,7 +177,7 @@ describe("a federal law that pays to expand passenger rail", () => {
     const start = makeIsoDate("2026-02-01");
     const end = makeIsoDate("2031-02-01");
     const world = run(worldWith([act(1, "yes", start), act(2, "no", end)]), 64);
-    const size = researchedLinkSize(world, link, STATE);
+    const size = drawnLinkSize(world, link, STATE);
     const records = placeOutcomeRecords(world).filter(
       (record) =>
         record.measure === RIDERS && record.placeKey === PLACE.jurisdictionKey,

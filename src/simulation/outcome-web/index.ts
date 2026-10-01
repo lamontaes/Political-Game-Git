@@ -19,6 +19,7 @@ import {
 import minimumWages from "../../../data/research/money/minimum-wage-2026.json" with { type: "json" };
 import { US_FEDERAL_POSITIONS_PACK } from "../policy-pack-us-federal-positions";
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
+import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 
 /**
@@ -107,8 +108,8 @@ export interface OutcomeLink {
   readonly source: string;
   readonly moderator?: OutcomeLinkModerator;
   /**
-   * The uncertainty range the research reports, [low, high]. The mechanism
-   * uses the researched `size`; this range does not draw another value.
+   * The spread of sizes the research reports, [low, high]. Each world draws
+   * its own size for each place within it; `size` is the central estimate.
    */
   readonly range?: readonly [number, number];
   /**
@@ -668,10 +669,24 @@ export function shapedLinkFactor(
   }
 }
 
-/** Use the researched effect size, including a place's own researched size.
- * Research ranges describe uncertainty; they do not draw a new mechanism. */
-export function researchedLinkSize(
-  _world: World,
+/** How far either way a size may fall when the research gave no range. */
+const DEFAULT_SPREAD: Readonly<Record<OutcomeEvidence, number>> = {
+  researched: 0.25,
+  provisional: 0.5,
+  contested: 1,
+  "about-zero": 0,
+  "to-confirm": 0.5,
+};
+
+/**
+ * The size this world uses for a link in one place. Research sizes are a
+ * baseline, not literal numbers (Lamontae, Sept. 28): each world draws each
+ * place's size once, stable for the whole game, within the link's range, or
+ * within a default spread by evidence. A world without a seed (a fixture)
+ * uses the central size.
+ */
+export function drawnLinkSize(
+  world: World,
   link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence"> &
     Partial<Pick<OutcomeLink, "sizeByPlace">>,
   jurisdictionId: EntityId,
@@ -679,7 +694,19 @@ export function researchedLinkSize(
   const own = link.sizeByPlace
     ? link.sizeByPlace[placeOutcomeKey(jurisdictionId) ?? ""]
     : undefined;
-  return own ? own.size : (link.size ?? 0);
+  const size = own ? own.size : (link.size ?? 0);
+  if (size === 0 || !world.seed) return size;
+  const spread = DEFAULT_SPREAD[link.evidence];
+  const [low, high] = (own ? own.range : link.range) ?? [
+    size * (1 - spread),
+    size * (1 + spread),
+  ];
+  // Two draws averaged: the middle of the range is likelier than its ends.
+  const rng = new SeededRng(world.seed).fork(
+    `outcome-web:${link.key}:${jurisdictionId}`,
+  );
+  const u = (rng.next() + rng.next()) / 2;
+  return Math.min(low, high) + Math.abs(high - low) * u;
 }
 
 function lagged(asOf: IsoDate, lagMonths: number): IsoDate {
@@ -719,10 +746,7 @@ export function outcomeFactor(
       continue;
     }
     let factor = shapedLinkFactor(
-      {
-        shape: link.shape,
-        size: researchedLinkSize(world, link, jurisdictionId),
-      },
+      { shape: link.shape, size: drawnLinkSize(world, link, jurisdictionId) },
       value,
       baseline,
     );
@@ -774,3 +798,6 @@ export function acuteWeight(
   const age = daysBetween(happenedAt, asOf);
   return age < 0 ? 0 : Math.pow(0.5, age / halfLifeDays);
 }
+
+// Admit the catalog before any caller can use an effect or status reading.
+validateOutcomeLinkInventory(OUTCOME_LINKS);

@@ -1,7 +1,7 @@
 import tuitionRevenue from "../../../data/research/money/state-tuition-revenue.json" with { type: "json" };
 import { makeIsoDate, yearOf } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
-import { researchedLinkSize } from "../outcome-web";
+import { drawnLinkSize } from "../outcome-web";
 import type { EntityId, IsoDate, World } from "../types";
 import { propositionIdFor } from "./fiscal";
 import type { PublicBudgetGovernment } from "./store";
@@ -52,7 +52,7 @@ export function tuitionGrowthPerYearAt(
   jurisdictionId: EntityId,
 ): number {
   const { central, low, high } = tuitionRevenue.tuitionGrowthPerYear;
-  return researchedLinkSize(
+  return drawnLinkSize(
     world,
     {
       key: "direct:tuition-growth",

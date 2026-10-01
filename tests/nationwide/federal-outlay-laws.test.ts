@@ -16,7 +16,7 @@ import {
 } from "../../src/simulation/life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import {
-  researchedLinkSize,
+  drawnLinkSize,
   OUTCOME_LINKS,
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
@@ -276,7 +276,7 @@ describe("a federal law that makes Congress cut spending before the debt limit r
       ]),
       60,
     );
-    const size = researchedLinkSize(world, link, STATE);
+    const size = drawnLinkSize(world, link, STATE);
     const records = placeOutcomeRecords(world).filter(
       (record) =>
         record.measure === BORROWING &&

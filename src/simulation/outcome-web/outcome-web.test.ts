@@ -10,7 +10,7 @@ import type {
   World,
 } from "../types";
 import {
-  researchedLinkSize,
+  drawnLinkSize,
   LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
   OUTCOME_WEB_CALIBRATED_AT,
@@ -25,7 +25,6 @@ import {
 } from ".";
 
 const SHAPES = new Set([
-  "elasticity",
   "linear",
   "elasticity",
   "threshold",
@@ -330,93 +329,48 @@ describe("laws as causes", () => {
   });
 });
 
-describe("link sizes use the researched mechanism", () => {
+describe("sizes are a baseline, not literal numbers", () => {
   const link = OUTCOME_LINKS.find(
     (candidate) => candidate.key === "unemployment-to-poverty",
   )!;
+  const place = "place_a" as EntityId;
   const seeded = (seed: string) => ({ seed }) as unknown as World;
 
-  it("keeps the researched size across seeds and all 56 jurisdictions", () => {
-    for (const usps of Object.keys(STATES)) {
-      const place = stateJurisdictionForKey(`US-${usps}`)!.id;
-      for (const seed of ["first-world", "second-world", "third-world"])
-        expect(researchedLinkSize(seeded(seed), link, place)).toBe(link.size);
+  it("each world draws each place's size within the research range, and keeps it", () => {
+    const [low, high] = link.range!;
+    const sizes = new Set<number>();
+    for (let index = 0; index < 40; index += 1) {
+      const size = drawnLinkSize(seeded(`world-${index}`), link, place);
+      expect(size).toBeGreaterThanOrEqual(low);
+      expect(size).toBeLessThanOrEqual(high);
+      expect(drawnLinkSize(seeded(`world-${index}`), link, place)).toBe(size);
+      sizes.add(size);
     }
+    // Different worlds play out differently.
+    expect(sizes.size).toBeGreaterThan(30);
+    // So do different places in one world.
+    expect(drawnLinkSize(seeded("w"), link, "place_b" as EntityId)).not.toBe(
+      drawnLinkSize(seeded("w"), link, place),
+    );
   });
 
-  it("uses each catalog link's central or recorded place size in every jurisdiction and seed", () => {
-    const sized = OUTCOME_LINKS.filter((candidate) => candidate.size !== null);
-    expect(sized.length).toBeGreaterThan(0);
-    for (const candidate of sized) {
-      for (const usps of Object.keys(STATES)) {
-        const placeKey = `US-${usps}`;
-        const place = stateJurisdictionForKey(placeKey)!.id;
-        const expected =
-          candidate.sizeByPlace?.[placeKey]?.size ?? candidate.size;
-        for (const seed of ["first-world", "second-world", "third-world"])
-          expect(
-            researchedLinkSize(seeded(seed), candidate, place),
-            `${candidate.key} in ${placeKey}`,
-          ).toBe(expected);
-      }
-    }
-  });
-
-  it("uses a place's recorded size, including zero, rather than its range", () => {
-    const keys = Object.keys(STATES);
-    const local = {
-      ...link,
-      sizeByPlace: Object.fromEntries(
-        keys.map((usps, index) => [
-          `US-${usps}`,
-          { size: index / 100, range: [-10, 10] as const },
-        ]),
-      ),
-    };
-    for (const [index, usps] of keys.entries()) {
-      const place = stateJurisdictionForKey(`US-${usps}`)!.id;
-      expect(researchedLinkSize(seeded("place-size"), local, place)).toBe(
-        index / 100,
-      );
-    }
-    expect(
-      researchedLinkSize(
-        seeded("unrecorded"),
-        local,
-        "fixture-unlisted" as EntityId,
-      ),
-    ).toBe(link.size);
-  });
-
-  it("does not spread unbounded or negative sizes and preserves about-zero links", () => {
-    const negative = {
-      key: "fixture-negative",
-      size: -0.1,
+  it("a link without a researched range spreads by its evidence, and an about-zero link stays zero", () => {
+    const researched = {
+      key: "x",
+      size: 0.1,
       evidence: "researched" as const,
     };
-    expect(
-      researchedLinkSize(
-        seeded("first"),
-        negative,
-        "fixture-place" as EntityId,
-      ),
-    ).toBe(-0.1);
-    expect(
-      researchedLinkSize(
-        seeded("second"),
-        negative,
-        "fixture-place" as EntityId,
-      ),
-    ).toBe(-0.1);
+    for (let index = 0; index < 20; index += 1) {
+      const size = drawnLinkSize(seeded(`s${index}`), researched, place);
+      expect(size).toBeGreaterThanOrEqual(0.075);
+      expect(size).toBeLessThanOrEqual(0.125);
+    }
     for (const zero of OUTCOME_LINKS.filter(
       (candidate) => candidate.evidence === "about-zero",
     ))
-      expect(
-        researchedLinkSize(seeded("zero"), zero, "fixture-place" as EntityId),
-      ).toBe(0);
-    expect(
-      researchedLinkSize({} as World, link, "fixture-place" as EntityId),
-    ).toBe(link.size);
+      expect(drawnLinkSize(seeded("w"), zero, place)).toBe(0);
+    // A fixture world with no seed uses the central size.
+    expect(drawnLinkSize({} as World, link, place)).toBe(link.size);
   });
 });
 

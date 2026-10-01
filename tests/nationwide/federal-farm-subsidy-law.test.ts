@@ -12,7 +12,7 @@ import {
 } from "../../src/simulation/life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import {
-  researchedLinkSize,
+  drawnLinkSize,
   OUTCOME_LINKS,
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
@@ -163,7 +163,7 @@ describe("a federal law that cuts farm subsidies", () => {
     const start = makeIsoDate("2027-01-01");
     const end = makeIsoDate("2031-01-01");
     const world = run(worldWith([act(1, "yes", start), act(2, "no", end)]), 80);
-    const size = researchedLinkSize(world, link, STATE);
+    const size = drawnLinkSize(world, link, STATE);
     expect(size).toBeGreaterThanOrEqual(-0.3);
     expect(size).toBeLessThanOrEqual(-0.13);
     const records = placeOutcomeRecords(world).filter(

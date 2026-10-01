@@ -1,4 +1,6 @@
 import { eventById } from "./event-index";
+import { lawInForce, type LawInForce } from "./governing/law-in-force";
+import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
 import { recordById, recordsByStringField } from "./history-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
@@ -562,6 +564,7 @@ export function assessTaxBase(
   world: World,
   baseId: EntityId,
   seriesKey: string,
+  lawApplication?: { law: LawInForce; questionKey: string },
 ): World {
   const base = world.history.taxBases?.find((row) => row.id === baseId);
   if (!base) throw new Error("No recorded taxable occurrence.");
@@ -581,6 +584,40 @@ export function assessTaxBase(
   if (!policy)
     throw new Error("There is no effective tax policy for this occurrence.");
   const proposal = requireProposal(world, policy.proposalId);
+  const proposition = lawApplication
+    ? Object.values(world.policyCatalog.propositions).find(
+        (entry) => entry.stableKey === lawApplication.questionKey,
+      )
+    : undefined;
+  const governingLaw = proposition
+    ? lawInForce(world, base.jurisdictionId, proposition.id, base.occurredAt)
+    : null;
+  if (
+    lawApplication &&
+    (!governingLaw ||
+      governingLaw.origin !== "enacted" ||
+      governingLaw.measureId !== proposal.measureId ||
+      canonicalJson(governingLaw) !== canonicalJson(lawApplication.law))
+  )
+    throw new Error(
+      "The assessment stamp requires this levy's actual governing law and question.",
+    );
+  const stamp = lawApplication
+    ? lawEffectStamp(governingLaw, {
+        effectKind: "tax-assessment",
+        questionKey: lawApplication.questionKey,
+        jurisdictionId: base.jurisdictionId,
+        appliedAt: world.currentDate,
+        sourceRecordIds: [
+          base.id,
+          base.sourceEventId,
+          policy.id,
+          policy.enactmentId,
+          proposal.id,
+          proposal.levyProvisionId,
+        ],
+      })
+    : null;
   const preview = previewTax(proposal.terms, base.baseKey, base.amount);
   if (preview.status !== "available") throw new Error(preview.reason);
   const dueAt = addDays(base.occurredAt, proposal.terms.collectionLagDays);
@@ -598,6 +635,7 @@ export function assessTaxBase(
     taxableAmount: preview.taxableAmount,
     taxAmount: preview.taxAmount,
     exemptionReason: preview.exemptionReason,
+    ...(stamp ? { lawEffectStamps: [stamp] } : {}),
   };
   let next = append(world, "taxAssessments", assessment);
   next = scheduleFutureDueItem(next, {
@@ -737,6 +775,23 @@ export function taxCollectionTransition(
     resourceOutcomeId,
     outcomeEventId,
     reason,
+    ...(assessment.lawEffectStamps?.length
+      ? {
+          lawEffectStamps: assessment.lawEffectStamps
+            .map((stamp) => ({
+              ...stamp,
+              effectKind: "tax-collection",
+              appliedAt: world.currentDate,
+              sourceRecordIds: [
+                ...(stamp.sourceRecordIds ?? []),
+                assessment.id,
+                ...(resourceOutcomeId ? [resourceOutcomeId] : []),
+                outcomeEventId,
+              ],
+            }))
+            .filter(isLawEffectStamp),
+        }
+      : {}),
   };
   next = append(next, "taxCollections", collection);
   if (status === "collected" && transferred.minorUnits > 0)

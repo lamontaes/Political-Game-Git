@@ -28,7 +28,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { researchedLinkSize } from "./outcome-web";
+import { drawnLinkSize } from "./outcome-web";
 import type { EntityId, IsoDate, World } from "./types";
 
 export const TEACHER_SALARY_FLOOR_QUESTION =
@@ -66,7 +66,7 @@ export function teacherFloorRatioAt(
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
   const stateId = stateKey ? stateJurisdictionForKey(stateKey)?.id : undefined;
-  return researchedLinkSize(
+  return drawnLinkSize(
     world,
     {
       key: "direct:teacher-salary-floor",
