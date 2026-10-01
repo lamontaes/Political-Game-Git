@@ -48,6 +48,7 @@ import {
   yearOf,
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { applyLawConsequences } from "../enacted-law-effects";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
 import {
@@ -473,6 +474,12 @@ export function recordHealthCoverage(
   onDate: IsoDate,
   causeId: EntityId,
 ): World {
+  world = applyLawConsequences(world, {
+    onDate,
+    activity: "application",
+    activityId: causeId,
+    subjectIds: world.personOrder,
+  });
   const cutoff = {
     asOfDate: onDate,
     historySequenceExclusive: world.history.nextSequence,
