@@ -10,6 +10,8 @@ import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
   officialViewReflectionHandler,
+  LIVED_OUTCOME_REFLECTION_TRANSITION_KEY,
+  livedOutcomeReflectionHandler,
 } from "./living-world/official-views";
 import { contestDistrictGeography } from "./campaign-geography";
 import {
@@ -2231,6 +2233,11 @@ export function composeWorldTimeHandlers(
         // Spec 5: people credit or blame the officials behind a law that
         // reached them.
         [OFFICIAL_VIEW_TRANSITION_KEY, officialViewReflectionHandler],
+        // People blame the official who answers for what happened to them.
+        [
+          LIVED_OUTCOME_REFLECTION_TRANSITION_KEY,
+          livedOutcomeReflectionHandler,
+        ],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.

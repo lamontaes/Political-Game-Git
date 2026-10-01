@@ -1,6 +1,6 @@
 import { considerationScore, evaluateDecision } from "../decisions";
 import { eventsOfType } from "../justice/jail-terms";
-import { ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../dates";
 import { personTrait } from "../people-traits";
 import type {
   DecisionConsideration,
@@ -12,6 +12,7 @@ import type {
 } from "../types";
 import type { CrimeOffense } from "./contract";
 import { offenderForVictims } from "./offenders";
+import { crimesSufferedBy } from "./victims";
 
 /**
  * Whether a victim reports an offense to police (A131).
@@ -127,21 +128,7 @@ export function priorVictimizations(
   personId: EntityId,
   onDate: IsoDate,
 ): number {
-  let count = 0;
-  for (const type of [
-    "crime.offense-reported",
-    "crime.offense-unreported",
-  ] as const)
-    for (const event of eventsOfType(world, type))
-      if (
-        event.occurredAt < onDate &&
-        event.participants.some(
-          (row) =>
-            row.personId === personId && row.role === "impact:crime-victim",
-        )
-      )
-        count += 1;
-  return count;
+  return crimesSufferedBy(world, personId, addDays(onDate, -1)).length;
 }
 
 /** The victim's past with police before `onDate`: reports made, charges. */
