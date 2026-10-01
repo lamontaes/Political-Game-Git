@@ -9,7 +9,8 @@ export interface WorkPayCoverageDeterminationRecord {
   readonly personId: EntityId;
   readonly employerOrganizationId: EntityId;
   readonly workRoleId: EntityId;
-  readonly jurisdictionId: EntityId;
+  /** Null preserves an absent workplace; it never borrows the worker's home. */
+  readonly jurisdictionId: EntityId | null;
   readonly determinedAt: IsoDate;
   readonly reason: "hire" | "opening";
   readonly defaultCategory: "standard";

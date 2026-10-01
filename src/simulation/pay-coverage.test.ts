@@ -4,8 +4,16 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import { addDays } from "./dates";
-import { createWorkRelationship } from "./life";
+import { addDays, simulationMomentOnLocalDate } from "./dates";
+import {
+  cancelFutureDueItem,
+  futureDueItemStateAt,
+} from "./future-transitions";
+import {
+  createWorkRelationship,
+  createWorkRelationships,
+  recordWorkStatus,
+} from "./life";
 import {
   organizationProfileAt,
   workRelationshipHistoryForOrganization,
@@ -22,14 +30,18 @@ import {
   determineWorkPayCoverage,
   workPayCoverageAt,
   assertWorkPayCoverageIntegrity,
+  initializeWorkPayCoverage,
 } from "./pay-coverage";
-import { matchPayCoveragePredicates } from "./pay-coverage-predicates";
+import {
+  matchPayCoveragePredicates,
+  payWorkplaceAt,
+} from "./pay-coverage-predicates";
 import { createWorkCompensation, money } from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
-import { assertWorldIntegrity } from "./world";
+import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 import type { World } from "./types";
 
 const places = new Map<string, [string, number]>();
@@ -71,6 +83,196 @@ function fixture(placeKey = sampled[0]!) {
   return { world, work, role: workRoleAt(world, work.id)! };
 }
 
+function hireInput(f: ReturnType<typeof fixture>, stableKey: string) {
+  return {
+    stableKey,
+    personId: f.work.personId,
+    organizationId: f.work.organizationId,
+    startedAt: f.world.currentDate,
+    kind: f.work.kind,
+    compensation: f.work.compensation,
+    authority: f.work.authority,
+    dependency: f.work.dependency,
+    economicRisk: f.work.economicRisk,
+    initialRole: {
+      title: f.role.title,
+      occupationClassification: f.role.occupationClassification,
+      locationJurisdictionId: f.role.locationJurisdictionId,
+      timeDemand: f.role.timeDemand,
+    },
+    provenance: {
+      kind: "authored" as const,
+      note: "Explicit job-writer hook control using actual saved worker, employer and role facts; not an ordinary new-job decision.",
+    },
+  };
+}
+
+it("records singular and batch actual hire coverage after the committed work, role and status, with reload parity", () => {
+  const f = fixture();
+  const input = hireInput(f, "fixture:coverage:single-hire");
+  const single = createWorkRelationship(f.world, input);
+  const work = single.history.workRelationships.at(-1)!;
+  const coverage = workPayCoverageAt(single, work.id)!;
+  expect(coverage.reason).toBe("hire");
+  expect(coverage.sequence).toBeGreaterThan(
+    workRoleAt(single, work.id)!.sequence,
+  );
+  expect(coverage.factRecordIds).toContain(workStatusAt(single, work.id)!.id);
+  expect(determineWorkPayCoverage(single, [work.id], "hire")).toBe(single);
+  expect(
+    serializeWorld(
+      createWorkRelationship(deserializeWorld(serializeWorld(f.world)), input),
+    ),
+  ).toBe(serializeWorld(single));
+  const inputs = [
+    hireInput(f, "fixture:coverage:batch-a"),
+    hireInput(f, "fixture:coverage:batch-b"),
+  ];
+  const batch = createWorkRelationships(single, inputs);
+  for (const job of batch.history.workRelationships.slice(-2)) {
+    const record = workPayCoverageAt(batch, job.id)!;
+    expect(record.reason).toBe("hire");
+    expect(record.sequence).toBeGreaterThan(
+      workRoleAt(batch, job.id)!.sequence,
+    );
+  }
+  expect(
+    serializeWorld(
+      createWorkRelationships(deserializeWorld(serializeWorld(single)), inputs),
+    ),
+  ).toBe(serializeWorld(batch));
+});
+
+it("records an expected job only when its actual saved status becomes active, at a controlled date", () => {
+  const f = fixture();
+  const activeAt = addDays(f.world.currentDate, 1);
+  let world = createWorkRelationship(f.world, {
+    ...hireInput(f, "fixture:coverage:expected"),
+    startedAt: activeAt,
+    initialStatus: "expected",
+  });
+  const work = world.history.workRelationships.at(-1)!;
+  expect(workPayCoverageAt(world, work.id)).toBeUndefined();
+  world = withWorldIntegrityDeferred(() => {
+    let next = world;
+    for (const due of world.history.futureDueItems) {
+      const state = futureDueItemStateAt(world, due.id, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      });
+      if (state?.status === "scheduled" && due.dueAt <= activeAt)
+        next = cancelFutureDueItem(next, {
+          stableKey: `fixture:coverage:activation-clock:${due.id}`,
+          dueItemId: due.id,
+          effectiveAt: world.currentDate,
+          reasonKey: "fixture:focused-activation",
+          context:
+            "Controlled activation date; ordinary clock scheduling is not proved.",
+        });
+    }
+    return {
+      ...next,
+      currentDate: activeAt,
+      currentMoment: simulationMomentOnLocalDate(next.currentMoment, activeAt),
+    };
+  });
+  const input = {
+    stableKey: "fixture:coverage:activated",
+    workRelationshipId: work.id,
+    effectiveAt: activeAt,
+    status: "active" as const,
+    reason: null,
+    provenance: hireInput(f, "unused").provenance,
+    supersedesStatusId: workStatusAt(world, work.id)!.id,
+  };
+  const activated = recordWorkStatus(world, input);
+  expect(workPayCoverageAt(activated, work.id)).toMatchObject({
+    reason: "hire",
+    determinedAt: activeAt,
+  });
+  expect(
+    serializeWorld(
+      recordWorkStatus(deserializeWorld(serializeWorld(world)), input),
+    ),
+  ).toBe(serializeWorld(activated));
+});
+
+it("uses only saved work-time or dated employer locations, and preserves an absent press workplace without granting a floor", () => {
+  const f = fixture();
+  const employerPlace = organizationProfileAt(
+    f.world,
+    f.work.organizationId!,
+  )!.locationJurisdictionId;
+  expect(employerPlace).not.toBeNull();
+  for (const withWorkTimePlace of [true, false]) {
+    const input = hireInput(
+      f,
+      `fixture:coverage:workplace:${withWorkTimePlace}`,
+    );
+    const world = createWorkRelationship(f.world, {
+      ...input,
+      initialRole: {
+        ...input.initialRole,
+        locationJurisdictionId: null,
+        timeDemand: {
+          ...input.initialRole.timeDemand,
+          locationJurisdictionId: withWorkTimePlace
+            ? f.role.locationJurisdictionId
+            : null,
+        },
+      },
+    });
+    const job = world.history.workRelationships.at(-1)!;
+    expect(workPayCoverageAt(world, job.id)!.jurisdictionId).toBe(
+      withWorkTimePlace ? f.role.locationJurisdictionId : employerPlace,
+    );
+  }
+  let world = initializeWorkPayCoverage(f.world);
+  const job = world.history.workRelationships.find((work) => {
+    const record = workPayCoverageAt(world, work.id);
+    return record?.jurisdictionId === null;
+  })!;
+  expect(job).toBeDefined();
+  const coverage = workPayCoverageAt(world, job.id)!;
+  expect(coverage.governingLaws).toEqual([]);
+  expect(coverage.factRecordIds).toContain(workRoleAt(world, job.id)!.id);
+  expect(coverage.factRecordIds).toContain(
+    organizationProfileAt(world, job.organizationId!)!.id,
+  );
+  world = createWorkCompensation(world, {
+    stableKey: "fixture:coverage:unlocated-pay",
+    workRelationshipId: job.id,
+    startsAt: world.currentDate,
+    amount: money(100, "USD"),
+    cadenceKind: "schedule:weekly",
+    restrictionKind: null,
+    jurisdictionId: null,
+    provenance: hireInput(f, "unused").provenance,
+  });
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (entry) => entry.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+  )!;
+  const row = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
+  world = {
+    ...world,
+    policyCatalog: {
+      ...world.policyCatalog,
+      propositions: {
+        ...world.policyCatalog.propositions,
+        [question.id]: { ...question, consequences: [row] },
+      },
+    },
+  };
+  expect(() =>
+    resolvePayConsequences(world, row, {
+      onDate: world.currentDate,
+      activity: "payroll",
+      activityId: world.history.resourceFlows.at(-1)!.id,
+      subjectIds: [job.personId],
+    }),
+  ).toThrow("Missing pay recorded work jurisdiction capability");
+});
+
 it.each(sampled)(
   "records the standard default from actual dated job facts once in %s, preserving old saves and repeat",
   (placeKey) => {
@@ -81,7 +283,11 @@ it.each(sampled)(
       "opening",
     );
     const record = workPayCoverageAt(recorded, f.work.id)!;
-    expect(recorded.history.workPayCoverageDeterminations).toHaveLength(1);
+    const prior = workPayCoverageAt(f.world, f.work.id);
+    expect(recorded.history.workPayCoverageDeterminations).toHaveLength(
+      (f.world.history.workPayCoverageDeterminations?.length ?? 0) +
+        (prior ? 0 : 1),
+    );
     expect(record).toMatchObject({
       workRelationshipId: f.work.id,
       personId: f.work.personId,
@@ -89,7 +295,7 @@ it.each(sampled)(
       workRoleId: f.role.id,
       jurisdictionId: f.role.locationJurisdictionId,
       determinedAt: f.world.currentDate,
-      reason: "opening",
+      reason: prior?.reason ?? "opening",
       defaultCategory: "standard",
       exceptions: [],
     });
@@ -183,6 +389,49 @@ it.each(sampled)(
         },
       }),
     ).toThrow(/Duplicate.*ID/);
+  },
+);
+
+it.each(sampled)(
+  "initializes every actual active paid opening job once in %s",
+  (placeKey) => {
+    const f = fixture(placeKey);
+    const actual = f.world.history.workRelationships.filter(
+      (work) =>
+        work.organizationId &&
+        (work.compensation === "paid" || work.compensation === "mixed") &&
+        workStatusAt(f.world, work.id)?.status === "active",
+    );
+    const initialized = initializeWorkPayCoverage(f.world);
+    for (const work of actual) {
+      const role = workRoleAt(f.world, work.id);
+      if (!role?.locationJurisdictionId) {
+        const record = workPayCoverageAt(initialized, work.id)!;
+        expect(record.factRecordIds).toContain(role!.id);
+        const workplace = payWorkplaceAt(f.world, work.id, {
+          asOfDate: f.world.currentDate,
+          historySequenceExclusive: f.world.history.nextSequence,
+        });
+        expect(record.jurisdictionId).toBe(workplace.jurisdictionId);
+        if (!workplace.jurisdictionId) expect(record.governingLaws).toEqual([]);
+      }
+    }
+    expect(initialized.history.workPayCoverageDeterminations).toHaveLength(
+      actual.length,
+    );
+    expect(
+      new Set(
+        initialized.history.workPayCoverageDeterminations!.map(
+          (record) => record.workRelationshipId,
+        ),
+      ),
+    ).toEqual(new Set(actual.map((work) => work.id)));
+    expect(initializeWorkPayCoverage(initialized)).toBe(initialized);
+    expect(
+      serializeWorld(
+        initializeWorkPayCoverage(deserializeWorld(serializeWorld(f.world))),
+      ),
+    ).toBe(serializeWorld(initialized));
   },
 );
 

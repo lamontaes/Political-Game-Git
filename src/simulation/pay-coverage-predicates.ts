@@ -14,6 +14,27 @@ export const PAY_COVERAGE_PREDICATES = [
   "pay-employer-workforce-at-most",
 ] as const;
 
+/** A workplace from saved, dated work/employer facts, never a home default. */
+export function payWorkplaceAt(
+  world: World,
+  workId: EntityId,
+  cutoff: HistoricalCutoff,
+): { jurisdictionId: EntityId | null; factRecordIds: EntityId[] } {
+  const work = recordById(world.history.workRelationships, workId);
+  if (!work?.organizationId)
+    throw new Error("Missing pay workplace actual employer");
+  const role = workRoleAt(world, workId, cutoff);
+  if (!role) throw new Error("Missing pay workplace actual dated role");
+  const rolePlace =
+    role.locationJurisdictionId ?? role.timeDemand.locationJurisdictionId;
+  if (rolePlace) return { jurisdictionId: rolePlace, factRecordIds: [role.id] };
+  const profile = organizationProfileAt(world, work.organizationId, cutoff);
+  return {
+    jurisdictionId: profile?.locationJurisdictionId ?? null,
+    factRecordIds: [role.id, ...(profile ? [profile.id] : [])],
+  };
+}
+
 /** Actual dated facts only; missing exception evidence does not override the standard. */
 export function matchPayCoveragePredicates(
   world: World,

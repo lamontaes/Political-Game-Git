@@ -18,6 +18,7 @@ import { workRoleAt } from "../life-queries";
 import { workPayCoverageAt } from "../pay-coverage";
 import {
   matchPayCoveragePredicates,
+  payWorkplaceAt,
   PAY_COVERAGE_PREDICATES,
 } from "../pay-coverage-predicates";
 import { applyLawPayConsequence } from "../living-world/town-pay";
@@ -144,7 +145,8 @@ export function resolvePayConsequences(
       historySequenceExclusive: world.history.nextSequence,
     };
     const role = workRoleAt(world, work.id, cutoff);
-    const jurisdictionId = role?.locationJurisdictionId;
+    const workplace = payWorkplaceAt(world, work.id, cutoff);
+    const jurisdictionId = workplace.jurisdictionId;
     if (!jurisdictionId)
       throw new Error("Missing pay recorded work jurisdiction capability");
     const predicates = [...row.who.predicates, ...row.conditions];
@@ -185,6 +187,7 @@ export function resolvePayConsequences(
       terms.id,
       ...(minimum && coverage ? coverage.factRecordIds : match.factRecordIds),
       ...(coverage ? [coverage.id] : []),
+      ...workplace.factRecordIds,
     ];
     const legalTerms: Record<string, { value: number; unit: LawAmountUnit }> =
       {};
