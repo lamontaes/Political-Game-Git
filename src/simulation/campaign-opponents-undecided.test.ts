@@ -95,13 +95,13 @@ function race() {
       note: "The rival belongs to this actual chapter's party.",
     },
   });
-  const pack = candidacyPackForJurisdiction(small.stateJurisdictionId);
+  const pack = candidacyPackForJurisdiction(small.jurisdictionId);
   expect(pack?.offices.length).toBeGreaterThan(0);
   const office = pack!.offices[0]!;
   const filed = fileCampaign(world, {
     stableKey: "a125-opponents-race",
     candidatePersonId: candidate,
-    jurisdictionId: small.stateJurisdictionId,
+    jurisdictionId: small.jurisdictionId,
     officeKey: office.officeKey,
     districtBinding: namedSeatForFixture(world, candidate, office.officeKey),
     electionDate: addDays(world.currentDate, 28),
