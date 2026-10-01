@@ -353,7 +353,18 @@ function enactedByQuestion(
   return byQuestion;
 }
 
+export interface StartingLawScope {
+  readonly kind:
+    "federal-standard" | "unresolved-regional" | "unresolved-industry";
+  readonly rows: readonly {
+    readonly matrixRow: string;
+    readonly source: string;
+    readonly operativeAt: string;
+  }[];
+}
+
 interface StartingLawRow {
+  readonly scopeEvidence?: StartingLawScope;
   readonly phases?: readonly (Omit<StartingLawRow, "phases" | "before"> & {
     readonly operativeAt: string;
   })[];
@@ -372,6 +383,7 @@ interface StartingLawRow {
    * started). Unsaid: nothing is known before that date.
    */
   readonly before?: {
+    readonly scopeEvidence?: StartingLawScope;
     readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
     readonly answer: PropositionAnswer;
     readonly preempts?: boolean;
@@ -450,28 +462,52 @@ function startingLawRowAt(
 }
 
 /** Numeric text belonging to the canonical starting row, not an invented enactment. */
-export function startingLawTerms(
+function selectedStartingLawRow(
   law: LawInForce,
   questionKey: string,
   onDate: IsoDate,
-): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
-  if (law.origin !== "in-force-at-start" || law.operativeAt > onDate) return [];
+): StartingLawRow | null {
+  if (law.origin !== "in-force-at-start" || law.operativeAt > onDate)
+    return null;
   const prefix = "starting-law:";
   const suffix = `:${questionKey}`;
   if (!law.measureId.startsWith(prefix) || !law.measureId.endsWith(suffix))
-    return [];
+    return null;
   const placeKey = law.measureId.slice(prefix.length, -suffix.length);
   const dated = STARTING_LAW.questions[questionKey]?.answers[placeKey];
-  if (!dated) return [];
+  if (!dated) return null;
   const selected = startingLawRowAt(dated, onDate);
   if (
     !selected ||
     selected.row.answer !== law.answer ||
     selected.operativeAt !== law.operativeAt
   )
-    return [];
-  const row = selected.row;
-  return row.lawTerms ?? [];
+    return null;
+  return selected.row;
+}
+
+export function startingLawTerms(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
+  return selectedStartingLawRow(law, questionKey, onDate)?.lawTerms ?? [];
+}
+
+/** Structured applicability evidence; absent or not yet operative stays unknown. */
+export function startingLawScope(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): StartingLawScope | null {
+  const evidence = selectedStartingLawRow(
+    law,
+    questionKey,
+    onDate,
+  )?.scopeEvidence;
+  if (!evidence) return null;
+  const rows = evidence.rows.filter((row) => row.operativeAt <= onDate);
+  return rows.length ? { kind: evidence.kind, rows } : null;
 }
 
 type Candidate = LawInForce & {
