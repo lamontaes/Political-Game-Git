@@ -7,6 +7,7 @@ import {
   availableMeasureSteps,
   measurePosition,
   recordEnactment,
+  recordExecutiveAction,
 } from "./legislation";
 import {
   createLegislativeScenario,
@@ -147,7 +148,16 @@ function enactedTarget(
       (candidate) => candidate !== "offer-amendment",
     );
     if (!step) throw new Error(`No canonical next step for ${measureId}`);
-    world = applyLegislativeStep(context, world, step).world;
+    world =
+      step === "await-executive-decision"
+        ? recordExecutiveAction(world, {
+            stableKey: `${key}:fixture-executive`,
+            measureId,
+            action: "signed",
+            rationale:
+              "Explicit authored fixture signature; not an executive decision.",
+          })
+        : applyLegislativeStep(context, world, step).world;
   }
   throw new Error("Controlled state wage bill did not reach enactment.");
 }
