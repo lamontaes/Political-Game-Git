@@ -31,6 +31,7 @@ import { SERVICE_DELIVERED_LAW_ROWS } from "./service-delivered-data";
 import {
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
 } from "./pay-rows";
 import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
 import { settleTownCompensations } from "../living-world/town-pay";
@@ -71,22 +72,23 @@ it("A13 admits one default pay handler and refuses duplicate ownership", () => {
   ).toThrow("Duplicate law consequence kind owner: pay");
 });
 
-it.each([FEDERAL_MINIMUM_WAGE_QUESTION_KEY, STATE_MINIMUM_WAGE_QUESTION_KEY])(
-  "A13 loads the actual build catalog pay row for %s",
-  (questionKey) => {
-    const proposition = Object.values(
-      createProductionPolicyCatalog().propositions,
-    ).find((entry) => entry.stableKey === questionKey)!;
-    expect(proposition.consequences).toContainEqual(
-      MINIMUM_WAGE_PAY_ROWS[questionKey],
-    );
-    expect(
-      proposition.consequences!.filter(
-        (row) => row.id === MINIMUM_WAGE_PAY_ROWS[questionKey]!.id,
-      ),
-    ).toHaveLength(1);
-  },
-);
+it.each([
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
+])("A13 loads the actual build catalog pay row for %s", (questionKey) => {
+  const proposition = Object.values(
+    createProductionPolicyCatalog().propositions,
+  ).find((entry) => entry.stableKey === questionKey)!;
+  expect(proposition.consequences).toContainEqual(
+    MINIMUM_WAGE_PAY_ROWS[questionKey],
+  );
+  expect(
+    proposition.consequences!.filter(
+      (row) => row.id === MINIMUM_WAGE_PAY_ROWS[questionKey]!.id,
+    ),
+  ).toHaveLength(1);
+});
 
 it("A13 preserves the existing coverage and service catalog rows", () => {
   const catalog = createProductionPolicyCatalog();
