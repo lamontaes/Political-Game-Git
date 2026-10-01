@@ -133,5 +133,256 @@
         "text": "\n> political-life-rpg@0.4.0 spelling\n> node --import tsx scripts/prose-eval/spelling.ts\n\ndocs/audits/2026-09-30/bedrock.md:101 \"labelled\" \u2192 \"labeled\"\ndocs/audits/2026-09-30/bedrock.md:104 \"behaviour\" \u2192 \"behavior\"\ndocs/audits/2026-09-30/dice.md:99 \"favourite\" \u2192 \"favorite\"\ndocs/audits/2026-09-30/dice.md:99 \"favourite\" \u2192 \"favorite\"\ndocs/audits/2026-09-30/dice.md:170 \"catalogue\" \u2192 \"catalog\"\ndocs/audits/2026-09-30/dice.md:480 \"Honourable\" \u2192 \"Honorable\"\ndocs/audits/2026-09-30/engines.md:184 \"behaviour\" \u2192 \"behavior\"\ndocs/audits/2026-09-30/golden-rule.md:148 \"behaviour\" \u2192 \"behavior\"\ndocs/codex/audit-verified-2026-10-01.json:872 \"labelled\" \u2192 \"labeled\"\ndocs/codex/audit-verified-2026-10-01.md:269 \"labelled\" \u2192 \"labeled\"\ndocs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json:9 \"Honourable\" \u2192 \"Honorable\"\ndocs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json:28 \"Cancelled\" \u2192 \"Canceled\"\ndocs/codex/effect-batches/team-9/a10-composer-proof.json:96 \"cancelled\" \u2192 \"canceled\"\ndocs/codex/effect-batches/team-9/michigan-cpl-source.json:92 \"analogue\" \u2192 \"analog\"\ndocs/release/changes/plain-american-wording.md:8 \"favour\" \u2192 \"favor\"\ndocs/release/changes/plain-american-wording.md:8 \"neighbour\" \u2192 \"neighbor\"\ndocs/release/changes/plain-american-wording.md:8 \"whilst\" \u2192 \"while\"\ndocs/release/changes/plain-american-wording.md:8 \"programme\" \u2192 \"program\"\ndocs/release/changes/team2-governing-reports-require-recorded-actions.md:9 \"Cancelled\" \u2192 \"Canceled\"\nsrc/presentation/mayor-executive-decision.test.ts:105 \"cancelled\" \u2192 \"canceled\"\nsrc/presentation/president-player-desk.test.ts:295 \"cancelled\" \u2192 \"canceled\"\nsrc/presentation/president-player-desk.test.ts:341 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/governing/recorded-governing-action.test.ts:287 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/governing/state-governing.ts:981 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/justice/clemency-request-activities.test.ts:44 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/justice/prosecution-composer.test.ts:38 \"cancelled\" \u2192 \"canceled\"\n26 to fix; run npm run spelling -- --write.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
       }
     }
+  },
+  "fullFileRenewal": {
+    "runtimeSource": "f819843b60b6737d66b09278a75b400ae69e5e0b",
+    "mainSource": "a1e49ab1887298de93e15b85870d19998f0bba9c",
+    "native": {
+      "session": 24537,
+      "exitCode": 0,
+      "completeFiles": 2,
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 35.14,
+      "startedAt": "2026-10-01 18:17:03 UTC",
+      "maxWorkers": 1,
+      "fileParallelism": false,
+      "externalLimitSeconds": 300,
+      "nameFilter": null
+    },
+    "priorReceipts": [
+      {
+        "session": 13654,
+        "source": "54792686e4d10798a33c5c91badd98e860ea528d",
+        "exitCode": 124,
+        "passed": 31,
+        "observedAssertionFailures": 0,
+        "noResult": 31,
+        "reason": "unchanged 300-second cap; populated life opening/reload expense"
+      },
+      {
+        "session": 64902,
+        "exitCode": 0,
+        "passed": 1,
+        "unselected": 57,
+        "durationSeconds": 29.53,
+        "purpose": "one Guam profile, not readiness"
+      },
+      {
+        "session": 90494,
+        "source": "88fd0385d",
+        "exitCode": 1,
+        "passed": 5,
+        "failed": 57,
+        "reason": "old manual jurisdiction insertion omitted canonical order"
+      },
+      {
+        "session": 93129,
+        "source": "bc9a9303e",
+        "exitCode": 1,
+        "passed": 5,
+        "failed": 57,
+        "reason": "demo synthetic catalog has no authorized municipal question"
+      }
+    ],
+    "fixtureRepair": "Existing createWorld/createLightweightPerson primitives with production policy catalog; actual mayor/council opening writers register jurisdiction/body/seats. Every existing assertion retained. Four supplied opening residents; no generated ordinary-life population. This is mechanism proof, not a natural life journey.",
+    "nonNeutralComparisons": {
+      "count": 56,
+      "oldSignsNewVetoes": 56,
+      "startingIdentities": 56,
+      "scope": "same shared adversarial principle input within each fixture; actual DC government materialized in each starting world, not 56 different charter powers"
+    },
+    "sourceBlobs": {
+      "src/simulation/living-world/local-council-meetings.ts": "f94b050c7c81190d7c6621ead676308d9a8529c0",
+      "src/simulation/municipal-ordinance-procedure.ts": "71e3ec494cb959fc102997a5ace92b2e6f9b6e62",
+      "src/simulation/governing/local-member-agenda-integration.test.ts": "53a67bfc55ece79cadaf4db1bf71f617b5c325a9",
+      "src/presentation/mayor-executive-decision.test.ts": "3d69d5cb390ef3c1aa1d362d957b229d864e95c1"
+    },
+    "scopedTypes": {
+      "roots": 4,
+      "diagnostics": 0
+    },
+    "lint": "PASS four changed files",
+    "format": "PASS four changed files",
+    "fullAudit": {
+      "exitCode": 0,
+      "coverage": {
+        "withRules": 149,
+        "total": 149
+      },
+      "counts": {
+        "verified": {
+          "partly": 33,
+          "not-started": 100,
+          "done": 16
+        },
+        "scanned": {
+          "partly": 37,
+          "not-started": 93,
+          "done": 18,
+          "unknown": 1
+        }
+      },
+      "A80": {
+        "id": "A80",
+        "seq": 1,
+        "short": "Presidents, mayors and town councils should\u2026",
+        "owner": "Team 2",
+        "verified": "partly",
+        "scanned": "partly",
+        "after": "FIRST: main is broken by #1478",
+        "afterSteps": [],
+        "afterDone": null,
+        "drift": [],
+        "covers": "whole",
+        "passed": 3,
+        "checks": [
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/presentation/legislation-session.ts",
+              "pattern": "executiveDesk\\(",
+              "why": "done in #1478: the player's await-executive-decision goes through the governor's desk"
+            },
+            "pass": true,
+            "at": [
+              "src/presentation/legislation-session.ts:477"
+            ]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/governing/congress-lawmaking.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "done: the President decides a bill through the governor evaluation"
+            },
+            "pass": true,
+            "at": [
+              "src/simulation/governing/congress-lawmaking.ts:116"
+            ]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/municipal-ordinance-procedure.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "done: a mayor decides a council bill through the governor evaluation"
+            },
+            "pass": true,
+            "at": [
+              "src/simulation/municipal-ordinance-procedure.ts:1018",
+              "src/simulation/municipal-ordinance-procedure.ts:1246"
+            ]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/living-world/local-council-meetings.ts",
+              "pattern": "presentmentRequired",
+              "why": "afterAdoption branches on the town pack's presentmentRequired"
+            },
+            "pass": false,
+            "at": []
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/living-world/local-council-meetings.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "where presentment is required the town ordinance is decided through evaluateGovernorBill"
+            },
+            "pass": false,
+            "at": []
+          }
+        ],
+        "step": "1"
+      },
+      "limitation": "Two scanner patterns expect evaluator/presentmentRequired inline in town file; actual caller delegates to completeCouncilPassage which reads the rule and evaluates the executive. Scanner remains unchanged; static PARTLY is not runtime closure."
+    },
+    "zeroDice": {
+      "exitCode": 1,
+      "new": 0,
+      "inheritedGone": 5
+    },
+    "release": "FAIL inherited main-identical ci-changed-tests-only.md merge prose; no owned player-copy violation",
+    "logs": {
+      "full-before-minimum.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/full-before-minimum.log",
+        "sha256": "0f268868657e1e70d509632acc48a9d1e887b960f6127bacfe01f2146276dc83"
+      },
+      "gu-profile.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/gu-profile.log",
+        "sha256": "58bcb84210638216a14417f7c5cd02b54e78d06ba2d01c89f8f0783b42c0e39e"
+      },
+      "gu-profile.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/gu-profile.json",
+        "sha256": "3538ffcd2914247100f56663e64cb4ae77607d5a1d8ece275f11a6ccc9920bcd"
+      },
+      "minimum-integrity-failure.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/minimum-integrity-failure.log",
+        "sha256": "1d12fea8469f5f279a6c2aff294bb678a12c0b97f1c2daae400fc14fc15cd520"
+      },
+      "minimum-catalog-failure.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/minimum-catalog-failure.log",
+        "sha256": "67fe75db44b28bb12dcd10e7cb020fe12f9228e3cf2e51e0d4476ea7e90ea182"
+      },
+      "final-full.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/final-full.log",
+        "sha256": "e73f3dc31cd8fb413c65eb4993d49ce3e93afae71f471d31eed30d0189f9a7fd"
+      },
+      "final-profile.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/final-profile.json",
+        "sha256": "1f2ae0d91635d0f3feaa9f7065983ab2e989bb7d8c0d7921b548eb0ac04538b4"
+      },
+      "final-decisions.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/final-decisions.json",
+        "sha256": "8c32039386e6482aaa51bb0810adb274026cf573d90b5aeafb08ea1fdfbf2016"
+      },
+      "types.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/types.log",
+        "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+      },
+      "typecheck.mjs": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/typecheck.mjs",
+        "sha256": "6eb7ac60101c1996e2edb8d581598393ef75415fa3d7ff99b88f06ca8e2fb509"
+      },
+      "lint.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "format.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/format.log",
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+      },
+      "zero-dice.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/zero-dice.log",
+        "sha256": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36"
+      },
+      "audit-all.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/audit-all.json",
+        "sha256": "45a4fb0695844011d766083719bb5dc18c227ef14693c6bafca5c6aef6b88560"
+      },
+      "audit-all.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/audit-all.log",
+        "sha256": "feab1472440b527f6fbd70dc2e0a04c85ec671444fb6fc2258c2fab5f5176f9c"
+      },
+      "release.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/release.log",
+        "sha256": "a34ecaf4301c7e3211e2385bbe49efc870abae260d91adb123627a698b62bbec"
+      },
+      "spelling.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/spelling.log",
+        "sha256": "5d335d2ec6e94ba8908aa05331508f6fe578579032f14f34900cadc229ec3200"
+      }
+    },
+    "notRun": [
+      "full suite",
+      "browser",
+      "ordinary uninterrupted life",
+      "year-speed",
+      "nationwide law effects",
+      "56 distinct municipal powers"
+    ]
   }
 }
