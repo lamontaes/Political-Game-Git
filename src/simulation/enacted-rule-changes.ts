@@ -29,6 +29,10 @@
  * what happened, and a bill that never becomes law never changes anything.
  */
 
+import { isLawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
+import type { LawAmountUnit } from "./law-consequence-types";
+import { organizationProfileAt } from "./life-queries";
+import { measureAnswersAt } from "./vote-bundle";
 import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
@@ -421,6 +425,19 @@ export interface RuleChangeProvisionRecord {
   /** Absent on records written before applicability existed: silent. */
   readonly applicability?: RuleChangeApplicability;
   readonly filedAt: IsoDate;
+  /** Optional on older saves; binds an actual applied rule to its adopted text. */
+  readonly consequenceBinding?: {
+    readonly rowId: string;
+    readonly questionKey: string;
+    readonly placeJurisdictionId: EntityId;
+    readonly bodyOrganizationId?: EntityId;
+    readonly provisionId: EntityId;
+    readonly provisionKey: string;
+    readonly enactmentId: EntityId;
+    readonly unit: LawAmountUnit;
+    readonly sourceRecordIds: readonly EntityId[];
+  };
+  readonly lawEffectStamps?: readonly LawEffectStamp[];
 }
 
 /** An operative-dated change, derived from what was enacted. */
@@ -637,6 +654,160 @@ export function ruleChangeProvisionHistoryRecords(
  * File a rule change on an ordinary bill. It changes nothing until the bill is
  * enacted and its effective date arrives.
  */
+/** Semantic unit agreement, not a guessed law value or a starting-law fallback. */
+export function institutionRuleAmountUnit(field: string): LawAmountUnit | null {
+  if (field === "body.seats" || field === "court.seats") return "count";
+  if (
+    [
+      "term.years",
+      "executive.term.years",
+      "qualification.minimumAge",
+      "qualification.stateResidenceYears",
+      "qualification.districtResidenceYears",
+    ].includes(field)
+  )
+    return "years";
+  return null;
+}
+
+function assertRuleConsequenceBinding(
+  world: World,
+  row: Pick<
+    RuleChangeProvisionRecord,
+    "measureId" | "field" | "value" | "consequenceBinding" | "lawEffectStamps"
+  >,
+): void {
+  const binding = row.consequenceBinding;
+  if (!binding) {
+    if (row.lawEffectStamps?.length)
+      throw new Error(
+        "An institution consequence stamp requires its adopted-text binding.",
+      );
+    return;
+  }
+  if (
+    !binding.rowId ||
+    !binding.questionKey ||
+    !world.jurisdictions[binding.placeJurisdictionId]
+  )
+    throw new Error(
+      "Institution consequence requires a real row, question and application place.",
+    );
+  if (binding.bodyOrganizationId) {
+    const organization = world.history.organizations.find(
+      (record) =>
+        record.id === binding.bodyOrganizationId &&
+        record.formedAt <= world.currentDate,
+    );
+    const profile =
+      organization && organizationProfileAt(world, organization.id);
+    if (
+      !organization ||
+      profile?.locationJurisdictionId !== binding.placeJurisdictionId
+    )
+      throw new Error(
+        "Institution consequence body must be saved in its application place.",
+      );
+  }
+  const enactment = (world.history.legislativeEnactments ?? []).find(
+    (record) =>
+      record.id === binding.enactmentId &&
+      record.measureId === row.measureId &&
+      record.outcome === "enacted",
+  );
+  if (
+    !enactment ||
+    enactment.resolvedAt > world.currentDate ||
+    !enactment.effectiveAt ||
+    enactment.effectiveAt > world.currentDate
+  )
+    throw new Error(
+      "Institution consequence requires an actually operative enactment date.",
+    );
+  if (
+    !measureAnswersAt(world, row.measureId, enactment.sequence).some(
+      (answer) =>
+        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
+        binding.questionKey,
+    )
+  )
+    throw new Error(
+      "Institution consequence question was not adopted by this law.",
+    );
+  const versions = (world.history.legislativeProvisions ?? []).filter(
+    (record) =>
+      record.measureId === row.measureId &&
+      record.sequence <= enactment.sequence &&
+      record.recordedAt <= world.currentDate,
+  );
+  const superseded = new Set(
+    versions.flatMap((record) =>
+      record.supersedesProvisionId ? [record.supersedesProvisionId] : [],
+    ),
+  );
+  const final = versions.filter((record) => !superseded.has(record.id));
+  const source = final.find(
+    (record) =>
+      record.id === binding.provisionId &&
+      record.provisionKey === binding.provisionKey &&
+      record.applicationScope.segmentKey === null,
+  );
+  const matches = final.flatMap((record) =>
+    record.applicationScope.segmentKey === null
+      ? (record.lawTerms ?? [])
+          .filter(
+            (term) =>
+              term.questionKey === binding.questionKey &&
+              term.key === row.field,
+          )
+          .map((term) => ({ record, term }))
+      : [],
+  );
+  if (
+    !source ||
+    matches.length !== 1 ||
+    matches[0]!.record.id !== source.id ||
+    matches[0]!.term.unit !== binding.unit ||
+    binding.unit !== institutionRuleAmountUnit(row.field) ||
+    typeof row.value !== "number" ||
+    matches[0]!.term.value !== row.value
+  )
+    throw new Error(
+      "Institution consequence must agree with one final adopted typed term.",
+    );
+  const required = [
+    row.measureId,
+    enactment.id,
+    source.id,
+    binding.placeJurisdictionId,
+    ...(binding.bodyOrganizationId ? [binding.bodyOrganizationId] : []),
+  ];
+  if (!required.every((id) => binding.sourceRecordIds.includes(id)))
+    throw new Error(
+      "Institution consequence is missing its actual source chain.",
+    );
+  if (row.lawEffectStamps?.length !== 1)
+    throw new Error(
+      "Institution consequence requires one actual applied stamp.",
+    );
+  const stamp = row.lawEffectStamps[0]!;
+  if (
+    !isLawEffectStamp(stamp) ||
+    stamp.source !== "enacted" ||
+    stamp.effectKind !== "institution-rule" ||
+    stamp.governingLawKey !== row.measureId ||
+    stamp.questionKey !== binding.questionKey ||
+    stamp.jurisdictionId !== binding.placeJurisdictionId ||
+    stamp.operativeAt !== enactment.effectiveAt ||
+    stamp.appliedAt > world.currentDate ||
+    stamp.appliedAt < enactment.resolvedAt ||
+    !required.every((id) => stamp.sourceRecordIds?.includes(id))
+  )
+    throw new Error(
+      "Institution consequence stamp disagrees with its saved law, place or sources.",
+    );
+}
+
 export function fileRuleChangeProvision(
   world: World,
   input: {
@@ -646,8 +817,17 @@ export function fileRuleChangeProvision(
     readonly field: string;
     readonly value: RuleChangeValue;
     readonly applicability?: RuleChangeApplicability;
+    readonly consequenceBinding?: RuleChangeProvisionRecord["consequenceBinding"];
+    readonly lawEffectStamps?: readonly LawEffectStamp[];
   },
 ): World {
+  assertRuleConsequenceBinding(
+    world,
+    input as Pick<
+      RuleChangeProvisionRecord,
+      "measureId" | "field" | "value" | "consequenceBinding" | "lawEffectStamps"
+    >,
+  );
   const measure = requireMeasure(world, input.measureId);
   assertAmendableRuleValue(
     input.field,
@@ -687,7 +867,10 @@ export function fileRuleChangeProvision(
       "This court's size is set by its constitution; only a constitutional amendment can change it.",
     );
   }
-  if (firstFloorVoteSequence(world, measure.id) !== null) {
+  if (
+    !input.consequenceBinding &&
+    firstFloorVoteSequence(world, measure.id) !== null
+  ) {
     throw new Error(
       "A chamber has already voted on this bill; a clause added now would become law without a vote on it.",
     );
@@ -696,15 +879,42 @@ export function fileRuleChangeProvision(
   if (existing.some((row) => row.stableKey === input.stableKey)) {
     throw new Error("Rule change provision key already exists.");
   }
-  if (
-    existing.some(
-      (row) =>
-        row.measureId === measure.id &&
-        row.officeKey === input.officeKey &&
-        row.field === input.field,
+  const prior = existing.find(
+    (row) =>
+      row.measureId === measure.id &&
+      row.officeKey === input.officeKey &&
+      row.field === input.field,
+  );
+  if (prior) {
+    if (
+      !input.consequenceBinding ||
+      JSON.stringify(prior.value) !== JSON.stringify(input.value)
     )
-  ) {
-    throw new Error("This bill already changes that rule for that office.");
+      throw new Error("This bill already changes that rule for that office.");
+    if (prior.consequenceBinding) {
+      if (
+        JSON.stringify(prior.consequenceBinding) ===
+        JSON.stringify(input.consequenceBinding)
+      )
+        return world;
+      throw new Error(
+        "The saved institution rule already has another consequence binding.",
+      );
+    }
+    const bound: RuleChangeProvisionRecord = {
+      ...prior,
+      consequenceBinding: structuredClone(input.consequenceBinding),
+      lawEffectStamps: structuredClone(input.lawEffectStamps),
+    };
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        ruleChangeProvisions: existing.map((row) =>
+          row.id === prior.id ? bound : row,
+        ),
+      },
+    };
   }
   const record: RuleChangeProvisionRecord = {
     id: createStableId(
@@ -722,6 +932,12 @@ export function fileRuleChangeProvision(
       ? { applicability: { ...input.applicability } }
       : {}),
     filedAt: world.currentDate,
+    ...(input.consequenceBinding
+      ? {
+          consequenceBinding: structuredClone(input.consequenceBinding),
+          lawEffectStamps: structuredClone(input.lawEffectStamps),
+        }
+      : {}),
   };
   return {
     ...world,
@@ -950,6 +1166,7 @@ export function assertRuleChangeProvisionIntegrity(
     )
       throw new Error("Rule change provision identity does not match its key.");
     const measure = requireMeasure(world, row.measureId);
+    assertRuleConsequenceBinding(world, row);
     assertAmendableRuleValue(
       row.field,
       row.value,
@@ -974,7 +1191,7 @@ export function assertRuleChangeProvisionIntegrity(
       throw new Error("Rule change provision is dated outside its bill.");
     // A clause added after a chamber voted was never voted on by it.
     const floor = firstFloorVoteSequence(world, row.measureId);
-    if (floor !== null && floor < row.sequence)
+    if (!row.consequenceBinding && floor !== null && floor < row.sequence)
       throw new Error(
         "Rule change provision was added after a chamber voted on the bill.",
       );
