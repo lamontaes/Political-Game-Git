@@ -42,15 +42,6 @@ diff --git a/src/simulation/public-government-identity.ts b/src/simulation/publi
 diff --git a/src/simulation/tax-policy.ts b/src/simulation/tax-policy.ts
 --- a/src/simulation/tax-policy.ts
 +++ b/src/simulation/tax-policy.ts
-@@ -121,7 +121,7 @@
-   world: World,
-   identity: PublicGovernmentIdentity,
- ): World {
--  assertPublicGovernmentIdentity(world, identity);
-+  assertPublicGovernmentIdentity(world, identity, cutoff);
-   const jurisdiction = world.jurisdictions[identity.jurisdictionId]!;
-   const key = publicGovernmentOrganizationKey(identity);
-   let next = world;
 @@ -1574,7 +1574,7 @@
    try {
      // Its shared local-government profile check still needs the released dated
