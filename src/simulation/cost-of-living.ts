@@ -44,10 +44,10 @@ import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
 
 /**
  * PLACEHOLDER(research: what-a-person-spends-to-live). Nobody has researched
- * this number. It is one national monthly figure for one adult's share of rent,
- * food, utilities and other necessities, the same in every state and town,
- * standing in until the question is answered with bands by category, place
- * size and state. Replace it; do not tune it.
+ * the nonhousing remainder. The legacy total and housing share remain for
+ * interpreting old charge records; new charges use only their nonhousing
+ * remainder, pending sourced regional categories. Housing is charged by actual
+ * lease/mortgage contracts, never by the legacy share. Replace it; do not tune it.
  */
 export const LIVING_COSTS_PLACEHOLDER = {
   monthlyPerAdultMinor: 150_000,
