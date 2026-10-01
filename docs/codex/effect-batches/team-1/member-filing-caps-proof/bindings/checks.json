@@ -1,0 +1,144 @@
+{
+  "sourceCommit": "3c7e7d3457fb344e7e19aa01e5fbf617c033abcb",
+  "executedHead": "c85df60d8f3beed25baeee8e63fe5b29a72f8c62",
+  "mode": "Native test with four owned file overlays; final source commit contains their exact tested bytes.",
+  "main": "9c08465da08be307435e9b2c4f76d9f35f105fab",
+  "tests": {
+    "passed": 19,
+    "failed": 0,
+    "files": 2,
+    "seconds": 38.75
+  },
+  "before": {
+    "failed": 3,
+    "notRun": 9,
+    "seconds": 0.229,
+    "mode": "Current composition and data with only earlier owned bbe4 reader substituted; exact hashes retained."
+  },
+  "types": {
+    "roots": 6,
+    "scoped": 0,
+    "imported": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "report": "PASS 0 errors/0 warnings; self-reviewed under no-helper rule",
+  "release": "Same-main ci-changed-tests-only.md inherited prose failure in PR and PUSH ranges",
+  "dice": "Executed on final source 3c7e7d3457fb344e7e19aa01e5fbf617c033abcb: 0 new / 5 gone inherited entries",
+  "spelling": "Executed on final source: 24 inherited findings; zero owned-path findings",
+  "sourceTable": {
+    "sourcedRows": 25,
+    "admittedRows": 2,
+    "unboundRows": 23,
+    "file": "data/research/legislature/member-bill-limits-2026.json"
+  },
+  "NOT_RUN": [
+    "actual natural cloud one-year filings/member/state spread",
+    "full56 natural behavior",
+    "browser",
+    "speed",
+    "whole suite"
+  ],
+  "logs": {
+    "before.log": {
+      "originalPath": "/tmp/team1-cap-bindings-before.log",
+      "originalSha256": "fe4b066aa11a5748daadb48b0ab5ace842aad168f492feede22ca568d97ebbe9",
+      "publishedSha256": "60b3761bb8a69c0e9f201c9852033ca6134cf448a939fe333ed60d0270092513",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "before-source-binding.json": {
+      "originalPath": "/tmp/team1-cap-bindings-before-source.json",
+      "originalSha256": "4754e7d626499c9512960e50a7a3715829f99dc5a690300e5c62245ea749de43",
+      "publishedSha256": "4754e7d626499c9512960e50a7a3715829f99dc5a690300e5c62245ea749de43",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "after.log": {
+      "originalPath": "/tmp/team1-cap-bindings-test.log",
+      "originalSha256": "d34ee5fbeed0621479afd333f7c9faa76d611d7c4a1369fe84153211119a92a8",
+      "publishedSha256": "7961ffd6d0ec65f1a76b3fe2746937ae7637fa250364577edb9434934a7e9e2d",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "types.log": {
+      "originalPath": "/tmp/team1-cap-bindings-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "lint.log": {
+      "originalPath": "/tmp/team1-cap-bindings-lint.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "format.log": {
+      "originalPath": "/tmp/team1-cap-bindings-format.log",
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "publishedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "proof.json": {
+      "originalPath": "/tmp/team1-cap-bindings-proof.json",
+      "originalSha256": "5e5f6003eac6047e5745864c21274f3148d127c5dd83889cf2bf61563bd7d1e9",
+      "publishedSha256": "5e5f6003eac6047e5745864c21274f3148d127c5dd83889cf2bf61563bd7d1e9",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "typecheck.mjs": {
+      "originalPath": "/tmp/team1-cap-types.mjs",
+      "originalSha256": "8f0c71a25a7aed2efe3564e0111f2e6176b8cde3c4abc220a48190fb1f1404d1",
+      "publishedSha256": "8f0c71a25a7aed2efe3564e0111f2e6176b8cde3c4abc220a48190fb1f1404d1",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "report.log": {
+      "originalPath": "/tmp/team1-cap-bindings-report.log",
+      "originalSha256": "57275969202b6e9e13efbb9f2a0d1665fb302d7242e84c615eec930db8fb9cb3",
+      "publishedSha256": "57275969202b6e9e13efbb9f2a0d1665fb302d7242e84c615eec930db8fb9cb3",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "release.log": {
+      "originalPath": "/tmp/team1-cap-bindings-release.log",
+      "originalSha256": "1753b3cb38feb7d25efc03f8bb84da978d1348d8e827de2d0d5428207f441b89",
+      "publishedSha256": "1753b3cb38feb7d25efc03f8bb84da978d1348d8e827de2d0d5428207f441b89",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "push-release.log": {
+      "originalPath": "/tmp/team1-cap-bindings-push-release.log",
+      "originalSha256": "17b6680f693636b3ef62a60d008311af032165d3f603d316253eadac702f9d91",
+      "publishedSha256": "17b6680f693636b3ef62a60d008311af032165d3f603d316253eadac702f9d91",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "dice.log": {
+      "originalPath": "/tmp/team1-cap-bindings-final-dice.log",
+      "originalSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "publishedSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "spelling.log": {
+      "originalPath": "/tmp/team1-cap-bindings-final-spelling.log",
+      "originalSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "publishedSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "normalization": "Trailing blank lines only in log copies."
+    }
+  },
+  "files": {
+    "src/simulation/governing/member-filing-caps.ts": {
+      "blob": "f222a966b0a0d059ee48600f5f5f94971c4c5db1",
+      "sha256": "eea612eec6dd4f8e277d55513ce40ac0e62fb2ae5aab6a88fb70871ec11b71f9"
+    },
+    "src/simulation/governing/member-filing-caps.test.ts": {
+      "blob": "b94a4a67a1729891cdf65649b3d09f9dcd39b59f",
+      "sha256": "e48662419691f34d2fe8ba7cc058d199e26ec1a5954093da27b1c42d9153c5bb"
+    },
+    "src/simulation/governing/member-agenda.ts": {
+      "blob": "553b28bc2dd122df564730bc855c34e84dda6a78",
+      "sha256": "dd1adb2893eae771d49203a6b5787ef572025ea5813f50fb1ccebadce116ae40"
+    },
+    "src/simulation/governing/member-agenda-individual.test.ts": {
+      "blob": "092caa07c88be9a5017b8b6ecae24b47819e493c",
+      "sha256": "9c5c3fcb3d37097fc2b5506e62fb3454746fe29816bd70a7439303f09939c05f"
+    },
+    "data/research/legislature/member-bill-limits-2026.json": {
+      "blob": "b3c89741b746d59541ad40d92944477341b6ffef",
+      "sha256": "c261d87f55c1b096519b80eb9b0075a97b882f5d5763809f7ff1a9a82b2efffc"
+    }
+  }
+}

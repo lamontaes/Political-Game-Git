@@ -1,62 +1,68 @@
 # Members file under recorded chamber limits
 
-Before: the shared filer had no reader for a chamber’s per-member bill limit. After: it checks actual saved bills before admitting the next writer result. The initial table is empty, as approved, so absent rows impose no limit. Controlled tests cover five randomly selected states and canonical Save/Continue. Sourced limits and the natural one-year cloud measurement remain separate dependencies.
+Before: the shared filer could not read sourced member limits or their exceptions. After: it reads the admitted tokens against actual bill records. Unread exceptions leave their whole row unapplied and save “limit not applied: exemption unread” once per intake. The two admitted rows and all 23 unbound rows passed focused checks. Five drawn-state fixtures preserve actual sponsors, bills, explanations and Save/Continue. Natural one-year filing counts remain unrun.
 
 ## MERGED
 
-This source is not merged. Main was received additively. Team 1 has not landed a pull request or canceled a workflow.
+Team 1’s filer and reader changes are not merged. The X5 research and exemption-binding tables are merged on main and were received unchanged. Current main was received additively; Team 1 landed no pull request and canceled no workflow.
 
 ## WHAT EMERGED
 
-DECIDED: the existing real minority members filed distinct supported questions from recorded principles. Their uncapped totals remain 32, 34, 28, 35 and 34 bills in the five controlled state intakes. These are bill records, not opportunities or natural political formation.
+DECIDED: the existing minority members still file supported open questions from saved principles. Controlled uncapped totals are 32, 34, 28, 35 and 34 bills in the five drawn-state intakes. Congressional strong and weaker cases retain six and two bills from Cassandra Dunn. These are bill records, not score opportunities or naturally formed politics.
 
-HARDWIRED: an authored two-bill test rule limited each named member to two actual saved bills. The same cap held after canonical reload and at a later intake. Production has no such authored cap: its sourced data table has zero rows. The cap reader lives in member-filing-caps.ts; the existing filer admits or refuses the pure writer result in member-agenda.ts.
+HARDWIRED: the cap reader counts actual saved bills under a declared period and excludes only bound subject or sponsor kinds. Sourced period conditions select Virginia’s odd-year House row from recorded introduction dates. Colorado’s admitted joint row recognizes committee introductions and appropriations. The 23 unbound rows cannot block bills. Quotes, citations and source reasons remain intact. The canonical filer saves the unread-limit explanation once per member and chamber intake.
 
 ## VITAL STATISTICS
 
-The initial fifteen focused cases passed in 31.05 seconds. The unbound-exemption contract successor passed sixteen of sixteen in 31.91 seconds. Six strict roots had zero scoped or imported diagnostics. Scoped lint, formatting and report checks passed. The adjacent receipt records source hashes and the main composition. Controlled state selection used team1-distinct-member-intakes. The fixtures start directly on their declared dates; no local year is advanced. Sourced production caps, natural one-year filings, full jurisdiction behavior, browser, speed and whole-suite checks remain NOT RUN.
+Nineteen of nineteen focused cases passed in 38.75 seconds. Six strict roots had zero scoped or imported diagnostics. Scoped lint and formatting passed. The adjacent receipt binds source hashes, table blobs and exact main. Earlier empty-table and ruling(g) proofs remain retained at their own source pins. No natural year, full jurisdiction filing behavior, browser, speed or whole suite was run.
 
 ## 1. Why-chain (five whys, to bedrock)
 
-1. A member stops filing counted bills when their actual count reaches a declared limit.
-2. The count includes only that sponsor’s bills at the declared jurisdiction, chamber and period.
-3. Each counted record was saved through the existing measure writer.
-4. Exemptions apply only when the source table names an admitted saved subject class.
-5. The table must cite the legal rule. Bedrock: recorded legislation and a sourced institutional limit; no filing quota or random sponsor.
+1. A member stops filing counted bills when actual saved bills reach an applicable sourced limit.
+2. The count follows that sponsor, jurisdiction, chamber and the source’s declared period.
+3. Bound subject and sponsor exceptions read the bill’s saved subject class and origin.
+4. A conditional row applies only when its declared predicate matches the recorded introduction date.
+5. The source must be fully admitted; an unread exemption leaves the row unapplied. Bedrock: saved legal records and sourced institutional text, not a filing quota or guessed calendar.
+
+Constituency, donor, group, news and leadership motives remain outside this cap reader. The existing decision mechanism supplies filing reasons. A bill does not promise passage.
 
 ## 2. Research
 
-The CTO approved an empty data table while X5 researches actual chamber limits across all 56 places. X5 owns the later rows in data/research/legislature/member-bill-limits-2026.json. The reader uses the supplied version and row contract. No Colorado, Florida or other limit is guessed. A missing row, null limit or no-limit-found row leaves filing uncapped. An unread row is explicitly labeled unread-cap.
+X5 owns data/research/legislature/member-bill-limits-2026.json. Its 25 sourced rows have two admitted rows: Colorado joint and Virginia House in odd years. The other 23 carry applied:false and their exact notAppliedReason. The reader receives their declared subject, sponsor and period tokens. No research number, quote or applicability flag was changed by Team 1.
+
+Timing exclusions require actual session starts and legislative-day records that are not present. Local-bill, resolution, amendment and claim markers are also missing. Leadership, agency and permission sponsor kinds are not silently replaced by a member introduction. Tennessee and Wyoming’s unbound session conditions are not guessed.
 
 ## 3. Revisions
 
-The filer checks the actual compiled subject, avoiding an inferred exemption from a question’s topic. It claims a question only after admitting a saved bill, so a capped member cannot reserve it against another eligible sponsor. Rejected pure candidate worlds are not admitted; existing saved history is untouched. Local selection settings, common threshold, intake cadence, pending questions, origination, preemption and cooldown remain.
+The earlier reached-cap unbound refusal is superseded by CTO ruling(g). An unread exemption prevents the entire row from applying, even below or beyond its nominal count. The filer saves the required explanation through the existing world-event writer. A bound date condition can reject a nonmatching row without mislabeling that row as an unread exception. Ambiguous fully selected rows remain unapplied rather than choosing a smaller quota.
+
+The filer uses the actual compiled subject and origin. It claims a question only after admitting the bill, so a capped member cannot reserve a question against another eligible sponsor. Rejected pure candidate worlds are not admitted; saved history is preserved. The common score gate, existing intake cadence, pending questions, cooldown, preemption, origination and local selection settings remain.
 
 ## 4. What gets built, in numbered parts
 
-1. Read the approved X5 table through one pure cap reader.
-2. Count recorded sessions or actual calendar-year introduction dates.
-3. Require an explicit actual biennium window; never infer odd/even year parity.
-4. Match only declared subject-class exemptions. Free-text exceptions and missing legacy session evidence return unbound-rule, not permission.
-5. Apply the reader in the existing shared filer; no second filer or scheduler.
-6. Permit the existing behavior runner’s explicit one-year option for the cloud proof.
+1. Consume the exact X5 exemptionBindings and applied/notAppliedReason contract.
+2. Read LegislativeSubjectClass and LegislativeMeasureOrigin from actual measures.
+3. Select declared calendar-year parity from introducedAt; never infer it from a state name or note.
+4. Count recorded sessions or introduction years. Require an explicit actual biennium window.
+5. Leave unread exceptions, missing session evidence and unbound conditions unapplied, with the exact required explanation.
+6. Keep the existing one-year runner option for the cloud proof; add no filer or scheduler.
 
 ## 5. Simulated, records, world pieces, checks
 
-SIMULATED: the real filer chooses from actual seated members’ saved principles. RECORDS: canonical bills, sponsor IDs, subject classes and numbering sessions supply the count. WORLD PIECES: X5’s researched rows and any actual biennium window are future inputs. CHECKS: wrong member, place, chamber, period and future records cannot consume a cap; joint and unicameral rows apply; declared exemptions do not override another binding cap.
+SIMULATED: the existing filer chooses supported questions from actual seated members’ recorded principles. RECORDS: canonical bills, sponsor IDs, subject classes, origins, numbering sessions and explanatory events. WORLD PIECES: the admitted X5 table exists on main; several timing and special-bill fields do not. CHECKS: both admitted rows, all 23 unapplied rows, committee and appropriation exemptions, recorded parity, missing periods, source preservation, Save/Continue and repeat.
 
-X5 supplies quoted unboundExemptions separately from executable subject-class exemptions. They remain labeled in the reader result. Below the declared cap, filing remains supported; at the cap, an unbound exception returns unbound-rule instead of silently applying it.
-
-Free-text local-bill exemptions lack a canonical saved classification. Their binding and actual biennium windows were requested from X5 and Audit. No runnable exception was invented. The empty table is immediately usable and changes no cap outcome.
+Missing rows and null limits impose no cap, as explicitly approved. An unread row remains labeled. No raw quote becomes an executable predicate. The 1.575 research candidate remains distinct from observed natural filings or a demonstrated median of seven bills per member.
 
 ## 6. Proof run
 
-The five drawn places were New Mexico, Arkansas, Vermont, Ohio and North Dakota. The named minority sponsors were Nikhil Murray, Lydia Velazquez, Skyler Dunn, Quentin Wall and Richard Sandoval. Each authored cap control admitted exactly two bills. After canonical reload, repeated and later intakes admitted no additional bill. The uncapped Congressional strong and weak cases still produced six and two bills from Cassandra Dunn.
+Random place-selection seed: team1-distinct-member-intakes. The five drawn states were New Mexico, Arkansas, Vermont, Ohio and North Dakota. Their actual minority sponsors were Nikhil Murray, Lydia Velazquez, Skyler Dunn, Quentin Wall and Richard Sandoval. An authored fully bound two-bill test rule admitted two bills per person and retained the cap after reload and a later intake.
 
-The surrounding minority, backing-score, uniqueness, repeat and pending-question assertions remain. Native focused checks establish this bounded mechanism. Natural filing rates and a median of seven bills per member are not demonstrated by these controls.
+A second controlled rule had an unread exception and a nominal limit of zero. It did not block any of these members’ supported proposals. Each world saved one “limit not applied: exemption unread” explanation naming the actual sponsor. Canonical reload and repeating the intake produced no duplicate event or bill. The nominal limits are authored controls, not state research values.
+
+The production-table query checks use the sourced counts and tokens directly. They prove that the two admitted rows enforce their counts while all 23 unbound rows remain unapplied. They do not prove a national legislature reached a natural cap. The exact before comparison and its source binding are retained with the final receipts.
 
 ## 7. Worked example
 
-On February 1, 2027, New Mexico’s actual seated Nikhil Murray had controlled saved convictions supporting several questions. The authored test rule admitted two bills, then refused additional counted proposals. Reloading the canonical save retained those two records. Removing the test rule and using the empty production table yielded 32 distinct bills at the same controlled intake. This is a mechanism comparison, not a researched New Mexico cap or normal filing prediction.
+On February 1, 2027, New Mexico’s recorded Nikhil Murray had controlled convictions supporting several open questions. A fully bound authored cap admitted two bills. A separate unread-exemption control left the limit unapplied, admitted his 32 supported bills and saved an explanation naming him. Reloading the canonical save retained the same bills and explanation; repeating the intake created neither again.
 
-The exact runtime pin, main pin, raw logs, per-person bill IDs and source hashes are in member-filing-caps-proof/. Self-review follows civic-reports under the no-helper rule. Release, dice and spelling inherited findings remain explicit in that receipt. The branch remains a draft pending the actual cloud filing proof.
+The exact source pins, main and data hashes, named bill IDs and raw receipts are in member-filing-caps-proof/bindings/. The earlier empty-table and unbound-refusal proofs are historical, not the final policy. Civic reports and feature walkthrough receive self-review under the no-helper rule. Exact release, dice and spelling inherited findings remain explicit. The A72 draft awaits the actual cloud one-year filing/member/state-spread proof. The cap reader is ready for exact-head source review; natural filing calibration remains a separate unproved gate.
