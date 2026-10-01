@@ -2789,7 +2789,35 @@
           "answer": "yes"
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://does.dc.gov/page/dc-worker-labor-and-anti-discrimination-rights",
+          "cite": "District of Columbia Department of Employment Services; July 1, 2025 minimum wage notice",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1795,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2026%20Minimum%20Wage%20Increase%20Notice.pdf",
+              "cite": "District of Columbia Department of Employment Services; July 1, 2026 minimum wage increase notice",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1840,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "note": "Standard total hourly floor. Tipped cash wage and tip-credit settlement are distinct; these terms do not establish worker coverage or recorded tips."
         },
         "US-DE": {
           "answer": "yes"
