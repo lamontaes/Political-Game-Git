@@ -72,9 +72,7 @@ import { governingJurisdictionIdFor } from "../nationwide-world/government-juris
 import { stateExecutiveIdentityForOfficeKey } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
-  authoredMeasuresForJurisdiction,
   createInstitutionStepHandler,
-  fileLegislatureMeasure,
   recordGovernorDecisionOnMeasure,
   scheduleInstitutionStep,
   type ExecutiveDeskHandler,
@@ -2462,12 +2460,7 @@ export function governingSeasonHandler(
     )
       next = ensureStateLegislatureOpening(next, subjectPersonId, stateUsps);
     const filedBefore = next.history.legislativeMeasures?.length ?? 0;
-    // A legislature with written measures files a real bill; it reaches
-    // the governor through the legislative clock.
-    if (authoredMeasuresForJurisdiction(jurisdictionId).length)
-      next = fileLegislatureMeasure(next, intake);
-    // A seated member also files a bill of their own, on the question
-    // their principles press hardest.
+    // Only seated members file, from their own recorded principles.
     next = fileMemberAgendaBill(next, intake);
     // Where nobody filed anything, no bill is invented. The office's other
     // work continues, and the gap is stated once a year.

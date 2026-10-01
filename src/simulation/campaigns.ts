@@ -2173,12 +2173,14 @@ export function campaignElectionTransitionHandler(
   };
 }
 
-export function createCampaignElectionTransitionRegistry(): FutureTransitionHandlerRegistry {
+export function composeWorldTimeHandlers(
+  additional?: FutureTransitionHandlerRegistry,
+): FutureTransitionHandlerRegistry {
   // A campaign is one more thing in a life, not a mode the world switches into,
   // so an advance that carries the election handler must also carry the ordinary
   // life handlers: election day and a promised conversation can fall due on the
   // same day, and time refuses to step over a due item it has no handler for.
-  return composeExecutiveWorkHandlers(
+  const ordinary = composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
       createNationalElectionTransitionRegistry(),
       createLegislativeTermTransitionRegistry(),
@@ -2263,6 +2265,14 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       LIFE_TRANSITION_HANDLERS,
     ),
   );
+  return additional
+    ? composeFutureTransitionHandlerRegistries(additional, ordinary)
+    : ordinary;
+}
+
+/** Compatibility name; all complete handler composition lives above. */
+export function createCampaignElectionTransitionRegistry(): FutureTransitionHandlerRegistry {
+  return composeWorldTimeHandlers();
 }
 
 /** Days between now and the contest, for a surface that wants to say so. */

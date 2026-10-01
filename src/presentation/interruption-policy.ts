@@ -1,5 +1,5 @@
+import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
-  createCampaignElectionTransitionRegistry,
   scheduledActivityState,
   type EntityId,
   type FutureTransitionHandlerRegistry,
@@ -69,7 +69,7 @@ export function interruptionHandlers(
   // No preference changes the handlers since the work-shift stop was retired
   // with manual shifts; the stops that remain are read by the day skip itself.
   void preferences;
-  return createCampaignElectionTransitionRegistry();
+  return composeWorldTimeHandlers();
 }
 
 /**
