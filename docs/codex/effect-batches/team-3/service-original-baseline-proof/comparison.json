@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "head": "1782e53f2658f47d48c2b186a903cce2f0223e70",
+    "passed": 5,
+    "failed": 112,
+    "testBlobs": {
+      "service-delivered.test.ts": "6fa53f109f4fa7bc900364d9eb8233935a1a6eb8",
+      "service-delivered-rows.test.ts": "a0c76b210ee60fc036f640fb087fe7bd648323ec"
+    }
+  },
+  "baseline": {
+    "head": "007aec6e29084d62ed4ebf0ef864beaeb5148204",
+    "passed": 5,
+    "failed": 112,
+    "testBlobs": {
+      "service-delivered.test.ts": "6fa53f109f4fa7bc900364d9eb8233935a1a6eb8",
+      "service-delivered-rows.test.ts": "a0c76b210ee60fc036f640fb087fe7bd648323ec"
+    }
+  },
+  "namesAdded": [],
+  "namesRemoved": [],
+  "exactOrderedFailuresEqual": true,
+  "uniqueRawNames": 56,
+  "loadedModuleCounts": {
+    "candidate": 887,
+    "baseline": 887
+  },
+  "graphDiff": [
+    {
+      "path": "src/simulation/law-consequences/service-delivered.ts",
+      "candidate": "93badb9e53c32eeffb33ca014428f03675c00943013fcc0db6047a7d40c73f2a",
+      "baseline": "a18ec9ddad9a442632177f41572ceb85242a611dfe685c5a42a24cc16578055d"
+    }
+  ],
+  "durationsSeconds": {
+    "candidate": 44.58,
+    "baseline": 45.86
+  },
+  "qualification": "Vitest truncates parameters: 112 failure instances have 56 unique displayed names. Ordered instance names and all complete raw assertion/stack messages are exactly equal; no inference of distinct untruncated policy names.",
+  "assertionDiff": [],
+  "notRun": [
+    "whole suite",
+    "speed",
+    "browser",
+    "final-main acceptance",
+    "Team5 revised test on isolated1782"
+  ],
+  "types": "Root reports exact isolated guard793files/0diagnostics; not rerun by Team3."
+}
