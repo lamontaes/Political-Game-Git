@@ -82,7 +82,7 @@ export function fileTaxProposalFromOffice(
     subjectClass: "revenue",
     sponsorPersonId: input.personId,
     propositionIds: [question.id],
-    propositionAnswers: [{ propositionId: question.id, answer: "support" }],
+    propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
   });
   const measureId = next.history.legislativeMeasures!.at(-1)!.id;
   next = attachTaxProposal(next, {
