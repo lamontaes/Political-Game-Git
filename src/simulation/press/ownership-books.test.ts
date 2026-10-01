@@ -17,7 +17,14 @@ import {
 } from "../resources";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { STATES } from "../state-reference";
-import { assertWorldIntegrity, createWorld, createWorldId } from "../world";
+import {
+  advanceWorld,
+  assertWorldIntegrity,
+  createWorld,
+  createWorldId,
+} from "../world";
+import { createPressTransitionRegistry } from "./transitions";
+import { DEFAULT_MEDIA_OWNERSHIP_PACK } from "./ownership-pack-default";
 import { reporterIsCurrent, reporterRoles } from "./outlets";
 import {
   ensureMediaOwnership,
@@ -26,7 +33,7 @@ import {
   pressOwnerReviewHandler,
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
 } from "./ownership";
-import { loadOwnershipPacks } from "./ownership-packs";
+import { loadOwnershipPacks, type OwnershipRegistry } from "./ownership-packs";
 import { PRESS_POLICY_VERSION } from "./records";
 import { appendPressRecord } from "./store";
 
@@ -73,9 +80,11 @@ function fixture(
   usps: string,
   cash: number | null = 20000,
   missingPayroll = false,
+  ownershipRegistry: OwnershipRegistry = registry,
+  seedSuffix = "",
 ) {
   const date = makeIsoDate("2026-01-31"),
-    worldSeed = `${seed}:${usps}`,
+    worldSeed = `${seed}:${usps}${seedSuffix}`,
     state = stateJurisdictionForKey(`US-${usps}`)!;
   const people = Array.from({ length: 100 }, (_, index) =>
     createLightweightPerson({
@@ -194,7 +203,7 @@ function fixture(
         note: "Explicit fixture cash, not an inferred book",
       },
     });
-  world = ensureMediaOwnership(world, registry);
+  world = ensureMediaOwnership(world, ownershipRegistry);
   const owner = mediaOwners(world)[0]!;
   const due = world.history.futureDueItems.find(
     (d) =>
@@ -210,6 +219,83 @@ function fixture(
   return { world, owner, due };
 }
 describe("A145 newsroom cuts read recorded cash and payroll", () => {
+  it.each(places)(
+    "keeps the same recorded layoff result across world seeds in %s",
+    (usps) => {
+      const outcomes = [":a145-seed-a", ":a145-seed-b"].map((seedSuffix) => {
+        const f = fixture(usps, 20000, false, registry, seedSuffix);
+        const roles = reporterRoles(f.world);
+        const after = pressOwnerReviewHandler(f.world, f.due, registry).world;
+        assertWorldIntegrity(after);
+        const directive = ownerDirectives(after, f.owner.id)[0]!;
+        return {
+          // Independent worlds retain their own valid identities. Compare
+          // tenure rank and financial cause, never rewrite seed identity.
+          ended: directive.endedWorkRelationshipIds.map((id) =>
+            roles.findIndex((role) => role.workRelationshipId === id),
+          ),
+          current: roles.map((role) => reporterIsCurrent(after, role)),
+          reason: after.history.events.find(
+            (event) => event.id === directive.eventId,
+          )!.context.motivation,
+        };
+      });
+      expect(outcomes[0]).toEqual(outcomes[1]);
+      expect(outcomes[0]!.ended).toEqual([2]);
+    },
+  );
+  it("runs recorded payroll through the production press registry and clock", () => {
+    // Controlled opening restricts eligible owners to an unchanged shipped row;
+    // the clock uses the real default registry, not a private handler override.
+    const opening = loadOwnershipPacks([
+      {
+        ...DEFAULT_MEDIA_OWNERSHIP_PACK,
+        owners: (DEFAULT_MEDIA_OWNERSHIP_PACK.owners ?? []).filter(
+          (row) => row.key === "owner.private-equity-chain",
+        ),
+      },
+    ]);
+    const f = fixture(places[0]!, 20000, false, opening);
+    const previousDate = addDays(f.due.dueAt, -1);
+    const before = {
+      ...f.world,
+      currentDate: previousDate,
+      currentMoment: simulationMomentOnLocalDate(
+        f.world.currentMoment,
+        previousDate,
+      ),
+    };
+    const handlers = createPressTransitionRegistry();
+    const after = advanceWorld(before, 1, handlers);
+    const directive = ownerDirectives(after, f.owner.id).find(
+      (row) => row.effect === "reduce-newsroom-staff",
+    )!;
+    expect(directive.endedWorkRelationshipIds).toEqual([
+      reporterRoles(before)[2]!.workRelationshipId,
+    ]);
+    expect(reporterIsCurrent(after, reporterRoles(before)[2]!)).toBe(false);
+    expect(
+      after.history.futureDueItems.some((row) =>
+        row.stableKey.endsWith(":review:1"),
+      ),
+    ).toBe(true);
+    assertWorldIntegrity(after);
+    const loaded = deserializeWorld(serializeWorld(after));
+    const continued = advanceWorld(loaded, 1, handlers);
+    expect(
+      ownerDirectives(continued, f.owner.id).filter(
+        (row) => row.effect === "reduce-newsroom-staff",
+      ),
+    ).toHaveLength(1);
+    expect(
+      continued.history.workStatuses.filter(
+        (row) =>
+          row.workRelationshipId ===
+            reporterRoles(before)[2]!.workRelationshipId &&
+          row.status === "ended",
+      ),
+    ).toHaveLength(1);
+  });
   it.each(places)(
     "ends only the least-senior position needed by actual payroll in %s",
     (usps) => {

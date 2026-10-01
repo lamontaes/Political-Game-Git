@@ -348,16 +348,26 @@ export function pressOwnerReviewHandler(
   for (const practiceKey of row.practices) {
     const practice = registry.practices.get(practiceKey);
     if (!practice) continue;
-    const rng = new SeededRng(world.seed).fork(
-      `${dueItem.stableKey}:${practiceKey}`,
-    );
     const practiceKeyForReview = `${dueItem.stableKey}:${practiceKey}`;
     if (pressRecordByKey(next, "owner-directive", practiceKeyForReview))
       continue;
-    // Staff cuts come from recorded payroll capacity, never pack odds.
-    if (practice.effect !== "reduce-newsroom-staff") {
-      if (rng.next() >= practice.likelihoodPerReview) continue;
+    // No random stream is created or consulted on the payroll-driven path.
+    if (practice.effect === "reduce-newsroom-staff") {
+      const decided = reduceNewsroomStaff(
+        next,
+        owner,
+        practice,
+        practiceKeyForReview,
+        outletsHeldBy(next, owner.id),
+      );
+      next = decided.world;
+      lastEventId = decided.eventId ?? lastEventId;
+      continue;
     }
+    const rng = new SeededRng(world.seed).fork(
+      `${dueItem.stableKey}:${practiceKey}`,
+    );
+    if (rng.next() >= practice.likelihoodPerReview) continue;
     const decided = carryOutPractice(
       next,
       owner,
