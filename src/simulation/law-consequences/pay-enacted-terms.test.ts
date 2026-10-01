@@ -405,7 +405,7 @@ it.each(["schedule:town-weekly", "schedule:weekly"] as const)(
 it("refuses an enacted yes with no final adopted target instead of inventing a wage", () => {
   const f = fixture(null);
   expect(() => resolvePayConsequences(f.world, f.row, f.context)).toThrow(
-    "Missing pay final enacted term 'target'",
+    "Missing pay final law term 'target'",
   );
 });
 

@@ -1,4 +1,3 @@
-import minimumWages from "../../../data/research/money/minimum-wage-2026.json" with { type: "json" };
 import { evaluateLawAmount } from "../law-consequence-amount";
 import type {
   LawAmountExpression,
@@ -16,17 +15,8 @@ import {
   type GrowingIndexKind,
 } from "../history-index";
 import { organizationProfileAt, workRoleAt } from "../life-queries";
-import {
-  lifePlaceByJurisdictionId,
-  stateKeyForJurisdiction,
-} from "../life-places";
 import { applyLawPayConsequence } from "../living-world/town-pay";
-import {
-  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-  STATE_MINIMUM_WAGE_QUESTION_KEY,
-  PAY_SELECTOR,
-  PAY_ACTION,
-} from "./pay-rows";
+import { PAY_SELECTOR, PAY_ACTION } from "./pay-rows";
 export { PAY_SELECTOR, PAY_ACTION, MINIMUM_WAGE_PAY_ROWS } from "./pay-rows";
 import { resourceFlowTermsAt } from "../resource-queries";
 import type { EntityId, ResourceFlow, World } from "../types";
@@ -190,47 +180,15 @@ export function resolvePayConsequences(
     const legalTerms: Record<string, { value: number; unit: LawAmountUnit }> =
       {};
     for (const [key, unit] of termUnits(row.amount)) {
-      if (law.origin === "enacted") {
-        const term = readFinalEnactedLawTerm(world, law, {
-          questionKey: proposition.stableKey,
-          termKey: key,
-          unit,
-        });
-        if (!term)
-          throw new Error(`Missing pay final enacted term '${key}' (${unit})`);
-        legalTerms[key] = { value: term.value, unit: term.unit };
-        sourceRecordIds.push(...term.sourceRecordIds);
-      } else {
-        // Owner-approved representative source values, not filing declarations,
-        // a default enacted target, or a newly drawn wage level.
-        const startingKey =
-          proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY
-            ? "target"
-            : "floor";
-        if (key !== startingKey || unit !== "minor/hour")
-          throw new Error(`Missing starting pay term '${key}' (${unit})`);
-        const place = lifePlaceByJurisdictionId(jurisdictionId);
-        const jurisdiction = world.jurisdictions[jurisdictionId];
-        const stateKey =
-          place?.stateJurisdictionKey ??
-          (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
-        const source = minimumWages.places as Record<
-          string,
-          { basicHourly: number | null }
-        >;
-        const hourly =
-          proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
-            ? minimumWages.federalHourly
-            : proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
-                stateKey
-              ? source[stateKey]?.basicHourly
-              : null;
-        if (hourly == null)
-          throw new Error(
-            `Missing sourced starting pay floor '${proposition.stableKey}'`,
-          );
-        legalTerms[key] = { value: Math.round(hourly * 100), unit };
-      }
+      const term = readFinalEnactedLawTerm(world, law, {
+        questionKey: proposition.stableKey,
+        termKey: key,
+        unit,
+      });
+      if (!term)
+        throw new Error(`Missing pay final law term '${key}' (${unit})`);
+      legalTerms[key] = { value: term.value, unit: term.unit };
+      sourceRecordIds.push(...term.sourceRecordIds);
     }
     const amount = evaluateLawAmount(row.amount, {
       term: legalTerms,

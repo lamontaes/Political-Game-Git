@@ -7,7 +7,7 @@ export const STATE_MINIMUM_WAGE_QUESTION_KEY =
 export const PAY_SELECTOR = "active-work-payflows";
 export const PAY_ACTION = "raise-hourly-floor";
 
-/** Catalog-owner payload; starting values come from the approved source above. */
+/** Data-only catalog-owner payload; legal values belong to the final law terms. */
 export const MINIMUM_WAGE_PAY_ROWS: Readonly<
   Record<string, LawConsequenceRow>
 > = Object.fromEntries(
@@ -39,7 +39,7 @@ export const MINIMUM_WAGE_PAY_ROWS: Readonly<
           population:
             "Recorded workers with an actual compensation flow, work jurisdiction and hours.",
           scope:
-            "Governing federal or state law and final adopted floor; representative basic starting rates approved by owner September 30.",
+            "Governing federal or genuine state law, final legal floor and actual operative date; starting coverage and phase-ins belong to canonical law records.",
           why: "The operative legal minimum raises the worker's prospective recorded contract; actual payroll transfers and withholding use that contract.",
           uncertainty:
             "Existing whole-period conversion is a game simplification; missing coverage, hours, special rates and final terms are unsupported, never inferred permission or a guessed level.",
