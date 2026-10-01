@@ -1,0 +1,116 @@
+{
+  "status": "DRAFT: source admission implemented; caller and law activation absent",
+  "sourceHead": "1c4b325cc37840834f971204ff490804ea47e074",
+  "receivedMain": "10d5bc6610b4de29b50f4c0dab4a5d4e09315253",
+  "receivedTypeDelta": {
+    "source": "75de638caee7934f221e7e6a55706f4c9d8cd9ba",
+    "local": "e3ffb3d4f",
+    "scope": "tax-types.ts only; no evidence rows"
+  },
+  "ownedProductionFiles": ["src/simulation/tax-policy.ts"],
+  "ownedTests": ["src/simulation/paycheck-tax-consumer.test.ts"],
+  "exports": [
+    "recordedPaycheckTaxInput",
+    "preparePaycheckTaxAssessment",
+    "matchRecordedPaycheckLevy",
+    "preparePaycheckLevyPartition",
+    "taxBaseOccurrenceSource"
+  ],
+  "runtime": {
+    "tests": 13,
+    "passed": 13,
+    "durationSeconds": 13.51,
+    "testMilliseconds": 383,
+    "completeFile": true,
+    "maxWorkers": 1,
+    "stockTimeouts": true
+  },
+  "strict": {
+    "roots": 2,
+    "loadedFiles": 852,
+    "ownedDiagnostics": 0
+  },
+  "fullAuditScan": {
+    "items": 149,
+    "ruleItems": 149,
+    "milliseconds": 2317,
+    "A33": "partly; 2/5 source checks; no activation proof"
+  },
+  "gates": {
+    "lint": "PASS",
+    "format": "PASS",
+    "zeroDice": "PASS; 0 new, 206 allowed",
+    "release": "PASS; a8b7da41bf38dba20b1f923cd42b7b5b3b614534..1c4b325cc37840834f971204ff490804ea47e074"
+  },
+  "sample": {
+    "seed": "team6-a33-actual-paycheck-lineage",
+    "places": ["SC", "SD", "RI", "PR", "PA"],
+    "positivePerson": "Charles Terrell",
+    "grossActuallyTransferredMinor": 120000,
+    "liabilityMinor": 6755,
+    "collectionMinor": 6755,
+    "payOutcomeId": "resource-transfer-outcome_9075075ebab3dd71",
+    "liabilityId": "statutory-tax-liability_d7a8aa4b4a9dcfa9",
+    "paymentId": "statutory-tax-payment_681ff5992a4c6843",
+    "collectionOutcomeId": "resource-transfer-outcome_68d2598377236897"
+  },
+  "preservedFailures": {
+    "initialFixture": "8 failures: non-completed outcome missing required structured reason",
+    "initialTypes": "5 fixture diagnostics; corrected namespace/jurisdiction/event access only",
+    "positiveFixture": "8 pass, 1 fail: positive liability did not have positive collection; fixture lacked zero-opening payer account; collection reader also corrected individual allocation versus shared aggregate transfer"
+  },
+  "remainingDependencies": [
+    "Root real wage authority evidence rows and handler attribution writer",
+    "Revised selected-levy statutory producer/caller transfer; whole-outcome guard cannot safely omit income alone"
+  ],
+  "notRun": [
+    "full test suite",
+    "existing entire tax-policy.test.ts",
+    "natural work/day play",
+    "nationwide runtime",
+    "browser",
+    "years/speed",
+    "default law-row activation",
+    "new catalog/starting-law admission"
+  ],
+  "protected": [
+    "town-pay.ts A38 period/writer logic",
+    "root four tax handler/binder files",
+    "catalog/registry",
+    "public-fiscal.ts except separately released foundation hook"
+  ],
+  "providerRelease": "Root owns ONLY taxPowerEvidenceFor function lines81-96 and necessary fiscal query import; clean at sourceHead. Source admission and integrity remain Team6.",
+  "files": {
+    "team6-a33-source-audit.json": "49798853c1afc07b819a0caefc272499d308e9ce5cee4ecb45caf86060ac265e",
+    "team6-a33-source-audit.log": "0b9419c4888a22ac97d09e58bbeb27736ac955750fdc7c0e4db9e1ac8a3d254c",
+    "team6-a33-source-dice.log": "207e7fef0c0bee0af9adee4ba9c1321a0849b3a91670ed3e49a4a8687ced1d9f",
+    "team6-a33-source-format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "team6-a33-source-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "team6-a33-source-release.log": "069a0016c2949bf097bc9380c16e6db150aa5c4f9baf0004ba45719226882f82",
+    "team6-a33-source-tests.json": "c36d25524e7d9befb56ef5da7bc762cbd2e23f05fee55ca6e22ddb2504a89d68",
+    "team6-a33-source-tests.log": "cfdf04cab425ee00917589a8ecff22f99ee4d4d4a5e8baaac2ee9dc3b8d247e2",
+    "team6-a33-source-types.log": "3cb5e7d4144eb5633f0c1289eb1b4917ad42e798bc21dae4b946afbb5b46951a",
+    "team6-a33-type-admission-renewed.log": "b2927cfac3733d93adf36d0a44ca202921b23ad4633e91fdd41a68dc87a2c054",
+    "team6-a33-report-source.log": "5d94c7a9a1b51f696a2a730a435b613ef214f8d35f3ade9806531827b2e04f0b",
+    "team6-a33-source-spelling-renewed.log": "75ebb1dbc399ea1b0628ad4e2054e33b2c1de516087d771c30af23905c9308f2"
+  },
+  "historicalReceipt": "receipt.json retained unchanged; its old contract and gate failures are superseded, not current",
+  "typeAdmissionCheck": {
+    "roots": 3,
+    "loadedFiles": 749,
+    "ownedDiagnostics": 0,
+    "scope": "strict app options; noncomposite standalone roots; noEmit",
+    "runtimeRerun": false
+  },
+  "spelling": {
+    "status": "FAIL outside changed report/release prose",
+    "findings": 187,
+    "ownedReportAndReleaseFindings": 0,
+    "sandboxFirstAttempt": "git ls-files subprocess EPERM; authorized escalated read-only renewal executed"
+  },
+  "reportCheck": {
+    "errors": 0,
+    "warnings": 0,
+    "selfReview": "completed; no new helper permitted"
+  }
+}
