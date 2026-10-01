@@ -144,7 +144,7 @@ const allPlaces = lifePlaceStateIdentities().map((state) => ({
 }));
 const pool = [...allPlaces];
 const fixtureRng = new SeededRng("G6-player-desk-five-places");
-const places = Array.from(
+const samplePlaces = Array.from(
   { length: 5 },
   () => pool.splice(fixtureRng.integer(0, pool.length), 1)[0]!,
 );
@@ -161,7 +161,7 @@ describe("player President shares the executive desk and legal window", () => {
         ?.kind,
     ).toBe("unknown");
   });
-  it.each(places)(
+  it.each(allPlaces)(
     "actual desk, choice, lapse and saved continuation in $state",
     ({ state, place }) => {
       const opened = adultLifeAt(place.key, `G6-player-desk:${state}`).world;
@@ -237,6 +237,7 @@ describe("player President shares the executive desk and legal window", () => {
           d.entityIds.includes(matter.id),
       )!;
       expect(due.dueAt).toBe(window.inactionAt);
+      if (!samplePlaces.some((sample) => sample.state === state)) return;
       const restored = deserializeWorld(serializeWorld(next));
       expect(presidentDesk(restored, measure)).toBe(restored);
       // Each explicit action uses the same controlled person/bill, not an autonomous recommendation.
@@ -317,7 +318,7 @@ describe("player President shares the executive desk and legal window", () => {
       expect(
         deserializeWorld(serializeWorld(lapsed)).history.executiveDispositions,
       ).toEqual(lapsed.history.executiveDispositions);
-      if (state === places[0]!.state) {
+      if (state === samplePlaces[0]!.state) {
         // An already waiting bill from an old save must not schedule a due item in the past.
         const previouslyWaiting = { ...late, history: fixture.world.history };
         // Use the canonical isolation records already built above, then remove only this test's newly opened desk path by starting from the actual presented world.

@@ -267,14 +267,7 @@ export function openPresidentBillMatter(
   const matter = governingMatters(next, office.officeKey).find(
     (m) => m.measureId === measure.id && m.status === "open",
   );
-  const due = matter
-    ? next.history.futureDueItems.find(
-        (d) =>
-          d.transitionKey === GOVERNING_DEADLINE &&
-          d.entityIds.includes(matter.id),
-      )
-    : undefined;
-  return due ? governingDeadlineHandler(next, due).world : next;
+  return matter ? applyExecutiveBillInaction(next, matter) : next;
 }
 
 export function governingOfficeForPerson(
@@ -1270,7 +1263,11 @@ function openMatter(
     context: emptyContext(),
   });
   const opened = next.history.events.at(-1)!;
-  if (measure && executiveWindow) {
+  if (
+    measure &&
+    executiveWindow &&
+    executiveWindow.inactionAt > next.currentDate
+  ) {
     next = scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
       dueAt:
@@ -1314,6 +1311,12 @@ function openMatter(
       provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
     });
   }
+  if (
+    measure &&
+    executiveWindow &&
+    world.currentDate > executiveWindow.lastActionDate
+  )
+    return next;
   // Keep the existing workflow interval, bounded by the actual legal last day.
   const workflowDate = addDays(
     world.currentDate,
@@ -1325,7 +1328,8 @@ function openMatter(
       : workflowDate;
   return scheduleFutureDueItem(next, {
     stableKey: `${stableKey}:npc`,
-    dueAt: npcDate < world.currentDate ? world.currentDate : npcDate,
+    dueAt:
+      npcDate <= world.currentDate ? addDays(world.currentDate, 1) : npcDate,
     transitionKey: GOVERNING_NPC_DECISION,
     entityIds: [opened.id],
     jurisdictionId: office.jurisdictionId,
@@ -2179,6 +2183,37 @@ export function governingTransitionHandler(
   );
 }
 
+function applyExecutiveBillInaction(
+  world: World,
+  matter: GoverningMatter,
+): World {
+  const measure = matter.measureId
+    ? world.history.legislativeMeasures?.find((m) => m.id === matter.measureId)
+    : undefined;
+  if (
+    !measure ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return world;
+  const window = executiveBillActionWindow(world, measure);
+  if (
+    !window ||
+    window.inactionOutcome !== "becomes-law-without-signature" ||
+    world.currentDate <= window.lastActionDate
+  )
+    return world;
+  const inactive = recordExecutiveInaction(world, {
+    stableKey: `${matter.stableKey}:executive-inaction`,
+    measureId: measure.id,
+    rationale:
+      "The declared executive action window ended without a decision; the pack makes the bill law without a signature.",
+  });
+  return scheduleInstitutionStep(
+    recordDecision(inactive, matter, null, "lapsed", matter.holderPersonId),
+    measure.id,
+  );
+}
+
 export function governingDeadlineHandler(
   world: World,
   due: FutureDueItem,
@@ -2190,34 +2225,12 @@ export function governingDeadlineHandler(
   if (!office || office.holderPersonId !== matter.holderPersonId)
     return resolved(world, "The office changed hands before the deadline.");
   if (matter.family === "bill" && matter.measureId) {
-    const measure = world.history.legislativeMeasures?.find(
-      (m) => m.id === matter.measureId,
-    );
-    if (
-      !measure ||
-      measurePosition(world, measure.id).phase !== "awaiting-executive"
-    )
-      return resolved(world, "The bill is no longer on the executive desk.");
-    const window = executiveBillActionWindow(world, measure);
-    if (!window || window.inactionOutcome !== "becomes-law-without-signature")
-      return resolved(
-        world,
-        "The applicable inaction rule remains unsupported; the bill stays pending.",
-      );
-    if (world.currentDate <= window.lastActionDate)
-      return resolved(world, "The legal time to act has not passed.");
-    const inactive = recordExecutiveInaction(world, {
-      stableKey: `${matter.stableKey}:executive-inaction`,
-      measureId: measure.id,
-      rationale:
-        "The declared executive action window ended without a decision; the pack makes the bill law without a signature.",
-    });
+    const next = applyExecutiveBillInaction(world, matter);
     return resolved(
-      scheduleInstitutionStep(
-        recordDecision(inactive, matter, null, "lapsed", matter.holderPersonId),
-        measure.id,
-      ),
-      "The legal window ended without executive action.",
+      next,
+      next === world
+        ? "No executable inaction rule is due; the bill stays pending."
+        : "The legal window ended without executive action.",
     );
   }
   return resolved(
