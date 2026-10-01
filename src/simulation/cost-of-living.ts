@@ -14,9 +14,12 @@ import {
   sameEndpoint,
 } from "./resource-queries";
 import { MORTGAGE_BASIS } from "./home-purchase";
+import { indexOverArrays } from "./history-index";
 import { townLeases } from "./living-world/town-rent";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
+
+const MORTGAGE_BILL_INDEX = {};
 
 /**
  * What it costs a person to live, charged on the first of each month.
@@ -114,9 +117,21 @@ export function recordedHouseholdHousingBillsAt(
       row.householdId === householdId &&
       row.flow.startsAt <= asOfDate,
   );
+  const obligationsByFlow = indexOverArrays(
+    MORTGAGE_BILL_INDEX,
+    [world.history.resourceObligations],
+    () =>
+      new Map(
+        world.history.resourceObligations.map((row) => [
+          row.resourceFlowId,
+          row,
+        ]),
+      ),
+  );
   const mortgageFlows = world.history.resourceFlows.filter(
     (flow) =>
-      flow.basisKind === MORTGAGE_BASIS &&
+      (flow.basisKind === MORTGAGE_BASIS ||
+        obligationsByFlow.get(flow.id)?.basisKind === "debt:mortgage") &&
       flow.startsAt <= asOfDate &&
       flow.source.kind === "person" &&
       householdMembershipsAt(world, flow.source.personId, {
