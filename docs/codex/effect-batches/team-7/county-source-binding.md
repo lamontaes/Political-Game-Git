@@ -10,7 +10,7 @@ Measured source: the county catalog resolves one adopted source version against 
 
 Measured source: county home membership requires a dated sourced whole-place join and the person's canonical residence fact. Guessed provenance or a different canonical county refuses without a saved-world change. County residence cannot certify voter eligibility.
 
-Measured checks before final formatting: eight changed-file tests passed at b1b8f7a9e03cc5ffb1844742f3543319efabe63e. Eleven strict roots and 840 loaded files reported zero diagnostics. Controlled fixtures cover identity refusal, saved residence history, reload, separate county intents and missing voter evidence. These fixtures are not real county admission or ordinary-player proof.
+Measured checks on current-main composition: eight changed-file tests passed at 8a2509e99d88df3b417d77687544a24e77bc6d0f, based on main 007aec6e29084d62ed4ebf0ef864beaeb5148204. Eleven strict roots and 841 loaded files reported zero diagnostics. Changed-file lint and exact-head release checks for both declaration ranges passed. The dice guard found zero additions and five unchanged stale entries on both base and candidate; this is a retained baseline failure. Controlled fixtures cover identity refusal, saved residence history, reload, separate county intents and missing voter evidence. These fixtures are not real county admission or ordinary-player proof.
 
 ## Remaining work
 

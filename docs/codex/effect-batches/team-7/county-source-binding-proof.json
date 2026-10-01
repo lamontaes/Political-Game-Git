@@ -1,0 +1,192 @@
+{
+  "sourceHead": "8a2509e99d88df3b417d77687544a24e77bc6d0f",
+  "base": "007aec6e29084d62ed4ebf0ef864beaeb5148204",
+  "ownedSource": [
+    "src/districts/county-seat-types.ts",
+    "src/districts/county-seat-catalog.ts",
+    "src/districts/county-seat-binding.test.ts",
+    "src/districts/types.ts",
+    "src/districts/query.ts",
+    "src/simulation/types.ts",
+    "src/simulation/district-residence.ts",
+    "src/simulation/world.ts",
+    "src/simulation/candidacy.ts",
+    "src/simulation/county-residence-binding.test.ts"
+  ],
+  "runtime": {
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "success": true,
+    "files": [
+      {
+        "name": "src/districts/county-seat-binding.test.ts",
+        "status": "passed"
+      },
+      {
+        "name": "src/simulation/county-residence-binding.test.ts",
+        "status": "passed"
+      }
+    ]
+  },
+  "types": {
+    "head": "8a2509e99d88df3b417d77687544a24e77bc6d0f",
+    "roots": [
+      "src/districts/county-seat-types.ts",
+      "src/districts/county-seat-catalog.ts",
+      "src/districts/county-seat-binding.test.ts",
+      "src/districts/types.ts",
+      "src/districts/query.ts",
+      "src/simulation/types.ts",
+      "src/simulation/district-residence.ts",
+      "src/simulation/world.ts",
+      "src/simulation/candidacy.ts",
+      "src/simulation/county-residence-binding.test.ts",
+      "src/presentation/campaign-projection.ts"
+    ],
+    "files": 841,
+    "diagnostics": 0,
+    "sourceMode": "exact committed Git objects; no dirty source reads"
+  },
+  "lint": {
+    "head": "8a2509e99d88df3b417d77687544a24e77bc6d0f",
+    "diagnostics": 0
+  },
+  "release": {
+    "pr": {
+      "head": "8a2509e99d88df3b417d77687544a24e77bc6d0f",
+      "mode": "pr",
+      "problems": []
+    },
+    "push": {
+      "head": "8a2509e99d88df3b417d77687544a24e77bc6d0f",
+      "mode": "push",
+      "problems": []
+    }
+  },
+  "zeroDice": [
+    {
+      "head": "007aec6e29084d62ed4ebf0ef864beaeb5148204",
+      "files": 1086,
+      "added": 0,
+      "stale": [
+        {
+          "file": "src/simulation/governing/congress-lawmaking.ts",
+          "kind": "roll",
+          "build": "Build 27",
+          "count": 1,
+          "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/governing/officeholder-principles.ts",
+          "kind": "roll",
+          "build": "Build 27",
+          "count": 1,
+          "code": "roll < PRINCIPLE_DRAW.endorses",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/governing/officeholder-principles.ts",
+          "kind": "roll",
+          "build": "Build 27",
+          "count": 1,
+          "code": ": roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/pressure/events.ts",
+          "kind": "fixed-share",
+          "build": "Build 19",
+          "count": 1,
+          "code": "chanceCap: 0.9,",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/pressure/events.ts",
+          "kind": "roll",
+          "build": "Build 19",
+          "count": 1,
+          "code": "draw(next, [\"international\", matter, ordinal]) >=",
+          "present": 0
+        }
+      ]
+    },
+    {
+      "head": "8a2509e99d88df3b417d77687544a24e77bc6d0f",
+      "files": 1086,
+      "added": 0,
+      "stale": [
+        {
+          "file": "src/simulation/governing/congress-lawmaking.ts",
+          "kind": "roll",
+          "build": "Build 27",
+          "count": 1,
+          "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/governing/officeholder-principles.ts",
+          "kind": "roll",
+          "build": "Build 27",
+          "count": 1,
+          "code": "roll < PRINCIPLE_DRAW.endorses",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/governing/officeholder-principles.ts",
+          "kind": "roll",
+          "build": "Build 27",
+          "count": 1,
+          "code": ": roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/pressure/events.ts",
+          "kind": "fixed-share",
+          "build": "Build 19",
+          "count": 1,
+          "code": "chanceCap: 0.9,",
+          "present": 0
+        },
+        {
+          "file": "src/simulation/pressure/events.ts",
+          "kind": "roll",
+          "build": "Build 19",
+          "count": 1,
+          "code": "draw(next, [\"international\", matter, ordinal]) >=",
+          "present": 0
+        }
+      ]
+    }
+  ],
+  "failedChecksRetained": [
+    {
+      "head": "bc75e0af1bdce9fe65aad4fb32ab701c398aeab3",
+      "typeDiagnostics": 28
+    },
+    {
+      "head": "4bc5dbd911a1cea617a93f1d331656222df74368",
+      "typeDiagnostics": 1
+    },
+    {
+      "route": "shared filesystem release gate",
+      "failure": "Untracked research2 declaration contains report prose; exact main blob valid; shared file preserved"
+    }
+  ],
+  "notRun": [
+    "browser",
+    "full suite",
+    "long clock",
+    "nationwide",
+    "speed",
+    "real county filing admission"
+  ],
+  "productionSeats": 0,
+  "review": "CTO review required; no independent report reviewer PASS claimed",
+  "shared": {
+    "head": "ad75e8e377881724246022b8345476de4f1356e4",
+    "dirty": 224,
+    "indexPreserved": true
+  }
+}
