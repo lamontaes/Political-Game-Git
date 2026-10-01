@@ -24,9 +24,16 @@ export class SqliteWorldRepository {
       throw new Error("SQLite database path must not be empty.");
     }
     this.#database = new DatabaseSync(databasePath);
-    this.#database.exec(`
-      PRAGMA foreign_keys = ON;
-      PRAGMA journal_mode = WAL;
+    let migrationStarted = false;
+    try {
+      this.#database.exec(
+        `PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;`,
+      );
+      // Serialize schema inspection and changes across repository connections.
+      // Lock contention keeps SQLite's existing fail-fast behavior.
+      this.#database.exec("BEGIN IMMEDIATE");
+      migrationStarted = true;
+      this.#database.exec(`
       CREATE TABLE IF NOT EXISTS world_snapshots (
         world_id TEXT PRIMARY KEY,
         snapshot_id TEXT NOT NULL,
@@ -37,16 +44,16 @@ export class SqliteWorldRepository {
           CHECK (payload_chunk_count >= 0)
       ) STRICT;
     `);
-    const columns = this.#database
-      .prepare("PRAGMA table_info(world_snapshots)")
-      .all() as unknown as readonly { readonly name: string }[];
-    if (!columns.some((column) => column.name === "payload_chunk_count")) {
-      this.#database.exec(`
+      const columns = this.#database
+        .prepare("PRAGMA table_info(world_snapshots)")
+        .all() as unknown as readonly { readonly name: string }[];
+      if (!columns.some((column) => column.name === "payload_chunk_count")) {
+        this.#database.exec(`
         ALTER TABLE world_snapshots ADD COLUMN payload_chunk_count
           INTEGER NOT NULL DEFAULT 0 CHECK (payload_chunk_count >= 0);
       `);
-    }
-    this.#database.exec(`
+      }
+      this.#database.exec(`
       CREATE TABLE IF NOT EXISTS world_snapshot_chunks (
         world_id TEXT NOT NULL REFERENCES world_snapshots(world_id)
           ON DELETE CASCADE,
@@ -55,6 +62,15 @@ export class SqliteWorldRepository {
         PRIMARY KEY (world_id, chunk_index)
       ) STRICT;
     `);
+      this.#database.exec("COMMIT");
+    } catch (error) {
+      try {
+        if (migrationStarted) this.#database.exec("ROLLBACK");
+      } finally {
+        this.#database.close();
+      }
+      throw error;
+    }
   }
 
   save(world: World): StoredWorldSummary {

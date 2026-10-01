@@ -147,6 +147,70 @@ describe("SQLite uses the existing chunked world payload", () => {
     expect(repository.load(world.id)).toEqual(world);
   });
 
+  it("serializes first-open migration and permits retry after a concurrent lock", () => {
+    const path = fixturePath();
+    const database = databaseAt(path);
+    database.exec(`PRAGMA journal_mode = WAL;
+      CREATE TABLE world_snapshots (
+        world_id TEXT PRIMARY KEY, snapshot_id TEXT NOT NULL,
+        current_date TEXT NOT NULL, action_sequence INTEGER NOT NULL,
+        payload TEXT NOT NULL) STRICT`);
+    const snapshot = serialization.createWorldSnapshot(world);
+    const payload = serialization.serializeWorldSnapshot(snapshot);
+    database
+      .prepare("INSERT INTO world_snapshots VALUES (?, ?, ?, ?, ?)")
+      .run(
+        world.id,
+        snapshot.snapshotId,
+        world.currentDate,
+        world.actionSequence,
+        payload,
+      );
+    const exec = DatabaseSync.prototype.exec;
+    let attempted = false;
+    let competingError: unknown;
+    const spy = vi
+      .spyOn(DatabaseSync.prototype, "exec")
+      .mockImplementation(function (this: DatabaseSync, sql: string) {
+        const result = exec.call(this, sql);
+        if (sql === "BEGIN IMMEDIATE" && !attempted) {
+          attempted = true;
+          try {
+            const competing = new SqliteWorldRepository(path);
+            competing.close();
+          } catch (error) {
+            competingError = error;
+          }
+        }
+        return result;
+      });
+    let first: SqliteWorldRepository;
+    try {
+      first = repositoryAt(path);
+    } finally {
+      spy.mockRestore();
+    }
+    expect(attempted).toBe(true);
+    expect(competingError).toBeInstanceOf(Error);
+    expect((competingError as Error).message).toMatch(/database is locked/);
+    const second = repositoryAt(path);
+    expect(first.load(world.id)).toEqual(world);
+    expect(second.load(world.id)).toEqual(world);
+    expect(
+      database
+        .prepare("PRAGMA table_info(world_snapshots)")
+        .all()
+        .filter((column) => column.name === "payload_chunk_count"),
+    ).toHaveLength(1);
+    expect(
+      database.prepare("SELECT payload FROM world_snapshots").get()!.payload,
+    ).toBe(payload);
+    expect(
+      database.prepare("SELECT COUNT(*) AS n FROM world_snapshot_chunks").get()!
+        .n,
+    ).toBe(0);
+  });
+
   it("adds the discriminator to an existing legacy database without rewriting its save", () => {
     const path = fixturePath();
     const database = databaseAt(path);
