@@ -616,12 +616,27 @@ it("hides a later saved hourly rule provision and its enactment", () => {
   expect(
     stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate)?.hourlyMinor,
   ).toBe(1800);
+  const beforeEnactment = stateMinimumSettingAt(
+    {
+      ...wageWorld,
+      history: {
+        ...wageWorld.history,
+        legislativeEnactments: [],
+        ruleChangeProvisions: [],
+      },
+    },
+    "US-OH",
+    world.currentDate,
+  );
+  expect(beforeEnactment).not.toBeNull();
+  expect(beforeEnactment?.measureId).toBeNull();
+  expect(beforeEnactment?.hourlyMinor).not.toBe(1800);
   expect(
     stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate, {
       asOfDate: world.currentDate,
       historySequenceExclusive: entry.enactment.sequence,
     }),
-  ).toBeNull();
+  ).toEqual(beforeEnactment);
 
   expect(
     ruleValueInWorld(
