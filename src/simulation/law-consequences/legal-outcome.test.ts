@@ -11,6 +11,8 @@ import { SeededRng, pickDistinct } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { stateJurisdictionForKey } from "../life-places";
 import { legislativeProcedureForJurisdiction } from "../legislative-procedure-world";
+import { createLawConsequenceRegistry } from "../law-consequence-registry";
+import { validateLawConsequences } from "../law-consequence-validation";
 import type {
   EntityId,
   World,
@@ -285,6 +287,87 @@ function fixture(place: string, floor: number | null = 120) {
 }
 
 describe("recorded custody floors through the existing sentence writer", () => {
+  it("validates the exported row against the shared registry contract", () => {
+    const registry = createLawConsequenceRegistry([legalOutcomeRegistration]);
+    expect(
+      validateLawConsequences([minimumCustodyRow], registry.capabilities),
+    ).toEqual([]);
+  });
+  it("uses the saved court venue and case-stage date, including after repeal", () => {
+    const { world, courtCase, measure, enactment } = fixture(places[0]!);
+    const other = fixture(places[1]!);
+    const event = {
+      id: "event_unit_sentence" as EntityId,
+      type: PROSECUTION_SENTENCED_EVENT,
+      occurredAt: world.currentDate,
+      jurisdictionId: courtCase.venueJurisdictionId,
+      participants: [
+        { role: "focus:defendant", personId: courtCase.defendantId },
+      ],
+      tags: ["justice.offense:crime:robbery", `${SENTENCE_MONTHS_TAG}120`],
+    } as unknown as World["history"]["events"][number];
+    const afterRepeal = {
+      ...world,
+      currentDate: makeIsoDate("2026-08-01"),
+      people: {
+        [courtCase.defendantId]: {
+          homeJurisdictionId: other.courtCase.venueJurisdictionId,
+        },
+      },
+      history: {
+        ...world.history,
+        events: [event],
+        legislativeMeasures: [
+          measure,
+          {
+            ...measure,
+            id: "legislative-measure_test_repeal" as EntityId,
+            sequence: 4,
+            propositionAnswers: [{ propositionId, answer: "no" }],
+          },
+        ],
+        legislativeEnactments: [
+          enactment,
+          {
+            ...enactment,
+            id: "legislative-enactment_test_repeal" as EntityId,
+            measureId: "legislative-measure_test_repeal" as EntityId,
+            sequence: 5,
+            effectiveAt: makeIsoDate("2026-08-01"),
+          },
+        ],
+      },
+    } as unknown as World;
+    const context = {
+      onDate: event.occurredAt,
+      activity: "case-stage" as const,
+      activityId: event.id,
+      subjectIds: [courtCase.defendantId],
+      questionKey: MINIMUM_CUSTODY_QUESTION,
+    };
+    expect(custodyFloorAt(afterRepeal, courtCase)).toBeNull();
+    const resolved = legalOutcomeRegistration.resolve(
+      afterRepeal,
+      minimumCustodyRow,
+      context,
+    );
+    expect(resolved).toHaveLength(1);
+    expect(resolved[0]!.jurisdictionId).toBe(event.jurisdictionId);
+    expect(resolved[0]!.law.measureId).toBe(measure.id);
+    expect(legalOutcomeRegistration.apply(afterRepeal, resolved[0]!)).toBe(
+      afterRepeal,
+    );
+    const absentVenue = {
+      ...afterRepeal,
+      history: {
+        ...afterRepeal.history,
+        events: [{ ...event, jurisdictionId: null }],
+      },
+    };
+    expect(
+      legalOutcomeRegistration.resolve(absentVenue, minimumCustodyRow, context),
+    ).toEqual([]);
+  });
   it.each([-1, 1.5, Number.NaN, Number.POSITIVE_INFINITY])(
     "refuses invalid recorded custody months %s",
     (floor) => {

@@ -1,4 +1,5 @@
 import { lawInForce } from "../governing/law-in-force";
+import { recordById } from "../history-index";
 import { draftLineageComponents } from "../legislation-draft-lineage";
 import {
   lawEffectStamp,
@@ -8,7 +9,7 @@ import type {
   LawConsequenceKindRegistration,
   LawConsequenceRow,
 } from "../law-consequence-types";
-import type { World } from "../types";
+import type { IsoDate, World } from "../types";
 import type { CourtCase } from "../justice/court-reasoning";
 import {
   PROSECUTION_SENTENCED_EVENT,
@@ -52,6 +53,7 @@ export function custodyFloorAt(
   courtCase: Pick<CourtCase, "venueJurisdictionId" | "offenseKey">,
   questionKey = MINIMUM_CUSTODY_QUESTION,
   row: LawConsequenceRow = minimumCustodyRow,
+  onDate: IsoDate = world.currentDate,
 ) {
   const amount = row.amount;
   if (
@@ -64,14 +66,24 @@ export function custodyFloorAt(
     (entry) => entry.stableKey === questionKey,
   );
   if (!proposition) return null;
-  const law = lawInForce(world, courtCase.venueJurisdictionId, proposition.id);
+  const law = lawInForce(
+    world,
+    courtCase.venueJurisdictionId,
+    proposition.id,
+    onDate,
+  );
   if (law?.answer !== "yes" || law.origin !== "enacted") return null;
   // Filed parameters cannot speak for subsequently amended operative text.
   if (
-    (world.history.legislativeAmendments ?? []).some(
-      (entry) =>
-        entry.measureId === law.measureId && entry.status === "adopted",
-    )
+    (world.history.legislativeAmendments ?? []).some((entry) => {
+      if (entry.measureId !== law.measureId || entry.status !== "adopted")
+        return false;
+      const vote = recordById(
+        world.history.legislativeVotes ?? [],
+        entry.voteId,
+      );
+      return !vote || vote.takenAt <= onDate;
+    })
   )
     return null;
   const coverageKey = row.conditions.find(
@@ -144,14 +156,14 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
     const offenseKey = event.tags
       .find((tag) => tag.startsWith("justice.offense:"))
       ?.slice("justice.offense:".length);
-    const venueJurisdictionId =
-      world.people[personId]?.homeJurisdictionId ?? event.jurisdictionId;
+    const venueJurisdictionId = event.jurisdictionId;
     if (!offenseKey || !venueJurisdictionId) return [];
     const floor = custodyFloorAt(
       world,
       { venueJurisdictionId, offenseKey },
       context.questionKey,
       row,
+      context.onDate,
     );
     if (!floor) return [];
     return [

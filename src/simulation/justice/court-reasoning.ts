@@ -73,7 +73,7 @@ export interface CourtCase {
   readonly offenseLabel: string;
   readonly evidence: EvidenceStrength;
   readonly standingFindings: number;
-  /** The place the case is tried: the defendant's home when it was referred. */
+  /** The case's saved venue, independent of the defendant's residence. */
   readonly venueJurisdictionId: EntityId | null;
   /** The state whose courts hear the case, as "US-XX". */
   readonly stateKey: string | null;

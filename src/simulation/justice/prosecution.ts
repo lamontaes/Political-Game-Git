@@ -490,7 +490,7 @@ function courtCaseOf(
       (tagValue(referral, EVIDENCE_TAG) as EvidenceStrength | null) ??
       "circumstantial",
     standingFindings: Number(tagValue(referral, STANDING_TAG) ?? "1"),
-    venueJurisdictionId: world.people[subjectId]?.homeJurisdictionId ?? venue,
+    venueJurisdictionId: venue,
     stateKey,
   };
 }
