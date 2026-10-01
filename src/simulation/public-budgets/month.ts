@@ -5,6 +5,9 @@ import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
 import { publicOrganizationKey } from "../tax-policy";
+import { recordById } from "../history-index";
+import { governmentUnit } from "../government-units";
+import { municipalGovernmentByKey } from "../municipal-government";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
 import {
   budgetLawReadings,
@@ -151,6 +154,7 @@ export function readMonthFlows(
   const history = world.history;
   const accountOwner = new Map<EntityId, string>();
   const byStableKey = new Map<string, string>();
+  const budgetKeys = new Set(store.governments.map((row) => row.key));
   for (const government of store.governments) {
     byStableKey.set(
       publicOrganizationKey(government.jurisdictionId),
@@ -162,22 +166,25 @@ export function readMonthFlows(
     );
   }
   for (const organization of history.organizations) {
-    const key = byStableKey.get(organization.stableKey);
+    let key = byStableKey.get(organization.stableKey);
+    const localPrefix = "public-government:local:";
+    if (!key && organization.stableKey.startsWith(localPrefix)) {
+      const governmentKey = decodeURIComponent(
+        organization.stableKey.slice(localPrefix.length),
+      );
+      const unit = governmentUnit(governmentKey);
+      const municipal = unit ? null : municipalGovernmentByKey(governmentKey);
+      const budgetKey =
+        unit?.unitType === "county" && unit.countyGeoid
+          ? `county:${unit.countyGeoid}`
+          : unit?.unitType === "municipality" && unit.placeGeoid
+            ? `place:${unit.placeGeoid}`
+            : municipal?.placeGeoid
+              ? `place:${municipal.placeGeoid}`
+              : null;
+      if (budgetKey && budgetKeys.has(budgetKey)) key = budgetKey;
+    }
     if (key) accountOwner.set(organization.id, key);
-  }
-  const relevant = new Map<EntityId, ResourceFlow>();
-  for (
-    let at = store.cursor.flows;
-    at < history.resourceFlows.length;
-    at += 1
-  ) {
-    const flow = history.resourceFlows[at]!;
-    const touches =
-      (flow.recipient.kind === "organization" &&
-        accountOwner.has(flow.recipient.organizationId)) ||
-      (flow.source.kind === "organization" &&
-        accountOwner.has(flow.source.organizationId));
-    if (touches) relevant.set(flow.id, flow);
   }
   const withheld = new Map<string, number>();
   const payers = new Map<string, Set<EntityId>>();
@@ -190,7 +197,8 @@ export function readMonthFlows(
     at += 1
   ) {
     const outcome = history.resourceTransferOutcomes[at]!;
-    const flow = relevant.get(outcome.resourceFlowId);
+    // An outcome can settle a flow created before the previous month's cursor.
+    const flow = recordById(history.resourceFlows, outcome.resourceFlowId);
     if (!flow) continue;
     const paidLeavePayment =
       flow.basisKind === "support:paid-leave-benefit" &&
@@ -210,11 +218,8 @@ export function readMonthFlows(
             stamp.sourceRecordIds?.includes(flow.id),
         )
       : [];
-    // Positive partial paid-leave transfers also moved actual state cash.
-    if (
-      outcome.status !== "completed" &&
-      !(outcome.status === "partial" && paidLeavePayment)
-    )
+    // Every positive partial transfer moved actual cash, regardless of purpose.
+    if (outcome.status !== "completed" && outcome.status !== "partial")
       continue;
     const dollars = outcome.transferredAmount.minorUnits / 100;
     if (dollars <= 0) continue;
