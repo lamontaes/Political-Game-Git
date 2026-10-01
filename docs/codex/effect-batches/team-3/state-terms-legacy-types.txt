@@ -1,0 +1,29 @@
+[96mtests/nationwide/state-minimum-wage-bill-terms.test.ts[0m:[93m52[0m:[93m36[0m - [91merror[0m[90m TS2352: [0mConversion of type '{ stableKey: string; transitionKey: "living-world:payday"; }' to type 'FutureDueItem' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ stableKey: string; transitionKey: "living-world:payday"; }' is missing the following properties from type 'FutureDueItem': id, sequence, scheduledAt, dueAt, and 3 more.
+
+[7m52[0m       world = paydayHandler(world, {
+[7m  [0m [91m                                   ~[0m
+[7m53[0m         stableKey: `town-pay-v2:payday:${paidThrough}`,
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m54[0m         transitionKey: PAYDAY_TRANSITION_KEY,
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m55[0m       } as FutureDueItem).world;
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mtests/nationwide/state-minimum-wage-bill-terms.test.ts[0m:[93m113[0m:[93m48[0m - [91merror[0m[90m TS2339: [0mProperty 'findLast' does not exist on type 'readonly WorkRoleRecord[]'.
+
+[7m113[0m           const role = world.history.workRoles.findLast(
+[7m   [0m [91m                                               ~~~~~~~~[0m
+[96mtests/nationwide/state-minimum-wage-bill-terms.test.ts[0m:[93m114[0m:[93m14[0m - [91merror[0m[90m TS7006: [0mParameter 'r' implicitly has an 'any' type.
+
+[7m114[0m             (r) => r.workRelationshipId === wid,
+[7m   [0m [91m             ~[0m
+[96mtests/nationwide/state-minimum-wage-bill-terms.test.ts[0m:[93m116[0m:[93m53[0m - [91merror[0m[90m TS2339: [0mProperty 'findLast' does not exist on type 'readonly ResourceFlowTermsRecord[]'.
+
+[7m116[0m           const t = world.history.resourceFlowTerms.findLast(
+[7m   [0m [91m                                                    ~~~~~~~~[0m
+[96mtests/nationwide/state-minimum-wage-bill-terms.test.ts[0m:[93m117[0m:[93m14[0m - [91merror[0m[90m TS7006: [0mParameter 'r' implicitly has an 'any' type.
+
+[7m117[0m             (r) => r.resourceFlowId === flow.id,
+[7m   [0m [91m             ~[0m
+
+3 scoped roots; 5 diagnostics
