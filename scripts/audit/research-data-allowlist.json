@@ -1,0 +1,143 @@
+{
+  "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink, so an entry must leave in the same change that gives its file a reader. A new data file with no reader and no entry fails the guard.",
+  "rawSource": [
+    {
+      "file": "data/research/bill-samples/city/alexandria-virginia.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/austin-texas.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/bozeman-montana.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/chicago-illinois.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/denver-colorado.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/kansas-city-missouri.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/los-angeles-california.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/missoula-montana.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/new-york-city-new-york.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/city/philadelphia-pennsylvania.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/county/cook-county-illinois.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/county/miami-dade-county-florida.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/county/montgomery-county-maryland.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/county/san-francisco-california.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/dc/district-of-columbia.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/federal/united-states.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/territory/guam.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/territory/northern-mariana-islands.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/territory/puerto-rico.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/bill-samples/territory/u-s-virgin-islands.json",
+      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+    },
+    {
+      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
+      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
+    },
+    {
+      "file": "data/research/laws/coordinator-crime-population-sizing.json",
+      "reason": "A sizing receipt (source head, coefficient source, runtime proof) for a decision already applied in links.json."
+    },
+    {
+      "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
+      "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+    }
+  ],
+  "awaitingReader": [
+    {
+      "file": "data/research/justice/sentencing-ranges-2026.json",
+      "reason": "Statutory first-offense sentence ranges for the offense keys in src/simulation/justice/prosecution.ts; prosecution does not read them yet."
+    },
+    {
+      "file": "data/research/laws/catalog-terms-batch-02.json",
+      "reason": "Law catalog terms, batch 2; src/simulation/law-consequences/legal-outcome.ts cites it as a source but nothing reads the file."
+    },
+    {
+      "file": "data/research/laws/catalog-terms-batch-01.json",
+      "reason": "Law catalog terms, batch 1; no catalog code reads any batch yet."
+    },
+    {
+      "file": "data/research/laws/catalog-terms-batch-03.json",
+      "reason": "Law catalog terms, batch 3; no catalog code reads any batch yet."
+    },
+    {
+      "file": "data/research/laws/catalog-terms-batch-04.json",
+      "reason": "Law catalog terms, batch 4; no catalog code reads any batch yet."
+    },
+    {
+      "file": "data/research/laws/catalog-terms-batch-05.json",
+      "reason": "Law catalog terms, batch 5; no catalog code reads any batch yet."
+    },
+    {
+      "file": "data/research/laws/rent-cap-terms-2026.json",
+      "reason": "Sourced rent-cap statutory terms; the file itself says it has no runtime integration yet."
+    },
+    {
+      "file": "data/research/levers/lever-table.json",
+      "reason": "The 61 kinds of bill part (04 SYSTEM SPECS, spec 3); no bill builder reads it yet."
+    },
+    {
+      "file": "data/research/money/debt-and-credit-2026.json",
+      "reason": "Debt and credit figures for 2026; no money code reads them yet."
+    },
+    {
+      "file": "data/research/money/minimum-wage-dated-matrix-2026.json",
+      "reason": "Dated minimum-wage rows for all 56 places, to be integrated into the starting-law wage terms; the file says no game code reads it."
+    },
+    {
+      "file": "data/research/money/population-2024.json",
+      "reason": "State populations for 2024; nothing reads them yet."
+    }
+  ]
+}
