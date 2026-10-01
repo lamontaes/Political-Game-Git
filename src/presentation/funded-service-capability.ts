@@ -9,7 +9,6 @@ import {
   resolveCapability,
 } from "../simulation/rule-capability-resolver";
 import { taxPowerEvidenceFor } from "../simulation/tax-policy";
-import { drawStateTaxServiceStartingConditions } from "../simulation/world-setup/state-tax-service-profiles";
 import type { StateTaxServiceStartingProfile } from "../simulation/world-setup/types";
 import type { IsoDate } from "../simulation/types";
 
@@ -212,19 +211,10 @@ export function nationwideFundedServiceCoverage(
     readonly key: string;
     readonly state: string;
   }[];
-  const inventoryProfiles = drawStateTaxServiceStartingConditions({
-    seed: "funded-service-coverage-inventory-v1",
-  }).profiles;
   return {
     onDate,
     states: ARTICLE_V_STATE_KEYS.map((key) =>
-      resolveStateFundedServiceCapability(
-        key,
-        onDate,
-        undefined,
-        inventoryProfiles.find((profile) => profile.jurisdictionKey === key) ??
-          null,
-      ),
+      resolveStateFundedServiceCapability(key, onDate),
     ),
     local: {
       governments: governments.length,

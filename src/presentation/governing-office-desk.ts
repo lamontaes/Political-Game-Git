@@ -161,6 +161,7 @@ function officeRelationshipId(
   personId: EntityId,
   office: GoverningOffice,
 ): EntityId | null {
+  if (!office.organizationId) return null;
   return (
     activeWorkRelationshipsAt(world, personId).find(
       ({ relationship }) =>
@@ -173,6 +174,7 @@ function staffOf(
   world: World,
   office: GoverningOffice,
 ): readonly OfficeStaffMember[] {
+  if (!office.organizationId) return [];
   const staff: OfficeStaffMember[] = [];
   for (const personId of world.personOrder) {
     if (personId === office.holderPersonId) continue;

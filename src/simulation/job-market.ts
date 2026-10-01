@@ -1,3 +1,4 @@
+import { settleTownCompensations } from "./living-world/town-pay";
 import {
   addDays,
   ageOnDate,
@@ -39,7 +40,6 @@ import {
   createWorkCompensation,
   money,
   recordResourceFlowTerms,
-  resolveWorkCompensationPeriod,
 } from "./resources";
 import { playerTown, townRoster } from "./living-world/town-residents";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -1912,7 +1912,7 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
  * nothing new.
  */
 export function settleJobPay(world: World, personId: EntityId): World {
-  return settleWeeklyRecordedPay(
+  return settleRecordedJobPay(
     payFirstJob(retireSupersededFirstJob(world, personId), personId),
     personId,
     (flow, work) => flow.stableKey === payKey(work),
@@ -1988,7 +1988,7 @@ function raiseWeeklyPayToMinimum(
   return next;
 }
 
-function settleWeeklyRecordedPay(
+function settleRecordedJobPay(
   world: World,
   personId: EntityId,
   accepts: (
@@ -2048,17 +2048,17 @@ function settleWeeklyRecordedPay(
       });
       if (terms?.status !== "active" || terms.cadenceKind !== "schedule:weekly")
         break;
-      next = resolveWorkCompensationPeriod(next, {
-        stableKey: `${flow.stableKey}:${periodStartsAt}`,
-        workRelationshipId: work.id,
-        periodStartsAt,
-        periodEndsAt: addDays(dueOn, -1),
-        occurredAt: dueOn,
-        status: "completed",
-        reasonKind: null,
-        note: "Pay for the week.",
-        provenance: flow.provenance,
-      });
+      next = settleTownCompensations(next, [
+        {
+          stableKey: `${flow.stableKey}:${periodStartsAt}`,
+          payFlowId: flow.id,
+          activityId: flow.id,
+          periodStartsAt,
+          periodEndsAt: addDays(dueOn, -1),
+          onDate: dueOn,
+          note: "Pay for the week.",
+        },
+      ]);
     }
   }
   return next;
@@ -2090,7 +2090,7 @@ export function settleHouseholdAdultJobPay(
     if (adultId === childPersonId) continue;
     const adult = next.people[adultId];
     if (!adult || ageOnDate(adult.birthDate, next.currentDate) < 18) continue;
-    const paid = settleWeeklyRecordedPay(
+    const paid = settleRecordedJobPay(
       next,
       adultId,
       (flow, work) =>

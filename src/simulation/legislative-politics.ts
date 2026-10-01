@@ -57,6 +57,7 @@ import { recordWorldEvent } from "./world";
 // ---------------------------------------------------------------------------
 
 export interface RecordFiledProvisionInput {
+  readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
   readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly stableKey: string;
   readonly measureId: EntityId;
@@ -75,6 +76,8 @@ export interface RecordFiledProvisionInput {
 }
 
 export interface AdoptProvisionRevisionInput {
+  /** A revision supplies its own categories; omission clears earlier categories. */
+  readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
   /** A revision supplies its own terms; omission clears earlier terms. */
   readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly stableKey: string;
@@ -1074,6 +1077,52 @@ function validateProvisionContent(
   }
   if (input.answers) assertAnswerRef(world, input.answers);
   assertProvisionLawTerms(world, input.lawTerms);
+  assertProvisionLawCategories(world, input.lawCategories);
+}
+
+/** Categorical rules are supported only by a closed catalog declaration. */
+export function assertProvisionLawCategories(
+  world: World,
+  categories: LegislativeProvisionRecord["lawCategories"],
+): void {
+  if (categories === undefined) return;
+  if (!Array.isArray(categories))
+    throw new Error("Provision law categories must be an array.");
+  const questions = new Map(
+    world.policyCatalog.propositionOrder.map((id) => [
+      world.policyCatalog.propositions[id]!.stableKey,
+      world.policyCatalog.propositions[id]!,
+    ]),
+  );
+  const seen = new Set<string>();
+  for (const category of categories) {
+    if (!category || typeof category.key !== "string" || !category.key.trim())
+      throw new Error(
+        "A provision law category needs a catalog question and parameter key.",
+      );
+    const parameter = questions
+      .get(category.questionKey)
+      ?.parameters.find((row) => row.key === category.key);
+    if (!parameter?.allowedValues?.length)
+      throw new Error(
+        "A provision law category needs declared catalog allowed values.",
+      );
+    if (
+      !Array.isArray(category.values) ||
+      category.values.some(
+        (value: unknown) =>
+          typeof value !== "string" ||
+          !parameter.allowedValues!.includes(value),
+      )
+    )
+      throw new Error("A provision law category contains an undeclared value.");
+    if (new Set(category.values).size !== category.values.length)
+      throw new Error("A provision law category cannot repeat a value.");
+    const key = `${category.questionKey}:${category.key}`;
+    if (seen.has(key))
+      throw new Error("A provision cannot repeat a law category.");
+    seen.add(key);
+  }
 }
 
 /** The writer and Save/Continue integrity gate share the same term contract. */
@@ -1201,6 +1250,14 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
   const record: LegislativeProvisionRecord = {
     ...(input.lawTerms !== undefined
       ? { lawTerms: input.lawTerms.map((term) => ({ ...term })) }
+      : {}),
+    ...(input.lawCategories !== undefined
+      ? {
+          lawCategories: input.lawCategories.map((category) => ({
+            ...category,
+            values: [...category.values],
+          })),
+        }
       : {}),
     id: createStableId(
       "legislative-provision",

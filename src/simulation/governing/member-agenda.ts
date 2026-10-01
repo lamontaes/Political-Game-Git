@@ -21,7 +21,7 @@ import {
   legislativeRulePackForWorld,
   regularSessionRefusalText,
 } from "../legislative-procedure-world";
-import { SeededRng } from "../rng";
+import { personName } from "../people";
 import {
   municipalGovernmentByKey,
   municipalGovernmentsWithProcedure,
@@ -113,6 +113,10 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     recordMotive: false,
     cosponsors: false,
     actTitles: false,
+    individualAgenda: false,
+    municipalAgenda: false,
+    positionOnly: false,
+    measureNoun: "bill",
   },
   federal: {
     governmentLevel: "federal",
@@ -124,6 +128,25 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     recordMotive: true,
     cosponsors: true,
     actTitles: true,
+    individualAgenda: false,
+    municipalAgenda: false,
+    positionOnly: false,
+    measureNoun: "bill",
+  },
+  localPosition: {
+    governmentLevel: "municipality",
+    intakeVersion: LOCAL_MEMBER_AGENDA_VERSION,
+    filingThreshold: FILING_THRESHOLD,
+    issuePrefix: null,
+    compileBeforeSelection: false,
+    mappedCooldownOnly: false,
+    recordMotive: true,
+    cosponsors: false,
+    actTitles: false,
+    individualAgenda: true,
+    municipalAgenda: true,
+    positionOnly: true,
+    measureNoun: "ordinance",
   },
 } as const;
 
@@ -173,6 +196,10 @@ function recordAgendaSupport(
   propositionId: EntityId,
   answer: "yes" | "no",
   settings: (typeof MEMBER_AGENDA_LEVEL_SETTINGS)[keyof typeof MEMBER_AGENDA_LEVEL_SETTINGS],
+  reason: {
+    readonly score: number;
+    readonly principleRecordIds: readonly EntityId[];
+  },
 ): World {
   let next = world;
   const proposition = world.policyCatalog.propositions[propositionId]!;
@@ -198,6 +225,14 @@ function recordAgendaSupport(
         `issue:${issueKey}`,
         `proposition:${proposition.stableKey}`,
         "motive:principle",
+        ...(settings.municipalAgenda
+          ? [
+              `principle-score:${reason.score}`,
+              ...reason.principleRecordIds.map(
+                (id) => `reason:principle-record:${id}`,
+              ),
+            ]
+          : []),
       ],
       summary:
         answer === "yes"
@@ -312,13 +347,34 @@ export function fileMemberAgendaBills(
     readonly jurisdictionId: EntityId;
     readonly intakeKey: string;
     readonly chamberKey?: string;
+    /** Exact seated municipal body for the existing plain-position intake. */
+    readonly localGovernmentKey?: string;
   },
 ): World {
-  const pack = legislativePackForJurisdiction(input.jurisdictionId);
+  const localGovernment = input.localGovernmentKey
+    ? municipalGovernmentByKey(input.localGovernmentKey)
+    : null;
+  const localRules = localGovernment
+    ? municipalRulePackFor(localGovernment)
+    : null;
+  if (
+    input.localGovernmentKey &&
+    (!localRules?.ok ||
+      municipalGovernmentJurisdictionId(world, input.localGovernmentKey) !==
+        input.jurisdictionId)
+  )
+    return world;
+  const pack = localRules?.ok
+    ? legislativePackForWorkKey(`institution:${localRules.pack.packId}`)
+    : legislativePackForJurisdiction(input.jurisdictionId);
   if (!pack) return world;
   const settings =
     MEMBER_AGENDA_LEVEL_SETTINGS[
-      pack.packId === US_CONGRESS_PACK_ID ? "federal" : "state"
+      input.localGovernmentKey
+        ? "localPosition"
+        : pack.packId === US_CONGRESS_PACK_ID
+          ? "federal"
+          : "state"
     ];
   if (
     settings.actTitles &&
@@ -330,7 +386,9 @@ export function fileMemberAgendaBills(
     )
   )
     return world;
-  const batchKey = agendaBatchKey(input.intakeKey);
+  const batchKey = input.localGovernmentKey
+    ? `${LOCAL_MEMBER_AGENDA_VERSION}:${encodeURIComponent(input.localGovernmentKey)}:${input.intakeKey}`
+    : agendaBatchKey(input.intakeKey);
   if (!settings.actTitles && alreadyFiledForIntake(world, batchKey))
     return world;
 
@@ -356,12 +414,29 @@ export function fileMemberAgendaBills(
     return world;
   const seatedByChamber = pack.chambers.map((chamber) => ({
     chamber,
-    seated: seatedChamberForPack(
-      world,
-      pack.packId,
-      chamber.chamberKey,
-      chamber.name,
-    ),
+    seated: input.localGovernmentKey
+      ? {
+          seats: councilMembers(world, input.localGovernmentKey).length,
+          body: {
+            chamberKey: chamber.chamberKey,
+            chamberName: chamber.name,
+            members: councilMembers(world, input.localGovernmentKey).map(
+              (seat) => ({
+                memberKey: seat.participationId,
+                personId: seat.personId,
+                name: personName(world.people[seat.personId]!),
+                partyKey: null,
+                caucusLabel: "No party",
+              }),
+            ),
+          },
+        }
+      : seatedChamberForPack(
+          world,
+          pack.packId,
+          chamber.chamberKey,
+          chamber.name,
+        ),
   }));
   const allMemberIds = seatedByChamber.flatMap(({ seated }) =>
     (seated?.body.members ?? [])
@@ -373,6 +448,7 @@ export function fileMemberAgendaBills(
   let next = ensureOfficeholderPrinciples(world, allMemberIds);
 
   const lawAnswers = new Map<EntityId, "yes" | "no" | null | "closed">();
+  const laws = new Map<EntityId, ReturnType<typeof lawInForce>>();
   const open = new Map<EntityId, boolean>();
   const drafts = new Map<string, ReturnType<typeof compileAutomaticLawDraft>>();
   const leanings = new Map<string, ReturnType<typeof principledLeaning>>();
@@ -425,126 +501,162 @@ export function fileMemberAgendaBills(
       (member) => member.personId !== null,
     );
     const caucus = agendaCaucus(members);
-    const proposals = caucus.flatMap((sponsor) => {
-      if (sponsor.personId === playerId) return [];
-      let best: Proposal | null = null;
-      for (const propositionId of questions) {
-        if (!questionOpen(propositionId)) continue;
-        const leaning = leaningFor(sponsor.personId!, propositionId);
-        if (Math.abs(leaning.score) < settings.filingThreshold) continue;
-        if (best && Math.abs(leaning.score) <= best.weight) continue;
-        if (!lawAnswers.has(propositionId))
-          lawAnswers.set(
-            propositionId,
-            statuteAnswer(
+    const proposals = (settings.individualAgenda ? members : caucus).flatMap(
+      (sponsor) => {
+        if (sponsor.personId === playerId) return [];
+        if (
+          input.localGovernmentKey &&
+          !municipalActionAuthority(
+            withLocalSponsorControl(next, sponsor.personId!),
+            {
+              governmentKey: input.localGovernmentKey,
+              personId: sponsor.personId!,
+              residentPlaceGeoid: null,
+              action: "introduce-ordinance",
+            },
+          ).ok
+        )
+          return [];
+        let best: Proposal | null = null;
+        for (const propositionId of questions) {
+          if (!questionOpen(propositionId)) continue;
+          const leaning = leaningFor(sponsor.personId!, propositionId);
+          if (Math.abs(leaning.score) < settings.filingThreshold) continue;
+          if (best && Math.abs(leaning.score) <= best.weight) continue;
+          if (!laws.has(propositionId))
+            laws.set(
+              propositionId,
               lawInForce(next, input.jurisdictionId, propositionId),
-            ),
+            );
+          const law = laws.get(propositionId)!;
+          if (
+            settings.municipalAgenda &&
+            law?.preempts &&
+            law.level !== "local-ordinance"
+          )
+            continue;
+          if (!lawAnswers.has(propositionId))
+            lawAnswers.set(propositionId, statuteAnswer(law));
+          const answer = positionBillAnswer(
+            leaning.score,
+            lawAnswers.get(propositionId)!,
           );
-        const answer = positionBillAnswer(
-          leaning.score,
-          lawAnswers.get(propositionId)!,
-        );
-        if (!answer) continue;
-        const proposition = next.policyCatalog.propositions[propositionId]!;
-        const issueKey = next.policyCatalog.issues[
-          proposition.issueId
-        ]!.stableKey.slice(settings.issuePrefix?.length ?? 0);
-        const subjectClass = settings.actTitles
-          ? agendaSubject(issueKey)
-          : "general-policy";
-        const mapped = !!automaticLawMappingFor(
-          proposition.stableKey,
-          answer,
-          settings.governmentLevel,
-        );
-        if (
-          (!settings.mappedCooldownOnly || mapped) &&
-          automaticLawQuestionOnCooldown(next, {
-            jurisdictionId: input.jurisdictionId,
-            propositionId,
-            stableKeyPrefix: `${settings.intakeVersion}:`,
-          })
-        )
-          continue;
-        // Origination follows the subject's formal rule, independent of mapping.
-        const allowed = permittedOriginChambers(pack, subjectClass);
-        if (
-          allowed.kind === "known" &&
-          !allowed.value.includes(chamber.chamberKey)
-        )
-          continue;
-        const numbering = nextMeasureNumbering(next, {
-          jurisdictionId: input.jurisdictionId,
-          originChamber: chamber,
-          rulePackId: pack.packId,
-        });
-        const draftKey = `${chamber.chamberKey}:${propositionId}:${answer}`;
-        if (mapped && settings.compileBeforeSelection && !drafts.has(draftKey))
-          drafts.set(
-            draftKey,
-            compileAutomaticLawDraft({
-              world: next,
+          if (!answer) continue;
+          const proposition = next.policyCatalog.propositions[propositionId]!;
+          if (
+            settings.positionOnly &&
+            (["municipality", "county"] as const).some((level) =>
+              automaticLawMappingFor(proposition.stableKey, answer, level),
+            )
+          )
+            continue;
+          const issueKey = next.policyCatalog.issues[
+            proposition.issueId
+          ]!.stableKey.slice(settings.issuePrefix?.length ?? 0);
+          const subjectClass = settings.actTitles
+            ? agendaSubject(issueKey)
+            : "general-policy";
+          const mapped = !!automaticLawMappingFor(
+            proposition.stableKey,
+            answer,
+            settings.governmentLevel,
+          );
+          if (
+            (!settings.mappedCooldownOnly || mapped) &&
+            automaticLawQuestionOnCooldown(next, {
               jurisdictionId: input.jurisdictionId,
               propositionId,
-              answer,
-              designation: numbering.designation,
-              intakeKey:
-                batchKey + ":" + encodeURIComponent(proposition.stableKey),
-              governmentLevel: settings.governmentLevel,
-            }),
+              stableKeyPrefix: `${settings.intakeVersion}:`,
+            })
+          )
+            continue;
+          // Origination follows the subject's formal rule, independent of mapping.
+          const allowed = permittedOriginChambers(pack, subjectClass);
+          if (
+            allowed.kind === "known" &&
+            !allowed.value.includes(chamber.chamberKey)
+          )
+            continue;
+          const numbering = nextMeasureNumbering(next, {
+            jurisdictionId: input.jurisdictionId,
+            originChamber: chamber,
+            rulePackId: pack.packId,
+          });
+          const draftKey = `${chamber.chamberKey}:${propositionId}:${answer}`;
+          if (
+            mapped &&
+            settings.compileBeforeSelection &&
+            !drafts.has(draftKey)
+          )
+            drafts.set(
+              draftKey,
+              compileAutomaticLawDraft({
+                world: next,
+                jurisdictionId: input.jurisdictionId,
+                propositionId,
+                answer,
+                designation: numbering.designation,
+                intakeKey:
+                  batchKey + ":" + encodeURIComponent(proposition.stableKey),
+                governmentLevel: settings.governmentLevel,
+              }),
+            );
+          const draft =
+            mapped && settings.compileBeforeSelection
+              ? drafts.get(draftKey)!
+              : null;
+          if (mapped && settings.compileBeforeSelection && !draft) continue;
+          const permitted = permittedOriginChambers(
+            pack,
+            draft?.subjectClass ?? subjectClass,
           );
-        const draft =
-          mapped && settings.compileBeforeSelection
-            ? drafts.get(draftKey)!
-            : null;
-        if (mapped && settings.compileBeforeSelection && !draft) continue;
-        const permitted = permittedOriginChambers(
-          pack,
-          draft?.subjectClass ?? subjectClass,
-        );
-        if (
-          permitted.kind === "known" &&
-          !permitted.value.includes(chamber.chamberKey)
-        )
-          continue;
-        best = {
-          propositionId,
-          answer,
-          weight: Math.abs(leaning.score),
-          score: leaning.score,
-          principleRecordIds: leaning.recordIds,
-          draft,
-          mapped,
-          issueKey,
-          subjectClass,
-        };
-      }
-      return best ? [{ sponsor, proposal: best, pressure: best.weight }] : [];
-    });
-    const selected = majorityAgendaChoice(
-      members,
-      caucus,
-      proposals,
-      (member, proposal) => {
-        if (member.personId === playerId) return false;
-        const score = leaningFor(
-          member.personId!,
-          proposal.propositionId,
-        ).score;
-        return (proposal.answer === "yes" ? score : -score) > 0;
+          if (
+            permitted.kind === "known" &&
+            !permitted.value.includes(chamber.chamberKey)
+          )
+            continue;
+          best = {
+            propositionId,
+            answer,
+            weight: Math.abs(leaning.score),
+            score: leaning.score,
+            principleRecordIds: leaning.recordIds,
+            draft,
+            mapped,
+            issueKey,
+            subjectClass,
+          };
+        }
+        return best ? [{ sponsor, proposal: best, pressure: best.weight }] : [];
       },
     );
+    const selected = settings.individualAgenda
+      ? [...proposals].sort(
+          (a, b) =>
+            b.pressure - a.pressure ||
+            members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
+        )[0]
+      : majorityAgendaChoice(members, caucus, proposals, (member, proposal) => {
+          if (member.personId === playerId) return false;
+          const score = leaningFor(
+            member.personId!,
+            proposal.propositionId,
+          ).score;
+          return (proposal.answer === "yes" ? score : -score) > 0;
+        });
     if (!selected) continue;
     const sponsor = selected.sponsor;
     const best = selected.proposal;
     const proposition = next.policyCatalog.propositions[best.propositionId]!;
-    const stableKey = settings.actTitles
-      ? `${settings.intakeVersion}:${best.issueKey}${intakeSuffix}`
-      : (next.history.legislativeMeasures ?? []).some(
-            (m) => m.stableKey === batchKey,
-          )
-        ? `${batchKey}:${encodeURIComponent(proposition.stableKey)}:${sponsor.personId}`
-        : batchKey;
+    const stableKey = settings.municipalAgenda
+      ? `${batchKey}:${sponsor.personId}:${encodeURIComponent(proposition.stableKey)}`
+      : settings.actTitles
+        ? `${settings.intakeVersion}:${best.issueKey}${intakeSuffix}`
+        : (next.history.legislativeMeasures ?? []).some(
+              (m) => m.stableKey === batchKey,
+            )
+          ? `${batchKey}:${encodeURIComponent(proposition.stableKey)}:${sponsor.personId}`
+          : batchKey;
     if (settings.governmentLevel === "federal")
       next = ensureNationalElectionJurisdiction(next);
     const numbering = nextMeasureNumbering(next, {
@@ -552,6 +664,8 @@ export function fileMemberAgendaBills(
       originChamber: chamber,
       rulePackId: pack.packId,
     });
+    if (input.localGovernmentKey)
+      next = withLocalSponsorControl(next, sponsor.personId!);
     let measureId: EntityId;
     if (best.mapped) {
       const introduced = introduceAutomaticLawMeasure(next, {
@@ -589,8 +703,8 @@ export function fileMemberAgendaBills(
             : `Repeal: ${proposition.name}`,
         summary:
           best.answer === "yes"
-            ? `${proposition.question} This bill says yes.`
-            : `${proposition.question} This bill repeals the law that says yes.`,
+            ? `${proposition.question} This ${settings.measureNoun} says yes.`
+            : `${proposition.question} This ${settings.measureNoun} repeals the law that says yes.`,
         origin: "member-introduction",
         subjectClass: best.subjectClass,
         sponsorPersonId: sponsor.personId,
@@ -614,7 +728,21 @@ export function fileMemberAgendaBills(
       best.propositionId,
       best.answer,
       settings,
+      best,
     );
+    if (input.localGovernmentKey) {
+      const placed = placeMunicipalOrdinanceOnAgenda(next, {
+        governmentKey: input.localGovernmentKey,
+        measureId,
+      });
+      if (!placed.ok) return world;
+      const scheduled = scheduleOrdinaryCouncilReading(
+        placed.world,
+        input.localGovernmentKey,
+        measureId,
+      );
+      return { ...scheduled, control: world.control };
+    }
     next = scheduleInstitutionStep(next, measureId);
     open.set(best.propositionId, false);
   }
@@ -924,150 +1052,19 @@ export function fileLocalMemberAgendaBill(
     }
     if (filed) break;
   }
-  if (!filed)
-    next = fileLocalPositionBill(next, {
-      governmentKey: input.governmentKey,
-      batchKey,
-      sponsorIds: sponsors.map((member) => member.personId),
-      control: world.control,
-    });
-  return next;
-}
-
-/**
- * A council member who leans hard on a question the town's own law may answer
- * but no local effect writer covers still files a plain position bill: to
- * enact what they support, or to repeal a law in force they oppose. It goes to
- * the council's agenda through the same general-policy route the player's own
- * ordinances take, so mapping coverage never narrows what a council takes up.
- *
- * PLACEHOLDER, pending research question
- * `expand-effect-mapping-so-every-law-changes-the-world`: an enacted local
- * position bill is law in force and changes nothing else in the world yet.
- */
-function fileLocalPositionBill(
-  world: World,
-  input: {
-    readonly governmentKey: string;
-    readonly batchKey: string;
-    readonly sponsorIds: readonly EntityId[];
-    readonly control: World["control"];
-  },
-): World {
-  const government = municipalGovernmentByKey(input.governmentKey);
-  if (!government) return world;
-  const rules = municipalRulePackFor(government);
-  if (!rules.ok) return world;
-  const pack = legislativePackForWorkKey(`institution:${rules.pack.packId}`);
-  const chamber = pack?.chambers.find(
-    (entry) => entry.chamberKey === "council" && entry.introductionAllowed,
-  );
-  const jurisdictionId = municipalGovernmentJurisdictionId(
-    world,
-    input.governmentKey,
-  );
-  if (!pack || !chamber || !jurisdictionId) return world;
-  const permitted = permittedOriginChambers(pack, "general-policy");
-  if (
-    permitted.kind === "known" &&
-    !permitted.value.includes(chamber.chamberKey)
-  )
-    return world;
-
-  const mappedLocally = (propositionKey: string, answer: "yes" | "no") =>
-    (["municipality", "county"] as const).some(
-      (level) => automaticLawMappingFor(propositionKey, answer, level) !== null,
-    );
-  const rng = new SeededRng(world.seed).fork(input.batchKey);
-  const order = [...input.sponsorIds];
-  for (let i = order.length - 1; i > 0; i -= 1) {
-    const j = rng.fork(`order:${i}`).integer(0, i + 1);
-    [order[i], order[j]] = [order[j]!, order[i]!];
-  }
-  for (const sponsorId of order) {
-    const actorWorld = withLocalSponsorControl(world, sponsorId);
-    const introduction = municipalActionAuthority(actorWorld, {
-      governmentKey: input.governmentKey,
-      personId: sponsorId,
-      residentPlaceGeoid: null,
-      action: "introduce-ordinance",
-    });
-    if (!introduction.ok) continue;
-    let best: {
-      propositionId: EntityId;
-      answer: "yes" | "no";
-      weight: number;
-    } | null = null;
-    for (const propositionId of world.policyCatalog.propositionOrder) {
-      if (!mayAnswerQuestion(world, jurisdictionId, propositionId)) continue;
-      const proposition = world.policyCatalog.propositions[propositionId]!;
-      const score = principledLeaning(world, sponsorId, propositionId).score;
-      if (Math.abs(score) < FILING_THRESHOLD) continue;
-      if (best && Math.abs(score) <= best.weight) continue;
-      const law = lawInForce(world, jurisdictionId, propositionId);
-      // A state's floor law that preempts local action leaves the council
-      // nothing to enact: an ordinance on it would change no answer.
-      if (law?.preempts && law.level !== "local-ordinance") continue;
-      const answer = positionBillAnswer(score, statuteAnswer(law));
-      if (!answer || mappedLocally(proposition.stableKey, answer)) continue;
-      if (pendingBillOn(world, jurisdictionId, propositionId)) continue;
-      if (
-        automaticLawQuestionOnCooldown(world, {
-          jurisdictionId,
-          propositionId,
-          stableKeyPrefix: `${LOCAL_MEMBER_AGENDA_VERSION}:`,
-        })
-      )
-        continue;
-      best = { propositionId, answer, weight: Math.abs(score) };
-    }
-    if (!best) continue;
-    const proposition = world.policyCatalog.propositions[best.propositionId]!;
-    let introduced: World;
-    try {
-      introduced = introduceMeasure(actorWorld, {
-        stableKey: `${input.batchKey}:${sponsorId}:${encodeURIComponent(proposition.stableKey)}`,
-        jurisdictionId,
-        rulePackId: pack.packId,
-        ...nextMeasureNumbering(actorWorld, {
-          jurisdictionId,
-          originChamber: chamber,
-          rulePackId: pack.packId,
-        }),
-        shortTitle:
-          best.answer === "yes"
-            ? proposition.name
-            : `Repeal: ${proposition.name}`,
-        summary:
-          best.answer === "yes"
-            ? `${proposition.question} This ordinance says yes.`
-            : `${proposition.question} This ordinance repeals the law that says yes.`,
-        origin: "member-introduction",
-        subjectClass: "general-policy",
-        sponsorPersonId: sponsorId,
-        originChamberKey: chamber.chamberKey,
-        propositionIds: [best.propositionId],
-        propositionAnswers: [
-          { propositionId: best.propositionId, answer: best.answer },
-        ],
-      });
-    } catch {
-      continue;
-    }
-    const measure = introduced.history.legislativeMeasures!.at(-1)!;
-    const placed = placeMunicipalOrdinanceOnAgenda(introduced, {
-      governmentKey: input.governmentKey,
-      measureId: measure.id,
-    });
-    if (!placed.ok) continue;
-    const scheduled = scheduleOrdinaryCouncilReading(
-      placed.world,
+  if (!filed) {
+    const jurisdictionId = municipalGovernmentJurisdictionId(
+      next,
       input.governmentKey,
-      measure.id,
     );
-    return { ...scheduled, control: input.control };
+    if (jurisdictionId)
+      next = fileMemberAgendaBills(next, {
+        jurisdictionId,
+        intakeKey: input.intakeKey,
+        localGovernmentKey: input.governmentKey,
+      });
   }
-  return world;
+  return next;
 }
 
 export function localMemberAgendaIntakeHandler(

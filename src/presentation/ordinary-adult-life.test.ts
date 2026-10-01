@@ -142,7 +142,7 @@ describe("living costs are charged on the first of each month", () => {
       buildAdultLifeContext(broke, personId),
     ).find((situation) => situation.key === "adult.household-money-shortfall");
     expect(offered?.prose).toMatch(
-      /^[A-Z][a-z]+'s rent, food and bills came to \$1,500\.00/,
+      /^[A-Z][a-z]+'s food and bills came to \$600\.00/,
     );
     const answered = chooseAdultOption(broke, {
       personId,
@@ -171,7 +171,9 @@ describe("living costs are charged on the first of each month", () => {
     expect(charges.every((charge) => charge.status === "completed")).toBe(true);
     expect(positionOf(later, personId)!.liquidBalance.minorUnits).toBe(
       1_000_000 -
-        charges.length * LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor,
+        charges.length *
+          (LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
+            LIVING_COSTS_PLACEHOLDER.housingShareMinor),
     );
     expect(
       buildAdultLifeContext(later, personId).openOpportunityKinds.has(
