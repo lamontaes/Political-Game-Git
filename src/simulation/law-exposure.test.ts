@@ -3,10 +3,21 @@ import {
   TEST_TAX_TERMS,
   enactedTaxFixture,
 } from "../../tests/fixtures/tax-policy-fixture";
+import {
+  base,
+  enact,
+  procedure,
+} from "../../tests/fixtures/funded-service-fixture";
 import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { daysBetween, makeIsoDate } from "./dates";
 import { createPartnership } from "./life";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+  stateJurisdictionForKey,
+} from "./life-places";
+import { stableHash } from "./ids";
 import {
   assertLawExposureIntegrity,
   NON_MONEY_FELT_SIZE,
@@ -36,7 +47,7 @@ import { joinLawInterestGroup } from "./living-world/law-interest-groups";
 import { recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import type { EntityId, PrivateBeliefRecord, World } from "./types";
+import type { EntityId, Person, PrivateBeliefRecord, World } from "./types";
 import { advanceWorld, assertWorldIntegrity } from "./world";
 
 /** A person's saved views of officials, latest per official. */
@@ -51,6 +62,45 @@ function officialViewsOf(world: World, personId: EntityId) {
 function officialOf(belief: PrivateBeliefRecord): EntityId {
   if (belief.subject?.kind !== "official") throw new Error("Not an official.");
   return belief.subject.personId;
+}
+
+/** A place from all 56 with a playable locality, named by its seed. */
+function drawPlace(seed: string) {
+  const states = lifePlaceStateIdentities();
+  expect(states).toHaveLength(56);
+  const start = parseInt(stableHash(seed).slice(0, 8), 16) % states.length;
+  for (let step = 0; step < states.length; step++) {
+    const state = states[(start + step) % states.length]!;
+    const town = searchLifePlaces("", 1, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    })[0];
+    if (town) return { state: state.jurisdictionKey, town };
+  }
+  throw new Error("No playable locality in any of the 56 places.");
+}
+
+/** Authored fixture: this person's recorded home is in `jurisdictionId`. */
+function homeIn(world: World, personId: EntityId, jurisdictionId: EntityId) {
+  const person = world.people[personId]!;
+  const move = <T extends { kind: string; endedAt?: unknown }>(fact: T): T =>
+    fact.kind === "residence" && fact.endedAt === null
+      ? { ...fact, jurisdictionId }
+      : fact;
+  const moved = {
+    ...person,
+    homeJurisdictionId: jurisdictionId,
+    establishedFacts: person.establishedFacts.map(move),
+    ...(person.detailLevel === "materialized"
+      ? {
+          details: {
+            ...person.details,
+            generatedFacts: person.details.generatedFacts.map(move),
+          },
+        }
+      : {}),
+  } as Person;
+  return { ...world, people: { ...world.people, [personId]: moved } };
 }
 
 function collected(married = false) {
@@ -405,20 +455,34 @@ describe("a law reaches a person", () => {
     }
   });
 
-  it("a right or an eligibility lost with no money is felt at one estimated size, and six such losses found a group", () => {
-    // The enacted law itself, not a collected tax: no money changes hands.
-    const fixture = enactedTaxFixture();
-    const policy = fixture.world.history.taxPolicies![0]!;
-    const world = advanceWorld(
-      fixture.world,
-      daysBetween(fixture.world.currentDate, policy.effectiveAt),
-      createCampaignElectionTransitionRegistry(),
-    );
-    const personId = fixture.personId;
-    const enactment = world.history.legislativeEnactments!.find(
-      (row) => row.outcome === "enacted",
-    )!;
-    const row = { measureId: enactment.measureId, sourceRecordId: policy.id };
+  const eligibilitySeed = "a159-felt-size-non-money";
+  const eligibilityPlace = drawPlace(eligibilitySeed);
+  it(`a right or an eligibility lost with no money is felt at one estimated size, and six such losses found a group (${eligibilityPlace.town.displayName}, ${eligibilityPlace.state}, seed ${eligibilitySeed})`, () => {
+    // A state law enacted in a place drawn from all 56; no money changes hands.
+    const state = stateJurisdictionForKey(eligibilityPlace.state)!;
+    const townPlace = eligibilityPlace.town.context.jurisdiction;
+    let world: World = {
+      ...base,
+      jurisdictions: {
+        ...base.jurisdictions,
+        [state.id]: state,
+        [townPlace.id]: townPlace,
+      },
+      jurisdictionOrder: [
+        ...new Set([...base.jurisdictionOrder, state.id, townPlace.id]),
+      ],
+      control: { kind: "person", personId: procedure.playerPersonId },
+    };
+    world = enact(world, state.id, "yes");
+    // Authored fixture: everyone's recorded home is in the drawn town.
+    for (const id of world.personOrder) world = homeIn(world, id, townPlace.id);
+    const personId = procedure.playerPersonId;
+    const enactment = world.history.legislativeEnactments!.at(-1)!;
+    expect(enactment.outcome).toBe("enacted");
+    const row = {
+      measureId: enactment.measureId,
+      sourceRecordId: enactment.id,
+    };
     // One felt size for every reader, labeled an estimate.
     expect(NON_MONEY_FELT_SIZE.basis).toBe("PLACEHOLDER");
     expect(lawExposureFeltSize({ direction: "cost", amount: null }, 0)).toEqual(

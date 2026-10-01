@@ -9,6 +9,7 @@ import type {
   EntityId,
   IsoDate,
   LawExposureChannel,
+  LawExposureNewsProvenance,
   LawExposureRecord,
   MoneyAmount,
   World,
@@ -304,6 +305,14 @@ function recordedLawAt(
     const law = lawInForce(world, jurisdiction.id, question.id, at);
     return law?.origin === "in-force-at-start" && law.measureId === measureId;
   }
+  return enactedBy(world, measureId, at);
+}
+
+export function enactedBy(
+  world: World,
+  measureId: EntityId,
+  at: IsoDate,
+): boolean {
   return (world.history.legislativeEnactments ?? []).some(
     (row) =>
       row.measureId === measureId &&
@@ -324,17 +333,56 @@ function append(
     sequence: world.history.nextSequence,
     recordedAt: world.currentDate,
   };
-  return scheduleOfficialViewReflection(
-    {
-      ...world,
-      history: {
-        ...world.history,
-        nextSequence: world.history.nextSequence + 1,
-        lawExposures: [...existing, record],
-      },
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      lawExposures: [...existing, record],
     },
-    record,
-  );
+  };
+  // A story read in the news carries no opinion weight: nothing reflects on it.
+  return record.relation === "news"
+    ? next
+    : scheduleOfficialViewReflection(next, record);
+}
+
+/**
+ * Records that a person read a published story about what an enacted law did
+ * (relation "news"). It carries no money, no pay and no opinion weight, and
+ * names its story record by record. Idempotent on the stable key. The press
+ * desk derives every field from the records (`press/story-exposure.ts`).
+ */
+export function recordNewsLawExposure(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly personId: EntityId;
+    readonly measureId: EntityId;
+    readonly sectionKey: string | null;
+    readonly channel: LawExposureChannel;
+    readonly news: LawExposureNewsProvenance;
+  },
+): World {
+  if (!world.people[input.personId])
+    throw new Error("A law exposure needs a person in the world.");
+  if (!enactedBy(world, input.measureId, world.currentDate))
+    throw new Error("Only an enacted law can reach a person.");
+  return append(world, {
+    stableKey: input.stableKey,
+    personId: input.personId,
+    measureId: input.measureId,
+    sectionKey: input.sectionKey,
+    channel: input.channel,
+    relation: "news",
+    viaPersonId: null,
+    direction: "none",
+    amount: null,
+    cadence: null,
+    monthlyPay: null,
+    sourceRecordId: input.news.knowledgeId,
+    news: input.news,
+  });
 }
 
 /**
@@ -347,6 +395,24 @@ export function assertLawExposureIntegrity(
   ids: Set<EntityId>,
 ): void {
   const rows = world.history.lawExposures ?? [];
+  if (rows.length === 0) return;
+  const hasNews = rows.some((row) => row.relation === "news");
+  const knowledgeById = new Map(
+    (hasNews ? world.history.knowledge : []).map((row) => [row.id, row]),
+  );
+  const publicationsById = new Map(
+    (hasNews ? (world.history.publications ?? []) : []).map((row) => [
+      row.id,
+      row,
+    ]),
+  );
+  const pressById = new Map(
+    (hasNews ? (world.history.pressRecords ?? []) : []).map((row) => [
+      row.id,
+      row,
+    ]),
+  );
+  const eventsById = new Map(world.history.events.map((row) => [row.id, row]));
   const keys = new Set<string>();
   let lastSequence = -1;
   for (const row of rows) {
@@ -362,12 +428,52 @@ export function assertLawExposureIntegrity(
       throw new Error("A law exposure names a person not in the world.");
     if (!recordedLawAt(world, row.measureId, row.recordedAt))
       throw new Error("A law exposure names a law not recorded by then.");
-    if (!ids.has(row.sourceRecordId))
+    if (
+      !ids.has(row.sourceRecordId) &&
+      !eventsById.has(row.sourceRecordId) &&
+      !(row.relation === "news" && knowledgeById.has(row.sourceRecordId))
+    )
       throw new Error("A law exposure's source record is missing.");
-    if ((row.relation !== "own") !== (row.viaPersonId !== null))
+    if (
+      (row.relation === "family" || row.relation === "friend") !==
+      (row.viaPersonId !== null)
+    )
       throw new Error(
         "Only a family or friend exposure names whose effect it was.",
       );
+    if ((row.relation === "news") !== (row.news !== undefined))
+      throw new Error("Only a news exposure names the story it came from.");
+    if (row.news) {
+      const knowledge = knowledgeById.get(row.news.knowledgeId);
+      const publication = publicationsById.get(row.news.publicationId);
+      const story = publication && eventsById.get(publication.sourceEventId);
+      const lead = pressById.get(row.news.storyLeadId);
+      const basis = eventsById.get(row.news.basisEventId);
+      if (
+        !knowledge ||
+        knowledge.id !== row.sourceRecordId ||
+        knowledge.personId !== row.personId ||
+        knowledge.sequence >= row.sequence ||
+        knowledge.learnedAt > row.recordedAt ||
+        knowledge.source.kind !== "media" ||
+        knowledge.source.reference !== publication?.id ||
+        !story ||
+        knowledge.eventId !== story.id ||
+        !story.tags.includes(`press.lead:${row.news.storyLeadId}`) ||
+        !lead ||
+        lead.kind !== "story-lead" ||
+        !lead.basisEventIds.includes(row.news.basisEventId) ||
+        !basis
+      )
+        throw new Error("A news exposure's provenance does not reconcile.");
+    }
+    if (
+      row.relation === "news" &&
+      (row.direction !== "none" ||
+        row.amount !== null ||
+        row.monthlyPay !== null)
+    )
+      throw new Error("A news exposure carries no money.");
     if ((row.amount === null) !== (row.cadence === null))
       throw new Error("A law exposure's amount and cadence go together.");
     if (row.direction === "none" && row.amount !== null)

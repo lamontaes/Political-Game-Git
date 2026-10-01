@@ -2,7 +2,27 @@
 
 The latest transfers below supersede the historical checkpoints retained afterward.
 
+## Replacement teams and narrow releases, October 1 at 4:41 p.m. Eastern
+
+- Team 1 is now the owner-created replacement chat 01a0f92d-7edc-707a-b728-03688195800c, Making Laws, Sol 6.1 High. Its A77 and A97 published work and exact existing claims transfer intact. The old chat receives no new work. Assignment delivery succeeded; a working-source receipt is pending.
+- Team 4 is now the owner-created replacement chat 01a0f92d-d8e9-7630-bb41-ee43da95f009, Your Home, Sol 6.1 Medium. Its preserved A57 branch ends at b6502af37a86e875f38b6563966c7e6688559727. Claude J retains A54 purchase-price work. Assignment delivery succeeded; a working-source receipt is pending.
+- Team 3 owns ONLY the minimumWageSettingAt fallback hunk in src/simulation/minimum-wage.ts for A39/A40. Coordinator has no unpublished overlap and retains stateMinimumSettingAt, dated cutoffs and regional data/readers. Canonical federal law terms may supply an explicitly established no-higher-state-floor case; unknown regional or industry coverage must remain unknown. Audit owns the contract question; Team 3 builds.
+- Claude G owns the approved Ruling 28 recordStoryHeardExposure API/schema boundary. Team 8's overlapping reader is parked at 47db087ba5bc9d2f7cb129025b71d4870d84d023. Coordinator's #1616 starting-law identity changes remain protected. The prior Team 8 reader claim below is superseded.
+- Team 7 received Audit’s exact time-work.ts speech import/wrapper release from #1446 at 4be70ec5a246b3361096a47508d7bcdc147bf552. Preserve every enclosed consumer and its order, saved-noon, oath and clock hunks. Claude retains composer/starting registration; activation awaits that release. Team 7's draft #1665 is published at 35ef6ef855ef7dc53c9f0819454011dc7b24ac95; runtime and LOAD checks are NOT RUN.
+
+## Parallel playable-slice transfers, CTO October 1 4:22 correction
+
+All slices build their existing Fable Part 5 and owned audit items in parallel toward at least 80 percent. This is a target, not a measured completion claim. Finish in-flight work only when it is on the slice path. Shared functions still have one writer.
+
+- Team 3 receives from Team 6 at aff3042b34f959051ce8539636f18bb7a350dd8b only PaycheckTaxLevyIdentity, recordedPaycheckTaxInput, matchRecordedPaycheckLevy, preparePaycheckLevyPartition and preparePaycheckTaxAssessment consumer hunks in tax-policy.ts, plus paycheck-tax-consumer.test.ts. Team 6 reports no active or unpublished overlapping bytes. Coordinator retains the tax authority provider, attach/integrity selectors, taxBaseOccurrenceSource admission, shared handler and the #1653 collection regression repair. The packet does not admit employer withholding merely from general income authority.
+- Team 6 owns new presentation/public-service-work.ts and its focused test, wrapping the existing resident request writer. No shared writer transfer is implied.
+- Team 8 owns new simulation/press/law-story-readings.ts and its focused test for the actual saved publication, story, basis and EventKnowledge join. Coordinator retains law-exposure.ts and schema; story exposure admission awaits CTO review. No invented view weights or sustained attention.
+- Team 1 retains the exact A77 local council admission transfer above. Its direct message route is unconfirmed; the same release is posted in 00d. Team 4's direct route rejects steering; its Your Home assignment is posted in 00d. Neither error authorizes a new team or proves a stopped process.
+- Claude's lazy-transition-registries lane owns all current module-load registry/key repair; the separate Claude fixture lane owns governor-fixture conversion after load recovery. Other slice owners do not duplicate those repairs.
+
 ## Closed transfers and receiving owners
+
+- Team 1 now owns only legislative-institutions.ts legislativePackForWorkKey townCouncilProfilePackById admission/import and legislativeInstitutionContext LOCAL context branch for A77. Coordinator released these after Audit identified the missing admission. Reuse validated town profiles and actual local-government organization identities; preserve Congress/state/fiscal branches and unsupported values. Core diff goes to CTO. Direct chat submission was unconfirmed; the release is posted in 00d.
 
 - Team 2 owns only A108 municipalRulePackFor council-action projection and the released council action/date hunks: CONGRESSIONAL_REVIEW, OVERRIDE_WINDOW_DAYS, CVILLE_2_98_AMENDED_ON, councilActEffectiveDate, override-date and admitCouncilAction named branches/imports. Team 1 released these cleanly. Floors, quorum, titles, fiscal writers, general legal clocks and executive decisions remain protected. The optional councilActions field still requires CTO approval.
 - Team 8 owns press/law-effect-news.ts and confirmed it clean. Its actual saved story/follower binding is pending Audit. Coordinator owns law-exposure.ts; law-effects-noticed.ts remains unreleased.
