@@ -6,7 +6,11 @@ import {
   recordById,
   recordsWithFieldValue,
 } from "../history-index";
-import { organizationParticipationStateAt } from "../life-queries";
+import { standingCrisisAuthority } from "../crisis-standing-appropriations";
+import {
+  organizationParticipationStateAt,
+  organizationProfileAt,
+} from "../life-queries";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { personName } from "../people";
 import { publicProgramRecords } from "../public-program-integrity";
@@ -16,7 +20,10 @@ import type {
   LawConsequenceContext,
   LawConsequenceKindRegistration,
   LawConsequenceRow,
+  ResolvedAnyLawConsequence,
   ResolvedLawConsequence,
+  ResolvedStandingServiceConsequence,
+  StandingProgramAuthority,
 } from "../law-consequence-types";
 import type { EntityId, PublicProgramRecord, World } from "../types";
 
@@ -26,6 +33,8 @@ import {
   SERVICE_HOURS,
   FUNDED_SERVICE,
   SERVICE_RECIPIENT_KIND,
+  SERVICE_DELIVERED_LAW_ROWS,
+  standingServiceProgram,
 } from "./service-delivered-data";
 
 export {
@@ -71,15 +80,10 @@ function indexedPrograms(world: World) {
   return index;
 }
 
-export function resolveLawServiceConsequence(
-  world: World,
-  row: LawConsequenceRow,
-  context: LawConsequenceContext,
-): readonly ResolvedLawConsequence[] {
+function validServiceRow(row: LawConsequenceRow): boolean {
   if (
     row.kind !== "service-delivered" ||
     row.when !== "service" ||
-    context.activity !== "service" ||
     row.who.selector !== SERVICE_SELECTOR ||
     row.what !== SERVICE_ACTION ||
     row.decision ||
@@ -88,23 +92,28 @@ export function resolveLawServiceConsequence(
     row.amount.key !== SERVICE_HOURS ||
     row.amount.unit !== "hours" ||
     row.who.predicates.length !== 0 ||
-    row.conditions.length !== 1 ||
-    !context.questionKey
+    row.conditions.length !== 1
   )
-    return [];
+    return false;
   const condition = row.conditions[0]!;
-  if (
-    condition.capability !== FUNDED_SERVICE ||
-    Object.keys(condition.parameters).length !== 0
-  )
-    return [];
+  return (
+    condition.capability === FUNDED_SERVICE &&
+    Object.keys(condition.parameters).length === 0
+  );
+}
+
+/** The saved completed activity, its completion event and its length. */
+function completedServiceActivity(
+  world: World,
+  context: LawConsequenceContext,
+) {
   const activity = recordById(
     world.history.scheduledActivities,
     context.activityId,
   );
-  if (!activity || !activity.location.jurisdictionId) return [];
+  if (!activity || !activity.location.jurisdictionId) return null;
   const state = scheduledActivityState(world, activity.id);
-  if (state.status !== "completed" || !state.outcomeEventId) return [];
+  if (state.status !== "completed" || !state.outcomeEventId) return null;
   const completion = eventById(world, state.outcomeEventId);
   if (
     !completion ||
@@ -114,21 +123,44 @@ export function resolveLawServiceConsequence(
     !completion.involvedEntityIds.includes(activity.id) ||
     completion.jurisdictionId !== activity.location.jurisdictionId
   )
-    return [];
+    return null;
   const minutes = simulationMinutesBetween(state.start, state.end);
-  if (!(minutes > 0) || !Number.isFinite(minutes)) return [];
-  const proposition = Object.values(world.policyCatalog.propositions).find(
-    (candidate) => candidate.stableKey === context.questionKey,
-  );
-  if (!proposition) return [];
-  const jurisdictionId = activity.location.jurisdictionId;
-  const law = lawInForce(world, jurisdictionId, proposition.id, context.onDate);
-  if (
-    !law ||
-    law.answer !== "yes" ||
-    (context.governingLawId && context.governingLawId !== law.measureId)
-  )
-    return [];
+  if (!(minutes > 0) || !Number.isFinite(minutes)) return null;
+  return {
+    activity,
+    state,
+    completion,
+    minutes,
+    jurisdictionId: activity.location.jurisdictionId,
+  };
+}
+
+type CompletedService = NonNullable<
+  ReturnType<typeof completedServiceActivity>
+>;
+type AppropriationRecord = Extract<
+  PublicProgramRecord,
+  { kind: "appropriation" }
+>;
+type CommitmentRecord = Extract<PublicProgramRecord, { kind: "commitment" }>;
+
+/**
+ * The completed activity's named recipients, through the first commitment it
+ * cites whose appropriation `accepts` and whose operating installment was
+ * actually paid by the day of the activity. Shared by an enacted service law
+ * and a standing service appropriation: payment and completion are the same
+ * facts either way.
+ */
+function paidServiceRecipients(
+  world: World,
+  done: CompletedService,
+  context: LawConsequenceContext,
+  accepts: (
+    appropriation: AppropriationRecord,
+    commitment: CommitmentRecord,
+  ) => boolean,
+) {
+  const { activity, state, completion, jurisdictionId } = done;
   const records = publicProgramRecords(world);
   const index = indexedPrograms(world);
   for (const sourceId of activity.sourceEntityIds) {
@@ -144,10 +176,10 @@ export function resolveLawServiceConsequence(
       !appropriation ||
       appropriation.kind !== "appropriation" ||
       appropriation.programKey !== commitment.programKey ||
-      appropriation.sourceMeasureId !== law.measureId ||
       appropriation.jurisdictionId !== jurisdictionId ||
       appropriation.availableFrom > context.onDate ||
-      appropriation.availableThrough < context.onDate
+      appropriation.availableThrough < context.onDate ||
+      !accepts(appropriation, commitment)
     )
       continue;
     for (const installment of index.installments.get(commitment.id) ?? []) {
@@ -223,13 +255,7 @@ export function resolveLawServiceConsequence(
             !!recipients.get(id),
         )
         .map((id) => ({
-          row,
-          law,
-          questionKey: context.questionKey!,
-          jurisdictionId,
           subject: { kind: "person" as const, id },
-          activityId: activity.id,
-          effectiveAt: context.onDate,
           sourceRecordIds: [
             activity.id,
             state.id,
@@ -247,7 +273,7 @@ export function resolveLawServiceConsequence(
           ],
           value: {
             type: "amount" as const,
-            value: minutes / 60,
+            value: done.minutes / 60,
             unit: "hours" as const,
           },
         }));
@@ -256,27 +282,144 @@ export function resolveLawServiceConsequence(
   return [];
 }
 
+export function resolveLawServiceConsequence(
+  world: World,
+  row: LawConsequenceRow,
+  context: LawConsequenceContext,
+): readonly ResolvedLawConsequence[] {
+  if (
+    !validServiceRow(row) ||
+    context.activity !== "service" ||
+    !context.questionKey
+  )
+    return [];
+  const done = completedServiceActivity(world, context);
+  if (!done) return [];
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (candidate) => candidate.stableKey === context.questionKey,
+  );
+  if (!proposition) return [];
+  const jurisdictionId = done.jurisdictionId;
+  const law = lawInForce(world, jurisdictionId, proposition.id, context.onDate);
+  if (
+    !law ||
+    law.answer !== "yes" ||
+    (context.governingLawId && context.governingLawId !== law.measureId)
+  )
+    return [];
+  return paidServiceRecipients(
+    world,
+    done,
+    context,
+    (appropriation) => appropriation.sourceMeasureId === law.measureId,
+  ).map((paid) => ({
+    row,
+    law,
+    questionKey: context.questionKey!,
+    jurisdictionId,
+    activityId: done.activity.id,
+    effectiveAt: context.onDate,
+    ...paid,
+  }));
+}
+
+/**
+ * Standing authority: a completed visit paid for out of a standing, sourced
+ * appropriation of a service program (988 crisis response). The operator must
+ * be a kind of organization that can provide that service; the appropriation
+ * is read through the program's own authority reader, never inferred.
+ */
+export function resolveStandingServiceConsequences(
+  world: World,
+  context: LawConsequenceContext,
+): readonly ResolvedStandingServiceConsequence[] {
+  if (context.activity !== "service" || context.questionKey) return [];
+  const done = completedServiceActivity(world, context);
+  if (!done) return [];
+  let authority: StandingProgramAuthority | null = null;
+  let row: LawConsequenceRow | null = null;
+  const paid = paidServiceRecipients(
+    world,
+    done,
+    context,
+    (appropriation, commitment) => {
+      if (appropriation.sourceMeasureId != null) return false;
+      const program = standingServiceProgram(appropriation.programKey);
+      const candidate = program
+        ? SERVICE_DELIVERED_LAW_ROWS[program.questionKey]?.[0]
+        : undefined;
+      const read = program
+        ? standingCrisisAuthority(world, appropriation.id, context.onDate)
+        : null;
+      const classification = organizationProfileAt(
+        world,
+        commitment.recipientOrganizationId!,
+        {
+          asOfDate: context.onDate,
+          historySequenceExclusive: world.history.nextSequence,
+        },
+      )?.classification;
+      if (
+        !program ||
+        !candidate ||
+        !validServiceRow(candidate) ||
+        !read ||
+        !classification ||
+        !program.operatorClassifications.includes(classification)
+      )
+        return false;
+      authority = read;
+      row = candidate;
+      return true;
+    },
+  );
+  if (!authority || !row) return [];
+  const saved: StandingProgramAuthority = authority;
+  const savedRow: LawConsequenceRow = row;
+  return paid.map((entry) => ({
+    row: savedRow,
+    authority: saved,
+    jurisdictionId: done.jurisdictionId,
+    activityId: done.activity.id,
+    effectiveAt: context.onDate,
+    ...entry,
+  }));
+}
+
 export function applyLawServiceConsequence(
   world: World,
-  resolved: ResolvedLawConsequence,
+  resolved: ResolvedAnyLawConsequence,
 ): World {
   if (resolved.subject.kind !== "person") return world;
-  const canonical = resolveLawServiceConsequence(world, resolved.row, {
-    activity: "service",
+  const context = {
+    activity: "service" as const,
     activityId: resolved.activityId,
     onDate: resolved.effectiveAt,
     subjectIds: [resolved.subject.id],
-    questionKey: resolved.questionKey,
-    governingLawId: resolved.law.measureId,
-  })[0];
+  };
+  const standing = "authority" in resolved;
+  const canonical = standing
+    ? resolveStandingServiceConsequences(world, context).find(
+        (candidate) =>
+          candidate.authority.appropriationId ===
+          resolved.authority.appropriationId,
+      )
+    : resolveLawServiceConsequence(world, resolved.row, {
+        ...context,
+        questionKey: resolved.questionKey,
+        governingLawId: resolved.law.measureId,
+      })[0];
   if (
     !canonical ||
+    canonical.row.id !== resolved.row.id ||
     canonical.value.type !== "amount" ||
     resolved.value.type !== "amount" ||
     canonical.value.unit !== resolved.value.unit ||
     canonical.value.value !== resolved.value.value ||
     canonical.jurisdictionId !== resolved.jurisdictionId ||
-    canonical.law.origin !== resolved.law.origin ||
+    ("law" in canonical &&
+      "law" in resolved &&
+      canonical.law.origin !== resolved.law.origin) ||
     canonical.sourceRecordIds.length !== resolved.sourceRecordIds.length ||
     canonical.sourceRecordIds.some(
       (id, at) => id !== resolved.sourceRecordIds[at],
@@ -285,13 +428,16 @@ export function applyLawServiceConsequence(
     return world;
   const key = `law-service:${resolved.activityId}:${resolved.subject.id}:${resolved.row.id}`;
   if (hasStableKey(world.history.events, key)) return world;
-  const stamp = lawEffectStamp(canonical.law, {
-    effectKind: "service-delivered",
-    questionKey: canonical.questionKey,
-    jurisdictionId: canonical.jurisdictionId,
-    appliedAt: canonical.effectiveAt,
-    sourceRecordIds: canonical.sourceRecordIds,
-  });
+  const stamp = lawEffectStamp(
+    "authority" in canonical ? canonical.authority : canonical.law,
+    {
+      effectKind: "service-delivered",
+      questionKey: "authority" in canonical ? null : canonical.questionKey,
+      jurisdictionId: canonical.jurisdictionId,
+      appliedAt: canonical.effectiveAt,
+      sourceRecordIds: canonical.sourceRecordIds,
+    },
+  );
   if (!stamp) return world;
   const activity = recordById(
     world.history.scheduledActivities,
@@ -332,13 +478,15 @@ export function applyLawServiceConsequence(
   });
 }
 
-export const SERVICE_DELIVERED_REGISTRATION: LawConsequenceKindRegistration = {
-  kind: "service-delivered",
-  owner: "Team5",
-  selectors: [SERVICE_SELECTOR],
-  actions: [SERVICE_ACTION],
-  predicates: [FUNDED_SERVICE],
-  units: ["hours"],
-  resolve: resolveLawServiceConsequence,
-  apply: applyLawServiceConsequence,
-};
+export const SERVICE_DELIVERED_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawConsequence> =
+  {
+    kind: "service-delivered",
+    owner: "Team5",
+    selectors: [SERVICE_SELECTOR],
+    actions: [SERVICE_ACTION],
+    predicates: [FUNDED_SERVICE],
+    units: ["hours"],
+    resolve: resolveLawServiceConsequence,
+    resolveSavedRules: resolveStandingServiceConsequences,
+    apply: applyLawServiceConsequence,
+  };
