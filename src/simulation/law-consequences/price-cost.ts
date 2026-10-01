@@ -150,6 +150,7 @@ export function resolvePriceCostConsequences(
       questionKey: proposition.stableKey,
       termKey,
       unit,
+      onDate: context.onDate,
     });
     if (!term)
       throw new Error(`Missing law amount capability: term:${termKey}`);
