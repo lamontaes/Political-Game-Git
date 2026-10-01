@@ -841,8 +841,7 @@ it("A38 ordinary weekly payment preserves actual saved-rule authority and withho
 
 it("keeps completed earned pay from distinct work dates in separate observations", () => {
   const first = completedEarnedLawFixture();
-  const paid = settleTownCompensations(first.worked.world, [first.period]);
-  const nextDate = advanceWorld(paid, 1, LIFE_PATHS2_HANDLERS);
+  const nextDate = advanceWorld(first.worked.world, 1, LIFE_PATHS2_HANDLERS);
   const scheduled = scheduleLifePathSession(nextDate, first.workId);
   expect(scheduled.ok, scheduled.message).toBe(true);
   const activity = scheduled.world.history.scheduledActivities.at(-1)!;
