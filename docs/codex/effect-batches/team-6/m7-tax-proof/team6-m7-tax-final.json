@@ -1,0 +1,55 @@
+{
+  "numTotalTests": 8,
+  "numPassedTests": 7,
+  "numFailedTests": 1,
+  "success": false,
+  "tests": [
+    {
+      "file": "src/simulation/law-consequences/tax.test.ts",
+      "assertions": [
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection assesses the named payer once, then collects actual cash after Save/Continue",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection keeps 'blocked' distinct from positive collection",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection keeps 'zero' distinct from positive collection",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection refuses absent authority, wrong questions, unrecorded activities and unrelated subjects",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection does not assess before the typed policy and governing law are operative",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection rejects forged amounts and source IDs, and leaves existing liabilities frozen",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection preserves an earlier assessment while an explicitly zero-rate successor governs future bases",
+          "status": "failed",
+          "failureMessages": [
+            "Error: Consequence test:tax:typed-enacted-levy: missing kind capability 'tax'; Consequence test:tax:typed-enacted-levy: missing selector capability 'recorded-tax-base-payer'; Consequence test:tax:typed-enacted-levy: missing tax action capability 'assess-enacted-tax-base'; Consequence test:tax:typed-enacted-levy: missing predicate capability 'has-operative-typed-tax-policy'\n    at applyLawConsequences (/workspace/Political-Game-Git/src/simulation/enacted-law-effects.ts:861:30)\n    at applyEnactedLawEffects (/workspace/Political-Game-Git/src/simulation/enacted-law-effects.ts:282:10)\n    at applyNewlyEnactedLawEffects (/workspace/Political-Game-Git/src/simulation/enacted-law-effects.ts:303:12)\n    at publishNewProceedings (/workspace/Political-Game-Git/src/presentation/publish-legislative-transition.ts:31:14)\n    at /workspace/Political-Game-Git/src/presentation/publish-legislative-transition.ts:21:5\n    at withWorldIntegrityDeferred (/workspace/Political-Game-Git/src/simulation/world.ts:585:12)\n    at advanceWithWorldIntegrityAtEnd (/workspace/Political-Game-Git/src/simulation/world.ts:601:18)\n    at publishLegislativeTransition (/workspace/Political-Game-Git/src/presentation/publish-legislative-transition.ts:20:10)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:469:15\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+          ]
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection refuses unsupported expression/rate inference instead of using a catalog yes as a rate",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ]
+}
