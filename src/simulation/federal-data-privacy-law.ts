@@ -40,19 +40,21 @@ export interface InitialPrivacyComplianceEstimate {
  * Reads the approved SRIA band for an actual employee count. The source does
  * not supply a zero-employee band, recurring cost, coverage rule or price-year
  * conversion. This estimate alone neither establishes applicability nor pays
- * an expense. The first matching band retains the source's lower-band rule
- * at its overlapping boundary of 100 employees.
+ * an expense. Exactly 100 employees matches two printed bands; it stays
+ * unresolved until the reader convention is explicitly approved. Exactly
+ * 500 employees matches only the 100–500 band because the next is above 500.
  */
 export function initialPrivacyComplianceEstimate(
   employeeCount: number,
 ): InitialPrivacyComplianceEstimate | null {
   if (!Number.isSafeInteger(employeeCount) || employeeCount < 1) return null;
-  const band = ccpaCosts.centralEstimate.bySize.find(
+  const bands = ccpaCosts.centralEstimate.bySize.filter(
     (row) =>
       employeeCount >= row.minEmployees &&
       (row.maxEmployees === null || employeeCount <= row.maxEmployees),
   );
-  if (!band) return null;
+  if (bands.length !== 1) return null;
+  const band = bands[0]!;
   return {
     initialDollars: band.dollarsPerFirm,
     employeeSizeClass: band.sizeClass,

@@ -2,12 +2,11 @@ import { describe, expect, it } from "vitest";
 import { initialPrivacyComplianceEstimate } from "./federal-data-privacy-law";
 
 describe("approved initial privacy compliance estimate", () => {
-  it("reads the SRIA bands and keeps their disclosed boundary choices", () => {
+  it("reads unambiguous SRIA bands, including 500 employees", () => {
     const cases = [
       [1, 50_000],
       [19, 50_000],
       [20, 100_000],
-      [100, 100_000],
       [101, 450_000],
       [500, 450_000],
       [501, 2_000_000],
@@ -21,6 +20,10 @@ describe("approved initial privacy compliance estimate", () => {
     expect(initialPrivacyComplianceEstimate(19)?.sourceLimit).toContain(
       "overestimating the compliance costs for smaller firms",
     );
+  });
+
+  it("leaves exactly 100 employees unresolved between the overlapping printed bands", () => {
+    expect(initialPrivacyComplianceEstimate(100)).toBeNull();
   });
 
   it("does not turn an absent, zero or invalid count into a cost", () => {
