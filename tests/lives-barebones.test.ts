@@ -351,7 +351,7 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     // state's office answers through the job market, and they weigh the
     // offer against what holds them, all from the record.
     const moved = reviewTown(next, reviewQuarter(worker), {
-      arrivalsPerResidentPerYear: 0,
+      arrivals: false,
     });
     const offered = moved.history.events.find(
       (event) =>

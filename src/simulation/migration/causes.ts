@@ -44,6 +44,13 @@
  * home; their own taste for risk; and the town's pushes (waves, the state's
  * pressure, crime, jobs) on either side.
  *
+ * - a home a disaster destroyed or damaged (`disaster:home-destroyed`,
+ *   `disaster:home-damaged`): a disaster-damage record on their household or
+ *   the dwelling they live in since the last review (`homeLostCause`). The
+ *   household weighs it with its other causes against the same bar, so a
+ *   renter with family elsewhere leaves a wrecked home sooner than an owner
+ *   with children in school.
+ *
  * NOT PRODUCED, filed as a gap: school elsewhere (an admission elsewhere is
  * not recorded, and an active enrollment holds a person in town,
  * `who-may-move`).
@@ -105,6 +112,38 @@ export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
   [TOWN_FAMILY_EVENTS.divorced]: 0.3,
 };
 
+/**
+ * PLACEHOLDER strengths (research: `disaster-displacement-and-return`) of a
+ * home a disaster wrecked since the last review. After Hurricane Katrina many
+ * households never came back (the owner, September 22, 2026); after most
+ * disasters most households repair and stay. So a destroyed home is a strong
+ * push that a home owned, children at home or a settled age can still hold
+ * against, and a damaged one a slight push that tips only somebody already
+ * near leaving.
+ */
+export const HOME_LOST_STRENGTH = {
+  destroyed: 0.6,
+  damaged: 0.2,
+} as const;
+
+/** The cause a home a disaster destroyed or damaged gives its household. */
+export function homeLostCause(
+  damageId: EntityId,
+  level: keyof typeof HOME_LOST_STRENGTH,
+): LeaveCause {
+  return {
+    kind: "home-lost",
+    reason: `disaster:home-${level}`,
+    strength: HOME_LOST_STRENGTH[level],
+    causeId: damageId,
+    placeId: null,
+    explanation:
+      level === "destroyed"
+        ? "a disaster destroyed their home"
+        : "a disaster damaged their home",
+  };
+}
+
 const NEW_HOUSEHOLD_WORDS: Readonly<Record<string, string>> = {
   [LEAVING_HOME_EVENT]: "they moved out of a parent's home",
   [TOWN_FAMILY_EVENTS.movedIn]: "they moved in with their partner",
@@ -121,7 +160,8 @@ export interface LeaveCause {
     | "rent-burden"
     | "retired"
     | "kin-moved"
-    | "new-household";
+    | "new-household"
+    | "home-lost";
   readonly reason: MoveReasonKey;
   /** 0 to 1, smooth in the facts it reads. */
   readonly strength: number;
