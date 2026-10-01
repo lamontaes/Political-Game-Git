@@ -1,3 +1,11 @@
+## October 1, 5:34 a.m. adult opening transfer CLOSED
+
+Team 4 owns only the normal adult-start import and seatLocalBusinesses invocation ordering around hireAtAdultStart in src/presentation/production-world.ts. Audit released this exact scope with no unpublished overlap. Coordinator verified main 072634b352c182c0ee75abe59e1e73e772ed73e4 blob 74ad6aef164a2bb568952ed3fe229be9c73fd399.
+
+Audit retains its unpublished terminal-opening hook at 3c5b61e2, source blob 1b367ff884ac7553fb3b18092f1927b0e44859f0. Preserve age and adultStartWorkVersion guards, both pre-start paths, salary, living costs, monthly scheduling, coverage, final law dispatch and load recovery. The actual employer producer precedes adult hiring. Team 4 owns the matching opening-life-recorded-employer.test.ts; no substitute employers or post-opening repair writer is admitted.
+
+Release delivered to Team 4. Runtime integration and natural-opening proof remain pending.
+
 ## October 1, 5:30 a.m. subject-response caller and core repair
 
 Team 8 owns only the existing answer adapter in src/presentation/office-response.ts and MatterItem.answer argument/statement forwarding in src/player/PressDeskPanel.tsx. It reports both paths clean in its leased workspace and shared checkout, matching main 072634b352c182c0ee75abe59e1e73e772ed73e4. Preserve confirmation, the world callback and exact chosen words. This does not grant a new scheduler or a broad player-workspace rewrite. NPC finding-boundary admission remains separate.

@@ -1,3 +1,7 @@
+## October 1, 5:34 a.m. opening dependency cleared
+
+The A58 adult opening transfer is closed. Team 4 received the exact source and protected boundaries recorded in claims.md. It can now connect the actual employer producer before hiring and run its prepared opening test. No runtime result is claimed yet. The earlier 5:30 pending-release row is superseded by this receipt.
+
 ## October 1, 5:30 a.m. rebuild checkpoint
 
 The rebuild remains incomplete. Shared pay and service authority now compose, and the narrow privacy transfer is closed. Team 4's opening handoff and Audit’s clock/save repairs remain active dependencies.
