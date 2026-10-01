@@ -1,3 +1,19 @@
+# Court and monthly refresh callers have named owners
+
+The released changes are limited to callers and selectors. Existing payroll, mortgage, living-cost and court payment writers retain their owners.
+
+## Closed transfers
+
+Team 9 owns town-rent.ts trialJudge and actualCourtJoin court-selection portions plus the necessary court-for import. Team 4 confirmed clean working and staged selector bytes at 15be7aaf67711cf001800a226d84230ff0c1da3a, blob 4fda7316163562e557c6c80e7c2e8fa63fe5acb4. Its landlord selection, lease, judgment, payment, eviction and counsel logic remain protected. No whole-file replacement is authorized.
+
+Team 7 owns life-opportunities.ts's three salary, mortgage and living-cost refresh calls and necessary import/replacement chain. Audit released preserved donor blob a959258563f00a929e3a5dd0f7989b8656accbed without staged or active overlap. Preserve refreshLocalEconomy, job market and opportunity writers. The existing monthly handler calls the existing financial writers; no second writer is authorized.
+
+Team 6 accepted only program-governing.ts availability/lapse compiled-date handling and the saved authorityMeasureId target branch, with necessary existing-call argument plumbing. Team 1's general-budget recognition and final clause loop remain protected; its overlap acknowledgment is pending. Team 2 owns its two presentation fixture repairs and supplies the failing saved measures. Do not relax the original legal date and appropriation assertions.
+
+Coordinator retains the shared payroll integration and registry correction. The unchanged capability list now lives in the existing data-only pay-rows module; matching and coverage logic remain in their existing modules. Team 3 retains actual-work binding and its monthly consumer, subject to the CTO period contract.
+
+## Earlier claims
+
 # Governor repair ownership is separated
 
 The two law presentation repairs and the tax repair have different owners. Each keeps the existing enactment assertions and uses the actual governor desk.

@@ -1,3 +1,23 @@
+# Excise taxes are on main; payroll passes its repaired office checks
+
+Excise assessment now runs through the shared tax path on main. The combined office payroll passes its eight unchanged checks after an import-boundary repair. The larger payroll change remains a draft while geographic applicability and the monthly business-pay contract are unfinished.
+
+## October 1: verified delivery and checks
+
+GitHub confirmed #1586 merged as 59ce2b5571eb598d62856b56e22402040e624fea, with CTO approval reporting 28/28 changed tests on its composed source. #1587 is also on main, whose inspected head was 6cc29fb8a6e4efd149e8c916343d88922e2cad7c. The coordinator's separate tax-fixture follow-up remains preserved locally and awaits disposition; it is not needed to claim that A13 merged.
+
+Payroll draft #1575 is published at d9dc974f654a097eecef9f928acda3666c06fb69. It includes Team 3's office-pay delegation and main. Initial composition 2a36 failed all eight office tests before payment assertions because registry predicates were undefined. Audit traced a circular import. Moving the unchanged four capability names to the existing data-only pay rows repaired it: the same full file passed 8/8 in 49.60 seconds. Three roots traversed 861 files with zero diagnostics; formatting and whitespace passed. Exact Git source with installed tooling was used, not a fresh native checkout. Earlier seven-file payroll checks are historical.
+
+Team 7 reports #1510 at 77d97 with 12/12 at d219/main b847, not a renewal on every later main change. Its A5 refresh-call transfer is closed and implementation can proceed. Team 9's narrow court-selection transfer is also closed. Team 6 accepted the two Audit-identified fiscal fixes that block Team 2's main-green repair; Team 1's separate general-budget clause work remains protected.
+
+## Remaining decisions
+
+American Samoa industry and New York/Oregon regional wage applicability remain unbound. Team 3 can bind wage flows to their actual saved jobs now; old point-date monthly transfers lack an earned-period contract. CTO must resolve that prospective contract and first partial period before withholding delegation. A103 also needs an actual incident-linked applicability record and sentence-choice contract; generic offense names do not supply missing facts.
+
+The effects count remains the historical 94/220, not a newly executed total. No coordinator merge, nationwide completion or installed-game acceptance is claimed.
+
+## Earlier checkpoints
+
 # Excise assessment reaches payment; governor repair is waiting for its test slot
 
 The shared tax path now uses the adopted levy and its actual payer and recipient. A controlled payment check passed, including saving and continuing without collecting twice. The remaining tax enactment failure also occurs on the baseline; its governor-desk repair is committed and awaits runtime validation.
