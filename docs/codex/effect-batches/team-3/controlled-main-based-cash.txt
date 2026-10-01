@@ -1,0 +1,30 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 1150000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:1150000","placeKey":"1150000","employerId":"organization_711f3dee42d6d47e","names":["Hannah Griffin","Andrew Ali"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ ✓ src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 1150000, including ordered receipts, shortfalls and reload 8234ms
+stdout | src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 2836000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:2836000","placeKey":"2836000","employerId":"organization_2ac7db1e6e501dfe","names":["Erin Woodruff","Megan Rogers"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ ✓ src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 2836000, including ordered receipts, shortfalls and reload 7395ms
+stdout | src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 5363000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:5363000","placeKey":"5363000","employerId":"organization_f5a43f9a6150db22","names":["James Fitzgerald","Michelle Walton"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ ✓ src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 5363000, including ordered receipts, shortfalls and reload 7428ms
+stdout | src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 2938000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:2938000","placeKey":"2938000","employerId":"organization_527ae17f7270c6be","names":["Alex Vincent","Tiffany Bowen"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ ✓ src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 2938000, including ordered receipts, shortfalls and reload 7281ms
+stdout | src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 3451000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:3451000","placeKey":"3451000","employerId":"organization_9bfe8d810c6b4759","names":["Bo Burgess","Eric Witt"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ ✓ src/simulation/local-economy-pay-cash.test.ts > allocates recorded staff cash at controlled month contexts in 3451000, including ordered receipts, shortfalls and reload 7324ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  04:48:30
+   Duration  51.91s (transform 11.21s, setup 18ms, import 14.13s, tests 37.66s, environment 0ms)
+
