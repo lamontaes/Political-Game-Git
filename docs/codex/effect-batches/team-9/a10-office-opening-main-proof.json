@@ -132,7 +132,7 @@
     "Controlled person switches to actual saved successor",
     "Unrelated saved due records canonically canceled for boundary isolation",
     "No sentence callback included in production prosecution.ts",
-    "Iowa reported pass awaits exact Audit source/command/assertion receipt; opening/load integration remains separate",
+    "Exact Audit selected Iowa PASS read; no native five-case acceptance or profiling cause; opening/load integration remains separate",
     "Existing A98 unseated-board gap not repaired",
     "Weekly request producer and court fallbacks remain",
     "No year/browser/whole-suite/national completion"
@@ -193,5 +193,32 @@
       }
     ],
     "scope": "Observed missing-handler boundaries only; no granted-clemency, Iowa-timing, opening/load-overdue or five-year claim"
+  },
+  "externalIowaReceipt": {
+    "sourceHead": "c4b2d86d40b100a55b1e7c86a1f2aac98115784b",
+    "operatorSession": 16908,
+    "exitCode": 0,
+    "selectedPassed": 1,
+    "unselected": 4,
+    "caseSeconds": 15.47,
+    "totalSeconds": 40.38,
+    "importSeconds": 24.77,
+    "originalTest": "src/simulation/justice/clemency-request-activities.test.ts",
+    "originalAssertionExpressionParents": 19,
+    "testTimeoutMilliseconds": 30000,
+    "originalTestSha256": "2644a16b9786262cf8c21ddd9a7f2eb555e32957becb6e5be71d85295e6f8572",
+    "originalShaVerifiedByTeam9": true,
+    "instrumentedTestSha256": "3496c930a105d4a813f27d98e217eba29bee572b9198fe2e09381d126ccf6ad0",
+    "method": "Read-only Git loader with original assertion parents and private measurement wrappers; installed tooling remains physical",
+    "command": "NODE_OPTIONS=--max-old-space-size=4096 VITE_CONFIG_NATIVE_IGNORE_WARNING=true OCD_STORAGE_STATE_DIR=/workspace/Political-Game-Git/docs/codex/audit-systems/storage-state npm run storage -- run test -- npx --no-install vitest run --config /tmp/audit-iowa-profile.config.mts scripts/engine-proof/iowa-request-profile.test.ts -t US-IA",
+    "profile": "NO RESULT; no phase observations emitted",
+    "team9Execution": false,
+    "petitionerIdentityExported": false,
+    "limits": [
+      "No native clean-checkout or five-case acceptance",
+      "No earlier-timeout cause inferred",
+      "No repeated run solely for timing logs",
+      "No petitioner identity borrowed from another receipt"
+    ]
   }
 }
