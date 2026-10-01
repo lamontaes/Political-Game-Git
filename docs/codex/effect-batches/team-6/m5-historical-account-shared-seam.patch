@@ -8,7 +8,7 @@ diff --git a/src/simulation/public-government-identity.ts b/src/simulation/publi
 -import type { EntityId, PublicGovernmentIdentity, World } from "./types";
 +import { currentLifeCutoff, organizationsAt, organizationProfileAt } from "./life-queries";
 +import type { EntityId, HistoricalCutoff, PublicGovernmentIdentity, World } from "./types";
- 
+
  export interface PublicGovernmentIdentityCarrier {
    readonly jurisdictionId: EntityId;
 @@ -66,6 +67,7 @@
@@ -22,7 +22,7 @@ diff --git a/src/simulation/public-government-identity.ts b/src/simulation/publi
 @@ -90,17 +92,11 @@
        "A local public-government identity must match a compiled government's canonical place.",
      );
- 
+
 -  const organization = world.history.organizations.find(
 +  const organization = organizationsAt(world, cutoff).find(
      (row) => row.stableKey === `municipal-government:${identity.governmentKey}`,
