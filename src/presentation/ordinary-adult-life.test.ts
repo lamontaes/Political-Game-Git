@@ -1,3 +1,4 @@
+import { representativeMonthlyLivingCostsMinor } from "../simulation/living-costs-data";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -8,10 +9,7 @@ import {
   serializeWorld,
   refreshLifeOpportunities,
 } from "../simulation";
-import {
-  LIVING_COSTS_PLACEHOLDER,
-  livingCostsFlowFor,
-} from "../simulation/cost-of-living";
+import { livingCostsFlowFor } from "../simulation/cost-of-living";
 import { ensureLifePathPersonalPosition } from "../simulation/life-paths2-resources";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
@@ -170,10 +168,7 @@ describe("living costs are charged on the first of each month", () => {
     const charges = chargesOf(later, personId);
     expect(charges.every((charge) => charge.status === "completed")).toBe(true);
     expect(positionOf(later, personId)!.liquidBalance.minorUnits).toBe(
-      1_000_000 -
-        charges.length *
-          (LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-            LIVING_COSTS_PLACEHOLDER.housingShareMinor),
+      1_000_000 - charges.length * representativeMonthlyLivingCostsMinor(),
     );
     expect(
       buildAdultLifeContext(later, personId).openOpportunityKinds.has(
