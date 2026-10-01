@@ -210,10 +210,21 @@ describe.each(allPlaces())(
       const liabilities = player.history.statutoryTaxLiabilities!.filter(
         (row) => pay.some((paid) => paid.id === row.sourceOutcomeId),
       );
-      const withheld = player.history.statutoryTaxPayments!.filter((row) =>
-        liabilities.some((liability) => liability.id === row.liabilityId),
+      const withheld = (player.history.statutoryTaxPayments ?? []).filter(
+        (row) =>
+          liabilities.some((liability) => liability.id === row.liabilityId),
       );
-      expect(withheld.length).toBeGreaterThan(0);
+      const pricedWithholding = liabilities.filter(
+        (row) =>
+          row.collection === "withheld-from-pay" &&
+          row.liability !== null &&
+          row.liability.minorUnits > 0,
+      );
+      // Unpriced territory rules remain unpriced in both routes. An absent
+      // payment is not evidence that an unknown liability is a lawful zero.
+      if (pricedWithholding.length > 0)
+        expect(withheld.length).toBeGreaterThan(0);
+      else expect(withheld).toEqual([]);
       for (const payment of withheld) {
         expect(payment.amount.minorUnits).toBeGreaterThan(0);
         const transfer = player.history.resourceTransferOutcomes.find(
