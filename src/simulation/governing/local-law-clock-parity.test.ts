@@ -44,6 +44,7 @@ function thirtyDayLawOpening(): {
   readonly world: World;
   readonly governmentKey: string;
   readonly jurisdictionId: EntityId;
+  readonly memberSeats: ReturnType<typeof municipalSeats>;
 } {
   const place = requireLifePlace("0162328");
   const government = governmentUnitsForPlace(place.sourceGeoid!).find(
@@ -105,6 +106,7 @@ function thirtyDayLawOpening(): {
     world,
     governmentKey: government.id,
     jurisdictionId: place.context.jurisdiction.id,
+    memberSeats: members,
   };
 }
 
@@ -201,6 +203,7 @@ describe("automatic local law under thirty days of the World clock", () => {
       world: opening,
       governmentKey,
       jurisdictionId,
+      memberSeats,
     } = thirtyDayLawOpening();
     const handlers = createFutureTransitionHandlerRegistry([
       ...LOCAL_MEMBER_AGENDA_HANDLERS,
@@ -217,6 +220,16 @@ describe("automatic local law under thirty days of the World clock", () => {
 
     expect(jumped.currentDate).toBe(addDays(opening.currentDate, 30));
     expect(daily.currentDate).toBe(jumped.currentDate);
+    const actualMemberIds = memberSeats.map((seat) => seat.personId).sort();
+    expect(new Set(actualMemberIds).size).toBe(actualMemberIds.length);
+    const actualRoster = (world: World) =>
+      municipalSeats(world, governmentKey).filter(
+        (seat) => seat.role === "member" || seat.role === "presiding-member",
+      );
+    // This fixture has no seat turnover. Preserve the actual participation
+    // identities rather than treating a named chamber or a head count as seats.
+    expect(actualRoster(jumped)).toEqual(memberSeats);
+    expect(actualRoster(daily)).toEqual(memberSeats);
     const jumpEvidence = thirtyDayLawEvidence(
       jumped,
       governmentKey,
@@ -265,6 +278,14 @@ describe("automatic local law under thirty days of the World clock", () => {
         method: "member-decisions",
       }),
     );
+    for (const vote of jumpEvidence.votes.filter(
+      (entry) => entry.purpose === "floor-stage",
+    )) {
+      expect(vote.method).toBe("member-decisions");
+      expect(vote.dispositions.map((entry) => entry.personId).sort()).toEqual(
+        actualMemberIds,
+      );
+    }
     expect(
       jumpEvidence.votes.some((vote) =>
         vote.dispositions.some(
@@ -315,6 +336,12 @@ describe("automatic local law under thirty days of the World clock", () => {
         jurisdictionId,
       ),
     ).toEqual(dailyEvidence);
+    expect(actualRoster(deserializeWorld(serializeWorld(jumped)))).toEqual(
+      memberSeats,
+    );
+    expect(actualRoster(deserializeWorld(serializeWorld(daily)))).toEqual(
+      memberSeats,
+    );
     console.info(
       `[law-clock-30] ${opening.currentDate} to ${jumped.currentDate}; single jump ${jumpMs} ms; thirty daily steps ${dailyMs} ms; ${jumpEvidence.votes.length} saved votes`,
     );
