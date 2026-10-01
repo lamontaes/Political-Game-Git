@@ -17,3 +17,7 @@ a five-seat council on four-year terms, and the counting and recall rule the
 most states use. The candidate filing deadline is the national middle, 85
 days before the first vote. A new campaign committee's first filing is due
 in 10 days, the federal rule, wherever a state's own rule is not read.
+
+The government screen for a town nobody has researched now lists the
+council members actually seated there, the player among them, instead of
+showing the council as empty.

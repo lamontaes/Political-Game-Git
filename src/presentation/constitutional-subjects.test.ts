@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
@@ -50,6 +50,11 @@ const GRAND_ISLAND = "3119595";
 
 let openedGrandIsland:
   { readonly world: World; readonly governmentKey: string } | undefined;
+// Release the shared opening when this file is done, so a worker that runs
+// the next file does not keep it.
+afterAll(() => {
+  openedGrandIsland = undefined;
+});
 
 /**
  * One Grand Island life, opened once and shared by every case: a World is an

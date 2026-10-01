@@ -16,6 +16,7 @@ import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-g
 import { STATES } from "../simulation/state-reference";
 import { makeIsoDate } from "../simulation/dates";
 import { observerSetup, openObserverWorld } from "./observer-world";
+import type { EntityId } from "../simulation/types";
 import { resolveDueThrough } from "../../tests/fixtures/due-item-clock";
 
 /**
@@ -121,7 +122,7 @@ describe("Columbus, Ohio elects its council on its own", () => {
       // (85 days) before the first vote, so a candidate can move away before
       // election day: nothing yet takes a mover off the ballot (A118 missing
       // link), so a later move is accepted only when it is on the record.
-      const movedAfter = (personId: string, date: string) =>
+      const movedAfter = (personId: EntityId, date: string) =>
         world.history.events.some(
           (event) =>
             event.type === "migration.moved" &&

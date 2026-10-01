@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import { allGovernmentUnits } from "../../src/simulation/government-units";
 import {
   candidacyEligibility,
@@ -9,7 +9,6 @@ import {
   localGoverningBodiesForJurisdiction,
   localGoverningBodyIdentity,
   localGoverningBodyIdentityForOfficeKey,
-  localGovernmentOrganizationKey,
   searchLifePlaces,
   serializeWorld,
 } from "../../src/simulation";
@@ -65,6 +64,11 @@ const AMERICAN_FALLS = "1601900";
 const ELY = "2719142";
 
 const openedLives = new Map<string, { world: World; personId: EntityId }>();
+// Release the shared openings when this file is done, so a worker that runs
+// the next file does not keep them.
+afterAll(() => {
+  openedLives.clear();
+});
 
 /**
  * A grown adult's life opened in a place, built once per place and shared by
@@ -115,12 +119,22 @@ describe("a town's governing body, across the country", () => {
         unit.placeGeoid !== null && localGoverningBodyIdentity(unit) !== null,
     );
     expect(offered.length).toBe(OFFERED_TOWN_GOVERNMENTS);
-    // Counties and townships are not offered; a township joins to no place.
+    // A county's board is offered too, joined to no place of its own;
+    // townships and special districts are not offered.
     expect(
       units.filter(
         (unit) =>
           unit.unitType !== "municipality" &&
+          unit.unitType !== "county" &&
           localGoverningBodyIdentity(unit) !== null,
+      ),
+    ).toEqual([]);
+    expect(
+      units.filter(
+        (unit) =>
+          unit.unitType === "county" &&
+          localGoverningBodyIdentity(unit) !== null &&
+          unit.placeGeoid !== null,
       ),
     ).toEqual([]);
     // Every office key resolves back to its own unit, and its pack to itself,
@@ -139,15 +153,22 @@ describe("a town's governing body, across the country", () => {
   it("offers Bowling Green's body beside Kentucky's seats, and invents nothing about it", () => {
     const here = jurisdictionOf(BOWLING_GREEN);
     const bodies = localGoverningBodiesForJurisdiction(here);
-    // The body, and the mayor the city's voters elect at large.
-    expect(bodies.map((office) => office.seat)).toEqual([
-      "governing-body",
-      "chief-executive",
-    ]);
+    // The body, the mayor the city's voters elect at large, then the board
+    // of the county the city sits in.
+    expect(bodies.map((office) => [office.seat, office.unit.unitType])).toEqual(
+      [
+        ["governing-body", "municipality"],
+        ["chief-executive", "municipality"],
+        ["governing-body", "county"],
+      ],
+    );
     const offices = electiveOfficesForJurisdiction(here);
     // The state's offices are still reached; the town's are added, not swapped.
-    expect(offices.length).toBeGreaterThan(2);
-    const body = offices.at(-2)!;
+    expect(offices.length).toBeGreaterThan(3);
+    expect(offices.slice(-3).map((office) => office.officeKey)).toEqual(
+      bodies.map((office) => office.officeKey),
+    );
+    const body = offices.at(-3)!;
     expect(body.officeKey).toBe(bodies[0]!.officeKey);
     // The body the city's own government names, not a generic label.
     expect(body.chamberName).toBe("Bowling Green Board of Commissioners");
@@ -180,9 +201,25 @@ describe("a town's governing body, across the country", () => {
       );
       // The city's own body is on offer whatever the state above it has read;
       // a state legislature, where one is added, sits before it, never instead.
-      const local = offices.filter((office) =>
+      const all = offices.filter((office) =>
         localGoverningBodyIdentityForOfficeKey(office.officeKey),
       );
+      const local = all.filter(
+        (office) =>
+          localGoverningBodyIdentityForOfficeKey(office.officeKey)!.unit
+            .unitType === "municipality",
+      );
+      // The city's offices come before the county boards above it.
+      expect(all.slice(0, local.length)).toEqual(local);
+      expect(
+        all
+          .slice(local.length)
+          .map(
+            (office) =>
+              localGoverningBodyIdentityForOfficeKey(office.officeKey)!.unit
+                .unitType,
+          ),
+      ).toEqual(all.slice(local.length).map(() => "county"));
       // The body first, then the mayor where the town's voters elect one.
       expect(local[0]!.recordedBy.packName).toBe(government);
       expect(local[0]!.office.title).toBe("Council member");
@@ -191,7 +228,7 @@ describe("a town's governing body, across the country", () => {
           .slice(1)
           .map((office) => [office.recordedBy.packName, office.office.title]),
       ).toEqual(local.length > 1 ? [[government, "Mayor"]] : []);
-      expect(offices.slice(-local.length)).toEqual(local);
+      expect(offices.slice(-all.length)).toEqual(all);
     },
   );
 
@@ -283,14 +320,15 @@ const OFFERED_TOWN_GOVERNMENTS = 19_462;
 
 describe("standing for the town's governing body and taking the seat", () => {
   // Bowling Green's government has been read in depth; Paducah's and American
-  // Falls' have not, and are seated in the government the listing records.
+  // Falls' have not, and are seated in the town's ordinary council, keyed by
+  // the unit the listing records. Every town's council has a screen.
   it.each([
     ["Bowling Green, Kentucky", BOWLING_GREEN, true],
     ["Paducah, Kentucky", PADUCAH, false],
     ["American Falls, Idaho", AMERICAN_FALLS, false],
   ])(
     "%s: listed, filed, won, seated in the town's own government",
-    (_, placeKey, expectCityScreen) => {
+    (_, placeKey, readInDepth) => {
       const { world, personId } = adultLifeAt(placeKey);
       const home = world.people[personId]!.homeJurisdictionId;
       const body = localGoverningBodiesForJurisdiction(home)[0]!;
@@ -325,7 +363,7 @@ describe("standing for the town's governing body and taking the seat", () => {
       const seat = localGoverningSeatFor(decided, personId);
       expect(seat).not.toBeNull();
       expect(seat!.since).toBe(contest.electionDate);
-      expect(seat!.hasCityScreen).toBe(expectCityScreen);
+      expect(seat!.hasCityScreen).toBe(true);
       expect(
         decided.history.workRelationships.some(
           (relationship) =>
@@ -333,12 +371,12 @@ describe("standing for the town's governing body and taking the seat", () => {
             relationship.kind.startsWith("employment:legislative-"),
         ),
       ).toBe(false);
-      if (!expectCityScreen)
+      if (!readInDepth)
         expect(
           decided.history.organizations.find(
             (organization) => organization.id === seat!.organizationId,
           )?.stableKey,
-        ).toBe(localGovernmentOrganizationKey(body.unit));
+        ).toBe(`municipal-government:${body.unit.id}`);
 
       // A reloaded save keeps the seat and the campaign's authority.
       const reloaded: World = deserializeWorld(serializeWorld(decided));

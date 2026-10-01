@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
@@ -52,6 +52,11 @@ type OrdinaryStart = {
   readonly townId: EntityId;
 };
 const starts = new Map<string, OrdinaryStart>();
+// Release the shared openings when this file is done, so a worker that runs
+// the next file does not keep them.
+afterAll(() => {
+  starts.clear();
+});
 
 /**
  * One opened town per place and seed, shared by the cases that ask for it: a
