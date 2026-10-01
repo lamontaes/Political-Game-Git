@@ -2,6 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 import type * as StateExecutives from "../nationwide-world/state-executives";
 import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
+import { createWorld } from "../world";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
 import type { EntityId, World } from "../types";
@@ -47,8 +49,7 @@ import {
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 
-// A seated governor, for the tests that need one; the partial world here
-// records no executive office.
+// A controlled seated governor, for the decision tests that need one.
 const seated: { holders: StateExecutiveHolderRecord[] } = { holders: [] };
 vi.mock("../nationwide-world/state-executives", async (original) => {
   const actual = await original<typeof StateExecutives>();
@@ -63,9 +64,9 @@ vi.mock("../nationwide-world/state-executives", async (original) => {
 
 /*
  * Every government keeps a budget, and the three budget laws act on it. The
- * world here is partial, as in the place-outcome tests: the budget reads the
- * date, the policy catalog, the legislative history, the public accounts'
- * flows and the jurisdictions present, and no recorded economy.
+ * Canonical World construction supplies every history collection required by
+ * the actual readers. These isolated budget fixtures then supply controlled
+ * policy, law and payment inputs; they record no economy or natural enactment.
  */
 
 const BALANCED = "proposition_balanced" as EntityId;
@@ -101,18 +102,20 @@ function worldAt(
 ): World {
   const laws = options.laws ?? [];
   const places = (options.places ?? []).map((key) => lifePlaceByKey(key)!);
-  return {
-    id: "world_test" as EntityId,
-    ...(options.seed ? { seed: options.seed } : {}),
+  const base = createWorld({
+    seed: options.seed ?? "public-budgets-fixture",
     currentDate: makeIsoDate(currentDate),
-    jurisdictions: Object.fromEntries(
-      places.map((place) => [
-        place.context.jurisdiction.id,
-        place.context.jurisdiction,
-      ]),
-    ),
-    jurisdictionOrder: places.map((place) => place.context.jurisdiction.id),
+    jurisdictions: [
+      NATIONAL_ELECTION_JURISDICTION,
+      ...places.map((place) => place.context.jurisdiction),
+    ],
+    people: [],
+    lineage: "production",
+  });
+  return {
+    ...base,
     policyCatalog: {
+      ...base.policyCatalog,
       propositions: Object.fromEntries(
         Object.entries(QUESTIONS).map(([key, id]) => [
           id,
@@ -121,10 +124,7 @@ function worldAt(
       ),
     },
     history: {
-      organizations: [],
-      resourceFlows: [],
-      resourceTransferOutcomes: [],
-      futureDueItems: [],
+      ...base.history,
       legislativeMeasures: laws.map((law, at) => ({
         id: `measure_${at}` as EntityId,
         jurisdictionId: law.jurisdictionId,
@@ -276,7 +276,7 @@ describe("public budgets", () => {
     expect(next.startsOn).toBe("2026-07-01");
   });
 
-  it("a state opens exactly at its read figures in every world; a city's estimated share opens with a spread", () => {
+  it("a state opens exactly at its read figures in every world; a city's estimated share is the average without a draw", () => {
     const at = (seed: string) =>
       opened(worldAt("2026-01-05", { seed, places: ["1714000"] }))
         .publicBudgets!.governments;
@@ -286,9 +286,11 @@ describe("public budgets", () => {
       rows.find((row) => row.key === key)!.years[0]!.expectedRevenue;
     expect(line(first, "US-IL")).toEqual(line(second, "US-IL"));
     expect(line(first, "US-GU")).toEqual(line(second, "US-GU"));
-    expect(line(first, "place:1714000")).not.toEqual(
-      line(second, "place:1714000"),
-    );
+    expect(line(first, "place:1714000")).toEqual(line(second, "place:1714000"));
+    for (const rows of [first, second])
+      expect(
+        rows.find((row) => row.key === "place:1714000")!.openingNotes.join(" "),
+      ).toContain("ESTIMATED FROM AVERAGE");
   });
 
   it("D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown", () => {
@@ -701,6 +703,9 @@ describe("public budgets", () => {
         {
           id: "outcome_1" as EntityId,
           resourceFlowId: "flow_1" as EntityId,
+          periodStartsAt: makeIsoDate("2026-01-01"),
+          periodEndsAt: makeIsoDate("2026-01-31"),
+          occurredAt: makeIsoDate("2026-01-05"),
           status: "completed",
           transferredAmount: { minorUnits: 123_456, currency: "USD" },
         },
@@ -1213,7 +1218,9 @@ describe("public budgets", () => {
             principleId: restraint,
             formedAt: makeIsoDate("2000-01-01"),
             stance,
-            conviction: "strong",
+            // Explicit controlled conviction, rather than the obsolete label
+            // that leaves the continuous principle reader with no strength.
+            strength: 0.75,
           },
         ] as unknown as World["history"]["principles"],
       },
