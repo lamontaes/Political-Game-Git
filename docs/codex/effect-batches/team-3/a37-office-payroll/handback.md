@@ -51,3 +51,13 @@ The coordinator's published earned-pay vertical was received additively at `fee9
 The same eight office/town tests passed in 15.74 seconds against the newer coverage guard. Three strict roots again loaded 753 files with zero diagnostics. The exact receipt is `proof/vertical-manifest.json`. The coordinator's other test results remain inherited evidence. This renewal does not establish annual dispatch admission or American Samoa and New York/Oregon special-scope coverage.
 
 The local-economy worker wage creation and delegation hunks are now released. Their exact saved-work binding and monthly interval contract are with Audit before edits. Revenue and owner-draw hunks remain protected. Release checking found the inherited `ci-changed-tests-only.md` prose error. The zero-dice guard found no new lines and five stale removed-line entries; its baseline was not edited.
+
+## Creation-time worker binding
+
+Newly seated local-business wage flows now reference their actual newly saved work records. The existing seating plan supplies both stable keys. After the canonical batch saves the jobs, the creation adapter resolves only that new batch and verifies the worker and employer endpoints. It does not infer a job from a person's name, title or other employment. Existing general-basis flows are not migrated.
+
+The monthly settlement path is unchanged while Audit checks its interval and withholding contract. Revenue, owner draws, pay amounts, cadences and start dates remain unchanged. This binding creates no payment, liability or cash movement. It adds no legal rate or applicability default.
+
+Five native creation-binding cases passed in 14.46 seconds. They cover the same five sampled places, exact worker/employer joins, preserved other flows and dates, no financial writes, integrity, repeat and reload. Two strict roots loaded 752 files with zero diagnostics. The earlier callback-narrowing type error is preserved with its repair. The exact code checkpoint is `9e48f1ad041838dd28a7947cd81949bf561e79b8`; native execution used its two owned source changes on `55e57d68869f35fdb4029ec514835637a8aac058`. Source hashes and raw receipts are in `work-binding-proof/manifest.json`.
+
+The root's newer current-main office run failed before pay assertions in registration initialization. That is separate from the named earlier parity receipt and this creation-only proof. Root owns its repair. American Samoa's industry schedule and New York/Oregon regional applicability remain unbound. Metadata alone cannot authorize a universal rate there. The draft is not READY, and the CTO's main-based publication rule remains a receiver requirement for the composed vertical.
