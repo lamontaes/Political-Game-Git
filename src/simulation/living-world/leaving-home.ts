@@ -25,7 +25,7 @@ import type {
  * - whether their own pay carries a home of their own: the town's rent for
  *   one (HUD fair market rent for an efficiency, `town-rent.ts`) against
  *   their recorded pay, with HUD's 30 percent line where it starts to weigh
- *   against them; no pay of their own holds them at home;
+ *   against them; no pay of their own weighs for staying;
  * - a partner of their own outside the home;
  * - that staying where the rent is already paid is the easier thing;
  * - their own taste for risk.
@@ -49,12 +49,17 @@ export const UNRESEARCHED_LEAVING_HOME = {
   provenance: "unresearched-blanket-rule",
   /** Age at which age argues neither way, and the years to full strength. */
   ageFrom: 18,
-  ageYearsToFull: 12,
+  ageYearsToFull: 10,
   /** Staying where the rent is already paid. */
-  easierToStay: 0.5,
+  easierToStay: 0.35,
+  /**
+   * No pay of their own. Not decisive: a grown child with none may still
+   * leave with a partner or into a shared home.
+   */
+  noPay: 0.5,
   /** HUD's cost-burden line, and the share over it at full strength. */
   burdenLine: 0.3,
-  burdenToFull: 0.5,
+  burdenToFull: 0.7,
   /** A partner of their own, outside the home. */
   partner: 0.5,
   researchQuestions: ["why-young-adults-leave-home"],
@@ -113,7 +118,7 @@ export function leavingHomeConsiderations(
     rows.push([
       "no-pay",
       LEAVING_HOME_OPTIONS.stay,
-      1,
+      W.noPay,
       "they have no pay of their own",
       "high",
     ]);
@@ -125,7 +130,9 @@ export function leavingHomeConsiderations(
         LEAVING_HOME_OPTIONS.stay,
         clamp01((share - W.burdenLine) / W.burdenToFull),
         `a place of their own would take ${Math.round(share * 100)} percent of their pay`,
-        "high",
+        // Weighed with less certainty: a shared home costs less than one
+        // alone, and the record holds no roommate market.
+        "medium",
       ]);
     else
       rows.push([

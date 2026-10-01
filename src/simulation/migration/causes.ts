@@ -93,14 +93,16 @@ const CAUSE_WINDOW_DAYS = 365;
  * PLACEHOLDER strengths (research: `why-americans-move-causes-and-strengths`)
  * of a household formed in the last year, by what formed it. The Current
  * Population Survey's reasons for moving count "to establish own household"
- * and "change in marital status" among the family reasons; most such moves
- * stay in the county, so the strength stays below the other causes'.
+ * and "change in marital status" among the family reasons, and most such
+ * moves stay in the county. So leaving home or moving in together is a
+ * slight push that tips only somebody already near leaving, and a breakup a
+ * moderate one.
  */
 export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
-  [LEAVING_HOME_EVENT]: 0.35,
-  [TOWN_FAMILY_EVENTS.movedIn]: 0.35,
-  [TOWN_FAMILY_EVENTS.brokeUp]: 0.5,
-  [TOWN_FAMILY_EVENTS.divorced]: 0.5,
+  [LEAVING_HOME_EVENT]: 0.2,
+  [TOWN_FAMILY_EVENTS.movedIn]: 0.2,
+  [TOWN_FAMILY_EVENTS.brokeUp]: 0.3,
+  [TOWN_FAMILY_EVENTS.divorced]: 0.3,
 };
 
 const NEW_HOUSEHOLD_WORDS: Readonly<Record<string, string>> = {
