@@ -1,3 +1,4 @@
+import { considerClemencyAfterSentence } from "./clemency";
 import { addDays } from "../dates";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
@@ -822,8 +823,14 @@ export function advanceProsecutions(
       motivation,
       decidedBy: { personId: judgeId, role: "Judge" },
     });
+    const savedSentence = eventsFor(
+      next,
+      PROSECUTION_SENTENCED_EVENT,
+      referral,
+    ).at(-1)!;
     if (kind === "jail")
-      next = removeFromOffice(next, subjectId, next.history.events.at(-1)!);
+      next = removeFromOffice(next, subjectId, savedSentence);
+    next = considerClemencyAfterSentence(next, savedSentence.id);
   }
   return next;
 }
