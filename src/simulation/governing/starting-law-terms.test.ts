@@ -118,6 +118,20 @@ describe("canonical starting law numeric text", () => {
       readFinalEnactedLawTerm(world("2027-07-01"), law, request),
     ).toBeNull();
   });
+  it("uses the saved activity date for catch-up work and rejects future reads", () => {
+    expect(
+      readFinalEnactedLawTerm(world("2027-07-02"), law, {
+        ...request,
+        onDate: "2026-07-01" as LawInForce["operativeAt"],
+      })?.value,
+    ).toBe(1500);
+    expect(
+      readFinalEnactedLawTerm(world("2026-07-01"), law, {
+        ...request,
+        onDate: "2027-07-01" as LawInForce["operativeAt"],
+      }),
+    ).toBeNull();
+  });
   it("requires an exact question, term and unit", () => {
     for (const input of [
       { ...request, questionKey: "other" },
