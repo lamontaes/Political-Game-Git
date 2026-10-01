@@ -46,7 +46,7 @@ import {
   countySeatCatalog,
   resolveCountySeatBinding,
 } from "../districts/county-seat-catalog";
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { householdMembershipsAt } from "./life-queries";
 import { factsForPerson } from "./people";
@@ -145,7 +145,8 @@ function recordError(
       record.recordedAt > world.currentDate ||
       record.occupiedFrom > record.recordedAt ||
       (record.occupiedUntil !== null &&
-        record.occupiedUntil <= record.occupiedFrom)
+        (record.occupiedUntil <= record.occupiedFrom ||
+          record.occupiedUntil > record.recordedAt))
     )
       return "Invalid county home evidence identity or interval.";
     if (
@@ -215,9 +216,19 @@ function recordError(
       if (conflicting)
         return "An estimated home method cannot single out a member of the geographic cohort.";
     }
+    // Verify both ends of the actual occupancy interval from records already
+    // available when this evidence was recorded. An ended home may remain in
+    // history; it must not be treated as the current home.
     if (
       !homeExistsAt(world, record, {
-        asOfDate: record.recordedAt,
+        asOfDate: record.occupiedFrom,
+        historySequenceExclusive: record.sequence,
+      }) ||
+      !homeExistsAt(world, record, {
+        asOfDate:
+          record.occupiedUntil === null
+            ? record.recordedAt
+            : addDays(record.occupiedUntil, -1),
         historySequenceExclusive: record.sequence,
       })
     )
@@ -292,6 +303,12 @@ export function countyHomeDistrictEvidenceAt(
     }
   | { readonly kind: "unknown" | "ambiguous" } {
   checkCutoff(world, cutoff);
+  const resolved = resolveCountySeatBinding(
+    countySeatCatalog(),
+    binding,
+    cutoff.asOfDate,
+  );
+  if (resolved.kind === "refused") return { kind: "unknown" };
   const records = (world.history.countyHomeDistrictEvidence ?? []).filter(
     (row) =>
       row.personId === personId &&

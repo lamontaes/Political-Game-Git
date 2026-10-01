@@ -21,3 +21,15 @@ Add the array to the shared sequence and identity enumeration and call the expor
 ## Method
 
 The existing source-only temporary lane holds five named code overlays. Installed dependencies and pinned Git objects supply all other source. Shared checkout, index and 224 dirty entries were preserved. No helper review or human visual approval is claimed.
+
+## Future occupancy was accepted
+
+A controlled dwelling regression against published c20a935 showed that an occupancy end in the following year was accepted as recorded evidence. A separate controlled read accepted a binding with the wrong state. Both baseline assertions failed at those observed behaviors. Later assertions in those baseline cases were not reached.
+
+The writer now refuses future occupancy ends and verifies both ends of a completed interval from records already available when the evidence was recorded. A completed dwelling interval can remain in history after departure. The reader also resolves the full seat binding at its actual cutoff date.
+
+The two selected new cases passed in 29.92 seconds. They verify actual dwelling references, pre-occupancy refusal, future-end refusal, retention of a completed interval, refusal after its actual end, forged binding refusal and seat-source expiry. Fourteen other tests were not run in this focused check. The original two world history integration failures remain unresolved and were not rerun. No assertions or integration cases were removed.
+
+The module and its focused test passed lint. These changes preserve the evidence interface, initializer, shared type import and single EntityKind. Audit keeps the shared world hook. No home, district, voter fact or production catalog row was generated.
+
+The safeguard strict check used fifteen roots and loaded 845 files with zero diagnostics. Its baseline was published c20a935, which includes main 123f7dc. Two explicitly hashed owned overlays supplied the updated module and test. This is source and focused behavior evidence, not saved-home integration acceptance.

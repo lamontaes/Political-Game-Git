@@ -58,5 +58,62 @@
     "speed"
   ],
   "candidateOnly": true,
-  "activeCountyCatalogCount": 0
+  "activeCountyCatalogCount": 0,
+  "safeguards": {
+    "baseline": "c20a935cd96aaf74f5dc0932c02d28d58852e6be",
+    "main": "123f7dc77e80fb1d9abd78e34956f91afceb3e60",
+    "pendingOverlaySha256": {
+      "src/simulation/county-home-evidence.ts": "ffaf758dee1f850461cc60fd4600735080cd82f28d0e881263cd6694564a097d",
+      "src/simulation/county-home-evidence.test.ts": "6bca05285f4cfe97a7b4a76a465014b30d06994535358e95ff47ecf3324405c9"
+    },
+    "types": {
+      "head": "c20a935cd96aaf74f5dc0932c02d28d58852e6be",
+      "roots": [
+        "src/simulation/county-home-evidence.ts",
+        "src/simulation/county-home-evidence.test.ts",
+        "src/simulation/history.ts",
+        "src/districts/loudon-seat-candidate.ts",
+        "src/districts/county-seat-types.ts",
+        "src/districts/county-seat-catalog.ts",
+        "src/districts/county-seat-binding.test.ts",
+        "src/districts/types.ts",
+        "src/districts/query.ts",
+        "src/simulation/types.ts",
+        "src/simulation/district-residence.ts",
+        "src/simulation/world.ts",
+        "src/simulation/candidacy.ts",
+        "src/simulation/county-residence-binding.test.ts",
+        "src/presentation/campaign-projection.ts"
+      ],
+      "files": 845,
+      "diagnostics": 0,
+      "sourceMode": "pinned c20a Git objects plus two explicit owned overlays"
+    },
+    "before": [
+      {
+        "case": "future occupancy end",
+        "result": "FAILED expected refused, received recorded",
+        "durationSeconds": 34.83,
+        "laterAssertions": "NOT RUN"
+      },
+      {
+        "case": "forged binding wrong state",
+        "result": "FAILED expected unknown, received known",
+        "durationSeconds": 39.5,
+        "laterAssertions": "NOT RUN"
+      }
+    ],
+    "after": {
+      "selectedTests": 2,
+      "passed": 2,
+      "failed": 0,
+      "notSelected": 14,
+      "durationSeconds": 29.92,
+      "exitCode": 0
+    },
+    "worldIntegration": "NOT RERUN; original two failures await Audit exact global enumeration/validator hook",
+    "lint": "PASS module and test",
+    "interfaceUnchanged": true,
+    "noAssertionsRemoved": true
+  }
 }

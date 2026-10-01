@@ -1,3 +1,8 @@
+import {
+  createDwelling,
+  startDwellingOccupancy,
+  recordDwellingOccupancyState,
+} from "./resources";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as countyCatalog from "../districts/county-seat-catalog";
 import type {
@@ -180,6 +185,109 @@ describe("saved county home evidence", () => {
       expect(result.kind).toBe("refused");
       expect(result.world).toBe(world);
     }
+  });
+  it("retains actual dwelling occupancy intervals without claiming future occupancy", () => {
+    const { world, person, input, binding } = setup();
+    const provenance = {
+      kind: "authored",
+      note: "Controlled dwelling fixture.",
+    } as const;
+    let housed = createDwelling(world, {
+      stableKey: "controlled-dwelling",
+      establishedAt: "2026-09-01",
+      jurisdictionId: person.homeJurisdictionId,
+      locationLabel: "Controlled fixture home",
+      classification: "residential:ordinary-home",
+      provenance,
+    });
+    const dwelling = housed.history.dwellings.at(-1)!;
+    housed = startDwellingOccupancy(housed, {
+      stableKey: "controlled-occupancy",
+      dwellingId: dwelling.id,
+      occupant: { kind: "person", personId: person.id },
+      startedAt: "2026-09-01",
+      residenceRole: "primary",
+      kind: "residence:primary",
+      provenance,
+    });
+    const occupancy = housed.history.dwellingOccupancies.at(-1)!;
+    const occupancyState = housed.history.dwellingOccupancyStates.at(-1)!;
+    const actual: CountyHomeDistrictEvidenceInput = {
+      ...input,
+      home: {
+        kind: "dwelling-occupancy",
+        dwellingId: dwelling.id,
+        dwellingOccupancyId: occupancy.id,
+      },
+      occupiedFrom: makeIsoDate("2026-09-01"),
+    };
+    const active = recordCountyHomeDistrictEvidence(housed, actual);
+    expect(active.kind).toBe("recorded");
+    if (active.kind !== "recorded") throw new Error(active.reason);
+    expect(
+      countyHomeDistrictEvidenceAt(active.world, person.id, binding).kind,
+    ).toBe("known");
+    assertCountyHomeDistrictEvidenceIntegrity(active.world);
+    expect(
+      recordCountyHomeDistrictEvidence(housed, {
+        ...actual,
+        occupiedFrom: makeIsoDate("2026-08-01"),
+      }).kind,
+    ).toBe("refused");
+    expect(
+      recordCountyHomeDistrictEvidence(housed, {
+        ...actual,
+        occupiedUntil: makeIsoDate("2027-01-01"),
+      }).kind,
+    ).toBe("refused");
+    const ended = recordDwellingOccupancyState(housed, {
+      stableKey: "controlled-occupancy:end",
+      dwellingOccupancyId: occupancy.id,
+      effectiveAt: "2026-09-20",
+      status: "ended",
+      residenceRole: "primary",
+      kind: "residence:primary",
+      reason: "Controlled fixture departure.",
+      provenance,
+      supersedesStateId: occupancyState.id,
+    });
+    const closed = recordCountyHomeDistrictEvidence(ended, {
+      ...actual,
+      occupiedUntil: makeIsoDate("2026-09-20"),
+    });
+    expect(closed.kind).toBe("recorded");
+    if (closed.kind !== "recorded") throw new Error(closed.reason);
+    assertCountyHomeDistrictEvidenceIntegrity(closed.world);
+    expect(
+      countyHomeDistrictEvidenceAt(closed.world, person.id, binding).kind,
+    ).toBe("unknown");
+    expect(
+      recordCountyHomeDistrictEvidence(ended, {
+        ...actual,
+        occupiedUntil: makeIsoDate("2026-09-21"),
+      }).kind,
+    ).toBe("refused");
+  });
+  it("rejects forged or expired seat bindings in the home reader", () => {
+    const { world, person, binding, input, seat } = setup();
+    const result = recordCountyHomeDistrictEvidence(world, input);
+    if (result.kind !== "recorded") throw new Error(result.reason);
+    expect(
+      countyHomeDistrictEvidenceAt(result.world, person.id, {
+        ...binding,
+        stateUsps: "TN",
+      }).kind,
+    ).toBe("unknown");
+    vi.mocked(countyCatalog.countySeatCatalog).mockReturnValue([
+      { ...seat, source: { ...seat.source, effectiveUntil: "2026-10-02" } },
+    ]);
+    expect(
+      countyHomeDistrictEvidenceAt(
+        { ...result.world, currentDate: makeIsoDate("2026-10-02") },
+        person.id,
+        binding,
+      ).kind,
+    ).toBe("unknown");
   });
   it("keeps unknown old saves and contradictory records unresolved", () => {
     const { world, person, binding, input } = setup();
