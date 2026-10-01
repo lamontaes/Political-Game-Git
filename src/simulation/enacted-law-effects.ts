@@ -6,7 +6,7 @@ import {
 import { validateLawConsequences } from "./law-consequence-validation";
 import type {
   LawConsequenceContext,
-  LawConsequenceKindRegistration,
+  AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import {
@@ -845,7 +845,7 @@ function levelOfGovernment(
 /** Opening rules use the same dispatcher as later enacted rules. No enactment is invented. */
 export function applyStartingLawConsequences(
   world: World,
-  registrations: readonly LawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
   return applyLawConsequences(
     world,
@@ -867,7 +867,7 @@ export function applyStartingLawConsequences(
 export function applyLawConsequences(
   world: World,
   context: LawConsequenceContext,
-  registrations: readonly LawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
   const registry = createLawConsequenceRegistry(registrations);
   let next = world;
@@ -914,6 +914,52 @@ export function applyLawConsequences(
         if (
           input.effectiveAt > context.onDate ||
           input.law.operativeAt > context.onDate
+        )
+          continue;
+        next = registration.apply(next, input);
+      }
+    }
+  }
+  // Recorded rule clauses have no policy question. They still enter the same
+  // admitted kind, validator, and writer as catalog-backed consequences.
+  if (!context.questionKey && context.origin !== "in-force-at-start") {
+    for (const registration of registry.handlers.values()) {
+      if (!registration.resolveSavedRules) continue;
+      for (const input of registration.resolveSavedRules(next, context)) {
+        const { row, authority } = input;
+        const errors = validateLawConsequences([row], registry.capabilities);
+        if (errors.length) throw new Error(errors.join("; "));
+        if (
+          row.kind !== registration.kind ||
+          row.when !== context.activity ||
+          input.activityId !== context.activityId ||
+          !context.subjectIds.includes(input.subject.id) ||
+          !input.sourceRecordIds.includes(authority.ruleChangeProvisionId) ||
+          !input.sourceRecordIds.includes(authority.enactmentId) ||
+          !input.sourceRecordIds.includes(authority.measureId)
+        )
+          throw new Error(
+            `Consequence ${row.id}: inconsistent saved-rule authority`,
+          );
+        if (row.onward?.length)
+          throw new Error(
+            `Consequence ${row.id}: missing saved-parent onward dispatch capability`,
+          );
+        if (
+          input.value.type === "amount" &&
+          !registration.units.includes(input.value.unit)
+        )
+          throw new Error(
+            `Consequence ${row.id}: unsupported saved-rule amount unit`,
+          );
+        if (
+          context.governingLawId &&
+          authority.measureId !== context.governingLawId
+        )
+          continue;
+        if (
+          input.effectiveAt > context.onDate ||
+          authority.operativeAt > context.onDate
         )
           continue;
         next = registration.apply(next, input);
