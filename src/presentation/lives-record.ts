@@ -69,6 +69,7 @@ const CARE: Record<CaregivingClimate, string> = {
   inconsistent: "The adults who raised you were hard to predict.",
   "high-conflict": "There was a lot of conflict in the house.",
   harsh: "The adults who raised you were harsh.",
+  "not-recorded": "How the adults who raised you treated you is not on record.",
 };
 const EVENT: Record<UpbringingEvent, string> = {
   "parent-death": "A parent died while you were growing up.",
