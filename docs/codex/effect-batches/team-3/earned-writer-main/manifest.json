@@ -33,5 +33,19 @@
     "deliberatelyNotRun": 11,
     "durationSeconds": 20.67,
     "sourceBound": "Old qualified composition only; not evidence for this extraction"
+  },
+  "guardComposition": {
+    "receivedSource": "e8963da37341a0c5309a79728a2314ac80514f2f",
+    "testedSource": "88a4fedcada32fea8cefda10a9c9ae2839ec43c8",
+    "ownCodeBlobsUnchangedFrom": "88200273fa244b50b514e8d8faf50c01c00a9e85",
+    "scopedTypes": {
+      "roots": 2,
+      "loadedFiles": 699,
+      "diagnostics": 0,
+      "exitCode": 0,
+      "receipt": "scoped-types-after-guard.txt"
+    },
+    "lightQuery": "earned-law-pay-integrity imports governing/final-law-term-query; workPayCoverageAt is sole read-only pay-coverage-query export",
+    "runtime": "NOT RUN: pay registry slot still empty; runtime resolved/context completion forwarding not yet admitted; no coverage producer imported"
   }
 }

@@ -35,3 +35,9 @@ Current-main native payment is NOT RUN. In addition to the type diagnostics, mai
 ## Named example and next endpoint
 
 The preserved controlled Omaha Parker Clark case has 240 actual saved minutes, a $72 immutable contract, and a real authored saved hourly-rule floor of $20/hour: assessment and actual transfer $80. It retains all work terms, pays through the existing tax and employer-cash writers, and survives saved reopening/repeat. This main-based branch has not run that case. Next: receive only the curated main-based runtime/guard/validator contracts, then run that unchanged payment/producer evidence on this extraction and publish a narrow reviewed PR.
+
+## Additive guard receipt
+
+Received coordinator e8963da37341a0c5309a79728a2314ac80514f2f cleanly into tested composition 88a4fedcada32fea8cefda10a9c9ae2839ec43c8. All three owned code blobs remain identical to 88200273fa244b50b514e8d8faf50c01c00a9e85. The previously missing workplace and cutoff contracts are now present; focused types pass with 2 roots, 699 files and zero diagnostics. Earlier three-diagnostic receipt remains retained as predecessor evidence.
+
+The query is extracted once in `pay-coverage-query.ts`; no coverage producer was copied. The validator imports the lightweight final-term query, and resources now independently validates an assessment reference. These root-owned contracts remain WIP. The default pay registry slot is still empty, and runtime context/result completion forwarding is not admitted. No payment/producer native test or Audit validator rerun was launched on this composition. Audit's reported 13-case fixture pass belongs its own source and execution. Next endpoint remains curated runtime pay admission followed by the unchanged actual payment/producer proof.
