@@ -31,7 +31,7 @@ SIMULATED: existing prosecutors, defendants, jurors, and judges keep their curre
 
 Measured at production source `8fd006b910d7ef185bb383d2ac2a20ae0bb7ba26`: 20 of 20 tests passed in two changed court files, in 223.34 seconds. Five owned type roots have zero errors. ESLint, formatting, and whitespace checks passed. Five actual named stage receipts are saved in `a10-stage-renewal-proof.json`. These are controlled adapter and recovery proofs, not renewed shared-composer or opening/load acceptance. The historical b640 receipt is not credited to this source.
 
-Measured on current main `a721474cf` composition: the new five-place `prosecution-composer.test.ts` passed all five cases in 100.22 seconds. The real production composer dispatched the saved case stage. Reload/replay preserved events and due items. Two owned type roots have zero errors; lint, formatting, and diff checks passed. Unrelated saved commitments were canonically cancelled to isolate this case path. Exact source blobs and five named receipts are in `a10-composer-proof.json`. Whole-suite, browser, year-speed, and final-main checks were not run.
+Measured on current main `a721474cf` composition: the new five-place `prosecution-composer.test.ts` passed all five cases in 100.22 seconds. The real production composer dispatched the saved case stage. Reload/replay preserved events and due items. Two owned type roots have zero errors; lint, formatting, and diff checks passed. Unrelated saved commitments were canonically canceled to isolate this case path. Exact source blobs and five named receipts are in `a10-composer-proof.json`. Whole-suite, browser, year-speed, and final-main checks were not run.
 
 ## 7. Worked example
 
