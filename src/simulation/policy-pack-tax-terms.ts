@@ -88,7 +88,7 @@ export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
           lag: { days: 0, sourceIds: [] },
           onRepeal: "preserve-completed" as const,
           evidence: {
-            sourceIds: [],
+            sourceIds: ["src/simulation/tax-policy.ts", "src/fiscal-authority/tax-powers.generated.json"],
             population: "The actual payer of a saved taxable occurrence.",
             scope: "Only an operative law with supported saved taxing authority and exact adopted terms.",
             why: "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
