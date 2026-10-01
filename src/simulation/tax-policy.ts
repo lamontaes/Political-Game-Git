@@ -574,6 +574,136 @@ export function recordTaxBase(
   return result;
 }
 
+/** Actual paycheck lineage, before choosing any law, base key or tax rate.
+ * A transfer is not an occurrence event. Reading it never creates that event,
+ * a TaxBase, a liability or a collection, including for catch-up pay.
+ */
+export function recordedPaycheckTaxInput(world: World, outcomeId: EntityId) {
+  const unavailable = (reason: string) => ({
+    kind: "unavailable" as const,
+    reason,
+  });
+  const outcome = recordById(world.history.resourceTransferOutcomes, outcomeId);
+  const flow = outcome
+    ? recordById(world.history.resourceFlows, outcome.resourceFlowId)
+    : undefined;
+  const work =
+    flow?.basisReference.kind === "work"
+      ? recordById(
+          world.history.workRelationships,
+          flow.basisReference.workRelationshipId,
+        )
+      : undefined;
+  if (
+    !outcome ||
+    !flow ||
+    !work ||
+    flow.source.kind !== "organization" ||
+    flow.recipient.kind !== "person" ||
+    work.organizationId !== flow.source.organizationId ||
+    work.personId !== flow.recipient.personId ||
+    !world.people[work.personId] ||
+    flow.sequence >= outcome.sequence ||
+    work.sequence >= outcome.sequence ||
+    outcome.occurredAt > world.currentDate ||
+    (outcome.status !== "completed" && outcome.status !== "partial") ||
+    outcome.transferredAmount.minorUnits <= 0
+  )
+    return unavailable("No saved positive payment to its actual worker.");
+  const liabilities = recordsByStringField(
+    world.history.statutoryTaxLiabilities ?? [],
+    "sourceOutcomeId",
+    outcome.id,
+  ).filter(
+    (row) =>
+      row.occurredAt === outcome.occurredAt &&
+      row.sequence > outcome.sequence &&
+      canonicalJson(row.wages) === canonicalJson(outcome.transferredAmount) &&
+      ((row.payer.kind === "person" && row.payer.personId === work.personId) ||
+        (row.payer.kind === "organization" &&
+          row.payer.organizationId === work.organizationId)),
+  );
+  const payments = liabilities.flatMap((row) =>
+    recordsByStringField(
+      world.history.statutoryTaxPayments ?? [],
+      "liabilityId",
+      row.id,
+    ).filter((payment) => {
+      const transfer = recordById(
+        world.history.resourceTransferOutcomes,
+        payment.resourceOutcomeId,
+      );
+      return (
+        transfer &&
+        (transfer.status === "completed" || transfer.status === "partial") &&
+        transfer.transferredAmount.minorUnits > 0 &&
+        canonicalJson(transfer.transferredAmount) ===
+          canonicalJson(payment.amount)
+      );
+    }),
+  );
+  return {
+    kind: "recorded" as const,
+    outcomeId: outcome.id,
+    resourceFlowId: flow.id,
+    workRelationshipId: work.id,
+    personId: work.personId,
+    organizationId: flow.source.organizationId,
+    occurredAt: outcome.occurredAt,
+    amount: outcome.transferredAmount,
+    statutoryLiabilityIds: liabilities.map((row) => row.id),
+    statutoryPaymentIds: payments.map((row) => row.id),
+    statutoryCollections: payments.map((row) => ({
+      paymentId: row.id,
+      liabilityId: row.liabilityId,
+      resourceOutcomeId: row.resourceOutcomeId,
+      amount: row.amount,
+    })),
+  };
+}
+
+/** Reconciles the existing wage-income liability without collecting it again.
+ * The source event and wage TaxTerms admission are separate missing contracts;
+ * neither an outcome ID nor a differently labeled excise proposal supplies them.
+ */
+export function preparePaycheckTaxAssessment(
+  world: World,
+  outcomeId: EntityId,
+  authorityKey: string,
+) {
+  const input = recordedPaycheckTaxInput(world, outcomeId);
+  if (input.kind === "unavailable") return input;
+  const incomeLiability = input.statutoryLiabilityIds
+    .map((id) => recordById(world.history.statutoryTaxLiabilities ?? [], id)!)
+    .find(
+      (row) =>
+        row.authorityKey === authorityKey &&
+        row.payer.kind === "person" &&
+        row.payer.personId === input.personId &&
+        row.taxKey === `${authorityKey.toLowerCase()}:wage-income-tax`,
+    );
+  if (incomeLiability) {
+    return {
+      kind: "existing-wage-liability" as const,
+      input,
+      liabilityId: incomeLiability.id,
+      status: incomeLiability.status,
+      liability: incomeLiability.liability,
+      paymentIds: input.statutoryCollections
+        .filter((row) => row.liabilityId === incomeLiability.id)
+        .map((row) => row.paymentId),
+    };
+  }
+  return {
+    kind: "unsupported" as const,
+    input,
+    reason:
+      input.occurredAt !== world.currentDate
+        ? "Catch-up payment has no admitted historical occurrence/base contract; no event is backdated."
+        : "No admitted wage TaxTerms and matching canonical occurrence-event binding; no base, assessment or second withholding is created.",
+  };
+}
+
 /** Freezes the policy effective when the taxable occurrence happened. Later
  * policy changes cannot reprice an earlier base or recollect it under a new id.
  */
