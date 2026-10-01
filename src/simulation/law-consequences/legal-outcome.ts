@@ -4,15 +4,19 @@ import {
   readFinalEnactedLawCategories,
   type FinalEnactedLawTerm,
 } from "../governing/automatic-legislation";
-import {
-  lawEffectStamp,
-  type LawEffectStampedRecord,
-} from "../law-effect-stamp";
+import { isLawEffectStamp, lawEffectStamp } from "../law-effect-stamp";
+import { appendedList } from "../history-index";
+import { createStableId } from "../ids";
 import type {
   LawConsequenceKindRegistration,
   LawConsequenceRow,
 } from "../law-consequence-types";
-import type { EntityId, IsoDate, World } from "../types";
+import type {
+  EntityId,
+  IsoDate,
+  LegalOutcomeConsequenceRecord,
+  World,
+} from "../types";
 import type { CourtCase } from "../justice/court-reasoning";
 import {
   PROSECUTION_SENTENCED_EVENT,
@@ -196,26 +200,18 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
       resolved.law.operativeAt > resolved.effectiveAt
     )
       return world;
-    const index = world.history.events.findIndex(
+    const event = world.history.events.find(
       (entry) => entry.id === resolved.activityId,
     );
-    const event = world.history.events[index] as
-      | ((typeof world.history.events)[number] & LawEffectStampedRecord)
-      | undefined;
     if (
       !event ||
       event.type !== PROSECUTION_SENTENCED_EVENT ||
+      event.jurisdictionId !== resolved.jurisdictionId ||
       event.occurredAt !== resolved.effectiveAt ||
       !event.participants.some(
         (entry) =>
           entry.role === "focus:defendant" &&
           entry.personId === resolved.subject.id,
-      )
-    )
-      return world;
-    if (
-      event.lawEffectStamps?.some(
-        (stamp) => stamp.questionKey === resolved.questionKey,
       )
     )
       return world;
@@ -233,11 +229,89 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
       sourceRecordIds: resolved.sourceRecordIds,
     });
     if (!stamp) return world;
-    const events = world.history.events.slice();
-    events[index] = {
-      ...event,
-      lawEffectStamps: [...(event.lawEffectStamps ?? []), stamp],
+    const stableKey = `legal-outcome/v1:${JSON.stringify([
+      event.id,
+      resolved.subject.id,
+      resolved.row.id,
+      resolved.questionKey,
+      resolved.law.measureId,
+    ])}`;
+    const prior = world.history.legalOutcomeConsequences ?? [];
+    const existing = prior.find((record) => record.stableKey === stableKey);
+    if (existing) {
+      if (existing.minimumMonths !== resolved.value.value)
+        throw new Error("Conflicting minimum for the same saved sentence.");
+      return world;
+    }
+    const record: LegalOutcomeConsequenceRecord = {
+      id: createStableId("decision", `${world.id}:${stableKey}`),
+      stableKey,
+      sequence: world.history.nextSequence,
+      recordedAt: world.currentDate,
+      sentenceEventId: event.id,
+      subjectPersonId: resolved.subject.id,
+      jurisdictionId: resolved.jurisdictionId,
+      appliedAt: event.occurredAt,
+      effectKind: "minimum-custody-months",
+      minimumMonths: resolved.value.value,
+      sourceRecordIds: [...resolved.sourceRecordIds],
+      lawEffectStamps: [stamp],
     };
-    return { ...world, history: { ...world.history, events } };
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + 1,
+        legalOutcomeConsequences: appendedList(prior, [record]),
+      },
+    };
   },
 };
+
+/** Shared world integrity can call this without creating or changing a sentence. */
+export function assertLegalOutcomeConsequenceIntegrity(world: World): void {
+  const keys = new Set<string>();
+  const ids = new Set<EntityId>();
+  for (const record of world.history.legalOutcomeConsequences ?? []) {
+    const event = world.history.events.find(
+      (entry) => entry.id === record.sentenceEventId,
+    );
+    const stamp = record.lawEffectStamps?.[0];
+    const months = Number(
+      event?.tags
+        .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
+        ?.slice(SENTENCE_MONTHS_TAG.length),
+    );
+    if (
+      keys.has(record.stableKey) ||
+      ids.has(record.id) ||
+      !Number.isSafeInteger(record.sequence) ||
+      record.sequence >= world.history.nextSequence ||
+      !Number.isSafeInteger(record.minimumMonths) ||
+      record.minimumMonths < 0 ||
+      !event ||
+      event.type !== PROSECUTION_SENTENCED_EVENT ||
+      event.sequence >= record.sequence ||
+      event.jurisdictionId !== record.jurisdictionId ||
+      event.occurredAt !== record.appliedAt ||
+      record.appliedAt > record.recordedAt ||
+      record.recordedAt > world.currentDate ||
+      !event.participants.some(
+        (p) =>
+          p.role === "focus:defendant" && p.personId === record.subjectPersonId,
+      ) ||
+      !Number.isFinite(months) ||
+      months < record.minimumMonths ||
+      record.lawEffectStamps?.length !== 1 ||
+      !isLawEffectStamp(stamp) ||
+      stamp.appliedAt !== record.appliedAt ||
+      stamp.jurisdictionId !== record.jurisdictionId ||
+      JSON.stringify(stamp.sourceRecordIds) !==
+        JSON.stringify(record.sourceRecordIds) ||
+      !record.sourceRecordIds.includes(event.id)
+    )
+      throw new Error("Invalid saved legal-outcome consequence.");
+    keys.add(record.stableKey);
+    ids.add(record.id);
+  }
+}

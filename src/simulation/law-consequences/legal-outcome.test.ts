@@ -61,6 +61,7 @@ import {
   custodyFloorAt,
   MINIMUM_CUSTODY_QUESTION,
   legalOutcomeRegistration,
+  assertLegalOutcomeConsequenceIntegrity,
   minimumCustodyRow,
 } from "./legal-outcome";
 
@@ -314,7 +315,13 @@ describe("recorded floors reach saved sentences", () => {
       );
       expect(resolved).toHaveLength(1);
       const applied = legalOutcomeRegistration.apply(sentenced, resolved[0]!);
+      expect(applied.history.events).toBe(sentenced.history.events);
+      expect(applied.history.nextSequence).toBe(
+        sentenced.history.nextSequence + 1,
+      );
+      assertLegalOutcomeConsequenceIntegrity(applied);
       const reloaded = deserializeWorld(serializeWorld(applied));
+      assertLegalOutcomeConsequenceIntegrity(reloaded);
       expect(legalOutcomeRegistration.apply(reloaded, resolved[0]!)).toBe(
         reloaded,
       );
@@ -325,7 +332,14 @@ describe("recorded floors reach saved sentences", () => {
         (entry) => entry.id === event!.id,
       )!;
       expect(saved.summary).toContain("120 months");
-      expect(saved).toHaveProperty(
+      expect(saved).toEqual(event);
+      expect(saved).not.toHaveProperty("lawEffectStamps");
+      const consequence = reloaded.history.legalOutcomeConsequences!.find(
+        (record) => record.sentenceEventId === event!.id,
+      )!;
+      expect(consequence.subjectPersonId).toBe(personId);
+      expect(consequence.minimumMonths).toBe(120);
+      expect(consequence).toHaveProperty(
         "lawEffectStamps.0.governingLawKey",
         measured.id,
       );
@@ -338,8 +352,8 @@ describe("recorded floors reach saved sentences", () => {
         months: 120,
         measureId: measured.id,
         summary: saved.summary,
-        stamps: (saved as typeof saved & { lawEffectStamps?: unknown[] })
-          .lawEffectStamps,
+        consequenceId: consequence.id,
+        stamps: consequence.lawEffectStamps,
       });
     },
     120_000,
