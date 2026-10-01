@@ -1103,7 +1103,7 @@ function privateBeliefNode(record: PrivateBeliefRecord): TraceNode {
       ...formation.unrecordedLinks,
       ...supersedes.unrecordedLinks,
     ],
-    developmentSummary: `private-belief subject=${record.subject?.key ?? record.propositionId} option=${record.optionKey ?? record.position} conviction=${record.conviction} salience=${record.salience} ${formation.note}`,
+    developmentSummary: `private-belief subject=${record.subject?.kind === "official" ? `official:${record.subject.personId}` : (record.subject?.key ?? record.propositionId)} option=${record.optionKey ?? record.position} conviction=${record.conviction} salience=${record.salience} ${formation.note}`,
     recordText: record.rationale,
   });
 }
