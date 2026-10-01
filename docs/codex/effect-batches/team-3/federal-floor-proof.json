@@ -1,0 +1,103 @@
+{
+  "productionHead": "2d378c4a25e1fa42cd5e04b91a740305bab180dd",
+  "branch": "codex/team-3-m2-pay-kind",
+  "pr": 1367,
+  "canonicalDataHeads": [
+    "2db530d4decc167ef6857ddb9b0e96a1b540b64b",
+    "905cb5fbb0011563c9aab189d870de8b81aff02b"
+  ],
+  "native": {
+    "passed": 36,
+    "failed": 0,
+    "files": 5,
+    "seconds": 273.87,
+    "exit": 0,
+    "raw": "federal-floor-native-r9.txt",
+    "sha256": "4be21ac3214ba849561095d7fd6fc3dd65833b7af2e4884c0cad5707febedbd4"
+  },
+  "types": {
+    "scopedRoots": 12,
+    "diagnostics": 0
+  },
+  "static": {
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "whitespace": "PASS",
+    "release": "PASS after documentation-only ed18f8207",
+    "zeroDice": {
+      "exit": 1,
+      "new": 0,
+      "inheritedGone": 5
+    }
+  },
+  "sampleSeed": "pay-kind-five-places",
+  "payContextDate": "2026-01-05",
+  "namedPay": [
+    {
+      "place": "1150000",
+      "name": "Oliver Stevens",
+      "question": "state",
+      "grossMinor": 71800
+    },
+    {
+      "place": "2836000",
+      "name": "Melissa Santiago",
+      "question": "federal",
+      "grossMinor": 29000
+    },
+    {
+      "place": "5363000",
+      "name": "Ronald Spencer",
+      "question": "state",
+      "grossMinor": 68520
+    },
+    {
+      "place": "2938000",
+      "name": "Brian Roberson",
+      "question": "state",
+      "grossMinor": 60000
+    },
+    {
+      "place": "3451000",
+      "name": "Anna Robbins",
+      "question": "state",
+      "grossMinor": 63680
+    }
+  ],
+  "nullWorkplace": {
+    "name": "Phoebe Schmidt",
+    "workId": "work-relationship_27b5f72d746eb9a8",
+    "jurisdictionId": null,
+    "floorMinorPerHour": 725,
+    "grossMinor": 30813,
+    "question": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+    "lawSource": "starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+    "proof": "controlled compensation and period fixture on an actual saved Press job"
+  },
+  "otherNamedPay": {
+    "OhioHeatherSalasGrossMinor": 60000,
+    "AlaskaErinMcClureGrossMinor": [52000, 52000, 56000]
+  },
+  "supersededEarlierReceipt": {
+    "log": "/workspace/scratch/team3-federal-null-coverage-r8.log",
+    "passed": 15,
+    "seconds": 117.06,
+    "scope": "earlier misplaced US state-question data; not final federal applicability acceptance",
+    "typeDiagnostics": 1
+  },
+  "notRun": [
+    "Audit terminal opening composition",
+    "ordinary clock payroll",
+    "all-56 actual pay",
+    "current-main composition",
+    "browser",
+    "whole suite",
+    "year-speed"
+  ],
+  "preservedUnresolved": {
+    "fullClockTimeouts": 5,
+    "seconds": 392.47,
+    "source": "2b4b3794f8d0db0e816df2ae8e30a6fbe9356855",
+    "controlledProofReplacesClock": false
+  }
+}

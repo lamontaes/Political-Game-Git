@@ -1,0 +1,171 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay.test.ts > pay kind in 1150000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '1150000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_7691c6e3ae48f824',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1795,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:1150000","placeKey":"1150000","name":"Oliver Stevens","startingLaw":"starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":71800}
+
+stdout | src/simulation/law-consequences/pay.test.ts > pay kind in 2836000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2836000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_0206095076b1bcc4',
+  questionKey: 'us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  termKey: 'floor',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  finalTerm: {
+    value: 725,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:2836000","placeKey":"2836000","name":"Melissa Santiago","startingLaw":"starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage","grossMinor":29000}
+
+ ✓ src/simulation/law-consequences/pay.test.ts > pay kind in 1150000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 19657ms
+stdout | src/simulation/law-consequences/pay.test.ts > pay kind in 5363000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '5363000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_aa290714a3bed098',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1713,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:5363000","placeKey":"5363000","name":"Ronald Spencer","startingLaw":"starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":68520}
+
+ ✓ src/simulation/law-consequences/pay.test.ts > pay kind in 2836000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 19094ms
+stdout | src/simulation/law-consequences/pay.test.ts > pay kind in 2938000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2938000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_365300a02261dccb',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1500,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:2938000","placeKey":"2938000","name":"Brian Roberson","startingLaw":"starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":60000}
+
+ ✓ src/simulation/law-consequences/pay.test.ts > pay kind in 5363000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 16730ms
+stdout | src/simulation/law-consequences/pay.test.ts > pay kind in 3451000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '3451000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_5ac4feaee63d50c6',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1592,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:3451000","placeKey":"3451000","name":"Anna Robbins","startingLaw":"starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":63680}
+
+ ✓ src/simulation/law-consequences/pay.test.ts > pay kind in 2938000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 15163ms
+ ✓ src/simulation/law-consequences/pay.test.ts > pay kind in 3451000 > uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 15578ms
+ ✓ src/simulation/pay-coverage.test.ts > records singular and batch actual hire coverage after the committed work, role and status, with reload parity 10914ms
+stdout | src/simulation/pay-coverage.test.ts > uses saved work-time or dated employer locations, and applies only the canonical federal floor to an absent press workplace
+PAY_NULL_WORKPLACE_FEDERAL {
+  person: 'Phoebe Schmidt',
+  workId: 'work-relationship_27b5f72d746eb9a8',
+  workplace: null,
+  governingLawKey: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  hourlyMinor: 725,
+  grossMinor: 30813,
+  controlledPayroll: true
+}
+
+ ✓ src/simulation/pay-coverage.test.ts > records an expected job only when its actual saved status becomes active, at a controlled date 6387ms
+ ✓ src/simulation/pay-coverage.test.ts > uses saved work-time or dated employer locations, and applies only the canonical federal floor to an absent press workplace 20776ms
+ ✓ src/simulation/pay-coverage.test.ts > records the standard default from actual dated job facts once in 1150000, preserving old saves and repeat 5738ms
+ ✓ src/simulation/pay-coverage.test.ts > records the standard default from actual dated job facts once in 2836000, preserving old saves and repeat 5736ms
+ ✓ src/simulation/pay-coverage.test.ts > records the standard default from actual dated job facts once in 5363000, preserving old saves and repeat 6083ms
+ ✓ src/simulation/pay-coverage.test.ts > records the standard default from actual dated job facts once in 2938000, preserving old saves and repeat 5756ms
+ ✓ src/simulation/pay-coverage.test.ts > records the standard default from actual dated job facts once in 3451000, preserving old saves and repeat 5554ms
+ ✓ src/simulation/pay-coverage.test.ts > initializes every actual active paid opening job once in 1150000 6057ms
+ ✓ src/simulation/pay-coverage.test.ts > initializes every actual active paid opening job once in 2836000 6523ms
+ ✓ src/simulation/pay-coverage.test.ts > initializes every actual active paid opening job once in 5363000 5880ms
+ ✓ src/simulation/pay-coverage.test.ts > initializes every actual active paid opening job once in 2938000 6108ms
+ ✓ src/simulation/pay-coverage.test.ts > initializes every actual active paid opening job once in 3451000 6012ms
+ ✓ src/simulation/pay-coverage.test.ts > selects only a canonical saved-classification scope and sends the actual determination into the pay binding 4486ms
+ ✓ src/simulation/pay-coverage.test.ts > counts actual paid people at the historical employer, without double-counting a second job or admitting future hires 2219ms
+stdout | src/simulation/law-consequences/pay-enacted-terms.test.ts > passes a typed Ohio wage law through schedule:town-weekly prospective pay, named-law stub, repeal and immutable saved payment
+{"name":"Heather Salas","seed":"setup-v3:ba9811b2d39f09c6:{\"v\":3,\"seed\":\"pay-final-target:1500\",\"placeKey\":\"3918000\",\"startAge\":30,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}","placeKey":"3918000","law":"legislative-measure_640f8c8b82308c68","grossMinor":60000}
+
+stdout | src/simulation/law-consequences/pay-enacted-terms.test.ts > passes a typed Ohio wage law through schedule:weekly prospective pay, named-law stub, repeal and immutable saved payment
+{"name":"Heather Salas","seed":"setup-v3:ba9811b2d39f09c6:{\"v\":3,\"seed\":\"pay-final-target:1500\",\"placeKey\":\"3918000\",\"startAge\":30,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}","placeKey":"3918000","law":"legislative-measure_640f8c8b82308c68","grossMinor":60000}
+
+ ✓ src/simulation/law-consequences/pay-enacted-terms.test.ts > passes a typed Ohio wage law through schedule:town-weekly prospective pay, named-law stub, repeal and immutable saved payment 10717ms
+ ✓ src/simulation/law-consequences/pay-enacted-terms.test.ts > passes a typed Ohio wage law through schedule:weekly prospective pay, named-law stub, repeal and immutable saved payment 10366ms
+ ✓ src/simulation/law-consequences/pay-enacted-terms.test.ts > refuses an enacted yes with no final adopted target instead of inventing a wage 1793ms
+ ✓ src/simulation/law-consequences/pay-enacted-terms.test.ts > keeps the job-market flow's original weekly boundary when applying a floor 1859ms
+ ✓ src/simulation/law-consequences/pay-enacted-terms.test.ts > uses the employer's dated profile for catch-up coverage and preserves its source through Save/Continue 14625ms
+ ✓ src/simulation/law-consequences/pay-starting-phases.test.ts > reads 'HI''s sourced January phase without backdating its rate 1866ms
+stdout | src/simulation/law-consequences/pay-starting-phases.test.ts > pays Alaska's actual dated starting floors and retains the earlier floor for catch-up work
+{"name":"Erin McClure","placeKey":"0203000","seed":"setup-v3:3115a7256810d636:{\"v\":3,\"seed\":\"pay-starting-phases:alaska\",\"placeKey\":\"0203000\",\"startAge\":30,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}","hourlyMinor":[1300,1300,1400],"grossMinor":[52000,52000,56000]}
+
+ ✓ src/simulation/law-consequences/pay-starting-phases.test.ts > reads 'CA''s sourced January phase without backdating its rate 1587ms
+ ✓ src/simulation/law-consequences/pay-starting-phases.test.ts > pays Alaska's actual dated starting floors and retains the earlier floor for catch-up work 20634ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > returns final terms with the real starting-row source and no fabricated provision 2ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > does not backdate later numeric text 0ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > does not borrow later text for a prior answer 0ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > reads a scheduled phase only from its own date and refuses stale authority 0ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > uses the saved activity date for catch-up work and rejects future reads 0ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > requires an exact question, term and unit 0ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > refuses contradictory terms rather than choosing one 0ms
+ ✓ src/simulation/governing/starting-law-terms.test.ts > canonical starting law numeric text > requires the actual canonical answer 0ms
+
+ Test Files  5 passed (5)
+      Tests  36 passed (36)
+   Start at  05:40:07
+   Duration  273.87s (transform 9.54s, setup 36ms, import 19.38s, tests 253.91s, environment 2ms)
+
