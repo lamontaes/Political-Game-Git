@@ -267,12 +267,6 @@ import { moneyText } from "./money-text";
 export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
   "campaign.candidate-support-share";
 
-/**
- * What the campaign's field memo claims about its own precision. Four points is
- * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgment.
- */
-
 export interface CampaignActivityPlan {
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
