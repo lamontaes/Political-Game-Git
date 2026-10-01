@@ -1100,6 +1100,7 @@ function npcAnswers(world: World, offerEventId: EntityId): World {
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const answer =
     evaluation.selectedOptionKey === "accept" ? "accept" : "decline";
