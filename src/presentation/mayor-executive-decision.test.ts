@@ -2,7 +2,7 @@
 import { writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
-import { createScenarioWorld } from "../simulation/demo";
+import { createProductionPolicyCatalog } from "../simulation/production-catalog";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -48,6 +48,8 @@ import {
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
 import {
+  createWorld,
+  createWorldId,
   recordWorldEvent,
   writeWithWorldIntegrityOnce,
 } from "../simulation/world";
@@ -55,7 +57,7 @@ import {
   playerRequiredWorkIds,
   releasePlayerRequiredWork,
 } from "../simulation/time-work";
-import { personName } from "../simulation/people";
+import { createLightweightPerson, personName } from "../simulation/people";
 import type { World, IsoDate, EntityId } from "../simulation/types";
 
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
@@ -115,11 +117,26 @@ function isolateAt(world: World, date: IsoDate, except?: EntityId): World {
 function presentedAct(seed: string, openingPlaceKey = "1150000") {
   const place = requireLifePlace("1150000");
   // This is an executive mechanism fixture, not a generated life journey.
-  // Use the existing canonical small-world primitive; the actual mayor,
+  // Use existing canonical world/person primitives and the production policy
+  // catalog, not the demo's synthetic questions. The actual mayor,
   // council seats, terms and actions still come from their production writers.
+  const context = requireLifePlace(openingPlaceKey).context;
   let world = profile("canonical-small-world-opening", () =>
-    createScenarioWorld(seed, requireLifePlace(openingPlaceKey).context, {
-      peopleCount: 4,
+    createWorld({
+      seed,
+      currentDate: context.initialMoment.date,
+      currentMoment: context.initialMoment,
+      jurisdictions: [context.jurisdiction],
+      people: Array.from({ length: 4 }, (_, index) =>
+        createLightweightPerson({
+          worldId: createWorldId(seed),
+          worldSeed: seed,
+          index,
+          currentDate: context.initialMoment.date,
+          homeJurisdictionId: context.jurisdiction.id,
+        }),
+      ),
+      policyCatalog: createProductionPolicyCatalog(),
     }),
   );
   // Materialize the same real D.C. government in each starting world through
