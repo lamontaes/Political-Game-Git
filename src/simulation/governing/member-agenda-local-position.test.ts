@@ -10,10 +10,7 @@ import { createFormationContext, recordPrinciples } from "../politics";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../nationwide-world/state-executive-candidacy-packs";
 import { automaticLawMappingFor } from "./automatic-legislation";
 import { mayAnswerQuestion } from "./question-authority";
-import {
-  fileLocalMemberAgendaBill,
-  fileMemberAgendaBills,
-} from "./member-agenda";
+import { fileMemberAgendaBills } from "./member-agenda";
 import { principledLeaning } from "./officeholder-principles";
 import type { EntityId, World } from "../types";
 
@@ -122,8 +119,10 @@ describe("local position filing reads member stakes in all observer jurisdiction
           },
         },
       };
-      const next = fileLocalMemberAgendaBill(start, {
-        governmentKey: government.id,
+      const next = fileMemberAgendaBills(start, {
+        jurisdictionId: place.context.jurisdiction.id,
+        localGovernmentKey: government.id,
+        localFiscalFirst: true,
         intakeKey: "g1-local-parity",
       });
       const bills = next.history.legislativeMeasures ?? [];
@@ -149,8 +148,10 @@ describe("local position filing reads member stakes in all observer jurisdiction
       expect(next.history.legislativeDraftLineages ?? []).toHaveLength(0);
       expect(next.control).toEqual(start.control);
       expect(
-        fileLocalMemberAgendaBill(next, {
-          governmentKey: government.id,
+        fileMemberAgendaBills(next, {
+          jurisdictionId: place.context.jurisdiction.id,
+          localGovernmentKey: government.id,
+          localFiscalFirst: true,
           intakeKey: "g1-local-parity",
         }),
       ).toBe(next);
@@ -162,8 +163,10 @@ describe("local position filing reads member stakes in all observer jurisdiction
       ...world,
       control: { kind: "person", personId: stronger },
     };
-    const next = fileLocalMemberAgendaBill(start, {
-      governmentKey: government.id,
+    const next = fileMemberAgendaBills(start, {
+      jurisdictionId: place.context.jurisdiction.id,
+      localGovernmentKey: government.id,
+      localFiscalFirst: true,
       intakeKey: "g1-player-member",
     });
     expect(next.history.legislativeMeasures).toHaveLength(1);
