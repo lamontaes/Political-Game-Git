@@ -1214,13 +1214,6 @@
       "code": "} else if (roll < 0.9) {"
     },
     {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 2,
-      "code": "month < currentMonth || (month === currentMonth && day <= currentDay);"
-    },
-    {
       "file": "src/simulation/person-identity.ts",
       "kind": "roll",
       "build": "Build 7",
