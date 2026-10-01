@@ -1,5 +1,10 @@
 import { applyLawConsequences } from "../enacted-law-effects";
 import { addDays } from "../dates";
+import {
+  ESTIMATED_CHARGE_DECISION_DAYS,
+  NATIONAL_RESOLVE_AFTER_DAYS,
+  prosecutionTimingFor,
+} from "./prosecution-timing";
 import { considerClemencyAfterSentence } from "./clemency";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
@@ -101,10 +106,19 @@ export type { EvidenceStrength } from "./court-reasoning";
 export const UNRESEARCHED_PROSECUTION = {
   version: "prosecution-decided-v3",
   provenance: "unresearched-blanket-rule",
-  /** Days from a referral to the prosecutors' decision to charge or not. */
-  chargeDecisionDays: 60,
-  /** Days from the charge to the plea or the trial, and from a mistrial to the retrial. */
-  resolveAfterDays: 120,
+  /**
+   * ESTIMATED FROM AVERAGE. The labeled fallback only: a case reads its own
+   * state's days through `prosecutionTimingFor` (`prosecution-timing.ts`),
+   * and a place with no read figure uses these. Days from a referral to the
+   * prosecutors' decision to charge or not.
+   */
+  chargeDecisionDays: ESTIMATED_CHARGE_DECISION_DAYS,
+  /**
+   * ESTIMATED FROM AVERAGE: the median of the places read from court reports.
+   * Days from the charge to the plea or the trial, and from a mistrial to the
+   * retrial.
+   */
+  resolveAfterDays: NATIONAL_RESOLVE_AFTER_DAYS,
   /** Trials that end with no verdict before the prosecutors drop the charge. */
   hungJuriesBeforeDismissal: 2,
 } as const;
@@ -297,7 +311,9 @@ export function referForProsecution(
       next,
       referral,
       referral.id,
-      UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+      prosecutionTimingFor(
+        input.jurisdictionId ? stateKeyOf(world, input.jurisdictionId) : null,
+      ).chargeDecisionDays,
     ),
     referralId: referral.id,
   };
@@ -522,6 +538,16 @@ function courtCaseOf(
   };
 }
 
+/** The days a case filed in this jurisdiction takes, read from its state. */
+export function prosecutionTimingAt(
+  world: World,
+  jurisdictionId: EntityId | null,
+): ReturnType<typeof prosecutionTimingFor> {
+  return prosecutionTimingFor(
+    jurisdictionId ? stateKeyOf(world, jurisdictionId) : null,
+  );
+}
+
 function stateKeyOf(world: World, jurisdictionId: EntityId): string | null {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (place?.stateJurisdictionKey) return place.stateJurisdictionKey;
@@ -685,11 +711,13 @@ export function advanceProsecutions(
       continue;
     const name = personName(subject);
     const courtCase = courtCaseOf(next, referral, subjectId);
+    const timing = prosecutionTimingFor(courtCase.stateKey);
     const offense = courtCase.offenseLabel;
     let charged = byReferral(PROSECUTION_CHARGED_EVENT, referral)[0];
     if (!charged) {
       if (
-        addDays(referral.occurredAt, rule.chargeDecisionDays) > next.currentDate
+        addDays(referral.occurredAt, timing.chargeDecisionDays) >
+        next.currentDate
       )
         continue;
       const basisEvents = referral.tags.filter((tag) =>
@@ -730,13 +758,13 @@ export function advanceProsecutions(
         next,
         charged,
         referral.id,
-        rule.resolveAfterDays,
+        timing.resolveAfterDays,
       );
       next = decideBeforeTrial(next, charged, referral, courtCase, subjectId);
     }
     const mistrials = byReferral(PROSECUTION_MISTRIAL_EVENT, referral);
     const last = mistrials.at(-1) ?? charged;
-    if (addDays(last.occurredAt, rule.resolveAfterDays) > next.currentDate)
+    if (addDays(last.occurredAt, timing.resolveAfterDays) > next.currentDate)
       continue;
 
     // A due case still needs a sitting, unrecused judge before the court
@@ -798,7 +826,7 @@ export function advanceProsecutions(
             next,
             next.history.events.at(-1)!,
             referral.id,
-            rule.resolveAfterDays,
+            timing.resolveAfterDays,
           );
           continue;
         }
@@ -1038,8 +1066,10 @@ export function recoverProsecutionsAfterBenchChange(
     const stage =
       eventsFor(next, PROSECUTION_MISTRIAL_EVENT, referral).at(-1) ?? charged;
     if (
-      addDays(stage.occurredAt, UNRESEARCHED_PROSECUTION.resolveAfterDays) >
-      next.currentDate
+      addDays(
+        stage.occurredAt,
+        prosecutionTimingFor(courtCase.stateKey).resolveAfterDays,
+      ) > next.currentDate
     )
       continue;
     const advanced = advanceProsecutions(next, referral.id);
@@ -1157,7 +1187,11 @@ export function courtCasesOf(
           ? null
           : addDays(
               (mistrials.at(-1) ?? charged).occurredAt,
-              UNRESEARCHED_PROSECUTION.resolveAfterDays,
+              prosecutionTimingFor(
+                referral.jurisdictionId
+                  ? stateKeyOf(world, referral.jurisdictionId)
+                  : null,
+              ).resolveAfterDays,
             ),
         enteredPlea: enteredPleaOf(world, referral),
         mistrials: mistrials.length,
