@@ -24,7 +24,9 @@ import {
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import { schoolTermOn } from "../school-calendar";
+import { attendingSchool } from "../school-moves";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   lifePlaceByJurisdictionId,
@@ -446,6 +448,7 @@ export function reviewTown(
             .housingOf(personId)
             .tenureIds.some((id) => owned.has(id)),
           childrenAtHome: childrenAtHome(next, personId),
+          schoolYearDepth: schoolYearDepth(next, personId),
           townPush,
         },
         place,
@@ -699,6 +702,32 @@ function ownedTenureIds(world: World): ReadonlySet<EntityId> {
       .filter((tenure) => tenure.kind.startsWith("ownership:"))
       .map((tenure) => tenure.id),
   );
+}
+
+/**
+ * How deep into the school year today is for a household with a pupil in it:
+ * 0 at either break or with nobody at school, 1 at the middle of the term,
+ * changing smoothly between (the shared calendar, `school-calendar.ts`).
+ */
+export function schoolYearDepth(world: World, personId: EntityId): number {
+  const term = schoolTermOn(world.currentDate);
+  if (!term) return 0;
+  const household = householdMembershipsAt(world, personId).find(
+    (active) => active.state.residenceRole === "primary",
+  )?.household.id;
+  if (!household) return 0;
+  const pupil = peopleInHouseholdAt(world, household).some(
+    (id) =>
+      ageOnDate(world.people[id]!.birthDate, world.currentDate) < 18 &&
+      attendingSchool(world, id),
+  );
+  if (!pupil) return 0;
+  const half = daysBetween(term.startsAt, term.endsAt) / 2;
+  const fromBreak = Math.min(
+    daysBetween(term.startsAt, world.currentDate),
+    daysBetween(world.currentDate, term.endsAt),
+  );
+  return Math.max(0, Math.min(1, fromBreak / half));
 }
 
 /** Children under 18 living in this person's primary household today. */

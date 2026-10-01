@@ -22,7 +22,7 @@ import { requireLifePlace } from "../life-places";
 import { ensureMunicipalCouncilOpening } from "../municipal-council-opening";
 import { municipalSeats } from "../municipal-public-work";
 import {
-  COUNCIL_ACT_HANDLERS,
+  councilActHandlers,
   COUNCIL_READING_DUE,
 } from "../municipal-ordinance-procedure";
 import { createFormationContext, recordPrinciples } from "../politics";
@@ -34,7 +34,7 @@ import type {
 } from "../types";
 import { advanceWorld } from "../world";
 import {
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
 } from "./member-agenda";
@@ -203,8 +203,8 @@ describe("automatic local law under thirty days of the World clock", () => {
       jurisdictionId,
     } = thirtyDayLawOpening();
     const handlers = createFutureTransitionHandlerRegistry([
-      ...LOCAL_MEMBER_AGENDA_HANDLERS,
-      ...COUNCIL_ACT_HANDLERS,
+      ...localMemberAgendaHandlers(),
+      ...councilActHandlers(),
     ]);
     const jumpedAt = performance.now();
     const jumped = advanceWorld(opening, 30, handlers);
