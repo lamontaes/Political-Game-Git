@@ -68,6 +68,10 @@ export interface StaffableOffice {
  * ------------------------------------------------------------------ */
 
 export function executiveStaffOffice(office: GoverningOffice): StaffableOffice {
+  if (!office.organizationId)
+    throw new Error(
+      "This executive office has no recorded staff organization.",
+    );
   return {
     officeKey: office.officeKey,
     title: office.title,

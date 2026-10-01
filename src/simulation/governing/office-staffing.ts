@@ -152,6 +152,8 @@ export function establishOfficeStaffPositions(
     readonly classReading?: OfficeStaffClassReading;
   } = { positions: OFFICE_STAFF_POSITIONS, profile: OFFICE_STAFFING_PROFILE },
 ): OfficeStaffingOutcome {
+  if (!office.organizationId)
+    return { world, established: [], alreadyAuthorized: [] };
   const reading: OfficeStaffClassReading =
     table.classReading ??
     (office.stateUsps
