@@ -1,3 +1,8 @@
+import { createProductionPolicyCatalog } from "./production-catalog";
+import { stateJurisdictionForKey } from "./life-places";
+import { STATES } from "./state-reference";
+import { questionAuthority } from "./governing/question-authority";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { expect, it } from "vitest";
 import { loadPolicyPacks } from "./policy-packs";
 import { POLICY_PACKS } from "./policy-pack-registry";
@@ -50,14 +55,7 @@ it("keeps exact rational rates separate from occurrence allowances and timing", 
   ).toBe(false);
 });
 
-it("keeps state tax questions at their own level across all 56 jurisdictions", async () => {
-  const { createProductionPolicyCatalog } =
-    await import("./production-catalog");
-  const { stateJurisdictionForKey } = await import("./life-places");
-  const { STATES } = await import("./state-reference");
-  const { questionAuthority } = await import("./governing/question-authority");
-  const { NATIONAL_ELECTION_JURISDICTION } =
-    await import("./national-election-geography");
+it("keeps state tax questions at their own level across all 56 jurisdictions", () => {
   const policyCatalog = createProductionPolicyCatalog();
   const world = { policyCatalog };
   const stateQuestion = Object.values(policyCatalog.propositions).find(
