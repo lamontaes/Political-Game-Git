@@ -462,7 +462,9 @@ it("A38 saved state wage rule reaches scheduled actual payroll", () => {
     expect.arrayContaining([
       clause.id,
       enactment.id,
-      f.work.id,
+      f.flow.basisReference.kind === "work"
+        ? f.flow.basisReference.workRelationshipId
+        : null,
       f.flow.id,
       outcome.id,
     ]),
