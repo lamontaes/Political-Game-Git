@@ -117,6 +117,18 @@
       "originalSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
       "publishedSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
       "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-test.log": {
+      "originalPath": "/tmp/team1-cap-current-main-test.log",
+      "originalSha256": "ab3ac06abb0297b2c5107e6d907078e154de3a37ef195371870a280cedcebf86",
+      "publishedSha256": "d45057b0b03115cbfdc87a2826bf86655671645157c251c2a0ade0cd6436e30f",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-types.log": {
+      "originalPath": "/tmp/team1-cap-current-main-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only in log copies."
     }
   },
   "files": {
@@ -140,5 +152,22 @@
       "blob": "b3c89741b746d59541ad40d92944477341b6ffef",
       "sha256": "c261d87f55c1b096519b80eb9b0075a97b882f5d5763809f7ff1a9a82b2efffc"
     }
+  },
+  "currentMainRenewal": {
+    "executedHead": "1558730144192941fe39400bfd8e85fbb363f687",
+    "main": "8c44a3d24f9808962a839bc035bbcfdb009d1aa9",
+    "tests": {
+      "passed": 19,
+      "failed": 0,
+      "files": 2,
+      "seconds": 37.12
+    },
+    "types": {
+      "roots": 6,
+      "scoped": 0,
+      "imported": 0
+    },
+    "tableBlob": "b3c89741b746d59541ad40d92944477341b6ffef",
+    "reason": "Renewed after additive tax catalog and A79 filing integration; no own runtime changes."
   }
 }

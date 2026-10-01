@@ -14,7 +14,7 @@ HARDWIRED: the cap reader counts actual saved bills under a declared period and 
 
 ## VITAL STATISTICS
 
-Nineteen of nineteen focused cases passed in 38.75 seconds. Six strict roots had zero scoped or imported diagnostics. Scoped lint and formatting passed. The adjacent receipt binds source hashes, table blobs and exact main. Earlier empty-table and ruling(g) proofs remain retained at their own source pins. No natural year, full jurisdiction filing behavior, browser, speed or whole suite was run.
+Nineteen of nineteen focused cases passed in 38.75 seconds and passed again in 37.12 seconds after current-main integration. Six strict roots had zero scoped or imported diagnostics. Scoped lint and formatting passed. The adjacent receipt binds source hashes, table blobs and exact main. Earlier empty-table and ruling(g) proofs remain retained at their own source pins. No natural year, full jurisdiction filing behavior, browser, speed or whole suite was run.
 
 ## 1. Why-chain (five whys, to bedrock)
 
