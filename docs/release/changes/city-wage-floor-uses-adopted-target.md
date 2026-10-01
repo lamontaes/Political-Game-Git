@@ -8,3 +8,6 @@ title: City wage laws use their adopted hourly amount
 A city wage ordinance uses its adopted hourly target instead of an average
 premium. Its effective date and state authority still govern. Unsupported
 state history stays unsupported in the public dated wage reader.
+
+Controlled state and federal wage fixtures record their authored executive
+signature through the existing legislative writer when checking adopted terms.
