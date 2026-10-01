@@ -21,7 +21,7 @@ import { appendPressRecord, pressRecordsOfKind } from "./store";
 import {
   findingOfficeResponseBinding,
   recordFindingOfficeResponse,
-} from "./finding-subject-response";
+} from "./index";
 
 const seed = "team8-finding-office-response-all56";
 const places = Object.keys(STATES)
