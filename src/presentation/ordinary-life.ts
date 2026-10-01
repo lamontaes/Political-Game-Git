@@ -1,3 +1,4 @@
+import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
   advanceApplications,
   settleHouseholdAdultJobPay,
@@ -30,7 +31,6 @@ import {
   addDays,
   advanceWorldMinutes,
   compareSimulationMoments,
-  createCampaignElectionTransitionRegistry,
   ageOnDate,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
@@ -505,13 +505,7 @@ function advanceOrdinaryDays(
   // behavior that keeps a scheduled consequence from being lost. The campaign
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
-  const ordinaryHandlers = createCampaignElectionTransitionRegistry();
-  const composed = options.handlers
-    ? composeFutureTransitionHandlerRegistries(
-        options.handlers,
-        ordinaryHandlers,
-      )
-    : ordinaryHandlers;
+  const composed = composeWorldTimeHandlers(options.handlers);
   // Asked to stop at civic holds, the advance also stops at one it posts on
   // the way, so the check below sees it come due instead of it being run past.
   const handlers: FutureTransitionHandlerRegistry = options.stopForCivicHolds
