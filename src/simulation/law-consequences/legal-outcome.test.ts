@@ -1,13 +1,25 @@
-import { afterAll, describe, expect, it, vi } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate, addDays } from "../dates";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
+import { lifePlaceStateIdentities } from "../life-places";
+import { courtFor } from "../judiciary/court-for";
 import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+  buildOpeningCourtCatalog,
+  seatJudge,
+  seatsForCourt,
+} from "../judiciary/courts";
+import { drawLegislativeStartingProcedures } from "../legislative-starting-procedures";
+import { prosecutionTimingFor } from "../justice/prosecution-timing";
+import { createProsecutionTransitionRegistry } from "../justice/prosecution-transitions";
+import {
+  resolveFutureDueItemsThrough,
+  cancelFutureDueItem,
+  futureDueItemStateAt,
+} from "../future-transitions";
+import { currentLifeCutoff } from "../life-queries";
 import { SeededRng, pickDistinct } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { stateJurisdictionForKey } from "../life-places";
@@ -15,12 +27,7 @@ import {
   legislativeProcedureForJurisdiction,
   legislativeRulePackForWorld,
 } from "../legislative-procedure-world";
-import {
-  introduceMeasure,
-  availableMeasureSteps,
-  measurePosition,
-  recordEnactment,
-} from "../legislation";
+import { introduceMeasure, measurePosition } from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
 import {
   seatBodyForPack,
@@ -29,11 +36,7 @@ import {
   type LegislativeProcedureContext,
 } from "../legislation-scenarios";
 import { seatsForChamber } from "../legislature-game-profile";
-import { applyLegislativeStep } from "../../presentation/legislation-session";
-import { recordGovernorDecisionOnMeasure } from "../governing/legislative-clock";
 import { assertWorldIntegrity } from "../world";
-import * as lifePlaces from "../life-places";
-import * as simulation from "../index";
 import { createLawConsequenceRegistry } from "../law-consequence-registry";
 import { personName } from "../people";
 import { validateLawConsequences } from "../law-consequence-validation";
@@ -50,7 +53,7 @@ import {
 import {
   referForProsecution,
   advanceProsecutions,
-  PROSECUTION_CHARGED_EVENT,
+  enterPlea,
 } from "../justice/prosecution";
 import {
   PROSECUTION_SENTENCED_EVENT,
@@ -87,81 +90,56 @@ afterAll(() => {
 
 describe("recorded floors reach saved sentences", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
-  const states = pickDistinct(rng, lifePlaceStateIdentities(), 5);
-  it.each(states)(
+  const states = pickDistinct(rng, lifePlaceStateIdentities(), 56);
+  const procedureCoverage = drawLegislativeStartingProcedures({
+    seed: "team9-native-procedure-coverage",
+  });
+  for (const state of states.filter(
+    (state) => !procedureCoverage[state.jurisdictionKey],
+  ))
+    it.todo(
+      `native floor consequence in ${state.jurisdictionKey}: no admitted starting procedure profile`,
+    );
+  it.each(states.filter((state) => procedureCoverage[state.jurisdictionKey]))(
     "saves the actual defendant's sentence and stamp in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
       const seed = `team9-g10-floor:${state.jurisdictionKey}`;
-      // Only the fixture's opening input date changes. All people, activities,
-      // judicial offices and due records are produced at that date by the real
-      // opening writer; no existing save or due item is moved across a year.
       const sittingDate = makeIsoDate("2027-01-05");
-      const lookup = lifePlaces.lifePlaceByKey;
-      const requirePlace = simulation.requireLifePlace;
-      const constructorPlace = vi
-        .spyOn(simulation, "requireLifePlace")
-        .mockImplementation((key) => {
-          const found = requirePlace(key);
-          return found.key === place.key
-            ? {
-                ...found,
-                context: {
-                  ...found.context,
-                  initialMoment: {
-                    ...found.context.initialMoment,
-                    date: sittingDate,
-                  },
-                },
-              }
-            : found;
-        });
-      const placeInput = vi
-        .spyOn(simulation, "lifePlaceByKey")
-        .mockImplementation((key) => {
-          const found = lookup(key);
-          return found?.key === place.key
-            ? {
-                ...found,
-                context: {
-                  ...found.context,
-                  initialMoment: {
-                    ...found.context.initialMoment,
-                    date: sittingDate,
-                  },
-                },
-              }
-            : found;
-        });
-      let game;
-      try {
-        game = generateOpeningLife(
-          prepareOpeningLife({
-            ...DEFAULT_NEW_GAME_SETUP,
-            seed,
-            placeKey: place.key,
-            startAge: 40,
-            questionnaire: "skipped",
-          }),
-        ).game!;
-      } finally {
-        placeInput.mockRestore();
-        constructorPlace.mockRestore();
-      }
-      const personId = game.playerPersonId;
-      expect(game.world.currentDate).toBe(sittingDate);
+      const opening = smallWorld({
+        place: state.jurisdictionKey,
+        people: 40,
+        seed,
+        date: sittingDate,
+        offices: ["governor", "state-legislature"],
+      });
+      const personId = opening.personId;
       const actualPropositionId = Object.values(
-        game.world.policyCatalog.propositions,
+        opening.world.policyCatalog.propositions,
       ).find((entry) => entry.stableKey === MINIMUM_CUSTODY_QUESTION)!.id;
-      let world = game.world;
+      let world = buildOpeningCourtCatalog(opening.world);
+      const court = courtFor(
+        world,
+        opening.jurisdictionId,
+        "local-general-trial",
+        "criminal",
+      )!;
+      expect(court).toBeDefined();
+      const seat = seatsForCourt(world, court.courtId)[0]!;
+      world = seatJudge(world, {
+        seatId: seat.seatId,
+        personId: world.personOrder[39]!,
+        startedAt: world.currentDate,
+        selection: {
+          path: "initial-world",
+          selectionRecordId: null,
+          decisionRecordId: null,
+          selectingPersonId: null,
+          contestId: null,
+          note: "Authored court fixture seats an actual generated resident through the existing writer.",
+        },
+        termEndsAt: null,
+        retentionDueAt: null,
+      });
       const venue = stateJurisdictionForKey(state.jurisdictionKey)!.id;
       const profile = legislativeProcedureForJurisdiction(world, venue)!;
       const pack = legislativeRulePackForWorld(
@@ -244,41 +222,21 @@ describe("recorded floors reach saved sentences", () => {
         governorAction: "signed",
         governorRationale: "Fictional unanimous fixture decisions.",
       };
-      for (
-        let guard = 0;
-        guard < 40 &&
-        measurePosition(world, measured.id).phase !== "awaiting-enactment";
-        guard++
-      ) {
-        if (
-          measurePosition(world, measured.id).phase === "awaiting-executive"
-        ) {
-          world = recordGovernorDecisionOnMeasure(
-            world,
-            measured.id,
-            "signed",
-            "Authored test approval: the governor signs the minimum-custody act.",
-          );
-          continue;
-        }
-        const step = availableMeasureSteps(world, measured.id).find(
-          (key) => key !== "offer-amendment",
-        );
-        if (!step)
-          throw new Error(
-            `No canonical next step: ${measurePosition(world, measured.id).phase}`,
-          );
-        world = applyLegislativeStep(procedure, world, step).world;
-      }
-      expect(measurePosition(world, measured.id).phase).toBe(
-        "awaiting-enactment",
-      );
-      world = recordEnactment(world, {
-        stableKey: "g10:canonical-floor:enacted",
-        measureId: measured.id,
+      world = enactThroughDesk(world, measured.id, {
+        context: procedure,
         effectiveAt: world.currentDate,
       });
       expect(measurePosition(world, measured.id).phase).toBe("enacted");
+      nativeDiagnostics.push({
+        phase: "post-enactment-before-integrity",
+        state: state.jurisdictionKey,
+        control: world.control,
+        measureId: measured.id,
+        playerRequiredStates: world.history.workItemStates.filter(
+          (row) => row.playerRequirement !== "none",
+        ),
+        workItems: world.history.workItems,
+      });
       assertWorldIntegrity(world);
       const referred = referForProsecution(world, {
         stableKey: "g10-floor-fixture",
@@ -290,31 +248,40 @@ describe("recorded floors reach saved sentences", () => {
         evidence: "documentary",
         standingFindings: 6,
       });
-      const due: World = {
-        ...referred.world,
-        history: {
-          ...referred.world.history,
-          events: referred.world.history.events.map((entry) =>
-            entry.id === referred.referralId
-              ? { ...entry, occurredAt: addDays(world.currentDate, -200) }
-              : entry,
-          ),
-        },
-      };
-      const charged = advanceProsecutions(due);
-      const trialDue: World = {
-        ...charged,
-        history: {
-          ...charged.history,
-          events: charged.history.events.map((entry) =>
-            entry.type === PROSECUTION_CHARGED_EVENT &&
-            entry.involvedEntityIds.includes(personId)
-              ? { ...entry, occurredAt: addDays(world.currentDate, -120) }
-              : entry,
-          ),
-        },
-      };
-      const sentenced = advanceProsecutions(trialDue);
+      let isolated = referred.world;
+      for (const item of isolated.history.futureDueItems)
+        if (
+          futureDueItemStateAt(isolated, item.id, currentLifeCutoff(isolated))
+            ?.status === "scheduled" &&
+          item.transitionKey !== "justice:prosecution-stage"
+        )
+          isolated = cancelFutureDueItem(isolated, {
+            stableKey: `a103-native-isolate:${item.id}`,
+            dueItemId: item.id,
+            effectiveAt: isolated.currentDate,
+            reasonKey: "fixture:isolated-court",
+            context:
+              "Preserve unrelated commitments while proving the saved floor's actual court consequence.",
+          });
+      const timing = prosecutionTimingFor(state.jurisdictionKey);
+      const chargeDate = addDays(world.currentDate, timing.chargeDecisionDays);
+      const charged = resolveFutureDueItemsThrough(
+        isolated,
+        chargeDate,
+        createProsecutionTransitionRegistry(),
+      );
+      const plea = enterPlea(charged, {
+        personId,
+        referralId: referred.referralId,
+        plea: "guilty",
+      });
+      expect(plea.ok).toBe(true);
+      const trialDate = addDays(chargeDate, timing.resolveAfterDays);
+      const sentenced = resolveFutureDueItemsThrough(
+        plea.world,
+        trialDate,
+        createProsecutionTransitionRegistry(),
+      );
       const event = sentenced.history.events.find(
         (entry) =>
           entry.type === PROSECUTION_SENTENCED_EVENT &&
@@ -381,7 +348,7 @@ describe("recorded floors reach saved sentences", () => {
         sentenced,
         minimumCustodyRow,
         {
-          onDate: world.currentDate,
+          onDate: event!.occurredAt,
           activity: "case-stage",
           activityId: event!.id,
           subjectIds: [personId],
