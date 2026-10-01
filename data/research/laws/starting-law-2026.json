@@ -2857,7 +2857,37 @@
           "answer": "yes"
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://portal.ct.gov/dol/divisions/wage-and-workplace-standards",
+          "note": "Connecticut DOL identifies $16.94 effective January 1, 2026. Later announced phase is separately dated; earlier numeric terms remain unread.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1694,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://portal.ct.gov/governor/news/press-releases/2026/08-2026/governor-lamont-announces-minimum-wage-will-increase",
+              "note": "Official August 5, 2026 notice announces $17.48 effective January 1, 2027. No later adjustment is inferred.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1748,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-DC": {
           "answer": "yes",
