@@ -2586,6 +2586,36 @@ export function governingNpcDecisionHandler(
       "The officeholder decided.",
     );
   }
+  if (matter.family === "budget") {
+    const priority = currentPriority(world, office);
+    const backed = recordedBudgetProgramFamilies(
+      world,
+      office.jurisdictionId,
+      priority,
+    );
+    const option =
+      priority && backed.includes(priority)
+        ? matter.options.find((entry) => entry.key === `budget:${priority}`)
+        : undefined;
+    if (!option)
+      return resolved(
+        world,
+        "No saved budget priority matches an available, source-backed option; the request remains pending.",
+      );
+    const advice = staffRecommendation(world, matter);
+    return resolved(
+      recordDecision(
+        world,
+        matter,
+        option,
+        "officeholder",
+        matter.holderPersonId,
+      ),
+      advice?.optionKey === option.key
+        ? advice.reason
+        : "It matches the officeholder's recorded first priority.",
+    );
+  }
   const measure =
     matter.family === "bill" && matter.measureId
       ? world.history.legislativeMeasures?.find(
