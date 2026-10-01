@@ -20,9 +20,27 @@ import type { PrincipleRecordInput } from "../history";
 import {
   introduceMeasure,
   measurePosition,
+  placeMeasureOnCalendar,
   takeFloorVote,
 } from "../legislation";
-import { currentMeasureProvisions } from "../legislative-politics";
+import {
+  currentMeasureProvisions,
+  recordFiledProvision,
+} from "../legislative-politics";
+import { compileBillDraft, draftScope } from "../legislation-drafting";
+import { recordDraftLineage } from "../legislation-draft-lineage";
+import { LOCAL_FIX_IT_FIRST_PROPOSITION_KEY } from "../legislation-local-fiscal-families";
+import { localFiscalAuthorityFor } from "../local-fiscal-authority";
+import { localFiscalPredicateAuthority } from "../local-fiscal-predicate-authority";
+import {
+  budgetCandidates,
+  openGovernmentBudget,
+} from "../public-budgets/opening";
+import { PUBLIC_BUDGETS_VERSION } from "../public-budgets/store";
+import {
+  automaticLawMappingFor,
+  compileAutomaticLawDraft,
+} from "./automatic-legislation";
 import { lifePlaceByKey, requireLifePlace } from "../life-places";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../nationwide-world/state-executive-candidacy-packs";
 import { legislativePackForWorkKey } from "../legislative-institutions";
@@ -32,6 +50,7 @@ import { municipalSeats } from "../municipal-public-work";
 import {
   COUNCIL_ACT_HANDLERS,
   COUNCIL_READING_DUE,
+  completeCouncilPassage,
 } from "../municipal-ordinance-procedure";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -168,6 +187,184 @@ function thirtyDayLawOpening(placeKey = "0162328"): {
     jurisdictionId: place.context.jurisdiction.id,
     memberSeats: members,
   };
+}
+
+/** Explicit saved references supply numeric terms; they do not forecast NPC votes. */
+function withRecordedFiscalReferences(
+  start: World,
+  governmentKey: string,
+  jurisdictionId: EntityId,
+  members: ReturnType<typeof municipalSeats>,
+): World {
+  const candidate = budgetCandidates(start).candidates.find(
+    (row) => row.jurisdictionId === jurisdictionId,
+  );
+  expect(candidate).toBeDefined();
+  const budget = openGovernmentBudget(start, candidate!, start.currentDate);
+  if (typeof budget === "string") throw new Error(budget);
+  expect(budget.population).toBeGreaterThan(0);
+  let world: World = {
+    ...start,
+    publicBudgets: {
+      version: PUBLIC_BUDGETS_VERSION,
+      cursor: { flows: 0, outcomes: 0 },
+      adjustments: [],
+      unknown: [],
+      governments: [budget],
+    },
+  };
+  const grant = localFiscalAuthorityFor(
+    { ...world, control: { kind: "person", personId: members[0]!.personId } },
+    governmentKey,
+    LOCAL_FIX_IT_FIRST_PROPOSITION_KEY,
+  );
+  if (!grant.ok) throw new Error(grant.reason);
+  expect(grant.jurisdictionId).toBe(jurisdictionId);
+  const mapping = automaticLawMappingFor(
+    grant.propositionKey,
+    "yes",
+    grant.authority.level,
+  )!;
+  expect(mapping).not.toBeNull();
+  const pack = rulePackById(grant.authority.rulePackId);
+  const chamber = chamberByKey(pack, pack.chamberOrder[0]!);
+  // Fictional reference amounts are deliberately saved, higher first so the
+  // lower second law is the current term the automatic expansion can amend.
+  for (const perResidentMinorUnits of [300_00, 200_00]) {
+    const key = `clock-30:authored-reference:${perResidentMinorUnits}`;
+    const numbering = nextMeasureNumbering(world, {
+      jurisdictionId,
+      originChamber: chamber,
+      rulePackId: pack.packId,
+    });
+    const draft = compileBillDraft({
+      familyKey: mapping.familyKey,
+      variantKey: mapping.variantKey,
+      parameterValues: {
+        appropriation: {
+          kind: "money",
+          minorUnits: Math.round(budget.population * perResidentMinorUnits),
+          currency: "USD",
+        },
+      },
+      scenarioKey: `institution:${pack.packId}`,
+      jurisdictionId,
+      rulePackId: pack.packId,
+      designation: numbering.designation,
+      filedOn: world.currentDate,
+      predicateAuthority: localFiscalPredicateAuthority(grant),
+    });
+    world = introduceMeasure(world, {
+      stableKey: key,
+      jurisdictionId,
+      rulePackId: pack.packId,
+      ...numbering,
+      shortTitle: draft.shortTitle,
+      summary: draft.summary,
+      origin: "member-introduction",
+      subjectClass: draft.subjectClass,
+      sponsorPersonId: members[0]!.personId,
+      originChamberKey: chamber.chamberKey,
+      propositionIds: [grant.propositionId],
+      propositionAnswers: [
+        { propositionId: grant.propositionId, answer: "yes" },
+      ],
+    });
+    const measure = world.history.legislativeMeasures!.at(-1)!;
+    for (const clause of draft.clauses)
+      world = recordFiledProvision(world, {
+        stableKey: `${key}:draft:${clause.provisionKey}`,
+        measureId: measure.id,
+        provisionKey: clause.provisionKey,
+        sectionNumber: clause.sectionNumber,
+        heading: clause.heading,
+        text: clause.text,
+        beneficiary: clause.beneficiary,
+        applicationScope: draftScope(draft),
+        fiscalExposureLabel: clause.fiscalExposureLabel,
+        fiscalExposureMinorUnits: clause.fiscalExposureMinorUnits,
+        fiscalPeriod: clause.fiscalPeriod,
+        operativeEffect: clause.operativeEffect,
+        ...(clause.provisionKey === mapping.effectProvisionKey
+          ? {
+              lawTerms: [
+                {
+                  questionKey: grant.propositionKey,
+                  key: mapping.effectParameterKey,
+                  value: draft.appropriatedMinorUnits!,
+                  unit: "minor",
+                },
+              ],
+            }
+          : {}),
+      });
+    world = recordDraftLineage(world, {
+      stableKey: `${key}:draft-lineage`,
+      measureId: measure.id,
+      familyKey: draft.familyKey,
+      familyVersion: draft.familyVersion,
+      variantKey: draft.variantKey,
+      compiledAt: draft.filedOn,
+      parameterValues: draft.parameterValues,
+      authorityKey: grant.authority.authorityKey,
+      provenanceNote:
+        "Explicit fictional canonical reference; no inferred budget amount or predicted member decision.",
+    });
+    world = placeMeasureOnCalendar(world, {
+      stableKey: `${key}:calendar`,
+      measureId: measure.id,
+    });
+    world = takeFloorVote(world, {
+      stableKey: `${key}:vote`,
+      measureId: measure.id,
+      dispositions: members.map((member) => ({
+        memberKey: member.participationId,
+        personId: member.personId,
+        disposition: "yea",
+      })),
+      presentMembers: members.length,
+      electedMembers: members.length,
+      provenance: {
+        method: "authored-fixture",
+        note: "Authored reference-law vote only; the later clock bill uses actual member decisions.",
+        sourceEntityIds: [measure.id],
+      },
+    });
+    world = completeCouncilPassage(world, measure, governmentKey);
+    expect(measurePosition(world, measure.id).outcome).toBe("enacted");
+  }
+  expect(world.control).toEqual(start.control);
+  console.info(
+    "[a77-fiscal-reference]",
+    JSON.stringify({
+      governmentKey,
+      jurisdictionId,
+      population: budget.population,
+      authoredMeasureIds: world.history
+        .legislativeMeasures!.filter((row) =>
+          row.stableKey.startsWith("clock-30:authored-reference:"),
+        )
+        .map((row) => row.id),
+      numericDraftSupported:
+        compileAutomaticLawDraft({
+          world,
+          jurisdictionId,
+          propositionId: grant.propositionId,
+          answer: "yes",
+          designation: "Fixture eligibility probe",
+          intakeKey: "clock-30:eligibility-probe",
+          sponsorPersonId: members[0]!.personId,
+          context: {
+            governmentLevel: grant.authority.level,
+            jurisdictionId,
+            rulePackId: pack.packId,
+            scenarioKey: `institution:${pack.packId}`,
+            predicateAuthority: localFiscalPredicateAuthority(grant),
+          },
+        }) !== null,
+    }),
+  );
+  return world;
 }
 
 function thirtyDayLawEvidence(
@@ -515,14 +712,24 @@ describe("automatic local law under thirty days of the World clock", () => {
   );
   it("records the same bill, vote, effective law, fiscal result and save after one jump or daily steps", () => {
     const {
-      world: opening,
+      world: baseOpening,
       governmentKey,
       jurisdictionId,
       memberSeats,
     } = thirtyDayLawOpening();
+    const opening = withRecordedFiscalReferences(
+      baseOpening,
+      governmentKey,
+      jurisdictionId,
+      memberSeats,
+    );
     const handlers = createFutureTransitionHandlerRegistry([
       ...LOCAL_MEMBER_AGENDA_HANDLERS,
       ...COUNCIL_ACT_HANDLERS,
+      [
+        POLITICAL_REFLECTION_TRANSITION_KEY,
+        politicalReflectionTransitionHandler,
+      ] as const,
     ]);
     const jumpedAt = performance.now();
     const jumped = advanceWorld(opening, 30, handlers);
