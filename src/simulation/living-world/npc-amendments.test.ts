@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { planFloorAmendment } from "../governing/amendment-authors";
+import {
+  formAmendmentAuthorsViews,
+  planFloorAmendment,
+} from "../governing/amendment-authors";
 import {
   amendmentAdmissible,
   floorStageTakesAmendments,
@@ -16,7 +19,13 @@ import { nextMeasureDesignation } from "../measure-numbering";
 import { stateLegislators } from "../nationwide-world/state-legislature-opening";
 import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { EntityId, World } from "../types";
+import { latestPrivateBelief } from "../queries";
+import type {
+  EntityId,
+  LegislativeMeasureRecord,
+  PropositionAnswerRef,
+  World,
+} from "../types";
 import { voteBundle } from "../vote-bundle";
 import { advanceWorld } from "../world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -158,7 +167,7 @@ describe("members amend a bill for their own reasons in a watched world", () => 
         candidate,
       );
       if (!reported) continue;
-      const plan = planFloorAmendment(reported, {
+      const ask = {
         measureId: candidate,
         chamber,
         stage: chamber.floorStages.find((stage) =>
@@ -166,10 +175,18 @@ describe("members amend a bill for their own reasons in a watched world", () => 
         )!,
         members: seats,
         stableKey: "watched-amendments:would-anyone",
-        admissible: (bill, part) =>
+        admissible: (
+          bill: LegislativeMeasureRecord,
+          part: PropositionAnswerRef,
+        ) =>
           amendmentAdmissible(reported, pack, chamber.chamberKey, bill, part)
             .admissible,
-      });
+      };
+      // Members plan from saved views, formed first as the clock forms them.
+      const plan = planFloorAmendment(
+        formAmendmentAuthorsViews(reported, ask),
+        ask,
+      );
       if (!plan) continue;
       world = reported;
       measureId = candidate;
@@ -196,6 +213,19 @@ describe("members amend a bill for their own reasons in a watched world", () => 
       (part) => part.answers?.propositionId,
     );
     const offered = amendment!.proposedSections![0]!.answers!.propositionId;
+    // The author offered from a view the clock saved through the one belief
+    // pipeline, with its decision trace, and it is the part they offered.
+    const authorView = latestPrivateBelief(
+      done,
+      amendment!.offeredByPersonId!,
+      offered,
+    )!;
+    expect(authorView.position).toBe(
+      amendment!.proposedSections![0]!.answers!.answer === "yes"
+        ? "support"
+        : "oppose",
+    );
+    expect(authorView.formation.decisionTraceIds.length).toBeGreaterThan(0);
     // An adopted amendment's part is on the bill the chamber passed or
     // refused; a rejected one's is not.
     expect(parts.includes(offered)).toBe(amendment!.status === "adopted");
