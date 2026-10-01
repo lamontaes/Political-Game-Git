@@ -1,4 +1,8 @@
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import {
+  futureDueItemStateAt,
+  scheduleFutureDueItem,
+} from "./future-transitions";
 import { recordsByStringField } from "./history-index";
 import { personTrait } from "./people-traits";
 import { recordEventKnowledge, recordMemory } from "./records";
@@ -13,6 +17,8 @@ import { speechMovesOf } from "./speech-moves";
 import { eventById } from "./event-index";
 import type {
   EntityId,
+  FutureDueItem,
+  FutureTransitionHandlerResult,
   IsoDate,
   HistoricalEvent,
   MemoryRecord,
@@ -315,3 +321,67 @@ function monthStartsCrossed(from: IsoDate, through: IsoDate): number {
   };
   return Math.max(0, index(through) - index(from));
 }
+
+export const SPEECH_RETELLING_TRANSITION_KEY =
+  "speech:monthly-retelling" as const;
+
+function nextRetellingDate(date: IsoDate): IsoDate {
+  const [year, month] = date.split("-").map(Number) as [number, number];
+  return makeIsoDate(
+    month === 12
+      ? `${year + 1}-01-01`
+      : `${year}-${String(month + 1).padStart(2, "0")}-01`,
+  );
+}
+
+function scheduleSpeechRetelling(world: World, dueAt: IsoDate): World {
+  return scheduleFutureDueItem(world, {
+    stableKey: `speech:monthly-retelling:${dueAt}`,
+    dueAt,
+    transitionKey: SPEECH_RETELLING_TRANSITION_KEY,
+    entityIds: [world.id],
+    jurisdictionId: null,
+    provenance: { kind: "simulated", sourceEntityIds: [world.id] },
+  });
+}
+
+/** Seeds the monthly clock without retelling early or changing existing records. */
+export function ensureSpeechRetellingSchedule(world: World): World {
+  const cutoff = {
+    asOfDate: world.currentDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  if (
+    world.history.futureDueItems.some(
+      (item) =>
+        item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY &&
+        futureDueItemStateAt(world, item.id, cutoff)?.status === "scheduled",
+    )
+  )
+    return world;
+  return scheduleSpeechRetelling(world, nextRetellingDate(world.currentDate));
+}
+
+/** The existing due resolver dates each pass and visits every crossed month. */
+export function speechRetellingHandler(
+  world: World,
+  item: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (item.transitionKey !== SPEECH_RETELLING_TRANSITION_KEY)
+    throw new Error("Speech retelling received another transition.");
+  const next = scheduleSpeechRetelling(
+    retellSpeeches(world),
+    nextRetellingDate(item.dueAt),
+  );
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: "speech:monthly-retold",
+    context: null,
+    outcomeEventId: null,
+  };
+}
+
+export const SPEECH_RETELLING_HANDLERS = [
+  [SPEECH_RETELLING_TRANSITION_KEY, speechRetellingHandler],
+] as const;
