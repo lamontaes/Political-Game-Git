@@ -457,11 +457,8 @@ function isSittingChief(
   );
 }
 
-/** Qualitative, seeded from the person: never a number shown to the player. */
-import {
-  generateStaffCandidateHistory,
-  staffAssessment,
-} from "./staff-evidence";
+/** Qualitative assessment read from the person's saved record. */
+import { staffAssessment } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
 import {
@@ -1102,6 +1099,7 @@ export function staffRecommendation(
               reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
             };
     case "program": {
+      if (assessment.steadiness === null) return null;
       // The advice is about money that exists: a steady chief spreads it over
       // months; a cautious one waits. Either way it is one fallible view.
       const spread = matter.options.find(
@@ -1124,6 +1122,7 @@ export function staffRecommendation(
         : null;
     }
     case "implementation":
+      if (assessment.steadiness === null) return null;
       return assessment.steadiness >= 2
         ? {
             optionKey: "pace:careful",
@@ -1209,13 +1208,8 @@ export function createCandidates(
       "person",
       `${next.id}:life-context-v1:${stableKey}`,
     );
-    // A candidate arrives with a working life already in the record, so the
-    // assessment offered to the player is a reading rather than an invention.
-    next = generateStaffCandidateHistory(next, {
-      personId,
-      stableKey,
-      jurisdictionId: office.jurisdictionId,
-    });
+    // Offering a candidate supplies no career or degree. The assessment reads
+    // existing records and names absent experience as absent evidence.
     personIds.push(personId);
   }
   return { world: next, personIds };
@@ -2423,13 +2417,22 @@ export function governingNpcDecisionHandler(
     : undefined;
   const steadiest =
     matter.family === "chief-of-staff"
-      ? [...matter.options].sort(
-          (a, b) =>
-            (b.assessment?.steadiness ?? 0) - (a.assessment?.steadiness ?? 0),
-        )[0]
+      ? [...matter.options]
+          .filter((option) => option.assessment?.steadiness != null)
+          .sort(
+            (a, b) => b.assessment!.steadiness! - a.assessment!.steadiness!,
+          )[0]
       : undefined;
-  // PLACEHOLDER (zero-dice row, left): an agenda with no chief of staff to
-  // advise still falls to a seeded pick.
+  if (
+    (matter.family === "chief-of-staff" || matter.family === "agenda") &&
+    !recommended &&
+    !steadiest
+  )
+    return resolved(
+      next,
+      "No recorded advice or candidate assessment selects a choice; the matter remains open.",
+    );
+  // Remaining families retain their existing fallback, tracked under A92.
   const option =
     recommended ??
     steadiest ??

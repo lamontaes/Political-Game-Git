@@ -2229,7 +2229,8 @@ export function composeWorldTimeHandlers(
           politicalReflectionTransitionHandler,
         ],
         // Spec 5: people credit or blame the officials behind a law that
-        // reached them.
+        // reached them, and the official who answers for what happened to
+        // them.
         [OFFICIAL_VIEW_TRANSITION_KEY, officialViewReflectionHandler],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
