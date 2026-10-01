@@ -129,7 +129,7 @@ export function resolveCoverageEligibility(
       ...(previous ? [previous.id] : []),
     ];
     const stamp = lawEffectStamp(law, {
-      effectKind: "coverage-eligibility",
+      effectKind: "health-coverage",
       questionKey,
       jurisdictionId: state.id,
       appliedAt: context.onDate,

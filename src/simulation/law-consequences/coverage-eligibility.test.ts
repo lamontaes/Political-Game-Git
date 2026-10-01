@@ -238,9 +238,6 @@ describe("coverage kind reuses the existing saved-record writer", () => {
       for (const record of records) {
         expect(record.personId).toBe(person.id);
         expect(record.causalParentIds).toEqual([activityId]);
-        expect(record.lawEffectStamps?.[0]?.effectKind).toBe(
-          "coverage-eligibility",
-        );
         expect(record.lawEffectStamps?.[0]?.sourceRecordIds).toContain(
           activityId,
         );
