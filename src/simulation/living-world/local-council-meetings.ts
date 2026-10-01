@@ -1,10 +1,8 @@
 import { addDays } from "../dates";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
 import { councilBallotPartisanship } from "../governing/body-partisanship";
-import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { mayAnswerQuestion } from "../governing/question-authority";
-import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "../governing/ordinance-effective-date";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import {
@@ -13,18 +11,19 @@ import {
   ensureCouncilPrinciples,
 } from "../governing/council-lawmaking";
 import {
-  enrollMeasure,
   introduceMeasure,
   measurePosition,
   placeMeasureOnCalendar,
-  recordEnactment,
   takeFloorVote,
 } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
 import { rulePackById } from "../legislature-rule-packs";
 import { nextMeasureNumbering } from "../measure-numbering";
 import { municipalRulePackFor } from "../municipal-government";
-import { recordCouncilReadingVote } from "../municipal-ordinance-procedure";
+import {
+  completeCouncilPassage,
+  recordCouncilReadingVote,
+} from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import {
   homeLocalGovernmentUnits,
@@ -331,24 +330,6 @@ function councilMeasures(
   );
 }
 
-/** Adopted under the town profile: enrolled, recorded as law, its effects applied. */
-function afterAdoption(world: World, measure: LegislativeMeasureRecord): World {
-  let next = enrollMeasure(world, {
-    stableKey: `${measure.stableKey}:enrolled`,
-    measureId: measure.id,
-  });
-  if (measurePosition(next, measure.id).phase !== "awaiting-enactment")
-    return next;
-  next = recordEnactment(next, {
-    stableKey: `${measure.stableKey}:enactment`,
-    measureId: measure.id,
-    actDesignation: measure.designation,
-    // ESTIMATED where the charter's rule is unread (`ordinance-effective-date.ts`).
-    effectiveAt: addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
-  });
-  return applyEnactedLawEffects(next, measure.id);
-}
-
 /** Every ordinance a member other than the player carries takes its next step. */
 function moveOrdinances(
   world: World,
@@ -419,7 +400,7 @@ function moveOrdinances(
       provenance,
     });
     if (measurePosition(next, measure.id).phase !== "failed")
-      next = afterAdoption(next, measure);
+      next = completeCouncilPassage(next, measure, rules.governmentKey);
   }
   return next;
 }

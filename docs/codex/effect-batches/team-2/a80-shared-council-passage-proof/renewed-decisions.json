@@ -1,0 +1,786 @@
+[
+  {
+    "startingJurisdiction": "US-AL",
+    "startingPlace": "0100100",
+    "seed": "G6-mayor-parity:US-AL",
+    "mayor": "Ian Spence",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-AK",
+    "startingPlace": "0200065",
+    "seed": "G6-mayor-parity:US-AK",
+    "mayor": "Ivan Carson",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-AS",
+    "startingPlace": "territory:AS:aua",
+    "seed": "G6-mayor-parity:US-AS",
+    "mayor": "Emily Moseley",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-AZ",
+    "startingPlace": "0400730",
+    "seed": "G6-mayor-parity:US-AZ",
+    "mayor": "Parker Schultz",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-AR",
+    "startingPlace": "0500190",
+    "seed": "G6-mayor-parity:US-AR",
+    "mayor": "Xavier Reed",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-CA",
+    "startingPlace": "0600135",
+    "seed": "G6-mayor-parity:US-CA",
+    "mayor": "John Lambert",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-CO",
+    "startingPlace": "0800320",
+    "seed": "G6-mayor-parity:US-CO",
+    "mayor": "Leah Little",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-CT",
+    "startingPlace": "0901150",
+    "seed": "G6-mayor-parity:US-CT",
+    "mayor": "Lara Patrick",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-DE",
+    "startingPlace": "1001400",
+    "seed": "G6-mayor-parity:US-DE",
+    "mayor": "Julia Yang",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-DC",
+    "startingPlace": "county:11001",
+    "seed": "G6-mayor-parity:US-DC",
+    "mayor": "Jennifer Shelton",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-FL",
+    "startingPlace": "1200075",
+    "seed": "G6-mayor-parity:US-FL",
+    "mayor": "Mira Woodruff",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-GA",
+    "startingPlace": "1300184",
+    "seed": "G6-mayor-parity:US-GA",
+    "mayor": "Emma Manning",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-GU",
+    "startingPlace": "territory:GU:agana-heights",
+    "seed": "G6-mayor-parity:US-GU",
+    "mayor": "Bianca Osborn",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-HI",
+    "startingPlace": "1500400",
+    "seed": "G6-mayor-parity:US-HI",
+    "mayor": "Keith Gardner",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-ID",
+    "startingPlace": "1600100",
+    "seed": "G6-mayor-parity:US-ID",
+    "mayor": "Anya Sosa",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-IL",
+    "startingPlace": "1700113",
+    "seed": "G6-mayor-parity:US-IL",
+    "mayor": "Timothy Rivas",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-IN",
+    "startingPlace": "1800140",
+    "seed": "G6-mayor-parity:US-IN",
+    "mayor": "Xavier Reese",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-IA",
+    "startingPlace": "1900190",
+    "seed": "G6-mayor-parity:US-IA",
+    "mayor": "Victoria Mitchell",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-KS",
+    "startingPlace": "2000100",
+    "seed": "G6-mayor-parity:US-KS",
+    "mayor": "Miriam Reeves",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-KY",
+    "startingPlace": "county:21001",
+    "seed": "G6-mayor-parity:US-KY",
+    "mayor": "Deborah Cannon",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-LA",
+    "startingPlace": "2200100",
+    "seed": "G6-mayor-parity:US-LA",
+    "mayor": "Isabel Watson",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-ME",
+    "startingPlace": "2300695",
+    "seed": "G6-mayor-parity:US-ME",
+    "mayor": "Erin Wagner",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MD",
+    "startingPlace": "2400175",
+    "seed": "G6-mayor-parity:US-MD",
+    "mayor": "DeAndre Cook",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MA",
+    "startingPlace": "2500135",
+    "seed": "G6-mayor-parity:US-MA",
+    "mayor": "Selena Porter",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MI",
+    "startingPlace": "2600380",
+    "seed": "G6-mayor-parity:US-MI",
+    "mayor": "Adrian McPherson",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MN",
+    "startingPlace": "2700172",
+    "seed": "G6-mayor-parity:US-MN",
+    "mayor": "Vincent Hines",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MS",
+    "startingPlace": "2800100",
+    "seed": "G6-mayor-parity:US-MS",
+    "mayor": "Paige Collier",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MO",
+    "startingPlace": "county:29001",
+    "seed": "G6-mayor-parity:US-MO",
+    "mayor": "Devon Suarez",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MT",
+    "startingPlace": "3000175",
+    "seed": "G6-mayor-parity:US-MT",
+    "mayor": "Reese Simon",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-NE",
+    "startingPlace": "3100205",
+    "seed": "G6-mayor-parity:US-NE",
+    "mayor": "Blair Fitzgerald",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-NV",
+    "startingPlace": "3200500",
+    "seed": "G6-mayor-parity:US-NV",
+    "mayor": "Sage Walter",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-NH",
+    "startingPlace": "3300980",
+    "seed": "G6-mayor-parity:US-NH",
+    "mayor": "Dawn Stafford",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-NJ",
+    "startingPlace": "3400160",
+    "seed": "G6-mayor-parity:US-NJ",
+    "mayor": "Beth Valenzuela",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-NM",
+    "startingPlace": "3500240",
+    "seed": "G6-mayor-parity:US-NM",
+    "mayor": "Taylor Munoz",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-NY",
+    "startingPlace": "3600155",
+    "seed": "G6-mayor-parity:US-NY",
+    "mayor": "Edward Mercado",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-NC",
+    "startingPlace": "3700160",
+    "seed": "G6-mayor-parity:US-NC",
+    "mayor": "Tracy Sexton",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-ND",
+    "startingPlace": "3800100",
+    "seed": "G6-mayor-parity:US-ND",
+    "mayor": "Felix Robinson",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-MP",
+    "startingPlace": "territory:MP:capitol-hill",
+    "seed": "G6-mayor-parity:US-MP",
+    "mayor": "Oliver Elliott",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-OH",
+    "startingPlace": "3900142",
+    "seed": "G6-mayor-parity:US-OH",
+    "mayor": "Rebekah Cooper",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-OK",
+    "startingPlace": "4000100",
+    "seed": "G6-mayor-parity:US-OK",
+    "mayor": "Sam Hodges",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-OR",
+    "startingPlace": "4100275",
+    "seed": "G6-mayor-parity:US-OR",
+    "mayor": "Donna Hawkins",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-PA",
+    "startingPlace": "4200100",
+    "seed": "G6-mayor-parity:US-PA",
+    "mayor": "Rowan Noble",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-PR",
+    "startingPlace": "7200186",
+    "seed": "G6-mayor-parity:US-PR",
+    "mayor": "Deborah Mitchell",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-RI",
+    "startingPlace": "4403520",
+    "seed": "G6-mayor-parity:US-RI",
+    "mayor": "Lydia Lee",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-SC",
+    "startingPlace": "county:45001",
+    "seed": "G6-mayor-parity:US-SC",
+    "mayor": "Katelyn Wilkinson",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-SD",
+    "startingPlace": "4600100",
+    "seed": "G6-mayor-parity:US-SD",
+    "mayor": "Rebekah Ortega",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-TN",
+    "startingPlace": "4700200",
+    "seed": "G6-mayor-parity:US-TN",
+    "mayor": "Felix Newman",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-TX",
+    "startingPlace": "4800100",
+    "seed": "G6-mayor-parity:US-TX",
+    "mayor": "Mateo Larson",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-VI",
+    "startingPlace": "territory:VI:charlotte-amalie",
+    "seed": "G6-mayor-parity:US-VI",
+    "mayor": "Christopher Beck",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-UT",
+    "startingPlace": "4900540",
+    "seed": "G6-mayor-parity:US-UT",
+    "mayor": "Jenna Porter",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-VT",
+    "startingPlace": "county:50001",
+    "seed": "G6-mayor-parity:US-VT",
+    "mayor": "Charles Marquez",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-VA",
+    "startingPlace": "5100110",
+    "seed": "G6-mayor-parity:US-VA",
+    "mayor": "Cameron Burke",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-WA",
+    "startingPlace": "5300135",
+    "seed": "G6-mayor-parity:US-WA",
+    "mayor": "Joel Harrington",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-WV",
+    "startingPlace": "5400196",
+    "seed": "G6-mayor-parity:US-WV",
+    "mayor": "Sarah Perry",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-WI",
+    "startingPlace": "5500100",
+    "seed": "G6-mayor-parity:US-WI",
+    "mayor": "Elise Hale",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  },
+  {
+    "startingJurisdiction": "US-WY",
+    "startingPlace": "5600245",
+    "seed": "G6-mayor-parity:US-WY",
+    "mayor": "Kai Guerrero",
+    "question": "us-policy-positions:education.state-curriculum-standards",
+    "answer": "no",
+    "old": "signed",
+    "next": "vetoed",
+    "reasons": [
+      "The legislature passed the bill.",
+      "The bill cuts against the mayor's principles."
+    ]
+  }
+]
