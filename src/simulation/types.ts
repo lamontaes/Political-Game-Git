@@ -3528,7 +3528,8 @@ export interface DecisionSourceSnapshot {
   readonly content: string;
 }
 
-export type DecisionOutcomeKind = "selected" | "no-available-option";
+export type DecisionOutcomeKind =
+  "selected" | "no-available-option" | "undecided";
 
 export interface DecisionEvaluation {
   readonly decisionId: EntityId;
