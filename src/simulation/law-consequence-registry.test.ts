@@ -63,3 +63,21 @@ it("admits the reviewed tax handler only with its declared selector and action",
     false,
   );
 });
+
+it("admits the released permission handler through the sole default registry", () => {
+  const registry = createLawConsequenceRegistry();
+  expect(registry.handlers.get("right-permission")?.owner).toBe("Team 8");
+  expect(
+    registry.capabilities.selectorsByKind?.get("right-permission"),
+  ).toEqual(
+    new Set(["recorded-person-permission", "recorded-organization-permission"]),
+  );
+  expect(registry.capabilities.actions.get("right-permission")).toEqual(
+    new Set(["permit-on-yes", "prohibit-on-yes"]),
+  );
+  expect(
+    registry.capabilities.selectorsByKind
+      ?.get("right-permission")
+      ?.has("recorded-tax-base-payer"),
+  ).toBe(false);
+});
