@@ -495,7 +495,7 @@ it("A38 earned law raises only the actual completed interval without changing it
     kind: "money",
     money: money(8000, "USD"),
   });
-  expect(observedPay[0]!.sourceReference.locator).toContain(outcome.id);
+  expect(observedPay[0]!.sourceReference?.locator).toContain(outcome.id);
   const assessment = paid.history.earnedLawPayAssessments!.find(
     (row) => row.id === outcome.earnedLawPayAssessmentId,
   )!;
