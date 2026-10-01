@@ -64,6 +64,6 @@
     "report": "0 errors, 0 warnings",
     "zeroDice": "0 new findings, 5 stale entries; identical to exact current main",
     "spelling": "21 inherited findings on unowned paths; no owned finding",
-    "releaseDeclaration": "parser PASS; PR range pending final metadata commit"
+    "releaseDeclaration": "parser PASS; PR range PASS at b275f6e6ba89c0bc536c5938fb98cd7667026b75"
   }
 }
