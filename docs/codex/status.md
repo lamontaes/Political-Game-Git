@@ -1,3 +1,35 @@
+# Replacement builders have their preserved work
+
+The replacement lawmaking and housing chats have their assignments and preserved branches. The wage fallback has a named writer, and the speech work has been published for integration. These handoffs do not establish runtime completion.
+
+## MERGED
+
+Live GitHub confirms coordinator ownership PR #1648 merged at c7ee4265c8eb120b707b8f27698eca06926134fe. The current main read for this update is 3056b44e042b2de40f67a1241beb52e11b62ba1b.
+
+## CONNECTIONS TABLE
+
+| Producer | Consumer | Current state |
+| --- | --- | --- |
+| Preserved Team 1 A77/A97 work | Replacement Team 1, Making Laws | Assignment delivered to 01a0f92d-7edc-707a-b728-03688195800c; source receipt pending |
+| Preserved Team 4 A57 work | Replacement Team 4, Your Home | Assignment delivered to 01a0f92d-d8e9-7630-bb41-ee43da95f009; source receipt pending |
+| Canonical federal wage terms | Team 3 actual worker starting pay | Exact fallback hunk released; Audit contract answer and implementation pending |
+| Audit speech-wrapper release | Team 7 monthly speech scheduler | #1665 published; Claude registration release and runtime checks pending |
+| Claude G story-heard API | Team 8 News | Ruling 28 boundary released; Team 8 overlapping reader parked |
+
+## BLOCKED
+
+Team 7 cannot activate its replacement until Claude releases the composer and starting registration. Team 9's A103 test still fails before collection; Claude owns that shared import repair. Team 9 was directed to continue another admitted Crime and Courts build. No broad hold was issued.
+
+## EFFECTS
+
+No new player-visible effect is verified by this ledger update. Team 3's fallback repair is intended to restore starting pay where canonical law establishes the applicable federal floor. Unknown coverage must not become permission. Team 7's published test is authored but unrun.
+
+## Verification
+
+Updated October 1 at 4:41 p.m. Eastern after live chat delivery, compact turn checks, 00d replies and GitHub verification. Team 1 and Team 4 show active turns; their implementation receipts remain pending. Only coordinator documentation changes in this commit.
+
+## Historical checkpoints
+
 # Payroll continuation connected; source gaps reduced
 
 The shared payroll branch now includes the historical first-day continuation repair. Its combined checks remain pending. Vermont source bytes were recovered for Team 6; the other four requested pages remain unavailable.
