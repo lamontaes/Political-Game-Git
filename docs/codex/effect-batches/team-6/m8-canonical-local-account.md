@@ -61,8 +61,8 @@ The selection seed is m8-canonical-local-five-places. The sampled governments
 are Echols County, Georgia; La Grange, Missouri; Bryan County, Oklahoma;
 Glenville, West Virginia; and LaGrange County, Indiana. Only fixture identity
 selection uses the seed. No money or person outcome is drawn.
-All 77 focused checks passed on the owned source before current-main
-composition. These include five positive settlements, ten invalid or missing
+All 77 focused checks passed before and after composition with current main
+at 335eaf8f3257e36dd1a274861b9e65c18ee83ab5. These include five positive settlements, ten invalid or missing
 account checks, five forecast rejections, 56 state/DC/territory account
 controls and one ambiguity check. Positive cases also assert source IDs,
 canonical reload and repeat settlement.
@@ -71,6 +71,10 @@ balance alone instead of balance plus reserve. Their outputs are retained
 and are not product failures. Eleven initial negative assertions exposed
 the account-validation and missing-cash defects. No full suite, browser,
 speed, nationwide law-effect or named-person watched run was performed.
+Scoped TypeScript checked two changed roots and loaded 721 source files,
+with zero owned diagnostics. ESLint, formatting, report and release checks
+passed. The dice gate reports zero new findings and five stale inherited
+allowlist entries; this repair does not change that shared allowlist.
 
 ## 7. Worked example
 
