@@ -1,3 +1,4 @@
+import type { LawConsequenceRow } from "./law-consequence-types";
 import {
   createKnowledgeSubjectDefinition,
   createPolicyDomainDefinition,
@@ -114,6 +115,7 @@ export interface PropositionPrincipleRow {
 
 /** A specific thing that could be done about an issue. */
 export interface PolicyPropositionRow {
+  readonly consequences?: readonly LawConsequenceRow[];
   readonly key: string;
   /** Qualified `pack:key`, or a bare key meaning this pack's own. */
   readonly issue: string;
@@ -526,6 +528,7 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
           row.parameters ?? [],
           row.tags ?? [],
           bearings,
+          row.consequences ?? [],
         ),
       );
       propositionsByIssue.set(

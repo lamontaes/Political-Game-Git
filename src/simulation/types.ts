@@ -1,3 +1,4 @@
+import type { LawConsequenceRow } from "./law-consequence-types";
 import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import type { CrisisRecord } from "./crisis/types";
 import type {
@@ -338,6 +339,7 @@ export interface PropositionPrincipleBearing {
 }
 
 export interface PolicyPropositionDefinition {
+  readonly consequences?: readonly LawConsequenceRow[];
   readonly id: EntityId;
   readonly stableKey: string;
   readonly issueId: EntityId;

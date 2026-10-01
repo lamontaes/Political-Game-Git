@@ -1,3 +1,12 @@
+import {
+  createLawConsequenceRegistry,
+  LAW_CONSEQUENCE_REGISTRATIONS,
+} from "./law-consequence-registry";
+import { validateLawConsequences } from "./law-consequence-validation";
+import type {
+  LawConsequenceContext,
+  LawConsequenceKindRegistration,
+} from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import {
   applyEnactedDuties,
@@ -270,7 +279,13 @@ export function applyEnactedLawEffects(
   next = applyEnactedDuties(next, measureId);
   // A section that says who qualifies for, or is subject to, the Act.
   next = applyEnactedEligibility(next, measureId);
-  return next;
+  return applyLawConsequences(next, {
+    onDate: next.currentDate,
+    activity: "effective",
+    activityId: enactment.id,
+    subjectIds: [],
+    governingLawId: measureId,
+  });
 }
 
 /** Applies {@link applyEnactedLawEffects} to every enactment new since `before`. */
@@ -823,4 +838,63 @@ function levelOfGovernment(
   const stateKey = stateKeyForJurisdictionSlug(jurisdiction.slug);
   if (!stateKey) return "local";
   return isTerritoryUsps(stateKey.slice(3)) ? "territory" : "state";
+}
+
+/** Shared dispatch for starting and enacted laws. Resolvers retain canonical origin. */
+export function applyLawConsequences(
+  world: World,
+  context: LawConsequenceContext,
+  registrations: readonly LawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+): World {
+  const registry = createLawConsequenceRegistry(registrations);
+  let next = world;
+  for (const id of world.policyCatalog.propositionOrder) {
+    const proposition = world.policyCatalog.propositions[id];
+    if (
+      !proposition ||
+      (context.questionKey && proposition.stableKey !== context.questionKey)
+    )
+      continue;
+    const rows = proposition.consequences ?? [];
+    const errors = validateLawConsequences(rows, registry.capabilities);
+    if (errors.length) throw new Error(errors.join("; "));
+    for (const row of rows) {
+      if (row.when !== context.activity) continue;
+      if (row.onward?.length)
+        throw new Error(
+          `Consequence ${row.id}: missing saved-parent onward dispatch capability`,
+        );
+      const registration = registry.handlers.get(row.kind);
+      if (!registration)
+        throw new Error(
+          `Consequence ${row.id}: missing kind capability '${row.kind}'`,
+        );
+      const resolved = registration.resolve(next, row, {
+        ...context,
+        questionKey: proposition.stableKey,
+      });
+      for (const input of resolved) {
+        if (
+          input.row.id !== row.id ||
+          input.questionKey !== proposition.stableKey ||
+          input.activityId !== context.activityId
+        )
+          throw new Error(
+            `Consequence ${row.id}: resolver returned inconsistent cause identity`,
+          );
+        if (
+          context.governingLawId &&
+          input.law.measureId !== context.governingLawId
+        )
+          continue;
+        if (
+          input.effectiveAt > context.onDate ||
+          input.law.operativeAt > context.onDate
+        )
+          continue;
+        next = registration.apply(next, input);
+      }
+    }
+  }
+  return next;
 }
