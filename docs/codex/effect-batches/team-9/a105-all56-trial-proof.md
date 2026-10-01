@@ -1,6 +1,6 @@
 # A105 — Trials and saved sentences in all 56 places
 
-The same seeded small-world rule reaches the jury and sentence paths in all 56 jurisdictions. This extends the repaired five-place #1627 proof; no production timing or legal rule changes.
+The same seeded small-world rule reaches the jury and sentence paths in all 56 jurisdictions. This extends the repaired five-place proof; no production timing or legal rule changes.
 
 ## 1. Why-chain
 
@@ -24,7 +24,7 @@ Each controlled world has 40 generated residents and its actual catalog court/se
 
 ## 6. Proof run
 
-Executed source `c8c472d34f956f67eda5fd5f54b56e4b843a7d77` is stacked on unchanged #1627 head 6150c2280b3c0e5699af9be47b8e51ab72f9552b. The complete two changed files passed 116 of 116 cases in 57.52 seconds with one worker and stock budgets. Receipts contain 56 distinct jury places and 56 distinct saved-sentence places, plus the life-sentence record. Earlier five-place and failed gate receipts remain preserved. Scoped types and static receipts accompany publication. No unrelated behavioral file, full suite, unchanged LOAD or repository sweep ran under the latest direct owner changed-file rule.
+Executed source `c8c472d34f956f67eda5fd5f54b56e4b843a7d77` is stacked on unchanged #1627 head 6150c2280b3c0e5699af9be47b8e51ab72f9552b. The complete two changed files passed 116 of 116 cases in 57.52 seconds with one worker and stock budgets. Receipts contain 56 distinct jury places and 56 distinct saved-sentence places, plus the life-sentence record. Earlier five-place and failed gate receipts remain preserved. Two changed strict roots compiled 1009 dependency files with zero diagnostics. Changed-source lint, formatting, whitespace and the scoped release declaration passed. No unrelated behavioral file, full suite, unchanged LOAD or repository sweep ran under the latest direct owner changed-file rule.
 
 Raw logs and record receipts remain local under `/tmp/team9-a105-all56-*`, not committed. This is not whole-slice acceptance or CTO browser approval.
 
