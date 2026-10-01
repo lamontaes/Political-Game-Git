@@ -1,4 +1,4 @@
-import { evaluateDecision } from "../decisions";
+import { considerationScore, evaluateDecision } from "../decisions";
 import {
   constitutionalEntityAvailableAt,
   stateAmendmentProfile,
@@ -834,7 +834,10 @@ export function decideChamberVote(
     const selected = evaluation.selectedOptionKey ?? "withhold";
     const decisive = considerations
       .filter((consideration) => consideration.optionKey === selected)
-      .sort((l, r) => weight(r) - weight(l))[0];
+      .sort(
+        (l, r) =>
+          Math.abs(considerationScore(r)) - Math.abs(considerationScore(l)),
+      )[0];
     return {
       memberKey: member.memberKey,
       personId: member.personId,
@@ -1079,12 +1082,4 @@ function partyCue(
       sourceRefs: [],
     },
   ];
-}
-
-function weight(consideration: DecisionConsideration): number {
-  const importance = { slight: 1, moderate: 2, strong: 4, decisive: 6 }[
-    consideration.importance
-  ];
-  const confidence = { low: 1, medium: 2, high: 3 }[consideration.confidence];
-  return importance * confidence;
 }
