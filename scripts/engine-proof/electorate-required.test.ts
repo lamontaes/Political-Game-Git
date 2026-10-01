@@ -1,0 +1,219 @@
+import { beforeAll, describe, expect, it } from "vitest";
+import {
+  addDays,
+  simulationMomentOnLocalDate,
+} from "../../src/simulation/dates";
+import { createDemoWorld } from "../../src/simulation/demo";
+import {
+  electionContestResult,
+  electionContestStatus,
+  electionContestTransitionHandler,
+  evaluateDeterministicContestOutcome,
+  requireElectionContest,
+  resolveElectionContest,
+  scheduleElectionContest,
+} from "../../src/simulation/election-contests";
+import { personName } from "../../src/simulation/people";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
+import { statewideElectorate } from "../../src/simulation/statewide-electorate";
+import { isTerritoryUsps } from "../../src/simulation/state-reference";
+import { chiefExecutiveJurisdictionId } from "../../src/simulation/nationwide-world/government-jurisdiction";
+import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../../src/simulation/nationwide-world/state-executive-candidacy-packs";
+import type {
+  ElectionContestRecord,
+  EntityId,
+  World,
+} from "../../src/simulation/types";
+import { assertWorldIntegrity } from "../../src/simulation/world";
+
+let fixture: World;
+beforeAll(() => {
+  fixture = createDemoWorld("audit-a110-no-fabricated-electorate");
+});
+
+/** Authored on-date snapshot for direct writer tests, not a natural clock run. */
+function onElectionDate(world: World): World {
+  const contest = world.history.electionContests!.at(-1)!;
+  return {
+    ...world,
+    currentDate: contest.electionDate,
+    currentMoment: simulationMomentOnLocalDate(
+      world.currentMoment,
+      contest.electionDate,
+    ),
+  };
+}
+
+function localContest(candidates: number): World {
+  return scheduleElectionContest(fixture, {
+    stableKey: `a110:no-electorate:${candidates}`,
+    jurisdictionId: fixture.jurisdictionOrder[0]!,
+    office: {
+      officeKey: "a110-authored-mayor",
+      title: "Authored mayor fixture",
+      seatKey: null,
+      occupationClassification: "occupation:elected-official",
+    },
+    electionDate: addDays(fixture.currentDate, 1),
+    candidatePersonIds: fixture.personOrder.slice(0, candidates),
+    provenance: {
+      method: "authored",
+      sourceEntityIds: [],
+      note: "The Lexington-Fayette placeholder has no admitted electorate; this does not assert local authority.",
+    },
+  });
+}
+
+describe("A110 automatic counts require an electorate", () => {
+  it.each([1, 2])(
+    "does not invent ballots for %i unsupported candidate(s)",
+    (candidates) => {
+      const world = localContest(candidates);
+      const contest = world.history.electionContests!.at(-1)!;
+      console.log(
+        JSON.stringify({
+          a110Unsupported: {
+            place: world.jurisdictions[contest.jurisdictionId]!.name,
+            candidates: contest.candidatePersonIds.map((id) => ({
+              id,
+              name: personName(world.people[id]!),
+            })),
+            result: evaluateDeterministicContestOutcome(world, contest),
+          },
+        }),
+      );
+      expect(evaluateDeterministicContestOutcome(world, contest)).toBeNull();
+    },
+  );
+
+  it("keeps unsupported automatic resolution pending with no event or result, including after reload", () => {
+    const world = onElectionDate(localContest(2));
+    const contest = world.history.electionContests!.at(-1)!;
+    const saved = serializeWorld(world);
+    const next = resolveElectionContest(world, { contestId: contest.id });
+    expect(next).toBe(world);
+    expect(electionContestStatus(next, contest.id)).toBe("pending");
+    expect(electionContestResult(next, contest.id)).toBeNull();
+    expect(next.history.events).toEqual(world.history.events);
+    expect(next.history.nextSequence).toBe(world.history.nextSequence);
+    const loaded = deserializeWorld(saved);
+    expect(
+      serializeWorld(resolveElectionContest(loaded, { contestId: contest.id })),
+    ).toBe(saved);
+  });
+
+  it("blocks the existing scheduled handler without manufacturing a winner or future retry", () => {
+    const world = onElectionDate(localContest(2));
+    const due = world.history.futureDueItems.at(-1)!;
+    const result = electionContestTransitionHandler(world, due);
+    expect(result.status).toBe("blocked");
+    expect(result.reasonKey).toBe("election:count-unavailable");
+    expect(result.outcomeEventId).toBeNull();
+    expect(result.world).toBe(world);
+    expect(result.world.history.futureDueItems).toEqual(
+      world.history.futureDueItems,
+    );
+    expect(electionContestResult(result.world, due.entityIds[0]!)).toBeNull();
+    expect(electionContestTransitionHandler(result.world, due)).toEqual(result);
+  });
+
+  it("still accepts an explicit supplied tally and preserves duplicate-result protection", () => {
+    const world = onElectionDate(localContest(2));
+    const contest = world.history.electionContests!.at(-1)!;
+    const [winner, loser] = contest.candidatePersonIds;
+    const resolved = resolveElectionContest(world, {
+      contestId: contest.id,
+      winnerPersonId: winner!,
+      tallies: [
+        { candidatePersonId: winner!, votes: 3, voteShare: 0.75 },
+        { candidatePersonId: loser!, votes: 1, voteShare: 0.25 },
+      ],
+      provenance: {
+        method: "manual",
+        sourceEntityIds: [contest.id],
+        note: "Explicit authored tally; no turnout estimate.",
+      },
+    });
+    expect(electionContestResult(resolved, contest.id)!.winnerPersonId).toBe(
+      winner,
+    );
+    expect(
+      electionContestResult(resolved, contest.id)!.tallies.map(
+        (row) => row.votes,
+      ),
+    ).toEqual([3, 1]);
+    expect(electionContestStatus(resolved, contest.id)).toBe("resolved");
+    expect(
+      resolved.history.events.filter(
+        (row) => row.type === "election.contest-resolved",
+      ),
+    ).toHaveLength(1);
+    assertWorldIntegrity(resolved);
+    expect(() =>
+      resolveElectionContest(resolved, { contestId: contest.id }),
+    ).toThrow("already resolved");
+  });
+
+  it("retains the supplied-tally highest-vote guard", () => {
+    const world = onElectionDate(localContest(2));
+    const contest = world.history.electionContests!.at(-1)!;
+    const [lower, higher] = contest.candidatePersonIds;
+    expect(() =>
+      resolveElectionContest(world, {
+        contestId: contest.id,
+        winnerPersonId: lower!,
+        tallies: [
+          { candidatePersonId: lower!, votes: 1, voteShare: 0.25 },
+          { candidatePersonId: higher!, votes: 3, voteShare: 0.75 },
+        ],
+      }),
+    ).toThrow("does not match highest vote tally");
+    expect(electionContestResult(world, contest.id)).toBeNull();
+  });
+
+  it("uses existing calibrated ballots for a single supported candidate in 51 jurisdictions and refuses the five unsupported territories", () => {
+    expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+    const scheduled = localContest(1);
+    const template = requireElectionContest(
+      scheduled,
+      scheduled.history.electionContests!.at(-1)!.id,
+    );
+    let supported = 0;
+    let unsupported = 0;
+    for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS) {
+      const jurisdictionId = chiefExecutiveJurisdictionId(usps)!;
+      const contest: ElectionContestRecord = {
+        ...template,
+        jurisdictionId,
+        office: {
+          ...template.office,
+          officeKey: `a110-authored-statewide:${usps}`,
+        },
+      };
+      const outcome = evaluateDeterministicContestOutcome(scheduled, contest);
+      if (isTerritoryUsps(usps)) {
+        unsupported++;
+        expect(outcome, usps).toBeNull();
+      } else {
+        supported++;
+        const electorate = statewideElectorate(scheduled, jurisdictionId)!;
+        expect(outcome, usps).not.toBeNull();
+        expect(outcome!.winnerPersonId, usps).toBe(
+          template.candidatePersonIds[0],
+        );
+        expect(outcome!.tallies, usps).toEqual([
+          {
+            candidatePersonId: template.candidatePersonIds[0] as EntityId,
+            votes: electorate.ballots,
+            voteShare: 1,
+          },
+        ]);
+      }
+    }
+    expect(supported).toBe(51);
+    expect(unsupported).toBe(5);
+  });
+});
