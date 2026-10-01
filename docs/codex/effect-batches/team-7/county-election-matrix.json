@@ -1019,8 +1019,16 @@
       ]
     },
     "NV": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "termElectorateAndQualifications": {
+          "value": "2025 code, revised April 15, 2026: ordinary four-year terms begin first Monday in January, with two-year district-transition exceptions and Carson City term-expiry exception. Commissioners must be county electors/registered voters; other chapter qualifications apply and county/township officers are ineligible. Below 100,000 population, ordinary anchors split two seats in 1968+4n and one in 1970+4n; actual expansion/district choices may differ. Large-county districts and actual population/seat bindings remain open.",
+          "url": "https://www.leg.state.nv.us/nrs/NRS-244.html",
+          "section": "244.014-.030, 244.050; actual district plans unbound",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1268,8 +1276,16 @@
       ]
     },
     "OR": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryTermAndEligibility": {
+          "value": "Official 2025 edition: commissioners replacing expiring seats elected through 204.005/249.088. Ordinary term four years; when multiple commissioners elected and one fills vacancy, one term is two years. Office begins first Monday January after election. Eligibility under 204.016 includes U.S. citizenship, Oregon elector status and county residence for one year before the next election. Actual charter/district, primary-majority route, seat phase and 2026 law renewal remain open.",
+          "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+          "section": "204.005, .010, .016, .020; official HTML SHA256 48183c0530d2c8d8d9af00c556c818a40877debf583b8e1a0fd7f6e0594b9d0e",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1549,8 +1565,23 @@
       ]
     },
     "VA": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryTermAndElectorate": {
+          "value": "County supervisors ordinarily elected November 1995+4n for four years. Section 24.2-219 and optional county forms are exceptions. Where district/ward residence is imposed, that district/ward elects the member rather than the countywide electorate. Actual county form and residence rule remain open.",
+          "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-218/",
+          "section": "24.2-218(A)-(B)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "optionalStagger": {
+          "value": "County ordinance or approved referendum can adopt biennial staggered four-year elections, with initial two/four-year terms. Certain countywide chair offices stay on 1995+4n. District changes require assigned phases; no actual county adoption or term-start date admitted.",
+          "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-219/",
+          "section": "24.2-219(A)-(C)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1630,8 +1661,16 @@
       ]
     },
     "WI": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "supervisorFormsAndTerms": {
+          "value": "Official 2025-biennium text: other-county supervisors under (3) have two-year terms, first Tuesday April in even years, taking office third Tuesday April. Milwaukee/population-at-least-750,000 under (2) uses two-year terms since 2016 and third Monday April entry. Self-organized (1) permits concurrent/staggered two-year terms with initial half terms; one-town (5) composition differs. County officers/employees ineligible under (4). Actual county form, district, candidate qualifications and filing remain open.",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/59/iii/10",
+          "section": "59.10(1)-(5); retrieved official HTML, SHA256 b6769984e80ea43b89aba8b2b07a72e54b69d3a532c1dd671896d9542ceb51b3",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1692,6 +1731,18 @@
       "state": "KS",
       "url": "https://kslegislature.gov/b2025_26/laws/019_000_0000_chapter/019_002_0000_article/019_002_0003a_section/019_002_0003a_k/",
       "result": "tool Internal Error; 19-203a exception not admitted from search lead",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "WI",
+      "url": "https://docs.legis.wisconsin.gov/statutes/statutes/59/iii/10",
+      "result": "web tool Internal Error; direct official HTML read succeeded and hash bound in claim",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "OR",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+      "result": "web tool 403/Internal Error; direct official HTML read succeeded using legacy cp1252 encoding and hash bound in claim",
       "readOn": "2026-10-01"
     }
   ]

@@ -46,5 +46,18 @@
     "productionProfilesAdmitted": 0,
     "validation": "JSON parsed; 50 identities and D.C. preserved; prior claims unchanged; URLs/read dates/status present; no runtime change",
     "matrixSha256": "e79896f93cc7d889e11a77ad33b3aae56e7cbac330c3d8cb6cd6a9f6bd110ce1"
+  },
+  "renewal04": {
+    "previousHead": "d0c67c3dc86ebd02b59d2e9f462ac8010a0ab661",
+    "changedStates": ["NV", "VA", "WI", "OR"],
+    "counts": {
+      "partially-inspected": 37,
+      "unread": 12,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 state identities and D.C. preserved; all prior claim values unchanged; source URL/date/status present; no runtime changes",
+    "matrixSha256": "8f4fc56154ef7b3a72d55e28df4f01a9a8b9cc8b52299fbd17167352f71679c6"
   }
 }
