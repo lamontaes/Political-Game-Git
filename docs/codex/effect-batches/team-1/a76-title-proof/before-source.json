@@ -1,0 +1,55 @@
+{
+  "base": "8c63a1e87b674cc65956b78f69efc059d239a640",
+  "candidate": "11a7bb19f7e993eb8bcd4c8718c34c4d6a72d900",
+  "method": "Exact existing source roots from main in the reused checkout; unused new leaf/test files remain but are not imported by this baseline file. Restore only if each temporary source still equals its admitted baseline bytes.",
+  "sources": {
+    "src/simulation/dc-council-acts.test.ts": {
+      "candidateSha256": "bc877536d726a3fddd36c58829aa5b0eedc1c07ef037238c1310300c3645de96",
+      "baselineSha256": "d3d0586ff048c7c548eade5dba26742dcc3ba5143b880f0889786ca8af400718"
+    },
+    "src/simulation/dc-council-sittings.ts": {
+      "candidateSha256": "71f0725982e008df9c04a37d74c728ebce389633b3d3e455135fe052d64a604a",
+      "baselineSha256": "d83888eec703044e5ab4c19c5b33412ffe5eafc1cbfd309e76227592d9f22bfb"
+    },
+    "src/simulation/governing/member-agenda-council.test.ts": {
+      "candidateSha256": "5c38fde690951793a625d29797688bc2be274f1c270ee9ace7c8cec03071e0e0",
+      "baselineSha256": "99cfff7047de2e80c190735f11da184f08439a50fa22ccb08bb276ddecf2c599"
+    },
+    "src/simulation/governing/member-agenda-settings.ts": {
+      "candidateSha256": "9bfd7a32511915d5a5646d36785c22ebcab53b4424ee2ee863f2df25784b6e85",
+      "baselineSha256": "ccfcbc99718ac0f2ed1b4403be157bb6d6fdc20889392c2ffbc51c11dbc55f32"
+    },
+    "src/simulation/governing/member-agenda.ts": {
+      "candidateSha256": "7d86cfcb62c87e4c2df09e47dd0f8d6cafcad6eff4d906de70739ab2cef86fbd",
+      "baselineSha256": "1674472dd8ea57172d1096a120e7baec118821c4c4d65d825686fa5e37635ca1"
+    },
+    "src/simulation/legislature-rules.ts": {
+      "candidateSha256": "dbf1a4860c0b685b5d427fad50a4f3017c034349dd84b3e5accca5ded8e8ef48",
+      "baselineSha256": "52c97021f948f0ca7523370e526f31bb14f713290409c21a5571c23e98aafff7"
+    },
+    "src/simulation/living-world/local-council-meetings.ts": {
+      "candidateSha256": "48716f0e8f35c87f1f4cee388fff6b17b99b44694e75cab76fb9a68d2ef16d31",
+      "baselineSha256": "0687f849fc786d7fa46ccaa9a02f4ee8b1f7acbd4496f65a0b33cb53edd91e1b"
+    },
+    "src/simulation/municipal-government.ts": {
+      "candidateSha256": "92dcbcf9ee88591834d7dc2e5f801bd0aa9ee55018eb6475136c256f4e0887ee",
+      "baselineSha256": "74883a0865f736bd2c4104015eae1c3d30aca9934174713c53fff0764bac488e"
+    },
+    "src/simulation/town-council-profile.ts": {
+      "candidateSha256": "dffd6f607128cb84eaed22ab94647a9516f2cade3ffe068125bba3c1c09530ce",
+      "baselineSha256": "bfb342ebd1324c5b9c8e595a4f6c56dd70cdcd577b7e51230a0014e05e2d52f2"
+    }
+  },
+  "testExitCode": 1,
+  "restoredSourceHashes": {
+    "src/simulation/dc-council-acts.test.ts": "bc877536d726a3fddd36c58829aa5b0eedc1c07ef037238c1310300c3645de96",
+    "src/simulation/dc-council-sittings.ts": "71f0725982e008df9c04a37d74c728ebce389633b3d3e455135fe052d64a604a",
+    "src/simulation/governing/member-agenda-council.test.ts": "5c38fde690951793a625d29797688bc2be274f1c270ee9ace7c8cec03071e0e0",
+    "src/simulation/governing/member-agenda-settings.ts": "9bfd7a32511915d5a5646d36785c22ebcab53b4424ee2ee863f2df25784b6e85",
+    "src/simulation/governing/member-agenda.ts": "7d86cfcb62c87e4c2df09e47dd0f8d6cafcad6eff4d906de70739ab2cef86fbd",
+    "src/simulation/legislature-rules.ts": "dbf1a4860c0b685b5d427fad50a4f3017c034349dd84b3e5accca5ded8e8ef48",
+    "src/simulation/living-world/local-council-meetings.ts": "48716f0e8f35c87f1f4cee388fff6b17b99b44694e75cab76fb9a68d2ef16d31",
+    "src/simulation/municipal-government.ts": "92dcbcf9ee88591834d7dc2e5f801bd0aa9ee55018eb6475136c256f4e0887ee",
+    "src/simulation/town-council-profile.ts": "dffd6f607128cb84eaed22ab94647a9516f2cade3ffe068125bba3c1c09530ce"
+  }
+}

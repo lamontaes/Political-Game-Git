@@ -14,7 +14,9 @@ HARDWIRED: the declared title policy produces “Fund a Behavioral Health Crisis
 
 ## VITAL STATISTICS
 
-The final focused run passed 80 of 80 cases across three files in 13.86 seconds. The changed District title case passed separately in 21.34 seconds; nine unchanged clock cases were not selected. Eleven strict roots had zero scoped or imported diagnostics. Scoped lint and formatting passed. Release reports the inherited CI declaration prose error. Dice reports zero new and five stale entries. Spelling reports 26 inherited findings and none in owned paths. Two earlier town fixture attempts produced no bills and failed; their logs are preserved. No assertions or timeouts were relaxed.
+The first complete focused run passed 80 of 80 cases across three files in 13.86 seconds. After the first main update, the same 80 passed in 11.82 seconds. The complete District acts file then passed eight cases and failed two in 290.70 seconds. Exact main reproduced both failures in 301.99 seconds: the unchanged clock case timed out at 180 seconds, and the unchanged early-reading assertion expected “13 whole intervening days” while the guard reported “14 elapsed days.” Those are inherited failures, not title regressions. Every temporarily substituted file was restored with its original hash verified.
+
+Eleven strict roots had zero scoped or imported diagnostics on that composition. Scoped lint and formatting passed. Release reports the inherited CI declaration prose error. The earlier dice receipt reports zero new and five stale entries; spelling reports 26 inherited findings and none in owned paths. After newer main, including the admitted member-cap reader, all 80 focused cases passed again in 14.83 seconds and eleven strict roots again had zero diagnostics. The complete long clock file was not repeated on this final composition. Its exact main comparison remains source-bound to the earlier composition. Final spelling reports 78 inherited findings and none in owned paths. Two earlier town fixture attempts produced no bills and failed; their logs are preserved. No assertions or timeouts were relaxed.
 
 ## 1. Why-chain (five whys, to bedrock)
 
@@ -55,10 +57,10 @@ No seated member or insufficient recorded motive produces no bill. The repair do
 
 The District fixture uses place 1150000 and seed dc-numbering-caller. Its unchanged 56 observer-jurisdiction checks retain the captured sponsor/question selection hash. This is one actual District council observed from 56 jurisdictions, not 56 council executions. The town fixture uses place 0162328 and seed a76-town-titles, with actual local-seat records and explicitly controlled saved views. Both actual filed-title checks pass. Canonical reload and repeat checks pass, and the unchanged District sitting caller's two numbering cases pass.
 
-The original title-function comparison is a pure string comparison against exact main source, not a second baseline world run. No local year, nationwide run, browser, speed or full suite was run. The existing Audit cloud year remains separate and qualified.
+The original title-function comparison is a pure string comparison against exact main source, not a second baseline world run. No year benchmark, nationwide run, browser, speed benchmark or full suite was run. The unchanged long District clock case was executed only as part of the changed-file check and exact-main comparison. The existing Audit cloud year remains separate and qualified.
 
 ## 7. Worked example
 
 Rebecca Snyder files her behavioral-health bill through the existing common filer. The saved bill keeps “Fund a Behavioral Health Crisis Response Act of 2026.” Rachel Thompson and Joseph McGee file the two controlled town proposals through that same filer with the town's declared policy. Their saved titles end in “Ordinance.” Reloading the canonical town save preserves the bill records; repeating that intake adds no duplicate. No money is moved by this display-only consolidation.
 
-Method: the source manifest and raw logs bind this proof to its exact main and owned files. Civic reports and feature walkthrough received self-review under the owner's no-helper rule. A87 awaits the admitted first-sitting source. A77 awaits Audit's actual local-roster binding; neither gap is hidden by this title repair.
+Method: the source manifest and raw logs bind this proof to its exact main and owned files. Civic reports and feature walkthrough received self-review under the owner's no-helper rule. The inherited clock timeout and reading-refusal wording are routed to Audit and Team 7; this title scope changes neither. A87 awaits the admitted first-sitting source. A77 awaits Audit's actual local-roster binding; neither gap is hidden by this title repair.
