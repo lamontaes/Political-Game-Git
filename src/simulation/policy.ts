@@ -1,3 +1,4 @@
+import type { LawConsequenceRow } from "./law-consequence-types";
 import { createStableId } from "./ids";
 import type {
   EntityId,
@@ -85,8 +86,12 @@ export function createPolicyPropositionDefinition(
   parameters: readonly PropositionParameter[] = [],
   tags: readonly string[] = [],
   principles: readonly PropositionPrincipleBearing[] = [],
+  consequences: readonly LawConsequenceRow[] = [],
 ): PolicyPropositionDefinition {
   return {
+    ...(consequences.length
+      ? { consequences: structuredClone(consequences) }
+      : {}),
     id: createStableId("proposition", `definition:${stableKey}`),
     stableKey,
     issueId,
@@ -251,6 +256,9 @@ export function clonePolicyCatalog(catalog: PolicyCatalog): PolicyCatalog {
         id,
         {
           ...proposition,
+          ...(proposition.consequences
+            ? { consequences: structuredClone(proposition.consequences) }
+            : {}),
           parameters: proposition.parameters.map((parameter) => ({
             ...parameter,
           })),
