@@ -684,7 +684,7 @@ const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
 };
 
 /** Each person's recorded pay a month on a date, in cents, from pay terms. */
-function monthlyPayByPerson(
+export function monthlyPayByPerson(
   world: World,
   onDate: IsoDate,
 ): Map<EntityId, number> {
