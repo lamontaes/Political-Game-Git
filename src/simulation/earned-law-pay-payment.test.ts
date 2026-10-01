@@ -1,3 +1,5 @@
+import { payWorkplaceAt } from "./pay-coverage-predicates";
+import { recordEarnedPayObservations } from "./earned-pay-observations";
 import { expect, it } from "vitest";
 import { applyLegislativeStep } from "../presentation/legislation-session";
 import { addDays, daysBetween, simulationMinutesBetween } from "./dates";
@@ -519,6 +521,11 @@ it("A38 earned law raises only the actual completed interval without changing it
     contractualGross: money(7200, "USD"),
     assessedGross: money(8000, "USD"),
   });
+  expect(observedPay[0]!.scope.jurisdictionId).toBe(
+    payWorkplaceAt(paid, assessment.workRelationshipId, assessment.earnedCutoff)
+      .jurisdictionId,
+  );
+  expect(recordEarnedPayObservations(paid, [outcome.id])).toBe(paid);
   expect(assessment.lawEffectStamps[0]!.sourceRecordIds).toEqual(
     expect.arrayContaining([
       assessment.id,

@@ -1,3 +1,4 @@
+import { payWorkplaceAt } from "./pay-coverage-predicates";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { recordById } from "./history-index";
 import { createStableId } from "./ids";
@@ -60,7 +61,14 @@ export function recordEarnedPayObservations(
       throw new Error(
         "Completed payroll observation must bind the assessed work and actual gross transfer.",
       );
-    const jurisdictionId = assessment.resolvedConsequence.jurisdictionId;
+    const workplace = payWorkplaceAt(
+      world,
+      assessment.workRelationshipId,
+      assessment.earnedCutoff,
+    );
+    // Legal coverage is not geography. Preserve the payment without inventing a location.
+    if (!workplace.jurisdictionId) continue;
+    const jurisdictionId = workplace.jurisdictionId;
     const key = JSON.stringify([
       jurisdictionId,
       payment.periodStartsAt,
@@ -130,6 +138,17 @@ export function recordEarnedPayObservations(
           group.rows.map((row) => ({
             paymentId: row.id,
             assessmentId: row.earnedLawPayAssessmentId,
+            workplaceFactIds: payWorkplaceAt(
+              world,
+              recordById(
+                world.history.earnedLawPayAssessments ?? [],
+                row.earnedLawPayAssessmentId!,
+              )!.workRelationshipId,
+              recordById(
+                world.history.earnedLawPayAssessments ?? [],
+                row.earnedLawPayAssessmentId!,
+              )!.earnedCutoff,
+            ).factRecordIds,
           })),
         ),
       },
