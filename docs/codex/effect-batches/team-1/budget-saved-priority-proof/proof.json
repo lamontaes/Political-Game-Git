@@ -1,0 +1,150 @@
+[
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "GA",
+    "governorName": "Rafael Richmond",
+    "savedPriority": null,
+    "matterId": "event_9a54c61938532057",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "AZ",
+    "governorName": "Martin Jacobs",
+    "savedPriority": null,
+    "matterId": "event_90bd732e3f2919a6",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "UT",
+    "governorName": "Matthew York",
+    "savedPriority": null,
+    "matterId": "event_d32574a128017bdd",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "MT",
+    "governorName": "Sonia Page",
+    "savedPriority": null,
+    "matterId": "event_72cde9a2259b21c1",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "AR",
+    "governorName": "Devon Vang",
+    "savedPriority": null,
+    "matterId": "event_2db70f063c760dbc",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "GA",
+    "governorName": "Rafael Richmond",
+    "savedPriority": "appropriations",
+    "sourceMeasureId": "legislative-measure_d2d4604553f314a8",
+    "matterId": "event_9a54c61938532057",
+    "decisionId": "event_a393e8dab2a3f4a1",
+    "decisionChoice": "Put more into appropriations",
+    "reason": "It matches the officeholder's recorded first priority.",
+    "limits": "Controlled saved priority/source authority; actual holder decides. No new amount, paid transfer, natural selection or national session proof."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "AZ",
+    "governorName": "Martin Jacobs",
+    "savedPriority": "appropriations",
+    "sourceMeasureId": "legislative-measure_4dc02d5e16dedb2b",
+    "matterId": "event_90bd732e3f2919a6",
+    "decisionId": "event_0b092044c2599120",
+    "decisionChoice": "Put more into appropriations",
+    "reason": "It matches the officeholder's recorded first priority.",
+    "limits": "Controlled saved priority/source authority; actual holder decides. No new amount, paid transfer, natural selection or national session proof."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "UT",
+    "governorName": "Matthew York",
+    "savedPriority": "appropriations",
+    "sourceMeasureId": "legislative-measure_4a9200bfde1e3e98",
+    "matterId": "event_d32574a128017bdd",
+    "decisionId": "event_4a21937f93c42a5f",
+    "decisionChoice": "Put more into appropriations",
+    "reason": "It matches the officeholder's recorded first priority.",
+    "limits": "Controlled saved priority/source authority; actual holder decides. No new amount, paid transfer, natural selection or national session proof."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "MT",
+    "governorName": "Sonia Page",
+    "savedPriority": "appropriations",
+    "sourceMeasureId": "legislative-measure_7f094200643f5cce",
+    "matterId": "event_72cde9a2259b21c1",
+    "decisionId": "event_67c8e581df85688b",
+    "decisionChoice": "Put more into appropriations",
+    "reason": "It matches the officeholder's recorded first priority.",
+    "limits": "Controlled saved priority/source authority; actual holder decides. No new amount, paid transfer, natural selection or national session proof."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "AR",
+    "governorName": "Devon Vang",
+    "savedPriority": "appropriations",
+    "sourceMeasureId": "legislative-measure_3805f5898e81dfbd",
+    "matterId": "event_2db70f063c760dbc",
+    "decisionId": "event_a916c62ec36c73be",
+    "decisionChoice": "Put more into appropriations",
+    "reason": "It matches the officeholder's recorded first priority.",
+    "limits": "Controlled saved priority/source authority; actual holder decides. No new amount, paid transfer, natural selection or national session proof."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "GA",
+    "governorName": "Rafael Richmond",
+    "savedPriority": "none",
+    "matterId": "event_9a54c61938532057",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "GA",
+    "governorName": "Rafael Richmond",
+    "savedPriority": "bridge-maintenance",
+    "matterId": "event_9a54c61938532057",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  },
+  {
+    "seed": "saved-budget-npc-choice",
+    "place": "GA",
+    "governorName": "Rafael Richmond",
+    "savedPriority": null,
+    "matterId": "event_9a54c61938532057",
+    "status": "open",
+    "decisionId": null,
+    "context": "No saved budget priority matches an available, source-backed option; the request remains pending.",
+    "limits": "Controlled actual saved request/source authority; missing choice stays pending, not a natural year or approved default."
+  }
+]

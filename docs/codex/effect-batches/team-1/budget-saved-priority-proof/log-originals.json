@@ -1,0 +1,68 @@
+[
+  {
+    "published": "initial-fixture-failure.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-before.log",
+    "rawOriginalSha256": "13452bbe24416d0ef53e2df2c73831f42f09f4be58bff056421c18cff2f055e4",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "before.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-before-canonical.log",
+    "rawOriginalSha256": "90772e5f60ae5d1ae85b4e81bb187e0fd93a2c629b65ee0903937bb5996cefeb",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "after-first-fourteen.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-after.log",
+    "rawOriginalSha256": "86fef1a86bce7b254e6062b56cd6d581747e3678f7c6422c8aad35c664b3386f",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "after-combined.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-combined.log",
+    "rawOriginalSha256": "b54a3f84afd4d536fce83fd384539f534f8d5a4685052e972e2ad36e46720fda",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "types.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-types-final.log",
+    "rawOriginalSha256": "bfe1a5b25d9c824d3d823a67ea1cc8be7286a63b4cfd3053db8b8ddd576a03a2",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "lint.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-lint-final.log",
+    "rawOriginalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "format.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-format-final.log",
+    "rawOriginalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "release.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-release.log",
+    "rawOriginalSha256": "e59becc2c48b4f9f0437e4ce4bb77e38b56aef861d347fc82db6f10c7e0f7ab7",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "zero-dice.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-zero-dice.log",
+    "rawOriginalSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original unchanged."
+  },
+  {
+    "published": "spelling.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-spelling.log",
+    "rawOriginalSha256": "bdd0a440725e3be1c26279734babdad62edd8f1f7d95a7dcbfed1edb390e6d4d",
+    "normalization": "Extra EOF blank lines removed only from copy; original retained."
+  },
+  {
+    "published": "report.txt",
+    "rawOriginal": "/tmp/team1-budget-npc-report.log",
+    "rawOriginalSha256": "0e85871da8b42323afd6f6eabcfe47c974198867b110bc4ff7cf7fb3f3778619",
+    "normalization": "Extra EOF blank lines removed only from copy; original retained."
+  }
+]
