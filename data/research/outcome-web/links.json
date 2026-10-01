@@ -703,7 +703,7 @@
       "from": "health.coverage-pct",
       "evidence": "researched",
       "range": [-0.06, -0.04],
-      "notes": "Unsupported until measured: the game keeps no covered share by place, and medical debt in collections has no usable base after the 2023 credit-reporting changes; it may also double count with the Medicaid expansion link."
+      "notes": "Unsupported: counted through the expansion link until coverage is tracked. The Medicaid expansion link is the reduced form the study measured, so this per-point link stays off to avoid counting the same debt twice (CTO ruling 8)."
     },
     {
       "key": "coverage-to-depression",
@@ -2064,8 +2064,7 @@
       "reverseOnRepeal": "Repeal may end a future funded care place after its lawful phase-out. It does not automatically dismiss an employed mother; she reassesses care and work from actual records.",
       "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
       "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
-      "aboutZero": false,
-      "notes": "Waits only on a starting level for mothers of young children in the labor force; the 2024 ACS base is added in the mothers' work hookup, which turns this link on."
+      "aboutZero": false
     },
     {
       "key": "voter-id-to-turnout",
@@ -2513,8 +2512,7 @@
       "who": "Qualifying districts and their enrolled pupils; residents funding the state budget bear the financing trade-off.",
       "lagWhy": "The existing12-month lag stands for an allocation/budget cycle; it is not a verified causal delay. Team9 must provide timing and per-pupil funding contrast from the cited reform study.",
       "aboutZero": false,
-      "range": [0.04, 0.11],
-      "notes": "Waits only on a starting level for school spending per student; the Census fiscal 2024 base is added in the school spending hookup, which turns this link on."
+      "range": [0.04, 0.11]
     },
     {
       "key": "end-cash-bail-to-pretrial-detention",
@@ -2748,8 +2746,7 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.youth-cannabis-use",
-      "range": [-0.13, 0.1],
-      "notes": "Waiting on a base: NSDUH state estimates of teen past-month marijuana use are the candidate starting level and have not been added yet."
+      "range": [-0.13, 0.1]
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -2785,8 +2782,7 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
       "to": "labor.mothers-participation",
-      "range": [-0.06, 0.1],
-      "notes": "Waits only on a starting level for mothers of young children in the labor force; the 2024 ACS base is added in the mothers' work hookup, which turns this link on."
+      "range": [-0.06, 0.1]
     },
     {
       "key": "carbon-price-to-emissions",
@@ -3156,7 +3152,7 @@
       },
       "size": -0.005,
       "per": "law in force",
-      "lagMonths": 60,
+      "lagMonths": 117,
       "group": "children who enrolled, later",
       "owner": "M",
       "anchor": "Boston: no detectable effect on state test scores; Tennessee: lower scores by 6th grade.",
@@ -3185,7 +3181,7 @@
       },
       "reverseOnRepeal": "Repeal affects future attendance opportunities. It does not erase an assessment or reverse learned skills; subsequent instruction needs its own path.",
       "who": "Enrolled preschool pupils at the study follow-up ages and programs; statewide dilution remains a separate unverified conversion.",
-      "lagWhy": "The existing60-month lag represents later elementary assessment. Verify the exact grade/follow-up and quality-specific sign before numeric activation.",
+      "lagWhy": "The outcome is eighth-grade math. A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months), the same lag as the reading link (CTO ruling 8).",
       "aboutZero": false
     },
     {
@@ -4194,35 +4190,37 @@
       "key": "housing-vouchers-to-graduation",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "school.graduation-pct",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force",
       "lagMonths": 0,
       "group": "children in families who qualify",
       "owner": "C",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
-      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
+      "notes": "Evidence gap, not a measured zero: Chicago's voucher lottery found schooling effects mostly statistically insignificant, which leaves the size unknown rather than zero; no other study sizes it."
     },
     {
       "key": "housing-vouchers-to-crime",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "crime.rate-index",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force",
       "lagMonths": 0,
       "group": "children in families who qualify",
       "owner": "C",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
-      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
+      "notes": "Evidence gap, not a measured zero: Chicago's voucher lottery found arrest effects mostly statistically insignificant, which leaves the size unknown rather than zero; no other study sizes it."
     },
     {
       "key": "top-income-tax-rate-to-poverty",
@@ -4528,18 +4526,19 @@
       "key": "congress-stock-ban-to-member-returns",
       "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
       "to": "government.member-market-returns",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
       "group": "place",
       "owner": "B-cloud",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
-      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)"
+      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)",
+      "notes": "Evidence gap, not a measured zero: members' trades matching the market after the STOCK Act does not measure a ban, and the game keeps no member holdings for one to move."
     },
     {
       "key": "privacy-law-to-earnings",
@@ -4576,18 +4575,19 @@
       "key": "library-materials-to-reading",
       "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
       "to": "school.reading-proficient-pct",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
       "group": "place",
       "owner": "F-cloud",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Leaving the choice to local boards changes which titles stay on the shelf: challenges reached 4,240 titles nationwide in 2023, a small share of any library's collection, and no study links removals to reading scores. What moves reading is money for the library itself, a different question",
-      "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy"
+      "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
+      "notes": "Evidence gap, not a measured zero: no study links local book removals to reading scores, so the size is unknown, not zero."
     },
     {
       "key": "city-anti-discrimination-to-poverty",
