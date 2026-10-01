@@ -1005,6 +1005,37 @@ it("A38 earned law raises only the actual completed interval without changing it
   expect(liabilities.every((record) => record.wages.minorUnits === 8000)).toBe(
     true,
   );
+  const taxPayments = paid.history.statutoryTaxPayments!.filter((record) =>
+    liabilities.some((liability) => liability.id === record.liabilityId),
+  );
+  expect(
+    taxPayments.reduce((total, record) => total + record.amount.minorUnits, 0),
+  ).toBe(stub.withheld.minorUnits);
+  const withholdingFlows = new Set(
+    taxPayments.map(
+      (record) =>
+        paid.history.resourceTransferOutcomes.find(
+          (transfer) => transfer.id === record.resourceOutcomeId,
+        )!.resourceFlowId,
+    ),
+  );
+  const newTerms = paid.history.resourceFlowTerms.slice(
+    worked.world.history.resourceFlowTerms.length,
+  );
+  expect(newTerms.length).toBeGreaterThan(0);
+  for (const term of newTerms) {
+    const flow = paid.history.resourceFlows.find(
+      (record) => record.id === term.resourceFlowId,
+    )!;
+    expect(withholdingFlows.has(flow.id)).toBe(true);
+    expect(flow.source).toEqual({ kind: "person", personId: f.personId });
+    expect(flow.recipient.kind).toBe("organization");
+    expect(term.cadenceKind).toBe("custom:tax-withholding");
+    expect(term.provenance).toEqual({
+      kind: "generated",
+      generatorKey: "statutory-tax:payroll-withholding",
+    });
+  }
   expect(
     resourcePositionAt(
       paid,
