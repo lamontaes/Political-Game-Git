@@ -1,3 +1,4 @@
+import { assertCountyHomeDistrictEvidenceIntegrity } from "./county-home-evidence";
 import {
   countySeatCatalog,
   resolveCountySeatBinding,
@@ -2115,6 +2116,7 @@ function validateHistoryIntegrity(
         ...(history.sessionAdjournments ?? []),
         ...(history.itemVetoes ?? []),
         ...(history.favors ?? []),
+        ...(history.countyHomeDistrictEvidence ?? []),
         ...history.events,
         ...history.memories,
         ...history.knowledge,
@@ -2268,6 +2270,7 @@ function validateHistoryIntegrity(
     );
   }
   assertResourceHousingIntegrity(world, ids);
+  assertCountyHomeDistrictEvidenceIntegrity(world);
   assertTaxIntegrity(world, ids);
   assertStatutoryTaxIntegrity(world, ids);
   assertHouseholdLoanIntegrity(world, ids);
