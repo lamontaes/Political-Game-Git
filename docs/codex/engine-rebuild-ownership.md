@@ -102,3 +102,15 @@ These transfers establish one writer per named surface. They do not establish co
 - Claude X5's scope now includes outcome-web measure readers for already-saved facts and approved starting outcome data, one measure per PR, in addition to effect sizing. Missing producers stay explicit; no new producers, link shapes, draw logic or arithmetic rules are authorized. Core files still require CTO approval. This supersedes the earlier size-data-only boundary.
 
 These are ownership grants, not tests, endpoint completion or merge approval.
+
+## Closed caller transfers, October 1, 1:12 a.m. Eastern
+
+- Team 1 owns only the existing numberingSession pass-through input and forward call in municipal-public-work.ts introduceMunicipalOrdinance and municipal-governing.ts introduceProjectedOrdinance, plus the already-released numbering caller/UI hunks. Preserve all other ordinance and executive behavior.
+- Team 1 additionally owns tests/e2e/rules-council-ordinance.spec.ts savedRecord/read/replacement fixture hunks. Use the existing BrowserSaveStore inspection and canonical writer for the actual save ID; raw IndexedDB chunk rows are not World payloads. Production serialization, assertions and timeouts remain unchanged. Audit supplied the reader contract; candidate browser acceptance is pending.
+- Team 7 owns only the adjacent null guard in src/presentation/childhood.ts playChildhoodMoment, extending its caregiverChoice decision-return ownership. An unresolved caregiver choice returns the original World before chooseFormativeOption. Preserve selected paths and existing no-caregiver/single-option bypasses. The actual local presentation file was clean at ad75e8e377881724246022b8345476de4f1356e4; no broader presentation or clock grant.
+- Team 3 owns only life.ts paid-work coverage imports and post-commit hooks in singular/batch work creation and actual activation. Audit and Team 4 released those hunks; generic append/index helpers remain protected. Coverage records must read the committed work and dated facts. The missing-workplace nullable contract still awaits CTO acceptance.
+- Audit owns diagnosis of the remaining C9 clock/verification cost. The instrumented schedule/monthly calls totaled 197.429 milliseconds, and salary refresh was not observed. This grants no serializer/history optimization or repeat of the unchanged diagnostic. Team 7 continues its separate C8 caller.
+
+Team 9 now owns only electedExecutiveTermTransitionHandler's actual-entry post-active-write hook/import in src/simulation/executive-work-entry.ts and settleStateExecutiveQualification's late-entry post-active-write hook/import in src/simulation/nationwide-world/state-executive-terms.ts. Team 2 verified both clean at 439d1261bb699909ba7599953a858f2d93691595, identical to main a88eb1286a5415566fa2c6a5dc927a00caf40188. Preserve qualification/alive/status guards, expiry, governing-transition scheduling and the historical late-entry event. Asked-holder identity and weekly fallback remain. Audit retains opening/load integration.
+
+These entries record ownership, not runtime acceptance or merge approval.
