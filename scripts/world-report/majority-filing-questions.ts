@@ -204,7 +204,11 @@ const receipt = {
 writeFileSync(output, JSON.stringify(receipt, null, 2) + "\n");
 console.log(
   JSON.stringify(
-    rows.map(({ questions: _questions, ...row }) => row),
+    rows.map((row) =>
+      Object.fromEntries(
+        Object.entries(row).filter(([key]) => key !== "questions"),
+      ),
+    ),
     null,
     2,
   ),
