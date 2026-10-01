@@ -11,7 +11,10 @@ import { publicProgramRecords } from "./public-program-integrity";
 import { residenceStateKey } from "./statutory-tax";
 import { createScheduledActivity } from "./time-work";
 import { recordWorldEvent } from "./world";
-import { SERVICE_RECIPIENT_KIND } from "./law-consequences/service-delivered-data";
+import {
+  SERVICE_RECIPIENT_KIND,
+  SERVICE_REQUEST_FORMS,
+} from "./law-consequences/service-delivered-data";
 import type {
   EntityId,
   PublicProgramAppropriationRecord,
@@ -22,13 +25,16 @@ import type {
 
 /**
  * A person's own request for one trip, visit or call from a funded public
- * service. The request is saved first, then the person's rider (or patron, or
- * caller) membership with the paid operator, then the scheduled trip itself.
- * Nothing here records delivery: the completed activity does that through the
- * service-delivered consequence, and only if the person actually takes it.
+ * service. The request is saved first, then the person's membership with the
+ * paid operator (a rider registration, an opened crisis case), then the
+ * scheduled service itself. Nothing here records delivery: the completed
+ * activity does that through the service-delivered consequence, and only if
+ * the person actually takes part.
  *
  * One rule for every service law and every place. The law is found from the
- * commitment's own appropriation and the catalog's service rows, never by name.
+ * commitment's own appropriation and the catalog's service rows, never by
+ * name; only the wording comes from that law's SERVICE_REQUEST_FORMS row, and
+ * a law without a row is unsupported.
  */
 export type PublicServiceRequestResult =
   | {
@@ -131,7 +137,7 @@ function operatingPaymentPosted(
   );
 }
 
-export function requestPublicServiceTrip(
+export function requestPublicService(
   world: World,
   input: PublicServiceRequestInput,
 ): PublicServiceRequestResult {
@@ -150,11 +156,18 @@ export function requestPublicServiceTrip(
     return unsupported("No such program commitment is recorded.");
   const operatorId = commitment.recipientOrganizationId;
   if (!operatorId)
-    return unsupported("This commitment pays no operator, so no trip can run.");
+    return unsupported(
+      "This commitment pays no operator, so no service can run.",
+    );
   const served = serviceLawForCommitment(world, commitment, world.currentDate);
   if (!served)
     return unsupported(
       "No service law in force appropriated the money behind this commitment.",
+    );
+  const form = SERVICE_REQUEST_FORMS[served.questionKey];
+  if (!form)
+    return unsupported(
+      "No request producer exists for this service yet, so nothing is recorded.",
     );
   if (!operatingPaymentPosted(world, commitment))
     return unsupported(
@@ -169,25 +182,31 @@ export function requestPublicServiceTrip(
     !(simulationMinutesBetween(input.start, input.end) > 0)
   )
     return unsupported(
-      "A trip needs a pickup that is still ahead and a later drop-off.",
+      "A request needs a start that is still ahead and a later end.",
     );
   if (
     input.start.date < served.appropriation.availableFrom ||
     input.end.date > served.appropriation.availableThrough
   )
-    return unsupported("The trip falls outside the appropriation's dates.");
+    return unsupported(
+      "The requested time falls outside the appropriation's dates.",
+    );
   const requestKey = `public-service-request:${commitment.id}:${person.id}:${input.start.date}:${input.start.minuteOfDay}`;
   if (hasStableKey(world.history.events, requestKey))
-    return unsupported("This trip has already been requested.");
+    return unsupported("This has already been requested.");
   const operatorName =
     organizationProfileAt(world, operatorId)?.name ?? "the service operator";
   const placeName =
     world.jurisdictions[commitment.jurisdictionId]?.name ?? "the service area";
+  const fill = (text: string) =>
+    text
+      .replaceAll("{operator}", operatorName)
+      .replaceAll("{place}", placeName);
 
   // 1. The person's own saved request.
   let next = recordWorldEvent(world, {
     stableKey: requestKey,
-    type: "service.trip-requested",
+    type: "service.requested",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: commitment.jurisdictionId,
@@ -196,13 +215,13 @@ export function requestPublicServiceTrip(
       {
         personId: person.id,
         role: "agency:service-request",
-        detail: `Asked ${operatorName} for a trip.`,
+        detail: `Asked ${operatorName} for ${form.asked}.`,
       },
     ],
     personFactConstraints: [],
     visibility: "private",
     tags: ["service.request"],
-    summary: `Asked ${operatorName} for a trip on ${input.start.date}.`,
+    summary: `Asked ${operatorName} for ${form.asked} on ${input.start.date}.`,
     context: {
       location: {
         jurisdictionId: commitment.jurisdictionId,
@@ -211,7 +230,7 @@ export function requestPublicServiceTrip(
       },
       socialContext: commitment.alternativeTitle,
       pressure: null,
-      choice: "Request a trip from the funded public service.",
+      choice: `Request ${form.asked} from the funded public service.`,
       motivation: null,
       immediateReaction: null,
     },
@@ -232,19 +251,19 @@ export function requestPublicServiceTrip(
       startedAt: next.currentDate,
       kind: SERVICE_RECIPIENT_KIND,
       roleKind: "participant:service-recipient",
-      context: `Registered with ${operatorName} on asking for a trip; home is in ${placeName}.`,
+      context: fill(form.membership),
       provenance: { kind: "simulated-event", eventId: requestEventId },
     });
     participation = next.history.organizationParticipations.at(-1)!;
   }
 
-  // 3. The scheduled trip, tied to the request, the membership and the
+  // 3. The scheduled service, tied to the request, the membership and the
   // commitment that pays for it. Completion is the person's own act.
   next = createScheduledActivity(next, {
     stableKey: `${requestKey}:trip`,
-    title: `Ride with ${operatorName}`,
-    summary: `A requested trip on ${operatorName}, paid for under ${commitment.alternativeTitle}.`,
-    kind: "travel",
+    title: fill(form.activityTitle),
+    summary: `Requested ${form.asked} from ${operatorName}, paid for under ${commitment.alternativeTitle}.`,
+    kind: form.activityKind,
     start: input.start,
     end: input.end,
     participantPersonIds: [person.id],

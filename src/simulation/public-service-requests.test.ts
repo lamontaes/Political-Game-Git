@@ -8,7 +8,7 @@ import { deserializeWorld, serializeWorld } from "./serialization";
 import { performScheduledActivity, scheduledActivityState } from "./time-work";
 import { assertWorldIntegrity } from "./world";
 import { SERVICE_RECIPIENT_KIND } from "./law-consequences/service-delivered-data";
-import { requestPublicServiceTrip } from "./public-service-requests";
+import { requestPublicService } from "./public-service-requests";
 import {
   fundedServiceFixture,
   questionKey,
@@ -64,9 +64,9 @@ const dispatchCompletion = (
 const deliveries = (world: World) =>
   world.history.events.filter((e) => e.type === "service.delivery-recorded");
 
-function setup(seed: string) {
+function setup(seed: string, key = questionKey) {
   const place = drawPlace(seed);
-  const funded = fundedServiceFixture(place, questionKey);
+  const funded = fundedServiceFixture(place, key);
   return {
     ...funded,
     place,
@@ -81,7 +81,7 @@ describe("a rural transit rider's request becomes a trip, and only the trip is s
     it(`request, membership, trip and delivered hours (${place}, seed ${seed})`, () => {
       const f = setup(seed);
       const start = addSimulationMinutes(f.world.currentMoment, 30);
-      const asked = requestPublicServiceTrip(f.world, {
+      const asked = requestPublicService(f.world, {
         personId: f.personId,
         commitmentId: f.commitmentId,
         start,
@@ -95,7 +95,7 @@ describe("a rural transit rider's request becomes a trip, and only the trip is s
       const request = world.history.events.find(
         (e) => e.id === asked.requestEventId,
       )!;
-      expect(request.type).toBe("service.trip-requested");
+      expect(request.type).toBe("service.requested");
       expect(request.participants[0]!.personId).toBe(f.personId);
       const membership = activeOrganizationParticipationsAt(
         world,
@@ -147,7 +147,7 @@ describe("a rural transit rider's request becomes a trip, and only the trip is s
       ).toHaveLength(1);
 
       // A second trip reuses the same membership.
-      const again = requestPublicServiceTrip(restored, {
+      const again = requestPublicService(restored, {
         personId: f.personId,
         commitmentId: f.commitmentId,
         start: addSimulationMinutes(restored.currentMoment, 60),
@@ -166,7 +166,7 @@ describe("a rural transit rider's request becomes a trip, and only the trip is s
   it(`a booked trip that is never taken records no service (${drawPlace("team5-rider-no-show")}, seed team5-rider-no-show)`, () => {
     const f = setup("team5-rider-no-show");
     const start = addSimulationMinutes(f.world.currentMoment, 30);
-    const asked = requestPublicServiceTrip(f.world, {
+    const asked = requestPublicService(f.world, {
       personId: f.personId,
       commitmentId: f.commitmentId,
       start,
@@ -187,7 +187,7 @@ describe("a rural transit rider's request becomes a trip, and only the trip is s
     expect(f.unmoved.people[f.personId]!.homeJurisdictionId).not.toBe(
       f.jurisdiction.id,
     );
-    const away = requestPublicServiceTrip(f.unmoved, {
+    const away = requestPublicService(f.unmoved, {
       personId: f.personId,
       commitmentId: f.commitmentId,
       start: addSimulationMinutes(f.unmoved.currentMoment, 30),
@@ -195,7 +195,7 @@ describe("a rural transit rider's request becomes a trip, and only the trip is s
     });
     expect(away).toMatchObject({ kind: "unsupported" });
     expect(away.world).toBe(f.unmoved);
-    const past = requestPublicServiceTrip(f.world, {
+    const past = requestPublicService(f.world, {
       personId: f.personId,
       commitmentId: f.commitmentId,
       start: addSimulationMinutes(f.world.currentMoment, -30),
@@ -208,14 +208,69 @@ describe("a rural transit rider's request becomes a trip, and only the trip is s
       start: addSimulationMinutes(f.world.currentMoment, 30),
       end: addSimulationMinutes(f.world.currentMoment, 60),
     };
-    const first = requestPublicServiceTrip(f.world, input);
+    const first = requestPublicService(f.world, input);
     expect(first.kind).toBe("scheduled");
-    expect(requestPublicServiceTrip(first.world, input).kind).toBe(
-      "unsupported",
-    );
+    expect(requestPublicService(first.world, input).kind).toBe("unsupported");
     expect(
-      requestPublicServiceTrip(f.world, { ...input, commitmentId: f.personId })
+      requestPublicService(f.world, { ...input, commitmentId: f.personId })
         .kind,
     ).toBe("unsupported");
+  });
+});
+
+const CRISIS =
+  "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response";
+
+describe("the same producer serves a crisis-response call", () => {
+  for (const seed of ["team5-crisis-1", "team5-crisis-2"]) {
+    const place = drawPlace(seed);
+    it(`call, opened case, response visit and delivered hours (${place}, seed ${seed})`, () => {
+      const f = setup(seed, CRISIS);
+      // A crisis call asks for help now, not at a booked time.
+      const start = f.world.currentMoment;
+      const asked = requestPublicService(f.world, {
+        personId: f.personId,
+        commitmentId: f.commitmentId,
+        start,
+        end: addSimulationMinutes(start, 90),
+      });
+      if (asked.kind !== "scheduled") throw new Error(asked.reason);
+      expect(asked.questionKey).toBe(CRISIS);
+      const request = asked.world.history.events.find(
+        (e) => e.id === asked.requestEventId,
+      )!;
+      expect(request.summary).toContain("a crisis response");
+      const activity = asked.world.history.scheduledActivities.find(
+        (a) => a.id === asked.activityId,
+      )!;
+      expect(activity.kind).toBe("confirmed");
+      expect(activity.title).toMatch(/^Crisis response visit from /);
+      expect(
+        asked.world.history.organizationParticipationStates.find(
+          (state) => state.participationId === asked.participationId,
+        )!.context,
+      ).toMatch(/^Case opened with /);
+      let world = performScheduledActivity(asked.world, asked.activityId);
+      world = dispatchCompletion(world, asked.activityId, f.personId);
+      const [receipt] = deliveries(world);
+      expect(receipt!.summary).toContain("1.5 hours");
+      expect(receipt!.lawEffectStamps?.[0]).toMatchObject({
+        questionKey: CRISIS,
+        effectKind: "service-delivered",
+      });
+    });
+  }
+
+  it(`a funded service law with no request producer stays unsupported (${drawPlace("team5-no-form")}, seed team5-no-form)`, () => {
+    const preschool = "us-policy-positions:education.universal-preschool";
+    const f = setup("team5-no-form", preschool);
+    const result = requestPublicService(f.world, {
+      personId: f.personId,
+      commitmentId: f.commitmentId,
+      start: addSimulationMinutes(f.world.currentMoment, 30),
+      end: addSimulationMinutes(f.world.currentMoment, 60),
+    });
+    expect(result).toMatchObject({ kind: "unsupported" });
+    expect(result.world).toBe(f.world);
   });
 });
