@@ -1,3 +1,4 @@
+import { createProductionPolicyCatalog } from "./production-catalog";
 import { describe, expect, it } from "vitest";
 import { POLICY_PACKS, loadedPolicyRegistry } from "./policy-pack-registry";
 import { US_POLICY_POSITIONS_PACK } from "./policy-pack-us-policy-positions";
@@ -26,6 +27,21 @@ describe("coverage rows join the existing policy pack", () => {
       } else expect(row).toBe(original);
     }
     expect(attached).toBe(2);
-    expect(loadedPolicyRegistry()).toBeDefined();
+    const loaded = loadedPolicyRegistry();
+    const savedCatalog = createProductionPolicyCatalog();
+    for (const [stableKey, consequence] of Object.entries(
+      COVERAGE_ELIGIBILITY_ROWS,
+    )) {
+      const loadedProposition = loaded.propositions.find(
+        (entry) => entry.stableKey === stableKey,
+      );
+      expect(loadedProposition, stableKey).toBeDefined();
+      expect(loadedProposition!.consequences).toContainEqual(consequence);
+      const savedProposition = Object.values(savedCatalog.propositions).find(
+        (entry) => entry.stableKey === stableKey,
+      );
+      expect(savedProposition, stableKey).toBeDefined();
+      expect(savedProposition!.consequences).toContainEqual(consequence);
+    }
   });
 });
