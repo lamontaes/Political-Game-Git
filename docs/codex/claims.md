@@ -1,3 +1,20 @@
+# Current Government and payroll handoffs
+
+Team 1 can now build the local-government connection. Audit supplied the existing council decision contract. Monthly payroll also has a shared query contract, with separate owners for the producer and guards.
+
+## Exact ownership
+
+- Team 1 owns only the localCouncil input, local body resolution and existing council decision branch in governing/legislative-clock.ts, plus its local-council-meetings.ts caller. Audit retains clock composition. Preserve actual unit identity, dated seats, town constituency and completeCouncilPassage.
+- Team 3 owns the new pure monthly-work-pay query and its town-pay.ts producer call. Coordinator owns only ordinary expected-payment selection in resources.ts and resource-integrity.ts. The query must use saved records before the supplied history frontier; completed-shift validation, equality, chronology, cash and overlapping-period checks remain intact.
+- Team 6 owns recordTaxBase and its integrity source admission in tax-policy.ts alongside its existing consumer. Coordinator owns the shared tax handler and wage-income authority admission. The CTO admits saved statutory liability IDs and saved payment resource-outcome IDs. Historical occurrence dates remain historical; no second collection is authorized.
+- Coordinator retains law-exposure.ts and its test. The law-effects-noticed.ts consumer release remains requested, not granted.
+
+## Validation routing
+
+The CTO assigned Cloud Checker 3 the age-helper change, followed by the coordinator's foundation renewal. Cloud Checker 2 owns Team 7's undecided-result change followed by Team 8's referral extraction. No competing local runtime gate is assigned here.
+
+## Earlier checkpoints
+
 # Narrow transfers for the current rebuild
 
 Each owner keeps the existing writer except for the exact functions released below. No transfer permits replacing another owner's whole file.
