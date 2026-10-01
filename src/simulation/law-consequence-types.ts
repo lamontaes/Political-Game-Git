@@ -83,10 +83,17 @@ export interface LawConsequenceRow {
   };
   onward?: LawConsequenceRow[];
 }
+/** Saved completion identifiers; callers cannot supply a historical cutoff. */
+export interface CompletedLawPayShift {
+  eventId: EntityId;
+  termsId: EntityId;
+}
+
 export interface LawConsequenceContext {
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
   subjectIds: EntityId[];
   /** Opening applies only law already in force; activities may resolve either origin. */
   origin?: LawInForce["origin"];
@@ -106,6 +113,7 @@ export interface ResolvedHourlyLawPayConsequence {
   workId: EntityId;
   payFlowId: EntityId;
   activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
   effectiveAt: IsoDate;
   amount: { value: number; unit: "minor/hour"; currency: "USD" };
   sourceRecordIds: EntityId[];
@@ -120,6 +128,7 @@ export interface ResolvedAnnualOfficePayConsequence {
   workId: EntityId;
   payFlowId: EntityId;
   activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
   effectiveAt: IsoDate;
   amount: { value: number; unit: "minor"; currency: "USD" };
   sourceRecordIds: EntityId[];
@@ -174,6 +183,7 @@ export interface ResolvedLawConsequence {
     id: EntityId;
   };
   activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
   effectiveAt: IsoDate;
   sourceRecordIds: EntityId[];
   value: ResolvedLawValue;

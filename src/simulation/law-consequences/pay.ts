@@ -48,6 +48,7 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { stateMinimumSettingAt } from "../minimum-wage";
+import { resourceTransferTermsCutoff } from "../resources";
 import { resourceFlowTermsAt } from "../resource-queries";
 import type { EntityId, ResourceFlow, World } from "../types";
 
@@ -74,6 +75,42 @@ function activityFlows(
   return (
     growingIndex(WORK_FLOWS, world.history.resourceFlows).get(activityId) ?? []
   );
+}
+
+function payActivityCutoff(
+  world: World,
+  flow: ResourceFlow,
+  context: LawConsequenceContext,
+) {
+  if (!context.completedShift)
+    return {
+      asOfDate: context.onDate,
+      historySequenceExclusive: world.history.nextSequence,
+    };
+  const completion = recordById(
+    world.history.events,
+    context.completedShift.eventId,
+  );
+  if (
+    context.activity !== "payroll" ||
+    !completion ||
+    completion.type !== "life-paths2.work-session" ||
+    completion.occurredAt !== context.onDate
+  )
+    throw new Error(
+      "Pay completion must bind the actual earned date and work event",
+    );
+  const cutoff = resourceTransferTermsCutoff(
+    world,
+    flow,
+    completion.occurredAt,
+    completion.occurredAt,
+    { kind: "simulated-event", eventId: completion.id },
+  );
+  const terms = resourceFlowTermsAt(world, flow.id, cutoff);
+  if (!terms || terms.id !== context.completedShift.termsId)
+    throw new Error("Pay completion must retain its actual earned terms");
+  return cutoff;
 }
 
 function termUnits(
@@ -159,10 +196,7 @@ export function resolvePayConsequences(
       work.organizationId !== flow.source.organizationId
     )
       throw new Error("Pay flow must bind its actual worker and employer");
-    const cutoff = {
-      asOfDate: context.onDate,
-      historySequenceExclusive: world.history.nextSequence,
-    };
+    const cutoff = payActivityCutoff(world, flow, context);
     const role = workRoleAt(world, work.id, cutoff);
     if (!role) throw new Error("Missing pay recorded work role capability");
     const workplace = payWorkplaceAt(world, work.id, cutoff);
@@ -274,6 +308,7 @@ export function resolvePayConsequences(
       jurisdictionId,
       subject: { kind: "person", id: personId },
       activityId: context.activityId,
+      completedShift: context.completedShift,
       effectiveAt: context.onDate,
       sourceRecordIds: [...new Set(sourceRecordIds)],
       value: {
@@ -300,10 +335,6 @@ export function resolveAnnualOfficePayConsequences(
     return [];
   if (context.onDate > world.currentDate)
     throw new Error("Pay activity cannot be in the future");
-  const cutoff = {
-    asOfDate: context.onDate,
-    historySequenceExclusive: world.history.nextSequence,
-  };
   const results: ResolvedSavedRuleConsequence[] = [];
   for (const flow of activityFlows(world, context.activityId)) {
     if (
@@ -324,6 +355,7 @@ export function resolveAnnualOfficePayConsequences(
       work.organizationId !== flow.source.organizationId
     )
       throw new Error("Office pay must bind its actual worker and employer");
+    const cutoff = payActivityCutoff(world, flow, context);
     if (workStatusAt(world, work.id, cutoff)?.status !== "active") continue;
     const role = workRoleAt(world, work.id, cutoff);
     const terms = resourceFlowTermsAt(world, flow.id, cutoff);
@@ -434,6 +466,7 @@ export function resolveAnnualOfficePayConsequences(
       jurisdictionId: jurisdiction.id,
       subject: { kind: "person", id: personId },
       activityId: context.activityId,
+      completedShift: context.completedShift,
       effectiveAt: context.onDate,
       sourceRecordIds,
       value: { type: "amount", value: amount, unit: "minor", currency: "USD" },
@@ -455,10 +488,6 @@ export function resolveSavedHourlyPayConsequences(
     return [];
   if (context.onDate > world.currentDate)
     throw new Error("Pay activity cannot be in the future");
-  const cutoff = {
-    asOfDate: context.onDate,
-    historySequenceExclusive: world.history.nextSequence,
-  };
   const results: ResolvedSavedRuleConsequence[] = [];
   const template = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
   for (const flow of activityFlows(world, context.activityId)) {
@@ -480,6 +509,7 @@ export function resolveSavedHourlyPayConsequences(
       work.organizationId !== flow.source.organizationId
     )
       throw new Error("Hourly rule must bind its actual worker and employer");
+    const cutoff = payActivityCutoff(world, flow, context);
     if (workStatusAt(world, work.id, cutoff)?.status !== "active") continue;
     const role = workRoleAt(world, work.id, cutoff),
       terms = resourceFlowTermsAt(world, flow.id, cutoff);
@@ -594,6 +624,7 @@ export function resolveSavedHourlyPayConsequences(
       jurisdictionId: jurisdiction.id,
       subject: { kind: "person", id: personId },
       activityId: context.activityId,
+      completedShift: context.completedShift,
       effectiveAt: context.onDate,
       sourceRecordIds,
       value: {
@@ -618,6 +649,7 @@ export function applyPayConsequence(
         onDate: resolved.effectiveAt,
         activity: "payroll",
         activityId: resolved.activityId,
+        completedShift: resolved.completedShift,
         subjectIds: [resolved.subject.id],
         governingLawId: resolved.authority.measureId,
       }).find(
@@ -649,6 +681,7 @@ export function applyPayConsequence(
         workId: flow.basisReference.workRelationshipId,
         payFlowId: flow.id,
         activityId: current.activityId,
+        completedShift: current.completedShift,
         effectiveAt: current.effectiveAt,
         amount: {
           value: current.value.value,
@@ -666,6 +699,7 @@ export function applyPayConsequence(
       onDate: resolved.effectiveAt,
       activity: "payroll",
       activityId: resolved.activityId,
+      completedShift: resolved.completedShift,
       subjectIds: [resolved.subject.id],
       governingLawId: resolved.authority.measureId,
     }).find(
@@ -702,6 +736,7 @@ export function applyPayConsequence(
       workId: flow.basisReference.workRelationshipId,
       payFlowId: flow.id,
       activityId: current.activityId,
+      completedShift: current.completedShift,
       effectiveAt: current.effectiveAt,
       amount: { value: current.value.value, unit: "minor", currency: "USD" },
       sourceRecordIds: current.sourceRecordIds,
@@ -733,6 +768,7 @@ export function applyPayConsequence(
     workId: flow.basisReference.workRelationshipId,
     payFlowId: flow.id,
     activityId: resolved.activityId,
+    completedShift: resolved.completedShift,
     effectiveAt: resolved.effectiveAt,
     amount: {
       value: resolved.value.value,
