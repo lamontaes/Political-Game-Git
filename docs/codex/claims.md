@@ -1,3 +1,9 @@
+## October 1, 4:24 a.m. budget consumer transfer
+
+Team 6 released to Team 1 only the general-budget recognition, final enacted program-clause loop and necessary imports inside appropriationFromEnactedMeasure in program-governing.ts. The clean published release is 583cdf069234a2d1f28b88721106c50b17ad23e4, with file blob 7a78c1c8663a1cc952b1cab5df991921e6964687. Team 6 confirmed no unpublished bytes or competing edits in this part. Team 1 received the transfer and owns that adapter now.
+
+Preserve all service, operator, capacity, transit and other appropriation paths. The existing adopted-appropriation writer remains the survivor. This transfer does not authorize invented spending, governor requests or fiscal dates. The biennial authority-window question remains with the CTO.
+
 ## October 1, 4:12 a.m. current transfers and overrides
 
 - CTO 3:41 defers groundwater. This supersedes the older 3:20 Team 4 assignment below. Preserve its source; no new parcel or well proxy.
