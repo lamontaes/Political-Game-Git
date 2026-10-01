@@ -50,6 +50,13 @@ function completedShift() {
     due.entityIds.includes(row.id),
   );
   if (!flow) throw new Error("Payday has no actual wage flow");
+  // End only after the completed shift, before the next routine can earn another.
+  const left = changeLifePathStatus(world, work.id, "leave");
+  expect(left.ok, left.message).toBe(true);
+  world = left.world;
+  expect(world.history.futureDueItems.some((row) => row.id === due.id)).toBe(
+    true,
+  );
   return { world, person, work, due, flow };
 }
 function paid(world: World, flowId: string) {
@@ -90,9 +97,7 @@ describe("A4 default clock carries actual due payday", () => {
         money(0, "USD").currency,
       );
       expect(balance?.liquidBalance.minorUnits).toBeGreaterThan(0);
-      const left = changeLifePathStatus(advanced, work.id, "leave");
-      expect(left.ok, left.message).toBe(true);
-      const reopened = deserializeWorld(serializeWorld(left.world));
+      const reopened = deserializeWorld(serializeWorld(advanced));
       expect(paid(reopened, flow.id)).toEqual(outcomes);
       const repeated = advance(reopened);
       expect(paid(repeated, flow.id)).toEqual(outcomes);
