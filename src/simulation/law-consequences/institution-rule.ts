@@ -1,5 +1,6 @@
 import {
-  fileRuleChangeProvision,
+  recordRuleChangeLawBinding,
+  institutionOfficeBindingAt,
   institutionRuleAmountUnit,
   ruleChangeProvisionHistoryRecords,
 } from "../enacted-rule-changes";
@@ -87,11 +88,6 @@ export function resolveLawInstitutionRuleConsequences(
     throw new Error(
       "Institution-rule requires an actual government jurisdiction",
     );
-  if (
-    context.subjectIds.length &&
-    !context.subjectIds.includes(measure.jurisdictionId)
-  )
-    return [];
   const law = lawInForce(
     world,
     measure.jurisdictionId,
@@ -114,27 +110,53 @@ export function resolveLawInstitutionRuleConsequences(
   const clauses = ruleChangeProvisionHistoryRecords(world).filter(
     (record) => record.measureId === law.measureId && record.field === field,
   );
-  if (clauses.length !== 1 || clauses[0]!.value !== term.value)
+  if (!clauses.length || clauses.some((clause) => clause.value !== term.value))
     throw new Error(
       "Missing institution-rule unambiguous recorded institution/term agreement",
     );
-  return [
-    {
-      row,
-      law,
-      questionKey: proposition.stableKey,
-      jurisdictionId: measure.jurisdictionId,
-      subject: { kind: "place", id: measure.jurisdictionId },
-      activityId: enactment.id,
-      effectiveAt: context.onDate,
-      sourceRecordIds: [
-        ...term.sourceRecordIds,
-        clauses[0]!.id,
-        measure.jurisdictionId,
-      ],
-      value: { type: "amount", value: term.value, unit: term.unit },
-    },
-  ];
+  return clauses.flatMap((clause) => {
+    const office = institutionOfficeBindingAt(
+      world,
+      clause.officeKey,
+      measure.jurisdictionId,
+      {
+        asOfDate: context.onDate,
+        historySequenceExclusive: world.history.nextSequence,
+      },
+    );
+    if (!office)
+      throw new Error(
+        `Missing recorded institution identity for ${clause.officeKey}`,
+      );
+    if (
+      context.subjectIds.length &&
+      !context.subjectIds.includes(office.organizationId) &&
+      !context.subjectIds.includes(measure.jurisdictionId)
+    )
+      return [];
+    return [
+      {
+        row,
+        law,
+        questionKey: proposition.stableKey,
+        jurisdictionId: measure.jurisdictionId,
+        subject: { kind: "organization", id: office.organizationId },
+        activityId: enactment.id,
+        effectiveAt: context.onDate,
+        sourceRecordIds: [
+          ...new Set([
+            ...term.sourceRecordIds,
+            clause.id,
+            office.id,
+            office.organizationId,
+            ...office.sourceRecordIds,
+            measure.jurisdictionId,
+          ]),
+        ],
+        value: { type: "amount", value: term.value, unit: term.unit },
+      },
+    ];
+  });
 }
 
 /** Binds and stamps the actual saved rule; retains its existing reader/value. */
@@ -142,16 +164,23 @@ export function applyLawInstitutionRuleConsequence(
   world: World,
   resolved: ResolvedLawConsequence,
 ): World {
-  const current = resolveLawInstitutionRuleConsequences(world, resolved.row, {
-    onDate: resolved.effectiveAt,
-    activity: resolved.row.when,
-    activityId: resolved.activityId,
-    subjectIds: [resolved.subject.id],
-    governingLawId: resolved.law.measureId,
-    questionKey: resolved.questionKey,
-  })[0];
-  if (!current) return world;
-  if (JSON.stringify(current) !== JSON.stringify(resolved))
+  const candidates = resolveLawInstitutionRuleConsequences(
+    world,
+    resolved.row,
+    {
+      onDate: resolved.effectiveAt,
+      activity: resolved.row.when,
+      activityId: resolved.activityId,
+      subjectIds: [resolved.subject.id],
+      governingLawId: resolved.law.measureId,
+      questionKey: resolved.questionKey,
+    },
+  );
+  if (!candidates.length) return world;
+  const current = candidates.find(
+    (candidate) => JSON.stringify(candidate) === JSON.stringify(resolved),
+  );
+  if (!current)
     throw new Error("Institution-rule resolved input is stale or unverified");
   if (current.value.type !== "amount")
     throw new Error("Institution-rule numeric value required");
@@ -172,23 +201,33 @@ export function applyLawInstitutionRuleConsequence(
   });
   if (!stamp)
     throw new Error("Institution-rule cannot stamp an unsupported law");
-  return fileRuleChangeProvision(world, {
-    stableKey: `${clause.stableKey}:consequence`,
+  const office = institutionOfficeBindingAt(
+    world,
+    clause.officeKey,
+    current.jurisdictionId,
+    {
+      asOfDate: current.effectiveAt,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+  );
+  if (!office)
+    throw new Error("Missing recorded institution identity at application");
+  return recordRuleChangeLawBinding(world, {
+    stableKey: `${clause.stableKey}:consequence:${current.row.id}:${office.id}`,
+    ruleChangeProvisionId: clause.id,
     measureId: clause.measureId,
     officeKey: clause.officeKey,
-    field: clause.field,
-    value: current.value.value,
-    ...(clause.applicability ? { applicability: clause.applicability } : {}),
-    consequenceBinding: {
-      rowId: current.row.id,
-      questionKey: current.questionKey,
-      placeJurisdictionId: current.subject.id,
-      provisionId: source.id,
-      provisionKey: source.provisionKey,
-      enactmentId: current.activityId,
-      unit: current.value.unit,
-      sourceRecordIds: [...current.sourceRecordIds],
-    },
+    jurisdictionId: current.jurisdictionId,
+    effectiveAt: current.effectiveAt,
+    officeBindingId: office.id,
+    bodyOrganizationId: office.organizationId,
+    rowId: current.row.id,
+    questionKey: current.questionKey,
+    provisionId: source.id,
+    provisionKey: source.provisionKey,
+    enactmentId: current.activityId,
+    unit: current.value.unit,
+    sourceRecordIds: [...current.sourceRecordIds],
     lawEffectStamps: [stamp],
   });
 }

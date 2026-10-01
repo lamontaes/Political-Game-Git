@@ -28,6 +28,7 @@ import {
 import {
   assertRuleChangeProvisionIntegrity,
   ruleChangeProvisionHistoryRecords,
+  ruleChangeConsequenceBindingHistoryRecords,
 } from "./enacted-rule-changes";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import {
@@ -2075,6 +2076,7 @@ function validateHistoryIntegrity(
         ...legislationHistoryRecords(world),
         ...constitutionalHistoryRecords(world),
         ...ruleChangeProvisionHistoryRecords(world),
+        ...ruleChangeConsequenceBindingHistoryRecords(world),
         ...legislativePoliticsHistoryRecords(world),
         ...draftLineageHistoryRecords(world),
         ...futureTransitionHistoryRecords(world),

@@ -300,6 +300,7 @@ export interface DecisionTraceRecordInput extends DecisionEvaluation {
 export function createHistoryStore(): HistoryStore {
   return {
     nextSequence: 0,
+    ruleChangeConsequenceBindings: [],
     organizations: [],
     organizationProfiles: [],
     educationEnrollments: [],
