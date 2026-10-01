@@ -3,7 +3,7 @@ import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
-import { applyNationalTermTransitions } from "./national-election-consumer";
+import { nationalRecords } from "./national-elections";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
@@ -1438,11 +1438,115 @@ interface ExactTransition {
   readonly stableId: string;
   readonly kind:
     | "date-boundary"
+    | "national-term-boundary"
     | "work-completion"
     | "work-progress"
     | "activity-completion";
   readonly entityId: EntityId | null;
   readonly completedEffortMinutes: number | null;
+}
+
+function compareExactTransitions(
+  left: ExactTransition,
+  right: ExactTransition,
+) {
+  return (
+    compareSimulationMoments(left.at, right.at) ||
+    left.priority - right.priority ||
+    left.creationSequence - right.creationSequence ||
+    left.stableId.localeCompare(right.stableId)
+  );
+}
+
+/** Only saved term and qualification instants drive sub-day office consumers. */
+function nationalBoundaryMoments(
+  world: World,
+  before: SimulationMoment,
+  through: SimulationMoment,
+): readonly SimulationMoment[] {
+  const moments = new Map<number, SimulationMoment>();
+  for (const record of nationalRecords(world)) {
+    const saved =
+      record.kind === "term-plan"
+        ? [record.startsAt, record.endsAt]
+        : record.kind === "qualification"
+          ? [record.effectiveAt]
+          : [];
+    for (const at of saved) {
+      if (
+        compareSimulationMoments(before, at) < 0 &&
+        compareSimulationMoments(at, through) <= 0
+      ) {
+        const local = addSimulationMinutes(
+          before,
+          simulationMinutesBetween(before, at),
+        );
+        moments.set(simulationMomentEpochMinute(at), local);
+      }
+    }
+  }
+  return [...moments.values()].sort(compareSimulationMoments);
+}
+
+function addNationalBoundaryTransitions(
+  transitions: ExactTransition[],
+  world: World,
+  before: SimulationMoment,
+  through: SimulationMoment,
+): void {
+  const represented = new Set(
+    transitions
+      .filter(
+        (t) =>
+          t.kind === "date-boundary" || t.kind === "national-term-boundary",
+      )
+      .map((t) => simulationMomentEpochMinute(t.at)),
+  );
+  for (const at of nationalBoundaryMoments(world, before, through)) {
+    const instant = simulationMomentEpochMinute(at);
+    if (represented.has(instant)) continue;
+    represented.add(instant);
+    transitions.push({
+      at,
+      priority: 0,
+      creationSequence: 0,
+      stableId: `national-term:${instant}`,
+      kind: "national-term-boundary",
+      entityId: null,
+      completedEffortMinutes: null,
+    });
+  }
+}
+
+/** The day clock visits the same date/noon boundaries without completing
+ * minute-clock work or appending a second clock action. */
+export function applyDateBoundariesThrough(
+  initial: World,
+  through: SimulationMoment,
+  handlers: FutureTransitionHandlerRegistry,
+): World {
+  let world = initial;
+  while (compareSimulationMoments(world.currentMoment, through) < 0) {
+    const before = world.currentMoment;
+    const tomorrow = simulationMomentAtLocalTime({
+      date: addDays(before.date, 1),
+      minuteOfDay: 0,
+      timeZone: before.timeZone,
+      preferredUtcOffsetMinutes: before.utcOffsetMinutes,
+    });
+    const firstTerm = nationalBoundaryMoments(world, before, through)[0];
+    let at =
+      compareSimulationMoments(tomorrow, through) <= 0 ? tomorrow : through;
+    if (firstTerm && compareSimulationMoments(firstTerm, at) < 0)
+      at = firstTerm;
+    world = setCurrentMoment(
+      resolveFutureDueItemsThrough(world, at.date, handlers),
+      at,
+      before.date,
+      before,
+    );
+  }
+  return world;
 }
 
 /**
@@ -1538,7 +1642,7 @@ function advanceCanonicalMinutes(
   const transitions: ExactTransition[] = [];
   for (
     let date = addDays(start.date, 1);
-    date < target.date;
+    date <= target.date;
     date = addDays(date, 1)
   ) {
     const boundary = simulationMomentAtLocalTime({
@@ -1559,6 +1663,7 @@ function advanceCanonicalMinutes(
       });
     }
   }
+  addNationalBoundaryTransitions(transitions, inputWorld, start, target);
   for (const progress of projectStaffProgress(inputWorld, start, target)) {
     transitions.push({
       at: progress.completed ? progress.at : target,
@@ -1593,26 +1698,41 @@ function advanceCanonicalMinutes(
       completedEffortMinutes: null,
     });
   }
-  transitions.sort(
-    (left, right) =>
-      compareSimulationMoments(left.at, right.at) ||
-      left.priority - right.priority ||
-      left.creationSequence - right.creationSequence ||
-      left.stableId.localeCompare(right.stableId),
-  );
+  transitions.sort(compareExactTransitions);
 
   let world = inputWorld;
-  for (const transition of transitions) {
-    if (transition.kind === "date-boundary") {
+  for (let index = 0; index < transitions.length; index++) {
+    const transition = transitions[index]!;
+    if (
+      transition.kind === "date-boundary" ||
+      transition.kind === "national-term-boundary"
+    ) {
       // Resolving due items moves the date to each due day; the continuity
       // producers must still see the whole span this boundary crossed.
       const crossedFrom = world.currentDate;
+      const crossedMoment = world.currentMoment;
       world = resolveFutureDueItemsThrough(
         world,
         transition.at.date,
         transitionHandlers,
       );
-      world = setCurrentMoment(world, transition.at, crossedFrom);
+      world = setCurrentMoment(
+        world,
+        transition.at,
+        crossedFrom,
+        crossedMoment,
+      );
+      // Due receivers can create a term plan on this date. Its saved noon
+      // belongs in the remaining clock interval, before any later activity.
+      const remaining = transitions.slice(index + 1);
+      addNationalBoundaryTransitions(
+        remaining,
+        world,
+        world.currentMoment,
+        target,
+      );
+      remaining.sort(compareExactTransitions);
+      transitions.splice(index + 1, transitions.length, ...remaining);
     } else if (transition.kind === "work-completion" && transition.entityId) {
       world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeStaffWork(
@@ -1972,10 +2092,12 @@ function setCurrentMomentWithDue(
 ): World {
   if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
   const crossedFrom = world.currentDate;
+  const crossedMoment = world.currentMoment;
   return setCurrentMoment(
     resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
     moment,
     crossedFrom,
+    crossedMoment,
   );
 }
 
@@ -1983,12 +2105,17 @@ function setCurrentMoment(
   world: World,
   moment: SimulationMoment,
   crossedFrom: World["currentDate"] = world.currentDate,
+  crossedMoment: SimulationMoment = world.currentMoment,
 ): World {
-  return applyDateBoundary(crossedFrom, {
-    ...world,
-    currentDate: moment.date,
-    currentMoment: cloneMoment(moment),
-  });
+  return applyDateBoundary(
+    crossedFrom,
+    {
+      ...world,
+      currentDate: moment.date,
+      currentMoment: cloneMoment(moment),
+    },
+    crossedMoment,
+  );
 }
 
 /** The canonical consequences of moving between dates. Callers pass the date
@@ -1996,8 +2123,17 @@ function setCurrentMoment(
 export function applyDateBoundary(
   crossedFrom: World["currentDate"],
   world: World,
+  crossedMoment?: SimulationMoment,
 ): World {
-  const moved = applyNationalTermTransitions(world);
+  const termBoundary = crossedMoment
+    ? nationalBoundaryMoments(world, crossedMoment, world.currentMoment)
+        .length > 0
+    : true;
+  if (world.currentDate <= crossedFrom)
+    return termBoundary
+      ? applyPresidentialTurnover(world.currentDate, world, true)
+      : world;
+  const moved = world;
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
@@ -2026,6 +2162,7 @@ export function applyDateBoundary(
                           applyStateLegislatureTurnover(crossedFrom, moved),
                         ),
                       ),
+                      termBoundary,
                     ),
                   ),
                 ),
