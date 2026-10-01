@@ -1,3 +1,4 @@
+import { PLAYER_MONTHLY_MONEY_HANDLERS } from "./player-monthly-money";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
@@ -2200,6 +2201,7 @@ export function composeWorldTimeHandlers(
       // G12: a saved clemency petition comes due on its own court date.
       createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
+        ...PLAYER_MONTHLY_MONEY_HANDLERS,
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),

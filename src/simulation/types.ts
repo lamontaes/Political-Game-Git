@@ -1,3 +1,4 @@
+import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type {
   PermitApplicationRecord,
   PermitStatusRecord,
@@ -246,6 +247,7 @@ export type EntityKind =
   | "value-definition"
   | "partnership"
   | "partnership-state"
+  | "work-pay-coverage"
   | "work-relationship"
   | "work-role"
   | "work-status"
@@ -4357,6 +4359,7 @@ export interface LegalOutcomeConsequenceRecord {
 }
 
 export interface HistoryStore {
+  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];

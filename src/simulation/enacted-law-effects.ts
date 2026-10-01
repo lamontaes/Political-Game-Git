@@ -1,3 +1,4 @@
+import { createStableId } from "./ids";
 import {
   createLawConsequenceRegistry,
   LAW_CONSEQUENCE_REGISTRATIONS,
@@ -285,6 +286,7 @@ export function applyEnactedLawEffects(
     activityId: enactment.id,
     subjectIds: [],
     governingLawId: measureId,
+    origin: "enacted",
   });
 }
 
@@ -840,6 +842,27 @@ function levelOfGovernment(
   return isTerritoryUsps(stateKey.slice(3)) ? "territory" : "state";
 }
 
+/** Opening rules use the same dispatcher as later enacted rules. No enactment is invented. */
+export function applyStartingLawConsequences(
+  world: World,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+): World {
+  return applyLawConsequences(
+    world,
+    {
+      onDate: world.currentDate,
+      activity: "effective",
+      activityId: createStableId(
+        "event",
+        `${world.id}:starting-laws:${world.startedAt}`,
+      ),
+      subjectIds: [...world.personOrder],
+      origin: "in-force-at-start",
+    },
+    registrations,
+  );
+}
+
 /** Shared dispatch for starting and enacted laws. Resolvers retain canonical origin. */
 export function applyLawConsequences(
   world: World,
@@ -883,6 +906,7 @@ export function applyLawConsequences(
           throw new Error(
             `Consequence ${row.id}: resolver returned inconsistent cause identity`,
           );
+        if (context.origin && input.law.origin !== context.origin) continue;
         if (
           context.governingLawId &&
           input.law.measureId !== context.governingLawId
