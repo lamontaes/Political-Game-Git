@@ -19,7 +19,8 @@
  * An item is done only when every check passes and its rules cover the whole
  * item (`covers: "whole"`); rules that cover part of an item can at most make
  * it partly done. Some checks passing is partly, none is not started. An item
- * with no rules, or whose proving test is not on main yet, is unknown.
+ * with no rules is unknown, and so is one whose proving test is not on main
+ * yet while its code checks (if any) all pass; otherwise its code checks say.
  *
  * Engine, sequence, owner and "after" come from the verified JSON; the engine
  * order and each engine's squads come from the engine doc. An item's "after"
@@ -250,11 +251,20 @@ function statusOf(
   checks: readonly CheckResult[],
 ): { scanned: AuditStatus; unknownBecause?: string } {
   if (checks.length === 0) return { scanned: "unknown" };
-  if (checks.some((result) => result.check.kind === "test" && !result.pass))
+  const testMissing = checks.some(
+    (result) => result.check.kind === "test" && !result.pass,
+  );
+  const code = checks.filter((result) => result.check.kind !== "test");
+  const codePassed = code.filter((result) => result.pass).length;
+  // A missing proving test leaves the item unknown only when the code checks
+  // can't say otherwise: there are none, or all of them already pass.
+  if (testMissing && codePassed === code.length)
     return {
       scanned: "unknown",
       unknownBecause: "its proving test is not on main yet",
     };
+  if (testMissing)
+    return { scanned: codePassed > 0 ? "partly" : "not-started" };
   const passed = checks.filter((result) => result.pass).length;
   if (passed === checks.length)
     return { scanned: rule!.covers === "whole" ? "done" : "partly" };

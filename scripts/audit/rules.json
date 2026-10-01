@@ -1,5 +1,5 @@
 {
-  "about": "Rules for npm run audit:scan (scripts/audit/autoscan.ts), keyed by the IDs in docs/codex/audit-verified-2026-10-01.json. Each check is absent (a bad call must be gone), present (a replacement must be called from production code) or reader (a data file must be read by src/). covers says whether passing every check means the whole item is met; an item covering part can at most scan partly. Taken from each item's evidence lines and next step. Items with no rule scan unknown.",
+  "about": "Rules for npm run audit:scan (scripts/audit/autoscan.ts), keyed by the IDs in docs/codex/audit-verified-2026-10-01.json. Each check is absent (a bad call must be gone), present (a replacement must be called from production code), reader (a data file must be read by src/) or test (the test that proves a behavioral item is on main). covers says whether passing every check means the whole item is met; an item covering part can at most scan partly. Taken from each item's evidence lines and next step. Items with no rule scan unknown.",
   "rules": {
     "A124": {
       "covers": "whole",
@@ -181,6 +181,24 @@
       ],
       "note": "Draw still in pullOf and no recorded-support read, so 0 of 3: not-started as verified. The present check names latestSupportState from the next step; a different recorded-support reader would need that pattern widened."
     },
+    "A126": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/decisions.ts",
+          "pattern": "left\\.option\\.key\\.localeCompare\\(right\\.option\\.key\\)",
+          "why": "the alphabetical option-key tie-break in the ranked sort (decisions.ts:219)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/decisions.ts",
+          "pattern": "\"undecided\"",
+          "why": "evaluateDecision returns the 'undecided' outcome when the top two scores are equal (today only a comment names it)"
+        }
+      ],
+      "note": "Not started as verified: the localeCompare tie-break is still at decisions.ts:219 and no code line yields \"undecided\" (line 58 is a comment, which the scanner blanks). No test check: the two concrete checks pin the change; the next step's a/b versus b/a proof belongs in decisions.test.ts."
+    },
     "A127": {
       "covers": "whole",
       "checks": [
@@ -241,6 +259,24 @@
       ],
       "note": "Closed after the audit by #1528 (b84750d91): status and unsupportedReason on every row, checked at load."
     },
+    "A2": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "[!=]==\\s*crossedFrom\\b|\\bcrossedFrom\\s*[!=]==",
+          "why": "the date boundary is skipped when the moment's date equals crossedFrom (no such comparison exists today: setCurrentMoment at time-work.ts:2015 always calls applyDateBoundary)"
+        },
+        {
+          "kind": "test",
+          "file": "scripts/engine-proof/parity.test.ts",
+          "pattern": "two activities.*(day|daily)|daily chain.*(zero|extra|once)",
+          "why": "finishing two activities in one day runs the daily chain zero extra times"
+        }
+      ],
+      "note": "Not started as verified: nothing in time-work.ts compares a moment's date to crossedFrom, so setCurrentMoment (:2015) still runs applyDateBoundary on a same-date move. The guard may be written in setCurrentMoment, setCurrentMomentWithDue or applyDateBoundary, so the pattern accepts any comparison against crossedFrom."
+    },
     "A115": {
       "covers": "whole",
       "checks": [
@@ -276,6 +312,96 @@
         }
       ],
       "note": "All five draws still match, so not-started as verified. The legislators' drawn age and years served (state-legislature-opening.ts:657, :661) are in the evidence but not in the goal, so not checked."
+    },
+    "A117": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/national-mood.ts",
+          "pattern": "MIDTERM_PENALTY_POINTS\\s*=\\s*3\\.6",
+          "why": "the authored 3.6-point constant (national-mood.ts:25); it may live on only as an expectation in the test"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/national-mood.ts",
+          "pattern": "MIDTERM_PENALTY_POINTS\\s*/\\s*100",
+          "why": "the fixed shift applied to every midterm (national-mood.ts:41)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/national-mood.ts",
+          "pattern": "latestSupportState",
+          "why": "the president's party support is read from recorded voter contacts instead"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-recognition.ts",
+          "pattern": "const\\s+(UNKNOWN_RETURN_PERCENT|PER_AFTERNOON_PERCENT|PER_WIN_PERCENT|MOST_FROM_WINS_PERCENT)\\s*=\\s*\\d+",
+          "why": "the hand-set door-return curve under 'PLACEHOLDER MAGNITUDES' (campaign-recognition.ts:16 is a comment, so the constants are checked)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/patronage/following.ts",
+          "pattern": "const\\s+DEBT_VOTE_WEIGHT\\s*=",
+          "why": "the hand-set debt-band weights (following.ts:23)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/patronage/following.ts",
+          "pattern": "const\\s+MAX_DEBT_SHIFT\\s*=",
+          "why": "the hand-set cap on debt shift (following.ts:25)"
+        }
+      ],
+      "note": "Not started as verified: all five constants are still hand-set and national-mood.ts reads no support record. covers is part because replacing a constant with another constant would pass the absent checks; the recognition and patronage replacements (E2) have no named function to require."
+    },
+    "A12": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "\\bapplyPresidentialTurnover\\(",
+          "why": "presidential is still its own link in applyDateBoundary (time-work.ts:2029-2059)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "\\bapplyGovernorTurnover\\(",
+          "why": "governor is still its own link in applyDateBoundary (time-work.ts:2029-2059)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "\\bapplyCongressTurnover\\(",
+          "why": "Congress is still its own link in applyDateBoundary (time-work.ts:2029-2059)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "\\bapplyStateLegislatureTurnover\\(",
+          "why": "state legislature is still its own link in applyDateBoundary (time-work.ts:2029-2059)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "\\bapplyConstitutionalReform\\(",
+          "why": "constitutional reform is still its own link in applyDateBoundary (time-work.ts:2029-2059)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "\\bapplyCrisisOfficeContinuity\\(",
+          "why": "crisis office continuity is still its own link in applyDateBoundary (time-work.ts:2029-2059)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "from\\s+\"\\./governing/office-continuity\"",
+          "why": "applyDateBoundary calls the one shared vacancy/term-end step from governing/office-continuity.ts (time-work.ts imports only crisis-office-continuity today)"
+        }
+      ],
+      "note": "Not started as verified: all six routines are still called from applyDateBoundary in time-work.ts and time-work.ts does not import governing/office-continuity. The audit does not name the lifecycle function, so the replacement is checked by its import; the next step's exactly-once proof belongs in scripts/engine-proof/parity.test.ts."
     },
     "A130": {
       "covers": "part",
@@ -474,6 +600,66 @@
       ],
       "note": "The 4% constant BLANKET_DEPARTURE_CHANCE_PER_YEAR is gone since the audit (A165 'departure and arrival rates from the ACS by age and place', 2026-10-01 15:51 UTC, review.ts:100-160), so scans partly; the departure draw (review.ts:433), displaced draw (:387), destination draw (:773) and arrival-count draw (:812) are all still live, so it is still not whole."
     },
+    "A151": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/source/adapters/acs-pums-character-history.ts",
+          "pattern": "new\\s+SeededRng\\(selectionKey\\)",
+          "why": "the seeded stream behind the donor draw (acs-pums-character-history.ts:292)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/source/adapters/acs-pums-character-history.ts",
+          "pattern": "exactWeightedIndex\\(",
+          "why": "the weighted donor draw (defined :186, called :294)"
+        },
+        {
+          "kind": "present",
+          "file": "src/source/",
+          "pattern": "[Ll]argest[-_ ]?[Rr]emainder",
+          "why": "a largest-remainder weight allocation replaces the draw"
+        }
+      ],
+      "note": "Not started as verified: the SeededRng weighted draw is unchanged and nothing under src/source/ names a largest-remainder allocation (the only mention is a comment in src/presentation). The next step's guard test (tests/source/acs-pums-donor-bridge.test.ts) is a safeguard while the bridge is unreachable, not part of the allocation, so it is not a check."
+    },
+    "A166": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "data/research/assumption-markers.json",
+          "pattern": "acceptable",
+          "why": "the marker-to-step mapping file exists and holds at least one 'acceptable' disposition (the scanner reads it directly because only tests and scripts, not src/, read it)"
+        },
+        {
+          "kind": "test",
+          "file": "tests/assumption-markers.test.ts",
+          "pattern": "unmapped|not mapped",
+          "why": "a rescan of PLACEHOLDER/UNRESEARCHED/SET BY HAND markers fails on a marker with no mapping (file location assumed from the audit's wording)"
+        }
+      ],
+      "note": "Not started as verified: data/research/assumption-markers.json does not exist and no rescan check names it. The test path is assumed (tests/assumption-markers.test.ts); if the rescan lands as a release script instead, repoint this check."
+    },
+    "A167": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/outcome-web/place-outcome-store.ts",
+          "pattern": "countyGeoidsForPlace\\(key\\)\\[0\\]",
+          "why": "a multi-county city placed whole in its largest county (place-outcome-store.ts:253, under the PLACEHOLDER comment at :245-247)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/outcome-web/place-outcomes.test.ts",
+          "pattern": "two-county|several counties|across (two|several) counties|multi-county",
+          "why": "a two-county city whose county shares sum to its population"
+        }
+      ],
+      "note": "Not started as verified: localWeights still takes countyGeoidsForPlace(key)[0]. The data the split needs (Census place-in-county population) is not loaded; government-units.ts only holds land shares (countyLandSharesForPlace), so there is no present pattern to name."
+    },
     "A63": {
       "covers": "whole",
       "checks": [
@@ -522,6 +708,78 @@
       ],
       "note": "Every macro-economy monthly innovation, era jump, price shock and place-measure drift draw is still live at the audit's lines (shifted: kernel.ts:115-118, :302-335; place-outcomes.ts:76-84); all seven absent checks fail today."
     },
+    "A64": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/sources.ts",
+          "pattern": "UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS",
+          "why": "the $50 million saturation divisor (sources.ts:297) and its import (:9)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/policy.ts",
+          "pattern": "export const UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS",
+          "why": "the made-up saturation constant itself (policy.ts:244)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/sources.ts",
+          "pattern": "set\\(\\s*\"credit-tightening\",\\s*1\\s*\\)",
+          "why": "every bank failure as a full-strength credit squeeze (sources.ts, TOWN_FINANCE_ORIGIN_READER)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/macro-economy/sources.ts",
+          "pattern": "[Ii]ncome",
+          "why": "a payment shock is sized as its share of the state's recorded monthly personal income (no code line in sources.ts names income today)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/macro-economy/sources.ts",
+          "pattern": "[Dd]eposit",
+          "why": "a bank failure is sized by the failed bank's deposits over town deposits (no code line in sources.ts names deposits today)"
+        }
+      ],
+      "note": "Not started as verified: the $50 million constant, its divisor and the fixed credit-tightening intensity of 1 are all still in macro-economy/sources.ts and policy.ts, and sources.ts names neither income nor deposits. The income and deposit tokens are loose proxies for the replacement; the next step's proof belongs in macro-economy/macro-economy.test.ts."
+    },
+    "A16": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/age-verification-cost.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "deleted in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/consumer-privacy-cost.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "deleted in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/rules.ts",
+          "pattern": "consumer-data-privacy-law|age-verification-for-social-media",
+          "why": "their two SPENDING_QUESTION_EFFECTS rows, removed in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/cannabis-sales-tax.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "next in the audit order (F12): cannabis becomes a tax-kind row and the file is deleted"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "its consumer of the per-resident constant, replaced by the cannabis tax-kind row"
+        }
+      ],
+      "note": "Partly, as verified: the two privacy files and rows from #1459 are gone; cannabis-sales-tax.ts and cannabis-sales-revenue.ts remain. covers is part because the other per-law readers (minimum-wage.ts, housing-market.ts, justice/pretrial.ts, justice/juvenile-court.ts, federal-*.ts, 39 files hold a us-policy-positions: literal) cannot be told apart from the shared engine's own rows by a pattern, and the audit gives no deletion order after cannabis."
+    },
     "A47": {
       "covers": "whole",
       "checks": [
@@ -563,6 +821,180 @@
         }
       ],
       "note": "Done since the audit (commits 5abf6dbdd, 63fe209b0, 2026-10-01 15:50 UTC): index.ts:202 settles the federal row through settleGovernmentMonth, the `federal: settleFederalTreasuryMonth` line is replaced by the comment at index.ts:211-212, and openFederalTreasury is gone from index.ts (withFederalBudget, :98-125, now reads FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC). month.ts:846 returns without a federal cash account instead of forecasting. Not covered: the state-level fallback month.ts:1120-1122 (government.balance + revenue - spending when a state has no cash account) is still there, but the item's next step does not name it."
+    },
+    "A51": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "effect\\.levels",
+          "why": "TAX_QUESTION_EFFECTS rows already carry a levels check against the county/city jurisdiction (month.ts:640)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "cashSettled",
+          "why": "#1383: local budgets settle from canonical recorded cash"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "if\\s*\\(government\\.level\\s*!==\\s*\"state\"\\)\\s*return\\s+spending",
+          "why": "lawSpendingForMonth returns nothing for a county or city (month.ts:678)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
+          "pattern": "government\\.level\\s*!==\\s*\"state\"",
+          "why": "cannabis-sales-revenue.ts:49 gates on state"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/road-usage-charge.ts",
+          "pattern": "government\\.level\\s*!==\\s*\"state\"",
+          "why": "road-usage-charge.ts:62 gates on state"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/tuition-freeze.ts",
+          "pattern": "government\\.level\\s*!==\\s*\"state\"",
+          "why": "tuition-freeze.ts:129 gates on state"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/statehood-funds.ts",
+          "pattern": "government\\.level\\s*!==\\s*\"state\"",
+          "why": "statehood-funds.ts:71 gates on state"
+        }
+      ],
+      "note": "Partly, as verified: the tax side already checks levels (month.ts:640) and local budgets settle from cash (#1383); the spending side and four per-law files still gate on state. covers is part because the other level === \"state\" checks (index.ts, opening.ts, pension-share.ts, reserve-rule.ts) are not all bugs and cannot be separated by a pattern."
+    },
+    "A129": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/policy-semantics.ts",
+          "pattern": "from\\s+\"\\./causal-effects\"",
+          "why": "still imports the second cause-and-effect engine, causal-effects.ts"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/incidents.ts",
+          "pattern": "from\\s+\"\\./causal-effects\"",
+          "why": "still imports the second cause-and-effect engine, causal-effects.ts"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/incident-response.ts",
+          "pattern": "from\\s+\"\\./causal-effects\"",
+          "why": "still imports the second cause-and-effect engine, causal-effects.ts"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/transit-service.ts",
+          "pattern": "from\\s+\"\\./causal-effects\"",
+          "why": "still imports the second cause-and-effect engine, causal-effects.ts"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/cycle.ts",
+          "pattern": "from\\s+\"\\.\\./causal-effects\"",
+          "why": "still imports the second cause-and-effect engine, causal-effects.ts"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world.ts",
+          "pattern": "from\\s+\"\\./causal-effects\"",
+          "why": "still imports the second cause-and-effect engine, causal-effects.ts"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/policy-semantics.ts",
+          "pattern": "OUTCOME_LINKS",
+          "why": "activations come from the matching outcome-web link rows (data/research/outcome-web/links.json) instead of causal-effects.ts"
+        }
+      ],
+      "note": "Not started as verified: all six named files still import causal-effects.ts and policy-semantics.ts names no OUTCOME_LINKS. covers is part because causal-effects.ts is also imported by production-catalog.ts, src/simulation/index.ts and the content adapter, which the audit's next step does not touch."
+    },
+    "A17": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/age-verification-cost.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files; deleted in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/consumer-privacy-cost.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files; deleted in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/cannabis-sales-tax.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/road-usage-charge.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/tuition-freeze.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/parks-dedication.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/income-tax-adoption.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/statehood-funds.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/reserve-rule.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/pension-share.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/staffing.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "one of the 12 one-law budget files"
+        }
+      ],
+      "note": "Partly, as verified: the two #1459 deletions pass, ten files remain. A file counts as removed when no import or export line is left in it."
     },
     "A22": {
       "covers": "whole",
@@ -665,6 +1097,114 @@
         }
       ],
       "note": "Partly, unchanged from the audit: the privacy cost is a sourced one-time per-firm charge (checks 1-3 pass); the 39.6% rate, debt-deal cut, aid rise, farm cut, defense ramp and rail projection are all still fixed constants and no federal law file reads readFinalEnactedLawTerm. Marked part because the appropriation path (defense first) is a design step the scan cannot confirm."
+    },
+    "A29": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/federal-treasury.ts",
+          "pattern": "questionKey:\\s*\"us-federal-positions:tax\\.raise-top-income-tax-rate\"",
+          "why": "the top-rate treasury-share row in FEDERAL_LAW_EFFECTS (federal-treasury.ts:130)"
+        }
+      ],
+      "note": "Not started as verified: the top-rate row is still in FEDERAL_LAW_EFFECTS (federal-treasury.ts:130). Deleting it is the whole next step, since top-rate receipts already come from recorded paychecks (federal-top-income-tax-law.ts); the exactly-once proof belongs in federal-treasury.test.ts. covers is part because the debt-limit and foreign-aid triple sizing and the two program classifiers (month.ts budgetProgramFor, federal-treasury.ts federalProgramLine) have no step that says which copy survives."
+    },
+    "A30": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/age-verification-cost.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "stamp-only copy deleted in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/consumer-privacy-cost.ts",
+          "pattern": "^\\s*(export|import)\\b",
+          "why": "stamp-only copy deleted in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/",
+          "pattern": "age-verification-cost|consumer-privacy-cost",
+          "why": "no production code still names the deleted copies"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "\\(perResident\\s*\\*\\s*government\\.population\\)\\s*/\\s*12",
+          "why": "the one per-resident law-cost computation inside lawSpendingForMonth (month.ts:702)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "lawSpendingForMonth\\(world,\\s*government",
+          "why": "settleGovernmentMonth and the forecasts call that one computation (month.ts:1104, :1464, :1788)"
+        }
+      ],
+      "note": "Done, as verified: the two copies are gone and the single lawSpendingForMonth computation is called from month.ts."
+    },
+    "A31": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/",
+          "pattern": "CANNABIS_TAX_PER_RESIDENT",
+          "why": "the ten-state $40.70-per-resident average (defined cannabis-sales-tax.ts:13, multiplied cannabis-sales-revenue.ts:67)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/",
+          "pattern": "CANNABIS_FIRST_SALE_LAG_MONTHS",
+          "why": "the 11-month first-sale lag constant (cannabis-sales-tax.ts:21)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "cannabisSalesRevenueChange\\(",
+          "why": "the factor/additive branches that read the per-resident revenue (month.ts:628 via cannabisSalesFactor, :956, :963)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "let\\s+cannabisRevenueLoss",
+          "why": "the separate revenue-loss branch (month.ts:994)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/public-budgets/cannabis-sales-revenue.test.ts",
+          "pattern": "recorded cannabis (sales|purchases)|enacted (tax )?rate",
+          "why": "cannabis revenue is recorded cannabis purchases times the enacted rate, with $40.70 only an expectation"
+        }
+      ],
+      "note": "Not started as verified: both constants and all three month.ts branches are still there (the audit's :977-1016 is now about :956-1030); the recorded-purchases test is not written."
+    },
+    "A32": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/rules.ts",
+          "pattern": "consumer-data-privacy-law|age-verification-for-social-media",
+          "why": "the Colorado/Virginia privacy row and Utah age-verification row, removed in #1459"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/rules.ts",
+          "pattern": "questionKey:\\s*\"us-policy-positions:fiscal\\.exempt-groceries-from-sales-tax\"",
+          "why": "Oklahoma's grocery fiscal note applied to every state (rules.ts:134)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/rules.ts",
+          "pattern": "toYes:\\s*1\\.75\\s*/\\s*46\\.01",
+          "why": "California's business credit limitation note applied to every state (rules.ts, INCENTIVE_CAP_QUESTION corporate row)"
+        }
+      ],
+      "note": "Partly, as verified: Utah and Virginia rows are gone; the Oklahoma and California single-note rows remain. The next step's two-rate proof belongs in public-budgets/tax-laws.test.ts."
     },
     "A33": {
       "covers": "part",
@@ -797,6 +1337,90 @@
         }
       ],
       "note": "Not started: drawBankShape is still called by openBankBooks (town-finances.ts:587) with a seeded fork at :589-591, so all three absent checks fail."
+    },
+    "A24": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/statehood-funds.ts",
+          "pattern": "\\S",
+          "why": "the private statehood reading and its frozen fiscal-2024 Medicaid dollars: the whole file is deleted (absent passes once the file is gone)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "from\\s*\"\\./statehood-funds\"",
+          "why": "settleGovernmentMonth no longer imports decideStatehoodCertification/statehoodFederalAidFactor (month.ts:43-45)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/store.ts",
+          "pattern": "from\\s*\"\\./statehood-funds\"",
+          "why": "the store no longer imports StatehoodCertification from the deleted file (store.ts:12)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/statehood-funds.test.ts",
+          "pattern": "from\\s*\"\\./statehood-funds\"",
+          "why": "the test is converted: it no longer imports statehoodFederalAidLoss from the deleted file (test:24)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/public-budgets/statehood-funds.test.ts",
+          "pattern": "spending row|spending-row|recorded Medicaid spending|program spending",
+          "why": "the converted test proves statehood aid changes as a spending row tied to the state's recorded Medicaid spending"
+        }
+      ],
+      "note": "Checks that statehood-funds.ts is gone and no caller imports it; the replacement (a spending-row change inside settleGovernmentMonth) has no fixed name, so the converted test is the proof. Scans unknown (pending the converted test) rather than not-started because of that test check."
+    },
+    "A49": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/world-setup/conditions.ts",
+          "pattern": "federalMinorUnits:\\s*100_000_000_000",
+          "why": "the made-up $1 billion federal opening cash (conditions.ts:43)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world-setup/conditions.ts",
+          "pattern": "10_000_000_000\\]",
+          "why": "the made-up $100 million per state (conditions.ts:49)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world-setup/conditions.ts",
+          "pattern": "localMinorUnits:\\s*500_000_000",
+          "why": "the made-up $5 million per local government (conditions.ts:51)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/world-setup/conditions.ts",
+          "pattern": "from\\s*\"\\.\\./public-budgets",
+          "why": "drawPublicCashOpeningProfile reads the researched opening balances in public-budgets/opening.ts (NASBO/Census) instead of constants"
+        }
+      ],
+      "note": "Three constants must be gone and the opening profile must import from public-budgets. The 'California and Wyoming open with different cash' test in opening-money-no-draw.test.ts is not a check because the import is the concrete proxy; add it when the fix lands."
+    },
+    "A50": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "source:\\s*\\{\\s*kind:\\s*\"organization\",\\s*organizationId\\s*\\}",
+          "why": "every town paycheck flow still has the employing organization as its source (town-pay.ts:783), public or private"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/",
+          "pattern": "publicOrganizationKey|ensureTaxPublicAccount",
+          "why": "a government-office employer is paid from its public-government account (tax-policy.ts publicOrganizationKey/ensureTaxPublicAccount); nothing in living-world/ uses them today"
+        }
+      ],
+      "note": "Bad call: the flow source at town-pay.ts:783 is always the employer. Replacement: living-world/ reaches the public account via tax-policy. The teacher-paycheck-lowers-public-cash test in tests/nationwide/town-pay.test.ts is left off so a not-started item does not read as unknown."
     },
     "A136": {
       "covers": "part",
@@ -972,6 +1596,24 @@
       ],
       "note": "Not started: SeededRng and rng.integer/rng.pick are still how traits (people-traits.ts:313, :438-479) and life tendencies (life-personality.ts:41, :59, :67) are chosen; all five absent checks fail (including the no-signal core-trait pick at people-upbringing.ts:603). Marked part because other trait writers may exist."
     },
+    "A139": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/person-identity.ts",
+          "pattern": "roll\\s*<\\s*48",
+          "why": "the unmarked 48% female cutoff (person-identity.ts:208)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/person-identity.ts",
+          "pattern": "roll\\s*<\\s*96",
+          "why": "the unmarked 48% male / 4% nonbinary cutoff (person-identity.ts:208)"
+        }
+      ],
+      "note": "Both cutoffs of the 48/48/4 roll must be gone from generatePersonIdentity; the cited replacement (ACS sex ratio, Pew non-binary share) has no fixed name, so it is not checked."
+    },
     "A140": {
       "covers": "whole",
       "checks": [
@@ -989,6 +1631,48 @@
         }
       ],
       "note": "Both the per-person fork key and the spreadDays draw in onCalendar must be gone; both are live at school-stages.ts:121-122, so not-started as verified."
+    },
+    "A141": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/education-study-progression.ts",
+          "pattern": "creditsEarned|earnedCredits|creditsRequired|requiredCredits|creditHours",
+          "why": "completeStudyPeriod reads a recorded credits-earned requirement on the enrollment instead of completing on paid elapsed time (no credit field exists anywhere in src/ today)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/education-study-progression.test.ts",
+          "pattern": "credits? (earned|required|requirement)|until (the )?credits|short of credits",
+          "why": "completeStudyPeriod refuses completion until the recorded credits are met"
+        }
+      ],
+      "note": "Nothing in src/ names a credits field today, so the present check fails; the test check holds the item at unknown until the proving test is on main."
+    },
+    "A142": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/relationship-absence.ts",
+          "pattern": "\"relationship-absence-thresholds\"",
+          "why": "each cutoff (relationship-absence.ts:78-84) is labeled a stand-in in code with the research key; today the key appears only in a comment, which the scanner blanks"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/relationship-absence.ts",
+          "pattern": "[Ii]ncarcerat\\w*|[Hh]ospital\\w*|[Rr]elocat\\w*|absenceReason|apartReason|knownReason",
+          "why": "readRelationshipAbsence reads a recorded reason (move, hospital stay, incarceration) before treating a gap as neglect"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/relationship-absence.test.ts",
+          "pattern": "recorded reason|hospital stay|incarcerat|explained absence",
+          "why": "fading is skipped when the absence has a recorded reason"
+        }
+      ],
+      "note": "Two code checks (code-level stand-in label with the research key, a recorded-reason read) plus the proving test; scans unknown (pending the test) rather than not-started."
     },
     "A146": {
       "covers": "whole",
@@ -1086,6 +1770,144 @@
       ],
       "note": "Ten draw sites named in the evidence, all live; covers part because the family shape also draws parent ages, sibling spacing and birth order that the item's next step does not name."
     },
+    "A156": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/life-opportunities.ts",
+          "pattern": "authored opening|[cC]ouncilPostedMeeting|postedMeetingNotice|noticeFromCouncil",
+          "why": "openOrdinaryLifeRecords builds the notice from the council's posted meeting, or marks the authored notice with provenance 'authored opening' (neither exists today)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/life-opportunities.test.ts",
+          "pattern": "meeting notice[^\\n]*(council|authored opening|posted)|notice (comes|is made|is built) from",
+          "why": "the opening notice is either the council's posted meeting or marked authored opening"
+        }
+      ],
+      "note": "No absent check: the 'civic.meeting-notice' write at life-opportunities.ts:305 may legitimately stay (as a provenance-marked authored opening where no council is seated), so only the replacement and its test are checked. Scans unknown (pending the test)."
+    },
+    "A157": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/civic-actions.ts",
+          "pattern": "from\\s*\"\\./local-council-meetings\"",
+          "why": "record() reads the scheduled meeting from local-council-meetings so the attendance event can carry its id (civic-actions.ts imports nothing from it today)"
+        },
+        {
+          "kind": "test",
+          "file": "tests/nationwide/town-civic-actions.test.ts",
+          "pattern": "scheduled meeting|meeting (record|id)|no meeting is scheduled",
+          "why": "attendance is skipped with no scheduled meeting, and otherwise carries the meeting's id"
+        }
+      ],
+      "note": "Import of local-council-meetings in civic-actions.ts plus the proving test; the summary text 'A resident attended a public meeting...' may stay, so it is not an absent check. Scans unknown (pending the test)."
+    },
+    "A159": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/law-interest-groups.ts",
+          "pattern": "\\b(rights?|eligibility)\\w*(Loss|Lost|Losses)\\b|\\b(lost|loses|losing)(Rights?|Eligibility)\\b|RIGHTS_LOSS|ELIGIBILITY_LOSS",
+          "why": "a recorded rights/eligibility loss (a law exposure with no amount) counts toward joining or founding a group; shareOfPay today returns null when amount is null (law-interest-groups.ts:36-43)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/living-world/law-interest-groups.test.ts",
+          "pattern": "rights? loss|eligibility loss",
+          "why": "a rights loss can found a group"
+        }
+      ],
+      "note": "Part only: the checks cover the interest-group half (rights losses count); the official-views placeholder weights fold into A158/N2 and are not checked. Scans unknown (pending law-interest-groups.test.ts)."
+    },
+    "A161": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "export function inventedPersonBirthDate",
+          "why": "the one shared birth-date helper with a single age-window table exists"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/office-continuity.ts",
+          "pattern": "inventedPersonBirthDate\\(",
+          "why": "office-continuity.ts switched to the helper (first step in the next field)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/nationwide-world/presidential-turnover.ts",
+          "pattern": "inventedPersonBirthDate\\(",
+          "why": "presidential-turnover.ts switched to the helper (first step in the next field)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/office-continuity.ts",
+          "pattern": "rng\\.integer\\(MINIMUM_AGE\\[seat\\.chamberKey\\]\\s*\\+\\s*3,\\s*70\\)",
+          "why": "inline age window at office-continuity.ts:740"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/presidential-turnover.ts",
+          "pattern": "nomineeAge\\.minimum",
+          "why": "inline age window at presidential-turnover.ts:442 (the profile constant at :154 stays; it can feed the shared table)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "rng\\.integer\\(32,\\s*66\\)",
+          "why": "inline age window at campaigns.ts:550"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press-reach.ts",
+          "pattern": "rng\\.integer\\(32,\\s*66\\)",
+          "why": "inline age window at press-reach.ts:194"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/state-legislature-opening.ts",
+          "pattern": "seatRng\\.integer\\(minimumAge\\s*\\+\\s*7,\\s*81\\)",
+          "why": "inline age window at state-legislature-opening.ts:657"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/opening.ts",
+          "pattern": "seatRng\\.integer\\(minimumAge\\s*\\+\\s*7,\\s*81\\)",
+          "why": "inline age window at living-world/opening.ts:285"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/party-chapters.ts",
+          "pattern": "personRng\\.integer\\(28,\\s*72\\)",
+          "why": "inline age window at party-chapters.ts:186"
+        }
+      ],
+      "note": "Part only: the seven sites the audit lists, plus the helper. A grep finds 30+ other makeIsoDate birth-date sites (civil-personnel-start, congress-turnover, party-evolution, municipal-council-opening, state-executives and others) that the evidence does not list, so passing every check cannot mean 'every invented person'. The shared test (file not named) is not a check."
+    },
+    "A35": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/law-exposure.ts",
+          "pattern": "Only an enacted law can reach a person",
+          "why": "recordLawExposure refuses a starting law (law-exposure.ts:52-59)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-exposure.ts",
+          "pattern": "governing/law-in-force\"|in-force-at-start|lawInForce\\(",
+          "why": "recordLawExposure accepts a starting-law id from lawInForce (origin 'in-force-at-start')"
+        }
+      ],
+      "note": "Part only: covers the starting-law half; the 28-day pay window (PAY_WINDOW_DAYS, law-exposure.ts:~40) is a labeled placeholder and not checked. The 'same record shape' proof in law-exposure.test.ts is not a check because the refusal text and the lawInForce read are the concrete signals."
+    },
     "A65": {
       "covers": "whole",
       "checks": [
@@ -1109,6 +1931,30 @@
         }
       ],
       "note": "Lean draw is still live at four call sites; the rate vote itself already runs randomness:'none' (central-bank.ts:989) but is not scored because the audit evidence counts only the lean draw."
+    },
+    "A121": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/party-chapters.ts",
+          "pattern": "dueAt:\\s*nextMeetingDate\\(date,\\s*0\\)",
+          "why": "first outreach is due on the chapter's weekly meeting day (party-chapters.ts:233)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/party-chapters.ts",
+          "pattern": "nextMeetingDate\\(meetingDate,\\s*0\\)",
+          "why": "next outreach after an invitation follows the meeting profile (party-chapters.ts:553)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/",
+          "pattern": "firstDelayDays|afterInvitationDays",
+          "why": "the drawn first-delay and after-invitation days are gone from the living world (#1448)"
+        }
+      ],
+      "note": "All pass today, matching verified done. The remaining seeded draws in party-chapters.ts (organizer birth date, A161) are not outreach dates."
     },
     "A125": {
       "covers": "part",
@@ -1404,6 +2250,36 @@
       ],
       "note": "Two initializer definitions pass; the three settler calls in refreshLifeOpportunities and any production call of initializeLivingCostsFlow fail (grep finds the initializers only in their own files and tests, so the verified evidence line saying they create agreements on the day play starts overstates it); covers part because the scanner cannot prove first-of-month scheduling exists."
     },
+    "A116": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/candidacy.ts",
+          "pattern": "GAME_ADULT_CANDIDACY_AGE",
+          "why": "the invented age-21 check in candidacy eligibility (candidacy.ts:5, :769, :782)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/candidacy.ts",
+          "pattern": "below-game-adult-age",
+          "why": "the invented-age block kind (candidacy.ts:229, :781)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-life-activities.ts",
+          "pattern": "GAME_ADULT_CANDIDACY_AGE|gameAdultCandidacyAge",
+          "why": "the age-21 constant shown in campaign guidance (campaign-life-activities.ts:37, :1238)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/candidacy-packs.ts",
+          "pattern": "export const GAME_ADULT_CANDIDACY_AGE",
+          "why": "the constant's definition (candidacy-packs.ts:77)"
+        }
+      ],
+      "note": "Part only: the age-21 half. The 'one term-limit engine' half (councilTermLimitBar in living-world/local-council-term-limits.ts and legislativeTermLimitBar in nationwide-world/state-legislative-term-limits.ts) is not checked because which engine survives is a design choice; it needs a person to judge."
+    },
     "A122": {
       "covers": "whole",
       "checks": [
@@ -1542,6 +2418,78 @@
       ],
       "note": "The pick at :1401-1407 is the only SeededRng use in life-paths2.ts, so both checks fail today."
     },
+    "A6": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/world-setup/",
+          "pattern": "ensureCrisisMortality\\(",
+          "why": "the death schedule is seeded at world opening (world-setup/conditions.ts ensureWorldStartingConditions), so advanceWorld-only routes get it; today only presentation/opening-life.ts:484 and ordinary-life.ts:527 call it"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/world-setup/",
+          "pattern": "ensurePeopleGoalReview\\(",
+          "why": "the goal-review schedule is seeded at world opening; today only presentation/ordinary-life.ts:526 calls it"
+        }
+      ],
+      "note": "Both ensure calls must appear under world-setup/ (the next field names conditions.ts). The advanceWorld-only 400-day parity proof is not a check."
+    },
+    "A7": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/interruption-policy.ts",
+          "pattern": "void preferences;",
+          "why": "interruptionHandlers discards the saved preferences (interruption-policy.ts:71)"
+        }
+      ],
+      "note": "Passes once the discard is gone: either handlers are filtered by preferences or the unused parameter is removed (both allowed by the next field). The muted-category test is not a check."
+    },
+    "A9": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "applySpeechRetelling",
+          "why": "speech retelling is still chained inside applyDateBoundary (time-work.ts:2, :2040)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/speech-retelling.ts",
+          "pattern": "monthStartsCrossed",
+          "why": "the inline month-start count (speech-retelling.ts:311, :316)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/speech-retelling.ts",
+          "pattern": "scheduleFutureDueItem\\(",
+          "why": "retelling is scheduled as a first-of-month due item, like crisis:public-budgets"
+        }
+      ],
+      "note": "Bad call: applySpeechRetelling in the daily chain with its own monthStartsCrossed. Replacement: a scheduled first-of-month due item. The three-month-starts test is not a check."
+    },
+    "A90": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/",
+          "pattern": "withProgramMatters\\([A-Za-z_]|map\\(\\s*withProgramMatters",
+          "why": "no handler is wrapped by list membership any more (state-governing.ts:3025 and campaigns.ts:2228 wrap handlers today); the definition line ends in an open paren and does not match"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/enacted-law-effects.ts",
+          "pattern": "openProgramMattersForAllOffices\\(",
+          "why": "applyEnactedLawEffects opens the program matter for the new appropriation itself, right after appropriationFromEnactedMeasure (enacted-law-effects.ts:272)"
+        }
+      ],
+      "note": "Absent: no withProgramMatters(handler) wrapper anywhere in src/simulation; present: applyEnactedLawEffects calls openProgramMattersForAllOffices. Both fail today (wrappers at state-governing.ts:3025 and campaigns.ts:2228), so not-started, matching verified."
+    },
     "A72": {
       "covers": "whole",
       "checks": [
@@ -1637,6 +2585,270 @@
       ],
       "note": "Scans partly like verified: the constitutional-reform.ts checks pass (no dice, recordedBallotTally); the two SeededRng draws in article-v.ts:456 and federal-reform.ts:594 still match. The present checks look for the helper the next step names (nextStateSittingDay) or any *SittingDay/*SessionDay/regularSession call, so a differently named helper outside that shape would scan as partly."
     },
+    "A11": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/legislature-rules.ts",
+          "pattern": "sittingCalendar",
+          "why": "the rule-pack type carries a sittingCalendar field (weekdays or daysBetween)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/congress-rule-pack.ts",
+          "pattern": "sittingCalendar",
+          "why": "the Congress pack fills in its Tuesday/Thursday sittings"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/congress-chambers.ts",
+          "pattern": "sittingCalendar",
+          "why": "nextCongressSitting reads the pack, not a local constant"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/congress-chambers.ts",
+          "pattern": "SITTING_WEEKDAYS[^=]*=\\s*\\[\\s*2\\s*,\\s*4\\s*\\]",
+          "why": "the hand-set Tue/Thu SITTING_WEEKDAYS array (congress-chambers.ts:267)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/dc-council-sittings.ts",
+          "pattern": "sittingCalendar",
+          "why": "the DC Council's sitting interval is read from its pack"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/dc-council-sittings.ts",
+          "pattern": "daysBetweenSittings\\s*:\\s*\\d+",
+          "why": "the hand-set 14-day DC_COUNCIL_SITTING_PROFILE (dc-council-sittings.ts:58-60)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "daysBetweenMeetings\\s*:\\s*\\d+",
+          "why": "the hand-set 14-day town council meeting interval (local-council-meetings.ts:92)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/governing-calendar.ts",
+          "pattern": "export const STATE_GOVERNING_CALENDAR\\s*=",
+          "why": "the hand-set state bill and budget season days (governing-calendar.ts:20)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/legislative-clock.ts",
+          "pattern": "export const LEGISLATIVE_CADENCE_PROFILE\\s*=",
+          "why": "the hand-set days-between-steps and days-to-hearing (legislative-clock.ts:131)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "const LOCAL_AGENDA_DEFAULT_QUARTERS\\s*=\\s*\\d",
+          "why": "the hand-set one-quarter local agenda cadence (member-agenda.ts:101)"
+        }
+      ],
+      "note": "Part: six hand-set calendars named in the evidence (state season days, legislative cadence, local agenda quarters, Congress weekdays, DC 14-day, town 14-day) must be gone and sittingCalendar present in the pack type, Congress pack, congress-chambers and DC sittings. The audit counts seven calendars but names only five, and I found the town meeting interval as a sixth, so it can never scan done."
+    },
+    "A77": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "applyInstitutionStep\\(",
+          "why": "done in #1392: council floor votes go through the clock's institution step"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/town-council-profile.ts",
+          "pattern": "readingIntervalDays",
+          "why": "the town pack carries its reading interval so the clock can pace the ordinance"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "applyInstitutionStep\\(",
+          "why": "moveOrdinances hands a town ordinance to the one clock step instead of driving it"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "takeFloorVote\\(",
+          "why": "the town ordinance floor vote taken by the meeting file's own driver (local-council-meetings.ts, moveOrdinances)"
+        }
+      ],
+      "note": "Part: #1392's applyInstitutionStep call in municipal-ordinance-procedure.ts passes; the town pack's readingIntervalDays, moveOrdinances calling the clock and the direct takeFloorVote still fail. DC moveActs scheduling and the player's session (A78) are outside these checks."
+    },
+    "A78": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/legislation-session.ts",
+          "pattern": "committee\\s*=\\s*chamber\\.committees\\[0\\]",
+          "why": "request-referral still sends every player bill to the first committee (legislation-session.ts:178); the report step keeps a legitimate fallback to committees[0] at :221, as the clock does"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/legislation-session.ts",
+          "pattern": "[rR]eferralCommittee\\(",
+          "why": "the player's referral uses the same committee choice the clock uses (congressReferralCommittee or an exported wrapper)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/legislation-session.ts",
+          "pattern": "addDays\\(world\\.currentDate,\\s*7\\)",
+          "why": "the hand-set seven-day hearing wait (legislation-session.ts:199) instead of the clock's cadence"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/legislation-session.ts",
+          "pattern": "offerPlannedAmendment\\(|applyInstitutionStep\\(",
+          "why": "NPC members can amend the player's bill, directly or through the clock's institution step"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/legislation-session.ts",
+          "pattern": "measureSessionIsClosed\\(|applyInstitutionStep\\(",
+          "why": "the player's bill dies at session end as the clock's does, directly or through the institution step"
+        }
+      ],
+      "note": "Whole: the player's referral must use the clock's committee choice, no hand-set seven-day hearing wait, and amendments and session-end death must come either directly or through applyInstitutionStep. All fail today."
+    },
+    "A83": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/law-in-force.ts",
+          "pattern": "export function effectiveAtFor\\(",
+          "why": "the one place a law's effective date is computed"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/legislation.ts",
+          "pattern": "effectiveAtFor\\(",
+          "why": "recordEnactment stores the effective date through that one function"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "ORDINANCE_EFFECTIVE_AFTER_DAYS",
+          "why": "the town council adds its own 30 days (local-council-meetings.ts:347) though its pack says on adoption"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "ORDINANCE_EFFECTIVE_AFTER_DAYS",
+          "why": "the council enactment adds its own 30 days (municipal-ordinance-procedure.ts:805 and :860)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/minimum-wage.ts",
+          "pattern": "STATUTE_EFFECTIVE_DEFAULT_DAYS",
+          "why": "reader recomputes the date (minimum-wage.ts:139)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/fiscal.ts",
+          "pattern": "STATUTE_EFFECTIVE_DEFAULT_DAYS",
+          "why": "reader recomputes the date (public-budgets/fiscal.ts:145-146)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "STATUTE_EFFECTIVE_DEFAULT_DAYS",
+          "why": "reader recomputes the date (member-agenda.ts:158-159)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/enacted-rule-changes.ts",
+          "pattern": "addDays\\([^)]*STATUTE_EFFECTIVE_DEFAULT_DAYS",
+          "why": "reader recomputes the date (enacted-rule-changes.ts:1110)"
+        }
+      ],
+      "note": "Whole: effectiveAtFor defined in law-in-force.ts and called by recordEnactment, and every hand-added 30 or 90 day fallback named in the evidence is gone. law-in-force.ts keeps its own fallback inside effectiveAtFor, so it is not an absent check. All fail today."
+    },
+    "A84": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/",
+          "pattern": "nextDcCouncilDesignation|nextOrdinanceDesignation",
+          "why": "the two parallel numbering functions were removed in #1411"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "nextMeasureNumbering\\(",
+          "why": "town ordinances number through the shared reader"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "nextMeasureNumbering\\(",
+          "why": "member-filed council and legislature bills number through the shared reader"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/municipal-governing.ts",
+          "pattern": "export function municipalMeasureNumberingInput",
+          "why": "the player's council path only resolves the context for the shared reader"
+        }
+      ],
+      "note": "All checks pass today: the two parallel numbering functions are gone from src and both agenda writers call nextMeasureNumbering. Verified done, scanned done."
+    },
+    "A85": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "offerPlannedAmendment\\(",
+          "why": "an NPC councilor amends an ordinance before its reading (moveOrdinances, local-council-meetings.ts:353-401)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/dc-council-sittings.ts",
+          "pattern": "offerPlannedAmendment\\(",
+          "why": "the DC Council's sitting offers amendments before a reading vote (moveActs, dc-council-sittings.ts:162)"
+        }
+      ],
+      "note": "Part: councils (local-council-meetings.ts moveOrdinances, dc-council-sittings.ts moveActs) must call offerPlannedAmendment directly. The clock's existing chamber amendment call (legislative-clock.ts:777) is deliberately not a check, since it would make this not-started item scan partly. If A77 reroutes councils through the clock instead, the two direct checks stay red until someone looks. Item vetoes for non-state bodies are not expressed. Both fail today, matching verified."
+    },
+    "A86": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/constitutional-reform.ts",
+          "pattern": "export function proposeAmendment\\(",
+          "why": "the one proposal function extracted from proposeAndVoteUnchecked"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/article-v.ts",
+          "pattern": "proposeAmendment\\(",
+          "why": "Article V proposals go through it (article-v.ts propose, :480)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/federal-reform.ts",
+          "pattern": "proposeAmendment\\(",
+          "why": "federal reform proposals go through it (federal-reform.ts proposeAndVote, :489)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/constitutional-reform.ts",
+          "pattern": "proposeAmendment\\(",
+          "why": "state amendment proposals call it too"
+        }
+      ],
+      "note": "Whole: proposeAmendment must exist in constitutional-reform.ts and be called from article-v.ts, federal-reform.ts and constitutional-reform.ts. No proposeAmendment exists today, so all four fail."
+    },
     "A88": {
       "covers": "whole",
       "checks": [
@@ -1661,6 +2873,72 @@
       ],
       "note": "Scans not-started like verified: SeededRng and qualifyPermille still appear in recall.ts and it does not import official-view-reads. The 'national-range-drawn' circulation window for unread states (recall.ts:117, :400) is not scanned; the next step does not touch it."
     },
+    "A89": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/legislature-rules.ts",
+          "pattern": "seatRollSource",
+          "why": "the rule-pack type says where its seat roll comes from"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/congress-rule-pack.ts",
+          "pattern": "seatRollSource",
+          "why": "the Congress pack sets it"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/chamber-votes.ts",
+          "pattern": "seatRollSource",
+          "why": "chamber-votes switches on pack.seatRollSource"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/chamber-votes.ts",
+          "pattern": "US_CONGRESS_PACK_ID",
+          "why": "the Congress branches in seatedChamberForPack (:95) and billVoteContext (:537)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "isCongressMeasure\\(",
+          "why": "Congress special-cased inside the state governing code (state-governing.ts:2955)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "US_CONGRESS_PACK_ID",
+          "why": "Congress special-cased inside the shared member agenda (member-agenda.ts:398)"
+        }
+      ],
+      "note": "Part: seatRollSource in the pack type, Congress pack and chamber-votes, plus three Congress special cases gone (chamber-votes.ts, state-governing.ts:2955, member-agenda.ts:398). The audit counts 40 lines across 12 files; the rest (legislative-clock.ts, program-governing.ts, measure-numbering.ts and others) are not individually checked."
+    },
+    "A20": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/legislation-transit-families.ts",
+          "pattern": "TRANSIT_SERVICE_VARIANT\\s*:\\s*ProgramVariant",
+          "why": "the transit bill wording still written as TypeScript object literals (legislation-transit-families.ts:49, :195)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "data/content/legislation-families/",
+          "why": "a JSON loader reads family wording from data/content/legislation-families/ (transit.json first)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/automatic-legislation.ts",
+          "pattern": "US_CONGRESS_PACK_ID",
+          "why": "per-level Congress branches remain in the question-to-bill mapping (automatic-legislation.ts:481-483, :675)"
+        }
+      ],
+      "note": "Part: only the transit family move and the Congress branches in automatic-legislation.ts are expressed; the other seven family files and the question-to-bill mapping table have no concrete anchor yet. The reader check kind only indexes data/research, so a path-quoting present check on src/simulation/ stands in for the loader."
+    },
     "A74": {
       "covers": "part",
       "checks": [
@@ -1684,6 +2962,174 @@
         }
       ],
       "note": "Scans not-started like verified: all three draws still appear in presentation/legislation-world.ts. Marked part because the replacement (the player's own seat member, the latest non-terminal measure they filed, no session when none) has no stable name to scan for, so removing the draws cannot by itself prove the goal."
+    },
+    "A76": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "shortTitle:",
+          "why": "done in #1314/#1330/#1449: the member-agenda writer composes every body's bill title"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/legislature-rules.ts",
+          "pattern": "titleTemplate",
+          "why": "the rule-pack type carries a title template"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "titleTemplate",
+          "why": "shortTitle is rendered from pack.titleTemplate"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/town-council-profile.ts",
+          "pattern": "titleTemplate",
+          "why": "the town pack fills in its template ('{name} Ordinance')"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "function ordinanceTitle",
+          "why": "the per-body town title callback (local-council-meetings.ts:232)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/dc-council-sittings.ts",
+          "pattern": "function dcCouncilActTitle",
+          "why": "the per-body DC title callback (dc-council-sittings.ts:148)"
+        }
+      ],
+      "note": "Whole: member-agenda.ts's shortTitle writer passes (done part from #1314/#1330/#1449); titleTemplate in the pack type, member-agenda and town pack, and the two per-body title callbacks removed, all fail today. Scans partly, matching verified."
+    },
+    "A82": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "OVERRIDE_WINDOW_DAYS",
+          "why": "the hand-kept override window table naming only DC (municipal-ordinance-procedure.ts:716-718)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/dc-council-sittings.ts",
+          "pattern": "overrideCouncilVeto\\(|overrideDeadline\\(|awaiting-override",
+          "why": "the DC council sitting reconsiders a vetoed act with its members' own votes, no player action"
+        }
+      ],
+      "note": "Part: OVERRIDE_WINDOW_DAYS removed from municipal-ordinance-procedure.ts and the DC council sitting reconsidering a vetoed act. The pack field name for the window is not named by the audit, so it is not a present check. Both fail today."
+    },
+    "A80": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/presentation/legislation-session.ts",
+          "pattern": "executiveDesk\\(",
+          "why": "done in #1478: the player's await-executive-decision goes through the governor's desk"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/congress-lawmaking.ts",
+          "pattern": "evaluateGovernorBill\\(",
+          "why": "done: the President decides a bill through the governor evaluation"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "evaluateGovernorBill\\(",
+          "why": "done: a mayor decides a council bill through the governor evaluation"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "presentmentRequired",
+          "why": "afterAdoption branches on the town pack's presentmentRequired"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "evaluateGovernorBill\\(",
+          "why": "where presentment is required the town ordinance is decided through evaluateGovernorBill"
+        }
+      ],
+      "note": "Whole: executiveDesk in the player session, evaluateGovernorBill in congress-lawmaking.ts and municipal-ordinance-procedure.ts pass; town councils branching on presentmentRequired and deciding through evaluateGovernorBill still fail. Scans partly, matching verified."
+    },
+    "A81": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "DEADLINE_DAYS\\s*:\\s*Record<\\s*Exclude<\\s*GoverningMatterFamily\\s*,\\s*\"bill\"",
+          "why": "the hand-set deadline table excludes bills"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "DEADLINE_DAYS\\s*:\\s*Record<\\s*GoverningMatterFamily",
+          "why": "a bill must not come back into the hand-set table"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "executiveBillActionWindow\\(",
+          "why": "a bill's deadline comes from the pack's action window"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "recordExecutiveInaction\\(",
+          "why": "a bill past its window records the inaction"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "\"lapsed\"",
+          "why": "and records a 'lapsed' decision (state-governing.ts:2273-2289)"
+        }
+      ],
+      "note": "All checks pass today for the bill part: DEADLINE_DAYS excludes bills, the pack window is used, inaction is recorded and a 'lapsed' decision written. The separate clemency PLACEHOLDER 60 days (state-governing.ts clemency row) is out of the item's goal and not checked."
+    },
+    "A108": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "\"us-dc-washington\"",
+          "why": "DC reading row (:676) and DC override window (:717) named by city key in code"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "\"us-va-charlottesville\"",
+          "why": "the Charlottesville branch in admitCouncilAction (:1364)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "CVILLE_2_98_AMENDED_ON",
+          "why": "the Charlottesville section 2-98 amendment date held in code (:1341, :1432)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-public-work.ts",
+          "pattern": "\"us-va-charlottesville\"",
+          "why": "the Charlottesville decision rule keyed by city in code (municipal-public-work.ts:1551)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/player/MunicipalWorkspace.tsx",
+          "pattern": "\"us-dc-washington\"",
+          "why": "a screen branch naming DC (MunicipalWorkspace.tsx:439)"
+        }
+      ],
+      "note": "Whole: no city-key literal or CVILLE_2_98_AMENDED_ON in municipal-ordinance-procedure.ts, none for Charlottesville in municipal-public-work.ts, and none for DC in MunicipalWorkspace.tsx. All fail today. Identity data files under src/source and municipal-seat-identity.ts are data and are not checked."
     },
     "A79": {
       "covers": "whole",
@@ -1750,6 +3196,72 @@
         }
       ],
       "note": "Scans partly like verified: the decideChamberVote call sites and the removed weight() copies pass; the three direct evaluateDecision calls (article-v.ts:351, federal-reform.ts:413, legislative-member-decisions.ts:162) still match. joint-assembly.ts also calls evaluateDecision (:294) but it is a multi-candidate election, not a yea/nay vote, so it is not scanned."
+    },
+    "A109": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/national-election-rules.ts",
+          "pattern": "===\\s*\"ME\"|===\\s*\"NE\"",
+          "why": "Maine and Nebraska named by USPS in the elector split (national-election-rules.ts:116)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/constitutional-process.ts",
+          "pattern": "\\[\\s*\"california\"\\s*,\\s*\"us-ca\"\\s*\\]",
+          "why": "the California slug special case (constitutional-process.ts:184)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/presidential-turnover.ts",
+          "pattern": "unit\\.state\\s*===\\s*\"DC\"",
+          "why": "DC skipping the census-region swing by name (presidential-turnover.ts:768)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/question-authority.ts",
+          "pattern": "usps\\s*===\\s*\"DC\"|TERRITORIES\\.has\\(usps\\)",
+          "why": "the DC/territory test by USPS literal and set (question-authority.ts:149)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "\\belectorAllocation\\b",
+          "why": "an electorAllocation column on the place data, read by the election rules"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "\\bjurisdictionKind\\b",
+          "why": "a jurisdictionKind column on the place data, read by question-authority"
+        }
+      ],
+      "note": "Whole: four literals gone (ME/NE, the california slug, DC in the census swing, DC and TERRITORIES in question-authority) and electorAllocation and jurisdictionKind columns read in src/simulation. The column names come from the audit's next step. All fail today."
+    },
+    "A120": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/",
+          "pattern": "SENATE_APPOINTMENT_PLACEHOLDER_DAYS",
+          "why": "the flat 10-day appointment interval (office-continuity.ts:56, :495-496 import and use it)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "\\|\\s*\"appointment\"",
+          "why": "GoverningMatterFamily gains an 'appointment' family so the governor's desk can hold the vacancy (state-governing.ts:150-158 has no such member today)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/",
+          "pattern": "family:\\s*\"appointment\"",
+          "why": "an openMatter call opens the appointment matter on the governor's desk, due at the statute's deadline"
+        }
+      ],
+      "note": "Placeholder-days import and use at office-continuity.ts:56/495-496 are live and no 'appointment' family exists in GoverningMatterFamily (state-governing.ts:150), so none pass: not-started, as verified."
     },
     "A144": {
       "covers": "whole",
@@ -1876,6 +3388,66 @@
         }
       ],
       "note": "Scans not-started like verified: SeededRng is still imported and used in committee-assignment.ts, and the file has no sort."
+    },
+    "A96": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/office-continuity.ts",
+          "pattern": "\\.pick\\(pool\\)",
+          "why": "the seeded even draw among every eligible adult that #1485 removed (the old fallback at office-continuity.ts:1571)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/office-continuity.ts",
+          "pattern": "government:vice-president-no-nominee",
+          "why": "an empty presidential choice blocks the nomination and keeps the office vacant (office-continuity.ts:1575)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/office-continuity.ts",
+          "pattern": "chooseAppointee\\(world,",
+          "why": "the nominee comes from the President's own appointment decision (office-continuity.ts:1556)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/governing/vice-president-choice-required.test.ts",
+          "pattern": "keeps an empty NPC choice vacant without a substitute",
+          "why": "the proving test for the blocked, vacant outcome (#1485)"
+        }
+      ],
+      "note": "All four checks pass (pick removed in #1485, blocked reason at :1575, chooseAppointee at :1556, test exists): done, as verified."
+    },
+    "A97": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/enacted-duties.ts",
+          "pattern": "hasWorkers",
+          "why": "the 'anyone works there' compliance test (formerly enacted-duties.ts:394, :456-463)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/enacted-duties.ts",
+          "pattern": "workRelationshipHistoryForOrganization|workStatusAt",
+          "why": "settlement no longer reads staffing at all"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/enacted-duties.ts",
+          "pattern": "\"compliance-unknown\"",
+          "why": "a covered body with no qualifying record stays 'compliance-unknown'"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/enacted-duty-evidence.test.ts",
+          "pattern": "does not call either a staffed or unstaffed covered body compliant",
+          "why": "the proving test from commit 836450e63"
+        }
+      ],
+      "note": "Scans DONE, verified says not-started: commit 836450e63 (A97: stop treating staffing as legal duty fulfillment, Oct 1 10:07 a.m., on origin/main) removed hasWorkers and the 'complied' branch from enacted-duties.ts; settleEnactedDuty now writes only coverage-unknown or compliance-unknown, so no body is marked compliant for being staffed. The audit's :394 and :456-463 lines no longer exist. What is not built is a receipt-based 'complied' outcome (the next step's second half); the goal as written is met."
     },
     "A37": {
       "covers": "part",
@@ -2045,6 +3617,48 @@
       ],
       "note": "Dice item: all three absent checks fail today (town-pay.ts:240, :731, :719) and the credential call is absent, so scanned not-started matches verified. Period and phase draws (:425, :771) are out of this item's scope."
     },
+    "A41": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "annualMinor:\\s*OFFICE_SALARY_PLACEHOLDER\\.annualMinor",
+          "why": "the $60,000 default paid to every office outside the four published ones (office-salary.ts:80)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "townJobRate\\(",
+          "why": "civil-service, executive-staff and agency-director pay read through the OEWS reader before any fallback"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/job-market.ts",
+          "pattern": "hourlyMinor:\\s*2164",
+          "why": "the $21.64 public-clerk wage (job-market.ts:167-173)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "monthlyWageMinor:\\s*280_000",
+          "why": "the $2,800 a month fallback wage (local-economy.ts:78)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "LOCAL_BUSINESS_WAGE_PERCENTILE",
+          "why": "the fixed 50th percentile for business staff (local-economy.ts:86, :103)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "townPayPercentile\\(tenure,\\s*draw\\)",
+          "why": "the seeded draw that moves a worker's percentile (town-pay.ts:731); the goal names it as one of the ways wages are read"
+        }
+      ],
+      "note": "Four placeholders and the seeded percentile draw are all still live (office-salary.ts:80, job-market.ts:168-173, local-economy.ts:78/86/103, town-pay.ts:731): not-started. covers is 'part' because the next step names only office-salary.ts; the draw check (town-pay.ts:731) is included because the goal lists a drawn percentile."
+    },
     "A43": {
       "covers": "whole",
       "checks": [
@@ -2068,6 +3682,102 @@
         }
       ],
       "note": "Three checks from the evidence lines and next step; all fail today (drawnLinkSize at the import and call, origin check at :126, no readFinalEnactedLawTerm), matching not-started."
+    },
+    "A44": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/",
+          "pattern": "FAIRNESS_LAW_PAY_GAIN",
+          "why": "the 2.7% constant in production code (fairness-pay-law.ts:38); the next step moves it into a calibration test"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/",
+          "pattern": "UNCOVERED_PAY_SHARE",
+          "why": "the blanket cut share applied by payAtHire (fairness-pay-law.ts:41, :175)"
+        }
+      ],
+      "note": "Both constants are in production code (fairness-pay-law.ts:38, :41, used at :175): not-started. Checks follow the next step: remove the blanket share and move 0.027 into a calibration test."
+    },
+    "A60": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "resourcePositionAt\\(",
+          "why": "settleTownCompensations (town-pay.ts:1387) reads the employer's recorded cash before the transfer; it imports no position reader today"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "\"(capacity|custom):[a-z-]*(employer|insufficient|cash)[a-z-]*\"",
+          "why": "a partial or blocked paycheck carries an employer-cash reason (town-pay.ts:1548-1553 has only the sick-day reasons)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "resourcePositionAt\\(",
+          "why": "business wage flows (settleFlows in local-economy.ts) cap pay at the employer's recorded cash, the part PR #1402 changes"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "\"(capacity|custom):[a-z-]*(employer|insufficient|cash)[a-z-]*\"",
+          "why": "business wage shortfalls are recorded as partial or blocked with an employer-cash reason"
+        }
+      ],
+      "note": "town-pay.ts and local-economy.ts import no position reader and write no employer-cash reason, so none pass: not-started. covers is 'part': office-salary and any other employer paths are not checked. PR #1402 (not merged) changes local-economy.ts settleFlows to the capacity:insufficient-liquid and capacity:unrecorded-employer-cash reasons the patterns accept; the town-pay.ts settler (settleTownCompensations) is the second place the next step names."
+    },
+    "A69": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/staffing.ts",
+          "pattern": "job\\.personId\\s*!==\\s*playerPersonId",
+          "why": "layOff skips the player (staffing.ts:295)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/staffing.ts",
+          "pattern": "(^|[^!])schooled\\.has\\(resident\\.personId\\)\\s*&&",
+          "why": "the credential is checked only for people who have an enrollment, so a missing school record passes (staffing.ts:374)"
+        }
+      ],
+      "note": "Both lines are live (staffing.ts:295 playerPersonId filter; staffing.ts:374 schooled.has gate): not-started. The hire-side player exclusion at :369 is not in the goal and is not checked."
+    },
+    "A70": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-labor-market.ts",
+          "pattern": "const byYouth\\s*=",
+          "why": "the youngest-quit-first ordering (town-labor-market.ts:288)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-labor-market.ts",
+          "pattern": "const byLatestHire\\s*=",
+          "why": "the last-hired-first-let-go ordering (town-labor-market.ts:262)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-labor-market.ts",
+          "pattern": "lastWorked\\.get\\(b\\.personId\\)",
+          "why": "the shortest-out-of-work-first call-back ordering (town-labor-market.ts:384)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-labor-market.ts",
+          "pattern": "evaluateDecision\\(",
+          "why": "each worker's own quit choice runs through the shared decision engine (none today)"
+        }
+      ],
+      "note": "All three HARDWIRED orderings are live (town-labor-market.ts:262 byLatestHire, :288 byYouth, :384 lastWorked) and the file never calls evaluateDecision: not-started. Whole means all three plus a decision call; replacing only the quit ordering (the next step) scans partly."
     },
     "A10": {
       "covers": "whole",
@@ -2105,6 +3815,60 @@
       ],
       "note": "The weekly press call (press/transitions.ts:54) still fails the absent check; the dated handlers (prosecution-transitions.ts:95, clemency-transitions.ts:75, campaigns.ts:2194/:2201) pass, so partly matches verified. recoverOverdueProsecutions is called only from tests today, so the 'keep for load' step has no production caller to check."
     },
+    "A100": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/judiciary/",
+          "pattern": "export function courtFor\\(",
+          "why": "the one 'which court' function the next step names"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/judiciary/judicial-review.ts",
+          "pattern": "courtFor\\(",
+          "why": "reviewingCourt (judicial-review.ts:113) goes through it"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/court-reasoning.ts",
+          "pattern": "courtFor\\(",
+          "why": "sentencingJudge (court-reasoning.ts:427) goes through it"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "courtFor\\(",
+          "why": "trialJudge (town-rent.ts:2037) goes through it"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/judiciary/judicial-review.ts",
+          "pattern": "measure\\.jurisdictionId\\s*===\\s*NATIONAL_ELECTION_JURISDICTION\\.id",
+          "why": "the skip that keeps national laws out of review (judicial-review.ts:371)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": ":general_trial",
+          "why": "the court id built from a state key (town-rent.ts:2044), a third private court finder"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/court-reasoning.ts",
+          "pattern": "court\\.level\\s*===\\s*\"local-general-trial\"",
+          "why": "the state-trial-court-only filter in sentencingJudge (court-reasoning.ts:437)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/judiciary/judicial-review.test.ts",
+          "pattern": "national law.*federal court|federal court.*national law",
+          "why": "the proof the next step names: a national law goes to the federal court, or stays pending when none is seated"
+        }
+      ],
+      "note": "Three finders and the national skip are live (judicial-review.ts:113/371, court-reasoning.ts:427/437, town-rent.ts:2037/2044); no courtFor exists. The test check (national law goes to the federal court) is the one thing patterns cannot prove, so the item scans unknown, pending its proving test, instead of not-started."
+    },
     "A103": {
       "covers": "whole",
       "checks": [
@@ -2133,6 +3897,162 @@
         }
       ],
       "note": "The floor (#1313/#1378) passes; the midpoint expressions in termMonths still match and the research file has no non-test reader, so partly matches verified."
+    },
+    "A102": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": ":\\s*\"the court\"",
+          "why": "the 'the court' stand-in when no judge is seated (town-rent.ts:2136)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "lawyer\\s*=\\s*tenantAnswers\\s*&&\\s*law\\s*!==\\s*null",
+          "why": "an NPC tenant's lawyer is a flag, not a person (town-rent.ts:2112)"
+        }
+      ],
+      "note": "The 'the court' fallback (town-rent.ts:2136) and the lawyer flag (town-rent.ts:2112) are live: not-started. covers is 'part' because civil cases on shared court records (G16) are wider than these two lines."
+    },
+    "A104": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "prosecutorsCharge\\(",
+          "why": "the stand-in charging rule (defined at prosecution.ts:211, called at :685)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "isSelectedDecision\\(",
+          "why": "a tied or missing decision leaves the case pending instead of falling to the alphabetically first option (decisions.ts:219); no justice code uses it today"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/justice/prosecution-transitions.test.ts",
+          "pattern": "unseated prosecutor|no prosecutor",
+          "why": "the proof the next step names: an unseated prosecutor's office leaves the case pending"
+        }
+      ],
+      "note": "prosecutorsCharge is defined and called (prosecution.ts:211, :685) and no justice code calls isSelectedDecision, so both code checks fail. The seated-prosecutor test is not on main, so the item scans unknown, pending its proving test."
+    },
+    "A25": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/juvenile-court.ts",
+          "pattern": "ADULT_COURT_AGE_WHEN_(NOT_)?RAISED",
+          "why": "the 18/17 constants (juvenile-court.ts:25-26)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/legal-outcome.ts",
+          "pattern": "[Jj]uvenile",
+          "why": "a juvenile-jurisdiction row in the legal-outcome table (none today)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/juvenile-court.ts",
+          "pattern": "law-consequences/",
+          "why": "adultCourtAgeAt reads that row instead of the yes/no answer"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/justice/juvenile-court.test.ts",
+          "pattern": "differ|two states",
+          "why": "the proof the next step names: two states with different 2026 ages differ with no law passed"
+        }
+      ],
+      "note": "The 18/17 constants are live (juvenile-court.ts:25-26), legal-outcome.ts has no juvenile row, and there is no juvenile-court.test.ts, so the item scans unknown, pending its proving test. No per-state juvenile table exists under data/research/, so there is no reader check; the test is what proves the table is read."
+    },
+    "A101": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "test",
+          "file": "src/simulation/judiciary/judicial-review.test.ts",
+          "pattern": "never reviewed|nobody is affected|no one is affected|no claimant",
+          "why": "the proof the next step names: a law nobody is affected by is never reviewed. awaitingReview (judicial-review.ts:364-388) schedules every matching law with no filing, and no code line shows a filing gate by name, so only the test can prove it"
+        }
+      ],
+      "note": "Test-only rule: the evidence shows no line a pattern can name for a missing filing gate (judicial-review.ts:364-388 schedules from the precedent table alone). The existing judicial-review.test.ts has no 'never reviewed' title, so it scans unknown, pending its proving test."
+    },
+    "A105": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/court-reasoning.ts",
+          "pattern": "drawn\\.length\\s*<\\s*12",
+          "why": "the hard-coded panel size of 12 (court-reasoning.ts:263); the next step reads it from legal data"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "jurors\\.length\\s*<",
+          "why": "a short panel returns a pending trial; only a zero-person jury is blocked today (prosecution.ts:609)"
+        }
+      ],
+      "note": "Hard-coded 12 (court-reasoning.ts:263) is live and only the zero-juror guard exists (prosecution.ts:609): not-started. The absent check is on the 12, not on the zero guard, since a fix may keep that guard."
+    },
+    "A98": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/clemency.ts",
+          "pattern": "(=|\\(|return|await)\\s*unseatedBodyReading\\(",
+          "why": "no step calls the unseated-body case-record answer any more (#1506); the definition at clemency.ts:681 is dead code"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/clemency.ts",
+          "pattern": "^\\s*\"board-vote\",\\s*$",
+          "why": "no recordAnswer call passes 'board-vote' (the only live call at clemency.ts:993-999 passes 'officeholder')"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/justice/clemency-unseated-body.test.ts",
+          "pattern": "unseated required pardon bodies cannot answer",
+          "why": "the proving test from #1506"
+        }
+      ],
+      "note": "Scans done, as verified. No call site of unseatedBodyReading remains and no recordAnswer call passes 'board-vote'. The dead export (clemency.ts:681) and the 'board-vote' union member (:722, :742) are the cleanup the next step names; they are not part of the goal, so they are not checked."
+    },
+    "A52": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/cost-of-living.ts",
+          "pattern": "mortgageFlows",
+          "why": "housing is read from real lease and mortgage flows (#1328), the part already done"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/cost-of-living.ts",
+          "pattern": "LIVING_COSTS_PLACEHOLDER\\.monthlyPerAdultMinor\\s*-",
+          "why": "the $1,500 per adult less $900 housing stand-in (cost-of-living.ts:151-152)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/cost-of-living.ts",
+          "pattern": "monthlyCostMinor\\(\\)",
+          "why": "the zero-argument monthly charge (defined cost-of-living.ts:150, called :205): a real bill needs the household's region and size"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "[Cc]onsumer[- ]?[Ee]xpenditure|regional-corpus",
+          "why": "production code reads the BLS Consumer Expenditure regional corpus (data/source/consumer-expenditure/); nothing under src/ names it today"
+        }
+      ],
+      "note": "Housing check passes (mortgageFlows, cost-of-living.ts:131); the placeholder arithmetic (:151-152), monthlyCostMinor() (:150, :205) and the missing Consumer Expenditure reader fail: partly, as verified. The CE regional corpus lives in data/source/consumer-expenditure/, outside the reader index (data/research only), so the reader check is a source pattern in src/simulation/."
     },
     "A57": {
       "covers": "part",
@@ -2212,6 +4132,90 @@
       ],
       "note": "Dice item: both absent checks and the row check fail today (tuition-freeze.ts:55, :77, month.ts:46/:633; no tuition row in law-consequences/), matching not-started."
     },
+    "A53": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/home-purchase.ts",
+          "pattern": "downPaymentMinor:\\s*5_000_000",
+          "why": "the fixed $50,000 down payment in HOME_PURCHASE_PLACEHOLDER (home-purchase.ts:79)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/home-purchase.ts",
+          "pattern": "monthlyPaymentMinor:\\s*120_000",
+          "why": "the fixed $1,200 monthly payment with no interest (home-purchase.ts:80)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-opportunities.ts",
+          "pattern": "settleMortgages\\(",
+          "why": "the private player-only mortgage loop is still called from refreshLifeOpportunities (life-opportunities.ts:454)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/home-purchase.ts",
+          "pattern": "openHouseholdLoan\\(",
+          "why": "a new purchase is opened as a shared household loan (household-loans.ts openHouseholdLoan) so the loan servicer charges interest and amortizes it"
+        }
+      ],
+      "note": "Fixed $50,000/$1,200 constants, the settleMortgages call and the missing openHouseholdLoan call all match the cited lines today, so 0 of 4 pass: not-started, as verified. The interest/amortization proof test is not a check: a missing test would make the item scan unknown instead of not-started."
+    },
+    "A58": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-opportunities.ts",
+          "pattern": "refreshLocalEconomy\\(",
+          "why": "the old fixed-revenue business engine is still refreshed from refreshLifeOpportunities (life-opportunities.ts:451)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/job-market.ts",
+          "pattern": "adultStartEmployer",
+          "why": "job-market.ts still takes an adult's first employer from the old local-economy engine (import :22, call :1581)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "monthlyRevenueMinor:\\s*\\d[\\d_]*,",
+          "why": "the fixed monthly revenue per business kind (local-economy.ts:137-214, grocery 6_000_000)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "status:\\s*\"completed\"",
+          "why": "every old-engine business flow is written 'completed' by default (local-economy.ts:698)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/job-market.ts",
+          "pattern": "from \"\\./living-world/town-(finances|businesses|business-books)\"",
+          "why": "job-market.ts reads its employers from the town-finances business books"
+        }
+      ],
+      "note": "Old engine is still live at every cited line (life-opportunities.ts:451, job-market.ts:22/:1581, local-economy.ts:137-214 and :698) and job-market.ts imports no town-finances module: 0 of 5 pass, not-started as verified."
+    },
+    "A54": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/home-purchase.ts",
+          "pattern": "priceIndex\\s*/\\s*first\\.priceIndex",
+          "why": "the purchase price scales by consumer prices (home-purchase.ts:122)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/home-purchase.ts",
+          "pattern": "homePriceLevel\\(",
+          "why": "homePurchaseTerms reads the modeled home-price level that rents use (living-world/housing-market.ts:214)"
+        }
+      ],
+      "note": "home-purchase.ts:122 still divides by first.priceIndex and nothing calls homePriceLevel: 0 of 2 pass, not-started as verified."
+    },
     "A56": {
       "covers": "whole",
       "checks": [
@@ -2266,8 +4270,43 @@
       ],
       "note": "Three absent checks on the quarterly closing and founding rolls (town-businesses.ts:623, :638, :685); all fail today, matching not-started. No always-passing check added so a not-started item does not scan as partly."
     },
+    "A162": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "reader",
+          "dataFile": "data/research/outcome-web/links.json",
+          "why": "the game reads the effects map (outcome-web/index.ts)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/outcome-web/waiting-reasons.test.ts",
+          "pattern": "each link not built and not about-zero carries a reason in notes",
+          "why": "every link that does not run says why in its notes"
+        },
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "\"notes\":\\s*\"Unsupported until",
+          "why": "unsized links with a missing input carry an 'Unsupported until ...' reason"
+        },
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "\"notes\":\\s*\"Person-level:",
+          "why": "the person-level links carry their reason"
+        },
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "\"notes\":\\s*\"Evidence gap, not a measured zero",
+          "why": "evidence-gap links carry their reason"
+        }
+      ],
+      "note": "All checks pass today: links.json is read by outcome-web/index.ts, rows carry Unsupported/Person-level/Evidence gap notes, and waiting-reasons.test.ts asserts every non-running link says why. Done, as verified."
+    },
     "A165": {
-      "covers": "part",
+      "covers": "whole",
       "checks": [
         {
           "kind": "absent",
@@ -2293,7 +4332,97 @@
           "why": "the 4% default borrowing rate is gone (#1464)"
         }
       ],
-      "note": "The audit's next step (migration rates) closed after the audit by #1577. The goal names other hand-set numbers that the evidence says remain (office pay, local business revenue, disaster tables, macro policy, campaign ranges), so these rules cover part of it and can at most scan partly."
+      "note": "Closed on the evidence the verified list now gives: #1577 reads the ACS mover rates in place of the two flat 4% migration constants, and the 4% default borrowing rate is gone (#1464)."
+    },
+    "A164": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "Evidence gap, not a measured zero: Chicago's voucher lottery found schooling effects",
+          "why": "housing-vouchers-to-graduation is an evidence gap, not a zero"
+        },
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "Evidence gap, not a measured zero: Chicago's voucher lottery found arrest effects",
+          "why": "housing-vouchers-to-crime is an evidence gap, not a zero"
+        },
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "Evidence gap, not a measured zero: members' trades matching the market",
+          "why": "congress-stock-ban-to-member-returns is an evidence gap, not a zero"
+        },
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "Evidence gap, not a measured zero: no study links local book removals",
+          "why": "library-materials-to-reading is an evidence gap, not a zero"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/outcome-web/outcome-web.test.ts",
+          "pattern": "evidence-gap rows have no size, do not act, and say why",
+          "why": "an evidence-gap row has no size, does not act and says why"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/governing/federal-law-reach.test.ts",
+          "pattern": "leaves vouchers' effects on schooling and arrests as evidence gaps, not zeros",
+          "why": "the voucher rows stay evidence gaps and move nothing"
+        }
+      ],
+      "note": "All four rows' 'Evidence gap, not a measured zero' notes are in links.json and the two existing tests (outcome-web.test.ts, federal-law-reach.test.ts) assert the rows stay size-null, off and explained. Done, as verified."
+    },
+    "A107": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "docs/research/requests/bail-schedules-by-state.json",
+          "pattern": "\"questionId\":\\s*\"bail-schedules-by-state\"",
+          "why": "the bail-by-state research request is filed (#1445)"
+        },
+        {
+          "kind": "present",
+          "file": "docs/research/requests/criminal-time-to-disposition.json",
+          "pattern": "\"questionId\":\\s*\"criminal-time-to-disposition\"",
+          "why": "the time-to-disposition research request is filed (#1445)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "chargeDecisionDays:\\s*60\\b",
+          "why": "the national 60 days from referral to the charging decision (prosecution.ts:98)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "resolveAfterDays:\\s*120\\b",
+          "why": "the national 120 days from charge to plea or trial (prosecution.ts:100)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "bailMinorUnits\\(courtCase\\.offenseKey\\)",
+          "why": "bail is asked for by offense only, the same in every state (prosecution.ts:703, :862)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/pretrial.ts",
+          "pattern": "export function bailMinorUnits\\(offenseKey:\\s*string\\)",
+          "why": "the bail amount takes no state: BJS 75-largest-county medians for every state (pretrial.ts:27-44)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/",
+          "pattern": "research/justice/[\\w.-]*(disposition|time|timing|days)[\\w.-]*\\.json",
+          "why": "prosecution timing reads a per-state research table under data/research/justice/"
+        }
+      ],
+      "note": "Partly, as verified: the two research requests exist (2 of 7 pass) but prosecution.ts:98/:100 still hold 60/120 days, bail is still asked by offense only (prosecution.ts:703/:862, pretrial.ts:40), and no per-state timing table is read under src/simulation/justice/. The per-state timing file's name is not fixed yet, so that check matches any justice research file named for disposition, time, timing or days."
     },
     "A118": {
       "covers": "whole",
@@ -2336,6 +4465,59 @@
         }
       ],
       "note": "Six absent checks for the hashed rules the evidence names; all still match today (stablePick x5, hashed timing :524, typical-council-size.ts:95, office-qualification-profile.ts:151, campaign-compliance.ts:593, FILING_LEAD_DAYS = 28), matching not-started. Whole means every one is gone."
+    },
+    "A160": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/legislative-dialogue-motifs.ts",
+          "pattern": "stableHash\\(",
+          "why": "the authored line bank is still chosen by a hash of the turn key (legislative-dialogue-motifs.ts:606)"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/legislative-dialogue-motifs.ts",
+          "pattern": "from \"\\./(english-composition|grounded-english|speech-registers|[\\w-]*-english)\"",
+          "why": "a beat type is composed through the English engine's parts rather than picked from the bank"
+        }
+      ],
+      "note": "Part only (this is one beat family of a much wider conversion): legislative-dialogue-motifs.ts:606 still picks lines by stableHash and imports no English-engine module, so 0 of 2 pass: not-started, as verified. Passing both would mean this file is converted, not that all prose is. The grounding test is not a check (a missing test would hide the not-started status)."
+    },
+    "A23": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/opening.ts",
+          "pattern": "openingLiabilityToSpending\\(candidate\\.stateKey\\)",
+          "why": "the opening liability reads the state's measured ratio (opening.ts:865)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/pension-share.ts",
+          "pattern": "export function openingLiabilityToSpending",
+          "why": "the measured liability-to-spending lookup exists (pension-share.ts:136)"
+        },
+        {
+          "kind": "reader",
+          "dataFile": "data/research/money/pension-liability-ratio.json",
+          "why": "the game reads the Public Plans Data liability ratios"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/",
+          "pattern": "[lL]iability\\w*\\s*[:=]\\s*1\\.2\\b|\\b1\\.2\\s*\\*\\s*\\w*[sS]pending|[sS]pending\\s*\\*\\s*1\\.2\\b",
+          "why": "the old 1.2-times-spending opening liability"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/opening.ts",
+          "pattern": "ESTIMATED FROM AVERAGE, \\$\\{size\\.liabilityToSpending\\}",
+          "why": "the median fallback for an unlisted place is labeled ESTIMATED FROM AVERAGE (opening.ts:915)"
+        }
+      ],
+      "note": "All five pass today (opening.ts:865, pension-share.ts:136, the ratio file is read, no 1.2 times spending in public-budgets/, fallback labeled at opening.ts:915). Done, as verified."
     },
     "A71": {
       "covers": "whole",
@@ -2419,6 +4601,162 @@
         }
       ],
       "note": "Layoffs changed after the audit (commits 63f71ace2, 7f5db507c, not ancestors of 1a74440ea): reduceNewsroomStaff now ends least-senior jobs only when recorded cash is below recorded payroll (ownership.ts, no dice), so the audit's rng.integer layoff pick is gone. Still live: the likelihoodPerReview roll for other practices (:370) and rng.pick(forSale) for acquisitions (:736). Founding-owner weightedPick and name pick (:207, :261) are opening-time draws left out of scope. Scanned partly, matching verified, but the verified evidence on layoffs is stale."
+    },
+    "A152": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/finding-consequences.ts",
+          "pattern": "restitutionConsequence",
+          "why": "the press module no longer defines the restitution consequence (it was finding-consequences.ts:393 at audit time; moved by 3b5105f9e)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/finding-consequences.ts",
+          "pattern": "matter\\.restitution-ordered",
+          "why": "the press module writes no matter.restitution-ordered event"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/finding-restitution.ts",
+          "pattern": "eventType:\\s*\"matter\\.restitution-ordered\"",
+          "why": "the governing engine owns the restitution order (finding-restitution.ts:187)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/press/procedures.ts",
+          "pattern": "^\\s*applyFindingRestitution,?\\s*$",
+          "why": "procedures.ts hands the institutional restitution writer to applyFindingConsequences (procedures.ts:925)"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/governing/finding-restitution.test.ts",
+          "pattern": "does not issue a restitution order from the press-only entrypoint",
+          "why": "the press-only entry point issues no restitution order"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/",
+          "pattern": "recordSupportLoss\\(",
+          "why": "the press still writes support loss from a finding (finding-consequences.ts:180)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/",
+          "pattern": "referForProsecution\\(",
+          "why": "the press still writes the referral to prosecution (finding-consequences.ts:105)"
+        }
+      ],
+      "note": "Partly, as verified, but the evidence is stale: restitutionConsequence (cited at finding-consequences.ts:393, a 429-line removal in 3b5105f9e, after the audit's 11:20 a.m. snapshot) is gone and governing/finding-restitution.ts now owns the matter.restitution-ordered event, so those 5 checks pass. Support loss (finding-consequences.ts:180 recordSupportLoss) and the prosecution referral (:105 referForProsecution) are still written by the press, so 2 fail. The payer-cash part (#1409) is not checked."
+    },
+    "A153": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/press-reach.ts",
+          "pattern": "createCharacterHistoryContextPerson\\(",
+          "why": "asking for a reporter still creates a person (press-reach.ts:190)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press-reach.ts",
+          "pattern": "createOrganization\\(",
+          "why": "asking for a reporter still creates a newsroom (press-reach.ts:204)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press-reach.ts",
+          "pattern": "generatePersonIdentity\\(",
+          "why": "the generated reporter's identity (press-reach.ts:188)"
+        }
+      ],
+      "note": "press-reach.ts:190 createCharacterHistoryContextPerson, :188 generatePersonIdentity and the createOrganization call all still exist: 0 of 3 pass, not-started as verified. The 'no person or organization' proof test is not a check, to keep not-started from scanning unknown."
+    },
+    "A154": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/records.ts",
+          "pattern": "small:\\s*1,\\s*standard:\\s*3,\\s*major:\\s*8",
+          "why": "capacity by tier label (records.ts:55)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/",
+          "pattern": "MEDIA_ACTIVE_ASSIGNMENT_CAPACITY\\[",
+          "why": "the tier map is still read to set an outlet's capacity (desk.ts:275, integrity.ts:376)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/press/desk.ts",
+          "pattern": "=\\s*outletAssignmentCapacity\\(",
+          "why": "the desk takes capacity from outletAssignmentCapacity, which already shrinks with reporters lost (desk.ts:307, :1581)"
+        }
+      ],
+      "note": "Scans partly although verified says not-started: the audit cited only records.ts:55, but desk.ts:271-286 (e5ebc7e43, Sept 23) already shrinks an outlet's capacity by the share of its reporters still current, and both desk call sites use it (desk.ts:307, :1581), so that 1 check passes. The tier map base is still read at records.ts:55, desk.ts:275 and integrity.ts:376, so 2 fail."
+    },
+    "A27": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/health-coverage.ts",
+          "pattern": "rules\\.multiplierMicros",
+          "why": "each covered person's hazard gets the study's multiplier (health-coverage.ts:625)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/health-coverage.ts",
+          "pattern": "multiplierMicros:\\s*Math\\.round\\(\\(1 \\+ MORTALITY_LINK\\.size\\)",
+          "why": "the whole-population 9.4% finding turned into a per-person multiplier (health-coverage.ts:137)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/mortality.ts",
+          "pattern": "coverageHazardIntervals\\(",
+          "why": "mortality applies the covered-person hazard spans (mortality.ts:174)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/health-coverage-pass.ts",
+          "pattern": "scheduleMortalityWithin\\(",
+          "why": "the monthly pass re-plans the death day of covered people (health-coverage-pass.ts:34)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "health\\.mortality-55-64",
+          "why": "the study is applied at place level through the medicaid-expansion-to-mortality link's outcome measure"
+        }
+      ],
+      "note": "health-coverage.ts:625/:137 still multiply each covered person's hazard, mortality.ts:174 applies it, the 15th-of-month pass still re-plans death days (health-coverage-pass.ts:34), and nothing produces health.mortality-55-64 (links.json: outcome-not-produced): 0 of 5 pass, not-started as verified. The 15th schedule itself (health-coverage.ts:78-82) stays, as the next step keeps a monthly eligibility pass."
+    },
+    "A34": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/law-effects-here.ts",
+          "pattern": "Without that change it would stand at \\$\\{withoutLawText\\}\\.",
+          "why": "the unlabeled 'without that change' sentence (law-effects-here.ts:135)"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/law-effects-here.ts",
+          "pattern": "[Ee]stimate|[Mm]odel",
+          "why": "the comparison is labeled as the game's model estimate"
+        },
+        {
+          "kind": "present",
+          "file": "src/player/World39News.laws.test.tsx",
+          "pattern": "toContain\\(\".*([Ee]stimate|[Mm]odel)",
+          "why": "the screen test expects the model-estimate wording (World39News.laws.test.tsx:78)"
+        }
+      ],
+      "note": "law-effects-here.ts:135 still prints the unlabeled sentence and nothing there says 'estimate' or 'model'; the screen test (World39News.laws.test.tsx:78) has no such wording: 0 of 3 pass, not-started as verified."
     },
     "A13": {
       "covers": "part",
