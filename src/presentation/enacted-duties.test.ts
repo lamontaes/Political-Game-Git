@@ -19,6 +19,7 @@ import {
 import {
   availableMeasureSteps,
   measurePosition,
+  recordExecutiveAction,
 } from "../simulation/legislation";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
 import {
@@ -90,7 +91,11 @@ function staff(world: World, personId: EntityId, organizationId: EntityId) {
 
 type Scenario = ReturnType<typeof createLegislativeScenario>;
 
-/** Files one bill in the scenario's legislature and carries it to enactment. */
+/**
+ * Files a controlled bill and supplies a recorded signature for downstream
+ * duty tests. This fixture has no executive office and does not prove an
+ * ordinary governor's decision. Production vacancy handling stays pending.
+ */
 function pass(
   scenario: Scenario,
   start: World,
@@ -120,6 +125,19 @@ function pass(
       (key) => key !== "offer-amendment",
     );
     if (!step) break;
+    if (step === "await-executive-decision") {
+      world = publishLegislativeTransition(
+        world,
+        recordExecutiveAction(world, {
+          stableKey: `duty-test:signature:${measureId}`,
+          measureId,
+          action: "signed",
+          rationale:
+            "Supplied signature for a controlled downstream duty fixture.",
+        }),
+      );
+      continue;
+    }
     world = publishLegislativeTransition(
       world,
       applyLegislativeStep(context, world, step).world,
@@ -158,13 +176,17 @@ function enact(
 
 /** Moves to the compliance date and runs the one due item the duty scheduled. */
 function fallDue(world: World, measureId: EntityId): World {
-  const [{ duty }] = enactedDutiesOf(world, measureId);
+  const entry = enactedDutiesOf(world, measureId)[0];
+  expect(entry).toBeDefined();
+  if (!entry)
+    throw new Error("The fixture must record a duty before it falls due.");
+  const { duty } = entry;
   const due = world.history.futureDueItems.find(
     (item) =>
       item.transitionKey === ENACTED_DUTY_COMPLIANCE &&
-      item.entityIds.includes(duty!.eventId),
+      item.entityIds.includes(duty.eventId),
   )!;
-  expect(due.dueAt).toBe(duty!.complyBy);
+  expect(due.dueAt).toBe(duty.complyBy);
   // Ordinary time, with the handlers the game runs, up to the compliance date.
   const days = Math.round(
     (Date.parse(due.dueAt) - Date.parse(world.currentDate)) / 86_400_000,
@@ -223,7 +245,7 @@ describe("a law that places a duty on a class of body", () => {
       complianceUnknown: 2,
     });
     expect(lawEffectSentences(after, measureId).join(" ")).toContain(
-      "Of those on record, 0 of 2 met it; for 2, whether it was met is not known.",
+      "Of those on record, for 2, whether it was met is not known.",
     );
   });
 
@@ -358,10 +380,12 @@ describe("a law that says who it applies to", () => {
       undefined,
       { "covered-bodies": { kind: "enumerated", value: "state-and-local" } },
     );
-    const [{ duty }] = enactedDutiesOf(world, measureId);
+    const entry = enactedDutiesOf(world, measureId)[0];
+    expect(entry).toBeDefined();
+    if (!entry) throw new Error("The fixture must record its coverage duty.");
+    const { duty } = entry;
     expect(
-      duty!.coverage.kind === "unrecorded-test" &&
-        duty!.coverage.classifications,
+      duty.coverage.kind === "unrecorded-test" && duty.coverage.classifications,
     ).toContain("sector:local-government-office");
     // Whether an agency employs people in classified posts is not on record,
     // so none is counted as covered.
@@ -533,10 +557,19 @@ describe("a law that ends, extends or repeals a program", () => {
     );
     expect(line).toMatchObject({ change: "repeal", superseded: false });
     if (line?.kind !== "program-term") return;
-    expect(
-      resolveAuthority(repeal.world, input(scenario), TRANSIT)
-        ?.authorizesSpending,
-    ).toBe(repeal.world.currentDate <= line.lastDay);
+    const authorityBefore = resolveAuthority(
+      repeal.world,
+      input(scenario),
+      TRANSIT,
+    );
+    expect(authorityBefore?.kind).toBe("standing-statute");
+    if (authorityBefore?.kind !== "standing-statute")
+      throw new Error(
+        "The fixture requires its recorded standing spending authority.",
+      );
+    expect(authorityBefore.authorizesSpending).toBe(
+      repeal.world.currentDate <= line.lastDay,
+    );
 
     const days = Math.round(
       (Date.parse(line.lastDay) - Date.parse(repeal.world.currentDate)) /
@@ -547,9 +580,13 @@ describe("a law that ends, extends or repeals a program", () => {
       Math.max(1, days + 1),
       createCampaignElectionTransitionRegistry(),
     );
-    expect(
-      resolveAuthority(after, input(scenario), TRANSIT)?.authorizesSpending,
-    ).toBe(false);
+    const authorityAfter = resolveAuthority(after, input(scenario), TRANSIT);
+    expect(authorityAfter?.kind).toBe("standing-statute");
+    if (authorityAfter?.kind !== "standing-statute")
+      throw new Error(
+        "The fixture requires its recorded standing spending authority.",
+      );
+    expect(authorityAfter.authorizesSpending).toBe(false);
     expect(
       availableAuthorities(after, input(scenario)).find(
         (row) => row.authorityKey === TRANSIT,
@@ -614,7 +651,7 @@ describe("a law that ends, extends or repeals a program", () => {
     expect(
       programLastDay(sunset.world, {
         authorityKey: TRANSIT,
-        jurisdictionId: "jurisdiction_elsewhere",
+        jurisdictionId: stateJurisdictionForKey("US-IA")!.id,
       }),
     ).toBeNull();
   });
