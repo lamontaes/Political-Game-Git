@@ -8,6 +8,8 @@ import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { daysBetween } from "./dates";
 import { createPartnership } from "./life";
 import {
+  NON_MONEY_FELT_SIZE,
+  lawExposureFeltSize,
   lawExposuresFrom,
   lawExposuresOf,
   recordHeardExposure,
@@ -400,6 +402,66 @@ describe("a law reaches a person", () => {
       const acquainted = peopleKnownTo(world, personId).includes(official);
       expect(knowsVote(world, probe, official)).toBe(follows || acquainted);
     }
+  });
+
+  it("a right or an eligibility lost with no money is felt at one estimated size, and six such losses found a group", () => {
+    const { world, personId } = collected();
+    const row = lawExposuresOf(world, personId)[0]!;
+    // One felt size for every reader, labeled an estimate.
+    expect(NON_MONEY_FELT_SIZE.basis).toBe("ESTIMATED FROM AVERAGE");
+    expect(lawExposureFeltSize({ direction: "cost", amount: null }, 0)).toEqual(
+      { share: NON_MONEY_FELT_SIZE.shareOfMonthlyPay, estimated: true },
+    );
+    expect(lawExposureFeltSize({ direction: "none", amount: null }, 0)).toBe(
+      null,
+    );
+    expect(
+      lawExposureFeltSize({ direction: "cost", amount: money(100, "USD") }, 0),
+    ).toBe("unmeasured");
+    // Six residents lose an eligibility under the law: no money on record
+    // and no pay on record, which a money loss could never count with.
+    let next = world;
+    const town = next.people[personId]!.homeJurisdictionId!;
+    const hit = next.personOrder
+      .filter((id) => next.people[id]!.homeJurisdictionId === town)
+      .slice(0, 6);
+    expect(hit).toHaveLength(6);
+    for (const id of hit)
+      next = recordLawExposure(next, {
+        stableKey: `law-exposure-test:eligibility:${id}`,
+        personId: id,
+        measureId: row.measureId,
+        channel: "benefit",
+        direction: "cost",
+        amount: null,
+        cadence: null,
+        sourceRecordId: row.sourceRecordId,
+        includeFamily: false,
+      });
+    const losses = (w: World, id: EntityId) =>
+      lawExposuresOf(w, id).find((exposure) =>
+        exposure.stableKey.startsWith("law-exposure-test:eligibility:"),
+      )!;
+    // Five are not enough to found it.
+    const five = {
+      ...next,
+      history: {
+        ...next.history,
+        lawExposures: next.history.lawExposures!.filter(
+          (exposure) =>
+            exposure.stableKey !== `law-exposure-test:eligibility:${hit[5]}`,
+        ),
+      },
+    };
+    expect(joinLawInterestGroup(five, losses(five, hit[0]!))).toBe(five);
+    expect(lawInterestGroup(five, town, row.measureId)).toBeFalsy();
+    // The sixth founds it.
+    let grouped = next;
+    for (const id of hit)
+      grouped = joinLawInterestGroup(grouped, losses(grouped, id));
+    const groupId = lawInterestGroup(grouped, town, row.measureId);
+    expect(groupId).toBeTruthy();
+    assertWorldIntegrity(grouped);
   });
 
   it("people a law cost a tenth of a month's pay form a group once six in town are hit", () => {

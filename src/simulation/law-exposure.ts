@@ -39,6 +39,48 @@ export interface LawExposureInput {
   readonly includeFamily?: boolean;
 }
 
+/**
+ * How big a law's effect felt to the person, as a share of a month's pay.
+ *
+ * ESTIMATED FROM AVERAGE (research: felt-size-of-non-money-law-effects): a
+ * law that took away or granted a right or an eligibility, with no money on
+ * the record, is felt like a tenth of a month's pay, the loss at which a
+ * money effect starts to count (Fable audit, card L3). One size, read by every
+ * reader of exposures (`official-views.ts`, `law-interest-groups.ts`), so a
+ * view and a group weigh the same loss the same way.
+ */
+export const NON_MONEY_FELT_SIZE = {
+  shareOfMonthlyPay: 0.1,
+  basis: "ESTIMATED FROM AVERAGE",
+  researchQuestionId: "felt-size-of-non-money-law-effects",
+} as const;
+
+export type LawExposureFeltSize =
+  /** The share of a month's pay; `estimated` for a non-money effect. */
+  | { readonly share: number; readonly estimated: boolean }
+  /** Money whose size next to pay is unknown: the pay is not on record. */
+  | "unmeasured"
+  /** No side to feel: a non-money effect neither a loss nor a gain. */
+  | null;
+
+/**
+ * The felt size of an exposure against `monthlyPayMinor`, the pay it lands
+ * on (the reader decides whose: the person's own, or a household's).
+ */
+export function lawExposureFeltSize(
+  exposure: Pick<LawExposureRecord, "direction" | "amount">,
+  monthlyPayMinor: number,
+): LawExposureFeltSize {
+  if (exposure.direction === "none") return null;
+  if (exposure.amount === null)
+    return { share: NON_MONEY_FELT_SIZE.shareOfMonthlyPay, estimated: true };
+  if (monthlyPayMinor <= 0) return "unmeasured";
+  return {
+    share: exposure.amount.minorUnits / monthlyPayMinor,
+    estimated: false,
+  };
+}
+
 // PLACEHOLDER: pay is read over the four weeks before the exposure and scaled
 // to an average month (365.25 / 12 days).
 const PAY_WINDOW_DAYS = 28;
