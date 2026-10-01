@@ -4,7 +4,7 @@ Before: the common filer still assembled titles in three branches and called sep
 
 ## MERGED
 
-This A76 change is not merged. It is based on current main received additively. Team 2 released the title hunks. Its executive, council-passage and presentment work remains protected. The existing support/repeal answer function remains the sole answer rule.
+This A76 change is not merged. The pull request is DRAFT after the CTO rejected its two District test failures. The title design was accepted. The current fixture repair is the explicit exception to the new A77-first government queue. It is based on main received additively. Team 2 released the title hunks. Its executive, council-passage and presentment work remains protected. The existing support/repeal answer function remains the sole answer rule.
 
 ## WHAT EMERGED
 
@@ -14,9 +14,11 @@ HARDWIRED: the declared title policy produces “Fund a Behavioral Health Crisis
 
 ## VITAL STATISTICS
 
-The first complete focused run passed 80 of 80 cases across three files in 13.86 seconds. After the first main update, the same 80 passed in 11.82 seconds. The complete District acts file then passed eight cases and failed two in 290.70 seconds. Exact main reproduced both failures in 301.99 seconds: the unchanged clock case timed out at 180 seconds, and the unchanged early-reading assertion expected “13 whole intervening days” while the guard reported “14 elapsed days.” Those are inherited failures, not title regressions. Every temporarily substituted file was restored with its original hash verified.
+The first complete focused run passed 80 of 80 cases across three files in 13.86 seconds. After the first main update, the same 80 passed in 11.82 seconds. The complete District acts file then passed eight cases and failed two in 290.70 seconds. Exact main reproduced both failures in 301.99 seconds: the unchanged clock case timed out at 180 seconds, and the unchanged early-reading assertion expected “13 whole intervening days” while the guard reported “14 elapsed days.” The exact-main comparison reproduced the failures. The later CTO instruction still requires both cases to be repaired before this pull request is ready. Every temporarily substituted file was restored with its original hash verified.
 
 Eleven strict roots had zero scoped or imported diagnostics on that composition. Scoped lint and formatting passed. Release reports the inherited CI declaration prose error. The earlier dice receipt reports zero new and five stale entries; spelling reports 26 inherited findings and none in owned paths. After newer main, including the admitted member-cap reader, all 80 focused cases passed again in 14.83 seconds and eleven strict roots again had zero diagnostics. The complete long clock file was not repeated on this final composition. Its exact main comparison remains source-bound to the earlier composition. Final spelling reports 78 inherited findings and none in owned paths. Two earlier town fixture attempts produced no bills and failed; their logs are preserved. No assertions or timeouts were relaxed.
+
+The subsequent fixture repair passed nine of ten complete District cases in 19.82 seconds, with 342 milliseconds in case bodies. It uses the existing small-world primitives and canonical Council, Mayor and sitting openings. The formerly slow ordinary-clock case passed. Every original route, assertion and timeout remains. The remaining member-act case stops at the unchanged refusal-text expectation before its later Mayor route. Eleven strict roots again produced zero scoped or imported diagnostics. This is a partial repair, not a completed act-route proof.
 
 ## 1. Why-chain (five whys, to bedrock)
 
@@ -63,4 +65,4 @@ The original title-function comparison is a pure string comparison against exact
 
 Rebecca Snyder files her behavioral-health bill through the existing common filer. The saved bill keeps “Fund a Behavioral Health Crisis Response Act of 2026.” Rachel Thompson and Joseph McGee file the two controlled town proposals through that same filer with the town's declared policy. Their saved titles end in “Ordinance.” Reloading the canonical town save preserves the bill records; repeating that intake adds no duplicate. No money is moved by this display-only consolidation.
 
-Method: the source manifest and raw logs bind this proof to its exact main and owned files. Civic reports and feature walkthrough received self-review under the owner's no-helper rule. The inherited clock timeout and reading-refusal wording are routed to Audit and Team 7; this title scope changes neither. A87 awaits the admitted first-sitting source. A77 awaits Audit's actual local-roster binding; neither gap is hidden by this title repair.
+Method: the source manifest and raw logs bind this proof to its exact main and owned files. Civic reports and feature walkthrough received self-review under the owner's no-helper rule. The CTO-requested fixture repair preserves the legal clock and exact assertions. Audit holds the refusal-wording contract; its sourced description must remain consistent with the unchanged date guard. Cloud A owns the shared small-world builder, which has not yet been delivered to this branch. A77 is first in the government queue and awaits Audit's actual local-roster binding. A87 remains later in that queue and needs the admitted first-sitting source. No helper was used; report and feature-walkthrough review were performed directly under the owner's no-helper instruction.
