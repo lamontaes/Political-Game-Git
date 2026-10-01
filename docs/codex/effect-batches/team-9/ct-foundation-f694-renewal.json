@@ -1,0 +1,54 @@
+{
+  "assignment": "Renew only previously failing Connecticut legal case on foundation f694 with owned work retained",
+  "runtimeHead": "d4483c28c9d65145f5b0e8acd531c60705607f1c",
+  "parents": [
+    "2ca5596fa76a920e469811d6f167142a78ca114c",
+    "f694946fc662aafe2bf1e0ed61b8c3cd1e1f75f7"
+  ],
+  "composition": "Private native worktree; two import-only conflicts retain both imports. Bodies auto-merged. No new production mechanism. Includes own A98/A10 and foundation K1/pay source.",
+  "dateData": "starting-law-2026.json byte-identical to f694; original CT test blob unchanged11d746985b0102341358642d387011a93f73de10",
+  "command": "G10_PROOF_REPORT_PATH=/tmp/team9-ct-f694-proof.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/law-consequences/legal-outcome.test.ts -t 'saves the actual defendant.*US-CT' --reporter=default --reporter=json --outputFile=/tmp/team9-ct-f694-results.json",
+  "passed": 0,
+  "failed": 1,
+  "notRun": 70,
+  "durationSeconds": 45.87,
+  "testSeconds": 10.355,
+  "failure": [
+    "Error: Cannot record the measure as law: the measure is currently awaiting-executive.\n    at assertPhase (/tmp/team9-a19-18f46d8/src/simulation/legislation.ts:1354:11)\n    at recordEnactment (/tmp/team9-a19-18f46d8/src/simulation/legislation.ts:2911:3)\n    at /tmp/team9-a19-18f46d8/src/simulation/law-consequences/legal-outcome.test.ts:254:15\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20"
+  ],
+  "actualBlocker": {
+    "phase": "awaiting-executive",
+    "calledWriter": "recordEnactment",
+    "source": "src/simulation/legislation.ts:1354,2911",
+    "caller": "src/simulation/law-consequences/legal-outcome.test.ts:254",
+    "stableKey": "g10:canonical-floor:enacted",
+    "effectivenessInput": "world.currentDate",
+    "runtimeDate": "NOT EXPORTED; no guessed value",
+    "wageReaderReached": "NOT PROVEN: guard failed before legal case enactment",
+    "lawEffectAssertionReached": false
+  },
+  "originalReceipt": {
+    "publishedHead": "f9eed4c299fb96808af24e2f7d413c96ed36e3c2",
+    "path": "docs/codex/effect-batches/team-9/a19-composed-proof.json",
+    "blob": "0bf74a84e",
+    "runtimeHead": "18f46d855235bdb0d30d1b0c6d068e6281fbea73",
+    "counts": "4PASS/CTFAIL/66NOTRUN",
+    "preserved": "unchanged in original WIP22a6, no reset or replacement"
+  },
+  "limits": [
+    "No assertion, fixture governor signature or timeout changed",
+    "No scoped reader45-case rerun; coordinator receipt separate",
+    "No other legal cases/year/wholeSuite/finalMain tests run",
+    "No new missing-target failure inferred; this run stopped earlier",
+    "No foundation readiness or merge claimed"
+  ],
+  "ownedSourceBranch": "codex/team9-a98-unseated-board unchanged2ca5596fa76a920e469811d6f167142a78ca114c",
+  "priorDiagnosticConfig": "Untracked team9-context.config.ts preserved and NOT USED",
+  "sourceBlobs": {
+    "src/simulation/law-consequences/legal-outcome.test.ts": "11d746985b0102341358642d387011a93f73de10",
+    "data/research/laws/starting-law-2026.json": "6a3f2937a30f595c80302381796a90803c665514",
+    "src/simulation/justice/clemency.ts": "99d2413dab300f87a9fd90f621fe59674bcacdf0",
+    "src/simulation/justice/prosecution.ts": "3e34500ae7a69c90dadd2f16ca1b8f2e2de5a724",
+    "src/simulation/campaigns.ts": "ad2ecc3c02622d62a8513e97be74ebd44be96b79"
+  }
+}
