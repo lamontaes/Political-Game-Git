@@ -1,0 +1,78 @@
+[
+  {
+    "id": "team9:end-cash-bail:saved-legal-outcome",
+    "kind": "legal-outcome",
+    "when": "assessment",
+    "who": {
+      "selector": "legal-outcome.saved-defendant",
+      "predicates": []
+    },
+    "what": "attribute-saved-legal-outcome",
+    "decision": {
+      "op": "record",
+      "key": "legal-outcome.saved-decision",
+      "type": "decision"
+    },
+    "conditions": [
+      {
+        "capability": "legal-outcome.governing-question",
+        "parameters": {
+          "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail"
+        }
+      }
+    ],
+    "lag": {
+      "days": 0,
+      "sourceIds": ["existing-court-writer-completed-activity"]
+    },
+    "onRepeal": "preserve-completed",
+    "evidence": {
+      "sourceIds": [
+        "src/simulation/justice/prosecution.ts",
+        "src/simulation/justice/court-reasoning.ts"
+      ],
+      "population": "Actualnameddefendantsofexistingcourtwriter",
+      "scope": "Existingactualsaveddecisionwithcanonicalwriterlawstamp/venue;notallstatutoryexceptions",
+      "why": "Theexistingcourtwriterappliestheoperativelegallimitandrecordsthedecision;thekindadapterpreservesitsactualactorandlawidentity.",
+      "uncertainty": "Attributiononly;inheritedblanketlegalrulesnotnewlyresearchedoranacceptedstatutorydose"
+    }
+  },
+  {
+    "id": "team9:mandatory-minimum-sentences:saved-legal-outcome",
+    "kind": "legal-outcome",
+    "when": "assessment",
+    "who": {
+      "selector": "legal-outcome.saved-defendant",
+      "predicates": []
+    },
+    "what": "attribute-saved-legal-outcome",
+    "decision": {
+      "op": "record",
+      "key": "legal-outcome.saved-decision",
+      "type": "decision"
+    },
+    "conditions": [
+      {
+        "capability": "legal-outcome.governing-question",
+        "parameters": {
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences"
+        }
+      }
+    ],
+    "lag": {
+      "days": 0,
+      "sourceIds": ["existing-court-writer-completed-activity"]
+    },
+    "onRepeal": "preserve-completed",
+    "evidence": {
+      "sourceIds": [
+        "src/simulation/justice/prosecution.ts",
+        "src/simulation/justice/court-reasoning.ts"
+      ],
+      "population": "Actualnameddefendantsofexistingcourtwriter",
+      "scope": "Existingactualsaveddecisionwithcanonicalwriterlawstamp/venue;notallstatutoryexceptions",
+      "why": "Theexistingcourtwriterappliestheoperativelegallimitandrecordsthedecision;thekindadapterpreservesitsactualactorandlawidentity.",
+      "uncertainty": "Attributiononly;inheritedblanketlegalrulesnotnewlyresearchedoranacceptedstatutorydose"
+    }
+  }
+]

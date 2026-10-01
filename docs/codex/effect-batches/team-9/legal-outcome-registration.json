@@ -1,0 +1,25 @@
+{
+  "kind": "legal-outcome",
+  "owner": "Team9",
+  "module": "src/simulation/law-consequences/legal-outcome.ts",
+  "export": "legalOutcomeRegistration",
+  "schemaSource": "f6b4ac8268422e5f23c2426d04a947eaa27d7f15",
+  "actions": ["attribute-saved-legal-outcome"],
+  "selectors": ["legal-outcome.saved-defendant"],
+  "predicates": ["legal-outcome.governing-question"],
+  "units": [],
+  "decisionBinding": {
+    "op": "record",
+    "key": "legal-outcome.saved-decision",
+    "type": "decision"
+  },
+  "status": "Firstversionresolver/applierbuilt;coordinatoradmissionNOTRUN",
+  "behavior": "Resolvesactualsavedstampedjusticeeventandfocus:defendantparticipant;retainswriter-provenvenueandreadsoperativecanonicalquestionlaw. Changed-lawcompletedrecordisnotrelabeled. Genericappliercanattributeresolvedactualdecision,butcannotinventcourtresult.",
+  "missingCapabilities": [
+    "Canonical case-stage activity, jurisdiction and subject selector from Audit.",
+    "Subject-scoped existing court/permit/oversight writer delegation with exact ownership transfer.",
+    "Prospective legal-rule decision/term resolution; no sentence/age/permit values invented."
+  ],
+  "coordinatorAction": "Append only this exported section when admission contract resolved; no Team9 shared registry write.",
+  "proofLimit": "Focused proof applies adapter after existing prosecution writer; not dispatcher/campaign or full six-law migration."
+}

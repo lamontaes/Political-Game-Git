@@ -1,3 +1,4 @@
+import { lawInForce } from "../governing/law-in-force";
 import { addDays } from "../dates";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
@@ -24,6 +25,7 @@ import {
   PRETRIAL_VERSION,
   pretrialLawAt,
   pretrialGoverningLawAt,
+  propositionIdByKey,
   END_CASH_BAIL_QUESTION,
 } from "./pretrial";
 import {
@@ -384,26 +386,32 @@ function followUp(
       immediateReaction: null,
     },
   });
-  if (type !== PRETRIAL_HELD_EVENT && type !== PRETRIAL_RELEASED_EVENT)
-    return recorded;
-  const venueJurisdictionId = courtCaseOf(
-    world,
-    referral,
-    subjectId,
-  ).venueJurisdictionId;
+  const pretrial =
+    type === PRETRIAL_HELD_EVENT || type === PRETRIAL_RELEASED_EVENT;
+  const sentencing = type === PROSECUTION_SENTENCED_EVENT;
+  if (!pretrial && !sentencing) return recorded;
+  const courtCase = courtCaseOf(world, referral, subjectId);
+  const venueJurisdictionId = courtCase.venueJurisdictionId;
+  if (sentencing && !mandatoryJailUnderLaw(world, courtCase)) return recorded;
   if (!venueJurisdictionId || recorded === world) return recorded;
   const event = recorded.history.events.at(-1);
   if (!event || event.type !== type) return recorded;
-  const stamp = lawEffectStamp(
-    pretrialGoverningLawAt(world, venueJurisdictionId),
-    {
-      effectKind: type,
-      questionKey: END_CASH_BAIL_QUESTION,
-      jurisdictionId: venueJurisdictionId,
-      appliedAt: event.occurredAt,
-      sourceRecordIds: [referral.id, after.id, event.id],
-    },
-  );
+  const questionKey = pretrial
+    ? END_CASH_BAIL_QUESTION
+    : "us-policy-positions:justice-public-safety.mandatory-minimum-sentences";
+  const propositionId = propositionIdByKey(world, questionKey);
+  const governingLaw = pretrial
+    ? pretrialGoverningLawAt(world, venueJurisdictionId)
+    : propositionId
+      ? lawInForce(world, venueJurisdictionId, propositionId)
+      : null;
+  const stamp = lawEffectStamp(governingLaw, {
+    effectKind: type,
+    questionKey,
+    jurisdictionId: venueJurisdictionId,
+    appliedAt: event.occurredAt,
+    sourceRecordIds: [referral.id, after.id, event.id],
+  });
   if (!stamp) return recorded;
   // Attach to the actual consequence after the canonical writer creates it.
   // Older history input shapes discard unknown fields, so stamp the saved row.
