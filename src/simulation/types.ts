@@ -4,7 +4,12 @@ import type {
   PermitApplicationRecord,
   PermitStatusRecord,
 } from "./permit-types";
-import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
+import type {
+  LawAmountUnit,
+  LawConsequenceRow,
+  ResolvedHourlyLawPayConsequence,
+  ResolvedSavedHourlyPayConsequence,
+} from "./law-consequence-types";
 import type {
   LawEffectStamp,
   LawEffectStampedRecord,
@@ -233,6 +238,7 @@ export type EntityKind =
   | "resource-obligation"
   | "resource-obligation-state"
   | "resource-position"
+  | "earned-law-pay-assessment"
   | "resource-transfer-outcome"
   | "scheduled-activity"
   | "scheduled-activity-state"
@@ -3181,7 +3187,36 @@ export type ResourceOutcomeReasonNamespace =
 export type ResourceOutcomeReasonKind =
   `${ResourceOutcomeReasonNamespace}:${string}`;
 
+/** Later legal determination of actual completed work; never revised earned terms.
+ * Team 3 owns writing this append-only record from saved work and resolved law.
+ * A transfer must independently validate every join before using assessed gross.
+ */
+export interface EarnedLawPayAssessmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  readonly workRelationshipId: EntityId;
+  readonly resourceFlowId: EntityId;
+  readonly earnedTermsId: EntityId;
+  readonly completionEventId: EntityId;
+  readonly scheduledActivityId: EntityId;
+  readonly scheduledActivityStateId: EntityId;
+  readonly earnedCutoff: HistoricalCutoff;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly workedMinutes: number;
+  readonly contractualGross: MoneyAmount;
+  readonly assessedGross: MoneyAmount;
+  readonly resolvedConsequence:
+    ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
+
 export interface ResourceTransferOutcome extends LawEffectStampedRecord {
+  readonly earnedLawPayAssessmentId?: EntityId;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -4413,6 +4448,8 @@ export interface HistoryStore {
   readonly resourceFlows: readonly ResourceFlow[];
   readonly resourceFlowTerms: readonly ResourceFlowTermsRecord[];
   readonly resourceTransferOutcomes: readonly ResourceTransferOutcome[];
+  /** Absent in saves made before earned-law assessments were recorded. */
+  readonly earnedLawPayAssessments?: readonly EarnedLawPayAssessmentRecord[];
   readonly resourceObligations: readonly ResourceObligation[];
   readonly resourceObligationStates: readonly ResourceObligationStateRecord[];
   readonly dwellings: readonly Dwelling[];
