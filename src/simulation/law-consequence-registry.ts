@@ -1,3 +1,4 @@
+import { TAX_REGISTRATION } from "./law-consequences/tax";
 import { INSTITUTION_RULE_REGISTRATION } from "./law-consequences/institution-rule";
 import { legalOutcomeRegistration } from "./law-consequences/legal-outcome";
 import { SERVICE_DELIVERED_REGISTRATION } from "./law-consequences/service-delivered";
@@ -15,7 +16,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegist
     // pay: Team2
     legalOutcomeRegistration,
     COVERAGE_ELIGIBILITY_REGISTRATION,
-    // tax: Team3
+    TAX_REGISTRATION,
     TEAM_4_PRICE_COST_REGISTRATION,
     SERVICE_DELIVERED_REGISTRATION,
     // right-permission: Team1

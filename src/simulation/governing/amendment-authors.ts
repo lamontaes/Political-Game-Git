@@ -11,6 +11,7 @@ import {
 import type { MemberVoteQuestion } from "../legislative-member-decisions";
 import type { SeatedMember } from "../legislation-scenarios";
 import type { ChamberRule, FloorStageRule } from "../legislature-rules";
+import { formViewFromRecordedPrinciples } from "../principled-view-formation";
 import { latestPrivateBelief } from "../queries";
 import type {
   EntityId,
@@ -119,7 +120,12 @@ const SALIENCE_RANK: Readonly<Record<PoliticalSalience, number>> = {
   central: 3,
 };
 
-/** A member's own settled view on a question, or null. */
+/**
+ * A member's own saved view on a question, or null. Only a saved view counts:
+ * a member whose principles bear on a question forms a view on it through the
+ * one belief pipeline first (`formAmendmentAuthorsViews`), so the view an
+ * author plans on is the same one their vote and their journal read.
+ */
 function ownView(
   world: World,
   personId: EntityId,
@@ -134,10 +140,7 @@ function ownView(
       answer: belief.position === "support" ? "yes" : "no",
       salience: belief.salience,
     };
-  // No formed view: the member's principles, where they lean on it. A
-  // formed view governs over them, as it would in the member's own vote.
-  if (belief) return null;
-  return principleView(world, personId, propositionId);
+  return null;
 }
 
 function strongViews(world: World, personId: EntityId) {
@@ -149,10 +152,6 @@ function strongViews(world: World, personId: EntityId) {
   for (const belief of world.history.privateBeliefs)
     if (belief.personId === personId && belief.propositionId !== null)
       questions.add(belief.propositionId);
-  if (holdsPrinciples(world, personId))
-    for (const propositionId of world.policyCatalog.propositionOrder)
-      if (world.policyCatalog.propositions[propositionId]?.principles?.length)
-        questions.add(propositionId);
   for (const propositionId of questions) {
     const view = ownView(world, personId, propositionId);
     if (view && SALIENCE_RANK[view.salience] >= SALIENCE_RANK.high)
@@ -251,17 +250,12 @@ function partKey(part: PropositionAnswerRef): string {
   return `answers:${part.propositionId}:${part.answer}`;
 }
 
-/**
- * Whether a seated member would offer an amendment before this floor question,
- * and if so which, and why. Pure: the world is read, not changed. Null when no
- * member's view, lean and count line up.
- */
-export function planFloorAmendment(
+/** The seated members the simulation decides for: never the player. */
+function seatedMinds(
   world: World,
-  input: AmendmentAuthorsInput,
-): AmendmentPlan | null {
-  const measure = requireMeasure(world, input.measureId);
-  const seated = input.members.filter(
+  members: readonly SeatedMember[],
+): (SeatedMember & { personId: EntityId })[] {
+  return members.filter(
     (member): member is SeatedMember & { personId: EntityId } =>
       member.personId !== null &&
       !(
@@ -269,12 +263,21 @@ export function planFloorAmendment(
         world.control.personId === member.personId
       ),
   );
-  if (seated.length === 0) return null;
+}
+
+/**
+ * The parts members would weigh offering: answers to questions the bill does
+ * not yet answer that members hold strong saved views on, most held first.
+ */
+function candidateParts(
+  world: World,
+  input: AmendmentAuthorsInput,
+  measure: LegislativeMeasureRecord,
+  seated: readonly (SeatedMember & { personId: EntityId })[],
+): PropositionAnswerRef[] {
   const answered = new Set(
     measureAnswersAt(world, measure.id).map((row) => row.propositionId),
   );
-
-  // Every member's strong views on questions the bill does not yet answer.
   const views = new Map(
     seated.map((member) => [
       member.personId,
@@ -299,13 +302,87 @@ export function planFloorAmendment(
       });
     }
   }
-  const candidates = [...holders.entries()]
+  return [...holders.entries()]
     .sort(
       ([lk, l], [rk, r]) =>
         r.weight - l.weight || r.holders - l.holders || lk.localeCompare(rk),
     )
     .slice(0, CANDIDATE_QUESTIONS_COUNTED)
     .map(([, entry]) => entry.part);
+}
+
+/**
+ * Members weigh an amendment from views they hold, so a member whose recorded
+ * principles bear on a question forms a view on it first, through the one
+ * belief pipeline, with no close-choice draw. Two steps, so only questions
+ * that matter on this floor gain saved views:
+ *
+ * 1. a member whose principles weigh heavily on a question the bill does not
+ *    answer forms a view on it (the views an author could offer from);
+ * 2. every member forms a view on each question now in contention, which is
+ *    what they would weigh when the part is offered and counted.
+ *
+ * A member with a saved view keeps it; the player decides their own mind; a
+ * member whose principles do not bear on a question forms nothing and is
+ * undecided on it.
+ */
+export function formAmendmentAuthorsViews(
+  world: World,
+  input: AmendmentAuthorsInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const seated = seatedMinds(world, input.members);
+  if (seated.length === 0) return world;
+  const answered = new Set(
+    measureAnswersAt(world, measure.id).map((row) => row.propositionId),
+  );
+  const principled = world.policyCatalog.propositionOrder.filter(
+    (propositionId) =>
+      !answered.has(propositionId) &&
+      !!world.policyCatalog.propositions[propositionId]?.principles?.length,
+  );
+  const form = (next: World, personId: EntityId, propositionId: EntityId) =>
+    formViewFromRecordedPrinciples(next, {
+      stableKey: `${input.stableKey}:${AMENDMENT_AUTHORS_VERSION}:view:${personId}:${propositionId}`,
+      personId,
+      propositionId,
+    });
+  let next = world;
+  for (const member of seated) {
+    if (!holdsPrinciples(next, member.personId)) continue;
+    for (const propositionId of principled) {
+      const view = principleView(next, member.personId, propositionId);
+      if (view && SALIENCE_RANK[view.salience] >= SALIENCE_RANK.high)
+        next = form(next, member.personId, propositionId);
+    }
+  }
+  const contested = new Set(
+    candidateParts(next, input, measure, seated).map(
+      (part) => part.propositionId,
+    ),
+  );
+  for (const member of seated) {
+    if (!holdsPrinciples(next, member.personId)) continue;
+    for (const propositionId of contested)
+      next = form(next, member.personId, propositionId);
+  }
+  return next;
+}
+
+/**
+ * Whether a seated member would offer an amendment before this floor question,
+ * and if so which, and why. Pure: the world is read, not changed. Members plan
+ * from saved views only (`formAmendmentAuthorsViews` forms them). Null when no
+ * member's view, lean and count line up.
+ */
+export function planFloorAmendment(
+  world: World,
+  input: AmendmentAuthorsInput,
+): AmendmentPlan | null {
+  const measure = requireMeasure(world, input.measureId);
+  const seated = seatedMinds(world, input.members);
+  if (seated.length === 0) return null;
+  const candidates = candidateParts(world, input, measure, seated);
   if (candidates.length === 0) return null;
 
   // Each member's own lean on the bill as it reads, from their own mind.
@@ -528,6 +605,7 @@ export function offerPlannedAmendment(
     )
   )
     return world;
+  world = formAmendmentAuthorsViews(world, input);
   const plan = planFloorAmendment(world, input);
   if (!plan) return world;
   const proposition = world.policyCatalog.propositions[plan.part.propositionId];
