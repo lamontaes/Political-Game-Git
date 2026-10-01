@@ -703,15 +703,19 @@ describe("a member weighing whether to leave the body", () => {
     "lets somebody who keeps losing the same vote over months consider leaving",
     () => {
       let world = probe;
+      const found: ReturnType<typeof assessments> = [];
       for (let round = 0; round < 4; round += 1) {
         world = decideOnce(world);
+        // Observe the recorded reason before the scheduled body review can
+        // carry that same initiative through and change its membership.
+        found.push(...assessments(world));
         world = advanceWorld(
           world,
           30,
           createCampaignElectionTransitionRegistry(),
         );
       }
-      const found = assessments(world);
+      found.push(...assessments(world));
       expect(found.length).toBeGreaterThan(0);
       for (const assessment of found) {
         expect(["founding", "split"]).toContain(assessment.kind);
