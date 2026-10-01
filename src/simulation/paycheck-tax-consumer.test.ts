@@ -16,6 +16,10 @@ import { STATES } from "./state-reference";
 import { assessPaychecksTaxes } from "./statutory-tax";
 import {
   preparePaycheckTaxAssessment,
+  taxBaseOccurrenceSource,
+  recordTaxBase,
+  assessTaxBase,
+  assertTaxIntegrity,
   matchRecordedPaycheckLevy,
   preparePaycheckLevyPartition,
   recordedPaycheckTaxInput,
@@ -25,6 +29,7 @@ import {
   assertWorldIntegrity,
   createWorld,
   createWorldId,
+  recordWorldEvent,
 } from "./world";
 
 const seed = "team6-a33-actual-paycheck-lineage";
@@ -338,6 +343,202 @@ describe("A33 saved paycheck and existing withholding lineage", () => {
       preparePaycheckLevyPartition(loaded, [f.outcomeId], requests),
     ).toEqual(partition);
     expect(serializeWorld(loaded)).toBe(before);
+  });
+  it("admits an existing historical liability source without an event or another assessment", () => {
+    const f = fixture(places[0], 120_000, true, 240_000);
+    const paid = assessPaychecksTaxes(f.world, [f.outcomeId]);
+    const liability = paid.history.statutoryTaxLiabilities!.find(
+      (row) =>
+        row.authorityKey === `US-${places[0]!}` &&
+        row.taxKey.endsWith(":wage-income-tax"),
+    )!;
+    const later = advanceWorld(paid, 5);
+    const source = taxBaseOccurrenceSource(later, liability.id);
+    expect(source).toMatchObject({
+      kind: "statutory-liability",
+      occurredAt: liability.occurredAt,
+      amount: liability.wages,
+      payer: liability.payer,
+    });
+    expect(
+      taxBaseOccurrenceSource(later, liability.id, {
+        asOfDate: liability.recordedAt,
+        historySequenceExclusive: liability.sequence,
+      }),
+    ).toBeNull();
+    const input = {
+      stableKey: "a33:liability-reference",
+      jurisdictionId: f.state.id,
+      payer: liability.payer,
+      baseKey: "tax-base:authored-source-reference",
+      occurredAt: liability.occurredAt,
+      amount: liability.wages,
+      sourceEventId: liability.id,
+      assumptionNote:
+        "Reference to saved wages and existing liability, not admission of a new tax or rate.",
+    };
+    expect(() =>
+      recordTaxBase(later, { ...input, amount: money(240_000, "USD") }),
+    ).toThrow(/exact visible occurrence/);
+    expect(() =>
+      recordTaxBase(later, { ...input, occurredAt: later.currentDate }),
+    ).toThrow(/exact visible occurrence/);
+    expect(() =>
+      recordTaxBase(later, {
+        ...input,
+        payer: { kind: "organization", organizationId: f.organizationId },
+      }),
+    ).toThrow(/exact visible occurrence/);
+    const recorded = recordTaxBase(later, input);
+    const base = recorded.history.taxBases!.at(-1)!;
+    expect(base).toMatchObject({
+      occurredAt: liability.occurredAt,
+      recordedAt: later.currentDate,
+      sourceEventId: liability.id,
+      amount: liability.wages,
+    });
+    expect(recorded.history.events).toEqual(later.history.events);
+    expect(recorded.history.statutoryTaxLiabilities).toBe(
+      later.history.statutoryTaxLiabilities,
+    );
+    expect(recorded.history.statutoryTaxPayments).toBe(
+      later.history.statutoryTaxPayments,
+    );
+    expect(() =>
+      assessTaxBase(recorded, base.id, "tax:unadmitted-wage-series"),
+    ).toThrow(/second assessment or collection schedule is forbidden/);
+    expect(recorded.history.taxAssessments ?? []).toEqual([]);
+    expect(recorded.history.futureDueItems).toEqual(
+      later.history.futureDueItems,
+    );
+    expect(() =>
+      recordTaxBase(recorded, { ...input, stableKey: "a33:duplicate" }),
+    ).toThrow(/already has a recorded tax base/);
+    const reloaded = deserializeWorld(serializeWorld(recorded));
+    expect(taxBaseOccurrenceSource(reloaded, liability.id)).toEqual(source);
+    assertWorldIntegrity(reloaded);
+    expect(() =>
+      assertTaxIntegrity(
+        {
+          ...reloaded,
+          history: {
+            ...reloaded.history,
+            taxBases: [
+              { ...base, amount: money(base.amount.minorUnits + 1, "USD") },
+            ],
+          },
+        },
+        new Set(),
+      ),
+    ).toThrow(/Invalid tax base occurrence/);
+  });
+  it("admits the actual historical withholding transfer and its allocations without recollection", () => {
+    const f = fixture(places[0], 120_000, true, 240_000);
+    const paid = assessPaychecksTaxes(f.world, [f.outcomeId]);
+    const payment = paid.history.statutoryTaxPayments![0]!;
+    const later = advanceWorld(paid, 5);
+    const source = taxBaseOccurrenceSource(later, payment.resourceOutcomeId);
+    if (source?.kind !== "statutory-payment")
+      throw new Error("Expected the actual saved withholding transfer.");
+    expect(source.paymentRecords.length).toBeGreaterThan(1);
+    expect(source.amount.minorUnits).toBeGreaterThan(payment.amount.minorUnits);
+    expect(
+      source.paymentRecords.reduce(
+        (sum, row) => sum + row.amount.minorUnits,
+        0,
+      ),
+    ).toBe(source.amount.minorUnits);
+    expect(
+      taxBaseOccurrenceSource(later, payment.resourceOutcomeId, {
+        asOfDate: later.currentDate,
+        historySequenceExclusive: source.sequence,
+      }),
+    ).toBeNull();
+    const input = {
+      stableKey: "a33:payment-reference",
+      jurisdictionId: source.jurisdictionId,
+      payer: source.payer,
+      baseKey: "tax-base:authored-payment-reference",
+      occurredAt: source.occurredAt,
+      amount: source.amount,
+      sourceEventId: payment.resourceOutcomeId,
+      assumptionNote:
+        "Existing aggregate withholding transfer, not a taxable wage base or permission to tax a tax payment.",
+    };
+    expect(() =>
+      recordTaxBase(later, { ...input, amount: payment.amount }),
+    ).toThrow(/exact visible occurrence/);
+    expect(() =>
+      recordTaxBase(later, { ...input, jurisdictionId: f.state.id }),
+    ).toThrow(/exact visible occurrence/);
+    const recorded = recordTaxBase(later, input);
+    const base = recorded.history.taxBases!.at(-1)!;
+    expect(base.occurredAt).toBe(source.transferRecord.occurredAt);
+    expect(base.recordedAt).toBe(later.currentDate);
+    expect(() =>
+      assessTaxBase(recorded, base.id, "tax:unadmitted-payment-series"),
+    ).toThrow(/second assessment or collection schedule is forbidden/);
+    expect(recorded.history.resourceTransferOutcomes).toBe(
+      later.history.resourceTransferOutcomes,
+    );
+    expect(recorded.history.statutoryTaxPayments).toBe(
+      later.history.statutoryTaxPayments,
+    );
+    expect(recorded.history.taxAssessments ?? []).toEqual([]);
+    expect(recorded.history.futureDueItems).toEqual(
+      later.history.futureDueItems,
+    );
+    const reloaded = deserializeWorld(serializeWorld(recorded));
+    expect(
+      taxBaseOccurrenceSource(reloaded, payment.resourceOutcomeId),
+    ).toEqual(source);
+    expect(serializeWorld(reloaded)).toBe(serializeWorld(recorded));
+    assertWorldIntegrity(reloaded);
+  });
+  it("keeps the ordinary event source current-only and rejects a missing saved source", () => {
+    const f = fixture();
+    const eventWorld = recordWorldEvent(f.world, {
+      stableKey: "a33:ordinary-current-event",
+      type: "tax.test-occurrence",
+      occurredAt: f.world.currentDate,
+      recordedAt: f.world.currentDate,
+      jurisdictionId: f.state.id,
+      involvedEntityIds: [f.person.id],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["tax"],
+      summary: "Authored ordinary occurrence for backward compatibility.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const event = eventWorld.history.events.at(-1)!;
+    const input = {
+      stableKey: "a33:ordinary-base",
+      jurisdictionId: f.state.id,
+      payer: { kind: "person" as const, personId: f.person.id },
+      baseKey: "tax-base:ordinary-test",
+      occurredAt: event.occurredAt,
+      amount: money(12, "USD"),
+      sourceEventId: event.id,
+      assumptionNote:
+        "Authored ordinary event base; no tax rate or collection.",
+    };
+    const recorded = recordTaxBase(eventWorld, input);
+    assertWorldIntegrity(deserializeWorld(serializeWorld(recorded)));
+    expect(() => recordTaxBase(advanceWorld(eventWorld, 1), input)).toThrow(
+      /exact visible occurrence/,
+    );
+    expect(() =>
+      recordTaxBase(eventWorld, { ...input, sourceEventId: f.workId }),
+    ).toThrow(/exact visible occurrence/);
+    expect(taxBaseOccurrenceSource(eventWorld, f.workId)).toBeNull();
   });
   it("does not turn an outcome ID into an event or admit an arbitrary wage base", () => {
     const f = fixture();

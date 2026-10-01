@@ -529,6 +529,199 @@ export function previewTax(
   };
 }
 
+/** Resolves an existing occurrence at its saved visibility frontier.
+ * sourceEventId retains its legacy field name; statutory ids are not events.
+ * Payment amounts below are whole saved transfers, never an invented allocation.
+ */
+export function taxBaseOccurrenceSource(
+  world: World,
+  sourceId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+) {
+  const visible = (row: { recordedAt: string; sequence: number }) =>
+    row.recordedAt <= cutoff.asOfDate &&
+    row.sequence < cutoff.historySequenceExclusive;
+  const event = eventById(world, sourceId);
+  if (event)
+    return visible(event)
+      ? {
+          kind: "event" as const,
+          occurredAt: event.occurredAt,
+          recordedAt: event.recordedAt,
+          sequence: event.sequence,
+          jurisdictionId: event.jurisdictionId,
+          sourceRecordIds: [event.id],
+          eventRecord: event,
+        }
+      : null;
+  const jurisdictionForAuthority = (authorityKey: string) => {
+    const id =
+      authorityKey === "US"
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : stateJurisdictionForKey(authorityKey)?.id;
+    return id && world.jurisdictions[id] ? id : null;
+  };
+  const liability = recordById(
+    world.history.statutoryTaxLiabilities ?? [],
+    sourceId,
+  );
+  if (liability) {
+    const input = recordedPaycheckTaxInput(world, liability.sourceOutcomeId);
+    const jurisdictionId = jurisdictionForAuthority(liability.authorityKey);
+    if (
+      !visible(liability) ||
+      input.kind !== "recorded" ||
+      !input.statutoryLiabilityIds.includes(liability.id) ||
+      !jurisdictionId ||
+      liability.occurredAt > cutoff.asOfDate
+    )
+      return null;
+    return {
+      kind: "statutory-liability" as const,
+      occurredAt: liability.occurredAt,
+      recordedAt: liability.recordedAt,
+      sequence: liability.sequence,
+      jurisdictionId,
+      payer: liability.payer,
+      amount: liability.wages,
+      liabilityIds: [liability.id],
+      liabilityRecord: liability,
+      paymentIds: input.statutoryCollections
+        .filter(
+          (row) =>
+            row.liabilityId === liability.id &&
+            visible(
+              recordById(
+                world.history.statutoryTaxPayments ?? [],
+                row.paymentId,
+              )!,
+            ),
+        )
+        .map((row) => row.paymentId),
+      sourceRecordIds: [
+        liability.id,
+        input.outcomeId,
+        input.resourceFlowId,
+        input.workRelationshipId,
+      ],
+    };
+  }
+  const allocations = recordsByStringField(
+    world.history.statutoryTaxPayments ?? [],
+    "resourceOutcomeId",
+    sourceId,
+  );
+  const transfer = recordById(world.history.resourceTransferOutcomes, sourceId);
+  const flow = transfer
+    ? recordById(world.history.resourceFlows, transfer.resourceFlowId)
+    : null;
+  if (
+    allocations.length === 0 ||
+    !transfer ||
+    !flow ||
+    transfer.sequence >= cutoff.historySequenceExclusive ||
+    transfer.occurredAt > cutoff.asOfDate ||
+    (transfer.status !== "completed" && transfer.status !== "partial") ||
+    transfer.transferredAmount.minorUnits <= 0 ||
+    flow.basisKind !== "custom:tax-withholding" ||
+    flow.source.kind !== "person" ||
+    flow.recipient.kind !== "organization" ||
+    !flow.jurisdictionId ||
+    flow.sequence >= transfer.sequence ||
+    allocations.some(
+      (row) => !visible(row) || row.sequence <= transfer.sequence,
+    )
+  )
+    return null;
+  const jurisdictionId = flow.jurisdictionId;
+  const account = publicTaxAccountForJurisdiction(
+    world,
+    jurisdictionId,
+    cutoff,
+  );
+  if (!account || account.organizationId !== flow.recipient.organizationId)
+    return null;
+  for (const allocation of allocations) {
+    const row = recordById(
+      world.history.statutoryTaxLiabilities ?? [],
+      allocation.liabilityId,
+    );
+    if (
+      !row ||
+      !visible(row) ||
+      row.sequence >= allocation.sequence ||
+      taxBaseOccurrenceSource(world, row.id, cutoff)?.kind !==
+        "statutory-liability" ||
+      row.liability === null ||
+      allocation.amount.minorUnits > row.liability.minorUnits ||
+      jurisdictionForAuthority(row.authorityKey) !== jurisdictionId ||
+      canonicalJson(row.payer) !== canonicalJson(flow.source) ||
+      allocation.amount.minorUnits <= 0 ||
+      allocation.amount.currency !== transfer.transferredAmount.currency
+    )
+      return null;
+  }
+  if (
+    allocations.reduce((sum, row) => sum + row.amount.minorUnits, 0) !==
+    transfer.transferredAmount.minorUnits
+  )
+    return null;
+  return {
+    kind: "statutory-payment" as const,
+    occurredAt: transfer.occurredAt,
+    recordedAt: allocations.reduce(
+      (latest, row) => (row.recordedAt > latest ? row.recordedAt : latest),
+      allocations[0]!.recordedAt,
+    ),
+    sequence: allocations.reduce(
+      (latest, row) => Math.max(latest, row.sequence),
+      transfer.sequence,
+    ),
+    jurisdictionId,
+    payer: flow.source,
+    amount: transfer.transferredAmount,
+    liabilityIds: allocations.map((row) => row.liabilityId),
+    liabilityRecords: allocations.map((row) =>
+      recordById(world.history.statutoryTaxLiabilities ?? [], row.liabilityId)!,
+    ),
+    paymentIds: allocations.map((row) => row.id),
+    paymentRecords: allocations,
+    transferRecord: transfer,
+    flowRecord: flow,
+    sourceRecordIds: [
+      transfer.id,
+      flow.id,
+      account.organizationId,
+      ...allocations.flatMap((row) => [row.id, row.liabilityId]),
+    ],
+  };
+}
+
+function taxBaseMatchesOccurrenceSource(
+  base: Pick<
+    TaxBaseRecord,
+    | "occurredAt"
+    | "recordedAt"
+    | "sequence"
+    | "jurisdictionId"
+    | "payer"
+    | "amount"
+  >,
+  source: NonNullable<ReturnType<typeof taxBaseOccurrenceSource>>,
+): boolean {
+  return (
+    base.occurredAt === source.occurredAt &&
+    base.recordedAt >= source.recordedAt &&
+    base.occurredAt <= base.recordedAt &&
+    source.sequence < base.sequence &&
+    source.jurisdictionId === base.jurisdictionId &&
+    (source.kind === "event"
+      ? base.recordedAt === base.occurredAt
+      : canonicalJson(base.payer) === canonicalJson(source.payer) &&
+        canonicalJson(base.amount) === canonicalJson(source.amount))
+  );
+}
+
 /** Source events can represent an actual existing occurrence; otherwise the
  * ordinary payer adapter authors one explicit fictional occurrence. Historical
  * bases are not manufactured by opening Budget or advancing time.
@@ -542,10 +735,7 @@ export function recordTaxBase(
   assertAmount(input.amount.minorUnits, "Tax base");
   assertText(input.assumptionNote, "Tax base assumption");
   assertSemantic(input.baseKey, "Tax base key");
-  if (makeIsoDate(input.occurredAt) !== world.currentDate)
-    throw new Error(
-      "A modeled tax occurrence must be recorded now; retroactive bases are forbidden.",
-    );
+  makeIsoDate(input.occurredAt);
   validatePayer(world, input.payer);
   if (
     world.history.taxBases?.some(
@@ -553,15 +743,20 @@ export function recordTaxBase(
     )
   )
     throw new Error("This occurrence already has a recorded tax base.");
-  const event = eventById(world, input.sourceEventId);
+  const source = taxBaseOccurrenceSource(world, input.sourceEventId);
   if (
-    !event ||
-    event.occurredAt !== input.occurredAt ||
-    event.recordedAt > world.currentDate ||
-    event.jurisdictionId !== input.jurisdictionId
+    !source ||
+    !taxBaseMatchesOccurrenceSource(
+      {
+        ...input,
+        recordedAt: world.currentDate,
+        sequence: world.history.nextSequence,
+      },
+      source,
+    )
   )
     throw new Error(
-      "The tax base requires its current canonical occurrence event.",
+      "The tax base requires its exact visible occurrence, payer, amount, date and jurisdiction; no event or backdate is invented.",
     );
   const record: TaxBaseRecord = {
     ...structuredClone(input),
@@ -828,6 +1023,14 @@ export function assessTaxBase(
 ): World {
   const base = world.history.taxBases?.find((row) => row.id === baseId);
   if (!base) throw new Error("No recorded taxable occurrence.");
+  const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+    asOfDate: base.recordedAt,
+    historySequenceExclusive: base.sequence,
+  });
+  if (source && source.kind !== "event")
+    throw new Error(
+      "A saved statutory source reuses its existing liability/payment; a second assessment or collection schedule is forbidden.",
+    );
   const existing = world.history.taxAssessments?.find(
     (row) =>
       row.baseId === baseId &&
@@ -1597,14 +1800,14 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
     money(0, base.amount.currency);
     assertText(base.assumptionNote, "Tax base assumption");
     validatePayer(world, base.payer);
-    const event = eventById(world, base.sourceEventId);
+    const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+      asOfDate: base.recordedAt,
+      historySequenceExclusive: base.sequence,
+    });
     if (
       !world.jurisdictions[base.jurisdictionId] ||
-      base.recordedAt !== makeIsoDate(base.occurredAt) ||
-      !event ||
-      event.sequence >= base.sequence ||
-      event.occurredAt !== base.occurredAt ||
-      event.jurisdictionId !== base.jurisdictionId
+      !source ||
+      !taxBaseMatchesOccurrenceSource(base, source)
     )
       throw new Error("Invalid tax base occurrence.");
   }
@@ -1621,6 +1824,14 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       (row) => row.id === assessment.baseId,
     );
     if (!base) throw new Error("Missing assessed tax base.");
+    const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+      asOfDate: base.recordedAt,
+      historySequenceExclusive: base.sequence,
+    });
+    if (!source || source.kind !== "event")
+      throw new Error(
+        "A saved statutory source cannot have a second modeled assessment or collection schedule.",
+      );
     const dedup = `${base.id}:${proposal.terms.seriesKey}`;
     const preview = previewTax(proposal.terms, base.baseKey, base.amount);
     const selected = effectiveTaxPolicy(
