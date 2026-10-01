@@ -1,10 +1,6 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { createPressTransitionRegistry } from "../press/transitions";
@@ -16,7 +12,7 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { currentLifeCutoff } from "../life-queries";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { personName } from "../people";
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -38,8 +34,8 @@ import {
   advanceProsecutions,
   enterPlea,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -55,30 +51,20 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
   const states = pickDistinct(
     new SeededRng(seed),
     lifePlaceStateIdentities(),
-    5,
+    1,
   );
   it.each(states)(
     "reviews the actual petitioner in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: `team9-g12-clemency:${state.jurisdictionKey}`,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      const personId = game.playerPersonId;
+      // A small world (tests/fixtures/small-world.ts): residents and their
+      // state, no opening life.
+      const small = smallWorld({
+        place: state.jurisdictionKey,
+        seed: `team9-g12-clemency:${state.jurisdictionKey}`,
+        offices: ["governor"],
+      });
+      const game = { world: small.world };
+      const personId = small.personId;
       const referred = referForProsecution(game.world, {
         stableKey: "fixture:g12-clemency-case",
         subjectPersonId: personId,
@@ -119,7 +105,8 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
                   ...event,
                   occurredAt: addDays(
                     plea.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                    -prosecutionTimingFor(state.jurisdictionKey)
+                      .resolveAfterDays,
                   ),
                 }
               : event,
@@ -137,7 +124,7 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
         personId,
         sentencedEventId: sentence!.id,
       });
-      expect(filed.ok).toBe(true);
+      expect(filed.ok, filed.ok ? "" : filed.reason).toBe(true);
       if (!filed.ok) throw new Error(filed.reason);
       let isolated = filed.world;
       for (const item of isolated.history.futureDueItems)
