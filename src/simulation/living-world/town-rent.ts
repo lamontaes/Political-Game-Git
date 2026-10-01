@@ -211,16 +211,6 @@ export const BEDROOM_SHARES: Readonly<
   "rural-farmhouse": [0, 0.03, 0.22, 0.5, 0.25],
 };
 
-/**
- * PLACEHOLDER(research: rent-spread-around-fair-market-rent). How far one
- * home's rent sits from its county's Fair Market Rent (a log-normal spread),
- * and how far one world's county sits from HUD's (drawn per world).
- */
-export const RENT_SPREAD = {
-  home: 0.25,
-  world: 0.05,
-} as const;
-
 /** The Brooke rule: public housing rent is 30% of monthly income. */
 export const PUBLIC_HOUSING_RENT_OF_INCOME = 0.3;
 /** The highest minimum rent a housing authority may set (24 CFR 5.630). */
@@ -517,12 +507,6 @@ export function affordableRentMinor(
 
 // ─── Draws ──────────────────────────────────────────────────────────────
 
-function normal(rng: SeededRng): number {
-  const u = Math.max(1e-12, rng.fork("u").next());
-  const v = rng.fork("v").next();
-  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
-}
-
 function pick<K extends string>(
   weights: Readonly<Record<K, number>>,
   draw: number,
@@ -576,35 +560,16 @@ export function rentPriceLevel(
   return now.priceIndex / base.priceIndex;
 }
 
-/** This world's draw for a county's rents, the same all game. */
-function worldCountyFactor(world: World, area: string): number {
-  const rng = new SeededRng(world.seed).fork(
-    `${TOWN_RENT_VERSION}:world:${area}`,
-  );
-  return Math.exp(RENT_SPREAD.world * normal(rng));
-}
-
-/** A home's market rent in cents on `date`. */
+/** HUD rent for this bedroom count, moved by the recorded market price level. */
 export function marketRentMinor(
   world: World,
   town: EntityId,
   row: HudRentRow,
   bedrooms: number,
   date: IsoDate,
-  homeDraw: number,
 ): number {
   const fmr = row.rents[Math.max(0, Math.min(4, bedrooms))]!;
-  // GAME ASSUMPTION, labeled: the Fair Market Rent is read as the median
-  // rent for a home of its size. HUD sets it at the 40th percentile of what
-  // recent movers pay, and recent movers pay more than tenants who stayed;
-  // the two are taken to offset. PLACEHOLDER(research:
-  // rent-spread-around-fair-market-rent).
-  const dollars =
-    fmr *
-    Math.exp(RENT_SPREAD.home * homeDraw) *
-    worldCountyFactor(world, row.area) *
-    marketRentLevel(world, town, date);
-  return Math.round(dollars) * 100;
+  return Math.round(fmr * marketRentLevel(world, town, date)) * 100;
 }
 
 // ─── What the history holds ─────────────────────────────────────────────
@@ -1338,14 +1303,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       affordableLet.set(town, (affordableLet.get(town) ?? 0) + 1);
       basis = `an affordable home under ${inclusionary!.designation}, 30% of 60% of area median income`;
     } else {
-      rentMinor = marketRentMinor(
-        next,
-        town,
-        row,
-        bedrooms,
-        dueOn,
-        normal(rng.fork(`rent:${tenure.id}`)),
-      );
+      rentMinor = marketRentMinor(next, town, row, bedrooms, dueOn);
       basis = `the market, near the county's Fair Market Rent of $${row.rents[bedrooms]} (HUD FY2025, area ${row.area})`;
     }
     // A lease runs from the tenancy, or from the day its landlord existed.
