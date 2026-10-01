@@ -1,0 +1,246 @@
+{
+  "sourceHead": "c0932c301b59a31891cacbeefc90608495dc7367",
+  "baseHead": "1d1963ee25ea0b1a5cdbd425e713af73d68da442",
+  "branch": "codex/team-3-a37-monthly-payroll",
+  "sourceFiles": {
+    "src/simulation/local-economy.ts": {
+      "gitBlob": "bca65f8b3be077b5d286677225b6568e16a6c005",
+      "sha256": "c499c8184061e0ee47de0893c255012352f2e55fc358554929da0da49d9a4623"
+    },
+    "src/simulation/living-world/town-pay.ts": {
+      "gitBlob": "7515b04ed0987288a42035f16b3fa5277a6b9923",
+      "sha256": "96aa557f70e4993fba6510495b0b08023b1dc87aef31409dff10ab0ce72ac941"
+    },
+    "src/simulation/local-economy-monthly-payroll.test.ts": {
+      "gitBlob": "2faa0e9363c27b01288b75ca9c562ee987a220b8",
+      "sha256": "070ed9e26ae506a419c8b87b19d9dd00c07e6fbac3f6ea8e19cc69420a86ee42"
+    }
+  },
+  "nativeOriginal": {
+    "passed": 1,
+    "failed": 8,
+    "seconds": 11.49,
+    "source": "Base head plus original uncommitted monthly changes; before legacy fixture correction, latest-paid-day tightening and added full-month case. No exact committed source pin was captured.",
+    "blocker": "resources.ts expected terms equality, seven valid partial-pay cases and one invalid legacy fixture",
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/local-economy-monthly-payroll.test.ts --maxWorkers=1 --silent=false"
+  },
+  "nativeFullMonth": {
+    "passed": 1,
+    "failed": 0,
+    "deliberatelyNotRun": 9,
+    "seconds": 15.56,
+    "source": "Same three source blobs as sourceHead; declaration added after run.",
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/local-economy-monthly-payroll.test.ts --maxWorkers=1 --silent=false -t 'full calendar month reaches'",
+    "limits": [
+      "Narrow existing payday handler registry, not full ordinary-life graph",
+      "No passing partial-month substitution",
+      "No all-56 payroll claim"
+    ]
+  },
+  "types": {
+    "roots": 3,
+    "loadedFiles": 758,
+    "diagnostics": 0,
+    "command": "node /tmp/team3-a37-monthly-types.cjs",
+    "log": "team3-a37-monthly-types-r4.log"
+  },
+  "lint": "PASS; initial unused test import failure retained",
+  "format": "PASS",
+  "release": {
+    "result": "FAIL",
+    "inheritedFile": "docs/release/changes/ci-changed-tests-only.md",
+    "baseAndHeadBlob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8",
+    "newDeclaration": "parse PASS"
+  },
+  "zeroDice": {
+    "result": "FAIL: zero new, five stale inherited entries; allowlist untouched"
+  },
+  "extraIdentityChecks": {
+    "identity": "Used wrong world namespace; output not accepted as fixture ID evidence. Retained raw.",
+    "identity-r2": "Exact factory import failed before generation due congress initialization backedge. Not a payroll test or proof; raw retained.",
+    "workedExampleName": "Name from seed/person-v5 generation is independent of world namespace; no generated ID from failed auxiliary checks claimed."
+  },
+  "notRun": [
+    "Complete file after actual historical fixture repair (only the changed legacy case run)",
+    "Full ordinary-life/default clock",
+    "full suite",
+    "year speed run",
+    "browser",
+    "final-main acceptance"
+  ],
+  "evidenceFiles": {
+    "team3-a37-monthly-legacy-consumer-r1.log": "57181ba05cc357d1b9030f0afc7e94a55d9df4d96c8b7744616f9bad1f5fcccf",
+    "team3-a37-monthly-zero-dice-r1.log": "ea9cca37ed30c9c299b8b2686e9afeec8bcc94952fae10221408d469a418e428",
+    "team3-a37-monthly-report-r1.log": "0b7958addafbbc737e45c89035e913250a6f7347d94a37e6d338d00656e5f2b1",
+    "team3-a37-monthly-lint-r2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "team3-a37-monthly-query-native-r2.log": "4774f4f784276686a326bf0da8ac68d62dad7708cf66b24ebce83453a34ad728",
+    "team3-a37-monthly-types-r3.log": "2b9083026b293e8c12f3bb0aaaf33cd5d24c25a2c86f932a225924bcca61c5d5",
+    "team3-a37-monthly-identity.log": "a4ffd12910ad8abdda893c277956732e0fcf63f85d00a9fb1c5b532736581b6b",
+    "team3-a37-monthly-lint-r5.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "team3-a37-monthly-report-r2.log": "dbabeb9cd8d3901018632d61d55c0d2134bad1d7a551e466df675416fb60dbca",
+    "team3-a37-monthly-lint-r3.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "team3-a37-monthly-types-r6.log": "1cad50cfc3b5c83832418f5e598663442ee9fd639002cb94a4cd5831574c159a",
+    "legacy-save-generation.test.ts.source": "1cb5cfda5ac45b781e848fea62b450817e63794285f34ea03e8f665beb5ec3a9",
+    "team3-a37-monthly-lint-r1.log": "3ccbad0707b1fe51d4887276e577aa6f9ccb772e760ae994be6e3f1d0800899f",
+    "team3-a37-monthly-merge-preflight.log": "33768e331effa008eda35e2a693b184f8fa30e82eddbb12297ac1c3185e760fe",
+    "team3-a37-monthly-types-r7.log": "b6eadfdbc606b68580f003d6da3ed73171394658b4a494faf25c97a3a2637750",
+    "team3-a37-monthly-types-r9.log": "2eadfa2867059faec47d02b5db13345c8d881e8877bd6045acb3e535418116a7",
+    "team3-a37-monthly-types-r2.log": "2b9083026b293e8c12f3bb0aaaf33cd5d24c25a2c86f932a225924bcca61c5d5",
+    "team3-a37-monthly-legacy-generation-r1.log": "f1fc4159045473b3d9dbc3656c6f0c50b7dff25a9c88cc6c4cd6007f7077f613",
+    "team3-a37-monthly-declaration-r1.log": "f179847e2291801300dce4942d55f2b8c1070bcbaf7698d3412637375ddfc573",
+    "team3-a37-monthly-lint-r6.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "team3-a37-monthly-native-r1.log": "15bc77c3628005c3722de30be6ba561c6163613a773f7947462b30cc151d8b65",
+    "team3-a37-monthly-full-native-r1.log": "63db7263013f7d6fc7c0b25a091185d3aad513c06ab95d1c8560f36d56073807",
+    "team3-a37-monthly-release-r1.log": "7bd883acbb8b02889c9e7df56860ec64c0a25e4eba8c97ec0f20927495bd4385",
+    "team3-a37-monthly-types-r8.log": "b6eadfdbc606b68580f003d6da3ed73171394658b4a494faf25c97a3a2637750",
+    "team3-a37-monthly-types-r10.log": "83e591283af7c1d0c01971d51cfa791ff43493a7f6a22da3aab689b119110baf",
+    "team3-a37-monthly-report-r3.log": "0b7958addafbbc737e45c89035e913250a6f7347d94a37e6d338d00656e5f2b1",
+    "team3-a37-monthly-identity-r2.log": "cef58a709f38775220ea3d2210ce0bf69b818b76565a4024eb6f255a06a41ef4",
+    "team3-a37-monthly-types-r5.log": "b6eadfdbc606b68580f003d6da3ed73171394658b4a494faf25c97a3a2637750",
+    "team3-a37-monthly-lint-r7.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "team3-a37-monthly-lint-r4.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "team3-a37-monthly-types-r1.log": "b8a135ca0eb639beadde15c9dc9c5db35166a03d3f3e7ae937608375ec13952c",
+    "team3-a37-monthly-types-r4.log": "2b9083026b293e8c12f3bb0aaaf33cd5d24c25a2c86f932a225924bcca61c5d5",
+    "legacy-save.config.mts.source": "502aad6680ef120a8b772d62b6e9839c1836868c882d3fbc424304e691960fc1",
+    "team3-a37-monthly-format-r2.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "team3-a37-monthly-query-native-r1.log": "881b954badb665a18cd9278e3079ab0fa356d804e2fd5dccd16bb82e889d7498",
+    "team3-a37-monthly-composed-native-r1.log": "651edb384d252af6cc07b670c2fbb37a0ef06546f3e40e60cad07c4677f8a1a6",
+    "team3-a37-monthly-format-r1.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "scoped-types.cjs": "2f798310ae0ba19d0331551949c7af88af1e8ac729202375ec3f7e3a343b7985"
+  },
+  "latestSourceHead": "c44180847390285dd28c4d6c09e343c05e11d029",
+  "latestSourceFiles": {
+    "src/simulation/local-economy.ts": {
+      "gitBlob": "bca65f8b3be077b5d286677225b6568e16a6c005",
+      "sha256": "c499c8184061e0ee47de0893c255012352f2e55fc358554929da0da49d9a4623"
+    },
+    "src/simulation/living-world/town-pay.ts": {
+      "gitBlob": "206af801dc02202a85c60eaa71553626b2c5fd76",
+      "sha256": "67996279a769e9bfedf1090eb0e3eb020fd2375e4c47ec8a2075dab106778209"
+    },
+    "src/simulation/monthly-work-pay.ts": {
+      "gitBlob": "c7411517eb211fa2f4730789ba10c31ce44ca172",
+      "sha256": "c87fb67d576d57c5790a5643e6c108406b2f308bb6c34c8422e587e5c9369d31"
+    },
+    "src/simulation/local-economy-monthly-payroll.test.ts": {
+      "gitBlob": "500c71a368d8e60364eb1aab4236d98b0d882255",
+      "sha256": "af90fee58c493126f329f514e4d5017ee92238ffb941512d5ae308c816deed7d"
+    },
+    "src/simulation/fixtures/a37-legacy-monthly-point.json": {
+      "gitBlob": "1d9ee3e05d494fc15ae8cd4c771461a2364e36ec",
+      "sha256": "a1992a5b283327ac064d6062ac376793a923def5a7a7fa064d8014df65324907"
+    },
+    "src/simulation/resources.ts": {
+      "gitBlob": "9256f9829e97fef53df3b1a22379030940ff5782",
+      "sha256": "b5fe9d6998c0e8f56068c2fe5d2b8393b715d3ef3f50ba8431741748bb34d578"
+    },
+    "src/simulation/resource-integrity.ts": {
+      "gitBlob": "11f4a0ebb08096e2c5e8bcb67c1e982beb86cce0",
+      "sha256": "e39a01475b731a25f1f5712ceb1a92a8d9d16d90f89c8e059eb6e5309d7ab353"
+    }
+  },
+  "sourceRoles": {
+    "team3": [
+      "local-economy wage period/delegation",
+      "town-pay monthly consumer and existing payday hook",
+      "monthly-work-pay pure query",
+      "owned test and compact legacy fixture"
+    ],
+    "coordinator": [
+      "resources expected amount",
+      "resource-integrity expected amount"
+    ],
+    "untouched": [
+      "Team6 tax consumer import/call-selection scope",
+      "Team4 dwelling, revenue amount and owner-draw mechanisms"
+    ]
+  },
+  "monthlyQuery": {
+    "export": "monthlyWorkPay(world: World, input: MonthlyWorkPayInput): MonthlyWorkPayResult",
+    "inputFields": [
+      "resourceFlowId",
+      "periodStartsAt",
+      "periodEndsAt",
+      "onDate",
+      "historySequenceExclusive"
+    ],
+    "derivedOutputFields": [
+      "resourceFlowId",
+      "workRelationshipId",
+      "personId",
+      "organizationId",
+      "termsId",
+      "heldDays",
+      "calendarDays",
+      "gross"
+    ],
+    "noNewRecordOrSchema": true,
+    "sourceHead": "da390c83ec2ca740dc9ad10adb554d1881c9bca7",
+    "newTestSourceHead": "36419a1aaf7eef6dc1ef2655a74c2cc804125ad3",
+    "native": {
+      "passed": 7,
+      "failed": 0,
+      "deliberatelyNotRun": 9,
+      "seconds": 12.69,
+      "priorRenewal": {
+        "passed": 6,
+        "failed": 1,
+        "seconds": 11.98,
+        "reason": "Invalid death-source fixture, fixed to actual person; no production assertion weakened"
+      }
+    }
+  },
+  "completeFile": {
+    "sourceHead": "31a5ba3c6b356424fd5b5370f8c44be6fc24c03f",
+    "receivedGuardHead": "d73115cfec47d41102b2caf8062642b8e987051a",
+    "passed": 15,
+    "failed": 1,
+    "seconds": 12.21,
+    "failedName": "A37 preserves a legacy paid point date and begins the next interval the following day",
+    "failureLocation": "resources.ts:649 creating old point date through new writer",
+    "passedOriginalPlaces": [
+      "1150000 Washington DC",
+      "2836000 Jackson MS",
+      "5363000 Seattle WA",
+      "2938000 Kansas City MO",
+      "3451000 Newark NJ"
+    ],
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/local-economy-monthly-payroll.test.ts --maxWorkers=1 --silent=false"
+  },
+  "historicFixtureGeneration": {
+    "passed": 1,
+    "failed": 0,
+    "seconds": 11.11,
+    "runtimeBase": "31a5ba3c6b356424fd5b5370f8c44be6fc24c03f",
+    "exactHistoricalOverlays": {
+      "src/simulation/resources.ts": "b1dce86aa197dd69d5cb24a3c800261aa1aa2903",
+      "src/simulation/resource-integrity.ts": "990d20a22b4b6078d850c3e1d45c97b1a5fd6fe9"
+    },
+    "fixture": "src/simulation/fixtures/a37-legacy-monthly-point.json",
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run tests/team3-a37-legacy-save-generation.test.ts --config /tmp/team3-a37-legacy-save.config.mts --maxWorkers=1",
+    "archivedOnlyUtility": "legacy-save-generation.test.ts.source",
+    "archivedConfig": "legacy-save.config.mts.source",
+    "productionOverwrites": false,
+    "newPaymentPermission": false
+  },
+  "historicConsumer": {
+    "sourceHead": "c44180847390285dd28c4d6c09e343c05e11d029",
+    "passed": 0,
+    "failed": 1,
+    "deliberatelyNotRun": 15,
+    "seconds": 10.88,
+    "failureLocation": "resource-integrity.ts:388 during serializeWorld",
+    "worldFlowAndBaseHistoryDigestAssertions": "PASS before failure",
+    "assertions": "Original paid-date/next-period assertions retained",
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/local-economy-monthly-payroll.test.ts --maxWorkers=1 --silent=false -t 'preserves a legacy paid point'"
+  },
+  "latestTypes": {
+    "sourceHead": "c44180847390285dd28c4d6c09e343c05e11d029",
+    "roots": 3,
+    "loadedFiles": 760,
+    "diagnostics": 0,
+    "log": "team3-a37-monthly-types-r10.log",
+    "earlierFailures": "Initial API fixture errors, branded flow ID, and Node-only digest type failure retained"
+  },
+  "currentBlocker": "Coordinator-owned historical point-payment integrity compatibility. New-write month-end and full/shift equality remain strict."
+}

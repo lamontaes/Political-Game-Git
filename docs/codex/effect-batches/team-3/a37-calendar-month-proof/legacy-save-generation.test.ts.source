@@ -1,0 +1,157 @@
+import {writeFileSync} from "node:fs";
+import {createHash} from "node:crypto";
+import { expect, it } from "vitest";
+import { makeIsoDate, simulationMomentOnLocalDate } from "../src/simulation/dates";
+import { createFutureTransitionHandlerRegistry } from "../src/simulation/future-transitions";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordWorkStatus,
+} from "../src/simulation/life";
+import { requireLifePlace, stateJurisdictionForKey } from "../src/simulation/life-places";
+import { ensurePaydaySchedule, PAYDAY_HANDLERS } from "../src/simulation/living-world/town-pay";
+import {
+  BUSINESS_REVENUE_BASIS,
+  BUSINESS_WAGES_BASIS,
+  settleBusinessMoney,
+  settleTrackedBusinessPayroll,
+} from "../src/simulation/local-economy";
+import { NATIONAL_ELECTION_JURISDICTION } from "../src/simulation/national-election-geography";
+import { monthlyWorkPay } from "../src/simulation/monthly-work-pay";
+import { createLightweightPerson, personName } from "../src/simulation/people";
+import { createProductionPolicyCatalog } from "../src/simulation/production-catalog";
+import { recordedPayStubs } from "../src/simulation/resource-income";
+import { resourcePositionAt } from "../src/simulation/resource-queries";
+import {
+  createResourceFlow,
+  createResourcePosition,
+  money,
+  recordResourceTransferOutcome,
+  recordResourceFlowTerms,
+} from "../src/simulation/resources";
+import { deserializeWorld, serializeWorld } from "../src/simulation/serialization";
+import type { EntityId, World } from "../src/simulation/types";
+import { recordPersonDeath } from "../src/simulation/vitality";
+import { advanceWorld, createWorld, createWorldId } from "../src/simulation/world";
+const authored = {
+  kind: "authored" as const,
+  note: "Explicit monthly contract/cash controls; not observed business income.",
+};
+const registry = createFutureTransitionHandlerRegistry(PAYDAY_HANDLERS);
+function fixture(
+  placeKey: string,
+  nonbusiness = false,
+  startingDate = "2026-01-16",
+) {
+  const place = requireLifePlace(placeKey);
+  const seed = `a37-monthly:${placeKey}`;
+  const currentDate = makeIsoDate(startingDate);
+  const currentMoment = simulationMomentOnLocalDate(
+    place.context.initialMoment,
+    currentDate,
+  );
+  const person = createLightweightPerson({
+    worldId: createWorldId(seed),
+    worldSeed: seed,
+    index: 0,
+    currentDate,
+    homeJurisdictionId: place.context.jurisdiction.id,
+  });
+  let world = createWorld({
+    seed,
+    currentDate,
+    currentMoment,
+    people: [person],
+    jurisdictions: [
+      place.context.jurisdiction,
+      stateJurisdictionForKey(place.stateJurisdictionKey!)!,
+      NATIONAL_ELECTION_JURISDICTION,
+    ],
+    policyCatalog: createProductionPolicyCatalog(),
+  });
+  world = createOrganization(world, {
+    stableKey: nonbusiness
+      ? "fixture:ordinary-employer"
+      : `local-business:${place.context.jurisdiction.id}:fixture`,
+    formedAt: currentDate,
+    provenance: authored,
+    initialProfile: {
+      name: "Controlled monthly employer",
+      classification: "sector:private",
+      locationJurisdictionId: place.context.jurisdiction.id,
+    },
+  });
+  const employer = world.history.organizations.at(-1)!;
+  world = createWorkRelationship(world, {
+    stableKey: "fixture:monthly:work",
+    personId: person.id,
+    organizationId: employer.id,
+    startedAt: currentDate,
+    kind: "employment:staff",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance: authored,
+    initialRole: {
+      title: "Controlled worker",
+      occupationClassification: "occupation:retail-salesperson",
+      locationJurisdictionId: place.context.jurisdiction.id,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+        attention: "high",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "rigid",
+        interruptibility: "limited",
+        locationJurisdictionId: place.context.jurisdiction.id,
+      },
+    },
+  });
+  const work = world.history.workRelationships.at(-1)!;
+  world = createResourceFlow(world, {
+    stableKey: "fixture:monthly:wages",
+    source: { kind: "organization", organizationId: employer.id },
+    recipient: { kind: "person", personId: person.id },
+    startsAt: currentDate,
+    basisKind: BUSINESS_WAGES_BASIS,
+    basisReference: { kind: "work", workRelationshipId: work.id },
+    restrictionKind: null,
+    amount: money(500000, "USD"),
+    cadenceKind: "schedule:monthly",
+    jurisdictionId: place.context.jurisdiction.id,
+    provenance: authored,
+  });
+  const flow = world.history.resourceFlows.at(-1)!;
+  for (const [owner, balance] of [
+    [{ kind: "organization" as const, organizationId: employer.id }, 2000000],
+    [{ kind: "person" as const, personId: person.id }, 0],
+  ] as const)
+    world = createResourcePosition(world, {
+      stableKey: `fixture:monthly:cash:${owner.kind}`,
+      owner,
+      openedAt: currentDate,
+      openingBalance: money(balance, "USD"),
+      provenance: authored,
+    });
+  return { world: ensurePaydaySchedule(world), person, employer, work, flow };
+}
+
+
+it("captures a valid pre-month-end-contract saved point payment", () => {
+ const f=fixture("1150000");
+ const before=advanceWorld(f.world,4,registry);
+ const saved=recordResourceTransferOutcome(before,{
+ stableKey:"fixture:legacy-paid",resourceFlowId:f.flow.id,
+ periodStartsAt:before.currentDate,periodEndsAt:before.currentDate,occurredAt:before.currentDate,
+ status:"completed",attemptedAmount:money(500000,"USD"),transferredAmount:money(500000,"USD"),
+ reasonKind:null,note:"Explicit saved legacy payment",provenance:authored,
+ });
+ const outcome=saved.history.resourceTransferOutcomes.at(-1)!;
+ expect(outcome.periodEndsAt).toBe("2026-01-20");
+ expect(serializeWorld(deserializeWorld(serializeWorld(saved)))).toBe(serializeWorld(saved));
+ writeFileSync("/tmp/team3-a37-legacy-point-record.json",JSON.stringify({
+ sourceHead:"da390c83ec2ca740dc9ad10adb554d1881c9bca7",worldId:before.id,
+ resourceFlowId:f.flow.id,baseHistorySha256:createHash("sha256").update(JSON.stringify(before.history)).digest("hex"),
+ outcome,nextSequence:saved.history.nextSequence,
+ },null,2)+"\n");
+});

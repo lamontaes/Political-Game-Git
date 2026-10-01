@@ -1,0 +1,11 @@
+const ts=require('/workspace/Political-Game-Git/node_modules/typescript');
+const fs=require('node:fs'); const path=require('node:path');
+const root='/workspace/Political-Game-Git';
+const config=ts.readConfigFile(path.join(root,'tsconfig.app.json'),ts.sys.readFile);
+const parsed=ts.parseJsonConfigFileContent(config.config,ts.sys,root);
+const roots=['src/simulation/local-economy.ts','src/simulation/living-world/town-pay.ts','src/simulation/local-economy-monthly-payroll.test.ts'].map(p=>path.join(root,p));
+const program=ts.createProgram(roots,{...parsed.options,composite:false,incremental:false});
+const diagnostics=ts.getPreEmitDiagnostics(program);
+console.log(`roots=${roots.length} files=${program.getSourceFiles().length} diagnostics=${diagnostics.length}`);
+console.log(ts.formatDiagnosticsWithColorAndContext(diagnostics,{getCanonicalFileName:f=>f,getCurrentDirectory:()=>root,getNewLine:()=> '\n'}));
+process.exitCode=diagnostics.length?1:0;
