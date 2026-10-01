@@ -724,27 +724,6 @@
       "code": "if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;"
     },
     {
-      "file": "src/simulation/governing/congress-lawmaking.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0"
-    },
-    {
-      "file": "src/simulation/governing/officeholder-principles.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": "roll < PRINCIPLE_DRAW.endorses"
-    },
-    {
-      "file": "src/simulation/governing/officeholder-principles.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ": roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects"
-    },
-    {
       "file": "src/simulation/governing/question-authority.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
@@ -1387,20 +1366,6 @@
       "build": "Build 23",
       "count": 1,
       "code": "if (rng.next() >= practice.likelihoodPerReview) continue;"
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "chanceCap: 0.9,"
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "draw(next, [\"international\", matter, ordinal]) >="
     },
     {
       "file": "src/simulation/recall.ts",
