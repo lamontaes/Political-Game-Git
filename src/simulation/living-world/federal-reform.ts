@@ -14,7 +14,7 @@ import {
   type TermLimitRule,
 } from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { evaluateDecision } from "../decisions";
+import { considerationScore, evaluateDecision } from "../decisions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
@@ -416,8 +416,10 @@ export function termLimitBallot(
   const reason =
     considerations
       .filter((c) => c.optionKey === `vote-${ballot}`)
-      .sort((a, b) => weight(b) - weight(a))[0]?.stableKey ??
-    "member:no-reason";
+      .sort(
+        (a, b) =>
+          Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
+      )[0]?.stableKey ?? "member:no-reason";
   return { ballot, reason };
 }
 
@@ -481,13 +483,6 @@ export function termLimitConsiderations(
         : reason,
     );
   return considerations;
-}
-
-function weight(c: DecisionConsideration): number {
-  return (
-    { slight: 1, moderate: 2, strong: 4, decisive: 6 }[c.importance] *
-    { low: 1, medium: 2, high: 3 }[c.confidence]
-  );
 }
 
 /** Proposes the amendment, records both houses, and dates each state's action. */
