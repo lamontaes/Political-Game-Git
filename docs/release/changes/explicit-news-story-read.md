@@ -10,3 +10,5 @@ story. The saved knowledge names that publication. When its recorded basis
 contains a supported law effect, the existing news-exposure writer records
 what law the player heard about. Repeated reads preserve one record, including
 after Save and Continue. Reading does not change money or opinion weights.
+
+The existing News page forwards its world update callback to that story action.
