@@ -59,5 +59,7 @@ it("admits the reviewed tax handler only with its declared selector and action",
   expect(registry.capabilities.actions.get("tax")).toEqual(
     new Set(["assess-enacted-tax-base"]),
   );
-  expect(registry.capabilities.selectorsByKind?.get("tax")?.has("work")).toBe(false);
+  expect(registry.capabilities.selectorsByKind?.get("tax")?.has("work")).toBe(
+    false,
+  );
 });
