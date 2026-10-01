@@ -11,7 +11,7 @@ import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import { STATES } from "../state-reference";
 import { drawRandomPlace } from "../../../tests/support/random-place";
-import type { EntityId, HistoricalEvent, World } from "../types";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { createWorld, createWorldId } from "../world";
 import { dateFromElectionRule, type ElectionDateRule } from "./date-rules";
 import { generalElectionDay, nominationPlan } from "./nomination-rules";
