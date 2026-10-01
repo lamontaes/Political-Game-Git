@@ -1,20 +1,20 @@
 import type { LawConsequenceKind } from "../law-consequence-types";
 /**
- * Who holds Medicaid expansion coverage, person by person, and what it does to
- * their risk of dying.
+ * Medicaid expansion legal eligibility projected from recorded facts.
  *
- * Coverage is decided from the person, the law and the place, never a roll:
+ * Eligibility is decided from the person, the law and the place, never a roll:
  * an adult aged 19 to 64 whose household's recorded pay is at or under the
  * program's share of the poverty line, living in a state whose law in force
- * expands Medicaid, is covered. Where a work requirement is in force (a
+ * expands Medicaid, passes this eligibility projection. A saved application
+ * and enrollment remain separate. Where a work requirement is in force (a
  * state's own, or the federal one from its operative date), an adult who
- * works under the required hours a month, and is not exempt, loses it.
+ * works under the required hours a month, and is not exempt, fails the rule.
  *
- * On the 15th of each month a pass reads everyone once and records a change
- * of coverage (never a repeat), so a law enacted, repealed or amended in play
- * starts or ends coverage at the next pass, and so does a raise, a lost job
- * or a birthday. The pass re-plans the quarter's death day of anyone whose
- * hazard it changed (`health-coverage-pass.ts`).
+ * The existing 15th-of-month review still records eligibility changes without
+ * repeats. Its cadence is a compatibility scheduler, not a sourced benefit
+ * application or renewal deadline. Replacing that scheduler needs the actual
+ * saved application/enrollment activity; this boundary repair does not create
+ * that activity or change the scheduler.
  *
  * The existing coverage records describe the legal coverage projection, not
  * an actual application or enrollment. Enrollment and a person-level health
