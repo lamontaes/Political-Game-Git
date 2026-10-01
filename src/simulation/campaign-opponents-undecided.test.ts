@@ -238,7 +238,19 @@ describe(`A125 opponent caller pending choices in ${state!.jurisdictionKey} (see
         selectedOptionKey: "fundraising",
       }),
     );
-    const result = campaignWeeklyEvaluationHandler(world, due);
+    // The actual resolver supplies the due date before invoking this writer.
+    const resolved = resolveFutureDueItemsThrough(
+      world,
+      due.dueAt,
+      composeWorldTimeHandlers(),
+    );
+    const result = {
+      world: resolved,
+      status: futureDueItemStateAt(resolved, due.id, {
+        asOfDate: due.dueAt,
+        historySequenceExclusive: resolved.history.nextSequence,
+      })?.status,
+    };
     expect(result.status).toBe("resolved");
     const steps = campaignOpponentStepRecords(result.world);
     expect(steps).toHaveLength(1);
