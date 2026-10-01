@@ -58,10 +58,14 @@ Measured: event_c1c1003cde86c6e9 survives canonical Continue. Calling passage co
 
 ## Method and handoff
 
-Audit gap A80. Runtime source 2c7aae6d1d70ee7d919c11fd4fa59990d12523ba starts from main 2e78c9c155e6dcfbf400f21cad56266c2dcfc97b. Four owned source/test files change. The current source retains all executive consideration weights, legal timing and municipal floor rules.
+Audit gap A80. Initial runtime source 2c7aae6d1d70ee7d919c11fd4fa59990d12523ba starts from main 2e78c9c155e6dcfbf400f21cad56266c2dcfc97b. Four owned source/test files change. The current source retains all executive consideration weights, legal timing and municipal floor rules.
 
 The initial new fixture failed on an unrelated missing political-reflection handler (a80-shared-council-passage-proof.json:16). Two strict fixture errors concerned a branded principle ID and place label. Those exact fixture errors were repaired; no production decision or assertion was weakened. No timeout increased.
 
 Full suite, browser, natural political filing, a year run, year-speed and all-56 populated-world execution were NOT RUN. A79's general-policy proposal ordering and state-ratification body admission remain exact questions posted to Audit and CTO. This A80 repair does not close those member-vote gaps.
 
 The two initial failure logs were overwritten by repaired scratch runs. Their observed error summaries and terminal handles are preserved in the proof file; complete raw failure logs are unavailable. Final passing logs are retained in full.
+
+Current-main renewal: b04da9ccabb2ece9baaeba575ec2647c7ee34bf5 receives main 800bb5a0c57f6301db18e1bd769565386c3e39dd additively, with no conflicts or owned code changes. Three of three selected cases pass in 41.82 seconds; 59 cases are unselected (/tmp/team2-a80-current-main-tests.log:8). Four strict roots have zero diagnostics (/tmp/team2-a80-current-main-types.log:1).
+
+Current release checking retains only main's inherited CI declaration prose failure. Zero-dice reports zero new findings and five inherited stale entries. Spelling reports 26 existing findings and zero added by this patch. Full output is retained in a80-shared-council-passage-proof.json under currentMainRenewal. Exact-head CTO review remains required.
