@@ -1,3 +1,21 @@
+## October 1, budget option-selection transfer closed
+
+Team 1 owns only the budget-family option-selection hunk in `governingNpcDecisionHandler` in `src/simulation/governing/state-governing.ts`. Team 2 explicitly released it at 5bf0c950d19aab23fd4f8d8aec2aab6da7deb457, reporting no unpublished bytes and a blob matching main. All other governing families and executive paths remain protected.
+
+Audit identifies the existing saved-priority and matching-advice contract. A missing preference is not a hold-flat choice. Keep missing-choice matters pending unless the owner approves a default. This transfer grants no new score, weight, authority or payment. Team 1 retains its separately published request/recorded-choice bridge in #1536.
+
+## October 1, 7:30 a.m. A111 campaign support transfer closed
+
+Audit owns only the four campaign-support hunks in `src/simulation/campaigns.ts`: opening support, action support effect, latest saved-support reading and election-night support. Team 7 explicitly confirmed no unpublished overlap in 00d; its county and held caller branches exclude these functions. Coordinator delivered this exact release to Audit.
+
+Preserve unrelated campaign, composition and county work, including the two unrelated additions Audit identified. This is an ownership transfer only. Numerical and semantic changes still require CTO review; it grants no invented turnout, counts, confidence, tie rule or new money level.
+
+## October 1, 7:19 a.m. A58 refresh caller transfer closed
+
+Team 4 owns only the `refreshLocalEconomy` import and call inside `refreshLifeOpportunities` in `src/simulation/life-opportunities.ts`. Team 3 explicitly reported no unpublished overlap at its preserved 916dcab source. Team 7 confirmed its shared file diff is empty, county candidate excludes the file and held caller PR 1510 changes only other named files. Both released these exact hunks in 00d. Coordinator delivered the closed transfer to Team 4.
+
+Preserve salary initialization, monthly scheduling and every other lifecycle/clock hunk. This release does not authorize deleting the entire old economy module or inventing business revenue. Team 4 retains its measured five-failure baseline and must run the same saved-job, pay-term and reload checks after the narrow removal.
+
 ## October 1, 7:12 a.m. approved writer transfers
 
 CTO rulings in 00d at 6:23 and 6:49 authorize these narrow surfaces. This supersedes older overlapping claims; it does not establish implementation or runtime completion.
