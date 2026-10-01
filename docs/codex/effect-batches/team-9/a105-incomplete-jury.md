@@ -8,7 +8,7 @@ MERGED: None of this candidate.
 
 WHAT EMERGED: HARDWIRED — the existing twelve-person panel target is now explicitly labeled UNRESEARCHED in `court-reasoning.ts:251`. The incomplete-panel guard in `prosecution.ts:579` stops before any juror decision. No new person, verdict, legal grade, panel-size value, or recovery interval is invented.
 
-VITAL STATISTICS: Five seed-selected venues passed five controlled selector-boundary cases in 108.16 seconds. This does not establish nationwide jury recruitment or complete A105 legal coverage.
+VITAL STATISTICS: The renewed small-world file passed five seed-selected venues in 24.32 seconds (case execution 1.35 seconds), retaining every original thirty-second limit. The prior 108.16-second opening-world receipt remains preserved. Neither establishes nationwide jury recruitment or complete A105 legal coverage.
 
 ## 1. Why-chain
 
@@ -39,6 +39,8 @@ SIMULATED: complete panels retain the existing jurors' own decisions. RECORDS: t
 The test restricts the real selected panel at the existing selector boundary. It does not manufacture people, residence, eligibility or a verdict. It is controlled boundary proof, not evidence that the natural eligibility producer independently yielded seven people.
 
 ## 6. Proof run
+
+Crime & Courts slice trial step renewal: current main e1a70959633d49e7c7a3d10bb1f5b361346de4cc was received conflict-free while preserving the existing A103/A105 stack. At b8f62c377511328a6ef11f15fed2a45b882d1540, the complete changed file passed 5/5 using the approved smallWorld builder, forty generated residents per place, the existing court catalog and seatJudge writer. Vanessa Vargas is the actual generated defendant. Each case saves its actual court, judge and referral IDs. The selector remains deliberately restricted at its existing boundary; no natural recruitment producer is claimed. Node world.ts loading passed, macro-economy collected 29 cases with zero executed, four strict roots covered 1,004 files with zero diagnostics, and lint/format checks passed. Raw renewed evidence is in a105-small-world-proof. This bounded guard is ready for source review; the slice is not DONE and CTO browser play is NOT RUN.
 
 The seed `team9-a100-saved-court-finder-20261001` selects North Dakota, Massachusetts, Hawaii, Iowa and California. Each case uses an actual saved defendant and court venue. It advances the actual referral to charging, saves a not-guilty plea and reaches its original trial date. The selector supplies seven of the real eligible jurors, then zero, and finally the original complete panel. All assertions and thirty-second case limits remain.
 
