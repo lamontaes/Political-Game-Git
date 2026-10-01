@@ -1,3 +1,5 @@
+import { loadedPolicyRegistry } from "./policy-pack-registry";
+import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
 import { expect, it } from "vitest";
 import { createLawConsequenceRegistry } from "./law-consequence-registry";
 import { validateLawConsequences } from "./law-consequence-validation";
@@ -61,5 +63,25 @@ it("admits the reviewed tax handler only with its declared selector and action",
   );
   expect(registry.capabilities.selectorsByKind?.get("tax")?.has("work")).toBe(
     false,
+  );
+});
+
+it("loads each wage law into the one admitted payroll handler without changing its terms", () => {
+  const registry = createLawConsequenceRegistry();
+  const handler = registry.handlers.get("pay");
+  expect(handler?.owner).toBe("Team3");
+  const catalog = loadedPolicyRegistry();
+  for (const [questionKey, row] of Object.entries(MINIMUM_WAGE_PAY_ROWS)) {
+    const question = catalog.propositions.find(
+      (p) => p.stableKey === questionKey,
+    );
+    expect(question, questionKey).toBeDefined();
+    expect(question!.consequences?.filter((r) => r.id === row.id)).toEqual([
+      row,
+    ]);
+    expect(validateLawConsequences([row], registry.capabilities)).toEqual([]);
+  }
+  expect(registry.capabilities.actions.get("pay")).toEqual(
+    new Set(["raise-hourly-floor"]),
   );
 });
