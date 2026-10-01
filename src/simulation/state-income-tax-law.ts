@@ -200,7 +200,8 @@ function scheduleReferences(
   shape: TaxShape,
 ): readonly ScheduleReference[] {
   const income = HOUSEHOLD_INCOMES[stateKey];
-  const region = censusRegionOf(stateKey.slice(3));
+  const region =
+    income === undefined ? null : censusRegionOf(stateKey.slice(3));
   const compare = (
     a: Omit<ScheduleReference, "rank" | "weight">,
     b: Omit<ScheduleReference, "rank" | "weight">,

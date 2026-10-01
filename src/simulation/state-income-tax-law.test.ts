@@ -19,7 +19,7 @@ import type {
  * ends the withholding, an adoption starts it at the average of states with
  * that kind of tax, and a change of shape moves a tax between flat and
  * graduated. Read over hand-written laws: the World around them is partial,
- * because the rule reads nothing but the seed, the catalog and the laws.
+ * because the rule reads only the catalog and laws, plus sourced place facts.
  * `state-tax-laws-paycheck.test.ts` carries a rule's answer through a real
  * paycheck.
  */
@@ -199,6 +199,13 @@ describe("a state's income tax law, as enacted in play", () => {
     expect(rate).toBeGreaterThan(330);
     expect(rate).toBeLessThan(420);
     expect(read.estimatedFromAverage).toContain("15 states");
+    // Independent packet calculation: Georgia, North Carolina, Kentucky,
+    // Louisiana and Mississippi rank first; reciprocal weights give 4.16%
+    // and $10,773 annual deduction after rounding. Percent → bp; dollars → cents.
+    expect(read.schedule.brackets).toEqual([
+      { overMinor: 0, rateBasisPoints: 416 },
+    ]);
+    expect(read.schedule.standardDeductionMinor).toBe(1_077_300);
   });
 
   it("reshapes a flat state's tax and keeps its own deduction", () => {
@@ -266,5 +273,16 @@ describe("a state's income tax law, as enacted in play", () => {
     expect(joint.estimatedFromAverage).toContain("A joint return doubles");
     expect(head.schedule).toEqual(single.schedule);
     expect(head.estimatedFromAverage).toContain("head of household");
+  });
+  it("does not invent a territory schedule where the source packet has none", () => {
+    const adopt = enacted(stateId("US-AS"), ADOPT, "yes", "2027-01-01");
+    expect(
+      stateIncomeTaxUnderLaw(
+        lawWorld("territory", [adopt]),
+        "US-AS",
+        "single",
+        paid,
+      ),
+    ).toEqual({ kind: "as-begun" });
   });
 });
