@@ -1,3 +1,4 @@
+import type { RuleChangeApplicability } from "./enacted-rule-changes";
 import type { LawInForce } from "./governing/law-in-force";
 import type {
   EntityId,
@@ -126,7 +127,7 @@ export interface ResolvedSavedHourlyPayConsequence extends Omit<
     stateUsps: string;
     field: "labor.minimumWage.hourlyCents";
     operativeAt: IsoDate;
-    applicability: import("./enacted-rule-changes").RuleChangeApplicability;
+    applicability: RuleChangeApplicability;
   };
 }
 
