@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { applyLegislativeStep } from "../presentation/legislation-session";
-import { daysBetween, simulationMinutesBetween } from "./dates";
+import { addDays, daysBetween, simulationMinutesBetween } from "./dates";
 import { createScenarioWorld } from "./demo";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { advanceWorld } from "./world";
@@ -674,4 +674,143 @@ it("A38 actual completed-shift payday delegates immutable earnings through the c
       (row) => row.stableKey === outcome.stableKey,
     ),
   ).toHaveLength(1);
+});
+
+function savedWeeklyRuleFixture() {
+  const o = opened("3137000");
+  const law = enact(
+    o.world,
+    legislativeBlueprint("nebraska").pack,
+    stateJurisdictionForKey("US-NE")!.id,
+    STATE_MINIMUM_WAGE_QUESTION_KEY,
+    1800,
+    "yes",
+    "NE",
+  );
+  const f = worker(law.world, o.place.context.jurisdiction.id, false, true);
+  const clause = f.world.history.ruleChangeProvisions!.find(
+    (row) => row.measureId === law.measureId,
+  )!;
+  const enactment = f.world.history.legislativeEnactments!.find(
+    (row) => row.measureId === law.measureId && row.outcome === "enacted",
+  )!;
+  return { law, f, clause, enactment };
+}
+
+it("A38 default pay dispatch applies a saved hourly rule to ordinary weekly terms", () => {
+  const { law, f, clause, enactment } = savedWeeklyRuleFixture();
+  const before = serializeWorld(f.world);
+  const context = {
+    onDate: f.flow.startsAt,
+    activity: "payroll" as const,
+    activityId: f.flow.id,
+    subjectIds: [f.personId],
+  };
+  const revised = applyLawConsequences(f.world, context);
+  const terms = resourceFlowTermsAt(revised, f.flow.id)!;
+  expect(terms.amount).toEqual(money(72000, "USD"));
+  expect(terms.cadenceKind).toBe("schedule:weekly");
+  expect(terms.effectiveAt).toBe(f.flow.startsAt);
+  expect(terms.lawEffectStamps).toEqual([
+    expect.objectContaining({
+      effectKind: "pay",
+      questionKey: null,
+      governingLawKey: law.measureId,
+      ruleAuthority: {
+        ruleChangeProvisionId: clause.id,
+        enactmentId: enactment.id,
+        field: "labor.minimumWage.hourlyCents",
+      },
+      sourceRecordIds: expect.arrayContaining([
+        clause.id,
+        enactment.id,
+        f.flow.id,
+      ]),
+    }),
+  ]);
+  expect(revised.history.resourceTransferOutcomes).toEqual(
+    f.world.history.resourceTransferOutcomes,
+  );
+  expect(revised.history.resourcePositions).toEqual(
+    f.world.history.resourcePositions,
+  );
+  expect(revised.history.earnedLawPayAssessments).toEqual(
+    f.world.history.earnedLawPayAssessments,
+  );
+  expect(serializeWorld(f.world)).toBe(before);
+  expect(serializeWorld(applyLawConsequences(revised, context))).toBe(
+    serializeWorld(revised),
+  );
+  const reopened = deserializeWorld(serializeWorld(revised));
+  expect(serializeWorld(applyLawConsequences(reopened, context))).toBe(
+    serializeWorld(revised),
+  );
+});
+
+it("A38 ordinary weekly payment preserves actual saved-rule authority and withholding", () => {
+  const { law, f, clause, enactment } = savedWeeklyRuleFixture();
+  const due = advanceWorld(
+    f.world,
+    7,
+    createFutureTransitionHandlerRegistry([]),
+  );
+  const period = {
+    stableKey: `fixture:ordinary-saved-hourly:${f.flow.id}:${f.flow.startsAt}`,
+    payFlowId: f.flow.id,
+    activityId: f.flow.id,
+    periodStartsAt: f.flow.startsAt,
+    periodEndsAt: addDays(f.flow.startsAt, 6),
+    onDate: addDays(f.flow.startsAt, 7),
+  };
+  const paid = settleTownCompensations(due, [period]);
+  const stubs = recordedPayStubs(paid, f.personId).filter(
+    (row) => row.paycheck.resourceFlowId === f.flow.id,
+  );
+  expect(stubs).toHaveLength(1);
+  const stub = stubs[0]!;
+  expect(stub.paidGross).toEqual(money(72000, "USD"));
+  expect(stub.withheld.minorUnits).toBeGreaterThan(0);
+  expect(stub.netPaid.minorUnits).toBe(72000 - stub.withheld.minorUnits);
+  expect(stub.assessmentStatus).toBe("recorded");
+  expect(stub.paycheck.lawEffectStamps).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        effectKind: "pay",
+        questionKey: null,
+        governingLawKey: law.measureId,
+        ruleAuthority: {
+          ruleChangeProvisionId: clause.id,
+          enactmentId: enactment.id,
+          field: "labor.minimumWage.hourlyCents",
+        },
+        sourceRecordIds: expect.arrayContaining([
+          clause.id,
+          enactment.id,
+          f.flow.id,
+          stub.paycheck.id,
+        ]),
+      }),
+    ]),
+  );
+  expect(
+    resourcePositionAt(
+      paid,
+      { kind: "organization", organizationId: f.organizationId },
+      money(1, "USD").currency,
+    )!.liquidBalance,
+  ).toEqual(money(928000, "USD"));
+  expect(settleTownCompensations(paid, [period])).toBe(paid);
+  const reopened = deserializeWorld(serializeWorld(paid));
+  expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
+  expect(settleTownCompensations(reopened, [period])).toBe(reopened);
+  console.info("ORDINARY_SAVED_RULE_PAY", {
+    person: personName(paid.people[f.personId]!),
+    personId: f.personId,
+    flowId: f.flow.id,
+    clauseId: clause.id,
+    enactmentId: enactment.id,
+    grossMinor: stub.paidGross.minorUnits,
+    withheldMinor: stub.withheld.minorUnits,
+    netMinor: stub.netPaid.minorUnits,
+  });
 });
