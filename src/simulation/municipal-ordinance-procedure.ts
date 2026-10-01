@@ -30,6 +30,7 @@ import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { recordDurableDecisionTrace } from "./decisions";
+import { recordEventKnowledge } from "./records";
 import { ensureOfficeholderPrinciples } from "./governing/officeholder-principles";
 import {
   evaluateGovernorBill,
@@ -975,17 +976,49 @@ export function actOnCouncilMeasure(
       : addDays(presented.occurredAt, actionWindow.daysToAct);
   if (world.currentDate > lastDay)
     return refuse(world, `The time to act ended on ${lastDay}.`);
+  // This controlled request reads the actual delivered act. The clerk's
+  // presentment event does not itself name the executive as a participant.
+  const executivePersonId = world.control.personId;
+  const prepared = world.history.knowledge.some(
+    (knowledge) =>
+      knowledge.personId === executivePersonId &&
+      knowledge.eventId === presented.eventId &&
+      knowledge.learnedAt <= world.currentDate,
+  )
+    ? world
+    : recordEventKnowledge(world, {
+        stableKey: `${measure.stableKey}:executive-desk:read:${world.control.personId}`,
+        personId: world.control.personId,
+        eventId: presented.eventId,
+        learnedAt: world.currentDate,
+        believedSummary: `${measure.designation} was presented to the executive for action.`,
+        accuracy: "accurate",
+        confidence: "high",
+        source: {
+          kind: "public-record",
+          reference: `Council executive desk: ${presented.eventId}`,
+        },
+      });
   const optionKey = input.decision === "sign" ? BILL_SIGN : BILL_RETURN;
-  const evaluation = evaluateGovernorBill(world, {
+  const evaluation = evaluateGovernorBill(prepared, {
     stableKey: `${measure.stableKey}:executive-desk`,
     governorId: world.control.personId,
     executiveTitle: legislativeRulePackForWorld(world, measure.rulePackId)
       .executive.titleLabel,
     measure,
     staff: null,
-    playerChoice: { optionKey, matterEventId: presented.eventId },
+    playerChoice: {
+      optionKey,
+      matterEventId: presented.eventId,
+      matterKnowledgeId: prepared.history.knowledge.find(
+        (knowledge) =>
+          knowledge.personId === executivePersonId &&
+          knowledge.eventId === presented.eventId &&
+          knowledge.learnedAt <= world.currentDate,
+      )!.id,
+    },
   });
-  const traced = recordDurableDecisionTrace(world, evaluation);
+  const traced = recordDurableDecisionTrace(prepared, evaluation);
   if (
     evaluation.outcomeKind !== "selected" ||
     evaluation.selectedOptionKey !== optionKey

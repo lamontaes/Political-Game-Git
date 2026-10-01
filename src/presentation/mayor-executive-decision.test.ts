@@ -313,6 +313,16 @@ describe("municipal executives use the shared bill evaluator", () => {
         reasons: "Actual player written disapproval.",
       });
       if (!acted.ok) throw new Error(acted.reason);
+      const presented = measureActions(controlled, measureId).find(
+        (action) => action.kind === "presented-to-executive",
+      )!;
+      expect(
+        acted.world.history.knowledge.filter(
+          (knowledge) =>
+            knowledge.personId === mayor &&
+            knowledge.eventId === presented.eventId,
+        ),
+      ).toHaveLength(1);
       expect(acted.world.history.executiveDispositions!.at(-1)!.action).toBe(
         decision === "sign" ? "signed" : "vetoed",
       );
