@@ -1,3 +1,4 @@
+import { applyLawConsequences } from "./enacted-law-effects";
 import { eventById } from "./event-index";
 import { recordById, recordsByStringField } from "./history-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
@@ -624,7 +625,17 @@ export function assessTaxBase(
     jurisdictionId: base.jurisdictionId,
     provenance: { kind: "simulated", sourceEntityIds: [assessment.id] },
   });
-  return next;
+  return applyLawConsequences(next, {
+    onDate: assessment.recordedAt,
+    activity: "assessment",
+    activityId: assessment.id,
+    subjectIds: [
+      base.payer.kind === "person"
+        ? base.payer.personId
+        : base.payer.organizationId,
+    ],
+    governingLawId: proposal.measureId,
+  });
 }
 
 export function taxCollectionTransition(
@@ -768,6 +779,19 @@ export function taxCollectionTransition(
       base.jurisdictionId,
       collection.recordedAt,
     );
+  if (resourceOutcomeId && transferred.minorUnits > 0)
+    next = applyLawConsequences(next, {
+      onDate: collection.recordedAt,
+      activity: "payment",
+      activityId: resourceOutcomeId,
+      subjectIds: [
+        base.payer.kind === "person"
+          ? base.payer.personId
+          : base.payer.organizationId,
+        proposal.publicOrganizationId,
+      ],
+      governingLawId: proposal.measureId,
+    });
   return collectionResult(next, collection);
 }
 

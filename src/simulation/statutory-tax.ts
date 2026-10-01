@@ -18,6 +18,7 @@
  *
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
+import { applyLawConsequences } from "./enacted-law-effects";
 import { createStableId } from "./ids";
 import { appendedList, recordById } from "./history-index";
 import {
@@ -124,7 +125,16 @@ export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
       ? pendingRows.statutoryTaxLiabilities.slice(-drafts.length)
       : next.history.statutoryTaxLiabilities!.slice(-drafts.length)
     : [];
-  return withhold(next, flow.recipient.personId, outcome, recorded);
+  const paymentStart = next.history.statutoryTaxPayments?.length ?? 0;
+  const paid = withhold(next, flow.recipient.personId, outcome, recorded);
+  // A bulk payday saves both held tax lists before exposing their activities.
+  return pendingRows
+    ? paid
+    : applySavedTaxActivities(
+        paid,
+        recorded,
+        (paid.history.statutoryTaxPayments ?? []).slice(paymentStart),
+      );
 }
 
 /**
@@ -180,7 +190,58 @@ export function assessPaychecksTaxes(
   if (history === next.history) return next;
   const result = { ...next, history };
   assertWorldIntegrity(result);
-  return result;
+  return applySavedTaxActivities(
+    result,
+    held.statutoryTaxLiabilities,
+    held.statutoryTaxPayments,
+  );
+}
+
+/** Hooks consume committed rows; withholding and its tax allocation stay ordered. */
+function applySavedTaxActivities(
+  world: World,
+  liabilities: readonly StatutoryTaxLiabilityRecord[],
+  payments: readonly StatutoryTaxPaymentRecord[],
+): World {
+  let next = world;
+  for (const liability of liabilities) {
+    const payer = liability.payer;
+    next = applyLawConsequences(next, {
+      onDate: liability.occurredAt,
+      activity: "assessment",
+      activityId: liability.id,
+      subjectIds: [
+        payer.kind === "person" ? payer.personId : payer.organizationId,
+      ],
+    });
+  }
+  const seen = new Set<EntityId>();
+  for (const payment of payments) {
+    if (seen.has(payment.resourceOutcomeId)) continue;
+    seen.add(payment.resourceOutcomeId);
+    const transfer = recordById(
+      next.history.resourceTransferOutcomes,
+      payment.resourceOutcomeId,
+    );
+    if (!transfer || transfer.transferredAmount.minorUnits <= 0) continue;
+    const flow = recordById(
+      next.history.resourceFlows,
+      transfer.resourceFlowId,
+    );
+    if (
+      !flow ||
+      flow.source.kind !== "person" ||
+      flow.recipient.kind !== "organization"
+    )
+      continue;
+    next = applyLawConsequences(next, {
+      onDate: transfer.occurredAt,
+      activity: "payment",
+      activityId: transfer.id,
+      subjectIds: [flow.source.personId, flow.recipient.organizationId],
+    });
+  }
+  return next;
 }
 
 interface PendingTaxRows {
