@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "../dates";
+import { recordWorldEvent } from "../world";
+import { playerRequiredWorkIds, releasePlayerRequiredWork } from "../time-work";
+import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
+import {
+  governorOfficeForJurisdiction,
+  governingMatters,
+  decideGoverningMatter,
+} from "./state-governing";
+import { BILL_SIGN } from "./governor-bill-decision";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import {
   availableMeasureSteps,
@@ -20,7 +29,10 @@ import {
   TRANSIT_VARIANT_KEY,
 } from "../legislation-transit-families";
 import { resolveTransitFunding } from "../transit-funding";
-import { openAppropriationsFor } from "./program-governing";
+import {
+  appropriationFromEnactedMeasure,
+  openAppropriationsFor,
+} from "./program-governing";
 import type { EntityId, World } from "../types";
 import { fileDraft } from "../../presentation/legislation-docket";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
@@ -32,6 +44,107 @@ const jurisdictionId = (() => {
   if (!id) throw new Error("The Nebraska legislature was not opened.");
   return id;
 })();
+
+/** Record the fixture's control change without rewriting pending work. */
+function controlForFixture(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "Controlled downstream fixture moves play to the actual actor for its next recorded action.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
+}
+
+/** A controlled actual-office signature for downstream law-effect fixtures. */
+function signAtActualGovernorDesk(
+  scenario: ReturnType<typeof createLegislativeScenario>,
+  start: World,
+  measureId: EntityId,
+): World {
+  let world = ensureStateExecutiveIncumbent(
+    start,
+    scenario.playerPersonId,
+    scenario.pack.jurisdictionKey.slice(3),
+  );
+  const office = governorOfficeForJurisdiction(
+    world,
+    scenario.pack.jurisdictionKey,
+  );
+  expect(
+    office,
+    "A recorded governor is required for this controlled signature.",
+  ).not.toBeNull();
+  world = controlForFixture(
+    world,
+    office!.holderPersonId,
+    `a80:governor-control:${measureId}`,
+  );
+  world = applyLegislativeStep(
+    { ...scenario, measureId },
+    world,
+    "await-executive-decision",
+  ).world;
+  const matter = governingMatters(world, office!.officeKey).find(
+    (row) => row.measureId === measureId && row.status === "open",
+  );
+  expect(
+    matter,
+    "The actual bill must reach its recorded governor's desk.",
+  ).toBeDefined();
+  const decision = decideGoverningMatter(world, matter!.id, BILL_SIGN);
+  expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
+  const next = decision.world;
+  expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
+  const recorded = next.history.events.find(
+    (event) =>
+      event.tags.includes(`matter:${matter!.id}`) &&
+      event.tags.includes(`choice:${BILL_SIGN}`),
+  );
+  expect(
+    recorded?.participants.some(
+      (participant) =>
+        participant.personId === office!.holderPersonId &&
+        participant.role === "agency:decider",
+    ),
+  ).toBe(true);
+  return next;
+}
 
 function enact(
   startingWorld: World,
@@ -45,7 +158,12 @@ function enact(
   readonly measureId: EntityId;
   readonly docketKey: string;
 } {
-  const filed = fileDraft(startingWorld, {
+  const controlledStart = controlForFixture(
+    startingWorld,
+    scenario.playerPersonId,
+    `a80:program-filing:${startingWorld.history.nextSequence}`,
+  );
+  const filed = fileDraft(controlledStart, {
     scenarioKey: "nebraska",
     playerPersonId: scenario.playerPersonId,
     jurisdictionId,
@@ -62,6 +180,13 @@ function enact(
       (key) => key !== "offer-amendment",
     );
     if (!step) break;
+    if (step === "await-executive-decision") {
+      world = publishLegislativeTransition(
+        world,
+        signAtActualGovernorDesk(scenario, world, measureId),
+      );
+      continue;
+    }
     if (step === "record-enactment") {
       world = publishLegislativeTransition(
         world,
@@ -201,7 +326,7 @@ describe("one program identity per named spending target", () => {
     expect(serializeWorld(replayed)).toBe(serializeWorld(supplemental.world));
   });
 
-  it("does not assign a docket bill's aggregate ceiling to an unnamed program", () => {
+  it("funds an unambiguous enacted bridge target once and refuses unread or invalid target authority", () => {
     const authorized = enact(scenario.world, {
       familyKey: "bridge-maintenance",
       variantKey: "worst-first-condition",
@@ -211,10 +336,61 @@ describe("one program identity per named spending target", () => {
       variantKey: "single-programme",
       authorityKey: `docket:${authorized.docketKey}`,
     });
+    const records = appropriations(funded.world).filter(
+      (record) => record.sourceMeasureId === funded.measureId,
+    );
+    expect(records).toHaveLength(1);
+    expect(records[0]).toMatchObject({
+      programKey: "bridge-maintenance:ne",
+      sourceMeasureId: funded.measureId,
+      amount: { minorUnits: 1_200_000_000, currency: "USD" },
+    });
+    const continued = deserializeWorld(serializeWorld(funded.world));
     expect(
-      appropriations(funded.world).filter(
-        (record) => record.sourceMeasureId === funded.measureId,
+      serializeWorld(
+        appropriationFromEnactedMeasure(continued, funded.measureId),
       ),
-    ).toEqual([]);
+    ).toBe(serializeWorld(continued));
+    // A negative saved-history fixture cannot supply an absent authorization.
+    // Preserve the real saved measures and final sections; only the exact
+    // target's enactment evidence is unread in this older-history projection.
+    const unbound: World = {
+      ...continued,
+      history: {
+        ...continued.history,
+        publicProgramRecords: continued.history.publicProgramRecords?.filter(
+          (record) =>
+            record.kind !== "appropriation" ||
+            record.sourceMeasureId !== funded.measureId,
+        ),
+      },
+    };
+    const absent: World = {
+      ...unbound,
+      history: {
+        ...unbound.history,
+        legislativeEnactments: unbound.history.legislativeEnactments?.filter(
+          (record) => record.measureId !== authorized.measureId,
+        ),
+      },
+    };
+    expect(appropriationFromEnactedMeasure(absent, funded.measureId)).toBe(
+      absent,
+    );
+    const noFinalCeiling: World = {
+      ...unbound,
+      history: {
+        ...unbound.history,
+        legislativeProvisions: unbound.history.legislativeProvisions?.map(
+          (record) =>
+            record.measureId === authorized.measureId
+              ? { ...record, fiscalExposureMinorUnits: null }
+              : record,
+        ),
+      },
+    };
+    expect(
+      appropriationFromEnactedMeasure(noFinalCeiling, funded.measureId),
+    ).toBe(noFinalCeiling);
   });
 });
