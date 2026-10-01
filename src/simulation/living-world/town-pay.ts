@@ -50,6 +50,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import {
   enactedRuleChanges,
   enactedRuleChangeAt,
+  laborLawOfficeKey,
   officePayLawOfficeKey,
   type EnactedRuleChange,
 } from "../enacted-rule-changes";
@@ -70,7 +71,9 @@ import {
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
+  stateKeyForJurisdiction,
 } from "../life-places";
+import { payWorkplaceAt } from "../pay-coverage-predicates";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   federalMinimumSchedule,
@@ -865,8 +868,9 @@ export function applyLawPayConsequence(
   };
   if (!resolved.rowId.trim() || !resolved.activityId.trim())
     refuse("pay.row-and-activity-identity");
+  const hourly = resolved.action !== "set-annual-office-salary";
   if (
-    (resolved.action === "raise-hourly-floor"
+    (hourly
       ? resolved.amount.unit !== "minor/hour"
       : resolved.amount.unit !== "minor") ||
     resolved.amount.currency !== "USD"
@@ -981,6 +985,69 @@ export function applyLawPayConsequence(
       operativeAt: change!.operativeAt,
     };
   }
+  if (resolved.action === "raise-saved-rule-hourly-floor") {
+    const authority = resolved.authority;
+    const workplace = payWorkplaceAt(world, work!.id, cutoff);
+    const jurisdiction = workplace.jurisdictionId
+      ? world.jurisdictions[workplace.jurisdictionId]
+      : null;
+    const stateKey = jurisdiction
+      ? stateKeyForJurisdiction(jurisdiction)
+      : null;
+    const clause = recordById(
+      world.history.ruleChangeProvisions ?? [],
+      authority.ruleChangeProvisionId,
+    );
+    const enactment = recordById(
+      world.history.legislativeEnactments ?? [],
+      authority.enactmentId,
+    );
+    const change = enactedRuleChangeAt(world, {
+      stateUsps: authority.stateUsps,
+      officeKey: authority.officeKey,
+      field: authority.field,
+      onDate: effectiveAt,
+    });
+    if (
+      authority.kind !== "enacted-hourly-pay-rule" ||
+      stateKey !== `US-${authority.stateUsps}` ||
+      authority.officeKey !== laborLawOfficeKey(authority.stateUsps) ||
+      authority.field !== "labor.minimumWage.hourlyCents" ||
+      stateJurisdictionForKey(stateKey!)?.id !== resolved.jurisdictionId ||
+      (resolved.activityId !== work!.id && resolved.activityId !== flow!.id) ||
+      !clause ||
+      resolved.rowId !== `pay:hourly-rule:${clause.id}` ||
+      clause.measureId !== authority.measureId ||
+      clause.stateUsps !== authority.stateUsps ||
+      clause.officeKey !== authority.officeKey ||
+      clause.field !== authority.field ||
+      clause.filedAt > effectiveAt ||
+      !enactment ||
+      enactment.outcome !== "enacted" ||
+      enactment.measureId !== clause.measureId ||
+      enactment.resolvedAt > effectiveAt ||
+      clause.sequence >= enactment.sequence ||
+      !change ||
+      change.instrument !== "statute" ||
+      change.measureId !== clause.measureId ||
+      change.operativeAt !== authority.operativeAt ||
+      change.value !== clause.value ||
+      change.value !== resolved.amount.value ||
+      change.applicability.appliesTo !== authority.applicability.appliesTo ||
+      change.applicability.countsPriorService !==
+        authority.applicability.countsPriorService ||
+      (change.applicability.appliesTo === "terms-beginning-after" &&
+        work!.startedAt < change.operativeAt) ||
+      !resolved.sourceRecordIds.includes(clause.id) ||
+      !resolved.sourceRecordIds.includes(enactment.id)
+    )
+      refuse("pay.hourly-rule.actual-operative-binding");
+    governing = {
+      measureId: change!.measureId,
+      origin: "enacted",
+      operativeAt: change!.operativeAt,
+    };
+  }
   if (!governing) refuse("pay.law.operative");
   const current = resourceFlowTermsAt(world, flow!.id);
   if (!current || current.status !== "active") refuse("pay.flow.active-terms");
@@ -990,20 +1057,16 @@ export function applyLawPayConsequence(
   const jobWeekly = current!.cadenceKind === "schedule:weekly";
   if (!note && !jobWeekly) refuse("pay.cadence.recorded-pay-period");
   const weeklyHours = weeklyHoursOf(role!);
-  if (
-    resolved.action === "raise-hourly-floor" &&
-    (!Number.isFinite(weeklyHours) || weeklyHours <= 0)
-  )
+  if (hourly && (!Number.isFinite(weeklyHours) || weeklyHours <= 0))
     refuse("pay.job.positive-recorded-hours");
   const amount = Math.round(
-    (resolved.amount.value *
-      (resolved.action === "raise-hourly-floor" ? weeklyHours * 52 : 1)) /
+    (resolved.amount.value * (hourly ? weeklyHours * 52 : 1)) /
       (jobWeekly ? 52 : PERIODS_PER_YEAR[note!.period]),
   );
   if (!Number.isSafeInteger(amount)) refuse("pay.period.amount-safe-integer");
   // A floor cannot cut an existing contractual wage, including after repeal.
   if (
-    resolved.action === "raise-hourly-floor"
+    hourly
       ? amount <= current!.amount.minorUnits
       : amount === current!.amount.minorUnits
   )
@@ -1069,7 +1132,7 @@ export function applyLawPayConsequence(
     effectKind: "pay",
     questionKey:
       resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
-    ...(resolved.action === "set-annual-office-salary"
+    ...(resolved.action !== "raise-hourly-floor"
       ? {
           ruleAuthority: {
             ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
@@ -1090,10 +1153,9 @@ export function applyLawPayConsequence(
     status: "active",
     amount: money(amount, current!.amount.currency),
     cadenceKind: current!.cadenceKind,
-    reason:
-      resolved.action === "raise-hourly-floor"
-        ? `The operative law's pay floor applies through ${resolved.rowId}.`
-        : `The operative office salary rule applies through ${resolved.rowId}.`,
+    reason: hourly
+      ? `The operative law's pay floor applies through ${resolved.rowId}.`
+      : `The operative office salary rule applies through ${resolved.rowId}.`,
     provenance: enactment
       ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
       : {
