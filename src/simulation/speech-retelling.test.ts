@@ -45,7 +45,7 @@ function fixture() {
   ];
   const event = (
     stableKey: string,
-    type: string,
+    type: `${string}.${string}`,
     tags: readonly string[],
     involvedEntityIds: readonly EntityId[],
   ) => {
