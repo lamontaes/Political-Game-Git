@@ -104,10 +104,13 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
       ),
     ).toBe(true);
 
-    // Open seats draw contested primaries: some party has two or more.
+    // Open seats draw contested primaries: some party has two or more in its
+    // own primary.
+    const partyPrimary = (event: HistoricalEvent) =>
+      event.tags.includes("method:party-primary");
     const contested = [...primaries.values()].filter((event) => {
       const byParty = new Map<string, number>();
-      if (event.tags.some((row) => row.startsWith("method:top-"))) return false;
+      if (!partyPrimary(event)) return false;
       for (const row of event.participants) {
         const party = (row.detail ?? "").split("|")[0]!;
         byParty.set(party, (byParty.get(party) ?? 0) + 1);
@@ -115,7 +118,7 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
       return [...byParty.values()].some((count) => count >= 2);
     });
     expect(contested.length).toBeGreaterThan(0);
-    // Shares within a party's primary add up to about 1,000 per mille.
+    // Shares within a party's own primary add up to about 1,000 per mille.
     for (const event of contested) {
       const shares = new Map<string, number>();
       for (const row of event.participants) {
@@ -124,6 +127,19 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
       }
       for (const total of shares.values())
         expect(Math.abs(total - 1000)).toBeLessThanOrEqual(2);
+    }
+    // A primary every party shares (top two or four, Nebraska's nonpartisan
+    // legislature) splits one 1,000 among all of its candidates.
+    const shared = [...primaries.values()].filter(
+      (event) => !partyPrimary(event) && event.participants.length >= 2,
+    );
+    expect(shared.length).toBeGreaterThan(0);
+    for (const event of shared) {
+      const total = event.participants.reduce(
+        (sum, row) => sum + Number((row.detail ?? "").split("|")[1]),
+        0,
+      );
+      expect(Math.abs(total - 1000), seatOf(event)).toBeLessThanOrEqual(3);
     }
 
     // A runoff is held on its own date, only where the primary left one open.

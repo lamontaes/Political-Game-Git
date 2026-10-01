@@ -4,7 +4,6 @@ import {
   ensurePeopleTraits,
   traitConsiderations,
 } from "../people-traits";
-import { SeededRng } from "../rng";
 import type {
   DecisionConsideration,
   EntityId,
@@ -37,12 +36,17 @@ import type { NominationMethod, NominationPlan } from "./nomination-rules";
  *
  * PLACEHOLDER(build-24-step-1): how primary voters split. Until the
  * incumbent-standing reader (Careers step 3) supplies each candidate's
- * standing with the party's own voters, a candidate's pull is set by hand:
- * a sitting member 1.5, someone the party asked to run 1.25, anyone else 1,
- * each multiplied by a draw from 0.5 to 1.5 for the campaign they run, seeded
- * by the seat, the year and the person. In an all-party primary the pull is
- * also multiplied by the party's share of the district's voters. These are
- * set by hand, not measured.
+ * standing with the party's own voters, a candidate's pull is set by hand
+ * from their recorded standing: a sitting member 1.5, someone the party asked
+ * to run 1.25, anyone else 1. In an all-party primary the pull is also
+ * multiplied by the party's share of the district's voters. These weights
+ * are set by hand, not measured. Nothing is drawn: the same field gives the
+ * same result in every world. A runoff is decided by each finalist's
+ * recorded share of the primary vote.
+ *
+ * An exact tie at the place that decides who goes on is not broken here:
+ * the tied entrants are recorded as tied and nobody takes that place, as the
+ * state's own recount or lot would have to settle it.
  */
 
 export const NOMINATION_VERSION = "party-nominations/v1";
@@ -50,12 +54,10 @@ export const NOMINATION_EVENT = "election.party-nomination";
 export const NOMINATION_RUNOFF_EVENT = "election.nomination-runoff";
 
 export const NOMINATION_PULL = {
-  id: "ocd-primary-pull-placeholder/v1",
+  id: "ocd-primary-pull-placeholder/v2",
   incumbent: 1.5,
   partyBacked: 1.25,
   other: 1,
-  campaignLow: 0.5,
-  campaignHigh: 1.5,
 } as const;
 
 export interface NominationEntrant {
@@ -72,7 +74,13 @@ export interface Nominee {
 }
 
 type Status =
-  "unopposed" | "nominated" | "advanced" | "runoff" | "lost" | "conceded";
+  | "unopposed"
+  | "nominated"
+  | "advanced"
+  | "runoff"
+  | "lost"
+  | "conceded"
+  | "tied";
 
 interface Tally {
   readonly entrant: NominationEntrant;
@@ -108,9 +116,8 @@ function eventByKey(world: World, stableKey: string): HistoricalEvent | null {
   return index.get(stableKey) ?? null;
 }
 
+/** An entrant's pull with the voters, from their recorded standing. */
 function pullOf(
-  world: World,
-  stageKey: string,
   entrant: NominationEntrant,
   partyShare: ((party: string) => number | null) | null,
 ): number {
@@ -119,25 +126,17 @@ function pullOf(
     : entrant.partyBacked
       ? NOMINATION_PULL.partyBacked
       : NOMINATION_PULL.other;
-  const draw = new SeededRng(world.seed)
-    .fork(`${stageKey}:${entrant.personId}`)
-    .next();
-  const campaign =
-    NOMINATION_PULL.campaignLow +
-    draw * (NOMINATION_PULL.campaignHigh - NOMINATION_PULL.campaignLow);
   const share = partyShare ? (partyShare(entrant.party) ?? 0.5) : 1;
-  return base * campaign * Math.max(share, 0.01);
+  return base * Math.max(share, 0.01);
 }
 
 function tally(
-  world: World,
-  stageKey: string,
   entrants: readonly NominationEntrant[],
-  partyShare: ((party: string) => number | null) | null,
+  pull: (entrant: NominationEntrant) => number,
 ): readonly Tally[] {
   const pulls = entrants.map((entrant) => ({
     entrant,
-    pull: pullOf(world, stageKey, entrant, partyShare),
+    pull: pull(entrant),
   }));
   const total = pulls.reduce((sum, row) => sum + row.pull, 0);
   return pulls
@@ -150,6 +149,17 @@ function tally(
         b.permille - a.permille ||
         a.entrant.personId.localeCompare(b.entrant.personId),
     );
+}
+
+/**
+ * The share tied across the line when the first `goOn` finishers go on, or
+ * null when the line falls between different shares. Entrants with that
+ * share neither go on nor lose: the tie is the state's to settle.
+ */
+function tiedAtLine(tallies: readonly Tally[], goOn: number): number | null {
+  const last = tallies[goOn - 1];
+  const next = tallies[goOn];
+  return last && next && last.permille === next.permille ? last.permille : null;
 }
 
 function reachesThreshold(
@@ -276,11 +286,8 @@ export function holdNominationPrimary(
           entrants: input.entrants.filter((entrant) => entrant.party === party),
         }));
   for (const group of groups) {
-    const tallies = tally(
-      next,
-      `${stableKey}:${group.party}`,
-      group.entrants,
-      isAllParty(plan.method) ? input.partyShare : null,
+    const tallies = tally(group.entrants, (entrant) =>
+      pullOf(entrant, isAllParty(plan.method) ? input.partyShare : null),
     );
     if (isAllParty(plan.method)) {
       const majority =
@@ -288,6 +295,7 @@ export function holdNominationPrimary(
         tallies.length > 0 &&
         tallies[0]!.permille > 500;
       const goOn = majority ? 1 : plan.advance;
+      const tied = tiedAtLine(tallies, goOn);
       tallies.forEach((row, index) =>
         rows.push({
           tally: row,
@@ -295,11 +303,13 @@ export function holdNominationPrimary(
           status:
             tallies.length === 1
               ? "unopposed"
-              : index < goOn
-                ? majority
-                  ? "nominated"
-                  : "advanced"
-                : "lost",
+              : tied !== null && row.permille === tied
+                ? "tied"
+                : index < goOn
+                  ? majority
+                    ? "nominated"
+                    : "advanced"
+                  : "lost",
         }),
       );
       continue;
@@ -331,21 +341,25 @@ export function holdNominationPrimary(
       next = asked.world;
       needsRunoff = asked.asks;
     }
+    const tied = tiedAtLine(tallies, needsRunoff ? 2 : 1);
     tallies.forEach((row, index) =>
       rows.push({
         tally: row,
         party: group.party,
-        status: needsRunoff
-          ? index < 2
-            ? "runoff"
-            : "lost"
-          : index === 0
-            ? "nominated"
-            : runoff?.onRequest &&
-                index === 1 &&
-                !reachesThreshold(leader.permille, runoff)
-              ? "conceded"
-              : "lost",
+        status:
+          tied !== null && row.permille === tied
+            ? "tied"
+            : needsRunoff
+              ? index < 2
+                ? "runoff"
+                : "lost"
+              : index === 0
+                ? "nominated"
+                : runoff?.onRequest &&
+                    index === 1 &&
+                    !reachesThreshold(leader.permille, runoff)
+                  ? "conceded"
+                  : "lost",
       }),
     );
     if (needsRunoff) runoffParties.push(group.party);
@@ -401,6 +415,15 @@ function nominationSummary(
   const contested = new Set(
     rows.filter((row) => row.status !== "unopposed").map((row) => row.party),
   );
+  const tied = [
+    ...new Set(
+      rows.filter((row) => row.status === "tied").map((row) => row.party),
+    ),
+  ];
+  if (tied.length)
+    return isAllParty(method)
+      ? `The primary for ${title} ended in a tie for the last place on the ballot, which the state must settle.`
+      : `The ${tied.join(" and ")} primary for ${title} ended in a tie, which the state must settle before anyone is nominated.`;
   if (isAllParty(method))
     return rows.length === 1
       ? `One candidate filed for ${title}, so the primary sent them on alone.`
@@ -425,20 +448,24 @@ export function holdNominationRunoff(
     .filter((tag) => tag.startsWith("runoff-party:"))
     .map((tag) => tag.slice("runoff-party:".length));
   const rows: { personId: EntityId; detail: string }[] = [];
+  let tiedParties: string[] = [];
   for (const party of parties) {
+    // Each finalist's recorded share of the primary vote is their standing
+    // with the party's voters in the runoff.
+    const primaryShare = new Map<EntityId, number>();
     const entrants: NominationEntrant[] = primary.participants.flatMap(
       (participant) => {
-        const [p, , status] = (participant.detail ?? "").split("|");
-        return p === party && status === "runoff"
-          ? [
-              {
-                personId: participant.personId,
-                party,
-                incumbent: false,
-                partyBacked: false,
-              },
-            ]
-          : [];
+        const [p, permille, status] = (participant.detail ?? "").split("|");
+        if (p !== party || status !== "runoff") return [];
+        primaryShare.set(participant.personId, Number(permille));
+        return [
+          {
+            personId: participant.personId,
+            party,
+            incumbent: false,
+            partyBacked: false,
+          },
+        ];
       },
     );
     // A candidate who died before the runoff cannot win it.
@@ -449,16 +476,21 @@ export function holdNominationRunoff(
             death.personId === entrant.personId && death.diedAt <= date,
         ),
     );
-    const tallies = tally(
-      world,
-      `${runoffKey(input.stableKey)}:${party}`,
-      living,
-      null,
+    const tallies = tally(living, (entrant) =>
+      Math.max(primaryShare.get(entrant.personId) ?? 0, 1),
     );
+    const tied = tiedAtLine(tallies, 1);
+    if (tied !== null) tiedParties = [...tiedParties, party];
     tallies.forEach((row, index) =>
       rows.push({
         personId: row.entrant.personId,
-        detail: `${party}|${row.permille}|${index === 0 ? "nominated" : "lost"}`,
+        detail: `${party}|${row.permille}|${
+          tied !== null && row.permille === tied
+            ? "tied"
+            : index === 0
+              ? "nominated"
+              : "lost"
+        }`,
       }),
     );
   }
@@ -484,7 +516,9 @@ export function holdNominationRunoff(
       `seat:${input.seatKey}`,
       `primary:${primary.id}`,
     ],
-    summary: `The ${parties.join(" and ")} runoff for ${input.title} chose a nominee.`,
+    summary: tiedParties.length
+      ? `The ${tiedParties.join(" and ")} runoff for ${input.title} ended in a tie, which the state must settle before anyone is nominated.`
+      : `The ${parties.join(" and ")} runoff for ${input.title} chose a nominee.`,
     context: {
       location: null,
       socialContext: null,
