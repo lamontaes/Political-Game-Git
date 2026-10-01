@@ -11,6 +11,9 @@ import {
   measurePosition,
 } from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
+import type { LawAmountUnit } from "../law-consequence-types";
+import type { LawInForce } from "./law-in-force";
+import { measureAnswersAt } from "../vote-bundle";
 import { recordDraftLineage } from "../legislation-draft-lineage";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
@@ -65,6 +68,88 @@ export interface AutomaticLawCompileContext {
   readonly rulePackId: string;
   readonly scenarioKey: string;
   readonly predicateAuthority: PredicateAuthority;
+}
+
+export interface FinalEnactedLawTerm {
+  readonly value: number;
+  readonly unit: LawAmountUnit;
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+function finalTermProvisions(
+  world: World,
+  measureId: EntityId,
+  throughSequence = Infinity,
+) {
+  const versions = (world.history.legislativeProvisions ?? []).filter(
+    (row) =>
+      row.measureId === measureId &&
+      row.sequence <= throughSequence &&
+      row.recordedAt <= world.currentDate,
+  );
+  const replaced = new Set(
+    versions.flatMap((row) =>
+      row.supersedesProvisionId ? [row.supersedesProvisionId] : [],
+    ),
+  );
+  return versions.filter((row) => !replaced.has(row.id));
+}
+
+/** Reads only the adopted text at enactment, never filing parameters or defaults. */
+export function readFinalEnactedLawTerm(
+  world: World,
+  law: LawInForce,
+  input: {
+    readonly questionKey: string;
+    readonly termKey: string;
+    readonly unit: LawAmountUnit;
+  },
+): FinalEnactedLawTerm | null {
+  if (law.origin !== "enacted" || law.operativeAt > world.currentDate)
+    return null;
+  const enactment = (world.history.legislativeEnactments ?? []).find(
+    (row) =>
+      row.measureId === law.measureId &&
+      row.outcome === "enacted" &&
+      row.resolvedAt <= world.currentDate,
+  );
+  if (
+    !enactment ||
+    !measureAnswersAt(world, law.measureId, enactment.sequence).some(
+      (answer) =>
+        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
+          input.questionKey && answer.answer === law.answer,
+    )
+  )
+    return null;
+  const matches = finalTermProvisions(
+    world,
+    law.measureId,
+    enactment.sequence,
+  ).flatMap((provision) =>
+    provision.applicationScope.segmentKey === null
+      ? (provision.lawTerms ?? [])
+          .filter(
+            (term) =>
+              term.questionKey === input.questionKey &&
+              term.key === input.termKey,
+          )
+          .map((term) => ({ provision, term }))
+      : [],
+  );
+  // Conflicting sections are unsupported, rather than selecting whichever appeared first.
+  if (matches.length !== 1) return null;
+  const { provision, term } = matches[0]!;
+  if (term.unit !== input.unit) return null;
+  return {
+    value: term.value,
+    unit: term.unit,
+    measureId: law.measureId,
+    provisionId: provision.id,
+    sourceRecordIds: [law.measureId, enactment.id, provision.id],
+  };
 }
 
 /** Resolve a bank-declared game profile against a saved public jurisdiction. */
