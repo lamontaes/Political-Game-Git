@@ -135,7 +135,7 @@ function advance(world: World, date: string): World {
     world,
     makeIsoDate(date),
     composeFutureTransitionHandlerRegistries(
-      createFutureTransitionHandlerRegistry(SPEECH_RETELLING_HANDLERS),
+      createFutureTransitionHandlerRegistry(SPEECH_RETELLING_HANDLERS()),
       composeWorldTimeHandlers(),
     ),
   );

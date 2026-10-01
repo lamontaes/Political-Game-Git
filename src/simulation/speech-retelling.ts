@@ -377,6 +377,17 @@ export function speechRetellingHandler(
   };
 }
 
-export const SPEECH_RETELLING_HANDLERS = [
-  [SPEECH_RETELLING_TRANSITION_KEY, speechRetellingHandler],
-] as const;
+type SpeechRetellingHandlerEntries = readonly [
+  readonly [
+    typeof SPEECH_RETELLING_TRANSITION_KEY,
+    typeof speechRetellingHandler,
+  ],
+];
+let speechRetellingEntries: SpeechRetellingHandlerEntries | undefined;
+
+/** Build handler pairs on first use, after imports have initialized. */
+export function SPEECH_RETELLING_HANDLERS(): SpeechRetellingHandlerEntries {
+  return (speechRetellingEntries ??= [
+    [SPEECH_RETELLING_TRANSITION_KEY, speechRetellingHandler],
+  ]);
+}
