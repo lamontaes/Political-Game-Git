@@ -2367,7 +2367,7 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Waiting on a base: deaths per 100,000 people 55 to 64 by state come only from CDC WONDER's web form, whose API refuses state groupings, so the outcome has no starting level."
+      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead."
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -2957,7 +2957,7 @@
       "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
       "to": "labor.low-wage-jobs",
       "range": [-0.16, 0],
-      "notes": "Waiting on a base: the game keeps no count of jobs paying near the minimum by place, and the study's bunching measure needs that count."
+      "notes": "Unsupported: the study's 8% is jobs lost among workers who earned under $15, a group a $15 minimum empties by definition, so a state base of jobs paying under $15 would read zero once the law is in force whatever happened to employment; the outcome needs a count of those workers' jobs, which the game does not keep."
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
@@ -2976,7 +2976,7 @@
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
       "to": "justice.incarcerated-per-100k",
       "range": [-0.012, -0.004],
-      "notes": "Waiting on a base: BJS state imprisonment rates leave out federal prisoners, so there is no per-place federal prisoner level to move."
+      "notes": "Unsupported: the game's prison measure is the BJS state imprisonment rate, which leaves out federal prisoners, and federal counts are kept by the prison's location, not the prisoner's home state, so there is no state level for a cut in federal sentences to move; it needs a national federal-prisoner measure."
     },
     {
       "key": "power-plant-carbon-to-emissions",
