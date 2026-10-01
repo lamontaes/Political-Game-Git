@@ -35,7 +35,7 @@
   "report": "PASS0errors0warnings; self-review under owner no-helper rule",
   "dice": "0 new / 5 stale entries",
   "spelling": "Final execution: 24 inherited findings, zero owned-path findings. Earlier child-git EPERM log retained; final native child-process run completed.",
-  "release": "Pending committed declaration range; intermediate receipt retains undeclared-path failure before declaration commit.",
+  "release": "After declaration commit c3611ddf8bfbc572b7921d4cb7c998fdfd0af4aa, only inherited CI declaration prose fails; exact-main head/base reproduces same failure.",
   "limits": [
     "One controlled Kentucky enactment; jurisdiction observer queries are not actual nationwide enactments",
     "No production changes",
@@ -119,6 +119,18 @@
       "originalPath": "/tmp/team1-final-terms-fixture-spelling-final.log",
       "originalSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
       "publishedSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "release-final.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-release-final.log",
+      "originalSha256": "f333b85b526719e7fe2388adb691b6df537f9eaf721e1b7dbe257222348f8955",
+      "publishedSha256": "f333b85b526719e7fe2388adb691b6df537f9eaf721e1b7dbe257222348f8955",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "release-main.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-release-main.log",
+      "originalSha256": "e0e6b8318b98e382d322d37bb282cebea38b010eb007a1d9f5ee8b8ca2bc9649",
+      "publishedSha256": "e0e6b8318b98e382d322d37bb282cebea38b010eb007a1d9f5ee8b8ca2bc9649",
       "normalization": "Trailing blank lines only in log copies."
     }
   }

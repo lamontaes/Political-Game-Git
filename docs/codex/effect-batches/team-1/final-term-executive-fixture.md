@@ -14,7 +14,7 @@ HARDWIRED: the fixture uses the existing office producer and governing desk. Kee
 
 ## VITAL STATISTICS
 
-Current-main baseline: one setup failure, 61 assertions not run, 20.27 seconds. Repaired fixture: 63 of 63 cases passed in 25.65 seconds. One strict root had zero scoped or imported diagnostics. Scoped lint and formatting passed. The test retains its original assertions, loop bounds and timeout.
+Current-main baseline: one setup failure, 61 assertions not run, 20.27 seconds. Repaired fixture: 63 of 63 cases passed in 25.65 seconds. One strict root had zero scoped or imported diagnostics. Scoped lint and formatting passed. The test retains its original assertions, loop bounds and timeout. Exact-main release checks reproduce the inherited CI declaration prose failure. Dice reports zero new and five stale entries; spelling reports 24 inherited findings and none in owned paths.
 
 ## 1. Why-chain (five whys, to bedrock)
 
