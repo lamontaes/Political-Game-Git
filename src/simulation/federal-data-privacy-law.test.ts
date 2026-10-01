@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { createWorld } from "./world";
 import { makeIsoDate } from "./dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { SeededRng } from "./rng";
 import { isLawEffectStamp } from "./law-effect-stamp";
 import {
   DATA_PRIVACY_COST_RANGE,
@@ -72,8 +71,9 @@ function fixture(answer: "yes" | "no" = "yes") {
 }
 
 describe("federal privacy compliance cost attribution", () => {
-  it("uses stable per-place researched-range sizes and preserves the legacy national draw", () => {
+  it("keeps a read-only cost stable across repeated reads and reloading", () => {
     const { world } = fixture();
+    const before = JSON.stringify(world);
     const places = ["place_one", "place_two", "place_three"] as EntityId[];
     const shares = places.map((place) =>
       drawnDataPrivacyCostShare(world, place),
@@ -88,13 +88,18 @@ describe("federal privacy compliance cost attribution", () => {
         ),
       ).toBe(share);
     }
-    expect(new Set(shares).size).toBe(3);
-    const rng = new SeededRng(world.seed).fork(
-      "federal-data-privacy-law:firm-cost",
-    );
-    expect(drawnDataPrivacyCostShare(world)).toBe(
-      0.001 + 0.005 * ((rng.next() + rng.next()) / 2),
-    );
+    expect(JSON.stringify(world)).toBe(before);
+  });
+  it("does not change a recorded law's compliance cost when only the seed changes", () => {
+    const { world } = fixture();
+    const place = NATIONAL_ELECTION_JURISDICTION.id;
+    const expected = dataPrivacyCostOn(world, world.currentDate, place);
+    for (const seed of ["privacy-comparison-a", "privacy-comparison-b", ""]) {
+      const comparison = { ...world, seed };
+      expect(
+        dataPrivacyCostOn(comparison, comparison.currentDate, place),
+      ).toEqual(expected);
+    }
   });
   it("stamps the controlling federal law at the consequence's application place", () => {
     const { world, measure } = fixture();
