@@ -352,8 +352,23 @@
       ]
     },
     "GA": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "currentHandbook": {
+          "value": "2026SOS handbook: county domicile12months before election/appointment, qualified voter, state citizenship, age21 with local-ordinance18exception for otherwise-qualified nonjudicial county office. District12month residence is not implied by county rule; handbook annotations distinguish this. Qualifying includes mandatory-training affirmation and fee/pauper route. Four-year term; November Tuesday after first Monday before term expiry, subject to actual local legislation. Actual county seat/district electorate, phase, entry and full disqualifications remain open.",
+          "url": "https://sos.ga.gov/sites/default/files/forms/Qualifications%20Guide%202026_0.pdf",
+          "section": "County Commissioner, PDFpage176/printed180; qualifications1-8",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026QualifyingWindow": {
+          "value": "CurrentSOSpage gives March2\u20136,2026general-cycle qualifying period. Actual county office/party route and local filing office must be established separately.",
+          "url": "https://sos.ga.gov/candidate-qualifying-elected-office",
+          "section": "Candidate Qualifying Information",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -449,8 +464,16 @@
       ]
     },
     "IL": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "divisionTermCycles": {
+          "value": "Official ILGAFTP55ILCS5/2-3009: applicable district-elected boards divide districts by public lot into two groups using2/4/4 and4/4/2terms, or ordinance permits three groups adding4/2/4. At-large boards under2-3002/2-3006 use analogous grouping after reapportionment. Terms begin first Monday of month after election. Actual county applicability, group assignment, current main-code reconciliation, eligibility and filing remain open. Readable official FTP text retained despite main portal403/502; no introduced bill admitted.",
+          "url": "https://www.ilga.gov/ftp/ILCS/Ch%200055/Act%200005/005500050K2-3009.html",
+          "section": "2-3009(a)-(c), officialFTPsourceP.A.86-962;87-924",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -735,8 +758,23 @@
       ]
     },
     "MD": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "constitutionalCycle": {
+          "value": "Current State Archives ArticleXVII: county/state elections ordinary Tuesday after first Monday November1926+4n; four-year terms until successors qualify, with judicial exceptions. Sections1/2/3/5expressly exclude CecilCountyBoardofCountyCommissioners and elective local school boards; charter vacancy elections retained. Section4election/qualification entry applies to constitutionally provided offices, not blanket Jan1 county entry. Actual county charter/publiclocal law, district, filing and qualifications remain open.",
+          "url": "https://www.msa.maryland.gov/msa/mdmanual/43const/html/17art17.html",
+          "section": "XVIIsecs2-4,7; direct official cp1252HTML SHA2560204077c173648d6bc32d8c995fd1ed3242ac8ae22c4dc9e1471847ee1a352d4",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualificationDependsOnCounty": {
+          "value": "Current election board qualification table lists four-year county council/commissioner terms; council qualifications are local-charter specific and commissioner qualifications public-local-law specific. Empty age/residence cells are unknown, not zero requirements.",
+          "url": "https://www.elections.maryland.gov/candidacy/qualifications.html",
+          "section": "County Offices table",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1208,8 +1246,16 @@
       ]
     },
     "NY": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "governingBodyVariants": {
+          "value": "Current Senate display, revision2014-09-22: CountyLaw150constitutes county board from lawful convening of city/town supervisors.150-aallows an elected county legislative body established by law or court order to exercise board functions, regardless of name. This does not establish a universal county member election date or term. Actual county charter/local law, seat electorate, stage qualifications and filing remain open.",
+          "url": "https://www.nysenate.gov/legislation/laws/CNT/150",
+          "section": "150; companion150-a https://www.nysenate.gov/legislation/laws/CNT/150-A",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1853,6 +1899,24 @@
       "state": "UT",
       "url": "https://le.utah.gov/xcode/Title17/Chapter64/C17-64-S201.html",
       "result": "web Internal Error; full current statute text remains open",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "MD",
+      "url": "https://www.msa.maryland.gov/msa/mdmanual/43const/html/17art17.html",
+      "result": "web Cache miss; direct official HTML succeeded; initial UTF8 decode failed, actual cp1252 read succeeded with hash",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "IL",
+      "url": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=750&ChapterID=12",
+      "result": "web timeout, directHTTP403; individualdocument502; officialFTP2-3009fulltext read through web; current full code renewal remains open",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "IL",
+      "url": "https://cms5.revize.com/revize/dupage/Election/Documents/Candidate%20Information/ProspectiveCandidateInformation/2026%20GPE/2026%20County%20Board%20Member%20Packet.pdf",
+      "result": "HTTP404; search snippet not admitted",
       "readOn": "2026-10-01"
     }
   ]

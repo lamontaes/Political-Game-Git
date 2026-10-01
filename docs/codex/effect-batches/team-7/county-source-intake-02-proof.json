@@ -98,5 +98,18 @@
     "productionProfilesAdmitted": 0,
     "validation": "50identities/DC/priorclaims preserved; primary full source readings; SCform entry conflict and Utah statute retrieval gaps retained; no runtime changes",
     "matrixSha256": "45a786a754b325714bfaa96e5d6c3e6b80a27548499545bf0c4d4051e0b71835"
+  },
+  "renewal08": {
+    "previousHead": "3136c590f19e0c519104b71076b866e9e551972f",
+    "changedStates": ["GA", "IL", "MD", "NY"],
+    "counts": {
+      "partially-inspected": 49,
+      "unread": 0,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "49partial/CT exception/DC separate; all50identities and priorclaims preserved; source gaps/actualcounty plans open; no runtime changes",
+    "matrixSha256": "37a8bb8bd0e6ec56549bf088181c297f79584b3a98a29ebfe32ee1fb5c13ad2d"
   }
 }

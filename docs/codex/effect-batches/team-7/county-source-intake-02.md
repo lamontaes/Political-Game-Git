@@ -1,6 +1,6 @@
 # County source intake keeps real seat plans open
 
-The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 45 partially inspected states, 4 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
+The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 49 partially inspected states, 0 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
 
 ## What the new reads establish
 
@@ -27,6 +27,8 @@ Montana adds the two-year county and district residence requirement measured bef
 Idaho retains rotating two-year/four-year terms and the optional seven-member exception. Its county residence is measured before election, district residence before primary. Wyoming retains actual districting and transition phases. Alaska adds the actual Anchorage 2026 assembly notice, without extending that calendar to other boroughs.
 
 North Carolina retains county structure and nomination/electorate options. South Carolina retains differing office-entry wording across forms. Oklahoma separates filing-stage district residence from election-stage eligibility. Utah uses the actual Washington County 2026 packet; superseded statute URLs remain excluded.
+
+Georgia adds the current 2026 handbook. Illinois adds readable official FTP term cycles while retaining main-code retrieval gaps. Maryland retains the explicit Cecil County constitutional exception and local qualification rules. New York retains city/town supervisor and replacement county legislative-body variants. Every state has a first reading or a county-board exception; no complete production profile follows from that coverage.
 
 ## Checks and limits
 
