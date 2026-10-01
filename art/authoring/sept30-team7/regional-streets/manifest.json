@@ -1,0 +1,153 @@
+{
+  "scope": "Illustrative responses to four street requests; no new admissions",
+  "sets": [
+    {
+      "kind": "appalachian-town-january",
+      "file": "art/authoring/sept30-team7/regional-streets/appalachian-town-january.png",
+      "sha256": "dcb44fc44058dd7494c0d78499bd28feecfd5484539218b855c11225f692b4e2",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-streets/appalachian-town-january-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+          "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-38ebf4a6-d1fe-4087-b408-afee31e2122a.png",
+      "promptSummary": "Dormant Appalachian valley town street in January, leafless hills and patchy snow.",
+      "visualReview": "Winter cues present; original streetscape composition strongly retained; hill and paving texture heavier than master; no exact town claim.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "382b2361fe19c1f172ce36e16f3c76b1c7414472307da2bfaf5ad42b00628001",
+      "respondsToRequestKey": "playtest65-region-appalachian-town-january",
+      "canonicalAdmissionKey": null
+    },
+    {
+      "kind": "buchanan-small-town",
+      "file": "art/authoring/sept30-team7/regional-streets/buchanan-small-town.png",
+      "sha256": "ab4789b2b77260f8ab614947a63d8010a70869280f8f5f7c6402eae5fdabd9ca",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-streets/buchanan-small-town-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-main-street-small-town__m.png",
+          "sha256": "c451b239eabc8ab3f7f215a0d2487db6420abe4dc8675057e4cf42c7fb255f2e",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-d241868e-47e9-4d2c-91a7-cae7279c3c22.png",
+      "promptSummary": "Great Lakes main street seen from corner plaza, summer, brick commercial block, blank signs.",
+      "visualReview": "Distinct corner-plaza composition; cars present; curb ramp geometry and place likeness unverified; foliage detail remains heavy.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "59387369c45c440a4ddf80fae741dde87bc27c5253dc8dadfa5a75cef01329cf",
+      "respondsToRequestKey": "playtest65-region-buchanan-small-town",
+      "canonicalAdmissionKey": null
+    },
+    {
+      "kind": "pikeville-valley-street",
+      "file": "art/authoring/sept30-team7/regional-streets/pikeville-valley-street.png",
+      "sha256": "61133f2f84afc5cc49e30be350bb6633d25a0ff71a21620e5a3e34fab374d9a4",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-streets/pikeville-valley-street-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-UI-Kit/assets/backgrounds/main-street__midday.jpg",
+          "sha256": "19e07f13537d9a0c5184510c96b649844849b8a06c1e8ee462d76f06679a4aa5",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-3239193c-3968-4112-973e-ee627f3d7d5b.png",
+      "promptSummary": "Leaf-on Appalachian valley street, steep enclosed wooded hills, clear sidewalk.",
+      "visualReview": "Valley cues present; exact Pikeville likeness unverified; foliage detail heavy; original commercial layout retained.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "2add445bdaf504a3f2e146fcbcda263fd33badb15b11adc18532667739ffd259",
+      "respondsToRequestKey": "playtest65-region-pikeville-valley-street",
+      "canonicalAdmissionKey": null
+    },
+    {
+      "kind": "socal-inland-bungalow-neighborhood",
+      "file": "art/authoring/sept30-team7/regional-streets/socal-inland-bungalow-neighborhood.png",
+      "sha256": "f48ed1cd1f60bc9c659a3f896e93cdfba9464fa288ce8ae3311f97a0775731f3",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "contact": "art/authoring/sept30-team7/regional-streets/socal-inland-bungalow-neighborhood-contact.jpg",
+      "references": [
+        {
+          "path": "/Users/lamontae/Documents/OCD-Art-Sept29/places/place-sidewalk-suburban__midday.png",
+          "sha256": "0eedec9d6af7c180c49ea61da94f23ac545e82b51d0a128ff9bd6fde49209edc",
+          "license": "not documented; owner-supplied project reference, no rights certification"
+        },
+        {
+          "path": "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg",
+          "sha256": "e8cf99e3eabc10dc82951c386d3a266828cc7addcb3d16ba0ebd39e4f3b2ca6d",
+          "license": "owner-supplied style master; no standalone license documented"
+        }
+      ],
+      "generationTool": "built-in image_gen",
+      "generatedSource": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-2c7e29e3-facc-43cc-8527-db05e91eae46.png",
+      "promptSummary": "Single-story inland Southern California bungalows, dry foothills and clear sidewalk.",
+      "visualReview": "Single-story homes visible; lawns larger than requested; exact place and botanical fit unverified; grass texture heavier than master.",
+      "approved_for_game": "no",
+      "runtime_release_status": "candidate",
+      "actorFit": "NOT RUN",
+      "license": "AI-generated from supplied references; no standalone license grant asserted",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "contactSha256": "d0c7192dfc728b99682e05efdd7561c91af8fae13495707dcbbecc476aeb46d7",
+      "respondsToRequestKey": "playtest65-region-socal-inland-bungalow-neighborhood",
+      "canonicalAdmissionKey": null
+    }
+  ]
+}
