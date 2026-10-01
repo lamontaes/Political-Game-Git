@@ -97,17 +97,27 @@ describe.each(SEEDS)("watched world, seed %s", (seed) => {
       // days of its revenue.
       const businesses = Object.values(world.townFinances?.businesses ?? {});
       const banked = businesses.filter((books) => books.lineLimit > 0);
+      // A business borrows from a bank in its town: where the town has no
+      // bank keeping books, nobody holds a line.
+      const banks = Object.values(world.townFinances?.banks ?? {}).filter(
+        (bank) => !bank.failed,
+      );
+      const withBank = businesses.filter(
+        (books) => books.bankId !== null && banks.length > 0,
+      );
       console.log(
-        `A71 ${place.displayName} (${place.key}), seed ${seed}: ${businesses.length} business books, ${banked.length} with a credit line (share ${
+        `A71 ${place.displayName} (${place.key}), seed ${seed}: ${businesses.length} business books, ${banks.length} open bank books, ${banked.length} with a credit line (share ${
           businesses.length > 0
             ? (banked.length / businesses.length).toFixed(3)
             : "n/a"
         })`,
       );
-      expect(
-        banked.length,
-        `${place.displayName}, seed ${seed}`,
-      ).toBeGreaterThan(0);
+      if (withBank.length > 0)
+        expect(
+          banked.length,
+          `${place.displayName}, seed ${seed}`,
+        ).toBeGreaterThan(0);
+      else expect(banked, `${place.displayName}, seed ${seed}`).toEqual([]);
       for (const books of banked) {
         const days = townCreditLineDays(books.kind);
         const sized = (amount: number) =>
