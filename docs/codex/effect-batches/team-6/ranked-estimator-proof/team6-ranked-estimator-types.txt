@@ -1,0 +1,20 @@
+[96msrc/simulation/paid-leave-estimates.ts[0m:[93m88[0m:[93m23[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ percent: number; method: string; }' is not assignable to parameter of type 'Estimate'.
+  Property 'references' is missing in type '{ percent: number; method: string; }' but required in type 'Estimate'.
+
+[7m88[0m   CACHE.set(cacheKey, estimate);
+[7m  [0m [91m                      ~~~~~~~~[0m
+
+  [96msrc/simulation/paid-leave-estimates.ts[0m:[93m21[0m:[93m12[0m
+    [7m21[0m   readonly references: readonly Reference[];
+    [7m  [0m [96m           ~~~~~~~~~~[0m
+    'references' is declared here.
+[96msrc/simulation/paid-leave-estimates.ts[0m:[93m89[0m:[93m3[0m - [91merror[0m[90m TS2741: [0mProperty 'references' is missing in type '{ percent: number; method: string; }' but required in type 'Estimate'.
+
+[7m89[0m   return estimate;
+[7m  [0m [91m  ~~~~~~[0m
+
+  [96msrc/simulation/paid-leave-estimates.ts[0m:[93m21[0m:[93m12[0m
+    [7m21[0m   readonly references: readonly Reference[];
+    [7m  [0m [96m           ~~~~~~~~~~[0m
+    'references' is declared here.
+roots 5 files 843 owned diagnostics 2
