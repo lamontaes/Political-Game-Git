@@ -22,6 +22,12 @@
  *   the last year by a parent, child, sibling, grandparent or grandchild, to
  *   the place that relative now lives.
  *
+ * - a new household (`family:new-household`): in the last year they left a
+ *   parent's home, moved in with a partner or moved out after a breakup
+ *   (`living-world/town-families.ts`, `living-world/leaving-home.ts`), and
+ *   live in that new home still. A household just formed has the least
+ *   holding it; a breakup weighs more than a move in together.
+ *
  * Where they go. A relative's move names its own place. A push from work,
  * rent, eviction or retirement names none, so they go where their closest
  * living relative outside town lives today, and with nobody there, to the
@@ -59,6 +65,8 @@ import {
   TOWN_JOB_END_REASONS,
   TOWN_JOB_ENDS_NOT_LOST,
 } from "../living-world/town-labor-market";
+import { LEAVING_HOME_EVENT } from "../living-world/leaving-home";
+import { TOWN_FAMILY_EVENTS } from "../living-world/town-families";
 import { traitConsiderations } from "../people-traits";
 import type {
   DecisionConsideration,
@@ -77,10 +85,36 @@ const EVICTED_EVENT = "housing.evicted";
 /** How far back a cause still weighs: a person is reviewed once a year. */
 const CAUSE_WINDOW_DAYS = 365;
 
+/**
+ * PLACEHOLDER strengths (research: `why-americans-move-causes-and-strengths`)
+ * of a household formed in the last year, by what formed it. The Current
+ * Population Survey's reasons for moving count "to establish own household"
+ * and "change in marital status" among the family reasons; most such moves
+ * stay in the county, so the strength stays below the other causes'.
+ */
+export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
+  [LEAVING_HOME_EVENT]: 0.35,
+  [TOWN_FAMILY_EVENTS.movedIn]: 0.35,
+  [TOWN_FAMILY_EVENTS.brokeUp]: 0.5,
+  [TOWN_FAMILY_EVENTS.divorced]: 0.5,
+};
+
+const NEW_HOUSEHOLD_WORDS: Readonly<Record<string, string>> = {
+  [LEAVING_HOME_EVENT]: "they moved out of a parent's home",
+  [TOWN_FAMILY_EVENTS.movedIn]: "they moved in with their partner",
+  [TOWN_FAMILY_EVENTS.brokeUp]: "they moved out after a breakup",
+  [TOWN_FAMILY_EVENTS.divorced]: "they moved out after a divorce",
+};
+
 /** One recorded reason to leave, with its strength and its place. */
 export interface LeaveCause {
   readonly kind:
-    "job-lost" | "evicted" | "rent-burden" | "retired" | "kin-moved";
+    | "job-lost"
+    | "evicted"
+    | "rent-burden"
+    | "retired"
+    | "kin-moved"
+    | "new-household";
   readonly reason: MoveReasonKey;
   /** 0 to 1, smooth in the facts it reads. */
   readonly strength: number;
@@ -155,14 +189,25 @@ export function causeReader(world: World, town: EntityId): CauseReader {
   const since = addDays(today, -CAUSE_WINDOW_DAYS);
   const dead = new Set(world.history.personDeaths.map((d) => d.personId));
 
-  // Evictions and moves in the last year, once.
+  // Evictions, moves and new households in the last year, once.
   const evicted = new Map<EntityId, EntityId>();
   const kinMoved = new Map<EntityId, LeaveCause>();
+  const formed = new Map<EntityId, (typeof world.history.events)[number]>();
   for (const event of recentEvents(
     world,
-    new Set([EVICTED_EVENT, MIGRATION_MOVED_EVENT]),
+    new Set([
+      EVICTED_EVENT,
+      MIGRATION_MOVED_EVENT,
+      ...Object.keys(NEW_HOUSEHOLD_STRENGTH),
+    ]),
     since,
   )) {
+    if (event.type in NEW_HOUSEHOLD_STRENGTH) {
+      // Newest first: the latest household each person formed.
+      for (const row of event.participants)
+        if (!formed.has(row.personId)) formed.set(row.personId, event);
+      continue;
+    }
     if (event.type === EVICTED_EVENT) {
       for (const row of event.participants)
         if (!evicted.has(row.personId)) evicted.set(row.personId, event.id);
@@ -280,6 +325,23 @@ export function causeReader(world: World, town: EntityId): CauseReader {
       }
       const kin = kinMoved.get(personId);
       if (kin) causes.push(kin);
+      // Only the one who moved: their home now is one they joined that day
+      // or after.
+      const event = formed.get(personId);
+      const home = event
+        ? householdMembershipsAt(world, personId).find(
+            (active) => active.state.residenceRole === "primary",
+          )
+        : undefined;
+      if (event && home && home.membership.startedAt >= event.occurredAt)
+        causes.push({
+          kind: "new-household",
+          reason: "family:new-household",
+          strength: NEW_HOUSEHOLD_STRENGTH[event.type]!,
+          causeId: event.id,
+          placeId: null,
+          explanation: `${NEW_HOUSEHOLD_WORDS[event.type]} on ${spokenDate(event.occurredAt)}`,
+        });
       return causes;
     },
     closestKinElsewhere(personId, home) {
