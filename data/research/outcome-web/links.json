@@ -2064,8 +2064,7 @@
       "reverseOnRepeal": "Repeal may end a future funded care place after its lawful phase-out. It does not automatically dismiss an employed mother; she reassesses care and work from actual records.",
       "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
       "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
-      "aboutZero": false,
-      "notes": "Waits only on a starting level for mothers of young children in the labor force; the 2024 ACS base is added in the mothers' work hookup, which turns this link on."
+      "aboutZero": false
     },
     {
       "key": "voter-id-to-turnout",
@@ -2513,8 +2512,7 @@
       "who": "Qualifying districts and their enrolled pupils; residents funding the state budget bear the financing trade-off.",
       "lagWhy": "The existing12-month lag stands for an allocation/budget cycle; it is not a verified causal delay. Team9 must provide timing and per-pupil funding contrast from the cited reform study.",
       "aboutZero": false,
-      "range": [0.04, 0.11],
-      "notes": "Waits only on a starting level for school spending per student; the Census fiscal 2024 base is added in the school spending hookup, which turns this link on."
+      "range": [0.04, 0.11]
     },
     {
       "key": "end-cash-bail-to-pretrial-detention",
@@ -2749,8 +2747,7 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.youth-cannabis-use",
-      "range": [-0.13, 0.1],
-      "notes": "Waiting on a base: NSDUH state estimates of teen past-month marijuana use are the candidate starting level and have not been added yet."
+      "range": [-0.13, 0.1]
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -2786,8 +2783,7 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
       "to": "labor.mothers-participation",
-      "range": [-0.06, 0.1],
-      "notes": "Waits only on a starting level for mothers of young children in the labor force; the 2024 ACS base is added in the mothers' work hookup, which turns this link on."
+      "range": [-0.06, 0.1]
     },
     {
       "key": "carbon-price-to-emissions",
