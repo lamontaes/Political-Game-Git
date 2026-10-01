@@ -2723,7 +2723,7 @@ export function assertTimeWorkIntegrity(
       } else if (state.change === "completed") {
         if (
           state.status !== "completed" ||
-          !sameSimulationMoment(state.recordedAt, state.end) ||
+          compareSimulationMoments(state.recordedAt, state.end) < 0 ||
           state.outcomeEventId === null
         ) {
           throw new Error(`Invalid activity completion: ${state.id}`);
@@ -2737,7 +2737,7 @@ export function assertTimeWorkIntegrity(
       state.outcomeEventId,
       activity.id,
       state.sequence,
-      state.recordedAt,
+      state.change === "completed" ? state.end : state.recordedAt,
     );
     prior.push(state);
     activityStates.set(activity.id, prior);
