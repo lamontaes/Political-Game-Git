@@ -25,6 +25,7 @@ import {
 
 const SHAPES = new Set([
   "linear",
+  "elasticity",
   "threshold",
   "diminishing",
   "exposure-years",
@@ -376,7 +377,25 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
   const all = OUTCOME_LINKS.filter((link) => link.owner === "F-cloud");
   // Rows into a measure another lane is adding: they switch on when it lands.
   const waiting = all.filter((link) => link.to === "housing.homelessness");
-  const rows = all.filter((link) => !waiting.includes(link));
+  // Rows re-marked as evidence gaps (CTO gap list A164): an earlier "about
+  // zero" no study measured. They stay off and say why in notes.
+  const gaps = all.filter((link) => link.evidence === "to-confirm");
+  const rows = all.filter(
+    (link) => !waiting.includes(link) && !gaps.includes(link),
+  );
+
+  it("evidence-gap rows have no size, do not act, and say why", () => {
+    expect(gaps.map((link) => link.key)).toEqual([
+      "library-materials-to-reading",
+    ]);
+    for (const link of gaps) {
+      expect(link.size, link.key).toBeNull();
+      expect(outcomeLinkStatus(link), link.key).not.toBe("built");
+      expect((link as unknown as { notes?: string }).notes, link.key).toMatch(
+        /^Evidence gap, not a measured zero/,
+      );
+    }
+  });
   const places = Object.keys(STATES).flatMap((usps) => {
     const id = stateJurisdictionForKey(`US-${usps}`)?.id;
     return id ? [{ key: `US-${usps}`, id }] : [];
