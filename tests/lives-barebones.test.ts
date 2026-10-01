@@ -32,6 +32,13 @@ import { SeededRng, pickDistinct } from "../src/simulation/rng";
 import { TOWN_JOB_END_REASONS } from "../src/simulation/living-world/town-labor-market";
 import type { EntityId, World } from "../src/simulation/types";
 import { assertWorldIntegrity } from "../src/simulation/world";
+import { createCharacterHistoryContextPerson } from "../src/simulation/character-history";
+import {
+  DEATH_CAUSE_ILLNESS_WITH_COURSE,
+  FATAL_ILLNESS_EPISODE_PREFIX,
+} from "../src/simulation/crisis/death-causes";
+import { ensureCrisisMortality } from "../src/simulation/crisis/mortality";
+import { crisisRecords } from "../src/simulation/crisis/records";
 
 /**
  * LIVES slice step 0: the barebones play script. Four steps, one case each,
@@ -241,7 +248,44 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
   it.todo(
     "step 4a: a household moves away after a job offer elsewhere (A135) - the producer exists (migration/job-offers.ts openOfferElsewhere, answerOfferElsewhere, reviewTown) but needs an opened town with its job market and openings; the small world has none, and a faked offer is not allowed",
   );
-  it.todo(
-    "step 4b: a death from a recorded cause (A130) - the producer exists (crisis/mortality.ts) but a death arrives only when a person's own mortality threshold is crossed, which on a small world takes a multi-year run",
-  );
+  it("step 4b: a death from a recorded cause (Ruling 29): the serious episode, then the death citing it", () => {
+    // An older relative in town, through the context-person writer. Their
+    // recorded age alone drives their strain; nobody's day is drawn.
+    const small = world();
+    let next = createCharacterHistoryContextPerson(small.world, {
+      stableKey: "lives:oldest-relative",
+      givenName: "Oldest",
+      familyName: "Relative",
+      birthDate: makeIsoDate("1919-02-03"),
+      homeJurisdictionId: small.jurisdictionId,
+    });
+    const elderId = next.personOrder.at(-1)!;
+    next = ensureCrisisMortality(next);
+    const handlers = composeWorldTimeHandlers();
+    // Due items only, a quarter at a time, until the death is on record.
+    for (
+      let i = 0;
+      i < 12 && !next.history.personDeaths.some((d) => d.personId === elderId);
+      i += 1
+    )
+      next = resolveFutureDueItemsThrough(
+        next,
+        addDays(next.currentDate, 91),
+        handlers,
+      );
+    const death = next.history.personDeaths.find(
+      (row) => row.personId === elderId,
+    );
+    expect(death, "the elder's death is on record").toBeDefined();
+    expect(death!.causeKey).toBe(DEATH_CAUSE_ILLNESS_WITH_COURSE);
+    const episode = crisisRecords(next).find(
+      (record) =>
+        record.kind === "health-episode" &&
+        record.personId === elderId &&
+        record.stableKey.startsWith(FATAL_ILLNESS_EPISODE_PREFIX),
+    )!;
+    expect(death!.sourceEntityIds).toContain(episode.id);
+    expect(episode.effectiveAt < death!.diedAt).toBe(true);
+    assertWorldIntegrity(next);
+  });
 });

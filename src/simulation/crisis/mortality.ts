@@ -4,7 +4,6 @@ import {
   scheduledFutureDueItemsThrough,
 } from "../future-transitions";
 import { tellOfDeath } from "../people-bereavement";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -14,7 +13,7 @@ import type {
 } from "../types";
 import { isPersonAliveAt, recordPersonDeath } from "../vitality";
 import { assertWorldIntegrity } from "../world";
-import { survivalThresholdFromDraws } from "./fixed-point";
+import { FIXED_LN2 } from "./fixed-point";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
@@ -28,12 +27,11 @@ import {
 } from "./mortality-table";
 import { recordOfficialContinuity } from "./continuity";
 import {
-  FATAL_ILLNESS_LEAD_DAYS,
+  DEATH_CAUSE_ILLNESS_WITH_COURSE,
+  FATAL_ILLNESS_EPISODE_PREFIX,
   FATAL_ILLNESS_ONSET_KEY,
   deathCauseSummary,
-  drawDeathCause,
-  fatalIllnessOnsetStableKey,
-  hazardDeathCause,
+  seriousEpisodeOnsetStableKey,
 } from "./death-causes";
 import {
   coverageHazardIntervals,
@@ -41,7 +39,10 @@ import {
   HEALTH_COVERAGE_KEY,
   type HazardInterval,
 } from "./health-coverage";
-import { closeHealthEpisodesForDeath } from "./health-queries";
+import {
+  activeHealthEpisodes,
+  closeHealthEpisodesForDeath,
+} from "./health-queries";
 import { appendCrisisRecord, crisisRecordId, crisisRecords } from "./records";
 import {
   CRISIS_MORTALITY_MODEL,
@@ -51,24 +52,40 @@ import {
 } from "./types";
 
 /**
- * K1 ordinary all-cause mortality.
+ * K1 ordinary all-cause mortality, as Ruling 29 has it: deaths without dice.
  *
- * On the first day of each quarter one Run A due item exposes every living person
- * the World holds. Each person's stable threshold −ln(u) is drawn once from a
- * domain-separated fork keyed only by world seed and person, never from UI or
- * shared RNG state. The window finds the exact day, if any, on which that
- * person's accumulated hazard reaches the threshold and schedules a death on
- * that day. Office, party and fame change nothing. A life table is not a
- * diagnosis: the death carries only a broad seeded cause group
- * (./death-causes.ts), and an illness with a course is recorded ahead of the
- * death it leads to without moving that death's day.
+ * Each person carries a strain total that grows every day from recorded
+ * causes only: their age (the SSA 2023 period life table's daily hazard is the
+ * base rate), and the recorded health episodes and coverage that multiply it.
+ * A serious health episode begins on the day the total crosses one fixed
+ * threshold, the same number for everyone, so people differ only by their
+ * records. The episode then carries a number of remaining days
+ * (./death-causes.ts, remainingDaysAfterOnset), and the death is written on
+ * that day and cites the episode. Office, party and fame change nothing.
+ *
+ * Nothing scans the world every day. On the first day of each quarter one due
+ * item reads each living person's strain, computed on read from the dates and
+ * records (./hazard.ts keeps checkpoints), and puts the day it crosses, if it
+ * falls in the quarter, on the clock. A writer that changes a person's records
+ * mid-quarter re-reads that one person.
  */
 
 export const MORTALITY_WINDOW_KEY = "crisis:mortality-window" as const;
 export const MORTALITY_DEATH_KEY = "crisis:mortality-death" as const;
 export { MORTALITY_CAUSE_KEY } from "./death-causes";
 
-const THRESHOLD_VERSION = "crisis-mortality-threshold-v1";
+/**
+ * The one strain threshold, in hazard units, the same for everyone. Ruling 29
+ * scales the base rate so the whole population matches the life table: the
+ * table's daily hazard counts against a threshold of ln 2, which is the same
+ * as a base rate of the table's hazard over ln 2 against a threshold of one.
+ * A person whose records multiply nothing then reaches it at the table's
+ * median remaining life from the day they were first exposed: half of the
+ * people of their age in the table are still alive on that day. The table
+ * checks that total; it never decides one person's day.
+ */
+export const STRAIN_THRESHOLD = FIXED_LN2;
+const STRAIN_THRESHOLD_UNITS = thresholdUnits(STRAIN_THRESHOLD);
 
 /**
  * Windows open on the first day of each calendar quarter. Deaths inside a
@@ -82,16 +99,6 @@ function firstOfNextQuarter(date: IsoDate): IsoDate {
   return nextQuarterMonth > 12
     ? isoDateFromParts(year + 1, 1, 1)
     : isoDateFromParts(year, nextQuarterMonth, 1);
-}
-
-export function personMortalityThreshold(
-  world: World,
-  personId: EntityId,
-): bigint {
-  const fork = new SeededRng(THRESHOLD_VERSION).fork(
-    JSON.stringify([THRESHOLD_VERSION, world.seed, personId]),
-  );
-  return survivalThresholdFromDraws(fork.nextUint32(), fork.nextUint32());
 }
 
 function windowRecords(world: World): readonly MortalityWindowRecord[] {
@@ -112,6 +119,13 @@ interface MortalityContext {
     EntityId,
     readonly HazardMultiplierChange[]
   >;
+  /** Health episodes that multiply a person's strain, with their end day. */
+  readonly conditions: ReadonlyMap<
+    EntityId,
+    readonly { readonly episode: HealthEpisodeRecord; end: IsoDate | null }[]
+  >;
+  /** A person's coverage records, oldest first. */
+  readonly coverage: ReadonlyMap<EntityId, readonly HealthCoverageRecord[]>;
 }
 
 const CONTEXTS = new WeakMap<object, MortalityContext>();
@@ -181,7 +195,22 @@ function mortalityContext(world: World): MortalityContext {
   const multipliers = new Map<EntityId, readonly HazardMultiplierChange[]>();
   for (const [personId, intervals] of intervalsByPerson)
     multipliers.set(personId, multiplierTimeline(intervals));
-  const context = { starts, calibrations, multipliers };
+  const conditions = new Map(
+    [...episodesByPerson].map(([personId, episodes]) => [
+      personId,
+      episodes.map((episode) => ({
+        episode,
+        end: endByEpisode.get(episode.id) ?? null,
+      })),
+    ]),
+  );
+  const context = {
+    starts,
+    calibrations,
+    multipliers,
+    conditions,
+    coverage: coverageByPerson,
+  };
   CONTEXTS.set(records, context);
   return context;
 }
@@ -248,10 +277,11 @@ export function mortalityProfile(
   };
 }
 
-const THRESHOLDS = new Map<string, bigint>();
-
-/** The exact day this person's hazard crosses their threshold in [from, to). */
-export function mortalityCrossingDay(
+/**
+ * The day in [from, to) on which this person's strain reaches the threshold,
+ * or `from` itself when it already had; null when it does not in the span.
+ */
+export function strainCrossingDay(
   world: World,
   personId: EntityId,
   from: IsoDate,
@@ -259,18 +289,56 @@ export function mortalityCrossingDay(
 ): IsoDate | null {
   const start = mortalityExposureStarts(world).get(personId);
   if (!start) return null;
-  const thresholdKey = `${world.seed}\u0000${personId}`;
-  let threshold = THRESHOLDS.get(thresholdKey);
-  if (threshold === undefined) {
-    threshold = thresholdUnits(personMortalityThreshold(world, personId));
-    if (THRESHOLDS.size > 100_000) THRESHOLDS.clear();
-    THRESHOLDS.set(thresholdKey, threshold);
-  }
   return firstThresholdDay(
     mortalityProfile(world, personId, start),
-    threshold,
+    STRAIN_THRESHOLD_UNITS,
     from,
     to,
+  );
+}
+
+/**
+ * The records that drove a person's strain on `date`: the health episodes
+ * multiplying it then, the coverage record in force, and the product of
+ * every recorded multiplier (millionths). A serious episode cites them.
+ */
+export function strainDrivers(
+  world: World,
+  personId: EntityId,
+  date: IsoDate,
+): {
+  readonly conditionIds: readonly EntityId[];
+  readonly coverage: HealthCoverageRecord | null;
+  readonly multiplierMicros: number;
+} {
+  const context = mortalityContext(world);
+  const conditionIds = (context.conditions.get(personId) ?? [])
+    .filter(
+      ({ episode, end }) =>
+        episode.effectiveAt <= date && (end === null || date < end),
+    )
+    .map(({ episode }) => episode.id);
+  const coverage =
+    (context.coverage.get(personId) ?? [])
+      .filter((record) => record.effectiveAt <= date)
+      .at(-1) ?? null;
+  let multiplierMicros = MULTIPLIER_ONE;
+  for (const change of hazardMultipliersOf(world, personId)) {
+    if (change.effectiveAt > date) break;
+    multiplierMicros = change.micros;
+  }
+  return { conditionIds, coverage, multiplierMicros };
+}
+
+/** The serious episode a crossing began, while it runs its course. */
+export function seriousStrainEpisode(
+  world: World,
+  personId: EntityId,
+): HealthEpisodeRecord | null {
+  return (
+    activeHealthEpisodes(world, personId).find((episode) =>
+      episode.stableKey.startsWith(FATAL_ILLNESS_EPISODE_PREFIX),
+    ) ?? null
   );
 }
 
@@ -323,43 +391,52 @@ function deathStableKey(personId: EntityId, date: IsoDate): string {
 }
 
 /**
- * Schedules (or, for today, records) the death this person's current hazard
- * implies inside [from, windowEnd). Used by the window and by any writer that
- * changes a person's hazard mid-window.
+ * Puts on the clock the day this person's strain crosses inside
+ * [from, windowEnd), unless a serious episode already runs its course. Used by
+ * the window and by any writer that changes a person's records mid-window. A
+ * crossing on or before today begins tomorrow, the first day a due item can
+ * fall on. An item a later record change made wrong cancels itself.
  */
-export function scheduleMortalityWithin(
+export function scheduleStrainOnset(
   world: World,
   personId: EntityId,
   from: IsoDate,
   windowEnd: IsoDate,
   cause: { readonly sourceEntityId: EntityId },
-  crossing?: IsoDate | null,
 ): World {
   if (!alive(world, personId, world.currentDate)) return world;
-  const day =
-    crossing === undefined
-      ? mortalityCrossingDay(world, personId, from, windowEnd)
-      : crossing !== null && crossing < windowEnd
-        ? crossing
-        : null;
+  if (seriousStrainEpisode(world, personId)) return world;
+  const day = strainCrossingDay(world, personId, from, windowEnd);
   if (day === null) return world;
-  if (day <= world.currentDate)
-    return recordMortalityDeath(
-      world,
-      personId,
-      world.currentDate,
-      cause.sourceEntityId,
-    );
-  const stableKey = `${deathStableKey(personId, day)}:due`;
+  const tomorrow = addDays(world.currentDate, 1);
+  const dueAt = day < tomorrow ? tomorrow : day;
+  const stableKey = seriousEpisodeOnsetStableKey(personId, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
   return scheduleFutureDueItem(world, {
     stableKey,
-    dueAt: day,
-    transitionKey: MORTALITY_DEATH_KEY,
+    dueAt,
+    transitionKey: FATAL_ILLNESS_ONSET_KEY,
     entityIds: [personId],
     jurisdictionId: world.people[personId]!.homeJurisdictionId,
     provenance: { kind: "simulated", sourceEntityIds: [cause.sourceEntityId] },
+  });
+}
+
+/** Puts the death a serious episode ends in on the clock for its day. */
+export function scheduleStrainDeath(
+  world: World,
+  personId: EntityId,
+  diesOn: IsoDate,
+  episodeId: EntityId,
+): World {
+  return scheduleFutureDueItem(world, {
+    stableKey: `${deathStableKey(personId, diesOn)}:due`,
+    dueAt: diesOn,
+    transitionKey: MORTALITY_DEATH_KEY,
+    entityIds: [personId],
+    jurisdictionId: world.people[personId]!.homeJurisdictionId,
+    provenance: { kind: "simulated", sourceEntityIds: [episodeId] },
   });
 }
 
@@ -367,22 +444,17 @@ function recordMortalityDeath(
   world: World,
   personId: EntityId,
   diedAt: IsoDate,
-  sourceEntityId: EntityId,
+  sources: readonly EntityId[],
 ): World {
-  const cause = hazardDeathCause(world, personId, diedAt);
-  const sources = [
-    ...new Set(
-      cause.episodeId ? [sourceEntityId, cause.episodeId] : [sourceEntityId],
-    ),
-  ].sort();
+  const sorted = [...new Set(sources)].sort();
   const withDeath = recordPersonDeath(world, {
     stableKey: deathStableKey(personId, diedAt),
     personId,
     diedAt,
-    causeKey: cause.causeKey,
-    sourceEntityIds: sources,
-    summary: deathCauseSummary(cause.causeKey),
-    provenance: { kind: "simulated", sourceEntityIds: sources },
+    causeKey: DEATH_CAUSE_ILLNESS_WITH_COURSE,
+    sourceEntityIds: sorted,
+    summary: deathCauseSummary(DEATH_CAUSE_ILLNESS_WITH_COURSE),
+    provenance: { kind: "simulated", sourceEntityIds: sorted },
   });
   const death = withDeath.history.personDeaths.at(-1)!;
   const closed = closeHealthEpisodesForDeath(withDeath, personId, death.id);
@@ -417,25 +489,13 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
     dueItemId: item.id,
   });
   const windowId = crisisRecordId(next, windowStableKey(start));
-  // Monthly coverage passes re-plan a death when coverage changes the hazard.
+  // Monthly coverage passes re-plan an onset when coverage changes the strain.
   next = ensureHealthCoveragePass(next, windowId);
-  // One look past the window, far enough to see a death whose illness should
-  // begin inside it. The first crossing in the longer span is the same day as
-  // the first crossing in the window whenever it falls inside the window.
-  const horizon = addDays(end, FATAL_ILLNESS_LEAD_DAYS.max);
   for (const personId of next.personOrder) {
     if (!alive(next, personId, start)) continue;
-    const crossing = mortalityCrossingDay(next, personId, start, horizon);
-    next = scheduleMortalityWithin(
-      next,
-      personId,
-      start,
-      end,
-      { sourceEntityId: windowId },
-      crossing,
-    );
-    if (crossing !== null)
-      next = scheduleFatalIllnessOnset(next, personId, crossing, end, windowId);
+    next = scheduleStrainOnset(next, personId, start, end, {
+      sourceEntityId: windowId,
+    });
   }
   next = scheduleFutureDueItem(next, {
     stableKey: `${windowStableKey(end)}:due`,
@@ -454,6 +514,10 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
   };
 };
 
+/**
+ * Writes the death a serious episode ends in, on the day the episode carried,
+ * citing the episode. Nothing about the day is drawn or re-decided here.
+ */
 export const mortalityDeathHandler: FutureTransitionHandler = (
   world,
   item: FutureDueItem,
@@ -468,18 +532,13 @@ export const mortalityDeathHandler: FutureTransitionHandler = (
   });
   if (!alive(world, personId, item.dueAt))
     return cancelled("The person was no longer alive.");
-  const window = windowRecords(world).at(-1);
-  if (!window) return cancelled("No mortality window is active.");
-  // The day must still be the person's crossing under current records.
-  const day = mortalityCrossingDay(
-    world,
-    personId,
-    window.effectiveAt,
-    window.windowEnd,
-  );
-  if (day !== item.dueAt)
-    return cancelled("A later hazard change moved the crossing day.");
-  const next = recordMortalityDeath(world, personId, item.dueAt, item.id);
+  const episode = seriousStrainEpisode(world, personId);
+  if (!episode || !episode.stableKey.endsWith(`:${item.dueAt}`))
+    return cancelled("No serious episode runs its course to this day.");
+  const next = recordMortalityDeath(world, personId, item.dueAt, [
+    item.id,
+    episode.id,
+  ]);
   const death = next.history.personDeaths.at(-1)!;
   return {
     world: next,
@@ -491,40 +550,9 @@ export const mortalityDeathHandler: FutureTransitionHandler = (
 };
 
 /**
- * When the death on `diesOn` is an illness with a course, puts the day the
- * illness is first recorded on the clock, if that day falls in this window.
- * Only the onset is scheduled here; the death keeps its own due item and its
- * own day. Nothing is scheduled when no day before the death is left.
- */
-function scheduleFatalIllnessOnset(
-  world: World,
-  personId: EntityId,
-  diesOn: IsoDate,
-  windowEnd: IsoDate,
-  windowId: EntityId,
-): World {
-  const draw = drawDeathCause(world, personId, diesOn);
-  if (draw.group !== "illness-with-course") return world;
-  const earliest = addDays(world.currentDate, 1);
-  const planned = addDays(diesOn, -draw.leadDays);
-  const onset = planned < earliest ? earliest : planned;
-  if (onset >= diesOn || onset >= windowEnd) return world;
-  const stableKey = fatalIllnessOnsetStableKey(personId, diesOn);
-  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
-    return world;
-  return scheduleFutureDueItem(world, {
-    stableKey,
-    dueAt: onset,
-    transitionKey: FATAL_ILLNESS_ONSET_KEY,
-    entityIds: [personId],
-    jurisdictionId: world.people[personId]!.homeJurisdictionId,
-    provenance: { kind: "simulated", sourceEntityIds: [windowId] },
-  });
-}
-
-/**
  * The next day on which a death of this person could be written by K1: a
- * window opening (which may find a death that day) or their scheduled death.
+ * window opening, a coverage pass, their serious episode's onset or their
+ * scheduled death.
  * A multi-week advance steps to it so a played life ends on its own day.
  */
 export function nextMortalityFrontier(
@@ -544,7 +572,8 @@ export function nextMortalityFrontier(
     const relevant =
       item.transitionKey === MORTALITY_WINDOW_KEY ||
       item.transitionKey === HEALTH_COVERAGE_KEY ||
-      (item.transitionKey === MORTALITY_DEATH_KEY &&
+      ((item.transitionKey === MORTALITY_DEATH_KEY ||
+        item.transitionKey === FATAL_ILLNESS_ONSET_KEY) &&
         item.entityIds.includes(personId));
     if (relevant && (next === null || item.dueAt < next)) next = item.dueAt;
   }

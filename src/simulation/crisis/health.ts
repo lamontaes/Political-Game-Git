@@ -17,7 +17,7 @@ import {
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
 import { MULTIPLIER_ONE } from "./hazard";
-import { crisisMortalityWindowAt, scheduleMortalityWithin } from "./mortality";
+import { crisisMortalityWindowAt, scheduleStrainOnset } from "./mortality";
 import { publicOfficesHeldBy } from "./offices";
 import {
   activeHealthEpisodes,
@@ -245,7 +245,7 @@ function refreshMortality(
 ): World {
   const window = crisisMortalityWindowAt(world, world.currentDate);
   if (!window) return world;
-  return scheduleMortalityWithin(
+  return scheduleStrainOnset(
     world,
     personId,
     world.currentDate,

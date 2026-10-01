@@ -13,25 +13,31 @@ import type {
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import {
-  FATAL_ILLNESS_EPISODE_PREFIX,
   FATAL_ILLNESS_PROGNOSIS_AT,
-  fatalIllnessDeathDay,
   fatalIllnessEpisodeKey,
+  remainingDaysAfterOnset,
 } from "./death-causes";
+import { MULTIPLIER_ONE } from "./hazard";
 import { beginHealthEpisode } from "./health";
-import { activeHealthEpisodes } from "./health-queries";
-import { mortalityCrossingDay } from "./mortality";
+import {
+  mortalityExposureStarts,
+  scheduleStrainDeath,
+  seriousStrainEpisode,
+  strainCrossingDay,
+  strainDrivers,
+} from "./mortality";
 import { CRISIS_PROVISIONAL_POLICY, type HealthCourseStep } from "./types";
 
 /**
- * The lead-up to a K1 death whose seeded cause is an illness with a course.
+ * The serious episode a K1 death follows (Ruling 29).
  *
- * On its onset day the person falls seriously ill: a health episode begins
- * through the ordinary K2 writer, and the household and immediate family are
- * told through its ordinary disclosure recipients. The death itself is not
- * written here. It stays on its own due item and its own day, so the hazard
- * model's deaths are exactly what they were; this only makes the family's
- * months before it true.
+ * On the day a person's recorded strain crosses the one threshold they fall
+ * seriously ill: a health episode begins through the ordinary K2 writer,
+ * citing the records that drove the strain, and the household and immediate
+ * family are told through its ordinary disclosure recipients. The episode
+ * carries its remaining days, from the person's age, the recorded conditions
+ * multiplying their strain and their coverage, and the death is put on the
+ * clock for the day they run out.
  *
  * The played character's own illness is not disclosed for them. They see it
  * on their own health surface and decide whom to tell, as K2 requires.
@@ -102,7 +108,7 @@ export const fatalIllnessOnsetHandler: FutureTransitionHandler = (
   item,
 ) => {
   const personId = item.entityIds[0];
-  const diesOn = fatalIllnessDeathDay(item.stableKey);
+  const today = world.currentDate;
   const cancelled = (context: string) => ({
     world,
     status: "cancelled" as const,
@@ -110,55 +116,62 @@ export const fatalIllnessOnsetHandler: FutureTransitionHandler = (
     context,
     outcomeEventId: null,
   });
-  if (!personId || !diesOn || !world.people[personId])
-    return cancelled("The onset no longer names a person and a day.");
+  if (!personId || !world.people[personId])
+    return cancelled("The onset no longer names a person.");
   if (
     !isPersonAliveAt(world, personId, {
-      asOfDate: world.currentDate,
+      asOfDate: today,
       historySequenceExclusive: world.history.nextSequence,
     })
   )
     return cancelled("The person was no longer alive.");
-  if (diesOn <= world.currentDate)
-    return cancelled("No day was left before the death.");
-  // The hazard must still reach the person on that day; a later hazard change
-  // that moved it leaves no illness to begin.
+  if (seriousStrainEpisode(world, personId))
+    return cancelled("A serious episode is already running its course.");
+  // The strain must have reached the threshold by the end of today under the
+  // records as they stand; a later change that moved the day begins nothing.
+  const exposed = mortalityExposureStarts(world).get(personId);
   if (
-    mortalityCrossingDay(
-      world,
-      personId,
-      world.currentDate,
-      addDays(diesOn, 1),
-    ) !== diesOn
+    !exposed ||
+    strainCrossingDay(world, personId, exposed, addDays(today, 1)) === null
   )
-    return cancelled("A later hazard change moved the death day.");
-  if (
-    activeHealthEpisodes(world, personId).some((episode) =>
-      episode.stableKey.startsWith(FATAL_ILLNESS_EPISODE_PREFIX),
-    )
-  )
-    return cancelled("A fatal illness is already recorded.");
+    return cancelled("A later record change moved the day the strain crosses.");
+  const person = world.people[personId]!;
+  const drivers = strainDrivers(world, personId, today);
+  const diesOn = addDays(
+    today,
+    remainingDaysAfterOnset({
+      age: daysBetween(person.birthDate, today) / 365.25,
+      severity: drivers.multiplierMicros / MULTIPLIER_ONE,
+      covered: drivers.coverage?.covered ?? null,
+    }),
+  );
+  const coverageDrove =
+    drivers.coverage &&
+    drivers.coverage.hazardMultiplierMicros !== MULTIPLIER_ONE
+      ? [drivers.coverage.id]
+      : [];
   const played =
     world.control.kind === "person" && world.control.personId === personId;
   const family = played ? [] : immediateFamilyOf(world, personId);
-  const next = beginHealthEpisode(world, {
-    stableKey: fatalIllnessEpisodeKey(personId, diesOn),
+  const stableKey = fatalIllnessEpisodeKey(personId, diesOn);
+  let next = beginHealthEpisode(world, {
+    stableKey,
     personId,
     severity: "serious",
     initialLimitation: "limited",
     origin: {
       kind: "authored",
-      note: `${CRISIS_PROVISIONAL_POLICY} fatal illness ahead of a K1 hazard death; PLACEHOLDER(research: causes-of-death-by-age)`,
+      note: `${CRISIS_PROVISIONAL_POLICY} serious episode on the day recorded strain crossed the threshold (Ruling 29); remaining days PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age)`,
     },
-    causalParentIds: [item.id],
+    causalParentIds: [item.id, ...drivers.conditionIds, ...coverageDrove],
     initialAccess: family.length > 0 ? "specific-people" : "private",
     initialRecipientIds: family,
-    course: fatalIllnessCourse(world.currentDate, diesOn),
+    course: fatalIllnessCourse(today, diesOn),
   });
+  const episode = seriousStrainEpisode(next, personId)!;
+  next = scheduleStrainDeath(next, personId, diesOn, episode.id);
   const began = next.history.events.find(
-    (event) =>
-      event.stableKey ===
-      `crisis:health:${fatalIllnessEpisodeKey(personId, diesOn)}:event`,
+    (event) => event.stableKey === `crisis:health:${stableKey}:event`,
   );
   return {
     world: next,

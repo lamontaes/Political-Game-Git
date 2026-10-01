@@ -40,7 +40,7 @@ import {
   medicaidCoverageDecision,
   recordHealthCoverage,
 } from "./health-coverage";
-import { hazardMultipliersOf, mortalityCrossingDay } from "./mortality";
+import { hazardMultipliersOf, strainCrossingDay } from "./mortality";
 import type { HealthCoverageRecord } from "./types";
 
 const LONG = 900_000;
@@ -419,13 +419,13 @@ describe("Medicaid expansion coverage reaches named people", () => {
               MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
           ),
         ).toBe(true);
-        const withCoverage = mortalityCrossingDay(
+        const withCoverage = strainCrossingDay(
           world,
           row.personId,
           world.currentDate,
           horizon,
         );
-        const uncovered = mortalityCrossingDay(
+        const uncovered = strainCrossingDay(
           without,
           row.personId,
           world.currentDate,
