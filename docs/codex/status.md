@@ -1,4 +1,4 @@
-## October 1, 6:10 a.m. rebuild checkpoint
+## October 1, 6:09 a.m. rebuild checkpoint
 
 The rebuild is incomplete. The foundation's dated wage data is repaired, but a completed-shift caller still needs restoration and runtime proof. Privacy and payroll pieces are published for review. Coordination now uses [00d](https://docs.google.com/document/d/1RxVEUcyebasz0-6C0zyHv40d4LwrB2PJXzji17saVdk/edit).
 
