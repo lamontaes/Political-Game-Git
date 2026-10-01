@@ -1,6 +1,6 @@
 import { confidantsOf } from "./confidants";
 import { ageOnDate } from "./dates";
-import { crimesSufferedBy } from "./crime/victims";
+import { crimesSufferedBy } from "./crime/reporting";
 import { recordsByStringField } from "./history-index";
 import { personOwnsHome } from "./home-purchase";
 import { lifePlaceByJurisdictionId } from "./life-places";

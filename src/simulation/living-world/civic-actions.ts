@@ -179,9 +179,10 @@ export function reviewTownCivicActions(
   const home = homeLocalGovernmentUnits(world, residents[0]!);
   const units = home.municipal.length > 0 ? home.municipal : home.counties;
   const officers = units.flatMap((unit) => sittingLocalOfficers(world, unit));
-  // With no view of anyone, a resident writes to the local chief executive,
-  // or else to the first seated member of the governing body, or, where no
-  // local government is seated, to their state's or territory's governor.
+  // With no view of anyone, a resident writes to the head their local
+  // government records (its chief executive or its chair, the town's before
+  // the county's), or, where none is recorded, to their state's or
+  // territory's governor.
   const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
   const headOfTown =
     localHeadOfGovernment(world, residents[0]!) ??

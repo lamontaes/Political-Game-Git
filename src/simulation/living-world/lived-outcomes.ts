@@ -19,7 +19,8 @@ import { jobsLostBy } from "./town-labor-market";
  * Adding a kind takes four things, and no second pipeline: the kind and its
  * answering office below (`LIVED_OUTCOME_ANSWERED_BY`), its summary, a reader
  * in `LIVED_OUTCOME_READERS` over the producer's own reader, and a call to
- * `scheduleLivedOutcomeReflection(world, personId, sourceRecordId)` where the
+ * `scheduleLivedOutcomeReflection(world, personId, sourceRecordId)`
+ * (law-exposure.ts, beside the law-effect reflection it shares) where the
  * producer writes the record. The reflection, the belief pipeline, the vote
  * count and the talk line read every kind the same way.
  */
