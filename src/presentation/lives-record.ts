@@ -1,7 +1,6 @@
-import { addDays, personName } from "../simulation";
+import { addDays } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
-import { organizationProfileAt } from "../simulation/life-queries";
-import { TOWN_JOB_END_REASONS } from "../simulation/living-world/town-labor-market";
+import { eventById } from "../simulation/event-index";
 import { MIGRATION_MOVED_EVENT } from "../simulation/migration/contract";
 import { strongestObservedTraitLabels } from "../simulation/people-traits";
 import { FAMILY_MEMBER_ADDED_EVENT } from "../simulation/people-family";
@@ -45,6 +44,19 @@ export interface LivesRecord {
 /** How far back "around you" reaches. */
 export const AROUND_YOU_DAYS = 365;
 const AROUND_YOU_LIMIT = 12;
+
+/**
+ * The town events a person can be told of. A job ending is a work status, not
+ * an event, so nobody can be told of one yet: `JOB_ENDED_EVENT` is the type a
+ * producer must write (and a knowledge writer must tell of) before a layoff or
+ * a closure can reach this screen. Nothing writes it today.
+ */
+export const JOB_ENDED_EVENT = "work.job-ended";
+const TOWN_EVENT_KINDS = new Map<string, LivesRecordLine["kind"]>([
+  [FAMILY_MEMBER_ADDED_EVENT, "birth"],
+  [MIGRATION_MOVED_EVENT, "move"],
+  [JOB_ENDED_EVENT, "job-loss"],
+]);
 
 const MONEY: Record<FamilyMoney, string> = {
   secure: "money was not a worry at home",
@@ -107,33 +119,25 @@ export function projectLivesRecord(
   const person = world.people[personId];
   if (!person) return { upbringing: [], leanings: [], around: [] };
   const since = addDays(world.currentDate, -AROUND_YOU_DAYS);
-  const home = person.homeJurisdictionId;
-  const near = (id: EntityId) => world.people[id]?.homeJurisdictionId === home;
   const around: LivesRecordLine[] = [];
 
-  for (const event of world.history.events) {
+  // A town event is on the screen only when this person was told of it: a
+  // knowledge record of theirs about that event, worded as they took it. An
+  // event nobody told them of is true and is not theirs to read.
+  for (const row of world.history.knowledge) {
+    if (row.personId !== personId || row.learnedAt > world.currentDate)
+      continue;
+    const event = eventById(world, row.eventId);
+    const kind = event ? TOWN_EVENT_KINDS.get(event.type) : undefined;
+    if (!event || !kind) continue;
     if (event.occurredAt <= since || event.occurredAt > world.currentDate)
       continue;
-    if (
-      event.type === FAMILY_MEMBER_ADDED_EVENT &&
-      event.jurisdictionId === home
-    )
-      around.push({
-        key: event.id,
-        at: event.occurredAt,
-        kind: "birth",
-        sentence: event.summary,
-      });
-    else if (
-      event.type === MIGRATION_MOVED_EVENT &&
-      event.jurisdictionId === home
-    )
-      around.push({
-        key: event.id,
-        at: event.occurredAt,
-        kind: "move",
-        sentence: event.summary,
-      });
+    around.push({
+      key: row.id,
+      at: event.occurredAt,
+      kind,
+      sentence: row.believedSummary,
+    });
   }
   for (const death of deathNewsBetween(
     world,
@@ -147,39 +151,6 @@ export function projectLivesRecord(
       kind: "death",
       sentence: death.sentence,
     });
-
-  const ended = new Set<string>([
-    TOWN_JOB_END_REASONS.laidOff,
-    TOWN_JOB_END_REASONS.businessClosed,
-  ]);
-  const relationships = new Map(
-    world.history.workRelationships.map((row) => [row.id, row]),
-  );
-  for (const status of world.history.workStatuses) {
-    if (
-      status.status !== "ended" ||
-      status.reason === null ||
-      !ended.has(status.reason) ||
-      status.effectiveAt <= since ||
-      status.effectiveAt > world.currentDate
-    )
-      continue;
-    const job = relationships.get(status.workRelationshipId);
-    if (!job || !near(job.personId)) continue;
-    const employer = job.organizationId
-      ? organizationProfileAt(world, job.organizationId)?.name
-      : undefined;
-    const who = personName(world.people[job.personId]!);
-    around.push({
-      key: status.id,
-      at: status.effectiveAt,
-      kind: "job-loss",
-      sentence:
-        status.reason === TOWN_JOB_END_REASONS.businessClosed
-          ? `${who} lost a job when ${employer ?? "the business"} closed.`
-          : `${who} was laid off${employer ? ` from ${employer}` : ""}.`,
-    });
-  }
 
   around.sort((a, b) => b.at.localeCompare(a.at) || a.key.localeCompare(b.key));
   return {

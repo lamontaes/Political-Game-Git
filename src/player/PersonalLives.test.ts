@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -10,6 +11,7 @@ import {
   recordHouseholdLocation,
   startHouseholdMembership,
 } from "../simulation/life";
+import { recordEventKnowledge } from "../simulation/records";
 import { PersonalWorkspace } from "./ShellWorkspaces";
 
 /**
@@ -29,11 +31,11 @@ describe(`Who you are, in ${state!.jurisdictionKey} (seed ${SEED})`, () => {
     const small = smallWorld({ place: state!.jurisdictionKey, seed: SEED });
     const html = (world: typeof small.world) =>
       renderToStaticMarkup(
-        <PersonalWorkspace
-          world={world}
-          personId={small.personId}
-          onOpenPerson={() => undefined}
-        />,
+        createElement(PersonalWorkspace, {
+          world,
+          personId: small.personId,
+          onOpenPerson: () => undefined,
+        }),
       );
     const before = html(small.world);
     expect(before).toContain('data-testid="personal-upbringing"');
@@ -76,7 +78,22 @@ describe(`Who you are, in ${state!.jurisdictionKey} (seed ${SEED})`, () => {
       waveKey: null,
       why: "took a job elsewhere",
     });
-    const after = html(next);
+    // Moved, but nobody told the player: the screen shows nothing of it.
+    expect(html(next)).not.toContain('data-testid="personal-around"');
+    const moveEvent = next.history.events.find(
+      (row) => row.type === "migration.moved",
+    )!;
+    const told = recordEventKnowledge(next, {
+      stableKey: "lives-markup:told",
+      personId: small.personId,
+      eventId: moveEvent.id,
+      learnedAt: next.currentDate,
+      believedSummary: moveEvent.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "told-by", sourcePersonId: mover, claimId: null },
+    });
+    const after = html(told);
     expect(after).toContain('data-testid="personal-around"');
     expect(after).toContain('data-kind="move"');
     expect(after).toContain("took a job elsewhere");
