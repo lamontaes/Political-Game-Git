@@ -1374,6 +1374,7 @@ function commissionerDecision(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
   const decision =
