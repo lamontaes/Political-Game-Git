@@ -55,7 +55,7 @@ import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import { recordRelationshipMoment } from "./relationship-integration";
 import { readRelationshipStanding } from "./relationship-standing";
-import { recordWorldEvent } from "./world";
+import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
 import type {
   DecisionConsideration,
   DecisionImportance,
@@ -250,6 +250,18 @@ export interface GoalReviewResult {
  * blocked for its recorded reason. At most one step per person.
  */
 export function reviewPeopleGoals(world: World): GoalReviewResult {
+  // A cold review initializes several histories for each candidate. Batch the
+  // canonical writers, then validate their complete result before returning it.
+  let nextReviewAt = addDays(world.currentDate, PACE.reviewIntervalDays);
+  const reviewedWorld = writeWithWorldIntegrityOnce(world, () => {
+    const result = reviewPeopleGoalsUnchecked(world);
+    nextReviewAt = result.nextReviewAt;
+    return result.world;
+  });
+  return { world: reviewedWorld, nextReviewAt };
+}
+
+function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   const weekOn = addDays(world.currentDate, PACE.reviewIntervalDays);
   let nextReviewAt = weekOn;
   const soonest = (date: IsoDate | null) => {
