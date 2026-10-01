@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { engineDocOrder } from "../../scripts/audit/autoscan";
 import { REPO_ROOT, researchReaders } from "../../scripts/audit/readers";
 
 /*
@@ -15,7 +16,15 @@ import { REPO_ROOT, researchReaders } from "../../scripts/audit/readers";
 interface AllowEntry {
   readonly file: string;
   readonly reason: string;
+  readonly engine?: string;
+  readonly readerOwner?: string;
 }
+
+/**
+ * The waiting list may only shrink. When a file gains its reader and leaves
+ * the list, lower this to the new length in the same change; never raise it.
+ */
+const AWAITING_READER_CEILING = 11;
 
 const allowlist = JSON.parse(
   readFileSync(
@@ -63,6 +72,24 @@ describe("research data has a reader", () => {
     expect(allowed.size).toBe(
       allowlist.rawSource.length + allowlist.awaitingReader.length,
     );
+  });
+
+  it("the waiting list never grows, and each waiting file names its engine and the squad that owns its reader", () => {
+    expect(
+      allowlist.awaitingReader.length,
+      "The list of research files waiting for a reader may only shrink. Wire the new file to its reader instead of adding it.",
+    ).toBeLessThanOrEqual(AWAITING_READER_CEILING);
+    const engines = new Map(
+      engineDocOrder().map((section) => [section.engine, section.squads]),
+    );
+    for (const entry of allowlist.awaitingReader) {
+      const squads = engines.get(entry.engine ?? "");
+      expect(squads, `${entry.file}: engine "${entry.engine}"`).toBeDefined();
+      expect(
+        squads!.includes(entry.readerOwner ?? "\u0000"),
+        `${entry.file}: "${entry.readerOwner}" is not one of the ${entry.engine} squads (${squads})`,
+      ).toBe(true);
+    }
   });
 
   it("finds a real import and a real path read, and ignores a citation", () => {

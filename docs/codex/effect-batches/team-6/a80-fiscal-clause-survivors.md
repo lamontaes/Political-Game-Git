@@ -2,11 +2,11 @@
 
 Before: An appropriation changed its written end date when it became law. A later law naming an enacted program produced no spending authority.
 
-After: The writer preserves the unchanged clause's absolute end date and opens authority on the law's actual operative date. It validates a single saved authorization target in the same government, then records the later law's own amount. Both producer defects pass their original assertions. One display assertion remains red because its reader still expects the funding bill's family rather than the authorized program's family.
+After: The writer preserves the unchanged clause's absolute end date and opens authority on the law's actual operative date. It validates a single saved authorization target in the same government, then records the later law's own amount. Both producer defects pass their original assertions. The authorization display now joins the actual funding record to its saved target, with exact component isolation.
 
 ## MERGED
 
-This main-based A80 producer candidate is not merged or approved. The coordinator released only the date join and saved-target resolver, with necessary arguments and imports. Team1's general-budget recognition and final-clause loop remain unchanged. Team2 owns the two presentation fixtures. The remaining authorization-display join has been requested separately.
+This main-based A80 producer candidate is not merged or approved. The coordinator released only the date join and saved-target resolver, with necessary arguments and imports. Team1's general-budget recognition and final-clause loop remain unchanged. Team2 owns the two presentation fixtures. The coordinator also released only appropriatedAgainst and its narrow tests. That reader repair is included. The candidate is ready for exact-head CTO review.
 
 ## WHAT EMERGED
 
@@ -32,7 +32,7 @@ The producer joins the saved compiled date to the unchanged final availability o
 2. Open those appropriations on their canonical operative dates.
 3. Resolve one saved enacted authorization through the existing program identity rule and recordAdoptedAppropriation.
 4. Replace the obsolete blanket bridge refusal with positive amount/source/repeat/Continue proof and separate missing-enactment and missing-final-ceiling refusals.
-5. Keep the existing authorization-display mismatch explicit pending its reader transfer.
+5. Count only actual appropriations joined through saved target and source IDs, matching complete component editions rather than substrings.
 
 ## 5. Simulated, records, world pieces, checks
 
@@ -40,9 +40,9 @@ SIMULATED: Controlled filing and signing through the recorded governor's actual 
 
 ## 6. Proof run
 
-Production source d83f905bc9a4dfc78d91fc02d04cf9820d4422f3 is based on main 6cc29fb8a6e4efd149e8c916343d88922e2cad7c. Both complete Team2 presentation test files were read from published 75608f984640b6206a0452298830e4f4049ba880 through a read-only Vite loader. Their assertions and stock timeouts were unchanged. Session 47338 finished with 91 passes and 1 failure across 92 cases in 29.03 seconds. The failure is the authorization display reporting zero against a real saved appropriation of 1,200,000,000 USD cents.
+Final tested production source is 7db7aee2fb58ab0a84001fcfbee7ec078855bbbd, based on main 6cc29fb8a6e4efd149e8c916343d88922e2cad7c. Both complete Team2 presentation test files were read from published 75608f984640b6206a0452298830e4f4049ba880 through a read-only Vite loader. Their assertions and stock timeouts were unchanged. Final session 77098 passes all 98 cases in three complete files in 36.83 seconds: 92 presentation cases and 6 target/component cases. The original January 5 and authorization-display assertions pass. The first producer-only run, session 47338, passed 91 of 92 in 29.03 seconds; it exposed the obsolete display join. That failure receipt is preserved.
 
-The full changed program-governing.test.ts passes all 5 cases in 24.08 seconds, session 96753. Its tested blob is 9a9bf48ff4feca653aeb92d5adc8f109b126e9f1. Two scoped strict roots load 1,148 files with zero owned diagnostics. Lint, formatting and whitespace pass. Zero-dice reports zero new findings and five inherited stale entries. Release checking fails on unchanged main CI declaration prose. No assertions or timeouts were weakened. Both terminal receipts remain in a80-fiscal-proof.
+The full changed program-governing.test.ts passes all 6 cases in the final combined run. Its final tested blob is 4b45293a94ba6a32305340a93e25f934d01640e8. The prior five-case result, session 96753, is preserved separately. Three scoped strict roots load 1,150 files with zero owned diagnostics. Lint, formatting and whitespace pass. Zero-dice reports zero new findings and five inherited stale entries. Release checking fails on unchanged main CI declaration prose. No assertions or timeouts were weakened. Terminal receipts remain in a80-fiscal-proof. The final read-only spelling command reports 186 findings: 78 in byte-identical base files and 108 in verbatim command receipts, which quote canonical saved variant keys and earlier spelling output. No owned production or report prose finding is present. Raw receipts are preserved verbatim.
 
 Full-suite, browser, natural gameplay, game-year, installed build and final-main proof were not run. The repository feature-walkthrough is applied here. Self-review replaces a new reviewer helper under the owner's no-new-helper instruction. Controlled canonical records do not establish nationwide runtime closure.
 
@@ -54,8 +54,8 @@ The saved appropriation is public-program-record_a73b70ee8224cb24, with event_a1
 
 ## VITAL STATISTICS
 
-Two producer defects now pass their original assertions. The combined files pass 91 of 92 cases. The changed target file passes 5 of 5 cases. One existing financial writer survives; none is added. No law-effect link is newly activated. The last effects audit remains 94 of 220 executing.
+The two producer defects and the authorization-display defect now pass their original assertions. The combined three files pass 98 of 98 cases. The changed target file passes 6 of 6 cases, including exact sibling-component isolation. One existing financial writer survives; none is added. No law-effect link is newly activated. The last effects audit remains 94 of 220 executing.
 
 ## What happens next
 
-The coordinator and Audit must release or repair appropriatedAgainst's exact saved-target join. It currently tests the record against the funding lineage's family, so appropriations misses utility-resilience. That reader must retain actual source and government attribution. After its bounded repair, the unchanged original display assertion will be rerun with these producer changes and Team2's fixtures. CTO review remains required before merge.
+The coordinator and CTO review the exact final head, then combine it with Team2's fixture PR on main. The reader preserves actual amounts, source IDs and exact component editions; no authorization ceiling or sibling record is counted. Team1's protected general-budget loop remains unchanged. The next financial step follows the ordered A33 queue and the existing root transfer. No main-green or installed-play closure is claimed before composition and approval.
