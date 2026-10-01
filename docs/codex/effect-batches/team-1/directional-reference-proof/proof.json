@@ -1,0 +1,202 @@
+[
+  {
+    "placeSelectionSeed": "g2-nearest-directional-reference",
+    "worldSeed": "legislative-core-kentucky-2026",
+    "place": "NH",
+    "source": "MS",
+    "sponsorPersonId": "person_398d001af39ecb24",
+    "sponsorName": "Morgan Evans",
+    "requestMeasureId": "legislative-measure_7451f587fc0ba10c",
+    "provisionId": "legislative-provision_fa666dea40685cf6",
+    "eventId": "event_588b0769ebab37fb",
+    "term": {
+      "value": 66,
+      "unit": "months",
+      "referenceMeasureId": "starting-law:US-MS:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "referenceProvisionId": null,
+      "referenceOperativeAt": "2026-01-01",
+      "principleRecordIds": [
+        "principle_5738ed088af0f58c",
+        "principle_22d8707238acc635",
+        "principle_ed65410176ff6483",
+        "principle_b15babf00dfa0ef8",
+        "principle_87283140e0b4a750",
+        "principle_afde4dbfb3cefb07"
+      ],
+      "score": 16,
+      "sourceRecordIds": [
+        "starting-law:US-NH:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "starting-law:US-MS:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "principle_5738ed088af0f58c",
+        "principle_22d8707238acc635",
+        "principle_ed65410176ff6483",
+        "principle_b15babf00dfa0ef8",
+        "principle_87283140e0b4a750",
+        "principle_afde4dbfb3cefb07"
+      ]
+    },
+    "futurePhaseExcluded": true,
+    "repeatAndSaveContinue": true,
+    "limits": "Fictional process-only terms and explicit saved principles. No natural filing, passage, punishment or cost claim."
+  },
+  {
+    "placeSelectionSeed": "g2-nearest-directional-reference",
+    "worldSeed": "legislative-core-kentucky-2026",
+    "place": "MS",
+    "source": "TN",
+    "sponsorPersonId": "person_9a7f8dd65cda236e",
+    "sponsorName": "Rene Skinner",
+    "requestMeasureId": "legislative-measure_c511bcfb9e1cee69",
+    "provisionId": "legislative-provision_6daf06da20915ccc",
+    "eventId": "event_cce4dcb6d958670a",
+    "term": {
+      "value": 66,
+      "unit": "months",
+      "referenceMeasureId": "starting-law:US-TN:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "referenceProvisionId": null,
+      "referenceOperativeAt": "2026-01-01",
+      "principleRecordIds": [
+        "principle_6877b0c92a50b8aa",
+        "principle_a4d0e11c48f71c27",
+        "principle_315d1fc565b2dd49",
+        "principle_cd49c438a3a356a6",
+        "principle_b27e707bf44269c2",
+        "principle_500bec710b5cf4c5"
+      ],
+      "score": 16,
+      "sourceRecordIds": [
+        "starting-law:US-MS:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "starting-law:US-TN:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "principle_6877b0c92a50b8aa",
+        "principle_a4d0e11c48f71c27",
+        "principle_315d1fc565b2dd49",
+        "principle_cd49c438a3a356a6",
+        "principle_b27e707bf44269c2",
+        "principle_500bec710b5cf4c5"
+      ]
+    },
+    "futurePhaseExcluded": true,
+    "repeatAndSaveContinue": true,
+    "limits": "Fictional process-only terms and explicit saved principles. No natural filing, passage, punishment or cost claim."
+  },
+  {
+    "placeSelectionSeed": "g2-nearest-directional-reference",
+    "worldSeed": "legislative-core-kentucky-2026",
+    "place": "TN",
+    "source": "IN",
+    "sponsorPersonId": "person_717d6caaac0228cc",
+    "sponsorName": "Jeffrey Chan",
+    "requestMeasureId": "legislative-measure_9393a68f2a9b908b",
+    "provisionId": "legislative-provision_540d2dd70c960080",
+    "eventId": "event_70befa059000734e",
+    "term": {
+      "value": 66,
+      "unit": "months",
+      "referenceMeasureId": "starting-law:US-IN:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "referenceProvisionId": null,
+      "referenceOperativeAt": "2026-01-01",
+      "principleRecordIds": [
+        "principle_c713ac65a0490a7c",
+        "principle_99f9fb62c6725bc5",
+        "principle_67788685cd40c733",
+        "principle_2bb4e4e34d510588",
+        "principle_45068fc1e24c3000",
+        "principle_0182dd43295c4817"
+      ],
+      "score": 16,
+      "sourceRecordIds": [
+        "starting-law:US-TN:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "starting-law:US-IN:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "principle_c713ac65a0490a7c",
+        "principle_99f9fb62c6725bc5",
+        "principle_67788685cd40c733",
+        "principle_2bb4e4e34d510588",
+        "principle_45068fc1e24c3000",
+        "principle_0182dd43295c4817"
+      ]
+    },
+    "futurePhaseExcluded": true,
+    "repeatAndSaveContinue": true,
+    "limits": "Fictional process-only terms and explicit saved principles. No natural filing, passage, punishment or cost claim."
+  },
+  {
+    "placeSelectionSeed": "g2-nearest-directional-reference",
+    "worldSeed": "legislative-core-kentucky-2026",
+    "place": "IN",
+    "source": "GA",
+    "sponsorPersonId": "person_b8f8d3f41a334973",
+    "sponsorName": "Sean Taylor",
+    "requestMeasureId": "legislative-measure_814c21b7a6bab88d",
+    "provisionId": "legislative-provision_90f7f46cf52120dc",
+    "eventId": "event_eb7a563e448a4036",
+    "term": {
+      "value": 66,
+      "unit": "months",
+      "referenceMeasureId": "starting-law:US-GA:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "referenceProvisionId": null,
+      "referenceOperativeAt": "2026-01-01",
+      "principleRecordIds": [
+        "principle_b5f85f5ced07bd19",
+        "principle_5c237f73c3b3b13c",
+        "principle_1603b5c60fe254e6",
+        "principle_bb002e17e933a819",
+        "principle_e0846186ab053ee9",
+        "principle_2535238679e075c2"
+      ],
+      "score": 16,
+      "sourceRecordIds": [
+        "starting-law:US-IN:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "starting-law:US-GA:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "principle_b5f85f5ced07bd19",
+        "principle_5c237f73c3b3b13c",
+        "principle_1603b5c60fe254e6",
+        "principle_bb002e17e933a819",
+        "principle_e0846186ab053ee9",
+        "principle_2535238679e075c2"
+      ]
+    },
+    "futurePhaseExcluded": true,
+    "repeatAndSaveContinue": true,
+    "limits": "Fictional process-only terms and explicit saved principles. No natural filing, passage, punishment or cost claim."
+  },
+  {
+    "placeSelectionSeed": "g2-nearest-directional-reference",
+    "worldSeed": "legislative-core-kentucky-2026",
+    "place": "GA",
+    "source": "NH",
+    "sponsorPersonId": "person_5c1182ea45ba459e",
+    "sponsorName": "Vincent Villanueva",
+    "requestMeasureId": "legislative-measure_07ad2891fdaf7986",
+    "provisionId": "legislative-provision_0ca225d1ed6851d2",
+    "eventId": "event_0dc9a9532ddaacc3",
+    "term": {
+      "value": 66,
+      "unit": "months",
+      "referenceMeasureId": "starting-law:US-NH:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "referenceProvisionId": null,
+      "referenceOperativeAt": "2026-01-01",
+      "principleRecordIds": [
+        "principle_ef54071699b3164a",
+        "principle_f234c3ccf105e4c7",
+        "principle_2b8df5306aa256e9",
+        "principle_3a6820c657078946",
+        "principle_06ec9d476a7a7c62",
+        "principle_47c6bfb4f6570865"
+      ],
+      "score": 16,
+      "sourceRecordIds": [
+        "starting-law:US-GA:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "starting-law:US-NH:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "principle_ef54071699b3164a",
+        "principle_f234c3ccf105e4c7",
+        "principle_2b8df5306aa256e9",
+        "principle_3a6820c657078946",
+        "principle_06ec9d476a7a7c62",
+        "principle_47c6bfb4f6570865"
+      ]
+    },
+    "futurePhaseExcluded": true,
+    "repeatAndSaveContinue": true,
+    "limits": "Fictional process-only terms and explicit saved principles. No natural filing, passage, punishment or cost claim."
+  }
+]
