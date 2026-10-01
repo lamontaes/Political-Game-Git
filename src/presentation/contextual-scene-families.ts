@@ -1581,22 +1581,7 @@ function studyPeerAnswers(context: SceneContext): SceneAnswer[] {
                   : "I\u2019ve already committed to another group.",
             ),
           }),
-      ...(decided === "agrees"
-        ? {
-            relationship: {
-              kind: "work:shared-coursework" as const,
-              change: "formed" as const,
-              significance: "minor" as const,
-              summary: ({
-                playerName,
-                otherName,
-              }: {
-                playerName: string;
-                otherName: string;
-              }) => `${playerName} and ${otherName} agreed to work together.`,
-            },
-          }
-        : {}),
+
     },
     {
       key: "ask",
