@@ -27,7 +27,6 @@ import { isEligibleVoterIn } from "../issue-record";
 import {
   constitutionalMemberConsiderations,
   memberBallot,
-  stateVoice,
   type Voter,
 } from "../governing/article-v";
 import {
@@ -448,7 +447,7 @@ function countLegislature(
   };
 }
 
-/** The members who speak for the legislature, principles drawn. */
+/** Actual recorded state members; missing chambers never substitute Congress. */
 function legislatureVoice(
   world: World,
   stateUsps: string,
@@ -457,14 +456,32 @@ function legislatureVoice(
   readonly voters: readonly Voter[];
   readonly estimated: boolean;
 } {
-  const voice = stateVoice(world, stateUsps);
+  const jurisdictionId = chiefExecutiveJurisdictionId(stateUsps);
+  const profile = stateAmendmentProfile(`US-${stateUsps}`);
+  const rosters =
+    jurisdictionId && profile
+      ? profile.bodies.map((body) =>
+          stateConstitutionalRoster(world, jurisdictionId, body.bodyKey),
+        )
+      : [];
+  if (!jurisdictionId || !profile || rosters.some((roster) => roster === null))
+    return { world, voters: [], estimated: true };
+  const voters = rosters.flatMap((roster) =>
+    roster
+      ? roster.seated.body.members.flatMap((member) =>
+          member.personId
+            ? [{ memberKey: member.memberKey, personId: member.personId }]
+            : [],
+        )
+      : [],
+  );
   return {
-    world: ensureOfficeholderPrinciples(world, voice.personIds),
-    voters: voice.personIds.map((personId) => ({
-      memberKey: personId,
-      personId,
-    })),
-    estimated: voice.estimated,
+    world: ensureOfficeholderPrinciples(
+      world,
+      voters.map((voter) => voter.personId),
+    ),
+    voters,
+    estimated: false,
   };
 }
 
