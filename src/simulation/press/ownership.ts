@@ -355,11 +355,9 @@ export function pressOwnerReviewHandler(
     if (pressRecordByKey(next, "owner-directive", practiceKeyForReview))
       continue;
     // Staff cuts come from recorded payroll capacity, never pack odds.
-    if (
-      practice.effect !== "reduce-newsroom-staff" &&
-      rng.next() >= practice.likelihoodPerReview
-    )
-      continue;
+    if (practice.effect !== "reduce-newsroom-staff") {
+      if (rng.next() >= practice.likelihoodPerReview) continue;
+    }
     const decided = carryOutPractice(
       next,
       owner,

@@ -8,7 +8,7 @@ import {
 import { createStableId } from "../ids";
 import { createOrganization, createWorkRelationship } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
-import { createLightweightPerson } from "../people";
+import { createLightweightPerson, personName } from "../people";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -244,6 +244,22 @@ describe("A145 newsroom cuts read recorded cash and payroll", () => {
       expect(reason).toContain("$200.00");
       expect(reason).toContain("$300.00");
       assertWorldIntegrity(after);
+      const affectedPerson = after.people[before[2]!.personId]!;
+      process.stdout.write(
+        "A145 named payroll receipt " +
+          JSON.stringify({
+            jurisdiction: usps,
+            personId: affectedPerson.id,
+            name: personName(affectedPerson),
+            workId: before[2]!.workRelationshipId,
+            eventId: event.id,
+            reason,
+            sourceTags: event.tags.filter((tag) =>
+              tag.startsWith("press.payroll-source:"),
+            ),
+          }) +
+          "\n",
+      );
       const payload = serializeWorld(after),
         loaded = deserializeWorld(payload);
       expect(serializeWorld(loaded)).toBe(payload);
