@@ -227,7 +227,7 @@ interface OpeningLifeBuildStart {
 }
 
 function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
-  const game = createNewGameWorld(session.setup);
+  const game = createNewGameWorld(session.setup, { deferStartingLaws: true });
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {

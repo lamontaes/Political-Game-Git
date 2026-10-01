@@ -501,89 +501,96 @@ export function resolvedDepth(setup: NewGameSetup): NewGameDepth {
     : "summarize-earlier-life";
 }
 
-export function createNewGameWorld(setup: NewGameSetup): NewGame {
+export function createNewGameWorld(
+  setup: NewGameSetup,
+  opening: { deferStartingLaws?: boolean } = {},
+): NewGame {
   const problems = newGameSetupProblems(setup);
   if (problems.length > 0) {
     throw new Error(problems[0]!.message);
   }
   const place = requireLifePlace(setup.placeKey);
   const priors = setupPriorStoreFor(setup);
-  const built = buildProductionWorld({
-    // The build seed, not the world's identity: the calibration is allowed to
-    // change what the generator draws, and never which world this is.
-    seed: buildSeedFor(setup),
-    familyStructureSeed: worldSeedFor(setup),
-    personalitySeed: setup.seed,
-    place,
-    age: setup.startAge,
-    ...(setup.birthMonth === undefined || setup.birthDay === undefined
-      ? {}
-      : { birthMonth: setup.birthMonth, birthDay: setup.birthDay }),
-    givenName: setup.givenName,
-    familyName: setup.familyName,
-    // Only a stated gender reaches the world. "Rather not say" is recorded as
-    // an absent identity rather than as a neutral one, so the record can tell
-    // the two apart.
-    ...(setup.gender === undefined || setup.gender === "unstated"
-      ? {}
-      : {
-          identity: {
-            gender: setup.gender,
-            pronouns: setup.pronouns ?? defaultPronounsForGender(setup.gender),
-          },
-        }),
-    // On a normal start the household and the depth are the generator's to
-    // decide, not the player's — see Task E. Custom keeps the explicit
-    // answers. The starting role stays as the setup carries it: the normal
-    // creator offers no office, so a normal start is already `ordinary-life`,
-    // and a life reaches work through play rather than beginning in one.
-    startingLife:
-      setup.startingLife === "judicial-office-practice" ||
-      setup.startingLife === "state-agency-director"
-        ? "ordinary-life"
-        : setup.startingLife,
-    household: resolvedHousehold(setup),
-    depth: resolvedDepth(setup),
-    priors,
-    // The custom route is the one where the calibration does not shape the
-    // family. Passing null here is the whole of that difference, and it is why
-    // the two routes are genuinely distinct rather than two labels.
-    generation:
-      setup.startKind === "custom" ? null : generationInputsFor(priors),
-    appearanceRecipeVersion:
-      setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
-    givenNameGenerationVersion: setup.givenNameGenerationVersion,
-    earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion,
-    ...(setup.childhoodGenerationVersion === undefined
-      ? {}
-      : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
-    ...(setup.schoolNameVersion === undefined
-      ? {}
-      : { schoolNameVersion: setup.schoolNameVersion }),
-    ...(setup.placeNameVersion === undefined
-      ? {}
-      : { placeNameVersion: setup.placeNameVersion }),
-    ...(setup.schoolStageVersion === undefined
-      ? {}
-      : { schoolStageVersion: setup.schoolStageVersion }),
-    ...(setup.districtHomeJoinVersion === undefined
-      ? {}
-      : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
-    ...(setup.familyBirthdayVersion === undefined
-      ? {}
-      : { familyBirthdayVersion: setup.familyBirthdayVersion }),
-    ...(setup.parentPartnerVersion === undefined
-      ? {}
-      : { parentPartnerVersion: setup.parentPartnerVersion }),
-    // An office start is employed by its own initializer below, never twice.
-    ...(setup.adultStartWorkVersion === undefined ||
-    setup.startingLife !== "ordinary-life"
-      ? {}
-      : { adultStartWorkVersion: setup.adultStartWorkVersion }),
-    ...(setup.appearanceCatalogGeneration === undefined
-      ? {}
-      : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
-  });
+  const built = buildProductionWorld(
+    {
+      // The build seed, not the world's identity: the calibration is allowed to
+      // change what the generator draws, and never which world this is.
+      seed: buildSeedFor(setup),
+      familyStructureSeed: worldSeedFor(setup),
+      personalitySeed: setup.seed,
+      place,
+      age: setup.startAge,
+      ...(setup.birthMonth === undefined || setup.birthDay === undefined
+        ? {}
+        : { birthMonth: setup.birthMonth, birthDay: setup.birthDay }),
+      givenName: setup.givenName,
+      familyName: setup.familyName,
+      // Only a stated gender reaches the world. "Rather not say" is recorded as
+      // an absent identity rather than as a neutral one, so the record can tell
+      // the two apart.
+      ...(setup.gender === undefined || setup.gender === "unstated"
+        ? {}
+        : {
+            identity: {
+              gender: setup.gender,
+              pronouns:
+                setup.pronouns ?? defaultPronounsForGender(setup.gender),
+            },
+          }),
+      // On a normal start the household and the depth are the generator's to
+      // decide, not the player's — see Task E. Custom keeps the explicit
+      // answers. The starting role stays as the setup carries it: the normal
+      // creator offers no office, so a normal start is already `ordinary-life`,
+      // and a life reaches work through play rather than beginning in one.
+      startingLife:
+        setup.startingLife === "judicial-office-practice" ||
+        setup.startingLife === "state-agency-director"
+          ? "ordinary-life"
+          : setup.startingLife,
+      household: resolvedHousehold(setup),
+      depth: resolvedDepth(setup),
+      priors,
+      // The custom route is the one where the calibration does not shape the
+      // family. Passing null here is the whole of that difference, and it is why
+      // the two routes are genuinely distinct rather than two labels.
+      generation:
+        setup.startKind === "custom" ? null : generationInputsFor(priors),
+      appearanceRecipeVersion:
+        setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
+      givenNameGenerationVersion: setup.givenNameGenerationVersion,
+      earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion,
+      ...(setup.childhoodGenerationVersion === undefined
+        ? {}
+        : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
+      ...(setup.schoolNameVersion === undefined
+        ? {}
+        : { schoolNameVersion: setup.schoolNameVersion }),
+      ...(setup.placeNameVersion === undefined
+        ? {}
+        : { placeNameVersion: setup.placeNameVersion }),
+      ...(setup.schoolStageVersion === undefined
+        ? {}
+        : { schoolStageVersion: setup.schoolStageVersion }),
+      ...(setup.districtHomeJoinVersion === undefined
+        ? {}
+        : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
+      ...(setup.familyBirthdayVersion === undefined
+        ? {}
+        : { familyBirthdayVersion: setup.familyBirthdayVersion }),
+      ...(setup.parentPartnerVersion === undefined
+        ? {}
+        : { parentPartnerVersion: setup.parentPartnerVersion }),
+      // An office start is employed by its own initializer below, never twice.
+      ...(setup.adultStartWorkVersion === undefined ||
+      setup.startingLife !== "ordinary-life"
+        ? {}
+        : { adultStartWorkVersion: setup.adultStartWorkVersion }),
+      ...(setup.appearanceCatalogGeneration === undefined
+        ? {}
+        : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
+    },
+    { deferStartingLaws: true },
+  );
   // A town split across several districts gets its resident placed in one of
   // them (GAME PROFILE placeholder, see `assignSplitHomeDistricts`). Current
   // openings only: a legacy replay descriptor rebuilds the bytes it always did.
@@ -611,7 +618,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       : { ok: true as const, world: office.world };
   if (!agency.ok) throw new Error(agency.reason);
   return {
-    world: applyStartingLawConsequences(agency.world),
+    world: opening.deferStartingLaws
+      ? agency.world
+      : applyStartingLawConsequences(agency.world),
     playerPersonId: built.playerPersonId,
     place,
     setup,
