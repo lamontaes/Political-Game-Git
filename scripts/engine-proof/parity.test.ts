@@ -404,8 +404,31 @@ describe("A3 canonical day adapter", () => {
     });
     const before = canonicalHash(world);
     const actual = advanceWorld(world, 1);
-    expect(actual).toBe(world);
-    expect(canonicalHash(actual)).toBe(before);
+    const target = simulationMomentOnLocalDate(
+      world.currentMoment,
+      addDays(world.currentDate, 1),
+    );
+    const expected = advanceWorldMinutes(
+      world,
+      simulationMinutesBetween(world.currentMoment, target),
+      composeWorldTimeHandlers(),
+    );
+    expect(canonicalHash(world)).toBe(before);
+    expect(canonicalHash(actual)).toBe(canonicalHash(expected));
+    expect(actual.currentMoment).toEqual(
+      addSimulationMinutes(world.currentMoment, 60),
+    );
+    expect(actual.actionSequence).toBe(world.actionSequence + 1);
+    expect(
+      actual.history.events.filter(
+        (event) => event.type === "simulation.minutes-advanced",
+      ),
+    ).toHaveLength(1);
+    expect(
+      actual.history.events.filter(
+        (event) => event.type === "simulation.time-advanced",
+      ),
+    ).toHaveLength(0);
     expect(actual.currentDate).toBe(date);
     expect(actual.history.scheduledActivityStates.at(-1)?.status).toBe(
       "scheduled",
