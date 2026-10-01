@@ -27,7 +27,7 @@ import {
 import { arrangeAcceptedPressInterview } from "./press-interview-producers";
 import type { EntityId, World } from "./types";
 import { recordWorldEvent } from "./world";
-import { ensurePressLocalCoverage } from "./press";
+import { ensurePressHomeCoverage, ensurePressLocalCoverage } from "./press";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { lifePlaceStateIdentities } from "./life-places";
 import { pickDistinct, SeededRng } from "./rng";
@@ -68,7 +68,7 @@ function memberWorld(seed: string, press = true) {
   return press
     ? {
         ...created,
-        world: ensurePressLocalCoverage(created.world, created.playerPersonId),
+        world: ensurePressHomeCoverage(created.world),
       }
     : created;
 }
@@ -485,7 +485,9 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
     world = recordPublicHearing(world, "press-reach13-refuse");
     const publicId = world.history.events.at(-1)!.id;
     const staffing = world.history.events.find(
-      (event) => event.type === "press.civic-newsroom-staffed",
+      (event) =>
+        event.type === "press.reporter-joined-outlet" &&
+        event.involvedEntityIds.includes(contact.reporterPersonId),
     )!;
     world = createWorkItem(world, {
       stableKey: "press-reach13-refuse:coverage",
