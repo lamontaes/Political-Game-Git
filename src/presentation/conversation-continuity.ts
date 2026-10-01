@@ -11,11 +11,11 @@ import {
   advanceNeighborhoodMeeting,
   advanceSchoolProject,
   conversationCommitContract,
+  conversationCommitContractForSubject,
 } from "./conversation-subjects";
 import {
   createLifeTalkProgress,
   createNeighborhoodMeetingProgress,
-  createSchoolProjectProgress,
   isNeighborhoodMeetingConversationProgress,
   isSchoolProjectConversationProgress,
 } from "./run-b-conversation-progress";
@@ -47,6 +47,8 @@ function subjectContract(subject: ConversationSubjectKey) {
   if (isContextualSceneSubject(subject)) {
     return contextualSceneContract(subject);
   }
+  if (subject === "school-project-share")
+    return conversationCommitContractForSubject(subject);
   const opening = openingProgress(subject);
   return opening ? conversationCommitContract(opening) : null;
 }
@@ -73,7 +75,9 @@ function openingProgress(
 ): ConversationProgress | null {
   switch (subject) {
     case "school-project-share":
-      return createSchoolProjectProgress();
+      // Historical turns remain readable, but do not invent an assignment
+      // to reopen a topic unsupported by current saved records.
+      return null;
     case "neighborhood-meeting-notice":
       return createNeighborhoodMeetingProgress(world);
     case "life-talk":

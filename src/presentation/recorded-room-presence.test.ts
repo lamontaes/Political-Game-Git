@@ -16,6 +16,7 @@ import { schoolConversationRoom } from "./formative-play";
 import { createNewGameWorld } from "./new-game";
 import { sampledProofLocalityForState } from "./new-game-geography";
 import { recordedRoomPresence } from "./recorded-room-presence";
+import { projectPlayerConversation } from "./player-conversation";
 import {
   householdConversationRoom,
   neighborhoodConversationRoom,
@@ -139,6 +140,9 @@ describe("N1 school presence", () => {
         [id, ...classmates.slice(0, 1)].sort(),
       );
       const room = schoolConversationRoom(world, id);
+      expect(
+        projectPlayerConversation(world, id, "school-project-share"),
+      ).toBeNull();
       if (classmates.length > 0) {
         expect(room?.eligibleAddresseePersonIds).toEqual(
           classmates.slice(0, 1),
@@ -146,6 +150,9 @@ describe("N1 school presence", () => {
         expect(room?.normalHearingPersonIds).toEqual(presence.personIds);
       } else expect(room).toBeNull();
       const continued = deserializeWorld(before);
+      expect(
+        projectPlayerConversation(continued, id, "school-project-share"),
+      ).toBeNull();
       expect(schoolConversationRoom(continued, id)).toEqual(room);
       expect(serializeWorld(world)).toBe(before);
       expect(schoolConversationRoom(world, id)).toEqual(room);
