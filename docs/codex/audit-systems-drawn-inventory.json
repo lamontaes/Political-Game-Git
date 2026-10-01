@@ -1,0 +1,1385 @@
+{
+  "schema": "audit-systems-drawn-inventory/v1",
+  "mainSourcePin": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "receiptProvenance": [
+    {
+      "team": 1,
+      "head": "487685227948681dc036894f71d090a92a6bfec2",
+      "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+      "sha": "6da49182a60bb23f94e4f351dae6591ead39b552",
+      "url": "https://github.com/lamontaes/Political-Game-Git/blob/487685227948681dc036894f71d090a92a6bfec2/docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+      "rawContent": "{\n  \"rule\": \"CTO1:03 Sept30: simulate mechanisms, never select outcome levels; research ranges calibrate.\",\n  \"inspectedMain\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n  \"scope\": \"Team1 current privacy and budget source, selected retained federal modules and held federal source. Not a whole repository clearance. Transferred nonfederal modules require their current owners audit.\",\n  \"drawnOutcomeFindings\": [\n    {\n      \"kind\": \"drawn-outcome-cost-share\",\n      \"questionKey\": \"us-federal-positions:science-communications.national-data-privacy\",\n      \"path\": \"src/simulation/federal-data-privacy-law.ts\",\n      \"function\": \"drawnDataPrivacyCostShare\",\n      \"sourceHead\": \"ab5f48837c954440fa04601de08265c6288cc0d5\",\n      \"pr\": 1261,\n      \"status\": \"merged; rebuild assigned Team8\",\n      \"mechanism\": \"Seeded triangular cost share [.001,.006] times recorded firm production expenses\",\n      \"repair\": \"Team8 replaces share draw with law requirements times each actual firm data-intensity/work base; range becomes calibration only. Preserve saved cost, cash accounting and canonical stamps. Team1 consumes resulting saved cost for affordability, only after shared-hunk release.\"\n    },\n    {\n      \"kind\": \"drawn-outcome-unit-price\",\n      \"questionKey\": \"us-federal-positions:emergencies.states-share-disaster-costs\",\n      \"path\": \"src/simulation/governing/disaster-cost-sharing.ts\",\n      \"function\": \"disasterRepairUnitCents\",\n      \"sourceHead\": \"0d64e106a5c49645bc6904952c514e30d5919b96\",\n      \"pr\": 1131,\n      \"status\": \"HELD, absent current main\",\n      \"mechanism\": \"Episode-seeded unit cost = researched mean times random cost spread\",\n      \"repair\": \"Existing damaged physical units times actual supplier/contract unit prices, then the law recorded federal/state share; retain earlier paid historical amounts. No equivalent-project guessed price.\"\n    }\n  ],\n  \"additionalFixedOutcomeGaps\": [\n    {\n      \"kind\": \"fixed-outcome-or-unwritten-law-amount\",\n      \"questionKey\": \"us-federal-positions:budget.pay-for-a-higher-debt-limit\",\n      \"path\": \"src/simulation/federal-outlay-laws.ts\",\n      \"function\": \"federalOutlayChangeAt/federalAidFactor\",\n      \"sourceHead\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n      \"status\": \"inherited main mechanism; not introduced by1276 stamps\",\n      \"mechanism\": \"Fixed $150B yearly cut and universal aid share selected by yes/no\",\n      \"repair\": \"Saved enacted spending restrictions by program, applied to actual program commitments/payments; recorded debt limit changes authority, never manufactures receipts.\"\n    },\n    {\n      \"kind\": \"fixed-outcome-or-unwritten-law-amount\",\n      \"questionKey\": \"us-federal-positions:foreign-affairs.increase-foreign-aid\",\n      \"path\": \"src/simulation/federal-outlay-laws.ts\",\n      \"function\": \"federalOutlayChangeAt\",\n      \"sourceHead\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n      \"status\": \"inherited main mechanism; not introduced by1276 stamps\",\n      \"mechanism\": \"Fixed historical median aid increment selected by yes/no\",\n      \"repair\": \"Saved appropriation, eligibility and term constrain actual aid commitments and posted transfers; authorization is not expenditure.\"\n    },\n    {\n      \"kind\": \"fixed-outcome-or-unwritten-law-amount\",\n      \"questionKey\": \"us-federal-positions:defense.grow-defense-spending\",\n      \"path\": \"src/simulation/federal-defense-spending.ts\",\n      \"function\": \"defenseBuildUpShare\",\n      \"sourceHead\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n      \"status\": \"inherited main mechanism; not introduced by1276 stamps\",\n      \"mechanism\": \"Fixed 6.94% historical mean compounds spending for up to five years\",\n      \"repair\": \"Saved appropriation constrains procurement orders; delivered units times actual contract prices determine paid costs, contracts determine local earnings.\"\n    },\n    {\n      \"kind\": \"fixed-outcome-or-unwritten-law-amount\",\n      \"questionKey\": \"us-federal-positions:agriculture.cut-farm-subsidies\",\n      \"path\": \"src/simulation/federal-farm-subsidy-law.ts\",\n      \"function\": \"farmPaymentsCutAt\",\n      \"sourceHead\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n      \"status\": \"inherited main mechanism; not introduced by1276 stamps\",\n      \"mechanism\": \"Fixed21% historical median cut selected by yes/no\",\n      \"repair\": \"Saved program coverage/cap applied to actual eligible recipients and recorded benefits; no blanket21% substitute.\"\n    },\n    {\n      \"kind\": \"fixed-outcome-or-unwritten-law-amount\",\n      \"questionKey\": \"us-federal-positions:transport-water.expand-passenger-rail\",\n      \"path\": \"src/simulation/federal-passenger-rail.ts\",\n      \"function\": \"railExpansionPct\",\n      \"sourceHead\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n      \"status\": \"inherited main mechanism; not introduced by1276 stamps\",\n      \"mechanism\": \"Plan projection62.5% riders imposed over a fixed15year path\",\n      \"repair\": \"Appropriation funds actual route commitments and service; journeys respond to actual service, fares and resident destinations, projection calibrates aggregate only.\"\n    }\n  ],\n  \"openAttributionOnlyPR\": {\n    \"pr\": 1276,\n    \"head\": \"4e306b27e5df5fa3c512fbc1fe4a148cb1f343d8\",\n    \"note\": \"Adds stamps only; does not repair legacy expense/rider mechanisms.\"\n  },\n  \"laws\": [\n    {\n      \"questionKey\": \"us-federal-positions:budget.pay-for-a-higher-debt-limit\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Saved enacted spending restrictions by program, applied to actual program commitments/payments; recorded debt limit changes authority, never manufactures receipts.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:tax.raise-top-income-tax-rate\",\n      \"owner\": \"coordinator\",\n      \"costMechanism\": \"Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:monetary-financial.cap-consumer-loan-interest\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Actual covered loan principal, balances, repayment schedule and written rate cap determine interest/compliance cost.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:defense.grow-defense-spending\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Saved appropriation constrains procurement orders; delivered units times actual contract prices determine paid costs, contracts determine local earnings.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:foreign-affairs.increase-foreign-aid\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Saved appropriation, eligibility and term constrain actual aid commitments and posted transfers; authorization is not expenditure.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:trade.raise-tariffs\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:immigration.admit-more-immigrants\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Actual eligible applications processed/admissions/service use times recorded processing/service costs; population is not a drawn admission outcome.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:health.medicare-drug-price-negotiation\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Actual qualifying prescriptions purchased times negotiated transaction price; no aggregate cost percent substitutes for drug purchases.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:social-insurance.raise-retirement-age\",\n      \"owner\": \"coordinator\",\n      \"costMechanism\": \"Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:education.forgive-student-loans\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Sum min(written eligible forgiveness cap, actual qualifying loan balances), with recorded federal program/borrower eligibility.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:labor-commerce.raise-federal-minimum-wage\",\n      \"owner\": \"coordinator\",\n      \"costMechanism\": \"Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:housing.vouchers-for-every-eligible-family\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:transport-water.expand-passenger-rail\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Appropriation funds actual route commitments and service; journeys respond to actual service, fares and resident destinations, projection calibrates aggregate only.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:energy-environment.limit-power-plant-carbon\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Actual covered generating units/emissions and compliance investments at transaction prices; written limit determines required changes.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:agriculture.cut-farm-subsidies\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Saved program coverage/cap applied to actual eligible recipients and recorded benefits; no blanket21% substitute.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:emergencies.states-share-disaster-costs\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Existing damaged physical units times actual supplier/contract unit prices, then the law recorded federal/state share; retain earlier paid historical amounts. No equivalent-project guessed price.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:justice-rights.reduce-mandatory-minimums\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Actual eligible federal custody/person sentence durations and occupied custody days times recorded operating costs; retrospective history preserved.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:government.ban-congressional-stock-trading\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Actual covered member holdings/trades and disclosure/enforcement work; no stock-return effect from a ban alone.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:science-communications.national-data-privacy\",\n      \"owner\": \"Team8 privacy amount rebuild;Team1 saved-cost consumer\",\n      \"costMechanism\": \"Team8 replaces share draw with law requirements times each actual firm data-intensity/work base; range becomes calibration only. Preserve saved cost, cash accounting and canonical stamps. Team1 consumes resulting saved cost for affordability, only after shared-hunk release.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    },\n    {\n      \"questionKey\": \"us-federal-positions:territories-culture.statehood-for-dc\",\n      \"owner\": \"Team1\",\n      \"costMechanism\": \"Actual DC governmental functions transferred and services delivered, financed by the enacted allocation; no per-resident cost pick.\",\n      \"usableTermsAndBaseVerified\": false,\n      \"newCostWriterExecuted\": false,\n      \"status\": \"NO complete cost claim; missing typed terms/current-world base are not treated as zero cost\"\n    }\n  ],\n  \"executedChecks\": [\n    \"Source inspected at listed exact Git refs\",\n    \"Two selected explicit drawn cost formulas located\",\n    \"20 canonical law keys unique\"\n  ],\n  \"NOT_RUN\": [\n    \"Golden-rule cost repair runtime tests\",\n    \"New law terms producers\",\n    \"Nationwide cost proof\"\n  ],\n  \"remainingCostBatch\": \"One PR will hold mechanisms and exact missing-input findings; no stand-in amounts or silent-legislature completion.\"\n}\n",
+      "data": {
+        "rule": "CTO1:03 Sept30: simulate mechanisms, never select outcome levels; research ranges calibrate.",
+        "inspectedMain": "80dba335a62f77d6a45c38919105991658ccf1de",
+        "scope": "Team1 current privacy and budget source, selected retained federal modules and held federal source. Not a whole repository clearance. Transferred nonfederal modules require their current owners audit.",
+        "drawnOutcomeFindings": [
+          {
+            "kind": "drawn-outcome-cost-share",
+            "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+            "path": "src/simulation/federal-data-privacy-law.ts",
+            "function": "drawnDataPrivacyCostShare",
+            "sourceHead": "ab5f48837c954440fa04601de08265c6288cc0d5",
+            "pr": 1261,
+            "status": "merged; rebuild assigned Team8",
+            "mechanism": "Seeded triangular cost share [.001,.006] times recorded firm production expenses",
+            "repair": "Team8 replaces share draw with law requirements times each actual firm data-intensity/work base; range becomes calibration only. Preserve saved cost, cash accounting and canonical stamps. Team1 consumes resulting saved cost for affordability, only after shared-hunk release."
+          },
+          {
+            "kind": "drawn-outcome-unit-price",
+            "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+            "path": "src/simulation/governing/disaster-cost-sharing.ts",
+            "function": "disasterRepairUnitCents",
+            "sourceHead": "0d64e106a5c49645bc6904952c514e30d5919b96",
+            "pr": 1131,
+            "status": "HELD, absent current main",
+            "mechanism": "Episode-seeded unit cost = researched mean times random cost spread",
+            "repair": "Existing damaged physical units times actual supplier/contract unit prices, then the law recorded federal/state share; retain earlier paid historical amounts. No equivalent-project guessed price."
+          }
+        ],
+        "additionalFixedOutcomeGaps": [
+          {
+            "kind": "fixed-outcome-or-unwritten-law-amount",
+            "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+            "path": "src/simulation/federal-outlay-laws.ts",
+            "function": "federalOutlayChangeAt/federalAidFactor",
+            "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+            "status": "inherited main mechanism; not introduced by1276 stamps",
+            "mechanism": "Fixed $150B yearly cut and universal aid share selected by yes/no",
+            "repair": "Saved enacted spending restrictions by program, applied to actual program commitments/payments; recorded debt limit changes authority, never manufactures receipts."
+          },
+          {
+            "kind": "fixed-outcome-or-unwritten-law-amount",
+            "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+            "path": "src/simulation/federal-outlay-laws.ts",
+            "function": "federalOutlayChangeAt",
+            "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+            "status": "inherited main mechanism; not introduced by1276 stamps",
+            "mechanism": "Fixed historical median aid increment selected by yes/no",
+            "repair": "Saved appropriation, eligibility and term constrain actual aid commitments and posted transfers; authorization is not expenditure."
+          },
+          {
+            "kind": "fixed-outcome-or-unwritten-law-amount",
+            "questionKey": "us-federal-positions:defense.grow-defense-spending",
+            "path": "src/simulation/federal-defense-spending.ts",
+            "function": "defenseBuildUpShare",
+            "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+            "status": "inherited main mechanism; not introduced by1276 stamps",
+            "mechanism": "Fixed 6.94% historical mean compounds spending for up to five years",
+            "repair": "Saved appropriation constrains procurement orders; delivered units times actual contract prices determine paid costs, contracts determine local earnings."
+          },
+          {
+            "kind": "fixed-outcome-or-unwritten-law-amount",
+            "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+            "path": "src/simulation/federal-farm-subsidy-law.ts",
+            "function": "farmPaymentsCutAt",
+            "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+            "status": "inherited main mechanism; not introduced by1276 stamps",
+            "mechanism": "Fixed21% historical median cut selected by yes/no",
+            "repair": "Saved program coverage/cap applied to actual eligible recipients and recorded benefits; no blanket21% substitute."
+          },
+          {
+            "kind": "fixed-outcome-or-unwritten-law-amount",
+            "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+            "path": "src/simulation/federal-passenger-rail.ts",
+            "function": "railExpansionPct",
+            "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+            "status": "inherited main mechanism; not introduced by1276 stamps",
+            "mechanism": "Plan projection62.5% riders imposed over a fixed15year path",
+            "repair": "Appropriation funds actual route commitments and service; journeys respond to actual service, fares and resident destinations, projection calibrates aggregate only."
+          }
+        ],
+        "openAttributionOnlyPR": {
+          "pr": 1276,
+          "head": "4e306b27e5df5fa3c512fbc1fe4a148cb1f343d8",
+          "note": "Adds stamps only; does not repair legacy expense/rider mechanisms."
+        },
+        "laws": [
+          {
+            "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+            "owner": "Team1",
+            "costMechanism": "Saved enacted spending restrictions by program, applied to actual program commitments/payments; recorded debt limit changes authority, never manufactures receipts.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+            "owner": "coordinator",
+            "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+            "owner": "Team1",
+            "costMechanism": "Actual covered loan principal, balances, repayment schedule and written rate cap determine interest/compliance cost.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:defense.grow-defense-spending",
+            "owner": "Team1",
+            "costMechanism": "Saved appropriation constrains procurement orders; delivered units times actual contract prices determine paid costs, contracts determine local earnings.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+            "owner": "Team1",
+            "costMechanism": "Saved appropriation, eligibility and term constrain actual aid commitments and posted transfers; authorization is not expenditure.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:trade.raise-tariffs",
+            "owner": "Team1",
+            "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+            "owner": "Team1",
+            "costMechanism": "Actual eligible applications processed/admissions/service use times recorded processing/service costs; population is not a drawn admission outcome.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+            "owner": "Team1",
+            "costMechanism": "Actual qualifying prescriptions purchased times negotiated transaction price; no aggregate cost percent substitutes for drug purchases.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+            "owner": "coordinator",
+            "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:education.forgive-student-loans",
+            "owner": "Team1",
+            "costMechanism": "Sum min(written eligible forgiveness cap, actual qualifying loan balances), with recorded federal program/borrower eligibility.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "owner": "coordinator",
+            "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "owner": "Team1",
+            "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+            "owner": "Team1",
+            "costMechanism": "Appropriation funds actual route commitments and service; journeys respond to actual service, fares and resident destinations, projection calibrates aggregate only.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "owner": "Team1",
+            "costMechanism": "Actual covered generating units/emissions and compliance investments at transaction prices; written limit determines required changes.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+            "owner": "Team1",
+            "costMechanism": "Saved program coverage/cap applied to actual eligible recipients and recorded benefits; no blanket21% substitute.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+            "owner": "Team1",
+            "costMechanism": "Existing damaged physical units times actual supplier/contract unit prices, then the law recorded federal/state share; retain earlier paid historical amounts. No equivalent-project guessed price.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "owner": "Team1",
+            "costMechanism": "Actual eligible federal custody/person sentence durations and occupied custody days times recorded operating costs; retrospective history preserved.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+            "owner": "Team1",
+            "costMechanism": "Actual covered member holdings/trades and disclosure/enforcement work; no stock-return effect from a ban alone.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+            "owner": "Team8 privacy amount rebuild;Team1 saved-cost consumer",
+            "costMechanism": "Team8 replaces share draw with law requirements times each actual firm data-intensity/work base; range becomes calibration only. Preserve saved cost, cash accounting and canonical stamps. Team1 consumes resulting saved cost for affordability, only after shared-hunk release.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          },
+          {
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "owner": "Team1",
+            "costMechanism": "Actual DC governmental functions transferred and services delivered, financed by the enacted allocation; no per-resident cost pick.",
+            "usableTermsAndBaseVerified": false,
+            "newCostWriterExecuted": false,
+            "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+          }
+        ],
+        "executedChecks": [
+          "Source inspected at listed exact Git refs",
+          "Two selected explicit drawn cost formulas located",
+          "20 canonical law keys unique"
+        ],
+        "NOT_RUN": [
+          "Golden-rule cost repair runtime tests",
+          "New law terms producers",
+          "Nationwide cost proof"
+        ],
+        "remainingCostBatch": "One PR will hold mechanisms and exact missing-input findings; no stand-in amounts or silent-legislature completion."
+      }
+    },
+    {
+      "team": 3,
+      "head": "003dfcb9421583363f1bed17c724c4679c359da3",
+      "path": "docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+      "sha": "0c20f2c325a87d0ea77eff7626bf117954aa7749",
+      "url": "https://github.com/lamontaes/Political-Game-Git/blob/003dfcb9421583363f1bed17c724c4679c359da3/docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+      "rawContent": "{\n  \"team\": 3,\n  \"standard\": \"CTO1:03/1:17 golden rule; outcome levels must emerge from terms times actual world base\",\n  \"newTeam3DrawnOutcomeLevels\": 0,\n  \"coverage\": \"Assigned tax/paid-leave readers, released town-pay seam and budget readers inspected; not a repository-wide scan\",\n  \"findings\": [\n    {\n      \"path\": \"src/simulation/state-income-tax-law.ts\",\n      \"sourceHead\": \"bcb5d3030d0a66873496b2e51be516d2a6964c61\",\n      \"function\": \"estimatedSchedule\",\n      \"inherited\": true,\n      \"draw\": \"rateScale and fallback deduction from SeededRng; then actual taxpayer income is assessed against generated schedule\",\n      \"repair\": \"Read enacted rate/threshold/brackets/deduction terms, retaining each state's real starting schedule; exact declarations currently omit operative values. No new mean/rate guessed.\",\n      \"status\": \"UNREPAIRED finding; not proof zero effects\"\n    },\n    {\n      \"path\": \"src/simulation/state-paid-leave-law.ts\",\n      \"sourceHead\": \"bcb5d3030d0a66873496b2e51be516d2a6964c61\",\n      \"function\": \"estimatedPremium\",\n      \"inherited\": true,\n      \"draw\": \"employee premium percentage and generic wage cap estimated when read program terms are absent\",\n      \"repair\": \"Read operative employee/employer premium and cap terms; missing values remain an explicit research/terms gap.\",\n      \"status\": \"UNREPAIRED finding; not proof zero effects\"\n    },\n    {\n      \"path\": \"src/simulation/paid-leave-benefits.ts\",\n      \"sourceHead\": \"4f09fcd408803a4cf88617d660e9c3d05738f0ae\",\n      \"function\": \"paidLeaveBenefitRate\",\n      \"inherited\": true,\n      \"draw\": \"fallback replacement percent drawn around mean; read programs use their actual recorded rate\",\n      \"repair\": \"Consume operative replacement/duration/benefit-cap terms against covered lost pay; no average drawn benefit rate.\",\n      \"status\": \"UNREPAIRED finding; not proof zero effects\"\n    },\n    {\n      \"path\": \"src/simulation/public-budgets/opening.ts\",\n      \"sourceHead\": \"bcb5d3030d0a66873496b2e51be516d2a6964c61\",\n      \"function\": \"opened\",\n      \"inherited\": true,\n      \"draw\": \"estimated opening revenue/spending amount times seeded lognormal spread\",\n      \"repair\": \"Coordinator must release opening seam to its owner; government terms/real bases produce levels, research used for calibration.\",\n      \"status\": \"UNREPAIRED finding; not proof zero effects\"\n    },\n    {\n      \"path\": \"src/simulation/living-world/town-pay.ts\",\n      \"sourceHead\": \"bcb5d3030d0a66873496b2e51be516d2a6964c61\",\n      \"function\": \"ensureTownPay\",\n      \"inherited\": true,\n      \"draw\": \"person seeded draw selects wage percentile; employer cadence/phase also seeded\",\n      \"repair\": \"Inherited starting pay/cadence outside released raise stamp seam; flag to coordinator for ownership, wages from actual job/employer records. No new draw in state/local stamp followup.\",\n      \"status\": \"UNREPAIRED finding; not proof zero effects\"\n    }\n  ],\n  \"dependencies\": [\n    {\n      \"path\": \"src/simulation/public-budgets/parks-dedication.ts\",\n      \"head\": \"600a121e6585faba01694aa9ba91c547e96a3c3b\",\n      \"function\": \"parksAnnualPerResident\",\n      \"owner\": \"Team5\",\n      \"status\": \"HOLD per CTO1:17; composed dependency only, not Team3-authored/approved golden-rule cost\",\n      \"draw\": \"annual dollars/resident via drawnLinkSize; benchmark level, not operative dedication terms\",\n      \"repair\": \"Team5 actual dedication terms times taxable world base; calibration benchmark only\"\n    }\n  ]\n}\n",
+      "data": {
+        "team": 3,
+        "standard": "CTO1:03/1:17 golden rule; outcome levels must emerge from terms times actual world base",
+        "newTeam3DrawnOutcomeLevels": 0,
+        "coverage": "Assigned tax/paid-leave readers, released town-pay seam and budget readers inspected; not a repository-wide scan",
+        "findings": [
+          {
+            "path": "src/simulation/state-income-tax-law.ts",
+            "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+            "function": "estimatedSchedule",
+            "inherited": true,
+            "draw": "rateScale and fallback deduction from SeededRng; then actual taxpayer income is assessed against generated schedule",
+            "repair": "Read enacted rate/threshold/brackets/deduction terms, retaining each state's real starting schedule; exact declarations currently omit operative values. No new mean/rate guessed.",
+            "status": "UNREPAIRED finding; not proof zero effects"
+          },
+          {
+            "path": "src/simulation/state-paid-leave-law.ts",
+            "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+            "function": "estimatedPremium",
+            "inherited": true,
+            "draw": "employee premium percentage and generic wage cap estimated when read program terms are absent",
+            "repair": "Read operative employee/employer premium and cap terms; missing values remain an explicit research/terms gap.",
+            "status": "UNREPAIRED finding; not proof zero effects"
+          },
+          {
+            "path": "src/simulation/paid-leave-benefits.ts",
+            "sourceHead": "4f09fcd408803a4cf88617d660e9c3d05738f0ae",
+            "function": "paidLeaveBenefitRate",
+            "inherited": true,
+            "draw": "fallback replacement percent drawn around mean; read programs use their actual recorded rate",
+            "repair": "Consume operative replacement/duration/benefit-cap terms against covered lost pay; no average drawn benefit rate.",
+            "status": "UNREPAIRED finding; not proof zero effects"
+          },
+          {
+            "path": "src/simulation/public-budgets/opening.ts",
+            "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+            "function": "opened",
+            "inherited": true,
+            "draw": "estimated opening revenue/spending amount times seeded lognormal spread",
+            "repair": "Coordinator must release opening seam to its owner; government terms/real bases produce levels, research used for calibration.",
+            "status": "UNREPAIRED finding; not proof zero effects"
+          },
+          {
+            "path": "src/simulation/living-world/town-pay.ts",
+            "sourceHead": "bcb5d3030d0a66873496b2e51be516d2a6964c61",
+            "function": "ensureTownPay",
+            "inherited": true,
+            "draw": "person seeded draw selects wage percentile; employer cadence/phase also seeded",
+            "repair": "Inherited starting pay/cadence outside released raise stamp seam; flag to coordinator for ownership, wages from actual job/employer records. No new draw in state/local stamp followup.",
+            "status": "UNREPAIRED finding; not proof zero effects"
+          }
+        ],
+        "dependencies": [
+          {
+            "path": "src/simulation/public-budgets/parks-dedication.ts",
+            "head": "600a121e6585faba01694aa9ba91c547e96a3c3b",
+            "function": "parksAnnualPerResident",
+            "owner": "Team5",
+            "status": "HOLD per CTO1:17; composed dependency only, not Team3-authored/approved golden-rule cost",
+            "draw": "annual dollars/resident via drawnLinkSize; benchmark level, not operative dedication terms",
+            "repair": "Team5 actual dedication terms times taxable world base; calibration benchmark only"
+          }
+        ]
+      }
+    },
+    {
+      "team": 4,
+      "head": "1453717e29c156a02181f003acd2e80470717310",
+      "path": "docs/codex/effect-batches/team-4/drawn-outcome-inventory.json",
+      "sha": "fc8e2282498f0389bc94610a0f05b7ed81e6e654",
+      "url": "https://github.com/lamontaes/Political-Game-Git/blob/1453717e29c156a02181f003acd2e80470717310/docs/codex/effect-batches/team-4/drawn-outcome-inventory.json",
+      "rawContent": "{\n  \"team\": 4,\n  \"dispatch\": \"CTO 1:03 and 00b 1:17\",\n  \"questionKey\": \"us-policy-positions:business-commerce.legalize-cannabis-sales\",\n  \"drawnOutcomeSites\": [\n    {\n      \"path\": \"src/simulation/public-budgets/cannabis-sales-tax.ts\",\n      \"function\": \"cannabisTaxPerResident\",\n      \"head\": \"fd2b034a4ffbf5bdb68f53e7ae42a0abae21b3fe\",\n      \"pr\": 1282,\n      \"status\": \"HELD; not merged; source preserved\",\n      \"outcome\": \"Annual state cannabis tax dollars per resident, picked inside 26.70\u201362.00\",\n      \"consumers\": [\n        \"cannabisSalesRevenueChange\",\n        \"state budget receipt and revenue-loss writers\"\n      ],\n      \"repair\": \"Remove level draw; operative tax terms multiply actual legal retail sales. Revenue benchmark becomes calibration only.\"\n    }\n  ],\n  \"relatedFixedOutcomeShortcut\": {\n    \"path\": \"src/simulation/public-budgets/cannabis-sales-tax.ts\",\n    \"constant\": \"CANNABIS_TAX_PER_RESIDENT = 40.7\",\n    \"sourceHeads\": [\n      \"4328a7c35c8d5eef7f96dc3f541286e0231f6166\",\n      \"1e5a0c8f507a7aa526154d7247ba241c09a16fd6\"\n    ],\n    \"mergedPRs\": [1254, 1271],\n    \"verifiedMerge\": \"45995de603346968f3ddfb6d5e62a150f057554a\",\n    \"status\": \"Still active in merged amount reader; same mechanism replacement required\"\n  },\n  \"otherTeam4WorkInspected\": {\n    \"housingSupplyHelper\": {\n      \"head\": \"7ad1126b5ade9177609822de0b7831726f684f3e\",\n      \"drawnOutcomeLevelAdded\": false,\n      \"productionCaller\": false\n    },\n    \"speed\": \"Paused preserved optimization work adds no drawn outcome levels\",\n    \"effectBatches\": \"Proposed effect strengths are not outcome levels; unresolved units and researched-range gaps remain disclosed\"\n  },\n  \"repairCheckpoint\": {\n    \"path\": \"src/simulation/public-budgets/cannabis-retail-mechanism.ts\",\n    \"formula\": \"adultResidents \u00d7 buyerShare \u00d7 annualPretaxSpendingPerBuyer \u00d7 actualLegalMarketShare \u00d7 operative state tax rates, respecting excise inclusion in sales-tax base\",\n    \"draws\": false,\n    \"inventedCurve\": false,\n    \"productionAdapter\": false,\n    \"legalShareProducer\": false,\n    \"proof\": \"4 arithmetic fixtures only, not three-state or nationwide proof\",\n    \"missingInputs\": [\n      \"Operative cannabis tax terms and canonical parameter binding\",\n      \"Actual adult resident base with matched state survey buyer definition\",\n      \"Sourced annual spending per buyer and price-year\",\n      \"Research-backed legal-share response or actual retail capacity/competition/choice records\",\n      \"High-tax, low-tax and new-market state examples\"\n    ]\n  },\n  \"mainRepairComplete\": false,\n  \"fivePartsComplete\": 0,\n  \"assignedLaws\": 10,\n  \"nationwideProof\": \"NOT RUN\"\n}\n",
+      "data": {
+        "team": 4,
+        "dispatch": "CTO 1:03 and 00b 1:17",
+        "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+        "drawnOutcomeSites": [
+          {
+            "path": "src/simulation/public-budgets/cannabis-sales-tax.ts",
+            "function": "cannabisTaxPerResident",
+            "head": "fd2b034a4ffbf5bdb68f53e7ae42a0abae21b3fe",
+            "pr": 1282,
+            "status": "HELD; not merged; source preserved",
+            "outcome": "Annual state cannabis tax dollars per resident, picked inside 26.70\u201362.00",
+            "consumers": [
+              "cannabisSalesRevenueChange",
+              "state budget receipt and revenue-loss writers"
+            ],
+            "repair": "Remove level draw; operative tax terms multiply actual legal retail sales. Revenue benchmark becomes calibration only."
+          }
+        ],
+        "relatedFixedOutcomeShortcut": {
+          "path": "src/simulation/public-budgets/cannabis-sales-tax.ts",
+          "constant": "CANNABIS_TAX_PER_RESIDENT = 40.7",
+          "sourceHeads": [
+            "4328a7c35c8d5eef7f96dc3f541286e0231f6166",
+            "1e5a0c8f507a7aa526154d7247ba241c09a16fd6"
+          ],
+          "mergedPRs": [
+            1254,
+            1271
+          ],
+          "verifiedMerge": "45995de603346968f3ddfb6d5e62a150f057554a",
+          "status": "Still active in merged amount reader; same mechanism replacement required"
+        },
+        "otherTeam4WorkInspected": {
+          "housingSupplyHelper": {
+            "head": "7ad1126b5ade9177609822de0b7831726f684f3e",
+            "drawnOutcomeLevelAdded": false,
+            "productionCaller": false
+          },
+          "speed": "Paused preserved optimization work adds no drawn outcome levels",
+          "effectBatches": "Proposed effect strengths are not outcome levels; unresolved units and researched-range gaps remain disclosed"
+        },
+        "repairCheckpoint": {
+          "path": "src/simulation/public-budgets/cannabis-retail-mechanism.ts",
+          "formula": "adultResidents \u00d7 buyerShare \u00d7 annualPretaxSpendingPerBuyer \u00d7 actualLegalMarketShare \u00d7 operative state tax rates, respecting excise inclusion in sales-tax base",
+          "draws": false,
+          "inventedCurve": false,
+          "productionAdapter": false,
+          "legalShareProducer": false,
+          "proof": "4 arithmetic fixtures only, not three-state or nationwide proof",
+          "missingInputs": [
+            "Operative cannabis tax terms and canonical parameter binding",
+            "Actual adult resident base with matched state survey buyer definition",
+            "Sourced annual spending per buyer and price-year",
+            "Research-backed legal-share response or actual retail capacity/competition/choice records",
+            "High-tax, low-tax and new-market state examples"
+          ]
+        },
+        "mainRepairComplete": false,
+        "fivePartsComplete": 0,
+        "assignedLaws": 10,
+        "nationwideProof": "NOT RUN"
+      }
+    },
+    {
+      "team": 5,
+      "head": "a57c8d88dc24439e2360bfb68550a4b7236fac5b",
+      "path": "docs/codex/effect-batches/team-5/executor-recovery-handoff.json",
+      "sha": "29e692820e7ba76a38afb4d27e1bab5cd51b84e6",
+      "url": "https://github.com/lamontaes/Political-Game-Git/blob/a57c8d88dc24439e2360bfb68550a4b7236fac5b/docs/codex/effect-batches/team-5/executor-recovery-handoff.json",
+      "rawContent": "{\n  \"status\": \"executor-failed; documentation handoff only; not READY or runtime proof\",\n  \"publishedSource\": {\n    \"branch\": \"codex/team-5-curriculum-library-main\",\n    \"head\": \"7239906f5e5b141a2796e41d6000b8363a1afa64\",\n    \"tree\": \"080be52072342776fe7122a0ca71d3bd3b066abd\",\n    \"testedLocalHead\": \"932cc02703a361aa64922c80fc4e316750ebc5e5\"\n  },\n  \"lastKnownDirty\": {\n    \"path\": \"src/simulation/library-materials-authority.ts\",\n    \"patch\": \"library-dirty-last-successful.patch\",\n    \"evidence\": \"Successful apply_patch; Prettier reported unchanged. Patch reconstructed from recorded tool input, not recovered from current filesystem.\",\n    \"currentBytesVerified\": false,\n    \"checksNotRun\": [\n      \"library fixture tests\",\n      \"library strict types\"\n    ],\n    \"testPath\": \"src/simulation/library-materials-authority.test.ts\",\n    \"testWrite\": \"failed; whether any bytes exist is unknown\"\n  },\n  \"ownedPaths\": [\n    \"src/simulation/education-civil-law-terms.ts\",\n    \"src/simulation/library-materials-authority.ts\",\n    \"src/simulation/library-materials-authority.test.ts\",\n    \"src/simulation/library-materials-law.ts\",\n    \"src/simulation/library-materials-types.ts\",\n    \"src/simulation/library-materials-law.test.ts\",\n    \"src/simulation/public-budgets/curriculum-standards.ts\",\n    \"src/simulation/public-budgets/curriculum-standards.test.ts\",\n    \"docs/codex/effect-batches/team-5/\"\n  ],\n  \"ownedNarrowHunks\": [\n    {\n      \"path\": \"src/simulation/public-budgets/parks-dedication.ts\",\n      \"hunks\": \"parks amount helper and its consumer; preserve researched baseline query\"\n    },\n    {\n      \"path\": \"src/simulation/public-budgets/month.ts\",\n      \"hunks\": \"parks-specific calculation/call only; no paid-leave filter/map/append, no age/cannabis arrays; exact reconciliation required\"\n    }\n  ],\n  \"pendingOverlap\": [\n    {\n      \"path\": \"src/simulation/public-budgets/month.ts\",\n      \"hunk\": \"curriculum school-spending and curriculum saved stamp append\",\n      \"action\": \"not edited; sequence after Team 3 paid-leave settlement change\"\n    }\n  ],\n  \"released\": [\n    {\n      \"owner\": \"Team 3\",\n      \"path\": \"src/simulation/public-budgets/month.ts\",\n      \"hunks\": \"MonthFlows paid-leave stamp map, outgoing paid-leave positive-payment filter, paid-leave settlement append\"\n    },\n    {\n      \"owner\": \"Team 3\",\n      \"path\": \"src/simulation/public-budgets/store.ts\",\n      \"hunk\": \"BudgetMonthRow optional stamp field\"\n    },\n    {\n      \"owner\": \"Team 8\",\n      \"paths\": [\n        \"src/simulation/law-effect-news.ts\",\n        \"src/simulation/law-effect-news.test.ts\"\n      ]\n    }\n  ],\n  \"centralOnly\": [\n    \"data/research/outcome-web/links.json\",\n    \"src/simulation/policy-pack-us-policy-positions.ts\",\n    \"resources.ts/types.ts paid-transfer provenance\"\n  ],\n  \"checks\": {\n    \"curriculumTests\": \"3/3 PASS 10.99s before outage\",\n    \"curriculumStrict\": \"3 roots 0 diagnostics\",\n    \"curriculumScoped\": \"lint/format/whitespace PASS\",\n    \"newChecks\": \"NOT RUN: executor failed\"\n  },\n  \"recovery\": \"Inspect branch/head/status and compare existing dirty bytes with this recorded patch. Preserve differing or partial bytes; do not blindly apply, reset, clean, or recreate the workspace.\",\n  \"blocker\": \"Failed to create unified exec process; exec-server Noise harness handshake failed. Environment subsequently marked failed querying executor capabilities.\"\n}\n",
+      "data": {
+        "status": "executor-failed; documentation handoff only; not READY or runtime proof",
+        "publishedSource": {
+          "branch": "codex/team-5-curriculum-library-main",
+          "head": "7239906f5e5b141a2796e41d6000b8363a1afa64",
+          "tree": "080be52072342776fe7122a0ca71d3bd3b066abd",
+          "testedLocalHead": "932cc02703a361aa64922c80fc4e316750ebc5e5"
+        },
+        "lastKnownDirty": {
+          "path": "src/simulation/library-materials-authority.ts",
+          "patch": "library-dirty-last-successful.patch",
+          "evidence": "Successful apply_patch; Prettier reported unchanged. Patch reconstructed from recorded tool input, not recovered from current filesystem.",
+          "currentBytesVerified": false,
+          "checksNotRun": [
+            "library fixture tests",
+            "library strict types"
+          ],
+          "testPath": "src/simulation/library-materials-authority.test.ts",
+          "testWrite": "failed; whether any bytes exist is unknown"
+        },
+        "ownedPaths": [
+          "src/simulation/education-civil-law-terms.ts",
+          "src/simulation/library-materials-authority.ts",
+          "src/simulation/library-materials-authority.test.ts",
+          "src/simulation/library-materials-law.ts",
+          "src/simulation/library-materials-types.ts",
+          "src/simulation/library-materials-law.test.ts",
+          "src/simulation/public-budgets/curriculum-standards.ts",
+          "src/simulation/public-budgets/curriculum-standards.test.ts",
+          "docs/codex/effect-batches/team-5/"
+        ],
+        "ownedNarrowHunks": [
+          {
+            "path": "src/simulation/public-budgets/parks-dedication.ts",
+            "hunks": "parks amount helper and its consumer; preserve researched baseline query"
+          },
+          {
+            "path": "src/simulation/public-budgets/month.ts",
+            "hunks": "parks-specific calculation/call only; no paid-leave filter/map/append, no age/cannabis arrays; exact reconciliation required"
+          }
+        ],
+        "pendingOverlap": [
+          {
+            "path": "src/simulation/public-budgets/month.ts",
+            "hunk": "curriculum school-spending and curriculum saved stamp append",
+            "action": "not edited; sequence after Team 3 paid-leave settlement change"
+          }
+        ],
+        "released": [
+          {
+            "owner": "Team 3",
+            "path": "src/simulation/public-budgets/month.ts",
+            "hunks": "MonthFlows paid-leave stamp map, outgoing paid-leave positive-payment filter, paid-leave settlement append"
+          },
+          {
+            "owner": "Team 3",
+            "path": "src/simulation/public-budgets/store.ts",
+            "hunk": "BudgetMonthRow optional stamp field"
+          },
+          {
+            "owner": "Team 8",
+            "paths": [
+              "src/simulation/law-effect-news.ts",
+              "src/simulation/law-effect-news.test.ts"
+            ]
+          }
+        ],
+        "centralOnly": [
+          "data/research/outcome-web/links.json",
+          "src/simulation/policy-pack-us-policy-positions.ts",
+          "resources.ts/types.ts paid-transfer provenance"
+        ],
+        "checks": {
+          "curriculumTests": "3/3 PASS 10.99s before outage",
+          "curriculumStrict": "3 roots 0 diagnostics",
+          "curriculumScoped": "lint/format/whitespace PASS",
+          "newChecks": "NOT RUN: executor failed"
+        },
+        "recovery": "Inspect branch/head/status and compare existing dirty bytes with this recorded patch. Preserve differing or partial bytes; do not blindly apply, reset, clean, or recreate the workspace.",
+        "blocker": "Failed to create unified exec process; exec-server Noise harness handshake failed. Environment subsequently marked failed querying executor capabilities."
+      }
+    },
+    {
+      "team": 6,
+      "head": "ed1264075e6590f58196450b22a4c4cc01f6de6a",
+      "path": "docs/codex/effect-batches/team-6/golden-rule-inventory.json",
+      "sha": "0bb2b395dd9280952774a5f4cd43e9374561ecdd",
+      "url": "https://github.com/lamontaes/Political-Game-Git/blob/ed1264075e6590f58196450b22a4c4cc01f6de6a/docs/codex/effect-batches/team-6/golden-rule-inventory.json",
+      "rawContent": "{\n  \"team\": 6,\n  \"supersededHead\": \"66d52e0a03f25fb922df1b8d1ccad9adae014936\",\n  \"pr\": 1283,\n  \"drawnOutcomeLevels\": [\n    {\n      \"file\": \"src/simulation/rural-transit-operating-cost.ts\",\n      \"function\": \"ruralTransitOperatingCostAt\",\n      \"level\": \"operating unit price\",\n      \"state\": \"Removed by this repair; helper now calibration-only\"\n    }\n  ],\n  \"derivedOutcomes\": [\n    {\n      \"file\": \"src/simulation/governing/public-program-transit.ts\",\n      \"level\": \"payment / drawn or fixed price -> service hours\",\n      \"state\": \"Removed; actual posted government cost stamp retained\"\n    },\n    {\n      \"file\": \"src/simulation/governing/public-program-transit.ts\",\n      \"level\": \"selected modeled rider -> trip -> appreciation\",\n      \"state\": \"Removed; no actual availability or trip record supports it\"\n    }\n  ],\n  \"mergedSourceRequiringRepair\": \"a79aedd4341ab22854c4d5ea1a3be6cef161d866 (1249): inherited fixed contract price and inferred rider chain\",\n  \"costMechanismMissing\": [\n    \"Actual operator driver-pay records\",\n    \"Actual fuel consumption and fuel-price transactions\",\n    \"Actual vehicle operating expenses\",\n    \"Actual delivered vehicle revenue hours\"\n  ],\n  \"remainingLawCostsDue\": \"2:30 p.m. Eastern\",\n  \"noNewSharedWrites\": true,\n  \"notProof\": \"Calibration helper has no production caller until actual inputs exist; no nationwide service proof.\"\n}\n",
+      "data": {
+        "team": 6,
+        "supersededHead": "66d52e0a03f25fb922df1b8d1ccad9adae014936",
+        "pr": 1283,
+        "drawnOutcomeLevels": [
+          {
+            "file": "src/simulation/rural-transit-operating-cost.ts",
+            "function": "ruralTransitOperatingCostAt",
+            "level": "operating unit price",
+            "state": "Removed by this repair; helper now calibration-only"
+          }
+        ],
+        "derivedOutcomes": [
+          {
+            "file": "src/simulation/governing/public-program-transit.ts",
+            "level": "payment / drawn or fixed price -> service hours",
+            "state": "Removed; actual posted government cost stamp retained"
+          },
+          {
+            "file": "src/simulation/governing/public-program-transit.ts",
+            "level": "selected modeled rider -> trip -> appreciation",
+            "state": "Removed; no actual availability or trip record supports it"
+          }
+        ],
+        "mergedSourceRequiringRepair": "a79aedd4341ab22854c4d5ea1a3be6cef161d866 (1249): inherited fixed contract price and inferred rider chain",
+        "costMechanismMissing": [
+          "Actual operator driver-pay records",
+          "Actual fuel consumption and fuel-price transactions",
+          "Actual vehicle operating expenses",
+          "Actual delivered vehicle revenue hours"
+        ],
+        "remainingLawCostsDue": "2:30 p.m. Eastern",
+        "noNewSharedWrites": true,
+        "notProof": "Calibration helper has no production caller until actual inputs exist; no nationwide service proof."
+      }
+    },
+    {
+      "team": 8,
+      "head": "c8d52f37a21b7540dc7faa1746a04c48cc058111",
+      "path": "docs/codex/effect-batches/team-8/golden-rule-audit.json",
+      "sha": "bb29a571cb9b9d3be3b823e6adbf1c21a72175cc",
+      "url": "https://github.com/lamontaes/Political-Game-Git/blob/c8d52f37a21b7540dc7faa1746a04c48cc058111/docs/codex/effect-batches/team-8/golden-rule-audit.json",
+      "rawContent": "{\n  \"schema\": \"team-8-golden-rule-audit/v1\",\n  \"asOfEastern\": \"2026-09-30 13:20\",\n  \"rule\": \"Outcome levels emerge from operative law terms and recorded world bases. Research level ranges are calibration checks; sourced causal strengths may vary.\",\n  \"scope\": \"Owned law producers/readers and delegated privacy dependency. Earlier presentation paths inspected locally; not an exhaustive audit of every historical Team8 commit.\",\n  \"ownedDrawnOutcomeLevels\": [],\n  \"rows\": [\n    {\n      \"pr\": 1244,\n      \"sourceHead\": \"217a8de539acb2dd13e3b7b627a78dfc91677eba\",\n      \"mainLanding\": \"35ab2458dc1afa171f12dde161ae8984c010cd15\",\n      \"file\": \"src/simulation/crisis/health-coverage.ts\",\n      \"drawnOutcomeLevel\": false,\n      \"mechanism\": \"Coverage reads operative law, recorded household pay, ages, recorded work hours and exemptions. Saved coverage changes feed the sourced mortality hazard multiplier.\",\n      \"limits\": \"Fixed sourced mortality effect strength is distinct from drawing population mortality. This audit does not certify all terms, exemptions or remaining eligibility gaps.\",\n      \"repair\": \"No outcome-level draw introduced by Team8 stamp patch.\"\n    },\n    {\n      \"pr\": 1235,\n      \"head\": \"7d4f8be4da506720812e3475a9b5efdc7b685e49\",\n      \"file\": \"src/simulation/press/law-effect-news.ts\",\n      \"drawnOutcomeLevel\": false,\n      \"mechanism\": \"Read changed saved coverage and canonical law stamps; project public news. No amount generation.\",\n      \"checks\": \"14 prior focused tests PASS on disclosed restored dependency stack; current-main rerun NOT RUN.\",\n      \"repair\": \"Merge verifies additive integration under CTO1:03 exact approval. No source change needed for this rule.\"\n    },\n    {\n      \"pr\": 1274,\n      \"head\": \"f6cc284c74dc888fb4690906452033cdaa0e2f99\",\n      \"files\": [\n        \"src/simulation/public-budgets/age-verification-cost.ts\",\n        \"src/simulation/public-budgets/month.ts\",\n        \"src/simulation/public-budgets/store.ts\"\n      ],\n      \"drawnOutcomeLevel\": false,\n      \"amount\": \"Existing SPENDING_QUESTION_EFFECTS.toYes/toNo \u00d7 actual government.population /12. Inherited age-check rate \u00b10.0645 USD/resident/year.\",\n      \"mechanismGap\": true,\n      \"dependency\": \"src/simulation/public-budgets/rules.ts age-verification entry uses Utah2023 fiscal-note benchmark. This patch attributes existing spending; it adds no rate or draw.\",\n      \"repair\": \"Replace benchmark scaling in a separately claimed mechanism repair with actual filed appropriation or staffing/service terms \u00d7 recorded enforcement base. Require valid operative 2026 authority and recorded workload or appropriation. No invented investigations, staff or invoices.\",\n      \"currentIntegrationRepair\": \"Preserve both main cannabis-revenue-loss and age-verification stamps in settled month row. Shared hunk released to Team5; awaiting exact current-writer handoff before edits.\",\n      \"checks\": \"Five prior cost fixtures PASS; current-main integration NOT RUN; researched 2026 cost part incomplete.\"\n    },\n    {\n      \"pr\": 1262,\n      \"sourceHead\": \"1fb6894b1afcd655eeca67e7420e7ef7cf8b419a\",\n      \"mainLanding\": \"316b999e589ad3f87493e90f2f9b84b11888327f\",\n      \"file\": \"docs/codex/effect-batches/team-8/ideology.json\",\n      \"drawnOutcomeLevel\": false,\n      \"mechanism\": \"Authored principle weights 0\u20131; not economic levels or empirical estimates.\",\n      \"repair\": \"No outcome-level draw in submitted payload; decision-consumer runtime proof remains Team2.\"\n    },\n    {\n      \"sourceHead\": \"fee2a82fe5e3527e0085a407386dcc1f089b708c\",\n      \"file\": \"docs/codex/effect-batches/team-8/batch-03-age-verification-and-zero-audit.json\",\n      \"drawnOutcomeLevel\": false,\n      \"mechanism\": \"Four replacement contracts remain unsized/inactive; six unsupported or incomplete near-zero claims audited.\",\n      \"repair\": \"Coordinator removes rejected graduation link. Research actual access/compliance/retention mechanisms; calibration benchmarks must not become outcome-level picks.\"\n    }\n  ],\n  \"delegatedDependencyFinding\": {\n    \"originalOwner\": \"Team1\",\n    \"pr\": 1261,\n    \"sourceHead\": \"ab5f48837c954440fa04601de08265c6288cc0d5\",\n    \"mainLanding\": \"ea5f51aefe4aad8fed1e2b587867c804ef01f5b2\",\n    \"inspectedMain\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n    \"files\": [\n      \"src/simulation/federal-data-privacy-law.ts\",\n      \"src/simulation/living-world/town-finances.ts\"\n    ],\n    \"function\": \"drawnDataPrivacyCostShare\",\n    \"drawnOutcomeLevel\": true,\n    \"exactViolation\": \"SeededRng selects share0.001\u20130.006, stable per world/jurisdiction. Firm-quarter cost is (quarterPay\u00d74+annualOtherCosts)\u00d7share/4. A compliance-cost share level is picked directly; actual data intensity is not read.\",\n    \"repair\": \"Remove level draw and derive compliance work from actual saved data-processing volume, method, retention, statutory obligations and sourced unit effort/cost. Preserve legal coverage, canonical stamps and firm cash/debt consequences. Use0.1\u20130.6% production-cost average only as calibration; permit firms/places outside it.\",\n    \"missingInputs\": [\n      \"Exact existing producer/test release and unpublished head\",\n      \"Actual firm data-processing/intensity records and provenance\",\n      \"Operative law obligation terms and coverage\",\n      \"Published unit effort or implementation cost by actual workload\"\n    ],\n    \"unknownIsNotZero\": true,\n    \"implementationStatus\": \"Read-only finding; no shared producer writes, no guessed industry intensity scores.\"\n  },\n  \"executedThisAudit\": [\n    \"Exact published coverage/cost/privacy source reads\",\n    \"Static draw/formula inspection\",\n    \"Current PR metadata reads\"\n  ],\n  \"notRun\": [\n    \"New privacy mechanism tests\",\n    \"Current-main dependency rerun\",\n    \"Nationwide audit\",\n    \"Full historical Team8 commit enumeration\"\n  ],\n  \"automaticReviewBlocker\": {\n    \"action\": \"github_create_commit additive feature-branch main integration\",\n    \"parents\": [\n      \"7d4f8be4da506720812e3475a9b5efdc7b685e49\",\n      \"1c500321e1d7ed5a855e7794880e31f1d380de8c\"\n    ],\n    \"preparedTree\": \"53922e56803d4fa3ef208e332517b9b789f3e982\",\n    \"result\": \"Rejected; explicit CTO merge approval required. No ref updated. CTO1:03 exact PR approvals now received; route clean-main integration to Merge, no bypass.\"\n  }\n}\n",
+      "data": {
+        "schema": "team-8-golden-rule-audit/v1",
+        "asOfEastern": "2026-09-30 13:20",
+        "rule": "Outcome levels emerge from operative law terms and recorded world bases. Research level ranges are calibration checks; sourced causal strengths may vary.",
+        "scope": "Owned law producers/readers and delegated privacy dependency. Earlier presentation paths inspected locally; not an exhaustive audit of every historical Team8 commit.",
+        "ownedDrawnOutcomeLevels": [],
+        "rows": [
+          {
+            "pr": 1244,
+            "sourceHead": "217a8de539acb2dd13e3b7b627a78dfc91677eba",
+            "mainLanding": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+            "file": "src/simulation/crisis/health-coverage.ts",
+            "drawnOutcomeLevel": false,
+            "mechanism": "Coverage reads operative law, recorded household pay, ages, recorded work hours and exemptions. Saved coverage changes feed the sourced mortality hazard multiplier.",
+            "limits": "Fixed sourced mortality effect strength is distinct from drawing population mortality. This audit does not certify all terms, exemptions or remaining eligibility gaps.",
+            "repair": "No outcome-level draw introduced by Team8 stamp patch."
+          },
+          {
+            "pr": 1235,
+            "head": "7d4f8be4da506720812e3475a9b5efdc7b685e49",
+            "file": "src/simulation/press/law-effect-news.ts",
+            "drawnOutcomeLevel": false,
+            "mechanism": "Read changed saved coverage and canonical law stamps; project public news. No amount generation.",
+            "checks": "14 prior focused tests PASS on disclosed restored dependency stack; current-main rerun NOT RUN.",
+            "repair": "Merge verifies additive integration under CTO1:03 exact approval. No source change needed for this rule."
+          },
+          {
+            "pr": 1274,
+            "head": "f6cc284c74dc888fb4690906452033cdaa0e2f99",
+            "files": [
+              "src/simulation/public-budgets/age-verification-cost.ts",
+              "src/simulation/public-budgets/month.ts",
+              "src/simulation/public-budgets/store.ts"
+            ],
+            "drawnOutcomeLevel": false,
+            "amount": "Existing SPENDING_QUESTION_EFFECTS.toYes/toNo \u00d7 actual government.population /12. Inherited age-check rate \u00b10.0645 USD/resident/year.",
+            "mechanismGap": true,
+            "dependency": "src/simulation/public-budgets/rules.ts age-verification entry uses Utah2023 fiscal-note benchmark. This patch attributes existing spending; it adds no rate or draw.",
+            "repair": "Replace benchmark scaling in a separately claimed mechanism repair with actual filed appropriation or staffing/service terms \u00d7 recorded enforcement base. Require valid operative 2026 authority and recorded workload or appropriation. No invented investigations, staff or invoices.",
+            "currentIntegrationRepair": "Preserve both main cannabis-revenue-loss and age-verification stamps in settled month row. Shared hunk released to Team5; awaiting exact current-writer handoff before edits.",
+            "checks": "Five prior cost fixtures PASS; current-main integration NOT RUN; researched 2026 cost part incomplete."
+          },
+          {
+            "pr": 1262,
+            "sourceHead": "1fb6894b1afcd655eeca67e7420e7ef7cf8b419a",
+            "mainLanding": "316b999e589ad3f87493e90f2f9b84b11888327f",
+            "file": "docs/codex/effect-batches/team-8/ideology.json",
+            "drawnOutcomeLevel": false,
+            "mechanism": "Authored principle weights 0\u20131; not economic levels or empirical estimates.",
+            "repair": "No outcome-level draw in submitted payload; decision-consumer runtime proof remains Team2."
+          },
+          {
+            "sourceHead": "fee2a82fe5e3527e0085a407386dcc1f089b708c",
+            "file": "docs/codex/effect-batches/team-8/batch-03-age-verification-and-zero-audit.json",
+            "drawnOutcomeLevel": false,
+            "mechanism": "Four replacement contracts remain unsized/inactive; six unsupported or incomplete near-zero claims audited.",
+            "repair": "Coordinator removes rejected graduation link. Research actual access/compliance/retention mechanisms; calibration benchmarks must not become outcome-level picks."
+          }
+        ],
+        "delegatedDependencyFinding": {
+          "originalOwner": "Team1",
+          "pr": 1261,
+          "sourceHead": "ab5f48837c954440fa04601de08265c6288cc0d5",
+          "mainLanding": "ea5f51aefe4aad8fed1e2b587867c804ef01f5b2",
+          "inspectedMain": "80dba335a62f77d6a45c38919105991658ccf1de",
+          "files": [
+            "src/simulation/federal-data-privacy-law.ts",
+            "src/simulation/living-world/town-finances.ts"
+          ],
+          "function": "drawnDataPrivacyCostShare",
+          "drawnOutcomeLevel": true,
+          "exactViolation": "SeededRng selects share0.001\u20130.006, stable per world/jurisdiction. Firm-quarter cost is (quarterPay\u00d74+annualOtherCosts)\u00d7share/4. A compliance-cost share level is picked directly; actual data intensity is not read.",
+          "repair": "Remove level draw and derive compliance work from actual saved data-processing volume, method, retention, statutory obligations and sourced unit effort/cost. Preserve legal coverage, canonical stamps and firm cash/debt consequences. Use0.1\u20130.6% production-cost average only as calibration; permit firms/places outside it.",
+          "missingInputs": [
+            "Exact existing producer/test release and unpublished head",
+            "Actual firm data-processing/intensity records and provenance",
+            "Operative law obligation terms and coverage",
+            "Published unit effort or implementation cost by actual workload"
+          ],
+          "unknownIsNotZero": true,
+          "implementationStatus": "Read-only finding; no shared producer writes, no guessed industry intensity scores."
+        },
+        "executedThisAudit": [
+          "Exact published coverage/cost/privacy source reads",
+          "Static draw/formula inspection",
+          "Current PR metadata reads"
+        ],
+        "notRun": [
+          "New privacy mechanism tests",
+          "Current-main dependency rerun",
+          "Nationwide audit",
+          "Full historical Team8 commit enumeration"
+        ],
+        "automaticReviewBlocker": {
+          "action": "github_create_commit additive feature-branch main integration",
+          "parents": [
+            "7d4f8be4da506720812e3475a9b5efdc7b685e49",
+            "1c500321e1d7ed5a855e7794880e31f1d380de8c"
+          ],
+          "preparedTree": "53922e56803d4fa3ef208e332517b9b789f3e982",
+          "result": "Rejected; explicit CTO merge approval required. No ref updated. CTO1:03 exact PR approvals now received; route clean-main integration to Merge, no bypass."
+        }
+      }
+    },
+    {
+      "team": 2,
+      "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+      "path": "docs/codex/effect-batches/team-2/golden-rule-level-audit.json",
+      "rawContent": "{\n  \"team\": 2,\n  \"inspectedMain\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n  \"scope\": \"Team 2 owned consumer, stamp, ideology, about-zero, audit/proof and retained drafting/calibration candidates. Not an assertion that all main mechanisms contain no draws.\",\n  \"findings\": [\n    {\n      \"file\": \"src/simulation/governing/automatic-legislation.ts\",\n      \"function\": \"compileAutomaticLawDraft\",\n      \"source\": \"80dba335a62f77d6a45c38919105991658ccf1de\",\n      \"lastFileCommit\": \"7a3791342eeb3bb2bf4b5af2298b4d0412b50eb0\",\n      \"status\": \"present on main; inherited implementation inspected within previously assigned compiler scope\",\n      \"drawnLevel\": \"Authored money default multiplied by a seeded choice among 0.5, 0.75, 1, 1.5 and 2, then clamped and rounded into filed appropriation terms. Service-window and enumerated terms are also picked; configuration selection is picked separately.\",\n      \"effect\": \"These values can become filed program terms and later appropriation/service inputs. This inspection does not claim a particular bill used the draw in the Georgia comparison.\",\n      \"repair\": \"Derive sponsor proposals from actual operative saved/current law and explicit sponsor decisions. Costs then read those terms times the actual covered world base. Missing current law is not replaced by a universal default. Preserve formable bill production; only truly unformable proposals are refused.\",\n      \"relatedHeldCandidate\": {\n        \"pr\": 1217,\n        \"head\": \"34e1734944c434610f4c3a0712e072288be24d6f\",\n        \"observation\": \"Reads saved law parameters and contains no pick/rng calls. Requires an enacted source and therefore is not a complete starting-law producer repair. Owner hold remains.\"\n      },\n      \"writerReconciliation\": \"Requested exact current compileAutomaticLawDraft parameter-selection writer/clearance from coordinator; Team 1 sponsor-producer scope must be preserved.\",\n      \"repairApplied\": false\n    },\n    {\n      \"file\": \"src/simulation/nationwide-world/state-chamber-calibration.ts\",\n      \"function\": \"calibratedChamberLeans\",\n      \"source\": \"1959dce2d86d7b42fba4301e3701daf058f6f23f\",\n      \"branch\": \"codex/wave1-state-governing\",\n      \"status\": \"retained unmerged helper; absent on inspected main\",\n      \"drawnLevel\": \"Accepts existing district draw values, recenters their log odds around observed partisan seat composition and supplies rank-based variation when inputs tie. It does not itself draw a value.\",\n      \"callerCheck\": \"git grep finds the definition and test calls only; no production caller of calibratedChamberLeans in that retained branch.\",\n      \"repair\": \"Do not wire this inactive outcome calibration as a produced electoral-support mechanism. Opening composition may be a declared historical starting input; later support must follow people's records and actual changes. Separate ownership and research are required before electoral-mechanism edits.\",\n      \"repairApplied\": false\n    }\n  ],\n  \"noNewOutcomeLevelDrawsInInspectedWork\": [\n    {\n      \"pr\": 1237,\n      \"head\": \"205c598a5adb7f77eeed69af8f3745e5cbe64ce1\",\n      \"files\": [\"src/simulation/law-effect-stamp.ts\"],\n      \"reason\": \"Provenance type/helper only; does not produce or size an effect.\"\n    },\n    {\n      \"pr\": 1264,\n      \"head\": \"b42a9c939f516141181105436e29402aea8265fe\",\n      \"merged\": \"59e59903ac0fe9df5497010b424bedca9bf22a26\",\n      \"files\": [\"src/simulation/governing/officeholder-principles.ts\"],\n      \"reason\": \"Reads saved continuous strength times authored catalog weight; no draw, outcome amount or new threshold.\"\n    },\n    {\n      \"pr\": 1259,\n      \"head\": \"747c3471ff65eb5c42645053fc4c97bd8ec119de\",\n      \"files\": [\"docs/codex/effect-batches/team-2/ideology.json\"],\n      \"reason\": \"Authored argument relevance and cited position payload; not empirical outcome levels.\"\n    },\n    {\n      \"pr\": 1275,\n      \"head\": \"e0eccc016fc42b84a365ade8d75dd8a255cf8b51\",\n      \"files\": [\"docs/codex/effect-batches/team-2/about-zero-audit.json\"],\n      \"reason\": \"Unsized evidence corrections; aboutZero false. No effect level chosen and no shared map write.\"\n    },\n    {\n      \"pr\": 1250,\n      \"head\": \"04b5247efd6e11c3b3a20749bd2694cdbbcc0aea\",\n      \"files\": [\"scripts/law-audit/audit.ts\"],\n      \"reason\": \"Record adapter/dedup repair only; handed off to existing replacement audit owner. Does not invoke writers.\"\n    },\n    {\n      \"head\": \"762b030224533dbc5a4bbb838de6386924b10eb8\",\n      \"files\": [\"scripts/governance-proof/team2-georgia-weight-comparison.ts\"],\n      \"reason\": \"Paired read-only decision comparison after common world preparation; no new level draws. Existing opening mechanisms are not certified by this runner.\"\n    },\n    {\n      \"head\": \"fe2e3d408b50cd176a4c0690fb058dedf2ee2031\",\n      \"files\": [\"src/simulation/measure-numbering.ts\"],\n      \"reason\": \"Session/chamber/type designation allocator, not an economic or policy-effect level.\"\n    }\n  ],\n  \"diminishingReturns\": \"No new curve, reversal or turning point implemented. Research ranges remain checks. Any new saturation/reversal must use measured turning points or actual capacity, trust, crowding or budget mechanisms.\",\n  \"governmentCost\": \"No researched actual government-law cost is newly wired in this work. Missing 2026 denominators/unit costs and a shared budget writer claim remain unresolved; unknown is not zero.\",\n  \"nationalAudit\": \"Existing replacement audit task owns expanded collector and nationwide run; no duplicate run. Georgia decision results are not a nationwide effect table.\",\n  \"developerDesign\": \"Deferred until the required actual national table or explicit new CTO dispatch. No design file or feature code written.\"\n}\n",
+      "data": {
+        "team": 2,
+        "inspectedMain": "80dba335a62f77d6a45c38919105991658ccf1de",
+        "scope": "Team 2 owned consumer, stamp, ideology, about-zero, audit/proof and retained drafting/calibration candidates. Not an assertion that all main mechanisms contain no draws.",
+        "findings": [
+          {
+            "file": "src/simulation/governing/automatic-legislation.ts",
+            "function": "compileAutomaticLawDraft",
+            "source": "80dba335a62f77d6a45c38919105991658ccf1de",
+            "lastFileCommit": "7a3791342eeb3bb2bf4b5af2298b4d0412b50eb0",
+            "status": "present on main; inherited implementation inspected within previously assigned compiler scope",
+            "drawnLevel": "Authored money default multiplied by a seeded choice among 0.5, 0.75, 1, 1.5 and 2, then clamped and rounded into filed appropriation terms. Service-window and enumerated terms are also picked; configuration selection is picked separately.",
+            "effect": "These values can become filed program terms and later appropriation/service inputs. This inspection does not claim a particular bill used the draw in the Georgia comparison.",
+            "repair": "Derive sponsor proposals from actual operative saved/current law and explicit sponsor decisions. Costs then read those terms times the actual covered world base. Missing current law is not replaced by a universal default. Preserve formable bill production; only truly unformable proposals are refused.",
+            "relatedHeldCandidate": {
+              "pr": 1217,
+              "head": "34e1734944c434610f4c3a0712e072288be24d6f",
+              "observation": "Reads saved law parameters and contains no pick/rng calls. Requires an enacted source and therefore is not a complete starting-law producer repair. Owner hold remains."
+            },
+            "writerReconciliation": "Requested exact current compileAutomaticLawDraft parameter-selection writer/clearance from coordinator; Team 1 sponsor-producer scope must be preserved.",
+            "repairApplied": false
+          },
+          {
+            "file": "src/simulation/nationwide-world/state-chamber-calibration.ts",
+            "function": "calibratedChamberLeans",
+            "source": "1959dce2d86d7b42fba4301e3701daf058f6f23f",
+            "branch": "codex/wave1-state-governing",
+            "status": "retained unmerged helper; absent on inspected main",
+            "drawnLevel": "Accepts existing district draw values, recenters their log odds around observed partisan seat composition and supplies rank-based variation when inputs tie. It does not itself draw a value.",
+            "callerCheck": "git grep finds the definition and test calls only; no production caller of calibratedChamberLeans in that retained branch.",
+            "repair": "Do not wire this inactive outcome calibration as a produced electoral-support mechanism. Opening composition may be a declared historical starting input; later support must follow people's records and actual changes. Separate ownership and research are required before electoral-mechanism edits.",
+            "repairApplied": false
+          }
+        ],
+        "noNewOutcomeLevelDrawsInInspectedWork": [
+          {
+            "pr": 1237,
+            "head": "205c598a5adb7f77eeed69af8f3745e5cbe64ce1",
+            "files": [
+              "src/simulation/law-effect-stamp.ts"
+            ],
+            "reason": "Provenance type/helper only; does not produce or size an effect."
+          },
+          {
+            "pr": 1264,
+            "head": "b42a9c939f516141181105436e29402aea8265fe",
+            "merged": "59e59903ac0fe9df5497010b424bedca9bf22a26",
+            "files": [
+              "src/simulation/governing/officeholder-principles.ts"
+            ],
+            "reason": "Reads saved continuous strength times authored catalog weight; no draw, outcome amount or new threshold."
+          },
+          {
+            "pr": 1259,
+            "head": "747c3471ff65eb5c42645053fc4c97bd8ec119de",
+            "files": [
+              "docs/codex/effect-batches/team-2/ideology.json"
+            ],
+            "reason": "Authored argument relevance and cited position payload; not empirical outcome levels."
+          },
+          {
+            "pr": 1275,
+            "head": "e0eccc016fc42b84a365ade8d75dd8a255cf8b51",
+            "files": [
+              "docs/codex/effect-batches/team-2/about-zero-audit.json"
+            ],
+            "reason": "Unsized evidence corrections; aboutZero false. No effect level chosen and no shared map write."
+          },
+          {
+            "pr": 1250,
+            "head": "04b5247efd6e11c3b3a20749bd2694cdbbcc0aea",
+            "files": [
+              "scripts/law-audit/audit.ts"
+            ],
+            "reason": "Record adapter/dedup repair only; handed off to existing replacement audit owner. Does not invoke writers."
+          },
+          {
+            "head": "762b030224533dbc5a4bbb838de6386924b10eb8",
+            "files": [
+              "scripts/governance-proof/team2-georgia-weight-comparison.ts"
+            ],
+            "reason": "Paired read-only decision comparison after common world preparation; no new level draws. Existing opening mechanisms are not certified by this runner."
+          },
+          {
+            "head": "fe2e3d408b50cd176a4c0690fb058dedf2ee2031",
+            "files": [
+              "src/simulation/measure-numbering.ts"
+            ],
+            "reason": "Session/chamber/type designation allocator, not an economic or policy-effect level."
+          }
+        ],
+        "diminishingReturns": "No new curve, reversal or turning point implemented. Research ranges remain checks. Any new saturation/reversal must use measured turning points or actual capacity, trust, crowding or budget mechanisms.",
+        "governmentCost": "No researched actual government-law cost is newly wired in this work. Missing 2026 denominators/unit costs and a shared budget writer claim remain unresolved; unknown is not zero.",
+        "nationalAudit": "Existing replacement audit task owns expanded collector and nationwide run; no duplicate run. Georgia decision results are not a nationwide effect table.",
+        "developerDesign": "Deferred until the required actual national table or explicit new CTO dispatch. No design file or feature code written."
+      },
+      "method": "Pinned local Git read"
+    }
+  ],
+  "rows": [
+    {
+      "id": "privacy-cost",
+      "owners": [
+        1,
+        8
+      ],
+      "classification": "drawn-law-outcome",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/federal-data-privacy-law.ts:35",
+      "mechanismAndNumbers": "Triangular seeded share0.001\u20130.006 \u00d7 actual recorded firm production expenses; annualized expense base divided back to quarter.",
+      "replacementOrMeaning": "Actual statutory obligations \u00d7 recorded processing/retention/workload \u00d7 sourced unit work cost; preserve balances and stamps. Deduplicated cross-team finding.",
+      "receiptEvidence": [
+        {
+          "team": 1,
+          "head": "487685227948681dc036894f71d090a92a6bfec2",
+          "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "line": 10
+        },
+        {
+          "team": 8,
+          "head": "c8d52f37a21b7540dc7faa1746a04c48cc058111",
+          "path": "docs/codex/effect-batches/team-8/golden-rule-audit.json",
+          "line": 70
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "disaster-unit-cost",
+      "owners": [
+        1
+      ],
+      "classification": "drawn-law-outcome",
+      "stateAtMainPin": "HELD_RECEIPT_ONLY",
+      "sourceLocation": "src/simulation/governing/disaster-cost-sharing.ts::disasterRepairUnitCents @0d64e106a5c49645bc6904952c514e30d5919b96",
+      "mechanismAndNumbers": "Episode-seeded repair unit cost uses researched mean \u00d7 random spread; held1131 absent inspected main per inventory.",
+      "replacementOrMeaning": "Actual damaged units \u00d7 real supplier/contract unit prices \u00d7 filed government cost share. Do not rewrite past paid amounts.",
+      "receiptEvidence": [
+        {
+          "team": 1,
+          "head": "487685227948681dc036894f71d090a92a6bfec2",
+          "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "line": 21
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "debt-limit-fixed-cut",
+      "owners": [
+        1
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/federal-outlay-laws.ts:71",
+      "mechanismAndNumbers": "Historical fixed150billion dollars/year cut selected by yes/no; generalized aid share.",
+      "replacementOrMeaning": "Filed program restrictions applied to actual commitments/payments; debt authority does not create cash.",
+      "receiptEvidence": [
+        {
+          "team": 1,
+          "head": "487685227948681dc036894f71d090a92a6bfec2",
+          "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "line": 37
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "foreign-aid-fixed-rise",
+      "owners": [
+        1
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/federal-outlay-laws.ts:72",
+      "mechanismAndNumbers": "Historical median foreign-aid increment selected by yes/no.",
+      "replacementOrMeaning": "Actual appropriation/eligibility/dates \u2192 commitments \u2192 posted aid transfers.",
+      "receiptEvidence": [
+        {
+          "team": 1,
+          "head": "487685227948681dc036894f71d090a92a6bfec2",
+          "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "line": 47
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "defense-fixed-rise",
+      "owners": [
+        1
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/federal-defense-spending.ts:70",
+      "mechanismAndNumbers": "Historical6.94percent real annual growth compounded for at most5years.",
+      "replacementOrMeaning": "Actual appropriation/procurement units and contract prices determine paid costs/local earnings.",
+      "receiptEvidence": [
+        {
+          "team": 1,
+          "head": "487685227948681dc036894f71d090a92a6bfec2",
+          "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "line": 57
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "farm-fixed-cut",
+      "owners": [
+        1
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/federal-farm-subsidy-law.ts:53",
+      "mechanismAndNumbers": "Historical21percent payment cut selected by yes/no.",
+      "replacementOrMeaning": "Actual covered beneficiaries and filed benefit/cap terms; no blanket historical percent.",
+      "receiptEvidence": [
+        {
+          "team": 1,
+          "head": "487685227948681dc036894f71d090a92a6bfec2",
+          "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "line": 67
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "rail-fixed-ramp",
+      "owners": [
+        1
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/federal-passenger-rail.ts:67",
+      "mechanismAndNumbers": "Plan projection62.5percent rider increase over fixed15year build-out.",
+      "replacementOrMeaning": "Actual funded routes, completed service, fares and journeys; projection is calibration only.",
+      "receiptEvidence": [
+        {
+          "team": 1,
+          "head": "487685227948681dc036894f71d090a92a6bfec2",
+          "path": "docs/codex/effect-batches/team-1/golden-rule-outcome-audit.json",
+          "line": 77
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "automatic-law-terms",
+      "owners": [
+        2
+      ],
+      "classification": "drawn-law-terms",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/governing/automatic-legislation.ts:480",
+      "mechanismAndNumbers": "Authored money default \u00d7 choice among0.5/0.75/1/1.5/2; rounding/clamping becomes filed appropriation. Service/enumerated parameters/configuration are also picked.",
+      "replacementOrMeaning": "Read operative current/starting law and actual sponsor reasons, constituency and budget room. Held1217 remains incomplete starting-law repair.",
+      "receiptEvidence": [
+        {
+          "team": 2,
+          "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+          "path": "docs/codex/effect-batches/team-2/golden-rule-level-audit.json",
+          "line": 12
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "electoral-helper",
+      "owners": [
+        2
+      ],
+      "classification": "inactive-outcome-calibration",
+      "stateAtMainPin": "NOT_ON_MAIN_RECEIPT_ONLY",
+      "sourceLocation": "src/simulation/nationwide-world/state-chamber-calibration.ts::calibratedChamberLeans @1959dce2d86d7b42fba4301e3701daf058f6f23f",
+      "mechanismAndNumbers": "Recenters supplied electoral draws/ranks; inventory reports test callers only, does not itself draw.",
+      "replacementOrMeaning": "Do not activate as support producer; later support comes from people and actual experience, not target seat composition.",
+      "receiptEvidence": [
+        {
+          "team": 2,
+          "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+          "path": "docs/codex/effect-batches/team-2/golden-rule-level-audit.json",
+          "line": 25
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "state-tax-schedule",
+      "owners": [
+        3
+      ],
+      "classification": "drawn-law-terms",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/state-income-tax-law.ts:288",
+      "mechanismAndNumbers": "Estimated tax schedule rateScale and deduction drawn; actual income later assessed against generated terms.",
+      "replacementOrMeaning": "Consume filed brackets/rate/deduction; retain supported real starting schedules. Missing terms are a gap.",
+      "receiptEvidence": [
+        {
+          "team": 3,
+          "head": "003dfcb9421583363f1bed17c724c4679c359da3",
+          "path": "docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+          "line": 10
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "paid-leave-premium",
+      "owners": [
+        3
+      ],
+      "classification": "drawn-law-terms",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/state-paid-leave-law.ts:171",
+      "mechanismAndNumbers": "Fallback employee premium drawn when read terms absent; generic cap also substitutes for law terms.",
+      "replacementOrMeaning": "Consume filed employer/employee premium and wage-cap terms.",
+      "receiptEvidence": [
+        {
+          "team": 3,
+          "head": "003dfcb9421583363f1bed17c724c4679c359da3",
+          "path": "docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+          "line": 19
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "paid-leave-replacement",
+      "owners": [
+        3
+      ],
+      "classification": "drawn-law-terms",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/paid-leave-benefits.ts:110",
+      "mechanismAndNumbers": "Fallback replacement percentage drawn around mean; recorded programs use their own rate.",
+      "replacementOrMeaning": "Actual covered lost pay \u00d7 operative replacement/duration/cap.",
+      "receiptEvidence": [
+        {
+          "team": 3,
+          "head": "003dfcb9421583363f1bed17c724c4679c359da3",
+          "path": "docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+          "line": 28
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "opening-budget",
+      "owners": [
+        3
+      ],
+      "classification": "initialization-level-draw",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/public-budgets/opening.ts:555",
+      "mechanismAndNumbers": "Opening revenue/spending estimate \u00d7 seeded lognormal spread.",
+      "replacementOrMeaning": "Inventory flags unrepaired. Distinguish permitted realistic starting spread from later law/outcome manufacturing; no blanket initialization clearance.",
+      "receiptEvidence": [
+        {
+          "team": 3,
+          "head": "003dfcb9421583363f1bed17c724c4679c359da3",
+          "path": "docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+          "line": 39
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "starting-pay",
+      "owners": [
+        3
+      ],
+      "classification": "initialization-level-draw",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/living-world/town-pay.ts:716",
+      "mechanismAndNumbers": "Person seed selects starting wage percentile; employer cadence and biweekly phase also seeded.",
+      "replacementOrMeaning": "Actual job/employer/circumstances must govern later wages and payment schedule; this supplement does not adjudicate all allowed initial spreads.",
+      "receiptEvidence": [
+        {
+          "team": 3,
+          "head": "003dfcb9421583363f1bed17c724c4679c359da3",
+          "path": "docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+          "line": 48
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "cannabis-drawn-revenue",
+      "owners": [
+        4
+      ],
+      "classification": "drawn-law-outcome",
+      "stateAtMainPin": "HELD_RECEIPT_ONLY",
+      "sourceLocation": "src/simulation/public-budgets/cannabis-sales-tax.ts::cannabisTaxPerResident @fd2b034a4ffbf5bdb68f53e7ae42a0abae21b3fe",
+      "mechanismAndNumbers": "Held1282 chooses annual state tax26.70\u201362.00 dollars/resident.",
+      "replacementOrMeaning": "Operative tax rates \u00d7 actual legal sales; historical revenue range calibrates totals only.",
+      "receiptEvidence": [
+        {
+          "team": 4,
+          "head": "1453717e29c156a02181f003acd2e80470717310",
+          "path": "docs/codex/effect-batches/team-4/drawn-outcome-inventory.json",
+          "line": 12
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "cannabis-fixed-revenue",
+      "owners": [
+        4
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/public-budgets/cannabis-sales-tax.ts:13",
+      "mechanismAndNumbers": "Merged reader uses40.7 dollars/resident/year; removes neither legal-sales gap nor tax-term gap.",
+      "replacementOrMeaning": "Same actual legal sales mechanism as held draw replacement. Team4 arithmetic WIP reports no adapter or legal-share producer.",
+      "receiptEvidence": [
+        {
+          "team": 4,
+          "head": "1453717e29c156a02181f003acd2e80470717310",
+          "path": "docs/codex/effect-batches/team-4/drawn-outcome-inventory.json",
+          "line": 22
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "teacher-floor",
+      "owners": [
+        5
+      ],
+      "classification": "drawn-law-terms",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/teacher-salary-floor.ts:69",
+      "mechanismAndNumbers": "Seeded floor ratio0.67\u20130.95, central0.81, \u00d7 median teacher pay, becomes statutory salary floor.",
+      "replacementOrMeaning": "Read filed salary terms and scope, then raise actual covered pay. A stamped paid raise does not certify the drawn floor.",
+      "receiptEvidence": [
+        {
+          "team": 5,
+          "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+          "path": "src/simulation/teacher-salary-floor.ts",
+          "line": 69,
+          "method": "Source supplement; recovery packet is not comprehensive golden inventory."
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "tuition-growth",
+      "owners": [
+        5
+      ],
+      "classification": "drawn-law-outcome",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/public-budgets/tuition-freeze.ts:55",
+      "mechanismAndNumbers": "Seeded annual tuition growth within2.67\u20134.13percent, central3.1percent, used as foregone growth for freeze revenue factor.",
+      "replacementOrMeaning": "Actual school tuition/cost/revenue records and filed freeze terms; historical growth interval is calibration, not an imposed revenue trajectory.",
+      "receiptEvidence": [
+        {
+          "team": 5,
+          "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+          "path": "src/simulation/public-budgets/tuition-freeze.ts",
+          "line": 55,
+          "method": "Source supplement; no comprehensive Team5 inventory supplied."
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "parks-drawn-level",
+      "owners": [
+        5
+      ],
+      "classification": "drawn-law-outcome",
+      "stateAtMainPin": "HELD_PROPOSAL_RECEIPT",
+      "sourceLocation": "src/simulation/public-budgets/parks-dedication.ts::parksAnnualPerResident @600a121e6585faba01694aa9ba91c547e96a3c3b",
+      "mechanismAndNumbers": "Held1273 chooses dollars/resident spending with drawnLinkSize. MainFD file does not contain that function.",
+      "replacementOrMeaning": "Filed named revenue source/share \u00d7 actual receipts \u2192 distinct earmark \u2192 authorized actual payment; budget balance is not account cash.",
+      "receiptEvidence": [
+        {
+          "team": 3,
+          "head": "003dfcb9421583363f1bed17c724c4679c359da3",
+          "path": "docs/codex/effect-batches/team-3/drawn-outcome-level-audit.json",
+          "line": 57
+        },
+        {
+          "team": 5,
+          "head": "a57c8d88dc24439e2360bfb68550a4b7236fac5b",
+          "path": "docs/codex/effect-batches/team-5/parks-golden-rule-repair.md",
+          "line": 5
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "parks-fixed-level",
+      "owners": [
+        5
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/public-budgets/rules.ts:275",
+      "mechanismAndNumbers": "Average Missouri/Minnesota fiscal dedication yields per resident is applied as monthly spending; benchmarks roughly8.68 and9.84 dollars/resident.",
+      "replacementOrMeaning": "Actual dedication terms/collections/earmarks/payments, counted once. No claim these summary costs are paid parks cash.",
+      "receiptEvidence": [
+        {
+          "team": 5,
+          "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 275,
+          "method": "Source supplement to held proposal."
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "transit-drawn-price",
+      "owners": [
+        6
+      ],
+      "classification": "drawn-law-outcome",
+      "stateAtMainPin": "REMOVED_ON_CANDIDATE_ONLY",
+      "sourceLocation": "src/simulation/rural-transit-operating-cost.ts::ruralTransitOperatingCostAt @ed1264075e6590f58196450b22a4c4cc01f6de6a",
+      "mechanismAndNumbers": "Team6 candidate removes drawn operating price; helper declared calibration-only, no production caller. File absent on FD main.",
+      "replacementOrMeaning": "Do not count candidate removal as main merge; actual driver pay, fuel/vehicles and delivered hours remain missing.",
+      "receiptEvidence": [
+        {
+          "team": 6,
+          "head": "ed1264075e6590f58196450b22a4c4cc01f6de6a",
+          "path": "docs/codex/effect-batches/team-6/golden-rule-inventory.json",
+          "line": 8
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "transit-fixed-price-hours",
+      "owners": [
+        6
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE_REPAIR_CANDIDATE_ONLY",
+      "sourceLocation": "src/simulation/legislation-transit-families.ts:22",
+      "mechanismAndNumbers": "Main uses10000 cents/hour (100 dollars/hour); posted payment divided by this authored price creates modeled service hours. Candidate1283 removes it.",
+      "replacementOrMeaning": "Real operator payroll/fuel/vehicle payments and delivered vehicle revenue hours. Authority/payment chain stays intact; operator work after3:30.",
+      "receiptEvidence": [
+        {
+          "team": 6,
+          "head": "ed1264075e6590f58196450b22a4c4cc01f6de6a",
+          "path": "docs/codex/effect-batches/team-6/golden-rule-inventory.json",
+          "line": 16
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "transit-inferred-rider",
+      "owners": [
+        6
+      ],
+      "classification": "authored-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE_REPAIR_CANDIDATE_ONLY",
+      "sourceLocation": "src/simulation/governing/public-program-transit.ts:333",
+      "mechanismAndNumbers": "Main selects modeled rider then writes ride/appreciation event; candidate1283 removes unsupported chain.",
+      "replacementOrMeaning": "Actual availability and recorded trip must precede experience/concern/news. No rider selected just to make the cost visible.",
+      "receiptEvidence": [
+        {
+          "team": 6,
+          "head": "ed1264075e6590f58196450b22a4c4cc01f6de6a",
+          "path": "docs/codex/effect-batches/team-6/golden-rule-inventory.json",
+          "line": 21
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "age-enforcement-cost",
+      "owners": [
+        8
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE_WITH_HELD_ATTRIBUTION_BRANCH",
+      "sourceLocation": "src/simulation/public-budgets/rules.ts:248",
+      "mechanismAndNumbers": "0.0645 dollars/resident/year \u00d7 population /12;1274 stamps existing cost, adds no draw.",
+      "replacementOrMeaning": "Filed enforcement appropriation/staff/service terms \u00d7 actual workload; statutory2026authority and work records still required.",
+      "receiptEvidence": [
+        {
+          "team": 8,
+          "head": "c8d52f37a21b7540dc7faa1746a04c48cc058111",
+          "path": "docs/codex/effect-batches/team-8/golden-rule-audit.json",
+          "line": 36
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "state-privacy-enforcement",
+      "owners": [
+        8
+      ],
+      "classification": "fixed-outcome-proxy",
+      "stateAtMainPin": "ACTIVE_SOURCE",
+      "sourceLocation": "src/simulation/public-budgets/rules.ts:234",
+      "mechanismAndNumbers": "Average0.0551/0.0379 dollars/resident/year fiscal-note costs; actual investigations/tasks not produced by that formula.",
+      "replacementOrMeaning": "Actual obligations/workload/staff/service transactions. Distinct from federal firm privacy draw and no duplicate accounting.",
+      "receiptEvidence": [
+        {
+          "team": 8,
+          "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 234,
+          "method": "Source supplement to delegated privacy/enforcement scope."
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "coverage-mortality-strength",
+      "owners": [
+        8
+      ],
+      "classification": "research-response-strength",
+      "stateAtMainPin": "SOURCE_RESPONSE_NOT_LEVEL_DRAW",
+      "sourceLocation": "src/simulation/crisis/health-coverage.ts:140",
+      "mechanismAndNumbers": "Sourced9.4percent mortality hazard reduction for covered low-income adults55\u201364 after saved coverage.",
+      "replacementOrMeaning": "Keep distinct from drawing mortality or a count of dead people. Actual coverage/exposure remains prerequisite; no complete mortality mechanism clearance.",
+      "receiptEvidence": [
+        {
+          "team": 8,
+          "head": "c8d52f37a21b7540dc7faa1746a04c48cc058111",
+          "path": "docs/codex/effect-batches/team-8/golden-rule-audit.json",
+          "line": 15
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "argument-relevance",
+      "owners": [
+        2,
+        8
+      ],
+      "classification": "authored-semantic-weight",
+      "stateAtMainPin": "NOT_EMPIRICAL_OUTCOME_LEVEL",
+      "sourceLocation": "docs/codex/effect-batches/team-8/ideology.json @1fb6894b1afcd655eeca67e7420e7ef7cf8b419a",
+      "mechanismAndNumbers": "Principle argument weights0\u20131 label relevance, not dollars, prices or causal response estimates.",
+      "replacementOrMeaning": "Do not include in drawn economic-level count; conviction/record formation remains a separate question.",
+      "receiptEvidence": [
+        {
+          "team": 8,
+          "head": "c8d52f37a21b7540dc7faa1746a04c48cc058111",
+          "path": "docs/codex/effect-batches/team-8/golden-rule-audit.json",
+          "line": 49
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    },
+    {
+      "id": "unsized-research-contracts",
+      "owners": [
+        8,
+        9
+      ],
+      "classification": "inactive-research-contract",
+      "stateAtMainPin": "NO_ACTIVATION_CLAIM",
+      "sourceLocation": "docs/codex/effect-batches/team-8/batch-03-age-verification-and-zero-audit.json @fee2a82fe5e3527e0085a407386dcc1f089b708c",
+      "mechanismAndNumbers": "Four replacement contracts unsized/inactive; six near-zero claims audited.",
+      "replacementOrMeaning": "Unsized research records do not certify runtime effects or a legal zero. Preserve calibration only until actual producers/research exist.",
+      "receiptEvidence": [
+        {
+          "team": 8,
+          "head": "c8d52f37a21b7540dc7faa1746a04c48cc058111",
+          "path": "docs/codex/effect-batches/team-8/golden-rule-audit.json",
+          "line": 56
+        }
+      ],
+      "runtimeProof": "No new execution by this helper; preserve original receipt check limits."
+    }
+  ],
+  "parksProposalReceipt": {
+    "team": 5,
+    "head": "a57c8d88dc24439e2360bfb68550a4b7236fac5b",
+    "path": "docs/codex/effect-batches/team-5/parks-golden-rule-repair.md",
+    "sha": "a58e07387a8ba2e617dfc7696cda522cc879fab1",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/a57c8d88dc24439e2360bfb68550a4b7236fac5b/docs/codex/effect-batches/team-5/parks-golden-rule-repair.md",
+    "rawContent": "# Parks dedication mechanism repair — held proposal\n\nMERGED: this proposal is not merged. #1273 remains HOLD at 600a121e6585faba01694aa9ba91c547e96a3c3b. This document changes no production file.\n\nWHAT EMERGED: HARDWIRED — the held parksAnnualPerResident draws a spending level. HARDWIRED — current monthly settlement calculates a budget balance; its own contract distinguishes that budget from the public account's cash. DECIDED — no new parks appropriation, tax dedication, recipient or payment has been produced or observed by this proposal.\n\nVITAL STATISTICS: zero new executed tests, zero repaired runtime outcomes, zero complete five-part laws certified by this packet.\n\n## 1. Why-chain\n\nThe law dedicates money because its operative terms identify a revenue source and share, or authorize a particular appropriation. An amount exists only because that government's actual base exists. A named share binds collections actually paid; an appropriation authorizes expenditure but does not prove payment. A parks cost reaches the budget only through the payment or other authorized accounting obligation the game actually records. Terminal: the legal dedication/appropriation and saved monetary transaction, not a sampled expenditure level.\n\nMissing links include a filed parks share/source binding, restricted-fund accounting if the dedication creates an earmark, authorized parks program administration, and actual payments. Repeal may release an earmark; it does not automatically reverse expenditures already made.\n\n## 2. Research\n\nThe prior Missouri and Minnesota observed dedication yields ($53.9 million / 6,208,038 residents and $56.6 million / 5,753,048 residents) are calibration observations with different tax designs and fiscal/population years. They do not supply a universal statutory appropriation or a sampled amount. No new coefficient, tax base, share, numeric bound or spending amount is proposed.\n\nInspected production source: main 1c500321e1d7ed5a855e7794880e31f1d380de8c. month.ts blob 5c8eca583eb2e8338e1c399b4bfde29a194b0bd7. PublicFundingMandate carries measureId, jurisdictionId, provisionIds, amount, dates, programKey and optional appropriationId. ResourceTransferOutcome carries actual transferredAmount, attemptedAmount, period, date, resourceFlowId and completed/partial/missed/blocked status.\n\n## 3. Revisions\n\nRemove the drawn per-resident level and its use in parksBudgetChange and parksLawAddedPct. Preserve stamps and provenance on actual consequences. Missing terms remain an explicit limit; no replacement fixed mean, invented share or assumption that every yes/no law sets money.\n\nBudget balance is not public-account cash. Earlier five-state budget receipts established settled expense/balance movements, not independently verified money transfers from that account. Do not label those receipts paid parks cash.\n\n## 4. What gets built, in numbered parts\n\n1. Bind the canonical operative law and the exact provision/lineage to its filed named source and dedication/share, or its existing appropriation mandate. Coordinator owns shared parameter declarations and schema decisions. Parameter names and units must match the real writer; none are invented here.\n2. Supply actual collection receipts for the named government/source/month, with tax-policy/assessment, flow and transfer outcome IDs. Use transferredAmount for positive completed or partial transfers. No attempted amount; no annual adopted revenue forecast presented as collected cash. Existing MonthFlows.levies aggregates receipts but drops individual IDs and currently excludes partial outcomes at the inspected head. Do not modify Team 3's released outgoing paid-leave hunk to repair this.\n3. Dedication equals filed share times matched actual collections. It earmarks existing revenue rather than creates revenue. Restricted balance and actual expenditure must be distinct. Reject mismatched government/source/date and missing terms.\n4. Use the existing appropriation/public-payment machinery for authorized payments. Cost equals positive actual payments with the correct parks program and law attribution. Preserve public-account capacity checks; no new payment guessed from dedication yield.\n5. Save stamped provenance on the actual earmark or paid consequence. Monthly cost attribution reports actual expense once; avoid adding both a helper cost and the existing payments array for the same transaction.\n6. Repeal ends future dedication subject to the operative legal terms. Prior earmarked balances and commitments follow their recorded legal disposition; do not presume a negative parks cost from population.\n7. parksLawAddedPct must read a recorded actual change and an appropriate actual baseline, or report its unavailable mechanism. A reconstructed per-resident draw is not an access producer.\n\n## 5. Simulated, records, world pieces, checks\n\nAvailable: canonical law hierarchy; legislative draft lineage; PublicFundingMandate; resource flows and actual transfer outcomes; government budget months. Missing or unverified: usable parks share/source producer, earmarked fund record and its exact legal disposal on repeal, and complete parks payout provenance at the repaired head.\n\nFiles: Team 5 parks amount helper and parks-specific month call only. Team 3 exclusively owns paid-leave MonthFlows map/filter/append and optional saved-row stamp field. Team 8 age and Team 4 cannabis arrays must survive. Curriculum monthly append remains a separately declared overlap, not permission to edit the row now.\n\n## 6. Proof run\n\nNOT RUN — executor failed. Required acceptance: actual filed dedication and named-source receipts in three places sampled from all 56; positive partial and completed collections; zero collection versus missing terms; no wrong-source/government attribution; actual authorized partial/full parks payments; serialized stamps and payment IDs; duplicate settlement; repeal without automatic reversal; accounting identity and no duplicate cost. Include named actual people/businesses behind represented collections and actual recipients. Research checks compare appropriate aggregate yields, not select an actor's outcome.\n\n## 7. Worked example\n\nGiven a governing law's recorded source, share and matching saved receipts, compute their product symbolically; no sample amount is supplied. Save the earmark with law and receipt IDs. If an authorized parks payment occurs, its actual transferredAmount becomes spending and its recorded cash movement remains the payment system's responsibility. Without that payment, dedication is not evidence of expense. Capacity or budget constraints emerge from actual records; no authored saturation curve is added.\n",
+    "data": null
+  },
+  "missingInventories": [
+    {
+      "team": 5,
+      "gap": "Recovery packet/parks proposal plus teacher/tuition source supplements are available, but no comprehensive separate golden inventory for all12laws was supplied."
+    },
+    {
+      "team": 7,
+      "gap": "No comprehensive golden outcome-level inventory supplied/fetched for art lane; not proof of zero draws."
+    },
+    {
+      "team": 9,
+      "gap": "Research calibration packets available in00b; no comprehensive golden outcome inventory supplied/fetched. Not runtime activation."
+    }
+  ],
+  "status": "Read-only consolidation completed; no production repair or new runtime proof; candidate and main states separated.",
+  "findingGroupCounts": {
+    "drawn-law-outcome": 6,
+    "fixed-outcome-proxy": 10,
+    "drawn-law-terms": 5,
+    "inactive-outcome-calibration": 1,
+    "initialization-level-draw": 2,
+    "authored-outcome-proxy": 1,
+    "research-response-strength": 1,
+    "authored-semantic-weight": 1,
+    "inactive-research-contract": 1
+  },
+  "uniqueFindingGroups": 28,
+  "mechanicalReportCheck": {
+    "command": "npm run report:check -- docs/codex/audit-systems-drawn-inventory.md",
+    "exit": 0,
+    "errors": 0,
+    "warnings": 0
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "maxRSSKiB": 2789536,
+  "memoryUsageBytes": {
+    "rss": 2596876288,
+    "heapTotal": 2100047872,
+    "heapUsed": 2006600168,
+    "external": 4752116,
+    "arrayBuffers": 2241199
+  },
+  "elapsedSeconds": 632.316427911,
+  "userCPUTimeMicros": 647251392,
+  "systemCPUTimeMicros": 15246805
+}

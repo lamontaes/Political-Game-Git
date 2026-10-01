@@ -1,0 +1,36 @@
+{
+  "productionHead": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "runtimeTestsExecuted": 0,
+  "productionExposureCallersFound": [
+    "src/simulation/legislation.ts:1656"
+  ],
+  "reflectionTestsInspected": 4,
+  "targetedDelayDays": 1,
+  "periodicReflectionDays": 90,
+  "pressIntervals": {
+    "sweepDays": 7,
+    "responseWindowDays": 2,
+    "routinePublishDays": 1,
+    "holdRecheckDays": 7,
+    "routineItemsPerSweepPerOutlet": 1
+  },
+  "lifePointScale": 4,
+  "lifePoints": [
+    1,
+    2,
+    3
+  ],
+  "normalizedWeights": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "authoredFormationThreshold": 0.4375,
+  "cultureNullRows": 56,
+  "cultureRowDenominator": 56,
+  "gaps": [
+    "Exact owner week publication/delivery receipt missing",
+    "Exact newer Team9 calibration packet missing at source pin",
+    "No paycheck/contact/media proposition-exposure bridge established"
+  ]
+}

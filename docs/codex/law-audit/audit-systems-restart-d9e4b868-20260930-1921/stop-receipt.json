@@ -1,0 +1,322 @@
+{
+  "at": "2026-09-30T20:19:37.396352+00:00",
+  "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "driver": 11653,
+  "reason": "OWNER STOP NOW: stop all work and audits; preserve all evidence; no automatic restart",
+  "workers": [
+    {
+      "state": "US-IL",
+      "pid": 15385,
+      "memory": [
+        "State:\tR (running)",
+        "VmHWM:\t 2737016 kB",
+        "VmRSS:\t 1916656 kB"
+      ]
+    },
+    {
+      "state": "US-IN",
+      "pid": 15461,
+      "memory": [
+        "State:\tR (running)",
+        "VmHWM:\t 2797156 kB",
+        "VmRSS:\t 2246864 kB"
+      ]
+    },
+    {
+      "state": "US-IA",
+      "pid": 15627,
+      "memory": [
+        "State:\tR (running)",
+        "VmHWM:\t 2948408 kB",
+        "VmRSS:\t 1603188 kB"
+      ]
+    }
+  ],
+  "sealed": [
+    {
+      "state": "US-AL",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-AL.json",
+      "sha256": "aaf63e11ef1bbe0dca71be127f87f46254a97c187be4d9afa707f05e7eda5079",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2845064,
+        "memoryUsageBytes": {
+          "rss": 2743054336,
+          "heapTotal": 2440839168,
+          "heapUsed": 2199546800,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 532.251739956,
+        "userCPUTimeMicros": 546685836,
+        "systemCPUTimeMicros": 14536146
+      }
+    },
+    {
+      "state": "US-AK",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-AK.json",
+      "sha256": "1467386fda4e44b3ba4dac2e4639bb706908a0adad2eddbdd8bee7f14eae2447",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 3128476,
+        "memoryUsageBytes": {
+          "rss": 1872797696,
+          "heapTotal": 1349779456,
+          "heapUsed": 939951120,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 544.8548363289999,
+        "userCPUTimeMicros": 561245709,
+        "systemCPUTimeMicros": 14264062
+      }
+    },
+    {
+      "state": "US-AS",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-AS.json",
+      "sha256": "169f01a58a64550c28255919f96d820af21dccca57ce64546fd4106e1c6d9416",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2766848,
+        "memoryUsageBytes": {
+          "rss": 2739228672,
+          "heapTotal": 2484170752,
+          "heapUsed": 2362907320,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 548.8788608,
+        "userCPUTimeMicros": 559627091,
+        "systemCPUTimeMicros": 13977920
+      }
+    },
+    {
+      "state": "US-AZ",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-AZ.json",
+      "sha256": "4d50ca453c8695f31a9e2d00f87dab8607309e35def5172bbfa3a0827b411248",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2899980,
+        "memoryUsageBytes": {
+          "rss": 2364817408,
+          "heapTotal": 1942343680,
+          "heapUsed": 1684999496,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 615.382966762,
+        "userCPUTimeMicros": 631396318,
+        "systemCPUTimeMicros": 15321311
+      }
+    },
+    {
+      "state": "US-AR",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-AR.json",
+      "sha256": "932354e84c22102f76022f886e12cf4b5c1a5eeba6ba03cd7f7a5df506c217fe",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2998104,
+        "memoryUsageBytes": {
+          "rss": 2123706368,
+          "heapTotal": 1877852160,
+          "heapUsed": 1181674856,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 589.5663592180001,
+        "userCPUTimeMicros": 601228693,
+        "systemCPUTimeMicros": 13705296
+      }
+    },
+    {
+      "state": "US-CA",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-CA.json",
+      "sha256": "949ca0a0906db72608b93b01bd86593d50dcdd9ff6e6176a6e0dc15167a82a68",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 3353760,
+        "memoryUsageBytes": {
+          "rss": 2228649984,
+          "heapTotal": 1568964608,
+          "heapUsed": 1323625440,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 591.199543853,
+        "userCPUTimeMicros": 610244863,
+        "systemCPUTimeMicros": 15001910
+      }
+    },
+    {
+      "state": "US-CO",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-CO.json",
+      "sha256": "e371ec39e290b4cf24f5b489a104c13410a0469a5a708bbc0ffcd0db46e35811",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2810856,
+        "memoryUsageBytes": {
+          "rss": 2593742848,
+          "heapTotal": 2272317440,
+          "heapUsed": 2051790624,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 585.064024947,
+        "userCPUTimeMicros": 599927543,
+        "systemCPUTimeMicros": 15880717
+      }
+    },
+    {
+      "state": "US-CT",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-CT.json",
+      "sha256": "eed8b62af3ccf49bd10490efa47690364ca35178e27ac2901982d60f3fbe2e49",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2765132,
+        "memoryUsageBytes": {
+          "rss": 2234179584,
+          "heapTotal": 1959391232,
+          "heapUsed": 1349375912,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 576.214495518,
+        "userCPUTimeMicros": 589184681,
+        "systemCPUTimeMicros": 15588351
+      }
+    },
+    {
+      "state": "US-DE",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-DE.json",
+      "sha256": "bab63289e3ce9506854f48a0a6d0f4770de0d8a2e3fd341f6ad0a83550fd36dc",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2990492,
+        "memoryUsageBytes": {
+          "rss": 3043102720,
+          "heapTotal": 2783420416,
+          "heapUsed": 2588422232,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 616.926431389,
+        "userCPUTimeMicros": 632720873,
+        "systemCPUTimeMicros": 15847249
+      }
+    },
+    {
+      "state": "US-DC",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-DC.json",
+      "sha256": "3202089fb7e7c4e4884935d9af696bc38a0328e71cc3a43f803bfdaa96432441",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2838772,
+        "memoryUsageBytes": {
+          "rss": 1902731264,
+          "heapTotal": 1476243456,
+          "heapUsed": 993642000,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 612.0249284,
+        "userCPUTimeMicros": 629839060,
+        "systemCPUTimeMicros": 15952702
+      }
+    },
+    {
+      "state": "US-FL",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-FL.json",
+      "sha256": "9a064ca26bb584adb6dfeae663679bbc151fe5ffdd6305499f4de3e2dd0616b7",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2887428,
+        "memoryUsageBytes": {
+          "rss": 2126745600,
+          "heapTotal": 1604096000,
+          "heapUsed": 1429805688,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 602.804611166,
+        "userCPUTimeMicros": 617662838,
+        "systemCPUTimeMicros": 16315652
+      }
+    },
+    {
+      "state": "US-GA",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-GA.json",
+      "sha256": "9bae56563b663908fdcd40871dab28c0fff0c9e4018062ba47d11ef76395ed78",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2839824,
+        "memoryUsageBytes": {
+          "rss": 2236170240,
+          "heapTotal": 1958350848,
+          "heapUsed": 1451647504,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 605.762082862,
+        "userCPUTimeMicros": 618294477,
+        "systemCPUTimeMicros": 15866107
+      }
+    },
+    {
+      "state": "US-GU",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-GU.json",
+      "sha256": "743d9bc13d25fd6fe807573b8e584a57c43fd9bb79fd4fd12c10ab003ee0df74",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2748712,
+        "memoryUsageBytes": {
+          "rss": 1717211136,
+          "heapTotal": 1241722880,
+          "heapUsed": 856239720,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 607.27181741,
+        "userCPUTimeMicros": 623286110,
+        "systemCPUTimeMicros": 15033893
+      }
+    },
+    {
+      "state": "US-HI",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-HI.json",
+      "sha256": "1a1fb21ba185291fb2d55d341e44ca0c18bffe404356a3658c7b38a25a6224fa",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2943856,
+        "memoryUsageBytes": {
+          "rss": 1929412608,
+          "heapTotal": 1671032832,
+          "heapUsed": 1325390168,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 595.856732203,
+        "userCPUTimeMicros": 610839927,
+        "systemCPUTimeMicros": 15552624
+      }
+    },
+    {
+      "state": "US-ID",
+      "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-ID.json",
+      "sha256": "e2e8a4c9ddc8866c74958ebdcbc873b524ee91f37cdd4ec2ef95ea92cdd06838",
+      "performance": {
+        "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+        "maxRSSKiB": 2789536,
+        "memoryUsageBytes": {
+          "rss": 2596876288,
+          "heapTotal": 2100047872,
+          "heapUsed": 2006600168,
+          "external": 4752116,
+          "arrayBuffers": 2241199
+        },
+        "elapsedSeconds": 632.316427911,
+        "userCPUTimeMicros": 647251392,
+        "systemCPUTimeMicros": 15246805
+      }
+    }
+  ]
+}

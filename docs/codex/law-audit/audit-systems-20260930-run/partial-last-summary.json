@@ -1,0 +1,205 @@
+{
+  "path": "/workspace/Political-Game-Git/docs/codex/law-audit/audit-systems-20260930-run/partial-09.json",
+  "complete": 9,
+  "totals": {
+    "lawsAudited": 188,
+    "startingLawsObserved": 378,
+    "startingEffectsFiring": 681,
+    "startingEffectsWithoutPayload": 0,
+    "effectsFiring": 53,
+    "effectsAboutZero": 0,
+    "effectsMissing": 341
+  },
+  "firedLaws": [
+    {
+      "source": "enacted",
+      "law": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "placesFired": 7,
+      "peopleTouched": 0,
+      "paymentMinorUnitsUSD": 0,
+      "firedRows": 41
+    },
+    {
+      "source": "starting",
+      "law": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placesFired": 40,
+      "peopleTouched": 52517,
+      "paymentMinorUnitsUSD": 0,
+      "firedRows": 342
+    },
+    {
+      "source": "starting",
+      "law": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "placesFired": 37,
+      "peopleTouched": 45509,
+      "paymentMinorUnitsUSD": 0,
+      "firedRows": 339
+    },
+    {
+      "source": "enacted",
+      "law": "uncataloged:Alaska:HB 2:Village Transit Support",
+      "placesFired": 1,
+      "peopleTouched": 0,
+      "paymentMinorUnitsUSD": 4800000000,
+      "firedRows": 8
+    },
+    {
+      "source": "enacted",
+      "law": "uncataloged:Alaska:HB 1:Village Transit Support",
+      "placesFired": 1,
+      "peopleTouched": 0,
+      "paymentMinorUnitsUSD": 2400000000,
+      "firedRows": 4
+    }
+  ],
+  "randomExamples": [
+    {
+      "world": "US-CT",
+      "watchedPlace": "Sharon, Connecticut",
+      "source": "enacted",
+      "law": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "designation": "H 12",
+      "applicationPlace": "Rhode Island",
+      "effect": "outcome-web:water.irrigation-groundwater",
+      "rowIndex": 16,
+      "evidenceIndex": 1,
+      "receipt": "docs/codex/law-audit/audit-systems-20260930-run/US-CT.json",
+      "evidence": {
+        "record": "placeOutcomes:US-RI:water.irrigation-groundwater:2027-08-01",
+        "touched": "US-RI",
+        "before": 2.4,
+        "after": 2.4,
+        "detail": "Saved link factor 0.6621549849340227; total value also includes other causes and drift. This is an aggregate place effect; no person-level consequence is established."
+      }
+    },
+    {
+      "world": "US-CO",
+      "watchedPlace": "Sugar City, Colorado",
+      "source": "enacted",
+      "law": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "designation": "H 12",
+      "applicationPlace": "Rhode Island",
+      "effect": "outcome-web:water.irrigation-groundwater",
+      "rowIndex": 28,
+      "evidenceIndex": 3,
+      "receipt": "docs/codex/law-audit/audit-systems-20260930-run/US-CO.json",
+      "evidence": {
+        "record": "placeOutcomes:US-RI:water.irrigation-groundwater:2027-10-01",
+        "touched": "US-RI",
+        "before": 2.55,
+        "after": 2.57,
+        "detail": "Saved link factor 0.6789030447171536; total value also includes other causes and drift. This is an aggregate place effect; no person-level consequence is established."
+      }
+    },
+    {
+      "world": "US-CA",
+      "watchedPlace": "Norco, California",
+      "source": "enacted",
+      "law": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "designation": "H 12",
+      "applicationPlace": "Rhode Island",
+      "effect": "outcome-web:water.irrigation-groundwater",
+      "rowIndex": 28,
+      "evidenceIndex": 5,
+      "receipt": "docs/codex/law-audit/audit-systems-20260930-run/US-CA.json",
+      "evidence": {
+        "record": "placeOutcomes:US-RI:water.irrigation-groundwater:2027-12-01",
+        "touched": "US-RI",
+        "before": 2.38,
+        "after": 2.38,
+        "detail": "Saved link factor 0.6526155151217244; total value also includes other causes and drift. This is an aggregate place effect; no person-level consequence is established."
+      }
+    },
+    {
+      "world": "US-AZ",
+      "watchedPlace": "Sierra Vista, Arizona",
+      "source": "starting",
+      "law": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "designation": "Starting law (no in-play enactment)",
+      "applicationPlace": "Maine",
+      "effect": "stamped:health-coverage",
+      "rowIndex": 54,
+      "evidenceIndex": 254,
+      "receipt": "docs/codex/law-audit/audit-systems-20260930-run/US-AZ.json",
+      "evidence": {
+        "record": "crisisRecords:crisis-record_4dd28bebe8cd7102",
+        "touched": "Isaac Stafford (person_980a322e336ab85b)",
+        "before": null,
+        "after": {
+          "covered": false,
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "hazardMultiplierMicros": 1000000
+        },
+        "jurisdictionId": "jurisdiction_95dc3c80ebc2da09",
+        "appliedAt": "2027-01-15",
+        "sourceRecordIds": [
+          "future-due-item_7fb69d6edc943490",
+          "crisis-record_1af265aa39eafd2c"
+        ],
+        "detail": "Saved consequence stamped with canonical starting-law:US-ME:us-policy-positions:health-human-services.expand-medicaid-eligibility; source in-force-at-start; applied 2027-01-15; source record IDs [\"future-due-item_7fb69d6edc943490\",\"crisis-record_1af265aa39eafd2c\"]. Prior absence is unknown, not zero. This proves only this recorded mechanism, not downstream delivery."
+      }
+    },
+    {
+      "world": "US-CA",
+      "watchedPlace": "Norco, California",
+      "source": "starting",
+      "law": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "designation": "Starting law (no in-play enactment)",
+      "applicationPlace": "Kentucky",
+      "effect": "stamped:health-coverage",
+      "rowIndex": 89,
+      "evidenceIndex": 121,
+      "receipt": "docs/codex/law-audit/audit-systems-20260930-run/US-CA.json",
+      "evidence": {
+        "record": "crisisRecords:crisis-record_d2a5c7d30fa33cb5",
+        "touched": "Erin Stevenson (person_641ed2b06ed98385)",
+        "before": null,
+        "after": {
+          "covered": false,
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000
+        },
+        "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "appliedAt": "2027-01-15",
+        "sourceRecordIds": [
+          "future-due-item_f4e4282ac7ba8351",
+          "crisis-record_7989315bdcf68dab"
+        ],
+        "detail": "Saved consequence stamped with canonical starting-law:US:us-policy-positions:health-human-services.medicaid-work-requirement; source in-force-at-start; applied 2027-01-15; source record IDs [\"future-due-item_f4e4282ac7ba8351\",\"crisis-record_7989315bdcf68dab\"]. Prior absence is unknown, not zero. This proves only this recorded mechanism, not downstream delivery."
+      }
+    },
+    {
+      "world": "US-DE",
+      "watchedPlace": "Delmar, Delaware",
+      "source": "starting",
+      "law": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "designation": "Starting law (no in-play enactment)",
+      "applicationPlace": "South Dakota",
+      "effect": "stamped:health-coverage",
+      "rowIndex": 76,
+      "evidenceIndex": 184,
+      "receipt": "docs/codex/law-audit/audit-systems-20260930-run/US-DE.json",
+      "evidence": {
+        "record": "crisisRecords:crisis-record_6bcf6d3e7a95aefd",
+        "touched": "Evelyn Valencia (person_20a542c8458d9190)",
+        "before": null,
+        "after": {
+          "covered": false,
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "hazardMultiplierMicros": 1000000
+        },
+        "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+        "appliedAt": "2027-01-15",
+        "sourceRecordIds": [
+          "future-due-item_0ef708c198733b94",
+          "crisis-record_49606f32dd155813"
+        ],
+        "detail": "Saved consequence stamped with canonical starting-law:US-SD:us-policy-positions:health-human-services.expand-medicaid-eligibility; source in-force-at-start; applied 2027-01-15; source record IDs [\"future-due-item_0ef708c198733b94\",\"crisis-record_49606f32dd155813\"]. Prior absence is unknown, not zero. This proves only this recorded mechanism, not downstream delivery."
+      }
+    }
+  ]
+}

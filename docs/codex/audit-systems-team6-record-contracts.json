@@ -1,0 +1,49 @@
+{
+  "sourceHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "mode": "read-only source trace; no simulations",
+  "sharedPayment": {
+    "commit": "src/simulation/governing/public-program.ts:819",
+    "settle": "src/simulation/governing/public-program.ts:970",
+    "join": ["appropriation", "commitment", "installment", "resourceFlow", "resourceTransferOutcome"],
+    "money": "currency plus minor units; completed transfer is payment evidence, not delivery evidence"
+  },
+  "mileage": {
+    "consumer": "src/simulation/public-budgets/road-usage-charge.ts:56",
+    "outputUnit": "dimensionless aggregate revenue multiplier",
+    "missingInputsAtConsumer": ["person", "vehicle", "observed distance in miles", "enacted rate terms", "assessment", "collection"]
+  },
+  "fixItFirst": {
+    "profile": "src/simulation/legislation-local-fiscal-families.ts:35",
+    "unitsTotal": 1,
+    "unitsOperational": 0,
+    "monthlyOperatingNeedUSD": 5000,
+    "restorationCostPerUnitUSD": 100000,
+    "maintenanceLeadDays": 60,
+    "basis": "authored game profile; generic unit is not a named road or measured repair",
+    "capacityWriter": "src/simulation/governing/public-program.ts:1146",
+    "actualDeliveryRequirements": ["identified road asset or location", "operator", "authorized work scope", "dated work evidence", "completion acceptance or inspection"]
+  },
+  "cleanElectricity": {
+    "inspectedLinkCount": 2,
+    "price": {"relativeChange": 0.11, "lagMonths": 84, "source": "data/research/outcome-web/links.json:2736"},
+    "particulates": {"relativeChange": -0.01, "lagMonths": 60, "source": "data/research/outcome-web/links.json:3910"},
+    "actualOperationRequirements": ["generator and operator identities", "dated generation and dispatch with energy units", "fuel input evidence", "purchases and payments", "emissions with mass units", "enacted compliance terms"]
+  },
+  "operator": {
+    "caller": "src/simulation/governing/state-governing.ts:1748",
+    "currentHelper": "src/simulation/governing/program-governing.ts:1035",
+    "currentBasis": "fictional private-sector provider with zero seeded USD",
+    "integration": "supply existing eligible operator identity to shared commitment, preserving authority and actual agreed terms"
+  },
+  "preservedExample": {
+    "person": "Mei Miranda",
+    "place": "Aberdeen, Ohio",
+    "source": "docs/codex/audit-systems-fare-producer.md:29",
+    "scheduledPayments": 3,
+    "newLawStampedTransfers": 2,
+    "newLawStampedUSD": 5333333.32,
+    "limit": "controlled existing diagnostic payment evidence; no boarding or driver/road/plant proof"
+  },
+  "pathGap": "Neither governing/public-capacity.ts nor root public-capacity.ts exists in the exact source tree",
+  "scopeLimit": "Missing inputs at inspected consumers are not a repository-wide absence claim; no new keys, coefficients or production changes"
+}

@@ -1,0 +1,117 @@
+{
+  "productionHead": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "pr1257Head": "004ca8bcb2b764a27227c6d10f80c4e86aa9b734",
+  "counts": {
+    "currentManifestAssets": 134,
+    "currentLatestImportedPaths": 0,
+    "currentKidsTeam7Entries": 0,
+    "pr1257SelectedEntries": 61,
+    "pr1257UnreleasedSelectedEntries": 61,
+    "kidsSourceRows": 36,
+    "kidsUnreleasedRows": 36,
+    "kidsModularFitNotRunRows": 36,
+    "homeMappedScenes": 25,
+    "homeFamilyCalibrations": 6
+  },
+  "sourceExample": {
+    "assetId": "kids_team7_girl_8_standing_casual",
+    "file": "art/authoring/sept29-team7/kids/girl-8-standing-casual.png",
+    "sha256": "c5d7b44a6f6de446cf0a7c96044fbbdde06480600c3a82b611ce2e1a19a28786",
+    "sheet": "art/authoring/sept29-team7/contact-sheets/kids-girl-8.jpg",
+    "tile": 2,
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "alphaExtrema": [
+      0,
+      254
+    ],
+    "sourceTag": {
+      "file": "art/authoring/sept29-team7/kids/girl-8-standing-casual.png",
+      "file_root": "repository",
+      "category": "kids",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "c5d7b44a6f6de446cf0a7c96044fbbdde06480600c3a82b611ce2e1a19a28786",
+      "width": 1536,
+      "height": 1024,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Three separated bald figures with blank faces; requested pose and clothing visible. Alpha-aware aggregate contact sheet inspected; modular fit and alpha sanitation unverified.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/kids-girl-8.jpg",
+        "tile": 2
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/kids-follow-these-adult-sheets/f-bare-wave.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "gender": "girl",
+      "age_group": "8",
+      "pose": "standing",
+      "outfit": "teal-t-shirt-full-length-jeans-low-white-sneakers",
+      "outfit_variant": "casual",
+      "facing": "front",
+      "body_sizes": [
+        "lean",
+        "average",
+        "fuller"
+      ],
+      "temperament_fit": [
+        "neutral"
+      ],
+      "temperament_basis": "Blank face and neutral pose are visual suitability tags, not personality facts.",
+      "modular_fit_status": "not-run",
+      "alpha_qa_status": "transparency-presence-confirmed-cleanliness-unverified",
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    },
+    "runtimeRelease": "unreleased",
+    "modularFit": "NOT RUN"
+  },
+  "sourceExampleLine": 2138,
+  "manifestLines": {
+    "kids": 6257,
+    "first": 5153
+  },
+  "sheets": [
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-boy-14.jpg",
+      "sha256": "dd74836bab65a29151f81f95d8f3778af732a93d6969c87b7a5e047d12e4f7fe",
+      "tiles": 9
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-girl-14.jpg",
+      "sha256": "31077e105389e8992a541e0648e4b10f32936677339be4a6a1bbc5b30d9cad02",
+      "tiles": 9
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-boy-8.jpg",
+      "sha256": "39add08286b7465a8bca343543a0fbe85a11893c3f15d3079215a0c3290c2036",
+      "tiles": 9
+    },
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/kids-girl-8.jpg",
+      "sha256": "9dc1d34d33b43bf6321e1d8ffa43a3943ea6f9aa224fea70f65eeb858cb2622e",
+      "tiles": 9
+    }
+  ],
+  "limitations": [
+    "No browser or world run.",
+    "Owner eight-year-old sister has no exact saved person/place supplied.",
+    "No source pixels or alpha cleanliness independently inspected.",
+    "PR source hashes are receipt records, not freshly calculated binary hashes."
+  ]
+}

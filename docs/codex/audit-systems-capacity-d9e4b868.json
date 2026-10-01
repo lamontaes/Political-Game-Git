@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-30T19:23:40.163222+00:00",
+  "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "startedAt": "2026-09-30T19:22:24.313Z",
+  "sourceCommittedAt": "2026-09-30T15:07:55-04:00",
+  "driverPid": 11653,
+  "workers": 3,
+  "currentChildren": [
+    [
+      "US-AL",
+      11830
+    ],
+    [
+      "US-AK",
+      11880
+    ],
+    [
+      "US-AS",
+      11938
+    ]
+  ],
+  "cpuset": "0-4",
+  "quota": "400000 100000",
+  "memoryLimitBytes": 17179869184,
+  "previousSixSealedWorldPeaks": [
+    {
+      "state": "US-AL",
+      "maxRSSKiB": 2815116
+    },
+    {
+      "state": "US-AK",
+      "maxRSSKiB": 2888840
+    },
+    {
+      "state": "US-AS",
+      "maxRSSKiB": 2789936
+    },
+    {
+      "state": "US-AZ",
+      "maxRSSKiB": 2920808
+    },
+    {
+      "state": "US-AR",
+      "maxRSSKiB": 2799524
+    },
+    {
+      "state": "US-CA",
+      "maxRSSKiB": 3112048
+    }
+  ],
+  "maxSealedRSSKiB": 3112048,
+  "workerDerivation": "min(4effectivecorequota-minus1=3, floor((16GiB-0.731GiBbaseline)/(4GiBheapenvelope*1.2))=3)",
+  "reservePercent": 20,
+  "oldFdHistoricalSealed": 18,
+  "oldB0HistoricalSealed": 6,
+  "nextRestart": "After3:30stampbatchmerges"
+}

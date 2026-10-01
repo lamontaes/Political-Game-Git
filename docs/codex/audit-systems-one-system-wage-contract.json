@@ -1,0 +1,108 @@
+{
+  "schema": "audit-systems-one-system-wage-contract/v1",
+  "sourcePin": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "existingSignatures": [
+    {
+      "path": "src/simulation/living-world/town-pay.ts:849",
+      "signature": "raiseTownPayToMinimum(world: World, exceptPersonId: EntityId | null): World"
+    },
+    {
+      "path": "src/simulation/enacted-law-effects.ts:245",
+      "signature": "applyEnactedLawEffects(world: World, measureId: EntityId): World"
+    },
+    {
+      "path": "src/simulation/enacted-law-effects.ts:327",
+      "signature": "enactedLawEffects(world: World, measureId: EntityId): EnactedLawEffects | null"
+    },
+    {
+      "path": "src/simulation/law-effect-stamp.ts:40",
+      "signature": "lawEffectStamp(law: LawInForce | null, context: LawEffectContext): LawEffectStamp | null"
+    },
+    {
+      "path": "src/simulation/resources.ts:388",
+      "signature": "recordResourceFlowTerms(world: World, input: RecordResourceFlowTermsInput): World"
+    }
+  ],
+  "firstRowSelector": {
+    "path": "src/simulation/living-world/town-pay.ts:879",
+    "requires": [
+      "existing town-pay-v2:job-pay: flow",
+      "work relationship basis",
+      "recipient outside exceptPersonId",
+      "latest saved WorkRoleRecord",
+      "latest active ResourceFlowTermsRecord",
+      "parsed actual town pay cadence/phase",
+      "saved role timeDemand.expectedWeekly midpoint",
+      "period boundary after terms and last paid period",
+      "job not ended"
+    ],
+    "hourlyUnit": "USD cents/hour",
+    "periodAmountFormula": "round(hourlyMinor * weeklyHours * 52 / periodsPerYear)",
+    "periodsPerYear": {
+      "weekly": 52,
+      "biweekly": 26,
+      "semimonthly": 24,
+      "monthly": 12
+    },
+    "catchUpDays": 400
+  },
+  "startingEnactedDivergence": [
+    {
+      "path": "src/simulation/living-world/town-pay.ts:858",
+      "gap": "enacted-only early gate"
+    },
+    {
+      "path": "src/simulation/living-world/town-pay.ts:919",
+      "gap": "starting setting measureId null explicitly skipped"
+    },
+    {
+      "path": "src/simulation/minimum-wage.ts:366",
+      "gap": "baseline numeric rate lacks canonical law identity/date"
+    },
+    {
+      "path": "src/simulation/enacted-law-effects.ts:249",
+      "gap": "entrypoint requires enacted history"
+    },
+    {
+      "path": "src/simulation/enacted-law-effects.ts:337",
+      "gap": "result reader requires measure and enactment"
+    },
+    {
+      "path": "src/simulation/living-world/town-pay.ts:938",
+      "gap": "canonical stamp lookup currently federal only"
+    }
+  ],
+  "canonicalResolver": {
+    "path": "src/simulation/governing/law-in-force.ts:117",
+    "scope": "all supports both origins; numeric wage binding separate",
+    "startingKeySource": "src/simulation/governing/law-in-force.ts:420",
+    "mustNotInventIdentity": true
+  },
+  "resultWriterReuse": {
+    "terms": "src/simulation/resources.ts:388",
+    "paymentPropagation": "src/simulation/resources.ts:620",
+    "sourceIDs": [
+      "flow",
+      "prior terms",
+      "work relationship",
+      "successor terms",
+      "actual transfer"
+    ],
+    "origins": [
+      "enacted",
+      "in-force-at-start"
+    ]
+  },
+  "historicalExample": {
+    "name": "Jennifer Conway",
+    "place": "Appomattox, Virginia",
+    "source": "docs/codex/handbacks/team-5-teacher-five-state-receipt.json:18",
+    "beforeCents": 189200,
+    "afterCents": 224000,
+    "transfers": 3,
+    "limit": "teacher floor, not minimum-wage origin proof"
+  },
+  "newRuntimeRuns": 0,
+  "productionEdits": 0,
+  "gitMutations": 0
+}

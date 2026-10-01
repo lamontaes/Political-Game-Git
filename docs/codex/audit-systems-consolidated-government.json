@@ -1,0 +1,283 @@
+{
+  "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "method": "Read-only pure canonical readers; no World created or advanced",
+  "corpusRows": 32350,
+  "cohort": "All functionalStatusCode F balance places in national place corpus",
+  "cohortCount": 8,
+  "unmappedAllLocalGovernmentCount": 5,
+  "completeNationwideConsolidatedGovernmentCount": null,
+  "rows": [
+    {
+      "placeKey": "0947515",
+      "name": "Milford city (balance)",
+      "state": "CT",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 4244
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "09009"
+      ],
+      "municipal": [
+        {
+          "id": "gus2025:183887",
+          "name": "CITY OF MILFORD"
+        }
+      ],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "no-county-government",
+      "countyReason": "No separate county government serves this city.",
+      "executableMunicipalMapping": {},
+      "unlinkedUnits": []
+    },
+    {
+      "placeKey": "1303440",
+      "name": "Athens-Clarke County unified government (balance)",
+      "state": "GA",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 5426
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "13059"
+      ],
+      "municipal": [],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "not-established",
+      "countyReason": "Which county government serves this place is not known.",
+      "executableMunicipalMapping": null,
+      "unlinkedUnits": [
+        {
+          "id": "gus2025:161834",
+          "publisherId": "161834",
+          "name": "UNIFIED GOVERNMENT OF ATHENS-CLARKE COUNTY",
+          "unitType": "municipality",
+          "stateUsps": "GA",
+          "countyGeoid": "13059",
+          "placeGeoid": null,
+          "publisherPlaceCode": null,
+          "functionalActive": true,
+          "asOf": "2025-06-30"
+        }
+      ]
+    },
+    {
+      "placeKey": "1304204",
+      "name": "Augusta-Richmond County consolidated government (balance)",
+      "state": "GA",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 5430
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "13245"
+      ],
+      "municipal": [
+        {
+          "id": "gus2025:194679",
+          "name": "CONSOLIDATED GOVERNMENT OF AUGUSTA-RICHMOND COUNTY"
+        }
+      ],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "no-county-government",
+      "countyReason": "No separate county government serves this city.",
+      "executableMunicipalMapping": {},
+      "unlinkedUnits": []
+    },
+    {
+      "placeKey": "1836003",
+      "name": "Indianapolis city (balance)",
+      "state": "IN",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 8329
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "18097"
+      ],
+      "municipal": [
+        {
+          "id": "gus2025:207957",
+          "name": "CITY OF INDIANAPOLIS"
+        }
+      ],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "no-county-government",
+      "countyReason": "No separate county government serves this city.",
+      "executableMunicipalMapping": {},
+      "unlinkedUnits": []
+    },
+    {
+      "placeKey": "2028412",
+      "name": "Greeley County unified government (balance)",
+      "state": "KS",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 10193
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "20071"
+      ],
+      "municipal": [],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "not-established",
+      "countyReason": "Which county government serves this place is not known.",
+      "executableMunicipalMapping": null,
+      "unlinkedUnits": [
+        {
+          "id": "gus2025:164742",
+          "publisherId": "164742",
+          "name": "UNIFIED GOVERNMENT OF GREELEY COUNTY",
+          "unitType": "municipality",
+          "stateUsps": "KS",
+          "countyGeoid": "20071",
+          "placeGeoid": null,
+          "publisherPlaceCode": null,
+          "functionalActive": true,
+          "asOf": "2025-06-30"
+        }
+      ]
+    },
+    {
+      "placeKey": "2148006",
+      "name": "Louisville/Jefferson County metro government (balance)",
+      "state": "KY",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 10971
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "21111"
+      ],
+      "municipal": [],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "not-established",
+      "countyReason": "Which county government serves this place is not known.",
+      "executableMunicipalMapping": null,
+      "unlinkedUnits": [
+        {
+          "id": "gus2025:165866",
+          "publisherId": "165866",
+          "name": "METRO GOVERNMENT OF LOUISVILLE-JEFFERSON COUNTY",
+          "unitType": "municipality",
+          "stateUsps": "KY",
+          "countyGeoid": "21111",
+          "placeGeoid": null,
+          "publisherPlaceCode": null,
+          "functionalActive": true,
+          "asOf": "2025-06-30"
+        }
+      ]
+    },
+    {
+      "placeKey": "3011397",
+      "name": "Butte-Silver Bow (balance)",
+      "state": "MT",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 15881
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "30093"
+      ],
+      "municipal": [],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "not-established",
+      "countyReason": "Which county government serves this place is not known.",
+      "executableMunicipalMapping": null,
+      "unlinkedUnits": [
+        {
+          "id": "gus2025:108124",
+          "publisherId": "108124",
+          "name": "CITY AND COUNTY OF BUTTE-SILVER BOW",
+          "unitType": "municipality",
+          "stateUsps": "MT",
+          "countyGeoid": "30093",
+          "placeGeoid": null,
+          "publisherPlaceCode": null,
+          "functionalActive": true,
+          "asOf": "2025-06-30"
+        }
+      ]
+    },
+    {
+      "placeKey": "4752006",
+      "name": "Nashville-Davidson metropolitan government (balance)",
+      "state": "TN",
+      "sourceEvidence": {
+        "artifactId": "census-gazetteer-2025-places-zip",
+        "locator": {
+          "artifactId": "census-gazetteer-2025-places-zip",
+          "kind": "delimited-row",
+          "line": 26707
+        }
+      },
+      "lifePlaceAvailable": true,
+      "countyGeoids": [
+        "47037"
+      ],
+      "municipal": [],
+      "counties": [],
+      "townships": [],
+      "countyStatus": "not-established",
+      "countyReason": "Which county government serves this place is not known.",
+      "executableMunicipalMapping": null,
+      "unlinkedUnits": [
+        {
+          "id": "gus2025:175728",
+          "publisherId": "175728",
+          "name": "METROPOLITAN GOVERNMENT OF NASHVILLE-DAVIDSON COUNTY",
+          "unitType": "municipality",
+          "stateUsps": "TN",
+          "countyGeoid": "47037",
+          "placeGeoid": null,
+          "publisherPlaceCode": null,
+          "functionalActive": true,
+          "asOf": "2025-06-30"
+        }
+      ]
+    }
+  ]
+}

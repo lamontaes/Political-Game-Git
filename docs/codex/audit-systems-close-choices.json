@@ -1,0 +1,2026 @@
+{
+  "sourcePin": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "sourceFilesSearched": 1587,
+  "candidateSourceFilesParsed": 53,
+  "rawLiteralMentions": [
+    {
+      "file": "src/presentation/childhood.ts",
+      "line": 311,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/presentation/contextual-scene-producers.ts",
+      "line": 1253,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "line": 1423,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "line": 2394,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "line": 652,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "line": 1156,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1194,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1369,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1878,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/claim-contradictions.ts",
+      "line": 394,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/couples.ts",
+      "line": 333,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/crisis/handling-reactions.ts",
+      "line": 354,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/decisions.ts",
+      "line": 42,
+      "parentKind": "ArrayLiteralExpression"
+    },
+    {
+      "file": "src/simulation/decisions.ts",
+      "line": 176,
+      "parentKind": "BinaryExpression"
+    },
+    {
+      "file": "src/simulation/favor-collection.ts",
+      "line": 305,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/favor-collection.ts",
+      "line": 590,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/governing/supreme-court-appointments.ts",
+      "line": 321,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/initiator-occasions.ts",
+      "line": 399,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/living-world/party-chapters.ts",
+      "line": 536,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/mind-integrity.ts",
+      "line": 721,
+      "parentKind": "BinaryExpression"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 648,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 1095,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 1174,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/patronage/appointments.ts",
+      "line": 455,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-contact.ts",
+      "line": 858,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-contact.ts",
+      "line": 1243,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-family-plan.ts",
+      "line": 320,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 634,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 994,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 1114,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-promise.ts",
+      "line": 142,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-study-plan.ts",
+      "line": 244,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-study-plan.ts",
+      "line": 612,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/people-study.ts",
+      "line": 187,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/political-belief-formation.ts",
+      "line": 52,
+      "parentKind": "LiteralType"
+    },
+    {
+      "file": "src/simulation/political-belief-formation.ts",
+      "line": 161,
+      "parentKind": "BinaryExpression"
+    },
+    {
+      "file": "src/simulation/press/desk.ts",
+      "line": 380,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/press/desk.ts",
+      "line": 783,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 674,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 799,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 1387,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 1491,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/press/responses.ts",
+      "line": 283,
+      "parentKind": "PropertyAssignment"
+    },
+    {
+      "file": "src/simulation/types.ts",
+      "line": 3461,
+      "parentKind": "LiteralType"
+    }
+  ],
+  "evaluationCalls": [
+    {
+      "file": "src/presentation/childhood.ts",
+      "line": 294,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.caregiver-choice\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/presentation/contextual-scene-producers.ts",
+      "line": 1210,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.mention-a-promise\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/presentation/legislative-bargaining.ts",
+      "line": 1087,
+      "callee": "evaluateDecision",
+      "decisionType": "\"legislation.bargaining-response\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/presentation/reply-meaning.ts",
+      "line": 338,
+      "callee": "evaluateDecision",
+      "decisionType": "input.decisionType",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/presentation/run-b-conversation.ts",
+      "line": 2199,
+      "callee": "evaluateDecision",
+      "decisionType": "\"conversation.commitment-response\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "line": 1390,
+      "callee": "evaluateDecision",
+      "decisionType": "\"campaign.support-request\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "line": 2377,
+      "callee": "evaluateDecision",
+      "decisionType": "\"campaign.organizer-outreach\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "line": 614,
+      "callee": "evaluateDecision",
+      "decisionType": "\"campaign.opponent-weekly-step\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "line": 1123,
+      "callee": "evaluateDecision",
+      "decisionType": "\"campaign.chapter-support-request\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/careers/another-term.ts",
+      "line": 128,
+      "callee": "evaluateDecision",
+      "decisionType": "input.decisionType",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1169,
+      "callee": "evaluateDecision",
+      "decisionType": "\"civil-personnel.discharge-appeal\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1343,
+      "callee": "evaluateDecision",
+      "decisionType": "\"civil-personnel.commissioner-settlement\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1629,
+      "callee": "evaluateDecision",
+      "decisionType": null,
+      "randomness": null,
+      "contextShape": "CallExpression"
+    },
+    {
+      "file": "src/simulation/claim-contradictions.ts",
+      "line": 341,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.confirm-account\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/couples.ts",
+      "line": 313,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.couple-answer\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/crisis/handling-reactions.ts",
+      "line": 305,
+      "callee": "evaluateDecision",
+      "decisionType": "`crisis.${input.role}-handling-reaction`",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/decisions.ts",
+      "line": 263,
+      "callee": "evaluateDecision",
+      "decisionType": null,
+      "randomness": null,
+      "contextShape": "PropertyAccessExpression"
+    },
+    {
+      "file": "src/simulation/demo.ts",
+      "line": 448,
+      "callee": "evaluatePoliticalBeliefFormation",
+      "decisionType": null,
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/election-candidate-prospect.ts",
+      "line": 53,
+      "callee": "evaluateDecision",
+      "decisionType": "args.decisionType",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/favor-collection.ts",
+      "line": 281,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.ask-favor-back\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/favor-collection.ts",
+      "line": 529,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.tell-of-refusal\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/governing/article-v.ts",
+      "line": 363,
+      "callee": "evaluateDecision",
+      "decisionType": "\"governing.constitutional-amendment-vote\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/governing/chamber-votes.ts",
+      "line": 455,
+      "callee": "evaluateDecision",
+      "decisionType": "\"legislation.member-vote\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/governing/governor-bill-decision.ts",
+      "line": 341,
+      "callee": "evaluateDecision",
+      "decisionType": "GOVERNOR_BILL_DECISION",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/governing/joint-assembly.ts",
+      "line": 294,
+      "callee": "evaluateDecision",
+      "decisionType": "input.decisionType",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/governing/supreme-court-appointments.ts",
+      "line": 299,
+      "callee": "evaluateDecision",
+      "decisionType": "\"governing.supreme-court-nomination\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/governing/supreme-court-appointments.ts",
+      "line": 467,
+      "callee": "evaluateDecision",
+      "decisionType": "\"governing.supreme-court-confirmation-vote\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/initiator-occasions.ts",
+      "line": 375,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.invite-over\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/judiciary/judicial-review.ts",
+      "line": 223,
+      "callee": "evaluateDecision",
+      "decisionType": "JUDICIAL_REVIEW_DECISION",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/justice/clemency-reasoning.ts",
+      "line": 316,
+      "callee": "evaluateDecision",
+      "decisionType": "\"justice.clemency-decision\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/justice/clemency.ts",
+      "line": 523,
+      "callee": "evaluateDecision",
+      "decisionType": "\"justice.clemency-petition\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/justice/court-reasoning.ts",
+      "line": 175,
+      "callee": "evaluateDecision",
+      "decisionType": "\"justice.plea\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/justice/court-reasoning.ts",
+      "line": 378,
+      "callee": "evaluateDecision",
+      "decisionType": "\"justice.jury-vote\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/justice/court-reasoning.ts",
+      "line": 686,
+      "callee": "evaluateDecision",
+      "decisionType": "\"justice.pretrial-detention\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/justice/court-reasoning.ts",
+      "line": 741,
+      "callee": "evaluateDecision",
+      "decisionType": "\"justice.sentence\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/legislative-member-decisions.ts",
+      "line": 158,
+      "callee": "evaluateDecision",
+      "decisionType": "\"legislation.member-vote\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/life-callbacks.ts",
+      "line": 671,
+      "callee": "evaluateDecision",
+      "decisionType": "\"life.raise-earlier-matter\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/living-world/federal-reform.ts",
+      "line": 436,
+      "callee": "evaluateDecision",
+      "decisionType": "holder.decisionType",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/living-world/party-chapters.ts",
+      "line": 508,
+      "callee": "evaluateDecision",
+      "decisionType": "\"party-chapter.invite-to-meeting\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/living-world/party-evolution.ts",
+      "line": 791,
+      "callee": "evaluateDecision",
+      "decisionType": "\"party.consider-leaving\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/living-world/political-reflection.ts",
+      "line": 171,
+      "callee": "evaluatePoliticalBeliefFormation",
+      "decisionType": null,
+      "randomness": null,
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/macro-economy/central-bank.ts",
+      "line": 966,
+      "callee": "evaluateDecision",
+      "decisionType": "\"central-bank.policy-rate\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 621,
+      "callee": "evaluateDecision",
+      "decisionType": "\"mogul.approach\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 1033,
+      "callee": "evaluateDecision",
+      "decisionType": "\"mogul.answer\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 1127,
+      "callee": "evaluateDecision",
+      "decisionType": "\"mogul.deal-broken\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/nominations/field-entry.ts",
+      "line": 104,
+      "callee": "evaluateDecision",
+      "decisionType": "input.decisionType",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/nominations/party-nominations.ts",
+      "line": 219,
+      "callee": "evaluateDecision",
+      "decisionType": "\"election.consider-nomination-runoff\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/patronage/appointments.ts",
+      "line": 441,
+      "callee": "evaluateDecision",
+      "decisionType": "\"appointment.choose-appointee\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-contact.ts",
+      "line": 833,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.contact-answer\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-contact.ts",
+      "line": 1219,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.reach-out\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-family-plan.ts",
+      "line": 272,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.family-plan\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 614,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.job-offer-answer\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 974,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.goal-step\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 1094,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.call-answer\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-promise.ts",
+      "line": 113,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.promise-renegotiation\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-study-plan.ts",
+      "line": 228,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.study-plan\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-study-plan.ts",
+      "line": 576,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.study-plan-answer\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/people-study.ts",
+      "line": 158,
+      "callee": "evaluateDecision",
+      "decisionType": "\"people.study-collaboration\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/political-belief-formation.ts",
+      "line": 143,
+      "callee": "evaluateDecision",
+      "decisionType": "\"political-belief-formation\"",
+      "randomness": "input.randomness ?? \"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press-interview-producers.ts",
+      "line": 507,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.reporter-request-response\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press-interview-producers.ts",
+      "line": 729,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.adviser-assignment-response\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/desk.ts",
+      "line": 355,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.story-assignment\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/desk.ts",
+      "line": 729,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.subject-response\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/desk.ts",
+      "line": 939,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.editorial-disposition\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 627,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.bookkeeper-concern\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 752,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.bookkeeper-report\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 1327,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.rival-complaint\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 1445,
+      "callee": "evaluateDecision",
+      "decisionType": "\"press.rival-complaint\"",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/press/responses.ts",
+      "line": 249,
+      "callee": "evaluateDecision",
+      "decisionType": "`press.${input.role}-matter-response`",
+      "randomness": "\"close-choices\"",
+      "contextShape": "ObjectLiteralExpression"
+    },
+    {
+      "file": "src/simulation/speech-reception.ts",
+      "line": 224,
+      "callee": "evaluateDecision",
+      "decisionType": "\"speech.react\"",
+      "randomness": "\"none\"",
+      "contextShape": "ObjectLiteralExpression"
+    }
+  ],
+  "emitters": [
+    {
+      "file": "src/presentation/childhood.ts",
+      "line": 311,
+      "function": "caregiverChoice",
+      "decisionType": "\"people.caregiver-choice\"",
+      "randomness": "\"close-choices\"",
+      "options": "options",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 1,
+      "recordBasisDesign": "Recorded caregiver trait records and actual formative situation options; helper uses traitConsiderations.",
+      "residualTieDesign": "Leave a genuine equal choice unresolved; require supported caregiver action rather than options[0] fallback.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/presentation/contextual-scene-producers.ts",
+      "line": 1253,
+      "function": "produceReporterQuestion",
+      "decisionType": "\"press.mention-a-promise\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"mention\",\n        label: \"Mention it\",\n        description: \"Tell a reporter what was promised.\",\n      },\n      {\n        key: \"keep-quiet\",\n        label: \"Keep it quiet\",\n        description: \"Leave it between the two of them.\",\n      },\n    ]",
+      "considerations": "considerations: traitConsiderations(world, promisee.id, tipKey, [\n      {\n        optionKey: \"mention\",\n        trait: \"sociability\",\n        pole: \"high\",\n        explanation: \"They talk to a lot of people.\",\n      },\n      {\n        optionKey: \"keep-quiet\",\n        trait: \"sociability\",\n        pole: \"low\",\n        explanation: \"They keep things to themselves.\",\n      },\n      {\n        optionKey: \"keep-quiet\",\n        trait: \"reliability\",\n        pole: \"low\",\n        explanation: \"They keep a confidence.\",\n      },\n    ])",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 2,
+      "recordBasisDesign": "Promise event, promisee traits and reporter contact; traitConsiderations already reads actor traits.",
+      "residualTieDesign": "Keep the account private pending a grounded wish to mention it; do not invent a tip.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "line": 1423,
+      "function": "supportRequestDecision",
+      "decisionType": "\"campaign.support-request\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"grant\",\n        label: \"Back the campaign\",\n        description: \"Tell them the chapter will support the campaign.\",\n      },\n      {\n        key: \"decline\",\n        label: \"Decline\",\n        description: \"Tell them the chapter will not support it.\",\n      },\n      {\n        key: \"defer\",\n        label: \"Not yet\",\n        description: \"Leave it for the chapter to take up later.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 1312,
+          "field": "sourceType",
+          "value": "\"social:relationship\""
+        },
+        {
+          "line": 1317,
+          "field": "sourceRefs",
+          "value": "[\n        { kind: \"historical-event\", eventId: outcome.outcomeEventId },\n      ]"
+        },
+        {
+          "line": 1334,
+          "field": "sourceType",
+          "value": "\"context:chapter-membership\""
+        },
+        {
+          "line": 1339,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1349,
+          "field": "sourceType",
+          "value": "\"context:party-affiliation\""
+        },
+        {
+          "line": 1354,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1382,
+          "field": "sourceType",
+          "value": "\"context:public-ethics-finding\""
+        },
+        {
+          "line": 1387,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"historical-event\", eventId: finding.step.eventId }]"
+        }
+      ],
+      "contextIndex": 3,
+      "recordBasisDesign": "Actual chapter membership, relationship, party affiliation and public ethics findings.",
+      "residualTieDesign": "Use the existing defer answer when no grounded choice is distinct; chapter support remains uncommitted.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "line": 2394,
+      "function": "campaignLifeOutreachTransitionHandler",
+      "decisionType": "\"campaign.organizer-outreach\"",
+      "randomness": "\"close-choices\"",
+      "options": "options",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 2341,
+          "field": "sourceType",
+          "value": "\"social:relationship\""
+        },
+        {
+          "line": 2346,
+          "field": "sourceRefs",
+          "value": "[\n          { kind: \"historical-event\", eventId: outcome.outcomeEventId },\n        ]"
+        },
+        {
+          "line": 2354,
+          "field": "sourceType",
+          "value": "\"social:relationship\""
+        },
+        {
+          "line": 2359,
+          "field": "sourceRefs",
+          "value": "[\n          { kind: \"historical-event\", eventId: record.invitationEventId },\n        ]"
+        },
+        {
+          "line": 2369,
+          "field": "sourceType",
+          "value": "\"context:campaign\""
+        },
+        {
+          "line": 2374,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 4,
+      "recordBasisDesign": "Actual organizer relationship/contact and campaign records, not outreach seed.",
+      "residualTieDesign": "Retain current campaign contacts; do not synthesize a visit or support request.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "line": 652,
+      "function": "chooseStep",
+      "decisionType": "\"campaign.opponent-weekly-step\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"field-event\",\n        label: \"Hold a field event\",\n        description: \"Meet voters in person with the field lead.\",\n      },\n      {\n        key: \"fundraising\",\n        label: \"Raise money\",\n        description: \"Ask supporters for contributions.\",\n      },\n      {\n        key: \"messaging\",\n        label: \"Release a message\",\n        description: \"Pay for a message to voters.\",\n      },\n      {\n        key: \"support-request\",\n        label: \"Ask the party chapter\",\n        description: \"Ask the local party chapter for help.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints",
+      "localSources": [
+        {
+          "line": 500,
+          "field": "sourceType",
+          "value": "`context:campaign-${key}`"
+        },
+        {
+          "line": 505,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 514,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 545,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 556,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 5,
+      "recordBasisDesign": "Campaign money, available field/fundraising/message/support capacities and opponent goals.",
+      "residualTieDesign": "Keep weekly action pending if still equal; do not buy activity merely because its option key sorts first.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "line": 1156,
+      "function": "writeSupportRequest",
+      "decisionType": "\"campaign.chapter-support-request\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"grant\",\n        label: \"Agree to help\",\n        description: \"Lend the chapter's help to the campaign.\",\n      },\n      {\n        key: \"decline\",\n        label: \"Decline\",\n        description: \"Say the chapter will not help.\",\n      },\n      {\n        key: \"defer\",\n        label: \"Not yet\",\n        description: \"Put the request off for now.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 1056,
+          "field": "sourceType",
+          "value": "\"context:campaign-same-party\""
+        },
+        {
+          "line": 1062,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1068,
+          "field": "sourceType",
+          "value": "\"context:campaign-known-candidate\""
+        },
+        {
+          "line": 1073,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1078,
+          "field": "sourceType",
+          "value": "\"context:campaign-unknown-candidate\""
+        },
+        {
+          "line": 1083,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1088,
+          "field": "sourceType",
+          "value": "\"context:campaign-chapter-caution\""
+        },
+        {
+          "line": 1093,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1103,
+          "field": "sourceType",
+          "value": "\"context:public-ethics-finding\""
+        },
+        {
+          "line": 1108,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"historical-event\", eventId: finding.step.eventId }]"
+        },
+        {
+          "line": 1115,
+          "field": "sourceType",
+          "value": "\"context:campaign-chapter-committed\""
+        },
+        {
+          "line": 1120,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 6,
+      "recordBasisDesign": "Chapter party affiliation, candidate contact, ethics finding and prior commitment.",
+      "residualTieDesign": "Preserve the existing defer option; no invented chapter endorsement.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1194,
+      "function": "employeeAppealChoice",
+      "decisionType": "\"civil-personnel.discharge-appeal\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"appeal\",\n        label: \"Appeal the discharge\",\n        description: \"Elect to appeal to the Bureau of Mediation Services.\",\n      },\n      {\n        key: \"no-appeal\",\n        label: \"Do not appeal\",\n        description: \"Let the appeal period pass.\",\n      },\n    ]",
+      "considerations": "considerations: []",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 7,
+      "recordBasisDesign": "CURRENT CONTEXT HAS NO CONSIDERATIONS OR CONSTRAINTS; discharged employee/case records exist around the caller.",
+      "residualTieDesign": "Add employee's actual goals, job/income situation and known discharge/appeal record. Until grounded, retain pending appeal choice; a deadline lapse must come from the legal deadline, not a rolled no-appeal.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1369,
+      "function": "commissionerDecision",
+      "decisionType": "\"civil-personnel.commissioner-settlement\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"settlement-directed\",\n        label: \"Direct a settlement\",\n        description:\n          \"Require the appointing authority to settle before a hearing.\",\n      },\n      {\n        key: \"settlement-not-directed\",\n        label: \"Do not direct a settlement\",\n        description: \"Leave the appeal to its hearing procedure.\",\n      },\n    ]",
+      "considerations": "considerations: []",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 8,
+      "recordBasisDesign": "CURRENT CONTEXT HAS NO CONSIDERATIONS OR CONSTRAINTS; commissioner and appeal file exist around the caller.",
+      "residualTieDesign": "Read actual hearing evidence, authority, feasible settlement and commissioner records; leave procedure pending or apply existing statutory default, never manufacture a settlement direction.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "line": 1878,
+      "function": "offerDecisionContext",
+      "decisionType": "\"civil-personnel.reinstatement-response\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"accept\",\n        label: \"Accept reinstatement\",\n        description: \"Return to the job class.\",\n      },\n      {\n        key: \"decline\",\n        label: \"Decline reinstatement\",\n        description: \"Stay in current circumstances.\",\n      },\n    ]",
+      "considerations": "considerations: seeking\n      ? [\n          {\n            stableKey: \"civil-personnel:seeking-work\",\n            optionKey: \"accept\",\n            sourceType: \"mind:goal\",\n            direction: \"supports\",\n            importance: \"strong\",\n            confidence: \"high\",\n            explanation: \"They are looking for work.\",\n            sourceRefs: [],\n          },\n        ]\n      : []",
+      "constraints": "constraints: [\n      ...(unwilling\n        ? [\n            {\n              stableKey: \"civil-personnel:declines-work\",\n              optionKey: \"accept\",\n              kind: \"goal:decline-work\",\n              explanation: \"They have said they are not seeking work.\",\n              sourceRefs: [],\n            },\n          ]\n        : []),\n      ...(rigid\n        ? [\n            {\n              stableKey: \"civil-personnel:rigid-schedule\",\n              optionKey: \"accept\",\n              kind: \"availability:schedule\",\n              explanation: \"Their current work has a rigid schedule.\",\n              sourceRefs: [],\n            },\n          ]\n        : []),\n    ]",
+      "localSources": [
+        {
+          "line": 1847,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1858,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1868,
+          "field": "sourceType",
+          "value": "\"mind:goal\""
+        },
+        {
+          "line": 1873,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 9,
+      "recordBasisDesign": "Existing seeking-work goal and unwilling-work constraint, offer event and employee circumstances; explicit sourceRefs currently empty.",
+      "residualTieDesign": "Persist exact goal/constraint/offer IDs; unanswered offer stays unanswered, not the caller's declined else branch.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/claim-contradictions.ts",
+      "line": 394,
+      "function": "promiseCheck",
+      "decisionType": "\"press.confirm-account\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n        {\n          key: \"confirm\",\n          label: \"Confirm what was said\",\n          description: \"Tell the reporter what they heard.\",\n        },\n        {\n          key: \"decline\",\n          label: \"Decline to comment\",\n          description: \"Say nothing about it.\",\n        },\n      ]",
+      "considerations": "considerations: traitConsiderations(\n        next,\n        sourceId,\n        `claim-check:${stanceEvent.id}:${reporterId}`,\n        [\n          {\n            optionKey: \"confirm\",\n            trait: \"conflict\",\n            pole: \"high\",\n            explanation: \"They don\u2019t mind contradicting someone on the record.\",\n          },\n          {\n            optionKey: \"decline\",\n            trait: \"conflict\",\n            pole: \"low\",\n            explanation:\n              \"They would rather not get between a reporter and someone they know.\",\n          },\n          {\n            optionKey: \"decline\",\n            trait: \"risk\",\n            pole: \"low\",\n            explanation: \"Talking to a reporter feels risky to them.\",\n          },\n        ],\n      )",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 10,
+      "recordBasisDesign": "Actual source's trait records, known public stance and reporter's confirmation request.",
+      "residualTieDesign": "Record unanswered confirmation request; do not invent confirmation or dispute.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/couples.ts",
+      "line": 333,
+      "function": "askToBeACouple",
+      "decisionType": "\"people.couple-answer\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      { key: \"accept\", label: \"Say yes\", description: \"Be a couple.\" },\n      {\n        key: \"decline\",\n        label: \"Say no\",\n        description: \"Keep it as it is.\",\n      },\n    ]",
+      "considerations": "considerations: romanticConsiderations(world, key, otherPersonId, personId)",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 11,
+      "recordBasisDesign": "romanticConsiderations reads actual pair relationship and actor records.",
+      "residualTieDesign": "Require positive grounded consent; preserve current relationship when genuinely unresolved, not an inferred refusal or acceptance.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/crisis/handling-reactions.ts",
+      "line": 354,
+      "function": "react",
+      "decisionType": "`crisis.${input.role}-handling-reaction`",
+      "randomness": "\"close-choices\"",
+      "options": "options: options.map((option) => ({\n      key: option,\n      label: LABELS[option],\n      description: LABELS[option],\n    }))",
+      "considerations": "considerations: [\n      {\n        stableKey: \"crisis:what-was-decided\",\n        optionKey: input.verdict === \"sound\" ? \"praise\" : \"criticize\",\n        sourceType: \"context:own-knowledge\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"medium\",\n        explanation:\n          input.verdict === \"sound\"\n            ? \"Federal help was asked for when the damage called for it.\"\n            : \"Federal help was not asked for when the damage called for it.\",\n        sourceRefs: [],\n      },\n      ...(input.verdict === \"failed\"\n        ? [\n            {\n              stableKey: \"crisis:loyalty\",\n              optionKey: \"defend\",\n              sourceType: \"context:relationship\" as const,\n              direction: \"supports\" as const,\n              importance: \"moderate\" as const,\n              confidence: \"medium\" as const,\n              explanation:\n                input.role === \"party\"\n                  ? \"They belong to the same party.\"\n                  : \"They are family or share a home.\",\n              sourceRefs: [],\n            },\n          ]\n        : []),\n    ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 325,
+          "field": "sourceType",
+          "value": "\"context:own-knowledge\""
+        },
+        {
+          "line": 333,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 340,
+          "field": "sourceType",
+          "value": "\"context:relationship\" as const"
+        },
+        {
+          "line": 348,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 12,
+      "recordBasisDesign": "Reader event knowledge, disaster-response record and party/contact relation; current sourceRefs empty.",
+      "residualTieDesign": "Attach knowledge/response/relationship IDs; unresolved praise/criticism leaves no new public statement.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/favor-collection.ts",
+      "line": 305,
+      "function": "produceFavorCollection",
+      "decisionType": "\"people.ask-favor-back\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n        {\n          key: \"ask\",\n          label: \"Ask\",\n          description: \"Ask them to help in return.\",\n        },\n        {\n          key: \"leave-it\",\n          label: \"Leave it\",\n          description: \"Say nothing about it.\",\n        },\n      ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 243,
+          "field": "sourceType",
+          "value": "\"social:favor\""
+        },
+        {
+          "line": 248,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"historical-event\", eventId: favor.eventId }]"
+        },
+        {
+          "line": 253,
+          "field": "sourceType",
+          "value": "\"context:need\""
+        },
+        {
+          "line": 258,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 13,
+      "recordBasisDesign": "Actual favor record and actor need plus traits/relationships.",
+      "residualTieDesign": "Keep favor outstanding without a new ask until a grounded need/relationship distinguishes action.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/favor-collection.ts",
+      "line": 590,
+      "function": "tellOfRefusal",
+      "decisionType": "\"people.tell-of-refusal\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"tell\",\n        label: \"Tell people\",\n        description: \"Tell the people they talk to what happened.\",\n      },\n      {\n        key: \"keep-it\",\n        label: \"Keep it to themselves\",\n        description: \"Say nothing about it.\",\n      },\n    ]",
+      "considerations": "considerations: [\n      {\n        stableKey: `${key}:sting`,\n        optionKey: \"tell\",\n        sourceType: \"social:favor\",\n        direction: \"supports\",\n        importance: STING[favor.weight],\n        confidence: \"high\",\n        explanation: `They had ${favor.description}, and were turned down.`,\n        sourceRefs: [{ kind: \"historical-event\", eventId: answered.id }],\n      },\n      ...traitConsiderations(withTraits, askerId, key, [\n        {\n          optionKey: \"tell\",\n          trait: \"sociability\",\n          pole: \"high\",\n          explanation: \"They talk to people about what happens to them.\",\n        },\n        {\n          optionKey: \"keep-it\",\n          trait: \"sociability\",\n          pole: \"low\",\n          explanation: \"They keep things to themselves.\",\n        },\n        {\n          optionKey: \"tell\",\n          trait: \"conflict\",\n          pole: \"high\",\n          explanation: \"They do not let a slight pass.\",\n        },\n        {\n          optionKey: \"keep-it\",\n          trait: \"conflict\",\n          pole: \"low\",\n          explanation: \"They would rather not make trouble for anybody.\",\n        },\n      ]),\n    ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 555,
+          "field": "sourceType",
+          "value": "\"social:favor\""
+        },
+        {
+          "line": 560,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"historical-event\", eventId: answered.id }]"
+        }
+      ],
+      "contextIndex": 14,
+      "recordBasisDesign": "Actual favor weight, recorded refusal and actor relationship/traits.",
+      "residualTieDesign": "Keep refusal knowledge without fabricating a tell-of-refusal event; record unmet disclosure decision.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/governing/supreme-court-appointments.ts",
+      "line": 321,
+      "function": "choosePresidentialNominee",
+      "decisionType": "\"governing.supreme-court-nomination\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: pool.map((candidate) => ({\n      key: candidate.personId,\n      label: personName(world.people[candidate.personId]!),\n      description: \"Nominate this judge.\",\n    }))",
+      "considerations": "considerations: pool.flatMap((candidate) =>\n      candidateReasons(world, candidate, input.presidentId),\n    )",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 15,
+      "recordBasisDesign": "Actual candidateReasons and president/candidate records in eligible pool.",
+      "residualTieDesign": "Leave nomination pending; seek evidence about candidates or explicit president decision, never candidate ID ordering.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/initiator-occasions.ts",
+      "line": 399,
+      "function": "hostDecidesToAsk",
+      "decisionType": "\"people.invite-over\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"ask\",\n        label: \"Ask them over\",\n        description: \"Invite them for the afternoon.\",\n      },\n      {\n        key: \"keep-it-small\",\n        label: \"Keep it small\",\n        description: \"Leave them off this time.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 16,
+      "recordBasisDesign": "Actual host traits, known relationships and household invitation setting.",
+      "residualTieDesign": "Retain current invitation list and allow a later record-supported invitation.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/living-world/party-chapters.ts",
+      "line": 536,
+      "function": "chapterOutreachTransitionHandler",
+      "decisionType": "\"party-chapter.invite-to-meeting\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"invite\",\n        label: \"Invite them\",\n        description: \"Mention the next open meeting.\",\n      },\n      {\n        key: \"not-now\",\n        label: \"Not now\",\n        description: \"Leave it for another time.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 471,
+          "field": "sourceType",
+          "value": "\"social:relationship\""
+        },
+        {
+          "line": 476,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"historical-event\", eventId: attended.id }]"
+        },
+        {
+          "line": 481,
+          "field": "sourceType",
+          "value": "\"social:relationship\""
+        },
+        {
+          "line": 486,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"historical-event\", eventId: invitation.id }]"
+        }
+      ],
+      "contextIndex": 17,
+      "recordBasisDesign": "Real chapter attendance and prior invitation event IDs, actor relationships.",
+      "residualTieDesign": "Use not-now only as explicit continuation; no new invitation without recorded grounds.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 648,
+      "function": "considerApproach",
+      "decisionType": "\"mogul.approach\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"donate\",\n        label: \"Give to the campaign\",\n        description: \"A contribution with nothing asked in return.\",\n      },\n      {\n        key: \"deal\",\n        label: \"Offer money for a public stance\",\n        description:\n          \"A contribution given on the understanding that the candidate takes their side in public.\",\n      },\n      { key: \"wait\", label: \"Wait\", description: \"Do nothing this time.\" },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 563,
+          "field": "sourceType",
+          "value": "\"context:public-stance\""
+        },
+        {
+          "line": 570,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 575,
+          "field": "sourceType",
+          "value": "\"mind:goal\""
+        },
+        {
+          "line": 582,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"goal-state\", goalStateId: interest.goal.id }]"
+        },
+        {
+          "line": 588,
+          "field": "sourceType",
+          "value": "\"information:public-finding\""
+        },
+        {
+          "line": 594,
+          "field": "sourceRefs",
+          "value": "findings.map((finding) => ({\n            kind: \"historical-event\" as const,\n            eventId: finding.step.eventId,\n          }))"
+        },
+        {
+          "line": 602,
+          "field": "sourceType",
+          "value": "\"context:public-record\""
+        },
+        {
+          "line": 608,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 613,
+          "field": "sourceType",
+          "value": "\"context:public-attention\""
+        },
+        {
+          "line": 618,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 18,
+      "recordBasisDesign": "Actual public stance, active goal, public findings and prior approach records.",
+      "residualTieDesign": "Existing wait option preserves campaign cash and deal state; no donated dollars or bargain by seed.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 1095,
+      "function": "npcAnswers",
+      "decisionType": "\"mogul.answer\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      { key: \"accept\", label: \"Accept\", description: \"Take the money.\" },\n      { key: \"decline\", label: \"Decline\", description: \"Turn it down.\" },\n    ]",
+      "considerations": "considerations: [\n      {\n        stableKey: \"mogul:money-helps\",\n        optionKey: \"accept\",\n        sourceType: \"context:campaign-money\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"high\",\n        explanation: \"The campaign needs the money.\",\n        sourceRefs: [],\n      },\n      ...(offer.kind === \"deal\"\n        ? [\n            {\n              stableKey: \"mogul:strings-attached\",\n              optionKey: \"accept\",\n              sourceType: \"context:ethics-risk\" as const,\n              direction: \"opposes\" as const,\n              importance:\n                findings.length > 0 ? (\"slight\" as const) : (\"strong\" as const),\n              confidence: \"high\" as const,\n              explanation:\n                findings.length > 0\n                  ? \"They have been found against before and are still running.\"\n                  : \"Taking money for a public stance is the kind of thing that ends careers.\",\n              sourceRefs: [],\n            },\n            {\n              stableKey: \"mogul:already-agree\",\n              optionKey: \"accept\",\n              sourceType: \"context:public-stance\" as const,\n              direction:\n                stance === offer.wants\n                  ? (\"supports\" as const)\n                  : (\"opposes\" as const),\n              importance: \"moderate\" as const,\n              confidence: \"medium\" as const,\n              explanation:\n                stance === offer.wants\n                  ? \"They already say this in public.\"\n                  : \"It would mean saying something they have not said.\",\n              sourceRefs: [],\n            },\n          ]\n        : []),\n    ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 1052,
+          "field": "sourceType",
+          "value": "\"context:campaign-money\""
+        },
+        {
+          "line": 1057,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1064,
+          "field": "sourceType",
+          "value": "\"context:ethics-risk\" as const"
+        },
+        {
+          "line": 1073,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1078,
+          "field": "sourceType",
+          "value": "\"context:public-stance\" as const"
+        },
+        {
+          "line": 1089,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 19,
+      "recordBasisDesign": "Campaign money need, known ethics risk and public stance; current sourceRefs empty.",
+      "residualTieDesign": "Read actual cash/obligation/public-position IDs; offer remains pending until supported consent, not automatic decline.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/moguls.ts",
+      "line": 1174,
+      "function": "reviewAcceptedDeals",
+      "decisionType": "\"mogul.deal-broken\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n        {\n          key: \"go-public\",\n          label: \"Say what the money was for\",\n          description:\n            \"Tell the public the candidate took money and did not deliver.\",\n        },\n        {\n          key: \"let-it-go\",\n          label: \"Let it go\",\n          description: \"Write the money off and stay quiet.\",\n        },\n      ]",
+      "considerations": "considerations: [\n        {\n          stableKey: \"mogul:paid-for-nothing\",\n          optionKey: \"go-public\",\n          sourceType: \"context:unkept-deal\",\n          direction: \"supports\",\n          importance: \"strong\",\n          confidence: \"high\",\n          explanation: \"They paid for a stance and never got it.\",\n          sourceRefs: [],\n        },\n        {\n          stableKey: \"mogul:own-exposure\",\n          optionKey: \"go-public\",\n          sourceType: \"context:ethics-risk\",\n          direction: \"opposes\",\n          importance: \"strong\",\n          confidence: \"high\",\n          explanation: \"Saying so admits that they offered the money.\",\n          sourceRefs: [],\n        },\n      ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 1155,
+          "field": "sourceType",
+          "value": "\"context:unkept-deal\""
+        },
+        {
+          "line": 1160,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1165,
+          "field": "sourceType",
+          "value": "\"context:ethics-risk\""
+        },
+        {
+          "line": 1170,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 20,
+      "recordBasisDesign": "Actual accepted-deal record, nonperformance evidence and known ethics risk.",
+      "residualTieDesign": "Retain outstanding dispute and knowledge; do not fabricate a public allegation or forgiveness.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/patronage/appointments.ts",
+      "line": 455,
+      "function": "chooseAppointee",
+      "decisionType": "\"appointment.choose-appointee\"",
+      "randomness": "\"close-choices\"",
+      "options": "options",
+      "considerations": "considerations: shortList.flatMap((entry) => entry.considerations)",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 21,
+      "recordBasisDesign": "Actual shortlist considerationsFor outputs, appointer/candidate records and eligibility.",
+      "residualTieDesign": "Preserve all equally grounded candidates at shortlist boundary; keep post open/look further rather than truncating or choosing by person ID.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-contact.ts",
+      "line": 858,
+      "function": "npcContactAnswer",
+      "decisionType": "\"people.contact-answer\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      { key: \"accept\", label: \"Agree\", description: \"Meet them that day.\" },\n      {\n        key: \"counter\",\n        label: \"Offer another day\",\n        description: \"Say when they could instead.\",\n      },\n      {\n        key: \"decline\",\n        label: \"Say no\",\n        description: \"Leave it for another time.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 730,
+          "field": "sourceType",
+          "value": "\"social:relationship\""
+        },
+        {
+          "line": 737,
+          "field": "sourceRefs",
+          "value": "[{ kind: \"relationship-interaction\", interactionId }]"
+        },
+        {
+          "line": 755,
+          "field": "sourceType",
+          "value": "\"context:calendar\""
+        },
+        {
+          "line": 760,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 22,
+      "recordBasisDesign": "Actual relationship-interaction IDs, calendar facts, active privacy goal and felt-debt/refusal records.",
+      "residualTieDesign": "Offer a genuine feasible counterdate when records support it; otherwise retain pending contact, not automatic decline.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-contact.ts",
+      "line": 1243,
+      "function": "produceReachingOut",
+      "decisionType": "\"people.reach-out\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n        {\n          key: \"get-in-touch\",\n          label: \"Get in touch\",\n          description: \"Ask whether they want to meet.\",\n        },\n        {\n          key: \"leave-it\",\n          label: \"Leave it\",\n          description: \"Another time, maybe.\",\n        },\n      ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 23,
+      "recordBasisDesign": "Existing actor traits, actual relationship and contact history.",
+      "residualTieDesign": "Retain current contact history until a record-supported reach-out; no new contact event on equality.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-family-plan.ts",
+      "line": 320,
+      "function": "answerFamilyPlan",
+      "decisionType": "\"people.family-plan\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"agree\",\n        label: \"Yes\",\n        description: \"Go ahead with it together.\",\n      },\n      {\n        key: \"not-now\",\n        label: \"Not now\",\n        description: \"Leave it for the time being.\",\n      },\n    ]",
+      "considerations": "considerations: traitConsiderations(\n      withTraits,\n      partnerId,\n      `family-plan:${intentionId}`,\n      [\n        {\n          optionKey: \"agree\",\n          trait: \"risk\",\n          pole: \"high\",\n          explanation: \"They are ready to take something on.\",\n        },\n        {\n          optionKey: \"not-now\",\n          trait: \"deliberation\",\n          pole: \"low\",\n          explanation: \"They would rather think it through for longer.\",\n        },\n        {\n          optionKey: \"agree\",\n          trait: \"reliability\",\n          pole: \"high\",\n          explanation: \"They mean to see things through.\",\n        },\n      ],\n    )",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 24,
+      "recordBasisDesign": "Actual partner trait records and family intention ID.",
+      "residualTieDesign": "Preserve family plan status pending partner consent; no invented agreement or pregnancy.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 634,
+      "function": "decideOnOffer",
+      "decisionType": "\"people.job-offer-answer\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      { key: \"accept\", label: \"Take it\", description: \"Accept the offer.\" },\n      {\n        key: \"hold-out\",\n        label: \"Turn it down\",\n        description: \"Keep looking instead.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 25,
+      "recordBasisDesign": "Actual offer terms, work goal, household finances, timetable and actor traits.",
+      "residualTieDesign": "Leave offer pending, retaining original expiry; no automatic acceptance/hold-out when evidence is equal.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 994,
+      "function": "decidesToAct",
+      "decisionType": "\"people.goal-step\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      { key: \"act\", label: \"Do it now\", description: \"Take a step this week.\" },\n      {\n        key: \"not-this-week\",\n        label: \"Not this week\",\n        description: \"Leave it for now.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 966,
+          "field": "sourceType",
+          "value": "\"context:quiet-week\""
+        },
+        {
+          "line": 971,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 26,
+      "recordBasisDesign": "Actual active goal, actor traits and current week/activity facts.",
+      "residualTieDesign": "Use not-this-week as continuation; reconsider when actual capacity, need or goal evidence changes.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-goal-review.ts",
+      "line": 1114,
+      "function": "answerCall",
+      "decisionType": "\"people.call-answer\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      { key: \"talk\", label: \"Talk\", description: \"Pick up and talk.\" },\n      {\n        key: \"not-now\",\n        label: \"Not now\",\n        description: \"Say it is not a good time.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 1021,
+          "field": "sourceType",
+          "value": "\"context:known-caller\""
+        },
+        {
+          "line": 1026,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1035,
+          "field": "sourceType",
+          "value": "\"social:warmth\""
+        },
+        {
+          "line": 1042,
+          "field": "sourceRefs",
+          "value": "warmth.basis.slice(-2).map((interactionId) => ({\n        kind: \"relationship-interaction\" as const,\n        interactionId,\n      }))"
+        },
+        {
+          "line": 1053,
+          "field": "sourceType",
+          "value": "\"social:tension\""
+        },
+        {
+          "line": 1058,
+          "field": "sourceRefs",
+          "value": "tension.basis.slice(-2).map((interactionId) => ({\n        kind: \"relationship-interaction\" as const,\n        interactionId,\n      }))"
+        }
+      ],
+      "contextIndex": 27,
+      "recordBasisDesign": "Known caller, warmth/tension readings with interaction IDs and actual availability.",
+      "residualTieDesign": "Use not-now only as a recorded availability continuation; no invented talk or social consequence.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-promise.ts",
+      "line": 142,
+      "function": "decidePromiseRenegotiation",
+      "decisionType": "\"people.promise-renegotiation\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"accepts-change\",\n        label: \"Agree to it\",\n        description: \"Take the revised arrangement.\",\n      },\n      {\n        key: \"needs-answer\",\n        label: \"Wants an answer\",\n        description: \"Leave it open and ask again.\",\n      },\n      {\n        key: \"holds-boundary\",\n        label: \"Keeps the arrangement\",\n        description: \"Rely on what was agreed.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 28,
+      "recordBasisDesign": "Actual promise/revision/request IDs and counterpart traits.",
+      "residualTieDesign": "Use needs-answer while preserving the existing commitment; do not author acceptance/boundary by option order.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-study-plan.ts",
+      "line": 244,
+      "function": "peerStudyApproach",
+      "decisionType": "\"people.study-plan\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: PROPOSABLE_APPROACHES.map((id) => {\n      const approach = studyApproach(id)!;\n      return { key: id, label: approach.label, description: approach.requires };\n    })",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 29,
+      "recordBasisDesign": "Actual collaboration and peer trait records; supported study approaches.",
+      "residualTieDesign": "Leave approach unresolved; remove split-by-section fallback unless actual plan explicitly records that approach.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-study-plan.ts",
+      "line": 612,
+      "function": "decideStudyPlanOutcome",
+      "decisionType": "\"people.study-plan-answer\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"agrees\",\n        label: \"Take it\",\n        description: \"Accept what was put to them.\",\n      },\n      // Coming part of the way needs a part to come to. With no authored\n      // revision there is no supported half-way version, so it is not an\n      // answer they can give.\n      ...(proposals.revision\n        ? [\n            {\n              key: \"counterproposes\",\n              label: \"Part of it\",\n              description: \"Accept part and keep arguing about the rest.\",\n            },\n          ]\n        : []),\n      {\n        key: \"unresolved\",\n        label: \"Not yet\",\n        description: \"Leave the question open.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 30,
+      "recordBasisDesign": "Actual proposal/revision, peer traits, work/collaboration evidence.",
+      "residualTieDesign": "Use existing unresolved answer; no fabricated counterproposal without saved revision.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/people-study.ts",
+      "line": 187,
+      "function": "decideStudyPeerOutcome",
+      "decisionType": "\"people.study-collaboration\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"agrees\",\n        label: \"Work together\",\n        description: \"Take the work on together.\",\n      },\n      {\n        key: \"counterproposes\",\n        label: \"Offer a smaller part\",\n        description: \"Offer a narrower share of the work.\",\n      },\n      {\n        key: \"declines\",\n        label: \"Not this time\",\n        description: \"Turn the collaboration down.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [],
+      "contextIndex": 31,
+      "recordBasisDesign": "Actual collaboration proposal, peer traits/relationships and feasible work share.",
+      "residualTieDesign": "Keep proposed collaboration pending; do not treat a tie as consent, refusal or fabricated smaller share.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/political-belief-formation.ts",
+      "line": 161,
+      "function": "evaluatePoliticalBeliefFormation",
+      "decisionType": "\"political-belief-formation\"",
+      "randomness": "input.randomness ?? \"close-choices\"",
+      "options": "options: OUTCOMES.map((outcome) => ({\n      key: outcome,\n      label: outcome.replaceAll(\"-\", \" \"),\n      description: descriptionForOutcome(outcome),\n    }))",
+      "considerations": "considerations",
+      "constraints": "constraints: input.constraints ?? []",
+      "localSources": [
+        {
+          "line": 103,
+          "field": "sourceType",
+          "value": "\"context:opinion-readiness\" as const"
+        },
+        {
+          "line": 109,
+          "field": "sourceRefs",
+          "value": "[] as readonly MindSourceReference[]"
+        },
+        {
+          "line": 127,
+          "field": "sourceType",
+          "value": "factor.sourceType"
+        },
+        {
+          "line": 132,
+          "field": "sourceRefs",
+          "value": "factor.sourceRefs"
+        }
+      ],
+      "contextIndex": 32,
+      "recordBasisDesign": "Actual exposure/perception, supported value/principle/goal factors and trusted cues; factor sourceRefs are carried.",
+      "residualTieDesign": "Use defer/no-opinion semantics explicitly, preserve prior belief, and reconsider only on a real new encounter or reason.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/press/desk.ts",
+      "line": 380,
+      "function": "assignStory",
+      "decisionType": "\"press.story-assignment\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"take\",\n        label: \"Take the story\",\n        description: \"Report this lead.\",\n      },\n      {\n        key: \"pass\",\n        label: \"No story\",\n        description: \"Not every public event needs a story.\",\n      },\n    ]",
+      "considerations": "considerations",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 319,
+          "field": "sourceType",
+          "value": "\"context:professional-role\""
+        },
+        {
+          "line": 326,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 333,
+          "field": "sourceType",
+          "value": "\"context:public-interest\""
+        },
+        {
+          "line": 339,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 346,
+          "field": "sourceType",
+          "value": "\"context:editorial-judgment\""
+        },
+        {
+          "line": 352,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 33,
+      "recordBasisDesign": "Actual public lead/event, editor/reporter role, workload and recorded relevance; local refs empty.",
+      "residualTieDesign": "Retain pending lead until actual evidence and reporting capacity justify assignment; no story by chance.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/press/desk.ts",
+      "line": 783,
+      "function": "produceNonPlayerResponses",
+      "decisionType": "\"press.subject-response\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n        {\n          key: \"dispute\",\n          label: \"Dispute it\",\n          description: \"Say the account is wrong.\",\n        },\n        {\n          key: \"decline\",\n          label: \"Decline to comment\",\n          description: \"Say nothing on the record.\",\n        },\n        {\n          key: \"no-response\",\n          label: \"Do not respond\",\n          description: \"Let the deadline pass.\",\n        },\n      ]",
+      "considerations": "considerations: [\n        {\n          stableKey: \"press:own-knowledge\",\n          optionKey: matter && !involved ? \"dispute\" : \"decline\",\n          sourceType: \"context:own-knowledge\",\n          direction: \"supports\",\n          importance: \"moderate\",\n          confidence: \"high\",\n          explanation:\n            matter && !involved\n              ? \"This person has no record of doing what is alleged.\"\n              : \"Saying nothing on the record avoids committing to an account.\",\n          sourceRefs: [],\n        },\n      ]",
+      "constraints": "constraints: matter\n        ? []\n        : [\n            {\n              stableKey: \"press:nothing-to-dispute\",\n              optionKey: \"dispute\",\n              kind: \"knowledge:no-allegation\",\n              explanation: \"There is no allegation to dispute.\",\n              sourceRefs: [],\n            },\n          ]",
+      "localSources": [
+        {
+          "line": 764,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 771,
+          "field": "sourceType",
+          "value": "\"context:own-knowledge\""
+        },
+        {
+          "line": 779,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 34,
+      "recordBasisDesign": "Actual matter, subject's known account, response request/deadline and event knowledge.",
+      "residualTieDesign": "Keep unanswered request until an actual recorded response/deadline; no automatic dispute or decline-comment.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 674,
+      "function": "pressLedgerReviewHandler",
+      "decisionType": "\"press.bookkeeper-concern\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"raise-internally\",\n        label: \"Raise it with the candidate\",\n        description: \"Ask about the entry privately.\",\n      },\n      {\n        key: \"say-nothing\",\n        label: \"Say nothing\",\n        description: \"Leave the entry alone.\",\n      },\n    ]",
+      "considerations": "considerations: [\n      {\n        stableKey: \"press:bookkeeping-duty\",\n        optionKey: \"raise-internally\",\n        sourceType: \"context:professional-role\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"high\",\n        explanation:\n          \"The entry is a payment to the candidate recorded against campaign money.\",\n        sourceRefs: [],\n      },\n      {\n        stableKey: \"press:employment-dependence\",\n        optionKey: \"say-nothing\",\n        sourceType: \"context:professional-role\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"medium\",\n        explanation: \"The bookkeeper works for the candidate.\",\n        sourceRefs: [],\n      },\n    ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 654,
+          "field": "sourceType",
+          "value": "\"context:professional-role\""
+        },
+        {
+          "line": 660,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 665,
+          "field": "sourceType",
+          "value": "\"context:professional-role\""
+        },
+        {
+          "line": 670,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 35,
+      "recordBasisDesign": "Actual bookkeeping entry, employee role and knowledge of candidate payment; local refs empty.",
+      "residualTieDesign": "Persist entry/role/knowledge IDs; keep concern pending or continue current work, no fabricated accusation.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 799,
+      "function": "bookkeeperGoesOutside",
+      "decisionType": "\"press.bookkeeper-report\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"report-outside\",\n        label: \"Report it outside the campaign\",\n        description: \"File a complaint about the payments to the candidate.\",\n      },\n      {\n        key: \"say-nothing\",\n        label: \"Say nothing\",\n        description: \"Leave the entry alone.\",\n      },\n    ]",
+      "considerations": "considerations: [\n      {\n        stableKey: \"press:raised-before-and-it-continued\",\n        optionKey: \"report-outside\",\n        sourceType: \"context:professional-role\",\n        direction: \"supports\",\n        importance: \"strong\",\n        confidence: \"high\",\n        explanation:\n          \"They already asked the candidate about a payment like this, and the payments continued.\",\n        sourceRefs: [],\n      },\n      {\n        stableKey: \"press:employment-dependence\",\n        optionKey: \"say-nothing\",\n        sourceType: \"context:professional-role\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"medium\",\n        explanation: \"The bookkeeper works for the candidate.\",\n        sourceRefs: [],\n      },\n    ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 779,
+          "field": "sourceType",
+          "value": "\"context:professional-role\""
+        },
+        {
+          "line": 785,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 790,
+          "field": "sourceType",
+          "value": "\"context:professional-role\""
+        },
+        {
+          "line": 795,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 36,
+      "recordBasisDesign": "Recorded prior internal concern and continued payment entries; local refs empty.",
+      "residualTieDesign": "Attach concern and subsequent-entry IDs; leave outside complaint pending without a record-supported decision.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 1387,
+      "function": "produceCandidatePaymentComplaintFor",
+      "decisionType": "\"press.rival-complaint\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"file\",\n        label: \"File a complaint\",\n        description: \"Allege the payments to the candidate were personal use.\",\n      },\n      {\n        key: \"no-action\",\n        label: \"Do nothing\",\n        description: \"Leave the filing alone.\",\n      },\n    ]",
+      "considerations": "considerations: [\n      {\n        stableKey: \"press:rivalry\",\n        optionKey: \"file\",\n        sourceType: \"context:electoral-competition\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"medium\",\n        explanation: \"The two are running against each other.\",\n        sourceRefs: [],\n      },\n      {\n        stableKey: \"press:payments-to-the-candidate\",\n        optionKey: \"file\",\n        sourceType: \"context:own-knowledge\",\n        direction: \"supports\",\n        importance: occurrences.length > 1 ? \"strong\" : \"moderate\",\n        confidence: \"high\",\n        explanation:\n          occurrences.length > 1\n            ? `The committee's public reports show ${occurrences.length} payments to the candidate.`\n            : \"The committee's public report shows a payment to the candidate.\",\n        sourceRefs: [],\n      },\n      {\n        stableKey: \"press:could-be-reimbursement\",\n        optionKey: \"no-action\",\n        sourceType: \"context:own-knowledge\",\n        direction: \"supports\",\n        importance: occurrences.length > 1 ? \"slight\" : \"moderate\",\n        confidence: \"medium\",\n        explanation:\n          \"A payment to a candidate can be a legitimate reimbursement.\",\n        sourceRefs: [],\n      },\n    ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 1354,
+          "field": "sourceType",
+          "value": "\"context:electoral-competition\""
+        },
+        {
+          "line": 1359,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1364,
+          "field": "sourceType",
+          "value": "\"context:own-knowledge\""
+        },
+        {
+          "line": 1372,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1377,
+          "field": "sourceType",
+          "value": "\"context:own-knowledge\""
+        },
+        {
+          "line": 1383,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 37,
+      "recordBasisDesign": "Actual rival candidacy, candidate-payment entries and known complaint evidence; local refs empty.",
+      "residualTieDesign": "Use no-action continuation while preserving evidence; no complaint from rivalry alone or seeded choice.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/press/matters.ts",
+      "line": 1491,
+      "function": "produceVendorPaymentComplaint",
+      "decisionType": "\"press.rival-complaint\"",
+      "randomness": "\"close-choices\"",
+      "options": "options: [\n      {\n        key: \"file\",\n        label: \"File a complaint\",\n        description: \"Allege the payment was for personal use.\",\n      },\n      {\n        key: \"no-action\",\n        label: \"Do nothing\",\n        description: \"Leave the filing alone.\",\n      },\n    ]",
+      "considerations": "considerations: [\n      {\n        stableKey: \"press:rivalry\",\n        optionKey: \"file\",\n        sourceType: \"context:electoral-competition\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"medium\",\n        explanation: \"The two are running against each other.\",\n        sourceRefs: [],\n      },\n      {\n        stableKey: \"press:no-visible-wrongdoing\",\n        optionKey: \"no-action\",\n        sourceType: \"context:own-knowledge\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"medium\",\n        explanation: \"The public filing shows an ordinary vendor payment.\",\n        sourceRefs: [],\n      },\n    ]",
+      "constraints": "constraints: []",
+      "localSources": [
+        {
+          "line": 1472,
+          "field": "sourceType",
+          "value": "\"context:electoral-competition\""
+        },
+        {
+          "line": 1477,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 1482,
+          "field": "sourceType",
+          "value": "\"context:own-knowledge\""
+        },
+        {
+          "line": 1487,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 38,
+      "recordBasisDesign": "Actual rival candidacy and vendor-payment entries known to complainant; local refs empty.",
+      "residualTieDesign": "Same rule as candidate-payment case, retaining distinct vendor evidence and subject IDs.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    },
+    {
+      "file": "src/simulation/press/responses.ts",
+      "line": 283,
+      "function": "respond",
+      "decisionType": "`press.${input.role}-matter-response`",
+      "randomness": "\"close-choices\"",
+      "options": "options",
+      "considerations": "considerations: [\n      {\n        stableKey: \"press:what-they-learned\",\n        // Each role leans toward an option it actually has: staff keep\n        // working, the party and the family ask. (\"maintain-support\" is a\n        // staff option only; offering it to a relative threw.)\n        optionKey: input.publicFinding\n          ? \"distance\"\n          : input.role === \"staff\"\n            ? \"maintain-support\"\n            : \"request-explanation\",\n        sourceType: \"context:own-knowledge\",\n        direction: \"supports\",\n        importance: \"moderate\",\n        confidence: \"medium\",\n        explanation: input.publicFinding\n          ? \"An official body has made a public finding.\"\n          : \"What they know is an account or a pending matter, not a finding.\",\n        sourceRefs: [],\n      },\n    ]",
+      "constraints": "constraints",
+      "localSources": [
+        {
+          "line": 246,
+          "field": "sourceRefs",
+          "value": "[]"
+        },
+        {
+          "line": 272,
+          "field": "sourceType",
+          "value": "\"context:own-knowledge\""
+        },
+        {
+          "line": 279,
+          "field": "sourceRefs",
+          "value": "[]"
+        }
+      ],
+      "contextIndex": 39,
+      "recordBasisDesign": "Actual known matter, role and public institutional finding; current refs empty.",
+      "residualTieDesign": "Attach knowledge/finding/role IDs; maintain current status or no-action without invented defense/distancing/resignation.",
+      "designStatus": "PROPOSED only; no production edit or execution"
+    }
+  ],
+  "counts": {
+    "rawLiteralMentions": 44,
+    "policyEmitterSites": 39,
+    "unconditionalEmitterSites": 38,
+    "optionalDefaultEmitterSites": 1,
+    "simulationEmitterSites": 37,
+    "presentationEmitterSites": 2,
+    "tsxEmitterSites": 0,
+    "evaluateDecisionCallSites": 68,
+    "beliefAdapterCallSites": 2,
+    "distinctTypeExpressions": 38,
+    "expandedDecisionTypeNames": 41,
+    "expandedTypesMethod": "36 distinct fixed names plus2 crisis role names plus3 press role names; rival-complaint has2 emitter sites."
+  },
+  "forwardedPolicyEvidence": [
+    {
+      "path": "src/simulation/living-world/political-reflection.ts:171",
+      "policy": "omitted; adapter default close-choices used"
+    },
+    {
+      "path": "src/simulation/demo.ts:448",
+      "policy": "explicit none; no additional close-choice production emitter"
+    },
+    {
+      "path": "src/simulation/civil-personnel-actions.ts:1629",
+      "policy": "context builder1878; same emitter counted once"
+    },
+    {
+      "path": "src/simulation/decisions.ts:263",
+      "policy": "reevaluates trace.context; policy propagated, not a new independently authored context"
+    }
+  ],
+  "sharedDesign": {
+    "realRecords": "Continue applicable constraints and record-backed considerations. Preserve actual continuous record values when supplied; sourceRefs identify supporting actor/fact/time. No newly invented fixed curve, pseudo-lottery, actor seed or ID ordering.",
+    "uniqueGroundedPreference": "Select only when existing supported causal reasons distinguish an option. Preserve reason and record source IDs.",
+    "residualTie": "Proposed explicit unresolved outcome with no selected action; caller supplies lawful continuation or pending state. Available-but-tied is different from no-available-option.",
+    "consumerMigration": "Every consumer must handle unresolved before its action mutation; null must not fall into an accept/decline binary else branch or first-option/default approach.",
+    "trigger": "Reconsider on actual changed source facts, due record or explicit actor/player action; no periodic random retry.",
+    "saveCompatibility": "Preserve old traces and rngVersion evidence as historical, append new versioned traces; update type/schema, integrity and rendering for unresolved and tied ranks.",
+    "engineLines": [
+      "src/simulation/decisions.ts:176",
+      "src/simulation/decisions.ts:188",
+      "src/simulation/decisions.ts:202",
+      "src/simulation/mind-integrity.ts:884"
+    ]
+  },
+  "mechanicalReportCheck": {
+    "command": "npm run report:check -- docs/codex/audit-systems-close-choices.md",
+    "exit": 0,
+    "errors": 0,
+    "warnings": 3
+  }
+}

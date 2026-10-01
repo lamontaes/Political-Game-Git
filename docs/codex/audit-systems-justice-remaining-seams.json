@@ -1,0 +1,216 @@
+{
+  "productionHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "method": "Pinned source and preserved receipts; no runtime execution",
+  "mandatoryMinimum": {
+    "canonicalKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+    "reader": "src/simulation/justice/court-reasoning.ts:476",
+    "lawReader": "src/simulation/governing/law-in-force.ts:117",
+    "constraint": "src/simulation/justice/court-reasoning.ts:763",
+    "constraintSourceRefs": [],
+    "eventWriter": "src/simulation/justice/prosecution.ts:726",
+    "durationBasis": "unresearched-blanket-rule",
+    "sourceDerivedMonthsOneStandingFinding": {
+      "jail": 8,
+      "probation": 24
+    },
+    "savedQualifyingCaseVerified": false
+  },
+  "restoration": {
+    "canonicalKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+    "domainKeyUse": "src/simulation/justice/clemency-reasoning.ts:123",
+    "useMeaning": "decider principle cue, not operative restoration law",
+    "eligibilityReader": "src/simulation/issue-record.ts:343",
+    "rightsProducerVerified": false
+  },
+  "kindB": {
+    "canonicalKeys": [
+      "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "us-policy-positions:justice-public-safety.civilian-oversight-of-police"
+    ],
+    "amendableFieldCount": 16,
+    "admittedPermitOrOversightFields": 0,
+    "domainKeyConsumersVerified": false
+  },
+  "preservedNamedExample": {
+    "person": "Cameron Salas",
+    "place": "Abbeville, Georgia",
+    "kind": "unsponsored paired legislative probes, not criminal case",
+    "mandatoryMinimum": {
+      "csvLine": 4683,
+      "unweightedRawScore": 1.75,
+      "weightedRawScore": 0.7875,
+      "bothDispositions": "yea",
+      "pairedMemberCount": 180
+    },
+    "restoration": {
+      "csvLine": 5403,
+      "unweightedRawScore": -1.75,
+      "weightedRawScore": -1.1375,
+      "bothDispositions": "nay",
+      "pairedMemberCount": 180
+    },
+    "status": "HISTORICAL at original paired-receipt pin, not current-main execution"
+  },
+  "nationalPartial": {
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/partial-09.json",
+    "independentWorldDenominator": 9,
+    "observedEnactedRowsEachOfFourKeys": 0,
+    "limit": "exported observation count, not count of all effects or history records",
+    "status": "HISTORICAL fd4925e6 nine-world partial, not renewed campaign proof"
+  },
+  "unknown": [
+    "saved qualifying mandatory-minimum case with canonical law attribution",
+    "actual voting rights restoration determination and election reader integration",
+    "carry permit application/disposition consumer",
+    "oversight complaint/finding/remedy consumer"
+  ],
+  "historicalProductionHead": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "renewal": {
+    "method": "Exact Git object comparison and prosecution/pretrial diff read; no checkout or runtime execution",
+    "citedSourceComparisons": [
+      {
+        "path": "src/simulation/justice/court-reasoning.ts",
+        "oldBlob": "2c4643c7e3f5182a835142929a7e1fdd524f98d6",
+        "currentBlob": "2c4643c7e3f5182a835142929a7e1fdd524f98d6",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/justice/prosecution.ts",
+        "oldBlob": "1348713dc59102f0b90e03a4f53447379154af75",
+        "currentBlob": "fe64cffd6428ecd63ff26292a6b41eb112ce30e5",
+        "unchanged": false
+      },
+      {
+        "path": "src/simulation/justice/jail-terms.ts",
+        "oldBlob": "52625cdb642c913623757f8d36cac31a683eee18",
+        "currentBlob": "52625cdb642c913623757f8d36cac31a683eee18",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/justice/clemency.ts",
+        "oldBlob": "9bba070a86a2b51f7bcee9454fa8789b14ad2341",
+        "currentBlob": "9bba070a86a2b51f7bcee9454fa8789b14ad2341",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/justice/clemency-reasoning.ts",
+        "oldBlob": "ed2b9ed325c280c4aebd7c158fe391f3261d71e9",
+        "currentBlob": "ed2b9ed325c280c4aebd7c158fe391f3261d71e9",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/issue-record.ts",
+        "oldBlob": "86764c0fc821ca1d0b5ff03522064dbab2f8353f",
+        "currentBlob": "86764c0fc821ca1d0b5ff03522064dbab2f8353f",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/enacted-rule-changes.ts",
+        "oldBlob": "730bf8974c83b485aa4e75c27b6483e73783d020",
+        "currentBlob": "730bf8974c83b485aa4e75c27b6483e73783d020",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/governing/law-in-force.ts",
+        "oldBlob": "881c60b0a14438282bfe9833dbddbf106124bf5e",
+        "currentBlob": "881c60b0a14438282bfe9833dbddbf106124bf5e",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "oldBlob": "177bd12ec4f3460a25dc614da46e83063821893a",
+        "currentBlob": "177bd12ec4f3460a25dc614da46e83063821893a",
+        "unchanged": true
+      }
+    ],
+    "unchangedCount": 8,
+    "citedFileCount": 9,
+    "relevantChangedFiles": [
+      "src/simulation/justice/prosecution.ts",
+      "src/simulation/justice/pretrial.ts"
+    ],
+    "cashBailAttribution": "PRETRIAL_HELD_EVENT and PRETRIAL_RELEASED_EVENT now stamped with governing end-cash-bail law and 3 saved source IDs",
+    "mandatoryMinimumAttributionStillAbsent": true,
+    "noCurrentRuntimeProof": true
+  },
+  "priorRenewal": {
+    "method": "Compared exact Git blobs without checkout or mutation; reread relevant history/type diffs",
+    "citedSourceComparisons": [
+      {
+        "path": "src/simulation/justice/court-reasoning.ts",
+        "oldBlob": "2c4643c7e3f5182a835142929a7e1fdd524f98d6",
+        "currentBlob": "2c4643c7e3f5182a835142929a7e1fdd524f98d6",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/justice/prosecution.ts",
+        "oldBlob": "1348713dc59102f0b90e03a4f53447379154af75",
+        "currentBlob": "1348713dc59102f0b90e03a4f53447379154af75",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/justice/jail-terms.ts",
+        "oldBlob": "52625cdb642c913623757f8d36cac31a683eee18",
+        "currentBlob": "52625cdb642c913623757f8d36cac31a683eee18",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/justice/clemency.ts",
+        "oldBlob": "9bba070a86a2b51f7bcee9454fa8789b14ad2341",
+        "currentBlob": "9bba070a86a2b51f7bcee9454fa8789b14ad2341",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/justice/clemency-reasoning.ts",
+        "oldBlob": "ed2b9ed325c280c4aebd7c158fe391f3261d71e9",
+        "currentBlob": "ed2b9ed325c280c4aebd7c158fe391f3261d71e9",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/issue-record.ts",
+        "oldBlob": "86764c0fc821ca1d0b5ff03522064dbab2f8353f",
+        "currentBlob": "86764c0fc821ca1d0b5ff03522064dbab2f8353f",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/enacted-rule-changes.ts",
+        "oldBlob": "730bf8974c83b485aa4e75c27b6483e73783d020",
+        "currentBlob": "730bf8974c83b485aa4e75c27b6483e73783d020",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/governing/law-in-force.ts",
+        "oldBlob": "881c60b0a14438282bfe9833dbddbf106124bf5e",
+        "currentBlob": "881c60b0a14438282bfe9833dbddbf106124bf5e",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "oldBlob": "177bd12ec4f3460a25dc614da46e83063821893a",
+        "currentBlob": "177bd12ec4f3460a25dc614da46e83063821893a",
+        "unchanged": true
+      }
+    ],
+    "allNineCitedFilesUnchanged": true,
+    "relevantChangedFiles": [
+      "src/simulation/history.ts",
+      "src/simulation/types.ts"
+    ],
+    "newCapability": "HistoricalEventInput and HistoricalEvent accept LawEffectStampedRecord; appendHistoricalEvent clones supplied optional lawEffectStamps/sourceRecordIds",
+    "justiceProducerSuppliesNewStamps": false,
+    "noCurrentRuntimeProof": true
+  },
+  "previousProductionHead": "b0fb2464f682f72e6a970a87b353074fa530034f",
+  "cashBailRenewal": {
+    "lawReader": "src/simulation/justice/pretrial.ts:80",
+    "stampWriter": "src/simulation/justice/prosecution.ts:397",
+    "eventGate": "src/simulation/justice/prosecution.ts:387",
+    "sourceRecordCount": 3,
+    "sourceRecordIds": [
+      "referral.id",
+      "after.id",
+      "event.id"
+    ],
+    "excludesSentenceEvents": true
+  }
+}

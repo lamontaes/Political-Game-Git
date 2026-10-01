@@ -1,0 +1,1965 @@
+{
+  "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "approvedContractHead": "1e44b58863169f42b70dbd488bd3df6964751f36",
+  "kinds": [
+    "pay",
+    "tax",
+    "price-cost",
+    "coverage-eligibility",
+    "right-permission",
+    "service-delivered",
+    "legal-outcome",
+    "institution-rule"
+  ],
+  "primaryCounts": {
+    "pay": 4,
+    "tax": 8,
+    "price-cost": 11,
+    "coverage-eligibility": 12,
+    "right-permission": 21,
+    "service-delivered": 15,
+    "legal-outcome": 4,
+    "institution-rule": 17
+  },
+  "catalogKeys": 92,
+  "rows": [
+    {
+      "catalogIndex": 1,
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "primaryKind": "tax",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:146",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/state-income-tax-law.ts:159",
+        "consumer": "src/simulation/statutory-tax.ts:410",
+        "savedSurfaceAndLimit": "Income-tax liability and withholding; estimated schedules not certified operative amounts."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "income-tax-to-poverty",
+        "income-tax-to-out-migration"
+      ]
+    },
+    {
+      "catalogIndex": 2,
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "primaryKind": "tax",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:189",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/state-income-tax-law.ts:159",
+        "consumer": "src/simulation/statutory-tax.ts:410",
+        "savedSurfaceAndLimit": "Income-tax liability and withholding; estimated schedules not certified operative amounts."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "graduated-income-tax-to-poverty",
+        "graduated-income-tax-to-out-migration"
+      ]
+    },
+    {
+      "catalogIndex": 3,
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "primaryKind": "tax",
+      "additionalKinds": [
+        "institution-rule"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:227",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "property-tax-cap-to-math"
+      ]
+    },
+    {
+      "catalogIndex": 4,
+      "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "primaryKind": "tax",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:267",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:340",
+        "consumer": "src/simulation/public-budgets/month.ts:828",
+        "savedSurfaceAndLimit": "Monthly revenue estimates; no shopper tax bill or incentive recipient proved."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "grocery-exemption-to-poverty",
+        "grocery-exemption-to-food-insecurity"
+      ]
+    },
+    {
+      "catalogIndex": 5,
+      "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:304",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/fiscal.ts:98",
+        "consumer": "src/simulation/public-budgets/month.ts:871",
+        "savedSurfaceAndLimit": "Balance/reserve/debt/pension records; reserve branch915 and pension branch945."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "balanced-budget-to-borrowing-cost"
+      ]
+    },
+    {
+      "catalogIndex": 6,
+      "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [
+        "pay"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:342",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/fiscal.ts:98",
+        "consumer": "src/simulation/public-budgets/month.ts:871",
+        "savedSurfaceAndLimit": "Balance/reserve/debt/pension records; reserve branch915 and pension branch945."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "pension-funding-to-borrowing-cost"
+      ]
+    },
+    {
+      "catalogIndex": 7,
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:383",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/fiscal.ts:98",
+        "consumer": "src/simulation/public-budgets/month.ts:871",
+        "savedSurfaceAndLimit": "Balance/reserve/debt/pension records; reserve branch915 and pension branch945."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "reserve-balance-to-borrowing-cost"
+      ]
+    },
+    {
+      "catalogIndex": 8,
+      "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:413",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "independent-redistricting-to-turnout"
+      ]
+    },
+    {
+      "catalogIndex": 9,
+      "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:457",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "voter-id-to-turnout",
+        "voter-id-to-registration"
+      ]
+    },
+    {
+      "catalogIndex": 10,
+      "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:507",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "automatic-registration-to-turnout"
+      ]
+    },
+    {
+      "catalogIndex": 11,
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:557",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "authority-downstream",
+        "reader": "src/simulation/nationwide-world/state-legislative-term-limits.ts:158",
+        "consumer": "src/simulation/nationwide-world/state-legislature-turnover.ts:297",
+        "savedSurfaceAndLimit": "Candidate bar is read-only; turnover consumer exists but executed eligibility change unmeasured."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "term-limits-to-turnout"
+      ]
+    },
+    {
+      "catalogIndex": 12,
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:598",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 13,
+      "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:638",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "authority-gate",
+        "reader": "src/simulation/governing/question-authority.ts:352",
+        "consumer": "src/simulation/governing/council-lawmaking.ts:207",
+        "savedSurfaceAndLimit": "Local ordinance permission; no additional person/place consequence inferred."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 14,
+      "questionKey": "us-policy-positions:education.equalize-school-funding",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "coverage-eligibility"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:687",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "equalized-funding-to-spending",
+        "equalized-funding-to-math-proficiency",
+        "equalized-funding-to-graduation"
+      ]
+    },
+    {
+      "catalogIndex": 15,
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [
+        "service-delivered",
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:731",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "vouchers-to-math-proficiency",
+        "vouchers-to-graduation"
+      ]
+    },
+    {
+      "catalogIndex": 16,
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "primaryKind": "pay",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:785",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/teacher-salary-floor.ts:125",
+        "consumer": "src/simulation/living-world/town-pay.ts:1083",
+        "savedSurfaceAndLimit": "Compensation resourceFlowTerms and payroll; historical named receipt exists, drawn floor unresolved."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "teacher-minimum-salary-to-graduation"
+      ]
+    },
+    {
+      "catalogIndex": 17,
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "coverage-eligibility"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:825",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "universal-childcare-to-mothers-work",
+        "universal-prek-to-graduation",
+        "universal-prek-to-math-proficiency"
+      ]
+    },
+    {
+      "catalogIndex": 18,
+      "questionKey": "us-policy-positions:education.freeze-public-tuition",
+      "primaryKind": "price-cost",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:874",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/tuition-freeze.ts:112",
+        "consumer": "src/simulation/public-budgets/month.ts:329",
+        "savedSurfaceAndLimit": "ChargesAndFees budget revenue; no student invoice established."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "tuition-freeze-to-college-completion"
+      ]
+    },
+    {
+      "catalogIndex": 19,
+      "questionKey": "us-policy-positions:education.state-curriculum-standards",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:916",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "curriculum-standards-to-math"
+      ]
+    },
+    {
+      "catalogIndex": 20,
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:970",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/crisis/health-coverage.ts:279",
+        "consumer": "src/simulation/crisis/health-coverage.ts:471",
+        "savedSurfaceAndLimit": "Person health-coverage event records and law stamps; requires actual eligibility/work facts."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "medicaid-expansion-to-coverage",
+        "medicaid-expansion-to-mortality",
+        "medicaid-expansion-to-medical-debt"
+      ]
+    },
+    {
+      "catalogIndex": 21,
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1009",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/crisis/health-coverage.ts:279",
+        "consumer": "src/simulation/crisis/health-coverage.ts:471",
+        "savedSurfaceAndLimit": "Person health-coverage event records and law stamps; requires actual eligibility/work facts."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "work-requirement-to-coverage",
+        "work-requirement-to-employment"
+      ]
+    },
+    {
+      "catalogIndex": 22,
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1053",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "snap-work-requirement-to-participation"
+      ]
+    },
+    {
+      "catalogIndex": 23,
+      "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1099",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "crisis-response-to-crime"
+      ]
+    },
+    {
+      "catalogIndex": 24,
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1137",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "harm-reduction-to-crime",
+        "harm-reduction-to-overdose-deaths"
+      ]
+    },
+    {
+      "catalogIndex": 25,
+      "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [
+        "service-delivered"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1176",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "housing-first-to-homelessness"
+      ]
+    },
+    {
+      "catalogIndex": 26,
+      "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "primaryKind": "legal-outcome",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1215",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/justice/pretrial.ts:76",
+        "consumer": "src/simulation/justice/prosecution.ts:724",
+        "savedSurfaceAndLimit": "Pretrial release/held world events conditional on actual prosecution."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "end-cash-bail-to-pretrial-detention",
+        "end-cash-bail-to-violent-crime"
+      ]
+    },
+    {
+      "catalogIndex": 27,
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "primaryKind": "legal-outcome",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1258",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/justice/court-reasoning.ts:486",
+        "consumer": "src/simulation/justice/prosecution.ts:679",
+        "savedSurfaceAndLimit": "Sentence-kind constraint and sentence event; distinct from federal reduction question."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "mandatory-minimums-to-incarceration",
+        "mandatory-minimums-to-violent-crime"
+      ]
+    },
+    {
+      "catalogIndex": 28,
+      "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1303",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "civilian-oversight-to-crime"
+      ]
+    },
+    {
+      "catalogIndex": 29,
+      "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1347",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "concealed-carry-permit-to-firearm-homicide",
+        "carry-permit-to-violent-crime"
+      ]
+    },
+    {
+      "catalogIndex": 30,
+      "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "primaryKind": "legal-outcome",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1380",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/justice/juvenile-court.ts:36",
+        "consumer": "src/simulation/crime/offenders.ts:161",
+        "savedSurfaceAndLimit": "Charging age gate; prosecution events and corrections budget; no case run here."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "juvenile-court-age-to-crime"
+      ]
+    },
+    {
+      "catalogIndex": 31,
+      "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1420",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "restore-voting-to-turnout"
+      ]
+    },
+    {
+      "catalogIndex": 32,
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1464",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/housing-market.ts:109",
+        "consumer": "src/simulation/living-world/town-rent.ts:1643",
+        "savedSurfaceAndLimit": "Renewed rents saved in resourceFlowTerms; cached homePriceLevel is derived, not saved construction."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "housing-by-right-to-new-buildings"
+      ]
+    },
+    {
+      "catalogIndex": 33,
+      "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+      "primaryKind": "price-cost",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1505",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-rent.ts:291",
+        "consumer": "src/simulation/living-world/town-rent.ts:1678",
+        "savedSurfaceAndLimit": "Renewal rent resourceFlowTerms; market factor differs from covered-lease restrictions."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "rent-control-to-rental-supply",
+        "rent-control-to-tenant-stays"
+      ]
+    },
+    {
+      "catalogIndex": 34,
+      "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1539",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/housing-market.ts:109",
+        "consumer": "src/simulation/living-world/town-rent.ts:1643",
+        "savedSurfaceAndLimit": "Renewed rents saved in resourceFlowTerms; cached homePriceLevel is derived, not saved construction."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "by-right-permitting-to-homelessness"
+      ]
+    },
+    {
+      "catalogIndex": 35,
+      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1577",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-rent.ts:987",
+        "consumer": "src/simulation/living-world/town-rent.ts:1311",
+        "savedSurfaceAndLimit": "Affordable lease rent flows; recorded-home set-aside, not newly built homes."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "inclusionary-to-homelessness"
+      ]
+    },
+    {
+      "catalogIndex": 36,
+      "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1611",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/housing-market.ts:109",
+        "consumer": "src/simulation/living-world/town-rent.ts:1643",
+        "savedSurfaceAndLimit": "Renewed rents saved in resourceFlowTerms; cached homePriceLevel is derived, not saved construction."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "housing-preemption-to-homelessness"
+      ]
+    },
+    {
+      "catalogIndex": 37,
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [
+        "legal-outcome",
+        "service-delivered"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1649",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-rent.ts:987",
+        "consumer": "src/simulation/living-world/town-rent.ts:1957",
+        "savedSurfaceAndLimit": "Eviction decision consumed at1957; tenure state writer2590 and eviction world events. No case run."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "right-to-counsel-to-evictions"
+      ]
+    },
+    {
+      "catalogIndex": 38,
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1686",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "highway-money-for-transit-to-service"
+      ]
+    },
+    {
+      "catalogIndex": 39,
+      "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "primaryKind": "price-cost",
+      "additionalKinds": [
+        "service-delivered"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1774",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "fare-free-transit-to-ridership"
+      ]
+    },
+    {
+      "catalogIndex": 40,
+      "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1730",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-program",
+        "reader": "src/simulation/governing/program-governing.ts:225",
+        "consumer": "src/simulation/governing/public-program.ts:970",
+        "savedSurfaceAndLimit": "Authority/commitment/installment/outturn/transfers; real terms and profile required, operator expansion after3:30."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 41,
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "primaryKind": "tax",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1812",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/road-usage-charge.ts:71",
+        "consumer": "src/simulation/public-budgets/month.ts:326",
+        "savedSurfaceAndLimit": "Aggregate selective-tax budget revenue; no driver mileage assessment certified."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 42,
+      "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1856",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "public-broadband-to-home-access"
+      ]
+    },
+    {
+      "catalogIndex": 43,
+      "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "institution-rule"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1900",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "conditional-clause",
+        "reader": "src/simulation/legislation-local-fiscal-families.ts:8",
+        "consumer": "src/simulation/governing/program-governing.ts:225",
+        "savedSurfaceAndLimit": "Supported local profile appropriation; not a universal yes/no priority or named-road repair."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "fix-it-first-to-poor-roads"
+      ]
+    },
+    {
+      "catalogIndex": 44,
+      "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1940",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "licensing-reform-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 45,
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "primaryKind": "price-cost",
+      "additionalKinds": [
+        "tax",
+        "right-permission"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1974",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/cannabis-sales-revenue.ts:59",
+        "consumer": "src/simulation/public-budgets/month.ts:845",
+        "savedSurfaceAndLimit": "Cannabis revenue/loss and budget stamps; actual retailer remittance not established."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "cannabis-sales-to-youth-use",
+        "cannabis-sales-to-violent-crime",
+        "cannabis-sales-to-overdose-deaths"
+      ]
+    },
+    {
+      "catalogIndex": 46,
+      "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2008",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:340",
+        "consumer": "src/simulation/public-budgets/month.ts:828",
+        "savedSurfaceAndLimit": "Monthly revenue estimates; no shopper tax bill or incentive recipient proved."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "incentive-cap-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 47,
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "primaryKind": "price-cost",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2046",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "loan-rate-cap-to-high-cost-borrowing"
+      ]
+    },
+    {
+      "catalogIndex": 48,
+      "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "primaryKind": "pay",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2076",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/minimum-wage.ts:344",
+        "consumer": "src/simulation/living-world/town-pay.ts:961",
+        "savedSurfaceAndLimit": "Pay flow terms then transfers; federal reader143 and city reader424;1267 outsidee318 not certified."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "minimum-wage-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 49,
+      "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2107",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "authority-gate",
+        "reader": "src/simulation/governing/question-authority.ts:390",
+        "consumer": "src/simulation/minimum-wage.ts:424",
+        "savedSurfaceAndLimit": "State local-wage legality gate; city paycheck effect belongs to separate city wage key."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 50,
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "primaryKind": "price-cost",
+      "additionalKinds": [
+        "pay",
+        "coverage-eligibility"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2146",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/state-paid-leave-law.ts:85",
+        "consumer": "src/simulation/living-world/town-pay.ts:1241",
+        "savedSurfaceAndLimit": "Benefit calculation then payroll transfers1296; budget integration and inherited terms separate."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "paid-leave-to-mothers-work"
+      ]
+    },
+    {
+      "catalogIndex": 51,
+      "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2194",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "public-bargaining-to-graduation",
+        "public-bargaining-to-earnings"
+      ]
+    },
+    {
+      "catalogIndex": 52,
+      "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2233",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "right-to-work-to-turnout"
+      ]
+    },
+    {
+      "catalogIndex": 53,
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [
+        "right-permission",
+        "service-delivered"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2277",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "clean-electricity-to-price",
+        "clean-electricity-to-particulates"
+      ]
+    },
+    {
+      "catalogIndex": 54,
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "primaryKind": "tax",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2318",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "carbon-price-to-emissions",
+        "carbon-price-to-particulates"
+      ]
+    },
+    {
+      "catalogIndex": 55,
+      "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2361",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "gas-hookup-ban-to-child-asthma"
+      ]
+    },
+    {
+      "catalogIndex": 56,
+      "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2405",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "flood-zone-limits-to-damage"
+      ]
+    },
+    {
+      "catalogIndex": 57,
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "primaryKind": "price-cost",
+      "additionalKinds": [
+        "tax"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2448",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "container-deposit-to-litter",
+        "container-deposit-to-prices",
+        "container-deposit-to-recycling"
+      ]
+    },
+    {
+      "catalogIndex": 58,
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2485",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "groundwater-limits-to-irrigation-pumping"
+      ]
+    },
+    {
+      "catalogIndex": 59,
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2529",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "farmland-easements-to-farmland-lost"
+      ]
+    },
+    {
+      "catalogIndex": 60,
+      "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "service-delivered"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2572",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 61,
+      "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "pay",
+        "legal-outcome"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2614",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/fairness-pay-law.ts:126",
+        "consumer": "src/simulation/living-world/town-pay.ts:732",
+        "savedSurfaceAndLimit": "Initial compensation terms then payroll; city reader141, narrow partner/work applicability."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "anti-discrimination-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 62,
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "primaryKind": "right-permission",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2667",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "abortion-ban-to-births",
+        "abortion-ban-to-infant-deaths"
+      ]
+    },
+    {
+      "catalogIndex": 63,
+      "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "institution-rule"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2713",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "library-funding-to-math",
+        "library-funding-to-reading"
+      ]
+    },
+    {
+      "catalogIndex": 64,
+      "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [
+        "right-permission"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2756",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "library-materials-to-reading"
+      ]
+    },
+    {
+      "catalogIndex": 65,
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "tax"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2805",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/parks-dedication.ts:57",
+        "consumer": "src/simulation/public-budgets/month.ts:378",
+        "savedSurfaceAndLimit": "Monthly parks spending; drawn/estimated amount remains separate held repair."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 66,
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [
+        "right-permission",
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2853",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:378",
+        "consumer": "src/simulation/public-budgets/month.ts:713",
+        "savedSurfaceAndLimit": "Monthly administration spending; rules.ts228/242 fixed fiscal-note terms, not actual privacy workload."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "privacy-law-to-earnings"
+      ]
+    },
+    {
+      "catalogIndex": 67,
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "institution-rule"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2892",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "facial-recognition-limit-to-crime"
+      ]
+    },
+    {
+      "catalogIndex": 68,
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [
+        "right-permission",
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2933",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:378",
+        "consumer": "src/simulation/public-budgets/month.ts:713",
+        "savedSurfaceAndLimit": "Monthly administration spending; rules.ts228/242 fixed fiscal-note terms, not actual privacy workload."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "social-media-age-check-to-graduation"
+      ]
+    },
+    {
+      "catalogIndex": 69,
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:29",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-outlay-laws.ts:50",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:281",
+        "savedSurfaceAndLimit": "Treasury outlay/debt and state federal-aid factors; fixed aggregate terms, no named aid recipient."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "federal-deficit-to-borrowing-cost"
+      ]
+    },
+    {
+      "catalogIndex": 70,
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "primaryKind": "tax",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:63",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/federal-top-income-tax-law.ts:73",
+        "consumer": "src/simulation/statutory-tax.ts:330",
+        "savedSurfaceAndLimit": "Federal income tax liability/withholding and treasury receipts; nationwide firing unmeasured."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "top-income-tax-rate-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 71,
+      "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "primaryKind": "price-cost",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:101",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "federal-loan-cap-to-high-cost-loans"
+      ]
+    },
+    {
+      "catalogIndex": 72,
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:144",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-defense-spending.ts:59",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:171",
+        "savedSurfaceAndLimit": "Treasury defense outlays and aggregate earnings; fixed growth separately assigned repair."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "defense-contracts-to-earnings"
+      ]
+    },
+    {
+      "catalogIndex": 73,
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:176",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-outlay-laws.ts:50",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:281",
+        "savedSurfaceAndLimit": "Treasury outlay/debt and state federal-aid factors; fixed aggregate terms, no named aid recipient."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "federal-deficit-to-borrowing-cost"
+      ]
+    },
+    {
+      "catalogIndex": 74,
+      "questionKey": "us-federal-positions:trade.raise-tariffs",
+      "primaryKind": "tax",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:215",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "tariffs-to-prices"
+      ]
+    },
+    {
+      "catalogIndex": 75,
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:248",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "more-immigration-to-workforce",
+        "immigration-to-crime"
+      ]
+    },
+    {
+      "catalogIndex": 76,
+      "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "primaryKind": "price-cost",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:291",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "drug-negotiation-to-out-of-pocket"
+      ]
+    },
+    {
+      "catalogIndex": 77,
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:330",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "retirement-age-to-older-work",
+        "retirement-age-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 78,
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "primaryKind": "price-cost",
+      "additionalKinds": [
+        "coverage-eligibility"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:369",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "student-debt-relief-to-finances",
+        "student-loan-forgiveness-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 79,
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "primaryKind": "pay",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:407",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/minimum-wage.ts:344",
+        "consumer": "src/simulation/living-world/town-pay.ts:961",
+        "savedSurfaceAndLimit": "Pay flow terms then transfers; federal reader143 and city reader424;1267 outsidee318 not certified."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "federal-minimum-wage-to-poverty",
+        "federal-minimum-wage-to-low-wage-jobs"
+      ]
+    },
+    {
+      "catalogIndex": 80,
+      "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "primaryKind": "coverage-eligibility",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:445",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "housing-vouchers-to-homelessness",
+        "housing-vouchers-to-graduation",
+        "housing-vouchers-to-crime"
+      ]
+    },
+    {
+      "catalogIndex": 81,
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:479",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "federal-rail-expansion-to-riders"
+      ]
+    },
+    {
+      "catalogIndex": 82,
+      "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "tax"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:517",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "power-plant-carbon-to-emissions",
+        "power-plant-carbon-to-particulates"
+      ]
+    },
+    {
+      "catalogIndex": 83,
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:555",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-farm-subsidy-law.ts:44",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:155",
+        "savedSurfaceAndLimit": "Treasury agriculture outlay and aggregate values; no individual farmer payment proved."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "farm-payments-cut-to-land-values"
+      ]
+    },
+    {
+      "catalogIndex": 84,
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "primaryKind": "service-delivered",
+      "additionalKinds": [
+        "price-cost"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:593",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 85,
+      "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "primaryKind": "legal-outcome",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:632",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "mandatory-minimum-cut-to-federal-prisoners",
+        "federal-mandatory-minimums-to-crime"
+      ]
+    },
+    {
+      "catalogIndex": 86,
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "legal-outcome"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:671",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "congress-stock-ban-to-member-returns"
+      ]
+    },
+    {
+      "catalogIndex": 87,
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "primaryKind": "price-cost",
+      "additionalKinds": [
+        "right-permission"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:705",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/federal-data-privacy-law.ts:62",
+        "consumer": "src/simulation/living-world/town-finances.ts:1052",
+        "savedSurfaceAndLimit": "Business lastQuarterPrivacyCost and balances; reader called726, actual workload missing."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 88,
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [
+        "right-permission"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:749",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/governing/statehood-admission.ts:60",
+        "consumer": "src/simulation/living-world/statehood-seats.ts:280",
+        "savedSurfaceAndLimit": "DC seat term events via writeTerms183; congress-turnover1230 caller; first seating hardwired."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 89,
+      "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
+      "primaryKind": "pay",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2976",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/minimum-wage.ts:344",
+        "consumer": "src/simulation/living-world/town-pay.ts:961",
+        "savedSurfaceAndLimit": "Pay flow terms then transfers; federal reader143 and city reader424;1267 outsidee318 not certified."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 90,
+      "questionKey": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "primaryKind": "right-permission",
+      "additionalKinds": [
+        "pay",
+        "legal-outcome"
+      ],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:3016",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/fairness-pay-law.ts:126",
+        "consumer": "src/simulation/living-world/town-pay.ts:732",
+        "savedSurfaceAndLimit": "Initial compensation terms then payroll; city reader141, narrow partner/work applicability."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": [
+        "city-anti-discrimination-to-poverty"
+      ]
+    },
+    {
+      "catalogIndex": 91,
+      "questionKey": "us-policy-positions:government-operations.council-term-limits",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:3079",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "authority-downstream",
+        "reader": "src/simulation/living-world/local-council-term-limits.ts:60",
+        "consumer": "src/simulation/living-world/local-elections.ts:912",
+        "savedSurfaceAndLimit": "Read-only candidate bar then election participation state; no executed bar proof."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    },
+    {
+      "catalogIndex": 92,
+      "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
+      "primaryKind": "institution-rule",
+      "additionalKinds": [],
+      "assignmentStatus": "INFERRED design classification; not implemented handler acceptance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:3120",
+      "catalogAtHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "priorWriterInspectionHead": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "priorWriterInspection": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-wards.ts:277",
+        "consumer": "src/simulation/living-world/local-elections.ts:1322",
+        "savedSurfaceAndLimit": "Ward map events via town-wards367; local commission differs from state district-map question."
+      },
+      "runtimeChecksForThisMap": 0,
+      "candidateOnwardLinkKeys": []
+    }
+  ],
+  "limits": [
+    "Primary kinds are design assignments, not certification that each law has operative numeric terms or supported selector.",
+    "Multiple rows/kinds can be required by one law; primary count does not forbid secondary consequences.",
+    "Prior per-law writer findings retain original source head and are not newly executed/reverified D9 acceptance.",
+    "No new per-law month/index hooks or second engine.",
+    "Eight-kind implementation is still absent at inspected D9 head."
+  ]
+}

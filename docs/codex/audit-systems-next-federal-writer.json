@@ -1,0 +1,97 @@
+{
+  "productionHead": "b0fb2464f682f72e6a970a87b353074fa530034f",
+  "method": "Pinned source and existing Team1 receipt, read-only; no runtime proof",
+  "existingWriterChain": {
+    "appropriation": "src/simulation/governing/public-program.ts:447",
+    "authority": "src/simulation/governing/public-program.ts:508",
+    "commitment": "src/simulation/governing/public-program.ts:819",
+    "settlement": "src/simulation/governing/public-program.ts:970",
+    "handler": "src/simulation/governing/public-program.ts:1303",
+    "ledger": "src/simulation/federal-cost-ledger.ts:25",
+    "treasury": "src/simulation/public-budgets/federal-treasury.ts:344"
+  },
+  "nextAdapter": {
+    "domain": "defense procurement",
+    "status": "PROPOSED, CONDITIONAL, NOT READY",
+    "supportedEndpoint": "organization",
+    "missing": [
+      "filed canonical source measure and operative terms",
+      "program/delegated spending authority",
+      "procurement qualification and actual goods/work units",
+      "agreed supported unit prices and installment schedule",
+      "existing verified recipient organization/payment endpoint",
+      "functional outlay classification and baseline/proxy reconciliation"
+    ],
+    "newAmountOrRecipientSelected": false
+  },
+  "ledgerAlreadyMerged": true,
+  "genericProviderIsFictional": "src/simulation/governing/program-governing.ts:1067",
+  "classification": {
+    "passenger-rail": "transportation",
+    "allOtherProgramKeys": "otherPrograms"
+  },
+  "historicalEvidence": {
+    "path": "docs/codex/effect-batches/team-1/federal-cost-batch-progress.md",
+    "status": "HISTORICAL, not new-main execution",
+    "controlledRailUSD": {
+      "authority": 150000,
+      "payment": 100000,
+      "remainingAccount": 50000
+    },
+    "completeFivePartsCount": 0,
+    "lawDenominator": 20,
+    "reportedPriorTestsPassed": 29,
+    "reportedPriorTestDenominator": 29,
+    "observerWorldCount": 5,
+    "places": [
+      "Norman, North Carolina",
+      "Cottonwood, California",
+      "Lakewood, New Jersey",
+      "Sellers, South Carolina",
+      "Doe Valley, Kentucky"
+    ]
+  },
+  "limits": [
+    "No further ready adapter proved by inspected source",
+    "No ordinary sponsor/beneficiary production proof",
+    "Actual payment alone does not establish procurement delivery or rider service",
+    "Additive Treasury accounting does not replace legacy proxy automatically"
+  ],
+  "concreteNextBuild": {
+    "domain": "DC statehood first-admission seat attribution",
+    "status": "PROPOSED READY EXISTING-WRITER SCOPE",
+    "canonicalKey": "us-federal-positions:territories-culture.statehood-for-dc",
+    "place": "DC",
+    "addedHouseSeats": 1,
+    "addedSenateSeats": 2,
+    "admissionStageDays": [
+      60,
+      30,
+      90
+    ],
+    "totalHardwiredAdmissionDays": 180,
+    "lawReader": "src/simulation/governing/statehood-admission.ts:53",
+    "writer": "src/simulation/living-world/statehood-seats.ts:209",
+    "firstAdmissionCaller": "src/simulation/living-world/statehood-seats.ts:302",
+    "turnoverCaller": "src/simulation/living-world/congress-turnover.ts:1230",
+    "seatConsumer": "src/simulation/living-world/congress.ts:284",
+    "stampHelper": "src/simulation/law-effect-stamp.ts:40",
+    "storage": "src/simulation/history.ts:447",
+    "requiredChange": "Retain triggering LawInForce and stamp existing initial tenure events",
+    "preserve": [
+      "existing hardwired admission schedule",
+      "Delegate conversion",
+      "fictional senator generation and caucus projection",
+      "person and seat identities",
+      "dates and idempotence"
+    ],
+    "excluded": [
+      "cost claims",
+      "actual election/certification proof",
+      "later reelection term attribution",
+      "historical backfill without lineage",
+      "new persons or events invented by this report"
+    ],
+    "newMainRuntimeVerified": false
+  }
+}

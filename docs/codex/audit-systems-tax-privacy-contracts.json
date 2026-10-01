@@ -1,0 +1,215 @@
+{
+  "schema": "audit-systems-tax-privacy-contracts/v1",
+  "sourcePin": "b0fb2464f682f72e6a970a87b353074fa530034f",
+  "scope": "bounded source diagnosis, no runtime proof",
+  "rows": [
+    {
+      "key": "law-answer",
+      "source": "src/simulation/governing/law-in-force.ts:76",
+      "state": "existing",
+      "contract": "answer, measureId, origin, level, operativeAt, operativeBasis; no numeric terms",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "numeric-tax-terms",
+      "source": "src/simulation/tax-types.ts:35",
+      "state": "existing",
+      "contract": "integer rate fraction; monetary allowance; currency; collectionLagDays",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "proposal",
+      "source": "src/simulation/tax-policy.ts:190",
+      "state": "existing",
+      "contract": "actual sponsored revenue measure; exact supported power/profile and TaxTerms",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "typed-enactment-date",
+      "source": "src/simulation/tax-policy-activation.ts:14",
+      "state": "existing",
+      "contract": "filed typed identity and prospective tax date",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "activation-readiness",
+      "source": "src/simulation/tax-policy-activation.ts:39",
+      "state": "existing",
+      "contract": "reject missing enactment, changed text, late activation",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "adopt-policy",
+      "source": "src/simulation/tax-policy.ts:376",
+      "state": "existing",
+      "contract": "enactment plus unchanged levy; prospective policy version",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "operative-policy",
+      "source": "src/simulation/tax-policy.ts:473",
+      "state": "existing",
+      "contract": "policy selected for occurrence date and series",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "tax-base",
+      "source": "src/simulation/tax-policy.ts:533",
+      "state": "existing",
+      "contract": "payer, currency minor units, current occurrence source event",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "assessment",
+      "source": "src/simulation/tax-policy.ts:577",
+      "state": "existing",
+      "contract": "frozen effective policy; half-up amount; due-date scheduling",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "collection",
+      "source": "src/simulation/tax-policy.ts:630",
+      "state": "existing",
+      "contract": "collected/zero/blocked; canonical resource transfer",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "cannabis-adapter",
+      "source": null,
+      "state": "proposed-missing",
+      "contract": "law identity + supported numeric terms + actual supported monetary sale occurrence",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "privacy-share",
+      "source": "src/simulation/federal-data-privacy-law.ts:35",
+      "state": "existing-shortcut",
+      "contract": "dimensionless seeded share 0.001\u20130.006",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "privacy-authority",
+      "source": "src/simulation/federal-data-privacy-law.ts:50",
+      "state": "existing",
+      "contract": "enacted federal yes; business-compliance-cost stamp",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "privacy-accounting",
+      "source": "src/simulation/living-world/town-finances.ts:1008",
+      "state": "existing-shortcut",
+      "contract": "annualized payroll + annual other costs times share /4; books dollars at opening price basis",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "privacy-saved-books",
+      "source": "src/simulation/living-world/town-finances.ts:1052",
+      "state": "existing",
+      "contract": "lastQuarterPrivacyCost and organization-linked law stamps",
+      "runtimeVerification": "not run"
+    },
+    {
+      "key": "privacy-workload",
+      "source": null,
+      "state": "proposed-missing-in-inspected-seam",
+      "contract": "actual obligation, processing/retention inventory, measured completed work, compatible price basis and source identity",
+      "runtimeVerification": "not run"
+    }
+  ],
+  "absentRequestedFiles": [
+    "src/simulation/enacted-tax-policy.ts",
+    "src/simulation/legislation-tax-families.ts"
+  ],
+  "publishedContracts": [
+    {
+      "path": "docs/codex/effect-batches/team-4/preserved-cannabis-checkpoint.json:112",
+      "meaning": "declarations do not establish real numeric terms"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-4/team1-federal-privacy-boundary.json:10",
+      "meaning": "existing Team1 privacy accounting boundary"
+    }
+  ],
+  "preservedExample": {
+    "path": "docs/codex/effect-batches/team-1/privacy-five-state-proof.json:7",
+    "firm": "Wilkins Cleaning",
+    "place": "Yorketown, New Jersey",
+    "privacyQuarterCostDollars": 494.91,
+    "beforeNetDollars": 8121.71,
+    "afterNetDollars": 7626.8,
+    "share": 0.005004712892347015,
+    "proofLimit": "controlled federal fixture; no exported completed privacy work",
+    "receiptClassification": "historical controlled-fixture receipt preserved unchanged; not renewed runtime proof"
+  },
+  "newRuntimeRuns": 0,
+  "productionEdits": 0,
+  "gitMutations": 0,
+  "renewal": {
+    "previousSourcePin": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+    "renewedSourcePin": "b0fb2464f682f72e6a970a87b353074fa530034f",
+    "checkedFiles": [
+      {
+        "path": "src/simulation/federal-data-privacy-law.ts",
+        "previousBlob": "071f5d6adcb5e629e39fb83d538ea610116019a0",
+        "renewedBlob": "071f5d6adcb5e629e39fb83d538ea610116019a0",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/tax-types.ts",
+        "previousBlob": "bd6a08454c91a5d5ce68fd92bbc32eee3f958a6c",
+        "renewedBlob": "bd6a08454c91a5d5ce68fd92bbc32eee3f958a6c",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/tax-policy.ts",
+        "previousBlob": "5e70c2df0b2db9f5f732d78d266829a0deaa7ee8",
+        "renewedBlob": "5e70c2df0b2db9f5f732d78d266829a0deaa7ee8",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/tax-policy-activation.ts",
+        "previousBlob": "236484726b090333ae5b9055e1b46910e2bb3a80",
+        "renewedBlob": "236484726b090333ae5b9055e1b46910e2bb3a80",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/governing/law-in-force.ts",
+        "previousBlob": "881c60b0a14438282bfe9833dbddbf106124bf5e",
+        "renewedBlob": "881c60b0a14438282bfe9833dbddbf106124bf5e",
+        "unchanged": true
+      },
+      {
+        "path": "src/simulation/living-world/town-finances.ts",
+        "previousBlob": "fc4c88b8147210dcba41250e2f0efa86cc4355d6",
+        "renewedBlob": "fc4c88b8147210dcba41250e2f0efa86cc4355d6",
+        "unchanged": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-4/preserved-cannabis-checkpoint.json",
+        "previousBlob": "fca832a2d78ceb0608cc50352677e8de30991b3f",
+        "renewedBlob": "fca832a2d78ceb0608cc50352677e8de30991b3f",
+        "unchanged": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json",
+        "previousBlob": "645f9b7247fd94db8403a49cc4b9a899dfb0f232",
+        "renewedBlob": "645f9b7247fd94db8403a49cc4b9a899dfb0f232",
+        "unchanged": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-4/team1-federal-privacy-boundary.json",
+        "previousBlob": "bc30a04745d27b4c6a6c1c9db9702659bd2b1096",
+        "renewedBlob": "bc30a04745d27b4c6a6c1c9db9702659bd2b1096",
+        "unchanged": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-1/privacy-five-state-proof.json",
+        "previousBlob": "a55348fd1a45eb6871b1913021e67e335acd6df2",
+        "renewedBlob": "a55348fd1a45eb6871b1913021e67e335acd6df2",
+        "unchanged": true
+      }
+    ],
+    "changedRelevantFiles": [],
+    "runtimeVerification": "No new runtime tests, worlds or audits; exact Git blob comparison only."
+  }
+}

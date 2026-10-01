@@ -1,0 +1,119 @@
+{
+  "productionHead": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "researchPacketHead": "a82a04fc079783e460e1867d5ccd59f83b90c8cb",
+  "placeBaseDefinitionCount": 40,
+  "requestedOutcomeCount": 7,
+  "semanticallyMatchingPlaceMeasureCount": 1,
+  "unverifiedSemanticMeasureCount": 6,
+  "outcomes": [
+    {
+      "requested": "literacy",
+      "verifiedMatchingMeasureKey": null,
+      "nonSubstituteExistingKeys": [
+        "school.reading-proficient-pct"
+      ],
+      "gap": "grade-eight reading is not preschool literacy"
+    },
+    {
+      "requested": "readiness",
+      "verifiedMatchingMeasureKey": null,
+      "nonSubstituteExistingKeys": [
+        "school.math-proficient-pct"
+      ],
+      "gap": "grade-eight math is not school-entry readiness"
+    },
+    {
+      "requested": "special-education",
+      "verifiedMatchingMeasureKey": null,
+      "nonSubstituteExistingKeys": [],
+      "gap": "policy topic is not assessment or service determination"
+    },
+    {
+      "requested": "grade-retention",
+      "verifiedMatchingMeasureKey": null,
+      "nonSubstituteExistingKeys": [],
+      "gap": "calendar grade is not retention decision"
+    },
+    {
+      "requested": "later-graduation",
+      "verifiedMatchingMeasureKey": "school.graduation-pct",
+      "nonSubstituteExistingKeys": [],
+      "gap": "four-year cohort place percentage is not named diploma"
+    },
+    {
+      "requested": "parent-work-hours",
+      "verifiedMatchingMeasureKey": null,
+      "nonSubstituteExistingKeys": [
+        "labor.mothers-participation"
+      ],
+      "gap": "link target is participation, not registered hours"
+    },
+    {
+      "requested": "paid-childcare-spending",
+      "verifiedMatchingMeasureKey": null,
+      "nonSubstituteExistingKeys": [
+        "government.outlays"
+      ],
+      "gap": "government fiscal total is not household childcare payments"
+    }
+  ],
+  "metricScopeContract": {
+    "file": "src/simulation/types.ts:1951",
+    "fields": [
+      "jurisdictionId",
+      "segmentKey"
+    ],
+    "personIdField": false,
+    "enrollmentIdField": false
+  },
+  "reusableRecordIdentities": [
+    "personId",
+    "organizationId",
+    "education-enrollment id",
+    "education-enrollment-state id",
+    "care-responsibility id",
+    "care-state id",
+    "work-relationship id",
+    "work-role id",
+    "resource-obligation id",
+    "resource-flow id",
+    "resource-transfer-outcome id"
+  ],
+  "writers": {
+    "enrollment": "src/simulation/life.ts:475",
+    "enrollmentState": "src/simulation/life.ts:554",
+    "care": "src/simulation/life.ts:1581",
+    "careState": "src/simulation/life.ts:1635",
+    "workRole": "src/simulation/life.ts:1247",
+    "obligation": "src/simulation/resources.ts:729",
+    "flow": "src/simulation/resources.ts:275",
+    "transfer": "src/simulation/resources.ts:442",
+    "metricState": "src/simulation/world-metrics.ts:523",
+    "metricObservation": "src/simulation/world-metrics.ts:550"
+  },
+  "actualPreschoolAttendanceProducerVerified": false,
+  "actualChildAssessmentProducerVerified": false,
+  "expectedWeeklyHoursAreAttendedHours": false,
+  "historicalNamedIdentityExample": {
+    "name": "Jennifer Conway",
+    "place": "Appomattox, Virginia",
+    "personId": "person_582419c97707ae44",
+    "organizationId": "organization_db872be35b730c07",
+    "workRelationshipId": "work-relationship_abdaf5d60ba2f43e",
+    "resourceFlowId": "resource-flow_2e3092fa55417a79",
+    "transferIds": [
+      "resource-transfer-outcome_a5fa436eaa3c3b90",
+      "resource-transfer-outcome_a5fd556eaa3e8ffd",
+      "resource-transfer-outcome_727720b8a98c8ed0"
+    ],
+    "amountEachCents": 224000,
+    "status": "HISTORICAL teacher pay; not preschool/parent-hours/childcare proof"
+  },
+  "coefficients": {
+    "newNationalCoefficient": null,
+    "newParentHoursCoefficient": null,
+    "newChildcareSpendingCoefficient": null
+  },
+  "runtimeExecuted": false,
+  "newTargetKeysCreated": []
+}

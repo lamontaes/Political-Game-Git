@@ -1,0 +1,572 @@
+{
+  "recipientThreadId": "01a0f364-0f5e-7172-b8a5-3792039aa0dc",
+  "coordinatorThreadId": "01a0caf8-edc5-76d0-8493-22551a2fa7b6",
+  "instruction": "Owner1:40 transfer; no new national run here; new lane first partials2:30",
+  "release": {
+    "status": "EXPLICITLY RELEASED",
+    "auditPid": null,
+    "matchingAuditProcesses": [],
+    "storageExecutionReservations": [],
+    "storageRegistryOwnership": "Workspace team-2 remains active registered; logical audit execution/path lease released to AUDIT/SYSTEMS; no registry ownership mutation",
+    "simulationStarted": false,
+    "checkpoint": null,
+    "processStopped": false,
+    "sourceReset": false
+  },
+  "workspace": {
+    "path": "/workspace/scratch/656ae98f7a9b/repo",
+    "registeredOwner": "team-2",
+    "role": "audit",
+    "localHead": "5383adbc9be121330144f3e11b1b2b8e9f2c9b04",
+    "dirty": "",
+    "localTree": "2ad6c3fb2f0ec0701b48467d9be51050804c8520",
+    "localProductionPin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+    "warning": "Local head is PREPARATION, NOT current main. New lane must pin actual main before run.",
+    "sparse": "Large artwork copies omitted; required art JSON manifests included; installed dependencies reused.",
+    "reserveBytes": 26843545600,
+    "testReservationEstimateBytes": 1073741824,
+    "installReservationEstimateBytes": 1610612736,
+    "protectedOutputRoot": "/workspace/scratch/656ae98f7a9b/repo/test-results/law-audit",
+    "originalEvidence": "All original source/evidence/pins retained; no cleanup"
+  },
+  "source": {
+    "originalRunnerPR": 1225,
+    "originalRunnerHead": "d10af9af0e61d6db201d994d53f5a50135e3b22c",
+    "collectorPR": 1284,
+    "originalCollectorHead": "6fcc211e72efe9841c386aa0d85428845f80d2d5",
+    "integratedCollectorHead": "0758d3c00b32b1c8f63206983ae6927da5a32ea3",
+    "collectorMerge": "9788c93136430c8ecacea80cd04446c2a69d290c",
+    "mergedAt": "2026-09-30T17:48:08Z",
+    "latestMainObserved": "afbf23cb9cbdd03a1993c96370b762ee0ca6fae6",
+    "collectorAncestryOnLatest": {
+      "status": "ahead",
+      "ahead": 7,
+      "behind": 0
+    },
+    "wagePR1267": {
+      "head": "ab2a5e691f68a708dc9f49a8e2c8d7d651cfc83d",
+      "merge": "afbf23cb9cbdd03a1993c96370b762ee0ca6fae6",
+      "mergedAt": "2026-09-30T17:49:19Z"
+    }
+  },
+  "preparation": {
+    "pr": 1285,
+    "head": "e53aef86b300a78d3abb1248696b57a279cabd4f",
+    "branch": "codex/team2-nationwide-current-main-1250",
+    "sourceFiles": [
+      {
+        "local": "/workspace/scratch/656ae98f7a9b/all56-orchestration.mjs",
+        "published": "docs/codex/law-audit/all56-1250-orchestration.mjs",
+        "sha256": "fff15b7cd7f0b94e2b4e5373b78111142119e2e598b4f39dd3b4ef6d063ae1ed"
+      },
+      {
+        "local": "/workspace/scratch/656ae98f7a9b/all56-worker.mts",
+        "published": "docs/codex/law-audit/all56-1250-worker.mts",
+        "sha256": "0fb53c587f9a20f80b8a0e657e2ea6e10f97027fba1e8ba17a5bf874d3fa7b41"
+      },
+      {
+        "local": "/workspace/scratch/656ae98f7a9b/repo/test-results/law-audit/all56-selection.json",
+        "published": "docs/codex/law-audit/all56-1250-selected-places.json"
+      }
+    ],
+    "selection": {
+      "count": 56,
+      "distinctStartingJurisdictions": 56,
+      "unincorporated": 18,
+      "worldSeeds": "Use authoritative selection JSON; selected using drawRandomPlace from all 56 real options.",
+      "months": 24,
+      "workers": 3
+    },
+    "plannedCommand": "OCD_WORKSPACE_OWNER=team-2 OCD_AUDIT_EXPECTED_MAIN=<verified-real-main> node scripts/storage/cli.mjs run test -- node --import tsx /workspace/scratch/656ae98f7a9b/all56-orchestration.mjs",
+    "commandExecuted": false,
+    "output": "test-results/law-audit/all56-current-main",
+    "driverOnlyModification": "Standalone copy of published run.ts with complete stamp coverage/grouped-law output and zero explanations; absolute imports point to exact workspace source. No producer changes. Adapt paths and disclose new digest if moved.",
+    "utilitySources": {
+      "report": "/workspace/scratch/656ae98f7a9b/all56-report.py",
+      "connectorCommitMaterialization": "/workspace/scratch/656ae98f7a9b/materialize-audit-main.py",
+      "typeCheck": "/workspace/scratch/656ae98f7a9b/collector-types.cjs"
+    }
+  },
+  "receipts": {
+    "pr1255": "3f9562a2d2d04628cbcdac6fa9d5dab6b0e53067",
+    "currentComparable": {
+      "production": "d6fb351926da2149ad0183e21463efad18b61df7",
+      "runtime": "7f2603b5a67f4baea06e8678601173777b4879e6",
+      "startedAt": "2026-09-30T16:34:08.927Z",
+      "command": "OCD_WORKSPACE_OWNER=team-2 node scripts/storage/cli.mjs run test -- node /workspace/scratch/656ae98f7a9b/rerun-two.mjs",
+      "GA": {
+        "place": "1382916",
+        "name": "Wildwood",
+        "months": 24,
+        "laws": 25,
+        "adapterRows": 58,
+        "unprovenOrLimited": 58,
+        "aboutZero": 0,
+        "attributedProducerStampedRows": 0
+      },
+      "NJ": {
+        "place": "3439360",
+        "name": "Laurence Harbor",
+        "months": 24,
+        "laws": 21,
+        "adapterRows": 54,
+        "unprovenOrLimited": 45,
+        "aboutZero": 0,
+        "attributedProducerStampedRows": 0
+      },
+      "scope": "Older sequenced-history-only collector omitted nested books and starting-law stamps. Zero attributed producer rows is not an absent-effect proof.",
+      "local": "test-results/law-audit/current-main-1218",
+      "publishedPrefix": "docs/codex/law-audit/current-main-1218-",
+      "actualManifest": {
+        "startedAt": "2026-09-30T16:34:08.927Z",
+        "source": "7f2603b5a67f4baea06e8678601173777b4879e6",
+        "productionMain": "d6fb351926da2149ad0183e21463efad18b61df7",
+        "runnerOrigin": "d10af9af0e61d6db201d994d53f5a50135e3b22c",
+        "modifications": "Six byte-identical audit files only; production tree hash verified against main plus these blobs.",
+        "months": 24,
+        "mergedWriters": [
+          {
+            "pr": 1244,
+            "merge": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+            "kind": "Medicaid coverage"
+          },
+          {
+            "pr": 1256,
+            "merge": "6f3c2cdcabb2c03518f4d9787f835ddb0a50d385",
+            "kind": "Federal withholding"
+          },
+          {
+            "pr": 1261,
+            "merge": "ea5f51aefe4aad8fed1e2b587867c804ef01f5b2",
+            "kind": "Federal privacy costs"
+          }
+        ],
+        "worlds": [
+          {
+            "state": "GA",
+            "place": "1382916",
+            "name": "Wildwood, Georgia",
+            "unincorporated": true,
+            "seed": "team2-national-20260930-1131-1",
+            "output": "test-results/law-audit/current-main-1218/world-ga",
+            "status": "COMPLETED",
+            "command": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+              "--max-old-space-size=8192",
+              "--import",
+              "tsx",
+              "scripts/law-audit/run.ts",
+              "--seed",
+              "team2-national-20260930-1131-1",
+              "--place",
+              "1382916",
+              "--months",
+              "24",
+              "--out",
+              "test-results/law-audit/current-main-1218/world-ga"
+            ],
+            "pid": 42,
+            "exitCode": 0,
+            "finishedAt": "2026-09-30T16:43:48.452Z"
+          },
+          {
+            "state": "NJ",
+            "place": "3439360",
+            "name": "Laurence Harbor, New Jersey",
+            "unincorporated": true,
+            "seed": "team2-national-20260930-1131-2",
+            "output": "test-results/law-audit/current-main-1218/world-nj",
+            "status": "COMPLETED",
+            "command": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+              "--max-old-space-size=8192",
+              "--import",
+              "tsx",
+              "scripts/law-audit/run.ts",
+              "--seed",
+              "team2-national-20260930-1131-2",
+              "--place",
+              "3439360",
+              "--months",
+              "24",
+              "--out",
+              "test-results/law-audit/current-main-1218/world-nj"
+            ],
+            "pid": 43,
+            "exitCode": 0,
+            "finishedAt": "2026-09-30T16:44:41.966Z"
+          }
+        ],
+        "limits": [
+          "Only enacted-law consequences after opening are attributed by this unchanged reader; starting-law stamps fall outside these rows.",
+          "Producer stamps alone do not prove physical effects.",
+          "Missing trace is not absent effect.",
+          "Old 7c24983 receipts remain historical and separately preserved."
+        ],
+        "finishedAt": "2026-09-30T16:44:41.966Z"
+      }
+    },
+    "priorBatch": {
+      "production": "7c24983ff3320129f257d66ee497831e29d53cfc",
+      "runtime": "88a294907c57a45149bf417128488e5d1375607f",
+      "seed": "team2-national-20260930-1131",
+      "command": "OCD_WORKSPACE_OWNER=team-2 node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx scripts/law-audit/run-nationwide.ts --seed team2-national-20260930-1131 --months 24 --out test-results/law-audit/national-1131-retry",
+      "completed": [
+        "Georgia",
+        "New Jersey",
+        "Florida",
+        "Rhode Island"
+      ],
+      "NC": {
+        "place": "3737680",
+        "name": "Leland",
+        "lastCheckpointMonths": 4,
+        "lastDate": "2026-05-05",
+        "enactments": 20,
+        "status": "Execution session lost; no completion/save resume claimed"
+      },
+      "local": "test-results/law-audit/national-1131-retry",
+      "publishedPrefix": "docs/codex/law-audit/national-1131-",
+      "actualManifest": {
+        "head": "88a294907c57a45149bf417128488e5d1375607f",
+        "dirty": "",
+        "months": 24,
+        "worlds": [
+          {
+            "seed": "team2-national-20260930-1131-1",
+            "place": "1382916",
+            "startingState": "US-GA",
+            "startingPlace": "Wildwood, Georgia",
+            "unincorporated": true,
+            "output": "test-results/law-audit/national-1131-retry/world-1",
+            "status": "COMPLETED",
+            "exitCode": 0
+          },
+          {
+            "seed": "team2-national-20260930-1131-2",
+            "place": "3439360",
+            "startingState": "US-NJ",
+            "startingPlace": "Laurence Harbor, New Jersey",
+            "unincorporated": true,
+            "output": "test-results/law-audit/national-1131-retry/world-2",
+            "status": "COMPLETED",
+            "exitCode": 0
+          },
+          {
+            "seed": "team2-national-20260930-1131-3",
+            "place": "1212150",
+            "startingState": "US-FL",
+            "startingPlace": "Chokoloskee, Florida",
+            "unincorporated": true,
+            "output": "test-results/law-audit/national-1131-retry/world-3",
+            "status": "COMPLETED",
+            "exitCode": 0
+          },
+          {
+            "seed": "team2-national-20260930-1131-4",
+            "place": "4474300",
+            "startingState": "US-RI",
+            "startingPlace": "Warwick, Rhode Island",
+            "unincorporated": false,
+            "output": "test-results/law-audit/national-1131-retry/world-4",
+            "status": "COMPLETED",
+            "exitCode": 0
+          },
+          {
+            "seed": "team2-national-20260930-1131-5",
+            "place": "3737680",
+            "startingState": "US-NC",
+            "startingPlace": "Leland, North Carolina",
+            "unincorporated": false,
+            "output": "test-results/law-audit/national-1131-retry/world-5",
+            "status": "RUNNING",
+            "exitCode": null
+          }
+        ],
+        "limits": [
+          "Every world covers all enacted jurisdictions, not only its starting state.",
+          "Running or failed worlds are not complete audit evidence.",
+          "Prior unstamped receipts are separate; a stamp alone is not proof."
+        ]
+      }
+    },
+    "historicalOnly": "Old runtime prefix5dcf11f30 WA19laws/50records/42unproven and NC22/52/49unproven+2aboutzero are historical, never current-main proof.",
+    "immutablePublishedFiles": [
+      {
+        "path": "docs/codex/law-audit/current-main-1218-manifest.json",
+        "sha": "5d0c068df14cdb0c967cef69f33cb730b3e7cbe3"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-orchestration.mjs",
+        "sha": "69d9fe27bfab7bf0f8fd4fa6f51afb00075e5a35"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-start-manifest.json",
+        "sha": "c35d954a6cc2a8298b1a1f4c416dae38e9df32a1"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-summary.json",
+        "sha": "cf88a81387be686b1fab3633920122b8f2878bb6"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-summary.md",
+        "sha": "b104bb80756c5ea8e284908fea915fe05675428f"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-ga.checkpoint.json",
+        "sha": "b720c55cdd463239c387612a5b638973f9a61522"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-ga.json",
+        "sha": "1c79667fcfe842eec7a7044c11f27f2502db1b43"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-ga.log",
+        "sha": "2f543377ba0ddacc1df712dcf60c299bc962e618"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-ga.md",
+        "sha": "b905a662bcc1c45ccb8391551eb81a20f2db931a"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-nj.checkpoint.json",
+        "sha": "c0ffb2d34c5068092bfd313ac99e6a64658f2df0"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-nj.json",
+        "sha": "7b4ddc0e112bf788f07150530e3949f1919c0f17"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-nj.log",
+        "sha": "4b8d04bb5e3a6d686e3534ca0ed94e0879adefc4"
+      },
+      {
+        "path": "docs/codex/law-audit/current-main-1218-world-nj.md",
+        "sha": "0dfbd801b35b41518e89898d0bbdedd751f63cf7"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-deadline-manifest.json",
+        "sha": "7689e8979b85aa107516fcc873870d6d3c359a48"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-deadline-summary.json",
+        "sha": "189f93809909fd247f231640de36939d3a12d024"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-deadline-summary.md",
+        "sha": "b6b8d0dd480b203b18ad55060ce3308aeac4950b"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-manifest.json",
+        "sha": "418dece2f387f97d938d657cdf37b568539b2a87"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-start-and-failure-receipt.json",
+        "sha": "ac763746de2499c9fb667d562bebbf22b6fa3414"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-1.checkpoint.json",
+        "sha": "48f378fe1dda1bf051323e3adea402198eb8d90d"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-1.json",
+        "sha": "cb90bbc778ea33b4e2a63fa6f378570fcc0c256b"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-1.log",
+        "sha": "867adcc787869ef62abd4ea27c7bece800b7f8c3"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-1.md",
+        "sha": "0cacd5fafedbe831c15a8f4b6f4b2de1ae689a34"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-2.checkpoint.json",
+        "sha": "5f29c96ad839449f126eb88c2d435851a156a443"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-2.json",
+        "sha": "e653084e608cd9f6614bd7349ab853d3bf5b70f2"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-2.log",
+        "sha": "890978e85666f224332108f441cdfd4964277ea2"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-2.md",
+        "sha": "bcadf9d6c55e30620ff9b96709a75bf9bfbc190b"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-3.checkpoint.json",
+        "sha": "06aace7034845b44a5f6e1c27538707a858b41eb"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-3.json",
+        "sha": "e6dcd73a712f02f1204d5a1ec2af912abcd82a92"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-3.log",
+        "sha": "4f6bdbdb98b9ccb6bcc001a134942455984e511b"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-3.md",
+        "sha": "31051731522e4a50ab7dc871ceeda616d1e8d9c7"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-4.checkpoint.json",
+        "sha": "065d48c09fe8b84e975b04d387023e697051c9e5"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-4.json",
+        "sha": "70ecb2abf6ca1648a8026222d44365fd98969a77"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-4.log",
+        "sha": "ecfd88dcaa72b4dc4538679638195aa4e2a63a32"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-4.md",
+        "sha": "d8e1f11a3f6166a914b9348523aff910f6c56829"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-5.checkpoint.json",
+        "sha": "1cb5d689ebabcd09a075ef7e03d14b6e694a4d63"
+      },
+      {
+        "path": "docs/codex/law-audit/national-1131-world-5.log",
+        "sha": "06636f52b61d86d0c20e8936bd63b00762d298db"
+      }
+    ]
+  },
+  "weightedComparison": {
+    "productionSource": "80dba335a62f77d6a45c38919105991658ccf1de",
+    "runnerSource": "762b030224533dbc5a4bbb838de6386924b10eb8",
+    "publishedHead": "f4022d0e38e28430ee6df4d5d697560267122f56",
+    "pr": 1286,
+    "seed": "team2-georgia-weight-comparison-20260930",
+    "placeName": "Abbeville, Georgia",
+    "generatedBills": 0,
+    "authoredProbes": 68,
+    "paired": 12240,
+    "changedDispositions": 76,
+    "yeaNayDirectionFlips": 0,
+    "examples": [
+      {
+        "law": "Limit legislative terms",
+        "personId": "person_cf1858aa65454ab9",
+        "name": "Cameron Salas",
+        "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+        "unweighted": {
+          "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+          "personId": "person_cf1858aa65454ab9",
+          "disposition": "present-not-voting",
+          "reason": "member:no-reason"
+        },
+        "weighted": {
+          "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+          "personId": "person_cf1858aa65454ab9",
+          "disposition": "yea",
+          "reason": "member:principle:for"
+        },
+        "leanings": [
+          {
+            "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+            "answer": "yes",
+            "unweighted": {
+              "score": 0,
+              "recordIds": [
+                "principle_69d752b750f94204",
+                "principle_13551dd89a820f24"
+              ]
+            },
+            "weighted": {
+              "score": 0.3500000000000001,
+              "recordIds": [
+                "principle_69d752b750f94204",
+                "principle_13551dd89a820f24"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "law": "Restrict abortion",
+        "personId": "person_cf1858aa65454ab9",
+        "name": "Cameron Salas",
+        "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+        "unweighted": {
+          "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+          "personId": "person_cf1858aa65454ab9",
+          "disposition": "present-not-voting",
+          "reason": "member:no-reason"
+        },
+        "weighted": {
+          "memberKey": "us-ga-legislature-profile-v1:house:seat:2",
+          "personId": "person_cf1858aa65454ab9",
+          "disposition": "yea",
+          "reason": "member:principle:for"
+        },
+        "leanings": [
+          {
+            "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+            "answer": "yes",
+            "unweighted": {
+              "score": 0,
+              "recordIds": [
+                "principle_13551dd89a820f24",
+                "principle_69d752b750f94204"
+              ]
+            },
+            "weighted": {
+              "score": 0.2625000000000002,
+              "recordIds": [
+                "principle_13551dd89a820f24",
+                "principle_69d752b750f94204"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "Paired decision replay, not recorded floor votes or passage.",
+      "Probe bills are explicitly authored and have no sponsor.",
+      "Only catalog weights actually present at the pinned merged source are used.",
+      "No nationwide audit or money-effect proof is run here."
+    ]
+  },
+  "validation": {
+    "ownFocused": "8/8 PASS11.46s; repeated composed-catalog8/8PASS12.73s",
+    "strict": "3changed roots0diagnostics",
+    "style": "Scoped ESLint/Prettier/whitespace/report0errors0warnings",
+    "mergeRunnerEvidence": "Merge independently8/8PASS10.47s,5effectiveTSroots0diagnostics/lint/ownformat;24historicalgeneratedformat failures inherited unchanged, not reformatted.",
+    "notRun": [
+      "full suite",
+      "new nationwide execution",
+      "speed acceptance",
+      "save/reopen",
+      "helper review"
+    ]
+  },
+  "preservedBlocks": [
+    "Network access to \"https://github.com:443\" was blocked by policy.",
+    "GitHub recursive tree lookup: Transport closed; directory/blob connector reads used.",
+    "Large shell source argument rejected: Argument list too long; chunked base64 source transfer used.",
+    "ps lookup failed: fatal library error, lookup self; /proc exact-argv verification used."
+  ],
+  "presentation": {
+    "short": "Countrywide observed totals per law, few independently sampled representative state/town/person examples",
+    "raw": "Preserve full56jurisdiction rawJSON/MD/CLI/checkpoints; source labels starting/enacted",
+    "limits": [
+      "Stamp alone is no consequence.",
+      "Canonical law/source/operative/application dates must match.",
+      "Unobserved/rejected stores or missing trace do not establish absent effects.",
+      "Authority/payment/service adapter positives are distinct from producer stamped mechanisms.",
+      "Named money fields are not summed into fabricated law-caused costs.",
+      "Independent watched-world observations are not one synthetic country's money totals.",
+      "Example selection reads sealed receipts only and never changes worlds."
+    ]
+  },
+  "generatedAt": "2026-09-30T17:55:00Z",
+  "generatedAtPrecision": "Packet assembled around transfer; latest verification timestamps are separately preserved"
+}

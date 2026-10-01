@@ -1,0 +1,457 @@
+{
+  "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "seed": "setup-v3:ec7295c08cf01a03:{\"v\":3,\"seed\":\"member-agenda-US-AK\",\"placeKey\":\"0200065\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+  "place": "Adak, Alaska",
+  "placeKey": "0200065",
+  "stage": "same fixture opening and sponsor selector; zero days advanced, no compiler/filing/enactment/program payment invoked",
+  "members": 40,
+  "selectorThreshold": 3,
+  "qualifying": 0,
+  "positive": 11,
+  "zero": 29,
+  "negative": 0,
+  "maximum": 1.575,
+  "minimum": 0,
+  "top": [
+    {
+      "personId": "person_a5c665cb3ea06c0c",
+      "name": "Samir Weiss",
+      "score": 1.575,
+      "recordIds": [
+        "principle_a971989b2394ae71"
+      ],
+      "records": [
+        {
+          "stableKey": "life-principles/v1:person_a5c665cb3ea06c0c:collective-provision:2026-01-05:362",
+          "personId": "person_a5c665cb3ea06c0c",
+          "principleId": "principle-definition_d8e971f494b67a61",
+          "formedAt": "2026-01-05",
+          "stance": "endorses",
+          "strength": 0.4375,
+          "conviction": "tentative",
+          "flexibility": "negotiable",
+          "qualification": null,
+          "formation": {
+            "reason": "experience:life",
+            "relevantEventIds": [],
+            "sourceFactIds": [
+              "fact_d5308f1c87858d2c"
+            ],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": [],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Formed from their life (life-principles/v1): for: they work in public service; for: they came of age after 2000. Continuous support 0.4375; weights are developer-authored stand-ins."
+          },
+          "supersedesPrincipleRecordId": null,
+          "id": "principle_a971989b2394ae71",
+          "sequence": 362
+        }
+      ]
+    },
+    {
+      "personId": "person_cf09a29845c0aa11",
+      "name": "Lily Gibson",
+      "score": 1.575,
+      "recordIds": [
+        "principle_077e95c573c65df1"
+      ],
+      "records": [
+        {
+          "stableKey": "life-principles/v1:person_cf09a29845c0aa11:collective-provision:2026-01-05:362",
+          "personId": "person_cf09a29845c0aa11",
+          "principleId": "principle-definition_d8e971f494b67a61",
+          "formedAt": "2026-01-05",
+          "stance": "endorses",
+          "strength": 0.4375,
+          "conviction": "tentative",
+          "flexibility": "negotiable",
+          "qualification": null,
+          "formation": {
+            "reason": "experience:life",
+            "relevantEventIds": [],
+            "sourceFactIds": [
+              "fact_ba9b672ed42d733c"
+            ],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": [],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Formed from their life (life-principles/v1): for: they work in public service; for: they came of age after 2000. Continuous support 0.4375; weights are developer-authored stand-ins."
+          },
+          "supersedesPrincipleRecordId": null,
+          "id": "principle_077e95c573c65df1",
+          "sequence": 363
+        }
+      ]
+    },
+    {
+      "personId": "person_ea8912c0078c74d8",
+      "name": "Shannon Moran",
+      "score": 1.575,
+      "recordIds": [
+        "principle_34d3dd9b923a1797"
+      ],
+      "records": [
+        {
+          "stableKey": "life-principles/v1:person_ea8912c0078c74d8:collective-provision:2026-01-05:362",
+          "personId": "person_ea8912c0078c74d8",
+          "principleId": "principle-definition_d8e971f494b67a61",
+          "formedAt": "2026-01-05",
+          "stance": "endorses",
+          "strength": 0.4375,
+          "conviction": "tentative",
+          "flexibility": "negotiable",
+          "qualification": null,
+          "formation": {
+            "reason": "experience:life",
+            "relevantEventIds": [],
+            "sourceFactIds": [
+              "fact_73baccc8c823f5ee"
+            ],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": [],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Formed from their life (life-principles/v1): for: they work in public service; for: they came of age after 2000. Continuous support 0.4375; weights are developer-authored stand-ins."
+          },
+          "supersedesPrincipleRecordId": null,
+          "id": "principle_34d3dd9b923a1797",
+          "sequence": 364
+        }
+      ]
+    }
+  ],
+  "allScores": [
+    {
+      "personId": "person_a5c665cb3ea06c0c",
+      "name": "Samir Weiss",
+      "score": 1.575,
+      "recordIds": [
+        "principle_a971989b2394ae71"
+      ]
+    },
+    {
+      "personId": "person_cf09a29845c0aa11",
+      "name": "Lily Gibson",
+      "score": 1.575,
+      "recordIds": [
+        "principle_077e95c573c65df1"
+      ]
+    },
+    {
+      "personId": "person_ea8912c0078c74d8",
+      "name": "Shannon Moran",
+      "score": 1.575,
+      "recordIds": [
+        "principle_34d3dd9b923a1797"
+      ]
+    },
+    {
+      "personId": "person_4756c6fff59f2026",
+      "name": "Fiona Moseley",
+      "score": 1.575,
+      "recordIds": [
+        "principle_b7264dd484498c5a"
+      ]
+    },
+    {
+      "personId": "person_5c66ca0f7b72d901",
+      "name": "Mina Valdez",
+      "score": 1.575,
+      "recordIds": [
+        "principle_bad6c81c9e77a3f7"
+      ]
+    },
+    {
+      "personId": "person_17b5fd629d0000a4",
+      "name": "Miles Wheeler",
+      "score": 1.575,
+      "recordIds": [
+        "principle_13ab1b7545f8e146"
+      ]
+    },
+    {
+      "personId": "person_d4c970bea9a97e53",
+      "name": "Jack Nichols",
+      "score": 1.575,
+      "recordIds": [
+        "principle_2dce6f69c188a2db"
+      ]
+    },
+    {
+      "personId": "person_af0b49c79623edc8",
+      "name": "Ezra Chambers",
+      "score": 1.575,
+      "recordIds": [
+        "principle_e48caf2d632109e7"
+      ]
+    },
+    {
+      "personId": "person_30c7c5badd0ed94b",
+      "name": "Cameron Garrett",
+      "score": 1.575,
+      "recordIds": [
+        "principle_ed505f67db32a5df"
+      ]
+    },
+    {
+      "personId": "person_d4d740325fe8263d",
+      "name": "Alan Flores",
+      "score": 1.575,
+      "recordIds": [
+        "principle_497d0bdfeaab4a20"
+      ]
+    },
+    {
+      "personId": "person_0259b17a42d89a03",
+      "name": "Isabel Lewis",
+      "score": 1.575,
+      "recordIds": [
+        "principle_bff5c84c199f5ca9"
+      ]
+    },
+    {
+      "personId": "person_87281c80d5afff28",
+      "name": "Anna McFarland",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_30c4639f001b11a7",
+      "name": "Sofia Wu",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_1c308fed77b1b036",
+      "name": "Sydney Stout",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_8dc69686e045e5ad",
+      "name": "Taylor Tran",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_d2362400590fa67b",
+      "name": "Astrid Shepard",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_a7571f99a86104ba",
+      "name": "Reese McFarland",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_9a2b6d6d4a841500",
+      "name": "Nicholas Robinson",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_364b8c0c106467c9",
+      "name": "Teresa Witt",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_8b158d3122387997",
+      "name": "Nadia Roach",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_adca2f7a0578513c",
+      "name": "Alan McIntosh",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_910ec6573823d2dd",
+      "name": "Ahmad Pittman",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_d972ad37571633aa",
+      "name": "Elena Evans",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_08d110a078ab42eb",
+      "name": "Sabrina Ellis",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_2297f92df185c1f0",
+      "name": "Gregory Sparks",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_f386cfdf03516fb1",
+      "name": "Maya Whitfield",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_6293683327bc8c20",
+      "name": "Brianna Harmon",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_38aaa8071af6a57f",
+      "name": "Leo Blake",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_c2bd7254620cc60e",
+      "name": "Angela Terrell",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_521e0a3762ad5dc5",
+      "name": "Eli O'Brien",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_82546732bf391b12",
+      "name": "Brian Day",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_d5c32d9229d85c79",
+      "name": "Sage Moore",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_04d06251be5ea60a",
+      "name": "Morgan McKee",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_2be0a9c23ea8dc1c",
+      "name": "Nicole Lewis",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_1c2f7c1f44e63d86",
+      "name": "Keith Parker",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_092c07795b690477",
+      "name": "Valerie Carson",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_b9bc628af1529cb8",
+      "name": "Laura Holloway",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_107838d529eef429",
+      "name": "Holly Patel",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_911c4ce2b441b082",
+      "name": "Evan McKenzie",
+      "score": 0,
+      "recordIds": []
+    },
+    {
+      "personId": "person_3f32344832fa9cb3",
+      "name": "Elijah Miller",
+      "score": 0,
+      "recordIds": []
+    }
+  ],
+  "question": {
+    "id": "proposition_88a5a92bfb0d8d75",
+    "stableKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+    "issueId": "policy-issue_2238fac18d768cb4",
+    "name": "Additional rural transit service hours",
+    "question": "Should the state appropriate money for additional rural transit service hours?",
+    "parameters": [
+      {
+        "key": "appropriation",
+        "value": "usd-per-budget-year"
+      },
+      {
+        "key": "service",
+        "value": "additional-vehicle-service-hours"
+      }
+    ],
+    "tags": [
+      "appropriation",
+      "contested"
+    ],
+    "principles": [
+      {
+        "principleId": "principle-definition_d8e971f494b67a61",
+        "bearing": "consistent-with",
+        "weight": 0.9
+      },
+      {
+        "principleId": "principle-definition_1f130db13bb4ceed",
+        "bearing": "consistent-with",
+        "weight": 0.9
+      },
+      {
+        "principleId": "principle-definition_a1562420cb3ecae7",
+        "bearing": "consistent-with",
+        "weight": 0.55
+      },
+      {
+        "principleId": "principle-definition_1e16131bb9f4b9ba",
+        "bearing": "consistent-with",
+        "weight": 0.35
+      },
+      {
+        "principleId": "principle-definition_6fecee161adb2004",
+        "bearing": "against",
+        "weight": 0.7
+      },
+      {
+        "principleId": "principle-definition_10f7833e19fd41a9",
+        "bearing": "against",
+        "weight": 0.4
+      }
+    ]
+  }
+}

@@ -1,0 +1,1628 @@
+{
+  "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "fixtureSource": "src/presentation/all-state-transit-payment.test.ts",
+  "fixtureSourceSha256": "6bed8d25adb46b2bd36bdf577e1939f8fc894fb9ff23cd4b9d58f5a54a565450",
+  "copiedFunctionSha256": "378911515c74f8e8a82a3642d05d16fe14a077e34c09d2887d9b0a112cc1e2e5",
+  "states": [
+    {
+      "usps": "WA",
+      "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "place": "Aberdeen Gardens, Washington",
+      "player": "Sarah Bell",
+      "governor": {
+        "personId": "person_49408b8380edc67b",
+        "name": "Philip Sanford"
+      },
+      "measureId": "legislative-measure_359f490d48d5cccd",
+      "law": {
+        "id": "legislative-enactment_32bb77d049d9522f",
+        "stableKey": "measure:legislative-measure_359f490d48d5cccd:enactment:1",
+        "sequence": 312,
+        "measureId": "legislative-measure_359f490d48d5cccd",
+        "resolvedAt": "2026-01-19",
+        "outcome": "enacted",
+        "actDesignation": null,
+        "effectiveAt": null,
+        "finalPassageAt": "2026-01-19",
+        "outcomeEventId": "event_445fa6bcdeefa307"
+      },
+      "operativeAt": "2026-06-11",
+      "currentDate": "2026-08-12",
+      "authorities": [
+        {
+          "kind": "appropriation",
+          "programKey": "transit-access:wa",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "accountOrganizationId": "organization_5d00256a38e171b7",
+          "amount": {
+            "minorUnits": 800000000,
+            "currency": "USD"
+          },
+          "availableFrom": "2026-01-19",
+          "availableThrough": "2028-01-18",
+          "basis": {
+            "kind": "game-profile",
+            "note": "enacted-appropriations/v1: adopted by section 3 of HB 1004, Transit Access Pilot. The amount is that section's own enacted figure."
+          },
+          "sourceMeasureId": "legislative-measure_359f490d48d5cccd",
+          "id": "public-program-record_7f1279bbaa374bfe",
+          "stableKey": "public-program/v1:transit-access:wa:appropriation:measure-hb-1004-pilot-support-limit",
+          "sequence": 317,
+          "recordedAt": "2026-01-19",
+          "eventId": "event_e3b03143f939340e"
+        }
+      ],
+      "commitments": [
+        {
+          "kind": "commitment",
+          "programKey": "transit-access:wa",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "appropriationId": "public-program-record_7f1279bbaa374bfe",
+          "alternativeKey": "no-action",
+          "alternativeTitle": "Commit nothing for now",
+          "decidedByPersonId": "person_49408b8380edc67b",
+          "authority": "Governor of Washington: executes appropriations the office receives (public-program/v1 game profile).",
+          "recipientOrganizationId": null,
+          "installments": [],
+          "deliveryLeadDays": null,
+          "id": "public-program-record_3226315e0b869839",
+          "stableKey": "public-program/v1:transit-access:wa:commitment:public-program-record_7f1279bbaa374bfe:no-action",
+          "sequence": 885,
+          "recordedAt": "2026-03-31",
+          "eventId": "event_7ac05d79de06f5c9"
+        }
+      ],
+      "paymentTrace": [],
+      "relatedMatters": [
+        {
+          "id": "event_28f76007da8dde2e",
+          "stableKey": "state-governing/v1:us-wa-governor:event_f22b7cf53f1377b4:program:appropriation:public-program-record_7f1279bbaa374bfe",
+          "sequence": 838,
+          "type": "governing.matter-opened",
+          "occurredAt": "2026-02-15",
+          "recordedAt": "2026-02-15",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "involvedEntityIds": [
+            "organization_c8dbfdb2cd905ad0",
+            "person_49408b8380edc67b"
+          ],
+          "participants": [
+            {
+              "personId": "person_49408b8380edc67b",
+              "role": "agency:officeholder",
+              "detail": "Governor of Washington"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "appropriation:public-program-record_7f1279bbaa374bfe",
+            "deadline:2026-04-01",
+            "matter-family:program",
+            "office:us-wa-governor",
+            "state-governing/v1",
+            "subject:transit-access"
+          ],
+          "summary": "Governor of Washington: Commit the money adopted for transit access.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_4165b3d39ee6cb48",
+          "stableKey": "state-governing/v1:us-wa-governor:event_f22b7cf53f1377b4:program:appropriation:public-program-record_7f1279bbaa374bfe:decided",
+          "sequence": 880,
+          "type": "governing.matter-decided",
+          "occurredAt": "2026-03-31",
+          "recordedAt": "2026-03-31",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "involvedEntityIds": [
+            "organization_c8dbfdb2cd905ad0",
+            "person_49408b8380edc67b"
+          ],
+          "participants": [
+            {
+              "personId": "person_49408b8380edc67b",
+              "role": "agency:decider",
+              "detail": "officeholder"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "choice:program:no-action",
+            "decided-by:officeholder",
+            "matter-family:program",
+            "matter:event_28f76007da8dde2e",
+            "office:us-wa-governor",
+            "state-governing/v1"
+          ],
+          "summary": "Philip Sanford, Governor of Washington, committed none of the money adopted for transit access yet.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": "Commit nothing for now",
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_32a7266b2499ffcd",
+          "stableKey": "state-governing/v1:us-wa-governor:event_f22b7cf53f1377b4:program:appropriation:public-program-record_7f1279bbaa374bfe:review:2026-04-30",
+          "sequence": 972,
+          "type": "governing.matter-opened",
+          "occurredAt": "2026-04-30",
+          "recordedAt": "2026-04-30",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "involvedEntityIds": [
+            "organization_c8dbfdb2cd905ad0",
+            "person_49408b8380edc67b"
+          ],
+          "participants": [
+            {
+              "personId": "person_49408b8380edc67b",
+              "role": "agency:officeholder",
+              "detail": "Governor of Washington"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "appropriation:public-program-record_7f1279bbaa374bfe",
+            "deadline:2026-06-14",
+            "matter-family:program",
+            "office:us-wa-governor",
+            "state-governing/v1",
+            "subject:transit-access"
+          ],
+          "summary": "Governor of Washington: Commit the money adopted for transit access.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_be0e96eef697552f",
+          "stableKey": "state-governing/v1:us-wa-governor:event_f22b7cf53f1377b4:program:appropriation:public-program-record_7f1279bbaa374bfe:review:2026-04-30:decided",
+          "sequence": 1017,
+          "type": "governing.matter-decided",
+          "occurredAt": "2026-06-13",
+          "recordedAt": "2026-06-13",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "involvedEntityIds": [
+            "organization_c8dbfdb2cd905ad0",
+            "person_49408b8380edc67b"
+          ],
+          "participants": [
+            {
+              "personId": "person_49408b8380edc67b",
+              "role": "agency:decider",
+              "detail": "officeholder"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "choice:program:no-action",
+            "decided-by:officeholder",
+            "matter-family:program",
+            "matter:event_32a7266b2499ffcd",
+            "office:us-wa-governor",
+            "state-governing/v1"
+          ],
+          "summary": "Philip Sanford, Governor of Washington, committed none of the money adopted for transit access yet.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": "Commit nothing for now",
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_b36b9373fa0339b5",
+          "stableKey": "state-governing/v1:us-wa-governor:event_f22b7cf53f1377b4:program:appropriation:public-program-record_7f1279bbaa374bfe:review:2026-07-13",
+          "sequence": 1067,
+          "type": "governing.matter-opened",
+          "occurredAt": "2026-07-13",
+          "recordedAt": "2026-07-13",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "involvedEntityIds": [
+            "organization_c8dbfdb2cd905ad0",
+            "person_49408b8380edc67b"
+          ],
+          "participants": [
+            {
+              "personId": "person_49408b8380edc67b",
+              "role": "agency:officeholder",
+              "detail": "Governor of Washington"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "appropriation:public-program-record_7f1279bbaa374bfe",
+            "deadline:2026-08-27",
+            "matter-family:program",
+            "office:us-wa-governor",
+            "state-governing/v1",
+            "subject:transit-access"
+          ],
+          "summary": "Governor of Washington: Commit the money adopted for transit access.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "stamped": [],
+      "qualifyingCompleted": 0
+    },
+    {
+      "usps": "OH",
+      "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "place": "Aberdeen, Ohio",
+      "player": "Mei Miranda",
+      "governor": {
+        "personId": "person_c96d80e4cd63b97d",
+        "name": "Jennifer Cabrera"
+      },
+      "measureId": "legislative-measure_d78257556e122bf7",
+      "law": {
+        "id": "legislative-enactment_8d1f730734fa5b9f",
+        "stableKey": "measure:legislative-measure_d78257556e122bf7:enactment:1",
+        "sequence": 482,
+        "measureId": "legislative-measure_d78257556e122bf7",
+        "resolvedAt": "2026-01-19",
+        "outcome": "enacted",
+        "actDesignation": null,
+        "effectiveAt": null,
+        "finalPassageAt": "2026-01-19",
+        "outcomeEventId": "event_5a51917d70eaec44"
+      },
+      "operativeAt": "2026-04-19",
+      "currentDate": "2026-06-20",
+      "authorities": [
+        {
+          "kind": "appropriation",
+          "programKey": "transit-access:oh",
+          "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+          "accountOrganizationId": "organization_6d6ed5aea2f13ad8",
+          "amount": {
+            "minorUnits": 800000000,
+            "currency": "USD"
+          },
+          "availableFrom": "2026-01-19",
+          "availableThrough": "2028-01-18",
+          "basis": {
+            "kind": "game-profile",
+            "note": "enacted-appropriations/v1: adopted by section 3 of HB 2, Transit Access Pilot. The amount is that section's own enacted figure."
+          },
+          "sourceMeasureId": "legislative-measure_d78257556e122bf7",
+          "id": "public-program-record_e2d491dd461f6e5d",
+          "stableKey": "public-program/v1:transit-access:oh:appropriation:measure-hb-2-pilot-support-limit",
+          "sequence": 487,
+          "recordedAt": "2026-01-19",
+          "eventId": "event_d037fbe0793e9479"
+        }
+      ],
+      "commitments": [
+        {
+          "kind": "commitment",
+          "programKey": "transit-access:oh",
+          "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+          "appropriationId": "public-program-record_e2d491dd461f6e5d",
+          "alternativeKey": "operate-three-months",
+          "alternativeTitle": "Pay for three months of operations",
+          "decidedByPersonId": "person_c96d80e4cd63b97d",
+          "authority": "Governor of Ohio: executes appropriations the office receives (public-program/v1 game profile).",
+          "recipientOrganizationId": "organization_e313a5115fb11af3",
+          "installments": [
+            {
+              "dueAt": "2026-03-31",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-04-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-05-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            }
+          ],
+          "deliveryLeadDays": null,
+          "id": "public-program-record_04c84b8508a53967",
+          "stableKey": "public-program/v1:transit-access:oh:commitment:public-program-record_e2d491dd461f6e5d:operate-three-months",
+          "sequence": 1125,
+          "recordedAt": "2026-03-31",
+          "eventId": "event_1b6696da70eb6123"
+        }
+      ],
+      "paymentTrace": [
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:oh",
+            "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+            "commitmentId": "public-program-record_04c84b8508a53967",
+            "installmentIndex": 0,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_01c0826500344caf",
+            "reason": null,
+            "id": "public-program-record_8004136d67fa7255",
+            "stableKey": "public-program/v1:transit-access:oh:commitment:public-program-record_e2d491dd461f6e5d:operate-three-months:installment:0:outturn",
+            "sequence": 1132,
+            "recordedAt": "2026-03-31",
+            "eventId": "event_0f551bcb43553181"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:oh:commitment:public-program-record_e2d491dd461f6e5d:operate-three-months:installment:0:flow:transfer",
+            "resourceFlowId": "resource-flow_01c0826500344caf",
+            "periodStartsAt": "2026-03-31",
+            "periodEndsAt": "2026-03-31",
+            "occurredAt": "2026-03-31",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 1 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_1b6696da70eb6123"
+            },
+            "id": "resource-transfer-outcome_a062571e99186a56",
+            "sequence": 1130
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-OH:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:oh",
+            "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+            "commitmentId": "public-program-record_04c84b8508a53967",
+            "installmentIndex": 1,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_eb5467217c553d22",
+            "reason": null,
+            "id": "public-program-record_c87617175a447f36",
+            "stableKey": "public-program/v1:transit-access:oh:commitment:public-program-record_e2d491dd461f6e5d:operate-three-months:installment:1:outturn",
+            "sequence": 1203,
+            "recordedAt": "2026-04-30",
+            "eventId": "event_619b2625f0153482"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:oh:commitment:public-program-record_e2d491dd461f6e5d:operate-three-months:installment:1:flow:transfer",
+            "resourceFlowId": "resource-flow_eb5467217c553d22",
+            "periodStartsAt": "2026-04-30",
+            "periodEndsAt": "2026-04-30",
+            "occurredAt": "2026-04-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 2 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_1b6696da70eb6123"
+            },
+            "id": "resource-transfer-outcome_85da873b3594a395",
+            "sequence": 1201
+          },
+          "canonicalLawOnPayment": {
+            "answer": "yes",
+            "measureId": "legislative-measure_d78257556e122bf7",
+            "origin": "enacted",
+            "level": "state-statute",
+            "operativeAt": "2026-04-19",
+            "operativeBasis": "state-rule"
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:oh",
+            "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+            "commitmentId": "public-program-record_04c84b8508a53967",
+            "installmentIndex": 2,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_5d45ef62de195101",
+            "reason": null,
+            "id": "public-program-record_e74ba2fd7effb0fb",
+            "stableKey": "public-program/v1:transit-access:oh:commitment:public-program-record_e2d491dd461f6e5d:operate-three-months:installment:2:outturn",
+            "sequence": 1250,
+            "recordedAt": "2026-05-30",
+            "eventId": "event_0dc98cd0e985daf7"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:oh:commitment:public-program-record_e2d491dd461f6e5d:operate-three-months:installment:2:flow:transfer",
+            "resourceFlowId": "resource-flow_5d45ef62de195101",
+            "periodStartsAt": "2026-05-30",
+            "periodEndsAt": "2026-05-30",
+            "occurredAt": "2026-05-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 3 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_1b6696da70eb6123"
+            },
+            "id": "resource-transfer-outcome_0a28c9950bb7b2a8",
+            "sequence": 1248
+          },
+          "canonicalLawOnPayment": {
+            "answer": "yes",
+            "measureId": "legislative-measure_d78257556e122bf7",
+            "origin": "enacted",
+            "level": "state-statute",
+            "operativeAt": "2026-04-19",
+            "operativeBasis": "state-rule"
+          }
+        }
+      ],
+      "relatedMatters": [
+        {
+          "id": "event_e533717639a10199",
+          "stableKey": "state-governing/v1:us-oh-governor:event_bc1cd817f6e73756:program:appropriation:public-program-record_e2d491dd461f6e5d",
+          "sequence": 1034,
+          "type": "governing.matter-opened",
+          "occurredAt": "2026-02-15",
+          "recordedAt": "2026-02-15",
+          "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+          "involvedEntityIds": [
+            "organization_639147f3a77cf82e",
+            "person_c96d80e4cd63b97d"
+          ],
+          "participants": [
+            {
+              "personId": "person_c96d80e4cd63b97d",
+              "role": "agency:officeholder",
+              "detail": "Governor of Ohio"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "appropriation:public-program-record_e2d491dd461f6e5d",
+            "deadline:2026-04-01",
+            "matter-family:program",
+            "office:us-oh-governor",
+            "state-governing/v1",
+            "subject:transit-access"
+          ],
+          "summary": "Governor of Ohio: Commit the money adopted for transit access.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_d9e6d71f9341f123",
+          "stableKey": "state-governing/v1:us-oh-governor:event_bc1cd817f6e73756:program:appropriation:public-program-record_e2d491dd461f6e5d:decided",
+          "sequence": 1120,
+          "type": "governing.matter-decided",
+          "occurredAt": "2026-03-31",
+          "recordedAt": "2026-03-31",
+          "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+          "involvedEntityIds": [
+            "organization_639147f3a77cf82e",
+            "person_c96d80e4cd63b97d"
+          ],
+          "participants": [
+            {
+              "personId": "person_c96d80e4cd63b97d",
+              "role": "agency:decider",
+              "detail": "officeholder"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "choice:program:operate-three-months",
+            "decided-by:officeholder",
+            "matter-family:program",
+            "matter:event_e533717639a10199",
+            "office:us-oh-governor",
+            "state-governing/v1"
+          ],
+          "summary": "Jennifer Cabrera, Governor of Ohio, committed money adopted for transit access: pay for three months of operations.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": "Pay for three months of operations",
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "stamped": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_d78257556e122bf7",
+          "source": "enacted",
+          "effectKind": "state-spending",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+          "operativeAt": "2026-04-19",
+          "appliedAt": "2026-04-30",
+          "sourceRecordIds": [
+            "legislative-measure_d78257556e122bf7",
+            "public-program-record_e2d491dd461f6e5d",
+            "public-program-record_04c84b8508a53967",
+            "public-program-record_c87617175a447f36",
+            "resource-flow_eb5467217c553d22",
+            "resource-transfer-outcome_85da873b3594a395",
+            "event_619b2625f0153482",
+            "metric-state_37e3ba32f30b8b74"
+          ]
+        },
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_d78257556e122bf7",
+          "source": "enacted",
+          "effectKind": "state-spending",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+          "operativeAt": "2026-04-19",
+          "appliedAt": "2026-05-30",
+          "sourceRecordIds": [
+            "legislative-measure_d78257556e122bf7",
+            "public-program-record_e2d491dd461f6e5d",
+            "public-program-record_04c84b8508a53967",
+            "public-program-record_e74ba2fd7effb0fb",
+            "resource-flow_5d45ef62de195101",
+            "resource-transfer-outcome_0a28c9950bb7b2a8",
+            "event_0dc98cd0e985daf7",
+            "metric-state_5cd5f82fb5d0fef9"
+          ]
+        }
+      ],
+      "qualifyingCompleted": 2
+    },
+    {
+      "usps": "OR",
+      "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "place": "Adair Village, Oregon",
+      "player": "Edward Terry",
+      "governor": {
+        "personId": "person_5019fca7e8a47dce",
+        "name": "Elizabeth McBride"
+      },
+      "measureId": "legislative-measure_cd9ea3f210c5aa10",
+      "law": {
+        "id": "legislative-enactment_e516a2f0ec0c30a1",
+        "stableKey": "measure:legislative-measure_cd9ea3f210c5aa10:enactment:1",
+        "sequence": 472,
+        "measureId": "legislative-measure_cd9ea3f210c5aa10",
+        "resolvedAt": "2026-01-19",
+        "outcome": "enacted",
+        "actDesignation": null,
+        "effectiveAt": null,
+        "finalPassageAt": "2026-01-19",
+        "outcomeEventId": "event_208fc0f899dce9db"
+      },
+      "operativeAt": "2027-01-01",
+      "currentDate": "2027-03-04",
+      "authorities": [
+        {
+          "kind": "appropriation",
+          "programKey": "transit-access:or",
+          "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+          "accountOrganizationId": "organization_7e3d35e027faff67",
+          "amount": {
+            "minorUnits": 800000000,
+            "currency": "USD"
+          },
+          "availableFrom": "2026-01-19",
+          "availableThrough": "2028-01-18",
+          "basis": {
+            "kind": "game-profile",
+            "note": "enacted-appropriations/v1: adopted by section 3 of HB 2, Transit Access Pilot. The amount is that section's own enacted figure."
+          },
+          "sourceMeasureId": "legislative-measure_cd9ea3f210c5aa10",
+          "id": "public-program-record_2c60474e2c0e473b",
+          "stableKey": "public-program/v1:transit-access:or:appropriation:measure-hb-2-pilot-support-limit",
+          "sequence": 477,
+          "recordedAt": "2026-01-19",
+          "eventId": "event_80144cfcb362804f"
+        }
+      ],
+      "commitments": [
+        {
+          "kind": "commitment",
+          "programKey": "transit-access:or",
+          "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+          "appropriationId": "public-program-record_2c60474e2c0e473b",
+          "alternativeKey": "operate-three-months",
+          "alternativeTitle": "Pay for three months of operations",
+          "decidedByPersonId": "person_e3e9f4f1841d314f",
+          "authority": "Governor of Oregon: executes appropriations the office receives (public-program/v1 game profile).",
+          "recipientOrganizationId": "organization_a58092c6f4102419",
+          "installments": [
+            {
+              "dueAt": "2026-03-31",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-04-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-05-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            }
+          ],
+          "deliveryLeadDays": null,
+          "id": "public-program-record_1de8b37f3d02165c",
+          "stableKey": "public-program/v1:transit-access:or:commitment:public-program-record_2c60474e2c0e473b:operate-three-months",
+          "sequence": 903,
+          "recordedAt": "2026-03-31",
+          "eventId": "event_924db0f27e58d610"
+        }
+      ],
+      "paymentTrace": [
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:or",
+            "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+            "commitmentId": "public-program-record_1de8b37f3d02165c",
+            "installmentIndex": 0,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_8ef387291fdd5016",
+            "reason": null,
+            "id": "public-program-record_40c61c8355d4b0da",
+            "stableKey": "public-program/v1:transit-access:or:commitment:public-program-record_2c60474e2c0e473b:operate-three-months:installment:0:outturn",
+            "sequence": 910,
+            "recordedAt": "2026-03-31",
+            "eventId": "event_d838e03dd9eaa1fe"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:or:commitment:public-program-record_2c60474e2c0e473b:operate-three-months:installment:0:flow:transfer",
+            "resourceFlowId": "resource-flow_8ef387291fdd5016",
+            "periodStartsAt": "2026-03-31",
+            "periodEndsAt": "2026-03-31",
+            "occurredAt": "2026-03-31",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 1 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_924db0f27e58d610"
+            },
+            "id": "resource-transfer-outcome_46b681c7122e7dc9",
+            "sequence": 908
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-OR:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:or",
+            "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+            "commitmentId": "public-program-record_1de8b37f3d02165c",
+            "installmentIndex": 1,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_e8a9a1e91a444f93",
+            "reason": null,
+            "id": "public-program-record_aa1c49d9e90d5159",
+            "stableKey": "public-program/v1:transit-access:or:commitment:public-program-record_2c60474e2c0e473b:operate-three-months:installment:1:outturn",
+            "sequence": 1108,
+            "recordedAt": "2026-04-30",
+            "eventId": "event_b56121a858fa5c7d"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:or:commitment:public-program-record_2c60474e2c0e473b:operate-three-months:installment:1:flow:transfer",
+            "resourceFlowId": "resource-flow_e8a9a1e91a444f93",
+            "periodStartsAt": "2026-04-30",
+            "periodEndsAt": "2026-04-30",
+            "occurredAt": "2026-04-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 2 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_924db0f27e58d610"
+            },
+            "id": "resource-transfer-outcome_c76c6920d64d35ba",
+            "sequence": 1106
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-OR:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:or",
+            "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+            "commitmentId": "public-program-record_1de8b37f3d02165c",
+            "installmentIndex": 2,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_37592d3eadbfb018",
+            "reason": null,
+            "id": "public-program-record_6b48753d27f19df0",
+            "stableKey": "public-program/v1:transit-access:or:commitment:public-program-record_2c60474e2c0e473b:operate-three-months:installment:2:outturn",
+            "sequence": 1213,
+            "recordedAt": "2026-05-30",
+            "eventId": "event_62138ef4b737b354"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:or:commitment:public-program-record_2c60474e2c0e473b:operate-three-months:installment:2:flow:transfer",
+            "resourceFlowId": "resource-flow_37592d3eadbfb018",
+            "periodStartsAt": "2026-05-30",
+            "periodEndsAt": "2026-05-30",
+            "occurredAt": "2026-05-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 3 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_924db0f27e58d610"
+            },
+            "id": "resource-transfer-outcome_202843a259a12503",
+            "sequence": 1211
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-OR:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        }
+      ],
+      "relatedMatters": [
+        {
+          "id": "event_7fa8786c85242c25",
+          "stableKey": "state-governing/v1:us-or-governor:event_1c7529abdace81fc:program:appropriation:public-program-record_2c60474e2c0e473b",
+          "sequence": 847,
+          "type": "governing.matter-opened",
+          "occurredAt": "2026-02-15",
+          "recordedAt": "2026-02-15",
+          "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+          "involvedEntityIds": [
+            "organization_753e4ce00b80ad40",
+            "person_e3e9f4f1841d314f"
+          ],
+          "participants": [
+            {
+              "personId": "person_e3e9f4f1841d314f",
+              "role": "agency:officeholder",
+              "detail": "Governor of Oregon"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "appropriation:public-program-record_2c60474e2c0e473b",
+            "deadline:2026-04-01",
+            "matter-family:program",
+            "office:us-or-governor",
+            "state-governing/v1",
+            "subject:transit-access"
+          ],
+          "summary": "Governor of Oregon: Commit the money adopted for transit access.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_945a4972024e6047",
+          "stableKey": "state-governing/v1:us-or-governor:event_1c7529abdace81fc:program:appropriation:public-program-record_2c60474e2c0e473b:decided",
+          "sequence": 898,
+          "type": "governing.matter-decided",
+          "occurredAt": "2026-03-31",
+          "recordedAt": "2026-03-31",
+          "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+          "involvedEntityIds": [
+            "organization_753e4ce00b80ad40",
+            "person_e3e9f4f1841d314f"
+          ],
+          "participants": [
+            {
+              "personId": "person_e3e9f4f1841d314f",
+              "role": "agency:decider",
+              "detail": "officeholder"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "choice:program:operate-three-months",
+            "decided-by:officeholder",
+            "matter-family:program",
+            "matter:event_7fa8786c85242c25",
+            "office:us-or-governor",
+            "state-governing/v1"
+          ],
+          "summary": "Neil Roach, Governor of Oregon, committed money adopted for transit access: pay for three months of operations.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": "Pay for three months of operations",
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "stamped": [],
+      "qualifyingCompleted": 0
+    },
+    {
+      "usps": "SD",
+      "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "place": "Aberdeen, South Dakota",
+      "player": "Riley Woodward",
+      "governor": {
+        "personId": "person_e0ba0cfd91277964",
+        "name": "Sam Sutton"
+      },
+      "measureId": "legislative-measure_63d227c8a5532a53",
+      "law": {
+        "id": "legislative-enactment_3e9b6cf4b45e7293",
+        "stableKey": "measure:legislative-measure_63d227c8a5532a53:enactment:1",
+        "sequence": 1470,
+        "measureId": "legislative-measure_63d227c8a5532a53",
+        "resolvedAt": "2026-01-19",
+        "outcome": "enacted",
+        "actDesignation": null,
+        "effectiveAt": null,
+        "finalPassageAt": "2026-01-19",
+        "outcomeEventId": "event_281710bcf88df1d1"
+      },
+      "operativeAt": "2026-07-01",
+      "currentDate": "2026-09-01",
+      "authorities": [
+        {
+          "kind": "appropriation",
+          "programKey": "transit-access:sd",
+          "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+          "accountOrganizationId": "organization_e91229f37bdb6a00",
+          "amount": {
+            "minorUnits": 800000000,
+            "currency": "USD"
+          },
+          "availableFrom": "2026-01-19",
+          "availableThrough": "2028-01-18",
+          "basis": {
+            "kind": "game-profile",
+            "note": "enacted-appropriations/v1: adopted by section 3 of HB 1003, Transit Access Pilot. The amount is that section's own enacted figure."
+          },
+          "sourceMeasureId": "legislative-measure_63d227c8a5532a53",
+          "id": "public-program-record_08cf5f82c0f7ed52",
+          "stableKey": "public-program/v1:transit-access:sd:appropriation:measure-hb-1003-pilot-support-limit",
+          "sequence": 1475,
+          "recordedAt": "2026-01-19",
+          "eventId": "event_abe86e8bd78a8f0a"
+        }
+      ],
+      "commitments": [
+        {
+          "kind": "commitment",
+          "programKey": "transit-access:sd",
+          "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+          "appropriationId": "public-program-record_08cf5f82c0f7ed52",
+          "alternativeKey": "operate-three-months",
+          "alternativeTitle": "Pay for three months of operations",
+          "decidedByPersonId": "person_e0ba0cfd91277964",
+          "authority": "Governor of South Dakota: executes appropriations the office receives (public-program/v1 game profile).",
+          "recipientOrganizationId": "organization_6a357cb12c68d71e",
+          "installments": [
+            {
+              "dueAt": "2026-03-31",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-04-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-05-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            }
+          ],
+          "deliveryLeadDays": null,
+          "id": "public-program-record_fb855a57127dc322",
+          "stableKey": "public-program/v1:transit-access:sd:commitment:public-program-record_08cf5f82c0f7ed52:operate-three-months",
+          "sequence": 2434,
+          "recordedAt": "2026-03-31",
+          "eventId": "event_40d5935f5900671a"
+        }
+      ],
+      "paymentTrace": [
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:sd",
+            "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+            "commitmentId": "public-program-record_fb855a57127dc322",
+            "installmentIndex": 0,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_c54eaaf3fbe9466c",
+            "reason": null,
+            "id": "public-program-record_c3c2c74e97d4aa9c",
+            "stableKey": "public-program/v1:transit-access:sd:commitment:public-program-record_08cf5f82c0f7ed52:operate-three-months:installment:0:outturn",
+            "sequence": 2441,
+            "recordedAt": "2026-03-31",
+            "eventId": "event_a2cedef02bcd1564"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:sd:commitment:public-program-record_08cf5f82c0f7ed52:operate-three-months:installment:0:flow:transfer",
+            "resourceFlowId": "resource-flow_c54eaaf3fbe9466c",
+            "periodStartsAt": "2026-03-31",
+            "periodEndsAt": "2026-03-31",
+            "occurredAt": "2026-03-31",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 1 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_40d5935f5900671a"
+            },
+            "id": "resource-transfer-outcome_1ea62ef2636501e7",
+            "sequence": 2439
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-SD:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:sd",
+            "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+            "commitmentId": "public-program-record_fb855a57127dc322",
+            "installmentIndex": 1,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_669bf1baa586e5d9",
+            "reason": null,
+            "id": "public-program-record_680fe64804247bab",
+            "stableKey": "public-program/v1:transit-access:sd:commitment:public-program-record_08cf5f82c0f7ed52:operate-three-months:installment:1:outturn",
+            "sequence": 2780,
+            "recordedAt": "2026-04-30",
+            "eventId": "event_69a42c6e4334b893"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:sd:commitment:public-program-record_08cf5f82c0f7ed52:operate-three-months:installment:1:flow:transfer",
+            "resourceFlowId": "resource-flow_669bf1baa586e5d9",
+            "periodStartsAt": "2026-04-30",
+            "periodEndsAt": "2026-04-30",
+            "occurredAt": "2026-04-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 2 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_40d5935f5900671a"
+            },
+            "id": "resource-transfer-outcome_fa05b6af04b882b0",
+            "sequence": 2778
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-SD:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:sd",
+            "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+            "commitmentId": "public-program-record_fb855a57127dc322",
+            "installmentIndex": 2,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_f6941c9fe83c333a",
+            "reason": null,
+            "id": "public-program-record_606dcff0b6f6cbe6",
+            "stableKey": "public-program/v1:transit-access:sd:commitment:public-program-record_08cf5f82c0f7ed52:operate-three-months:installment:2:outturn",
+            "sequence": 2959,
+            "recordedAt": "2026-05-30",
+            "eventId": "event_f43b1c716425c68e"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:sd:commitment:public-program-record_08cf5f82c0f7ed52:operate-three-months:installment:2:flow:transfer",
+            "resourceFlowId": "resource-flow_f6941c9fe83c333a",
+            "periodStartsAt": "2026-05-30",
+            "periodEndsAt": "2026-05-30",
+            "occurredAt": "2026-05-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 3 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_40d5935f5900671a"
+            },
+            "id": "resource-transfer-outcome_8e12f4322fc3fa5d",
+            "sequence": 2957
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-SD:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        }
+      ],
+      "relatedMatters": [
+        {
+          "id": "event_d6ca57eb2c4186fe",
+          "stableKey": "state-governing/v1:us-sd-governor:event_d4ac799c560934b1:program:appropriation:public-program-record_08cf5f82c0f7ed52",
+          "sequence": 2197,
+          "type": "governing.matter-opened",
+          "occurredAt": "2026-02-15",
+          "recordedAt": "2026-02-15",
+          "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+          "involvedEntityIds": [
+            "organization_8b1090b264b81e87",
+            "person_e0ba0cfd91277964"
+          ],
+          "participants": [
+            {
+              "personId": "person_e0ba0cfd91277964",
+              "role": "agency:officeholder",
+              "detail": "Governor of South Dakota"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "appropriation:public-program-record_08cf5f82c0f7ed52",
+            "deadline:2026-04-01",
+            "matter-family:program",
+            "office:us-sd-governor",
+            "state-governing/v1",
+            "subject:transit-access"
+          ],
+          "summary": "Governor of South Dakota: Commit the money adopted for transit access.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_28de3b94d502fdf8",
+          "stableKey": "state-governing/v1:us-sd-governor:event_d4ac799c560934b1:program:appropriation:public-program-record_08cf5f82c0f7ed52:decided",
+          "sequence": 2429,
+          "type": "governing.matter-decided",
+          "occurredAt": "2026-03-31",
+          "recordedAt": "2026-03-31",
+          "jurisdictionId": "jurisdiction_04cf043711e2f0ec",
+          "involvedEntityIds": [
+            "organization_8b1090b264b81e87",
+            "person_e0ba0cfd91277964"
+          ],
+          "participants": [
+            {
+              "personId": "person_e0ba0cfd91277964",
+              "role": "agency:decider",
+              "detail": "officeholder"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "choice:program:operate-three-months",
+            "decided-by:officeholder",
+            "matter-family:program",
+            "matter:event_d6ca57eb2c4186fe",
+            "office:us-sd-governor",
+            "state-governing/v1"
+          ],
+          "summary": "Sam Sutton, Governor of South Dakota, committed money adopted for transit access: pay for three months of operations.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": "Pay for three months of operations",
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "stamped": [],
+      "qualifyingCompleted": 0
+    },
+    {
+      "usps": "IL",
+      "head": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+      "place": "Abingdon, Illinois",
+      "player": "Yosef Parrish",
+      "governor": {
+        "personId": "person_1c38223c55d7d498",
+        "name": "Diana Ali"
+      },
+      "measureId": "legislative-measure_8500ec4bff54d3f4",
+      "law": {
+        "id": "legislative-enactment_6fef075636503f49",
+        "stableKey": "measure:legislative-measure_8500ec4bff54d3f4:enactment:1",
+        "sequence": 1068,
+        "measureId": "legislative-measure_8500ec4bff54d3f4",
+        "resolvedAt": "2026-01-19",
+        "outcome": "enacted",
+        "actDesignation": null,
+        "effectiveAt": null,
+        "finalPassageAt": "2026-01-19",
+        "outcomeEventId": "event_3e034e744f1a1202"
+      },
+      "operativeAt": "2027-01-01",
+      "currentDate": "2027-03-04",
+      "authorities": [
+        {
+          "kind": "appropriation",
+          "programKey": "transit-access:il",
+          "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+          "accountOrganizationId": "organization_c2bbe9629818a829",
+          "amount": {
+            "minorUnits": 800000000,
+            "currency": "USD"
+          },
+          "availableFrom": "2026-01-19",
+          "availableThrough": "2028-01-18",
+          "basis": {
+            "kind": "game-profile",
+            "note": "enacted-appropriations/v1: adopted by section 3 of HB 16, Transit Access Pilot. The amount is that section's own enacted figure."
+          },
+          "sourceMeasureId": "legislative-measure_8500ec4bff54d3f4",
+          "id": "public-program-record_8c2c3fcf056fd519",
+          "stableKey": "public-program/v1:transit-access:il:appropriation:measure-hb-16-pilot-support-limit",
+          "sequence": 1073,
+          "recordedAt": "2026-01-19",
+          "eventId": "event_cea365c924c93441"
+        }
+      ],
+      "commitments": [
+        {
+          "kind": "commitment",
+          "programKey": "transit-access:il",
+          "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+          "appropriationId": "public-program-record_8c2c3fcf056fd519",
+          "alternativeKey": "operate-three-months",
+          "alternativeTitle": "Pay for three months of operations",
+          "decidedByPersonId": "person_9e3176d90821ef58",
+          "authority": "Governor of Illinois: executes appropriations the office receives (public-program/v1 game profile).",
+          "recipientOrganizationId": "organization_b4f80db3bc5cd1e6",
+          "installments": [
+            {
+              "dueAt": "2026-03-31",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-04-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            },
+            {
+              "dueAt": "2026-05-30",
+              "amount": {
+                "minorUnits": 266666666,
+                "currency": "USD"
+              },
+              "purpose": "operating"
+            }
+          ],
+          "deliveryLeadDays": null,
+          "id": "public-program-record_3b7b3a16de730c64",
+          "stableKey": "public-program/v1:transit-access:il:commitment:public-program-record_8c2c3fcf056fd519:operate-three-months",
+          "sequence": 2135,
+          "recordedAt": "2026-03-31",
+          "eventId": "event_221367a2ce08784c"
+        }
+      ],
+      "paymentTrace": [
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:il",
+            "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+            "commitmentId": "public-program-record_3b7b3a16de730c64",
+            "installmentIndex": 0,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_7a9eeffdcbee884a",
+            "reason": null,
+            "id": "public-program-record_965463bcfaffabb2",
+            "stableKey": "public-program/v1:transit-access:il:commitment:public-program-record_8c2c3fcf056fd519:operate-three-months:installment:0:outturn",
+            "sequence": 2142,
+            "recordedAt": "2026-03-31",
+            "eventId": "event_76cc239244a1248a"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:il:commitment:public-program-record_8c2c3fcf056fd519:operate-three-months:installment:0:flow:transfer",
+            "resourceFlowId": "resource-flow_7a9eeffdcbee884a",
+            "periodStartsAt": "2026-03-31",
+            "periodEndsAt": "2026-03-31",
+            "occurredAt": "2026-03-31",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 1 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_221367a2ce08784c"
+            },
+            "id": "resource-transfer-outcome_0e846a76e1991f75",
+            "sequence": 2140
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-IL:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:il",
+            "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+            "commitmentId": "public-program-record_3b7b3a16de730c64",
+            "installmentIndex": 1,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_565022f0a0259017",
+            "reason": null,
+            "id": "public-program-record_ef8b83df9ac6e2b1",
+            "stableKey": "public-program/v1:transit-access:il:commitment:public-program-record_8c2c3fcf056fd519:operate-three-months:installment:1:outturn",
+            "sequence": 2506,
+            "recordedAt": "2026-04-30",
+            "eventId": "event_fa80f4207536e549"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:il:commitment:public-program-record_8c2c3fcf056fd519:operate-three-months:installment:1:flow:transfer",
+            "resourceFlowId": "resource-flow_565022f0a0259017",
+            "periodStartsAt": "2026-04-30",
+            "periodEndsAt": "2026-04-30",
+            "occurredAt": "2026-04-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 2 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_221367a2ce08784c"
+            },
+            "id": "resource-transfer-outcome_3336062c3e6879b6",
+            "sequence": 2504
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-IL:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        },
+        {
+          "installment": {
+            "kind": "installment",
+            "programKey": "transit-access:il",
+            "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+            "commitmentId": "public-program-record_3b7b3a16de730c64",
+            "installmentIndex": 2,
+            "status": "posted",
+            "resourceFlowId": "resource-flow_9da5e6fb35bf25fc",
+            "reason": null,
+            "id": "public-program-record_b0b7af42d9ab2f48",
+            "stableKey": "public-program/v1:transit-access:il:commitment:public-program-record_8c2c3fcf056fd519:operate-three-months:installment:2:outturn",
+            "sequence": 2722,
+            "recordedAt": "2026-05-30",
+            "eventId": "event_442693bf5aafb960"
+          },
+          "outcome": {
+            "stableKey": "public-program/v1:transit-access:il:commitment:public-program-record_8c2c3fcf056fd519:operate-three-months:installment:2:flow:transfer",
+            "resourceFlowId": "resource-flow_9da5e6fb35bf25fc",
+            "periodStartsAt": "2026-05-30",
+            "periodEndsAt": "2026-05-30",
+            "occurredAt": "2026-05-30",
+            "attemptedAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "transferredAmount": {
+              "minorUnits": 266666666,
+              "currency": "USD"
+            },
+            "status": "completed",
+            "reasonKind": null,
+            "note": "Pay for three months of operations, payment 3 of 3; operating.",
+            "provenance": {
+              "kind": "simulated-event",
+              "eventId": "event_221367a2ce08784c"
+            },
+            "id": "resource-transfer-outcome_0b1c41a8a90ff0ff",
+            "sequence": 2720
+          },
+          "canonicalLawOnPayment": {
+            "answer": "no",
+            "measureId": "starting-law:US-IL:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "origin": "in-force-at-start",
+            "level": "state-statute",
+            "operativeAt": "2000-01-01",
+            "operativeBasis": "enacted-date",
+            "preempts": false
+          }
+        }
+      ],
+      "relatedMatters": [
+        {
+          "id": "event_aad85b243b5f310c",
+          "stableKey": "state-governing/v1:us-il-governor:event_5840bcee19d82789:program:appropriation:public-program-record_8c2c3fcf056fd519",
+          "sequence": 1898,
+          "type": "governing.matter-opened",
+          "occurredAt": "2026-02-15",
+          "recordedAt": "2026-02-15",
+          "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+          "involvedEntityIds": [
+            "organization_afd97b07a8fe065b",
+            "person_9e3176d90821ef58"
+          ],
+          "participants": [
+            {
+              "personId": "person_9e3176d90821ef58",
+              "role": "agency:officeholder",
+              "detail": "Governor of Illinois"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": [
+            "appropriation:public-program-record_8c2c3fcf056fd519",
+            "deadline:2026-04-01",
+            "matter-family:program",
+            "office:us-il-governor",
+            "state-governing/v1",
+            "subject:transit-access"
+          ],
+          "summary": "Governor of Illinois: Commit the money adopted for transit access.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_212b984b58e7a1ee",
+          "stableKey": "state-governing/v1:us-il-governor:event_5840bcee19d82789:program:appropriation:public-program-record_8c2c3fcf056fd519:decided",
+          "sequence": 2130,
+          "type": "governing.matter-decided",
+          "occurredAt": "2026-03-31",
+          "recordedAt": "2026-03-31",
+          "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+          "involvedEntityIds": [
+            "organization_afd97b07a8fe065b",
+            "person_9e3176d90821ef58"
+          ],
+          "participants": [
+            {
+              "personId": "person_9e3176d90821ef58",
+              "role": "agency:decider",
+              "detail": "officeholder"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "choice:program:operate-three-months",
+            "decided-by:officeholder",
+            "matter-family:program",
+            "matter:event_aad85b243b5f310c",
+            "office:us-il-governor",
+            "state-governing/v1"
+          ],
+          "summary": "Grace Daniels, Governor of Illinois, committed money adopted for transit access: pay for three months of operations.",
+          "context": {
+            "location": null,
+            "socialContext": null,
+            "pressure": null,
+            "choice": "Pay for three months of operations",
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "stamped": [],
+      "qualifyingCompleted": 0
+    }
+  ]
+}

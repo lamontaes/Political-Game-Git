@@ -1,0 +1,4164 @@
+{
+  "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+  "traceInventoryPin": "afbf23cb9cbdd03a1993c96370b762ee0ca6fae6",
+  "sourceCatalogCounts": [
+    72,
+    20
+  ],
+  "catalogKeys": 92,
+  "uniqueTraceInventoryKeys": 92,
+  "ownerReadSetMethod": "Catalog complement of explicit CTO1:36 unread43; original49 not individually enumerated. Dispatch membership not49mutator certification.",
+  "ownerRead49ClassificationCounts": {
+    "saved-domain": 23,
+    "aggregate-projection": 5,
+    "saved-budget": 15,
+    "authority-downstream": 2,
+    "authority-gate": 2,
+    "saved-program": 1,
+    "conditional-clause": 1
+  },
+  "ownerUnreadSourceWriterExceptions": [
+    88
+  ],
+  "executedRuntimeChecks": 0,
+  "rows": [
+    {
+      "catalogIndex": 1,
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:146",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/state-income-tax-law.ts:159",
+        "consumer": "src/simulation/statutory-tax.ts:410",
+        "savedSurfaceAndLimit": "Income-tax liability and withholding; estimated schedules not certified operative amounts."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 199,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:fiscal.adopt-income-tax\","
+        },
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 117,
+          "kind": "source-key-mention",
+          "text": "questionKey: \"us-policy-positions:fiscal.adopt-income-tax\","
+        },
+        {
+          "path": "src/simulation/state-income-tax-law.ts",
+          "line": 50,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:fiscal.adopt-income-tax\";"
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 5,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:fiscal.adopt-income-tax\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "income-tax-to-poverty",
+          "from": "law:us-policy-positions:fiscal.adopt-income-tax",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3583,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "income-tax-to-out-migration",
+          "from": "law:us-policy-positions:fiscal.adopt-income-tax",
+          "to": "population.out-migration",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4105,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 2,
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:189",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/state-income-tax-law.ts:159",
+        "consumer": "src/simulation/statutory-tax.ts:410",
+        "savedSurfaceAndLimit": "Income-tax liability and withholding; estimated schedules not certified operative amounts."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/law-in-force.test.ts",
+          "line": 370,
+          "kind": "test-only",
+          "text": "const KEY = \"us-policy-positions:fiscal.graduated-income-tax\";"
+        },
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 198,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:fiscal.graduated-income-tax\","
+        },
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 397,
+          "kind": "test-only",
+          "text": "const key = \"us-policy-positions:fiscal.graduated-income-tax\";"
+        },
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 127,
+          "kind": "source-key-mention",
+          "text": "questionKey: \"us-policy-positions:fiscal.graduated-income-tax\","
+        },
+        {
+          "path": "src/simulation/state-income-tax-law.ts",
+          "line": 52,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:fiscal.graduated-income-tax\";"
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 40,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:fiscal.graduated-income-tax\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "graduated-income-tax-to-poverty",
+          "from": "law:us-policy-positions:fiscal.graduated-income-tax",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3600,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "graduated-income-tax-to-out-migration",
+          "from": "law:us-policy-positions:fiscal.graduated-income-tax",
+          "to": "population.out-migration",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4122,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 3,
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:227",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 202,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:fiscal.cap-property-tax-growth\","
+        },
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 173,
+          "kind": "source-key-mention",
+          "text": "questionKey: \"us-policy-positions:fiscal.cap-property-tax-growth\","
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 70,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:fiscal.cap-property-tax-growth\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "property-tax-cap-to-math",
+          "from": "law:us-policy-positions:fiscal.cap-property-tax-growth",
+          "to": "school.math-proficient-pct",
+          "size": -0.05,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 3429,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 4,
+      "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:267",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:340",
+        "consumer": "src/simulation/public-budgets/month.ts:828",
+        "savedSurfaceAndLimit": "Monthly revenue estimates; no shopper tax bill or incentive recipient proved."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 141,
+          "kind": "source-key-mention",
+          "text": "questionKey: \"us-policy-positions:fiscal.exempt-groceries-from-sales-tax\","
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 105,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:fiscal.exempt-groceries-from-sales-tax\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "grocery-exemption-to-poverty",
+          "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3447,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "grocery-exemption-to-food-insecurity",
+          "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "to": "household.food-insecurity",
+          "size": -0.02,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3966,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 5,
+      "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:304",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/fiscal.ts:98",
+        "consumer": "src/simulation/public-budgets/month.ts:871",
+        "savedSurfaceAndLimit": "Balance/reserve/debt/pension records; reserve branch915 and pension branch945."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/store.ts",
+          "line": 85,
+          "kind": "source-key-mention",
+          "text": "balanced: \"us-policy-positions:fiscal.balanced-operating-budget\","
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 135,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:fiscal.balanced-operating-budget\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "balanced-budget-to-borrowing-cost",
+          "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+          "to": "gov.borrowing-cost",
+          "size": -8,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 4139,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 6,
+      "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:342",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/fiscal.ts:98",
+        "consumer": "src/simulation/public-budgets/month.ts:871",
+        "savedSurfaceAndLimit": "Balance/reserve/debt/pension records; reserve branch915 and pension branch945."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/store.ts",
+          "line": 87,
+          "kind": "source-key-mention",
+          "text": "pensions: \"us-policy-positions:fiscal.fund-pensions-to-schedule\","
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 165,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:fiscal.fund-pensions-to-schedule\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "pension-funding-to-borrowing-cost",
+          "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "to": "gov.borrowing-cost",
+          "size": -3,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4158,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 7,
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:383",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/fiscal.ts:98",
+        "consumer": "src/simulation/public-budgets/month.ts:871",
+        "savedSurfaceAndLimit": "Balance/reserve/debt/pension records; reserve branch915 and pension branch945."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/public-budgets.test.ts",
+          "line": 740,
+          "kind": "test-only",
+          "text": "\"starting-law:US-IL:us-policy-positions:fiscal.minimum-reserve-balance\","
+        },
+        {
+          "path": "src/simulation/public-budgets/store.ts",
+          "line": 86,
+          "kind": "source-key-mention",
+          "text": "reserve: \"us-policy-positions:fiscal.minimum-reserve-balance\","
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 195,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:fiscal.minimum-reserve-balance\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "reserve-balance-to-borrowing-cost",
+          "from": "law:us-policy-positions:fiscal.minimum-reserve-balance",
+          "to": "gov.borrowing-cost",
+          "size": -3,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4177,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 8,
+      "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:413",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 201,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:government-operations.independent-redistricting\","
+        },
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 5,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.independent-redistricting\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "independent-redistricting-to-turnout",
+          "from": "law:us-policy-positions:government-operations.independent-redistricting",
+          "to": "voting.turnout-pct",
+          "size": 0.005,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3531,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 9,
+      "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:457",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 36,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.require-photo-id-to-vote\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "voter-id-to-turnout",
+          "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+          "to": "voting.turnout-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 1890,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "voter-id-to-registration",
+          "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+          "to": "voting.registration",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 2371,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 10,
+      "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:507",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/automatic-registration.test.ts",
+          "line": 23,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:government-operations.automatic-voter-registration\";"
+        },
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 76,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.automatic-voter-registration\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "automatic-registration-to-turnout",
+          "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+          "to": "voting.turnout-pct",
+          "size": 0.015,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2388,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 11,
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:557",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "authority-downstream",
+        "reader": "src/simulation/nationwide-world/state-legislative-term-limits.ts:158",
+        "consumer": "src/simulation/nationwide-world/state-legislature-turnover.ts:297",
+        "savedSurfaceAndLimit": "Candidate bar is read-only; turnover consumer exists but executed eligibility change unmeasured."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 200,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:government-operations.legislative-term-limits\","
+        },
+        {
+          "path": "src/simulation/nationwide-world/state-legislative-term-limits.ts",
+          "line": 33,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:government-operations.legislative-term-limits\";"
+        },
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 116,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.legislative-term-limits\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "term-limits-to-turnout",
+          "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+          "to": "voting.turnout-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3549,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 12,
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:598",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 178,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.ban-lobbying-after-office\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 13,
+      "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:638",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "authority-gate",
+        "reader": "src/simulation/governing/question-authority.ts:352",
+        "consumer": "src/simulation/governing/council-lawmaking.ts:207",
+        "savedSurfaceAndLimit": "Local ordinance permission; no additional person/place consequence inferred."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority-gate.test.ts",
+          "line": 33,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:government-operations.broaden-local-authority\": {"
+        },
+        {
+          "path": "src/simulation/governing/question-authority.ts",
+          "line": 329,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:government-operations.broaden-local-authority\";"
+        },
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 213,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.broaden-local-authority\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 14,
+      "questionKey": "us-policy-positions:education.equalize-school-funding",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:687",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/place-outcomes.test.ts",
+          "line": 200,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:education.equalize-school-funding\","
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 7,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:education.equalize-school-funding\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "equalized-funding-to-spending",
+          "from": "law:us-policy-positions:education.equalize-school-funding",
+          "to": "school.spending-per-student",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2281,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "equalized-funding-to-math-proficiency",
+          "from": "law:us-policy-positions:education.equalize-school-funding",
+          "to": "school.math-proficient-pct",
+          "size": 0.06,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2976,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "equalized-funding-to-graduation",
+          "from": "law:us-policy-positions:education.equalize-school-funding",
+          "to": "school.graduation-pct",
+          "size": 0.02,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3016,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 15,
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:731",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/law-effect-stamp.test.ts",
+          "line": 18,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:education.public-funds-for-private-schooling\","
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 42,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:education.public-funds-for-private-schooling\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "vouchers-to-math-proficiency",
+          "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+          "to": "school.math-proficient-pct",
+          "size": -0.01,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 3056,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "vouchers-to-graduation",
+          "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+          "to": "school.graduation-pct",
+          "size": 0.005,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 3096,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 16,
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:785",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/teacher-salary-floor.ts:125",
+        "consumer": "src/simulation/living-world/town-pay.ts:1083",
+        "savedSurfaceAndLimit": "Compensation resourceFlowTerms and payroll; historical named receipt exists, drawn floor unresolved."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/teacher-salary-floor.ts",
+          "line": 35,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:education.raise-teacher-minimum-salary\";"
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 87,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:education.raise-teacher-minimum-salary\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "teacher-minimum-salary-to-graduation",
+          "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+          "to": "school.graduation-pct",
+          "size": 0.0025,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3389,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ],
+      "preservedReceipt": {
+        "path": "docs/codex/handbacks/team-5-teacher-five-state-receipt.json:18",
+        "sourceMain": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+        "person": "Jennifer Conway",
+        "place": "Appomattox, Virginia",
+        "beforeMinor": 189200,
+        "afterMinor": 224000,
+        "paidTransfersMinor": [
+          224000,
+          224000,
+          224000
+        ],
+        "limit": "Historical receipt, not fresh runtime certification; inherited drawn floor unresolved."
+      }
+    },
+    {
+      "catalogIndex": 17,
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:825",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 122,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:education.universal-preschool\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "universal-childcare-to-mothers-work",
+          "from": "law:us-policy-positions:education.universal-preschool",
+          "to": "labor.mothers-participation",
+          "size": 0.15,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 1851,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "universal-prek-to-graduation",
+          "from": "law:us-policy-positions:education.universal-preschool",
+          "to": "school.graduation-pct",
+          "size": 0.05,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2241,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "universal-prek-to-math-proficiency",
+          "from": "law:us-policy-positions:education.universal-preschool",
+          "to": "school.math-proficient-pct",
+          "size": -0.005,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 2936,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 18,
+      "questionKey": "us-policy-positions:education.freeze-public-tuition",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:874",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/tuition-freeze.ts:112",
+        "consumer": "src/simulation/public-budgets/month.ts:329",
+        "savedSurfaceAndLimit": "ChargesAndFees budget revenue; no student invoice established."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/tuition-freeze.ts",
+          "line": 43,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:education.freeze-public-tuition\";"
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 162,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:education.freeze-public-tuition\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "tuition-freeze-to-college-completion",
+          "from": "law:us-policy-positions:education.freeze-public-tuition",
+          "to": "school.college-completion-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4088,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 19,
+      "questionKey": "us-policy-positions:education.state-curriculum-standards",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:916",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 197,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:education.state-curriculum-standards\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "curriculum-standards-to-math",
+          "from": "law:us-policy-positions:education.state-curriculum-standards",
+          "to": "school.math-proficient-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3372,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 20,
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:970",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/crisis/health-coverage.ts:279",
+        "consumer": "src/simulation/crisis/health-coverage.ts:471",
+        "savedSurfaceAndLimit": "Person health-coverage event records and law stamps; requires actual eligibility/work facts."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/crisis/health-coverage.test.ts",
+          "line": 45,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.expand-medicaid-eligibility\";"
+        },
+        {
+          "path": "src/simulation/crisis/health-coverage.ts",
+          "line": 117,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:health-human-services.expand-medicaid-eligibility\";"
+        },
+        {
+          "path": "src/simulation/governing/law-in-force.test.ts",
+          "line": 187,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.expand-medicaid-eligibility\","
+        },
+        {
+          "path": "src/simulation/outcome-web/place-outcomes.test.ts",
+          "line": 79,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.expand-medicaid-eligibility\","
+        },
+        {
+          "path": "src/simulation/policy-principle-weights.test.ts",
+          "line": 36,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.expand-medicaid-eligibility\","
+        },
+        {
+          "path": "src/simulation/press/law-effect-news.test.ts",
+          "line": 590,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.expand-medicaid-eligibility\";"
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "medicaid-expansion-to-coverage",
+          "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "to": "health.uninsured-pct",
+          "size": -0.15,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2115,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "medicaid-expansion-to-mortality",
+          "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "to": "health.mortality-55-64",
+          "size": -0.094,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2147,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "medicaid-expansion-to-medical-debt",
+          "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "to": "finance.medical-debt-in-collections",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2178,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 21,
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1009",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/crisis/health-coverage.ts:279",
+        "consumer": "src/simulation/crisis/health-coverage.ts:471",
+        "savedSurfaceAndLimit": "Person health-coverage event records and law stamps; requires actual eligibility/work facts."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/crisis/health-coverage.test.ts",
+          "line": 257,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.medicaid-work-requirement\";"
+        },
+        {
+          "path": "src/simulation/crisis/health-coverage.ts",
+          "line": 119,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:health-human-services.medicaid-work-requirement\";"
+        },
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 269,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.medicaid-work-requirement\","
+        },
+        {
+          "path": "src/simulation/outcome-web/place-outcomes.test.ts",
+          "line": 84,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.medicaid-work-requirement\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "work-requirement-to-coverage",
+          "from": "law:us-policy-positions:health-human-services.medicaid-work-requirement",
+          "to": "health.uninsured-pct",
+          "size": 0.32,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 703,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "work-requirement-to-employment",
+          "from": "law:us-policy-positions:health-human-services.medicaid-work-requirement",
+          "to": "labor.employment-rate",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 740,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 22,
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1053",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/law-in-force.test.ts",
+          "line": 192,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.work-requirement-for-assistance\","
+        },
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 270,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.work-requirement-for-assistance\","
+        },
+        {
+          "path": "src/simulation/outcome-web/snap-receipt.test.ts",
+          "line": 24,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:health-human-services.work-requirement-for-assistance\";"
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "snap-work-requirement-to-participation",
+          "from": "law:us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "to": "program.snap-receipt",
+          "size": -0.052,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2209,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 23,
+      "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1099",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [],
+      "candidateOutcomeLinks": [
+        {
+          "key": "crisis-response-to-crime",
+          "from": "law:us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "to": "crime.violent",
+          "size": -0.01,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3340,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 24,
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1137",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [],
+      "candidateOutcomeLinks": [
+        {
+          "key": "harm-reduction-to-crime",
+          "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
+          "to": "crime.violent",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3482,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "harm-reduction-to-overdose-deaths",
+          "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
+          "to": "health.overdose-deaths",
+          "size": -0.05,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 3984,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 25,
+      "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1176",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [],
+      "candidateOutcomeLinks": [
+        {
+          "key": "housing-first-to-homelessness",
+          "from": "law:us-policy-positions:health-human-services.housing-first-homelessness",
+          "to": "housing.homelessness",
+          "size": -0.03,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 2499,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 26,
+      "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1215",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/justice/pretrial.ts:76",
+        "consumer": "src/simulation/justice/prosecution.ts:724",
+        "savedSurfaceAndLimit": "Pretrial release/held world events conditional on actual prosecution."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/law-effect-paths.ts",
+          "line": 244,
+          "kind": "source-key-mention",
+          "text": "questionKey: \"us-policy-positions:justice-public-safety.end-cash-bail\","
+        },
+        {
+          "path": "src/simulation/justice/pretrial.test.ts",
+          "line": 25,
+          "kind": "test-only",
+          "text": "const CASH_BAIL = \"us-policy-positions:justice-public-safety.end-cash-bail\";"
+        },
+        {
+          "path": "src/simulation/team9-principle-weights.test.ts",
+          "line": 5,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:justice-public-safety.end-cash-bail\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "end-cash-bail-to-pretrial-detention",
+          "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+          "to": "justice.pretrial-detained",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2320,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "end-cash-bail-to-violent-crime",
+          "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+          "to": "crime.violent",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3765,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 27,
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1258",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/justice/court-reasoning.ts:486",
+        "consumer": "src/simulation/justice/prosecution.ts:679",
+        "savedSurfaceAndLimit": "Sentence-kind constraint and sentence event; distinct from federal reduction question."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/law-effect-paths.ts",
+          "line": 250,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:justice-public-safety.mandatory-minimum-sentences\","
+        },
+        {
+          "path": "src/simulation/justice/pretrial.test.ts",
+          "line": 27,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.mandatory-minimum-sentences\";"
+        },
+        {
+          "path": "src/simulation/team9-principle-weights.test.ts",
+          "line": 40,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:justice-public-safety.mandatory-minimum-sentences\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "mandatory-minimums-to-incarceration",
+          "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "to": "justice.incarcerated-per-100k",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2337,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "mandatory-minimums-to-violent-crime",
+          "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "to": "crime.violent",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3799,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 28,
+      "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1303",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 413,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.civilian-oversight-of-police\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/city-outcomes.test.ts",
+          "line": 38,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.civilian-oversight-of-police\";"
+        },
+        {
+          "path": "src/simulation/press/law-effect-news.test.ts",
+          "line": 51,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.civilian-oversight-of-police\";"
+        },
+        {
+          "path": "src/simulation/team9-principle-weights.test.ts",
+          "line": 75,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:justice-public-safety.civilian-oversight-of-police\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "civilian-oversight-to-crime",
+          "from": "law:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "to": "crime.violent",
+          "size": -0.02,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 3464,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 29,
+      "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1347",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/judiciary/judicial-review.test.ts",
+          "line": 68,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.permit-to-carry-concealed\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/place-outcomes.test.ts",
+          "line": 336,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.permit-to-carry-concealed\","
+        },
+        {
+          "path": "src/simulation/team9-principle-weights.test.ts",
+          "line": 110,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:justice-public-safety.permit-to-carry-concealed\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "concealed-carry-permit-to-firearm-homicide",
+          "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "to": "crime.firearm-homicide",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2354,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "carry-permit-to-violent-crime",
+          "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "to": "crime.violent",
+          "size": -0.1,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 3747,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 30,
+      "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1380",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/justice/juvenile-court.ts:36",
+        "consumer": "src/simulation/crime/offenders.ts:161",
+        "savedSurfaceAndLimit": "Charging age gate; prosecution events and corrections budget; no case run here."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/law-effect-paths.ts",
+          "line": 256,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:justice-public-safety.raise-juvenile-court-age\","
+        },
+        {
+          "path": "src/simulation/justice/pretrial.test.ts",
+          "line": 31,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.raise-juvenile-court-age\";"
+        },
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 254,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:justice-public-safety.raise-juvenile-court-age\","
+        },
+        {
+          "path": "src/simulation/team9-principle-weights.test.ts",
+          "line": 135,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:justice-public-safety.raise-juvenile-court-age\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "juvenile-court-age-to-crime",
+          "from": "law:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "to": "crime.violent",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3323,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 31,
+      "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1420",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/restore-voting.test.ts",
+          "line": 24,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:justice-public-safety.restore-voting-after-sentence\";"
+        },
+        {
+          "path": "src/simulation/team9-principle-weights.test.ts",
+          "line": 170,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:justice-public-safety.restore-voting-after-sentence\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "restore-voting-to-turnout",
+          "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "to": "voting.turnout-pct",
+          "size": 0,
+          "sizeByPlace": {
+            "US-TN": {
+              "size": -0.0413,
+              "range": [
+                -0.0432,
+                -0.0338
+              ]
+            },
+            "US-FL": {
+              "size": -0.0352,
+              "range": [
+                -0.0365,
+                -0.0299
+              ]
+            },
+            "US-AL": {
+              "size": -0.0344,
+              "range": [
+                -0.0359,
+                -0.0282
+              ]
+            },
+            "US-AZ": {
+              "size": -0.0167,
+              "range": [
+                -0.0174,
+                -0.0141
+              ]
+            },
+            "US-MS": {
+              "size": -0.0159,
+              "range": [
+                -0.0167,
+                -0.013
+              ]
+            },
+            "US-KY": {
+              "size": -0.0161,
+              "range": [
+                -0.0167,
+                -0.0134
+              ]
+            },
+            "US-VA": {
+              "size": -0.021,
+              "range": [
+                -0.0217,
+                -0.0181
+              ]
+            },
+            "US-DE": {
+              "size": -0.0065,
+              "range": [
+                -0.0068,
+                -0.0055
+              ]
+            },
+            "US-WY": {
+              "size": -0.0051,
+              "range": [
+                -0.0054,
+                -0.0043
+              ]
+            },
+            "US-IA": {
+              "size": -0.0002,
+              "range": [
+                -0.0002,
+                -0.0002
+              ]
+            }
+          },
+          "evidence": "researched",
+          "dataLine": 2406,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 32,
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1464",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/housing-market.ts:109",
+        "consumer": "src/simulation/living-world/town-rent.ts:1643",
+        "savedSurfaceAndLimit": "Renewed rents saved in resourceFlowTerms; cached homePriceLevel is derived, not saved construction."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/housing-market.ts",
+          "line": 43,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones\","
+        },
+        {
+          "path": "src/simulation/outcome-web/housing-supply-outcomes.test.ts",
+          "line": 32,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones\","
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 5,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "housing-by-right-to-new-buildings",
+          "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "to": "housing.new-large-buildings",
+          "size": 1,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2465,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 33,
+      "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1505",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-rent.ts:291",
+        "consumer": "src/simulation/living-world/town-rent.ts:1678",
+        "savedSurfaceAndLimit": "Renewal rent resourceFlowTerms; market factor differs from covered-lease restrictions."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/law-in-force-preemption.test.ts",
+          "line": 20,
+          "kind": "test-only",
+          "text": "const KEY = \"us-policy-positions:housing-land-use.rent-stabilization\";"
+        },
+        {
+          "path": "src/simulation/governing/law-in-force-preemption.test.ts",
+          "line": 26,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:housing-land-use.rent-stabilization\": {"
+        },
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 430,
+          "kind": "test-only",
+          "text": "const key = \"us-policy-positions:housing-land-use.rent-stabilization\";"
+        },
+        {
+          "path": "src/simulation/living-world/town-rent.ts",
+          "line": 167,
+          "kind": "source-key-mention",
+          "text": "rentStabilization: \"us-policy-positions:housing-land-use.rent-stabilization\","
+        },
+        {
+          "path": "src/simulation/outcome-web/housing-supply-outcomes.test.ts",
+          "line": 30,
+          "kind": "test-only",
+          "text": "rentStabilization: \"us-policy-positions:housing-land-use.rent-stabilization\","
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 35,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:housing-land-use.rent-stabilization\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "rent-control-to-rental-supply",
+          "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+          "to": "housing.rental-supply",
+          "size": -0.15,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 1420,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "rent-control-to-tenant-stays",
+          "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+          "to": "housing.renter-moves",
+          "size": -0.2,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 1437,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 34,
+      "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1539",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/housing-market.ts:109",
+        "consumer": "src/simulation/living-world/town-rent.ts:1643",
+        "savedSurfaceAndLimit": "Renewed rents saved in resourceFlowTerms; cached homePriceLevel is derived, not saved construction."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/housing-market.ts",
+          "line": 44,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:housing-land-use.by-right-permitting\","
+        },
+        {
+          "path": "src/simulation/outcome-web/outcome-web.test.ts",
+          "line": 477,
+          "kind": "test-only",
+          "text": "measure: \"law:us-policy-positions:housing-land-use.by-right-permitting\","
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 60,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:housing-land-use.by-right-permitting\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "by-right-permitting-to-homelessness",
+          "from": "law:us-policy-positions:housing-land-use.by-right-permitting",
+          "to": "housing.homelessness",
+          "size": -0.03,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3683,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 35,
+      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1577",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-rent.ts:987",
+        "consumer": "src/simulation/living-world/town-rent.ts:1311",
+        "savedSurfaceAndLimit": "Affordable lease rent flows; recorded-home set-aside, not newly built homes."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/town-rent.ts",
+          "line": 168,
+          "kind": "source-key-mention",
+          "text": "inclusionary: \"us-policy-positions:housing-land-use.inclusionary-requirement\","
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 90,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:housing-land-use.inclusionary-requirement\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "inclusionary-to-homelessness",
+          "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+          "to": "housing.homelessness",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3724,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 36,
+      "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1611",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/housing-market.ts:109",
+        "consumer": "src/simulation/living-world/town-rent.ts:1643",
+        "savedSurfaceAndLimit": "Renewed rents saved in resourceFlowTerms; cached homePriceLevel is derived, not saved construction."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/housing-market.ts",
+          "line": 45,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:housing-land-use.preempt-local-housing-limits\","
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 115,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:housing-land-use.preempt-local-housing-limits\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "housing-preemption-to-homelessness",
+          "from": "law:us-policy-positions:housing-land-use.preempt-local-housing-limits",
+          "to": "housing.homelessness",
+          "size": -0.03,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3701,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 37,
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1649",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-rent.ts:987",
+        "consumer": "src/simulation/living-world/town-rent.ts:1957",
+        "savedSurfaceAndLimit": "Eviction decision consumed at1957; tenure state writer2590 and eviction world events. No case run."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/town-rent.ts",
+          "line": 170,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:housing-land-use.right-to-counsel-in-eviction\","
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 145,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:housing-land-use.right-to-counsel-in-eviction\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "right-to-counsel-to-evictions",
+          "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "to": "housing.eviction",
+          "size": -0.62,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2482,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 38,
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1686",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/highway-money-for-transit.test.ts",
+          "line": 27,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit\";"
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 5,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "highway-money-for-transit-to-service",
+          "from": "law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "to": "transit.service-access",
+          "size": 0.06,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4345,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 39,
+      "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1774",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/legislation-infrastructure-families.ts",
+          "line": 65,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.fare-free-transit\","
+        },
+        {
+          "path": "src/simulation/legislation-scenarios.ts",
+          "line": 421,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.fare-free-transit\","
+        },
+        {
+          "path": "src/simulation/outcome-web/transit-ridership.test.ts",
+          "line": 25,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:transportation-infrastructure.fare-free-transit\";"
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 75,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:transportation-infrastructure.fare-free-transit\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "fare-free-transit-to-ridership",
+          "from": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "to": "transit.ridership",
+          "size": 0.42,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 4196,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 40,
+      "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1730",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-program",
+        "reader": "src/simulation/governing/program-governing.ts:225",
+        "consumer": "src/simulation/governing/public-program.ts:970",
+        "savedSurfaceAndLimit": "Authority/commitment/installment/outturn/transfers; real terms and profile required, operator expansion after3:30."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/automatic-legislation.test.ts",
+          "line": 61,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours\","
+        },
+        {
+          "path": "src/simulation/legislation-transit-families.ts",
+          "line": 19,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours\";"
+        },
+        {
+          "path": "src/simulation/legislation-transit-families.ts",
+          "line": 52,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours\","
+        },
+        {
+          "path": "src/simulation/legislation-transit-families.ts",
+          "line": 207,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours\","
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 40,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 41,
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1812",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/road-usage-charge.ts:71",
+        "consumer": "src/simulation/public-budgets/month.ts:326",
+        "savedSurfaceAndLimit": "Aggregate selective-tax budget revenue; no driver mileage assessment certified."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/road-usage-charge.ts",
+          "line": 10,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax\";"
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 105,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 42,
+      "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1856",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 140,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:transportation-infrastructure.public-broadband\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "public-broadband-to-home-access",
+          "from": "law:us-policy-positions:transportation-infrastructure.public-broadband",
+          "to": "broadband.home-access",
+          "size": 0.01,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4052,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 43,
+      "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1900",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "conditional-clause",
+        "reader": "src/simulation/legislation-local-fiscal-families.ts:8",
+        "consumer": "src/simulation/governing/program-governing.ts:225",
+        "savedSurfaceAndLimit": "Supported local profile appropriation; not a universal yes/no priority or named-road repair."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/legislation-infrastructure-families.ts",
+          "line": 408,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.fix-it-first\","
+        },
+        {
+          "path": "src/simulation/legislation-infrastructure-families.ts",
+          "line": 575,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.fix-it-first\","
+        },
+        {
+          "path": "src/simulation/legislation-local-fiscal-families.ts",
+          "line": 8,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.fix-it-first\";"
+        },
+        {
+          "path": "src/simulation/local-fiscal-authority.test.ts",
+          "line": 75,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:transportation-infrastructure.fix-it-first\","
+        },
+        {
+          "path": "src/simulation/local-fiscal-authority.ts",
+          "line": 60,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:transportation-infrastructure.fix-it-first\","
+        },
+        {
+          "path": "src/simulation/outcome-web/fix-it-first.test.ts",
+          "line": 23,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:transportation-infrastructure.fix-it-first\";"
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 175,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:transportation-infrastructure.fix-it-first\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "fix-it-first-to-poor-roads",
+          "from": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
+          "to": "roads.poor-condition-pct",
+          "size": -0.18,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4470,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 44,
+      "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1940",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 200,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:business-commerce.reduce-occupational-licensing\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "licensing-reform-to-poverty",
+          "from": "law:us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "to": "household.poverty-pct",
+          "size": -0.003,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3513,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 45,
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:1974",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/cannabis-sales-revenue.ts:59",
+        "consumer": "src/simulation/public-budgets/month.ts:845",
+        "savedSurfaceAndLimit": "Cannabis revenue/loss and budget stamps; actual retailer remittance not established."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/cannabis-sales-revenue.test.ts",
+          "line": 319,
+          "kind": "test-only",
+          "text": ")[\"us-policy-positions:business-commerce.legalize-cannabis-sales\"]!.answers;"
+        },
+        {
+          "path": "src/simulation/public-budgets/cannabis-sales-tax.ts",
+          "line": 24,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:business-commerce.legalize-cannabis-sales\";"
+        },
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 156,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:business-commerce.legalize-cannabis-sales\","
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 225,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:business-commerce.legalize-cannabis-sales\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "cannabis-sales-to-youth-use",
+          "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "to": "health.youth-cannabis-use",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2531,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "cannabis-sales-to-violent-crime",
+          "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "to": "crime.violent",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3782,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "cannabis-sales-to-overdose-deaths",
+          "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "to": "health.overdose-deaths",
+          "size": -0.05,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 4214,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 46,
+      "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2008",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:340",
+        "consumer": "src/simulation/public-budgets/month.ts:828",
+        "savedSurfaceAndLimit": "Monthly revenue estimates; no shopper tax bill or incentive recipient proved."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 11,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:business-commerce.cap-development-incentives\";"
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 250,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:business-commerce.cap-development-incentives\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "incentive-cap-to-poverty",
+          "from": "law:us-policy-positions:business-commerce.cap-development-incentives",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3666,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 47,
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2046",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/high-cost-loans.test.ts",
+          "line": 33,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:business-commerce.cap-consumer-loan-rates\";"
+        },
+        {
+          "path": "src/simulation/team4-principle-weights.test.ts",
+          "line": 175,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:business-commerce.cap-consumer-loan-rates\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "loan-rate-cap-to-high-cost-borrowing",
+          "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "to": "finance.high-cost-loans",
+          "size": -0.32,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2548,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 48,
+      "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2076",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/minimum-wage.ts:344",
+        "consumer": "src/simulation/living-world/town-pay.ts:961",
+        "savedSurfaceAndLimit": "Pay flow terms then transfers; federal reader143 and city reader424;1267 outsidee318 not certified."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/minimum-wage.ts",
+          "line": 49,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:labor-workforce.raise-minimum-wage\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/index.ts",
+          "line": 374,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:labor-workforce.raise-minimum-wage\": ["
+        },
+        {
+          "path": "src/simulation/outcome-web/outcome-web.test.ts",
+          "line": 168,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:labor-workforce.raise-minimum-wage\","
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 220,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:labor-workforce.raise-minimum-wage\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "minimum-wage-to-poverty",
+          "from": "labor.minimum-wage-change-pct",
+          "to": "household.poverty-pct",
+          "size": -0.0034,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 892,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 49,
+      "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2107",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "authority-gate",
+        "reader": "src/simulation/governing/question-authority.ts:390",
+        "consumer": "src/simulation/minimum-wage.ts:424",
+        "savedSurfaceAndLimit": "State local-wage legality gate; city paycheck effect belongs to separate city wage key."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority-gate.test.ts",
+          "line": 39,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:labor-workforce.local-minimum-wage-authority\": {"
+        },
+        {
+          "path": "src/simulation/minimum-wage.ts",
+          "line": 68,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:labor-workforce.local-minimum-wage-authority\";"
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 280,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:labor-workforce.local-minimum-wage-authority\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 50,
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2146",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/state-paid-leave-law.ts:85",
+        "consumer": "src/simulation/living-world/town-pay.ts:1241",
+        "savedSurfaceAndLimit": "Benefit calculation then payroll transfers1296; budget integration and inherited terms separate."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/law-in-force.test.ts",
+          "line": 196,
+          "kind": "test-only",
+          "text": "stableKey: \"us-policy-positions:labor-workforce.paid-family-leave\","
+        },
+        {
+          "path": "src/simulation/state-paid-leave-law.ts",
+          "line": 36,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:labor-workforce.paid-family-leave\";"
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 310,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:labor-workforce.paid-family-leave\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "paid-leave-to-mothers-work",
+          "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+          "to": "labor.mothers-participation",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2566,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 51,
+      "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2194",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 350,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:labor-workforce.public-sector-collective-bargaining\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "public-bargaining-to-graduation",
+          "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "to": "school.graduation-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3306,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "public-bargaining-to-earnings",
+          "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "to": "labor.median-earnings",
+          "size": -0.01,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 4016,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 52,
+      "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2233",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/outcome-web.test.ts",
+          "line": 176,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:labor-workforce.right-to-work\","
+        },
+        {
+          "path": "src/simulation/outcome-web/outcome-web.test.ts",
+          "line": 179,
+          "kind": "test-only",
+          "text": "\"law:us-policy-positions:labor-workforce.right-to-work\","
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 380,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:labor-workforce.right-to-work\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "right-to-work-to-turnout",
+          "from": "law:us-policy-positions:labor-workforce.right-to-work",
+          "to": "voting.turnout-pct",
+          "size": -0.031,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 3288,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 53,
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2277",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/environment-energy-laws.test.ts",
+          "line": 38,
+          "kind": "test-only",
+          "text": "clean: \"us-policy-positions:environment-energy.clean-electricity-standard\","
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 205,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:environment-energy.clean-electricity-standard\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "clean-electricity-to-price",
+          "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
+          "to": "energy.electricity-price",
+          "size": 0.11,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2637,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "clean-electricity-to-particulates",
+          "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
+          "to": "env.particulates",
+          "size": -0.01,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3816,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 54,
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2318",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/environment-energy-laws.test.ts",
+          "line": 39,
+          "kind": "test-only",
+          "text": "carbon: \"us-policy-positions:environment-energy.price-carbon\","
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 240,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:environment-energy.price-carbon\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "carbon-price-to-emissions",
+          "from": "law:us-policy-positions:environment-energy.price-carbon",
+          "to": "env.emissions",
+          "size": -0.03,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 2583,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "carbon-price-to-particulates",
+          "from": "law:us-policy-positions:environment-energy.price-carbon",
+          "to": "env.particulates",
+          "size": -0.005,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3834,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 55,
+      "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2361",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/judiciary/judicial-review.test.ts",
+          "line": 66,
+          "kind": "test-only",
+          "text": "const GAS = \"us-policy-positions:environment-energy.ban-new-gas-hookups\";"
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 275,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:environment-energy.ban-new-gas-hookups\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "gas-hookup-ban-to-child-asthma",
+          "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "to": "health.child-asthma-pct",
+          "size": -0.01,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 4070,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 56,
+      "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2405",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 310,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:environment-energy.restrict-building-in-flood-zones\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "flood-zone-limits-to-damage",
+          "from": "law:us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+          "to": "disaster.flood-damage",
+          "size": -0.02,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2655,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 57,
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2448",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/container-deposit.test.ts",
+          "line": 21,
+          "kind": "test-only",
+          "text": "const DEPOSIT_KEY = \"us-policy-positions:environment-energy.bottle-deposit\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/environment-energy-laws.test.ts",
+          "line": 40,
+          "kind": "test-only",
+          "text": "deposit: \"us-policy-positions:environment-energy.bottle-deposit\","
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 345,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:environment-energy.bottle-deposit\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "container-deposit-to-litter",
+          "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+          "to": "env.litter",
+          "size": -0.45,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2601,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "container-deposit-to-prices",
+          "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+          "to": "household.prices",
+          "size": 0.0005,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2619,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "container-deposit-to-recycling",
+          "from": "law:us-policy-positions:environment-energy.bottle-deposit",
+          "to": "env.container-recycling-pct",
+          "size": 43.7,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2673,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 58,
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2485",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/groundwater-limits.test.ts",
+          "line": 31,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal\";"
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 375,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "groundwater-limits-to-irrigation-pumping",
+          "from": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+          "to": "water.irrigation-groundwater",
+          "size": -0.31,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4381,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 59,
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2529",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/farmland-easements.test.ts",
+          "line": 32,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development\";"
+        },
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 410,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "farmland-easements-to-farmland-lost",
+          "from": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "to": "farmland.developed-acres",
+          "size": -0.47,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 4363,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 60,
+      "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2572",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team6-principle-weights.test.ts",
+          "line": 445,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:agriculture-natural-resources.expand-public-land-access\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 61,
+      "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2614",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/fairness-pay-law.ts:126",
+        "consumer": "src/simulation/living-world/town-pay.ts:732",
+        "savedSurfaceAndLimit": "Initial compensation terms then payroll; city reader141, narrow partner/work applicability."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/fairness-pay-law.ts",
+          "line": 33,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work\";"
+        },
+        {
+          "path": "src/simulation/governing/question-authority-gate.test.ts",
+          "line": 45,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work\":"
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 238,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "anti-discrimination-to-poverty",
+          "from": "law:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3649,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 62,
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2667",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/outcome-web.test.ts",
+          "line": 207,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:civil-family-community.restrict-abortion\";"
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 328,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:civil-family-community.restrict-abortion\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "abortion-ban-to-births",
+          "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
+          "to": "births.rate",
+          "size": 0.023,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 1799,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "abortion-ban-to-infant-deaths",
+          "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
+          "to": "health.infant-mortality",
+          "size": 0.06,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 1817,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 63,
+      "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2713",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 368,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:civil-family-community.fund-public-libraries\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "library-funding-to-math",
+          "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
+          "to": "school.math-proficient-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3566,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "library-funding-to-reading",
+          "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
+          "to": "school.reading-proficient-pct",
+          "size": 0.01,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4034,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 64,
+      "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2756",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 403,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:civil-family-community.local-control-of-library-materials\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "library-materials-to-reading",
+          "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
+          "to": "school.reading-proficient-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4311,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 65,
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2805",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/parks-dedication.ts:57",
+        "consumer": "src/simulation/public-budgets/month.ts:378",
+        "savedSurfaceAndLimit": "Monthly parks spending; drawn/estimated amount remains separate held repair."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 7,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:civil-family-community.dedicated-parks-funding\";"
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 443,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:civil-family-community.dedicated-parks-funding\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 66,
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2853",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:378",
+        "consumer": "src/simulation/public-budgets/month.ts:713",
+        "savedSurfaceAndLimit": "Monthly administration spending; rules.ts228/242 fixed fiscal-note terms, not actual privacy workload."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 229,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:technology-privacy.consumer-data-privacy-law\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "privacy-law-to-earnings",
+          "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "to": "labor.median-earnings",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4249,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 67,
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2892",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [],
+      "candidateOutcomeLinks": [
+        {
+          "key": "facial-recognition-limit-to-crime",
+          "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "to": "crime.violent",
+          "size": 0.01,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 3617,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 68,
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2933",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/public-budgets/month.ts:378",
+        "consumer": "src/simulation/public-budgets/month.ts:713",
+        "savedSurfaceAndLimit": "Monthly administration spending; rules.ts228/242 fixed fiscal-note terms, not actual privacy workload."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/public-budgets/rules.ts",
+          "line": 243,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:technology-privacy.age-verification-for-social-media\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "social-media-age-check-to-graduation",
+          "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "to": "school.graduation-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4280,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 69,
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:29",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-outlay-laws.ts:50",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:281",
+        "savedSurfaceAndLimit": "Treasury outlay/debt and state federal-aid factors; fixed aggregate terms, no named aid recipient."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/federal-outlay-laws.ts",
+          "line": 31,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:budget.pay-for-a-higher-debt-limit\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/index.ts",
+          "line": 386,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:budget.pay-for-a-higher-debt-limit\": ["
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 5,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:budget.pay-for-a-higher-debt-limit\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "federal-deficit-to-borrowing-cost",
+          "from": "federal.deficit-change-pct-of-gdp",
+          "to": "gov.borrowing-cost",
+          "size": 25,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 4452,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 70,
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:63",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/federal-top-income-tax-law.ts:73",
+        "consumer": "src/simulation/statutory-tax.ts:330",
+        "savedSurfaceAndLimit": "Federal income tax liability/withholding and treasury receipts; nationwide firing unmeasured."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/federal-top-income-tax-law.ts",
+          "line": 25,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:tax.raise-top-income-tax-rate\";"
+        },
+        {
+          "path": "src/simulation/governing/agenda-producers.test.ts",
+          "line": 110,
+          "kind": "test-only",
+          "text": "\"us-federal-positions:tax.raise-top-income-tax-rate\","
+        },
+        {
+          "path": "src/simulation/public-budgets/federal-treasury.ts",
+          "line": 125,
+          "kind": "source-key-mention",
+          "text": "questionKey: \"us-federal-positions:tax.raise-top-income-tax-rate\","
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 30,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:tax.raise-top-income-tax-rate\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "top-income-tax-rate-to-poverty",
+          "from": "law:us-federal-positions:tax.raise-top-income-tax-rate",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3932,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 71,
+      "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:101",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/high-cost-loans.test.ts",
+          "line": 36,
+          "kind": "test-only",
+          "text": "\"us-federal-positions:monetary-financial.cap-consumer-loan-interest\";"
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 60,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:monetary-financial.cap-consumer-loan-interest\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "federal-loan-cap-to-high-cost-loans",
+          "from": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+          "to": "finance.high-cost-loans",
+          "size": -0.32,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2879,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 72,
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:144",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-defense-spending.ts:59",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:171",
+        "savedSurfaceAndLimit": "Treasury defense outlays and aggregate earnings; fixed growth separately assigned repair."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/federal-defense-spending.ts",
+          "line": 29,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:defense.grow-defense-spending\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/index.ts",
+          "line": 377,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:defense.grow-defense-spending\": ["
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 95,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:defense.grow-defense-spending\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "defense-contracts-to-earnings",
+          "from": "federal.defense-boost-pct",
+          "to": "labor.median-earnings",
+          "size": 0.015,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 4399,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 73,
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:176",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-outlay-laws.ts:50",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:281",
+        "savedSurfaceAndLimit": "Treasury outlay/debt and state federal-aid factors; fixed aggregate terms, no named aid recipient."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/federal-outlay-laws.ts",
+          "line": 33,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:foreign-affairs.increase-foreign-aid\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/index.ts",
+          "line": 389,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:foreign-affairs.increase-foreign-aid\": ["
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 120,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:foreign-affairs.increase-foreign-aid\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "federal-deficit-to-borrowing-cost",
+          "from": "federal.deficit-change-pct-of-gdp",
+          "to": "gov.borrowing-cost",
+          "size": 25,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 4452,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 74,
+      "questionKey": "us-federal-positions:trade.raise-tariffs",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:215",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 150,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:trade.raise-tariffs\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "tariffs-to-prices",
+          "from": "law:us-federal-positions:trade.raise-tariffs",
+          "to": "household.prices",
+          "size": 0.008,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2807,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 75,
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:248",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 175,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:immigration.admit-more-immigrants\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "more-immigration-to-workforce",
+          "from": "law:us-federal-positions:immigration.admit-more-immigrants",
+          "to": "labor.workforce",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2919,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "immigration-to-crime",
+          "from": "law:us-federal-positions:immigration.admit-more-immigrants",
+          "to": "crime.rate-index",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3864,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 76,
+      "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:291",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 206,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:health.medicare-drug-price-negotiation\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "drug-negotiation-to-out-of-pocket",
+          "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
+          "to": "health.drug-out-of-pocket",
+          "size": -0.08,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2861,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 77,
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:330",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 236,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:social-insurance.raise-retirement-age\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "retirement-age-to-older-work",
+          "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
+          "to": "labor.older-employment",
+          "size": 0.1,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2843,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "retirement-age-to-poverty",
+          "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
+          "to": "household.poverty-pct",
+          "size": 0.02,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 3846,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 78,
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:369",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 266,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:education.forgive-student-loans\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "student-debt-relief-to-finances",
+          "from": "law:us-federal-positions:education.forgive-student-loans",
+          "to": "finance.past-due-debt",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2902,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "student-loan-forgiveness-to-poverty",
+          "from": "law:us-federal-positions:education.forgive-student-loans",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3949,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 79,
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:407",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/minimum-wage.ts:344",
+        "consumer": "src/simulation/living-world/town-pay.ts:961",
+        "savedSurfaceAndLimit": "Pay flow terms then transfers; federal reader143 and city reader424;1267 outsidee318 not certified."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/minimum-wage.ts",
+          "line": 45,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:labor-commerce.raise-federal-minimum-wage\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/place-outcomes.test.ts",
+          "line": 265,
+          "kind": "test-only",
+          "text": "\"us-federal-positions:labor-commerce.raise-federal-minimum-wage\","
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 296,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:labor-commerce.raise-federal-minimum-wage\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "federal-minimum-wage-to-poverty",
+          "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "to": "household.poverty-pct",
+          "size": -0.035,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2715,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "federal-minimum-wage-to-low-wage-jobs",
+          "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "to": "labor.low-wage-jobs",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "contested",
+          "dataLine": 2738,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 80,
+      "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:445",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/outcome-web/place-outcomes.test.ts",
+          "line": 388,
+          "kind": "test-only",
+          "text": "\"us-federal-positions:housing.vouchers-for-every-eligible-family\","
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 326,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:housing.vouchers-for-every-eligible-family\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "housing-vouchers-to-homelessness",
+          "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+          "to": "housing.homelessness",
+          "size": -0.3,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 2825,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "housing-vouchers-to-graduation",
+          "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+          "to": "school.graduation-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3898,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "housing-vouchers-to-crime",
+          "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+          "to": "crime.rate-index",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3915,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 81,
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:479",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "aggregate-projection",
+        "reader": "src/simulation/outcome-web/index.ts:497",
+        "consumer": "src/simulation/outcome-web/place-outcomes.ts:334",
+        "savedSurfaceAndLimit": "Candidate place summaries; not direct actor/service writer. Restored voting baseline0 has nonzero place overrides."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/federal-passenger-rail.ts",
+          "line": 28,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:transport-water.expand-passenger-rail\";"
+        },
+        {
+          "path": "src/simulation/legislation-federal-rail-family.ts",
+          "line": 8,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:transport-water.expand-passenger-rail\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/index.ts",
+          "line": 380,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:transport-water.expand-passenger-rail\": ["
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 351,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:transport-water.expand-passenger-rail\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "federal-rail-expansion-to-riders",
+          "from": "federal.rail-expansion-pct",
+          "to": "rail.intercity-ridership",
+          "size": 0.00486,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 4506,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 82,
+      "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:517",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 381,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:energy-environment.limit-power-plant-carbon\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "power-plant-carbon-to-emissions",
+          "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+          "to": "env.emissions",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2772,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "power-plant-carbon-to-particulates",
+          "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+          "to": "env.particulates",
+          "size": -0.005,
+          "sizeByPlace": null,
+          "evidence": "provisional",
+          "dataLine": 2789,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 83,
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:555",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-budget",
+        "reader": "src/simulation/federal-farm-subsidy-law.ts:44",
+        "consumer": "src/simulation/public-budgets/federal-treasury.ts:155",
+        "savedSurfaceAndLimit": "Treasury agriculture outlay and aggregate values; no individual farmer payment proved."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/federal-farm-subsidy-law.ts",
+          "line": 26,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:agriculture.cut-farm-subsidies\";"
+        },
+        {
+          "path": "src/simulation/outcome-web/index.ts",
+          "line": 383,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:agriculture.cut-farm-subsidies\": ["
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 411,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:agriculture.cut-farm-subsidies\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "farm-payments-cut-to-land-values",
+          "from": "federal.farm-payments-cut-pct-of-land-value",
+          "to": "farmland.value-per-acre",
+          "size": -0.215,
+          "sizeByPlace": null,
+          "evidence": "researched",
+          "dataLine": 4416,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 84,
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:593",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 441,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:emergencies.states-share-disaster-costs\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 85,
+      "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:632",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 471,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:justice-rights.reduce-mandatory-minimums\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "mandatory-minimum-cut-to-federal-prisoners",
+          "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "to": "justice.incarcerated-per-100k",
+          "size": null,
+          "sizeByPlace": null,
+          "evidence": "to-confirm",
+          "dataLine": 2755,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        },
+        {
+          "key": "federal-mandatory-minimums-to-crime",
+          "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "to": "crime.rate-index",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 3881,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 86,
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:671",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "no-direct-domain-reader-traced",
+        "reader": null,
+        "consumer": null,
+        "savedSurfaceAndLimit": "Bounded review only; generic outcome candidates and operative clause coverage may exist. Not proof of zero effects."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 501,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:government.ban-congressional-stock-trading\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "congress-stock-ban-to-member-returns",
+          "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
+          "to": "government.member-market-returns",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4232,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 87,
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:705",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/federal-data-privacy-law.ts:62",
+        "consumer": "src/simulation/living-world/town-finances.ts:1052",
+        "savedSurfaceAndLimit": "Business lastQuarterPrivacyCost and balances; reader called726, actual workload missing."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/federal-data-privacy-law.ts",
+          "line": 22,
+          "kind": "source-key-mention",
+          "text": "\"us-federal-positions:science-communications.national-data-privacy\";"
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 526,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:science-communications.national-data-privacy\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 88,
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "catalogDefinition": "src/simulation/policy-pack-us-federal-positions.ts:749",
+      "ownerDispatch": "unread43",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/governing/statehood-admission.ts:60",
+        "consumer": "src/simulation/living-world/statehood-seats.ts:280",
+        "savedSurfaceAndLimit": "DC seat term events via writeTerms183; congress-turnover1230 caller; first seating hardwired."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/statehood-seats.test.ts",
+          "line": 58,
+          "kind": "test-only",
+          "text": "\"us-federal-positions:territories-culture.statehood-for-dc\";"
+        },
+        {
+          "path": "src/simulation/team1-principle-weights.test.ts",
+          "line": 561,
+          "kind": "test-only",
+          "text": "key: \"us-federal-positions:territories-culture.statehood-for-dc\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 89,
+      "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:2976",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/minimum-wage.ts:344",
+        "consumer": "src/simulation/living-world/town-pay.ts:961",
+        "savedSurfaceAndLimit": "Pay flow terms then transfers; federal reader143 and city reader424;1267 outsidee318 not certified."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 287,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:labor-workforce.city-minimum-wage\","
+        },
+        {
+          "path": "src/simulation/minimum-wage.ts",
+          "line": 72,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:labor-workforce.city-minimum-wage\";"
+        },
+        {
+          "path": "src/simulation/team3-principle-weights.test.ts",
+          "line": 245,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:labor-workforce.city-minimum-wage\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 90,
+      "questionKey": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:3016",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/fairness-pay-law.ts:126",
+        "consumer": "src/simulation/living-world/town-pay.ts:732",
+        "savedSurfaceAndLimit": "Initial compensation terms then payroll; city reader141, narrow partner/work applicability."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/fairness-pay-law.ts",
+          "line": 35,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:civil-family-community.city-nondiscrimination-ordinance\";"
+        },
+        {
+          "path": "src/simulation/governing/question-authority.test.ts",
+          "line": 286,
+          "kind": "test-only",
+          "text": "\"us-policy-positions:civil-family-community.city-nondiscrimination-ordinance\","
+        },
+        {
+          "path": "src/simulation/team5-principle-weights.test.ts",
+          "line": 278,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:civil-family-community.city-nondiscrimination-ordinance\","
+        }
+      ],
+      "candidateOutcomeLinks": [
+        {
+          "key": "city-anti-discrimination-to-poverty",
+          "from": "law:us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+          "to": "household.poverty-pct",
+          "size": 0,
+          "sizeByPlace": null,
+          "evidence": "about-zero",
+          "dataLine": 4328,
+          "status": "Static candidate only; built/produced/fired not inferred"
+        }
+      ]
+    },
+    {
+      "catalogIndex": 91,
+      "questionKey": "us-policy-positions:government-operations.council-term-limits",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:3079",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "authority-downstream",
+        "reader": "src/simulation/living-world/local-council-term-limits.ts:60",
+        "consumer": "src/simulation/living-world/local-elections.ts:912",
+        "savedSurfaceAndLimit": "Read-only candidate bar then election participation state; no executed bar proof."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/local-council-term-limits.ts",
+          "line": 26,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:government-operations.council-term-limits\";"
+        },
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 147,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.council-term-limits\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    },
+    {
+      "catalogIndex": 92,
+      "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
+      "catalogDefinition": "src/simulation/policy-pack-us-policy-positions.ts:3120",
+      "ownerDispatch": "reconstructedRead49",
+      "sourcePin": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+      "review": {
+        "classification": "saved-domain",
+        "reader": "src/simulation/living-world/town-wards.ts:277",
+        "consumer": "src/simulation/living-world/local-elections.ts:1322",
+        "savedSurfaceAndLimit": "Ward map events via town-wards367; local commission differs from state district-map question."
+      },
+      "runtimeVerification": "NOT RUN by helper; unmeasured unless preserved receipt explicitly supplied",
+      "literalSourceMentions": [
+        {
+          "path": "src/simulation/living-world/town-wards.ts",
+          "line": 260,
+          "kind": "source-key-mention",
+          "text": "\"us-policy-positions:government-operations.independent-ward-commission\";"
+        },
+        {
+          "path": "src/simulation/team2-principle-weights.test.ts",
+          "line": 253,
+          "kind": "test-only",
+          "text": "key: \"us-policy-positions:government-operations.independent-ward-commission\","
+        }
+      ],
+      "candidateOutcomeLinks": []
+    }
+  ]
+}

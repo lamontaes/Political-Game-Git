@@ -1,0 +1,92 @@
+[
+  {
+    "state": "US-AL",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-AL.json",
+    "sha256": "c3b460d57d0c7cb6d53342ef8c080817edb128db0dbe335a4282fa3ed7dee43d"
+  },
+  {
+    "state": "US-AK",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-AK.json",
+    "sha256": "b65af86dfccb961819e9e7a90cbfff6635e22503ee29d7c83287f559c692648c"
+  },
+  {
+    "state": "US-AS",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-AS.json",
+    "sha256": "95bd7e50d2fed106f34d35f3ffe55792175279eeb23d0716e6b972b9e8ee0630"
+  },
+  {
+    "state": "US-AZ",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-AZ.json",
+    "sha256": "ff50f641d86a17c1db9ebddabb8761bac7a2bf7508add0575a2058a296f3abac"
+  },
+  {
+    "state": "US-AR",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-AR.json",
+    "sha256": "055068824896df65dd9baef8ec81e8d65484cf8ea944ca6a58461f27e0c854b4"
+  },
+  {
+    "state": "US-CA",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-CA.json",
+    "sha256": "24639c68b9f836708fe61e32cd0fc72828dca32aec9aec05fc70720788c00b72"
+  },
+  {
+    "state": "US-CO",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-CO.json",
+    "sha256": "2823090eb68acec183712194ba1e5c25542bc1a89bb098c12f2256925073e288"
+  },
+  {
+    "state": "US-CT",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-CT.json",
+    "sha256": "796570d0f3bf73e122eed4b920a2cf83aaafa533cccee7d00efd9f72a71c6148"
+  },
+  {
+    "state": "US-DE",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-DE.json",
+    "sha256": "d56581e6462886e0119b7ec4af19bd8387d48c305242225fd0b08d093a9c9748"
+  },
+  {
+    "state": "US-DC",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-DC.json",
+    "sha256": "7f72a726446413efd352180574052ed9104f376ecd06030a139af2b3ae80e5c5"
+  },
+  {
+    "state": "US-FL",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-FL.json",
+    "sha256": "ef7acb8831b2b0a4efa559202514157765b3aa8ef0cae3c426f5b773c7404052"
+  },
+  {
+    "state": "US-GA",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-GA.json",
+    "sha256": "3013c9a595eabf9e2f28087d6110d811783673e3e8beb48cdf646d10d9f3e66a"
+  },
+  {
+    "state": "US-GU",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-GU.json",
+    "sha256": "0430c0b9a3d38840204cba21464ffac71324d4a2eeb8a5d91227b82bbe8fddd7"
+  },
+  {
+    "state": "US-HI",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-HI.json",
+    "sha256": "de01e5b4ff4cff012eb1d4094e49e710d2464ec154042e8679f62050ec518c46"
+  },
+  {
+    "state": "US-ID",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-ID.json",
+    "sha256": "117e8e146309f7e6568ee46690d5a868675638871dd1c9110e9c3be1f7afe266"
+  },
+  {
+    "state": "US-IL",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-IL.json",
+    "sha256": "e743647f05782d4ad51a5d509fb8b2353016ade0da8e064db89dc828e5cf3201"
+  },
+  {
+    "state": "US-IN",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-IN.json",
+    "sha256": "c8b3fbbbcefda54185b9ae0e4500fe4ad67bd3b868889126b27e68e8444dfb32"
+  },
+  {
+    "state": "US-IA",
+    "path": "docs/codex/law-audit/audit-systems-20260930-run/US-IA.json",
+    "sha256": "85d9cf5a36c7324c3ce5c41cd17518208b687eb7a1e6b69c5b9a8311c6dfbaeb"
+  }
+]

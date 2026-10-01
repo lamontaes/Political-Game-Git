@@ -1,0 +1,14 @@
+{
+  "head": "b0fb2464f682f72e6a970a87b353074fa530034f",
+  "dirty": "?? docs/codex/audit-systems-activation.md\n?? docs/codex/audit-systems-capacity-restart.json\n?? docs/codex/audit-systems-close-choices.json\n?? docs/codex/audit-systems-close-choices.md\n?? docs/codex/audit-systems-consolidated-government.json\n?? docs/codex/audit-systems-consolidated-government.md\n?? docs/codex/audit-systems-contact-news-life.json\n?? docs/codex/audit-systems-contact-news-life.md\n?? docs/codex/audit-systems-drawn-inventory.json\n?? docs/codex/audit-systems-drawn-inventory.md\n?? docs/codex/audit-systems-justice-remaining-seams.json\n?? docs/codex/audit-systems-justice-remaining-seams.md\n?? docs/codex/audit-systems-juvenile-writer-seam.md\n?? docs/codex/audit-systems-national-first-partial.md\n?? docs/codex/audit-systems-next-federal-writer.json\n?? docs/codex/audit-systems-next-federal-writer.md\n?? docs/codex/audit-systems-read-law-writers.json\n?? docs/codex/audit-systems-read-law-writers.md\n?? docs/codex/audit-systems-room-mapping.json\n?? docs/codex/audit-systems-room-mapping.md\n?? docs/codex/audit-systems-sponsor-selector-fd-historical.json\n?? docs/codex/audit-systems-sponsor-selector.json\n?? docs/codex/audit-systems-sponsor-selector.md\n?? docs/codex/audit-systems-sponsored-vote.json\n?? docs/codex/audit-systems-sponsored-vote.md\n?? docs/codex/audit-systems-tax-privacy-contracts.json\n?? docs/codex/audit-systems-tax-privacy-contracts.md\n?? docs/codex/audit-systems-vote-diagnosis.json\n?? docs/codex/audit-systems-vote-diagnosis.md\n?? docs/codex/audit-systems-writer-table.md\n?? docs/codex/audit-systems/\n?? docs/codex/effects-mechanism-design.md\n?? docs/codex/law-audit/aggregate-sealed.py\n?? docs/codex/law-audit/all56-1250-orchestration.mjs\n?? docs/codex/law-audit/all56-1250-selected-places.json\n?? docs/codex/law-audit/all56-1250-worker.mts\n?? docs/codex/law-audit/audit-systems-20260930-run/\n?? docs/codex/law-audit/audit-systems-restart-b0fb2464-20260930-1900/\n?? docs/codex/law-audit/audit-systems-transfer.json\n?? scripts/law-audit/all56-orchestration.mjs\n?? scripts/law-audit/all56-worker.mts",
+  "seed": "team2-full56-20260930-US-AR-0",
+  "place": "county:05069",
+  "openingDate": "2026-01-05",
+  "checkpoint": {
+    "month": 24,
+    "date": "2028-01-05",
+    "enacted": 22,
+    "elapsedSeconds": 493.761895119,
+    "maxRSSKiB": 2799524
+  }
+}

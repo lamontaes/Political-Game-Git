@@ -1,0 +1,13 @@
+{
+  "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "dirty": "?? docs/codex/audit-systems-activation.md\n?? docs/codex/audit-systems-close-choices.json\n?? docs/codex/audit-systems-close-choices.md\n?? docs/codex/audit-systems-contact-news-life.json\n?? docs/codex/audit-systems-contact-news-life.md\n?? docs/codex/audit-systems-drawn-inventory.json\n?? docs/codex/audit-systems-national-first-partial.md\n?? docs/codex/audit-systems-read-law-writers.json\n?? docs/codex/audit-systems-read-law-writers.md\n?? docs/codex/audit-systems-room-mapping.json\n?? docs/codex/audit-systems-room-mapping.md\n?? docs/codex/audit-systems-vote-diagnosis.json\n?? docs/codex/audit-systems-vote-diagnosis.md\n?? docs/codex/audit-systems-writer-table.md\n?? docs/codex/audit-systems/\n?? docs/codex/effects-mechanism-design.md\n?? docs/codex/law-audit/aggregate-sealed.py\n?? docs/codex/law-audit/all56-1250-orchestration.mjs\n?? docs/codex/law-audit/all56-1250-selected-places.json\n?? docs/codex/law-audit/all56-1250-worker.mts\n?? docs/codex/law-audit/audit-systems-20260930-run/\n?? docs/codex/law-audit/audit-systems-transfer.json\n?? scripts/law-audit/all56-orchestration.mjs\n?? scripts/law-audit/all56-worker.mts",
+  "seed": "team2-full56-20260930-US-GU-0",
+  "place": "territory:GU:dededo",
+  "openingDate": "2026-01-05",
+  "checkpoint": {
+    "month": 24,
+    "date": "2028-01-05",
+    "enacted": 19,
+    "elapsedSeconds": 550.573903342
+  }
+}

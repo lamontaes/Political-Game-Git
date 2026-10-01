@@ -1,0 +1,60 @@
+{
+  "at": "2026-09-30T18:55:55.844110+00:00",
+  "head": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "driver": 2519,
+  "driverCommand": "node --import tsx scripts/law-audit/all56-orchestration.mjs ",
+  "sealedCount": 18,
+  "sealedStates": [
+    "US-AL",
+    "US-AK",
+    "US-AS",
+    "US-AZ",
+    "US-AR",
+    "US-CA",
+    "US-CO",
+    "US-CT",
+    "US-DE",
+    "US-DC",
+    "US-FL",
+    "US-GA",
+    "US-GU",
+    "US-HI",
+    "US-ID",
+    "US-IL",
+    "US-IN",
+    "US-IA"
+  ],
+  "workers": [
+    {
+      "state": "US-KS",
+      "pid": 8869,
+      "command": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node --max-old-space-size=4096 --import tsx /workspace/Political-Game-Git/scripts/law-audit/all56-worker.mts --seed team2-full56-20260930-US-KS-0 --place 2031675 --months 24 --out docs/codex/law-audit/audit-systems-20260930-run/US-KS ",
+      "memory": [
+        "VmPeak:\t 4023508 kB",
+        "VmHWM:\t 2710132 kB",
+        "VmRSS:\t 1983064 kB"
+      ]
+    },
+    {
+      "state": "US-KY",
+      "pid": 8986,
+      "command": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node --max-old-space-size=4096 --import tsx /workspace/Political-Game-Git/scripts/law-audit/all56-worker.mts --seed team2-full56-20260930-US-KY-0 --place 2104816 --months 24 --out docs/codex/law-audit/audit-systems-20260930-run/US-KY ",
+      "memory": [
+        "VmPeak:\t 4011756 kB",
+        "VmHWM:\t 2698664 kB",
+        "VmRSS:\t 1566548 kB"
+      ]
+    },
+    {
+      "state": "US-LA",
+      "pid": 9196,
+      "command": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node --max-old-space-size=4096 --import tsx /workspace/Political-Game-Git/scripts/law-audit/all56-worker.mts --seed team2-full56-20260930-US-LA-0 --place 2255420 --months 24 --out docs/codex/law-audit/audit-systems-20260930-run/US-LA ",
+      "memory": [
+        "VmPeak:\t 3658896 kB",
+        "VmHWM:\t 2338888 kB",
+        "VmRSS:\t 1221460 kB"
+      ]
+    }
+  ],
+  "reason": "Owner CTO 2:51 supersedes pinned-campaign continuation; restart latest main including 1297"
+}

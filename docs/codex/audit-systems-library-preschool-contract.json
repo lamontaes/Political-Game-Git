@@ -1,0 +1,113 @@
+{
+  "schema": "audit-systems-library-preschool-contract/v1",
+  "mainPin": "b0fb2464f682f72e6a970a87b353074fa530034f",
+  "candidatePin": "2a72c1cfb14d2da01717473d89d126eb41b152d6",
+  "researchPin": "a82a04fc079783e460e1867d5ccd59f83b90c8cb",
+  "ownerInstruction": "Coordinator-relayed latest CTO2:50 approval: seven preschool outcomes; proposed disjoint preschool-law-effects.ts; no appropriation-to-enrollment inference.",
+  "fetchedPinnedReceipts": [
+    {
+      "content": "import { recordedPrinciplesForPerson } from \"./governing/officeholder-principles\";\nimport { libraryMaterialsAuthority } from \"./library-materials-authority\";\nimport { LIBRARY_QUESTION } from \"./education-civil-law-terms\";\nimport { lawEffectStamp } from \"./law-effect-stamp\";\nimport type {\n  LibraryDecision,\n  LibraryMaterialsStore,\n} from \"./library-materials-types\";\nimport type { EntityId, PrincipleRecord, World } from \"./types\";\n\n/** Preserve the existing optional save field without changing the shared World declaration. */\nexport type LibraryMaterialsWorld = World & {\n  readonly libraryMaterials?: LibraryMaterialsStore;\n};\n\n/** Content preferences read held continuous support, not old conviction buckets. */\nexport function libraryContentView(world: World, personId: EntityId) {\n  const relevant = new Map(\n    Object.values(world.policyCatalog.principles)\n      .filter(\n        (row) =>\n          row.stableKey.endsWith(\":tradition\") ||\n          row.stableKey.endsWith(\":personal-liberty\"),\n      )\n      .map((row) => [row.id, row.stableKey.endsWith(\":tradition\") ? 1 : -1]),\n  );\n  const held = new Map<EntityId, PrincipleRecord>();\n  for (const row of recordedPrinciplesForPerson(world, personId))\n    if (row.formedAt <= world.currentDate && relevant.has(row.principleId))\n      held.set(row.principleId, row);\n  let score = 0;\n  const ids: EntityId[] = [];\n  for (const row of held.values()) {\n    if (row.stance === \"conflicted\") continue;\n    score +=\n      relevant.get(row.principleId)! *\n      row.strength *\n      (row.stance === \"endorses\" ? 1 : -1);\n    ids.push(row.id);\n  }\n  return { score, ids };\n}\n\n/**\n * A held meeting's caller supplies its actual members and existing challenges.\n * A state allocation alone supplies neither a title rule nor state decision makers.\n */\nexport function resolveLibraryChallenges(\n  world: LibraryMaterialsWorld,\n  townId: EntityId,\n  memberIds: readonly EntityId[],\n  meetingKey: string,\n): LibraryMaterialsWorld {\n  const prior = world.libraryMaterials;\n  if (!prior || !meetingKey.trim() || memberIds.length === 0) return world;\n  const members = [...new Set(memberIds)];\n  if (members.some((id) => !world.people[id])) return world;\n  const authority = libraryMaterialsAuthority(world, townId);\n  if (authority.level !== \"local\" || !authority.law) return world;\n  const answered = new Set(prior.decisions.map((row) => row.challengeKey));\n  const decisions: LibraryDecision[] = [];\n  for (const challenge of prior.challenges) {\n    if (\n      challenge.townId !== townId ||\n      challenge.filedOn > world.currentDate ||\n      answered.has(challenge.key) ||\n      !world.people[challenge.personId]\n    )\n      continue;\n    const ballots = members.map((personId) => {\n      const view = libraryContentView(world, personId);\n      return {\n        personId,\n        remove: view.score > 0,\n        score: view.score,\n        principleRecordIds: view.ids,\n        reason:\n          view.score > 0\n            ? \"The member's recorded content preferences favor removal.\"\n            : \"The member's recorded content preferences do not favor removal.\",\n      };\n    });\n    const stamp = lawEffectStamp(authority.law, {\n      effectKind: \"library.collection-decision\",\n      questionKey: LIBRARY_QUESTION,\n      jurisdictionId: townId,\n      appliedAt: world.currentDate,\n      sourceRecordIds: [\n        challenge.personId,\n        ...challenge.principleRecordIds,\n        ...challenge.faithParticipationIds,\n        ...challenge.schoolChildIds,\n        ...members,\n        ...ballots.flatMap((row) => row.principleRecordIds),\n      ],\n    });\n    decisions.push({\n      challengeKey: challenge.key,\n      meetingKey,\n      on: world.currentDate,\n      authority: \"local\",\n      authorityReason: authority.reason,\n      ballots,\n      removed: ballots.filter((row) => row.remove).length > ballots.length / 2,\n      staffHours: null,\n      legalHours: null,\n      expenseCents: null,\n      ...(stamp ? { lawEffectStamps: [stamp] } : {}),\n    });\n    answered.add(challenge.key);\n  }\n  return decisions.length\n    ? {\n        ...world,\n        libraryMaterials: {\n          challenges: prior.challenges,\n          decisions: [...prior.decisions, ...decisions],\n        },\n      }\n    : world;\n}\n",
+      "encoding": "utf-8",
+      "sha": "1eacd8cd32a021a814a94b963b45eb6ba608e271",
+      "display_url": "https://github.com/lamontaes/Political-Game-Git/blob/2a72c1cfb14d2da01717473d89d126eb41b152d6/src/simulation/library-materials-law.ts",
+      "display_title": "library-materials-law.ts"
+    },
+    {
+      "content": "import type { LawEffectStampedRecord } from \"./law-effect-stamp\";\nimport type { EntityId, IsoDate } from \"./types\";\n\nexport interface LibraryChallenge {\n  readonly key: string;\n  readonly townId: EntityId;\n  readonly personId: EntityId;\n  readonly titleKey: string;\n  readonly filedOn: IsoDate;\n  readonly reason: string;\n  readonly principleRecordIds: readonly EntityId[];\n  readonly faithParticipationIds: readonly EntityId[];\n  readonly schoolChildIds: readonly EntityId[];\n}\n\nexport interface LibraryDecision extends LawEffectStampedRecord {\n  readonly challengeKey: string;\n  readonly meetingKey: string;\n  readonly on: IsoDate;\n  readonly authority: \"local\" | \"state\";\n  readonly authorityReason: string;\n  readonly ballots: readonly {\n    personId: EntityId;\n    remove: boolean;\n    score: number;\n    principleRecordIds: readonly EntityId[];\n    reason: string;\n  }[];\n  readonly removed: boolean;\n  /** A decision does not prove that a staff or legal-review payment occurred. */\n  readonly staffHours: number | null;\n  readonly legalHours: number | null;\n  readonly expenseCents: number | null;\n}\n\nexport interface LibraryMaterialsStore {\n  readonly challenges: readonly LibraryChallenge[];\n  readonly decisions: readonly LibraryDecision[];\n}\n",
+      "encoding": "utf-8",
+      "sha": "1446355de910cdf5067ed53157fc3ea01c61c46c",
+      "display_url": "https://github.com/lamontaes/Political-Game-Git/blob/2a72c1cfb14d2da01717473d89d126eb41b152d6/src/simulation/library-materials-types.ts",
+      "display_title": "library-materials-types.ts"
+    },
+    {
+      "content": "{\n  \"team\": 9,\n  \"recipient\": \"Team5/coordinator\",\n  \"scope\": \"Onepre-Koutcomespass\",\n  \"sharedWriter\": \"Coordinatorlinks.json;Team5educationbuild\",\n  \"outcomes\": [\n    \"literacy\",\n    \"readiness\",\n    \"special-education\",\n    \"retention\",\n    \"graduation\",\n    \"parents-work-hours\",\n    \"child-care-spending\"\n  ],\n  \"studies\": [\n    {\n      \"place\": \"Boston\",\n      \"source\": \"https://www.nber.org/system/files/working_papers/w28756/w28756.pdf\",\n      \"version\": \"May2021workingpaper;finalpublishedcomparisonnotverified\",\n      \"access\": \"PreservedfullprimaryPDFTable4read\",\n      \"design\": \"Preschooladmissionlottery2SLSattendanceeffect;outcomesamplesrestrictedtoobservedMassachusettspublicschoolrecords\",\n      \"rows\": [\n        {\n          \"outcome\": \"grade-retention\",\n          \"estimate\": -0.036,\n          \"standardError\": 0.029,\n          \"derivedNormal95CI\": [-0.09284, 0.02084],\n          \"unit\": \"Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers\",\n          \"lag\": \"ThroughobservedMassachusettsschoolrecords\"\n        },\n        {\n          \"outcome\": \"special-education-grade1\",\n          \"estimate\": 0.009,\n          \"standardError\": 0.015,\n          \"derivedNormal95CI\": [-0.0204, 0.0384],\n          \"unit\": \"Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers\",\n          \"lag\": \"Grade1\"\n        },\n        {\n          \"outcome\": \"special-education-grade3\",\n          \"estimate\": 0.002,\n          \"standardError\": 0.015,\n          \"derivedNormal95CI\": [-0.0274, 0.0314],\n          \"unit\": \"Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers\",\n          \"lag\": \"Grade3\"\n        },\n        {\n          \"outcome\": \"on-time-high-school-graduation\",\n          \"estimate\": 0.054,\n          \"standardError\": 0.03,\n          \"derivedNormal95CI\": [-0.0048, 0.1128],\n          \"unit\": \"Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers\",\n          \"lag\": \"Projectedgrade12\"\n        },\n        {\n          \"outcome\": \"ever-high-school-graduation\",\n          \"estimate\": 0.06,\n          \"standardError\": 0.03,\n          \"derivedNormal95CI\": [0.0012, 0.1188],\n          \"unit\": \"Absoluteprobabilitydifferenceperpreschoolattendanceamonglotterycompliers\",\n          \"lag\": \"Observedhighschoolcompletion\"\n        }\n      ],\n      \"limits\": \"No pooled nationalrate; intervalssamplinguncertaintynotplacevariance. Retention/specialedCIs crossing0donotproveequivalence. On-timeandevergraduationdistinct.\"\n    },\n    {\n      \"place\": \"Tulsa\",\n      \"source\": \"https://doi.org/10.1037/0012-1649.41.6.872\",\n      \"access\": \"AuthorsabstractthroughEuropePMCprimarymetadata;APAfullPDFreturnedchallengeHTML,notread\",\n      \"design\": \"Birthday-cutoffregressiondiscontinuity;1567preKchildrenand1461kindergartnersjustcompletedpreK\",\n      \"rows\": [\n        {\n          \"outcome\": \"letter-word-identification\",\n          \"testPointGain\": 3.0,\n          \"controlSDGain\": 0.79\n        },\n        {\n          \"outcome\": \"spelling\",\n          \"testPointGain\": 1.86,\n          \"controlSDGain\": 0.64\n        },\n        {\n          \"outcome\": \"applied-problems\",\n          \"testPointGain\": 1.94,\n          \"controlSDGain\": 0.38\n        }\n      ],\n      \"unit\": \"WoodcockJohnsonachievementtestpointsandcontrol-groupstandarddeviations,notpercentliteracyorgraduation\",\n      \"lag\": \"School-entryassessmentafterpreK\",\n      \"uncertainty\": \"AbstracthasnoSE/CI;tableuncertaintyneededbeforearangedactivation\"\n    },\n    {\n      \"place\": \"Tennessee\",\n      \"source\": \"https://doi.org/10.1037/dev0001301\",\n      \"primaryArchive\": \"PMC9716729\",\n      \"access\": \"AuthorsabstractthroughEuropePMCmetadata;fullXMLHTTP500,PMCHTMLchallenge;tablesnotread\",\n      \"design\": \"Randomizedadmissionoffer/waitlist;2990low-incomefamiliesatoversubscribedstateprogramsites\",\n      \"findings\": \"Lowerachievementgrades3\\u20136,strongestadverseeffectsgrade6;adverseattendance/discipline/specialeducationfindings;retentionnondetection\",\n      \"unitAndRangeGap\": \"Exacttestscale,grade-specificestimate/CIandcorrectedspecialeducationcodingneeded;noinventedsizeornull-to-zero\",\n      \"correction\": \"Publishedcorrection10.1037/dev0001407mustbereconciledbeforeusingnumerictables\",\n      \"lag\": \"Throughgrade6\"\n    },\n    {\n      \"place\": \"Chicago\",\n      \"source\": \"https://doi.org/10.1001/jama.285.18.2339\",\n      \"access\": \"AuthorsabstractthroughEuropePMCmetadata;fulltablesnotread\",\n      \"design\": \"Nonrandomizedmatchedcohort1539low-incomemostlyBlackchildrenborn1980;CPCeducation/family/healthservicesages3\\u20139\",\n      \"rows\": [\n        {\n          \"outcome\": \"high-school-completion\",\n          \"preschoolRate\": 0.497,\n          \"comparisonRate\": 0.385,\n          \"difference\": 0.112,\n          \"pValue\": 0.01,\n          \"lag\": \"Age20\"\n        },\n        {\n          \"outcome\": \"grade-retention-extended-program\",\n          \"extendedRate\": 0.219,\n          \"lessExtendedRate\": 0.323,\n          \"difference\": -0.104,\n          \"pValue\": 0.001,\n          \"lag\": \"Age18\"\n        },\n        {\n          \"outcome\": \"special-education-extended-program\",\n          \"extendedRate\": 0.135,\n          \"lessExtendedRate\": 0.207,\n          \"difference\": -0.072,\n          \"pValue\": 0.004,\n          \"lag\": \"Age18\"\n        }\n      ],\n      \"unit\": \"Adjustedreportedgroupfractions;notrandomizedcausaleffectorpreK-onlycontrastfortheextendedrows\",\n      \"uncertainty\": \"Abstractprovidesp-valuesnotintervals;donotreconstructSEfromroundedpvalues\",\n      \"limits\": \"Preschoolpluscontinuingfamily/schoolservices;cannotattributeextendedprogramresultstopreKalone\"\n    }\n  ],\n  \"parentsAndSpending\": {\n    \"sourceLead\": \"https://doi.org/10.2139/ssrn.1416029\",\n    \"title\": \"PreschoolersEnrolledandMothersatWork?TheEffectsofUniversalPre-Kindergarten\",\n    \"access\": \"AuthorworkingpaperabstractthroughCrossrefmetadata\",\n    \"coverage\": \"Georgia/Oklahoma/FloridauniversalpreKeligibilitycutoffs;notTulsa-classrooms/Bostonlotteryresult\",\n    \"finding\": \"Labor-supplyeffectsheterogeneous;reportedlittleeffectformostwomenandlargerruralGeorgiaemploymentresponse\",\n    \"parentsWorkHours\": \"Exactweekly/annualhoursestimate,coveredparentpopulation,SE/CIandprogramscheduleunverified;employmentindicatorisnothours. Studyneededforrequestedconversion.\",\n    \"childCareSpending\": \"Exactout-of-pocketspendingcounterfactual/substitution/fees/extendedcarehoursandCIunverified. FreepublicpreKdoesnotimplyallchildcarecostsdisappear.\",\n    \"mechanism\": \"Eligiblechildactualenrollmentandhoursreplaceotherwise-paidcareonlywherefamilieswouldpay;workrequiresactualparentjob/scheduleandavailablecare. Noinventedhours/costcoefficient.\"\n  },\n  \"integrationLimits\": [\n    \"Do notpoolincompatibleprograms/intensity/populations/grades.\",\n    \"Researchrangesareuncertaintyorcalibrationchecks,notdrawnoutcomelevelsoruniversalplacecaps.\",\n    \"Noautomaticrepealreversalforalreadyeducatedcohorts.\",\n    \"Noneoftheabstract-onlyfindingsisclaimedruntimewired.\"\n  ],\n  \"runtimeEdits\": 0\n}\n",
+      "encoding": "utf-8",
+      "sha": "6b96492d9c0379cbe3d8d405f814733d30f2f161",
+      "display_url": "https://github.com/lamontaes/Political-Game-Git/blob/a82a04fc079783e460e1867d5ccd59f83b90c8cb/docs/codex/effect-batches/team-9/prek-outcomes-pass.json",
+      "display_title": "prek-outcomes-pass.json"
+    },
+    {
+      "content": "import {\n  CURRICULUM_QUESTION,\n  educationCivilLawTermsInForce,\n} from \"../education-civil-law-terms\";\nimport {\n  educationEnrollmentStateAt,\n  organizationProfileAt,\n} from \"../life-queries\";\nimport {\n  lifePlaceByJurisdictionId,\n  stateKeyForJurisdiction,\n} from \"../life-places\";\nimport type { EntityId, IsoDate, World } from \"../types\";\nimport type { PublicBudgetGovernment } from \"./store\";\n\n/**\n * Read the governing law and the actual pupils behind a curriculum purchase.\n * A plain yes/no law still has a reading; absent purchase terms are a limit,\n * not evidence that curriculum authority or every other effect is inactive.\n */\nexport function curriculumAdoptionEffect(\n  world: World,\n  government: PublicBudgetGovernment,\n  month: IsoDate,\n) {\n  if (government.level !== \"state\") return null;\n  const reading = educationCivilLawTermsInForce(\n    world,\n    government.lawJurisdictionId,\n    CURRICULUM_QUESTION,\n    month,\n  );\n  if (!reading) return null;\n  // Count active, represented pupils once each from dated enrollment and school location.\n  const pupils = new Map<\n    EntityId,\n    {\n      personId: EntityId;\n      enrollmentIds: EntityId[];\n      organizationIds: EntityId[];\n    }\n  >();\n  const enrollments = world.history.educationEnrollments\n    .filter(\n      (row) =>\n        row.programKind.startsWith(\"schooling:\") &&\n        row.startedAt <= month &&\n        (row.recordedAt === undefined || row.recordedAt <= month) &&\n        row.sequence < world.history.nextSequence &&\n        educationEnrollmentStateAt(world, row.id, {\n          asOfDate: month,\n          historySequenceExclusive: world.history.nextSequence,\n        })?.status === \"active\",\n    )\n    .filter((row) => {\n      const location = organizationProfileAt(world, row.organizationId, {\n        asOfDate: month,\n        historySequenceExclusive: world.history.nextSequence,\n      })?.locationJurisdictionId;\n      if (!location) return false;\n      const stateKey =\n        lifePlaceByJurisdictionId(location)?.stateJurisdictionKey ??\n        (world.jurisdictions[location]\n          ? stateKeyForJurisdiction(world.jurisdictions[location]!)\n          : null);\n      return stateKey === government.stateKey;\n    });\n  for (const row of enrollments) {\n    const pupil = pupils.get(row.personId) ?? {\n      personId: row.personId,\n      enrollmentIds: [],\n      organizationIds: [],\n    };\n    pupil.enrollmentIds.push(row.id);\n    if (!pupil.organizationIds.includes(row.organizationId))\n      pupil.organizationIds.push(row.organizationId);\n    pupils.set(row.personId, pupil);\n  }\n  const recipients = [...pupils.values()];\n  const result = { law: reading.law, month, recipients };\n  const { materialsPerPupilCents, phaseInMonths } = reading.terms?.values ?? {};\n  if (materialsPerPupilCents === undefined || !phaseInMonths)\n    return {\n      ...result,\n      spendingDollars: null,\n      limit: \"No purchase amount and phase-in are filed in the governing law.\",\n    };\n  const elapsed =\n    (Number(month.slice(0, 4)) - Number(reading.law.operativeAt.slice(0, 4))) *\n      12 +\n    Number(month.slice(5, 7)) -\n    Number(reading.law.operativeAt.slice(5, 7));\n\n  return {\n    ...result,\n    spendingDollars:\n      elapsed < 0 || elapsed >= phaseInMonths\n        ? 0\n        : Math.round(\n            (recipients.length * materialsPerPupilCents) / 100 / phaseInMonths,\n          ),\n    limit: null,\n  };\n}\n\n/** Existing budget settlement consumes only the filed purchase amount. */\nexport function curriculumAdoptionSpending(\n  world: World,\n  government: PublicBudgetGovernment,\n  month: IsoDate,\n): number {\n  return (\n    curriculumAdoptionEffect(world, government, month)?.spendingDollars ?? 0\n  );\n}\n",
+      "encoding": "utf-8",
+      "sha": "e1848ffb35909893fc2884d00c1c6a7ede1334d4",
+      "display_url": "https://github.com/lamontaes/Political-Game-Git/blob/2a72c1cfb14d2da01717473d89d126eb41b152d6/src/simulation/public-budgets/curriculum-standards.ts",
+      "display_title": "curriculum-standards.ts"
+    }
+  ],
+  "mainSeams": [
+    {
+      "path": "src/simulation/living-world/local-council-meetings.ts:670",
+      "gap": "council-held event participants empty; no library board roster"
+    },
+    {
+      "path": "src/simulation/ordinary-meeting-presence.ts:150",
+      "limit": "specific authored public meeting actual attendance, not board authority"
+    },
+    {
+      "path": "src/simulation/public-budgets/index.ts:146",
+      "gap": "numeric settlements need explicit returned World threading for new records"
+    },
+    {
+      "path": "src/simulation/education-study-terms.ts:113",
+      "limit": "accepted terms cannot be replaced"
+    },
+    {
+      "path": "src/simulation/education-study-progression.ts:580",
+      "proposal": "lawful public-institution charge adjustment, preserving accepted artifact"
+    }
+  ],
+  "preschoolOutcomes": [
+    {
+      "outcome": "early-reading/literacy",
+      "canonicalKey": null,
+      "producer": "not verified",
+      "proposedRecord": "actual child exposure and dated instrument/score/unit"
+    },
+    {
+      "outcome": "readiness",
+      "canonicalKey": null,
+      "producer": "not verified",
+      "proposedRecord": "distinct readiness assessment"
+    },
+    {
+      "outcome": "special-education",
+      "canonicalKey": null,
+      "producer": "not verified; policy topic not outcome",
+      "proposedRecord": "actual evaluation and service determination"
+    },
+    {
+      "outcome": "grade-retention",
+      "canonicalKey": null,
+      "producer": "not verified",
+      "proposedRecord": "school-year promotion/retention decision"
+    },
+    {
+      "outcome": "later-graduation",
+      "canonicalKey": "school.graduation-pct",
+      "source": "data/research/outcome-web/place-outcome-bases-2024.json:140",
+      "unit": "percent of four-year adjusted public-school cohort",
+      "namedStateWriter": "src/simulation/school-stages.ts:545",
+      "limit": "aggregate level and scheduled school completion do not prove preschool causal outcome"
+    },
+    {
+      "outcome": "parent-work-hours",
+      "canonicalKey": null,
+      "existingDifferentLinkTarget": "labor.mothers-participation",
+      "source": "data/research/outcome-web/links.json:1946",
+      "proposedRecord": "actual parent job schedule/hours change"
+    },
+    {
+      "outcome": "paid-childcare-spending",
+      "canonicalKey": null,
+      "producer": "not verified",
+      "proposedRecord": "actual substituted care hours, fees, obligation and completed transfer"
+    }
+  ],
+  "registeredMatchingRequestedMeasures": 1,
+  "requestedOutcomes": 7,
+  "namedPreschoolOrLibraryRuntimeReceipt": "not supplied or created",
+  "historicalNamedExample": "Jennifer Conway/Appomattox saved teacher-pay receipt; no preschool/library inference",
+  "newRuntimeRuns": 0,
+  "productionEdits": 0,
+  "gitMutations": 0
+}

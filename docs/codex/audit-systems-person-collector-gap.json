@@ -1,0 +1,62 @@
+{
+  "schema": "audit-systems-person-collector-gap/v1",
+  "sourcePin": "d9e4b8689b24470af29262d5b38affcc9dbb360a",
+  "collector": {
+    "path": "scripts/law-audit/audit.ts:656",
+    "flatPersonFields": [
+      "personId",
+      "studentPersonId",
+      "pupilPersonId",
+      "recipientPersonId"
+    ],
+    "nestedParticipantsInspected": false
+  },
+  "actualProducer": {
+    "path": "src/simulation/justice/prosecution.ts:354",
+    "subjectRole": "focus:defendant",
+    "excludeRole": "agency:decided",
+    "sourceJoin": "src/simulation/justice/prosecution.ts:404"
+  },
+  "aggregation": {
+    "path": "docs/codex/law-audit/aggregate-sealed.py:32",
+    "currentInput": "person IDs regex from touched only",
+    "count": "docs/codex/law-audit/aggregate-sealed.py:48"
+  },
+  "measuredSealedReceipt": {
+    "path": "docs/codex/law-audit/audit-systems-restart-d9e4b868-20260930-1921/US-AL.json",
+    "place": "Rockford, Alabama",
+    "completedMonths": 24,
+    "startingCashBailRows": 2,
+    "uniqueEvidenceEvents": 7,
+    "noPersonIdentityFallbacks": 7,
+    "uniqueActualSubjects": null
+  },
+  "namedExample": {
+    "eventLocator": "events:event_f409b3b6a3f4adbd",
+    "receiptLine": 1883,
+    "nameInSummary": "Hannah Giles",
+    "requiredBailDollars": 22510,
+    "statedUnpaidDepositDollars": 2251,
+    "exportedPersonId": null,
+    "sourceRecordIds": [
+      "event_01ebe6ad887adc18",
+      "event_c36b651e70322039",
+      "event_f409b3b6a3f4adbd"
+    ],
+    "limit": "Summary is not a person identity join or a completed payment"
+  },
+  "proposedAdapter": {
+    "timing": "future own worker after pay-engine restart",
+    "preserveMergedCollector": true,
+    "preserveHistoricalRawReceipts": true,
+    "lookup": "eventById(world,id), src/simulation/event-index.ts:62",
+    "select": "validated actual focus:defendant participants for pretrial held/released only",
+    "deduplicate": "world identity + person ID",
+    "unknown": "identity unavailable; never name-match or invent ID",
+    "otherEventTypes": "separate supported role contract required"
+  },
+  "liveCollectorEdits": 0,
+  "workerEdits": 0,
+  "newRuntimeRuns": 0,
+  "productionEdits": 0
+}

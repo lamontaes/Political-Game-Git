@@ -1,0 +1,1078 @@
+{
+  "receiptPin": "f4022d0e38e28430ee6df4d5d697560267122f56",
+  "productionPin": "80dba335a62f77d6a45c38919105991658ccf1de",
+  "runnerPin": "762b030224533dbc5a4bbb838de6386924b10eb8",
+  "method": "Intersect catalog definition IDs across every question citing each record ID; use single-record unweighted score and bearing to infer signed strength*4; apply saved catalog weights. No world run.",
+  "recordCount": 181,
+  "uniqueMappings": 181,
+  "singleRecordReconstructions": 181,
+  "pairedRowsChecked": 12240,
+  "maxAbsoluteWeightedScoreResidual": 0,
+  "recordStates": [
+    {
+      "recordId": "principle_69d752b750f94204",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_9f68a0e7a1dfbab2",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_8beb9ec6834d6d30",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_87a79fedafc795f9",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_b83143204d8bcffe",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_7e8f7b7ba5497c16",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_4a8241b50c1a8035",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_fd908d256f338558",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_46571bd5e785a7d2",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_02ef1f8999c03421",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_2df8ecf18d986cfe",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_5735e50b0393552b",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_ac1796e48d4a1f99",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a27f471b498936fe",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_8b68a580acc6281c",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_9669e9bfcfee299f",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_617df62530c83933",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_0d77cf71f289fe5d",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_9a4d504558b64806",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_730957a7bb245a52",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_47748d668cebf5c7",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_ab8135a013520fbd",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_b5bd20ea629dc427",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_eece22fad0f785c0",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_85cea74b6707cf04",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c816300eb3da5c79",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_8fe7959a9e9b5d50",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_5cb4f0dc674c1cda",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_01d7b0d831f3d53c",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_cd2d9944f876ff18",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_dc7ee7223529ee87",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_5daa70f27414aeb9",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_fe7c850847ab95ff",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_e5d269a551a716bd",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_eab8648d2d46f9fe",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2706ae994c2399e3",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_6d05affbe38803f5",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_e68ad0e6e0590dca",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_765fd9a3d6774f71",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_fa97ddf5d7791ab9",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_223f0a7ceb3225ce",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_1858c56824eb4020",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_027cd021f712ea13",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_dcb29131d6949147",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_e9e190c31a0dff68",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_df8378f3104ae5a0",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_27250255901add14",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_47d6dfd4e089cbe5",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c03322bbd73263ac",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_23e2014f2e290610",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_4609c3dd1e6e33df",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_4b9844a6e91df7f1",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_b8218bdb9c18b9a2",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_715b014eddecc4ca",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_3cf9b1bcd59dc9fd",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_00dc32d6bdfc1fed",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_0acc9db0d8951b7b",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_efa22746efc84faa",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2a1ee2688eddab39",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_317d9d1f356b7093",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_1461b4687489193e",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_590615c96ff9ee1e",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_9b9ebd52aa37d399",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c18f2328c0e2c266",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_28c25cbab1ef6333",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_cd24dd72734861cb",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2d33141df592c448",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_4a93e58620d31d97",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_71b56fe1a259ed9e",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_364826e60ad61700",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_1ceb313fe1a529b3",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d89b28a327daebd1",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_565dccf28f2842e5",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_0875e1b9d436d0e7",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c59a21d447408434",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_91b0defb89ba04d2",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a19621c18ff8c51e",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_40be8ecfa318431d",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_29e9b512c19af121",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_9439fa6828937013",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_d83349d7a35fd0bf",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_fbc771d025fac6b3",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_96f64df9212d197f",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_3d4c44039fb5f2e6",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_3d2bf21f55b005bf",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_1f4af2235ee267b8",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_b63c48fafa2c5802",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_c23e7c1ee734e549",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_ed78c58c38feaf83",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2efda00b815292c9",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_68bf4b9521561be6",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_6306481c1157e00a",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d4ae189d5012a371",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_77e754d5c3e8ceaf",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_8ff58964d097f171",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_ec90292955c1a849",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_8776a36e76188db6",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2dc300f84e0ebd15",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_00fec04efffc1eb2",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c3a3e234ebd62237",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c77403effec1406e",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_e9a02846620565cf",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d42c76dcb68026c1",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_98ce03d8dbf74274",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_1c3d0c41e68d2e4d",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_5c5a6c921c7be6a1",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_d397ecc697311079",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_db8d799e473c42a5",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_e1477f7380d76705",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a096f5e891d88b36",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_cdc5326e99d24337",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_5e241f14a58690d6",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d2a556ad16f586e8",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_0feb0d6fadd43d89",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c53de30ee1125167",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d5a78b6c2e7c1bea",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "signedStrengthTimes4": 2.3125
+    },
+    {
+      "recordId": "principle_13551dd89a820f24",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_6937e92bba89f35e",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_847d3925ec321aab",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_8fedee3cee760a42",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_5841a6a2984b4f13",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_28e896096957930e",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a150fd0115709f73",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a7f02bca4cc679a8",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_4d4b74fe207eee24",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_b9ff94fad32512e0",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_94106e279d445c73",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_ec6d4917c2248e11",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2054c868de7191eb",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_71d5b0fa1dd0263a",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_5b1aa26920488cb7",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_f076b8d69024d276",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_49c49ef1e5129b41",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_95d5db4163daf430",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_b0479111501b9b08",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_3adfbe10fdf8f9af",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_be9d5c15a800733a",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c60a25bf2461c633",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_27e371c605e61046",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d660fb63e16402c6",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_fe308d681d3e9adf",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2f949a7f0167cde5",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_5d09b232513fc180",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d9500405d2969547",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_2075bc634e904c31",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_278ea72a5f4de1c7",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_9a9ec93432d149ee",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_ce6c55a2639c4a2f",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_cc8fe2fcfebbae96",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_35552b28111152ff",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_4d634de13a085094",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a3b83ad2a538251d",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_6f4185ae63c43eb0",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_99b3adda602a5b8d",
+      "definitionId": "principle-definition_c41046c4f12ffec9",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_c3182f779abc74f3",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_e6d314e8526bf4ea",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_694e693487e38b1d",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_241557e2ce244102",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d2badd3f1802d560",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_57d7ffb3bceabb1f",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_d84c4bc678dd6393",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a028c85c4c82e121",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_901d186ba2da345c",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_ce0db1f2845993aa",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_f9c29a7338bc5252",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_32ce6f630a04a4f5",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_160455f993501869",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_ed47ec69a4323151",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_bd961f01ef6658de",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a1ee1efbe84acbb0",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_0075ce068420392a",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_992e32911e7a2cf8",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_65cb763f82d3b25f",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_9f3f0b58c9fb7397",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_a0e857d4e3ac2555",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_82b986eaca400a89",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_3402768f0f3cfb78",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_6a1119f02b1ea303",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_f8a39179959e8116",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_49026f63aa234882",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    },
+    {
+      "recordId": "principle_03fd7a140607affb",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "signedStrengthTimes4": 1.75
+    }
+  ],
+  "topThreeDistinctPrinciplesByMaximumAbsoluteComponent": [
+    {
+      "magnitude": 2.196875,
+      "signedContribution": 2.196875,
+      "csvLine": 3426,
+      "recordId": "principle_9f68a0e7a1dfbab2",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "bearing": {
+        "principleId": "principle-definition_d8e971f494b67a61",
+        "bearing": "consistent-with",
+        "weight": 0.95
+      },
+      "pairedRow": {
+        "question_key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+        "measure_id": "legislative-measure_cfcf843f56e0c664",
+        "member_key": "us-ga-legislature-profile-v1:house:seat:5",
+        "person_id": "person_0882ddba1b2f0e9a",
+        "name": "Priya Peters",
+        "unweighted_disposition": "yea",
+        "weighted_disposition": "yea",
+        "unweighted_score": "2.3125",
+        "weighted_score": "2.196875",
+        "principle_record_ids": "principle_9f68a0e7a1dfbab2"
+      }
+    },
+    {
+      "magnitude": 1.6624999999999999,
+      "signedContribution": 1.6624999999999999,
+      "csvLine": 9366,
+      "recordId": "principle_c3182f779abc74f3",
+      "definitionId": "principle-definition_1e16131bb9f4b9ba",
+      "bearing": {
+        "principleId": "principle-definition_1e16131bb9f4b9ba",
+        "bearing": "consistent-with",
+        "weight": 0.95
+      },
+      "pairedRow": {
+        "question_key": "us-policy-positions:environment-energy.clean-electricity-standard",
+        "measure_id": "legislative-measure_bbbcc6fd3297c44f",
+        "member_key": "us-ga-legislature-profile-v1:house:seat:5",
+        "person_id": "person_0882ddba1b2f0e9a",
+        "name": "Priya Peters",
+        "unweighted_disposition": "yea",
+        "weighted_disposition": "yea",
+        "unweighted_score": "1.75",
+        "weighted_score": "1.6624999999999999",
+        "principle_record_ids": "principle_c3182f779abc74f3"
+      }
+    },
+    {
+      "magnitude": 1.575,
+      "signedContribution": 1.575,
+      "csvLine": 1803,
+      "recordId": "principle_69d752b750f94204",
+      "definitionId": "principle-definition_10f7833e19fd41a9",
+      "bearing": {
+        "principleId": "principle-definition_10f7833e19fd41a9",
+        "bearing": "consistent-with",
+        "weight": 0.9
+      },
+      "pairedRow": {
+        "question_key": "us-policy-positions:government-operations.legislative-term-limits",
+        "measure_id": "legislative-measure_1a03412f1fbcb013",
+        "member_key": "us-ga-legislature-profile-v1:house:seat:2",
+        "person_id": "person_cf1858aa65454ab9",
+        "name": "Cameron Salas",
+        "unweighted_disposition": "present-not-voting",
+        "weighted_disposition": "yea",
+        "unweighted_score": "0",
+        "weighted_score": "0.3500000000000001",
+        "principle_record_ids": "principle_69d752b750f94204|principle_13551dd89a820f24"
+      }
+    }
+  ],
+  "topThreeIndividualComponentRows": [
+    {
+      "magnitude": 2.196875,
+      "signedContribution": 2.196875,
+      "csvLine": 3426,
+      "recordId": "principle_9f68a0e7a1dfbab2",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "bearing": {
+        "principleId": "principle-definition_d8e971f494b67a61",
+        "bearing": "consistent-with",
+        "weight": 0.95
+      },
+      "pairedRow": {
+        "question_key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+        "measure_id": "legislative-measure_cfcf843f56e0c664",
+        "member_key": "us-ga-legislature-profile-v1:house:seat:5",
+        "person_id": "person_0882ddba1b2f0e9a",
+        "name": "Priya Peters",
+        "unweighted_disposition": "yea",
+        "weighted_disposition": "yea",
+        "unweighted_score": "2.3125",
+        "weighted_score": "2.196875",
+        "principle_record_ids": "principle_9f68a0e7a1dfbab2"
+      }
+    },
+    {
+      "magnitude": 2.196875,
+      "signedContribution": 2.196875,
+      "csvLine": 3432,
+      "recordId": "principle_87a79fedafc795f9",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "bearing": {
+        "principleId": "principle-definition_d8e971f494b67a61",
+        "bearing": "consistent-with",
+        "weight": 0.95
+      },
+      "pairedRow": {
+        "question_key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+        "measure_id": "legislative-measure_cfcf843f56e0c664",
+        "member_key": "us-ga-legislature-profile-v1:house:seat:11",
+        "person_id": "person_99897b6368cf1e2b",
+        "name": "Anna Terrell",
+        "unweighted_disposition": "yea",
+        "weighted_disposition": "yea",
+        "unweighted_score": "2.3125",
+        "weighted_score": "2.196875",
+        "principle_record_ids": "principle_87a79fedafc795f9"
+      }
+    },
+    {
+      "magnitude": 2.196875,
+      "signedContribution": 2.196875,
+      "csvLine": 3440,
+      "recordId": "principle_fd908d256f338558",
+      "definitionId": "principle-definition_d8e971f494b67a61",
+      "bearing": {
+        "principleId": "principle-definition_d8e971f494b67a61",
+        "bearing": "consistent-with",
+        "weight": 0.95
+      },
+      "pairedRow": {
+        "question_key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+        "measure_id": "legislative-measure_cfcf843f56e0c664",
+        "member_key": "us-ga-legislature-profile-v1:house:seat:19",
+        "person_id": "person_b8d13ca57c499fe3",
+        "name": "Jasper Byrd",
+        "unweighted_disposition": "yea",
+        "weighted_disposition": "yea",
+        "unweighted_score": "2.3125",
+        "weighted_score": "2.196875",
+        "principle_record_ids": "principle_fd908d256f338558"
+      }
+    }
+  ],
+  "counts": {
+    "weighted": {
+      "present-not-voting": 7417,
+      "nay": 1987,
+      "yea": 2836
+    },
+    "unweighted": {
+      "present-not-voting": 7493,
+      "nay": 1987,
+      "yea": 2760
+    }
+  }
+}
