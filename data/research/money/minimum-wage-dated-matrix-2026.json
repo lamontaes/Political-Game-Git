@@ -15,13 +15,15 @@
       "statute-stated-schedule": "Federal or state law states the schedule; the amount follows from the quoted rule.",
       "statute-date-corrected-to-federal": "State law tracks the federal rate; the state page's date was wrong and the federal effective date is used.",
       "in-force-as-of-source-date": "The source states no effective date; the date is the source's own 'updated' date.",
-      "in-force-as-read": "The source states no effective date; the date is the day it was read (2026-10-01)."
+      "in-force-as-read": "The source states no effective date; the date is the day it was read (2026-10-01). Each such place also has an earlier dated row.",
+      "dol-history-table-january-1": "U.S. DOL 'Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years', which states rates as of January 1; its latest column is 2024, so the row is dated 2024-01-01. A later row or a current state page confirms the same rate still applies."
     },
     "status": "in-force: operativeAt on or before asOf; scheduled: later.",
     "level": "state, district, territory, or federal (federal law sets the rate).",
     "quoteCheck": {
       "text": "Cut from the downloaded page text, verbatim.",
-      "fetch-extract": "The page refused direct download here (403 or empty); a fetch tool returned the text when asked to copy it word for word."
+      "fetch-extract": "The page refused direct download here (403 or empty); a fetch tool returned the text when asked to copy it word for word.",
+      "search-result-title": "The official page refused every reader here; the quote is the page's own title as a web search listed it."
     },
     "tiers": "tier names a statutory tier (region, employer size, employer revenue, coverage, or industry). City and county ordinances, tipped, youth, and training rates are not tiers here."
   },
@@ -41,8 +43,13 @@
   "unread": [
     {
       "place": "US-AZ",
-      "what": "Effective date of $15.15",
-      "reason": "azica.gov refused automated reading (403); the DOL table (updated July 1, 2026) gives the rate but not its date, so the row is dated July 1, 2026, not backdated to January 1."
+      "what": "Body text of the January 1, 2026 notice",
+      "reason": "azica.gov and des.az.gov refused every reader (403); the row rests on the notice's title and the DOL table's amount."
+    },
+    {
+      "place": "US-VI",
+      "what": "Small-business tier (gross receipts under $150,000)",
+      "reason": "DOL history footnote (g) names a lower Virgin Islands rate for such businesses; the Act No. 9069 notice read does not mention it, so no tier row is recorded."
     },
     {
       "place": "US-CO",
@@ -82,7 +89,7 @@
     {
       "place": "US-GA, US-WY, US-ID, US-IA, US-NC, US-ND, US-PA, US-WV, US-MT (small-business tier)",
       "what": "Original effective date of a long-standing rate",
-      "reason": "The source read states no date; each row is dated the day it was read (in-force-as-read), not backdated."
+      "reason": "The current state page states no date; each place also has a row from the DOL history table dated January 1, 2024, the latest date that table states."
     }
   ],
   "places": {
@@ -113,6 +120,20 @@
     "US-AK": {
       "name": "Alaska",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1300,
+          "unit": "minor/hour",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.elections.alaska.gov/doc/oep/2024/Ballot%20Measure%201_Eng.pdf",
+          "quote": "The Act raises it to $13.00 per hour on July 1, 2025.",
+          "quoteCheck": "text",
+          "note": "2024 Ballot Measure 1, enacted. The Alaska labor page confirms the July 1, 2026 increase was 'from $13.00 to $14.00'."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",
@@ -152,12 +173,12 @@
           "status": "in-force",
           "value": 1515,
           "unit": "minor/hour",
-          "operativeAt": "2026-07-01",
-          "operativeBasis": "in-force-as-of-source-date",
-          "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
-          "quote": "Basic Minimum Rate (per hour): $15.15",
-          "quoteCheck": "fetch-extract",
-          "note": "The Industrial Commission of Arizona site refused automated reading (403); its January 1, 2026 notice could not be read, so the date is the DOL table's July 1, 2026 update. A.R.S. 23-363(B): 'The minimum wage shall be increased on January 1, 2021 and on January 1 of successive years, by the increase in the cost of living.'"
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.azica.gov/news/2026-minimum-wage-increase-effective-january-1-2026",
+          "quote": "2026 Minimum Wage Increase - Effective January 1, 2026",
+          "quoteCheck": "search-result-title",
+          "note": "The Industrial Commission of Arizona site refused automated reading (403); the date is the official notice's own title as listed by search, and the amount is the DOL state table's 'Basic Minimum Rate (per hour): $15.15' (updated July 1, 2026). A.R.S. 23-363(B): 'The minimum wage shall be increased on January 1, 2021 and on January 1 of successive years, by the increase in the cost of living.'"
         }
       ]
     },
@@ -289,6 +310,19 @@
           "tierKind": "statewide",
           "level": "district",
           "status": "in-force",
+          "value": 1795,
+          "unit": "minor/hour",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2025%20Minimum%20Wage%20Increase%20Notice_7.1.25.pdf",
+          "quote": "Beginning July 1, 2025, the minimum wage in the District of Columbia will increase from $17.50 per hour to $17.95 per hour for all workers, regardless of size of employer.",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "district",
+          "status": "in-force",
           "value": 1840,
           "unit": "minor/hour",
           "operativeAt": "2026-07-01",
@@ -302,6 +336,20 @@
     "US-FL": {
       "name": "Florida",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1400,
+          "unit": "minor/hour",
+          "operativeAt": "2025-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.floridajobs.org/docs/default-source/business-growth-and-partnerships/for-employers/posters-and-required-notices/2025-minimum-wage/2025-minimum-wage-announcement.pdf",
+          "quote": "Effective September 30, 2025, the Florida minimum wage will be $14.00 per hour.",
+          "quoteCheck": "text",
+          "note": "Florida Department of Commerce history table: '2025 $7.25 $14.00 $1.00 9/30/2025 – 9/29/2026'."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",
@@ -321,6 +369,20 @@
     "US-GA": {
       "name": "Georgia",
       "rows": [
+        {
+          "tier": "six-or-more-employees-not-flsa-covered",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 515,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Georgia ... 2024: $5.15(d) ... (d) - Rates applicable to employers of six or more. In West Virginia, applicable to employers of six or more in one location.",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
         {
           "tier": "six-or-more-employees-not-flsa-covered",
           "tierKind": "employer-size",
@@ -392,6 +454,20 @@
           "status": "in-force",
           "value": 725,
           "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Idaho ... 2024: $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
           "operativeAt": "2026-10-01",
           "operativeBasis": "in-force-as-read",
           "source": "https://www.labor.idaho.gov/businesses/labor-laws/labor-laws-faq/",
@@ -442,6 +518,20 @@
     "US-IA": {
       "name": "Iowa",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Iowa ... 2024: $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",
@@ -559,6 +649,20 @@
     "US-MA": {
       "name": "Massachusetts",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Massachusetts ... 2024: $15.00",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",
@@ -704,6 +808,20 @@
           "status": "in-force",
           "value": 400,
           "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Montana ... 2024: $10.30(g) ... (g) - Minnesota sets a lower rate for enterprises with annual receipts of less than $500,000; Montana sets a lower rate for businesses with gross annual sales of $110,000 or less; Ohio sets lower rates based on gross annual sales thresholds; Oklahoma sets a lower rate for employers of fewer than 10 full-time employees; and the U.S. Virgin Islands sets a lower rate for businesses with gross annual receipts of less than $150,000.",
+          "quoteCheck": "fetch-extract",
+          "note": "The DOL table states the lower Montana rate existed on January 1, 2024; the amount is Mont. Code Ann. 39-3-409(3): 'The minimum wage rate for a business whose annual gross sales are $110,000 or less is $4 an hour.' (https://archive.legmt.gov/bills/mca/title_0390/chapter_0030/part_0040/section_0090/0390-0030-0040-0090.html)."
+        },
+        {
+          "tier": "non-flsa-business-sales-110000-or-less",
+          "tierKind": "employer-revenue",
+          "level": "state",
+          "status": "in-force",
+          "value": 400,
+          "unit": "minor/hour",
           "operativeAt": "2026-10-01",
           "operativeBasis": "in-force-as-read",
           "source": "https://erd.dli.mt.gov/labor-standards/wage-and-hour-payment-act/state-minimum-wage",
@@ -807,6 +925,20 @@
     "US-NH": {
       "name": "New Hampshire",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... New Hampshire ... 2024: $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",
@@ -941,6 +1073,20 @@
           "status": "in-force",
           "value": 725,
           "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... North Carolina ... 2024: $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
           "operativeAt": "2026-10-01",
           "operativeBasis": "in-force-as-read",
           "source": "https://www.labor.nc.gov/workplace-rights/employee-rights-regarding-time-worked-and-wages-earned/minimum-wage-nc",
@@ -953,6 +1099,20 @@
     "US-ND": {
       "name": "North Dakota",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... North Dakota ... 2024: $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",
@@ -973,7 +1133,7 @@
       "name": "Ohio",
       "rows": [
         {
-          "tier": "gross-receipts-over-405000",
+          "tier": "above-small-employer-threshold",
           "tierKind": "employer-revenue",
           "level": "state",
           "status": "in-force",
@@ -986,7 +1146,7 @@
           "quoteCheck": "text"
         },
         {
-          "tier": "gross-receipts-over-threshold",
+          "tier": "above-small-employer-threshold",
           "tierKind": "employer-revenue",
           "level": "state",
           "status": "scheduled",
@@ -997,10 +1157,10 @@
           "source": "https://ohio.gov/home/news-and-events/all-news/com-2027-minimum-wage-sept26",
           "quote": "the Ohio Department of Commerce announced the 2027 Ohio minimum wage that will go into effect on Jan. 1. The adjusted amounts, $11.40 per hour for non-tipped employees",
           "quoteCheck": "text",
-          "note": "The 2027 gross-receipts threshold was not in the text read."
+          "note": "Same tier as the 2026 row (gross receipts above the indexed small-employer threshold, $405,000 in 2026); the 2027 threshold was not in the text read."
         },
         {
-          "tier": "gross-receipts-405000-or-less",
+          "tier": "at-or-below-small-employer-threshold",
           "tierKind": "employer-revenue",
           "level": "state",
           "status": "in-force",
@@ -1037,6 +1197,45 @@
     "US-OR": {
       "name": "Oregon",
       "rows": [
+        {
+          "tier": "portland-metro",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1630,
+          "unit": "minor/hour",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+          "quote": "Effective Date (Starting) Standard Portland Metro Nonurban Counties ... July 1, 2025 $15.05 $16.30 $14.05",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "standard",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1505,
+          "unit": "minor/hour",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+          "quote": "Effective Date (Starting) Standard Portland Metro Nonurban Counties ... July 1, 2025 $15.05 $16.30 $14.05",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "nonurban",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1405,
+          "unit": "minor/hour",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+          "quote": "Effective Date (Starting) Standard Portland Metro Nonurban Counties ... July 1, 2025 $15.05 $16.30 $14.05",
+          "quoteCheck": "text"
+        },
         {
           "tier": "portland-metro",
           "tierKind": "region",
@@ -1082,6 +1281,20 @@
     "US-PA": {
       "name": "Pennsylvania",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Pennsylvania ... 2024: $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",
@@ -1225,6 +1438,20 @@
           "status": "in-force",
           "value": 725,
           "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Utah ... 2024: $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
           "operativeAt": "2026-07-01",
           "operativeBasis": "in-force-as-of-source-date",
           "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
@@ -1339,6 +1566,20 @@
           "status": "in-force",
           "value": 875,
           "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... West Virginia ... 2024: $8.75 ... (d) - Rates applicable to employers of six or more. In West Virginia, applicable to employers of six or more in one location.",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
+        {
+          "tier": "six-or-more-employees-per-location",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 875,
+          "unit": "minor/hour",
           "operativeAt": "2026-10-01",
           "operativeBasis": "in-force-as-read",
           "source": "https://labor.wv.gov/wage-hour/jobs-act/minimum-wage",
@@ -1369,6 +1610,20 @@
     "US-WY": {
       "name": "Wyoming",
       "rows": [
+        {
+          "tier": "not-flsa-covered",
+          "tierKind": "coverage",
+          "level": "state",
+          "status": "in-force",
+          "value": 515,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Wyoming ... 2024: $5.15",
+          "quoteCheck": "fetch-extract",
+          "note": "Still in force at the game's opening: a later row or the current state page shows the same rate."
+        },
         {
           "tier": "not-flsa-covered",
           "tierKind": "coverage",
@@ -1951,6 +2206,20 @@
     "US-VI": {
       "name": "U.S. Virgin Islands",
       "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "territory",
+          "status": "in-force",
+          "value": 1050,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "dol-history-table-january-1",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... U.S. Virgin Islands ... 2024: $10.50(j)",
+          "quoteCheck": "fetch-extract",
+          "note": "Act No. 9069 raised it 'from $10.50 per hour to $12.00 per hour, effective April 24, 2026'."
+        },
         {
           "tier": "statewide",
           "tierKind": "statewide",

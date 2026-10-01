@@ -61,6 +61,7 @@ const PLACES = [
 ];
 
 type Row = {
+  tier: string;
   value: number;
   unit: string;
   operativeAt: string;
@@ -84,6 +85,22 @@ describe("dated minimum-wage research matrix", () => {
         (row) => row.operativeAt <= matrix.asOf,
       );
       expect(inForce.length, key).toBeGreaterThan(0);
+    }
+  });
+
+  it("gives every tier of every place a row in force when the game opens", () => {
+    const opening = "2026-01-05";
+    for (const key of PLACES) {
+      const earliest = new Map<string, string>();
+      for (const row of places[key]!.rows) {
+        const seen = earliest.get(row.tier);
+        if (seen === undefined || row.operativeAt < seen) {
+          earliest.set(row.tier, row.operativeAt);
+        }
+      }
+      for (const [tier, date] of earliest) {
+        expect(date <= opening, `${key} ${tier} starts ${date}`).toBe(true);
+      }
     }
   });
 
