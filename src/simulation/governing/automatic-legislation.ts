@@ -1,3 +1,4 @@
+import type { HistoricalCutoff } from "../types";
 import {
   compileBillDraft,
   draftScope,
@@ -105,13 +106,17 @@ function finalTermEnactment(
   law: LawInForce,
   questionKey: string,
   onDate: IsoDate = world.currentDate,
+  cutoff?: HistoricalCutoff,
 ) {
   if (law.origin !== "enacted" || law.operativeAt > onDate) return null;
   const enactment = (world.history.legislativeEnactments ?? []).find(
     (row) =>
       row.measureId === law.measureId &&
       row.outcome === "enacted" &&
-      row.resolvedAt <= onDate,
+      row.resolvedAt <= onDate &&
+      (!cutoff ||
+        (row.sequence < cutoff.historySequenceExclusive &&
+          row.resolvedAt <= cutoff.asOfDate)),
   );
   return enactment &&
     measureAnswersAt(world, law.measureId, enactment.sequence).some(
@@ -151,6 +156,7 @@ export function readFinalEnactedLawTerm(
     readonly termKey: string;
     readonly unit: LawAmountUnit;
     readonly onDate?: IsoDate;
+    readonly cutoff?: HistoricalCutoff;
   },
 ): FinalEnactedLawTerm | null {
   const onDate = input.onDate ?? world.currentDate;
@@ -171,7 +177,13 @@ export function readFinalEnactedLawTerm(
       sourceRecordIds: [law.measureId],
     };
   }
-  const enactment = finalTermEnactment(world, law, input.questionKey, onDate);
+  const enactment = finalTermEnactment(
+    world,
+    law,
+    input.questionKey,
+    onDate,
+    input.cutoff,
+  );
   if (!enactment) return null;
   const matches = finalTermProvisions(
     world,
