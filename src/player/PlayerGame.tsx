@@ -89,6 +89,7 @@ import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
 import { PlaceConditionsPanel } from "./PlaceConditions";
 import { MoneyLawsPanel } from "./MoneyLaws";
+import { PlayerBillsPanel } from "./PlayerBillsPanel";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
 import {
@@ -3722,6 +3723,12 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          {view.section === "finances" && (
+            <PlayerBillsPanel
+              world={session.world}
+              personId={session.personId}
+            />
+          )}
           {view.section === "finances" && (
             <MoneyLawsPanel
               world={session.world}
