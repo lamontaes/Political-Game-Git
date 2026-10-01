@@ -82,8 +82,8 @@ export interface ServiceRequestForm {
    * time-for-yourself or time-with-people goal, against hours held by work or
    * a job search. `reading`: classes, a learning goal and children at home,
    * against hours held by work. `on-call` services (a crisis team) are asked
-   * for only from the record of the crisis itself, so the resident producer
-   * never asks for them.
+   * for from the person's own health record, an acute or serious episode,
+   * against a saved care record naming someone at home who looks after them.
    */
   readonly need: "travel" | "outdoors" | "reading" | "on-call";
   /**
@@ -152,3 +152,44 @@ export const SERVICE_REQUEST_FORMS: Readonly<
       visit: { startMinuteOfDay: 0, minutes: 90 },
     },
 };
+
+/**
+ * Services a government runs on standing, sourced appropriation authority
+ * rather than on a bill the game enacted. Keyed by the program-key family the
+ * appropriation writer uses. Each names the service form residents ask
+ * through and which kinds of organization may operate it; money committed to
+ * any other recipient pays for nothing a resident can receive.
+ *
+ * 988 crisis response: SAMHSA's National Guidelines for Behavioral Health
+ * Crisis Care (2020) and the state 988 reports place mobile crisis teams in
+ * community mental health providers, county and city health departments and
+ * hospital systems. The game's matching organization kinds are public health
+ * departments, clinics and hospitals.
+ */
+export const STANDING_SERVICE_PROGRAMS: Readonly<
+  Record<
+    string,
+    {
+      readonly questionKey: string;
+      readonly operatorClassifications: readonly string[];
+    }
+  >
+> = {
+  "behavioral-health-crisis-response": {
+    questionKey:
+      "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+    operatorClassifications: [
+      "service:public-health",
+      "service:clinic",
+      "service:hospital",
+    ],
+  },
+};
+
+/** The standing program family of a program key, if it has one. */
+export function standingServiceProgram(programKey: string) {
+  const family = programKey.split(":")[0]!;
+  return Object.hasOwn(STANDING_SERVICE_PROGRAMS, family)
+    ? STANDING_SERVICE_PROGRAMS[family]!
+    : null;
+}
