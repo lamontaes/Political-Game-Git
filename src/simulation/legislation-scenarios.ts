@@ -16,6 +16,7 @@ import {
 import { personName } from "./people";
 import type {
   EntityId,
+  IsoDate,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
   World,
@@ -44,6 +45,10 @@ export interface SeatedMember {
    * party participation.
    */
   readonly partyKey?: string | null;
+  /** Read-only actual oath/seating event date; absent evidence is not tenure. */
+  readonly tenureStartedAt?: IsoDate | null;
+  /** The saved event supporting tenureStartedAt, never a work or due-item ID. */
+  readonly seatingEventId?: EntityId | null;
 }
 
 export interface SeatedBody {

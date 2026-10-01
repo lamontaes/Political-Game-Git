@@ -15,6 +15,7 @@ import { personName } from "../people";
 import { makeIsoDate } from "../dates";
 import type { World } from "../types";
 import { stateMemberSeatingEvidence } from "./member-seating";
+import { seatedChamberForPack } from "./chamber-votes";
 
 const seed = "A94-recorded-service-seniority";
 const pool = [...lifePlaceStateIdentities()];
@@ -52,6 +53,27 @@ describe("A94 tenure reads an actual seating event", () => {
       )!;
       expect(opening).toBeDefined();
       const loaded = deserializeWorld(serializeWorld(world));
+      for (const chamber of pack.chambers) {
+        const projected = seatedChamberForPack(
+          world,
+          pack.packId,
+          chamber.chamberKey,
+          chamber.name,
+        );
+        expect(projected).not.toBeNull();
+        for (const member of projected!.body.members) {
+          expect(member.tenureStartedAt).toBe(opening.occurredAt);
+          expect(member.seatingEventId).toBe(opening.id);
+        }
+        expect(
+          seatedChamberForPack(
+            loaded,
+            pack.packId,
+            chamber.chamberKey,
+            chamber.name,
+          ),
+        ).toEqual(projected);
+      }
       for (const member of members) {
         const evidence = stateMemberSeatingEvidence(
           world,
