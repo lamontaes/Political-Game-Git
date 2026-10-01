@@ -1,6 +1,6 @@
 # Budget checks reach their financial assertions again
 
-Chicago now counts its recorded government transfer instead of treating a forecast as cash. Carry-forward still fails its original comparison. Retained records account for that difference through lower recurring revenue and higher pension contributions, with one dollar of rounding. The candidate stays draft pending the corrected comparison contract.
+All twelve inherited failing budget cases now pass. Chicago counts its recorded government transfer instead of treating a forecast as cash. Carry-forward reconciles lower recurring revenue and higher pension contributions, with one dollar of rounding. Its original tolerance and separate one-time carry checks remain intact.
 
 ## What changed
 
@@ -18,18 +18,20 @@ The recipient budget counts $5.50 as an intergovernmental receipt. Changing the 
 
 The missing local-aid program binding remains explicit: the generic payment is an `otherPrograms` outlay, and the state's `localAid` outlay is zero. These controlled cash inputs prove account settlement, not a law-caused reduction in paid aid. The prior unsupported July forecast-growth assertion is superseded by the recorded-payment contract.
 
-## Remaining carry-forward comparison
+## Carry-forward reconciles recurring funding
 
-The carry-forward case measures a difference of $225,749,912 against its $131,100,615.513 tolerance. Its original assertion remains red. This receipt does not establish the underlying cause.
+The earlier carry-forward case measured a difference of $225,749,912 against its $131,100,615.513 tolerance. Its failure and original assertion are preserved in the earlier receipts.
 
 The retained fiscal 2027 and 2028 adopted records show recurring cuttable appropriations falling by $225,749,912 after subtracting the prior $9,241,216,869 one-time carry. Adopted revenue falls by $24,396,857, while pension contributions rise by $201,353,054. Interest and reserve deposits do not change. The combined recurring funding change is $225,749,911, leaving a one-dollar rounding residual. The next year's one-time carry is zero.
 
-These are measured arithmetic comparisons of the retained records. Audit received the exported appropriation arrays and full before/after settlement snapshots at each adoption. No production mechanism or larger tolerance was introduced. The original carry-forward assertion remains red while Audit resolves whether it should reconcile the changed recurring funding.
+Audit independently confirmed these arithmetic comparisons and admitted the corrected assertion on October 1 at 11:50 UTC. It subtracts the recurring funding delta from the recurring cuttable delta. Funding includes expected revenue, pension contributions, interest, net reserve deposits including saved/drawn law reactions, and annual law costs. Separate one-time carry checks and the original tolerance remain intact. No production mechanism or larger tolerance was introduced.
 
 ## Executed checks and next step
 
-The first published fixture repair ran on main `1bcc9a6cbb8024cae4135a55f01aa069942994b5`: 27 passed and two failed in 12.21 seconds. The current two-case check passes the recorded Chicago receipt and retains the original carry-forward failure, with 27 cases deliberately unrun, in 12.90 seconds. The subsequent complete changed-file run has 28 passes and the same one failure in 13.29 seconds. Exact commands, source hashes and retained records are in `budget-fixture-proof/recorded-contract-receipt.json` and adjacent files.
+The final complete changed-file run passes all 29 tests in 12.41 seconds, including all twelve dispatched cases. It uses the admitted comparison and an additive composition of main `81a950745174018598e87923da30469f86f6f0a8`. That composition added only claims and status documents. Exact commands, source hashes and final results are in `budget-fixture-proof/carry-admitted-receipt.json`.
 
-The next build requires the admitted carry-forward comparison contract. The actual local-aid authority/program binding remains a separate capability gap. The production settler is unchanged. No broad suite, populated nationwide behavior, year benchmark, browser run, or new Save/Continue proof was executed.
+Earlier receipts remain intact: 27 passes and two failures in 12.21 seconds; the two-case recorded-account check with one pass, one failure and 27 deliberately unrun cases in 12.90 seconds; and 28 passes with the original carry assertion still failing in 13.29 seconds. Exported adopted arrays, account IDs and full adoption snapshots remain alongside those receipts.
+
+The actual local-aid authority/program binding remains a separate capability gap. The production settler is unchanged. No broad suite, populated nationwide behavior, year benchmark, browser run, or new Save/Continue proof was executed. The next assigned build is A61's recorded bank-profile selection; its raw asset and certificate evidence remains required.
 
 Method: one changed-file native Vitest process at a time through the storage guard. The first constructor attempt lacked the required initial jurisdiction; its failure is preserved. The second attempt passed 25 cases before the payment date and principle-strength repairs. These receipts establish fixture progress, not rebuild completion.

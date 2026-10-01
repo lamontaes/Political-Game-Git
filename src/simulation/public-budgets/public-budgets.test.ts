@@ -949,13 +949,22 @@ describe("public budgets", () => {
     expect(
       Math.abs(june2027.balance - (june2026.balance - carried[0]!.amount)),
     ).toBeLessThan(0.01 * sum(fy2027!.appropriations));
-    // Once: fiscal 2028 builds on fiscal 2027's programs without it.
+    // Once: remove the prior one-time carry, then reconcile the recurring
+    // revenue, pension, interest, net reserve and law-cost funding changes.
+    const recurringFunding = (year: NonNullable<typeof fy2027>) =>
+      sum(year.expectedRevenue) -
+      year.appropriations[BUDGET_PROGRAMS.indexOf("interest")]! -
+      year.appropriations[BUDGET_PROGRAMS.indexOf("pensionContribution")]! -
+      year.reserveDeposit -
+      sum(lawSpendingForMonth(world, run.government, year.startsOn)) * 12;
+    const recurringCuttableDelta =
+      cuttable(fy2028!.appropriations) -
+      fy2028!.carriedBalance! -
+      (cuttable(fy2027!.appropriations) - fy2027!.carriedBalance!);
+    const recurringFundingDelta =
+      recurringFunding(fy2028!) - recurringFunding(fy2027!);
     expect(
-      Math.abs(
-        cuttable(fy2028!.appropriations) -
-          fy2028!.carriedBalance! -
-          (cuttable(fy2027!.appropriations) - fy2027!.carriedBalance!),
-      ),
+      Math.abs(recurringCuttableDelta - recurringFundingDelta),
     ).toBeLessThan(0.001 * cuttable(fy2027!.appropriations));
   });
 
