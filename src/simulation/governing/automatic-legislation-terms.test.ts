@@ -113,7 +113,6 @@ function enact(start: World, measureId: EntityId): World {
         (row) => row.measureId === measureId && row.status === "open",
       );
       expect(matter).toBeDefined();
-      const priorControl = next.control;
       const decision = decideGoverningMatter(
         {
           ...next,
@@ -123,7 +122,8 @@ function enact(start: World, measureId: EntityId): World {
         BILL_SIGN,
       );
       expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
-      next = { ...decision.world, control: priorControl };
+      // The recorded player-required decision work belongs to this governor.
+      next = decision.world;
       expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
       continue;
     }
