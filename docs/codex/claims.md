@@ -1,3 +1,9 @@
+## October 1, budget option-selection transfer closed
+
+Team 1 owns only the budget-family option-selection hunk in `governingNpcDecisionHandler` in `src/simulation/governing/state-governing.ts`. Team 2 explicitly released it at 5bf0c950d19aab23fd4f8d8aec2aab6da7deb457, reporting no unpublished bytes and a blob matching main. All other governing families and executive paths remain protected.
+
+Audit identifies the existing saved-priority and matching-advice contract. A missing preference is not a hold-flat choice. Keep missing-choice matters pending unless the owner approves a default. This transfer grants no new score, weight, authority or payment. Team 1 retains its separately published request/recorded-choice bridge in #1536.
+
 ## October 1, 7:30 a.m. A111 campaign support transfer closed
 
 Audit owns only the four campaign-support hunks in `src/simulation/campaigns.ts`: opening support, action support effect, latest saved-support reading and election-night support. Team 7 explicitly confirmed no unpublished overlap in 00d; its county and held caller branches exclude these functions. Coordinator delivered this exact release to Audit.
