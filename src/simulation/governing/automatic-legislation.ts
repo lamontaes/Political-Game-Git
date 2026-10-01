@@ -10,8 +10,14 @@ import {
   measureById,
   measurePosition,
 } from "../legislation";
-import { recordFiledProvision } from "../legislative-politics";
-import { recordDraftLineage } from "../legislation-draft-lineage";
+import {
+  currentMeasureProvisions,
+  recordFiledProvision,
+} from "../legislative-politics";
+import {
+  draftParameterValues,
+  recordDraftLineage,
+} from "../legislation-draft-lineage";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
@@ -20,7 +26,6 @@ import {
   programVariant,
   standingAuthority,
   type NpcEligibleProgramConfiguration,
-  type ProgramParameterValue,
 } from "../legislation-program-families";
 import {
   legislativePackForJurisdiction,
@@ -33,7 +38,7 @@ import {
 } from "../life-places";
 import { rulePackById } from "../legislature-rule-packs";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
-import { SeededRng } from "../rng";
+import { lawInForce } from "./law-in-force";
 import { TRANSIT_PROGRAM_KEY } from "../legislation-transit-families";
 import type {
   EntityId,
@@ -393,10 +398,38 @@ export function compileAutomaticLawDraft(input: {
       : false;
   });
   if (eligibleCandidates.length === 0) return null;
-  const selectionRng = new SeededRng(input.world.seed).fork(
-    `automatic-law-configuration:${input.intakeKey}:${input.jurisdictionId}:${proposition.stableKey}:${input.answer}:${governmentLevel}`,
+  // A catalog answer is not an amount or a service rule. Only the saved law
+  // currently governing this question can supply this compiler's terms.
+  const currentLaw = lawInForce(
+    input.world,
+    input.jurisdictionId,
+    input.propositionId,
   );
-  const mapping = selectionRng.pick(eligibleCandidates);
+  if (currentLaw?.origin !== "enacted") return null;
+  const sourceMeasure = measureById(input.world, currentLaw.measureId);
+  if (!sourceMeasure || sourceMeasure.jurisdictionId !== input.jurisdictionId)
+    return null;
+  const sourceLineages = (
+    input.world.history.legislativeDraftLineages ?? []
+  ).filter(
+    (lineage) =>
+      lineage.measureId === sourceMeasure.id &&
+      lineage.componentKey === undefined &&
+      lineage.compiledAt <= input.world.currentDate &&
+      lineage.recordedAt <= input.world.currentDate &&
+      eligibleCandidates.some(
+        (candidate) =>
+          candidate.familyKey === lineage.familyKey &&
+          candidate.variantKey === lineage.variantKey,
+      ),
+  );
+  if (sourceLineages.length !== 1) return null;
+  const sourceLineage = sourceLineages[0]!;
+  const mapping = eligibleCandidates.find(
+    (candidate) =>
+      candidate.familyKey === sourceLineage.familyKey &&
+      candidate.variantKey === sourceLineage.variantKey,
+  )!;
   const issue = input.world.policyCatalog.issues[proposition.issueId];
   if (!(issue?.levels?.includes(governmentLevel) ?? false)) return null;
 
@@ -455,12 +488,6 @@ export function compileAutomaticLawDraft(input: {
     );
   }
 
-  const amountDefault = variant.defaults[mapping.effectParameterKey];
-  if (!amountDefault || amountDefault.kind !== "money") {
-    throw new Error(
-      `${mapping.familyKey}/${mapping.variantKey} has no authored mapped money default.`,
-    );
-  }
   const amountSpec = variant.parameters.find(
     (parameter) =>
       parameter.key === mapping.effectParameterKey &&
@@ -472,57 +499,88 @@ export function compileAutomaticLawDraft(input: {
     );
   }
 
-  // The values are a game-authored variation over the variant's declared
-  // bounds, not an estimate of a real program's cost or a cash balance.
-  const rng = new SeededRng(input.world.seed).fork(
-    `automatic-law-parameters:${input.intakeKey}:${rulePackId}:${proposition.stableKey}`,
-  );
-  const appropriationMultipliers = [0.5, 0.75, 1, 1.5, 2] as const;
-  const appropriationMinorUnits =
-    Math.round(
-      (amountDefault.minorUnits *
-        rng.fork("amount").pick(appropriationMultipliers)) /
-        100,
-    ) * 100;
-  const parameterValues: Record<string, ProgramParameterValue> = {
-    ...variant.defaults,
-    [mapping.effectParameterKey]: {
-      kind: "money",
-      minorUnits: Math.max(
-        amountSpec.minMinorUnits,
-        Math.min(amountSpec.maxMinorUnits, appropriationMinorUnits),
-      ),
-      currency: amountDefault.currency,
-    },
-  };
-  const serviceWindow = variant.parameters.find(
-    (parameter) =>
-      parameter.key === "service-window" && parameter.kind === "enumerated",
+  const { family } = programVariant(mapping.familyKey, mapping.variantKey);
+  if (sourceLineage.familyVersion !== family.familyVersion) return null;
+  const parameterValues = draftParameterValues(sourceLineage);
+  if (
+    sourceLineage.parameters.length !== variant.parameters.length ||
+    new Set(sourceLineage.parameters.map((parameter) => parameter.parameterKey))
+      .size !== sourceLineage.parameters.length ||
+    variant.parameters.some((parameter) => !parameterValues[parameter.key])
+  )
+    return null;
+  const amount = parameterValues[mapping.effectParameterKey];
+  if (
+    amount?.kind !== "money" ||
+    !Number.isSafeInteger(amount.minorUnits) ||
+    amount.minorUnits <= 0 ||
+    amount.minorUnits < amountSpec.minMinorUnits ||
+    amount.minorUnits > amountSpec.maxMinorUnits ||
+    amount.currency !== amountSpec.currency
+  )
+    return null;
+
+  // Lineage is immutable filing evidence. An amended or changed bank clause
+  // cannot be silently treated as the current amount, timing or coverage.
+  const sourceProvisions = currentMeasureProvisions(
+    input.world,
+    sourceMeasure.id,
   );
   if (
-    serviceWindow?.kind === "enumerated" &&
-    serviceWindow.options.length > 0
-  ) {
-    parameterValues[serviceWindow.key] = {
-      kind: "enumerated",
-      value: rng
-        .fork("service-window")
-        .pick(serviceWindow.options.map((option) => option.value)),
-    };
-  }
-  for (const parameter of variant.parameters) {
-    if (parameter.kind !== "enumerated" || parameter.key === serviceWindow?.key)
-      continue;
-    const defaultValue = variant.defaults[parameter.key];
-    if (defaultValue?.kind === "enumerated" && parameter.options.length > 0) {
-      parameterValues[parameter.key] = {
-        kind: "enumerated",
-        value: rng
-          .fork(`parameter:${parameter.key}`)
-          .pick(parameter.options.map((option) => option.value)),
-      };
-    }
-  }
+    sourceProvisions.some(
+      (provision) =>
+        provision.originAmendmentId !== null ||
+        provision.recordedAt > input.world.currentDate ||
+        provision.applicationScope.jurisdictionId !== input.jurisdictionId ||
+        provision.applicationScope.segmentKey !== null,
+    )
+  )
+    return null;
+  const sourceDraft = compileBillDraft({
+    familyKey: mapping.familyKey,
+    variantKey: mapping.variantKey,
+    parameterValues,
+    scenarioKey,
+    jurisdictionId: input.jurisdictionId,
+    rulePackId,
+    designation: sourceMeasure.designation,
+    filedOn: sourceMeasure.introducedAt,
+    predicateAuthority: authority,
+  });
+  if (
+    sourceProvisions.length !== sourceDraft.clauses.length ||
+    sourceDraft.clauses.some((clause) => {
+      const recorded = sourceProvisions.find(
+        (provision) => provision.provisionKey === clause.provisionKey,
+      );
+      const savedBeneficiary = recorded?.beneficiary;
+      const beneficiaryMatches =
+        savedBeneficiary?.kind === "general-application" &&
+        clause.beneficiary.kind === "general-application"
+          ? savedBeneficiary.appliesToLabel ===
+            clause.beneficiary.appliesToLabel
+          : savedBeneficiary?.kind === "particularized" &&
+            clause.beneficiary.kind === "particularized" &&
+            savedBeneficiary.particularization ===
+              clause.beneficiary.particularization &&
+            savedBeneficiary.beneficiaryLabel ===
+              clause.beneficiary.beneficiaryLabel &&
+            savedBeneficiary.placeLabel === clause.beneficiary.placeLabel &&
+            savedBeneficiary.statedGround === clause.beneficiary.statedGround;
+      return (
+        !recorded ||
+        recorded.sectionNumber !== clause.sectionNumber ||
+        recorded.heading !== clause.heading ||
+        recorded.text !== clause.text ||
+        !beneficiaryMatches ||
+        recorded.fiscalExposureLabel !== clause.fiscalExposureLabel ||
+        recorded.fiscalExposureMinorUnits !== clause.fiscalExposureMinorUnits ||
+        recorded.fiscalPeriod !== clause.fiscalPeriod ||
+        recorded.operativeEffect?.kind !== clause.operativeEffect?.kind
+      );
+    })
+  )
+    return null;
   const draft = compileBillDraft({
     familyKey: mapping.familyKey,
     variantKey: mapping.variantKey,
