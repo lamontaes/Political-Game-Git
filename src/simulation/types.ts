@@ -4438,6 +4438,15 @@ export type ChildhoodRecordEntry =
       readonly schoolYear: number;
       /** 0 for kindergarten through 12. */
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /**
+       * A pupil moved somewhere the World holds no school for their grade,
+       * so nobody enrolled them; the move is the source.
+       */
+      readonly kind: "no-school-on-record";
+      readonly toJurisdictionId: EntityId;
+      readonly grade: number;
     });
 
 export interface HistoryStore {

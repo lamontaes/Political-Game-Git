@@ -1,5 +1,5 @@
 import { addDays, makeIsoDate } from "./dates";
-import type { EntityId, IsoDate, World } from "./types";
+import type { EducationEnrollment, EntityId, IsoDate, World } from "./types";
 
 /**
  * The one school calendar every child shares (`school-stages.ts` has the
@@ -24,6 +24,33 @@ export const SCHOOL_STAGE_CALENDAR = {
   /** Years after kindergarten begins that each stage starts. */
   startsAfterYears: { elementary: 0, middle: 6, high: 9 },
 } as const;
+
+export type SchoolStageKey = keyof typeof SCHOOL_STAGE_CALENDAR.endsAfterYears;
+
+/** The program each stage enrolls a pupil in. */
+export const SCHOOL_STAGE_PROGRAM: Record<
+  SchoolStageKey,
+  EducationEnrollment["programKind"]
+> = {
+  elementary: "schooling:elementary",
+  middle: "schooling:middle",
+  high: "schooling:secondary",
+};
+export const SCHOOL_STAGE_CONTEXT = {
+  elementary: "stage:elementary",
+  middle: "stage:school",
+  high: "stage:secondary",
+} as const;
+
+/** The stage a grade falls in on the shared calendar: K-5, 6-8, 9-12. */
+export function schoolStageForGrade(grade: number): SchoolStageKey {
+  const { startsAfterYears } = SCHOOL_STAGE_CALENDAR;
+  return grade >= startsAfterYears.high
+    ? "high"
+    : grade >= startsAfterYears.middle
+      ? "middle"
+      : "elementary";
+}
 
 /** The fall a child starts kindergarten, which is also the class they are in. */
 export function kindergartenYear(birthDate: IsoDate): number {

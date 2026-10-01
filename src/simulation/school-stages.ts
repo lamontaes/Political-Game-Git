@@ -13,7 +13,10 @@ import {
   kindergartenYear,
   onCalendar,
   SCHOOL_STAGE_CALENDAR,
+  SCHOOL_STAGE_CONTEXT,
+  SCHOOL_STAGE_PROGRAM,
   schoolGradeOn,
+  type SchoolStageKey,
 } from "./school-calendar";
 import {
   educationEnrollmentStateAt,
@@ -77,18 +80,10 @@ export {
   schoolTermOn,
 } from "./school-calendar";
 
-export type SchoolStageKey = keyof typeof SCHOOL_STAGE_CALENDAR.endsAfterYears;
+export type { SchoolStageKey } from "./school-calendar";
 
-const PROGRAM: Record<SchoolStageKey, EducationEnrollment["programKind"]> = {
-  elementary: "schooling:elementary",
-  middle: "schooling:middle",
-  high: "schooling:secondary",
-};
-const CONTEXT = {
-  elementary: "stage:elementary",
-  middle: "stage:school",
-  high: "stage:secondary",
-} as const;
+const PROGRAM = SCHOOL_STAGE_PROGRAM;
+const CONTEXT = SCHOOL_STAGE_CONTEXT;
 const FINISHED: Record<SchoolStageKey, string> = {
   elementary: "Completed elementary school.",
   middle: "Completed the middle-school program.",
