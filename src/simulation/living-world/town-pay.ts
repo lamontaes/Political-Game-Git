@@ -1210,12 +1210,16 @@ export function applyLawPayConsequence(
   if (resolved.action !== "raise-hourly-floor")
     return refuse("pay.saved-hourly-rule.requires-completed-shift");
   const note = payNoteOf(current!.cadenceKind);
-  if (!note) refuse("pay.cadence.town-pay-period");
+  const weekly = current!.cadenceKind === "schedule:weekly";
+  if (!note && !weekly) refuse("pay.cadence.recorded-pay-period");
   const weeklyHours = weeklyHoursOf(role!);
   if (!Number.isFinite(weeklyHours) || weeklyHours <= 0)
     refuse("pay.job.positive-recorded-hours");
   const amount = Math.round(
-    (resolved.amount.value * weeklyHours * 52) / PERIODS_PER_YEAR[note!.period],
+    weekly
+      ? resolved.amount.value * weeklyHours
+      : (resolved.amount.value * weeklyHours * 52) /
+          PERIODS_PER_YEAR[note!.period],
   );
   if (!Number.isSafeInteger(amount)) refuse("pay.period.amount-safe-integer");
   // A floor cannot cut an existing contractual wage, including after repeal.
@@ -1224,7 +1228,9 @@ export function applyLawPayConsequence(
     refuse("pay.terms.prospective");
   if (
     effectiveAt !== flow!.startsAt &&
-    !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase)
+    (weekly
+      ? daysBetween(flow!.startsAt, effectiveAt) % 7 !== 0
+      : !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase))
   )
     refuse("pay.period.starts-on-effective-date");
   if (
