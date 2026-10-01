@@ -1,3 +1,4 @@
+import { lawExposureFeltSize } from "../law-exposure";
 import { createOrganization, createOrganizationParticipation } from "../life";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
@@ -13,8 +14,9 @@ import type { EntityId, LawExposureRecord, World } from "../types";
 import { reactionLens } from "./official-views";
 
 /**
- * Organized interests (spec 5): people a law costs a real share of their pay
- * band together against it.
+ * Organized interests (spec 5): people a law costs a real share of their pay,
+ * or a right or an eligibility (felt, PLACEHOLDER, like a tenth of a month's
+ * pay; `NON_MONEY_FELT_SIZE`), band together against it.
  *
  * APPROVED provisional values (Claude CTO, September 28, 2026, 4:57 a.m.
  * EDT): a group forms in a town once at least 6 residents have each lost a
@@ -42,12 +44,18 @@ const FOUNDING_RESIDENTS = 6;
 const RESOLVE_TO_JOIN_ALONE = 2;
 const RESOLVE_TO_JOIN_WITH_A_TIE = 1;
 
-/** The loss as a share of the person's month's pay, or null when unmeasured. */
+/**
+ * The loss as a share of the person's month's pay, or null when unmeasured.
+ * A right or an eligibility lost with no money on record counts at the
+ * estimated felt size (`lawExposureFeltSize`).
+ */
 function shareOfPay(exposure: LawExposureRecord): number | null {
-  if (exposure.direction !== "cost" || exposure.amount === null) return null;
-  const pay = exposure.monthlyPay?.minorUnits ?? 0;
-  if (pay <= 0) return null;
-  return exposure.amount.minorUnits / pay;
+  if (exposure.direction !== "cost") return null;
+  const felt = lawExposureFeltSize(
+    exposure,
+    exposure.monthlyPay?.minorUnits ?? 0,
+  );
+  return felt !== null && felt !== "unmeasured" ? felt.share : null;
 }
 
 /** A person's own exposure that counts toward a group: a big enough loss. */
@@ -93,7 +101,7 @@ export function joinLawInterestGroup(
       formedAt: next.currentDate,
       provenance: {
         kind: "authored",
-        note: "Residents a law cost a tenth of a month's pay or more.",
+        note: "Residents a law cost a tenth of a month's pay or more, or a right or an eligibility.",
       },
       initialProfile: {
         // PLACEHOLDER wording, awaiting editorial review.

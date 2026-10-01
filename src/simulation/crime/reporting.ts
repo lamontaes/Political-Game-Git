@@ -17,21 +17,33 @@ import { offenderForVictims } from "./offenders";
  * Whether a victim reports an offense to police (A131).
  *
  * Nothing is drawn. Each victim weighs it from their own side through the
- * decision engine: how much the offense harmed them, against the trouble of
- * reporting; how close they are to the person who did it (the resident the
- * offense points to, `./offenders`), since a victim who knows the offender
- * well may fear reprisal, want to spare them or call it a private matter; the
- * victim's own past with police (offenses they reported before argue for it,
- * having been charged themselves argues against it); and their own
- * temperament. An offense against a home is reported when anyone living there
- * decides to. A tie in the weighing stays unreported.
+ * decision engine: what was done to them (the offense), against the trouble
+ * of reporting; whether it has happened to them before (each recorded offense
+ * against them argues for calling this time); the victim's own past with
+ * police (offenses they reported before argue for it, having been charged
+ * themselves argues against it); and their own temperament and age. An
+ * offense against a home is reported when anyone living there decides to. A
+ * tie in the weighing stays unreported.
+ *
+ * Knowing the offender is not a weight (CTO Ruling 11). The national survey
+ * finds violence by family reported at least as often as violence by
+ * strangers: intimate partner 56%, immediate family 56%, other relatives
+ * 49%, acquaintances 39%, strangers 49% (BJS, Nonfatal Domestic Violence,
+ * 2003-2012, NCJ 244697, table 8); domestic violence 53.8% against stranger
+ * violence 36.0% in 2022 and 47.7% against 44.9% in 2023 (BJS, Criminal
+ * Victimization, 2023, NCJ 309335, table 4). Those shares check the totals by
+ * relationship in the tests and never decide one victim.
+ *
+ * The played person is never decided for. When the offense happened to them
+ * and nobody else it happened to reported it, the choice is theirs, put to
+ * them as a life decision (`adult.crime-report`); until they report it, it
+ * stays unreported.
  *
  * The weights are PLACEHOLDERS (research: `why-victims-report-to-police`).
- * The real shares reported to police (BJS, Criminal Victimization, 2022,
- * NCJ 307089, table 4) check the totals in the tests and never decide one
- * victim.
+ * The real shares reported to police by offense (BJS, Criminal Victimization,
+ * 2023, NCJ 309335, table 4) check the totals in the tests.
  */
-export const CRIME_REPORTING_VERSION = "crime-reporting-v1" as const;
+export const CRIME_REPORTING_VERSION = "crime-reporting-v2" as const;
 
 export const REPORT_OPTIONS = {
   report: "report",
@@ -41,19 +53,31 @@ export const REPORT_OPTIONS = {
 /** PLACEHOLDER weights, in the decision engine's points. */
 export const UNRESEARCHED_REPORTING = {
   provenance: "unresearched-blanket-rule",
-  /** How much the offense itself argues for calling the police. */
+  /**
+   * How much the offense itself argues for calling the police, set so the
+   * town's shares land near the national shares reported (2022 and 2023):
+   * robbery 64.0% and 42.4%, assault 40.6% and 44.9% (aggravated 49.9% and
+   * 57.1%), burglary 44.9% and 42.2%. Robbery and assault average within ten
+   * points of each other and share a weight. A burglary is reported when
+   * anyone in the home decides to, so its own weight sits lower. Vandalism is
+   * not a survey category; it sits with "other theft" (26.4% and 24.8%).
+   */
   harm: {
-    robbery: 6,
+    robbery: 4,
     assault: 4,
     burglary: 3,
     vandalism: 2,
   } satisfies Record<CrimeOffense, number>,
   /** The time, trouble and doubt that police could do anything. */
   trouble: 4,
-  /** A family tie to the offender, at full strength; acquaintance slides. */
-  closeTie: 6,
-  /** How many shared moments make an acquaintance feel close. */
-  interactionsForCloseness: 3,
+  /**
+   * Earlier offenses against the same victim, at full strength: what has
+   * happened before is part of the harm this time. Repeat victims are a
+   * fifth of victims and half of all violent victimizations (BJS, Repeat
+   * Violent Victimization, 2005-14, NCJ 250567); the size of the pull is a
+   * placeholder.
+   */
+  repeatVictimization: 3,
   /** Offenses the victim reported before, at full strength. */
   reportedBefore: 3,
   /** The victim's own past charges, at full strength. */
@@ -97,18 +121,27 @@ function step(points: number) {
   return best;
 }
 
-/** How close `a` is to `b`: 1 for family, sliding with shared moments. */
-export function closeness(world: World, a: EntityId, b: EntityId): number {
-  if (
-    world.history.kinshipRelationships.some(
-      (row) => row.personIds.includes(a) && row.personIds.includes(b),
-    )
-  )
-    return 1;
-  let shared = 0;
-  for (const row of world.history.relationshipInteractions)
-    if (row.personIds.includes(a) && row.personIds.includes(b)) shared += 1;
-  return 1 - Math.exp(-shared / R.interactionsForCloseness);
+/** Offenses recorded against `personId` before `onDate`, reported or not. */
+export function priorVictimizations(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate,
+): number {
+  let count = 0;
+  for (const type of [
+    "crime.offense-reported",
+    "crime.offense-unreported",
+  ] as const)
+    for (const event of eventsOfType(world, type))
+      if (
+        event.occurredAt < onDate &&
+        event.participants.some(
+          (row) =>
+            row.personId === personId && row.role === "impact:crime-victim",
+        )
+      )
+        count += 1;
+  return count;
 }
 
 /** The victim's past with police before `onDate`: reports made, charges. */
@@ -142,6 +175,11 @@ export interface ReportDecision {
   readonly offenderPersonId: EntityId | null;
   /** The reporting victim, or null when nobody reported it. */
   readonly reportedBy: EntityId | null;
+  /**
+   * The played person, when it happened to them and nobody else reported
+   * it: whether to report is then their own choice in play.
+   */
+  readonly playerChooses: EntityId | null;
 }
 
 /** Each victim's considerations: a sliding amount for each circumstance. */
@@ -149,10 +187,10 @@ export function reportConsiderations(
   world: World,
   victimId: EntityId,
   offense: CrimeOffense,
-  offenderPersonId: EntityId | null,
   occurredAt: IsoDate,
   prefix: string,
 ): DecisionConsideration[] {
+  const before = priorVictimizations(world, victimId, occurredAt);
   const rows: [string, string, number, string][] = [
     ["harm", REPORT_OPTIONS.report, R.harm[offense], "What was done to them."],
     [
@@ -161,16 +199,13 @@ export function reportConsiderations(
       R.trouble,
       "The trouble of it, and doubt that police could do anything.",
     ],
+    [
+      "repeat",
+      REPORT_OPTIONS.report,
+      R.repeatVictimization * (1 - Math.exp(-before)),
+      "It has happened to them before.",
+    ],
   ];
-  if (offenderPersonId) {
-    const close = closeness(world, victimId, offenderPersonId);
-    rows.push([
-      "tie",
-      REPORT_OPTIONS.quiet,
-      R.closeTie * close,
-      "They know the person who did it.",
-    ]);
-  }
   const contact = policeContact(world, victimId, occurredAt);
   rows.push(
     [
@@ -266,18 +301,33 @@ export function decideReport(
     input.offense,
   );
   const offenderPersonId = offender?.personId ?? null;
-  for (const victimId of [...input.victimPersonIds].sort())
+  const player =
+    world.control.kind === "person" ? world.control.personId : null;
+  for (const victimId of [...input.victimPersonIds].sort()) {
+    // The played person decides in play, never through the engine.
+    if (victimId === player) continue;
     if (
       victimReports(world, {
         victimId,
         offense: input.offense,
-        offenderPersonId,
         occurredAt: input.occurredAt,
         targetId: input.targetId,
       })
     )
-      return { reported: true, offenderPersonId, reportedBy: victimId };
-  return { reported: false, offenderPersonId, reportedBy: null };
+      return {
+        reported: true,
+        offenderPersonId,
+        reportedBy: victimId,
+        playerChooses: null,
+      };
+  }
+  return {
+    reported: false,
+    offenderPersonId,
+    reportedBy: null,
+    playerChooses:
+      player !== null && input.victimPersonIds.includes(player) ? player : null,
+  };
 }
 
 /** One victim's own decision, through the decision engine. Pure. */
@@ -286,7 +336,6 @@ export function victimReports(
   input: {
     readonly victimId: EntityId;
     readonly offense: CrimeOffense;
-    readonly offenderPersonId: EntityId | null;
     readonly occurredAt: IsoDate;
     readonly targetId: EntityId;
   },
@@ -318,7 +367,6 @@ export function victimReports(
       world,
       input.victimId,
       input.offense,
-      input.offenderPersonId,
       input.occurredAt,
       prefix,
     ),

@@ -851,6 +851,21 @@ function recordStateProposalVotes(
           ]),
       ),
     });
+    const reasonCounts = new Map<string, number>();
+    for (const disposition of dispositions) {
+      if (disposition.reason)
+        reasonCounts.set(
+          disposition.reason,
+          (reasonCounts.get(disposition.reason) ?? 0) + 1,
+        );
+    }
+    const mostOften = [...reasonCounts].sort((a, b) => b[1] - a[1])[0]?.[0];
+    const memberReasons = dispositions.map((disposition) => {
+      const member = seated.body.members.find(
+        (candidate) => candidate.memberKey === disposition.memberKey,
+      );
+      return `${member?.name ?? disposition.memberKey}: ${disposition.reason ?? "no recorded reason"}`;
+    });
     next = recordConstitutionalProposalVote(
       next,
       measure.id,
@@ -859,7 +874,7 @@ function recordStateProposalVotes(
       seated.seats,
       {
         method: "member-decisions",
-        note: `Actual saved state members decided through the shared chamber vote; constitutional profile basis: ${profileBasis}. No delegation or synthetic seats were used.`,
+        note: `Actual saved state members decided for their own reasons${mostOften ? `, most often ${mostOften}` : "; no member reason was recorded"}. Recorded member reasons: ${memberReasons.join("; ")}. They used the shared chamber vote; constitutional profile basis: ${profileBasis}. No delegation or synthetic seats were used.`,
         sourceEntityIds: [...sourceRecordIds, ...causeRecordIds],
       },
     );

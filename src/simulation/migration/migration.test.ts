@@ -354,7 +354,14 @@ describe("migration scaffold", () => {
       displacedLeaveChance: { destroyed: 1, damaged: 1 },
     });
     assertWorldIntegrity(after);
-    const moves = recordedMoves(after);
+    // The same review also weighs this quarter's job offers elsewhere
+    // (`job-offers.ts`); those moves name their offer, not the flood.
+    const allMoves = recordedMoves(after);
+    const moves = allMoves.filter((move) =>
+      move.reason.startsWith("disaster:"),
+    );
+    for (const move of allMoves)
+      if (!moves.includes(move)) expect(move.reason).toBe("work:job-offer");
     // The flood can kill; a household it left nobody alive in moves nowhere.
     const died = new Set(
       struck.history.personDeaths.map((death) => death.personId),
