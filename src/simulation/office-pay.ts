@@ -19,10 +19,10 @@ import {
 } from "./enacted-rule-changes";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   World,
   WorkRelationship,
-  HistoricalCutoff,
 } from "./types";
 
 export { OFFICE_PAY_META };
@@ -244,13 +244,12 @@ export function publishedOfficePay(
 }
 
 /** The rule field a state's pay law sets for each office it can set. */
-export const PAY_LAW_FIELD: Readonly<
-  Partial<Record<PaidOffice, AmendableRuleField>>
-> = {
-  governor: "pay.governor.annualDollars",
-  "state-legislator": "pay.stateLegislator.annualDollars",
-  "trial-court-judge": "pay.trialJudge.annualDollars",
-};
+const PAY_LAW_FIELD: Readonly<Partial<Record<PaidOffice, AmendableRuleField>>> =
+  {
+    governor: "pay.governor.annualDollars",
+    "state-legislator": "pay.stateLegislator.annualDollars",
+    "trial-court-judge": "pay.trialJudge.annualDollars",
+  };
 
 /** What a state's pay law did to an office's salary, when one did. */
 export interface OfficePayLaw {
@@ -289,10 +288,7 @@ export function officePayInForce(
   work: WorkRelationship,
   onDate: IsoDate,
 ): OfficePayInForce | null {
-  const held = paidOfficeOf(world, work, {
-    asOfDate: onDate,
-    historySequenceExclusive: world.history.nextSequence,
-  });
+  const held = paidOfficeOf(world, work);
   if (!held) return null;
   const stated = statePayFor(held.office, held.state);
   const estimate =
