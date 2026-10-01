@@ -26,7 +26,9 @@ The [official HB2319 history](https://wapp.capitol.tn.gov/apps/BillInfo/Default?
 
 The [2025 official code snapshot](https://www.capitol.tn.gov/Archives/Joint/publications/TNCodeBills/2025/TNCodeBill_Volume1_2025.pdf), pages 159–160, dated November 15, 2024, corroborates the county residence stage. Section 5-5-102(e)–(h) records four-year terms, the regular August cycle from 1978, September 1 entry and designated-seat rules. No term or calendar was installed.
 
-Section 5-5-102(c)(3) conditions municipal dual-service restrictions on population above 200,000 and two-thirds county adoption. It permits specified incumbents to finish their terms. Population and adoption bindings remain unproved here. This newer snapshot narrows the vintage gap; it does not certify complete current law.
+Section 5-5-102(c)(3) conditions municipal dual-service restrictions on population above 200,000 and two-thirds county adoption. It permits specified incumbents to finish their terms. Local adoption remains unproved. The dated population check below resolves only the census threshold. This newer snapshot narrows the vintage gap; it does not certify complete current law.
+
+The [Census Bureau's census row](https://www.census.gov/quickfacts/fact/table/loudoncountytennessee/PST040225) records 54,886 persons in Loudon County on April 1, 2020. Its [TIGER county table](https://tigerweb.geo.census.gov/tigerwebmain/Files/bas26/tigerweb_bas26_county_2020_tab20_tn.html) corroborates county 47105 and POP100. This count does not meet the provision's population criterion. The revised estimates base of 54,889 and the 2025 estimate are not substituted for the decennial count. Other incompatibility rules and future census applicability remain separate; no eligibility or production rule was added.
 
 CTO must dispose of distinct dated person-registration evidence and its writer/reader, plus the applicable legal assessment stage. Actual home joins and core/data admission also remain open. The research does not change the empty active catalog, clock, history schema or existing filing refusal. Complete profile count remains zero.
 

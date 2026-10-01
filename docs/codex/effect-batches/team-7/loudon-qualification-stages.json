@@ -6,6 +6,31 @@
   "officeKey": "local-government-175686-governing-body",
   "productionAdmission": false,
   "completeProfile": false,
+  "countyDualServiceApplicability": {
+    "countyGeoid": "47105",
+    "governmentUnitId": "gus2025:175686",
+    "censusOn": "2020-04-01",
+    "population": 54886,
+    "unit": "persons",
+    "populationSource": "https://www.census.gov/quickfacts/fact/table/loudoncountytennessee/PST040225",
+    "populationField": "Population, Census, April 1, 2020",
+    "identityCorroborationSource": "https://tigerweb.geo.census.gov/tigerwebmain/Files/bas26/tigerweb_bas26_county_2020_tab20_tn.html",
+    "identityCorroborationField": "GEOID47105; NAME Loudon County; POP10054886",
+    "readOn": "2026-10-01",
+    "retrievalMode": "web-tool text; no payload hash asserted",
+    "legalSourceKey": "newerMembershipCodeSnapshot",
+    "legalSection": "5-5-102(c)(3)(C)",
+    "threshold": {
+      "operator": "greater-than",
+      "value": 200000,
+      "unit": "persons"
+    },
+    "populationCriterionMetAt2020Census": false,
+    "localAdoptionEvidence": null,
+    "laterCensusBinding": null,
+    "otherIncompatibilityRulesEvaluated": false,
+    "productionAdmission": false
+  },
   "sources": {
     "calendarCopy": {
       "url": "https://www.coffeecountytn.gov/DocumentCenter/View/5942/2026-Election-Cycle-Important-Dates",
