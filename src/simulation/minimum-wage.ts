@@ -270,12 +270,9 @@ export function startingStateMinimumHourly(
   // A known date with no state increase may use the actual federal standard.
   // A missing dated row or unresolved above-federal tier stays unknown.
   if (!state) return null;
-  if (!state.term)
-    // American Samoa's federal industry schedules do not establish one
-    // territory-wide standard. Its matrix has no universal numeric term.
-    return state.law.answer === "no" && stateKey !== "US-AS" && federal
-      ? federal.value / 100
-      : null;
+  // A state without numeric text does not authorize a federal/default
+  // substitution. Federal scope belongs to its separate canonical pay row.
+  if (!state.term) return null;
   return Math.max(state.term.value, federal?.value ?? state.term.value) / 100;
 }
 

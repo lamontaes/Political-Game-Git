@@ -151,9 +151,9 @@ it("keeps the federal floor on the federal proposition and does not fabricate Mi
     measureId: `starting-law:US:${FEDERAL_MINIMUM_WAGE_QUESTION_KEY}`,
     provisionId: null,
   });
-  expect(startingStateMinimumHourly("US-MS", world, world.currentDate)).toBe(
-    7.25,
-  );
+  expect(
+    startingStateMinimumHourly("US-MS", world, world.currentDate),
+  ).toBeNull();
   const state = lawInForce(
     world,
     stateJurisdictionForKey("US-MS")!.id,
