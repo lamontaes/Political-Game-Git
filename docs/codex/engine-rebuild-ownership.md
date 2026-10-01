@@ -37,3 +37,14 @@ COORDINATOR owns the shared law consequence contract, dispatcher, validation, re
 These releases authorize bounded edits, not completion or merge. Preserve each other owner's unpublished bytes.
 
 Team 1 additionally owns only the legislative-politics-integrity.ts provision-loop call to the shared lawTerms validator under the approved typed-term validation contract. Team 5 replacement owns extraction of service rows/constants into a data-only module; coordinator owns policy-pack assembly. Coordinator completed the released completeActivity post-state service hook in #1309; Team 5 must not duplicate it.
+
+## Confirmed releases through September 30, 9:55 p.m. Eastern
+
+- Team 2 owns the G9 binding fields on RuleChangeProvisionRecord and the existing enacted-rule-changes.ts writer and validation. Keep ruleChangeProvisions and enactedRuleChangeAt. Bind actual body and place IDs, final provision ID/key and enactment ID; validate final-term agreement. Stamp only an applied consequence. Coordinator retains registry admission.
+- Team 1 owns LegislativeProvisionRecord lawTerms and the approved optional lawCategories, their existing writer/integrity validation and final enacted readers. These are different fields from Team 2's RuleChangeProvisionRecord extension. Categorical values must match catalog enumerations.
+- Team 6 owns only the drawStateTaxServiceStartingConditions import and append call in world-setup/conditions.ts, and the fixed-seed profile-generation portion of presentation/funded-service-capability.ts nationwideFundedServiceCoverage. Retire those fabricated opening/inventory inputs; preserve saved-profile readers and unrelated presentation behavior.
+- Team 3 owns the routine-outcome.ts import and saved-pay-summary append within describeRoutineOutcome. Other prose and routine logic remain with their owners.
+- Audit owns only the approved presidential-turnover.ts oath/qualification-to-term-transition call relocation and final opening initializer integration. Use Team 3 initializeOfficeSalaryFlows and Team 4 initializeLivingCostsFlow before final starting-law resolution, preserving the coordinator's terminal dispatch deferral. Team 7 owns monthly scheduling.
+- Team 5 continues N1 recorded scene companions and presence. Library decisions are unsupported tonight; no library body, title inventory or challenge producer is authorized. Team 8 retains press ownership until an exact newsroom lookup hunk is released.
+
+These are ownership and scope decisions, not evidence of completed implementation, tests or merges.
