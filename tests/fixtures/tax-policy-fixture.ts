@@ -46,6 +46,7 @@ export function proposalFixture(terms: TaxTerms = TEST_TAX_TERMS) {
   let world = advanceWorld(
     createWorld({
       seed: scenario.world.seed,
+      control: scenario.world.control,
       currentDate: scenario.world.currentDate,
       jurisdictions: scenario.world.jurisdictionOrder.map(
         (id) => scenario.world.jurisdictions[id]!,
