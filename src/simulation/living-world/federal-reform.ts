@@ -21,7 +21,12 @@ import {
   stateVoice,
   type Voter,
 } from "../governing/article-v";
-import { publicPartyOf } from "../governing/chamber-votes";
+import {
+  chamberConsiderationWeight,
+  decideChamberVote,
+  publicPartyOf,
+} from "../governing/chamber-votes";
+import { seatedCongressChamber } from "../governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { relationshipConsiderations } from "../governing/standing-considerations";
 import { currentHistoricalCutoff } from "../queries";
@@ -66,9 +71,9 @@ import type {
  * party is a reason to let them serve on and the other party a reason not
  * to, a recorded relationship with the President counts at its strength, and
  * changing the Constitution is a higher bar than passing a law
- * (`article-v.ts`). Congress proposes when two-thirds of each house would
- * vote yes. Each state legislature ratifies by the same count among the
- * people who speak for it (its seated members, or ESTIMATED, its members of
+ * (`article-v.ts`). Congress records its proposal before voting; a rejected
+ * proposal remains on the record. Each state legislature ratifies by the same
+ * count among the people who speak for it (its seated members, or ESTIMATED, its members of
  * Congress). The cause and the weights are hand-set pending research
  * question `federal-amendment-causes-and-pace`.
  *
@@ -295,51 +300,68 @@ export function federalReformReviewHandler(
     ...house.map((voter) => voter.personId),
     ...senate.map((voter) => voter.personId),
   ]);
-  // A member files it only when two-thirds of each house would vote for it:
-  // the count, not a draw, decides whether a proposal is made. The same
-  // Congress with the same reasons gives the same answer every year.
-  const { houses, carries } = termLimitCount(next, year, cause);
-  if (!carries)
-    return done(
-      next,
-      `Two-thirds of each house would not propose an amendment on the President's term limit, though ${cause.reason}.`,
-    );
+  // Save the proposal before members decide on it. A rejection is an action,
+  // recorded by the same constitutional rollcall writer as an approval.
   return done(
-    proposeAndVote(next, year, cause, houses),
+    proposeAndVote(next, year, cause),
     `Congress considered an amendment on the President's term limit because ${cause.reason}.`,
   );
 }
 
 /**
- * How each house would vote on the cause's amendment, member by member, and
- * whether two-thirds of each would vote yes. Pure; members' principles must
- * already be drawn.
+ * Save a proposal in the returned world before deciding each real chamber.
+ * The input world remains unchanged; members' principles must already exist.
  */
 export function termLimitCount(
   world: World,
   year: number,
   cause: FederalReformCause,
 ): {
+  readonly world: World;
+  readonly measureId: EntityId;
   readonly houses: readonly {
     readonly bodyKey: "house" | "senate";
     readonly rows: readonly {
       readonly voter: Voter;
-      readonly ballot: "yea" | "nay" | "absent";
+      readonly ballot: LegislativeVoteDisposition["disposition"];
       readonly reason: string;
     }[];
   }[];
   readonly carries: boolean;
 } {
-  const key = measureKey(year);
-  const ballots = (voters: readonly Voter[]) =>
-    voters.map((voter) => ({
-      voter,
-      ...termLimitBallot(world, `${key}:${voter.memberKey}`, voter, cause),
-    }));
-  const houses = [
-    { bodyKey: "house", rows: ballots(congressVoters(world, "house")) },
-    { bodyKey: "senate", rows: ballots(congressVoters(world, "senate")) },
-  ] as const;
+  const next = proposeTermLimitMeasure(world, year, cause);
+  const measure = next.history.constitutionalMeasures!.find(
+    (row) => row.stableKey === measureKey(year),
+  )!;
+  const houses = (["house", "senate"] as const).map((bodyKey) => {
+    const voters = congressVoters(next, bodyKey);
+    const dispositions = decideChamberVote(next, {
+      kind: "constitutional",
+      stableKey: `${measure.stableKey}:${bodyKey}`,
+      constitutionalMeasureId: measure.id,
+      bodyKey,
+      purpose: "proposal",
+      members: (
+        seatedCongressChamber(next, bodyKey)?.body.members ?? []
+      ).filter((member) => member.personId !== null),
+      playerPersonId:
+        next.control.kind === "person" ? next.control.personId : null,
+      considerationsByMember: new Map(
+        voters.map((voter) => [
+          voter.memberKey,
+          termLimitConsiderations(next, voter, cause),
+        ]),
+      ),
+    });
+    return {
+      bodyKey,
+      rows: dispositions.map((row) => ({
+        voter: { memberKey: row.memberKey, personId: row.personId! },
+        ballot: row.disposition,
+        reason: row.reason ?? "member:no-reason",
+      })),
+    };
+  });
   const carries = houses.every(({ rows }) => {
     const cast = rows.filter((row) => row.ballot !== "absent");
     return (
@@ -347,7 +369,7 @@ export function termLimitCount(
       cast.filter((row) => row.ballot === "yea").length * 3 >= cast.length * 2
     );
   });
-  return { houses, carries };
+  return { world: next, measureId: measure.id, houses, carries };
 }
 
 /** Whose term limit a member is voting on, for the reasons they write. */
@@ -385,6 +407,54 @@ export function termLimitBallot(
     world.control.kind === "person" ? world.control.personId : null;
   if (voter.personId === player)
     return { ballot: "absent", reason: "member:player-not-asked" };
+  const considerations = termLimitConsiderations(
+    world,
+    voter,
+    cause,
+    holder,
+    extra,
+  );
+  const evaluation = evaluateDecision(world, {
+    stableKey,
+    decisionType: holder.decisionType,
+    actorPersonId: voter.personId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:constitutional-amendment",
+      key: stableKey,
+      entityId: null,
+    },
+    options: [
+      { key: "vote-yea", label: "Vote yes", description: "Propose it." },
+      { key: "vote-nay", label: "Vote no", description: "Leave it out." },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
+  const reason =
+    considerations
+      .filter((c) => c.optionKey === `vote-${ballot}`)
+      .sort(
+        (a, b) => chamberConsiderationWeight(b) - chamberConsiderationWeight(a),
+      )[0]?.stableKey ?? "member:no-reason";
+  return { ballot, reason };
+}
+
+/** Original term-limit inputs, shared by recorded Congress and legacy state callers. */
+export function termLimitConsiderations(
+  world: World,
+  voter: Voter,
+  cause: {
+    readonly direction: "extend" | "restore";
+    readonly holderPersonId: EntityId;
+  },
+  holder: TermLimitHolder = PRESIDENT,
+  extra: readonly DecisionConsideration[] = [],
+): readonly DecisionConsideration[] {
   // Extending the limit keeps the officeholder eligible; restoring it bars them.
   const forPresident = cause.direction === "extend" ? "vote-yea" : "vote-nay";
   const againstPresident =
@@ -433,58 +503,21 @@ export function termLimitBallot(
         ? { ...reason, optionKey: againstPresident, direction: "supports" }
         : reason,
     );
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: holder.decisionType,
-    actorPersonId: voter.personId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:constitutional-amendment",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [
-      { key: "vote-yea", label: "Vote yes", description: "Propose it." },
-      { key: "vote-nay", label: "Vote no", description: "Leave it out." },
-    ],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-  const reason =
-    considerations
-      .filter((c) => c.optionKey === `vote-${ballot}`)
-      .sort((a, b) => weight(b) - weight(a))[0]?.stableKey ??
-    "member:no-reason";
-  return { ballot, reason };
-}
-
-function weight(c: DecisionConsideration): number {
-  return (
-    { slight: 1, moderate: 2, strong: 4, decisive: 6 }[c.importance] *
-    { low: 1, medium: 2, high: 3 }[c.confidence]
-  );
+  return considerations;
 }
 
 /** Proposes the amendment, records both houses, and dates each state's action. */
-export function proposeAndVote(
+function proposeTermLimitMeasure(
   world: World,
   year: number,
   cause: FederalReformCause,
-  houses: readonly {
-    readonly bodyKey: "house" | "senate";
-    readonly rows: readonly {
-      readonly voter: Voter;
-      readonly ballot: "yea" | "nay" | "absent";
-      readonly reason: string;
-    }[];
-  }[],
 ): World {
   const key = measureKey(year);
-  let next = proposeConstitutionalMeasure(world, {
+  const existing = world.history.constitutionalMeasures?.find(
+    (row) => row.stableKey === key,
+  );
+  if (existing) return world;
+  return proposeConstitutionalMeasure(world, {
     stableKey: key,
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     jurisdictionKey: FEDERAL_JURISDICTION_KEY,
@@ -513,8 +546,30 @@ export function proposeAndVote(
     },
     ordinaryMeasureId: null,
   });
-  const measureId = next.history.constitutionalMeasures!.at(-1)!.id;
-  for (const house of houses) {
+}
+
+/** Save the actual proposal, decide through the shared engine, and record its votes. */
+export function proposeAndVote(
+  world: World,
+  year: number,
+  cause: FederalReformCause,
+): World {
+  const existing = world.history.constitutionalMeasures?.find(
+    (row) => row.stableKey === measureKey(year),
+  );
+  if (
+    existing &&
+    constitutionalPosition(world, existing.id).phase !== "consideration"
+  )
+    return world;
+  const count = termLimitCount(world, year, cause);
+  let next = count.world;
+  const measureId = count.measureId;
+  const key = measureKey(year);
+  // A repeated callback cannot append another rollcall or schedule another action.
+  if (constitutionalPosition(next, measureId).phase !== "consideration")
+    return next;
+  for (const house of count.houses) {
     const dispositions: LegislativeVoteDisposition[] = house.rows.map(
       (row) => ({
         memberKey: row.voter.memberKey,

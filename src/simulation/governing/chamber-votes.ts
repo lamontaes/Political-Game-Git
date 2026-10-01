@@ -642,7 +642,9 @@ export function decideChamberVote(
     const selected = evaluation.selectedOptionKey ?? "withhold";
     const decisive = considerations
       .filter((consideration) => consideration.optionKey === selected)
-      .sort((l, r) => weight(r) - weight(l))[0];
+      .sort(
+        (l, r) => chamberConsiderationWeight(r) - chamberConsiderationWeight(l),
+      )[0];
     return {
       memberKey: member.memberKey,
       personId: member.personId,
@@ -889,7 +891,9 @@ function partyCue(
   ];
 }
 
-function weight(consideration: DecisionConsideration): number {
+export function chamberConsiderationWeight(
+  consideration: DecisionConsideration,
+): number {
   const importance = { slight: 1, moderate: 2, strong: 4, decisive: 6 }[
     consideration.importance
   ];
