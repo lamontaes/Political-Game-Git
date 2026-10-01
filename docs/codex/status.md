@@ -1,3 +1,40 @@
+# Coordinator checkpoint — October 1, 8:59 a.m. Eastern
+
+The actual-member vote changes and service repairs have landed. Shared payroll and tax integration remain incomplete. Earlier checkpoints below are historical and do not override this entry.
+
+## MERGED
+
+GitHub verifies #1529 and #1538 merged at their reviewed heads, adding actual-member amendment votes. It also verifies service changes #1530 and #1537, research #1544, and coordinator follow-up #1548 merged. The sentence research covers 23 of 56 places; merging it does not admit a runtime sentencing rule.
+
+## CONNECTIONS TABLE
+
+| Producer and consumer | Current evidence | Next owner |
+| --- | --- | --- |
+| Starting-law terms to automatic bill compiler | Three reader paths from 8f3957b1 released without held payroll changes | Team 1 composes and tests |
+| Saved weekly pay to ordinary clock | Audit reports unchanged clock case passed, then four route cases passed; publication pending | Audit publishes; Team 3 consumes proved caller retirement |
+| Typed tax base to assessment and collection | Dedicated handler under construction; no test pass or registration claimed | Team 6 supplies export; coordinator reviews registry |
+| Actual judge to eviction judgment | Draft #1546 at 5fd1c48a has five team-reported passes; source reviewed | CTO review; counsel producer remains separate |
+| Saved finding to subject's own response | Context #1505 at b1297d18 reviewed; no automatic decision yet | Audit supplies actual consideration contract |
+
+## BLOCKED
+
+- Foundation #1309 remains draft at 7f8e488005d04183013d5491f69e10ac92553c02. Earned-law assessment, validated transfer and the separate historical legal cutoff await CTO disposition.
+- Team 1 measured candidate filing cutoff 1.575 from 7,780 members. Its 7.708 opportunities per member are not observed bills. Audit found three state intakes per eligible calendar year; reaching the requested session target needs a cadence or intake ruling.
+- Team 4 needs one exact remaining employment-caller contract. Audit has the bounded request. Transit cost and operative cap inputs remain absent.
+- Civil counsel, dated voter evidence and bank raw data remain unresolved. No invented substitutes were admitted.
+
+## EFFECTS
+
+Team 2 #1545 is ready at 0337fe4d0f0bd43acdad871a01c67cbdaaa63d71. Its controlled term-limit case saved one rejected proposal and 151 named House votes; Team 2 reports 17 passing tests. Coordinator reviewed source and routed it for CTO approval. This is not natural nationwide ratification proof.
+
+Team 7 #1540 remains a review candidate at 9d074654457303cc913c37a91464ac15a1d40e6e. Its ten Loudon seats remain outside the active catalog. Residence and voter facts are still required.
+
+## Evidence limits
+
+Team tests above were not independently rerun by the coordinator. Audit route checks use a pinned Git composition, not final-main acceptance. The shared checkout's 224 dirty entries and index remain preserved. The coordinator does not merge. Full rebuild completion remains unproved.
+
+---
+
 # Coordinator checkpoint — October 1, 8:03 a.m. Eastern
 
 Service and budget repairs are ready for review. The rebuild remains incomplete.
