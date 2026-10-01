@@ -1,4 +1,4 @@
-import { addDays, ageOnDate } from "../dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   activeWorkRelationshipsAt,
@@ -89,7 +89,11 @@ export const UNRESEARCHED_EPIDEMIC = {
    * its most-connected residents.
    */
   outsideExposurePerContact: 0.02,
-  /** Multiplier on outside exposure by calendar month, January first. */
+  /**
+   * Multiplier on outside exposure at the middle of each calendar month,
+   * January first. Between two mid-months it slides along the line joining
+   * them, so the season turns by the day and never at a month's edge.
+   */
   seasonalMultiplier: [3, 3, 2, 1, 0.5, 0.25, 0.2, 0.2, 0.5, 1, 1.5, 2.5],
   /** The exposure one sick contact gives a person in one week, by setting. */
   exposureBySetting: {
@@ -104,13 +108,17 @@ export const UNRESEARCHED_EPIDEMIC = {
    * are and how careful they are, reaches this.
    */
   catchAt: 0.3,
-  /** How susceptible a person is by age at exposure (upper bounds inclusive). */
-  susceptibilityByAge: [
-    { maxAge: 4, factor: 1.5 },
-    { maxAge: 17, factor: 1.2 },
-    { maxAge: 64, factor: 1 },
-    { maxAge: 200, factor: 1.4 },
-  ],
+  /**
+   * How susceptible a person is by age at exposure. The factor holds near
+   * each level through the middle of its ages and slides to the next across
+   * `widthYears` around each turn (S-shaped), so a day of age moves it by a
+   * hair and never by a band.
+   */
+  susceptibilityByAge: {
+    levels: [1.5, 1.2, 1, 1.4],
+    turnsAtAge: [4.5, 17.5, 64.5],
+    widthYears: 1,
+  },
   /** Susceptibility is multiplied by this while another illness is open. */
   alreadyIllFactor: 1.5,
   /** Exposure is multiplied by this for a person's recorded approach to risk. */
@@ -118,11 +126,19 @@ export const UNRESEARCHED_EPIDEMIC = {
   /** Days after a case began in which the same person cannot catch it again. */
   immunityDays: 240,
   /**
-   * A case is serious in an infant under this age, in a person this old or
-   * older, and in anyone already fighting another illness.
+   * How serious a case is, from 0 (an ordinary case) to 1 (a serious one).
+   * It slides up toward 1 for a baby around the first birthday and for an
+   * old person around 80, each across its own width in years, and is 1 for
+   * anyone already fighting another illness. The case's added risk of dying
+   * slides with it between the two `hazardMicros` levels; it is called
+   * serious from one half up.
    */
-  seriousUnderAge: 1,
-  seriousFromAge: 80,
+  seriousness: {
+    infantTurnsAtAge: 1,
+    infantWidthYears: 1,
+    oldTurnsAtAge: 80,
+    oldWidthYears: 4,
+  },
   /** Multiplier on all-cause death risk while an episode lasts, in millionths. */
   hazardMicros: {
     acute: 1_500_000,
@@ -626,21 +642,54 @@ export function epidemicCouncilMeetingDecision(
 /* The weekly pass                                                             */
 /* -------------------------------------------------------------------------- */
 
+/** Age in years, to the day: what a sliding scale reads. */
+function exactAge(world: World, personId: EntityId): number {
+  return (
+    daysBetween(world.people[personId]!.birthDate, world.currentDate) / 365.25
+  );
+}
+
+/** 0 well before `at`, 1 well after, sliding across about `width` years. */
+function turn(age: number, at: number, width: number): number {
+  return 1 / (1 + Math.exp(-(age - at) / (width / 4)));
+}
+
 /**
- * How hard a case hits, from the person: the very young, the very old and
- * anyone already fighting another illness have a serious case.
+ * How serious a case is, from 0 to 1, by the person's age to the day and
+ * whether they are already fighting another illness. Exported for tests.
  */
-function severityFor(
+export function epidemicSeriousness(age: number, alreadyIll: boolean): number {
+  const S = U.seriousness;
+  const infant = 1 - turn(age, S.infantTurnsAtAge, S.infantWidthYears);
+  const old = turn(age, S.oldTurnsAtAge, S.oldWidthYears);
+  return 1 - (1 - infant) * (1 - old) * (alreadyIll ? 0 : 1);
+}
+
+/**
+ * How hard a case hits, from the person: its seriousness, the added risk
+ * of dying that slides with it, and the word for it.
+ */
+export function epidemicCaseSeverity(
   world: World,
   personId: EntityId,
   alreadyIll: ReadonlySet<EntityId>,
-): "serious" | "acute" {
-  const age = ageOnDate(world.people[personId]!.birthDate, world.currentDate);
-  return age < U.seriousUnderAge ||
-    age >= U.seriousFromAge ||
-    alreadyIll.has(personId)
-    ? "serious"
-    : "acute";
+): {
+  readonly seriousness: number;
+  readonly severity: "serious" | "acute";
+  readonly hazardMicros: number;
+} {
+  const seriousness = epidemicSeriousness(
+    exactAge(world, personId),
+    alreadyIll.has(personId),
+  );
+  return {
+    seriousness,
+    severity: seriousness >= 0.5 ? "serious" : "acute",
+    hazardMicros: Math.round(
+      U.hazardMicros.acute +
+        seriousness * (U.hazardMicros.serious - U.hazardMicros.acute),
+    ),
+  };
 }
 
 /** People with an illness other than this one still open today. */
@@ -657,19 +706,51 @@ function peopleAlreadyIll(world: World): ReadonlySet<EntityId> {
   return ill;
 }
 
+/** How readily a person catches it by age to the day. Exported for tests. */
+export function epidemicSusceptibilityAtAge(age: number): number {
+  const { levels, turnsAtAge, widthYears } = U.susceptibilityByAge;
+  let factor = levels[0]!;
+  turnsAtAge.forEach((at, index) => {
+    factor += (levels[index + 1]! - levels[index]!) * turn(age, at, widthYears);
+  });
+  return factor;
+}
+
 /** How readily a person catches it: by age, and more while already ill. */
 function susceptibility(
   world: World,
   personId: EntityId,
   alreadyIll: ReadonlySet<EntityId>,
 ): number {
-  const age = ageOnDate(world.people[personId]!.birthDate, world.currentDate);
-  const band = U.susceptibilityByAge.find((row) => age <= row.maxAge)!;
   return (
-    band.factor *
+    epidemicSusceptibilityAtAge(exactAge(world, personId)) *
     (alreadyIll.has(personId) ? U.alreadyIllFactor : 1) *
     U.carefulnessFactor[riskApproachOf(world, personId)]
   );
+}
+
+/**
+ * The season's multiplier on outside exposure on a date, sliding by the day
+ * between the mid-month levels. Exported for tests.
+ */
+export function epidemicSeasonOn(date: IsoDate): number {
+  const levels = U.seasonalMultiplier;
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(5, 7));
+  const middle = (y: number, m: number) =>
+    makeIsoDate(
+      `${String(y + Math.floor((m - 1) / 12)).padStart(4, "0")}-${String(
+        ((((m - 1) % 12) + 12) % 12) + 1,
+      ).padStart(2, "0")}-15`,
+    );
+  // The mid-month on or before the date, and the one after it.
+  const back = date >= middle(year, month) ? 0 : 1;
+  const fromMonth = month - back;
+  const from = middle(year, fromMonth);
+  const to = middle(year, fromMonth + 1);
+  const share = daysBetween(from, date) / daysBetween(from, to);
+  const level = (m: number) => levels[(((m - 1) % 12) + 12) % 12]!;
+  return level(fromMonth) + share * (level(fromMonth + 1) - level(fromMonth));
 }
 
 /**
@@ -703,7 +784,11 @@ function recordCase(
 ): World {
   const person = world.people[found.personId]!;
   const town = person.homeJurisdictionId;
-  const severity = severityFor(world, found.personId, alreadyIll);
+  const { severity, seriousness, hazardMicros } = epidemicCaseSeverity(
+    world,
+    found.personId,
+    alreadyIll,
+  );
   const household = householdMembershipsAt(world, found.personId).flatMap(
     (membership) => peopleInHouseholdAt(world, membership.household.id),
   );
@@ -722,8 +807,8 @@ function recordCase(
     initialAccess: household.length > 1 ? "specific-people" : "private",
     initialRecipientIds: household.filter((id) => id !== found.personId),
     hazard: {
-      micros: U.hazardMicros[severity],
-      basis: `${U.provenance} PLACEHOLDER (epidemic-severity-by-age): ${severity} case of the illness going around.`,
+      micros: hazardMicros,
+      basis: `${U.provenance} PLACEHOLDER (epidemic-severity-by-age): a case of the illness going around, ${Math.round(seriousness * 100)} percent of the way from ordinary to serious.`,
     },
   });
   const name = personName(person);
@@ -889,9 +974,7 @@ export function sampleEpidemicWeek(
   }
   // A town with nobody sick takes it in from outside, through the resident
   // who sees the most people, once the season's exposure is high enough.
-  const month = Number(date.slice(5, 7));
-  const outside =
-    U.outsideExposurePerContact * U.seasonalMultiplier[month - 1]!;
+  const outside = U.outsideExposurePerContact * epidemicSeasonOn(date);
   const townsWithCases = new Set(
     infectious.map((found) => world.people[found.personId]!.homeJurisdictionId),
   );
