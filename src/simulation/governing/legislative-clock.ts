@@ -12,14 +12,6 @@ import {
   scheduledActivityState,
 } from "../time-work";
 import { formatStatutoryDate } from "../legislation-content-contracts";
-import { compileBillDraft } from "../legislation-drafting";
-import { recordDraftLineage } from "../legislation-draft-lineage";
-import {
-  programVariant,
-  standingAuthority,
-} from "../legislation-program-families";
-import { recordFiledProvision } from "../legislative-politics";
-import { legislativeWorkKey } from "../legislative-work-key";
 import {
   legislativeProcedureForPack,
   legislativeRulePackForWorld,
@@ -36,8 +28,6 @@ import {
   availableMeasureSteps,
   COMMITTEE_HEARING_TRANSITION_KEY,
   enrollMeasure,
-  catalogPropositionIds,
-  introduceMeasure,
   measurePosition,
   nextMeasureStableKey,
   placeMeasureOnCalendar,
@@ -95,20 +85,9 @@ import {
   isCongressMeasure,
   scheduleCongressSitting,
 } from "./congress-chambers";
-import {
-  chamberByKey,
-  defaultOriginChamber,
-  floorStageByKey,
-} from "../legislature-rules";
+import { chamberByKey, floorStageByKey } from "../legislature-rules";
 import type { LegislativeRulePack } from "../legislature-rules";
-import { drawCanonicalNamedIdentity, personName } from "../people";
-import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
-import {
-  characterHistoryContextPersonId,
-  createCharacterHistoryContextPeople,
-} from "../character-history";
-import { nextMeasureNumbering } from "../measure-numbering";
+import { personName } from "../people";
 import type {
   EntityId,
   FutureDueItem,
@@ -1570,202 +1549,3 @@ function noticeMemberVote(
  * ------------------------------------------------------------------ */
 
 export const LEGISLATIVE_INTAKE_VERSION = "legislative-intake/v1";
-
-/** The authored measures a state's legislature can file, if any. */
-export function authoredMeasuresForJurisdiction(
-  jurisdictionId: EntityId,
-): readonly LegislativeBlueprint[] {
-  return legislativeScenarioKeysForPlace(jurisdictionId).map((key) =>
-    legislativeBlueprint(key),
-  );
-}
-
-/**
- * A non-player member files one of the legislature's written measures, which
- * then moves on the clock. Refused (World unchanged) when the state has no
- * written measures, the session's sourced limit has passed, or this intake
- * already ran.
- */
-export function fileLegislatureMeasure(
-  world: World,
-  input: {
-    readonly jurisdictionId: EntityId;
-    readonly intakeKey: string;
-  },
-): World {
-  if (
-    !regularSessionYearForWorld(
-      world,
-      input.jurisdictionId,
-      Number(world.currentDate.slice(0, 4)),
-    )
-  )
-    return world;
-  const authored = authoredMeasuresForJurisdiction(input.jurisdictionId);
-  if (authored.length === 0 || !world.jurisdictions[input.jurisdictionId])
-    return world;
-  const stableKey = `${LEGISLATIVE_INTAKE_VERSION}:${input.intakeKey}`;
-  if (
-    (world.history.legislativeMeasures ?? []).some(
-      (measure) => measure.stableKey === stableKey,
-    )
-  )
-    return world;
-  const rng = new SeededRng(world.seed).fork(stableKey);
-  const blueprint = rng.pick(authored);
-  const pack = legislativeRulePackForWorld(world, blueprint.pack.packId);
-  const closes = sessionClosesOn(
-    world,
-    pack,
-    Number(world.currentDate.slice(0, 4)),
-  );
-  if (closes !== null && world.currentDate > closes) return world;
-  const originChamber = defaultOriginChamber(pack);
-  const originChamberKey = originChamber.chamberKey;
-  // Where the chamber is seated with real people, one of them carries the
-  // bill. Otherwise the legacy sponsor: a person made for the purpose.
-  const seated = seatedChamberForPack(
-    world,
-    pack.packId,
-    originChamberKey,
-    originChamber.name,
-  );
-  let next = world;
-  let sponsorPersonId: EntityId;
-  if (seated && seated.body.members.length > 0) {
-    // PLACEHOLDER until research question
-    // how-state-legislators-vote-without-a-stated-position says who sponsors
-    // and carries bills.
-    // Any member may file an ordinary bill. The money bill is the majority's:
-    // leadership carries the budget, so its sponsor sits in the largest
-    // caucus.
-    const members =
-      blueprint.subjectClass === "appropriation"
-        ? majorityCaucus(seated.body.members)
-        : seated.body.members;
-    sponsorPersonId =
-      members[rng.fork("seated-sponsor").integer(0, members.length)]!.personId!;
-  } else {
-    const sponsorKey = `${stableKey}:sponsor`;
-    const age = rng.integer(34, 70);
-    next = createCharacterHistoryContextPeople(world, [
-      {
-        stableKey: sponsorKey,
-        ...drawCanonicalNamedIdentity(
-          rng.fork("name"),
-          generatePersonIdentity(rng.fork("identity")),
-        ),
-        birthDate: makeIsoDate(
-          `${Number(world.currentDate.slice(0, 4)) - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-        ),
-        homeJurisdictionId: input.jurisdictionId,
-      },
-    ]);
-    sponsorPersonId = characterHistoryContextPersonId(next, sponsorKey);
-  }
-  next = introduceMeasure(next, {
-    stableKey,
-    jurisdictionId: input.jurisdictionId,
-    rulePackId: pack.packId,
-    ...nextMeasureNumbering(next, {
-      jurisdictionId: input.jurisdictionId,
-      originChamber,
-      rulePackId: pack.packId,
-    }),
-    shortTitle: blueprint.shortTitle,
-    summary: blueprint.summary,
-    origin: "member-introduction",
-    subjectClass: blueprint.subjectClass,
-    sponsorPersonId,
-    originChamberKey: originChamber.chamberKey,
-    propositionIds: catalogPropositionIds(next, blueprint.propositionKeys),
-  });
-  const measure = next.history.legislativeMeasures!.at(-1)!;
-  if (blueprint.subjectClass === "appropriation")
-    next = attachAppropriationClauses(next, measure, stableKey);
-  return scheduleInstitutionStep(next, measure.id);
-}
-
-/** The members of the chamber's largest caucus, in seat order. */
-function majorityCaucus(members: SeatedBody["members"]): SeatedBody["members"] {
-  const sizes = new Map<string, number>();
-  for (const member of members)
-    sizes.set(member.caucusLabel, (sizes.get(member.caucusLabel) ?? 0) + 1);
-  const largest = [...sizes.entries()].sort(
-    (l, r) => r[1] - l[1] || l[0].localeCompare(r[0]),
-  )[0]![0];
-  return members.filter((member) => member.caucusLabel === largest);
-}
-
-/**
- * An appropriation bill has to say how much. The clauses come from the
- * drafting family's own configuration, so the filed text, its amount and its
- * authority are the same objects a player's draft would produce — not a number
- * written here.
- */
-function attachAppropriationClauses(
-  world: World,
-  measure: LegislativeMeasureRecord,
-  stableKey: string,
-): World {
-  const authority = standingAuthority("standing:rural-transit-assistance");
-  if (!authority) return world;
-  let draft;
-  try {
-    draft = compileBillDraft({
-      familyKey: "appropriations",
-      variantKey: "single-programme",
-      parameterValues: programVariant("appropriations", "single-programme")
-        .variant.defaults,
-      scenarioKey: legislativeWorkKey(
-        legislativeRulePackForWorld(world, measure.rulePackId),
-      ),
-      jurisdictionId: measure.jurisdictionId,
-      rulePackId: measure.rulePackId,
-      designation: measure.designation,
-      filedOn: world.currentDate,
-      predicateAuthority: authority,
-    });
-  } catch {
-    return world;
-  }
-  let next = world;
-  for (const clause of draft.clauses)
-    next = recordFiledProvision(next, {
-      stableKey: `${stableKey}:${clause.provisionKey}`,
-      measureId: measure.id,
-      provisionKey: clause.provisionKey,
-      sectionNumber: clause.sectionNumber,
-      heading: clause.heading,
-      text: clause.text,
-      ...(clause.fiscalPeriod !== undefined
-        ? { fiscalPeriod: clause.fiscalPeriod }
-        : {}),
-      ...(clause.operativeEffect !== undefined
-        ? { operativeEffect: clause.operativeEffect }
-        : {}),
-      beneficiary: clause.beneficiary,
-      applicationScope: {
-        jurisdictionId: measure.jurisdictionId,
-        segmentKey: null,
-      },
-      ...(clause.fiscalExposureLabel !== null
-        ? {
-            fiscalExposureLabel: clause.fiscalExposureLabel,
-            fiscalExposureMinorUnits: clause.fiscalExposureMinorUnits,
-          }
-        : {}),
-    });
-  return recordDraftLineage(next, {
-    stableKey: `${stableKey}:lineage`,
-    measureId: measure.id,
-    familyKey: draft.familyKey,
-    familyVersion: draft.familyVersion,
-    variantKey: draft.variantKey,
-    compiledAt: draft.filedOn,
-    parameterValues: draft.parameterValues,
-    authorityKey: authority.authorityKey,
-    provenanceNote:
-      "Authored appropriation configuration filed by a non-player legislature. Not a statute and not a claim about any real program.",
-  });
-}
