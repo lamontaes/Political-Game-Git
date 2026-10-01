@@ -1,4 +1,5 @@
 import { nationalMoodDemocraticShift } from "./national-mood";
+import { stateExecutiveIdentity } from "./nationwide-world/state-executive-candidacy-packs";
 import { CONGRESS_INCUMBENCY_SHARE_BONUS } from "./living-world/congress-aggregate-outcome";
 import { STATE_LEGISLATURE_TURNOVER_PROFILE } from "./nationwide-world/state-legislature-turnover";
 import {
@@ -182,7 +183,14 @@ function statewideContestOutcome(
   readonly tallies: readonly CandidateTally[];
 } | null {
   const electorate = statewideElectorate(world, contest.jurisdictionId);
-  if (!electorate) return null;
+  if (
+    !electorate ||
+    contest.office.seatKey ||
+    contest.office.districtBinding ||
+    stateExecutiveIdentity(electorate.stateUsps)?.officeKey !==
+      contest.office.officeKey
+  )
+    return null;
   return countedByParty(world, contest, electorate, electorate.democraticShare);
 }
 

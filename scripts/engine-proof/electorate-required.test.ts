@@ -21,7 +21,10 @@ import {
 import { statewideElectorate } from "../../src/simulation/statewide-electorate";
 import { isTerritoryUsps } from "../../src/simulation/state-reference";
 import { chiefExecutiveJurisdictionId } from "../../src/simulation/nationwide-world/government-jurisdiction";
-import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../../src/simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
+  stateExecutiveIdentity,
+} from "../../src/simulation/nationwide-world/state-executive-candidacy-packs";
 import type {
   ElectionContestRecord,
   EntityId,
@@ -174,6 +177,32 @@ describe("A110 automatic counts require an electorate", () => {
     expect(electionContestResult(world, contest.id)).toBeNull();
   });
 
+  it.each([1, 2])(
+    "does not borrow statewide ballots for %i candidate(s) in an unknown office or seat",
+    (candidates) => {
+      const world = localContest(candidates);
+      const contest = world.history.electionContests!.at(-1)!;
+      const jurisdictionId = chiefExecutiveJurisdictionId("OR")!;
+      expect(
+        evaluateDeterministicContestOutcome(world, {
+          ...contest,
+          jurisdictionId,
+        }),
+      ).toBeNull();
+      expect(
+        evaluateDeterministicContestOutcome(world, {
+          ...contest,
+          jurisdictionId,
+          office: {
+            ...contest.office,
+            officeKey: stateExecutiveIdentity("OR")!.officeKey,
+            seatKey: "a110:no-recorded-seat",
+          },
+        }),
+      ).toBeNull();
+    },
+  );
+
   it("uses existing calibrated ballots for a single supported candidate in 51 jurisdictions and refuses the five unsupported territories", () => {
     expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
     const scheduled = localContest(1);
@@ -190,7 +219,7 @@ describe("A110 automatic counts require an electorate", () => {
         jurisdictionId,
         office: {
           ...template.office,
-          officeKey: `a110-authored-statewide:${usps}`,
+          officeKey: stateExecutiveIdentity(usps)!.officeKey,
         },
       };
       const outcome = evaluateDeterministicContestOutcome(scheduled, contest);
