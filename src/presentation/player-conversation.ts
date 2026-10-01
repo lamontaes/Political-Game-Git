@@ -9,7 +9,6 @@ import {
   conversationSubjectPresentation,
   supportsGroupAddress,
 } from "./conversation-subjects";
-import { schoolConversationRoom } from "./formative-play";
 import {
   CONTEXTUAL_SCENE_SUBJECT,
   placeholderSceneProgress,
@@ -40,7 +39,6 @@ import type {
 import {
   createLifeTalkProgress,
   createNeighborhoodMeetingProgress,
-  createSchoolProjectProgress,
 } from "./run-b-conversation-progress";
 import type {
   ConversationProgress,
@@ -114,11 +112,8 @@ function buildSubjectWirings(): readonly SubjectWiring[] {
       room: neighborhoodConversationRoom,
       opening: createNeighborhoodMeetingProgress,
     },
-    {
-      subject: "school-project-share",
-      room: schoolConversationRoom,
-      opening: createSchoolProjectProgress,
-    },
+    // School presence is recorded, but there is no saved assignment producer
+    // supplying work/deadline facts. Withhold that topic until one exists.
   ];
 }
 

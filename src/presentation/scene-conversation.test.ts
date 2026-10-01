@@ -11,7 +11,16 @@ import { openNextLifeScene } from "./life-scene-flow";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { projectPlayerConversation } from "./player-conversation";
-import { commitConversationTurn } from "./run-b-conversation";
+import {
+  commitConversationTurn,
+  createConversationSessionDescriptor,
+} from "./run-b-conversation";
+import { schoolConversationRoom } from "./formative-play";
+import { createSchoolProjectProgress } from "./run-b-conversation-progress";
+import {
+  conversationProgressFromHistory,
+  recordedConversationIntents,
+} from "./conversation-continuity";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 import {
   addresseeHeardTurn,
@@ -52,6 +61,21 @@ function say(
     audibility?: "normal" | "quiet" | "private";
   } = {},
 ): World {
+  if (subject === "school-project-share") {
+    const room = schoolConversationRoom(world, personId)!;
+    return commitConversationTurn(world, {
+      session: createConversationSessionDescriptor(world, room),
+      room,
+      progress: createSchoolProjectProgress({
+        work: "The worksheet in this authored test scenario",
+        deadline: "The due date in this authored test scenario",
+      }),
+      turnOrdinal: 1,
+      addressee: choice.addressee ?? room.eligibleAddresseePersonIds[0]!,
+      audibility: choice.audibility ?? "normal",
+      intent,
+    }).world;
+  }
   const view = projectPlayerConversation(world, personId, subject, choice)!;
   return commitConversationTurn(world, {
     session: view.session,
@@ -161,13 +185,13 @@ describe("PT3 — the scene conversation box reads the record back", () => {
         immediateReaction: null,
       },
     });
-    const opening = projectPlayerConversation(
-      world,
-      personId,
-      "school-project-share",
-    );
+    const opening = schoolConversationRoom(world, personId);
     expect(opening).not.toBeNull();
-    const [first, second] = opening!.room.eligibleAddresseePersonIds;
+    // Actual school presence does not prove a saved assignment or its deadline.
+    expect(
+      projectPlayerConversation(world, personId, "school-project-share"),
+    ).toBeNull();
+    const [first, second] = opening!.eligibleAddresseePersonIds;
     expect(second).toBeDefined();
 
     // Said normally to the first classmate, in a corridor both are standing in.
@@ -203,17 +227,14 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     )!;
     expect(addresseeHeardTurn(hushed, second!)).toBe("not-heard");
 
-    // And the switched view is the continuing subject, not its opening line.
-    const switched = projectPlayerConversation(
-      loud,
-      personId,
-      "school-project-share",
-      { addressee: second! },
-    )!;
-    expect(switched.addressee).toBe(second);
-    expect(switched.intents.map((option) => option.key)).not.toContain(
-      "raise-share",
-    );
+    // Explicit authored-fixture turns keep their historical vocabulary.
+    expect(
+      recordedConversationIntents(loud, personId, "school-project-share"),
+    ).toEqual(["raise-share"]);
+    // Reopening production never supplies a guessed project from those turns.
+    expect(
+      conversationProgressFromHistory(loud, personId, "school-project-share"),
+    ).toBeNull();
   });
 
   it("never offers life-talk a Listen that would only write an empty event", () => {
