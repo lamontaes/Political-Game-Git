@@ -2729,9 +2729,7 @@ function PlayingScreen({
                     selectedDossier.personId,
                     {
                       presentPersonIds,
-                      handlers: interruptionHandlers(
-                        shell.preferences.interruptions,
-                      ),
+                      handlers: interruptionHandlers(),
                     },
                   );
                   if (next !== session.world) {

@@ -328,7 +328,7 @@ function run(
     const next = advanceWorldMinutes(
       world,
       preview.elapsedMinutes ?? 0,
-      interruptionHandlers(interruptions),
+      interruptionHandlers(),
     );
     return {
       world: next,
@@ -341,13 +341,12 @@ function run(
       world,
       request.personId,
       command.activityId,
-      interruptions,
     );
   const advance = (current: World, days: number) =>
     advanceStoppingForOfferDeadlines(current, request.personId, days, (at, d) =>
       advanceStoppingForPressRequests(at, request.personId, d, (from, n) =>
         passOrdinaryDays(from, n, {
-          handlers: interruptionHandlers(interruptions),
+          handlers: interruptionHandlers(),
           stopForTentativeHolds: interruptions.stopForTentativeHolds,
           // A chosen day count must not carry the player past a posted civic
           // occasion. The ordinary clock already owns this stop boundary.
