@@ -25,7 +25,7 @@ import { measureAnswersAt } from "../vote-bundle";
 import {
   decideChamberVote,
   publicPartyOf,
-  type ChamberVoteInput,
+  type ChamberBillVoteInput,
 } from "./chamber-votes";
 import { holdsPrinciples, principleView } from "./officeholder-principles";
 
@@ -147,7 +147,8 @@ function strongViews(world: World, personId: EntityId) {
   >();
   const questions = new Set<EntityId>();
   for (const belief of world.history.privateBeliefs)
-    if (belief.personId === personId) questions.add(belief.propositionId);
+    if (belief.personId === personId && belief.propositionId !== null)
+      questions.add(belief.propositionId);
   if (holdsPrinciples(world, personId))
     for (const propositionId of world.policyCatalog.propositionOrder)
       if (world.policyCatalog.propositions[propositionId]?.principles?.length)
@@ -334,7 +335,7 @@ export function planFloorAmendment(
   const countedBy = (
     reading: string,
     member: SeatedMember,
-    vote: Omit<ChamberVoteInput, "members" | "only">,
+    vote: Omit<ChamberBillVoteInput, "members" | "only">,
   ): readonly LegislativeVoteDisposition[] => {
     const first = readings.get(reading);
     if (!first || first.by === member.memberKey) {

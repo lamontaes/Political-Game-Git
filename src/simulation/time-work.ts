@@ -1,3 +1,4 @@
+import { applyLawConsequences } from "./enacted-law-effects";
 import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
@@ -1869,10 +1870,37 @@ function recordStaffProgress(
   });
 }
 
+/**
+ * A resident other than the played person takes part in an activity they
+ * asked for. Called on the clock once the activity's end has passed, by the
+ * due item its producer scheduled; the completion is dated at the
+ * activity's own end, exactly as a performed activity is. The played
+ * person's activities complete only through their own performance.
+ */
+export function completeResidentScheduledActivity(
+  world: World,
+  activityId: EntityId,
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  const state = latestActivityStateUnchecked(world, activityId);
+  if (!activity || state?.status !== "scheduled") return world;
+  if (compareSimulationMoments(state.end, world.currentMoment) > 0)
+    throw new Error("A resident's activity completes only after its end.");
+  if (
+    world.control.kind === "person" &&
+    activity.participantPersonIds.includes(world.control.personId)
+  )
+    throw new Error("The played person takes part only by their own act.");
+  return completeActivity(world, activityId, world.actionSequence, state.end);
+}
+
 function completeActivity(
   world: World,
   activityId: EntityId,
   actionSequence: number,
+  at: SimulationMoment = world.currentMoment,
 ): World {
   const activity = world.history.scheduledActivities.find(
     (candidate) => candidate.id === activityId,
@@ -1883,7 +1911,7 @@ function completeActivity(
   let next = recordWorldEvent(world, {
     stableKey: `${stableKey}:event`,
     type: "schedule.activity-completed",
-    occurredAt: world.currentDate,
+    occurredAt: at.date,
     recordedAt: world.currentDate,
     jurisdictionId: activity.location.jurisdictionId,
     involvedEntityIds: [
@@ -1922,7 +1950,7 @@ function completeActivity(
     stableKey,
     sequence: next.history.nextSequence,
     activityId,
-    recordedAt: cloneMoment(next.currentMoment),
+    recordedAt: cloneMoment(at),
     start: previous.start,
     end: previous.end,
     status: "completed",
@@ -1930,7 +1958,12 @@ function completeActivity(
     outcomeEventId: event.id,
     supersedesStateId: previous.id,
   });
-  return next;
+  return applyLawConsequences(next, {
+    activity: "service",
+    activityId: activity.id,
+    subjectIds: [...activity.participantPersonIds],
+    onDate: event.occurredAt,
+  });
 }
 
 function appendActivityState(

@@ -10,7 +10,6 @@ import {
   recordCommitteeDisposition,
   recordConcurrenceVote,
   recordEnactment,
-  recordExecutiveAction,
   referMeasure,
   scheduleCommitteeHearing,
   takeFloorVote,
@@ -45,6 +44,8 @@ import type {
 import { decideChamberVote } from "../simulation/governing/chamber-votes";
 import { committeeRoster } from "../simulation/governing/committee-assignment";
 import { memberBallotOn } from "../simulation/governing/member-ballots";
+import { executiveDesk } from "../simulation/governing/state-governing";
+import { legislativeBlueprintForMeasure } from "../simulation/governing/legislative-clock";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
 /**
@@ -472,25 +473,18 @@ export function applyLegislativeStep(
         message: `Your bill is on the ${pack.executive.titleLabel}'s desk.`,
       };
     case "await-executive-decision": {
-      // The player waits. What the Governor then does is the Governor's, and
-      // it is only revealed once the wait is over.
-      const action = scenario.governorAction;
-      if (action === null)
-        throw new Error(
-          "No executive disposition has been supplied for this bill.",
-        );
-      const next = recordExecutiveAction(world, {
-        stableKey: key("governor"),
-        measureId,
-        action,
-        rationale: scenario.governorRationale,
-      });
+      if (!measure) throw new Error("This bill is not on record.");
+      const next = executiveDesk(
+        world,
+        measure,
+        legislativeBlueprintForMeasure(world, measure),
+      );
       return {
         world: next,
         message:
-          action === "signed"
-            ? `The ${pack.executive.titleLabel} signed your bill.`
-            : `The ${pack.executive.titleLabel} vetoed your bill. ${scenario.governorRationale}`,
+          measurePosition(next, measureId).phase === "awaiting-executive"
+            ? "Your bill is awaiting an executive decision."
+            : "The bill's executive action has been recorded.",
       };
     }
     case "move-veto-override": {

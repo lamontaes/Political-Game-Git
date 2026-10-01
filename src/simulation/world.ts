@@ -1,3 +1,12 @@
+import {
+  assertPermitIntegrity,
+  permitApplications,
+  permitStatuses,
+} from "./permits";
+import {
+  privateBeliefSubjectId,
+  validatePrivateBeliefSubject,
+} from "./political-opinion-subjects";
 import { applyDateBoundary } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
@@ -28,8 +37,10 @@ import {
 import {
   assertRuleChangeProvisionIntegrity,
   ruleChangeProvisionHistoryRecords,
+  ruleChangeConsequenceBindingHistoryRecords,
 } from "./enacted-rule-changes";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
+import { assertLegalOutcomeConsequenceIntegrity } from "./law-consequences/legal-outcome";
 import {
   assertLawPermissionIntegrity,
   lawPermissionRecords,
@@ -2075,6 +2086,7 @@ function validateHistoryIntegrity(
         ...legislationHistoryRecords(world),
         ...constitutionalHistoryRecords(world),
         ...ruleChangeProvisionHistoryRecords(world),
+        ...ruleChangeConsequenceBindingHistoryRecords(world),
         ...legislativePoliticsHistoryRecords(world),
         ...draftLineageHistoryRecords(world),
         ...futureTransitionHistoryRecords(world),
@@ -2086,6 +2098,9 @@ function validateHistoryIntegrity(
         ...publicProgramRecords(world),
         ...enactedDutyRecords(world),
         ...lawPermissionRecords(world),
+        ...permitApplications(world),
+        ...permitStatuses(world),
+        ...(history.legalOutcomeConsequences ?? []),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2277,6 +2292,8 @@ function validateHistoryIntegrity(
   assertLawExposureIntegrity(world, ids);
   assertOfficialViewIntegrity(world, ids);
   assertLawPermissionIntegrity(world, ids);
+  assertPermitIntegrity(world, ids);
+  assertLegalOutcomeConsequenceIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -3286,11 +3303,7 @@ function validatePoliticalHistory(
       belief.formedAt,
       belief.id,
     );
-    if (!world.policyCatalog.propositions[belief.propositionId]) {
-      throw new Error(
-        `Private belief references a missing proposition: ${belief.id}`,
-      );
-    }
+    validatePrivateBeliefSubject(world, belief);
     assertMember(BELIEF_POSITIONS, belief.position, "belief position");
     assertMember(CONVICTIONS, belief.conviction, "belief conviction");
     assertMember(SALIENCES, belief.salience, "belief salience");
@@ -3318,7 +3331,7 @@ function validatePoliticalHistory(
       belief,
       belief.supersedesBeliefId,
       beliefsById,
-      (record) => record.propositionId,
+      privateBeliefSubjectId,
       (record) => record.formedAt,
       "private belief",
     );

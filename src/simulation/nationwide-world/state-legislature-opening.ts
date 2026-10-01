@@ -51,6 +51,7 @@ import type {
 import {
   activeOrganizationParticipationsAt,
   currentLifeCutoff,
+  organizationProfileAt,
   workRoleAt,
   workStatusAt,
 } from "../life-queries";
@@ -76,6 +77,10 @@ import {
   recordById,
   recordsWithFieldValue,
 } from "../history-index";
+import {
+  institutionOfficeBindingAt,
+  recordInstitutionOfficeBinding,
+} from "../enacted-rule-changes";
 
 /**
  * A state legislature with a real person in every seat.
@@ -799,6 +804,63 @@ export function ensureStateLegislatureOpening(
   // is otherwise seconds of repeated whole-world validation.
   next = createWorkRelationships(next, seats);
   next = createOrganizationParticipations(next, affiliations);
+
+  const institutionSeats = new Map<
+    string,
+    { organizationId: EntityId; tenureIds: EntityId[] }
+  >();
+  for (const member of stateLegislators(next, pack.packId)) {
+    const tenure = recordById(
+      next.history.workRelationships,
+      member.workRelationshipId,
+    );
+    if (!tenure?.organizationId)
+      throw new Error(
+        "State institution binding requires its saved seat tenure",
+      );
+    const existing = institutionSeats.get(member.officeKey);
+    if (existing && existing.organizationId !== tenure.organizationId)
+      throw new Error(
+        "State chamber seats disagree on their saved institution",
+      );
+    if (existing) existing.tenureIds.push(tenure.id);
+    else
+      institutionSeats.set(member.officeKey, {
+        organizationId: tenure.organizationId,
+        tenureIds: [tenure.id],
+      });
+  }
+  for (const [officeKey, institution] of institutionSeats) {
+    const organization = recordById(
+      next.history.organizations,
+      institution.organizationId,
+    );
+    const profile = organizationProfileAt(next, institution.organizationId);
+    if (!organization || !profile)
+      throw new Error(
+        "State institution binding requires its saved body profile",
+      );
+    const prior = institutionOfficeBindingAt(
+      next,
+      officeKey,
+      jurisdiction.id,
+      currentLifeCutoff(next),
+    );
+    next = recordInstitutionOfficeBinding(next, {
+      stableKey: `${STATE_LEGISLATURE_KEYS.opening(pack.packId)}:institution:${officeKey}`,
+      officeKey,
+      jurisdictionId: jurisdiction.id,
+      organizationId: organization.id,
+      effectiveAt: date,
+      supersedesBindingId: prior?.id ?? null,
+      sourceRecordIds: [
+        organization.id,
+        profile.id,
+        jurisdiction.id,
+        ...institution.tenureIds,
+      ],
+    });
+  }
 
   return recordWorldEvent(next, {
     stableKey: STATE_LEGISLATURE_KEYS.opening(pack.packId),

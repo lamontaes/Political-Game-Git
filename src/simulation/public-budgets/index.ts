@@ -8,13 +8,16 @@ import type {
 } from "../types";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { ensureCrisisStandingAppropriations } from "../crisis-standing-appropriations";
 import { firstOfNextMonth, firstOfPreviousMonth } from "./fiscal";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import {
+  federalDebtHeldByPublic,
   openFederalTreasury,
   settleFederalTreasuryMonth,
 } from "./federal-treasury";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import { budgetCandidates, openGovernmentBudget } from "./opening";
 import {
@@ -82,7 +85,42 @@ export function withOpenedBudgets(
           },
     );
   }
-  return { ...store, governments, unknown: unknownRows };
+  return withFederalBudget(
+    world,
+    { ...store, governments, unknown: unknownRows },
+    today,
+  );
+}
+
+/** Old saves gain the national identity before the payment cursor is consumed. */
+function withFederalBudget(
+  world: World,
+  store: PublicBudgetStore,
+  today: IsoDate,
+): PublicBudgetStore {
+  const nation = world.jurisdictions[NATIONAL_ELECTION_JURISDICTION.id];
+  const treasury = store.federal ?? openFederalTreasury(today);
+  return {
+    ...store,
+    ...(nation && !store.federalGovernment
+      ? {
+          federalGovernment: {
+            key: "US-federal",
+            jurisdictionId: nation.id,
+            lawJurisdictionId: nation.id,
+            level: "federal" as const,
+            categorySet: "federal" as const,
+            openedOn: today,
+            balance: null,
+            reserve: null,
+            pension: null,
+            debt: federalDebtHeldByPublic(treasury),
+            interestRate: treasury.interestRate,
+            months: [],
+          },
+        }
+      : {}),
+  };
 }
 
 /** Opens every budget and schedules the first monthly pass. Idempotent. */
@@ -90,6 +128,7 @@ export function ensurePublicBudgets(world: World): World {
   if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION)
     return world;
   if (world.publicBudgets) return world;
+  world = ensureCrisisStandingAppropriations(world);
   const today = makeIsoDate(world.currentDate);
   const empty: PublicBudgetStore = {
     version: PUBLIC_BUDGETS_VERSION,
@@ -120,8 +159,8 @@ export function ensurePublicBudgets(world: World): World {
 
 /** Settles the month just ended for every government. */
 export function settlePublicBudgets(start: World, month: IsoDate): World {
-  const store = start.publicBudgets;
-  if (!store) return start;
+  if (!start.publicBudgets) return start;
+  const store = withFederalBudget(start, start.publicBudgets, month);
   // A state's governor decides what its budget does with money laws gained
   // or lost it, and in what order a shortfall is met, from their own
   // principles; a governor who holds none yet takes theirs.
@@ -159,11 +198,17 @@ export function settlePublicBudgets(start: World, month: IsoDate): World {
     adjustments.push(...settled.adjustments);
     return settled.government;
   });
+  const federalGovernment = store.federalGovernment
+    ? settleGovernmentMonth(world, store.federalGovernment, month, flows)
+        .government
+    : undefined;
   const settled: PublicBudgetStore = {
     ...store,
     cursor,
     governments,
     adjustments,
+    ...(federalGovernment ? { federalGovernment } : {}),
+    // Preserve the legacy forecast until saved-payment parity and caller conversion.
     federal: settleFederalTreasuryMonth(
       world,
       store.federal ?? openFederalTreasury(month),

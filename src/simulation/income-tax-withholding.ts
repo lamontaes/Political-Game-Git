@@ -18,10 +18,12 @@
  *   of 24, a month one of 12, anything else 365 over its length in days.
  */
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
+import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
 import { daysBetween } from "./dates";
 import { activePartnershipsAt, householdMembershipsAt } from "./life-queries";
 import { childrenOf } from "./people-family";
 import type { EntityId, ResourceTransferOutcome, World } from "./types";
+import { censusRegionOf } from "./world-setup/census-regions";
 
 export type FilingStatus =
   "single" | "married-filing-jointly" | "head-of-household";
@@ -128,6 +130,97 @@ export function stateDeductionSpread(shape: "flat" | "graduated"): Spread {
   );
 }
 
+export interface StateDeductionReference {
+  readonly stateKey: string;
+  readonly deductionDollars: number;
+  readonly sameTaxStructure: boolean;
+  readonly sameRegion: boolean;
+  readonly incomeDistanceDollars: number;
+  readonly rank: number;
+  readonly weight: number;
+}
+
+export interface StateDeductionEstimate {
+  readonly mean: number;
+  readonly references: readonly StateDeductionReference[];
+}
+
+const HOUSEHOLD_INCOMES: Readonly<Record<string, number>> =
+  stateHouseholdIncome2023.medianHouseholdIncomeDollarsByState;
+// Source packets are immutable; reuse the derived ranking across paychecks.
+const DEDUCTION_ESTIMATES = new Map<string, StateDeductionEstimate>();
+
+function householdIncomeDollars(stateKey: string): number {
+  const income = HOUSEHOLD_INCOMES[stateKey];
+  if (income === undefined)
+    throw new Error(`No sourced household income for ${stateKey}.`);
+  return income;
+}
+
+/**
+ * Owner's September 30 similar-state fallback. All read deductions are ranked
+ * by tax structure, then Census region, then household-income distance.
+ * Reciprocal rank is an authored estimation rule, not an empirical coefficient.
+ * Equal closeness shares a competition rank and weight; no seed chooses a level.
+ */
+export function stateDeductionEstimate(
+  stateKey: string,
+): StateDeductionEstimate {
+  const cached = DEDUCTION_ESTIMATES.get(stateKey);
+  if (cached) return cached;
+  const target = STATE_PLACES[stateKey];
+  if (!target || !["flat", "graduated"].includes(target.wageIncomeTax))
+    throw new Error(`No state wage-tax structure for ${stateKey}.`);
+  const targetIncome = householdIncomeDollars(stateKey);
+  const targetRegion = censusRegionOf(stateKey.slice(3));
+  const compareCloseness = (
+    a: Omit<StateDeductionReference, "rank" | "weight">,
+    b: Omit<StateDeductionReference, "rank" | "weight">,
+  ): number =>
+    Number(b.sameTaxStructure) - Number(a.sameTaxStructure) ||
+    Number(b.sameRegion) - Number(a.sameRegion) ||
+    a.incomeDistanceDollars - b.incomeDistanceDollars;
+  const candidates = Object.entries(STATE_PLACES)
+    .flatMap(([key, place]) =>
+      place.standardDeductionSingle !== null &&
+      ["flat", "graduated"].includes(place.wageIncomeTax)
+        ? [
+            {
+              stateKey: key,
+              deductionDollars: place.standardDeductionSingle,
+              sameTaxStructure: place.wageIncomeTax === target.wageIncomeTax,
+              sameRegion: censusRegionOf(key.slice(3)) === targetRegion,
+              incomeDistanceDollars: Math.abs(
+                householdIncomeDollars(key) - targetIncome,
+              ),
+            },
+          ]
+        : [],
+    )
+    // A key orders equally close rows for display only; tied weights stay equal.
+    .sort(
+      (a, b) => compareCloseness(a, b) || a.stateKey.localeCompare(b.stateKey),
+    );
+  if (candidates.length === 0)
+    throw new Error("No read state deductions for the similar-state estimate.");
+  let rank = 1;
+  const references = candidates.map((candidate, index) => {
+    if (index > 0 && compareCloseness(candidate, candidates[index - 1]!) !== 0)
+      rank = index + 1;
+    return { ...candidate, rank, weight: 1 / rank };
+  });
+  const estimate = {
+    mean:
+      references.reduce(
+        (sum, ref) => sum + ref.deductionDollars * ref.weight,
+        0,
+      ) / references.reduce((sum, ref) => sum + ref.weight, 0),
+    references,
+  };
+  DEDUCTION_ESTIMATES.set(stateKey, estimate);
+  return estimate;
+}
+
 /**
  * Most common state rules for a filing status whose schedule has not been
  * read, not yet counted state by state: a joint return doubles the single
@@ -165,8 +258,9 @@ export function stateScheduleForFilingStatus(
  * AVERAGE rather than UNKNOWN, and the schedule says so:
  * - a state whose single filer has no standard deduction ("n.a." in the
  *   compilation; it uses personal exemptions or credits, not yet read) takes
- *   the plain average read deduction of the states with its kind of tax,
- *   rounded to whole dollars (owner's September 30 representative-data ruling);
+ *   a weighted average of read deductions, ranked by matching tax structure,
+ *   Census region, then household income, rounded to whole dollars (owner's
+ *   September 30, 10:34 p.m. ruling);
  * - another filing status follows `STATE_FILING_STATUS_NOTE`.
  * A place outside the compilation (the territories) stays UNKNOWN: no state
  * is like a territory's own income tax.
@@ -196,13 +290,13 @@ export function stateIncomeTaxSchedule(
   const notes: string[] = [];
   let deductionDollars = place.standardDeductionSingle;
   if (deductionDollars === null) {
-    const shape = place.wageIncomeTax === "flat" ? "flat" : "graduated";
-    const spread = stateDeductionSpread(shape);
-    deductionDollars = Math.round(spread.mean);
+    const estimate = stateDeductionEstimate(stateKey);
+    deductionDollars = Math.round(estimate.mean);
     notes.push(
       `ESTIMATED FROM AVERAGE: the state's personal exemptions or credits are not read, so its single filer takes a standard deduction of $${deductionDollars.toLocaleString("en-US")}, ` +
-        `from the plain average of the ${spread.count} states with a ${shape} tax whose deduction was read ($${Math.round(spread.mean).toLocaleString("en-US")}), rounded to whole dollars. ` +
-        "Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026.",
+        `from a weighted average of the ${estimate.references.length} read deductions, ranked by matching tax structure, then Census region, then nearest median household income, rounded to whole dollars. ` +
+        "Weights are reciprocal ranks (equal closeness gets equal weight), an authored estimation rule. " +
+        "Sources: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026; U.S. Census Bureau, CPS ASEC Table H-8, 2023 median household income in current dollars.",
     );
   }
   if (status !== "single")

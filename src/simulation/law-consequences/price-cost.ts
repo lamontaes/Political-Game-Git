@@ -204,12 +204,7 @@ export function resolvePriceCostConsequences(
         terms.id,
         flow.source.personId,
         ...(prior ? [prior.id] : []),
-        ...new Set(
-          legalTerms.flatMap(({ term }) => [
-            term.provisionId,
-            ...term.sourceRecordIds,
-          ]),
-        ),
+        ...new Set(legalTerms.flatMap(({ term }) => term.sourceRecordIds)),
       ],
       value: {
         type: "amount",

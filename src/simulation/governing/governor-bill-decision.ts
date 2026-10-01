@@ -393,6 +393,8 @@ export function evaluateGovernorBill(
     readonly playerChoice?: {
       readonly optionKey: typeof BILL_SIGN | typeof BILL_RETURN;
       readonly matterEventId: EntityId;
+      /** Explicit saved knowledge used when the desk event did not involve the holder. */
+      readonly matterKnowledgeId?: EntityId;
     };
     readonly measure: LegislativeMeasureRecord;
     readonly staff: {
@@ -439,6 +441,14 @@ export function evaluateGovernorBill(
                 kind: "historical-event",
                 eventId: input.playerChoice.matterEventId,
               },
+              ...(input.playerChoice.matterKnowledgeId
+                ? [
+                    {
+                      kind: "event-knowledge" as const,
+                      knowledgeId: input.playerChoice.matterKnowledgeId,
+                    },
+                  ]
+                : []),
             ],
           },
         ]

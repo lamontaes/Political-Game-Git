@@ -57,7 +57,16 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // Positions on federal questions. Last, because it points into both packs
   // above: the federal issues and the principles the state and local
   // positions declare.
-  US_FEDERAL_POSITIONS_PACK,
+  {
+    ...US_FEDERAL_POSITIONS_PACK,
+    propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
+      const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
+      const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
+      return service.length === 0
+        ? row
+        : { ...row, consequences: [...(row.consequences ?? []), ...service] };
+    }),
+  },
 ];
 
 let cached: PolicyRegistry | null = null;

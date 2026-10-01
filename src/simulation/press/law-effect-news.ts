@@ -303,7 +303,8 @@ function healthCoverageTouches(world: World, sinceSequence: number): Touch[] {
     ].sort();
     for (const stamp of stamps) {
       if (
-        stamp.effectKind !== "health-coverage" ||
+        (stamp.effectKind !== "health-coverage" &&
+          stamp.effectKind !== "coverage-eligibility") ||
         stamp.appliedAt !== row.effectiveAt
       )
         continue;
@@ -483,7 +484,7 @@ function effectPhrase(group: readonly Touch[], count: number): string {
     case "business-rule":
       return `changed the rules for ${plural(count, "local business owner", "local business owners")}`;
     case "health-coverage":
-      return `recorded public health coverage ${group[0]!.coverage ? "began" : "ended"} for ${plural(count, "resident", "residents")}`;
+      return `recorded public health coverage eligibility ${group[0]!.coverage ? "began" : "ended"} for ${plural(count, "resident", "residents")}`;
     case "public-service":
       return `changed a public service for ${plural(count, "resident", "residents")}`;
   }

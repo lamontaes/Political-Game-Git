@@ -1,4 +1,9 @@
 import {
+  applyNpcPoliticalBeliefFormation,
+  evaluatePoliticalBeliefFormation,
+} from "../political-belief-formation";
+import { partyOpinionSubject } from "../political-opinion-subjects";
+import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -80,85 +85,9 @@ export const PARTY_BODY_DECISION_EVENT = "party.body-decision";
 export const PARTY_ORGANIZING_DECISION_EVENT = "party.organizing-decision";
 export const PARTY_EVOLUTION_EVENT = "party.organization-changed";
 
-/**
- * Authored organizational questions a governing body actually decides. They
- * are strategy and procedure, never a real party's ideology. Each option
- * carries the name a group founded around it takes: a label is a position
- * ("Follow the wider party line"), not something a group can be called.
- */
-export const PARTY_QUESTIONS = [
-  {
-    key: "strategy:cross-party-cooperation",
-    label: "Working with other parties",
-    options: [
-      {
-        key: "cooperate",
-        label: "Cooperate on shared measures",
-        foundingName: "Common Ground League",
-      },
-      {
-        key: "keep-distance",
-        label: "Keep a clear distance",
-        foundingName: "Independent League",
-      },
-    ],
-  },
-  {
-    key: "procedure:candidate-selection",
-    label: "Choosing candidates",
-    options: [
-      {
-        key: "open-contests",
-        label: "Open contests",
-        foundingName: "Open Primary League",
-      },
-      {
-        key: "committee-slate",
-        label: "Committee slate",
-        foundingName: "Party Slate League",
-      },
-    ],
-  },
-  {
-    key: "platform:first-priority",
-    label: "First priority",
-    options: [
-      {
-        key: "institutional-reform",
-        label: "Institutional reform first",
-        foundingName: "Reform League",
-      },
-      {
-        key: "household-costs",
-        label: "Household costs first",
-        foundingName: "Kitchen Table League",
-      },
-      {
-        key: "local-services",
-        label: "Local services first",
-        foundingName: "Neighborhood Services League",
-      },
-    ],
-  },
-  {
-    key: "procedure:local-autonomy",
-    label: "Local positions",
-    options: [
-      {
-        key: "chapters-decide",
-        label: "Chapters set their own line",
-        foundingName: "Home Rule League",
-      },
-      {
-        key: "follow-party-line",
-        label: "Follow the wider party line",
-        foundingName: "United Party League",
-      },
-    ],
-  },
-] as const;
-
-export type PartyQuestionKey = (typeof PARTY_QUESTIONS)[number]["key"];
+export { PARTY_QUESTIONS } from "../party-questions-data";
+export type { PartyQuestionKey } from "../party-questions-data";
+import { PARTY_QUESTIONS } from "../party-questions-data";
 
 /** Authored cadence for these fictional bodies; not a claim about any party. */
 export const PARTY_BODY_CADENCE = {
@@ -172,13 +101,6 @@ export const PARTY_BODY_CADENCE = {
   repeatedDisputes: 2,
 } as const;
 
-const STRENGTHS: readonly MindStrength[] = [
-  "subtle",
-  "moderate",
-  "strong",
-  "defining",
-];
-
 export interface PartyActorStance {
   readonly questionKey: string;
   readonly optionKey: string;
@@ -191,24 +113,37 @@ function question(key: string) {
   return found;
 }
 
-/**
- * A person's persistent stance on one question: the same person gives the
- * same answer every time, from their own seeded stream. Never shown to the
- * player as a number, and never assigned to the controlled person.
- */
+/** Read an actual saved opinion; absence is not a stance. */
 export function partyActorStance(
   world: World,
   personId: EntityId,
   questionKey: string,
-): PartyActorStance {
-  const rng = new SeededRng(world.seed).fork(
-    `${V}:stance:${personId}:${questionKey}`,
-  );
-  const options = question(questionKey).options.map((option) => option.key);
+): PartyActorStance | null {
+  question(questionKey);
+  const belief = world.history.privateBeliefs
+    .filter(
+      (record) =>
+        record.personId === personId &&
+        record.subject?.kind === "party-question" &&
+        record.subject.key === questionKey &&
+        record.formedAt <= world.currentDate,
+    )
+    .sort(
+      (a, b) => a.formedAt.localeCompare(b.formedAt) || a.sequence - b.sequence,
+    )
+    .at(-1);
+  if (!belief?.optionKey) return null;
   return {
     questionKey,
-    optionKey: rng.fork("option").pick(options),
-    strength: rng.fork("strength").pick(STRENGTHS),
+    optionKey: belief.optionKey,
+    strength:
+      belief.conviction === "settled"
+        ? "defining"
+        : belief.conviction === "strong"
+          ? "strong"
+          : belief.conviction === "moderate"
+            ? "moderate"
+            : "subtle",
   };
 }
 
@@ -541,6 +476,17 @@ export function recordPartyBodyDecision(
 ): World {
   const unit = requireActiveUnit(world, input.organizationId);
   const catalog = question(input.questionKey);
+  const count = partyBodyDecisions(world, unit.organizationId).length;
+  const stableKey =
+    input.stableKey ??
+    `${V}:decision:${unit.organizationId}:${count + 1}:${world.history.nextSequence}`;
+  if (
+    partyBodyDecisions(world, unit.organizationId).some(
+      (record) => record.stableKey === stableKey,
+    )
+  )
+    return world;
+  let next = world;
   const members = partyBodyMembers(world, unit.organizationId);
   const votes = new Map<EntityId, PartyActorStance>();
   for (const personId of members) {
@@ -557,11 +503,37 @@ export function recordPartyBodyDecision(
         strength: "defining",
       });
     } else {
-      votes.set(personId, partyActorStance(world, personId, catalog.key));
+      const savedStance = partyActorStance(next, personId, catalog.key);
+      if (savedStance) {
+        votes.set(personId, savedStance);
+        continue;
+      }
+      const formationKey = `${stableKey}:opinion:${personId}`;
+      if (
+        !next.history.decisionTraces.some(
+          (trace) => trace.context.stableKey === formationKey,
+        )
+      ) {
+        next = applyNpcPoliticalBeliefFormation(
+          next,
+          evaluatePoliticalBeliefFormation(next, {
+            stableKey: formationKey,
+            personId,
+            subject: partyOpinionSubject(catalog.key),
+            randomness: "none",
+          }),
+        );
+      }
+      const trace = next.history.decisionTraces.find(
+        (trace) => trace.context.stableKey === formationKey,
+      );
+      if (!trace?.selectedOptionKey?.startsWith("option:")) continue;
+      const stance = partyActorStance(next, personId, catalog.key);
+      if (stance) votes.set(personId, stance);
     }
   }
   if (votes.size === 0) {
-    throw new Error("A body decision needs at least one participating member.");
+    return next;
   }
   const tally = new Map<string, number>();
   for (const stance of votes.values()) {
@@ -583,11 +555,8 @@ export function recordPartyBodyDecision(
       (controlled(world, personId) || STRENGTH_RANK[stance.strength] >= 2)
     );
   });
-  const count = partyBodyDecisions(world, unit.organizationId).length;
-  const stableKey =
-    input.stableKey ?? `${V}:decision:${unit.organizationId}:${count + 1}`;
   const adoptedLabel = catalog.options.find((o) => o.key === adopted)!.label;
-  let next = recordWorldEvent(world, {
+  next = recordWorldEvent(next, {
     stableKey: `${stableKey}:event`,
     type: PARTY_BODY_DECISION_EVENT,
     occurredAt: world.currentDate,
@@ -727,13 +696,13 @@ export function assessPartyInitiative(
   if (ranked.length === 0) return NONE;
   const [questionKey, disputed, occasions] = ranked[0]!;
   const stance = partyActorStance(world, personId, questionKey);
-  if (stance.strength !== "defining") return NONE;
+  if (!stance || stance.strength !== "defining") return NONE;
   const members = partyBodyMembers(world, organizationId);
   const allies = members.filter(
     (other) =>
       other !== personId &&
       !controlled(world, other) &&
-      partyActorStance(world, other, questionKey).optionKey ===
+      partyActorStance(world, other, questionKey)?.optionKey ===
         stance.optionKey &&
       disputed.some((decision) => decision.dissentingPersonIds.includes(other)),
   );
@@ -1015,6 +984,8 @@ export function npcInitiativeResponse(
     initiative.questionKey,
   );
   const agrees =
+    theirs !== null &&
+    proposers !== null &&
     theirs.optionKey === proposers.optionKey &&
     STRENGTH_RANK[theirs.strength] >= 2;
   if (initiative.initiativeKind === "split")
@@ -1684,17 +1655,20 @@ function seedPlatform(
   initiative: PartyInitiativeRecord,
   organizationId: EntityId,
 ): World {
+  const stance = initiative.questionKey
+    ? partyActorStance(
+        world,
+        initiative.proposerPersonId,
+        initiative.questionKey,
+      )
+    : null;
   const positions = initiative.proposedPositions.length
     ? initiative.proposedPositions
-    : initiative.questionKey
+    : initiative.questionKey && stance
       ? [
           {
             questionKey: initiative.questionKey,
-            optionKey: partyActorStance(
-              world,
-              initiative.proposerPersonId,
-              initiative.questionKey,
-            ).optionKey,
+            optionKey: stance.optionKey,
           },
         ]
       : [];
@@ -1988,7 +1962,14 @@ export function partyBodyReviewTransitionHandler(
     questionKey,
     stableKey: decisionKey,
   });
-  const decision = partyBodyDecisions(next, unit.organizationId).at(-1)!;
+  const decision = partyBodyDecisions(next, unit.organizationId).find(
+    (record) => record.stableKey === decisionKey,
+  );
+  if (!decision)
+    return done(
+      scheduleBodyReview(next, unit.organizationId, members[0]!),
+      "no-formed-opinions",
+    );
   for (const personId of decision.dissentingPersonIds) {
     const assessment = assessPartyInitiative(
       next,
@@ -1998,6 +1979,7 @@ export function partyBodyReviewTransitionHandler(
     );
     if (assessment.kind === "none") continue;
     const stance = partyActorStance(next, personId, assessment.questionKey!);
+    if (!stance) continue;
     const foundingName = question(assessment.questionKey!).options.find(
       (option) => option.key === stance.optionKey,
     )!.foundingName;
