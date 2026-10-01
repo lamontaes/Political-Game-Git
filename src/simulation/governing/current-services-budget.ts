@@ -148,13 +148,14 @@ export function recordCurrentServicesBudgetDraft(
     request.recordedAt > world.currentDate ||
     !holder ||
     !matterId ||
+    !matter ||
     !budgetRequestMatchesIntake(world, {
-      matterId: matter!.id,
+      matterId: matter.id,
       officeKey: holder.officeKey,
       termId: holder.termId,
       intakeKey: input.intakeKey,
     }) ||
-    !matter?.participants.some(
+    !matter.participants.some(
       (participant) =>
         participant.role === "agency:officeholder" &&
         participant.personId === input.governorPersonId,

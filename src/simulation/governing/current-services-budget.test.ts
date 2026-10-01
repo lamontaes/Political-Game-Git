@@ -8,7 +8,7 @@ import {
   resolveFutureDueItemsThrough,
 } from "../future-transitions";
 import { createDemoWorld } from "../demo";
-import { createWorld } from "../world";
+import { createWorld, recordWorldEvent } from "../world";
 import { ensureWorldStartingConditions } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { generatePoliticalStartingConditions } from "../world-setup/political-start";
@@ -324,6 +324,44 @@ describe("an actual governor request carries adopted current-services lines", ()
         );
     },
   );
+
+  it("refuses a saved request with a nonempty missing matter reference", () => {
+    const office = offices[0]!;
+    const f = requested(office);
+    const missingMatterId = "event_missing-budget-fixture-reference";
+    expect(
+      f.world.history.events.some((event) => event.id === missingMatterId),
+    ).toBe(false);
+    const request = f.matter.decision!;
+    // Append a malformed-reference fixture; preserve every original record and integrity guard.
+    const world = recordWorldEvent(f.world, {
+      stableKey: "budget-guard:missing-matter-reference",
+      type: request.type,
+      occurredAt: f.world.currentDate,
+      recordedAt: f.world.currentDate,
+      jurisdictionId: office.jurisdictionId,
+      involvedEntityIds: [office.holderPersonId],
+      participants: request.participants,
+      personFactConstraints: [],
+      visibility: request.visibility,
+      tags: request.tags.map((tag) =>
+        tag.startsWith("matter:") ? `matter:${missingMatterId}` : tag,
+      ),
+      summary: "Controlled saved request with a dangling matter reference.",
+      context: request.context,
+    });
+    const before = serializeWorld(world);
+    expect(
+      recordCurrentServicesBudgetDraft(world, {
+        jurisdictionId: office.jurisdictionId,
+        governorPersonId: office.holderPersonId,
+        requestEventId: world.history.events.at(-1)!.id,
+        intakeKey: f.intakeKey,
+        fiscalWindow: f.fiscalWindow,
+      }),
+    ).toBeNull();
+    expect(serializeWorld(world)).toBe(before);
+  });
 
   it("does not invent a request or use monthly outturn as an adopted amount", () => {
     const office = offices[0]!;
