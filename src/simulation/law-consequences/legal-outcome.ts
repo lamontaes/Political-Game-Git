@@ -222,7 +222,7 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
     );
     if (!Number.isFinite(months) || months < resolved.value.value) return world;
     const stamp = lawEffectStamp(resolved.law, {
-      effectKind: "minimum-custody-months",
+      effectKind: "legal-outcome",
       questionKey: resolved.questionKey,
       jurisdictionId: resolved.jurisdictionId,
       appliedAt: event.occurredAt,
