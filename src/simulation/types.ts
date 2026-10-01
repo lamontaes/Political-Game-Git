@@ -105,6 +105,8 @@ export type EntityKind =
   | "loan-terms"
   | "debt-charge"
   | "debt-standing"
+  | "loan-repayment-allocation"
+  | "loan-discharge"
   | "law-exposure"
   | "official-view"
   | "job-opening"
@@ -3253,6 +3255,8 @@ export interface LoanTermsRecord {
   readonly kind: HouseholdLoanKind;
   readonly lenderKind: LenderKind;
   readonly annualRateBasisPoints: number;
+  /** Legacy draft credit only. New credits use LoanDischargeRecord. */
+  readonly principalReduction?: MoneyAmount;
   /** "capped" when a rate cap in force held the rate below the market. */
   readonly rateBasis: "written" | "capped";
   /** The measure whose cap applied, when `rateBasis` is "capped". */
@@ -3266,6 +3270,34 @@ export interface LoanTermsRecord {
   readonly missedPaymentsToCollections: number;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesTermsId: EntityId | null;
+}
+
+/** Cash allocation links the actual repayment; unknown old-save components stay null. */
+export interface LoanRepaymentAllocationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly occurredAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly resourceTransferOutcomeId: EntityId;
+  readonly fees: MoneyAmount | null;
+  readonly interest: MoneyAmount | null;
+  readonly principal: MoneyAmount | null;
+  readonly unsupportedReason: "missing-prior-repayment-allocation" | null;
+}
+
+/** Forgiveness changes owed components without pretending that cash was paid. */
+export interface LoanDischargeRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly effectiveAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly principal: MoneyAmount;
+  readonly interest: MoneyAmount;
+  readonly provenance: LifeRecordProvenance;
 }
 
 /** Interest or a fee added to a debt's balance for one month. */
@@ -4337,6 +4369,8 @@ export interface HistoryStore {
   readonly loanTerms?: readonly LoanTermsRecord[];
   readonly debtCharges?: readonly DebtChargeRecord[];
   readonly debtStandings?: readonly DebtStandingRecord[];
+  readonly loanRepaymentAllocations?: readonly LoanRepaymentAllocationRecord[];
+  readonly loanDischarges?: readonly LoanDischargeRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
   /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
