@@ -1,3 +1,4 @@
+import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
  * Rent day: every renting household in town pays rent on the first of the
  * month, to a landlord on record.
@@ -676,48 +677,15 @@ function householdMembers(
   return members;
 }
 
-const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
-  weekly: 52,
-  biweekly: 26,
-  semimonthly: 24,
-  monthly: 12,
-};
-
-/** Each person's recorded pay a month on a date, in cents, from pay terms. */
+/**
+ * Each person's recorded wages a month on a date, in cents: the shared pay
+ * reader (`household-pay.ts`), wages from work only.
+ */
 export function monthlyPayByPerson(
   world: World,
   onDate: IsoDate,
 ): Map<EntityId, number> {
-  const pay = new Map<EntityId, ResourceFlow>();
-  for (const flow of world.history.resourceFlows)
-    if (
-      flow.basisKind === "compensation:work" &&
-      flow.recipient.kind === "person"
-    )
-      pay.set(flow.id, flow);
-  const terms = latest(
-    world.history.resourceFlowTerms.filter((row) =>
-      pay.has(row.resourceFlowId),
-    ),
-    (row) => row.resourceFlowId,
-    onDate,
-  );
-  const byPerson = new Map<EntityId, number>();
-  for (const [flowId, record] of terms) {
-    if (record.status !== "active") continue;
-    const match = /(weekly|biweekly|semimonthly|monthly)/.exec(
-      record.cadenceKind,
-    );
-    const perYear = match ? PERIODS_PER_YEAR[match[1]!] : undefined;
-    if (!perYear) continue;
-    const flow = pay.get(flowId)!;
-    const personId = (flow.recipient as { personId: EntityId }).personId;
-    byPerson.set(
-      personId,
-      (byPerson.get(personId) ?? 0) + (record.amount.minorUnits * perYear) / 12,
-    );
-  }
-  return byPerson;
+  return recordedMonthlyPayByPerson(world, onDate, "work");
 }
 
 /** A household's recorded pay a month, or null when nobody's pay is known. */
