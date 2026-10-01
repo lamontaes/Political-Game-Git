@@ -116,12 +116,23 @@ export const TOWN_FINANCE_POLICY = {
       realty: 47,
       "*": 27,
     } as Readonly<Record<string, number>>,
-    /** PLACEHOLDER: a line of credit up to this many days of revenue. */
+    /**
+     * PLACEHOLDER (A71), pending research question
+     * `small-business-credit-line-size`: a line of credit up to this many
+     * days of revenue, a tenth of a year's sales, set by hand. No defensible
+     * source sizes it yet: the Federal Reserve Small Business Credit Survey
+     * reports amounts sought by revenue band, not a line's limit over the
+     * firm's own revenue. The question names the datasets that can settle it.
+     */
     creditLineDaysOfRevenue: 36.5,
     /**
-     * PLACEHOLDER: how far a business's revenue follows what the town's
-     * employers pay: the percent its sales move for each percent the town's
-     * pay moves (the rest comes from outside or does not follow).
+     * PLACEHOLDER (A71), pending research question
+     * `local-sales-response-to-town-pay`: how far a business's revenue
+     * follows what the town's employers pay: the percent its sales move for
+     * each percent the town's pay moves (the rest comes from outside or does
+     * not follow), set by hand. Moretti's local multiplier (2010) counts jobs
+     * per job, not this elasticity; the question names the datasets that can
+     * settle it (Moretti 2010 with its conversion, BEA RIMS II, QCEW panels).
      */
     localDemandElasticity: 0.5,
     /**
