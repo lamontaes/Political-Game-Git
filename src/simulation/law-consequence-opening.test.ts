@@ -137,7 +137,7 @@ describe("starting laws use the shared consequence entry", () => {
         const world = opening(key);
         expect(apply).toHaveBeenCalledTimes(1);
         expect(
-          apply.mock.calls[0]![0].history.legislativeEnactments,
+          apply.mock.calls[0]![0].history.legislativeEnactments ?? [],
         ).toHaveLength(0);
         expect(world.currentDate).toBe("2026-01-01");
       } finally {
