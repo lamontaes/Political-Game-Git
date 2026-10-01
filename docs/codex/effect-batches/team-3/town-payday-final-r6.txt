@@ -1,0 +1,28 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms
+TOWN_SCHEDULED_CITY_PAY {
+  person: 'Parker Clark',
+  flowId: 'resource-flow_210804f26bdbf52d',
+  grossMinor: [ 75000 ],
+  withheldMinor: [ 12606 ],
+  netMinor: [ 62394 ],
+  employerCashMinor: 925000,
+  termsKind: 'pay'
+}
+
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms 339ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 6 skipped (7)
+   Start at  09:50:07
+   Duration  24.64s (transform 18.87s, setup 25ms, import 24.13s, tests 340ms, environment 0ms)
+
