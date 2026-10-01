@@ -250,6 +250,8 @@ export function resolvePayConsequences(
       jurisdictionId,
       proposition.id,
       context.onDate,
+      "all",
+      cutoff,
     );
     if (!law || (law.origin === "enacted" && law.answer !== "yes")) continue;
     // A starting state "no" means no increase above the federal standard.
@@ -282,6 +284,7 @@ export function resolvePayConsequences(
         termKey: key,
         unit,
         onDate: context.onDate,
+        cutoff,
       });
       if (!term)
         throw new Error(`Missing pay final law term '${key}' (${unit})`);
@@ -379,6 +382,7 @@ export function resolveAnnualOfficePayConsequences(
       officeKey,
       field,
       onDate: context.onDate,
+      cutoff,
     });
     if (
       !rule ||
@@ -551,8 +555,14 @@ export function resolveSavedHourlyPayConsequences(
       officeKey,
       field,
       onDate: context.onDate,
+      cutoff,
     });
-    const legal = stateMinimumSettingAt(world, stateKey, context.onDate);
+    const legal = stateMinimumSettingAt(
+      world,
+      stateKey,
+      context.onDate,
+      cutoff,
+    );
     if (!rule || !legal?.measureId) continue;
     if (
       rule.measureId !== legal.measureId ||
