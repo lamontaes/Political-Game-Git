@@ -1,3 +1,4 @@
+import type { LawConsequenceKind } from "../law-consequence-types";
 import {
   healthCoverageRecords,
   coverageDecisionIsKnown,
@@ -129,7 +130,7 @@ export function resolveCoverageEligibility(
       ...(previous ? [previous.id] : []),
     ];
     const stamp = lawEffectStamp(law, {
-      effectKind: "health-coverage",
+      effectKind: "coverage-eligibility",
       questionKey,
       jurisdictionId: state.id,
       appliedAt: context.onDate,
@@ -162,6 +163,7 @@ export function settleCoverageEligibilitySubjects(
   causeId: EntityId,
   subjectIds: readonly EntityId[],
   sourceRecordIds: readonly EntityId[] = [],
+  effectKind?: LawConsequenceKind,
 ): World {
   return recordHealthCoverageForSubjects(
     world,
@@ -169,6 +171,7 @@ export function settleCoverageEligibilitySubjects(
     causeId,
     subjectIds,
     sourceRecordIds,
+    effectKind,
   );
 }
 
@@ -203,6 +206,7 @@ export function applyCoverageEligibility(
     resolved.activityId,
     [resolved.subject.id],
     current.sourceRecordIds,
+    "coverage-eligibility",
   );
 }
 
