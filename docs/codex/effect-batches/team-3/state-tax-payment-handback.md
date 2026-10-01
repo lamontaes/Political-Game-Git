@@ -1,0 +1,12 @@
+# State tax and paid-leave premiums retain their laws on allocated payments
+
+Recorded tax payments now retain the governing law and the assessment and transfer identifiers. The five-state regression passed all full, partial and zero allocation cases. Federal amounts and existing stamp absence were preserved. This verifies the shared integration's payment path; the consolidated law batch remains a draft.
+
+## Six-line law trace
+
+1. Measured: the coordinator's `src/simulation/statutory-tax.ts:568` assessment mapping stamps state income-tax rows. Its premium assessment stamps and positive allocated payment stamps use distinct tax keys. Team3 did not edit those production files.
+2. Measured: `src/simulation/state-tax-payment-stamps.test.ts:94` checks income-tax and premium assessments, positive payment amounts and source lineage. The receipt retains twenty cases across Minnesota, Massachusetts, Oregon, Colorado and California. Full, partial-income, partial-premium and zero cases are separate.
+3. Scope: the canonical state reader supplies the jurisdiction. This repair introduces no authority, preemption, rate or repeal rule. Existing federal assessment amounts and stamp-or-absence remain unchanged in the regression.
+4. Terminal: legal liability is assessed from the recorded wage base; allocated payment is limited by the payer's held cash. The stamp identifies that saved assessment and transfer. No new amount or effect draw is added.
+5. Gap: the ordinary first paycheck is earned through the existing completed-shift and scheduled-pay writers. The subsequent wage input and capacity transfers are controlled allocation fixtures. They do not prove another earned shift, browser Continue or nationwide firing. Earlier failing fixture runs remain preserved.
+6. Proof: `docs/codex/effect-batches/team-3/state-tax-payment-check-receipt.json:1` records five of five tests passing in 17.56 seconds and zero diagnostics for one strict root. Canonical serialization/reopening and idempotent reassessment passed. Lint, formatting and whitespace passed. Shared source is `922aaeb0838209d929da60f79895b3d9cfec72f6`; exact publication head accompanies the handoff. The separate Nebraska enacted-wage fixture passed one of one tests, recorded in `docs/codex/effect-batches/team-3/state-wage-enacted-check-receipt.json:1`. It checks revised pay terms and canonical reopening in a controlled later-date context, not ordinary calendar advancement or settled wage cash.

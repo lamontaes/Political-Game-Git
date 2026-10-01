@@ -1,0 +1,49 @@
+{
+  "headChecked": "be876cec8dfaac6cca7764ab5a71c77aac9ba835",
+  "baseMain": "2df795cd79e15ec7da9b0d97a3f9789c7760a303",
+  "assigned": 13,
+  "fivePartComplete": 0,
+  "savedPersonProvedBranch": [
+    "us-policy-positions:labor-workforce.paid-family-leave"
+  ],
+  "paidLeaveRepair": "1295@78114cc96541a98d72d4bb238644401c6ff94036",
+  "currentBatchSavedWriterUnitChecks": [
+    "us-policy-positions:labor-workforce.raise-minimum-wage",
+    "us-policy-positions:labor-workforce.city-minimum-wage"
+  ],
+  "helpersOnly": [
+    "us-policy-positions:fiscal.adopt-income-tax",
+    "us-policy-positions:fiscal.graduated-income-tax"
+  ],
+  "unreadPerCTO": [
+    "us-policy-positions:labor-workforce.right-to-work",
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining"
+  ],
+  "checks": {
+    "taxReader": {
+      "pass": 12,
+      "total": 12
+    },
+    "wageUnitAttribution": {
+      "pass": 10,
+      "total": 10
+    },
+    "combinedSeconds": 21.95,
+    "strictRoots": 4,
+    "strictDiagnostics": 0,
+    "sharedPayloadApplyCheck": "PASS",
+    "sharedPayloadRuntime": "NOT RUN",
+    "nationwide": "UNKNOWN"
+  },
+  "sourceSha256": {
+    "src/simulation/state-income-tax-law.ts": "0a42bb8e5d898e722c1b6d19adb8a1a98b3f3a1b27fd0edd4c6d02063b326526",
+    "src/simulation/state-income-tax-law.test.ts": "930d3815489fd62816d2e29aefeee6fc0f09eac3d34e2abb145db515f19d0439",
+    "src/simulation/living-world/town-pay.ts": "b1dcf83a7d63458f04827f4632de82a0892884f5fefba3280be3b37f4032a31c",
+    "src/simulation/living-world/state-local-wage-stamps.test.ts": "4c4783bd8622f8d6840ccf3db3153ace35e6feabc3102b521e7f4c9fcfe63b6b"
+  },
+  "blockers": [
+    "statutory-tax.ts/tax-types.ts coordinator integration",
+    "canonical Kind-B labor contract",
+    "narrow release for additional fiscal budget stamp seams"
+  ]
+}

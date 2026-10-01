@@ -1,0 +1,39 @@
+--- a/src/simulation/statutory-tax.ts
++++ b/src/simulation/statutory-tax.ts
+@@ -62,7 +62,7 @@
+   type FederalEmploymentRule,
+ } from "./statutory-tax-rules";
+ import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
+-import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";
++import { paidLeavePremium, premiumOn, paidLeavePremiumEffectStamps } from "./state-paid-leave-law";
+ import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
+ import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
+ import type {
+@@ -521,6 +521,10 @@
+       dueAt: employeePays ? outcome.occurredAt : null,
+       sourceUrl: leave.sourceUrl,
+       researchQuestionId: null,
++      lawEffectStamps: paidLeavePremiumEffectStamps(
++        world, stateKey, outcome.occurredAt, leave.lawMeasureIds ?? [],
++        [outcome.id, flow.id, flow.recipient.personId],
++      ),
+       ...(leave.lawMeasureIds ? { lawMeasureIds: leave.lawMeasureIds } : {}),
+       ...(leave.estimatedFromAverage
+         ? { estimatedFromAverage: leave.estimatedFromAverage }
+@@ -779,6 +783,16 @@
+     if (amount === 0) break;
+     remaining -= amount;
+     payments.push({
++      ...(liability.taxKey.endsWith(":paid-leave-premium") && liability.lawEffectStamps?.length
++        ? { lawEffectStamps: liability.lawEffectStamps.map((stamp) => ({
++            ...stamp,
++            effectKind: "paid-leave-premium-payment",
++            appliedAt: next.currentDate,
++            sourceRecordIds: [...new Set([
++              liability.id, transfer.id, ...(stamp.sourceRecordIds ?? []),
++            ])],
++          })) }
++        : {}),
+       stableKey: `${liability.stableKey}:withholding`,
+       liabilityId: liability.id,
+       method: "withholding",

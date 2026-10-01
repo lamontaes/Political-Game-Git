@@ -1,5 +1,9 @@
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+import {
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
+} from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import type { ResolvedLawPayConsequence } from "../law-consequence-types";
@@ -63,7 +67,10 @@ import {
   workStatusAt,
   workRoleAt,
 } from "../life-queries";
-import { lifePlaceByJurisdictionId } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "../life-places";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   federalMinimumSchedule,
@@ -1100,21 +1107,39 @@ export function raiseTownPayToMinimum(
       const event = eventOf.get(setBy.measureId);
       const rate = `$${hourly.toFixed(2)} an hour`;
       const which = setting.level === "local" ? "city" : setting.level;
-      const question =
-        setting.level === "federal"
-          ? Object.values(world.policyCatalog.propositions).find(
-              (p) => p.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-            )
-          : undefined;
-      const governing = question
-        ? lawInForce(world, NATIONAL_ELECTION_JURISDICTION.id, question.id, day)
+      const questionKey =
+        setting.level === "state"
+          ? STATE_MINIMUM_WAGE_QUESTION_KEY
+          : setting.level === "local"
+            ? CITY_MINIMUM_WAGE_QUESTION_KEY
+            : FEDERAL_MINIMUM_WAGE_QUESTION_KEY;
+      const location = role.locationJurisdictionId
+        ? lifePlaceByJurisdictionId(role.locationJurisdictionId)
         : null;
+      // Resolve at the government's own level; missing state/local identity
+      // never falls back to the federal law.
+      const jurisdictionId =
+        setting.level === "state"
+          ? location?.stateJurisdictionKey
+            ? (stateJurisdictionForKey(location.stateJurisdictionKey)?.id ??
+              null)
+            : null
+          : setting.level === "local"
+            ? (role.locationJurisdictionId ?? null)
+            : NATIONAL_ELECTION_JURISDICTION.id;
+      const question = Object.values(world.policyCatalog.propositions).find(
+        (p) => p.stableKey === questionKey,
+      );
+      const governing =
+        question && jurisdictionId
+          ? lawInForce(world, jurisdictionId, question.id, day)
+          : null;
       const stamp =
-        governing?.measureId === setting.measureId
+        jurisdictionId && governing?.measureId === setting.measureId
           ? lawEffectStamp(governing, {
               effectKind: "minimum-wage-compensation",
-              questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+              questionKey,
+              jurisdictionId,
               appliedAt: day,
               sourceRecordIds: [
                 flow.id,

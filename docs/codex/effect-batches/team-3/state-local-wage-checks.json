@@ -1,0 +1,23 @@
+{
+  "baseHead": "ab2a5e691f68a708dc9f49a8e2c8d7d651cfc83d",
+  "unitAttribution": {
+    "passed": 10,
+    "total": 10,
+    "validLegislativeWorld": false,
+    "recordJsonRoundtrip": true
+  },
+  "existingPaymentPreservation": {
+    "passed": 5,
+    "total": 5
+  },
+  "combinedSeconds": 23.05,
+  "strictRoots": 2,
+  "strictDiagnostics": 0,
+  "canonicalWageWorldReopen": "NOT RUN",
+  "nationwideFiring": "UNKNOWN",
+  "log": "/workspace/scratch/team3-state-local-wage-final.log",
+  "sourceSha256": {
+    "src/simulation/living-world/town-pay.ts": "b1dcf83a7d63458f04827f4632de82a0892884f5fefba3280be3b37f4032a31c",
+    "src/simulation/living-world/state-local-wage-stamps.test.ts": "4c4783bd8622f8d6840ccf3db3153ace35e6feabc3102b521e7f4c9fcfe63b6b"
+  }
+}

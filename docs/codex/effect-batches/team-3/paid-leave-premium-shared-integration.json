@@ -1,0 +1,12 @@
+{
+  "baseMain": "2df795cd79e15ec7da9b0d97a3f9789c7760a303",
+  "owner": "coordinator",
+  "path": "src/simulation/statutory-tax.ts",
+  "dependsOn": [
+    "paidLeavePremiumEffectStamps",
+    "StatutoryTaxPaymentRecord optional LawEffectStampedRecord"
+  ],
+  "combineWith": "state-tax-current-main-integration.patch; payment effectKind must depend on liability.taxKey, not blanket state classification",
+  "runtime": "NOT RUN",
+  "sharedBytesEdited": false
+}

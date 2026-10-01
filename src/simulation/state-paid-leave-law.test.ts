@@ -4,6 +4,7 @@ import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisd
 import {
   PAID_LEAVE_QUESTION,
   paidLeavePremium,
+  paidLeavePremiumEffectStamps,
   premiumOn,
   type PaidLeavePremium,
 } from "./state-paid-leave-law";
@@ -96,6 +97,43 @@ function premium(
 }
 
 describe("a state paid leave premium", () => {
+  it.each(["US-CA", "US-CO", "US-CT", "US-DE", "US-MA"])(
+    "attributes the premium to its own operative state law in %s",
+    (stateKey) => {
+      const adopted = enacted(stateKey, "yes", "2026-05-01");
+      const future = enacted(stateKey, "no", "2027-01-01");
+      const world = lawWorld([adopted, future]);
+      const paidAt = on("2026-06-01");
+      const read = premium(paidLeavePremium(world, stateKey, paidAt));
+      const sources = ["paycheck_fixture" as EntityId];
+      const stamps = paidLeavePremiumEffectStamps(
+        world,
+        stateKey,
+        paidAt,
+        read.lawMeasureIds ?? [],
+        sources,
+      );
+      expect(stamps).toHaveLength(1);
+      expect(stamps[0]).toMatchObject({
+        governingLawKey: adopted.measure.id,
+        questionKey: PAID_LEAVE_QUESTION,
+        jurisdictionId: stateId(stateKey),
+        effectKind: "paid-leave-premium-assessment",
+        appliedAt: paidAt,
+        sourceRecordIds: sources,
+      });
+      expect(
+        paidLeavePremiumEffectStamps(
+          world,
+          stateKey,
+          paidAt,
+          [future.measure.id],
+          sources,
+        ),
+      ).toEqual([]);
+    },
+  );
+
   it("collects a program's read premium from the date its pages give", () => {
     const world = lawWorld();
     // Minnesota: 0.44% from each worker from January 1, 2026, capped at the

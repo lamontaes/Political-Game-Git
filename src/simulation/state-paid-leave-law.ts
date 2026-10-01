@@ -30,10 +30,40 @@ import premiums from "../../data/research/money/state-paid-leave-premiums-2026.j
 import { lawInForce, lawInForceAtStart } from "./governing/law-in-force";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import { SeededRng } from "./rng";
+import { lawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
 import type { EntityId, IsoDate, World } from "./types";
 
 export const PAID_LEAVE_QUESTION =
   "us-policy-positions:labor-workforce.paid-family-leave";
+
+/** Attribution for the premium the canonical assessment actually used. */
+export function paidLeavePremiumEffectStamps(
+  world: World,
+  stateKey: string,
+  paidAt: IsoDate,
+  lawMeasureIds: readonly EntityId[],
+  sourceRecordIds: readonly EntityId[],
+): readonly LawEffectStamp[] {
+  const state = chiefExecutiveJurisdiction(stateKey.slice(3));
+  const proposition = Object.values(
+    world.policyCatalog?.propositions ?? {},
+  ).find((row) => row.stableKey === PAID_LEAVE_QUESTION);
+  if (!state || !proposition) return [];
+  const law = lawInForce(world, state.id, proposition.id, paidAt);
+  if (
+    !law ||
+    (lawMeasureIds.length > 0 && !lawMeasureIds.includes(law.measureId))
+  )
+    return [];
+  const stamp = lawEffectStamp(law, {
+    effectKind: "paid-leave-premium-assessment",
+    questionKey: PAID_LEAVE_QUESTION,
+    jurisdictionId: state.id,
+    appliedAt: paidAt,
+    sourceRecordIds,
+  });
+  return stamp ? [stamp] : [];
+}
 
 /** The Social Security wage base for 2026, which most programs cap at. */
 const COMMON_WAGE_CAP_DOLLARS = 184_500;

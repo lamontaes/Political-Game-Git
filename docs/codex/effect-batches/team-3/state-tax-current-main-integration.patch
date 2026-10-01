@@ -1,0 +1,57 @@
+--- a/src/simulation/statutory-tax.ts
++++ b/src/simulation/statutory-tax.ts
+@@ -61,7 +61,7 @@
+   placeWageIncomeTax,
+   type FederalEmploymentRule,
+ } from "./statutory-tax-rules";
+-import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
++import { stateIncomeTaxUnderLaw, stateIncomeTaxEffectStamps } from "./state-income-tax-law";
+ import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";
+ import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
+ import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
+@@ -549,7 +549,16 @@
+         rule.sourceUrl,
+       ),
+     );
+-  return rows;
++  return rows.map((row) => {
++    if (row.taxKey !== placeTaxKey || row.liability === null) return row;
++    const stamps = stateIncomeTaxEffectStamps(
++      world, stateKey, outcome.occurredAt, row.lawMeasureIds ?? [],
++      [outcome.id, flow.id, flow.recipient.personId],
++    );
++    return stamps.length
++      ? { ...row, lawEffectStamps: [...(row.lawEffectStamps ?? []), ...stamps] }
++      : row;
++  });
+ }
+ 
+ /**
+@@ -779,6 +788,16 @@
+     if (amount === 0) break;
+     remaining -= amount;
+     payments.push({
++      ...(liability.taxKey.endsWith(":wage-income-tax") && liability.lawEffectStamps?.length
++        ? { lawEffectStamps: liability.lawEffectStamps.map((stamp) => ({
++            ...stamp,
++            effectKind: "state-income-tax-payment",
++            appliedAt: next.currentDate,
++            sourceRecordIds: [...new Set([
++              liability.id, transfer.id, ...(stamp.sourceRecordIds ?? []),
++            ])],
++          })) }
++        : {}),
+       stableKey: `${liability.stableKey}:withholding`,
+       liabilityId: liability.id,
+       method: "withholding",
+--- a/src/simulation/tax-types.ts
++++ b/src/simulation/tax-types.ts
+@@ -154,7 +154,7 @@
+ }
+ 
+ /** Money that actually moved against one liability. */
+-export interface StatutoryTaxPaymentRecord extends TaxHistoryRoot {
++export interface StatutoryTaxPaymentRecord extends TaxHistoryRoot, LawEffectStampedRecord {
+   readonly liabilityId: EntityId;
+   readonly method: "withholding";
+   readonly amount: MoneyAmount;

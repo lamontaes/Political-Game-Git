@@ -1,0 +1,31 @@
+{
+  "sourceBase": "3f2606a8f0c070f709014a85f5981c2a614adeea",
+  "sharedTaxRepair": "922aaeb0838209d929da60f79895b3d9cfec72f6",
+  "test": "src/simulation/living-world/state-wage-enacted-stamp.test.ts",
+  "sourceSha256": "cb3c33cbb827f30e6b7c28693428a97d00d1f26f62eed243abf3b80247fe73f6",
+  "lawKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+  "fixturePlace": "US-NE / Omaha",
+  "actualLegislativeProcedure": true,
+  "savedCompensationTerms": true,
+  "canonicalSerializationReopening": true,
+  "pass": 1,
+  "total": 1,
+  "durationSeconds": 51.57,
+  "strictRoots": 2,
+  "strictDiagnostics": 0,
+  "lint": "PASS",
+  "format": "PASS",
+  "authoredControl": "Filed $20 floor and prior $1 weekly compensation are test controls, not research or production rates.",
+  "laterContext": "Canonical cancellation records preserve earlier queue history before setting a controlled later legal context.",
+  "notRun": [
+    "ordinary 65-day advance",
+    "settled wage cash proof",
+    "five-state valid legislative fixture",
+    "nationwide",
+    "browser Continue"
+  ],
+  "priorFailuresRetained": [
+    "no-job fixture produced no revised rows",
+    "unresolved earlier future-due items blocked canonical reopening"
+  ]
+}
