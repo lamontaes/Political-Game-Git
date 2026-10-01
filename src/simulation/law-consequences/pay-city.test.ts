@@ -970,9 +970,48 @@ it("A38 earned law raises only the actual completed interval without changing it
       state.id,
     ]),
   );
-  expect(paid.history.resourceFlowTerms).toEqual(
-    worked.world.history.resourceFlowTerms,
+  // Withholding legitimately opens its own tax-flow terms. Every earlier term
+  // and every term of the completed work's contract must remain unchanged.
+  expect(
+    paid.history.resourceFlowTerms.slice(
+      0,
+      worked.world.history.resourceFlowTerms.length,
+    ),
+  ).toEqual(worked.world.history.resourceFlowTerms);
+  expect(
+    paid.history.resourceFlowTerms.filter(
+      (record) => record.resourceFlowId === f.flow.id,
+    ),
+  ).toEqual(
+    worked.world.history.resourceFlowTerms.filter(
+      (record) => record.resourceFlowId === f.flow.id,
+    ),
   );
+  const stub = recordedPayStubs(paid, f.personId).find(
+    (record) => record.paycheck.id === outcome.id,
+  )!;
+  expect(stub).toBeDefined();
+  expect(stub.paidGross).toEqual(money(8000, "USD"));
+  expect(stub.assessmentStatus).toBe("recorded");
+  expect(stub.withheld.minorUnits).toBeGreaterThan(0);
+  expect(stub.netPaid.minorUnits).toBe(8000 - stub.withheld.minorUnits);
+  const liabilities = paid.history.statutoryTaxLiabilities!.filter(
+    (record) => record.sourceOutcomeId === outcome.id,
+  );
+  expect(liabilities.some((record) => record.authorityKey === "US")).toBe(true);
+  expect(liabilities.some((record) => record.authorityKey === "US-NE")).toBe(
+    true,
+  );
+  expect(liabilities.every((record) => record.wages.minorUnits === 8000)).toBe(
+    true,
+  );
+  expect(
+    resourcePositionAt(
+      paid,
+      { kind: "organization", organizationId: f.organizationId },
+      money(1, "USD").currency,
+    )!.liquidBalance,
+  ).toEqual(money(992_000, "USD"));
   expect(outcome.lawEffectStamps).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
