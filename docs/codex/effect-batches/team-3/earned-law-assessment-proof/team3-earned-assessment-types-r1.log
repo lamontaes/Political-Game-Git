@@ -1,0 +1,22 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+[96msrc/simulation/living-world/town-pay.ts[0m:[93m1149[0m:[93m7[0m - [91merror[0m[90m TS2345: [0mArgument of type '"earned-law-pay-assessment"' is not assignable to parameter of type 'EntityKind'.
+
+[7m1149[0m       "earned-law-pay-assessment",
+[7m    [0m [91m      ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/simulation/living-world/town-pay.ts[0m:[93m1203[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType '{ authority: { applicability: { appliesTo: "terms-beginning-after" | "immediately" | null; countsPriorService: boolean | null; }; kind: "enacted-office-rule"; ruleChangeProvisionId: EntityId; ... 5 more ...; operativeAt: IsoDate; } | { ...; }; ... 10 more ...; action: "set-annual-office-salary"; }' is not assignable to type 'ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence'.
+  Types of property 'authority' are incompatible.
+    Type '{ applicability: { appliesTo: "terms-beginning-after" | "immediately" | null; countsPriorService: boolean | null; }; kind: "enacted-office-rule"; ruleChangeProvisionId: EntityId; ... 5 more ...; operativeAt: IsoDate; } | { ...; }' is not assignable to type '(Omit<{ kind: "enacted-office-rule"; ruleChangeProvisionId: EntityId; enactmentId: EntityId; measureId: EntityId; officeKey: string; stateUsps: string; field: "body.seats" | ... 14 more ... | "nomination.method"; operativeAt: IsoDate; applicability: RuleChangeApplicability; }, "kind" | "field"> & { ...; }) | undefined'.
+      Type '{ applicability: { appliesTo: "terms-beginning-after" | "immediately" | null; countsPriorService: boolean | null; }; kind: "enacted-office-rule"; ruleChangeProvisionId: EntityId; ... 5 more ...; operativeAt: IsoDate; }' is not assignable to type 'Omit<{ kind: "enacted-office-rule"; ruleChangeProvisionId: EntityId; enactmentId: EntityId; measureId: EntityId; officeKey: string; stateUsps: string; field: "body.seats" | ... 14 more ... | "nomination.method"; operativeAt: IsoDate; applicability: RuleChangeApplicability; }, "kind" | "field"> & { ...; }'.
+        Type '{ applicability: { appliesTo: "terms-beginning-after" | "immediately" | null; countsPriorService: boolean | null; }; kind: "enacted-office-rule"; ruleChangeProvisionId: EntityId; ... 5 more ...; operativeAt: IsoDate; }' is not assignable to type '{ kind: "enacted-hourly-pay-rule"; field: "labor.minimumWage.hourlyCents"; }'.
+          Types of property 'kind' are incompatible.
+            Type '"enacted-office-rule"' is not assignable to type '"enacted-hourly-pay-rule"'.
+
+[7m1203[0m       resolvedConsequence:
+[7m    [0m [91m      ~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/simulation/types.ts[0m:[93m3211[0m:[93m12[0m
+    [7m3211[0m   readonly resolvedConsequence:
+    [7m    [0m [96m           ~~~~~~~~~~~~~~~~~~~[0m
+    The expected type comes from property 'resolvedConsequence' which is declared here on type 'EarnedLawPayAssessmentRecord'
+
+3 scoped roots; 2 diagnostics

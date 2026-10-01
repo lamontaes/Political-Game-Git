@@ -1,0 +1,7 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+[96msrc/simulation/living-world/town-pay.ts[0m:[93m1135[0m:[93m7[0m - [91merror[0m[90m TS2345: [0mArgument of type '"earned-law-pay-assessment"' is not assignable to parameter of type 'EntityKind'.
+
+[7m1135[0m       "earned-law-pay-assessment",
+[7m    [0m [91m      ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+2 scoped roots; 1139 files; 1 diagnostics

@@ -1,0 +1,10 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 12 skipped (13)
+   Start at  13:41:09
+   Duration  20.97s (transform 15.93s, setup 19ms, import 20.50s, tests 332ms, environment 0ms)
+

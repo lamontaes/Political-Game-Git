@@ -1,0 +1,32 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/law-consequences/pay-city.test.ts (12 tests | 1 failed | 11 skipped) 335ms
+   × A38 earned law raises only the actual completed interval without changing its contract 334ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A38 earned law raises only the actual completed interval without changing its contract
+Error: Law pay consequence requires capability: pay.completed-shift.saved-earned-law-assessment
+ ❯ refuse src/simulation/living-world/town-pay.ts:919:11
+    917| ): World {
+    918|   const refuse = (capability: string): never => {
+    919|     throw new Error(`Law pay consequence requires capability: ${capabi…
+       |           ^
+    920|   };
+    921|   if (!resolved.rowId.trim() || !resolved.activityId.trim())
+ ❯ applyLawPayConsequence src/simulation/living-world/town-pay.ts:1132:5
+ ❯ Object.applyPayConsequence [as apply] src/simulation/law-consequences/pay.ts:682:14
+ ❯ applyLawConsequences src/simulation/enacted-law-effects.ts:1019:29
+ ❯ settleTownCompensations src/simulation/living-world/town-pay.ts:1724:12
+ ❯ src/simulation/law-consequences/pay-city.test.ts:842:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 skipped (12)
+   Start at  13:19:07
+   Duration  22.12s (transform 16.83s, setup 20ms, import 21.58s, tests 335ms, environment 0ms)
+
