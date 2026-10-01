@@ -3910,6 +3910,7 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
                 onOpenPerson={openPerson}
+                onWorldChange={onWorldChange}
               />
             </>
           }

@@ -31,7 +31,7 @@ import { SeededRng } from "../rng";
 import { personName } from "../people";
 import {
   LOCAL_COUNCIL_MEETING,
-  LOCAL_COUNCIL_MEETING_HANDLERS,
+  localCouncilMeetingHandlers,
   LOCAL_COUNCIL_MEETINGS_VERSION,
   townQuestions,
 } from "../living-world/local-council-meetings";
@@ -46,7 +46,7 @@ import { LOCAL_ORDINANCE_GAME_PROFILE_VERSION } from "../local-ordinance-game-pr
 import { ensureMunicipalCouncilOpening } from "../municipal-council-opening";
 import { municipalSeats } from "../municipal-public-work";
 import {
-  COUNCIL_ACT_HANDLERS,
+  councilActHandlers,
   COUNCIL_READING_DUE,
   completeCouncilPassage,
 } from "../municipal-ordinance-procedure";
@@ -60,7 +60,7 @@ import { mayAnswerQuestion } from "./question-authority";
 import {
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   scheduleLocalMemberAgendaIntakes,
 } from "./member-agenda";
 
@@ -72,8 +72,8 @@ const localPackId = `${city.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
 const intakeKeyFor = (dueAt: string) =>
   `${LOCAL_MEMBER_AGENDA_VERSION}:intake:${encodeURIComponent(city.id)}:${dueAt}`;
 const handlers = createFutureTransitionHandlerRegistry([
-  ...LOCAL_MEMBER_AGENDA_HANDLERS,
-  ...COUNCIL_ACT_HANDLERS,
+  ...localMemberAgendaHandlers(),
+  ...councilActHandlers(),
 ]);
 
 /** The same GEOID and opened five-seat council as local-fiscal-authority.test. */
@@ -254,9 +254,7 @@ describe("ordinary local member fiscal agenda", () => {
     const finished = advanceWorld(
       world,
       1,
-      createFutureTransitionHandlerRegistry([
-        ...LOCAL_COUNCIL_MEETING_HANDLERS,
-      ]),
+      createFutureTransitionHandlerRegistry([...localCouncilMeetingHandlers()]),
     );
     expect(measurePosition(finished, measure.id).phase).toBe("enacted");
     const event = finished.history.events.find(
