@@ -1,3 +1,4 @@
+import { legacyPolicyMemberBallot } from "../../../tests/fixtures/a79-legacy-policy-ballot";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -19,11 +20,7 @@ import { createFormationContext, recordPrinciples } from "../politics";
 import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { DecisionConsideration, EntityId, World } from "../types";
-import {
-  articleVProposalBallots,
-  memberBallot,
-  repeatsLastRejection,
-} from "./article-v";
+import { articleVProposalBallots, repeatsLastRejection } from "./article-v";
 import * as chamber from "./chamber-votes";
 import { seatedCongressChamber } from "./congress-chambers";
 
@@ -131,7 +128,7 @@ describe("A79 recorded constitutional proposal uses the shared chamber vote", ()
     (bodyKey) => {
       const members = input(bodyKey).members;
       const old = members.map((member) =>
-        memberBallot(
+        legacyPolicyMemberBallot(
           world,
           `a79:comparison:${member.memberKey}`,
           member.personId!,
