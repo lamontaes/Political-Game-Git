@@ -2,6 +2,8 @@
 
 Service and budget repairs are ready for review. The rebuild remains incomplete.
 
+## Evidence and next owners
+
 - Service guard #1530 is READY at 1782e53f2658f47d48c2b186a903cce2f0223e70 under the CTO's explicit inherited-baseline condition. Team 3 executed original tests on that head and main 007aec6e29084d62ed4ebf0ef864beaeb5148204: both 112 failures and 5 passes, with identical ordered failures and assertions. Coordinator independently checked types: 793 files, zero diagnostics. Raw comparison is published at ece0eba30c52f363cfcc79021327eaadab376117. This is not a green runtime suite.
 - Team 5 service test repair #1537 is READY at 34c6bb949344491b846a516f20d06878ad252cab. Team-reported 115/115 tests and zero type errors; coordinator source review completed.
 - Team 6 budget fixtures #1531 are READY at 2297b54931913521fa26ece209641c89a17a3d2f. Team-reported 29/29 tests; original carry tolerance retained. Coordinator reviewed the funding reconciliation.
