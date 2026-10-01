@@ -1,16 +1,17 @@
 import programs from "../../data/research/money/public-programs-2026.json" with { type: "json" };
 import { yearOf } from "./dates";
-import { stateKeyForJurisdictionRecord } from "./state-jurisdiction-id";
+import { povertyLineMinor } from "./public-benefit-formulas";
 import { STATES } from "./state-reference";
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
- * A household's recorded pay and the poverty line it is measured against.
+ * A household's recorded pay and the poverty line it is measured against:
+ * the one definition of each. Health coverage, town rent, migration and
+ * people-upbringing all read them from here.
  *
  * A leaf: it reads history and reference data only, so a module low in the
  * import graph (people-upbringing) can read pay without loading the coverage
- * pass, the campaign clock or any scenario. Coverage reads the same two
- * functions from here.
+ * pass, the campaign clock or any scenario.
  */
 
 // ─── Poverty line ───────────────────────────────────────────────────────
@@ -39,7 +40,11 @@ const GUIDELINES = Object.entries(
   )
   .sort((a, b) => a[0] - b[0]);
 
-/** The annual poverty line for a household, in cents. */
+/**
+ * The annual poverty line for a household in a state, in cents: the year's
+ * HHS guideline for the state, through the shared formula
+ * (`povertyLineMinor`).
+ */
 export function annualPovertyLineMinor(
   stateKey: string,
   householdSize: number,
@@ -55,7 +60,9 @@ export function annualPovertyLineMinor(
   const added = own
     ? (contiguous.eachAdditional * own["1"]) / contiguous["1"]
     : contiguous.eachAdditional;
-  return Math.round((first + Math.max(0, householdSize - 1) * added) * 100);
+  return Math.round(
+    povertyLineMinor(Math.max(1, householdSize), first, added) * 100,
+  );
 }
 
 // ─── Pay ────────────────────────────────────────────────────────────────
@@ -66,6 +73,12 @@ const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
   semimonthly: 24,
   monthly: 12,
 };
+
+/**
+ * Which pay counts: every compensation (wages, salaries and an owner's draw
+ * from their own business), or wages from work only.
+ */
+export type RecordedPayBasis = "compensation" | "work";
 
 // Coverage writes only crisis history. Reuse the pay index while its
 // immutable source arrays and review date remain unchanged.
@@ -78,19 +91,38 @@ const MONTHLY_PAY_CACHE = new WeakMap<
   }
 >();
 
-/** Each person's recorded pay a month on a date, in cents, from pay terms. */
-function monthlyPayByPerson(
+/**
+ * Each person's recorded pay a month on a date, in cents, read from the
+ * latest terms of their pay flows. A person with no pay terms is absent, not
+ * zero. The work-only reading returns a fresh map its caller may keep.
+ */
+export function recordedMonthlyPayByPerson(
   world: World,
   onDate: IsoDate,
+  basis: "work",
+): Map<EntityId, number>;
+export function recordedMonthlyPayByPerson(
+  world: World,
+  onDate: IsoDate,
+  basis?: "compensation",
+): ReadonlyMap<EntityId, number>;
+export function recordedMonthlyPayByPerson(
+  world: World,
+  onDate: IsoDate,
+  basis: RecordedPayBasis = "compensation",
 ): ReadonlyMap<EntityId, number> {
-  const cached = MONTHLY_PAY_CACHE.get(world.history.resourceFlowTerms);
+  const cached =
+    basis === "compensation"
+      ? MONTHLY_PAY_CACHE.get(world.history.resourceFlowTerms)
+      : undefined;
   if (cached?.flows === world.history.resourceFlows && cached.onDate === onDate)
     return cached.pay;
   const recipients = new Map<EntityId, EntityId>();
   for (const flow of world.history.resourceFlows)
-    // Wages, salaries and an owner's draw from their own business.
     if (
-      flow.basisKind.startsWith("compensation:") &&
+      (basis === "work"
+        ? flow.basisKind === "compensation:work"
+        : flow.basisKind.startsWith("compensation:")) &&
       flow.recipient.kind === "person"
     )
       recipients.set(flow.id, flow.recipient.personId);
@@ -113,32 +145,11 @@ function monthlyPayByPerson(
       (byPerson.get(personId) ?? 0) + (row.amount.minorUnits * perYear) / 12,
     );
   }
-  MONTHLY_PAY_CACHE.set(world.history.resourceFlowTerms, {
-    flows: world.history.resourceFlows,
-    onDate,
-    pay: byPerson,
-  });
+  if (basis === "compensation")
+    MONTHLY_PAY_CACHE.set(world.history.resourceFlowTerms, {
+      flows: world.history.resourceFlows,
+      onDate,
+      pay: byPerson,
+    });
   return byPerson;
-}
-
-/**
- * Each person's recorded pay a month on a date, in cents, read from their
- * compensation terms. A person with no pay terms is absent, not zero.
- */
-export function recordedMonthlyPayByPerson(
-  world: World,
-  onDate: IsoDate,
-): ReadonlyMap<EntityId, number> {
-  return monthlyPayByPerson(world, onDate);
-}
-
-/**
- * The state key of the place a person lives, read off the jurisdiction
- * record: a state's own record, or a city or county's state by its parent.
- */
-export function homeStateKey(world: World, personId: EntityId): string | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
-  return jurisdiction ? stateKeyForJurisdictionRecord(jurisdiction) : null;
 }

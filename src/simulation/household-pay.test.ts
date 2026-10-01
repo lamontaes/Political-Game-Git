@@ -1,43 +1,74 @@
 import { describe, expect, it } from "vitest";
 
+import { annualPovertyLineMinor } from "./household-pay";
 import {
   lifePlaceByKey,
+  lifePlaces,
   lifePlaceStateIdentities,
   searchLifePlaces,
   stateJurisdictionForKey,
-  stateKeyForJurisdiction,
 } from "./life-places";
-import { stateKeyForJurisdictionRecord } from "./state-jurisdiction-id";
+import { homeStateKey } from "./state-jurisdiction-id";
+import type { EntityId, World } from "./types";
+
+/** A world holding one person living in one jurisdiction record. */
+function livingIn(jurisdiction: World["jurisdictions"][EntityId]): World {
+  return {
+    people: {
+      ["p" as EntityId]: { homeJurisdictionId: jurisdiction.id },
+    },
+    jurisdictions: { [jurisdiction.id]: jurisdiction },
+  } as unknown as World;
+}
 
 /**
- * The leaf reads a home state without the place list. Across all 56 places
- * it must agree with the place list's own answer, for the state's record and
- * for a city's.
+ * The one home-state reader reads the jurisdiction record, without the place
+ * list. Every place the list holds, in all 56 states and territories, must
+ * get the state the place list itself gives it.
  */
-describe("household-pay: home state without the place list, all 56 places", () => {
-  it("names every state's own record and a city's in it as the place list does", () => {
-    const places = lifePlaceStateIdentities();
-    expect(places).toHaveLength(56);
-    let cities = 0;
-    for (const place of places) {
-      const state = stateJurisdictionForKey(place.jurisdictionKey)!;
-      expect(stateKeyForJurisdictionRecord(state), place.usps).toBe(
-        stateKeyForJurisdiction(state) ?? place.jurisdictionKey,
-      );
-      // The poverty guideline is keyed by the state's name.
-      expect(state.name, place.usps).toBe(place.name);
-      const locality = searchLifePlaces("", 1, {
-        stateJurisdictionKey: place.jurisdictionKey,
-        scope: "locality",
-      })[0];
-      if (!locality) continue;
-      cities += 1;
-      const lifePlace = lifePlaceByKey(locality.key)!;
+describe("one home-state reader and one poverty line, all 56 places", () => {
+  it("every place on the list reads its own state from its record", () => {
+    const states = new Set<string>();
+    let places = 0;
+    const listed = [
+      ...lifePlaces(),
+      ...lifePlaceStateIdentities().flatMap((identity) =>
+        searchLifePlaces("", 25, {
+          stateJurisdictionKey: identity.jurisdictionKey,
+        }).map((found) => lifePlaceByKey(found.key)!),
+      ),
+    ];
+    for (const place of listed) {
+      if (!place.stateJurisdictionKey) continue;
+      places += 1;
+      states.add(place.stateJurisdictionKey);
       expect(
-        stateKeyForJurisdictionRecord(lifePlace.context.jurisdiction),
-        `${place.usps} ${locality.key}`,
-      ).toBe(lifePlace.stateJurisdictionKey);
+        homeStateKey(livingIn(place.context.jurisdiction), "p" as EntityId),
+        place.key,
+      ).toBe(place.stateJurisdictionKey);
     }
-    expect(cities).toBeGreaterThan(40);
+    expect(states.size).toBe(56);
+    expect(places).toBeGreaterThan(56);
+  });
+
+  it("each state's own record reads itself, and the guideline names match", () => {
+    const identities = lifePlaceStateIdentities();
+    expect(identities).toHaveLength(56);
+    for (const identity of identities) {
+      const state = stateJurisdictionForKey(identity.jurisdictionKey)!;
+      expect(homeStateKey(livingIn(state), "p" as EntityId)).toBe(
+        identity.jurisdictionKey,
+      );
+      // The guideline is keyed by the state's own name.
+      expect(state.name, identity.usps).toBe(identity.name);
+    }
+    // Alaska and Hawaii have guidelines of their own; the rest share one.
+    const day = "2026-06-01" as Parameters<typeof annualPovertyLineMinor>[2];
+    expect(annualPovertyLineMinor("US-AK", 3, day)).toBeGreaterThan(
+      annualPovertyLineMinor("US-OH", 3, day),
+    );
+    expect(annualPovertyLineMinor("US-OH", 3, day)).toBe(
+      annualPovertyLineMinor("US-GU", 3, day),
+    );
   });
 });

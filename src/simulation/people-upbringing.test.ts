@@ -16,7 +16,8 @@ import {
   upbringingTraitTendencies,
   type PersonUpbringing,
 } from "./people-upbringing";
-import { annualPovertyLineMinor, homeStateKey } from "./household-pay";
+import { annualPovertyLineMinor } from "./household-pay";
+import { homeStateKey } from "./state-jurisdiction-id";
 import { stableHash } from "./ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import {

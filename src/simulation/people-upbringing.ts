@@ -1,9 +1,9 @@
 import { ageOnDate, dateAtAge } from "./dates";
 import {
   annualPovertyLineMinor,
-  homeStateKey,
   recordedMonthlyPayByPerson,
 } from "./household-pay";
+import { homeStateKey } from "./state-jurisdiction-id";
 import {
   activeWorkRelationshipsAt,
   householdMembershipsAt,
