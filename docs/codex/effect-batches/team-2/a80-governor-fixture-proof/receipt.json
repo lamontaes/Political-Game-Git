@@ -54,6 +54,22 @@
       "verified": "partly",
       "rules": 0,
       "proofLimit": "No A80 scanner rule; not full audit closure"
+    },
+    "auditScanAll": {
+      "command": "npm run audit:scan -- --out /tmp/team2-a80-final-audit-all.json",
+      "exit": 0,
+      "items": 149,
+      "A80": {
+        "id": "A80",
+        "short": "Presidents, mayors and town councils should\u2026",
+        "verified": "partly",
+        "scanned": "unknown",
+        "drift": [],
+        "covers": null,
+        "passed": 0,
+        "checks": []
+      },
+      "proofLimit": "Static all-engine scan, not runtime or fulltests; A80 lacks scanner rules and remains verifiedpartly"
     }
   },
   "failedCases": [],
@@ -114,7 +130,9 @@
     "main-6cc29-types.log": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3",
     "negative-date-types.log": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3",
     "typecheck.mjs": "408987c6b518f85a8835d15e698b6c806413cc54a1f3085600b0bbedaa66a4d8",
-    "main-6cc29-tests.log": "211abd13d57c302ec1b6c517358e243a882dba9237d46399f19024ac35170966"
+    "main-6cc29-tests.log": "211abd13d57c302ec1b6c517358e243a882dba9237d46399f19024ac35170966",
+    "final-audit-all.log": "09a930f3052eb95c2953c6ab3bf9e7a9aafbf5febf044aca4b5d0ac321d652d6",
+    "final-audit-all.json": "a1db0a406048c2420f63313f66cef1c00c22d3a8f15566dadf1cbc0b2e886671"
   },
   "intermediate89of92": {
     "runtimeSource": "2691d22cc858b250cfb674cb2252f27491d1686e",
@@ -148,5 +166,6 @@
     "src/simulation/governing/program-governing.ts": "b21314d7ffc3679d329ba270f10fd97a279e184c",
     "src/simulation/governing/program-governing.test.ts": "4b45293a94ba6a32305340a93e25f934d01640e8",
     "src/simulation/enacted-appropriations.ts": "c403fd01de79c96a0f7d263deb92cb2bd179b3fa"
-  }
+  },
+  "providerPreservation": "Team6 PR1597 retained, exact code7db; no closure inferred from overlapping paths"
 }
