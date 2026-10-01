@@ -1,0 +1,130 @@
+{
+  "writerSource": "916dcab99be32c7ef6f8fa3cbef1eef46479a4c5",
+  "serviceSource": "657247d9b5ffd73a790e589ce1c52ff2eacc49ba",
+  "sharedCompletion": "bb5e17a7529d30fc41c93b48d06520ae7f0ba811",
+  "results": {
+    "completedShift": {
+      "passed": 10,
+      "failed": 0,
+      "seconds": 29.78,
+      "assertionsChanged": false,
+      "timeoutChanged": false,
+      "floorAboveContractProven": false
+    },
+    "service": {
+      "passed": 5,
+      "failed": 112,
+      "seconds": 40.91
+    },
+    "types": {
+      "completedRoots": 2,
+      "savedRuleRoots": 2,
+      "serviceRoots": 3,
+      "diagnostics": 0,
+      "expandedRoots": 2
+    },
+    "zeroDice": {
+      "new": 0,
+      "inheritedStale": 5,
+      "exit": 1
+    },
+    "savedHourlyRuleBefore": {
+      "passed": 0,
+      "failed": 1,
+      "notRun": 8,
+      "seconds": 24.12,
+      "actualGrossMinor": 60000,
+      "expectedGrossMinor": 72000
+    },
+    "savedHourlyRuleAfter": {
+      "passed": 1,
+      "failed": 0,
+      "notRun": 8,
+      "seconds": 22.93,
+      "grossMinor": 72000,
+      "employerCashMinor": 928000,
+      "canonicalRuleAuthority": true,
+      "sourceLineage": true,
+      "repeatIdempotence": true,
+      "saveReopenClockEquality": true
+    },
+    "expandedTestFailure": {
+      "source": "715e63f2941134c24e0d113b18d8c71610c49b56",
+      "failed": 1,
+      "notRun": 8,
+      "seconds": 23.23,
+      "reason": "Added test read nonexistent fixture work property; corrected to saved flow basis work ID; production unchanged."
+    }
+  },
+  "blockers": [
+    "Completed-shift legal increase above immutable earned terms lacks canonical assessment amount/stamp consumer in shared transfer writer.",
+    "Shared same-day legal authority reads lack earned sequence parameter; writer refuses selected later enactment.",
+    "Service receipt events missing; root baseline attribution pending."
+  ],
+  "notRun": [
+    "All-56 payroll",
+    "Full suite",
+    "Speed year",
+    "Browser",
+    "Final-main acceptance",
+    "Legal floor above earned contract payment"
+  ],
+  "receipts": [
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-service-r1.txt",
+      "sha256": "573a58a378d7602c614d5237227b2d2aa9079cec0998e0999e1b58bd7406e5a7"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-service-types-r1.txt",
+      "sha256": "5dbb788f2be00e5a7ae201c7cb6b14d170b313be55eb952a22d391d0b88b8b07"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-r1.txt",
+      "sha256": "0446ead0ea94390541ad4f127eb81b5bec275d1f5ed54542bae2cfdde95b3b98"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-types-r1.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-completed-r1.txt",
+      "sha256": "4240843a30deb4d5e65b6637bf26fbc8d53897349b410642de225d61f9df2344"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-completed-types-r1.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-zero-dice-r1.txt",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-r2.txt",
+      "sha256": "ecb74a9ae89d6ebd8c8d4170d937d30b4377f234471df6bc049ad1794bcba12a"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-types-r2.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-r3.txt",
+      "sha256": "1dbcc7a15d393d9c5500bbb19b7783ff2234b838df0fce40d38e909fe7d7e1ef"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-types-r3.txt",
+      "sha256": "f5965c6b1635c179add92d884a1e6c1c71a4512798c0f6c37fb7f15e9b6fa22b"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-r4.txt",
+      "sha256": "425ce599d82ebda85cdf22a91ba229b2bbb00cc561a59a2191ab3afffe7d34e6"
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/hourly-shift-saved-rule-types-r4.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b"
+    }
+  ],
+  "savedRuleFailureSource": "7e5554c8f360b7919918c4454264764106917fe6",
+  "savedRuleRepairedSource": "7c1c4e4d2566079ffb7de2a02d9b05a60b138afb",
+  "savedRuleExpandedProofSource": "d7f4e27535b805fd6a684b7ae9889743235b59e8",
+  "sharedResolver": "701103d83e9c62d26e1741104b32ba53a4c47300"
+}
