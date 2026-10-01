@@ -5,6 +5,7 @@ import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { createOrganization, createWorkRelationship } from "../life";
 import { recordEventKnowledge } from "../records";
+import { recordWorldEvent } from "../world";
 import {
   ensurePressMediaOpening,
   ensurePressStateCoverage,
@@ -21,23 +22,29 @@ import { openMatter, recordAllegation } from "./matters";
 import { produceMatterResponses } from "./responses";
 import { pressRecordsOfKind } from "./store";
 const evaluate = decisions.evaluateDecision;
+type EvaluationArgs = Parameters<typeof evaluate>;
 function forceTie() {
   return vi
     .spyOn(decisions, "evaluateDecision")
-    .mockImplementation((world, input) => {
-      const result = evaluate(world, input);
-      return {
-        ...result,
-        outcomeKind: "undecided",
-        selectedOptionKey: null,
-        optionEvaluations: result.optionEvaluations.map((option) => ({
-          ...option,
-          preference: "mixed",
-          randomContribution: "none",
-          finalRank: null,
-        })),
-      };
-    });
+    .mockImplementation(
+      (
+        world: EvaluationArgs[0],
+        input: EvaluationArgs[1],
+      ): ReturnType<typeof evaluate> => {
+        const result = evaluate(world, input);
+        return {
+          ...result,
+          outcomeKind: "undecided",
+          selectedOptionKey: null,
+          optionEvaluations: result.optionEvaluations.map((option) => ({
+            ...option,
+            preference: "mixed",
+            randomContribution: "none",
+            finalRank: null,
+          })),
+        };
+      },
+    );
 }
 function fixture() {
   let world = createScenarioWorld("a125-press-pending", KENTUCKY_CONTEXT, {
@@ -47,12 +54,33 @@ function fixture() {
   const actor = world.personOrder[1]!;
   world = ensurePressMediaOpening(world, subject);
   world = ensurePressStateCoverage(world, KENTUCKY_CONTEXT.jurisdiction.id);
+  world = recordWorldEvent(world, {
+    stableKey: "a125:source",
+    type: "fixture.press-source",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    involvedEntityIds: [subject, actor],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [],
+    summary: "A recorded source for the press decision fixture.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
   const opened = openMatter(world, {
     stableKey: "a125:matter",
     family: "M1",
     subjectPersonIds: [subject],
     occurrenceId: null,
-    originEventId: null,
+    originEventId: world.history.events.at(-1)!.id,
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
   });
   const alleged = recordAllegation(opened.world, {
@@ -113,12 +141,12 @@ describe("A125 press callers preserve a tied decision", () => {
     expect(due).toBeDefined();
     const spy = forceTie();
     const result = pressStoryStepHandler(assigned, due);
-    expect(spy.mock.calls.map(([, context]) => context.decisionType)).toContain(
-      "press.subject-response",
-    );
-    expect(spy.mock.calls.map(([, context]) => context.decisionType)).toContain(
-      "press.editorial-disposition",
-    );
+    expect(
+      spy.mock.calls.map(([, context]: EvaluationArgs) => context.decisionType),
+    ).toContain("press.subject-response");
+    expect(
+      spy.mock.calls.map(([, context]: EvaluationArgs) => context.decisionType),
+    ).toContain("press.editorial-disposition");
     expect(result.status).toBe("blocked");
     expect(result.outcomeEventId).toBeNull();
     expect(serializeWorld(result.world)).toBe(serializeWorld(assigned));
@@ -185,7 +213,8 @@ describe("A125 press callers preserve a tied decision", () => {
     const result = produceMatterResponses(world, f.matterId, event);
     expect(
       spy.mock.calls.some(
-        ([, context]) => context.decisionType === "press.staff-matter-response",
+        ([, context]: EvaluationArgs) =>
+          context.decisionType === "press.staff-matter-response",
       ),
     ).toBe(true);
     expect(pressRecordsOfKind(result, "matter-response")).toEqual(
