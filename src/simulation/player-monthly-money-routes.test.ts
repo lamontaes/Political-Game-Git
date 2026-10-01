@@ -16,7 +16,12 @@ import {
   livingCostsFlowFor,
   settleLivingCosts,
 } from "./cost-of-living";
-import { buyHome, MORTGAGE_BASIS, settleMortgages } from "./home-purchase";
+import {
+  buyHome,
+  homePurchaseReason,
+  MORTGAGE_BASIS,
+  settleMortgages,
+} from "./home-purchase";
 import {
   createResourcePosition,
   createResourceFlow,
@@ -112,6 +117,7 @@ beforeAll(() => {
         position.openingBalance.currency === funding.currency,
     ),
   ).toHaveLength(1);
+  expect(homePurchaseReason(world, playerId)).toBeNull();
   const purchase = buyHome(world, playerId);
   expect(purchase.status).toBe("bought");
   world = createOrganization(purchase.world, {
