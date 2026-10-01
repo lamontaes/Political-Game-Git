@@ -2,7 +2,7 @@
 
 Town initial pay no longer adds or subtracts fifteen occupational-wage percentile points from a seeded draw. The recorded tenure still sets placement through the existing labeled assumption. Four actual-work controls confirm the same starting pay across two seeds. Mississippi cannot create the initial pay flow because its existing minimum reader returns null. Credentials remain unfinished until their approved mechanism is supplied.
 
-MERGED: No merge. Draft slice-step PR #1661, based on the preserved A38 donor branch.
+MERGED: No merge. The draft slice step is based on the preserved A38 donor branch.
 
 WHAT EMERGED: HARDWIRED initial-pay bookkeeping from actual work tenure and existing OEWS wage cells. No new coefficient, wage level, decision or draw was added.
 
