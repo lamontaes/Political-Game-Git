@@ -184,7 +184,7 @@ describe("right permission kind mechanism", () => {
     expect(saved.filter((row) => row.kind === "right-permission")).toEqual([]);
   });
   it("uses shared dispatch and saves the actual review, person and legal identity", () => {
-    const { world, context, input, activityId } = fixture();
+    const { world, law, context, input, activityId } = fixture();
     const catalog = world.policyCatalog!;
     const question = Object.values(catalog.propositions).find(
       (q) => q.stableKey === context.questionKey,
@@ -213,8 +213,18 @@ describe("right permission kind mechanism", () => {
       context.questionKey,
     )!;
     expect(saved.status).toBe("permitted");
+    expect(saved.subject).toEqual(input.subject);
     expect(saved.sourceRecordIds).toContain(activityId);
-    const resumed = deserializeWorld(serializeWorld(next));
+    expect(saved.lawEffectStamps).toHaveLength(1);
+    expect(saved.lawEffectStamps[0]).toMatchObject({
+      governingLawKey: law.measureId,
+      questionKey: context.questionKey,
+      jurisdictionId: context.jurisdictionId,
+      appliedAt: world.currentDate,
+    });
+    const payload = serializeWorld(next);
+    const resumed = deserializeWorld(payload);
+    expect(serializeWorld(resumed)).toBe(payload);
     expect(applyLawConsequences(resumed, activity)).toBe(resumed);
   });
   it("rejects unavailable legal authority/activity and stale resolved inputs", () => {
