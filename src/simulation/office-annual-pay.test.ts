@@ -12,7 +12,10 @@ import {
 } from "./life";
 import { stateJurisdictionForKey } from "./life-places";
 import { ensureJurisdiction } from "./national-election-geography";
-import { initializeOfficeSalaryFlows } from "./office-salary";
+import {
+  initializeOfficeSalaryFlows,
+  settleOfficeSalaries,
+} from "./office-salary";
 import { paidOfficeOf, PAY_LAW_FIELD } from "./office-pay";
 import {
   fileRuleChangeProvision,
@@ -569,3 +572,75 @@ it("A38 dispatches the actual office measure through the default pay registratio
     ),
   ).toBe(serializeWorld(revised));
 });
+
+it.each(sampled)(
+  "A38 live office salary caller stamps adopted annual pay in %s",
+  (placeKey) => {
+    const f = fixture(placeKey);
+    const payday = addDays(f.resolved.effectiveAt, 7);
+    const before = atControlledDate(f.world, payday);
+    // Start with the actual original agreement. The live salary caller must
+    // reach default payroll dispatch before any law-derived terms are written.
+    expect(resourceFlowTermsAt(before, f.flow.id)!.id).toBe(f.initial.id);
+    const paid = settleOfficeSalaries(before, f.personId);
+    const terms = resourceFlowTermsAt(paid, f.flow.id)!;
+    expect(terms.amount.minorUnits).toBe(100_000);
+    expect(terms.lawEffectStamps![0]).toMatchObject({
+      effectKind: "pay",
+      questionKey: null,
+      governingLawKey: f.clause.measureId,
+      ruleAuthority: {
+        ruleChangeProvisionId: f.clause.id,
+        enactmentId: f.enactment.id,
+        field: f.clause.field,
+      },
+    });
+    const outcomes = paid.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === f.flow.id,
+    );
+    expect(outcomes).toHaveLength(2);
+    expect(outcomes[0]!.transferredAmount.minorUnits).toBe(
+      f.initial.amount.minorUnits,
+    );
+    expect(outcomes[1]!.periodStartsAt).toBe(f.resolved.effectiveAt);
+    expect(outcomes[1]!.transferredAmount.minorUnits).toBe(100_000);
+    expect(outcomes[1]!.lawEffectStamps![0]).toMatchObject({
+      effectKind: "pay",
+      questionKey: null,
+      ruleAuthority: terms.lawEffectStamps![0]!.ruleAuthority,
+    });
+    expect(
+      resourcePositionAt(
+        paid,
+        { kind: "organization", organizationId: f.work.organizationId! },
+        terms.amount.currency,
+      )!.liquidBalance.minorUnits,
+    ).toBe(10_000_000 - f.initial.amount.minorUnits - 100_000);
+    expect(
+      paid.history.statutoryTaxLiabilities!.some(
+        (row) => row.sourceOutcomeId === outcomes[1]!.id,
+      ),
+    ).toBe(true);
+    expect(settleOfficeSalaries(paid, f.personId)).toBe(paid);
+    expect(
+      serializeWorld(
+        settleOfficeSalaries(
+          deserializeWorld(serializeWorld(before)),
+          f.personId,
+        ),
+      ),
+    ).toBe(serializeWorld(paid));
+    console.info("ANNUAL_LIVE_OFFICE_PAY", {
+      seed: f.seed,
+      placeKey,
+      person: personName(paid.people[f.personId]!),
+      workplace: f.clause.stateUsps,
+      clauseId: f.clause.id,
+      enactmentId: f.enactment.id,
+      periods: outcomes.map((row) => ({
+        from: row.periodStartsAt,
+        grossMinor: row.transferredAmount.minorUnits,
+      })),
+    });
+  },
+);

@@ -1,0 +1,69 @@
+{
+  "codeHead": "ffd34298640546598e5cd639706c2e63699b9621",
+  "stackBase": "f76bc5b63f21ab6171ade6e8ca8e5dc9377b0c09",
+  "native": {
+    "passed": 10,
+    "failed": 0,
+    "skipped": 3,
+    "seconds": 31.12,
+    "scope": "Canonical legal reader and explicit statutory-clause fixture; not person payment or ordinary clock."
+  },
+  "types": {
+    "ownedRoots": 2,
+    "diagnostics": 0,
+    "legacyHelperDiagnostics": 5,
+    "parentOverlayDiagnostics": 5,
+    "parentOverlayFiles": [
+      "src/simulation/minimum-wage.ts",
+      "tests/nationwide/state-minimum-wage-bill-terms.test.ts"
+    ],
+    "parentOverlayHead": "f76bc5b63f21ab6171ade6e8ca8e5dc9377b0c09"
+  },
+  "zeroDice": {
+    "new": 0,
+    "gone": 5,
+    "exit": 1,
+    "baselineUpdated": false
+  },
+  "notRun": [
+    "Three retained long-route tests",
+    "Named-worker payment",
+    "All 56 dated starting rates",
+    "Ordinary clock",
+    "Browser",
+    "Speed comparison",
+    "Final main"
+  ],
+  "receipts": [
+    {
+      "receipt": "docs/codex/effect-batches/team-3/state-terms-native.txt",
+      "rawSha256": "e0f25a9a48354a0582da06bf8a314642fb3d02f3169368b223f9d861d9bf92a4",
+      "rawTrailingLinefeeds": 2,
+      "rawPath": "/workspace/scratch/team3-a39-state-final-terms-r2.log"
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/state-terms-types.txt",
+      "rawSha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b",
+      "rawTrailingLinefeeds": 1,
+      "rawPath": "/workspace/scratch/team3-a39-owned-types-r3.log"
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/state-terms-legacy-types.txt",
+      "rawSha256": "2d21685111de45686f8e4fc8d616807ecad59325a6bcf17b0ec48b8783bb9f85",
+      "rawTrailingLinefeeds": 1,
+      "rawPath": "/workspace/scratch/team3-a39-state-types-r1.log"
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/state-terms-parent-types.txt",
+      "rawSha256": "d4d61bbf5dd08f30db6d80c4790ed2222bd8beba9ec76ac458e462005f3f66d0",
+      "rawTrailingLinefeeds": 1,
+      "rawPath": "/workspace/scratch/team3-a39-parent-helper-types-r1.log"
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/state-terms-zero-dice.txt",
+      "rawSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "rawTrailingLinefeeds": 1,
+      "rawPath": "/workspace/scratch/team3-a39-zero-dice-r1.log"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/resource-law-stamps.test.ts > a wage law's terms reach the actual payment > retains the law and terms through paid transfer and reload in 3223500 867ms
+ ✓ src/simulation/resource-law-stamps.test.ts > a wage law's terms reach the actual payment > retains the law and terms through paid transfer and reload in 2743000 1507ms
+ ✓ src/simulation/resource-law-stamps.test.ts > a wage law's terms reach the actual payment > retains the law and terms through paid transfer and reload in 5363000 1552ms
+ ✓ src/simulation/resource-law-stamps.test.ts > a wage law's terms reach the actual payment > retains the law and terms through paid transfer and reload in 3755000 1445ms
+ ✓ src/simulation/resource-law-stamps.test.ts > a wage law's terms reach the actual payment > retains the law and terms through paid transfer and reload in 1235000 1413ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  07:24:49
+   Duration  20.00s (transform 10.70s, setup 18ms, import 13.08s, tests 6.79s, environment 0ms)

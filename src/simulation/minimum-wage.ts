@@ -23,14 +23,14 @@ import {
  */
 
 import localPremium from "../../data/research/labor/local-minimum-wage-premium.json" with { type: "json" };
-import raiseTerm from "../../data/research/labor/state-minimum-wage-raise-term.json" with { type: "json" };
-import { addDays, daysBetween } from "./dates";
+import { addDays } from "./dates";
 import {
   laborLawOfficeKey,
   ruleValueInWorld,
   STATUTE_EFFECTIVE_DEFAULT_DAYS,
 } from "./enacted-rule-changes";
 import { lawInForce } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/automatic-legislation";
 import { measurePropositionAnswer } from "./issue-record";
 import { measureAnswersAt } from "./vote-bundle";
 import {
@@ -49,18 +49,6 @@ export { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "./law-consequences/pay-rows";
 
 /** The policy question a state minimum wage raise answers. */
 export { STATE_MINIMUM_WAGE_QUESTION_KEY } from "./law-consequences/pay-rows";
-
-/**
- * ESTIMATED FROM AVERAGE (`state-minimum-wage-raise-term.json`, Department of
- * Labor table of state rates, 2013 to 2024): what a state law that answers
- * "raise the minimum wage" with yes adds when its bill names no dollar figure.
- * The total is the median raise of a stretch of increases; the yearly step is
- * the median single-year raise. A bill that files its own wage term wins.
- */
-export const STATE_RAISE_TERM = {
-  totalMinor: raiseTerm.totalMinor,
-  yearlyStepMinor: raiseTerm.yearlyStepMinor,
-} as const;
 
 /**
  * The state question that decides whether a city's minimum wage counts: a
@@ -215,20 +203,6 @@ export function startingStateMinimumHourly(
   return Math.max(FEDERAL_MINIMUM_HOURLY, state);
 }
 
-/**
- * What a state law that answered yes to "raise the minimum wage" adds to the
- * rate before it, `daysSince` days after it took effect: the yearly step at the
- * start and again each year, up to the total.
- */
-export function stateRaiseAfterDays(daysSince: number): number {
-  if (daysSince < 0) return 0;
-  const steps = Math.floor(daysSince / 365) + 1;
-  return Math.min(
-    STATE_RAISE_TERM.totalMinor,
-    steps * STATE_RAISE_TERM.yearlyStepMinor,
-  );
-}
-
 const minimumWageQuestionLaws = new WeakMap<object, boolean>();
 
 /**
@@ -282,10 +256,9 @@ const stateSettings = new WeakMap<
 /**
  * A state's own minimum wage on `onDate`, in cents an hour. Reads, in order:
  * a wage term an enacted bill filed (`labor.minimumWage.hourlyCents`); else
- * the term a state law that answered yes to raising the minimum wage carries
- * (`STATE_RAISE_TERM`, added to the rate on file, in yearly steps from the
- * law's own effective date) for as long as that law governs, so a later law
- * that answers no ends it; else the rate on file. Null when the state's rate
+ * the exact adopted target of the state minimum-wage proposition, in minor
+ * units per hour. A yes answer without that numeric term sets no new rate.
+ * Otherwise the rate on file remains. Null when the state's rate
  * on file is unknown and no law sets one. Local minimums are NOT MODELED.
  */
 export function stateMinimumSettingAt(
@@ -303,9 +276,10 @@ export function stateMinimumSettingAt(
     }
   }
   const cacheKey = `${stateKey}:${onDate}`;
-  if (cache?.has(cacheKey)) return cache.get(cacheKey)!;
+  const futureRead = onDate > world.currentDate;
+  if (!futureRead && cache?.has(cacheKey)) return cache.get(cacheKey)!;
   const setting = computeStateMinimumSetting(world, stateKey, onDate);
-  cache?.set(cacheKey, setting);
+  if (!futureRead) cache?.set(cacheKey, setting);
   return setting;
 }
 
@@ -354,15 +328,20 @@ function computeStateMinimumSetting(
       const measure = world.history.legislativeMeasures?.find(
         (entry) => entry.id === law.measureId,
       );
-      return {
-        hourlyMinor:
-          beforeMinor +
-          stateRaiseAfterDays(daysBetween(law.operativeAt, onDate)),
-        beforeMinor,
-        measureId: law.measureId,
-        designation: measure?.designation ?? "A state law",
-        effectiveAt: law.operativeAt,
-      };
+      const term = readFinalEnactedLawTerm(world, law, {
+        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+        termKey: "target",
+        unit: "minor/hour",
+        onDate,
+      });
+      if (term && Number.isSafeInteger(term.value) && term.value >= 0)
+        return {
+          hourlyMinor: term.value,
+          beforeMinor,
+          measureId: law.measureId,
+          designation: measure?.designation ?? "A state law",
+          effectiveAt: law.operativeAt,
+        };
     }
   }
   return beforeMinor === null
