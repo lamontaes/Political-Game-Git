@@ -1,3 +1,4 @@
+import { representativeMonthlyLivingCostsMinor } from "../simulation/living-costs-data";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -6,10 +7,7 @@ import {
   refreshLifeOpportunities,
   serializeWorld,
 } from "../simulation";
-import {
-  LIVING_COSTS_PLACEHOLDER,
-  livingCostsFlowFor,
-} from "../simulation/cost-of-living";
+import { livingCostsFlowFor } from "../simulation/cost-of-living";
 import { homeValueForJurisdiction } from "../simulation/county-home-value";
 import {
   MORTGAGE_BASIS,
@@ -186,8 +184,7 @@ describe("buying a home", () => {
     expect(afterPurchase.length).toBe(payments.length);
     for (const charge of afterPurchase) {
       expect(charge.transferredAmount.minorUnits).toBe(
-        LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-          LIVING_COSTS_PLACEHOLDER.housingShareMinor,
+        representativeMonthlyLivingCostsMinor(),
       );
       expect(charge.note).toMatch(/^Food and bills for /);
     }
