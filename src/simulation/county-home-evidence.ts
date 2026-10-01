@@ -163,7 +163,6 @@ function recordError(
       !source.version.trim() ||
       !source.documentId.trim() ||
       !source.url.startsWith("https://") ||
-      source.readOn > record.recordedAt ||
       source.status !== "adopted" ||
       source.effectiveFrom > record.recordedAt ||
       (source.effectiveUntil !== null &&
