@@ -1,0 +1,87 @@
+[
+  {
+    "seed": "setup-v3:a67fd4d10412d663:{\"v\":3,\"seed\":\"team4-a58-recorded-employer-20261001:5553000\",\"placeKey\":\"5553000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+    "placeKey": "5553000",
+    "personId": "person_856cffe3f15dce53",
+    "person": "Jackson Higgins",
+    "organizationId": "organization_be2290eaec02cc08",
+    "organizationName": "Morales Cleaning",
+    "role": {
+      "workerTitle": "Landscaper",
+      "workerOccupation": "occupation:landscaper"
+    },
+    "workId": "work-relationship_f07d625c0009d530",
+    "recordedEmployerCount": 25,
+    "organizationCountUnchanged": true,
+    "transfersUnchanged": true,
+    "emptyMarket": "no employer or hire recorded"
+  },
+  {
+    "seed": "setup-v3:2b9f3614993c2eab:{\"v\":3,\"seed\":\"team4-a58-recorded-employer-20261001:1304000\",\"placeKey\":\"1304000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+    "placeKey": "1304000",
+    "personId": "person_129831f629034eba",
+    "person": "Kiara Ratliff",
+    "organizationId": "organization_4a93ee0ff6b0ebd3",
+    "organizationName": "Fulton County Machine Works",
+    "role": {
+      "workerTitle": "Production worker",
+      "workerOccupation": "occupation:production-worker"
+    },
+    "workId": "work-relationship_cdc7c415fafc5861",
+    "recordedEmployerCount": 21,
+    "organizationCountUnchanged": true,
+    "transfersUnchanged": true,
+    "emptyMarket": "no employer or hire recorded"
+  },
+  {
+    "seed": "setup-v3:a31629fdb8f63155:{\"v\":3,\"seed\":\"team4-a58-recorded-employer-20261001:4159000\",\"placeKey\":\"4159000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+    "placeKey": "4159000",
+    "personId": "person_961de3561698c0ab",
+    "person": "Aria Kelley",
+    "organizationId": "organization_d5b735f8d4eb3e28",
+    "organizationName": "Robinson Fabrication",
+    "role": {
+      "workerTitle": "Machinist",
+      "workerOccupation": "trade:machinist"
+    },
+    "workId": "work-relationship_41431477e3dac39f",
+    "recordedEmployerCount": 25,
+    "organizationCountUnchanged": true,
+    "transfersUnchanged": true,
+    "emptyMarket": "no employer or hire recorded"
+  },
+  {
+    "seed": "setup-v3:4282872dda8d431b:{\"v\":3,\"seed\":\"team4-a58-recorded-employer-20261001:0820000\",\"placeKey\":\"0820000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+    "placeKey": "0820000",
+    "personId": "person_07fc87fc6c29e4f0",
+    "person": "Sydney Rivas",
+    "organizationId": "organization_6e2441b1dc4d5d0d",
+    "organizationName": "Livingston Transport",
+    "role": {
+      "workerTitle": "Truck driver",
+      "workerOccupation": "occupation:truck-driver"
+    },
+    "workId": "work-relationship_98af30ac55126d3a",
+    "recordedEmployerCount": 24,
+    "organizationCountUnchanged": true,
+    "transfersUnchanged": true,
+    "emptyMarket": "no employer or hire recorded"
+  },
+  {
+    "seed": "setup-v3:c2ad86dbf1d9d709:{\"v\":3,\"seed\":\"team4-a58-recorded-employer-20261001:1921000\",\"placeKey\":\"1921000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+    "placeKey": "1921000",
+    "personId": "person_464d770e98dcd18d",
+    "person": "Liam Campbell",
+    "organizationId": "organization_956bb39839bde3a1",
+    "organizationName": "Fowler Supply Company",
+    "role": {
+      "workerTitle": "Sales representative",
+      "workerOccupation": "occupation:sales-representative"
+    },
+    "workId": "work-relationship_3392b086b68048be",
+    "recordedEmployerCount": 23,
+    "organizationCountUnchanged": true,
+    "transfersUnchanged": true,
+    "emptyMarket": "no employer or hire recorded"
+  }
+]
