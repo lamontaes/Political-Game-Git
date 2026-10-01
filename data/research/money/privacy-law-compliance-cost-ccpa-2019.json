@@ -24,12 +24,12 @@
       {
         "sizeClass": "20-to-100-employees",
         "minEmployees": 20,
-        "maxEmployees": 100,
+        "maxEmployees": 99,
         "dollarsPerFirm": 100000
       },
       {
         "sizeClass": "100-to-500-employees",
-        "minEmployees": 100,
+        "minEmployees": 101,
         "maxEmployees": 500,
         "dollarsPerFirm": 450000
       },
@@ -41,7 +41,24 @@
       }
     ],
     "quote": "Assume that smaller firms (<20 employees) will incur $50,000 in initial costs (the median of the lowest cost category)2, medium-sized firms (20-100 employees) incur an initial cost of $100,000 (the maximum of the lowest cost category in the survey), medium/large firms (100-500 employees) incur an initial cost of $450,000, and firms with greater than 500 employees incur, on average an initial cost of $2 million.",
-    "note": "The SRIA's size classes share their 100 and 500 boundaries as printed; a reader assigns a firm of exactly 100 or 500 employees to the lower class."
+    "unresolvedBoundaries": [
+      {
+        "employees": 100,
+        "status": "unresolved",
+        "printedBands": [
+          {
+            "band": "medium-sized firms (20-100 employees)",
+            "dollarsPerFirm": 100000
+          },
+          {
+            "band": "medium/large firms (100-500 employees)",
+            "dollarsPerFirm": 450000
+          }
+        ],
+        "reason": "Both printed bands include exactly 100 employees and the source does not say which applies; no class is assigned here until the CTO rules."
+      }
+    ],
+    "note": "Firms of exactly 100 employees are left out of bySize (see unresolvedBoundaries). 500 is unambiguous: '100-500 employees' includes it and the next class is 'greater than 500 employees', so 500 is $450,000."
   },
   "economyWide": {
     "coveredShareOfFirms": 0.75,
@@ -51,7 +68,7 @@
     "shareOfStateGrossProductYear": 2018,
     "quote": "The total cost of initial compliance with the CCPA, which constitutes the vast majority of compliance efforts, is approximately $55 billion. This is equivalent to approximately 1.8% of California Gross State Product in 2018.",
     "page": 11,
-    "note": "A one-time total for California businesses as a share of California's 2018 gross state product, not a yearly share of each firm's costs."
+    "note": "The source's own one-time total for California businesses, compared by the source with California's 2018 gross state product. It is not a share of any firm's costs, and no per-firm share is derived from it here."
   },
   "checksOnly": {
     "note": "Ranges and alternatives below are checks on the central estimate, never a draw.",

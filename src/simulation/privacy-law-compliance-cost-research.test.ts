@@ -20,6 +20,43 @@ describe("privacy law compliance cost research row (A28)", () => {
     expect(research.source.url).toMatch(/^https:\/\/dof\.ca\.gov\//);
   });
 
+  it("leaves exactly 100 employees unresolved and puts 500 at $450,000", () => {
+    const central = research.centralEstimate;
+    const classesFor = (employees: number) =>
+      central.bySize.filter(
+        (row) =>
+          employees >= row.minEmployees &&
+          (row.maxEmployees === null || employees <= row.maxEmployees),
+      );
+    expect(classesFor(100)).toEqual([]);
+    expect(classesFor(500).map((row) => row.dollarsPerFirm)).toEqual([450_000]);
+    for (const employees of [1, 19, 20, 99, 101, 501, 10_000]) {
+      expect(classesFor(employees), `${employees} employees`).toHaveLength(1);
+    }
+    const [boundary] = central.unresolvedBoundaries;
+    expect(boundary!.employees).toBe(100);
+    expect(boundary!.status).toBe("unresolved");
+    expect(boundary!.printedBands).toEqual([
+      {
+        band: "medium-sized firms (20-100 employees)",
+        dollarsPerFirm: 100_000,
+      },
+      {
+        band: "medium/large firms (100-500 employees)",
+        dollarsPerFirm: 450_000,
+      },
+    ]);
+    for (const band of boundary!.printedBands) {
+      expect(central.quote).toContain(band.band);
+    }
+  });
+
+  it("lists the recurring cost as unread", () => {
+    expect(research.unread.map((gap) => gap.what)).toContain(
+      "Ongoing yearly compliance cost per firm",
+    );
+  });
+
   it("keeps the economy-wide total and every range as a check, not a draw", () => {
     expect(research.economyWide.totalInitialDollars).toBe(55_000_000_000);
     expect(research.economyWide.shareOfStateGrossProduct).toBe(0.018);
