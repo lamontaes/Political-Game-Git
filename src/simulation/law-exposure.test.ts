@@ -664,6 +664,7 @@ describe("starting and passed wage laws share the exposure record", () => {
       },
       history: {
         nextSequence: 2,
+        events: [],
         resourcePositions: [],
         resourceFlows: [],
         resourceTransferOutcomes: [],
