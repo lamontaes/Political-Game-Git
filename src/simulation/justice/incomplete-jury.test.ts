@@ -25,8 +25,8 @@ import {
   advanceProsecutions,
   enterPlea,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 import { createProsecutionTransitionRegistry } from "./prosecution-transitions";
 
 const SEED = "team9-a100-saved-court-finder-20261001";
@@ -102,7 +102,7 @@ describe("incomplete actual-person panels leave trials pending", () => {
       });
       const chargedAt = addDays(
         base.currentDate,
-        UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+        prosecutionTimingFor(state.jurisdictionKey).chargeDecisionDays,
       );
       const charged = resolveFutureDueItemsThrough(
         referred.world,
@@ -117,7 +117,7 @@ describe("incomplete actual-person panels leave trials pending", () => {
       expect(plea.ok).toBe(true);
       const trialAt = addDays(
         chargedAt,
-        UNRESEARCHED_PROSECUTION.resolveAfterDays,
+        prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
       );
       // Restrict the real eligible panel at the existing selector boundary. No
       // person, residence, eligibility or trial result is manufactured.
