@@ -7,6 +7,8 @@ import { createWorld } from "./world";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { resourcePositionAt } from "./resource-queries";
 import { money } from "./resources";
+import { stableHash } from "./ids";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { ensurePublicBudgets } from "./public-budgets";
 import { ensureWorldStartingConditions } from "./world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
@@ -71,7 +73,7 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
             kind: "organization",
             organizationId: record.accountOrganizationId,
           },
-          "USD",
+          record.amount.currency,
         )!.liquidBalance.minorUnits,
       ).toBe(0);
       expect(
@@ -122,7 +124,7 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
     const missing = createWorld({
       seed: "team6-988-no-government",
       currentDate: date,
-      jurisdictions: [],
+      jurisdictions: [NATIONAL_ELECTION_JURISDICTION],
       people: [],
     });
     expect(ensureCrisisStandingAppropriations(missing)).toBe(missing);
@@ -147,14 +149,20 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
 
   it("a named office holder cannot spend above authority, after lapse or without actual cash", () => {
     const fixture = city("team6-988-cash-limits", 2_500_000_00);
+    const selected =
+      active[
+        parseInt(stableHash("team6-988-cash-limits").slice(0, 8), 16) %
+          active.length
+      ]!;
+    const stateUsps = selected.row.placeKey.slice(3);
     let world = ensureStateExecutiveIncumbent(
       fixture.world,
       fixture.manager,
-      "NV",
+      stateUsps,
     );
     world = ensureCrisisStandingAppropriations(world);
     const governor = currentStateExecutiveHolders(world).find(
-      (h) => h.stateUsps === "NV",
+      (h) => h.stateUsps === stateUsps,
     )!;
     const appropriation = world.history.publicProgramRecords?.find(
       (r) =>
@@ -162,7 +170,7 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
         r.programKey.startsWith("behavioral-health-crisis-response:"),
     );
     if (appropriation?.kind !== "appropriation")
-      throw new Error("No actual Nevada authority");
+      throw new Error(`No actual ${selected.row.placeName} authority`);
     expect(
       programAuthority(
         world,
@@ -233,6 +241,8 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
     );
     console.log(
       "988_PAYMENT_FIXTURE",
+      selected.row.placeKey,
+      "seed team6-988-cash-limits",
       governor.personId,
       appropriation.id,
       paid.installment.id,
