@@ -70,6 +70,42 @@ describe("saved law-effect attribution", () => {
   });
 });
 
+describe("questionless office rule attribution", () => {
+  const clause = "rule_clause" as EntityId;
+  const enactment = "enactment_office" as EntityId;
+  const ruleContext = {
+    ...context,
+    effectKind: "pay",
+    questionKey: null,
+    ruleAuthority: {
+      ruleChangeProvisionId: clause,
+      enactmentId: enactment,
+      field: "pay.governor.annualDollars",
+    },
+    sourceRecordIds: [clause, enactment],
+  };
+  it("preserves actual rule references without creating a policy question", () => {
+    const stamp = lawEffectStamp(law, ruleContext)!;
+    expect(stamp.questionKey).toBeNull();
+    expect(stamp.ruleAuthority).toEqual(ruleContext.ruleAuthority);
+    expect(isLawEffectStamp(JSON.parse(JSON.stringify(stamp)))).toBe(true);
+  });
+  it("refuses ambiguous subjects, missing causal references and starting-rule substitution", () => {
+    expect(
+      lawEffectStamp(law, { ...ruleContext, questionKey: context.questionKey }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp(law, { ...ruleContext, sourceRecordIds: [clause] }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp(law, { ...ruleContext, effectKind: "tax" }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp({ ...law, origin: "in-force-at-start" }, ruleContext),
+    ).toBeNull();
+  });
+});
+
 describe("standing service authority attribution", () => {
   const authority = {
     kind: "standing-program-appropriation" as const,

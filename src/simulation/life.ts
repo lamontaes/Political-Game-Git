@@ -1,3 +1,4 @@
+import { determineWorkPayCoverage } from "./pay-coverage";
 import { eventById } from "./event-index";
 import { addDays, makeIsoDate } from "./dates";
 import {
@@ -973,7 +974,13 @@ export function createWorkRelationship(
   world: World,
   input: CreateWorkRelationshipInput,
 ): World {
-  return commit(world, appendWorkRelationship(world, input).history);
+  const next = commit(world, appendWorkRelationship(world, input).history);
+  const work = next.history.workRelationships.at(-1)!;
+  return determineWorkPayCoverage(
+    next,
+    work.startedAt === next.currentDate ? [work.id] : [],
+    "hire",
+  );
 }
 
 /**
@@ -1081,13 +1088,20 @@ export function createWorkRelationships(
     existingKeys.add(input.stableKey);
     nextSequence += 3;
   }
-  return commit(world, {
+  const next = commit(world, {
     ...world.history,
     nextSequence,
     workRelationships: [...world.history.workRelationships, ...relationships],
     workStatuses: [...world.history.workStatuses, ...statuses],
     workRoles: [...world.history.workRoles, ...roles],
   });
+  return determineWorkPayCoverage(
+    next,
+    relationships
+      .filter((work) => work.startedAt === next.currentDate)
+      .map((work) => work.id),
+    "hire",
+  );
 }
 
 function appendWorkRelationship(
@@ -1241,7 +1255,14 @@ export function recordWorkStatus(
     effectiveAt,
     provenance: cloneLifeProvenance(input.provenance),
   };
-  return appendOne(world, "workStatuses", record);
+  const next = appendOne(world, "workStatuses", record);
+  return determineWorkPayCoverage(
+    next,
+    record.status === "active" && record.effectiveAt === next.currentDate
+      ? [relationship.id]
+      : [],
+    "hire",
+  );
 }
 
 export function recordWorkRole(

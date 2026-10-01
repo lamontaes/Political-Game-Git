@@ -1,3 +1,5 @@
+import { legacyMonthlyPayCoverage, monthlyWorkPay } from "./monthly-work-pay";
+import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
@@ -329,14 +331,20 @@ export function assertResourceHousingIntegrity(
       outcome.occurredAt < outcome.periodEndsAt
     )
       throw new Error(`Invalid resource outcome chronology: ${outcome.id}`);
+    // Historical first-of-month points cover the preceding month without
+    // changing their saved date. Use that same interval for overlap validation.
+    const legacyCoverage = legacyMonthlyPayCoverage(world, outcome.id);
+    const coveredStart =
+      legacyCoverage?.periodStartsAt ?? outcome.periodStartsAt;
+    const coveredEnd = legacyCoverage?.periodEndsAt ?? outcome.periodEndsAt;
     const periods = periodsByFlow.get(outcome.resourceFlowId) ?? [];
-    const at = periodsStartingBy(periods, outcome.periodEndsAt);
+    const at = periodsStartingBy(periods, coveredEnd);
     const latest = periods[at - 1];
     if (
       latest &&
       settlementPeriodsOverlap(
-        outcome.periodStartsAt,
-        outcome.periodEndsAt,
+        coveredStart,
+        coveredEnd,
         latest.startsAt,
         latest.endsAt,
       )
@@ -346,8 +354,8 @@ export function assertResourceHousingIntegrity(
       );
     }
     periods.splice(at, 0, {
-      startsAt: outcome.periodStartsAt,
-      endsAt: outcome.periodEndsAt,
+      startsAt: coveredStart,
+      endsAt: coveredEnd,
     });
     periodsByFlow.set(outcome.resourceFlowId, periods);
     money(outcome.attemptedAmount, "attempted resource amount", true);
@@ -379,10 +387,49 @@ export function assertResourceHousingIntegrity(
         `Resource outcome crosses an unprorated terms change: ${outcome.id}`,
       );
     }
+    let expectedAmount =
+      legacyCoverage?.gross ??
+      (outcome.earnedLawPayAssessmentId === undefined &&
+      flow.basisReference.kind === "work" &&
+      terms?.cadenceKind === "schedule:monthly"
+        ? monthlyWorkPay(world, {
+            resourceFlowId: flow.id,
+            periodStartsAt: outcome.periodStartsAt,
+            periodEndsAt: outcome.periodEndsAt,
+            onDate: outcome.occurredAt,
+            historySequenceExclusive: outcome.sequence,
+          }).gross
+        : terms?.amount);
+    if (outcome.earnedLawPayAssessmentId !== undefined) {
+      const assessment = recordById(
+        h.earnedLawPayAssessments ?? [],
+        outcome.earnedLawPayAssessmentId,
+      );
+      if (
+        !assessment ||
+        assessment.sequence >= outcome.sequence ||
+        assessment.recordedAt > outcome.occurredAt ||
+        assessment.resourceFlowId !== flow.id ||
+        assessment.earnedTermsId !== terms?.id ||
+        assessment.periodStartsAt !== outcome.periodStartsAt ||
+        assessment.periodEndsAt !== outcome.periodEndsAt ||
+        assessment.earnedCutoff.asOfDate !== termsCutoff.asOfDate ||
+        assessment.earnedCutoff.historySequenceExclusive !==
+          termsCutoff.historySequenceExclusive ||
+        outcome.provenance.kind !== "simulated-event" ||
+        outcome.provenance.eventId !== assessment.completionEventId
+      )
+        throw new Error(
+          `Resource outcome lacks matching saved earned assessment: ${outcome.id}`,
+        );
+      validateEarnedLawPayAssessment(world, assessment);
+      expectedAmount = assessment.assessedGross;
+    }
     if (
       !terms ||
       terms.status !== "active" ||
-      !sameMoney(terms.amount, outcome.attemptedAmount)
+      !expectedAmount ||
+      !sameMoney(expectedAmount, outcome.attemptedAmount)
     )
       throw new Error(
         `Resource outcome lacks matching active terms: ${outcome.id}`,

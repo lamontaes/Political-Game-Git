@@ -1,8 +1,11 @@
 import { startingLawScope } from "./law-in-force";
+import { readFinalEnactedLawTerm } from "./final-law-term-query";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import { stateMinimumSettingAt } from "../minimum-wage";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
 import { constitutionalPosition } from "../constitutional-process";
+import { enactedRuleChangeAt, ruleValueInWorld } from "../enacted-rule-changes";
 import { recordedSessionAdjournment } from "./session-adjournments";
-import { readFinalEnactedLawTerm } from "./final-law-term-query";
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
@@ -586,6 +589,87 @@ it("hides later constitutional activation while preserving the current reader", 
     constitutionalPolicyProvisions(world, "CA", world.currentDate, cutoff),
   ).toEqual([]);
   expect(constitutionalPolicyProvisions(world, "CA")).toHaveLength(1);
+});
+
+it("hides a later saved hourly rule provision and its enactment", () => {
+  const entry = law(ohio, "yes", "2026-06-01", "2026-06-01");
+  const base = worldWith("2026-06-01", [entry]);
+  const provision = {
+    id: "cutoff-hourly-clause" as EntityId,
+    sequence: entry.enactment.sequence - 1,
+    measureId: entry.measure.id,
+    stateUsps: "OH",
+    officeKey: "us-oh-labor-law",
+    field: "labor.minimumWage.hourlyCents" as const,
+    value: 1800,
+    filedAt: makeIsoDate("2026-01-01"),
+  };
+  const world = {
+    ...base,
+    history: { ...base.history, ruleChangeProvisions: [provision] },
+  } as unknown as World;
+  const query = {
+    stateUsps: "OH",
+    officeKey: "us-oh-labor-law",
+    field: provision.field,
+    onDate: world.currentDate,
+  };
+  expect(enactedRuleChangeAt(world, query)?.value).toBe(1800);
+  const wageWorld = {
+    ...world,
+    policyCatalog: createProductionPolicyCatalog(),
+  } as World;
+  expect(
+    stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate)?.hourlyMinor,
+  ).toBe(1800);
+  const beforeEnactment = stateMinimumSettingAt(
+    {
+      ...wageWorld,
+      history: {
+        ...wageWorld.history,
+        legislativeEnactments: [],
+        ruleChangeProvisions: [],
+      },
+    },
+    "US-OH",
+    world.currentDate,
+  );
+  expect(beforeEnactment).not.toBeNull();
+  expect(beforeEnactment?.measureId).toBeNull();
+  expect(beforeEnactment?.hourlyMinor).not.toBe(1800);
+  expect(
+    stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: entry.enactment.sequence,
+    }),
+  ).toEqual(beforeEnactment);
+
+  expect(
+    ruleValueInWorld(
+      world,
+      {
+        jurisdiction: "OH",
+        officeKey: query.officeKey,
+        field: query.field,
+        onDate: query.onDate,
+        cutoff: {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: entry.enactment.sequence,
+        },
+      },
+      null,
+    ),
+  ).toEqual({ source: "compiled", value: null });
+
+  expect(
+    enactedRuleChangeAt(world, {
+      ...query,
+      cutoff: {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: entry.enactment.sequence,
+      },
+    }),
+  ).toBeNull();
 });
 
 it("does not derive an earlier effective date from a later recorded adjournment", () => {

@@ -40,7 +40,7 @@ import {
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
   payPeriodEndingOn,
-  raiseTownPayToMinimum,
+  payTownPaydays,
   type TownPayPeriod,
   townMinimumHourly,
   townMinimumHourlyAt,
@@ -51,12 +51,7 @@ import {
   advanceWorld,
   withWorldIntegrityDeferred,
 } from "../../src/simulation/world";
-import type {
-  EntityId,
-  FutureDueItem,
-  IsoDate,
-  World,
-} from "../../src/simulation";
+import type { EntityId, IsoDate, World } from "../../src/simulation";
 
 const AUTHORED = {
   method: "authored-fixture" as const,
@@ -229,10 +224,15 @@ function runPaydays(
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
+      const due = world.history.futureDueItems.find(
+        (item) => item.transitionKey === PAYDAY_TRANSITION_KEY,
+      );
+      expect(due).toBeDefined();
       world = paydayHandler(world, {
+        ...due!,
         stableKey: `town-pay-v2:payday:${paidThrough}`,
         transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+      }).world;
       paidThrough = payday;
     }
   });
@@ -277,7 +277,9 @@ describe(
         flow.stableKey.startsWith("town-pay-v2:job-pay:"),
       );
       const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) => stamp.effectKind === "pay" && stamp.source === "enacted",
+        ),
       );
       expect(payFlows.length).toBeGreaterThan(20);
       expect(raises.length).toBeGreaterThan(0);
@@ -295,8 +297,16 @@ describe(
         expect(raise.amount.minorUnits).toBeGreaterThan(
           before.amount.minorUnits,
         );
-        expect(raise.reason).toBe(
-          "LB 900, 2026 raised the state minimum wage to $18.00 an hour.",
+        const measureId = world.history.legislativeMeasures!.find(
+          (measure) => measure.stableKey === "minimum-wage:lb-900:measure",
+        )!.id;
+        expect(raise.lawEffectStamps).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              effectKind: "pay",
+              governingLawKey: measureId,
+            }),
+          ]),
         );
         expect(raise.provenance.kind).toBe("simulated-event");
         for (const paycheck of world.history.resourceTransferOutcomes) {
@@ -323,12 +333,12 @@ describe(
       for (const flow of payFlows) {
         if (flow.basisReference.kind !== "work") continue;
         const workId = flow.basisReference.workRelationshipId;
-        const role = world.history.workRoles.findLast(
-          (row) => row.workRelationshipId === workId,
-        )!;
-        const terms = world.history.resourceFlowTerms.findLast(
-          (row) => row.resourceFlowId === flow.id,
-        )!;
+        const role = world.history.workRoles
+          .filter((row) => row.workRelationshipId === workId)
+          .at(-1)!;
+        const terms = world.history.resourceFlowTerms
+          .filter((row) => row.resourceFlowId === flow.id)
+          .at(-1)!;
         const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
         const period = /town-(\w+?)(?:-\d)?$/.exec(terms.cadenceKind)![1]!;
         const floor = Math.round(
@@ -339,10 +349,8 @@ describe(
           floor,
         );
       }
-      // Raising again changes nothing.
-      const player =
-        world.control.kind === "person" ? world.control.personId : null;
-      expect(raiseTownPayToMinimum(world, player)).toBe(world);
+      // Repeating the surviving payment route changes nothing.
+      expect(payTownPaydays(world, world.currentDate, null)).toBe(world);
     });
 
     it("reaches Nebraska alone: every other state, D.C. and territory keeps its own rate", () => {
@@ -388,7 +396,9 @@ describe(
       ]);
       const world = runPaydays(enacted, opened, 100, false);
       const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) => stamp.effectKind === "pay" && stamp.source === "enacted",
+        ),
       );
       const byFlow = new Map<string, typeof raises>();
       for (const raise of raises)
@@ -400,8 +410,22 @@ describe(
       const twice = [...byFlow.values()].filter((list) => list.length === 2);
       expect(twice.length).toBeGreaterThan(0);
       for (const [first, second] of twice) {
-        expect(first!.reason).toContain("LB 900, 2026");
-        expect(second!.reason).toContain("LB 901, 2026");
+        for (const [raise, key] of [
+          [first!, "lb-900"],
+          [second!, "lb-901"],
+        ] as const) {
+          const measureId = world.history.legislativeMeasures!.find(
+            (measure) => measure.stableKey === `minimum-wage:${key}:measure`,
+          )!.id;
+          expect(raise.lawEffectStamps).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                effectKind: "pay",
+                governingLawKey: measureId,
+              }),
+            ]),
+          );
+        }
         expect(first!.effectiveAt).toBe(
           firstPeriodStart(
             first!.cadenceKind,

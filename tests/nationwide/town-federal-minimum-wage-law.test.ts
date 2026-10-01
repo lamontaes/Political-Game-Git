@@ -19,7 +19,7 @@ import {
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
   payPeriodEndingOn,
-  raiseTownPayToMinimum,
+  payTownPaydays,
   type TownPayPeriod,
 } from "../../src/simulation/living-world/town-pay";
 import { TOWN_MINIMUM_WAGES } from "../../src/simulation/living-world/town-pay.generated";
@@ -39,7 +39,6 @@ import {
 } from "../../src/simulation/world";
 import type {
   EntityId,
-  FutureDueItem,
   IsoDate,
   LegislativeEnactmentRecord,
   LegislativeMeasureRecord,
@@ -166,10 +165,15 @@ function runPaydays(start: World, since: IsoDate, days: number): World {
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
+      const due = world.history.futureDueItems.find(
+        (item) => item.transitionKey === PAYDAY_TRANSITION_KEY,
+      );
+      expect(due).toBeDefined();
       world = paydayHandler(world, {
+        ...due!,
         stableKey: `town-pay-v2:payday:${paidThrough}`,
         transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+      }).world;
       paidThrough = payday;
     }
   });
@@ -276,7 +280,9 @@ describe(
         flow.stableKey.startsWith("town-pay-v2:job-pay:"),
       );
       const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) => stamp.effectKind === "pay" && stamp.source === "enacted",
+        ),
       );
       expect(payFlows.length).toBeGreaterThan(20);
       expect(raises.length).toBeGreaterThan(0);
@@ -294,8 +300,14 @@ describe(
         expect(raise.amount.minorUnits).toBeGreaterThan(
           before.amount.minorUnits,
         );
-        expect(raise.reason).toBe(
-          "H.R. 1 raised the federal minimum wage to $15.00 an hour.",
+        expect(raise.lawEffectStamps).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              effectKind: "pay",
+              governingLawKey: "measure_federal_wage",
+              source: "enacted",
+            }),
+          ]),
         );
         expect(raise.provenance.kind).toBe("simulated-event");
         expect(raise.status).toBe("active");
@@ -338,12 +350,12 @@ describe(
       for (const flow of payFlows) {
         if (flow.basisReference.kind !== "work") continue;
         const workId = flow.basisReference.workRelationshipId;
-        const role = world.history.workRoles.findLast(
-          (row) => row.workRelationshipId === workId,
-        )!;
-        const terms = world.history.resourceFlowTerms.findLast(
-          (row) => row.resourceFlowId === flow.id,
-        )!;
+        const role = world.history.workRoles
+          .filter((row) => row.workRelationshipId === workId)
+          .at(-1)!;
+        const terms = world.history.resourceFlowTerms
+          .filter((row) => row.resourceFlowId === flow.id)
+          .at(-1)!;
         const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
         const period = /town-(\w+?)(?:-\d)?$/.exec(terms.cadenceKind)![1]!;
         const floor = Math.round(
@@ -355,10 +367,8 @@ describe(
         );
       }
 
-      // Raising again changes nothing.
-      const player =
-        world.control.kind === "person" ? world.control.personId : null;
-      expect(raiseTownPayToMinimum(world, player)).toBe(world);
+      // Repeating the surviving payment route changes nothing.
+      expect(payTownPaydays(world, world.currentDate, null)).toBe(world);
     });
 
     it("does not raise the pay of a job that has ended", () => {
@@ -367,7 +377,9 @@ describe(
       const flowOf = (world: World, termsId: EntityId) =>
         world.history.resourceFlows.find((flow) => flow.id === termsId)!;
       const raises = raised.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) => stamp.effectKind === "pay" && stamp.source === "enacted",
+        ),
       );
       expect(raises.length).toBeGreaterThan(1);
       const endedFlow = flowOf(raised, raises[0]!.resourceFlowId);
@@ -393,7 +405,9 @@ describe(
       });
       const world = runPaydays(withEnded, early.currentDate, 90);
       const afterRaises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) => stamp.effectKind === "pay" && stamp.source === "enacted",
+        ),
       );
       expect(
         afterRaises.some((terms) => terms.resourceFlowId === endedFlow.id),
@@ -411,7 +425,9 @@ describe(
       expect(addDays(opened, 100) < effectiveAt).toBe(true);
       expect(
         world.history.resourceFlowTerms.filter((terms) =>
-          terms.stableKey.includes(":minimum-wage:"),
+          terms.lawEffectStamps?.some(
+            (stamp) => stamp.effectKind === "pay" && stamp.source === "enacted",
+          ),
         ),
       ).toHaveLength(0);
     });

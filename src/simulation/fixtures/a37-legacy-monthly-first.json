@@ -1,0 +1,31 @@
+{
+  "sourceHead": "da390c83ec2ca740dc9ad10adb554d1881c9bca7",
+  "worldId": "world_69cc912c37086d1b",
+  "resourceFlowId": "resource-flow_a62d6d66a4256118",
+  "baseHistorySha256": "9c1ebeb5e7330eefdcbe7bfd0f3c17d431cf27a36441fb315ac527d0ef44a28a",
+  "outcome": {
+    "stableKey": "fixture:monthly:wages:2026-02-01",
+    "resourceFlowId": "resource-flow_a62d6d66a4256118",
+    "periodStartsAt": "2026-02-01",
+    "periodEndsAt": "2026-02-01",
+    "occurredAt": "2026-02-01",
+    "status": "completed",
+    "attemptedAmount": {
+      "minorUnits": 500000,
+      "currency": "USD"
+    },
+    "transferredAmount": {
+      "minorUnits": 500000,
+      "currency": "USD"
+    },
+    "reasonKind": null,
+    "note": "Explicit saved first-of-month historical payment control",
+    "provenance": {
+      "kind": "authored",
+      "note": "Explicit monthly contract/cash controls; not observed business income."
+    },
+    "id": "resource-transfer-outcome_8e6db3a1513faef5",
+    "sequence": 11
+  },
+  "nextSequence": 12
+}
