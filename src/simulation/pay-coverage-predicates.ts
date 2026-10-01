@@ -9,12 +9,7 @@ import {
 } from "./life-queries";
 import type { EntityId, HistoricalCutoff, World } from "./types";
 
-export const PAY_COVERAGE_PREDICATES = [
-  "pay-not-elective-public-office",
-  "pay-occupation",
-  "pay-employer-classification",
-  "pay-employer-workforce-at-most",
-] as const;
+export { PAY_COVERAGE_PREDICATES } from "./law-consequences/pay-rows";
 
 /** A workplace from saved, dated work/employer facts, never a home default. */
 export function payWorkplaceAt(

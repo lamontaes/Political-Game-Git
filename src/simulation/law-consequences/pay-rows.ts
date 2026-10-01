@@ -60,3 +60,10 @@ export const MINIMUM_WAGE_PAY_ROWS: Readonly<
     } satisfies LawConsequenceRow,
   ]),
 );
+
+export const PAY_COVERAGE_PREDICATES = [
+  "pay-not-elective-public-office",
+  "pay-occupation",
+  "pay-employer-classification",
+  "pay-employer-workforce-at-most",
+] as const;
