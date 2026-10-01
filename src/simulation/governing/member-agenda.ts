@@ -31,6 +31,7 @@ import {
   type LegislativeRulePack,
 } from "../legislature-rules";
 import { nextMeasureNumbering } from "../measure-numbering";
+import { memberFilingCap } from "./member-filing-caps";
 import {
   legislativeProcedureForPack,
   legislativeRulePackForWorld,
@@ -751,22 +752,11 @@ export function fileMemberAgendaBills(
     const claimedMembers = new Set<EntityId>();
     const claimedQuestions = new Set<EntityId>();
     const selections = settings.individualAgenda
-      ? [...proposals]
-          .sort(
-            (a, b) =>
-              b.pressure - a.pressure ||
-              members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
-          )
-          .filter(({ sponsor, proposal }) => {
-            if (
-              claimedMembers.has(sponsor.personId!) ||
-              claimedQuestions.has(proposal.propositionId)
-            )
-              return false;
-            claimedMembers.add(sponsor.personId!);
-            claimedQuestions.add(proposal.propositionId);
-            return true;
-          })
+      ? [...proposals].sort(
+          (a, b) =>
+            b.pressure - a.pressure ||
+            members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
+        )
       : (() => {
           const selected = majorityAgendaChoice(
             members,
@@ -786,6 +776,12 @@ export function fileMemberAgendaBills(
     for (const selected of selections) {
       const sponsor = selected.sponsor;
       const best = selected.proposal;
+      if (
+        claimedMembers.has(sponsor.personId!) ||
+        claimedQuestions.has(best.propositionId)
+      )
+        continue;
+      if (!questionOpen(best.propositionId)) continue;
       const proposition = next.policyCatalog.propositions[best.propositionId]!;
       let stableKey = settings.municipalAgenda
         ? `${batchKey}:${sponsor.personId}:${encodeURIComponent(proposition.stableKey)}`
@@ -804,6 +800,7 @@ export function fileMemberAgendaBills(
         rulePackId: pack.packId,
       });
       if (input.council) stableKey = input.council.measureKey(numbering);
+      const beforeIntroduction = next;
       if (!input.council && input.localGovernmentKey)
         next = withLocalSponsorControl(next, sponsor.personId!);
       let measureId: EntityId | null = null;
@@ -863,6 +860,62 @@ export function fileMemberAgendaBills(
       const measure = next.history.legislativeMeasures!.find(
         (row) => row.id === measureId,
       )!;
+      // Inspect the actual compiled subject, then admit the pure writer result.
+      // A rejected candidate has no saved bill, terms, control or reason side effects.
+      const cap = memberFilingCap(
+        beforeIntroduction.history.legislativeMeasures ?? [],
+        {
+          place: pack.jurisdictionKey,
+          jurisdictionId: input.jurisdictionId,
+          chamberKey: chamber.chamberKey,
+          sponsorPersonId: sponsor.personId!,
+          subjectClass: measure.subjectClass,
+          origin: measure.origin,
+          introducedAt: measure.introducedAt,
+          numberingSession: numbering.numberingSession,
+        },
+      );
+      if (!cap.allowed) {
+        next = beforeIntroduction;
+        continue;
+      }
+      if (cap.notAppliedLimits?.length) {
+        const explanationKey = `${batchKey}:limit-not-applied:${sponsor.personId}:${chamber.chamberKey}`;
+        if (
+          !next.history.events.some(
+            (event) => event.stableKey === explanationKey,
+          )
+        )
+          next = recordWorldEvent(next, {
+            stableKey: explanationKey,
+            type: "legislation.member-filing-limit-not-applied",
+            occurredAt: next.currentDate,
+            recordedAt: next.currentDate,
+            jurisdictionId: input.jurisdictionId,
+            involvedEntityIds: [measure.id, sponsor.personId!],
+            participants: [
+              {
+                personId: sponsor.personId!,
+                role: "agency:sponsor",
+                detail: "limit not applied: exemption unread",
+              },
+            ],
+            personFactConstraints: [],
+            visibility: "public",
+            tags: [
+              settings.intakeVersion,
+              "limit-not-applied:exemption-unread",
+              ...cap.notAppliedLimits.map((row) => `citation:${row.citation}`),
+            ],
+            summary: "limit not applied: exemption unread",
+            context: {
+              ...agendaEventContext(),
+              choice: cap.notAppliedLimits.map((row) => row.quote).join("\n"),
+            },
+          });
+      }
+      claimedMembers.add(sponsor.personId!);
+      claimedQuestions.add(best.propositionId);
       next = recordAgendaSupport(
         next,
         measure,

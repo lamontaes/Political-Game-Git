@@ -1,5 +1,13 @@
 import { addDays } from "./dates";
-import type { EntityId, IsoDate, OfficialViewRecord, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  LawExposureRecord,
+  OfficialViewRecord,
+  PoliticalSalience,
+  PrivateBeliefRecord,
+  World,
+} from "./types";
 
 /**
  * Reads of people's views of officials (spec 5), kept apart from the
@@ -7,25 +15,201 @@ import type { EntityId, IsoDate, OfficialViewRecord, World } from "./types";
  * decision and the integrity check can read views without loading the writer
  * and its dependencies. See living-world/official-views.ts for how a view is
  * formed.
+ *
+ * A person's view of an official is a private belief saved through the one
+ * belief pipeline, whose subject is the official. Saves from before that
+ * kept dated reflection rows (`officialViews`) instead; those still load, and
+ * a person who has formed no saved view of that official since is read from
+ * them.
  */
 
-// PLACEHOLDER: the points one fully felt law moves a view.
+// PLACEHOLDER: the points one fully felt law moved a view in the old rows,
+// the unit every count below is kept in.
 export const OFFICIAL_VIEW_BASE_POINTS = 20;
 const BASE_POINTS = OFFICIAL_VIEW_BASE_POINTS;
 // PLACEHOLDER: how much one organized group backing a candidate's opponents
 // cuts that candidate's support in a town count, within the overall cap.
 const GROUP_OPPOSITION = 0.05;
+// PLACEHOLDER: a saved view of an official in those points. A view that
+// matters little to the person counts a quarter of one fully felt law; one
+// central to them, two.
+const STANDING_BY_SALIENCE: Readonly<Record<PoliticalSalience, number>> = {
+  low: BASE_POINTS / 4,
+  moderate: BASE_POINTS / 2,
+  high: BASE_POINTS,
+  central: BASE_POINTS * 2,
+};
 
-/** A person's standing view of an official: the sum of every reflection. */
+/** The stable key of the event of a person reflecting on one law exposure. */
+export function officialViewReflectionEventKey(
+  exposure: Pick<LawExposureRecord, "id">,
+): string {
+  return `official-view:reflection:${exposure.id}`;
+}
+
+/** A saved view of an official, signed: credit up, blame down, both at once 0. */
+export function officialStanding(belief: PrivateBeliefRecord): number {
+  const size = STANDING_BY_SALIENCE[belief.salience];
+  if (belief.position === "support") return size;
+  if (belief.position === "oppose") return -size;
+  return 0;
+}
+
+interface StandingIndex {
+  /** official -> person -> that person's views of them, oldest first. */
+  readonly beliefs: ReadonlyMap<
+    EntityId,
+    ReadonlyMap<EntityId, readonly PrivateBeliefRecord[]>
+  >;
+  /** official -> person -> old reflection rows, oldest first. */
+  readonly legacy: ReadonlyMap<
+    EntityId,
+    ReadonlyMap<EntityId, readonly OfficialViewRecord[]>
+  >;
+}
+
+// History lists are replaced, never changed in place, so an index built for
+// one pair of lists stays right for as long as both are the world's.
+const indexes = new WeakMap<
+  readonly PrivateBeliefRecord[],
+  {
+    readonly rows: readonly OfficialViewRecord[] | undefined;
+    readonly index: StandingIndex;
+  }
+>();
+
+function standingIndex(world: World): StandingIndex {
+  const beliefList = world.history.privateBeliefs;
+  const rows = world.history.officialViews;
+  const cached = indexes.get(beliefList);
+  if (cached && cached.rows === rows) return cached.index;
+  const beliefs = new Map<EntityId, Map<EntityId, PrivateBeliefRecord[]>>();
+  for (const belief of beliefList) {
+    if (belief.subject?.kind !== "official") continue;
+    const officialId = belief.subject.personId;
+    const byPerson = beliefs.get(officialId) ?? new Map();
+    beliefs.set(officialId, byPerson);
+    byPerson.set(belief.personId, [
+      ...(byPerson.get(belief.personId) ?? []),
+      belief,
+    ]);
+  }
+  for (const byPerson of beliefs.values())
+    for (const list of byPerson.values())
+      list.sort(
+        (a, b) =>
+          a.formedAt.localeCompare(b.formedAt) || a.sequence - b.sequence,
+      );
+  const legacy = new Map<EntityId, Map<EntityId, OfficialViewRecord[]>>();
+  for (const row of rows ?? []) {
+    const byPerson = legacy.get(row.officialId) ?? new Map();
+    legacy.set(row.officialId, byPerson);
+    byPerson.set(row.personId, [...(byPerson.get(row.personId) ?? []), row]);
+  }
+  const index = { beliefs, legacy };
+  indexes.set(beliefList, { rows, index });
+  return index;
+}
+
+function latestOn(
+  list: readonly PrivateBeliefRecord[] | undefined,
+  onDate: string,
+): PrivateBeliefRecord | null {
+  if (!list) return null;
+  for (let i = list.length - 1; i >= 0; i -= 1)
+    if (list[i]!.formedAt <= onDate) return list[i]!;
+  return null;
+}
+
+/**
+ * One person's view of one official as of a date: their latest saved view,
+ * or, in a save from before saved views, the sum of their old reflections.
+ */
+function standingOn(
+  index: StandingIndex,
+  personId: EntityId,
+  officialId: EntityId,
+  onDate: string,
+  weigh: (formedOn: IsoDate) => number = () => 1,
+): {
+  readonly points: number;
+  readonly belief: PrivateBeliefRecord | null;
+  readonly rows: readonly OfficialViewRecord[];
+} {
+  const belief = latestOn(index.beliefs.get(officialId)?.get(personId), onDate);
+  if (belief)
+    return {
+      points: officialStanding(belief) * weigh(belief.formedAt),
+      belief,
+      rows: [],
+    };
+  const rows = (index.legacy.get(officialId)?.get(personId) ?? []).filter(
+    (row) => row.recordedAt <= onDate,
+  );
+  return {
+    points: rows.reduce(
+      (sum, row) => sum + row.points * weigh(row.recordedAt),
+      0,
+    ),
+    belief: null,
+    rows,
+  };
+}
+
+/** A person's standing view of an official, today. */
 export function viewOfOfficial(
   world: World,
   personId: EntityId,
   officialId: EntityId,
-): { readonly points: number; readonly rows: readonly OfficialViewRecord[] } {
-  const rows = (world.history.officialViews ?? []).filter(
-    (row) => row.personId === personId && row.officialId === officialId,
+): {
+  readonly points: number;
+  readonly belief: PrivateBeliefRecord | null;
+  readonly rows: readonly OfficialViewRecord[];
+} {
+  return standingOn(
+    standingIndex(world),
+    personId,
+    officialId,
+    world.currentDate,
   );
-  return { points: rows.reduce((sum, row) => sum + row.points, 0), rows };
+}
+
+/**
+ * The official this person holds the strongest view of today, if any: the
+ * view furthest from zero, the later one on a tie.
+ */
+export function strongestOfficialStanding(
+  world: World,
+  personId: EntityId,
+): {
+  readonly officialId: EntityId;
+  readonly points: number;
+  readonly belief: PrivateBeliefRecord | null;
+  readonly rows: readonly OfficialViewRecord[];
+} | null {
+  const index = standingIndex(world);
+  const officials = new Set<EntityId>();
+  for (const [officialId, byPerson] of index.beliefs)
+    if (byPerson.has(personId)) officials.add(officialId);
+  for (const [officialId, byPerson] of index.legacy)
+    if (byPerson.has(personId)) officials.add(officialId);
+  let best: ReturnType<typeof strongestOfficialStanding> = null;
+  let bestSequence = -1;
+  for (const officialId of [...officials].sort()) {
+    const view = standingOn(index, personId, officialId, world.currentDate);
+    if (view.points === 0) continue;
+    const sequence = view.belief?.sequence ?? view.rows.at(-1)?.sequence ?? -1;
+    if (
+      !best ||
+      Math.abs(view.points) > Math.abs(best.points) ||
+      (Math.abs(view.points) === Math.abs(best.points) &&
+        sequence > bestSequence)
+    ) {
+      best = { officialId, ...view };
+      bestSequence = sequence;
+    }
+  }
+  return best;
 }
 
 /**
@@ -74,8 +258,8 @@ const MAX_SUPPORT_SHIFT = 0.5;
 
 /**
  * What a town's residents think of a candidate, as a multiplier on their
- * support in a town count: 1 when nobody has reflected on anything they did.
- * The sum of residents' views, recent ones weighted more, is spread over every
+ * support in a town count: 1 when nobody holds a view of them. The sum of
+ * residents' views, those formed recently weighted more, is spread over every
  * grown resident the game has written for the town, so a view held by a few
  * moves the count a little and one held by many moves it a lot.
  */
@@ -95,11 +279,21 @@ export function townSupportFromViews(
   }
   if (residents === 0) return 1;
   const recentFrom = addDays(electionDate, -RECENT_DAYS);
+  const index = standingIndex(world);
+  const holders = new Set([
+    ...(index.beliefs.get(candidateId)?.keys() ?? []),
+    ...(index.legacy.get(candidateId)?.keys() ?? []),
+  ]);
   let weighted = 0;
-  for (const row of world.history.officialViews ?? []) {
-    if (row.officialId !== candidateId || !inTown.has(row.personId)) continue;
-    if (row.recordedAt > electionDate) continue;
-    weighted += row.points * (row.recordedAt >= recentFrom ? RECENT_WEIGHT : 1);
+  for (const personId of holders) {
+    if (!inTown.has(personId)) continue;
+    weighted += standingOn(
+      index,
+      personId,
+      candidateId,
+      electionDate,
+      (formedOn) => (formedOn >= recentFrom ? RECENT_WEIGHT : 1),
+    ).points;
   }
   // Each law-interest group in town that blames the candidate backs their
   // opponents.
@@ -110,18 +304,36 @@ export function townSupportFromViews(
 }
 
 /**
- * What the people a law reached made of one official's part in it: the net
- * points of every view of this official formed about this law.
+ * What the people a law reached think of one official: the sum of the views
+ * of this official held today by everyone the law reached.
  */
 export function netViewOnLaw(
   world: World,
   officialId: EntityId,
   measureId: EntityId,
 ): number {
+  const index = standingIndex(world);
+  const holders = [
+    ...(index.beliefs.get(officialId)?.keys() ?? []),
+    ...(index.legacy.get(officialId)?.keys() ?? []),
+  ];
+  if (holders.length === 0) return 0;
+  const reached = new Set(
+    (world.history.lawExposures ?? [])
+      .filter((row) => row.measureId === measureId)
+      .map((row) => row.personId),
+  );
   let net = 0;
-  for (const row of world.history.officialViews ?? [])
-    if (row.officialId === officialId && row.measureId === measureId)
-      net += row.points;
+  for (const personId of new Set(holders)) {
+    const view = standingOn(index, personId, officialId, world.currentDate);
+    if (view.belief) {
+      if (reached.has(personId)) net += view.points;
+      continue;
+    }
+    // An old save's rows each name the law they were about.
+    for (const row of index.legacy.get(officialId)?.get(personId) ?? [])
+      if (row.measureId === measureId) net += row.points;
+  }
   return net;
 }
 
@@ -197,14 +409,10 @@ export function groupsAgainst(
   for (const group of groups) {
     const members = new Set(lawInterestMembers(world, group.id));
     if (members.size === 0) continue;
+    const index = standingIndex(world);
     let net = 0;
-    for (const view of world.history.officialViews ?? [])
-      if (
-        view.officialId === officialId &&
-        members.has(view.personId) &&
-        view.recordedAt <= onDate
-      )
-        net += view.points;
+    for (const personId of members)
+      net += standingOn(index, personId, officialId, onDate).points;
     if (net < 0)
       result.push({ organizationId: group.id, members: members.size });
   }
