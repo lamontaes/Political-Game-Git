@@ -26,7 +26,6 @@
     "inheritedDiagnostics": 0
   },
   "notRun": [
-    "two-year budget behavior",
     "browser",
     "full suite",
     "exclusive year speed comparison",
@@ -49,5 +48,21 @@
     "errors": 0,
     "warnings": 0
   },
-  "releaseCheck": "PASS before evidence-only commit; same owned source"
+  "releaseCheck": "PASS before evidence-only commit; same owned source",
+  "naturalTwoYear": {
+    "sourceHead": "4e7111a2338847d954d5af246d4a5189628ef5db",
+    "complete": true,
+    "days": 730,
+    "endedOn": "2028-01-05",
+    "elapsedSeconds": 687.314343263,
+    "stopped": null,
+    "budgetBills": 41,
+    "budgetEnacted": 35,
+    "budgetAuthorityRecords": 264,
+    "unfiledEvents": 165,
+    "lapseEvents": 9,
+    "everySeatedLegislatureFiled": false,
+    "missingMemberFiling": ["NJ", "US"],
+    "sessionBudgetGate": "NOT ESTABLISHED: calendar-item reasons do not prove historical seated-body denominator or end-session stalemate"
+  }
 }

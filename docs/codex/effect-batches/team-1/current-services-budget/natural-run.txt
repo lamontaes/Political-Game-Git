@@ -1,0 +1,31 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx scripts/world-report/member-filing-behavior.ts --seed team1-member-filing-20261001 --place 4434660 --head 4e7111a2338847d954d5af246d4a5189628ef5db --out test-results/current-services-budget/after-4e7111a23.receipt.json --save test-results/current-services-budget/after-4e7111a23.world.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+{"daysPressed":0,"date":"2026-01-05","elapsedSeconds":2.0079886229999997,"observedFilings":0,"stopped":null}
+{"daysPressed":27,"date":"2026-02-01","elapsedSeconds":28.18274035,"observedFilings":0,"stopped":null}
+{"daysPressed":55,"date":"2026-03-01","elapsedSeconds":73.868094636,"observedFilings":73,"stopped":null}
+{"daysPressed":86,"date":"2026-04-01","elapsedSeconds":102.6411973,"observedFilings":83,"stopped":null}
+{"daysPressed":116,"date":"2026-05-01","elapsedSeconds":117.996559709,"observedFilings":84,"stopped":null}
+{"daysPressed":147,"date":"2026-06-01","elapsedSeconds":124.108564057,"observedFilings":84,"stopped":null}
+{"daysPressed":177,"date":"2026-07-01","elapsedSeconds":132.027561801,"observedFilings":84,"stopped":null}
+{"daysPressed":208,"date":"2026-08-01","elapsedSeconds":138.756917803,"observedFilings":84,"stopped":null}
+{"daysPressed":239,"date":"2026-09-01","elapsedSeconds":149.36840358,"observedFilings":84,"stopped":null}
+{"daysPressed":269,"date":"2026-10-01","elapsedSeconds":163.938524812,"observedFilings":84,"stopped":null}
+{"daysPressed":300,"date":"2026-11-01","elapsedSeconds":172.409921929,"observedFilings":84,"stopped":null}
+{"daysPressed":330,"date":"2026-12-01","elapsedSeconds":341.273175285,"observedFilings":84,"stopped":null}
+{"daysPressed":361,"date":"2027-01-01","elapsedSeconds":354.163671772,"observedFilings":84,"stopped":null}
+{"daysPressed":392,"date":"2027-02-01","elapsedSeconds":385.365346258,"observedFilings":84,"stopped":null}
+{"daysPressed":420,"date":"2027-03-01","elapsedSeconds":426.110767887,"observedFilings":132,"stopped":null}
+{"daysPressed":451,"date":"2027-04-01","elapsedSeconds":491.919354946,"observedFilings":176,"stopped":null}
+{"daysPressed":481,"date":"2027-05-01","elapsedSeconds":535.785188867,"observedFilings":190,"stopped":null}
+{"daysPressed":512,"date":"2027-06-01","elapsedSeconds":548.148071254,"observedFilings":190,"stopped":null}
+{"daysPressed":542,"date":"2027-07-01","elapsedSeconds":561.346158127,"observedFilings":190,"stopped":null}
+{"daysPressed":573,"date":"2027-08-01","elapsedSeconds":576.474262445,"observedFilings":190,"stopped":null}
+{"daysPressed":604,"date":"2027-09-01","elapsedSeconds":591.353316917,"observedFilings":190,"stopped":null}
+{"daysPressed":634,"date":"2027-10-01","elapsedSeconds":605.726334404,"observedFilings":190,"stopped":null}
+{"daysPressed":665,"date":"2027-11-01","elapsedSeconds":619.550259798,"observedFilings":190,"stopped":null}
+{"daysPressed":695,"date":"2027-12-01","elapsedSeconds":659.259146551,"observedFilings":190,"stopped":null}
+{"daysPressed":726,"date":"2028-01-01","elapsedSeconds":685.3111032109999,"observedFilings":190,"stopped":null}
+{"daysPressed":730,"date":"2028-01-05","elapsedSeconds":687.314760163,"observedFilings":190,"stopped":null}
