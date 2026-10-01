@@ -135,7 +135,7 @@
     }
   },
   "sourceDateRegression": {
-    "status": "OPEN; checkpoint DRAFT",
+    "status": "REPAIRED at named source; historical failure retained",
     "source": "72754d1a13e81832cba66efe540acff04096bbc0",
     "testOverlaySha256": "808a1a51fb8b06fac125498e679ac8c437f16af248fe93c82cb3b44874713543",
     "selectedFailed": 1,
@@ -145,7 +145,45 @@
     "observed": "expected recorded, received refused",
     "cause": "source readOn acquisition metadata compared to game recordedAt date",
     "laterAssertions": "NOT RUN",
-    "repair": "NOT IMPLEMENTED; county parked under CTO A3 priority"
+    "repair": {
+      "source": "67cd0ebe51c9e3b6f891371775e32f67860ccef6",
+      "main": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+      "delta": "remove only source.readOn > record.recordedAt",
+      "runtime": {
+        "passed": 20,
+        "failed": 0,
+        "files": 3,
+        "durationSeconds": 25.6,
+        "exitCode": 0
+      },
+      "types": {
+        "head": "67cd0ebe51c9e3b6f891371775e32f67860ccef6",
+        "roots": [
+          "src/simulation/county-home-evidence.ts",
+          "src/simulation/county-home-evidence.test.ts",
+          "src/simulation/history.ts",
+          "src/districts/loudon-seat-candidate.ts",
+          "src/districts/county-seat-types.ts",
+          "src/districts/county-seat-catalog.ts",
+          "src/districts/county-seat-binding.test.ts",
+          "src/districts/types.ts",
+          "src/districts/query.ts",
+          "src/simulation/types.ts",
+          "src/simulation/district-residence.ts",
+          "src/simulation/world.ts",
+          "src/simulation/candidacy.ts",
+          "src/simulation/county-residence-binding.test.ts",
+          "src/presentation/campaign-projection.ts"
+        ],
+        "files": 848,
+        "diagnostics": 0,
+        "sourceMode": "exact committed Git objects; no dirty source reads"
+      },
+      "writerAndSavedReader": "PASS",
+      "futureEffectiveRefusal": "PASS",
+      "appendDateSequence": "unchanged",
+      "productionAdmission": "NOT CLAIMED"
+    }
   },
   "currentMainRenewal": "NOT RUN"
 }
