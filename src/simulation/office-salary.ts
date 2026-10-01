@@ -1,4 +1,4 @@
-import { assessPaycheckTaxes } from "./statutory-tax";
+import { settleTownCompensations } from "./living-world/town-pay";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { currentLifeCutoff, workStatusAt } from "./life-queries";
@@ -7,7 +7,6 @@ import {
   createWorkCompensation,
   money,
   recordResourceFlowTerms,
-  resolveWorkCompensationPeriod,
 } from "./resources";
 import { resourceFlowTermsHistory } from "./resource-queries";
 import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
@@ -200,21 +199,18 @@ function settleOne(world: World, work: WorkRelationship): World {
     // A week that ends after the office did is not paid, and nothing later is.
     if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
     next = raiseToPayInForce(next, work, flow.id, periodStartsAt);
-    next = resolveWorkCompensationPeriod(next, {
-      stableKey: `${flow.stableKey}:${periodStartsAt}`,
-      workRelationshipId: work.id,
-      periodStartsAt,
-      periodEndsAt: addDays(dueOn, -1),
-      occurredAt: dueOn,
-      status: "completed",
-      reasonKind: null,
-      note: "Salary for the week.",
-      provenance: flow.provenance,
-    });
-    next = assessPaycheckTaxes(
-      next,
-      next.history.resourceTransferOutcomes.at(-1)!.id,
-    );
+    next = settleTownCompensations(next, [
+      {
+        stableKey: `${flow.stableKey}:${periodStartsAt}`,
+        payFlowId: flow.id,
+        activityId: flow.id,
+        periodStartsAt,
+        periodEndsAt: addDays(dueOn, -1),
+        onDate: dueOn,
+        note: "Salary for the week.",
+        provenance: flow.provenance,
+      },
+    ]);
   }
   return next;
 }

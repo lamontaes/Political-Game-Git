@@ -1,0 +1,211 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 1150000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:1150000',
+  placeKey: '1150000',
+  person: 'Jasmine Rush',
+  flowId: 'resource-flow_b150603a82670fa1',
+  grossMinor: 334615,
+  employeeBalanceMinor: 253239,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 1150000 18863ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2836000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:2836000',
+  placeKey: '2836000',
+  person: 'Rohan Hayes',
+  flowId: 'resource-flow_309f611b4a2fcea4',
+  grossMinor: 334615,
+  employeeBalanceMinor: 263535,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2836000 15909ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 5363000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:5363000',
+  placeKey: '5363000',
+  person: 'Jade Valdez',
+  flowId: 'resource-flow_b85147585177ac5e',
+  grossMinor: 334615,
+  employeeBalanceMinor: 273272,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 5363000 14888ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2938000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:2938000',
+  placeKey: '2938000',
+  person: 'Victor Sinclair',
+  flowId: 'resource-flow_75ff81ff24a3d5a5',
+  grossMinor: 334615,
+  employeeBalanceMinor: 262049,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2938000 15906ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 3451000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:3451000',
+  placeKey: '3451000',
+  person: 'Anya Arnold',
+  flowId: 'resource-flow_75516896d310bd14',
+  grossMinor: 334615,
+  employeeBalanceMinor: 259067,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 3451000 15785ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '1150000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_7691c6e3ae48f824',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1795,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 admits one default pay handler and refuses duplicate ownership 2ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-federal-positions:labor-commerce.raise-federal-minimum-wage 8ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-policy-positions:labor-workforce.raise-minimum-wage 2ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 preserves the existing coverage and service catalog rows 5ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2836000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_0206095076b1bcc4',
+  questionKey: 'us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  termKey: 'floor',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  finalTerm: {
+    value: 725,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage'
+    ]
+  }
+}
+
+ × src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 11899ms
+   → expected 'work-compensation-payment' to be 'pay' // Object.is equality
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '5363000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_aa290714a3bed098',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1713,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+
+ × src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 11312ms
+   → expected 'work-compensation-payment' to be 'pay' // Object.is equality
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2938000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_365300a02261dccb',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1500,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+
+ × src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 11829ms
+   → expected 'work-compensation-payment' to be 'pay' // Object.is equality
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '3451000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_5ac4feaee63d50c6',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1592,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+
+ × src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 9702ms
+   → expected 'work-compensation-payment' to be 'pay' // Object.is equality
+ × src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 12541ms
+   → expected 'work-compensation-payment' to be 'pay' // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ FAIL  src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ FAIL  src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ FAIL  src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ FAIL  src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+AssertionError: expected 'work-compensation-payment' to be 'pay' // Object.is equality
+
+Expected: "pay"
+Received: "work-compensation-payment"
+
+ ❯ src/simulation/law-consequences/pay-default-registry.test.ts:302:53
+    300|     );
+    301|     expect(payment.lawEffectStamps![0]!.sourceRecordIds).toContain(ter…
+    302|     expect(payment.lawEffectStamps![0]!.effectKind).toBe("pay");
+       |                                                     ^
+    303|     expect(
+    304|       npc.history.statutoryTaxLiabilities!.some(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  5 failed | 9 passed (14)
+   Start at  06:17:06
+   Duration  152.26s (transform 9.32s, setup 22ms, import 13.36s, tests 138.66s, environment 1ms)

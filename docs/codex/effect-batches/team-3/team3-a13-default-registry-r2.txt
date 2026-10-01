@@ -1,0 +1,123 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '1150000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_7691c6e3ae48f824',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1795,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:1150000","placeKey":"1150000","name":"Oliver Stevens","startingLaw":"starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":71800}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 admits one default pay handler and refuses duplicate ownership 3ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-federal-positions:labor-commerce.raise-federal-minimum-wage 6ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-policy-positions:labor-workforce.raise-minimum-wage 2ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 preserves the existing coverage and service catalog rows 4ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 19403ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2836000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_0206095076b1bcc4',
+  questionKey: 'us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  termKey: 'floor',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  finalTerm: {
+    value: 725,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:2836000","placeKey":"2836000","name":"Melissa Santiago","startingLaw":"starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage","grossMinor":29000}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 19407ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '5363000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_aa290714a3bed098',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1713,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:5363000","placeKey":"5363000","name":"Ronald Spencer","startingLaw":"starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":68520}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 19408ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2938000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_365300a02261dccb',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1500,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:2938000","placeKey":"2938000","name":"Brian Roberson","startingLaw":"starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":60000}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 16043ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '3451000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_5ac4feaee63d50c6',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1592,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:3451000","placeKey":"3451000","name":"Anna Robbins","startingLaw":"starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":63680}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 20024ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  06:00:42
+   Duration  105.84s (transform 9.23s, setup 20ms, import 11.38s, tests 94.30s, environment 0ms)

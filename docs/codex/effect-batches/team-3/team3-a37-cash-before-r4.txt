@@ -1,0 +1,15 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves recorded employer cash over two office pay periods 20624ms
+ ↓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 1150000
+ ↓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2836000
+ ↓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 5363000
+ ↓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2938000
+ ↓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 3451000
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 5 skipped (6)
+   Start at  06:21:49
+   Duration  33.44s (transform 10.40s, setup 22ms, import 12.65s, tests 20.63s, environment 0ms)

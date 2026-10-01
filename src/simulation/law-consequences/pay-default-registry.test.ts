@@ -229,6 +229,7 @@ describe.each(sampled)("A13 default pay kind in %s", (placeKey) => {
     const terms = resourceFlowTermsAt(raised, flow.id)!;
     expect(terms.amount.minorUnits).toBeGreaterThan(100);
     expect(terms.lawEffectStamps).toHaveLength(1);
+    expect(terms.lawEffectStamps![0]!.effectKind).toBe("pay");
     expect(terms.lawEffectStamps![0]!.governingLawKey).toBe(
       governing.measureId,
     );
