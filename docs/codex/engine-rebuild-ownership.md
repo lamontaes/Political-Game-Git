@@ -35,3 +35,5 @@ COORDINATOR owns the shared law consequence contract, dispatcher, validation, re
 - Team 9: crime/offenders.ts juvenile youngestCharged age-filter and required import only.
 
 These releases authorize bounded edits, not completion or merge. Preserve each other owner's unpublished bytes.
+
+Team 1 additionally owns only the legislative-politics-integrity.ts provision-loop call to the shared lawTerms validator under the approved typed-term validation contract. Team 5 replacement owns extraction of service rows/constants into a data-only module; coordinator owns policy-pack assembly. Coordinator completed the released completeActivity post-state service hook in #1309; Team 5 must not duplicate it.
