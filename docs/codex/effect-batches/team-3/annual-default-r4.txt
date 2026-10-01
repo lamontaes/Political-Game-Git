@@ -1,0 +1,22 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000
+ ✓ src/simulation/office-annual-pay.test.ts > A38 refuses a salary change limited to terms beginning after its date 3407ms
+ ✓ src/simulation/office-annual-pay.test.ts > A38 reads the actual office role at the earlier payroll date 3310ms
+ ✓ src/simulation/office-annual-pay.test.ts > A38 dispatches the actual office measure through the default pay registration 7720ms
+ ✓ src/simulation/law-effect-stamp.test.ts > saved law-effect attribution > preserves a consumer's canonical law and enrollment/payment chain without changing inputs 3ms
+ ✓ src/simulation/law-effect-stamp.test.ts > saved law-effect attribution > keeps an actual starting-law key separate from enacted measures, including a no answer 0ms
+ ✓ src/simulation/law-effect-stamp.test.ts > saved law-effect attribution > refuses unknown or future law and malformed saved dates/source identities 0ms
+ ✓ src/simulation/law-effect-stamp.test.ts > questionless office rule attribution > preserves actual rule references without creating a policy question 0ms
+ ✓ src/simulation/law-effect-stamp.test.ts > questionless office rule attribution > refuses ambiguous subjects, missing causal references and starting-rule substitution 0ms
+
+ Test Files  2 passed (2)
+      Tests  8 passed | 5 skipped (13)
+   Start at  06:59:39
+   Duration  28.19s (transform 10.96s, setup 25ms, import 13.47s, tests 14.44s, environment 1ms)

@@ -8,7 +8,6 @@ import {
   lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
-import { STATE_RAISE_TERM } from "../../src/simulation/minimum-wage";
 import { outcomeFactor } from "../../src/simulation/outcome-web";
 import {
   nextPaydayDate,
@@ -30,6 +29,7 @@ const LB_900: RaiseBill = {
   designation: "LB 900, 2026",
   answer: "yes",
   effectiveInDays: 45,
+  cents: 1700, // Explicit fictional bill clause, not an estimated raise.
 };
 
 const NEBRASKA = () => stateJurisdictionForKey("US-NE")!.id;
@@ -63,30 +63,17 @@ describe(
   "a state law that answers yes to raising the minimum wage carries a term",
   { timeout: 600_000 },
   () => {
-    it("adds the average raise in yearly steps from its effective date, then holds", () => {
+    it("reads the bill's explicit wage clause from its effective date, without invented yearly steps", () => {
       const { world, opened } = omahaWithRaiseBills([LB_900]);
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
-      const before = STATE_RAISE_TERM.yearlyStepMinor;
-      const rateBefore = townMinimumHourly(
-        lifePlaceByKey("3137000")!.context.jurisdiction.id,
-      )!;
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
       expect(townMinimumHourlyAt(world, omaha, addDays(effectiveAt, -1))).toBe(
-        rateBefore,
+        townMinimumHourly(omaha),
       );
-      expect(townMinimumHourlyAt(world, omaha, effectiveAt)).toBeCloseTo(
-        rateBefore + before / 100,
-        5,
-      );
-      expect(
-        townMinimumHourlyAt(world, omaha, addDays(effectiveAt, 366)),
-      ).toBeCloseTo(rateBefore + (2 * before) / 100, 5);
-      // The third step is cut to the total: $2.00 above the rate before.
-      for (const days of [731, 3650]) {
+      for (const days of [0, 366, 731, 3650])
         expect(
           townMinimumHourlyAt(world, omaha, addDays(effectiveAt, days)),
-        ).toBeCloseTo(rateBefore + STATE_RAISE_TERM.totalMinor / 100, 5);
-      }
+        ).toBe(LB_900.cents! / 100);
     });
 
     it("reaches Nebraska alone", () => {
