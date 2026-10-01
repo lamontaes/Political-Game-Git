@@ -131,7 +131,10 @@ export interface RelationshipInteractionInput {
 export interface PrivateBeliefRecordInput {
   readonly stableKey: string;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /** Absent on legacy policy beliefs; party questions have no proposition. */
+  readonly subject?: { readonly kind: "party-question"; readonly key: string };
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;
@@ -300,6 +303,7 @@ export interface DecisionTraceRecordInput extends DecisionEvaluation {
 export function createHistoryStore(): HistoryStore {
   return {
     nextSequence: 0,
+    ruleChangeConsequenceBindings: [],
     organizations: [],
     organizationProfiles: [],
     educationEnrollments: [],
@@ -559,6 +563,7 @@ export function appendPrivateBeliefRecord(
   );
   const belief: PrivateBeliefRecord = {
     ...input,
+    ...(input.subject ? { subject: { ...input.subject } } : {}),
     id: createStableId("belief", `${worldId}:${input.stableKey}`),
     sequence: history.nextSequence,
     formation: cloneFormation(input.formation),

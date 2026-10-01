@@ -26,7 +26,10 @@ import type {
   ConstitutionalActionRecord,
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
-import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
+import type {
+  RuleChangeProvisionRecord,
+  RuleChangeConsequenceBindingRecord,
+} from "./enacted-rule-changes";
 import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
@@ -91,6 +94,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "rule-change-provision"
+  | "rule-change-consequence-binding"
   | "tax-proposal"
   | "tax-policy"
   | "tax-base"
@@ -990,7 +994,10 @@ export interface PrivateBeliefRecord {
   readonly stableKey: string;
   readonly sequence: number;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /** Absent on legacy policy beliefs; party questions have no proposition. */
+  readonly subject?: { readonly kind: "party-question"; readonly key: string };
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;
@@ -4352,6 +4359,7 @@ export interface HistoryStore {
   readonly constitutionalRuleVersions?: readonly ConstitutionalRuleVersionRecord[];
   /** Rule changes filed on ordinary bills; see `enacted-rule-changes.ts`. */
   readonly ruleChangeProvisions?: readonly RuleChangeProvisionRecord[];
+  readonly ruleChangeConsequenceBindings?: readonly RuleChangeConsequenceBindingRecord[];
   /** Optional, preserving pre-tax snapshots without fabricating money/history. */
   readonly taxProposals?: readonly TaxProposalRecord[];
   readonly taxPolicies?: readonly TaxPolicyRecord[];

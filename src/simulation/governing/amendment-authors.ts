@@ -147,7 +147,8 @@ function strongViews(world: World, personId: EntityId) {
   >();
   const questions = new Set<EntityId>();
   for (const belief of world.history.privateBeliefs)
-    if (belief.personId === personId) questions.add(belief.propositionId);
+    if (belief.personId === personId && belief.propositionId !== null)
+      questions.add(belief.propositionId);
   if (holdsPrinciples(world, personId))
     for (const propositionId of world.policyCatalog.propositionOrder)
       if (world.policyCatalog.propositions[propositionId]?.principles?.length)
