@@ -1,5 +1,4 @@
 import type { HistoricalEvent, World } from "../types";
-import type { PressureReading } from "./contract";
 import { latestReadings } from "./flows";
 import { stepPressureLadder } from "./ladder";
 
@@ -39,18 +38,12 @@ export function stepPressureEvents(world: World): World {
 /** Compatibility readers for the retired synthetic international feed.
  * Actual crises continue through the canonical crisis writers.
  */
-export function internationalFriction(
-  _world: World,
-  _readings: readonly PressureReading[],
-): ReadonlyMap<
+export function internationalFriction(): ReadonlyMap<
   string,
   { friction: number; subject: string; reported: HistoricalEvent }
 > {
   return new Map();
 }
-export function stepInternationalFriction(
-  world: World,
-  _readings?: readonly PressureReading[],
-): World {
+export function stepInternationalFriction(world: World): World {
   return world;
 }

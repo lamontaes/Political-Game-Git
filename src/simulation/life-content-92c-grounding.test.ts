@@ -216,7 +216,7 @@ describe("C119B missing circumstances fail closed", () => {
         label: "Remote fixture incident",
         description: "Explicit adversarial incident fixture.",
         incidentKind,
-        occurrenceMode: "probabilistic",
+        occurrenceMode: "condition",
         baseLikelihood: createExactQuantity(1, 1, "rate:share"),
         prerequisites: [],
         blockers: [],

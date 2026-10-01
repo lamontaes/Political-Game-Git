@@ -1,464 +1,457 @@
 {
- "id": "defense-contracts-by-state-fy2024",
- "about": "Where the Department of Defense sends its contract dollars, per resident, and what a state produces per resident, for all 56 places. Used to size how far a defense build-up reaches each place.",
- "retrievedAt": "2026-09-29",
- "sources": {
-  "contracts": "USAspending.gov API, POST /api/v2/search/spending_by_geography/, awarding agency Department of Defense, contract award types A-D, fiscal year 2024 (October 1, 2023 to September 30, 2024), place of performance by state, transaction level, read September 29, 2026",
-  "nationalByYear": "USAspending.gov API, POST /api/v2/search/spending_over_time/, same filters, fiscal years 2008 to 2024, read September 29, 2026",
-  "gdp": "Bureau of Economic Analysis, SAGDP1 line 3, current-dollar GDP, 2024, https://apps.bea.gov/regional/zip/SAGDP.zip, read September 29, 2026",
-  "prices": "BLS CPI-U, U.S. city average, all items, annual average (1982-84=100), used to put fiscal-year dollars in one price level"
- },
- "multiplier": {
-  "value": 1.5,
-  "meaning": "dollars of extra output in a state for each extra dollar of procurement spent there, relative to other states",
-  "source": "Nakamura and Steinsson 2014, \"Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions\", NBER w17391 (open-economy relative multiplier about 1.5, from military build-ups and draw-downs across regions)"
- },
- "buildUp": {
-  "meaning": "How fast defense contracts grew, in real terms, in the fiscal years they beat inflation. A defense law that grows spending faster than inflation carries this pace until the run ends.",
-  "contractsByFiscalYearBillions": {
-   "2008": 397.7,
-   "2009": 373.5,
-   "2010": 368.7,
-   "2011": 374.5,
-   "2012": 363.8,
-   "2013": 309.3,
-   "2014": 284.5,
-   "2015": 274.2,
-   "2016": 298.2,
-   "2017": 321.4,
-   "2018": 359.3,
-   "2019": 383.6,
-   "2020": 422.5,
-   "2021": 387.0,
-   "2022": 414.4,
-   "2023": 456.9,
-   "2024": 445.8
+  "id": "defense-contracts-by-state-fy2024",
+  "about": "Where the Department of Defense sends its contract dollars, per resident, and what a state produces per resident, for all 56 places. Used to size how far a defense build-up reaches each place.",
+  "retrievedAt": "2026-09-29",
+  "sources": {
+    "contracts": "USAspending.gov API, POST /api/v2/search/spending_by_geography/, awarding agency Department of Defense, contract award types A-D, fiscal year 2024 (October 1, 2023 to September 30, 2024), place of performance by state, transaction level, read September 29, 2026",
+    "nationalByYear": "USAspending.gov API, POST /api/v2/search/spending_over_time/, same filters, fiscal years 2008 to 2024, read September 29, 2026",
+    "gdp": "Bureau of Economic Analysis, SAGDP1 line 3, current-dollar GDP, 2024, https://apps.bea.gov/regional/zip/SAGDP.zip, read September 29, 2026",
+    "prices": "BLS CPI-U, U.S. city average, all items, annual average (1982-84=100), used to put fiscal-year dollars in one price level"
   },
-  "cpiuAnnualAverage": {
-   "2007": 207.342,
-   "2008": 215.303,
-   "2009": 214.537,
-   "2010": 218.056,
-   "2011": 224.939,
-   "2012": 229.594,
-   "2013": 232.957,
-   "2014": 236.736,
-   "2015": 237.017,
-   "2016": 240.007,
-   "2017": 245.12,
-   "2018": 251.107,
-   "2019": 255.657,
-   "2020": 258.811,
-   "2021": 270.97,
-   "2022": 292.655,
-   "2023": 304.702,
-   "2024": 313.689
+  "multiplier": {
+    "value": 1.5,
+    "meaning": "dollars of extra output in a state for each extra dollar of procurement spent there, relative to other states",
+    "source": "Nakamura and Steinsson 2014, \"Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions\", NBER w17391 (open-economy relative multiplier about 1.5, from military build-ups and draw-downs across regions)"
   },
-  "yearsRoseInRealTerms": [
-   2016,
-   2017,
-   2018,
-   2019,
-   2020,
-   2023
-  ],
-  "meanYearlyRealRise": 0.0694,
-  "longestRunYears": 5,
-  "note": "Fiscal-year contract dollars are deflated with calendar-year CPI-U averages, so the pace is an estimate to about a point."
- },
- "nationalGdpPerResidentEstimate": 88394,
- "places": {
-  "US-PA": {
-   "contractsFY2024": 21510113875,
-   "population2024": 13002700,
-   "contractsPerResident": 1654.28,
-   "gdpPerResident": 77513,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+  "buildUp": {
+    "meaning": "How fast defense contracts grew, in real terms, in the fiscal years they beat inflation. A defense law that grows spending faster than inflation carries this pace until the run ends.",
+    "contractsByFiscalYearBillions": {
+      "2008": 397.7,
+      "2009": 373.5,
+      "2010": 368.7,
+      "2011": 374.5,
+      "2012": 363.8,
+      "2013": 309.3,
+      "2014": 284.5,
+      "2015": 274.2,
+      "2016": 298.2,
+      "2017": 321.4,
+      "2018": 359.3,
+      "2019": 383.6,
+      "2020": 422.5,
+      "2021": 387.0,
+      "2022": 414.4,
+      "2023": 456.9,
+      "2024": 445.8
+    },
+    "cpiuAnnualAverage": {
+      "2007": 207.342,
+      "2008": 215.303,
+      "2009": 214.537,
+      "2010": 218.056,
+      "2011": 224.939,
+      "2012": 229.594,
+      "2013": 232.957,
+      "2014": 236.736,
+      "2015": 237.017,
+      "2016": 240.007,
+      "2017": 245.12,
+      "2018": 251.107,
+      "2019": 255.657,
+      "2020": 258.811,
+      "2021": 270.97,
+      "2022": 292.655,
+      "2023": 304.702,
+      "2024": 313.689
+    },
+    "yearsRoseInRealTerms": [2016, 2017, 2018, 2019, 2020, 2023],
+    "meanYearlyRealRise": 0.0694,
+    "longestRunYears": 5,
+    "note": "Fiscal-year contract dollars are deflated with calendar-year CPI-U averages, so the pace is an estimate to about a point."
   },
-  "US-NJ": {
-   "contractsFY2024": 6871307201,
-   "population2024": 9288994,
-   "contractsPerResident": 739.73,
-   "gdpPerResident": 91076,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-IL": {
-   "contractsFY2024": 8146358119,
-   "population2024": 12812508,
-   "contractsPerResident": 635.81,
-   "gdpPerResident": 89608,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-VA": {
-   "contractsFY2024": 50482563131,
-   "population2024": 8631393,
-   "contractsPerResident": 5848.72,
-   "gdpPerResident": 88252,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-TX": {
-   "contractsFY2024": 39180292848,
-   "population2024": 29145505,
-   "contractsPerResident": 1344.3,
-   "gdpPerResident": 95032,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-CA": {
-   "contractsFY2024": 38712481972,
-   "population2024": 39538223,
-   "contractsPerResident": 979.12,
-   "gdpPerResident": 102385,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-FL": {
-   "contractsFY2024": 24579179813,
-   "population2024": 21538187,
-   "contractsPerResident": 1141.19,
-   "gdpPerResident": 80170,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-NY": {
-   "contractsFY2024": 10545090091,
-   "population2024": 20201249,
-   "contractsPerResident": 522.0,
-   "gdpPerResident": 114950,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-NC": {
-   "contractsFY2024": 3640185540,
-   "population2024": 10439388,
-   "contractsPerResident": 348.7,
-   "gdpPerResident": 80868,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-MS": {
-   "contractsFY2024": 5497938967,
-   "population2024": 2961279,
-   "contractsPerResident": 1856.61,
-   "gdpPerResident": 53420,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-MD": {
-   "contractsFY2024": 18418608997,
-   "population2024": 6177224,
-   "contractsPerResident": 2981.7,
-   "gdpPerResident": 88394,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-GA": {
-   "contractsFY2024": 6675685448,
-   "population2024": 10711908,
-   "contractsPerResident": 623.2,
-   "gdpPerResident": 82292,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-MI": {
-   "contractsFY2024": 5468865814,
-   "population2024": 10077331,
-   "contractsPerResident": 542.69,
-   "gdpPerResident": 69708,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-WA": {
-   "contractsFY2024": 8909325313,
-   "population2024": 7705281,
-   "contractsPerResident": 1156.26,
-   "gdpPerResident": 111094,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-SC": {
-   "contractsFY2024": 3733612967,
-   "population2024": 5118425,
-   "contractsPerResident": 729.45,
-   "gdpPerResident": 69763,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-WI": {
-   "contractsFY2024": 3974635117,
-   "population2024": 5893718,
-   "contractsPerResident": 674.39,
-   "gdpPerResident": 76912,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-OH": {
-   "contractsFY2024": 5803894867,
-   "population2024": 11799448,
-   "contractsPerResident": 491.88,
-   "gdpPerResident": 78236,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-AZ": {
-   "contractsFY2024": 15305698964,
-   "population2024": 7151502,
-   "contractsPerResident": 2140.21,
-   "gdpPerResident": 79716,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-AL": {
-   "contractsFY2024": 13253981336,
-   "population2024": 5024279,
-   "contractsPerResident": 2637.99,
-   "gdpPerResident": 64755,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-MA": {
-   "contractsFY2024": 14266645168,
-   "population2024": 7029917,
-   "contractsPerResident": 2029.42,
-   "gdpPerResident": 110744,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-KY": {
-   "contractsFY2024": 11517924780,
-   "population2024": 4505836,
-   "contractsPerResident": 2556.22,
-   "gdpPerResident": 65554,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-CT": {
-   "contractsFY2024": 19407632334,
-   "population2024": 3605944,
-   "contractsPerResident": 5382.12,
-   "gdpPerResident": 98957,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-MO": {
-   "contractsFY2024": 12818925558,
-   "population2024": 6154913,
-   "contractsPerResident": 2082.71,
-   "gdpPerResident": 72903,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-MN": {
-   "contractsFY2024": 1510115294,
-   "population2024": 5706494,
-   "contractsPerResident": 264.63,
-   "gdpPerResident": 88967,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-AR": {
-   "contractsFY2024": 1469228243,
-   "population2024": 3011524,
-   "contractsPerResident": 487.87,
-   "gdpPerResident": 62540,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-LA": {
-   "contractsFY2024": 2805552391,
-   "population2024": 4657757,
-   "contractsPerResident": 602.34,
-   "gdpPerResident": 70672,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-CO": {
-   "contractsFY2024": 9143817635,
-   "population2024": 5773714,
-   "contractsPerResident": 1583.7,
-   "gdpPerResident": 96581,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-HI": {
-   "contractsFY2024": 5107257238,
-   "population2024": 1455271,
-   "contractsPerResident": 3509.49,
-   "gdpPerResident": 80829,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-TN": {
-   "contractsFY2024": 2430443891,
-   "population2024": 6910840,
-   "contractsPerResident": 351.69,
-   "gdpPerResident": 81206,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-IA": {
-   "contractsFY2024": 2420604684,
-   "population2024": 3190369,
-   "contractsPerResident": 758.72,
-   "gdpPerResident": 83312,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-OK": {
-   "contractsFY2024": 3950558769,
-   "population2024": 3959353,
-   "contractsPerResident": 997.78,
-   "gdpPerResident": 66601,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-IN": {
-   "contractsFY2024": 4127205669,
-   "population2024": 6785528,
-   "contractsPerResident": 608.24,
-   "gdpPerResident": 76562,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-DC": {
-   "contractsFY2024": 7710942118,
-   "population2024": 689545,
-   "contractsPerResident": 11182.65,
-   "gdpPerResident": 267274,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-KS": {
-   "contractsFY2024": 1643161138,
-   "population2024": 2937880,
-   "contractsPerResident": 559.3,
-   "gdpPerResident": 78465,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-UT": {
-   "contractsFY2024": 5841230876,
-   "population2024": 3271616,
-   "contractsPerResident": 1785.43,
-   "gdpPerResident": 91536,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-ME": {
-   "contractsFY2024": 3453085827,
-   "population2024": 1362359,
-   "contractsPerResident": 2534.64,
-   "gdpPerResident": 72796,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-NE": {
-   "contractsFY2024": 595365287,
-   "population2024": 1961504,
-   "contractsPerResident": 303.52,
-   "gdpPerResident": 96478,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-OR": {
-   "contractsFY2024": 931229588,
-   "population2024": 4237256,
-   "contractsPerResident": 219.77,
-   "gdpPerResident": 77940,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-ID": {
-   "contractsFY2024": 295729105,
-   "population2024": 1839106,
-   "contractsPerResident": 160.8,
-   "gdpPerResident": 70153,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-DE": {
-   "contractsFY2024": 162798205,
-   "population2024": 989948,
-   "contractsPerResident": 164.45,
-   "gdpPerResident": 112099,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-AK": {
-   "contractsFY2024": 2287779647,
-   "population2024": 733391,
-   "contractsPerResident": 3119.45,
-   "gdpPerResident": 97584,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-MT": {
-   "contractsFY2024": 314470799,
-   "population2024": 1084225,
-   "contractsPerResident": 290.04,
-   "gdpPerResident": 72348,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-NV": {
-   "contractsFY2024": 2121940962,
-   "population2024": 3104614,
-   "contractsPerResident": 683.48,
-   "gdpPerResident": 86649,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-VT": {
-   "contractsFY2024": 649391116,
-   "population2024": 643077,
-   "contractsPerResident": 1009.82,
-   "gdpPerResident": 71960,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-NM": {
-   "contractsFY2024": 1354119789,
-   "population2024": 2117522,
-   "contractsPerResident": 639.48,
-   "gdpPerResident": 69461,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-GU": {
-   "contractsFY2024": 2484569654,
-   "population2024": 153836,
-   "contractsPerResident": 16150.77,
-   "gdpPerResident": 88394,
-   "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
-  },
-  "US-NH": {
-   "contractsFY2024": 2588479130,
-   "population2024": 1377529,
-   "contractsPerResident": 1879.07,
-   "gdpPerResident": 86631,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-WV": {
-   "contractsFY2024": 542305572,
-   "population2024": 1793716,
-   "contractsPerResident": 302.34,
-   "gdpPerResident": 59360,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-RI": {
-   "contractsFY2024": 1039370726,
-   "population2024": 1097379,
-   "contractsPerResident": 947.14,
-   "gdpPerResident": 73248,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-ND": {
-   "contractsFY2024": 380401073,
-   "population2024": 779094,
-   "contractsPerResident": 488.26,
-   "gdpPerResident": 102758,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-WY": {
-   "contractsFY2024": 258082192,
-   "population2024": 576851,
-   "contractsPerResident": 447.4,
-   "gdpPerResident": 89275,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-SD": {
-   "contractsFY2024": 816649581,
-   "population2024": 886667,
-   "contractsPerResident": 921.03,
-   "gdpPerResident": 86612,
-   "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
-  },
-  "US-PR": {
-   "contractsFY2024": 1058515768,
-   "population2024": 3285874,
-   "contractsPerResident": 322.14,
-   "gdpPerResident": 88394,
-   "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
-  },
-  "US-MP": {
-   "contractsFY2024": 98887221,
-   "population2024": 47329,
-   "contractsPerResident": 2089.36,
-   "gdpPerResident": 88394,
-   "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
-  },
-  "US-VI": {
-   "contractsFY2024": 8893392,
-   "population2024": 87146,
-   "contractsPerResident": 102.05,
-   "gdpPerResident": 88394,
-   "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
-  },
-  "US-AS": {
-   "contractsFY2024": 15217079,
-   "population2024": 49710,
-   "contractsPerResident": 306.12,
-   "gdpPerResident": 88394,
-   "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
+  "nationalGdpPerResidentEstimate": 88394,
+  "places": {
+    "US-PA": {
+      "contractsFY2024": 21510113875,
+      "population2024": 13002700,
+      "contractsPerResident": 1654.28,
+      "gdpPerResident": 77513,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-NJ": {
+      "contractsFY2024": 6871307201,
+      "population2024": 9288994,
+      "contractsPerResident": 739.73,
+      "gdpPerResident": 91076,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-IL": {
+      "contractsFY2024": 8146358119,
+      "population2024": 12812508,
+      "contractsPerResident": 635.81,
+      "gdpPerResident": 89608,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-VA": {
+      "contractsFY2024": 50482563131,
+      "population2024": 8631393,
+      "contractsPerResident": 5848.72,
+      "gdpPerResident": 88252,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-TX": {
+      "contractsFY2024": 39180292848,
+      "population2024": 29145505,
+      "contractsPerResident": 1344.3,
+      "gdpPerResident": 95032,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-CA": {
+      "contractsFY2024": 38712481972,
+      "population2024": 39538223,
+      "contractsPerResident": 979.12,
+      "gdpPerResident": 102385,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-FL": {
+      "contractsFY2024": 24579179813,
+      "population2024": 21538187,
+      "contractsPerResident": 1141.19,
+      "gdpPerResident": 80170,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-NY": {
+      "contractsFY2024": 10545090091,
+      "population2024": 20201249,
+      "contractsPerResident": 522.0,
+      "gdpPerResident": 114950,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-NC": {
+      "contractsFY2024": 3640185540,
+      "population2024": 10439388,
+      "contractsPerResident": 348.7,
+      "gdpPerResident": 80868,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-MS": {
+      "contractsFY2024": 5497938967,
+      "population2024": 2961279,
+      "contractsPerResident": 1856.61,
+      "gdpPerResident": 53420,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-MD": {
+      "contractsFY2024": 18418608997,
+      "population2024": 6177224,
+      "contractsPerResident": 2981.7,
+      "gdpPerResident": 88394,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-GA": {
+      "contractsFY2024": 6675685448,
+      "population2024": 10711908,
+      "contractsPerResident": 623.2,
+      "gdpPerResident": 82292,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-MI": {
+      "contractsFY2024": 5468865814,
+      "population2024": 10077331,
+      "contractsPerResident": 542.69,
+      "gdpPerResident": 69708,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-WA": {
+      "contractsFY2024": 8909325313,
+      "population2024": 7705281,
+      "contractsPerResident": 1156.26,
+      "gdpPerResident": 111094,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-SC": {
+      "contractsFY2024": 3733612967,
+      "population2024": 5118425,
+      "contractsPerResident": 729.45,
+      "gdpPerResident": 69763,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-WI": {
+      "contractsFY2024": 3974635117,
+      "population2024": 5893718,
+      "contractsPerResident": 674.39,
+      "gdpPerResident": 76912,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-OH": {
+      "contractsFY2024": 5803894867,
+      "population2024": 11799448,
+      "contractsPerResident": 491.88,
+      "gdpPerResident": 78236,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-AZ": {
+      "contractsFY2024": 15305698964,
+      "population2024": 7151502,
+      "contractsPerResident": 2140.21,
+      "gdpPerResident": 79716,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-AL": {
+      "contractsFY2024": 13253981336,
+      "population2024": 5024279,
+      "contractsPerResident": 2637.99,
+      "gdpPerResident": 64755,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-MA": {
+      "contractsFY2024": 14266645168,
+      "population2024": 7029917,
+      "contractsPerResident": 2029.42,
+      "gdpPerResident": 110744,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-KY": {
+      "contractsFY2024": 11517924780,
+      "population2024": 4505836,
+      "contractsPerResident": 2556.22,
+      "gdpPerResident": 65554,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-CT": {
+      "contractsFY2024": 19407632334,
+      "population2024": 3605944,
+      "contractsPerResident": 5382.12,
+      "gdpPerResident": 98957,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-MO": {
+      "contractsFY2024": 12818925558,
+      "population2024": 6154913,
+      "contractsPerResident": 2082.71,
+      "gdpPerResident": 72903,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-MN": {
+      "contractsFY2024": 1510115294,
+      "population2024": 5706494,
+      "contractsPerResident": 264.63,
+      "gdpPerResident": 88967,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-AR": {
+      "contractsFY2024": 1469228243,
+      "population2024": 3011524,
+      "contractsPerResident": 487.87,
+      "gdpPerResident": 62540,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-LA": {
+      "contractsFY2024": 2805552391,
+      "population2024": 4657757,
+      "contractsPerResident": 602.34,
+      "gdpPerResident": 70672,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-CO": {
+      "contractsFY2024": 9143817635,
+      "population2024": 5773714,
+      "contractsPerResident": 1583.7,
+      "gdpPerResident": 96581,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-HI": {
+      "contractsFY2024": 5107257238,
+      "population2024": 1455271,
+      "contractsPerResident": 3509.49,
+      "gdpPerResident": 80829,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-TN": {
+      "contractsFY2024": 2430443891,
+      "population2024": 6910840,
+      "contractsPerResident": 351.69,
+      "gdpPerResident": 81206,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-IA": {
+      "contractsFY2024": 2420604684,
+      "population2024": 3190369,
+      "contractsPerResident": 758.72,
+      "gdpPerResident": 83312,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-OK": {
+      "contractsFY2024": 3950558769,
+      "population2024": 3959353,
+      "contractsPerResident": 997.78,
+      "gdpPerResident": 66601,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-IN": {
+      "contractsFY2024": 4127205669,
+      "population2024": 6785528,
+      "contractsPerResident": 608.24,
+      "gdpPerResident": 76562,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-DC": {
+      "contractsFY2024": 7710942118,
+      "population2024": 689545,
+      "contractsPerResident": 11182.65,
+      "gdpPerResident": 267274,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-KS": {
+      "contractsFY2024": 1643161138,
+      "population2024": 2937880,
+      "contractsPerResident": 559.3,
+      "gdpPerResident": 78465,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-UT": {
+      "contractsFY2024": 5841230876,
+      "population2024": 3271616,
+      "contractsPerResident": 1785.43,
+      "gdpPerResident": 91536,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-ME": {
+      "contractsFY2024": 3453085827,
+      "population2024": 1362359,
+      "contractsPerResident": 2534.64,
+      "gdpPerResident": 72796,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-NE": {
+      "contractsFY2024": 595365287,
+      "population2024": 1961504,
+      "contractsPerResident": 303.52,
+      "gdpPerResident": 96478,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-OR": {
+      "contractsFY2024": 931229588,
+      "population2024": 4237256,
+      "contractsPerResident": 219.77,
+      "gdpPerResident": 77940,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-ID": {
+      "contractsFY2024": 295729105,
+      "population2024": 1839106,
+      "contractsPerResident": 160.8,
+      "gdpPerResident": 70153,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-DE": {
+      "contractsFY2024": 162798205,
+      "population2024": 989948,
+      "contractsPerResident": 164.45,
+      "gdpPerResident": 112099,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-AK": {
+      "contractsFY2024": 2287779647,
+      "population2024": 733391,
+      "contractsPerResident": 3119.45,
+      "gdpPerResident": 97584,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-MT": {
+      "contractsFY2024": 314470799,
+      "population2024": 1084225,
+      "contractsPerResident": 290.04,
+      "gdpPerResident": 72348,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-NV": {
+      "contractsFY2024": 2121940962,
+      "population2024": 3104614,
+      "contractsPerResident": 683.48,
+      "gdpPerResident": 86649,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-VT": {
+      "contractsFY2024": 649391116,
+      "population2024": 643077,
+      "contractsPerResident": 1009.82,
+      "gdpPerResident": 71960,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-NM": {
+      "contractsFY2024": 1354119789,
+      "population2024": 2117522,
+      "contractsPerResident": 639.48,
+      "gdpPerResident": 69461,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-GU": {
+      "contractsFY2024": 2484569654,
+      "population2024": 153836,
+      "contractsPerResident": 16150.77,
+      "gdpPerResident": 88394,
+      "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
+    },
+    "US-NH": {
+      "contractsFY2024": 2588479130,
+      "population2024": 1377529,
+      "contractsPerResident": 1879.07,
+      "gdpPerResident": 86631,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-WV": {
+      "contractsFY2024": 542305572,
+      "population2024": 1793716,
+      "contractsPerResident": 302.34,
+      "gdpPerResident": 59360,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-RI": {
+      "contractsFY2024": 1039370726,
+      "population2024": 1097379,
+      "contractsPerResident": 947.14,
+      "gdpPerResident": 73248,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-ND": {
+      "contractsFY2024": 380401073,
+      "population2024": 779094,
+      "contractsPerResident": 488.26,
+      "gdpPerResident": 102758,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-WY": {
+      "contractsFY2024": 258082192,
+      "population2024": 576851,
+      "contractsPerResident": 447.4,
+      "gdpPerResident": 89275,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-SD": {
+      "contractsFY2024": 816649581,
+      "population2024": 886667,
+      "contractsPerResident": 921.03,
+      "gdpPerResident": 86612,
+      "gdpBasis": "BEA SAGDP1 2024 current-dollar GDP over the population USAspending uses"
+    },
+    "US-PR": {
+      "contractsFY2024": 1058515768,
+      "population2024": 3285874,
+      "contractsPerResident": 322.14,
+      "gdpPerResident": 88394,
+      "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
+    },
+    "US-MP": {
+      "contractsFY2024": 98887221,
+      "population2024": 47329,
+      "contractsPerResident": 2089.36,
+      "gdpPerResident": 88394,
+      "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
+    },
+    "US-VI": {
+      "contractsFY2024": 8893392,
+      "population2024": 87146,
+      "contractsPerResident": 102.05,
+      "gdpPerResident": 88394,
+      "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
+    },
+    "US-AS": {
+      "contractsFY2024": 15217079,
+      "population2024": 49710,
+      "contractsPerResident": 306.12,
+      "gdpPerResident": 88394,
+      "gdpBasis": "ESTIMATED FROM AVERAGE: the 50 states and D.C. average, because BEA publishes no state-style GDP for this territory in the file read"
+    }
   }
- }
 }

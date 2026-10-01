@@ -17,7 +17,13 @@
  * - a single adult may start dating another single adult in town of a near
  *   age, more often in their twenties and thirties and when they work;
  * - a couple who share a home weighs raising a family plan
- *   (`./town-family-plans`), from their own circumstances.
+ *   (`./town-family-plans`), from their own circumstances;
+ * - a grown child living in a parent's home weighs setting up a home of
+ *   their own (`./leaving-home`), from their age, their own pay against the
+ *   town's rent for one, a partner of their own and their taste for risk.
+ *
+ * A new household forms only from one of these recorded causes: a grown
+ * child leaving home, or the partner who moves out after a breakup.
  *
  * A child is born only when two people have a recorded family plan
  * (`../people-family-plan`): one of them raised it, the other agreed, and the
@@ -60,8 +66,19 @@ import type {
   World,
   HistoricalEvent,
 } from "../types";
+import { ensurePeopleTraits } from "../people-traits";
 import { recordWorldEvent } from "../world";
+import {
+  decideToLeaveHome,
+  LEAVING_HOME_EVENT,
+  LEAVING_HOME_VERSION,
+} from "./leaving-home";
 import { weighTownFamilyPlans, type TownCouple } from "./town-family-plans";
+import {
+  hudRentRowFor,
+  marketRentMinor,
+  monthlyPayByPerson,
+} from "./town-rent";
 import {
   TOWN_JOB_END_REASONS,
   townUnemploymentPressure,
@@ -348,6 +365,7 @@ export function reviewTownFamilies(
     type: `${string}.${string}`,
     ids: readonly EntityId[],
     summary: string,
+    tag = "life.couple",
   ): LifeRecordProvenance => {
     next = recordWorldEvent(next, {
       stableKey: `${prefix}${key}`,
@@ -363,7 +381,7 @@ export function reviewTownFamilies(
       })),
       personFactConstraints: [],
       visibility: "limited",
-      tags: ["life.couple", TOWN_FAMILIES_VERSION],
+      tags: [tag, TOWN_FAMILIES_VERSION],
       summary,
       context: {
         location: null,
@@ -629,6 +647,71 @@ export function reviewTownFamilies(
       });
       touched.add(a).add(b);
       continue;
+    }
+  }
+
+  // Grown children: one living in a parent's home weighs setting up a home
+  // of their own (`./leaving-home`). A new household is their own decision.
+  // The player's home is never changed here.
+  const playerHome =
+    playerPersonId === null ? null : householdOf(playerPersonId);
+  const grownAtHome = [...view.people.values()]
+    .filter(({ person, age }) => {
+      const home = householdOf(person.id);
+      return (
+        age >= 18 &&
+        !isPlayer(person.id) &&
+        !touched.has(person.id) &&
+        home !== null &&
+        home !== playerHome &&
+        (view.householdMembers.get(home) ?? []).some(
+          (other) =>
+            other !== person.id &&
+            (view.childrenOf.get(other) ?? []).includes(person.id),
+        )
+      );
+    })
+    .sort((x, y) => (x.person.id < y.person.id ? -1 : 1));
+  if (grownAtHome.length > 0) {
+    next = ensurePeopleTraits(
+      next,
+      grownAtHome.map(({ person }) => person.id),
+    );
+    const pay = monthlyPayByPerson(next, today);
+    const row = hudRentRowFor(town);
+    const rentForOne = row ? marketRentMinor(next, town, row, 0, today) : null;
+    for (const { person, age } of grownAtHome) {
+      const home = householdOf(person.id);
+      const partnerElsewhere = view.couples.some(
+        (couple) =>
+          couple.partnership.personIds.includes(person.id) &&
+          couple.partnership.personIds.some(
+            (other) => other !== person.id && householdOf(other) !== home,
+          ),
+      );
+      const key = `left-home:${person.id}`;
+      const decision = decideToLeaveHome(
+        next,
+        person.id,
+        {
+          age,
+          payMinor: pay.get(person.id) ?? 0,
+          rentForOneMinor: rentForOne,
+          partnerElsewhere,
+        },
+        `${LEAVING_HOME_VERSION}:${prefix}${key}`,
+      );
+      if (!decision.leaves) continue;
+      const provenance = event(
+        key,
+        LEAVING_HOME_EVENT,
+        [person.id],
+        `${personName(person)} moved out of a parent's home into a home of their own.`,
+        LEAVING_HOME_EVENT,
+      );
+      const household = newHousehold(key, person, provenance);
+      moveInto(key, person.id, household, null, provenance);
+      touched.add(person.id);
     }
   }
 

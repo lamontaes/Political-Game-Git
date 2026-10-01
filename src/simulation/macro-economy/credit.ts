@@ -16,11 +16,12 @@ import { MACRO_ERA_POLICY } from "./policy";
  * stocks bring the recovery: defaults write debt down, rate cuts reprice it,
  * and banks rebuild capital from their earnings.
  *
- * Nothing here decides an outcome by chance. The only draws that remain in
- * the national month are the small monthly surprises in `drawInnovations`
- * and the outside price shocks in `stepEraConditions`, and each month records how much
- * of its growth came from each source (`MacroGrowthDrivers`), so a recession
- * can always be explained from what moved.
+ * Nothing here decides an outcome by chance, and nothing else in the national
+ * month does either: there are no drawn monthly surprises and no drawn price
+ * shocks. Each month records how much of its growth came from each source
+ * (`MacroGrowthDrivers`), so a recession can always be explained from what
+ * moved. The "unexplained surprise" driver (`chancePp`) stays in the record,
+ * always zero.
  *
  * Pure: no World access, no clock, no storage.
  *
@@ -169,7 +170,7 @@ export interface MacroGrowthDrivers {
   readonly demandPp: number;
   /** Recorded shocks (disasters, trade, public money, and the rest). */
   readonly shocksPp: number;
-  /** The month's small unexplained surprise. */
+  /** The month's unexplained surprise: always zero, nothing is drawn. */
   readonly chancePp: number;
 }
 
