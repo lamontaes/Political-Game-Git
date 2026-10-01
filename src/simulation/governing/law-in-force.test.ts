@@ -1,3 +1,4 @@
+import { stateMinimumSettingAt } from "../minimum-wage";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
 import { constitutionalPosition } from "../constitutional-process";
 import { enactedRuleChangeAt, ruleValueInWorld } from "../enacted-rule-changes";
@@ -595,7 +596,7 @@ it("hides a later saved hourly rule provision and its enactment", () => {
     sequence: entry.enactment.sequence - 1,
     measureId: entry.measure.id,
     stateUsps: "OH",
-    officeKey: "labor:OH",
+    officeKey: "us-oh-labor-law",
     field: "labor.minimumWage.hourlyCents" as const,
     value: 1800,
     filedAt: makeIsoDate("2026-01-01"),
@@ -606,11 +607,22 @@ it("hides a later saved hourly rule provision and its enactment", () => {
   } as unknown as World;
   const query = {
     stateUsps: "OH",
-    officeKey: "labor:OH",
+    officeKey: "us-oh-labor-law",
     field: provision.field,
     onDate: world.currentDate,
   };
   expect(enactedRuleChangeAt(world, query)?.value).toBe(1800);
+  const wageWorld = { ...world, policyCatalog: { propositions: {} } } as World;
+  expect(
+    stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate)?.hourlyMinor,
+  ).toBe(1800);
+  expect(
+    stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: entry.enactment.sequence,
+    }),
+  ).toBeNull();
+
   expect(
     ruleValueInWorld(
       world,

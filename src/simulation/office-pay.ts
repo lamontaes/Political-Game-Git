@@ -288,11 +288,16 @@ export function officePayInForce(
   world: World,
   work: WorkRelationship,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): OfficePayInForce | null {
-  const held = paidOfficeOf(world, work, {
-    asOfDate: onDate,
-    historySequenceExclusive: world.history.nextSequence,
-  });
+  const held = paidOfficeOf(
+    world,
+    work,
+    cutoff ?? {
+      asOfDate: onDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+  );
   if (!held) return null;
   const stated = statePayFor(held.office, held.state);
   const estimate =
@@ -309,6 +314,7 @@ export function officePayInForce(
         officeKey: officePayLawOfficeKey(held.state),
         field,
         onDate,
+        cutoff,
       },
       published?.annualDollars ?? null,
     );

@@ -375,7 +375,7 @@ export function resolveAnnualOfficePayConsequences(
     const field = PAY_LAW_FIELD[held.office];
     if (!field) continue;
     const officeKey = officePayLawOfficeKey(held.state);
-    const legal = officePayInForce(world, work, context.onDate);
+    const legal = officePayInForce(world, work, context.onDate, cutoff);
     if (!legal?.law) continue;
     const rule = enactedRuleChangeAt(world, {
       stateUsps: held.state,
