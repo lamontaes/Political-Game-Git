@@ -1581,7 +1581,6 @@ function studyPeerAnswers(context: SceneContext): SceneAnswer[] {
                   : "I\u2019ve already committed to another group.",
             ),
           }),
-
     },
     {
       key: "ask",
