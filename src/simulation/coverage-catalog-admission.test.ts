@@ -1,3 +1,4 @@
+import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { describe, expect, it } from "vitest";
@@ -20,12 +21,14 @@ describe("coverage rows join the existing policy pack", () => {
       )!;
       const key = `${pack.pack}:${original.key}`;
       const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
       if (coverage !== undefined) attached++;
-      if (coverage || service.length) {
+      if (coverage || service.length || pay) {
         expect(row.consequences).toEqual([
           ...(original.consequences ?? []),
           ...(coverage ? [coverage] : []),
+          ...(pay ? [pay] : []),
           ...service,
         ]);
       } else expect(row).toBe(original);
