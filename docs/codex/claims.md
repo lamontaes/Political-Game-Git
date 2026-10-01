@@ -14,7 +14,6 @@ Team6 operator linkage is approved but NOT active until its3:30 stamp batch is f
 
 Team 5 confirmed its parks month hunk is published at 600a121e6585faba01694aa9ba91c547e96a3c3b with no unpublished edits. Team 3 now owns only MonthFlows optional paid-leave stamp map, readMonthFlows outgoing paid-leave filter, settleGovernmentMonth paid-leave stamp append, and BudgetMonthRow optional stamp field. Compose against Team 5/Team 8 source; preserve age, cannabis and parks attribution arrays. Team 3 proposed payload is dbc06d2b12bc9b3098fc85397856f630fbcd1c28. No whole-file ownership transfer. Team 5 retains disjoint curriculum/library work.
 
-
 The daily assignments now center on measured law effects. Existing work remains preserved while the named owners coordinate their handoffs.
 
 ## September 30 daily assignment handoffs
@@ -920,18 +919,23 @@ Team 9 owns only its additive row on this branch. The prior homelessness/Wave 2 
 Team3 verified no unpublished month.ts/store.ts bytes at ab2a5e691f68a708dc9f49a8e2c8d7d651cfc83d. Team5 owns ONLY tuition chargesAndFees stamp append and curriculum saved-row append in public-budgets/month.ts. Team8 owns disjoint privacy append. Team3 retains paidLeave MonthFlows field, outgoing payment filter and settleGovernmentMonth paid-leave append. Preserve every other array and optional field. Dispatch delivered to both receiving teams.
 
 ## September 30, 2:19 CTO shared event preservation
+
 Coordinator exclusively owns history.ts HistoricalEventInput/appendHistoricalEvent, types.ts HistoricalEvent optional LawEffectStampedRecord extension, and history-law-stamps.test.ts. Existing event amounts and all other history/types fields remain unchanged. CTO pre-approved this fix contingent on canonical save/reload check. Team2 term-limited local-election event hunk and Team4 rent saved stamp hunks explicitly released by Team1, no unpublished overlap.
 
 ## September 30, 2:40 Team7 current-main child binding
+
 Team7 owns isolated current-main patch blobs only: appearance-lifecycle.ts supported-child-stage gate; appearance-engine manifest/pack/recipe individual approved crop stage/build/pose entries; life-scene-people.ts engine branch permitted pose/body sets and child contact/scale metadata. Local dirty ad75 source remains untouched. SceneBackdrop.tsx/player.css excluded. No new copy, new pixels or visual acceptance inferred. Existing runtime/save requested from CTO; source assembly proceeds independently.
 
 ## September30 CTO3:09/3:19 one law engine
+
 Coordinator solely owns enacted-law-effects.ts orchestration, law-consequence-types.ts schema, catalog validation and links integration. STOP new per-law month.ts/index.ts claims; pending Team5 curriculum index release is superseded. Team2 assigned generic pay adapter in existing town-pay.ts, pending Team3 exact overlap release; test preparation allowed. All other teams convert law data rows after shared schema, finish existing3:30stamp batches. No new engine or duplicate per-law writer.
 
 ## September30 3:32 approved unified contract implementation
+
 Coordinator owns law-consequence-types.ts, law-consequence-amount.ts/test and existing enacted-law-effects.ts/catalog integration. Team3 released only NEW applyLawPayConsequence export in living-world/town-pay.ts and its tests to Team2; preserve existing pay/teacher/compensation functions. Team3 retains state-wage-enacted-stamp.test.ts. No new per-law month/index grants; Team6 mileage caller request superseded. All other teams convert only their owned consequence payloads to shared schema, explicit missing capabilities routed Audit.
 
 Coordinator unified-contract ownership includes law-consequence-validation.ts and test; no runtime activation before canonical catalog/dispatch and pay adapter integration.
 
 ## CTO4:00 parallel kind handlers
+
 Coordinator sole law-consequence-registry.ts append/sharedengine/schema/catalog; Team2pay (town-pay adapter); Team9legal-outcome;Team8coverage-eligibility;Team3tax;Team4price-cost;Team5service-delivered,Team6transit contributor;Team1right-permission/institution-rule usingTeam2eventcontracts. New isolated modules src/simulation/law-consequences/team-N.ts andfocusedtests belong respectiveowner pendingexactack; no overlapping legacywriter edits withouttransfer. Registration submissions integrated bycoordinator, no concurrentregistrywrites. Proofdue6:30,pay5pm.

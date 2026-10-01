@@ -10,14 +10,14 @@ A benefit can run out of reachable recipients or usable capacity. A separate adv
 
 ## Existing records and boundaries
 
-| Mechanism | Existing source | Reusable evidence | Missing connection or limit |
-| --- | --- | --- | --- |
-| Service capacity | `types.ts`: `PublicProgramCapacityRecord`, `PublicProgramCapacityOutturnRecord` | Total and operational units, actual installments, delivered restoration, observed completion when present | Transit contract service hours alone do not establish vehicle availability, demand, reliability or access |
-| Fiscal constraint | `public-budgets/store.ts`: `BudgetMonthRow`; resource transfers | Actual spending, cash balance, reserve, debt and payment records | Appropriation is authority, not payment or delivered service; avoid counting both transfer and budget summary as two costs |
-| Staff availability | `public-budgets/store.ts`: `StaffingBaseline`; `public-budgets/staffing.ts` | Watched-town funded roles, headcount and real funding | Not statewide police density or a measured productivity curve; national officer denominator still required |
-| Trust from conduct | `relationship-standing.ts`: `RelationshipStanding`, `DimensionReading.basis` | Directed person-to-person trust readings with actual interaction IDs | These are qualitative interpersonal readings, not numeric public trust in police. Do not convert bands to an institutional index |
-| Housing pressure | `living-world/housing-price-model.ts`: `HousingPriceInputs` | Income, rates, prior price growth and price-to-income gap; model has an explicit mean-reversion term | The source explicitly lacks a measured supply term. A law toggle is not delivered units or occupancy |
-| Existing effect shapes | `outcome-web/index.ts`: shape evaluator and `outcomeFactor` | Per-link causes, baseline, lag and provenance | Existing diminishing `scale` and target floor/ceiling are mathematical controls, not evidence of real saturation or reversal |
+| Mechanism              | Existing source                                                                 | Reusable evidence                                                                                         | Missing connection or limit                                                                                                      |
+| ---------------------- | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Service capacity       | `types.ts`: `PublicProgramCapacityRecord`, `PublicProgramCapacityOutturnRecord` | Total and operational units, actual installments, delivered restoration, observed completion when present | Transit contract service hours alone do not establish vehicle availability, demand, reliability or access                        |
+| Fiscal constraint      | `public-budgets/store.ts`: `BudgetMonthRow`; resource transfers                 | Actual spending, cash balance, reserve, debt and payment records                                          | Appropriation is authority, not payment or delivered service; avoid counting both transfer and budget summary as two costs       |
+| Staff availability     | `public-budgets/store.ts`: `StaffingBaseline`; `public-budgets/staffing.ts`     | Watched-town funded roles, headcount and real funding                                                     | Not statewide police density or a measured productivity curve; national officer denominator still required                       |
+| Trust from conduct     | `relationship-standing.ts`: `RelationshipStanding`, `DimensionReading.basis`    | Directed person-to-person trust readings with actual interaction IDs                                      | These are qualitative interpersonal readings, not numeric public trust in police. Do not convert bands to an institutional index |
+| Housing pressure       | `living-world/housing-price-model.ts`: `HousingPriceInputs`                     | Income, rates, prior price growth and price-to-income gap; model has an explicit mean-reversion term      | The source explicitly lacks a measured supply term. A law toggle is not delivered units or occupancy                             |
+| Existing effect shapes | `outcome-web/index.ts`: shape evaluator and `outcomeFactor`                     | Per-link causes, baseline, lag and provenance                                                             | Existing diminishing `scale` and target floor/ceiling are mathematical controls, not evidence of real saturation or reversal     |
 
 ## Proposed integration boundaries
 
@@ -30,14 +30,14 @@ A benefit can run out of reachable recipients or usable capacity. A separate adv
 
 ## Link priorities and existing owners
 
-| Link family | Proposed next connection | Owner boundary |
-| --- | --- | --- |
-| Police to violent/property crime | National state officer counts and population, then actual deployment changes; distinct reporting/cooperation mechanism before negative-return claims | Team 9 research; coordinator link design; production assignment requires CTO review |
-| Transit funding to delivered service and ridership | Actual wages/fuel/vehicle costs, available operational units and completed work; demand and crowding need their own recorded bases | Team 6 current transit cost scope; coordinator map connection |
-| Minimum wage to pay and employment | Existing actual wage/payment records and employer finances; research at wage-to-median ratios for employment response | Team 3 wages; research Team 9; no new employer rewrite assigned here |
-| Education funding/class size | Funded qualified staff plus actual enrollment/class capacity before claims about crowding | Team 5 law scope; exact enrollment/capacity producers still need a bounded trace |
-| Housing supply to rent/displacement | Completed usable units and households, construction constraints and affordability; no direct invented supply from a law | Team 4 housing scope; supply elasticity research still needed |
-| Coverage rules to people and news | Actual eligibility/coverage changes already stamped; count saved affected people, then saved health consequences when produced | Team 8; do not turn a headline count into an invented health outcome |
+| Link family                                        | Proposed next connection                                                                                                                             | Owner boundary                                                                      |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Police to violent/property crime                   | National state officer counts and population, then actual deployment changes; distinct reporting/cooperation mechanism before negative-return claims | Team 9 research; coordinator link design; production assignment requires CTO review |
+| Transit funding to delivered service and ridership | Actual wages/fuel/vehicle costs, available operational units and completed work; demand and crowding need their own recorded bases                   | Team 6 current transit cost scope; coordinator map connection                       |
+| Minimum wage to pay and employment                 | Existing actual wage/payment records and employer finances; research at wage-to-median ratios for employment response                                | Team 3 wages; research Team 9; no new employer rewrite assigned here                |
+| Education funding/class size                       | Funded qualified staff plus actual enrollment/class capacity before claims about crowding                                                            | Team 5 law scope; exact enrollment/capacity producers still need a bounded trace    |
+| Housing supply to rent/displacement                | Completed usable units and households, construction constraints and affordability; no direct invented supply from a law                              | Team 4 housing scope; supply elasticity research still needed                       |
+| Coverage rules to people and news                  | Actual eligibility/coverage changes already stamped; count saved affected people, then saved health consequences when produced                       | Team 8; do not turn a headline count into an invented health outcome                |
 
 ## Review and proof requirements
 
