@@ -1,5 +1,6 @@
 ---
-impact: player-visible
+id: opening-money-before-laws
+impact: patch
 section: Changed
 title: Living agreements exist when a life opens
 ---
