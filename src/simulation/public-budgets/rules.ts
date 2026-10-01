@@ -55,14 +55,13 @@ export const LOCAL_REVENUE_RULE =
   "local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)";
 
 /**
- * Pension opening. The actuarial liability as a multiple of a year's general
- * spending, the assumed return, and the amortization period for the unfunded
- * part. PLACEHOLDER, research: public-pension-funding-by-state. Each
- * government's normal cost and benefits paid are its own plans'
- * (`pensionFlows` in `pension-share.ts`).
+ * Pension opening. The assumed return and the amortization period for the
+ * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state. The
+ * liability's size against spending is measured (`openingLiabilityToSpending`
+ * in `pension-share.ts`), and each government's normal cost and benefits paid
+ * are its own plans' (`pensionFlows`).
  */
 export const PENSION = {
-  liabilityToSpending: 1.2,
   assumedReturn: 0.07,
   amortizationYears: 30,
 } as const;
@@ -217,31 +216,6 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
   readonly toNo: number | null;
   readonly basis: string;
 }[] = [
-  {
-    questionKey:
-      "us-policy-positions:technology-privacy.consumer-data-privacy-law",
-    program: "administration",
-    // Colorado SB 21-190, final fiscal note: $323,691 a year and 2 staff at
-    // the Department of Law from FY 2023-24, over 5,877,610 residents
-    // ($0.0551). Virginia HB 2307 (2021): $330,556 a year for 3 staff at the
-    // Office of the Attorney General, over 8,715,698 residents ($0.0379).
-    toYes: (0.0551 + 0.0379) / 2,
-    // A repeal ends the enforcement; the staff go.
-    toNo: -(0.0551 + 0.0379) / 2,
-    basis:
-      "Colorado SB 21-190 final fiscal note ($323,691 a year, Department of Law) and Virginia HB 2307 budget amendment ($330,556 a year, Office of the Attorney General), each over the state's 2023 residents, averaged.",
-  },
-  {
-    questionKey:
-      "us-policy-positions:technology-privacy.age-verification-for-social-media",
-    program: "administration",
-    // Utah SB 152 (2023), fiscal note: $220,500 a year ongoing for the
-    // Division of Consumer Protection, over 3,417,734 residents.
-    toYes: 0.0645,
-    toNo: -0.0645,
-    basis:
-      "Utah SB 152 (2023) fiscal note: $220,500 a year ongoing for the Division of Consumer Protection to investigate and enforce, over Utah's 2023 residents.",
-  },
   {
     questionKey:
       "us-policy-positions:justice-public-safety.raise-juvenile-court-age",

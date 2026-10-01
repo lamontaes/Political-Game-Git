@@ -1,6 +1,7 @@
 import paid from "../../../data/research/money/pension-contribution-paid.json" with { type: "json" };
 import flows from "../../../data/research/money/pension-flows.json" with { type: "json" };
 import funded from "../../../data/research/money/pension-funded-ratio.json" with { type: "json" };
+import liabilityRatio from "../../../data/research/money/pension-liability-ratio.json" with { type: "json" };
 import type {
   BudgetLevel,
   BudgetLawReading,
@@ -106,6 +107,43 @@ export function openingFundedRatio(
   return reported === undefined
     ? { fundedRatio: MEDIAN_FUNDED_RATIO, basis: "estimated-from-average" }
     : { fundedRatio: reported, basis: "reported" };
+}
+
+/** The median of the states' measured ratios: what an unlisted place opens at. */
+export const MEDIAN_LIABILITY_TO_SPENDING: number = liabilityRatio.median;
+
+const LIABILITY_BY_STATE: Readonly<
+  Record<string, { readonly liabilityToSpending: number }>
+> = liabilityRatio.byState;
+
+export interface LiabilityToSpendingSource {
+  readonly liabilityToSpending: number;
+  /** The state's own plans against its spending, or the states' median. */
+  readonly basis: "state-plans" | "estimated-from-average";
+}
+
+/**
+ * How large a government's opening pension liability is against a year of
+ * its spending: in its state, every public plan's actuarial liability in the
+ * Public Plans Database over the state's combined state and local direct
+ * general expenditure (`pension-liability-ratio.json`, written by
+ * `scripts/research/export-pension-liability-ratio.py`). Many state plans
+ * also cover local employees, so the ratio is the state's combined one, the
+ * same for the state and each of its counties and cities. A place with no
+ * listed plan or no Census row opens at the median of the states' ratios:
+ * ESTIMATED FROM AVERAGE.
+ */
+export function openingLiabilityToSpending(
+  stateKey: string,
+): LiabilityToSpendingSource {
+  const measured =
+    LIABILITY_BY_STATE[stateKey.replace(/^US-/, "")]?.liabilityToSpending;
+  return measured === undefined
+    ? {
+        liabilityToSpending: MEDIAN_LIABILITY_TO_SPENDING,
+        basis: "estimated-from-average",
+      }
+    : { liabilityToSpending: measured, basis: "state-plans" };
 }
 
 /** The measured medians: what an unlisted government's plans cost and pay. */
