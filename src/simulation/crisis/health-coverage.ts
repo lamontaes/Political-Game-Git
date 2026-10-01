@@ -447,6 +447,36 @@ export function healthCoverageRecords(
   );
 }
 
+/**
+ * Recorded ends of coverage spells this person actually held. A false row
+ * without an earlier true row is not a loss. This reader assigns no political
+ * size or responsibility and writes no opinion or reflection.
+ */
+export function coverageLossRecordsFor(
+  world: World,
+  personId: EntityId,
+  through: IsoDate = world.currentDate,
+): readonly HealthCoverageRecord[] {
+  const records = healthCoverageRecords(world)
+    .filter(
+      (row) =>
+        row.personId === personId &&
+        row.effectiveAt <= through &&
+        row.recordedAt <= through,
+    )
+    .sort(
+      (a, b) =>
+        a.effectiveAt.localeCompare(b.effectiveAt) || a.sequence - b.sequence,
+    );
+  const lost: HealthCoverageRecord[] = [];
+  let held = false;
+  for (const row of records) {
+    if (held && !row.covered) lost.push(row);
+    held = row.covered;
+  }
+  return lost;
+}
+
 /** Each person's latest coverage record. */
 function latestCoverage(world: World): Map<EntityId, HealthCoverageRecord> {
   const latest = new Map<EntityId, HealthCoverageRecord>();

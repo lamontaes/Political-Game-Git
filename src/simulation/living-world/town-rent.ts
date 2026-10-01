@@ -613,6 +613,64 @@ export function townLeases(world: World, onDate: IsoDate = world.currentDate) {
   return leases;
 }
 
+/** The saved renewal terms and the lower terms they replaced. */
+export interface RentRaiseRecords {
+  readonly renewal: ResourceFlowTermsRecord;
+  readonly prior: ResourceFlowTermsRecord;
+}
+
+/**
+ * Rent increases at actual lease renewals, for this leaseholder only. The
+ * amount difference is saved rent, not an assumed political effect. Ended
+ * leases retain their history; initial terms, decreases and non-renewal
+ * changes are not raises at renewal.
+ */
+export function rentRaiseRecordsFor(
+  world: World,
+  personId: EntityId,
+  through: IsoDate = world.currentDate,
+): readonly RentRaiseRecords[] {
+  const leases = townLeases(world, through).filter(
+    (lease) => lease.leaseholderId === personId,
+  );
+  const terms = termsByFlow(
+    world,
+    new Set(leases.map((lease) => lease.flow.id)),
+  );
+  const raised: RentRaiseRecords[] = [];
+  const seen = new Set<EntityId>();
+  for (const lease of leases) {
+    const history = terms.get(lease.flow.id) ?? [];
+    const byId = new Map(history.map((row) => [row.id, row]));
+    for (const renewal of history) {
+      if (
+        seen.has(renewal.id) ||
+        !renewal.stableKey.startsWith(`${lease.flow.stableKey}:renewal:`) ||
+        renewal.effectiveAt > through ||
+        renewal.status !== "active" ||
+        !renewal.supersedesTermsId
+      )
+        continue;
+      const prior = byId.get(renewal.supersedesTermsId);
+      if (
+        !prior ||
+        prior.status !== "active" ||
+        prior.effectiveAt > renewal.effectiveAt ||
+        prior.amount.currency !== renewal.amount.currency ||
+        renewal.amount.minorUnits <= prior.amount.minorUnits
+      )
+        continue;
+      seen.add(renewal.id);
+      raised.push({ renewal, prior });
+    }
+  }
+  return raised.sort(
+    (a, b) =>
+      a.renewal.effectiveAt.localeCompare(b.renewal.effectiveAt) ||
+      a.renewal.sequence - b.renewal.sequence,
+  );
+}
+
 /** The terms of a flow in force on `date`: the latest that took effect. */
 function termsOn(
   history: readonly ResourceFlowTermsRecord[],
