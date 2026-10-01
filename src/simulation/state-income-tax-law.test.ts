@@ -141,7 +141,7 @@ describe("a state's income tax law, as enacted in play", () => {
     ).toBe("repealed");
   });
 
-  it("starts an adopted tax graduated, at the average of graduated states, with a seeded spread", () => {
+  it("starts an adopted tax graduated from ranked sourced peers, without a seed draw", () => {
     const adopt = enacted(stateId("US-WA"), ADOPT, "yes", "2027-01-01");
     const world = lawWorld("seed-one", [adopt]);
     const read = stateIncomeTaxUnderLaw(world, "US-WA", "single", paid);
@@ -162,8 +162,7 @@ describe("a state's income tax law, as enacted in play", () => {
     const share = annualTax(5_000_000, schedule.brackets) / 5_000_000;
     expect(share).toBeGreaterThan(0.02);
     expect(share).toBeLessThan(0.06);
-    // The same world and state give the same schedule; another world or
-    // another state is moved by its own draw.
+    // Identity seeds do not change source facts or the estimated schedule.
     expect(stateIncomeTaxUnderLaw(world, "US-WA", "single", paid)).toEqual(
       read,
     );
@@ -173,7 +172,13 @@ describe("a state's income tax law, as enacted in play", () => {
       "single",
       paid,
     );
-    expect(otherWorld).not.toEqual(read);
+    expect(otherWorld).toEqual(read);
+    expect(read.estimatedFromAverage).toContain(
+      "authored reciprocal-rank weights",
+    );
+    expect(read.estimatedFromAverage).toContain(
+      "not a rate written in the bill",
+    );
   });
 
   it("adopts a flat tax when a law on its shape says so", () => {
@@ -189,7 +194,7 @@ describe("a state's income tax law, as enacted in play", () => {
     expect(read.shape).toBe("flat");
     expect(read.lawMeasureIds).toEqual([adopt.measure.id, flat.measure.id]);
     expect(read.schedule.brackets).toHaveLength(1);
-    // Within half a standard deviation of the 15 flat states' 3.88% average.
+    // A labeled peer estimate, rather than a seeded spread or statutory rate.
     const rate = read.schedule.brackets[0]!.rateBasisPoints;
     expect(rate).toBeGreaterThan(330);
     expect(rate).toBeLessThan(420);
