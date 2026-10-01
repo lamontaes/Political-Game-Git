@@ -1777,8 +1777,7 @@
       "source": "Dettling 2017 (ILR Review)",
       "from": "broadband.home-access",
       "evidence": "researched",
-      "range": [0.0005, 0.0009],
-      "notes": "Waiting on a base: married women's labor force participation by state has no starting level yet; ACS table B12006 (marital status by labor force status) is the candidate source."
+      "range": [0.0005, 0.0009]
     },
     {
       "key": "road-condition-to-vehicle-costs",
