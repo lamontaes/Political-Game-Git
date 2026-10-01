@@ -97,3 +97,25 @@ Completing `scheduled-activity_4cd1c4b0b17ef6a7` produces one stamped receipt,
 preserve the same transfers and delivery. These authored inputs demonstrate
 the resident caller and existing writer join; they do not prove naturally
 generated spending terms or the full slice.
+
+## Calendar repair after the browser finding
+
+Checker3 booked a trip in the actual browser but timed out at the unchanged
+ride-button assertion in resident-transit-service.spec.ts. The request already
+saved a travel activity; Calendar excluded every travel activity. The released
+visibility predicate now admits that same activity only when its source IDs
+join an earlier saved service request by its responsible rider. The request,
+activity, payment and delivery writers and IDs remain unchanged. Ordinary
+commutes remain hidden. No new list, event, delivery or monetary fact is added.
+
+The changed resident test reproduced the omission with 4 failures and 4 passes
+in 21.18 seconds. After the repair, all 8 cases pass in 20.73 seconds. The four
+supported seeded places now verify booking-to-Calendar after reopening the
+save, preserve routine commute hiding, and complete the actual ride using
+playCalendarActivity, the Calendar action's existing consumer. The same named
+riders and stamped receipts above remain; VI still refuses absent procedure.
+The same browser spec, selector and timeout are unchanged. Renewed browser
+execution belongs to Checker3; its earlier failure is retained, not relabeled.
+
+New exports: none. Replaces: the blanket travel exclusion for actual requested
+service rides with the saved request/rider join in the existing predicate.

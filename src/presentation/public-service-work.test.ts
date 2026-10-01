@@ -18,7 +18,7 @@ import {
 import { money } from "../simulation/resources";
 import { settleProgramInstallment } from "../simulation/governing/public-program";
 import {
-  performScheduledActivity,
+  createScheduledActivity,
   scheduledActivityState,
 } from "../simulation/time-work";
 import { applyLawConsequences } from "../simulation/enacted-law-effects";
@@ -29,6 +29,8 @@ import { politicsIssueAccess } from "./politics-issues";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { PublicServiceRequestPanel } from "../player/PublicServiceRequestPanel";
+import { calendarEntryFor, projectPlayerCalendar } from "./player-calendar";
+import { playCalendarActivity } from "./calendar-time-control";
 
 const SEED = "public-money-service-controlled-resident";
 const places = lifePlaceStateIdentities();
@@ -102,6 +104,48 @@ describe(`public service requests use the saved controlled character (${PLACE}, 
       };
       const asked = requestPublicServiceFromLife(world, input);
       if (asked.kind !== "scheduled") throw new Error(asked.reason);
+      const booked = deserializeWorld(serializeWorld(asked.world));
+      const calendar = projectPlayerCalendar(booked, f.personId);
+      expect(calendar.days.flatMap((day) => day.entries)).toContainEqual(
+        expect.objectContaining({
+          activityId: asked.activityId,
+          kind: "travel",
+          status: "scheduled",
+          group: "yours",
+        }),
+      );
+      expect(
+        calendarEntryFor(booked, f.personId, asked.activityId),
+      ).toMatchObject({
+        activityId: asked.activityId,
+        title: "Ride with Authored resident transit operator",
+      });
+      const commuteStart = addSimulationMinutes(input.end, 30);
+      const withCommute = createScheduledActivity(booked, {
+        stableKey: "resident-calendar-unrequested-commute",
+        title: "Routine commute",
+        summary: "A separate journey without a public-service request.",
+        kind: "travel",
+        start: commuteStart,
+        end: addSimulationMinutes(commuteStart, 15),
+        participantPersonIds: [f.personId],
+        responsiblePersonId: f.personId,
+        location: {
+          locationKey: "resident-calendar-commute",
+          label: "Workplace",
+          jurisdictionId: f.stateJurisdictionId,
+        },
+        sourceEntityIds: [f.personId],
+        flexibility: { kind: "fixed" },
+        access: { kind: "private", personIds: [f.personId] },
+      });
+      expect(
+        calendarEntryFor(
+          withCommute,
+          f.personId,
+          withCommute.history.scheduledActivities.at(-1)!.id,
+        ),
+      ).toBeNull();
       expect(
         asked.world.history.events.find((e) => e.id === asked.requestEventId)
           ?.participants[0]?.personId,
@@ -124,10 +168,11 @@ describe(`public service requests use the saved controlled character (${PLACE}, 
       expect(requestPublicServiceFromLife(asked.world, input).kind).toBe(
         "unsupported",
       );
-      world = performScheduledActivity(
+      world = playCalendarActivity(
         deserializeWorld(serializeWorld(asked.world)),
+        f.personId,
         asked.activityId,
-      );
+      ).world;
       expect(scheduledActivityState(world, asked.activityId).status).toBe(
         "completed",
       );
