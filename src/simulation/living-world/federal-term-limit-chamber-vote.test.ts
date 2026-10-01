@@ -4,7 +4,12 @@ import {
   ARTICLE_V_STATE_KEYS,
   constitutionalActions,
   constitutionalPosition,
+  recordArticleVRatification,
 } from "../constitutional-process";
+import {
+  stateRatificationChambers,
+  stateRatificationRule,
+} from "../constitutional-ratification-rules";
 import { currentPresidentOf } from "../crisis/offices";
 import {
   lifePlaceStateIdentities,
@@ -27,6 +32,8 @@ import { congressVoters } from "../governing/article-v";
 import {
   proposeAndVote,
   decideArticleVStateMemberVotes,
+  recordArticleVStateMemberVote,
+  federalReformStateActionHandler,
   termLimitBallot,
   termLimitCount,
   type FederalReformCause,
@@ -98,6 +105,40 @@ beforeAll(() => {
     })),
   );
 });
+
+let cachedSupported: World | null = null;
+function supportedWorld(): World {
+  if (!cachedSupported) {
+    const members = (["house", "senate"] as const).flatMap((body) =>
+      congressVoters(world, body),
+    );
+    cachedSupported = createOrganizationParticipations(
+      world,
+      members
+        .filter(
+          (voter) => chamber.publicPartyOf(world, voter.personId) === null,
+        )
+        .map((voter) => ({
+          stableKey: `a79:supplied-support:${voter.memberKey}`,
+          personId: voter.personId,
+          organizationId: livingWorldOrganizationId(
+            world,
+            LIVING_WORLD_KEYS.nationalParty("democratic"),
+          ),
+          startedAt: world.currentDate,
+          initialStatus: "active",
+          kind: "affiliation:political-party",
+          roleKind: "member:public-affiliation",
+          context: "Supplied supportive affiliation on an actual saved member.",
+          provenance: {
+            kind: "authored",
+            note: "Successful rollcall fixture, not natural political persuasion.",
+          },
+        })),
+    );
+  }
+  return cachedSupported;
+}
 
 describe("A79 recorded presidential term-limit proposal uses the shared chamber", () => {
   it.each(["extend", "restore"] as const)(
@@ -188,33 +229,7 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
   });
 
   it("records both successful chambers before scheduling the existing state actions", () => {
-    const members = (["house", "senate"] as const).flatMap((body) =>
-      congressVoters(world, body),
-    );
-    const supported = createOrganizationParticipations(
-      world,
-      members
-        .filter(
-          (voter) => chamber.publicPartyOf(world, voter.personId) === null,
-        )
-        .map((voter) => ({
-          stableKey: `a79:supplied-support:${voter.memberKey}`,
-          personId: voter.personId,
-          organizationId: livingWorldOrganizationId(
-            world,
-            LIVING_WORLD_KEYS.nationalParty("democratic"),
-          ),
-          startedAt: world.currentDate,
-          initialStatus: "active",
-          kind: "affiliation:political-party",
-          roleKind: "member:public-affiliation",
-          context: "Supplied supportive affiliation on an actual saved member.",
-          provenance: {
-            kind: "authored",
-            note: "Successful rollcall fixture, not natural political persuasion.",
-          },
-        })),
-    );
+    const supported = supportedWorld();
     const count = termLimitCount(supported, 2027, cause);
     expect(count.carries).toBe(true);
     const result = proposeAndVote(supported, 2027, cause);
@@ -428,6 +443,113 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
     expect(unsupportedStateBodies).toEqual([]);
     expect(statesWithActualBallots).toBe(50);
     expect(ineligiblePlaces).toBe(6);
+  });
+
+  it("saves sourced actual chamber rollcalls and refuses unbound state actions", () => {
+    const result = proposeAndVote(supportedWorld(), 2027, cause);
+    const measure = result.history.constitutionalMeasures!.at(-1)!;
+    const admitted = ARTICLE_V_STATE_KEYS.filter((key) =>
+      stateRatificationChambers(key),
+    );
+    expect(admitted).toHaveLength(6);
+    let chamberCount = 0;
+    const examples: unknown[] = [];
+    for (const stateKey of admitted) {
+      const due = result.history.futureDueItems.find((row) =>
+        row.stableKey.endsWith(`:state:${stateKey}`),
+      )!;
+      const outcome = federalReformStateActionHandler(result, due);
+      const next = outcome.world;
+      const action = constitutionalActions(next, measure.id).find(
+        (row) =>
+          row.detail.kind === "state-ratification" &&
+          row.detail.stateKey === stateKey,
+      )!;
+      expect(action).toBeDefined();
+      if (action.detail.kind !== "state-ratification")
+        throw Error("Actual state action required.");
+      const detail = action.detail;
+      expect(detail.chamberVotes).toHaveLength(
+        stateRatificationChambers(stateKey)!.length,
+      );
+      for (const row of detail.chamberVotes!) {
+        const rule = stateRatificationRule(stateKey, row.bodyKey)!;
+        expect(row.vote.purpose).toBe("constitutional-ratification");
+        expect(row.vote.measureId).toBe(measure.id);
+        expect(row.vote.denominatorKind).toBe(rule.threshold.countedAgainst);
+        expect(row.vote.thresholdLabel).toBe(rule.threshold.label);
+        expect(row.vote.dispositions.every((v) => v.personId && v.reason)).toBe(
+          true,
+        );
+        expect(
+          next.history.organizations.some(
+            (org) => org.id === row.organizationId,
+          ),
+        ).toBe(true);
+        expect(row.sourceRecordIds).toContain(row.organizationId);
+        const person = row.vote.dispositions.find((v) => v.personId)!;
+        examples.push({
+          stateKey,
+          body: row.bodyKey,
+          person: personName(next.people[person.personId!]!),
+          ballot: person.disposition,
+          reason: person.reason,
+          required: row.vote.requiredVotes,
+          denominator: row.vote.denominatorValue,
+          approved: detail.approved,
+        });
+        chamberCount++;
+      }
+      expect(detail.approved).toBe(
+        detail.chamberVotes!.every((row) => row.vote.outcome === "passed"),
+      );
+      expect(recordArticleVStateMemberVote(next, measure.id, stateKey)).toBe(
+        next,
+      );
+      const loaded = deserializeWorld(serializeWorld(next));
+      expect(constitutionalActions(loaded, measure.id)).toEqual(
+        constitutionalActions(next, measure.id),
+      );
+      expect(recordArticleVStateMemberVote(loaded, measure.id, stateKey)).toBe(
+        loaded,
+      );
+      expect(() =>
+        recordArticleVRatification(result, measure.id, {
+          ...detail,
+          approved: !detail.approved,
+        }),
+      ).toThrow(/each actual chamber/);
+      const fake = {
+        ...detail,
+        chamberVotes: detail.chamberVotes!.map((row, index) =>
+          index ? row : { ...row, organizationId: measure.id },
+        ),
+      };
+      expect(() =>
+        recordArticleVRatification(result, measure.id, fake),
+      ).toThrow(/actual dated body/);
+    }
+    for (const stateKey of ARTICLE_V_STATE_KEYS.filter(
+      (key) => !admitted.includes(key),
+    )) {
+      const due = result.history.futureDueItems.find((row) =>
+        row.stableKey.endsWith(`:state:${stateKey}`),
+      )!;
+      expect(federalReformStateActionHandler(result, due).world).toBe(result);
+      expect(
+        recordArticleVStateMemberVote(result, measure.id, stateKey),
+      ).toBeNull();
+    }
+    console.info(
+      "A79 sourced state actions",
+      JSON.stringify({
+        seed,
+        admitted,
+        refused: 50 - admitted.length,
+        chamberCount,
+        examples,
+      }),
+    );
   });
 
   it("preserves a controlled member's absence and never votes for the player", () => {

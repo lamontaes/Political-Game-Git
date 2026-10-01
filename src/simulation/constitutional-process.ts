@@ -29,6 +29,12 @@ import type {
 } from "./types";
 import { recordWorldEvent } from "./world";
 import { rulePackById } from "./legislature-rule-packs";
+import {
+  stateRatificationChambers,
+  stateRatificationRule,
+} from "./constitutional-ratification-rules";
+import { resolveRequiredVotes } from "./legislature-rules";
+import { stateConstitutionalRoster } from "./governing/chamber-votes";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import type { ConstitutionalProcessKind } from "./constitutional-types";
@@ -814,6 +820,100 @@ function assertDetail(
       throw Error(
         "Duplicate state action; reconsideration/rescission rules remain unresolved.",
       );
+    if (d.chamberVotes !== undefined || d.jurisdictionId !== undefined) {
+      const bodies = stateRatificationChambers(d.stateKey);
+      if (
+        d.body !== "state-legislature" ||
+        !d.jurisdictionId ||
+        !d.chamberVotes ||
+        d.jurisdictionId !== stateJurisdictionForKey(d.stateKey)?.id ||
+        !bodies ||
+        d.chamberVotes.length !== bodies.length ||
+        new Set(d.chamberVotes.map((row) => row.bodyKey)).size !== bodies.length
+      )
+        throw Error("Ratification needs every sourced actual state chamber.");
+      for (const row of d.chamberVotes) {
+        const rule = stateRatificationRule(d.stateKey, row.bodyKey);
+        const roster = stateConstitutionalRoster(
+          world,
+          d.jurisdictionId,
+          row.bodyKey,
+          "ratification",
+        );
+        const vote = row.vote;
+        const tally = tallyDispositions(vote.dispositions);
+        const present = tally.yea + tally.nay + tally.presentNotVoting;
+        if (
+          !bodies.includes(row.bodyKey) ||
+          !rule ||
+          !roster ||
+          !roster.sourceRecordIds.includes(row.organizationId) ||
+          !world.history.organizations.some(
+            (org) => org.id === row.organizationId,
+          ) ||
+          !roster.sourceRecordIds.every((id) =>
+            row.sourceRecordIds.includes(id),
+          ) ||
+          vote.dispositions.length !== roster.seated.body.members.length ||
+          vote.eligibleMembers !==
+            roster.seated.body.members.filter(
+              (member) => member.personId !== null,
+            ).length ||
+          vote.presentMembers !== present ||
+          present <
+            resolveRequiredVotes(rule.quorum, vote.eligibleMembers)
+              .requiredVotes ||
+          vote.takenAt !== world.currentDate ||
+          vote.dispositions.some(
+            (entry) =>
+              !roster.seated.body.members.some(
+                (member) =>
+                  member.memberKey === entry.memberKey &&
+                  member.personId === entry.personId,
+              ),
+          )
+        )
+          throw Error(
+            "Ratification rollcall must name its actual dated body, members and quorum.",
+          );
+        const expected = buildLegislativeVoteRecord(world, {
+          stableKey: vote.stableKey,
+          measureId: m.id,
+          forum: { kind: "chamber", chamberKey: row.bodyKey },
+          purpose: "constitutional-ratification",
+          threshold: rule.threshold,
+          eligibleMembers: vote.eligibleMembers,
+          presentMembers: present,
+          dispositions: vote.dispositions,
+          provenance: vote.provenance,
+          takenAt: vote.takenAt,
+        });
+        for (const key of [
+          "id",
+          "tally",
+          "thresholdLabel",
+          "denominatorKind",
+          "denominatorValue",
+          "requiredVotes",
+          "outcome",
+          "forum",
+          "purpose",
+          "takenAt",
+          "measureId",
+        ] as const)
+          if (JSON.stringify(expected[key]) !== JSON.stringify(vote[key]))
+            throw Error(
+              `Ratification vote ${key} disagrees with its sourced rule.`,
+            );
+      }
+      if (
+        d.approved !==
+        d.chamberVotes.every((row) => row.vote.outcome === "passed")
+      )
+        throw Error(
+          "State approval requires each actual chamber to carry the same resolution.",
+        );
+    }
   }
   if (d.kind === "statewide-vote") {
     if (

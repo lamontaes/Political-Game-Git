@@ -2,9 +2,10 @@
 id: team2-state-ratification-ballots
 impact: patch
 section: Added
-title: Prepare actual state ratification ballots
+title: Record actual state ratification ballots
 ---
 
-Adds shared ballot preparation for actual saved state chambers in all 50 states.
-Production ratification remains unchanged pending sourced chamber approval rules;
-this preparation does not approve a state or save a ratification rollcall.
+Routes state ratification through the shared member vote and records each actual
+chamber's rollcall using explicit researched ratification rules. States with
+inferred rules or unimplemented conditions remain pending; no federal delegation
+or pooled state majority substitutes for their legislature.

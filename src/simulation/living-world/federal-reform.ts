@@ -1,6 +1,7 @@
 import {
   ARTICLE_V_STATE_KEYS,
   constitutionalMemberBody,
+  constitutionalActions,
   constitutionalPosition,
   constitutionalProposalRuleForWorld,
   proposeConstitutionalMeasure,
@@ -18,7 +19,6 @@ import { considerationScore, evaluateDecision } from "../decisions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
-  stateVoice,
   type Voter,
 } from "../governing/article-v";
 import {
@@ -27,6 +27,14 @@ import {
   stateConstitutionalRoster,
 } from "../governing/chamber-votes";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
+import { stateJurisdictionForKey } from "../life-places";
+import { buildLegislativeVoteRecord, tallyDispositions } from "../legislation";
+import { resolveRequiredVotes } from "../legislature-rules";
+import {
+  stateRatificationChambers,
+  stateRatificationRule,
+} from "../constitutional-ratification-rules";
+import type { ConstitutionalRatificationChamberVote } from "../constitutional-types";
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { relationshipConsiderations } from "../governing/standing-considerations";
@@ -443,7 +451,8 @@ export function decideArticleVStateMemberVotes(
       const members = roster!.seated.body.members;
       return {
         bodyKey,
-        eligibleMembers: roster!.seated.seats,
+        eligibleMembers: members.filter((member) => member.personId !== null)
+          .length,
         sourceRecordIds: [measure.id, ...roster!.sourceRecordIds],
         dispositions: decideChamberVote(next, {
           kind: "constitutional",
@@ -478,6 +487,81 @@ export function decideArticleVStateMemberVotes(
       };
     }),
   };
+}
+
+/** Record the state's actual separate chambers only when all their legal
+ * requirements are admitted. A missing rule/body/quorum leaves it pending. */
+export function recordArticleVStateMemberVote(
+  world: World,
+  measureId: EntityId,
+  stateKey: string,
+): World | null {
+  if (
+    constitutionalActions(world, measureId).some(
+      (row) =>
+        row.detail.kind === "state-ratification" &&
+        row.detail.stateKey === stateKey,
+    )
+  )
+    return world;
+  const bodies = stateRatificationChambers(stateKey);
+  const jurisdiction = stateJurisdictionForKey(stateKey);
+  if (!bodies || !jurisdiction) return null;
+  const prepared = decideArticleVStateMemberVotes(
+    world,
+    measureId,
+    jurisdiction.id,
+  );
+  if (!prepared || prepared.chambers.length !== bodies.length) return null;
+  const votes: ConstitutionalRatificationChamberVote[] = [];
+  for (const chamber of prepared.chambers) {
+    const rule = stateRatificationRule(stateKey, chamber.bodyKey);
+    const organization = prepared.world.history.organizations.find((row) =>
+      chamber.sourceRecordIds.includes(row.id),
+    );
+    const tally = tallyDispositions(chamber.dispositions);
+    const present = tally.yea + tally.nay + tally.presentNotVoting;
+    // Vacancy semantics beyond the complete actual seating remain unsupported
+    // rather than silently borrowing the authorized seat count as a denominator.
+    if (
+      !bodies.includes(chamber.bodyKey) ||
+      !rule ||
+      !organization ||
+      chamber.dispositions.some((row) => row.personId === null) ||
+      present <
+        resolveRequiredVotes(rule.quorum, chamber.eligibleMembers).requiredVotes
+    )
+      return null;
+    votes.push({
+      bodyKey: chamber.bodyKey,
+      organizationId: organization.id,
+      sourceRecordIds: chamber.sourceRecordIds,
+      vote: buildLegislativeVoteRecord(prepared.world, {
+        stableKey: `${measureId}:${stateKey}:${chamber.bodyKey}:ratification`,
+        measureId,
+        forum: { kind: "chamber", chamberKey: chamber.bodyKey },
+        purpose: "constitutional-ratification",
+        threshold: rule.threshold,
+        eligibleMembers: chamber.eligibleMembers,
+        presentMembers: present,
+        dispositions: chamber.dispositions,
+        provenance: {
+          method: "member-decisions",
+          note: "Actual state members use the shared chamber vote and sourced ratification rule.",
+          sourceEntityIds: [...chamber.sourceRecordIds],
+        },
+      }),
+    });
+  }
+  return recordArticleVRatification(prepared.world, measureId, {
+    kind: "state-ratification",
+    stateKey,
+    body: "state-legislature",
+    approved: votes.every((row) => row.vote.outcome === "passed"),
+    authenticationKey: `${measureId}:${stateKey}:${prepared.world.currentDate}`,
+    jurisdictionId: jurisdiction.id,
+    chamberVotes: votes,
+  });
 }
 
 /** Whose term limit a member is voting on, for the reasons they write. */
@@ -737,49 +821,16 @@ export function federalReformStateActionHandler(
   const position = constitutionalPosition(world, measure.id);
   if (position.phase !== "ratification")
     return done(world, "The amendment is no longer before the states.");
-  const delta = measure.ruleDelta;
-  const direction: ReformDirection =
-    delta.kind === "rule-field" &&
-    delta.applicability?.appliesTo === "immediately"
-      ? "extend"
-      : "restore";
-  // The legislature ratifies when a majority of those who speak for it
-  // would vote yes, each for their own reasons, as members of Congress did.
-  const holder = currentPresidentOf(world)?.personId ?? null;
-  const voice = stateVoice(world, stateKey.slice(3));
-  let next = ensureOfficeholderPrinciples(world, voice.personIds);
-  const cause: FederalReformCause | null =
-    holder && delta.kind === "rule-field"
-      ? {
-          direction,
-          holderPersonId: holder,
-          value: delta.value as TermLimitRule,
-          reason: "",
-        }
-      : null;
-  const cast = cause
-    ? voice.personIds
-        .map(
-          (personId) =>
-            termLimitBallot(
-              next,
-              `${measure.stableKey}:${stateKey}:${personId}`,
-              { memberKey: personId, personId },
-              cause,
-            ).ballot,
-        )
-        .filter((ballot) => ballot !== "absent")
-    : [];
-  const approved =
-    cast.length > 0 &&
-    cast.filter((ballot) => ballot === "yea").length * 2 > cast.length;
-  next = recordArticleVRatification(next, measure.id, {
-    kind: "state-ratification",
-    stateKey,
-    body: "state-legislature",
-    approved,
-    authenticationKey: `${measure.stableKey}:${stateKey}:${next.currentDate}`,
-  });
+  const next = recordArticleVStateMemberVote(world, measure.id, stateKey);
+  if (!next)
+    return done(
+      world,
+      "The state action remains pending: its actual chambers, quorum or sourced ratification admission are unavailable.",
+    );
+  const approved = constitutionalPosition(
+    next,
+    measure.id,
+  ).ratifiedStates.includes(stateKey);
   const after = constitutionalPosition(next, measure.id);
   return done(
     next,
