@@ -560,7 +560,7 @@
       "note": "All four still match, so not-started as verified. Line numbers in types.ts moved since the audit text (now :2120)."
     },
     "A135": {
-      "covers": "part",
+      "covers": "whole",
       "checks": [
         {
           "kind": "absent",
@@ -596,9 +596,33 @@
           "file": "src/simulation/migration/review.ts",
           "pattern": "rng\\.next\\(\\)\\s*<\\s*expected",
           "why": "the drawn count of newcomers per quarter (review.ts:812)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "arrivalsPerResidentPerYear\\s*\\?\\?",
+          "why": "the newcomer count from a blanket per-resident rate"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "homeLostCause\\(",
+          "why": "a wrecked home is a cause the household weighs in decideToLeave"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "townOpenings\\(",
+          "why": "newcomers come for recorded jobs in town nobody in town can take, against the rent"
+        },
+        {
+          "kind": "test",
+          "file": "tests/migration-causes.test.ts",
+          "pattern": "A135: moving comes from jobs, rent and family",
+          "why": "the small-world proof, place drawn from all 56 by seed"
         }
       ],
-      "note": "The 4% constant BLANKET_DEPARTURE_CHANCE_PER_YEAR is gone since the audit (A165 'departure and arrival rates from the ACS by age and place', 2026-10-01 15:51 UTC, review.ts:100-160), so scans partly; the departure draw (review.ts:433), displaced draw (:387), destination draw (:773) and arrival-count draw (:812) are all still live, so it is still not whole."
+      "note": "Whole on claude/x5-a135-migration-rolls: the departure, displaced, destination and arrival draws are gone. A wrecked home is a cause weighed in decideToLeave, destinations come from the cause, the closest relative elsewhere or the own state, and newcomers come for recorded openings in town against the rent."
     },
     "A151": {
       "covers": "whole",

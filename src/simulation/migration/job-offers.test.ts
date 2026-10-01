@@ -61,7 +61,7 @@ function aYearOfReviews(world: World): World {
   let year = world;
   for (let quarter = 0; quarter < 4; quarter += 1)
     year = advanceWithWorldIntegrityAtEnd(() =>
-      reviewTown(year, quarter, { arrivalsPerResidentPerYear: 0 }),
+      reviewTown(year, quarter, { arrivals: false }),
     );
   return year;
 }
