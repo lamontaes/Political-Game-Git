@@ -3,7 +3,7 @@ import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import type { AdultAftermathKind } from "./adult-situations";
 import { applyCharacterHistoryPlan } from "./character-history";
 import { addDays, makeIsoDate } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   assessUndertaking,
@@ -456,6 +456,16 @@ export function lifeCallbackTransitionHandler(
       dueItem,
       situationTag ?? "life.callback",
     );
+    if (raised === null) {
+      return {
+        world,
+        status: "blocked",
+        reasonKey: "life:decision-undecided",
+        context:
+          "Diagnostic: no answer was selected about raising this earlier matter.",
+        outcomeEventId: null,
+      };
+    }
     if (!raised) {
       return {
         world,
@@ -588,7 +598,7 @@ function counterpartRaisesIt(
   counterpartId: EntityId,
   dueItem: FutureDueItem,
   situationTag: string,
-): boolean {
+): boolean | null {
   const between = world.history.relationshipInteractions.filter(
     (interaction) =>
       interaction.personIds.includes(personId) &&
@@ -695,5 +705,8 @@ function counterpartRaisesIt(
     randomness: "none",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return null;
+  }
   return evaluation.selectedOptionKey !== "let-it-lie";
 }

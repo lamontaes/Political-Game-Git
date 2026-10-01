@@ -38,15 +38,11 @@ export interface RecordedStudentFinancingInput {
   >;
 }
 
-/**
- * Finance only a saved, still-unpaid tuition charge's actual cash shortfall.
- * The existing tuition writer remains responsible for paying the school.
- * Missing lender cash or an exhausted annual limit leaves the world unchanged.
- */
-export function financeRecordedStudentTuition(
+/** Shared validation for the existing shortfall writer and its saved-fact adapter. */
+export function validateRecordedStudentFinancingInput(
   world: World,
   input: RecordedStudentFinancingInput,
-): World {
+): void {
   if (!input.source.reference.trim() || input.source.asOf > world.currentDate)
     throw new Error("Student financing needs an available published source.");
   if (
@@ -63,6 +59,18 @@ export function financeRecordedStudentTuition(
     throw new Error(
       "Student financing needs the current academic-year window.",
     );
+}
+
+/**
+ * Finance only a saved, still-unpaid tuition charge's actual cash shortfall.
+ * The existing tuition writer remains responsible for paying the school.
+ * Missing lender cash or an exhausted annual limit leaves the world unchanged.
+ */
+export function financeRecordedStudentTuition(
+  world: World,
+  input: RecordedStudentFinancingInput,
+): World {
+  validateRecordedStudentFinancingInput(world, input);
   const enrollment = world.history.educationEnrollments.find(
     (record) => record.id === input.enrollmentId,
   );

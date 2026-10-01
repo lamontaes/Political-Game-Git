@@ -1,4 +1,4 @@
-import { financeRecordedStudentTuition } from "./student-debt";
+import { financeStudentTuitionWithSavedAidFacts } from "./student-aid-facts";
 import type { RecordedStudentFinancingInput } from "./student-debt";
 import {
   createResourceFlow,
@@ -615,11 +615,11 @@ export function completeStudyPeriod(
   }
   if (charge) cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
   if (cost > 0 && charge && financing)
-    next = financeRecordedStudentTuition(next, {
-      ...financing,
-      enrollmentId,
-      tuitionFlowId: charge.id,
-    });
+    next = financeStudentTuitionWithSavedAidFacts(
+      next,
+      { ...financing, enrollmentId, tuitionFlowId: charge.id },
+      path,
+    );
   const cash = resourcePositionAt(
     next,
     { kind: "person", personId: actor },
