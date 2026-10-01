@@ -882,7 +882,7 @@ describe(
       expect(event.recordedAt).toBe(later.currentDate);
     });
 
-    it.each(["no-available-option", "selected"] as const)(
+    it.each(["no-available-option", "selected", "undecided"] as const)(
       "leaves outreach unoffered when the organizer has no selected answer (%s)",
       (outcomeKind) => {
         const life = adultLife("life-a");
