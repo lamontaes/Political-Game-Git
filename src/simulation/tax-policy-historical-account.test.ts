@@ -194,7 +194,7 @@ describe("public accounts read saved ownership at an explicit historical cutoff"
     ).toBeNull();
   });
 
-  it("keeps the unreleased municipal current-profile validator boundary explicit", () => {
+  it("uses earlier municipal identity and account profiles at the same cutoff", () => {
     const government = municipalGovernments().find(
       (row) =>
         !row.key.startsWith("gus2025:") &&
@@ -245,8 +245,16 @@ describe("public accounts read saved ownership at an explicit historical cutoff"
     expect(organizationProfileAt(world, saved.organizationId, cutoff)!.id).toBe(
       saved.profile.id,
     );
-    // Desired historical read remains blocked by the untouched shared validator.
-    // This is an executed unsupported-boundary check, not proof of full local parity.
-    expect(publicTaxAccountForIdentity(world, identity, cutoff)).toBeNull();
+    expect(publicTaxAccountForIdentity(world, identity, cutoff)).toEqual({
+      organizationId: saved.organizationId,
+    });
+    expect(publicTaxAccountForIdentity(world, identity)).toBeNull();
+    const bytes = serializeWorld(world);
+    expect(
+      publicTaxAccountForIdentity(deserializeWorld(bytes), identity, cutoff),
+    ).toEqual({
+      organizationId: saved.organizationId,
+    });
+    expect(serializeWorld(world)).toBe(bytes);
   });
 });

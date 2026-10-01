@@ -1572,9 +1572,8 @@ export function publicTaxAccountEvidenceForIdentity(
   readonly sourceRecordIds: readonly EntityId[];
 } | null {
   try {
-    // Its shared local-government profile check still needs the released dated
-    // seam. Do not bypass it or manufacture a historical World/date here.
-    assertPublicGovernmentIdentity(world, identity);
+    // Identity and account ownership must use the same actual activity cutoff.
+    assertPublicGovernmentIdentity(world, identity, cutoff);
   } catch {
     return null;
   }
