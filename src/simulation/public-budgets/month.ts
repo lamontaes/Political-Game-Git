@@ -1,3 +1,4 @@
+import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
 import { ageVerificationCostForMonth } from "./age-verification-cost";
 import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
@@ -17,6 +18,8 @@ import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
 import { CANNABIS_SALES_QUESTION } from "./cannabis-sales-tax";
 import {
   lawEffectStamp,
+  isLawEffectStamp,
+  type LawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
 import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
@@ -107,6 +110,10 @@ export interface MonthFlows {
   readonly represented: ReadonlyMap<string, number>;
   readonly levies: ReadonlyMap<string, readonly number[]>;
   readonly payments: ReadonlyMap<string, readonly number[]>;
+  readonly paidLeavePaymentStamps?: ReadonlyMap<
+    string,
+    readonly LawEffectStamp[]
+  >;
 }
 
 /** The budget program an appropriation's program key belongs to. */
@@ -176,15 +183,39 @@ export function readMonthFlows(
   const payers = new Map<string, Set<EntityId>>();
   const levies = new Map<string, number[]>();
   const payments = new Map<string, number[]>();
+  const paidLeavePaymentStamps = new Map<string, LawEffectStamp[]>();
   for (
     let at = store.cursor.outcomes;
     at < history.resourceTransferOutcomes.length;
     at += 1
   ) {
     const outcome = history.resourceTransferOutcomes[at]!;
-    if (outcome.status !== "completed") continue;
     const flow = relevant.get(outcome.resourceFlowId);
     if (!flow) continue;
+    const paidLeavePayment =
+      flow.basisKind === "support:paid-leave-benefit" &&
+      flow.source.kind === "organization" &&
+      flow.recipient.kind === "person";
+    const paidLeaveStamps = paidLeavePayment
+      ? (
+          (outcome as typeof outcome & LawEffectStampedRecord)
+            .lawEffectStamps ?? []
+        ).filter(
+          (stamp) =>
+            isLawEffectStamp(stamp) &&
+            stamp.questionKey === PAID_LEAVE_QUESTION &&
+            stamp.effectKind === "paid-leave-benefit" &&
+            stamp.jurisdictionId === flow.jurisdictionId &&
+            stamp.appliedAt === outcome.occurredAt &&
+            stamp.sourceRecordIds?.includes(flow.id),
+        )
+      : [];
+    // Positive partial paid-leave transfers also moved actual state cash.
+    if (
+      outcome.status !== "completed" &&
+      !(outcome.status === "partial" && paidLeavePayment)
+    )
+      continue;
     const dollars = outcome.transferredAmount.minorUnits / 100;
     if (dollars <= 0) continue;
     const into =
@@ -212,6 +243,17 @@ export function readMonthFlows(
       const row = payments.get(outOf) ?? BUDGET_PROGRAMS.map(() => 0);
       row[BUDGET_PROGRAMS.indexOf(program)]! += dollars;
       payments.set(outOf, row);
+      if (paidLeaveStamps.length > 0) {
+        const stamps = paidLeavePaymentStamps.get(outOf) ?? [];
+        stamps.push(
+          ...paidLeaveStamps.map((stamp) => ({
+            ...stamp,
+            effectKind: "paid-leave-budget-cost",
+            sourceRecordIds: [...(stamp.sourceRecordIds ?? []), outcome.id],
+          })),
+        );
+        paidLeavePaymentStamps.set(outOf, stamps);
+      }
     }
   }
   return {
@@ -222,6 +264,7 @@ export function readMonthFlows(
       ),
       levies,
       payments,
+      paidLeavePaymentStamps,
     },
     cursor: {
       flows: history.resourceFlows.length,
@@ -823,6 +866,9 @@ export function settleGovernmentMonth(
     }
   }
 
+  const paidLeaveStamps = (
+    flows.paidLeavePaymentStamps?.get(government.key) ?? []
+  ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
   const ageVerificationCost = ageVerificationCostForMonth(
     world,
     government,
@@ -852,10 +898,11 @@ export function settleGovernmentMonth(
       ? { cannabisRevenue }
       : {}),
     ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length || ageVerificationCost
+    ...(cannabisStamps.length || paidLeaveStamps.length || ageVerificationCost
       ? {
           lawEffectStamps: [
             ...cannabisStamps,
+            ...paidLeaveStamps,
             ...(ageVerificationCost?.lawEffectStamps ?? []),
           ],
         }

@@ -1,6 +1,14 @@
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { decideAnotherTerm } from "../careers/another-term";
-import { councilTermLimitBar } from "./local-council-term-limits";
+import {
+  councilTermLimitBar,
+  COUNCIL_TERM_LIMIT_QUESTION,
+} from "./local-council-term-limits";
+import { lawInForce } from "../governing/law-in-force";
+import {
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import { townSupportFromViews } from "../official-view-reads";
 import { townSupportFromFavors } from "../patronage/following";
 import { campaigns } from "../campaign-queries";
@@ -462,11 +470,14 @@ function event(
     readonly involved: readonly EntityId[];
     readonly tags: readonly string[];
     readonly summary: string;
-  },
+  } & LawEffectStampedRecord,
 ): World {
   if (world.history.events.some((row) => row.stableKey === input.stableKey))
     return world;
   return recordWorldEvent(world, {
+    ...(input.lawEffectStamps
+      ? { lawEffectStamps: input.lawEffectStamps }
+      : {}),
     stableKey: input.stableKey,
     type: input.type,
     occurredAt: world.currentDate,
@@ -918,7 +929,23 @@ export function localElectionFilingHandler(
           })
         : null;
       if (barred) {
+        const question = Object.values(next.policyCatalog.propositions).find(
+          (row) => row.stableKey === COUNCIL_TERM_LIMIT_QUESTION,
+        );
+        const law = question
+          ? lawInForce(next, town, question.id, next.currentDate)
+          : null;
+        const stamp =
+          law?.answer === "yes"
+            ? lawEffectStamp(law, {
+                effectKind: "local.officeholder-retired",
+                questionKey: COUNCIL_TERM_LIMIT_QUESTION,
+                jurisdictionId: town,
+                appliedAt: next.currentDate,
+              })
+            : null;
         next = event(next, {
+          ...(stamp ? { lawEffectStamps: [stamp] } : {}),
           stableKey: `${race}:term-limited`,
           type: "local.officeholder-retired",
           town,

@@ -1,3 +1,4 @@
+import { applyStartingLawConsequences } from "./enacted-law-effects";
 import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
@@ -545,8 +546,9 @@ export function createWorld(input: CreateWorldInput): World {
       ? { setupPriors: clonePriors(input.setupPriors) }
       : {}),
   };
-  assertWorldIntegrity(world);
-  return world;
+  const initialized = applyStartingLawConsequences(world);
+  assertWorldIntegrity(initialized);
+  return initialized;
 }
 
 /*

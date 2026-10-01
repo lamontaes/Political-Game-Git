@@ -24,7 +24,12 @@ import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { createStableId } from "../ids";
 import { bindingFromIdentity } from "../../districts/query";
-import { legislativeTermLimitBar } from "./state-legislative-term-limits";
+import {
+  legislativeTermLimitBar,
+  LEGISLATIVE_TERM_LIMIT_QUESTION,
+} from "./state-legislative-term-limits";
+import { lawInForce } from "../governing/law-in-force";
+import { lawEffectStamp } from "../law-effect-stamp";
 import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
@@ -404,7 +409,26 @@ function prepareStateIntake(
     }
     const intentKey = stateIntentKey(seatKey, year);
     if (!hasStableKey(next.history.events, intentKey)) {
+      const question = barredByLimit
+        ? Object.values(next.policyCatalog.propositions).find(
+            (candidate) =>
+              candidate.stableKey === LEGISLATIVE_TERM_LIMIT_QUESTION,
+          )
+        : null;
+      const law = question
+        ? lawInForce(next, jurisdiction.id, question.id, row.intakeDate)
+        : null;
+      const stamp =
+        law?.answer === "yes"
+          ? lawEffectStamp(law, {
+              effectKind: "election.state-legislative-candidacy-intent",
+              questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
+              jurisdictionId: jurisdiction.id,
+              appliedAt: row.intakeDate,
+            })
+          : null;
       next = recordWorldEvent(next, {
+        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
         stableKey: intentKey,
         type: "election.state-legislative-candidacy-intent",
         occurredAt: row.intakeDate,
