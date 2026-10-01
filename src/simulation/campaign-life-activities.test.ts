@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as decisionEngine from "./decisions";
 
 import {
   fileForOffice,
@@ -880,6 +881,47 @@ describe(
       expect(event.occurredAt).toBe(happenedOn);
       expect(event.recordedAt).toBe(later.currentDate);
     });
+
+    it.each(["no-available-option", "selected"] as const)(
+      "leaves outreach unoffered when the organizer has no selected answer (%s)",
+      (outcomeKind) => {
+        const life = adultLife("life-a");
+        const scheduled = ensureCampaignLifeOutreach(
+          life.world,
+          life.personId,
+          life.chapterId,
+        );
+        const item = scheduled.history.futureDueItems.at(-1)!;
+        const evaluate = decisionEngine.evaluateDecision;
+        const spy = vi
+          .spyOn(decisionEngine, "evaluateDecision")
+          .mockImplementation((world, context) => {
+            const result = evaluate(world, context);
+            return context.decisionType === "campaign.organizer-outreach"
+              ? {
+                  ...result,
+                  outcomeKind,
+                  selectedOptionKey: null,
+                }
+              : result;
+          });
+        try {
+          const result = campaignLifeOutreachTransitionHandler(scheduled, item);
+          expect(result.reasonKey).toBe("campaign:organizer-undecided");
+          expect(campaignLifeActivityRecords(result.world)).toEqual(
+            campaignLifeActivityRecords(scheduled),
+          );
+          expect(result.world.history.events).toEqual(scheduled.history.events);
+          const later = result.world.history.futureDueItems.slice(
+            scheduled.history.futureDueItems.length,
+          );
+          expect(later).toHaveLength(1);
+          expect(later[0]!.dueAt > scheduled.currentDate).toBe(true);
+        } finally {
+          spy.mockRestore();
+        }
+      },
+    );
 
     it("the outreach handler is pure, reschedules forward and blocks without a host", () => {
       const life = adultLife("life-a");
