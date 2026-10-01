@@ -9,7 +9,7 @@ it("preserves histories without the optional assessment collection", () => {
   const older: HistoryStore = legacy;
   expect(older.earnedLawPayAssessments).toBeUndefined();
   expect(JSON.parse(JSON.stringify(older))).toEqual(legacy);
-  expect(current.earnedLawPayAssessments).toEqual([]);
+  expect(_newCollection).toEqual([]);
   expect(current.nextSequence).toBe(older.nextSequence);
 });
 
