@@ -1,4 +1,4 @@
-import { monthlyWorkPay } from "./monthly-work-pay";
+import { legacyMonthlyPayCoverage, monthlyWorkPay } from "./monthly-work-pay";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
@@ -331,14 +331,20 @@ export function assertResourceHousingIntegrity(
       outcome.occurredAt < outcome.periodEndsAt
     )
       throw new Error(`Invalid resource outcome chronology: ${outcome.id}`);
+    // Historical first-of-month points cover the preceding month without
+    // changing their saved date. Use that same interval for overlap validation.
+    const legacyCoverage = legacyMonthlyPayCoverage(world, outcome.id);
+    const coveredStart =
+      legacyCoverage?.periodStartsAt ?? outcome.periodStartsAt;
+    const coveredEnd = legacyCoverage?.periodEndsAt ?? outcome.periodEndsAt;
     const periods = periodsByFlow.get(outcome.resourceFlowId) ?? [];
-    const at = periodsStartingBy(periods, outcome.periodEndsAt);
+    const at = periodsStartingBy(periods, coveredEnd);
     const latest = periods[at - 1];
     if (
       latest &&
       settlementPeriodsOverlap(
-        outcome.periodStartsAt,
-        outcome.periodEndsAt,
+        coveredStart,
+        coveredEnd,
         latest.startsAt,
         latest.endsAt,
       )
@@ -348,8 +354,8 @@ export function assertResourceHousingIntegrity(
       );
     }
     periods.splice(at, 0, {
-      startsAt: outcome.periodStartsAt,
-      endsAt: outcome.periodEndsAt,
+      startsAt: coveredStart,
+      endsAt: coveredEnd,
     });
     periodsByFlow.set(outcome.resourceFlowId, periods);
     money(outcome.attemptedAmount, "attempted resource amount", true);
@@ -382,7 +388,8 @@ export function assertResourceHousingIntegrity(
       );
     }
     let expectedAmount =
-      outcome.earnedLawPayAssessmentId === undefined &&
+      legacyCoverage?.gross ??
+      (outcome.earnedLawPayAssessmentId === undefined &&
       flow.basisReference.kind === "work" &&
       terms?.cadenceKind === "schedule:monthly"
         ? monthlyWorkPay(world, {
@@ -392,7 +399,7 @@ export function assertResourceHousingIntegrity(
             onDate: outcome.occurredAt,
             historySequenceExclusive: outcome.sequence,
           }).gross
-        : terms?.amount;
+        : terms?.amount);
     if (outcome.earnedLawPayAssessmentId !== undefined) {
       const assessment = recordById(
         h.earnedLawPayAssessments ?? [],

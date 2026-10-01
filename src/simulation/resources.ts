@@ -1,4 +1,4 @@
-import { monthlyWorkPay } from "./monthly-work-pay";
+import { legacyMonthlyPayCoverage, monthlyWorkPay } from "./monthly-work-pay";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { eventById } from "./event-index";
@@ -565,14 +565,17 @@ function buildResourceTransferOutcome(
       world.history.resourceTransferOutcomes,
       "resourceFlowId",
       flow.id,
-    ).some((outcome) =>
-      settlementPeriodsOverlap(
+    ).some((outcome) => {
+      // This only interprets earlier saved records. New inputs still pass the
+      // strict chronology, work, amount and monthly-end checks below.
+      const legacyCoverage = legacyMonthlyPayCoverage(world, outcome.id);
+      return settlementPeriodsOverlap(
         periodStartsAt,
         periodEndsAt,
-        outcome.periodStartsAt,
-        outcome.periodEndsAt,
-      ),
-    )
+        legacyCoverage?.periodStartsAt ?? outcome.periodStartsAt,
+        legacyCoverage?.periodEndsAt ?? outcome.periodEndsAt,
+      );
+    })
   ) {
     throw new Error(
       "A resource flow cannot have overlapping committed settlement periods.",
