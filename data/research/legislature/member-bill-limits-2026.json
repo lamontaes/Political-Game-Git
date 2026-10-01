@@ -15,7 +15,15 @@
       "citation": "Arizona House Rule 8(C), Rules of the Arizona House of Representatives, 57th Legislature (2025-2026)",
       "url": "https://www.azhouse.gov/alispdfs/AdoptedRulesofthe57thLegislature_ConformingChanges.pdf",
       "quote": "A member may not be the prime sponsor of more than seven bills introduced after 5:00 p.m. on the fourth day of each regular session.",
-      "note": "The member counted is the first name on the measure (the prime sponsor). Bills introduced before the cutoff are not capped by this rule."
+      "note": "The member counted is the first name on the measure (the prime sponsor). Bills introduced before the cutoff are not capped by this rule.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-CA",
@@ -28,7 +36,15 @@
       "citation": "California Assembly Standing Rule 49(a), Standing Rules of the Assembly, 2025-26 Regular Session (House Resolution 1)",
       "url": "https://clerk.assembly.ca.gov/sites/clerk.assembly.ca.gov/files/2025-08/20250hr1_99.pdf",
       "quote": "A Member may introduce not more than 35 bills in the regular session.",
-      "note": "The rule says 'regular session'; the 2025-26 Regular Session runs across two calendar years, so the count spans the whole two-year session. 'Bill' includes a constitutional amendment. Rule 49(b): the rule may be suspended for a particular bill by approval of the Committee on Rules."
+      "note": "The rule says 'regular session'; the 2025-26 Regular Session runs across two calendar years, so the count spans the whole two-year session. 'Bill' includes a constitutional amendment. Rule 49(b): the rule may be suspended for a particular bill by approval of the Committee on Rules.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "biennium"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-CA",
@@ -38,14 +54,26 @@
       "exempts": [],
       "unboundExemptions": [
         "Constitutional amendments",
-        "Any type of resolution",
-        "Bills introduced by a committee"
+        "Any type of resolution"
       ],
       "status": "sourced",
       "citation": "California Senate Standing Rule 22.5, Standing Rules of the Senate, 2025-26 Regular Session",
       "url": "https://www.senate.ca.gov/system/files/2026-09/joint_handbook_2025-26_web_1.pdf",
       "quote": "A Member of the Senate may introduce or subsequently author not more than 35 bills in the regular session.",
-      "note": "The rule says 'regular session'; the 2025-26 Regular Session runs across two calendar years, so the count spans the whole two-year session. Rule 22.5(b): the rule may be suspended for a particular bill by approval of the Committee on Rules."
+      "note": "The rule says 'regular session'; the 2025-26 Regular Session runs across two calendar years, so the count spans the whole two-year session. Rule 22.5(b): the rule may be suspended for a particular bill by approval of the Committee on Rules.",
+      "exemptionBindings": [
+        {
+          "kind": "sponsor",
+          "sponsorKind": "committee-introduction",
+          "text": "Bills introduced by a committee"
+        },
+        {
+          "kind": "period",
+          "window": "biennium"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-CO",
@@ -53,15 +81,29 @@
       "limit": 5,
       "period": "session",
       "exempts": ["appropriation"],
-      "unboundExemptions": [
-        "Interim committee bills approved by the Legislative Council (Joint Rule 24(b)(1)(D))",
-        "Additional bills recommended by statutory legislative committees and committees of reference under Joint Rule 24(b)(1)(D)"
-      ],
+      "unboundExemptions": [],
       "status": "sourced",
       "citation": "Colorado Joint Rule 24(b)(1)(A), Joint Rules of the Senate and House of Representatives (Colorado Legislative Rules, 2025)",
       "url": "https://content.leg.colorado.gov/sites/default/files/colorado-legislative-rules-2025-accessible.pdf",
       "quote": "A member of the General Assembly may not introduce more than five bills in a regular session of the General Assembly, excluding bills for appropriations and excluding the bills specified in subparagraph (D) of this paragraph (1).",
-      "note": "Of the five bills, not more than two may be requested after the December 1 that precedes the regular session (December 15 for a member new to an odd-year session). The Senate and House Committees on Delayed Bills may give permission to exceed the limit. Applies to each regular session; the General Assembly meets in a regular session every year."
+      "note": "Of the five bills, not more than two may be requested after the December 1 that precedes the regular session (December 15 for a member new to an odd-year session). The Senate and House Committees on Delayed Bills may give permission to exceed the limit. Applies to each regular session; the General Assembly meets in a regular session every year.",
+      "exemptionBindings": [
+        {
+          "kind": "sponsor",
+          "sponsorKind": "committee-introduction",
+          "text": "Interim committee bills approved by the Legislative Council (Joint Rule 24(b)(1)(D))"
+        },
+        {
+          "kind": "sponsor",
+          "sponsorKind": "committee-introduction",
+          "text": "Additional bills recommended by statutory legislative committees and committees of reference under Joint Rule 24(b)(1)(D)"
+        },
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": true
     },
     {
       "place": "US-FL",
@@ -84,7 +126,15 @@
       "citation": "Florida House Rule 5.3(a), Rules of the House of Representatives, 2024-2026 (amended March 3, 2026)",
       "url": "https://www.flhouse.gov/Sections/Documents/loaddoc.aspx?PublicationType=Reference&CommitteeId=&Session=2026&DocumentType=The+Rules+Of+The+House+of+Representatives&FileName=2024-2026+House+Rules+(Amended)+Edition+2.pdf",
       "quote": "A member may not file more than seven bills for a regular session.",
-      "note": "The member counted as filing a bill is its first-named sponsor."
+      "note": "The member counted as filing a bill is its first-named sponsor.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 9 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-GA",
@@ -94,7 +144,6 @@
       "exempts": ["appropriation"],
       "unboundExemptions": [
         "General bills of local application and local bills",
-        "Annual appropriations bills and supplemental appropriations bills",
         "Privileged resolutions not referred to a standing committee",
         "Procedural resolutions not referred to a standing committee",
         "Bills or resolutions withdrawn by the first prime sponsor on or before the fifteenth legislative day",
@@ -104,7 +153,20 @@
       "citation": "Georgia House Rule 49.3, Rules, Ethics, and Decorum of the House of Representatives, 2025-2026 biennium",
       "url": "https://www.legis.ga.gov/api/document/docs/default-source/house-members-document-library/house-rules.pdf",
       "quote": "No member may file more than ten bills during each annual session of a General Assembly, except that a chair of a standing committee may file an additional five bills on subjects that pertain to the committee of which he or she chairs.",
-      "note": "Under Rule 49.3(b) a member may petition the Rules Committee for an exception on or before the twentieth legislative day; a majority of the Rules Committee's total membership approves."
+      "note": "Under Rule 49.3(b) a member may petition the Rules Committee for an exception on or before the twentieth legislative day; a majority of the Rules Committee's total membership approves.",
+      "exemptionBindings": [
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "Annual appropriations bills and supplemental appropriations bills"
+        },
+        {
+          "kind": "period",
+          "window": "year"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 5 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-LA",
@@ -113,13 +175,8 @@
       "period": "session",
       "exempts": ["appropriation"],
       "unboundExemptions": [
-        "The general appropriation bill",
-        "The bill appropriating funds for the judicial branch",
-        "The bill appropriating funds for the legislative branch",
         "The capital outlay bill",
         "The omnibus bond authorization bill",
-        "Appropriation bills supplementing the General Appropriation Act",
-        "The bill appropriating funds from the Revenue Sharing Fund",
         "The bill establishing and reestablishing agency ancillary funds",
         "Bills that were prefiled"
       ],
@@ -127,7 +184,40 @@
       "citation": "Louisiana Constitution art. III, section 2(A)(2)(a), and Joint Rule No. 18 of the Joint Rules of the Senate and House of Representatives",
       "url": "https://www.legis.la.gov/legis/law.aspx?d=206416",
       "quote": "No member of the legislature may introduce more than five bills that were not prefiled, except as provided in the joint rules of the legislature.",
-      "note": "The cap counts bills introduced after prefiling. The exemptions come from Joint Rule No. 18 (https://legis.la.gov/Legis/Law.aspx?d=113414), which says these bills are not counted against 'the five-bill limit on bill introductions after prefiling'. The Legislature meets in a regular session every year."
+      "note": "The cap counts bills introduced after prefiling. The exemptions come from Joint Rule No. 18 (https://legis.la.gov/Legis/Law.aspx?d=113414), which says these bills are not counted against 'the five-bill limit on bill introductions after prefiling'. The Legislature meets in a regular session every year.",
+      "exemptionBindings": [
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "The general appropriation bill"
+        },
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "The bill appropriating funds for the judicial branch"
+        },
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "The bill appropriating funds for the legislative branch"
+        },
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "Appropriation bills supplementing the General Appropriation Act"
+        },
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "The bill appropriating funds from the Revenue Sharing Fund"
+        },
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 4 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-MT",
@@ -137,14 +227,27 @@
       "exempts": [],
       "unboundExemptions": [
         "Code Commissioner bills",
-        "A bill or resolution requested by a standing committee",
-        "A bill or resolution requested by a member at the request of a newly elected state official if so designated"
+        "A bill or resolution requested by a member at the request of a newly elected state official if so designated",
+        "Drafting requests made on or before 5 p.m. on December 5 are not counted"
       ],
       "status": "sourced",
       "citation": "Montana Joint Rule 40-40(1)(b), Joint Rules of the Montana Legislature (2025 Rules of the Montana Legislature)",
       "url": "https://archive.legmt.gov/content/Sessions/69th/2025-Rules-of-MT-Legislature.pdf",
       "quote": "After 5 p.m. on December 5, a member may request no more than seven bills or resolutions to be prepared by the Legislative Services Division.",
-      "note": "Applies to drafting requests made after 5 p.m. on December 5 before a regular session; before that a member may request an unlimited number. At least five of the seven must be requested before the session convenes. Regular sessions are held in odd-numbered years."
+      "note": "Applies to drafting requests made after 5 p.m. on December 5 before a regular session; before that a member may request an unlimited number. At least five of the seven must be requested before the session convenes. Regular sessions are held in odd-numbered years.",
+      "exemptionBindings": [
+        {
+          "kind": "sponsor",
+          "sponsorKind": "committee-introduction",
+          "text": "A bill or resolution requested by a standing committee"
+        },
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 3 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-NV",
@@ -160,7 +263,15 @@
       "citation": "Nevada Revised Statutes 218D.150(1)(a) (statute governing Assembly member bill draft requests; not a chamber rule)",
       "url": "https://www.leg.state.nv.us/nrs/nrs-218d.html",
       "quote": "Incumbent member of the Assembly may request the drafting of: (1) Not more than 4 legislative measures submitted to the Legislative Counsel on or before August 1 preceding a regular session;",
-      "note": "This is a statute limiting bill draft requests, not a chamber rule. An incumbent Assemblymember may request 4 measures by August 1, 5 more by December 10, and 1 more by the eighth day of the session: 10 in all. A newly elected member gets 5 plus 1. The Legislature meets in a regular session in odd-numbered years."
+      "note": "This is a statute limiting bill draft requests, not a chamber rule. An incumbent Assemblymember may request 4 measures by August 1, 5 more by December 10, and 1 more by the eighth day of the session: 10 in all. A newly elected member gets 5 plus 1. The Legislature meets in a regular session in odd-numbered years.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-NV",
@@ -176,7 +287,15 @@
       "citation": "Nevada Revised Statutes 218D.150(1)(b) (statute governing Senator bill draft requests; not a chamber rule)",
       "url": "https://www.leg.state.nv.us/nrs/nrs-218d.html",
       "quote": "Incumbent member of the Senate may request the drafting of: (1) Not more than 8 legislative measures submitted to the Legislative Counsel on or before August 1 preceding a regular session;",
-      "note": "This is a statute limiting bill draft requests, not a chamber rule. An incumbent Senator may request 8 measures by August 1, 10 more by December 10, and 2 more by the eighth day of the session: 20 in all. A newly elected Senator gets 10 plus 2. The Legislature meets in a regular session in odd-numbered years."
+      "note": "This is a statute limiting bill draft requests, not a chamber rule. An incumbent Senator may request 8 measures by August 1, 10 more by December 10, and 2 more by the eighth day of the session: 20 in all. A newly elected Senator gets 10 plus 2. The Legislature meets in a regular session in odd-numbered years.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-NE",
@@ -186,14 +305,26 @@
       "exempts": [],
       "unboundExemptions": [
         "Bills introduced under Rule 5, Section 3(a) (Revisor of Statutes correctional bills)",
-        "Bills introduced under Rule 5, Section 4(c)(3) (Appropriations Committee bills enabling its budget recommendations)",
-        "Bills introduced at the request of the Governor"
+        "Bills introduced under Rule 5, Section 4(c)(3) (Appropriations Committee bills enabling its budget recommendations)"
       ],
       "status": "sourced",
       "citation": "Nebraska Legislature Rule 5, Section 4(d), Rules of the Nebraska Unicameral Legislature, 109th Legislature",
       "url": "https://nebraskalegislature.gov/FloorDocs/Current/PDF/Rules/RuleBook.pdf",
       "quote": "individual members shall be limited to no more than 20 bills introduced at any one session.",
-      "note": "Starting with the 2025 session. Each committee is separately limited to 10 bills per session. Bills introduced as a result of a Legislative Council interim study count inside these limits."
+      "note": "Starting with the 2025 session. Each committee is separately limited to 10 bills per session. Bills introduced as a result of a Legislative Council interim study count inside these limits.",
+      "exemptionBindings": [
+        {
+          "kind": "sponsor",
+          "sponsorKind": "executive-request",
+          "text": "Bills introduced at the request of the Governor"
+        },
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-NC",
@@ -210,7 +341,15 @@
       "citation": "North Carolina House Permanent Rules, Rule 31.1(d), 2025 Regular Session (House Resolution 563)",
       "url": "https://www3.ncleg.gov/Sessions/2025/Bills/House/PDF/H563v3.pdf",
       "quote": "No member may introduce more than 15 public bills.",
-      "note": "The introducer is the member listed as first sponsor. A member may assign part of the limit to another member through the Principal Clerk. The rule is adopted for the 2025 Regular Session of the General Assembly that sits in 2025 and 2026."
+      "note": "The introducer is the member listed as first sponsor. A member may assign part of the limit to another member through the Principal Clerk. The rule is adopted for the 2025 Regular Session of the General Assembly that sits in 2025 and 2026.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 3 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-ND",
@@ -219,13 +358,22 @@
       "period": "session",
       "exempts": [],
       "unboundExemptions": [
-        "The Majority Leader and the Minority Leader are not limited"
+        "The Majority Leader and the Minority Leader are not limited",
+        "Bills introduced on or before the eighth legislative day are not counted"
       ],
       "status": "sourced",
       "citation": "North Dakota Senate Rule 402(1), Senate Rules, 69th Legislative Assembly (2025)",
       "url": "https://ndlegis.gov/sites/default/files/resource/69-2025/legislative-rules/rules25b.pdf",
       "quote": "No member other than the Majority and Minority Leaders may introduce more than three bills as prime sponsor after the eighth legislative day.",
-      "note": "The cap applies only to bills introduced after the eighth legislative day; before that a senator may introduce without this cap. After the thirteenth legislative day, introduction needs Delayed Bills Committee approval or a two-thirds vote. The Legislative Assembly meets in odd-numbered years."
+      "note": "The cap applies only to bills introduced after the eighth legislative day; before that a senator may introduce without this cap. After the thirteenth legislative day, introduction needs Delayed Bills Committee approval or a two-thirds vote. The Legislative Assembly meets in odd-numbered years.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-ND",
@@ -234,13 +382,22 @@
       "period": "session",
       "exempts": [],
       "unboundExemptions": [
-        "The Majority Leader and the Minority Leader are not limited"
+        "The Majority Leader and the Minority Leader are not limited",
+        "Bills introduced on or before the third legislative day are not counted"
       ],
       "status": "sourced",
       "citation": "North Dakota House Rule 402(1), House Rules, 69th Legislative Assembly (2025)",
       "url": "https://ndlegis.gov/sites/default/files/resource/69-2025/legislative-rules/rules25b.pdf",
       "quote": "No member other than the Majority and Minority Leaders may introduce more than five bills as prime sponsor after the third legislative day.",
-      "note": "The cap applies only to bills introduced after the third legislative day. After the eighth legislative day, introduction needs Delayed Bills Committee approval or a two-thirds vote. The Legislative Assembly meets in odd-numbered years."
+      "note": "The cap applies only to bills introduced after the third legislative day. After the eighth legislative day, introduction needs Delayed Bills Committee approval or a two-thirds vote. The Legislative Assembly meets in odd-numbered years.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-OK",
@@ -263,7 +420,15 @@
       "citation": "Oklahoma House Rule 6.4(b), Rules of the House of Representatives, 60th Legislature (2025-2026)",
       "url": "https://former.okhouse.gov/Documents/Rules/60/House%20Rules%20-%2060th%20Oklahoma%20Legislature%20(2025-2026).pdf",
       "quote": "no member of the House of Representatives shall be the principal author of more than eight (8) House bills or joint resolutions during a session of the Legislature.",
-      "note": "Applies to each Legislature's session counted by principal authorship; Rule 6.4(c) lists the exemptions."
+      "note": "Applies to each Legislature's session counted by principal authorship; Rule 6.4(c) lists the exemptions.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 9 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-OR",
@@ -281,7 +446,15 @@
       "citation": "Oregon Senate Concurrent Resolution 34 (2025), a rule of proceeding of the 83rd Legislative Assembly, section (2)(a) and (2)(b)",
       "url": "https://olis.oregonlegislature.gov/liz/2025R1/Downloads/MeasureDocument/SCR34/Enrolled",
       "quote": "Each Senator may request the Office of the Legislative Counsel to prepare, and may submit for introduction, no more than two drafts of measures.",
-      "note": "The same resolution says each Representative may request no more than two drafts of measures (section (2)(b)). The limit is set by concurrent resolution for the 2026 regular session only; the Legislature sets its limit again for each session, and a 2027 limit was not found in the documents read."
+      "note": "The same resolution says each Representative may request no more than two drafts of measures (section (2)(b)). The limit is set by concurrent resolution for the 2026 regular session only; the Legislature sets its limit again for each session, and a 2027 limit was not found in the documents read.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 4 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-RI",
@@ -296,7 +469,15 @@
       "citation": "Rhode Island Senate Rule 4.13, Rules of the Senate, 2025-2026 (Senate Resolution S 0594)",
       "url": "https://webserver.rilegislature.gov/Billtext25/SenateText25/S0594.pdf",
       "quote": "No Senator shall introduce more than twenty-five (25) public bills during the annual session except with the permission of the President of the Senate.",
-      "note": "Counts public bills only (the rule's wording)."
+      "note": "Counts public bills only (the rule's wording).",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "year"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-SD",
@@ -311,7 +492,15 @@
       "citation": "South Dakota Joint Rule 6B-3, Joint Rules of the Senate and House of Representatives",
       "url": "https://mylrc.sdlegislature.gov/api/Documents/229089.pdf",
       "quote": "A legislator may introduce as prime sponsor only three individual bills or joint resolutions during the last three days for bill introduction prescribed by Joint Rule Chapter 17.",
-      "note": "The cap applies to the last three days of the introduction window. The same rule limits each legislator to four combined House, Senate or concurrent resolutions, three of which must be introduced before the ninth legislative day."
+      "note": "The cap applies to the last three days of the introduction window. The same rule limits each legislator to four combined House, Senate or concurrent resolutions, three of which must be introduced before the ninth legislative day.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session"
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-TN",
@@ -323,7 +512,7 @@
         "General bills of local application and local bills",
         "Administration bills and resolutions, limited to seventy-five per annual session",
         "Resolutions approving Supreme Court rules amendments and the annual codification act",
-        "Annual appropriations bills, supplemental appropriations bills, bond bills and index bills",
+        "Bond bills and index bills",
         "Bills sponsored by a Government Operations Committee officer on extensions and terminations of entities or rules",
         "Memorializing or congratulatory resolutions not referred to a standing committee",
         "Resolutions confirming appointments or authorizing annual charitable events",
@@ -336,7 +525,24 @@
       "citation": "Tennessee House Rule 44(d)(1), Permanent Rules of Order of the House of Representatives, 114th General Assembly (first annual session)",
       "url": "https://capitol.tn.gov/Archives/House/114GA/publications/114th%20Permanent%20Rules%20of%20Order.pdf",
       "quote": "No member may file more than twelve (12) bills during the first annual session of a General Assembly and ten (10) bills during the second annual session, except that a chair of a standing committee may file an additional five (5) bills and subcommittee chairs may file an additional two (2) bills on subjects that pertain to the committee of which he or she chairs.",
-      "note": "Twelve bills in the first annual session of a General Assembly; this row is the first-session limit and the next row is the second-session limit. Rule 44(e) lets a member petition the Rules Committee for an exception on or before the bill filing deadline."
+      "note": "Twelve bills in the first annual session of a General Assembly; this row is the first-session limit and the next row is the second-session limit. Rule 44(e) lets a member petition the Rules Committee for an exception on or before the bill filing deadline.",
+      "exemptionBindings": [
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "Annual appropriations bills and supplemental appropriations bills"
+        },
+        {
+          "kind": "period",
+          "window": "year",
+          "condition": {
+            "kind": "unbound",
+            "text": "first annual session of a General Assembly"
+          }
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: which row applies is not recorded: first annual session of a General Assembly; exemption unread: 11 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-TN",
@@ -348,7 +554,7 @@
         "General bills of local application and local bills",
         "Administration bills and resolutions, limited to seventy-five per annual session",
         "Resolutions approving Supreme Court rules amendments and the annual codification act",
-        "Annual appropriations bills, supplemental appropriations bills, bond bills and index bills",
+        "Bond bills and index bills",
         "Bills sponsored by a Government Operations Committee officer on extensions and terminations of entities or rules",
         "Memorializing or congratulatory resolutions not referred to a standing committee",
         "Resolutions confirming appointments or authorizing annual charitable events",
@@ -361,7 +567,24 @@
       "citation": "Tennessee House Rule 44(d)(1), Permanent Rules of Order of the House of Representatives, 114th General Assembly (second annual session)",
       "url": "https://capitol.tn.gov/Archives/House/114GA/publications/114th%20Permanent%20Rules%20of%20Order.pdf",
       "quote": "No member may file more than twelve (12) bills during the first annual session of a General Assembly and ten (10) bills during the second annual session, except that a chair of a standing committee may file an additional five (5) bills and subcommittee chairs may file an additional two (2) bills on subjects that pertain to the committee of which he or she chairs.",
-      "note": "Ten bills in the second annual session of a General Assembly; the previous row is the first-session limit of twelve. Rule 44(e) lets a member petition the Rules Committee for an exception on or before the bill filing deadline."
+      "note": "Ten bills in the second annual session of a General Assembly; the previous row is the first-session limit of twelve. Rule 44(e) lets a member petition the Rules Committee for an exception on or before the bill filing deadline.",
+      "exemptionBindings": [
+        {
+          "kind": "subject",
+          "subjectClass": "appropriation",
+          "text": "Annual appropriations bills and supplemental appropriations bills"
+        },
+        {
+          "kind": "period",
+          "window": "year",
+          "condition": {
+            "kind": "unbound",
+            "text": "second annual session of a General Assembly"
+          }
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: which row applies is not recorded: second annual session of a General Assembly; exemption unread: 11 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-VA",
@@ -376,7 +599,20 @@
       "citation": "Virginia House of Delegates Rule 37, Rules of the House of Delegates, 2026-2027 (even-numbered year)",
       "url": "https://publications.virginiageneralassembly.gov/download_publication/237",
       "quote": "In an even-numbered year, members are limited to introduction of five bills after the period for prefiling ends.",
-      "note": "Applies in even-numbered years (such as 2026 and 2028). The next row gives the odd-numbered year limit."
+      "note": "Applies in even-numbered years (such as 2026 and 2028). The next row gives the odd-numbered year limit.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session",
+          "condition": {
+            "kind": "calendar-year-parity",
+            "of": "introducedAt",
+            "parity": "even"
+          }
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-VA",
@@ -389,7 +625,19 @@
       "citation": "Virginia House of Delegates Rule 37, Rules of the House of Delegates, 2026-2027 (odd-numbered year)",
       "url": "https://publications.virginiageneralassembly.gov/download_publication/237",
       "quote": "In an odd-numbered year, members are limited to a total of 15 bills during the Regular Session, whether prefiled or not.",
-      "note": "Applies in odd-numbered years (such as 2027). The previous row gives the even-numbered year limit."
+      "note": "Applies in odd-numbered years (such as 2027). The previous row gives the even-numbered year limit.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session",
+          "condition": {
+            "kind": "calendar-year-parity",
+            "of": "introducedAt",
+            "parity": "odd"
+          }
+        }
+      ],
+      "applied": true
     },
     {
       "place": "US-WY",
@@ -405,7 +653,19 @@
       "citation": "Wyoming Senate Rule 4-3, Rules of the Senate (2026 combined rules)",
       "url": "https://www.wyoleg.gov/2026/Rules/CombinedRules.pdf",
       "quote": "Except for a Budget Session, no member shall sponsor more than seven (7) bills in any session.",
-      "note": "Applies to general sessions. Budget sessions have their own limit in Senate Rule 13-3 (next row). Rule 4-4 lets a member ask the Senate to suspend the limit for a particular bill."
+      "note": "Applies to general sessions. Budget sessions have their own limit in Senate Rule 13-3 (next row). Rule 4-4 lets a member ask the Senate to suspend the limit for a particular bill.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session",
+          "condition": {
+            "kind": "unbound",
+            "text": "general session (not a budget session)"
+          }
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: which row applies is not recorded: general session (not a budget session); exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-WY",
@@ -420,7 +680,19 @@
       "citation": "Wyoming Senate Rule 13-3, Rules of the Senate (2026 combined rules)",
       "url": "https://www.wyoleg.gov/2026/Rules/CombinedRules.pdf",
       "quote": "No member shall sponsor more than three (3) bills in any Budget Session.",
-      "note": "Applies to budget sessions only; general sessions are covered by Senate Rule 4-3 (previous row)."
+      "note": "Applies to budget sessions only; general sessions are covered by Senate Rule 4-3 (previous row).",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session",
+          "condition": {
+            "kind": "unbound",
+            "text": "budget session"
+          }
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: which row applies is not recorded: budget session; exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-WY",
@@ -435,7 +707,19 @@
       "citation": "Wyoming House Rule 13-3, Rules of the House of Representatives (2026 combined rules)",
       "url": "https://www.wyoleg.gov/2026/Rules/CombinedRules.pdf",
       "quote": "No member shall sponsor more than five (5) bills in any Budget Session.",
-      "note": "Applies to budget sessions only. No House cap for general sessions was found in the House rules text."
+      "note": "Applies to budget sessions only. No House cap for general sessions was found in the House rules text.",
+      "exemptionBindings": [
+        {
+          "kind": "period",
+          "window": "session",
+          "condition": {
+            "kind": "unbound",
+            "text": "budget session"
+          }
+        }
+      ],
+      "applied": false,
+      "notAppliedReason": "limit not applied: which row applies is not recorded: budget session; exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-AL",

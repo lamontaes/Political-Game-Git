@@ -1,3 +1,4 @@
+import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import {
@@ -67,6 +68,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         : { ...row, consequences: [...(row.consequences ?? []), ...service] };
     }),
   },
+  TAX_TERMS_POLICY_PACK,
 ];
 
 let cached: PolicyRegistry | null = null;
