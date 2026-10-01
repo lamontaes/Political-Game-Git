@@ -1,5 +1,8 @@
-# Dated wage authority provider
+---
+id: dated-wage-authority-provider
+impact: patch
+section: Fixed
+title: Wage tax authority respects its recorded dates
+---
 
-impact: none
-
-The existing tax authority query reads sourced wage-income authority only on its supported dates. Missing and publication-blocked sources remain refused. This does not add tax rates, starting-law mappings or another withholding path.
+Wage-income authority uses its own jurisdiction and sourced validity dates. Missing or unverified evidence remains unavailable; this adds no tax rate or duplicate withholding.
