@@ -1564,16 +1564,23 @@ function studyPeerAnswers(context: SceneContext): SceneAnswer[] {
       label: "Suggest working together",
       description: "Propose it. They may say no.",
       statement: "Would you like to work on it together?",
-      replies: says(context, answer(decided)),
+      replies:
+        decided === null
+          ? ["You have not had an answer."]
+          : says(context, answer(decided)),
       record: `The player asked ${context.name} about working on the coursework together.`,
-      apply: settle(
-        decided,
-        decided === "agrees"
-          ? "Yes. Let\u2019s work out who is doing what."
-          : decided === "counterproposes"
-            ? `We already have the main work divided up. Would you be interested in ${task}?`
-            : "I\u2019ve already committed to another group.",
-      ),
+      ...(decided === null
+        ? { followUp: true }
+        : {
+            apply: settle(
+              decided,
+              decided === "agrees"
+                ? "Yes. Let\u2019s work out who is doing what."
+                : decided === "counterproposes"
+                  ? `We already have the main work divided up. Would you be interested in ${task}?`
+                  : "I\u2019ve already committed to another group.",
+            ),
+          }),
       ...(decided === "agrees"
         ? {
             relationship: {
