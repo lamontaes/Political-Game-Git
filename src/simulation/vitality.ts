@@ -1,14 +1,8 @@
-import { dateAtAge, makeIsoDate, yearOf } from "./dates";
-import { scheduleFutureDueItem } from "./future-transitions";
-import { deathCauseSummary, hazardDeathCause } from "./crisis/death-causes";
+import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
-import { assertExactQuantity } from "./quantity";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import type {
   EntityId,
-  FutureTransitionHandler,
-  MortalityCheckPlanRecord,
-  MortalityCheckResultRecord,
   PersonDeathRecord,
   PersonFunctionalCapacityRecord,
   PersonFunctionalCapacityStatus,
@@ -23,11 +17,15 @@ import {
   MORTALITY_SURVIVAL_CONTEXT,
   MORTALITY_TRANSITION_KEY,
   isPersonAliveAt,
-  mortalityRngForPlan,
   personActionAvailabilityAt,
   personFunctionalCapacityAt,
 } from "./vitality-integrity";
 
+// The annual mortality check (a seeded draw against a life table) is gone:
+// deaths come from recorded health, hazards and harm through crisis/
+// mortality.ts and the crisis producers. These keys stay exported so an old
+// save that carries the check's records is still read and validated as it was
+// written; nothing writes them now.
 export {
   MORTALITY_OBSOLETE_REASON,
   MORTALITY_OBSOLETE_CONTEXT,
@@ -35,18 +33,9 @@ export {
   MORTALITY_SURVIVAL_CONTEXT,
   MORTALITY_TRANSITION_KEY,
   isPersonAliveAt,
-  mortalityRngForPlan,
   personActionAvailabilityAt,
   personFunctionalCapacityAt,
 };
-
-export interface SchedulePersonMortalityCheckInput {
-  readonly stableKey: string;
-  readonly personId: EntityId;
-  readonly mortalityTableId: EntityId;
-  readonly checkYear: number;
-  readonly provenance: VitalityRecordProvenance;
-}
 
 export interface RecordPersonDeathInput {
   readonly stableKey: string;
@@ -76,109 +65,9 @@ const CAPACITY_STATUSES: readonly PersonFunctionalCapacityStatus[] = [
 ];
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 
-export function schedulePersonMortalityCheck(
-  world: World,
-  input: SchedulePersonMortalityCheckInput,
-): World {
-  assertStableKey(input.stableKey, "Mortality plan stable key");
-  const person = world.people[input.personId];
-  if (!person)
-    throw new Error(`Missing mortality-check person: ${input.personId}`);
-  if (person.detailLevel !== "materialized") {
-    throw new Error(
-      "Individual mortality checks require a materialized person.",
-    );
-  }
-  const table = world.vitalityCatalog.mortalityTables[input.mortalityTableId];
-  if (!table)
-    throw new Error(`Missing mortality table: ${input.mortalityTableId}`);
-  if (!Number.isSafeInteger(input.checkYear)) {
-    throw new Error("Mortality check year must be a safe integer.");
-  }
-  const age = input.checkYear - yearOf(person.birthDate);
-  if (!Number.isSafeInteger(age) || age < 0) {
-    throw new Error("Mortality check cannot precede the person's birth year.");
-  }
-  const dueAt = dateAtAge(person.birthDate, age);
-  if (dueAt <= world.currentDate) {
-    throw new Error("Mortality check must be scheduled for a future birthday.");
-  }
-  const rate = table.rates.find((entry) => entry.age === age);
-  if (!rate) {
-    throw new Error(
-      `Mortality table has no explicit probability for age ${age}.`,
-    );
-  }
-  assertExactQuantity(rate.annualProbability);
-  if (
-    world.history.mortalityCheckPlans.some(
-      (plan) =>
-        plan.personId === input.personId && plan.checkYear === input.checkYear,
-    )
-  ) {
-    throw new Error(
-      "A mortality plan already exists for this person and year.",
-    );
-  }
-  if (
-    !isPersonAliveAt(world, input.personId, {
-      asOfDate: world.currentDate,
-      historySequenceExclusive: world.history.nextSequence,
-    })
-  ) {
-    throw new Error("A deceased person cannot acquire a mortality check.");
-  }
-  assertOneActiveMortalityCheckOrInFlightFollowOn(
-    world,
-    input.personId,
-    input.checkYear,
-  );
-
-  const plan: MortalityCheckPlanRecord = {
-    id: createStableId(
-      "mortality-check-plan",
-      `${world.id}:${input.stableKey}`,
-    ),
-    stableKey: input.stableKey,
-    sequence: world.history.nextSequence,
-    personId: input.personId,
-    mortalityTableId: input.mortalityTableId,
-    checkYear: input.checkYear,
-    dueAt,
-    age,
-    annualProbability: { ...rate.annualProbability },
-    recordedAt: world.currentDate,
-    provenance: cloneProvenance(input.provenance),
-  };
-  const withPlan: World = {
-    ...world,
-    history: {
-      ...world.history,
-      nextSequence: world.history.nextSequence + 1,
-      mortalityCheckPlans: [...world.history.mortalityCheckPlans, plan],
-    },
-  };
-  return scheduleFutureDueItem(withPlan, {
-    stableKey: `${input.stableKey}:due`,
-    dueAt,
-    transitionKey: MORTALITY_TRANSITION_KEY,
-    entityIds: [plan.id],
-    jurisdictionId: null,
-    provenance: { kind: "simulated", sourceEntityIds: [plan.id] },
-  });
-}
-
 export function recordPersonDeath(
   world: World,
   input: RecordPersonDeathInput,
-): World {
-  return appendPersonDeath(world, input, true);
-}
-
-function appendPersonDeath(
-  world: World,
-  input: RecordPersonDeathInput,
-  validateResult: boolean,
 ): World {
   assertStableKey(input.stableKey, "Person-death stable key");
   assertSemanticKey(input.causeKey, "Person-death cause key");
@@ -260,7 +149,7 @@ function appendPersonDeath(
       personDeaths: [...withEvent.history.personDeaths, death],
     },
   };
-  if (validateResult) assertWorldIntegrity(next);
+  assertWorldIntegrity(next);
   return next;
 }
 
@@ -372,192 +261,6 @@ export function recordPersonFunctionalCapacity(
       record,
     ],
   });
-}
-
-export const mortalityTransitionHandler: FutureTransitionHandler = (
-  world,
-  dueItem,
-) => {
-  if (world.currentDate !== dueItem.dueAt) {
-    throw new Error(
-      "Mortality checks must run at their exact due-date frontier.",
-    );
-  }
-  if (
-    dueItem.transitionKey !== MORTALITY_TRANSITION_KEY ||
-    dueItem.entityIds.length !== 1
-  ) {
-    throw new Error("Mortality handler received a mismatched due item.");
-  }
-  const plan = world.history.mortalityCheckPlans.find(
-    (candidate) => candidate.id === dueItem.entityIds[0],
-  );
-  if (!plan || dueItem.dueAt !== plan.dueAt) {
-    throw new Error(
-      "Mortality handler received a due item without its exact plan.",
-    );
-  }
-  const existingResult = world.history.mortalityCheckResults.find(
-    (result) => result.planId === plan.id,
-  );
-  if (existingResult) {
-    const resumed = ensureSurvivalFollowOn(world, plan, existingResult);
-    return {
-      world: resumed,
-      status: "resolved",
-      reasonKey: null,
-      context:
-        existingResult.outcome === "died"
-          ? MORTALITY_DEATH_CONTEXT
-          : MORTALITY_SURVIVAL_CONTEXT,
-      outcomeEventId: existingResult.deathEventId,
-    };
-  }
-  if (
-    !isPersonAliveAt(world, plan.personId, {
-      asOfDate: plan.dueAt,
-      historySequenceExclusive: world.history.nextSequence,
-    })
-  ) {
-    return {
-      world,
-      status: "cancelled",
-      reasonKey: MORTALITY_OBSOLETE_REASON,
-      context: MORTALITY_OBSOLETE_CONTEXT,
-      outcomeEventId: null,
-    };
-  }
-
-  const rng = mortalityRngForPlan(world, plan);
-  let working = world;
-  let deathEventId: EntityId | null = null;
-  let deathRecordId: EntityId | null = null;
-  if (rng.died) {
-    // Whether the person dies is the draw above and nothing else. What the
-    // death was comes from its own seeded fork, shared with the K1 model.
-    const cause = hazardDeathCause(working, plan.personId, plan.dueAt);
-    const sources = [
-      ...new Set(cause.episodeId ? [plan.id, cause.episodeId] : [plan.id]),
-    ].sort();
-    working = appendPersonDeath(
-      working,
-      {
-        stableKey: `${plan.stableKey}:death`,
-        personId: plan.personId,
-        diedAt: plan.dueAt,
-        causeKey: cause.causeKey,
-        sourceEntityIds: sources,
-        summary: deathCauseSummary(cause.causeKey),
-        provenance: { kind: "simulated", sourceEntityIds: sources },
-      },
-      false,
-    );
-    const death = working.history.personDeaths.at(-1);
-    if (!death || death.personId !== plan.personId) {
-      throw new Error("Mortality death was not committed exactly.");
-    }
-    deathEventId = death.eventId;
-    deathRecordId = death.id;
-  }
-
-  const result: MortalityCheckResultRecord = {
-    id: createStableId(
-      "mortality-check-result",
-      `${world.id}:${plan.stableKey}:result`,
-    ),
-    stableKey: `${plan.stableKey}:result`,
-    sequence: working.history.nextSequence,
-    planId: plan.id,
-    checkedAt: plan.dueAt,
-    outcome: rng.died ? "died" : "survived",
-    rng,
-    deathEventId,
-    deathRecordId,
-    provenance: { kind: "simulated", sourceEntityIds: [plan.id] },
-  };
-  working = {
-    ...working,
-    history: {
-      ...working.history,
-      nextSequence: working.history.nextSequence + 1,
-      mortalityCheckResults: [...working.history.mortalityCheckResults, result],
-    },
-  };
-
-  working = ensureSurvivalFollowOn(working, plan, result);
-
-  return {
-    world: working,
-    status: "resolved",
-    reasonKey: null,
-    context: rng.died ? MORTALITY_DEATH_CONTEXT : MORTALITY_SURVIVAL_CONTEXT,
-    outcomeEventId: deathEventId,
-  };
-};
-
-function ensureSurvivalFollowOn(
-  world: World,
-  plan: MortalityCheckPlanRecord,
-  result: MortalityCheckResultRecord,
-): World {
-  if (result.outcome !== "survived") return world;
-  const table = world.vitalityCatalog.mortalityTables[plan.mortalityTableId];
-  const nextYear = plan.checkYear + 1;
-  if (!table?.rates.some((entry) => entry.age === plan.age + 1)) return world;
-  if (
-    world.history.mortalityCheckPlans.some(
-      (candidate) =>
-        candidate.personId === plan.personId &&
-        candidate.checkYear === nextYear,
-    )
-  ) {
-    return world;
-  }
-  return schedulePersonMortalityCheck(world, {
-    stableKey: `${plan.stableKey}:follow-on:${nextYear}`,
-    personId: plan.personId,
-    mortalityTableId: plan.mortalityTableId,
-    checkYear: nextYear,
-    provenance: { kind: "simulated", sourceEntityIds: [result.id] },
-  });
-}
-
-function assertOneActiveMortalityCheckOrInFlightFollowOn(
-  world: World,
-  personId: EntityId,
-  requestedYear: number,
-): void {
-  const active = world.history.mortalityCheckPlans.filter((plan) => {
-    if (plan.personId !== personId) return false;
-    const item = world.history.futureDueItems.find(
-      (candidate) =>
-        candidate.transitionKey === MORTALITY_TRANSITION_KEY &&
-        candidate.entityIds.length === 1 &&
-        candidate.entityIds[0] === plan.id,
-    );
-    if (!item) return false;
-    return (
-      world.history.futureDueItemStates
-        .filter((state) => state.dueItemId === item.id)
-        .sort((left, right) => left.sequence - right.sequence)
-        .at(-1)?.status === "scheduled"
-    );
-  });
-  if (active.length === 0) return;
-  const prior = active.at(-1) as MortalityCheckPlanRecord;
-  const result = world.history.mortalityCheckResults.find(
-    (candidate) => candidate.planId === prior.id,
-  );
-  if (
-    active.length !== 1 ||
-    result?.outcome !== "survived" ||
-    world.currentDate !== prior.dueAt ||
-    requestedYear !== prior.checkYear + 1
-  ) {
-    throw new Error(
-      "A person may have only one active mortality-check due item.",
-    );
-  }
 }
 
 function commit(world: World, history: World["history"]): World {
