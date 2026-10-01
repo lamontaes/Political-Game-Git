@@ -37,24 +37,24 @@ Measured source finding: `blocked` is an existing terminal due status (`future-t
 
 ## Proof run
 
-Measured: baseline passed one of three cases and failed both empty-choice cases. It recorded Natalie Brown's selected nomination event_f5c0ca6e276ebedd with serialized-world hash 59f54b586046ad57 (`/tmp/team2-a96-before.log:6`).
+Measured: the final baseline passed one of four cases and failed both empty-choice cases plus blocked-receipt persistence. It recorded Natalie Brown's selected nomination event_f5c0ca6e276ebedd with serialized-world hash 3c9340639beddee4 (`/tmp/team2-a96-final-paired-before.log:6`).
 
-Measured: the repaired same three cases passed. Natalie Brown's nomination and serialized-world hash matched the baseline receipt (`/tmp/team2-a96-after.log:6`).
+Measured: the repaired same four cases passed. Natalie Brown's nomination and serialized-world hash matched the baseline receipt (`/tmp/team2-a96-final-paired-after.log:6`).
 
-Measured: the final four cases passed in 24.90 seconds on the composed source, including saved blocked-state persistence (`/tmp/team2-a96-composed.log`). The extra persistence case was not run on baseline. No assertion was removed or timeout increased.
+Measured: the final four cases passed in 23.47 seconds on the composed source, compared with 17.98 seconds for baseline's three failures and one pass (`/tmp/team2-a96-final-paired-after.log`). No assertion was removed or timeout increased. These test durations are not year-speed measurements.
 
 Measured: the seed `A96-vp-choice-required` selected a real starting place from all 56 jurisdiction identities: District of Columbia, District of Columbia (`vice-president-choice-required.test.ts:35`). This proves one federal-office fixture, not 56 populated worlds. The federal callback has no state-specific selection arm.
 
 ## Worked example
 
-Measured: on January 15, 2026, actual President Hope Weiss (`person_7bbae65f79073e24`) was player-controlled. Baseline recorded one nomination despite her empty choice; the candidate recorded zero and returned blocked (`/tmp/team2-a96-composed.log:5`). The office stayed vacant. No money moved: the direct empty-choice result retains the identical world.
+Measured: on January 15, 2026, actual President Hope Weiss (`person_7bbae65f79073e24`) was player-controlled. Baseline recorded one nomination despite her empty choice; the candidate recorded zero and returned blocked (`/tmp/team2-a96-final-paired-after.log:5`). The office stayed vacant. No money moved: the direct empty-choice result retains the identical world.
 
-Measured: when the actual existing chooser selected Natalie Brown (`person_00f68d4e2ba3dfd6`), both arms wrote the same nomination and confirmation schedule (`/tmp/team2-a96-composed.log:6`). She remained a nominee, not Vice President; the nomination case does not establish confirmation.
+Measured: when the actual existing chooser selected Natalie Brown (`person_00f68d4e2ba3dfd6`), both arms wrote the same nomination and confirmation schedule (`/tmp/team2-a96-final-paired-after.log:6`). She remained a nominee, not Vice President; the nomination case does not establish confirmation.
 
 ## Method and handoff
 
-Audit gap A96. Runtime-tested source: `a88a3a6d080d126785d33a54209da500ebfd2991`, composed with main `c2881beb4`. Owned production change: only the nomination guard and its obsolete fallback comments in `office-continuity.ts`. No shared confirmation, tenure, calendar or appointment-engine edits. This is a draft for CTO review, not merged or whole-docket completion.
+Audit gap A96. Runtime-tested source: `10cc84ed08ee4b2f5688a2e4170445c99ceb2d52`, composed with main `c2881beb4`. Owned production change: only the nomination guard and its obsolete fallback comments in `office-continuity.ts`. No shared confirmation, tenure, calendar or appointment-engine edits. This is a draft for CTO review, not merged or whole-docket completion.
 
-Native command: `node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/governing/vice-president-choice-required.test.ts --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept`, with the existing Team 2 storage guard and native configuration. Initial test setup failed before assertions because a historical cutoff was omitted; that setup receipt is retained separately. The corrected baseline above executed all three assertions.
+Native command: `node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/governing/vice-president-choice-required.test.ts --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept`, with the existing Team 2 storage guard and native configuration. The paired driver restores only the owned nomination source in a finally block. Initial test setup failed before assertions because a historical cutoff was omitted; that setup receipt is retained separately. The final baseline above executed all four cases.
 
 Two strict roots reported zero diagnostics. Changed-source lint, formatting, whitespace and the committed release check passed. Zero-dice found zero new findings and five inherited stale entries, exiting 1. Browser, full suite, ordinary confirmation lifecycle, all-56 populated-world proof and exclusive year-speed comparison were NOT RUN. No duplicate clock or nationwide audit was started. Next: CTO review of the blocked receipt, then the remaining authorized member-vote callers once Audit supplies their actual nonbill subject contract.
