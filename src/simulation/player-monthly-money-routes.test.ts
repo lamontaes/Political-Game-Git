@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import { submitTimeCommand } from "../presentation/time-command";
 import {
@@ -58,9 +59,14 @@ let livingId: EntityId;
 let salaryId: EntityId;
 
 beforeAll(() => {
+  const seed = "c9-monthly-money-routes";
+  const place = drawRandomPlace(seed);
+  console.info(
+    `Player bill route: seed=${seed}, place=${place.displayName} (${place.key})`,
+  );
   const fixture = smallWorld({
-    seed: "c9-monthly-money-routes",
-    place: "3502000",
+    seed,
+    place: place.key,
     people: 3,
   });
   playerId = fixture.personId;
@@ -87,7 +93,7 @@ beforeAll(() => {
     householdId: buyingHouseholdId,
     effectiveAt: world.currentDate,
     jurisdictionId: world.people[playerId]!.homeJurisdictionId!,
-    label: "Albuquerque",
+    label: fixture.place.displayName,
     kind: "residence:home",
     provenance,
     supersedesLocationId: null,
@@ -254,6 +260,12 @@ function moneyResult(world: World) {
 }
 
 describe("player money on the first through existing time controls", () => {
+  it.todo(
+    "Individual household bills settle on their saved contractual due dates",
+  );
+  it.todo(
+    "The player's what's-next screen displays the recorded bill schedule",
+  );
   it("removes a paid-off mortgage from upcoming bills and does not charge it again", () => {
     const obligation = starting.history.resourceObligations.find(
       (row) => row.resourceFlowId === mortgageId,
