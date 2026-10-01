@@ -1,3 +1,4 @@
+import { applyStartingLawConsequences } from "../simulation/enacted-law-effects";
 import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
@@ -281,6 +282,7 @@ function generatedIdentityFor(worldSeed: string, key: string): PersonIdentity {
 
 export function buildProductionWorld(
   input: ProductionWorldInput,
+  opening: { deferStartingLaws?: boolean } = {},
 ): ProductionWorld {
   const place = input.place;
   const jurisdiction = place.context.jurisdiction;
@@ -458,6 +460,7 @@ export function buildProductionWorld(
     player.id,
     input.districtHomeJoinVersion,
   );
+  if (!opening.deferStartingLaws) world = applyStartingLawConsequences(world);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }
@@ -623,6 +626,7 @@ export function finalizePreStartPlayer(
     player.id,
     input.districtHomeJoinVersion,
   );
+  if (!opening.deferStartingLaws) world = applyStartingLawConsequences(world);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }

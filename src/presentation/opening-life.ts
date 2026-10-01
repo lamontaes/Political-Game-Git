@@ -1,3 +1,4 @@
+import { applyStartingLawConsequences } from "../simulation/enacted-law-effects";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { recordOpeningWorkLocation } from "./opening-work-location";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
@@ -226,7 +227,7 @@ interface OpeningLifeBuildStart {
 }
 
 function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
-  const game = createNewGameWorld(session.setup);
+  const game = createNewGameWorld(session.setup, { deferStartingLaws: true });
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {
@@ -393,7 +394,7 @@ function completeOpeningLife(
       // not die. Starting it here costs the clock's hot path nothing, and the
       // version gate keeps a legacy replay byte-identical: those saves still
       // start it on their first ordinary-day pass, as before.
-      world,
+      world: applyStartingLawConsequences(world),
     },
   };
 }
