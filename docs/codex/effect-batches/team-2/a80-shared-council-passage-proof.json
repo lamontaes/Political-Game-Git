@@ -1,0 +1,86 @@
+{
+  "auditId": "A80",
+  "runtimeSource": "2c7aae6d1d70ee7d919c11fd4fa59990d12523ba",
+  "mainSource": "2e78c9c155e6dcfbf400f21cad56266c2dcfc97b",
+  "native": {
+    "council": {
+      "passed": 2,
+      "unselected": 2,
+      "durationSeconds": 30.47
+    },
+    "mayor": {
+      "passed": 1,
+      "unselected": 57,
+      "durationSeconds": 30.23
+    },
+    "initialNewFixture": {
+      "failed": 1,
+      "passed": 1,
+      "reason": "Missing people:political-reflection handler in controlled fixture; subsequently isolated unrelated families via canonical saved cancellations",
+      "observedTerminalSession": 24699,
+      "durationSeconds": 19.22
+    },
+    "scopedTypes": {
+      "roots": 4,
+      "diagnostics": 0
+    },
+    "initialTypes": {
+      "observedTerminalSession": 34397,
+      "diagnostics": 2,
+      "errors": [
+        "TS2345: principleId string is not assignable to EntityId",
+        "TS2339: LifePlace has no name property"
+      ]
+    }
+  },
+  "namedExample": {
+    "seed": "A80-town-passage-survivor",
+    "state": "US-PA",
+    "place": "Abbottstown, Pennsylvania",
+    "sponsor": "Noah Benton",
+    "measureId": "legislative-measure_6efe1626bd2f6c5a",
+    "eventId": "event_c1c1003cde86c6e9",
+    "summary": "ORD A80 fixture was not presented to the Mayor under this profile."
+  },
+  "limits": [
+    "Authored held principles on actual members",
+    "Supplied agenda and meeting date",
+    "Other due families explicitly cancelled in controlled fixture",
+    "No researched Abbottstown charter claim",
+    "No full suite, browser, year, speed or all-56 populated-world proof",
+    "A79 admission questions remain unresolved",
+    "Initial raw failure logs overwritten by repaired scratch runs; terminal handles and observed summaries retained, not a reconstructed raw log"
+  ],
+  "logs": {
+    "selectedCouncil": {
+      "path": "/tmp/team2-a80-shared-passage-final-tests.log",
+      "sha256": "d9240f4a04cd4e8ab8c35d3d17d3a9411f363b52f9eb3804f2130853903666c3",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n{\"seed\":\"A80-town-passage-survivor\",\"state\":\"US-PA\",\"place\":\"Abbottstown, Pennsylvania\",\"sponsor\":\"Noah Benton\",\"measureId\":\"legislative-measure_6efe1626bd2f6c5a\",\"eventId\":\"event_c1c1003cde86c6e9\",\"summary\":\"ORD A80 fixture was not presented to the Mayor under this profile.\"}\n\n Test Files  1 passed | 1 skipped (2)\n      Tests  2 passed | 60 skipped (62)\n   Start at  15:45:27\n   Duration  30.47s (transform 19.37s, setup 24ms, import 27.39s, tests 2.80s, environment 1ms)\n\n"
+    },
+    "selectedMayor": {
+      "path": "/tmp/team2-a80-presentment-tests.log",
+      "sha256": "b2ddc39c3392ac9e35ff5bc3f0ca5c7b907bb04a3df7df030405f29650655627",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n\n Test Files  1 passed (1)\n      Tests  1 passed | 57 skipped (58)\n   Start at  15:47:14\n   Duration  30.23s (transform 15.81s, setup 25ms, import 20.69s, tests 9.37s, environment 0ms)\n\n"
+    },
+    "types": {
+      "path": "/tmp/team2-a80-shared-passage-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+      "text": "scoped roots 4; diagnostics 0\n"
+    },
+    "lint": {
+      "path": "/tmp/team2-a80-shared-passage-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    "format": {
+      "path": "/tmp/team2-a80-shared-passage-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "text": "Checking formatting...\nAll matched files use Prettier code style!\n"
+    },
+    "intermediateRepairedCouncil": {
+      "path": "/tmp/team2-a80-shared-passage-tests.log",
+      "sha256": "4f1545dad8d3b5f54c5259a0b5901d36b73092fbfb3c7150c8a50ab4273d9e98",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n{\"seed\":\"A80-town-passage-survivor\",\"state\":\"US-PA\",\"place\":\"Abbottstown, Pennsylvania\",\"sponsor\":\"Noah Benton\",\"measureId\":\"legislative-measure_6efe1626bd2f6c5a\",\"eventId\":\"event_c1c1003cde86c6e9\",\"summary\":\"ORD A80 fixture was not presented to the Mayor under this profile.\"}\n\n Test Files  1 passed (1)\n      Tests  2 passed | 2 skipped (4)\n   Start at  15:43:49\n   Duration  17.88s (transform 11.62s, setup 19ms, import 14.47s, tests 3.29s, environment 0ms)\n\n"
+    }
+  }
+}
