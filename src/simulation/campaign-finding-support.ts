@@ -45,4 +45,3 @@ export function applyFindingSupportLoss(
   }
   return next;
 }
-

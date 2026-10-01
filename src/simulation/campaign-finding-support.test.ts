@@ -111,7 +111,6 @@ function fileKentuckyCampaign(
   };
 }
 
-
 function findingFixture(seed: string) {
   // Reuse the established six-person filing fixture and its explicit seat.
   // This is controlled Kentucky proof, not an all-jurisdiction or natural route.
@@ -123,12 +122,25 @@ function findingFixture(seed: string) {
     recordedAt: f.world.currentDate,
     jurisdictionId: f.campaign.jurisdictionId,
     involvedEntityIds: [f.candidatePersonId],
-    participants: [{ personId: f.candidatePersonId, role: "focus:subject", detail: "Controlled saved finding" }],
+    participants: [
+      {
+        personId: f.candidatePersonId,
+        role: "focus:subject",
+        detail: "Controlled saved finding",
+      },
+    ],
     personFactConstraints: [],
     visibility: "public",
     tags: ["fixture:controlled-finding"],
     summary: "A controlled public finding names the recorded candidate.",
-    context: { location: null, socialContext: null, pressure: null, choice: null, motivation: null, immediateReaction: null },
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
   });
   const event = world.history.events.at(-1)!;
   const matter = appendPressRecord(world, "matter", {
@@ -169,28 +181,50 @@ function findingFixture(seed: string) {
   });
   world = step.world;
   assertWorldIntegrity(world);
-  return { ...f, world, event, proceeding: proceeding.record, step: step.record };
+  return {
+    ...f,
+    world,
+    event,
+    proceeding: proceeding.record,
+    step: step.record,
+  };
 }
 
 describe("A152 finding support ownership", () => {
-  it.each(["filing-basics", "filing-twice", "work-fundraising", "work-advertising", "distribution"])(
+  it.each([
+    "filing-basics",
+    "filing-twice",
+    "work-fundraising",
+    "work-advertising",
+    "distribution",
+  ])(
     "preserves the existing canonical support result for saved fixture %s",
     (seed) => {
       const f = findingFixture(seed);
       const after = applyFindingSupportLoss(
-        f.world, f.candidatePersonId, "finding", f.step, f.event,
+        f.world,
+        f.candidatePersonId,
+        "finding",
+        f.step,
+        f.event,
       );
       const expected = recordSupportLoss(f.world, f.campaign, {
         stableKeyBase: `${f.step.stableKey}:finding-support:${f.campaign.id}:${f.candidatePersonId}`,
         loserPersonId: f.candidatePersonId,
-        lossBasisPoints: UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding,
+        lossBasisPoints:
+          UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding,
         sourceEntityIds: [f.event.id],
       }).world;
       expect(serializeWorld(after)).toBe(serializeWorld(expected));
-      const added = after.history.metricStates.slice(f.world.history.metricStates.length);
+      const added = after.history.metricStates.slice(
+        f.world.history.metricStates.length,
+      );
       expect(added).toHaveLength(f.campaign.candidateSupportScopes.length);
       for (const state of added) {
-        expect(state.provenance).toEqual({ kind: "simulated", sourceEntityIds: [f.event.id] });
+        expect(state.provenance).toEqual({
+          kind: "simulated",
+          sourceEntityIds: [f.event.id],
+        });
       }
       const loaded = deserializeWorld(serializeWorld(after));
       assertWorldIntegrity(loaded);
@@ -200,7 +234,12 @@ describe("A152 finding support ownership", () => {
   );
   it("does not change support from the press-only entrypoint", () => {
     const f = findingFixture("filing-basics");
-    const after = applyFindingConsequences(f.world, f.proceeding, f.step, f.event);
+    const after = applyFindingConsequences(
+      f.world,
+      f.proceeding,
+      f.step,
+      f.event,
+    );
     expect(after.history.metricStates).toBe(f.world.history.metricStates);
   });
   it("applies only the supplied support adapter in the existing first slot", () => {
@@ -233,10 +272,15 @@ describe("A152 finding support ownership", () => {
   });
   it("does not affect an actual person outside the candidate field", () => {
     const f = findingFixture("filing-basics");
-    const outsider = f.world.personOrder.find((id) =>
-      !f.campaign.candidateSupportScopes.some((scope) => scope.candidatePersonId === id),
+    const outsider = f.world.personOrder.find(
+      (id) =>
+        !f.campaign.candidateSupportScopes.some(
+          (scope) => scope.candidatePersonId === id,
+        ),
     );
     expect(outsider).toBeDefined();
-    expect(applyFindingSupportLoss(f.world, outsider!, "finding", f.step, f.event)).toBe(f.world);
+    expect(
+      applyFindingSupportLoss(f.world, outsider!, "finding", f.step, f.event),
+    ).toBe(f.world);
   });
 });

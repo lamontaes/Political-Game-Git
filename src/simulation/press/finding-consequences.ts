@@ -5,10 +5,7 @@ import { recheckRoutedClaims } from "../claim-contradictions";
 import { claimStancesBy } from "../claim-stances";
 import { recordEventKnowledge } from "../records";
 import type { EntityId, HistoricalEvent, World } from "../types";
-import {
-  isAdversePublicStep,
-  type AdversePublicOutcome,
-} from "./findings";
+import { isAdversePublicStep, type AdversePublicOutcome } from "./findings";
 import {
   type MatterProceedingRecord,
   type ProceedingStepRecord,
