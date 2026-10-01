@@ -65,6 +65,7 @@ import {
   dwellingOccupancyStateHistory,
   housingTenureStateHistory,
 } from "../resource-queries";
+import { peopleTiedTo, tellPeopleOf } from "../neighbor-news";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
   MIGRATION_CONTRACT_VERSION,
@@ -503,6 +504,8 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const toName = world.jurisdictions[move.toJurisdictionId]!.name;
   const fromName = world.jurisdictions[move.fromJurisdictionId]!.name;
   const eventStableKey = `migration:moved:${move.stableKey}`;
+  // Who hears of the move is read before it changes where anybody lives.
+  const tied = peopleTiedTo(world, move.personIds);
   let next = recordWorldEvent(world, {
     stableKey: eventStableKey,
     type: MIGRATION_MOVED_EVENT,
@@ -549,6 +552,13 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const event = next.history.events.at(-1)!;
   if (event.stableKey !== eventStableKey)
     throw new Error("The move event was not the last event written.");
+  // The movers know; so do the people tied to them by a record, told by the
+  // first of them. Somebody with no recorded tie hears nothing.
+  next = tellPeopleOf(next, event.id, {
+    tied,
+    direct: move.personIds,
+    teller: move.personIds[0]!,
+  });
 
   // A pupil's childhood record notes a move that lands while school is in
   // session, and the school they leave reads it.

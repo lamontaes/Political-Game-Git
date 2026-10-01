@@ -25,6 +25,7 @@
  * work-status record, with its reason, on the day of the review.
  */
 
+import { recordJobEndedNews } from "../neighbor-news";
 import { recordWorkStatus, type RecordWorkStatusInput } from "../life";
 import {
   workRelationshipHistoryForPerson,
@@ -106,9 +107,17 @@ export function recordTownJobLoss(
   const personId = next.history.workRelationships.find(
     (row) => row.id === input.workRelationshipId,
   )?.personId;
-  return personId
-    ? scheduleLivedOutcomeReflection(next, personId, status.id)
-    : next;
+  if (!personId) return next;
+  // The same step carries the loss to the people tied to the worker: the
+  // job-ended event is written and they are told (neighbor-news.ts). The work
+  // status stays the one record of the loss; this event only carries it.
+  return scheduleLivedOutcomeReflection(
+    recordJobEndedNews(next, status.id, {
+      closedBusiness: input.reason === TOWN_JOB_END_REASONS.businessClosed,
+    }),
+    personId,
+    status.id,
+  );
 }
 
 /**
