@@ -168,5 +168,41 @@
     ],
     "sharedPreserved": true,
     "approval": "Audit source boundary only; CTO core review pending"
+  },
+  "A4Current": {
+    "source": "d219552e9ccc987ac176408b44ca49cf19340d3d",
+    "main": "b84750d91daacef78fb1452b0b9dcb262306f793",
+    "runtime": {
+      "files": 4,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 46.64,
+      "exit": 0,
+      "unfiltered": true
+    },
+    "types": {
+      "roots": 2,
+      "files": 873,
+      "diagnostics": 0
+    },
+    "scope": "two Audit-released time-work default hunks",
+    "firstRun": {
+      "source": "5f8d1c6650393825c899431b72b39fe3516a9117",
+      "passed": 10,
+      "failed": 2,
+      "seconds": 85.94,
+      "cause": "fixture allowed distinct second completed shift"
+    },
+    "lint": "unused binding repaired; PASS",
+    "notRun": [
+      "later-main runtime",
+      "browser",
+      "full suite",
+      "year",
+      "nationwide",
+      "speed"
+    ],
+    "approval": "NOT GRANTED"
   }
 }
