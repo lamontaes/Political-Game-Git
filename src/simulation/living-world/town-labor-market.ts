@@ -30,7 +30,7 @@ import {
   workRelationshipHistoryForPerson,
   workStatusHistory,
 } from "../life-queries";
-import { scheduleLivedOutcomeReflection } from "./lived-outcome-schedule";
+import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,

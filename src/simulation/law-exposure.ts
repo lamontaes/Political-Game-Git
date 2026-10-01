@@ -192,20 +192,57 @@ export function scheduleOfficialViewReflection(
   exposure: LawExposureRecord,
 ): World {
   if (exposure.direction === "none") return world;
-  if (
-    world.control.kind === "person" &&
-    world.control.personId === exposure.personId
-  )
+  return scheduleReflection(
+    world,
+    exposure.personId,
+    officialViewReflectionKey(exposure),
+  );
+}
+
+/**
+ * The reflection on something that happened to a person that an official
+ * answers for (a job they did not choose to leave): the same dated
+ * reflection a law's effect gets, keyed by the record that shows it
+ * happened. `living-world/lived-outcomes.ts` reads the record back.
+ */
+export function livedOutcomeReflectionKey(
+  personId: EntityId,
+  sourceRecordId: EntityId,
+): string {
+  return `${LIVED_OUTCOME_REFLECTION_PREFIX}${sourceRecordId}:${personId}`;
+}
+
+export const LIVED_OUTCOME_REFLECTION_PREFIX = "lived-outcome:reflect:";
+
+/** Schedules one reflection on one recorded outcome. */
+export function scheduleLivedOutcomeReflection(
+  world: World,
+  personId: EntityId,
+  sourceRecordId: EntityId,
+): World {
+  if (!world.people[personId]) return world;
+  return scheduleReflection(
+    world,
+    personId,
+    livedOutcomeReflectionKey(personId, sourceRecordId),
+  );
+}
+
+function scheduleReflection(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  if (world.control.kind === "person" && world.control.personId === personId)
     return world;
-  const stableKey = officialViewReflectionKey(exposure);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
   return scheduleFutureDueItem(world, {
     stableKey,
     dueAt: addDays(world.currentDate, REFLECTION_DAYS),
     transitionKey: OFFICIAL_VIEW_TRANSITION_KEY,
-    // The exposure itself is named in the key; due items reference people.
-    entityIds: [exposure.personId],
+    // The record reflected on is named in the key; due items reference people.
+    entityIds: [personId],
     jurisdictionId: null,
     provenance: { kind: "initialization", reference: `official-view:reflect` },
   });

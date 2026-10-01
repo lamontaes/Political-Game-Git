@@ -10,7 +10,7 @@ import { activeWorkRelationshipsAt, workStatusHistory } from "../life-queries";
 import { townSupportFromViews, viewOfOfficial } from "../official-view-reads";
 import type { EntityId, World } from "../types";
 import { assertWorldIntegrity } from "../world";
-import { livedOutcomeReflectionKey } from "./lived-outcome-schedule";
+import { livedOutcomeReflectionKey } from "../law-exposure";
 import { livedOutcomesOf } from "./lived-outcomes";
 import {
   LIVED_OUTCOME_REFLECTION_EVENT_TYPE,

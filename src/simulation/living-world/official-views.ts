@@ -1,7 +1,9 @@
 import { ageOnDate } from "../dates";
 import {
+  LIVED_OUTCOME_REFLECTION_PREFIX,
   OFFICIAL_VIEW_TRANSITION_KEY,
   lawExposureFeltSize,
+  livedOutcomeReflectionKey,
   monthlyPay,
   type LawExposureFeltSize,
   officialViewReflectionKey,
@@ -21,10 +23,6 @@ import {
 import { officialOpinionSubject } from "../political-opinion-subjects";
 import { recordWorldEvent } from "../world";
 import { joinLawInterestGroup } from "./law-interest-groups";
-import {
-  LIVED_OUTCOME_REFLECTION_TRANSITION_KEY,
-  livedOutcomeReflectionKey,
-} from "./lived-outcome-schedule";
 import {
   LIVED_OUTCOME_ANSWERED_BY,
   LIVED_OUTCOME_SUMMARY,
@@ -83,7 +81,6 @@ export {
   OFFICIAL_VIEW_TRANSITION_KEY,
   scheduleOfficialViewReflection,
 } from "../law-exposure";
-export { LIVED_OUTCOME_REFLECTION_TRANSITION_KEY } from "./lived-outcome-schedule";
 
 export const LIVED_OUTCOME_REFLECTION_EVENT_TYPE =
   "people.lived-outcome-reflection";
@@ -174,6 +171,8 @@ export function officialViewReflectionHandler(
 ): FutureTransitionHandlerResult {
   if (dueItem.transitionKey !== OFFICIAL_VIEW_TRANSITION_KEY)
     throw new Error("The official view handler received another transition.");
+  if (dueItem.stableKey.startsWith(LIVED_OUTCOME_REFLECTION_PREFIX))
+    return reflectOnLivedOutcome(world, dueItem);
   const done = (
     next: World,
     reason: string,
@@ -500,14 +499,10 @@ function formViewFromFactor(
  * through their temperament and party. The reflection is a dated event in
  * their life, and the view is saved as a private belief.
  */
-export function livedOutcomeReflectionHandler(
+function reflectOnLivedOutcome(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  if (dueItem.transitionKey !== LIVED_OUTCOME_REFLECTION_TRANSITION_KEY)
-    throw new Error(
-      "The lived-outcome reflection handler received another transition.",
-    );
   const done = (
     next: World,
     reason: string,
