@@ -59,5 +59,18 @@
     "productionProfilesAdmitted": 0,
     "validation": "JSON parsed; 50 state identities and D.C. preserved; all prior claim values unchanged; source URL/date/status present; no runtime changes",
     "matrixSha256": "8f4fc56154ef7b3a72d55e28df4f01a9a8b9cc8b52299fbd17167352f71679c6"
+  },
+  "renewal05": {
+    "previousHead": "5eb4ea21eca5676243a8d88872f89d21d9c0f570",
+    "changedStates": ["MT"],
+    "counts": {
+      "partially-inspected": 38,
+      "unread": 11,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 state identities and D.C. preserved; all prior claim values unchanged; primary 2025 MCA text read; no runtime changes",
+    "matrixSha256": "b342233c3486da4bb7c6e2c7e193f923de076fcee9bf2fd09f9a0eb7acafb748"
   }
 }

@@ -1,6 +1,6 @@
 # County source intake keeps real seat plans open
 
-The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 37 partially inspected states, 12 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
+The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 38 partially inspected states, 11 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
 
 ## What the new reads establish
 
@@ -21,6 +21,8 @@ Minnesota's current candidate page separates age at officeholding from district 
 New Jersey's official reproduction retains legacy terminology and an optional voter-adopted four-year arrangement. Actual county adoption and current consolidated text remain open. These facts cannot become one universal county calendar.
 
 Nevada retains population and district-transition exceptions. Virginia retains optional staggering. Wisconsin distinguishes Milwaukee's office-entry Monday from other counties' Tuesday. Oregon retains its two-year vacancy exception and one-year county residence requirement. Official Oregon and Wisconsin HTML was read directly after browser retrieval failed; hashes bind those readings.
+
+Montana adds the two-year county and district residence requirement measured before general election, ordinary countywide electorate and six-year term. Optional plans and court orders remain explicit exceptions; actual seat phase and filing rules remain open.
 
 ## Checks and limits
 

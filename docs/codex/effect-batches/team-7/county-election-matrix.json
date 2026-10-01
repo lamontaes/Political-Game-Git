@@ -947,8 +947,30 @@
       ]
     },
     "MT": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "composition": {
+          "value": "2025 MCA: three commissioners or another number under an allowed Title 7 chapter 3 government form. Actual county form remains unbound.",
+          "url": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0210/section_0010/0070-0040-0210-0010.html",
+          "section": "7-4-2101",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "residenceAndElectorate": {
+          "value": "2025 MCA: candidates selected from district residents and electors; ordinary election submitted countywide, except optional/alternative plan or court order. County and district residence must cover two years immediately before the general election. This is an election-stage requirement; actual district, voter facts and filing-stage rules remain unbound.",
+          "url": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0210/section_0040/0070-0040-0210-0040.html",
+          "section": "7-4-2104(1)-(2)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "termAndEntry": {
+          "value": "2025 MCA: six-year term unless an optional/alternative county government plan provides otherwise. Office entry is 12:01 a.m. January 1 after election; oath due by last business day December, subject to vacancy exception. Actual seat election phase and filing calendar remain open.",
+          "url": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0210/section_0050/0070-0040-0210-0050.html",
+          "section": "7-4-2105(1)-(2)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
