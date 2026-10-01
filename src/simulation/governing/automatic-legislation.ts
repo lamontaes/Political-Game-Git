@@ -15,7 +15,7 @@ import {
   type RecordFiledProvisionInput,
 } from "../legislative-politics";
 import type { LawAmountUnit } from "../law-consequence-types";
-import { lawInForce, type LawInForce } from "./law-in-force";
+import { lawInForce, startingLawTerms, type LawInForce } from "./law-in-force";
 import { principledLeaning } from "./officeholder-principles";
 import {
   censusRegionOf,
@@ -89,7 +89,7 @@ export interface FinalEnactedLawTerm {
   readonly value: number;
   readonly unit: LawAmountUnit;
   readonly measureId: EntityId;
-  readonly provisionId: EntityId;
+  readonly provisionId: EntityId | null;
   readonly sourceRecordIds: readonly EntityId[];
 }
 
@@ -152,6 +152,20 @@ export function readFinalEnactedLawTerm(
     readonly unit: LawAmountUnit;
   },
 ): FinalEnactedLawTerm | null {
+  if (law.origin === "in-force-at-start") {
+    const matches = startingLawTerms(law, input.questionKey, world.currentDate)
+      .filter((term) => term.questionKey === input.questionKey && term.key === input.termKey);
+    if (matches.length !== 1) return null;
+    const term = matches[0]!;
+    if (term.unit !== input.unit || !Number.isFinite(term.value)) return null;
+    return {
+      value: term.value,
+      unit: term.unit,
+      measureId: law.measureId,
+      provisionId: null,
+      sourceRecordIds: [law.measureId],
+    };
+  }
   const enactment = finalTermEnactment(world, law, input.questionKey);
   if (!enactment) return null;
   const matches = finalTermProvisions(

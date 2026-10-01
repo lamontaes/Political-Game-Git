@@ -21,6 +21,7 @@ import type {
   IsoDate,
   LegislativeEnactmentRecord,
   LegislativeMeasureRecord,
+  LegislativeProvisionRecord,
   World,
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
@@ -324,6 +325,7 @@ function enactedByQuestion(
 }
 
 interface StartingLawRow {
+  readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly answer: PropositionAnswer;
   readonly operativeAt?: string;
   /**
@@ -338,6 +340,7 @@ interface StartingLawRow {
    * started). Unsaid: nothing is known before that date.
    */
   readonly before?: {
+    readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
     readonly answer: PropositionAnswer;
     readonly preempts?: boolean;
   };
@@ -379,6 +382,25 @@ export function startingLawPlaceKey(
     }),
   ]);
   return startingLawPlaceKeys.get(jurisdictionId);
+}
+
+/** Numeric text belonging to the canonical starting row, not an invented enactment. */
+export function startingLawTerms(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
+  if (law.origin !== "in-force-at-start" || law.operativeAt > onDate) return [];
+  const prefix = "starting-law:";
+  const suffix = `:${questionKey}`;
+  if (!law.measureId.startsWith(prefix) || !law.measureId.endsWith(suffix)) return [];
+  const placeKey = law.measureId.slice(prefix.length, -suffix.length);
+  const dated = STARTING_LAW.questions[questionKey]?.answers[placeKey];
+  if (!dated) return [];
+  const answerAt = makeIsoDate(dated.operativeAt ?? STARTING_LAW.defaultOperativeAt);
+  const row = answerAt > onDate ? dated.before : dated;
+  if (!row || row.answer !== law.answer) return [];
+  return row.lawTerms ?? [];
 }
 
 type Candidate = LawInForce & {
