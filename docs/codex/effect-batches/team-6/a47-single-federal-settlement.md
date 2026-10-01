@@ -63,7 +63,12 @@ b5b2eaec71b9cdfee3b4da6059db9a125b484a11 passed all 84 tests in the two changed
 files, including actual program payments, actual paycheck taxes, all 56
 partial-payment contexts, missing-account refusal and archived compatibility.
 Scoped TypeScript checked three roots, loaded 1,031 source files and returned
-zero owned diagnostics. Lint, formatting, report and whitespace passed.
+zero owned diagnostics. Lint, formatting, report and whitespace passed. The
+final current-main composition b430791e3ecabf2c61dea0c545adbaff9894601a includes
+main a721474cf9518f6c64ac325e851845250d0b4d36 and independently passed all 84
+tests again. Release check passed. Zero-dice returned zero new findings and
+five inherited stale entries (exit 1); spelling returned 19 inherited findings
+outside the owned files (exit 1). Shared lists remain unchanged.
 Full suite, browser, campaign and game-year performance checks are not run for
 this bounded caller.
 
