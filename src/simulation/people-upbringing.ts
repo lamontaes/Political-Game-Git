@@ -1,3 +1,4 @@
+import { childhoodRecord } from "./childhood-record-queries";
 import { ageOnDate, dateAtAge } from "./dates";
 import {
   annualPovertyLineMinor,
@@ -25,7 +26,10 @@ export type CaregivingClimate =
   | "consistent-firm"
   | "inconsistent"
   | "high-conflict"
-  | "harsh";
+  | "harsh"
+  // A person born in play: no household record says how their caregivers
+  // treated them yet, so nothing is drawn and no tendency is read from it.
+  | "not-recorded";
 export type UpbringingEvent =
   | "parent-death"
   | "parent-separation"
@@ -56,6 +60,13 @@ export interface UpbringingSource {
 
 export interface PersonUpbringing {
   readonly personId: EntityId;
+  /**
+   * "childhood-record": a person born in play, read from their childhood
+   * record, the household pay and the family records with no draw.
+   * "game-profile": an opening-world person whose childhood predates the
+   * world, so named game profiles stand in for what was never recorded.
+   */
+  readonly basis: "childhood-record" | "game-profile";
   readonly money: readonly {
     readonly period: UpbringingPeriod;
     readonly level: FamilyMoney;
@@ -208,6 +219,14 @@ function recordedChildhoodParentDeath(
 }
 
 /**
+ * Game rule: a childhood with no move during a school year is stable, one or
+ * two moves is some-moves, three or more is disrupted.
+ */
+function homeStabilityFromMoves(moves: number): HomeStability {
+  return moves === 0 ? "stable" : moves <= 2 ? "some-moves" : "disrupted";
+}
+
+/**
  * The same person in the same world always receives the same upbringing.
  * Existing parent and life records win over profile draws; missing history is
  * filled from named game profiles rather than disguised as sourced fact.
@@ -224,6 +243,25 @@ export function upbringingFor(
   const age = ageOnDate(person.birthDate, world.currentDate);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
+  const money = [
+    { period: "early-childhood", ...earlyMoney },
+    { period: "adolescence", ...laterMoney },
+  ] as const;
+  const entries = childhoodRecord(world, personId)?.entries ?? [];
+  if (entries.some(({ kind }) => kind === "birth"))
+    return {
+      personId,
+      basis: "childhood-record",
+      money,
+      homeStability: homeStabilityFromMoves(
+        entries.filter(({ kind }) => kind === "school-year-move").length,
+      ),
+      caregiving: "not-recorded",
+      protectiveCaregiver: false,
+      events: parentDied ? ["parent-death"] : [],
+      schooling: [],
+      firstJob: "none",
+    };
   const homeRoll = rng.fork("home").integer(0, 100);
   const homeStability: HomeStability =
     homeRoll < 63 ? "stable" : homeRoll < 86 ? "some-moves" : "disrupted";
@@ -295,10 +333,8 @@ export function upbringingFor(
 
   return {
     personId,
-    money: [
-      { period: "early-childhood", ...earlyMoney },
-      { period: "adolescence", ...laterMoney },
-    ],
+    basis: "game-profile",
+    money,
     homeStability,
     caregiving,
     protectiveCaregiver,
