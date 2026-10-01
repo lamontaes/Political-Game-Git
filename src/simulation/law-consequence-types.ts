@@ -1,4 +1,7 @@
-import type { RuleChangeProvisionRecord, RuleChangeApplicability } from "./enacted-rule-changes";
+import type {
+  RuleChangeProvisionRecord,
+  RuleChangeApplicability,
+} from "./enacted-rule-changes";
 import type { LawInForce } from "./governing/law-in-force";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -129,8 +132,7 @@ export interface ResolvedAnnualOfficePayConsequence {
 
 /** Both actions use the existing pay writer and actual recorded pay cadence. */
 export type ResolvedLawPayConsequence =
-  | ResolvedHourlyLawPayConsequence
-  | ResolvedAnnualOfficePayConsequence;
+  ResolvedHourlyLawPayConsequence | ResolvedAnnualOfficePayConsequence;
 
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
