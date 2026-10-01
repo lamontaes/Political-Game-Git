@@ -412,7 +412,16 @@ export function decideToLeave(
     });
   };
   for (const cause of causes)
-    add(`cause:${cause.kind}`, "leave", cause.strength, cause.explanation);
+    add(
+      `cause:${cause.kind}`,
+      "leave",
+      cause.strength,
+      cause.explanation,
+      // PLACEHOLDER(research: why-americans-move-causes-and-strengths): an
+      // offer is a promise about a place they have not lived, weighed with
+      // less certainty than what has already happened to them.
+      cause.kind === "job-offer" ? "medium" : "high",
+    );
   add(
     "bar:age",
     "keep-home",

@@ -112,6 +112,9 @@ describe("a job offer elsewhere is a recorded reason to move (A135)", () => {
           )!;
           expect(offer, `move ${move.eventId}`).toBeDefined();
           expect(move.toJurisdictionId).toBe(offer.opening.jurisdictionId);
+          console.info(
+            `A135 recorded: ${year.history.events.find((event) => event.id === move.causeId)!.summary} Moved: ${move.personIds.length}.`,
+          );
           expect(offer.steps.map((step) => step.kind)).toEqual([
             "offered",
             "accepted",

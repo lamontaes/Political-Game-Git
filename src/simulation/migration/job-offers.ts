@@ -22,10 +22,13 @@
  * Somebody who looks applies where the record names an employer: the state
  * government seated in the state where their closest relative outside town
  * lives (work found through family), and otherwise their own state's. They
- * apply for their own line of work at that state's going rate: their own pay
- * scaled by the two states' median household incomes (Census, CPS ASEC table
- * H-8, 2023). The employer answers the same day through the job market
- * (`offerWorkElsewhere`): an offer when they have done the work before.
+ * apply there: a professional for their own field at that state's going rate
+ * (their own pay scaled by the two states' median household incomes, Census
+ * CPS ASEC table H-8, 2023), anyone else for the job market's entry-level
+ * public office role, scaled the same way and never below the minimum wage
+ * there. The employer answers the same day through the job market
+ * (`offerWorkElsewhere`): an offer when they have done the work before or the
+ * role is entry-level.
  *
  * The offer is a recorded cause (`causes.ts`, `work:job-offer`) and names its
  * place. Whoever leaves for it accepts it and starts there on arrival;
@@ -97,7 +100,7 @@ export const UNRESEARCHED_JOB_SEARCH = {
   /** The offer as a cause to leave: its strength with no raise in pay. */
   offerBase: 0.5,
   /** What holds everyone to the place they live, before anything else. */
-  settled: 0.5,
+  settled: 0.75,
 } as const;
 
 const S = UNRESEARCHED_JOB_SEARCH;
@@ -439,27 +442,22 @@ export function reviewJobSearchElsewhere(
           : null;
     if (!target) continue;
     const ratio = statePayRatio(target.key, home.key);
-    const role = facts.title
-      ? {
-          title: facts.title,
-          occupation: facts.occupation,
-          hours: facts.hours ?? { minimumHours: 37, maximumHours: 40 },
-          annualMinor: Math.round(facts.monthlyPay * 12 * ratio),
-        }
-      : null;
+    // A state government hires a professional in their own field; anyone
+    // else for its entry-level office work (HARDWIRED: the world records no
+    // other employers outside town).
+    const role =
+      facts.title && facts.occupation?.startsWith("profession:")
+        ? {
+            title: facts.title,
+            occupation: facts.occupation,
+            hours: facts.hours ?? { minimumHours: 37, maximumHours: 40 },
+            annualMinor: Math.round(facts.monthlyPay * 12 * ratio),
+          }
+        : null;
     const known = role && role.annualMinor > 0;
     const clerk = PUBLIC_BODY_ROLE_PLACEHOLDER;
     const hours = known ? role.hours : clerk.weeklyHours;
-    const annual = known
-      ? role.annualMinor
-      : Math.round(
-          clerk.hourlyMinor *
-            52 *
-            ((clerk.weeklyHours.minimumHours + clerk.weeklyHours.maximumHours) /
-              2) *
-            ratio,
-        );
-    const salaried = known && !!role.occupation?.startsWith("profession:");
+    const salaried = !!known;
     const offered = offerWorkElsewhere(next, {
       personId,
       organizationId: employers.get(target.id)!,
@@ -469,10 +467,10 @@ export function reviewJobSearchElsewhere(
         ? role.occupation
         : clerk.occupationClassification,
       pay: salaried
-        ? { basis: "annual-salary", amount: money(annual, "USD") }
+        ? { basis: "annual-salary", amount: money(role.annualMinor, "USD") }
         : {
             basis: "hourly",
-            amount: money(Math.round(annual / 52 / hours.maximumHours), "USD"),
+            amount: money(Math.round(clerk.hourlyMinor * ratio), "USD"),
           },
       weeklyHours: hours,
       note: known

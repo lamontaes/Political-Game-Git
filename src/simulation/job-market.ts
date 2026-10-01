@@ -1122,13 +1122,19 @@ export function offerWorkElsewhere(
   )
     return { world, ok: false, message: "This search was already made." };
   const today = world.currentDate;
+  // Hourly pay is never below the minimum wage where the work is.
+  const minimum = minimumHourlyMinorFor(world, input.jurisdictionId, today);
+  const pay: JobPayTerms =
+    input.pay.basis === "hourly" && input.pay.amount.minorUnits < minimum
+      ? { ...input.pay, amount: money(minimum, input.pay.amount.currency) }
+      : input.pay;
   let next = append(world, "jobOpenings", "job-opening", {
     stableKey: openingKey,
     organizationId: input.organizationId,
     jurisdictionId: input.jurisdictionId,
     title: input.title,
     occupationClassification: input.occupationClassification,
-    pay: input.pay,
+    pay,
     weeklyHours: input.weeklyHours,
     schedule: null,
     qualifications: null,
@@ -1181,8 +1187,8 @@ export function offerWorkElsewhere(
     replyBy,
     startAt: today,
     agreedWeeklyHours:
-      input.pay.basis === "hourly" ? input.weeklyHours.maximumHours : null,
-    summary: `${employer} offered ${name} ${input.title.toLowerCase()} work in ${next.jurisdictions[input.jurisdictionId]?.name ?? "another place"} at ${payPhrase(input.pay)}. They asked for an answer by ${spoken(replyBy)}.`,
+      pay.basis === "hourly" ? input.weeklyHours.maximumHours : null,
+    summary: `${employer} offered ${name} ${input.title.toLowerCase()} work in ${next.jurisdictions[input.jurisdictionId]?.name ?? "another place"} at ${payPhrase(pay)}. They asked for an answer by ${spoken(replyBy)}.`,
   });
   return { world: next, ok: true, message: `${employer} made an offer.` };
 }
