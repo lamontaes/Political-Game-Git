@@ -31,6 +31,7 @@ import type {
 import { isPersonAliveAt } from "../vitality";
 import { JURY_VOTE_DECISION, PLEA_DECISION } from "./court-decisions";
 import { sentencesOf } from "./jail-terms";
+import { custodyFloorAt } from "../law-consequences/legal-outcome";
 
 /**
  * How the people in a criminal case decide, through the shared decision
@@ -72,7 +73,7 @@ export interface CourtCase {
   readonly offenseLabel: string;
   readonly evidence: EvidenceStrength;
   readonly standingFindings: number;
-  /** The place the case is tried: the defendant's home when it was referred. */
+  /** The case's saved venue, independent of the defendant's residence. */
   readonly venueJurisdictionId: EntityId | null;
   /** The state whose courts hear the case, as "US-XX". */
   readonly stateKey: string | null;
@@ -477,6 +478,11 @@ export function mandatoryJailUnderLaw(
   world: World,
   courtCase: CourtCase,
 ): string | null {
+  const floor = custodyFloorAt(world, courtCase);
+  if (floor)
+    return floor.months > 0
+      ? `The law requires at least ${floor.months} months in custody for this offense.`
+      : null;
   if (!courtCase.venueJurisdictionId) return null;
   const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
   const repeat = sentencesOf(world, courtCase.defendantId).length > 0;

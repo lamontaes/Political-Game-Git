@@ -13,6 +13,20 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
   [
     "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
     "us-policy-positions:transportation-infrastructure.fare-free-transit",
+    "us-federal-positions:foreign-affairs.increase-foreign-aid",
+    "us-federal-positions:transport-water.expand-passenger-rail",
+    "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+    "us-policy-positions:civil-family-community.dedicated-parks-funding",
+    "us-policy-positions:civil-family-community.fund-public-libraries",
+    "us-policy-positions:education.equalize-school-funding",
+    "us-policy-positions:education.public-funds-for-private-schooling",
+    "us-policy-positions:education.universal-preschool",
+    "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+    "us-policy-positions:health-human-services.harm-reduction-services",
+    "us-policy-positions:health-human-services.housing-first-homelessness",
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+    "us-policy-positions:transportation-infrastructure.public-broadband",
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
   ].map((questionKey) => [
     questionKey,
     [
