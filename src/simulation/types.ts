@@ -1,4 +1,4 @@
-import type { LawConsequenceRow } from "./law-consequence-types";
+import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
 import type {
   LawEffectStamp,
   LawEffectStampedRecord,
@@ -3531,7 +3531,8 @@ export interface DecisionSourceSnapshot {
   readonly content: string;
 }
 
-export type DecisionOutcomeKind = "selected" | "no-available-option";
+export type DecisionOutcomeKind =
+  "selected" | "no-available-option" | "undecided";
 
 export interface DecisionEvaluation {
   readonly decisionId: EntityId;
@@ -5032,6 +5033,13 @@ export type LegislativeProvisionEffectIntent =
   | { readonly kind: "public-program-appropriation" };
 
 export interface LegislativeProvisionRecord {
+  /** This version's explicit numeric rules; omission clears a revised rule. */
+  readonly lawTerms?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly value: number;
+    readonly unit: LawAmountUnit;
+  }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
   readonly id: EntityId;

@@ -1,8 +1,4 @@
-import { applySpeechRetelling } from "./speech-retelling";
-import { applyEnactedCourtSizes } from "./governing/court-size-law";
-import { applyJudicialReview } from "./judiciary/judicial-review";
-import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
-import { applyCrisisRepairFunding } from "./governing/repair-funding";
+import { applyDateBoundary } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
   changedHistoryCheckCounts,
@@ -10,16 +6,7 @@ import {
   worldIntegrityCheckMode,
 } from "./world-integrity-changed";
 import type { ChangedHistoryFamily } from "./world-integrity-changed";
-import { applyCongressTurnover } from "./living-world/congress-turnover";
-import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
-import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
-import { applyCongressLawmaking } from "./governing/congress-lawmaking";
-import { applyConstitutionalReform } from "./living-world/constitutional-reform";
-import { applyFederalReform } from "./living-world/federal-reform";
-import { applyArticleV } from "./governing/article-v";
-import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
-import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
   assertCrisisIntegrity,
   crisisEntityAvailableAt,
@@ -1426,43 +1413,7 @@ function advanceWorldUnchecked(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyJudicialReview(
-    world.currentDate,
-    applySpeechRetelling(
-      world.currentDate,
-      applyCrisisRepairFunding(
-        applyEnactedCourtSizes(
-          applyCrisisOfficeContinuity(
-            applyCongressLawmaking(
-              world.currentDate,
-              applyFederalReform(
-                world.currentDate,
-                applyArticleV(
-                  world.currentDate,
-                  applyConstitutionalReform(
-                    world.currentDate,
-                    applyPresidentialTurnover(
-                      world.currentDate,
-                      applyGovernorTurnover(
-                        world.currentDate,
-                        applyCongressTurnover(
-                          world.currentDate,
-                          applyStateLegislatureTurnover(
-                            world.currentDate,
-                            applyNationalTermTransitions(advanced),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
+  const continued = applyDateBoundary(world.currentDate, advanced);
   return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
