@@ -840,7 +840,7 @@ const LAST_PERIOD_PAID: GrowingIndexKind<Map<EntityId, IsoDate>> = {
 };
 
 /** Completed pay reads the actual linked activity and its earned history frontier. */
-function completedPayShift(
+export function completedPayShift(
   world: World,
   flow: ResourceFlow,
   shift: NonNullable<ResolvedHourlyLawPayConsequence["completedShift"]>,
