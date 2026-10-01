@@ -22,7 +22,7 @@ import { publicGovernmentIdentityForRecord } from "../public-government-identity
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng } from "../rng";
 import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
@@ -463,6 +463,7 @@ import {
 } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
+import { recordedBudgetProgramFamilies } from "./budget-subjects";
 import {
   openAppropriationsFor,
   programAlternativesFor,
@@ -2827,17 +2828,11 @@ export function governingSeasonHandler(
       Number(due.dueAt.slice(0, 4)),
     );
   if (kind === "budget" && office) {
-    const rng = new SeededRng(`${due.stableKey}:subject`);
-    const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
-    const priority = currentPriority(world, office);
-    const programKeys = [
-      ...(priority ? [priority] : []),
-      ...pickDistinct(
-        rng.fork("budget"),
-        pool.filter((key) => key !== priority),
-        priority ? 1 : 2,
-      ),
-    ];
+    const programKeys = recordedBudgetProgramFamilies(
+      world,
+      office.jurisdictionId,
+      currentPriority(world, office),
+    );
     next = openMatter(next, office, {
       family: "budget",
       instance: due.dueAt,

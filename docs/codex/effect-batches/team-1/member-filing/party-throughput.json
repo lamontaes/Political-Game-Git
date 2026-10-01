@@ -1,0 +1,1434 @@
+{
+  "sourceHead": "a522ed5be56ab97afedc24d8d73e847a7586852a",
+  "seed": "team1-member-filing-20261001",
+  "placeName": "Hope Valley, Rhode Island",
+  "date": "2028-01-05",
+  "daysPressed": 730,
+  "cohortDefinition": "Largest-party cohort means minority=false in the saved intake party-count reader; a tied largest party also falls in that boolean cohort. It does not assert a strict majority of every chamber. Passed means enrolled after all required chamber stages, not one passed reading. Counts are unique measures, not vote actions.",
+  "cohorts": {
+    "largestParty": {
+      "counts": {
+        "filed": 42,
+        "reachedFloor": 25,
+        "passedAllChambers": 15,
+        "signed": 15,
+        "enacted": 15
+      },
+      "measures": [
+        {
+          "measureId": "legislative-measure_76ca9721bad1355b",
+          "place": "CA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_d0ba90864810fb8c",
+            "legislative-vote_42e7190934c0c186"
+          ],
+          "enrollmentActionIds": ["legislative-action_628d8f2f15a06a9f"],
+          "signedDispositionIds": ["executive-disposition_3b9a44618b8a11c1"],
+          "enactmentIds": ["legislative-enactment_4a74db827011eeb1"]
+        },
+        {
+          "measureId": "legislative-measure_49a8dea6dee8c45c",
+          "place": "CO",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_186428f7e1c97dc8",
+            "legislative-vote_b7b58ea860f6e0b2"
+          ],
+          "enrollmentActionIds": ["legislative-action_bc27ff670d702c0b"],
+          "signedDispositionIds": ["executive-disposition_4ee9a4a01a628885"],
+          "enactmentIds": ["legislative-enactment_056b6519381b7ae1"]
+        },
+        {
+          "measureId": "legislative-measure_246deb6a7c60ed4e",
+          "place": "CT",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": ["legislative-vote_e9f256d18168ab62"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_3bf6f69dda82fb88",
+          "place": "DE",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_1c2170a2cad8ce4c",
+            "legislative-vote_353de180ad7aed46"
+          ],
+          "enrollmentActionIds": ["legislative-action_e193e9f6c0007e17"],
+          "signedDispositionIds": ["executive-disposition_93a56bd3d7510949"],
+          "enactmentIds": ["legislative-enactment_982551aa29afa2b5"]
+        },
+        {
+          "measureId": "legislative-measure_84a7a6f24554445b",
+          "place": "HI",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_b939ca38f73a67ea",
+            "legislative-vote_512c9e09b91949e0"
+          ],
+          "enrollmentActionIds": ["legislative-action_16d8408518af72f1"],
+          "signedDispositionIds": ["executive-disposition_31da3081c3455203"],
+          "enactmentIds": ["legislative-enactment_9ed4eb8e945355ef"]
+        },
+        {
+          "measureId": "legislative-measure_691cb517e518109e",
+          "place": "HI",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_98cfda8e5a4ed4d0",
+            "legislative-vote_3d4b063b8f4cfa7a"
+          ],
+          "enrollmentActionIds": ["legislative-action_d2da539f8230ef61"],
+          "signedDispositionIds": ["executive-disposition_cfc168b38e04bc33"],
+          "enactmentIds": ["legislative-enactment_b61d87d8c8a3511b"]
+        },
+        {
+          "measureId": "legislative-measure_b3f648033f637a56",
+          "place": "IL",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_030fec5c450af22b",
+            "legislative-vote_b1e780a755b8bae1"
+          ],
+          "enrollmentActionIds": ["legislative-action_bec5540931ee6883"],
+          "signedDispositionIds": ["executive-disposition_31ea6c206e93a7ed"],
+          "enactmentIds": ["legislative-enactment_83715914b3f3bbe1"]
+        },
+        {
+          "measureId": "legislative-measure_6f6fb637804b8882",
+          "place": "IL",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_1479df96dea31e67",
+            "legislative-vote_7ece1324c4024ecd"
+          ],
+          "enrollmentActionIds": ["legislative-action_e8abb26e7883659d"],
+          "signedDispositionIds": ["executive-disposition_bf9a9031317cdbc7"],
+          "enactmentIds": ["legislative-enactment_237e387775db3107"]
+        },
+        {
+          "measureId": "legislative-measure_da38e6ef14781a1b",
+          "place": "ME",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": ["legislative-vote_24c9c7d44e240cb8"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_3bf3e9fc0ba9b28c",
+          "place": "ME",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_4f1660f7ad72f350",
+          "place": "MD",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_dff084aaacf119a5",
+            "legislative-vote_240a46e20b3dd15f"
+          ],
+          "enrollmentActionIds": ["legislative-action_ece7c75c7ed4c3cd"],
+          "signedDispositionIds": ["executive-disposition_6547932f7799ea77"],
+          "enactmentIds": ["legislative-enactment_dc826b38fa9fa833"]
+        },
+        {
+          "measureId": "legislative-measure_89e09ec64a73d98f",
+          "place": "MA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_5f6a7f0dacdc4e3c",
+            "legislative-vote_8e44e198958abb16"
+          ],
+          "enrollmentActionIds": ["legislative-action_4bbc2d70399b3097"],
+          "signedDispositionIds": ["executive-disposition_fdb2d115cb8a5a89"],
+          "enactmentIds": ["legislative-enactment_30377347cf88fd05"]
+        },
+        {
+          "measureId": "legislative-measure_eea3079d27bd2c58",
+          "place": "MA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_0ff4a46a426f5056",
+            "legislative-vote_a6c6db3bd795fb7c"
+          ],
+          "enrollmentActionIds": ["legislative-action_68fb34088c2839b7"],
+          "signedDispositionIds": ["executive-disposition_419ef6bf1528f6a9"],
+          "enactmentIds": ["legislative-enactment_91ce432478e380f5"]
+        },
+        {
+          "measureId": "legislative-measure_541bd7db9def576f",
+          "place": "MI",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_20be2cb0d61002b4",
+          "place": "MN",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_ff74efaa82f79561",
+          "place": "NH",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_00e3dba504560011",
+          "place": "NM",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_7a48f9e640a4b2e9",
+          "place": "NM",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_302354d8c70e0e89",
+          "place": "NY",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_e6c9fadaf50aa3b2",
+            "legislative-vote_bc9ad9ec74f8e368"
+          ],
+          "enrollmentActionIds": ["legislative-action_4847ce7821914e79"],
+          "signedDispositionIds": ["executive-disposition_a1ff7c273905ec1b"],
+          "enactmentIds": ["legislative-enactment_9fe27925319c29d7"]
+        },
+        {
+          "measureId": "legislative-measure_7897dcec7fb3fd81",
+          "place": "OR",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_4e3f9aef1041d8bc",
+            "legislative-vote_c7edc1947b151296"
+          ],
+          "enrollmentActionIds": ["legislative-action_24d04ccdf847f037"],
+          "signedDispositionIds": ["executive-disposition_38a3ac2c7517b8a9"],
+          "enactmentIds": ["legislative-enactment_8ce5b5d0886eb705"]
+        },
+        {
+          "measureId": "legislative-measure_042ae54937679b21",
+          "place": "PA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_c463f8c16d4b0b2e",
+          "place": "RI",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_2aee3b58cbc0c9cc",
+            "legislative-vote_4335d4c437ab47c6"
+          ],
+          "enrollmentActionIds": ["legislative-action_a9c328a8f4a9f657"],
+          "signedDispositionIds": ["executive-disposition_bd8b184f80be5e09"],
+          "enactmentIds": ["legislative-enactment_fdb7b9287e72a0c5"]
+        },
+        {
+          "measureId": "legislative-measure_554775530e0d88ac",
+          "place": "RI",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_6ec9826e832db1f4",
+            "legislative-vote_dbc206ecc3239a7e"
+          ],
+          "enrollmentActionIds": ["legislative-action_f7bfdb7d5dd35da5"],
+          "signedDispositionIds": ["executive-disposition_04eb22b31a15e89f"],
+          "enactmentIds": ["legislative-enactment_884271ff041d42d7"]
+        },
+        {
+          "measureId": "legislative-measure_04e82ca603cbfb7e",
+          "place": "VT",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [
+            "legislative-vote_bfc29c0e9895d50c",
+            "legislative-vote_f26c31aa067e5606"
+          ],
+          "enrollmentActionIds": ["legislative-action_6a009022a88a64c7"],
+          "signedDispositionIds": ["executive-disposition_770e5819da1ce279"],
+          "enactmentIds": ["legislative-enactment_92eaab852d32ef75"]
+        },
+        {
+          "measureId": "legislative-measure_8ddb35a4e2f5124c",
+          "place": "VA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_e1620834d772fa08",
+          "place": "VA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": ["legislative-vote_32452c13d6b5c3f4"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_fa366a838a2c1a93",
+          "place": "WA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": ["legislative-vote_87bba7fd5c5b77ae"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_ea07addfdbe3a2c6",
+          "place": "WA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_dfa700b780bec791",
+          "place": "IL",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": ["legislative-vote_319b056ce2ce6461"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_7b2b1354cbe33a00",
+          "place": "ME",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": ["legislative-vote_1ee5039ba8125e94"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_c027b4a6988549a6",
+          "place": "PA",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_9d44997e40c34797",
+          "place": "PA",
+          "filedAt": "2026-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_6051de5bf1d1641a",
+          "place": "NV",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a254f1cbbe59f627",
+          "place": "NV",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": ["legislative-vote_b61ea11e95d77aeb"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_567396e00b0732ed",
+          "place": "ME",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": ["legislative-vote_efe9ec11392635d2"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_f622619d1c9b67a1",
+          "place": "MI",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_56e7735ea7e8124b",
+          "place": "NH",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": ["legislative-vote_886c0a10fd3ee270"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a72865d3c699cda2",
+          "place": "VA",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": ["legislative-vote_4dc8d01ea38907d4"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_9036482f42122ce1",
+          "place": "CT",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_e9a6f961f0ab6490",
+          "place": "ME",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a8bf35c90d6a27d2",
+          "place": "NH",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_5534a4c051793f5b",
+          "place": "VA",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        }
+      ]
+    },
+    "minority": {
+      "counts": {
+        "filed": 107,
+        "reachedFloor": 6,
+        "passedAllChambers": 2,
+        "signed": 2,
+        "enacted": 2
+      },
+      "measures": [
+        {
+          "measureId": "legislative-measure_ab72d0614e60e196",
+          "place": "AL",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_bd254a700f6e5c99",
+          "place": "AL",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_669d04d9829b6305",
+          "place": "AK",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_d277f29883ace3b5",
+          "place": "AK",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": ["legislative-vote_468575b1c3033ac6"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_996bd6079786b846",
+          "place": "AZ",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_bc6640217d62a859",
+          "place": "AR",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_6df3ced0e22afe78",
+          "place": "AR",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a2709947426a0387",
+          "place": "FL",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_212a4ac5d782dc8b",
+          "place": "GA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_87a0ea355e8bd85a",
+          "place": "ID",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_73e2bc282509f39e",
+          "place": "IN",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_790eee062fa3a457",
+          "place": "IN",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_e0ce9c0a38224c6f",
+          "place": "IA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_12f00d3a1671c599",
+          "place": "IA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_569316ec46c28798",
+          "place": "KS",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_2879c7cb9e6b6f35",
+          "place": "KS",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_aa1eb83b40086fe9",
+          "place": "KY",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_2ae163f56dbf34f0",
+          "place": "KY",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_8689c7698b87d7d5",
+          "place": "LA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_b0864796bf4b3f55",
+          "place": "LA",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_0beaae1606797d14",
+          "place": "MS",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_be88562cbbcc0b87",
+          "place": "MS",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a7dc0d00f973cfce",
+          "place": "MO",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_3071b50c50d3d750",
+          "place": "MO",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": ["legislative-vote_315ccf24e282129d"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_bfadbac4ce849604",
+          "place": "NE",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_34696c245699f32d",
+          "place": "NH",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": ["legislative-vote_c6dcd32df4055b2a"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_1b3bb6dda1e03bdc",
+          "place": "NC",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_cf4ab28dc4b3f0fb",
+          "place": "NC",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_918a58b0cea25cbe",
+          "place": "OH",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_7b69b3c911b01b31",
+          "place": "OH",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_34c14a015d2e8163",
+          "place": "OK",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_4c1f7d94c9715fa0",
+          "place": "OK",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_b4fec13e2b2f1944",
+          "place": "SC",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_b08725729fabcd4c",
+          "place": "SC",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_31fab5e22ae801ed",
+          "place": "SD",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_b0b3be0d0904deb2",
+          "place": "SD",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_0aa89ef6c3bf914a",
+          "place": "TN",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_e3c139630cb1154b",
+          "place": "TN",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_1d6bbf53bcdc044a",
+          "place": "UT",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_4f3a7c7a2201f532",
+          "place": "WV",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_fbe454f8b80905c0",
+          "place": "WV",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_43de7fd4732b7ced",
+          "place": "WI",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_17329830cb7e312a",
+          "place": "WI",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_976b894143907f65",
+          "place": "WY",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_3cf9bfedc0cb73a8",
+          "place": "WY",
+          "filedAt": "2026-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_eee9e4160b4f0041",
+          "place": "AZ",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_ebb228f385aa5f95",
+          "place": "ID",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_2600f8d9430240b9",
+          "place": "IN",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_6257bb9e3e2e349a",
+          "place": "LA",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_65b0f24e486f224f",
+          "place": "NE",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_d370ae605a6ac4c5",
+          "place": "TN",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_5e9dac0328e938ad",
+          "place": "WV",
+          "filedAt": "2026-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_eeb84a4d8e663da8",
+          "place": "MT",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_0f9fef9205b376e8",
+          "place": "ND",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_cdb526ac20bd3afe",
+          "place": "ND",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_dfe9ca32145ea7d9",
+          "place": "TX",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_f75cff2c0cda3edb",
+          "place": "TX",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_fc8cabd780ff52f3",
+          "place": "UT",
+          "filedAt": "2027-02-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_109dfc6f29f04094",
+          "place": "AL",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_b9e0f3e3e8a5717f",
+          "place": "AL",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_befb95c5b04c729f",
+          "place": "AK",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_bb400d2628b3c3c4",
+          "place": "AZ",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [
+            "legislative-vote_11e928a91fa94792",
+            "legislative-vote_07ae1d806f777ac8"
+          ],
+          "enrollmentActionIds": ["legislative-action_a1f0448629fc4641"],
+          "signedDispositionIds": ["executive-disposition_aff51fa8b5786c13"],
+          "enactmentIds": ["legislative-enactment_b953351d875b679b"]
+        },
+        {
+          "measureId": "legislative-measure_e70596c4d63e6043",
+          "place": "AR",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_81c14b968838f931",
+          "place": "AR",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_ff759baf86136f5d",
+          "place": "GA",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_52c4149743c04048",
+          "place": "ID",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_1faa7066a442ccdc",
+          "place": "IN",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_6f159532f97349fd",
+          "place": "IN",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_82d525cbb6ce5ca1",
+          "place": "IA",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_ccb31eac89b3e04b",
+          "place": "IA",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_e8c3c5b6cd8da98e",
+          "place": "KS",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_b72fa540d92b63f7",
+          "place": "KS",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_77fcfda20f6e7613",
+          "place": "KY",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a2f1ea6a88a8fad2",
+          "place": "KY",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_ba2372f67a53deaf",
+          "place": "LA",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_ce2679a15de8718b",
+          "place": "LA",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_e5f6208b84d666ea",
+          "place": "MN",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_876d3051ca07de4a",
+          "place": "MS",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_d2de2144cb17e1c1",
+          "place": "MS",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a5e3afe22904120c",
+          "place": "MO",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_27deca20d8bd35ba",
+          "place": "NE",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_79b8377e5d1940b2",
+          "place": "NC",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_f95a7b226ff38121",
+          "place": "NC",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": ["legislative-vote_49c03175a17d94ce"],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_16d1b0e1fda43bfc",
+          "place": "OH",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_048078128f93a422",
+          "place": "OH",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_98ae80e12f343175",
+          "place": "OK",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_6b2559082705283e",
+          "place": "OK",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_1858360a7fb00b0b",
+          "place": "PA",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_704ed0954a85e4fa",
+          "place": "SC",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_e8f39d298b904b76",
+          "place": "SC",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_724636498879ade7",
+          "place": "SD",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_c732e8d54550cdab",
+          "place": "SD",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_f81ce849ee333ab8",
+          "place": "TN",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a92d2e83956e1e19",
+          "place": "TN",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_8c102021b6ed8ac0",
+          "place": "WV",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_b459ecc129e3032a",
+          "place": "WV",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_842a003bd0bd28e7",
+          "place": "WI",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_2b1bde96ce65e168",
+          "place": "WI",
+          "filedAt": "2027-03-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_387bc0a3b59b0b0e",
+          "place": "AK",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_65b29cbeccb6bcd9",
+          "place": "AZ",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [
+            "legislative-vote_2e77eb4c047e37b6",
+            "legislative-vote_d7ddb40151aa60cc"
+          ],
+          "enrollmentActionIds": ["legislative-action_112c6bdbd8f2645d"],
+          "signedDispositionIds": ["executive-disposition_877ca2c2d32b6bc7"],
+          "enactmentIds": ["legislative-enactment_be1234cbf0db5ffb"]
+        },
+        {
+          "measureId": "legislative-measure_31fa8b6c9a632ef1",
+          "place": "IN",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_a602bae6154a24de",
+          "place": "LA",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_13a469c5bf250f61",
+          "place": "MO",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_8605e1926e3708f3",
+          "place": "NE",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_13be2b486a576192",
+          "place": "PA",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_32ae362ac632dcf5",
+          "place": "TN",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        },
+        {
+          "measureId": "legislative-measure_0ebfbf5aa73883dd",
+          "place": "WV",
+          "filedAt": "2027-04-15",
+          "floorVoteIds": [],
+          "enrollmentActionIds": [],
+          "signedDispositionIds": [],
+          "enactmentIds": []
+        }
+      ]
+    },
+    "unknown": {
+      "counts": {
+        "filed": 0,
+        "reachedFloor": 0,
+        "passedAllChambers": 0,
+        "signed": 0,
+        "enacted": 0
+      },
+      "measures": []
+    }
+  }
+}
