@@ -2,10 +2,10 @@
   "id": "town-business-a71-2026",
   "version": "town-business-a71-2026-v1",
   "asOf": "2026-10-01",
-  "about": "Research answers to the two PLACEHOLDER (A71) numbers in TOWN_FINANCE_POLICY.business (src/simulation/living-world/town-finances.ts): creditLineDaysOfRevenue and localDemandElasticity, filed as docs/research/requests/small-business-credit-line-size.json and local-sales-response-to-town-pay.json. Research only: nothing reads this file, and the game constants stay as set until the CTO rules on swapping them. Each answer records its source, URL, citation, a quote from the source and, where the figure is computed rather than printed, the method. basis SOURCED is a figure printed in or computed from the named source; ESTIMATED FROM AVERAGE is a value taken from the average of sourced rows, with its method.",
+  "about": "Research answers to the two A71 numbers in TOWN_FINANCE_POLICY.business (src/simulation/living-world/town-finances.ts), which reads this file in play: creditLineDaysByKind (each kind's medianDays) and localDemandElasticity (value). The questions were filed as docs/research/requests/small-business-credit-line-size.json and local-sales-response-to-town-pay.json. placeholderInGame records the hand-set value each answer replaced (CTO ruling, 10/1). Each answer records its source, URL, citation, a quote from the source and, where the figure is computed rather than printed, the method. basis SOURCED is a figure printed in or computed from the named source; ESTIMATED FROM AVERAGE is a value taken from the average of sourced rows, with its method.",
   "answers": {
     "small-business-credit-line-size": {
-      "constant": "TOWN_FINANCE_POLICY.business.creditLineDaysOfRevenue",
+      "constant": "TOWN_FINANCE_POLICY.business.creditLineDaysByKind",
       "placeholderInGame": 36.5,
       "unit": "days of annual revenue (credit limit / annual sales x 365)",
       "basis": "SOURCED",
