@@ -1,3 +1,30 @@
+## October 1, 5:01 a.m. integration checkpoint
+
+The rebuild remains incomplete. The standing-service contract is ready for review. The approved elected-office wage exception passed a bounded staff counterexample; actual Ohio payroll and city paycheck checks are now with Team 3.
+
+### MERGED
+
+GitHub confirms paid services #1494 merged at 9891ad2ebdfde4bb79869ae290d26ba98eefe425. Its backdated completion and tie-trace defects remain a Team 5 follow-up; a merge is not evidence those defects disappeared.
+
+### CONNECTIONS TABLE
+
+| Producer | Consumer | Evidence and next action |
+| --- | --- | --- |
+| Sourced standing appropriations | Team 5 service consumer | #1503 ready at 0af3c81fecdd064588a8bf6f2b53a18bb41cc690. Root executed 9/9 changed-file tests and scoped types, zero diagnostics. Resident completion and clinical delivery remain unverified. |
+| Actual elected office role | Shared wage coverage and payroll | 4d150a17f06d83407c58425d243051b7c1f84c81 passed one elected-office versus appointed-staff regression and scoped types. |
+| Team 3 city wage terms | Existing pay handler | Composed candidate 44e9a2f70239212e2cf20576c515520dd76cb03d received Team 3 reader fixes and city-row admission. Team 3 owns actual Ohio and city paycheck proof; not yet passed. |
+| Team 7 caller patch | Audit clock import repair | Exact 154-line patch delivered, SHA256 dd8240a480d1967bfb5eeeaf744eba00a8aac3b201c10745d36c18b4613c5dd1. All-three caller import/parity remains unproven. |
+| X5 initial privacy costs | Team 6 financial consumer | CTO approved a one-time per-firm charge using actual law applicability and existing writers. Recurring expense remains an evidence gap. |
+| Team 8 finding response | Existing subject action | Press export is within Team 8 ownership; Audit is locating the actual caller and recorded words. No live resignation claim. |
+
+### BLOCKED
+
+A61 needs an evidence-based selection rule from the saved FDIC fields by 5:30, per CTO. Federal court-forum binding is deferred to the roadmap. The Team 6 privacy caller transfer is requested from Team 1, not yet closed. Court judgments must retain unpaid obligations under the new CTO ruling; Team 8 is repairing that path.
+
+### EFFECTS
+
+The governor exception does not prove Ohio employer tiers. The service authority fixture does not prove care delivery. Team 7's county calendar profiles preserve two existing bindings; broader county coverage remains incomplete. Nationwide, final-main, saved-life, scene and multi-year acceptance remain open.
+
 ## October 1, 4:12 a.m. routing checkpoint
 
 The rebuild remains incomplete. The CTO approved a session budget bill built from adopted spending. Team 1 has received that build. Foundation payroll still needs the Ohio coverage decision; service delivery now has a Team 5 candidate awaiting review.

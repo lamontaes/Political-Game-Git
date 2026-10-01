@@ -1,3 +1,11 @@
+## October 1, 5:01 a.m. integration evidence
+
+No new effect is accepted as complete from a dashboard. Standing appropriations now have a ready shared-dispatch contract in #1503; its 9 passing tests cover authority, payment controls and stamp shape, not a completed recipient service. The actual service consumer and common attendance path remain distinct open work.
+
+The elected-office wage exception is published and its appointed-staff counterexample passes. The same coverage predicate is used by opening and payroll. Team 3 must still prove actual Ohio annual pay and city payroll at the composed head 44e9a2f70239212e2cf20576c515520dd76cb03d.
+
+CTO 4:51 requires one-time privacy compliance costs per applicable saved firm, outstanding unpaid judgments when cash is absent, and flat current services for a missing second biennial budget year. Assigned owners are Teams 6, 8 and 1 respectively. These are authorized mechanisms, not claimed runtime outcomes.
+
 ## October 1, 4:12 a.m. integration evidence
 
 Coordinator dated starting terms at dbc66c17a8285cb8b856796c09239ced96a50023 have 45 focused passes covering 26 places, not nationwide payroll proof. Ohio applicability remains unresolved. Standing authority composition eef98ed6809094d6c4eec6bf62442ef111c436e2 has four focused authority/payment passes; actual service completion belongs to Team 5's #1494 producer, currently under CTO review. Team 1 now builds real session appropriations from adopted government program spending. No completed link or law total is inferred from these candidates.
