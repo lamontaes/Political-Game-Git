@@ -1,0 +1,2544 @@
+{
+  "about": "Rules for npm run audit:scan (scripts/audit/autoscan.ts), keyed by the IDs in docs/codex/audit-verified-2026-10-01.json. Each check is absent (a bad call must be gone), present (a replacement must be called from production code) or reader (a data file must be read by src/). covers says whether passing every check means the whole item is met; an item covering part can at most scan partly. Taken from each item's evidence lines and next step. Items with no rule scan unknown.",
+  "rules": {
+    "A124": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/decisions.ts",
+          "pattern": "export function isSelectedDecision",
+          "why": "the selected/undecided split from #1321 exists"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/types.ts",
+          "pattern": "\"selected\" \\| \"no-available-option\" \\| \"undecided\"",
+          "why": "the 'undecided' outcome kind exists in the decision type (#1321)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/decisions.ts",
+          "pattern": "optionRng\\.integer\\(-1, 2\\)",
+          "why": "the -1/0/+1 close-choice roll (decisions.ts:205)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/decisions.ts",
+          "pattern": "context\\.randomness === \"close-choices\"",
+          "why": "the close-choices block that holds the roll (decisions.ts:193)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/decisions.ts",
+          "pattern": "\"undecided\"",
+          "why": "evaluateDecision returns an 'undecided' outcome for a true tie (today only a comment mentions it)"
+        }
+      ],
+      "note": "Roll and its guard are still at decisions.ts:193-206 and nothing yields \"undecided\", so 2 of 5 pass (the #1321 type and isSelectedDecision): partly, as verified. The 38 callers and the political-belief-formation.ts:195 default are left unchecked because they become harmless no-ops once the block is deleted."
+    },
+    "A110": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/election-contests.ts",
+          "pattern": "rng\\.integer\\(1000, 10000\\)",
+          "why": "the per-candidate drawn vote count (election-contests.ts:199)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/election-contests.ts",
+          "pattern": "new SeededRng\\(",
+          "why": "any seeded stream in the contest counter (election-contests.ts:191)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/election-contests.ts",
+          "pattern": "votes:\\s*1000,",
+          "why": "the token 1,000 votes for an unopposed non-seat race (election-contests.ts:181)"
+        }
+      ],
+      "note": "Part only: the checks prove the drawn and token vote counts are gone; a town electorate (population x turnout x lean) cannot be named by pattern before #1532 lands. Congress, state-seat and statewide counting already exist, but verified calls the item not-started, so no passing check was added for them."
+    },
+    "A111": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "\\.integer\\(0, 301\\)",
+          "why": "starting-support roll in recordInitialSupport (campaigns.ts:460)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "\\.integer\\(60, 141\\)",
+          "why": "campaign-action effect swing in requestedGainBasisPoints (campaigns.ts:1168)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "rng\\.integer\\(-spread, spread \\+ 1\\)",
+          "why": "three noisy poll errors in recordCampaignObservation (campaigns.ts:1229-1231)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "\\.integer\\(-350, 351\\)",
+          "why": "election-night swing in evaluateCampaignAwareOutcome (campaigns.ts:1655)"
+        }
+      ],
+      "note": "Four absent checks on the four named draws; all four still match today, so not-started as verified. The fundraising amount draw (campaigns.ts:1323) and opponent age draw (:550) are outside this item's goal and not checked."
+    },
+    "A112": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-elections.ts",
+          "pattern": "P\\.turnout\\.low \\+ rng\\.next\\(\\)",
+          "why": "drawn turnout in countVotes (local-elections.ts:1081)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-elections.ts",
+          "pattern": "0\\.6 \\+ rng\\.next\\(\\) \\* 0\\.8",
+          "why": "drawn base support per candidate in countVotes (local-elections.ts:1087)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-elections.ts",
+          "pattern": "rng\\.integer\\(1, 13\\)",
+          "why": "drawn month and day of the next election in scheduleYear (local-elections.ts:760)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-elections.ts",
+          "pattern": "pick\\(rng, P\\.challengersAgainstIncumbent\\)",
+          "why": "drawn challenger count (local-elections.ts:1013)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-elections.ts",
+          "pattern": "pick\\(rng, P\\.candidatesForOpenSeat\\)",
+          "why": "drawn open-seat candidate count (local-elections.ts:1014)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/local-elections.ts",
+          "pattern": "`local-election:\\$\\{race\\}`,",
+          "why": "who runs is drawn from the roster by drawTownResident (local-elections.ts:1016-1019)"
+        }
+      ],
+      "note": "All six drawn inputs named in the evidence are still in local-elections.ts, so not-started as verified. The townSupportFromViews and townSupportFromFavors calls already exist but are not checked, since verified does not count them as done."
+    },
+    "A113": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/presidential-turnover.ts",
+          "pattern": "standardNormal\\(",
+          "why": "national, regional and state swings drawn on election day (presidential-turnover.ts:745, :750, :772)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/presidential-turnover.ts",
+          "pattern": "rng\\.fork\\(`tie:\\$\\{unit\\.state\\}`\\)",
+          "why": "coin-flip state tie (presidential-turnover.ts:785)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/nationwide-world/presidential-turnover.ts",
+          "pattern": "nationalMoodDemocraticShift\\(",
+          "why": "election day reads the national-mood.ts shift (the next step's replacement)"
+        }
+      ],
+      "note": "Swings and coin-flip tie still present, national mood not yet read, so 0 of 3: not-started as verified. Nominee draws (drawState, drawNominee) are in the evidence but not in the goal, so not checked."
+    },
+    "A114": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/nominations/party-nominations.ts",
+          "pattern": "NOMINATION_PULL\\.campaign(Low|High)",
+          "why": "the drawn campaign multiplier in pullOf (party-nominations.ts:126-127)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nominations/party-nominations.ts",
+          "pattern": "new SeededRng\\(",
+          "why": "the seeded draw in pullOf (party-nominations.ts:122)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/nominations/party-nominations.ts",
+          "pattern": "latestSupportState\\(",
+          "why": "pull reads the entrant's recorded support (the next step's replacement)"
+        }
+      ],
+      "note": "Draw still in pullOf and no recorded-support read, so 0 of 3: not-started as verified. The present check names latestSupportState from the next step; a different recorded-support reader would need that pattern widened."
+    },
+    "A127": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/outcome-web/index.ts",
+          "pattern": "new SeededRng\\(",
+          "why": "drawnLinkSize's per-world seeded stream (outcome-web/index.ts:705)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/outcome-web/index.ts",
+          "pattern": "rng\\.next\\(\\) \\+ rng\\.next\\(\\)",
+          "why": "the two averaged uniforms that draw the size (outcome-web/index.ts:708)"
+        }
+      ],
+      "note": "The draw is still in drawnLinkSize, so 0 of 2: not-started as verified. Lines moved since the audit text (drawnLinkSize is now at index.ts:688, the draw at :705-709). Callers teacher-salary-floor.ts:69 and tuition-freeze.ts:55 hold no rng of their own, so nothing more to check."
+    },
+    "A128": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/outcome-web/index.ts",
+          "pattern": "DEFAULT_SPREAD",
+          "why": "the unjustified default spread table and its read (outcome-web/index.ts:673, :699)"
+        }
+      ],
+      "note": "DEFAULT_SPREAD is still defined and read, so not-started as verified. Lines moved since the audit text (now :673 and :699)."
+    },
+    "A163": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "\"unsupportedReason\":",
+          "why": "each link row stores its unsupported reason (#1528)"
+        },
+        {
+          "kind": "present",
+          "file": "data/research/outcome-web/links.json",
+          "pattern": "\"status\":\\s*\"",
+          "why": "each link row stores its status (#1528)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/outcome-web/index.ts",
+          "pattern": "Outcome link status disagrees with its existing readers",
+          "why": "the outcome web refuses to load when a stored status disagrees with outcomeLinkStatus"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/outcome-web/index.ts",
+          "pattern": "link\\.unsupportedReason !== reason",
+          "why": "the outcome web refuses to load when a link's unsupported reason is wrong or missing"
+        }
+      ],
+      "note": "Closed after the audit by #1528 (b84750d91): status and unsupportedReason on every row, checked at load."
+    },
+    "A115": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/world-setup/political-start.ts",
+          "pattern": "standardNormal\\(",
+          "why": "drawn national, region, state and per-seat swings (political-start.ts:135, :141, :150, :259)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world-setup/political-start.ts",
+          "pattern": "openUniform\\(",
+          "why": "coin-flip on an exact tie in decide (political-start.ts:200)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world-setup/conditions.ts",
+          "pattern": "openUniform\\(worldSetupRng\\(world, \"regime\"\\)\\)",
+          "why": "drawn starting regime (conditions.ts:61)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world-setup/conditions.ts",
+          "pattern": "standardNormal\\(worldSetupRng\\(world, `macro:",
+          "why": "drawn macro starting conditions (conditions.ts:196)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/state-legislature-opening.ts",
+          "pattern": "standardNormal\\(seatRng\\.fork\\(\"lean\"\\)\\)",
+          "why": "drawn seat lean in the state legislature opening (state-legislature-opening.ts:653)"
+        }
+      ],
+      "note": "All five draws still match, so not-started as verified. The legislators' drawn age and years served (state-legislature-opening.ts:657, :661) are in the evidence but not in the goal, so not checked."
+    },
+    "A130": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/vitality.ts",
+          "pattern": "export const mortalityTransitionHandler",
+          "why": "the dormant second death engine's handler (vitality.ts:377)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/vitality.ts",
+          "pattern": "mortalityRngForPlan",
+          "why": "the dormant engine's draw, imported, re-exported and called by vitality.ts (:26, :38, :431)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/vitality-integrity.ts",
+          "pattern": "export function mortalityRngForPlan",
+          "why": "the dormant engine's seeded draw and its integrity check (vitality-integrity.ts:193, :422)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/mortality.ts",
+          "pattern": "new SeededRng\\(THRESHOLD_VERSION\\)",
+          "why": "the seeded death threshold in personMortalityThreshold (crisis/mortality.ts:91)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/death-causes.ts",
+          "pattern": "new SeededRng\\(CAUSE_VERSION\\)",
+          "why": "the seeded cause draw in drawDeathCause (crisis/death-causes.ts:133)"
+        }
+      ],
+      "note": "Part only: all five dice and the dormant engine are still present, so not-started as verified. A natural death with no dice is an owner question, so no present check can prove the replacement."
+    },
+    "A131": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/crime/producer.ts",
+          "pattern": "reported:\\s*rng\\.next\\(\\)\\s*<\\s*rule\\.reportedShare",
+          "why": "whether a crime is reported is drawn (crime/producer.ts:174)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crime/producer.ts",
+          "pattern": "rng\\.next\\(\\)\\s*>=\\s*monthlyChance\\(",
+          "why": "whether a crime happens is drawn (crime/producer.ts:164)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crime/producer.ts",
+          "pattern": "\\.integer\\(1, days \\+ 1\\)",
+          "why": "the day of a crime is drawn (crime/producer.ts:165, :285)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crime/producer.ts",
+          "pattern": "function poisson\\(",
+          "why": "the Poisson count of police-log reports (crime/producer.ts:226)"
+        }
+      ],
+      "note": "Part only: design-first item. All four draws still match, so not-started as verified; the recorded-cause replacement cannot be named by pattern."
+    },
+    "A132": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/hazard-producer.ts",
+          "pattern": "=\\s*poisson\\(",
+          "why": "hazard count drawn from a Poisson (crisis/hazard-producer.ts:321)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/hazard-producer.ts",
+          "pattern": "\\[\\.\\.\\.jurisdictionIds\\]\\.sort\\(\\)\\.slice\\(0, width\\)",
+          "why": "alphabetical footprint (crisis/hazard-producer.ts:339)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/disaster.ts",
+          "pattern": "`household:\\$\\{household\\.id\\}`",
+          "why": "a household gets its own damage roll instead of reading its dwelling's (crisis/disaster.ts:405)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/disaster.ts",
+          "pattern": "draw\\(world, episode, `\\$\\{key\\}:damaged`\\)",
+          "why": "damage level is rolled in homeLevel (crisis/disaster.ts:251)"
+        }
+      ],
+      "note": "Part only: all four still match, so not-started as verified. The next step (one damage level per dwelling) clears only the household check; the FEMA replay and the damage roll come later."
+    },
+    "A133": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/pressure/ladder.ts",
+          "pattern": "!reading\\s*\\|\\|\\s*reading\\.levels\\.anger\\s*<=\\s*policy\\.angerLine",
+          "why": "missing anger reading resolves unrest as calmed (pressure/ladder.ts:436)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/pressure/ladder.ts",
+          "pattern": "reading\\?\\.levels\\.anger \\?\\? 0",
+          "why": "missing anger reading printed as zero (pressure/ladder.ts:443)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/international.ts",
+          "pattern": "new SeededRng\\(\"crisis-international-v1\"\\)",
+          "why": "the roll() stream (crisis/international.ts:103)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/crisis/international.ts",
+          "pattern": "\\broll\\(world, ",
+          "why": "escalation, counterparty, ally and violence rolls (crisis/international.ts:263, :272, :606, :614, :900)"
+        }
+      ],
+      "note": "All four still match, so not-started as verified. Whole because the goal is the absence of the rolls and of missing-data-as-calm."
+    },
+    "A134": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/incident-catalog.ts",
+          "pattern": "\"probabilistic\"",
+          "why": "three catalog incidents declare probabilistic occurrence (incident-catalog.ts:82, :95, :128) and one guard (:221)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/incidents.ts",
+          "pattern": "\"probabilistic\"",
+          "why": "evaluateIncidentCore routes probabilistic incidents to a draw (incidents.ts:151, :156)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/incidents.ts",
+          "pattern": "function evaluateProbability",
+          "why": "the probability evaluator (incidents.ts:792)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/types.ts",
+          "pattern": "\"probabilistic\"\\s*\\|",
+          "why": "the probabilistic occurrence mode in the type (types.ts:2120)"
+        }
+      ],
+      "note": "All four still match, so not-started as verified. Line numbers in types.ts moved since the audit text (now :2120)."
+    },
+    "A135": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/",
+          "pattern": "BLANKET_DEPARTURE_CHANCE_PER_YEAR",
+          "why": "the flat 4% yearly departure chance constant is gone (A165 replaced it with ACS rates by age and place after the audit)"
+        },
+        {
+          "kind": "reader",
+          "dataFile": "data/research/migration/mover-rates-acs-2024.json",
+          "why": "the measured ACS mover rates the 4% was replaced with are read by the game"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "rng\\.next\\(\\)\\s*>=\\s*own\\b",
+          "why": "the per-resident yearly departure draw (review.ts:433, was :326-328)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "rng\\.next\\(\\)\\s*>=\\s*leaveChance",
+          "why": "the displaced-household leave draw (review.ts:387)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "\\bchooseDestination\\(",
+          "why": "the drawn destination: own-state coin plus weighted state draw (review.ts:773 definition; calls :401, :440, :821)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "rng\\.next\\(\\)\\s*<\\s*expected",
+          "why": "the drawn count of newcomers per quarter (review.ts:812)"
+        }
+      ],
+      "note": "The 4% constant BLANKET_DEPARTURE_CHANCE_PER_YEAR is gone since the audit (A165 'departure and arrival rates from the ACS by age and place', 2026-10-01 15:51 UTC, review.ts:100-160), so scans partly; the departure draw (review.ts:433), displaced draw (:387), destination draw (:773) and arrival-count draw (:812) are all still live, so it is still not whole."
+    },
+    "A63": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/kernel.ts",
+          "pattern": "standardNormal\\(rng\\.fork\\(\\\"(growth|unemployment|inflation)\\\"\\)\\)",
+          "why": "drawInnovations' monthly growth/unemployment/inflation draws (kernel.ts:115-118)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/kernel.ts",
+          "pattern": "standardNormal\\(rng\\.fork\\(\\\"(trend|natural|inflation-anchor|era-size)\\\"\\)\\)",
+          "why": "the monthly drift of trend growth, natural rate and inflation anchor in stepEraConditions (kernel.ts:302-325)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/kernel.ts",
+          "pattern": "rng\\.fork\\(\\\"era\\\"\\)\\.next\\(\\)\\s*<",
+          "why": "the monthly era-jump chance roll (kernel.ts:303)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/kernel.ts",
+          "pattern": "rng\\.fork\\(\\\"price-shock\\\"\\)\\.next\\(\\)\\s*<",
+          "why": "the monthly price-shock chance roll (kernel.ts:332)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/outcome-web/place-outcomes.ts",
+          "pattern": "standardNormal\\(rng\\.fork\\(\\\"(national|wave-size)\\\"\\)\\)",
+          "why": "driftSteps' national drift and wave-size draws (place-outcomes.ts:76-79)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/outcome-web/place-outcomes.ts",
+          "pattern": "rng\\.fork\\(\\\"wave\\\"\\)\\.next\\(\\)\\s*<",
+          "why": "the monthly society-wide wave chance roll (place-outcomes.ts:78)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/outcome-web/place-outcomes.ts",
+          "pattern": "standardNormal\\(rng\\.fork\\(`place:",
+          "why": "each place's own monthly drift draw (place-outcomes.ts:84)"
+        }
+      ],
+      "note": "Every macro-economy monthly innovation, era jump, price shock and place-measure drift draw is still live at the audit's lines (shifted: kernel.ts:115-118, :302-335; place-outcomes.ts:76-84); all seven absent checks fail today."
+    },
+    "A47": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/index.ts",
+          "pattern": "settleFederalTreasuryMonth",
+          "why": "the monthly legacy forecast settlement call (was index.ts:211-216) is gone from the budget pass"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/index.ts",
+          "pattern": "openFederalTreasury",
+          "why": "the legacy treasury is no longer opened (was index.ts:102 and :144; removed by 63fe209b0)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/",
+          "pattern": "(?<!function\\s)\\bsettleFederalTreasuryMonth\\(",
+          "why": "no production code anywhere calls the legacy federal forecast settler (only its definition remains, for old saves)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/",
+          "pattern": "(?<!function\\s)\\bopenFederalTreasury\\(",
+          "why": "no production code anywhere opens the legacy federal treasury"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/index.ts",
+          "pattern": "settleGovernmentMonth\\(world,\\s*store\\.federalGovernment",
+          "why": "the federal row settles through the one common government settler (index.ts:202)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "!cash\\s*\\|\\|\\s*!flows\\.recorded",
+          "why": "the federal month reads only a recorded cash account and never falls back to forecast cash (month.ts:846)"
+        }
+      ],
+      "note": "Done since the audit (commits 5abf6dbdd, 63fe209b0, 2026-10-01 15:50 UTC): index.ts:202 settles the federal row through settleGovernmentMonth, the `federal: settleFederalTreasuryMonth` line is replaced by the comment at index.ts:211-212, and openFederalTreasury is gone from index.ts (withFederalBudget, :98-125, now reads FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC). month.ts:846 returns without a federal cash account instead of forecasting. Not covered: the state-level fallback month.ts:1120-1122 (government.balance + revenue - spending when a state has no cash account) is still there, but the item's next step does not name it."
+    },
+    "A22": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/state-income-tax-law.ts",
+          "pattern": "SeededRng|from\\s+\\\"\\./rng\\\"",
+          "why": "no seed draws in the income-tax schedule estimate (#1481)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/state-income-tax-law.ts",
+          "pattern": "reciprocalRankedReferences\\(",
+          "why": "the schedule estimate reuses the shared #1369 reciprocal-rank helper (state-income-tax-law.ts:230; since 65f0e8648)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/state-income-tax-law.ts",
+          "pattern": "readFinalEnactedLawTerm\\(|bindTaxLawTerms\\(|effectiveTaxPolicy\\(",
+          "why": "stateIncomeTaxUnderLaw reads the bill's own enacted brackets and deduction"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/income-tax-adoption.ts",
+          "pattern": "AVERAGE_PER_RESIDENT",
+          "why": "an adopted tax's revenue is no longer sized from other states' average 2022 collections per resident (income-tax-adoption.ts:58-78)"
+        }
+      ],
+      "note": "Partly: the seed draw is gone (#1481) and the peer estimator is now the shared reciprocal-rank helper (65f0e8648, 15:58 UTC, after the audit); the bill's own rates are still not read (no readFinalEnactedLawTerm/bindTaxLawTerms in state-income-tax-law.ts) and income-tax-adoption.ts:58-78 still sizes revenue from AVERAGE_PER_RESIDENT."
+    },
+    "A28": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/federal-data-privacy-law.ts",
+          "pattern": "export function dataPrivacyInitialCostOn",
+          "why": "the sourced one-time SRIA per-firm privacy cost exists (#1501/#1518/#1523)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "privacyInitialOccurrence\\(",
+          "why": "the privacy cost is charged once from the town books (town-finances.ts:1079), not drawn"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-data-privacy-law.ts",
+          "pattern": "SeededRng|from\\s+\\\"\\./rng\\\"",
+          "why": "no seeded draw of the privacy cost remains"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-data-privacy-law.ts",
+          "pattern": "export const DATA_PRIVACY_COST_RANGE",
+          "why": "the old drawn privacy-share range has no reader and is gone (federal-data-privacy-law.ts:30)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-top-income-tax-law.ts",
+          "pattern": "RAISED_TOP_RATE_BASIS_POINTS\\s*=\\s*3960",
+          "why": "the fixed 39.6% top rate (federal-top-income-tax-law.ts:28)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-outlay-laws.ts",
+          "pattern": "terms\\.debtLimitCut\\.(share|yearlyDollars)",
+          "why": "the fixed 2023 debt-deal cut read from a data file, not from the bill (federal-outlay-laws.ts:36, :73)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-outlay-laws.ts",
+          "pattern": "terms\\.foreignAid\\.yearlyDollars",
+          "why": "the fixed foreign-aid rise (federal-outlay-laws.ts:39)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-farm-subsidy-law.ts",
+          "pattern": "farmData\\.typicalCut\\.share",
+          "why": "the fixed median farm-aid cut (federal-farm-subsidy-law.ts:31)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-defense-spending.ts",
+          "pattern": "defenseData\\.buildUp\\.meanYearlyRealRise",
+          "why": "the historical defense growth ramp (federal-defense-spending.ts:35)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/federal-defense-spending.ts",
+          "pattern": "readFinalEnactedLawTerm\\(",
+          "why": "the defense law reads the enacted appropriation's amount (the next step's first slice)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-passenger-rail.ts",
+          "pattern": "railData\\.plan\\.projectedRisePct",
+          "why": "the fixed Amtrak ridership projection (federal-passenger-rail.ts:36)"
+        }
+      ],
+      "note": "Partly, unchanged from the audit: the privacy cost is a sourced one-time per-firm charge (checks 1-3 pass); the 39.6% rate, debt-deal cut, aid rise, farm cut, defense ramp and rail projection are all still fixed constants and no federal law file reads readFinalEnactedLawTerm. Marked part because the appropriation path (defense first) is a design step the scan cannot confirm."
+    },
+    "A33": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/tax.ts",
+          "pattern": "export function (resolveTaxConsequences|applyTaxConsequence)",
+          "why": "the registered tax consequence kind exists (#1552/#1556)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/policy-pack-tax-terms.ts",
+          "pattern": "kind:\\s*\\\"tax\\\"",
+          "why": "at least one catalog proposition now carries a kind 'tax' row (the excise family, from A13 after the audit)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "activity:\\s*\\\"assessment\\\"",
+          "why": "a town paycheck dispatches the assessment activity (the next step; payroll dispatch is at town-pay.ts:1472 today with activity 'payroll')"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "recordTaxBase\\(",
+          "why": "each paycheck's wages are recorded as a tax base automatically"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "export function taxLawFactor",
+          "why": "the per-question tax factor that still sizes tax laws (month.ts:609, used :930-1016) is retired"
+        }
+      ],
+      "note": "Partly: checks 1-2 pass (tax kind registered; since the audit policy-pack-tax-terms.ts:81 carries one kind 'tax' row for excise only, from A13). No production living-world code dispatches 'assessment' or records a tax base (only presentation/tax-work.ts does, on the player's declared occurrence), and taxLawFactor is still live. Marked part because the item also names sales and home values, which no single file check proves."
+    },
+    "A42": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/office-pay.ts",
+          "pattern": "SeededRng|from\\s+\\\"\\./rng\\\"",
+          "why": "no seeded draw left in office-pay.ts (#1476)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/office-pay.ts",
+          "pattern": "export function estimatedStatePay",
+          "why": "the ranked-similar-states estimate with no seed exists (office-pay.ts:138)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/office-pay.ts",
+          "pattern": "reciprocalRankedReferences\\(",
+          "why": "it reuses the shared #1369 reciprocal-rank helper from income-tax-withholding.ts instead of an inline copy (office-pay.ts:169; since 65f0e8648)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "officePayInForce\\(",
+          "why": "office salary reads officePayInForce, which uses the estimate (office-salary.ts:66, :234)"
+        }
+      ],
+      "note": "Done at the audit and still done; the parallel-system drift (inline reciprocal-rank copy) closed at 65f0e8648 (2026-10-01 15:58 UTC): office-pay.ts:169 now calls the shared reciprocalRankedReferences."
+    },
+    "A45": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/paid-leave-estimates.ts",
+          "pattern": "SeededRng|from\\s+\\\"\\./rng\\\"",
+          "why": "no seeded draw around the peer average (#1491)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/state-paid-leave-law.ts",
+          "pattern": "rankedPaidLeaveEstimate\\(",
+          "why": "the premium fallback is the ranked peer estimate (state-paid-leave-law.ts:154)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/paid-leave-benefits.ts",
+          "pattern": "rankedPaidLeaveEstimate\\(",
+          "why": "the benefit-rate fallback is the ranked peer estimate (paid-leave-benefits.ts:95)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/paid-leave-estimates.ts",
+          "pattern": "reciprocalRankedReferences\\(",
+          "why": "the estimator reuses the shared #1369 reciprocal-rank helper (paid-leave-estimates.ts:76; since 65f0e8648)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/state-paid-leave-law.ts",
+          "pattern": "readFinalEnactedLawTerm\\(",
+          "why": "a paid-leave law enacted in play with no program began uses the bill's own premium rate (the `!began` branch, state-paid-leave-law.ts:104)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/paid-leave-benefits.ts",
+          "pattern": "readFinalEnactedLawTerm\\(",
+          "why": "the benefit rate is read from the bill when it carries one"
+        }
+      ],
+      "note": "Partly: draws gone (#1491) and the duplicate estimator is now the shared helper (65f0e8648, after the audit); neither state-paid-leave-law.ts nor paid-leave-benefits.ts reads the bill's own premium or benefit rate."
+    },
+    "A61": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "\\bdrawBankShape\\(",
+          "why": "the bank-shape draw (definition town-finances.ts:274; call in openBankBooks :587)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": ":bank-shape:",
+          "why": "the per-bank seeded fork that picks the shape (town-finances.ts:590)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "SeededRng",
+          "why": "no seeded draw in the town finances file (its only use is the bank shape, :589)"
+        }
+      ],
+      "note": "Not started: drawBankShape is still called by openBankBooks (town-finances.ts:587) with a seeded fork at :589-591, so all three absent checks fail."
+    },
+    "A136": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/couples.ts",
+          "pattern": "isSelectedDecision\\(evaluation\\)",
+          "why": "#1387: an unanswered couple request returns accepted: null instead of a refusal (couples.ts)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-families.ts",
+          "pattern": "rng\\.fork\\(\\\"break-up\\\"\\)\\.next\\(\\)",
+          "why": "the quarterly break-up roll (town-families.ts:583)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-families.ts",
+          "pattern": "rng\\.fork\\(\\\"move-in\\\"\\)\\.next\\(\\)",
+          "why": "the quarterly move-in roll (town-families.ts:609)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-families.ts",
+          "pattern": "rng\\.fork\\(\\\"marry\\\"\\)\\.next\\(\\)",
+          "why": "the quarterly marriage roll (town-families.ts:646)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-families.ts",
+          "pattern": "rng\\.fork\\(\\\"child\\\"\\)\\.next\\(\\)",
+          "why": "the quarterly birth roll (town-families.ts:757)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-families.ts",
+          "pattern": "rng\\.fork\\(\\\"looks\\\"\\)\\.next\\(\\)|rng\\.fork\\(\\\"who\\\"\\)\\.integer",
+          "why": "the dating-match rolls (town-families.ts:818, :829)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-families.ts",
+          "pattern": "\\.next\\(\\)\\s*<\\s*TOWN_FAMILY_CHANCES\\.sameGender",
+          "why": "the same-gender-share draw (town-families.ts:339)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-families.ts",
+          "pattern": "familyPlans\\(|familyPlanAvailability\\(",
+          "why": "a town birth follows a couple's recorded family plan from people-family-plan.ts"
+        }
+      ],
+      "note": "Partly: #1387 (couples.ts isSelectedDecision) is in; every quarterly roll in reviewTownFamilies (break-up :583, move-in :609, marry :646, child :757, dating :818/:829, same-gender :339) is still live and town-families.ts does not read people-family-plan.ts. Marked part because replacing break-up/marriage rolls with decisions is not provable from one file."
+    },
+    "A158": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/official-views.ts",
+          "pattern": "evaluatePoliticalBeliefFormation\\(world,",
+          "why": "the official-view reflection forms each view through the one belief pipeline (official-views.ts:429; 88d1d0ace)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/official-views.ts",
+          "pattern": "applyNpcPoliticalBeliefFormation\\(world,\\s*proposal\\)",
+          "why": "the view is saved as a private belief through the pipeline writer (official-views.ts:437)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/official-views.ts",
+          "pattern": "\\breasonsFor\\b",
+          "why": "the separate points computation was deleted"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/principled-view-formation.ts",
+          "pattern": "evaluatePoliticalBeliefFormation\\(world,",
+          "why": "principled views form through the pipeline (principled-view-formation.ts:67)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/political-reflection.ts",
+          "pattern": "evaluatePoliticalBeliefFormation\\(world,",
+          "why": "political reflection forms through the pipeline (political-reflection.ts:171)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/party-evolution.ts",
+          "pattern": "evaluatePoliticalBeliefFormation\\(",
+          "why": "party bodies form views through the pipeline (#1374; party-evolution.ts:519)"
+        }
+      ],
+      "note": "Done since the audit (88d1d0ace, 2026-10-01 16:06 UTC): official-views.ts:429 calls evaluatePoliticalBeliefFormation and :437 saves the result with applyNpcPoliticalBeliefFormation; reasonsFor and the officialViews points writer are deleted. The audit's remaining route (officialViewReflectionHandler) now goes through the pipeline."
+    },
+    "A18": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/enacted-law-effects.ts",
+          "pattern": "isPinnedTransitMeasure",
+          "why": "the pinned-transit special case in the shared law entry point (enacted-law-effects.ts:276, :308, :370, :621)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/enacted-law-effects.ts",
+          "pattern": "\\bresolveTransitFunding\\(",
+          "why": "the transit-only funding resolver called from the shared entry point (enacted-law-effects.ts:371, :622)"
+        }
+      ],
+      "note": "Not started: isPinnedTransitMeasure is still defined at enacted-law-effects.ts:308 and branched on at :276, :370, :621 (same lines as the audit); resolveTransitFunding is still called at :371 and :622."
+    },
+    "A137": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-upbringing.ts",
+          "pattern": "\\bdrawMoney\\b",
+          "why": "the 15/20/65 percent childhood-money table and its calls (people-upbringing.ts:75, :132-133)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-upbringing.ts",
+          "pattern": "\\.integer\\(0,\\s*(100|4|3)\\)",
+          "why": "the percent rolls for home stability, caregiving, family event, illness, law trouble and school (people-upbringing.ts:134-196)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-upbringing.ts",
+          "pattern": "new SeededRng\\(world\\.seed\\)\\.fork\\(`upbringing-v1:\\$\\{personId\\}`\\)",
+          "why": "the seeded stream upbringingFor draws everything from (people-upbringing.ts:128)"
+        }
+      ],
+      "note": "Not started: drawMoney (people-upbringing.ts:75) and every percent roll in upbringingFor (:132-196, including parent death 4%, illness 9%/12%, law trouble 5%/3%) are still live. The no-signal core-trait pick at :603 belongs to A138 and is checked there."
+    },
+    "A138": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-traits.ts",
+          "pattern": "SeededRng",
+          "why": "the seeded trait lottery: spread pick (people-traits.ts:313) and trait count, choice, magnitude and sign (:435-479)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-traits.ts",
+          "pattern": "\\brng\\.integer\\(",
+          "why": "trait count/choice/magnitude/sign draws (people-traits.ts:438-479)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-personality.ts",
+          "pattern": "\\brng\\.pick\\(",
+          "why": "life-tendency picks (life-personality.ts:41, :59, :67)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-personality.ts",
+          "pattern": "SeededRng",
+          "why": "no seeded draw in life-personality.ts"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-upbringing.ts",
+          "pattern": "rng\\.pick\\(\\[-1,\\s*0,\\s*0,\\s*0,\\s*1\\]",
+          "why": "a core trait with no upbringing signal is picked from a weighted lottery instead of taking the middle value (people-upbringing.ts:603)"
+        }
+      ],
+      "note": "Not started: SeededRng and rng.integer/rng.pick are still how traits (people-traits.ts:313, :438-479) and life tendencies (life-personality.ts:41, :59, :67) are chosen; all five absent checks fail (including the no-signal core-trait pick at people-upbringing.ts:603). Marked part because other trait writers may exist."
+    },
+    "A140": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/school-stages.ts",
+          "pattern": "schooling:stages:\\$\\{personId\\}",
+          "why": "the term-date draw is keyed on the person (school-stages.ts:121)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/school-stages.ts",
+          "pattern": "\\.integer\\(0,\\s*range\\.spreadDays",
+          "why": "each child's start/end spread is drawn (school-stages.ts:122)"
+        }
+      ],
+      "note": "Both the per-person fork key and the spreadDays draw in onCalendar must be gone; both are live at school-stages.ts:121-122, so not-started as verified."
+    },
+    "A146": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/life-scene-flow.ts",
+          "pattern": "stableHash\\(",
+          "why": "openNextLifeScene still picks the next scene with stableHash (life-scene-flow.ts:362)"
+        }
+      ],
+      "note": "The only stableHash( call in life-scene-flow.ts is the pick at :362, so not-started as verified; the follow-through reply that already goes first (the 'continuation' lookup) is not scored as done because the audit counts the item not-started."
+    },
+    "A147": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/formative-context.ts",
+          "pattern": "formative-pacing-v2",
+          "why": "the pacing stream seed (formative-context.ts:398)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/formative-context.ts",
+          "pattern": "rng\\.integer\\(\\s*minimum,\\s*maximum\\s*\\+\\s*1\\s*\\)",
+          "why": "the drawn anchor count (formative-context.ts:401)"
+        }
+      ],
+      "note": "Both the seeded stream and the anchor-count draw in formativeStepDays are live, so not-started as verified."
+    },
+    "A148": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/production-world.ts",
+          "pattern": "opening-life-other-parent-v1",
+          "why": "the other parent 'deceased' pick, the bounded first step (production-world.ts:1198)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/production-world.ts",
+          "pattern": "opening-life-family-v1",
+          "why": "the opening family shape pick (production-world.ts:917)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/creator-full-birthday.ts",
+          "pattern": "creator-birthday-completion-v1",
+          "why": "the birthday completion pick (creator-full-birthday.ts:203)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-employment.ts",
+          "pattern": "const\\s+draw\\s*=\\s*rng\\.next\\(\\)",
+          "why": "laborStatus draws a status per resident (town-employment.ts:1105)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-homes.ts",
+          "pattern": "rng\\.fork\\(\\\"own\\\"\\)\\.next\\(\\)",
+          "why": "tenure draw (town-homes.ts:330)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-homes.ts",
+          "pattern": "rng\\.fork\\(\\\"mortgage\\\"\\)\\.next\\(\\)",
+          "why": "mortgage draw (town-homes.ts:331)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-homes.ts",
+          "pattern": "let\\s+point\\s*=\\s*rng\\.next\\(\\)",
+          "why": "home kind weighted draw (town-homes.ts:305)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/family-shape.ts",
+          "pattern": "rng\\.fork\\(\\\"second-parent\\\"\\)\\.next\\(\\)",
+          "why": "second-parent draw (family-shape.ts:110)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/family-shape.ts",
+          "pattern": "let\\s+roll\\s*=\\s*rng\\.next\\(\\)",
+          "why": "weightedIndex draw for sibling count (family-shape.ts:84)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/family-shape.ts",
+          "pattern": "\\.integer\\(\\s*-WORLD_SPREAD_POINTS",
+          "why": "world two-parent share spread draw (family-shape.ts:96)"
+        }
+      ],
+      "note": "Ten draw sites named in the evidence, all live; covers part because the family shape also draws parent ages, sibling spacing and birth order that the item's next step does not name."
+    },
+    "A65": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/central-bank.ts",
+          "pattern": "drawInflationLean",
+          "why": "the drawn lean (central-bank.ts:238; calls at :387, :716, :778, :851)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/macro-economy/central-bank.ts",
+          "pattern": "CENTRAL_BANK_VERSION\\}:view:",
+          "why": "the per-member view stream, in case the function is only renamed (central-bank.ts:240)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/macro-economy/central-bank.ts",
+          "pattern": "evaluatePoliticalBeliefFormation\\(",
+          "why": "the replacement the next step names: a view formed from the recorded price-stability principle"
+        }
+      ],
+      "note": "Lean draw is still live at four call sites; the rate vote itself already runs randomness:'none' (central-bank.ts:989) but is not scored because the audit evidence counts only the lean draw."
+    },
+    "A125": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/decisions.ts",
+          "pattern": "export function isSelectedDecision",
+          "why": "the selected/undecided split exists"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/moguls.ts",
+          "pattern": "!isSelectedDecision\\(",
+          "why": "mogul approach and offer honor 'undecided' (#1442, #1453)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/civil-personnel-actions.ts",
+          "pattern": "!isSelectedDecision\\(",
+          "why": "employee appeals, commissioner settlement, reinstatement honor 'undecided' (#1427, #1436, #1461)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/couples.ts",
+          "pattern": "!isSelectedDecision\\(",
+          "why": "couples decision caller leaves an undecided choice pending"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/life-callbacks.ts",
+          "pattern": "!isSelectedDecision\\(",
+          "why": "life callbacks leave an undecided choice pending"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/permits.ts",
+          "pattern": "isSelectedDecision\\(",
+          "why": "permits distinguish selected from undecided"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/public-service-producer.ts",
+          "pattern": "!isSelectedDecision\\(",
+          "why": "public service producer leaves an undecided choice pending"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/childhood.ts",
+          "pattern": "isSelectedDecision\\(",
+          "why": "childhood caller reads only a selected decision"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/press/matters.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet (the press group is the next step)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/press/desk.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet (the press group is the next step)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/press/responses.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet (the press group is the next step)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/campaign-opponents.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/favor-collection.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-contact.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-study.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-study-plan.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-family-plan.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-promise.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/initiator-occasions.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/claim-contradictions.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/crisis/handling-reactions.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/patronage/appointments.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/supreme-court-appointments.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/contextual-scene-producers.ts",
+          "pattern": "isSelectedDecision\\(|outcomeKind",
+          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
+        }
+      ],
+      "note": "Present checks for the 8 done callers (pass) and the 16 files the audit lists as never checking isSelectedDecision/outcomeKind (all fail today); covers part because callers that take the political-belief default (legislative-member-decisions, central-bank, official-views and others) are not in the audit's list of 16."
+    },
+    "A3": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/world.ts",
+          "pattern": "applyDateBoundary\\(",
+          "why": "the shared date boundary both clocks call (world.ts:1427, #1324)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "export function applyDateBoundary",
+          "why": "the shared boundary lives with the minute clock (time-work.ts:2029)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world.ts",
+          "pattern": "function advanceWorldUnchecked",
+          "why": "the whole-day clock's own body still exists (world.ts:1406)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world.ts",
+          "pattern": "resolveFutureDueItemsThrough\\(",
+          "why": "advanceWorldUnchecked resolves due items on its own (world.ts:1415)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/demo.ts",
+          "pattern": "(?<!function )advanceWorld\\(",
+          "why": "demo.ts:663 calls the whole-day clock"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-continuation.ts",
+          "pattern": "(?<!function )advanceWorld\\(",
+          "why": "people-continuation.ts:871 calls the whole-day clock"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/character-history.ts",
+          "pattern": "(?<!function )advanceWorld\\(",
+          "why": "character-history.ts:2297 calls the whole-day clock"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/demo.ts",
+          "pattern": "advanceWorldMinutes\\(",
+          "why": "demo.ts moves time on the minute clock"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-continuation.ts",
+          "pattern": "advanceWorldMinutes\\(",
+          "why": "people-continuation.ts moves time on the minute clock"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/character-history.ts",
+          "pattern": "advanceWorldMinutes\\(",
+          "why": "character-history.ts moves time on the minute clock"
+        }
+      ],
+      "note": "Two present checks pass (shared applyDateBoundary, #1324) and eight fail (the unchecked body, its own due-item resolution and the three callers), so partly as verified."
+    },
+    "A4": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/presentation/ordinary-life.ts",
+          "pattern": "composeWorldTimeHandlers\\(options\\.handlers\\)",
+          "why": "ordinary time carries the complete list (#1317)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/legislation-session.ts",
+          "pattern": "HEARING_HANDLERS|createFutureTransitionHandlerRegistry",
+          "why": "the second committee-hearing registration is gone (#1317)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/world.ts",
+          "pattern": "=\\s*EMPTY_FUTURE_TRANSITION_HANDLERS",
+          "why": "advanceWorld defaults to an empty list (world.ts:1389)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "=\\s*EMPTY_FUTURE_TRANSITION_HANDLERS",
+          "why": "advanceWorldMinutes and the activity entries default to an empty list (time-work.ts:1115, :1142, :1199, :1402)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/",
+          "pattern": "(?<!function )advanceWorld\\(\\s*[\\w.]+,\\s*[\\w.]+\\s*\\)",
+          "why": "a day advance that passes no handlers (demo.ts:663, character-history.ts:2297)"
+        }
+      ],
+      "note": "Two #1317 parts pass; the empty defaults in world.ts and time-work.ts and the two handler-less advanceWorld calls still fail, so partly as verified; covers part because a partial registry passed deliberately by an entry point (executive-work.ts cycleHandlers) is not something a pattern can prove complete."
+    },
+    "A5": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/cost-of-living.ts",
+          "pattern": "export function initializeLivingCostsFlow",
+          "why": "the living-cost agreement initializer exists (#1336)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "export function initializeOfficeSalaryFlows",
+          "why": "the office-salary agreement initializer exists (#1338)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "(?<!function )initializeLivingCostsFlow\\(",
+          "why": "something in production calls the living-cost initializer before scheduling the month"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-opportunities.ts",
+          "pattern": "settleOfficeSalaries\\(",
+          "why": "refreshLifeOpportunities settles office salary (life-opportunities.ts:452)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-opportunities.ts",
+          "pattern": "settleMortgages\\(",
+          "why": "refreshLifeOpportunities settles the mortgage (life-opportunities.ts:454)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-opportunities.ts",
+          "pattern": "settleLivingCosts\\(",
+          "why": "refreshLifeOpportunities settles living costs (life-opportunities.ts:455)"
+        }
+      ],
+      "note": "Two initializer definitions pass; the three settler calls in refreshLifeOpportunities and any production call of initializeLivingCostsFlow fail (grep finds the initializers only in their own files and tests, so the verified evidence line saying they create agreements on the day play starts overstates it); covers part because the scanner cannot prove first-of-month scheduling exists."
+    },
+    "A122": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-life-activities.ts",
+          "pattern": "campaign-life-roster:",
+          "why": "volunteer contact coin flip (campaign-life-activities.ts:1708)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-life-activities.ts",
+          "pattern": "campaign-life-field:",
+          "why": "60-140% field-work swing (campaign-life-activities.ts:1817)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-life-activities.ts",
+          "pattern": "LIFE\\.firstOutreachDays\\[0\\]",
+          "why": "first-outreach day draw (campaign-life-activities.ts:2200)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-life-activities.ts",
+          "pattern": "LIFE\\.nextOutreachDays\\[0\\]",
+          "why": "next-outreach day draw (campaign-life-activities.ts:2285)"
+        }
+      ],
+      "note": "Four draws named in the evidence, all live; the contact's generated name and age (:1271-1284) and the fundraiser amount (:1449, A66) are deliberately not counted here."
+    },
+    "A123": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-opponents.ts",
+          "pattern": "campaign-opponent-emphasis:",
+          "why": "emphasis draw stream (campaign-opponents.ts:394)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-opponents.ts",
+          "pattern": "\\.pick\\(EMPHASES\\)",
+          "why": "emphasis pick (campaign-opponents.ts:395)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-opponents.ts",
+          "pattern": "MESSAGING_RANGE\\[0\\]",
+          "why": "messaging spend draw (campaign-opponents.ts:820)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-opponents.ts",
+          "pattern": "SWING_RANGE\\[0\\]",
+          "why": "support swing draws (campaign-opponents.ts:832, :957)"
+        }
+      ],
+      "note": "Rival emphasis, spend and both swing draws are live; the rival's fundraising range (:752) belongs to A66."
+    },
+    "A66": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "\\.integer\\(\\s*85_000,\\s*175_001\\s*\\)",
+          "why": "fundraising receipt draw (campaigns.ts:1323)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-opponents.ts",
+          "pattern": "FUNDRAISING_RANGE\\[0\\]",
+          "why": "rival fundraising draw (campaign-opponents.ts:752)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-life-activities.ts",
+          "pattern": "LIFE\\.fundraiserMinorUnits\\[0\\]",
+          "why": "planFundraiser amount draw (campaign-life-activities.ts:1449)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-operating-costs.ts",
+          "pattern": "rng\\.integer\\(rule\\.flatMinorUnits",
+          "why": "flat bill draw (campaign-operating-costs.ts:308)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-operating-costs.ts",
+          "pattern": "rule\\.shareBasisPoints\\[0\\]",
+          "why": "share-of-treasury bill draw (campaign-operating-costs.ts:311)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/",
+          "pattern": "from\\s*\\\"\\./campaign-money-sources\\\"",
+          "why": "a simulation writer reads named donors' recorded capacity (only src/player/CampaignOwnMoney.tsx reads it today)"
+        }
+      ],
+      "note": "Five draw sites live plus no simulation file imports campaign-money-sources; covers part because the scanner cannot prove receipts come from donors' decisions or that bills are purchases."
+    },
+    "A119": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",
+          "pattern": "stateYears\\s*=\\s*rng\\.integer",
+          "why": "state years drawn 1-12 (state-legislature-candidates.ts:234)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",
+          "pattern": "districtYears\\s*=\\s*rng\\.integer",
+          "why": "district years drawn (state-legislature-candidates.ts:235)"
+        }
+      ],
+      "note": "Both residency-year draws in recordFictionalResidence are live, so not-started as verified."
+    },
+    "A143": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-paths2.ts",
+          "pattern": "work-response-v1",
+          "why": "the seeded accepted/refused/negotiated pick (life-paths2.ts:1402)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-paths2.ts",
+          "pattern": "new SeededRng\\(",
+          "why": "the only SeededRng use in the file is that pick (life-paths2.ts:1401)"
+        }
+      ],
+      "note": "The pick at :1401-1407 is the only SeededRng use in life-paths2.ts, so both checks fail today."
+    },
+    "A72": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bcouncilFilings\\b)",
+          "why": "the separate council filer was deleted in #1449 and no production file names it"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "fileMemberAgendaBills\\(",
+          "why": "town councils file through the one member filer (local-council-meetings.ts:303)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/dc-council-sittings.ts",
+          "pattern": "fileMemberAgendaBills\\(",
+          "why": "the D.C. Council files through the one member filer (dc-council-sittings.ts:128)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/congress-lawmaking.ts",
+          "pattern": "fileMemberAgendaBills\\(",
+          "why": "Congress files through the same filer (congress-lawmaking.ts:204)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/member-agenda-settings.ts",
+          "pattern": "refileAfterDays",
+          "why": "refile rules are a setting (COUNCIL_MEMBER_AGENDA_SETTINGS)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "COUNCIL_MEMBER_AGENDA_SETTINGS\\.refileAfterDays",
+          "why": "the filer reads the refile setting (member-agenda.ts:137)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/member-agenda.ts",
+          "pattern": "memberFilingCap\\(",
+          "why": "the filer enforces the sourced per-member limit (7bc876ed9, after the audit)"
+        },
+        {
+          "kind": "reader",
+          "dataFile": "data/research/legislature/member-bill-limits-2026.json",
+          "why": "the game reads the per-member bill-limit table (member-filing-caps.ts)"
+        }
+      ],
+      "note": "Scans done, matching verified for the councilFilings removal and the shared filer; the 'isolated' bill-limit drift was closed by 7bc876ed9 (3:35 p.m. on October 1, after the 11:20 a.m. audit), so the member-bill-limits-2026.json reader and the memberFilingCap call in member-agenda.ts now pass. The authored 'Meeting Room Evening Hours Ordinance' residual is not an NPC filer and is not scanned."
+    },
+    "A87": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/constitutional-reform.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bSeededRng\\b)",
+          "why": "state amendment ballots are counted from recorded views, no dice (#1420)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/constitutional-reform.ts",
+          "pattern": "recordedBallotTally\\(",
+          "why": "the ballot handler tallies recorded views (constitutional-reform.ts:1096)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/article-v.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bSeededRng\\b)",
+          "why": "each state's Article V action day is a seeded integer(0, stateActionWindowDays) draw (article-v.ts:456)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/federal-reform.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bSeededRng\\b)",
+          "why": "each state's term-limit amendment action day is a seeded draw from stateActionDays (federal-reform.ts:594)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/article-v.ts",
+          "pattern": "nextStateSittingDay\\(|[a-z]SittingDay\\(|[a-z]SessionDay\\(|regularSession[A-Za-z]*\\(",
+          "why": "scheduleStateActions asks a state-session helper for the day instead of drawing it"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/federal-reform.ts",
+          "pattern": "nextStateSittingDay\\(|[a-z]SittingDay\\(|[a-z]SessionDay\\(|regularSession[A-Za-z]*\\(",
+          "why": "proposeAndVote asks the same helper for each state's day"
+        }
+      ],
+      "note": "Scans partly like verified: the constitutional-reform.ts checks pass (no dice, recordedBallotTally); the two SeededRng draws in article-v.ts:456 and federal-reform.ts:594 still match. The present checks look for the helper the next step names (nextStateSittingDay) or any *SittingDay/*SessionDay/regularSession call, so a differently named helper outside that shape would scan as partly."
+    },
+    "A88": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/recall.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bSeededRng\\b)",
+          "why": "petition qualification and the vote share are keyed draws (recall.ts:420, :428)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/recall.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:qualifyPermille)",
+          "why": "the 350-permille qualify chance is a fixed percentage (recall.ts:91, :421)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/recall.ts",
+          "pattern": "official-view-reads",
+          "why": "the recall counts residents' recorded views of the officeholder through the shared view reader"
+        }
+      ],
+      "note": "Scans not-started like verified: SeededRng and qualifyPermille still appear in recall.ts and it does not import official-view-reads. The 'national-range-drawn' circulation window for unread states (recall.ts:117, :400) is not scanned; the next step does not touch it."
+    },
+    "A74": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/presentation/legislation-world.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:legislative-work:opening-measure)",
+          "why": "the opening bill is a SeededRng draw over eligible measures (legislation-world.ts:264)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/legislation-world.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:drawGeneratedPersonName)",
+          "why": "an invented member is drawn (legislation-world.ts:27, :427)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/legislation-world.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:legislative-member:\\$\\{scenarioKey\\}:seated)",
+          "why": "the seated sponsor is a seeded pick from the origin chamber (legislation-world.ts:941)"
+        }
+      ],
+      "note": "Scans not-started like verified: all three draws still appear in presentation/legislation-world.ts. Marked part because the replacement (the player's own seat member, the latest non-terminal measure they filed, no session when none) has no stable name to scan for, so removing the draws cannot by itself prove the goal."
+    },
+    "A79": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/council-lawmaking.ts",
+          "pattern": "decideChamberVote\\(",
+          "why": "councils use the one member-vote function (council-lawmaking.ts:92)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "decideChamberVote\\(",
+          "why": "municipal ordinance votes use it (municipal-ordinance-procedure.ts:345)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/supreme-court-appointments.ts",
+          "pattern": "decideChamberVote\\(",
+          "why": "Senate confirmations use it (supreme-court-appointments.ts:493, :527)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/constitutional-reform.ts",
+          "pattern": "decideChamberVote\\(",
+          "why": "state amendment roll calls use it (constitutional-reform.ts:912)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/chamber-votes.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:function weight\\()",
+          "why": "the weight() copy in chamber-votes was replaced by considerationScore (#1557)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/legislative-member-decisions.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:function weight\\()",
+          "why": "the weight() copy was replaced by considerationScore (#1557)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/federal-reform.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:function weight\\()",
+          "why": "the weight() copy was replaced by considerationScore (#1557)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/article-v.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bevaluateDecision\\()",
+          "why": "memberBallot decides a forecast with its own evaluateDecision call (article-v.ts:351)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/federal-reform.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bevaluateDecision\\()",
+          "why": "termLimitBallot decides a forecast with its own evaluateDecision call (federal-reform.ts:413)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/legislative-member-decisions.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bevaluateDecision\\()",
+          "why": "deriveMemberDisposition (bargaining) calls evaluateDecision directly (legislative-member-decisions.ts:162)"
+        }
+      ],
+      "note": "Scans partly like verified: the decideChamberVote call sites and the removed weight() copies pass; the three direct evaluateDecision calls (article-v.ts:351, federal-reform.ts:413, legislative-member-decisions.ts:162) still match. joint-assembly.ts also calls evaluateDecision (:294) but it is a multi-candidate election, not a yea/nay vote, so it is not scanned."
+    },
+    "A144": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/district-residence.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bSeededRng\\b)",
+          "why": "a split home's district is a seeded pick (district-residence.ts:838-840)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/district-residence.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:Placed by seed)",
+          "why": "the provenance note says the district was placed by seed (district-residence.ts:848)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/district-residence.ts",
+          "pattern": "[Ll]argest|[Ss]hare|[Pp]opulation",
+          "why": "the assignment names the largest-share district (no such word is in the file today)"
+        }
+      ],
+      "note": "Scans not-started like verified: SeededRng and 'Placed by seed' still match in district-residence.ts. The present check looks for 'largest', 'share' or 'population' in that file, so a fix that puts all of the share logic in src/districts/ would scan as partly until the call site names it."
+    },
+    "A149": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-wards.ts",
+          "pattern": "town-homes",
+          "why": "homePosition reads the player's current dwelling from town-homes before the hash fallback (no import today)"
+        }
+      ],
+      "note": "Scans not-started like verified: town-wards.ts does not mention town-homes (the FNV hash at :183-190 is the only path for a household the roster did not write). Marked part: the hash stays as the fallback by design, and an import alone does not prove the player's ward follows their home."
+    },
+    "A92": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:matter\\.stableKey\\}:recommendation)",
+          "why": "the chief's recommendation rng is seeded per matter (state-governing.ts:1052)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:rng\\.pick\\(real\\))",
+          "why": "the chief's agenda recommendation is a seeded pick (state-governing.ts:1060)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:SeededRng\\(`\\$\\{key\\}:agenda`\\))",
+          "why": "the first-year agenda is spliced by rng (state-governing.ts:1448)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?::npc-choice)",
+          "why": "an NPC choice with no adviser falls to a seeded pick (state-governing.ts:2441)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\$\\{due\\.stableKey\\}:subject)",
+          "why": "budget subjects come from a seeded pickDistinct (state-governing.ts:2836)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "\\bevaluateDecision\\(",
+          "why": "the chief's recommendation goes through evaluateDecision with randomness 'none' (not called in the file today)"
+        }
+      ],
+      "note": "Scans not-started like verified: all five draws still match in governing/state-governing.ts and the file never calls evaluateDecision. The candidate birth-date draw at :1191 belongs to A93 and is not scanned here."
+    },
+    "A93": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/staff-evidence.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bSeededRng\\b)",
+          "why": "scripted careers are picked with CAREERS[rng.integer(...)] (staff-evidence.ts:169-172)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/staff-evidence.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:steadiness:\\s*2\\b)",
+          "why": "no recorded posts scores a middle steadiness of 2 (staff-evidence.ts:381)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/staff-evidence.ts",
+          "pattern": "steadiness\\??:\\s*number\\s*\\|\\s*null",
+          "why": "steadiness can be unknown (null) in the assessment type"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/state-governing.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:assessment\\?\\.steadiness\\s*\\?\\?\\s*0)",
+          "why": "the steadiest sort treats unknown as 0 (state-governing.ts:2430)"
+        }
+      ],
+      "note": "Scans not-started like verified: the CAREERS draw, steadiness 2 and the ?? 0 sort all still match, and the type has no null. The drawn candidate birth dates (state-governing.ts:1206) are not in the item's goal or next step and are not scanned."
+    },
+    "A94": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/governing/committee-assignment.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bSeededRng\\b)",
+          "why": "seatingOrder shuffles the chamber with SeededRng (committee-assignment.ts:106-118)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/committee-assignment.ts",
+          "pattern": "\\.sort\\(|\\.toSorted\\(",
+          "why": "committee choice order is a sort by seniority, then member key (no sort in the file today)"
+        }
+      ],
+      "note": "Scans not-started like verified: SeededRng is still imported and used in committee-assignment.ts, and the file has no sort."
+    },
+    "A37": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/job-market.ts",
+          "pattern": "settleTownCompensations\\(",
+          "why": "town jobs pay through the shared payroll (job-market.ts:2051)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:CATCH_UP_LIMIT_WEEKS)",
+          "why": "office salary keeps its own weekly catch-up loop (office-salary.ts:55, :194)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:assessPaycheckTaxes)",
+          "why": "office salary calls the tax assessor itself (office-salary.ts:1, :214)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "settleTownCompensations\\(",
+          "why": "office salary builds period inputs and pays through the shared payroll (no call today)"
+        }
+      ],
+      "note": "Scans partly like verified: the shared town payroll call in job-market.ts passes; office-salary.ts still has CATCH_UP_LIMIT_WEEKS, its own assessPaycheckTaxes call and no settleTownCompensations call. Marked part: local-economy.ts settleFlows still writes every due month as 'completed' (:698), and no stable call or pattern says when it is retired, so it is not scanned."
+    },
+    "A39": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/governing/final-law-term-query.ts",
+          "pattern": "export function readFinalEnactedLawTerm",
+          "why": "the final-term reader exists"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/price-cost.ts",
+          "pattern": "readFinalEnactedLawTerm\\(",
+          "why": "price-cost already reads enacted terms through it (price-cost.ts:149)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/minimum-wage.ts",
+          "pattern": "readFinalEnactedLawTerm\\(",
+          "why": "minimum-wage.ts reads a bill's own hourly term (not called there today)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/minimum-wage.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:FEDERAL_RAISE_PLACEHOLDER)",
+          "why": "the $15 federal placeholder (minimum-wage.ts:95, used :157)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/minimum-wage.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:STATE_RAISE_TERM)",
+          "why": "the average state raise (minimum-wage.ts:58, used :225-226)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/minimum-wage.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:CITY_PREMIUM_RATIO)",
+          "why": "the 9.23% California city premium (minimum-wage.ts:81, used :435)"
+        }
+      ],
+      "note": "Scans partly like verified: the reader and its price-cost call pass, while minimum-wage.ts still has all three fallbacks and never calls the reader. The dated-matrix reader drift (minimum-wage-dated-matrix-2026.json, read only by a test) is not in the goal or next step and is not scanned."
+    },
+    "A8": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/job-market.ts",
+          "pattern": "settleJobPay\\(advanceApplications",
+          "why": "the simulation path settles job pay (job-market.ts:2156)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/life-opportunities.ts",
+          "pattern": "advanceJobMarket\\(",
+          "why": "the simulation path is called in production (life-opportunities.ts:453)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/ordinary-life.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:settleJobPay)",
+          "why": "the presentation layer still settles job pay beside the simulation (ordinary-life.ts:5, :426)"
+        }
+      ],
+      "note": "Scans partly like verified: the simulation settleJobPay path passes; ordinary-life.ts still imports and calls settleJobPay. settleHouseholdAdultJobPay in the same function is the household adults' path and is not scanned."
+    },
+    "A38": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/job-market.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:raiseWeeklyPayToMinimum)",
+          "why": "copy 1 of the pay floor (job-market.ts:1932, called :2034)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/life-paths2.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:raiseShiftPayToMinimum)",
+          "why": "copy 2 of the pay floor (life-paths2.ts:752, called :1094)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:raiseTownPayToMinimum)",
+          "why": "copy 3 of the pay floor (town-pay.ts:1014, called :522)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/office-salary.ts",
+          "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:raiseToPayInForce)",
+          "why": "copy 4 of the pay floor (office-salary.ts:228, called :202)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequence-registry.ts",
+          "pattern": "from\\s*\"\\./(?:law-consequences/[\\w-]*pay[\\w-]*|living-world/town-pay)\"|^\\s*\\w*[Pp][Aa][Yy]\\w*[Rr][Ee][Gg][Ii][Ss][Tt][Rr][Aa][Tt][Ii][Oo][Nn]\\s*,",
+          "why": "a pay kind is registered (only the '// pay: Team2' comment exists today)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/",
+          "pattern": "applyLawPayConsequence",
+          "why": "the registered pay kind's apply calls the town-pay adapter (no production caller today)"
+        }
+      ],
+      "note": "Scans not-started like verified: all four copies still match and the registry has only the '// pay: Team2' comment. The registry check looks for an import from law-consequences/*pay* or living-world/town-pay, or an array entry named *Pay*Registration; a different registration name would scan as partly. The adapter's definition is deliberately not scanned, because it is isolated today."
+    },
+    "A40": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "\\(draw\\s*\\*\\s*2\\s*-\\s*1\\)\\s*\\*\\s*15",
+          "why": "the +/-15-percentile seeded draw inside townPayPercentile (town-pay.ts:240)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "townPayPercentile\\(\\s*tenure,\\s*draw\\s*\\)",
+          "why": "the call that feeds the draw into a worker's percentile (town-pay.ts:731)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "const\\s+draw\\s*=\\s*new\\s+SeededRng",
+          "why": "the per-person SeededRng draw for the wage place (town-pay.ts:719)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-pay.ts",
+          "pattern": "hasLifePathCredential\\(",
+          "why": "the replacement the next step names: a fixed step from recorded schooling, called from the pay code"
+        }
+      ],
+      "note": "Dice item: all three absent checks fail today (town-pay.ts:240, :731, :719) and the credential call is absent, so scanned not-started matches verified. Period and phase draws (:425, :771) are out of this item's scope."
+    },
+    "A43": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/teacher-salary-floor.ts",
+          "pattern": "drawnLinkSize",
+          "why": "the floor amount as a per-world drawn link size (teacher-salary-floor.ts:69)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/teacher-salary-floor.ts",
+          "pattern": "law\\.origin\\s*!==\\s*\"enacted\"",
+          "why": "the origin check that keeps starting-law floors from applying (teacher-salary-floor.ts:126)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/teacher-salary-floor.ts",
+          "pattern": "readFinalEnactedLawTerm\\(",
+          "why": "the floor is read as the bill's own annual-dollar term"
+        }
+      ],
+      "note": "Three checks from the evidence lines and next step; all fail today (drawnLinkSize at the import and call, origin check at :126, no readFinalEnactedLawTerm), matching not-started."
+    },
+    "A10": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/",
+          "pattern": "\\badvance(Clemency|Prosecutions)\\(",
+          "why": "the newspaper weekly sweep still advancing every prosecution and clemency petition (press/transitions.ts:54)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/prosecution-transitions.ts",
+          "pattern": "advanceProsecutions\\(world,\\s*referralId\\)",
+          "why": "a case advances on its own saved stage due date (#1357)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/clemency-transitions.ts",
+          "pattern": "advanceClemencyPetition\\(world,\\s*petitionId\\)",
+          "why": "a petition advances on its own dated handler (#1389)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "createProsecutionTransitionRegistry\\(\\)",
+          "why": "the prosecution handlers are registered in the production clock"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/campaigns.ts",
+          "pattern": "createClemencyTransitionRegistry\\(\\)",
+          "why": "the clemency handlers are registered in the production clock"
+        }
+      ],
+      "note": "The weekly press call (press/transitions.ts:54) still fails the absent check; the dated handlers (prosecution-transitions.ts:95, clemency-transitions.ts:75, campaigns.ts:2194/:2201) pass, so partly matches verified. recoverOverdueProsecutions is called only from tests today, so the 'keep for load' step has no production caller to check."
+    },
+    "A103": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "custodyFloorAt\\(world,\\s*courtCase\\)",
+          "why": "the enacted mandatory-minimum floor raises the term (#1313, #1378) and is called from sentenceMonthsForCase"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "Math\\.round\\(\\(rule\\.jailMonths\\.min\\s*\\+\\s*max\\)\\s*/\\s*2\\)",
+          "why": "the jail term as the midpoint of the hand-set 3-12 month range (prosecution.ts termMonths)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/justice/prosecution.ts",
+          "pattern": "rule\\.probationMonths\\.min\\s*\\+\\s*rule\\.probationMonths\\.max",
+          "why": "the probation term as the midpoint of the hand-set 12-36 month range"
+        },
+        {
+          "kind": "reader",
+          "dataFile": "data/research/justice/sentencing-ranges-2026.json",
+          "why": "the researched state sentencing ranges (#1544/#1555) must be read in play; today only a test imports them"
+        }
+      ],
+      "note": "The floor (#1313/#1378) passes; the midpoint expressions in termMonths still match and the research file has no non-test reader, so partly matches verified."
+    },
+    "A57": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/price-cost.ts",
+          "pattern": "readFinalEnactedLawTerm\\(",
+          "why": "the price-cost kind reads the passed bill's own number (#1322, #1346)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "activity:\\s*\"renewal\"",
+          "why": "a lease renewal dispatches applyLawConsequences (town-rent.ts:1694)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/",
+          "pattern": "housing-land-use\\.rent-stabilization",
+          "why": "a production catalog row for the rent cap: no price-cost row exists outside tests today (only tests inject one)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "RENT_STABILIZATION_CAP\\.(most|overPrices)",
+          "why": "the fixed 5%+CPI / 10% cap read in renewedMarketRent (town-rent.ts:1543-1545)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "rentRise:\\s*0\\.051",
+          "why": "the fixed +5.1% citywide rent uplift (town-rent.ts:255)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "INCLUSIONARY_SET_ASIDE\\s*=\\s*0\\.15",
+          "why": "the fixed 15% inclusionary set-aside (town-rent.ts:221)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/housing-market.ts",
+          "pattern": "monthlyLogChange:\\s*-0\\.00146",
+          "why": "the fixed -0.146% a month housing-supply price push (housing-market.ts:80)"
+        }
+      ],
+      "note": "Marked part: the next step leaves a fallback cap for laws with no final term, so removing the cap constants alone does not prove the goal. Finding: no production catalog row of kind price-cost exists (rent-stabilization rows are injected only by tests, price-cost-lease-dispatch.test.ts:115), so the 'applies through the price-cost kind' evidence holds only where a row is supplied; the law-consequences/ present check shows that gap."
+    },
+    "A21": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/tuition-freeze.ts",
+          "pattern": "drawnLinkSize",
+          "why": "tuition growth as a per-world drawn link size (tuition-freeze.ts:55)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/tuition-freeze.ts",
+          "pattern": "TUITION_SET_ON\\s*=\\s*\"07-01\"",
+          "why": "the hard-wired July 1 start (tuition-freeze.ts:76-77)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/month.ts",
+          "pattern": "tuitionFreezeFactor",
+          "why": "the freeze read as a state-budget factor (month.ts:46, :633)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/",
+          "pattern": "education\\.freeze-public-tuition",
+          "why": "the price-cost row that limits each public college's tuition charge (next step); none exists yet"
+        }
+      ],
+      "note": "Dice item: both absent checks and the row check fail today (tuition-freeze.ts:55, :77, month.ts:46/:633; no tuition row in law-consequences/), matching not-started."
+    },
+    "A56": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "previous\\?\\.bedrooms\\s*\\?\\?\\s*bedroomsForHousehold",
+          "why": "bedrooms are kept from the home's last lease (#1490, town-rent.ts:1213)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "landlordStands\\(next,\\s*previous\\.flow\\.recipient",
+          "why": "the recorded landlord is kept while it stands (town-rent.ts:1217)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "rng\\.fork\\(`landlord",
+          "why": "the seeded draw of the landlord kind at a first lease or after a sale (town-rent.ts:1226)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-rent.ts",
+          "pattern": "const\\s+rng\\s*=\\s*new\\s+SeededRng\\(next\\.seed\\)",
+          "why": "the per-home seeded stream for the lease loop (town-rent.ts:1208)"
+        }
+      ],
+      "note": "Bedrooms and kept landlord pass (#1490); the seeded landlord-kind draw (town-rent.ts:1226) and its stream (:1208) still match, so partly matches verified."
+    },
+    "A59": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-businesses.ts",
+          "pattern": "new\\s+SeededRng\\(world\\.seed\\)\\.fork\\(prefix\\)",
+          "why": "the review's seeded stream (town-businesses.ts:623)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-businesses.ts",
+          "pattern": "rng\\.fork\\(`close:",
+          "why": "the quarterly closing roll compared with closingPerYear/4 (town-businesses.ts:638)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-businesses.ts",
+          "pattern": "rng\\.fork\\(\"found\"\\)",
+          "why": "the quarterly founding roll compared with the expected openings (town-businesses.ts:685)"
+        }
+      ],
+      "note": "Three absent checks on the quarterly closing and founding rolls (town-businesses.ts:623, :638, :685); all fail today, matching not-started. No always-passing check added so a not-started item does not scan as partly."
+    },
+    "A165": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/",
+          "pattern": "BLANKET_DEPARTURE_CHANCE_PER_YEAR",
+          "why": "the 4% blanket departure chance is gone"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/",
+          "pattern": "BLANKET_ARRIVALS_PER_RESIDENT_PER_YEAR",
+          "why": "the blanket arrivals rate is gone"
+        },
+        {
+          "kind": "reader",
+          "dataFile": "data/research/migration/mover-rates-acs-2024.json",
+          "why": "measured ACS mover rates by age and place replace them (#1577)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/rules.ts",
+          "pattern": "INTEREST_RATE\\s*=\\s*0\\.04",
+          "why": "the 4% default borrowing rate is gone (#1464)"
+        }
+      ],
+      "note": "The audit's next step (migration rates) closed after the audit by #1577. The goal names other hand-set numbers that the evidence says remain (office pay, local business revenue, disaster tables, macro policy, campaign ranges), so these rules cover part of it and can at most scan partly."
+    },
+    "A118": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-ballot-rules.ts",
+          "pattern": "\\bstablePick\\(",
+          "why": "hashed weighted picks for runoff rule, trigger, recall doctrine and window (municipal-ballot-rules.ts:137, :207, :226, :636, :674)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/municipal-ballot-rules.ts",
+          "pattern": "0x\\$\\{stableHash",
+          "why": "the hashed election-timing option (municipal-ballot-rules.ts:524)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/typical-council-size.ts",
+          "pattern": "stableHash\\(",
+          "why": "council size and term as a hashed point in the national share table (typical-council-size.ts:92-97)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/office-qualification-profile.ts",
+          "pattern": "=\\s*stableHash\\(",
+          "why": "a qualification value hashed within the enacted range (office-qualification-profile.ts:151)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/campaign-compliance.ts",
+          "pattern": "\\bstableHash\\(",
+          "why": "the hashed 5-15 day filing deadline (campaign-compliance.ts:593)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/nationwide-world/town-election-calendar.ts",
+          "pattern": "FILING_LEAD_DAYS\\s*=\\s*28",
+          "why": "the blanket 28-day town filing lead (town-election-calendar.ts:28)"
+        }
+      ],
+      "note": "Six absent checks for the hashed rules the evidence names; all still match today (stablePick x5, hashed timing :524, typical-council-size.ts:95, office-qualification-profile.ts:151, campaign-compliance.ts:593, FILING_LEAD_DAYS = 28), matching not-started. Whole means every one is gone."
+    },
+    "A71": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/public-budgets/rules.ts",
+          "pattern": "DEFAULT_STATE_INTEREST_RATE\\s*=",
+          "why": "the default borrowing rate is Census interest over debt (#1464)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/public-budgets/rules.ts",
+          "pattern": "INTEREST_RATE\\s*=\\s*0\\.04",
+          "why": "the old hand-set 4% default rate"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "town-business-a71-2026\\.json",
+          "why": "the books import the A71 research file (town-finances.ts:37)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "creditLineDaysByKind:\\s*Object\\.fromEntries",
+          "why": "credit lines come from each kind's sourced median days (town-finances.ts:138)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "localDemandElasticity:\\s*TOWN_BUSINESS_RESEARCH\\.localSales\\.value",
+          "why": "the local sales response is the sourced 0.335 (town-finances.ts:150)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "creditLineDaysOfRevenue",
+          "why": "the old hand-set 36.5-day credit line"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-finances.ts",
+          "pattern": "localDemandElasticity:\\s*0\\.5",
+          "why": "the old hand-set 0.5 sales response"
+        },
+        {
+          "kind": "reader",
+          "dataFile": "data/research/money/town-business-a71-2026.json",
+          "why": "the research file is read in play (#1558 swap)"
+        }
+      ],
+      "note": "Done after the audit: commit e5d5b8794 (A71 swap, CTO ruling 10/1; not an ancestor of the audit commit 1a74440ea of 11:20 a.m., on main now) reads the research file. Lines that show it: living-world/town-finances.ts:37 imports data/research/money/town-business-a71-2026.json; :80-83 TOWN_BUSINESS_RESEARCH; :138-142 creditLineDaysByKind from the file's medianDays; :150 localDemandElasticity = TOWN_BUSINESS_RESEARCH.localSales.value; no creditLineDaysOfRevenue remains. public-budgets/rules.ts:254-264 default rates from Census (#1464). Scanned done, verified partly."
+    },
+    "A145": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/press/ownership.ts",
+          "pattern": "books\\.cash\\s*>=\\s*books\\.total",
+          "why": "a layoff happens only when recorded outlet cash cannot cover recorded payroll (reduceNewsroomStaff)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/ownership.ts",
+          "pattern": "rng\\.integer\\(0,\\s*from\\.roles\\.length\\)",
+          "why": "the old random choice of the laid-off reporter (gone since the payroll layoff fix)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/ownership.ts",
+          "pattern": "rng\\.next\\(\\)\\s*>=\\s*practice\\.likelihoodPerReview",
+          "why": "an owner practice applying on a likelihoodPerReview roll (ownership.ts:370)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/press/ownership.ts",
+          "pattern": "rng\\.pick\\(forSale\\)",
+          "why": "which outlet an owner buys chosen by a seeded pick (ownership.ts:736)"
+        }
+      ],
+      "note": "Layoffs changed after the audit (commits 63f71ace2, 7f5db507c, not ancestors of 1a74440ea): reduceNewsroomStaff now ends least-senior jobs only when recorded cash is below recorded payroll (ownership.ts, no dice), so the audit's rng.integer layoff pick is gone. Still live: the likelihoodPerReview roll for other practices (:370) and rng.pick(forSale) for acquisitions (:736). Founding-owner weightedPick and name pick (:207, :261) are opening-time draws left out of scope. Scanned partly, matching verified, but the verified evidence on layoffs is stale."
+    },
+    "A13": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequence-registry.ts",
+          "pattern": "^\\s*TAX_REGISTRATION,",
+          "why": "the tax kind is registered in the sole registry"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/policy-pack-tax-terms.ts",
+          "pattern": "kind:\\s*\"tax\"",
+          "why": "a catalog row now declares kind 'tax' (excise family, #1586)"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/tax-work.ts",
+          "pattern": "activity:\\s*\"assessment\"",
+          "why": "the played tax assessment dispatches through applyLawConsequences"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/",
+          "pattern": "\\bassessTaxBase\\(",
+          "why": "the old direct assessTaxBase calls in presentation/tax-work.ts"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/",
+          "pattern": "kind:\\s*\"pay\"",
+          "why": "the pay kind is still only a comment in the registry (#1367 open)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/",
+          "pattern": "kind:\\s*\"right-permission\"",
+          "why": "the right-permission kind is still only a comment in the registry (#1333 open)"
+        }
+      ],
+      "note": "Marked part: the goal spans every law kind. Since the audit (11:20 a.m.), excise rows with kind 'tax' were declared (policy-pack-tax-terms.ts, other tax families have none) and presentation/tax-work.ts:178/:217 now dispatch activity 'assessment' (#1586, 12:23-12:52 p.m.), so those checks pass. The pay and right-permission kinds still have no registration (#1367, #1333). Scanned partly, matching verified, though some verified drift (direct assessTaxBase calls, no tax row) is now closed. earnedLawPayAssessments and the duplicate tax-question family cannot be expressed as file checks."
+    },
+    "A15": {
+      "covers": "part",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/enacted-law-effects.ts",
+          "pattern": "export function applyLawConsequences\\(",
+          "why": "the shared dispatch for starting and enacted laws exists (enacted-law-effects.ts:844)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/service-delivered-data.ts",
+          "pattern": "agriculture\\.cut-farm-subsidies",
+          "why": "the farm subsidy as a row of the shared service-delivered kind (next step); none exists yet"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/teacher-salary-floor.ts",
+          "pattern": "law\\.origin\\s*!==\\s*\"enacted\"",
+          "why": "enacted-only reader (teacher-salary-floor.ts:126)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-farm-subsidy-law.ts",
+          "pattern": "law\\.origin\\s*!==\\s*\"enacted\"",
+          "why": "enacted-only reader (federal-farm-subsidy-law.ts:51)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-defense-spending.ts",
+          "pattern": "law\\.origin\\s*!==\\s*\"enacted\"",
+          "why": "enacted-only reader (federal-defense-spending.ts:66)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-passenger-rail.ts",
+          "pattern": "law\\.origin\\s*!==\\s*\"enacted\"",
+          "why": "enacted-only reader (federal-passenger-rail.ts:59)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/federal-data-privacy-law.ts",
+          "pattern": "law\\.origin\\s*!==\\s*\"enacted\"",
+          "why": "enacted-only readers (federal-data-privacy-law.ts:142, :285)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/law-consequences/tax.ts",
+          "pattern": "law\\.origin\\s*!==\\s*\"enacted\"",
+          "why": "the tax kind rejects starting laws (law-consequences/tax.ts:95, was :93)"
+        }
+      ],
+      "note": "Marked part: five-plus enacted-only readers (the names in the evidence) all still match; the farm subsidy row does not exist yet. Only the shared-dispatch doc comment passes, so partly matches verified. Other enacted-only readers (minimum-wage.ts, federal-outlay-laws.ts, tuition-freeze.ts) are outside this item's evidence."
+    },
+    "A19": {
+      "covers": "whole",
+      "checks": [
+        {
+          "kind": "present",
+          "file": "src/simulation/law-effect-stamp.ts",
+          "pattern": "readonly\\s+effectKind:\\s*LawConsequenceKind\\s*\\|\\s*LegacyEffectKind",
+          "why": "LawEffectContext.effectKind is closed to registered kinds plus the legacy union (law-effect-stamp.ts:28)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequence-types.ts",
+          "pattern": "export\\s+type\\s+LegacyEffectKind",
+          "why": "the closed union listing today's bespoke labels awaiting migration"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequence-types.test.ts",
+          "pattern": "LegacyEffectKind",
+          "why": "the test that lists the legacy labels to retire exists"
+        }
+      ],
+      "note": "Done after the audit: commit 2e8fad48c (11:40 a.m. on Oct 1, after the 11:20 a.m. audit) types LawEffectContext.effectKind as LawConsequenceKind | LegacyEffectKind (law-effect-stamp.ts:28), adds the closed LegacyEffectKind union (law-consequence-types.ts) and a test listing legacy labels. The persisted LawEffectStamp.effectKind stays string for old saves (law-effect-stamp.ts:17). tsc was not run here. Scanned done, verified partly."
+    }
+  }
+}

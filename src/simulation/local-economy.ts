@@ -18,6 +18,7 @@ import {
 } from "./life-queries";
 import { localBusinessSupplyFor } from "./local-business-counts";
 import { townJobRate } from "./living-world/town-pay";
+import { townBusinesses } from "./living-world/town-businesses";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   drawCanonicalNameForGender,
@@ -847,13 +848,49 @@ export function adultStartEmployer(
   world: World,
   personId: EntityId,
   jurisdictionId: EntityId,
-): { organization: Organization; kind: LocalBusinessKind } | null {
+): {
+  organization: Organization;
+  kind: Pick<LocalBusinessKind, "workerTitle" | "workerOccupation">;
+} | null {
+  if (!world.people[personId]) return null;
   const past = world.history.workRelationships.filter(
     (work) => work.personId === personId,
   );
-  const fit = localBusinessesIn(world, jurisdictionId).filter(
-    ({ kind }) => !kind.workerOccupation.startsWith("profession:"),
-  );
+  // Borrow only roles that an actual open town business employs today.
+  // A legacy player-only business and its fixed revenue are never candidates.
+  const fit = townBusinesses(world, jurisdictionId).flatMap((business) => {
+    const organization = world.history.organizations.find(
+      (record) => record.id === business.organizationId,
+    );
+    if (!organization || organization.formedAt > world.currentDate) return [];
+    const seen = new Set<string>();
+    return business.jobs.flatMap((job) => {
+      const work = world.history.workRelationships.find(
+        (record) => record.id === job.relationshipId,
+      );
+      const role = workRoleAt(world, job.relationshipId);
+      if (
+        !work ||
+        work.startedAt > world.currentDate ||
+        work.compensation !== "paid" ||
+        job.directsOthers ||
+        !role ||
+        !role.occupationClassification ||
+        role.occupationClassification.startsWith("profession:") ||
+        role.locationJurisdictionId !== jurisdictionId
+      )
+        return [];
+      const kind = {
+        workerTitle: role.title,
+        workerOccupation: role.occupationClassification,
+      };
+      if (!localBusinessWageMinor(kind, jurisdictionId).sourced) return [];
+      const key = JSON.stringify(kind);
+      if (seen.has(key)) return [];
+      seen.add(key);
+      return [{ organization, kind }];
+    });
+  });
   if (fit.length === 0) return null;
   const known = new Set<EntityId>();
   for (const kin of kinshipRelationshipsAt(world, personId))
@@ -884,7 +921,7 @@ export function adultStartEmployer(
   );
   const pool =
     vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
-  const pay = (kind: LocalBusinessKind) =>
+  const pay = (kind: Pick<LocalBusinessKind, "workerOccupation">) =>
     localBusinessWageMinor(kind, jurisdictionId).monthlyMinor;
   return [...pool].sort(
     (left, right) =>

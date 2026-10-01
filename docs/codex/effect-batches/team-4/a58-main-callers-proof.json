@@ -1,0 +1,163 @@
+{
+  "auditId": "A58",
+  "status": "main-based bounded caller delivery; not all callers retired",
+  "mainParent": "65c736c636e3bac1324e54483fa18fa9e33aaf36",
+  "preservedStack": "ce52901c8a54e428a97f1bfffa6f3573c78c5223",
+  "priorPRs": [1500, 1520, 1535],
+  "productionFiles": [
+    {
+      "path": "src/simulation/local-economy.ts",
+      "blob": "b73e68be12ca537dbff5d0e256bfb7384a4389f4"
+    },
+    {
+      "path": "src/presentation/production-world.ts",
+      "blob": "59f9c5316b2100d9087149915b7258969365f724"
+    },
+    {
+      "path": "src/simulation/life-opportunities.ts",
+      "blob": "ee1fe565dedc4d1c4544d5fda53052d5551e988c"
+    }
+  ],
+  "tests": [
+    {
+      "path": "src/simulation/local-economy-recorded-employer.test.ts",
+      "sha256": "b06ca2de503bdc96be831fa91ad5b1fb0f8336004481dcf86a58c39ec641ac82",
+      "unchangedFromPreservedStack": true
+    },
+    {
+      "path": "src/presentation/opening-life-recorded-employer.test.ts",
+      "sha256": "c922f52dcd330588500d0d09749054be18ad5785d850316278d4174e663f7532",
+      "unchangedFromPreservedStack": true
+    },
+    {
+      "path": "src/simulation/life-opportunities-recorded-business.test.ts",
+      "sha256": "99b1743bc48dc1c7e59573e87e980adc021f3e515160fa40619aed8b810f5684",
+      "unchangedFromPreservedStack": true
+    }
+  ],
+  "renewal": {
+    "ordinaryOpeningAndLifecycle": {
+      "passed": 10,
+      "failed": 0,
+      "excluded": 0,
+      "seconds": 67.56,
+      "logSha256": "9220e02ebb8a82063c889defa7ec0f2e56a9866a71e3c08ffa13ab8ca62168e0"
+    },
+    "selector": {
+      "passed": 5,
+      "failed": 0,
+      "excluded": 0,
+      "seconds": 45.22,
+      "logSha256": "5ff086a2e7250118e4b54c2d5790cc96a6eb1581737951972f1cd4e0474ce82a"
+    },
+    "strictTypes": {
+      "roots": 6,
+      "diagnostics": 0
+    }
+  },
+  "composition": {
+    "ownedProduction": "exact main-based three files",
+    "remainingWorkspace": "preserved existing checkout, not full current-main tree",
+    "foundationReader": "2c5cf28db1c4048eea89033cb6262064fa83e3ae",
+    "crisisParentBlob": "7a764ede3ba48cfb2c0c9c63564447b8f460e631"
+  },
+  "historicalOrdinaryOpeningNamedReceipts": [
+    {
+      "seed": "setup-v3:792260b730e2a509:{\"v\":3,\"seed\":\"team4-a58-natural-opening-20261001:5553000\",\"placeKey\":\"5553000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "5553000",
+      "personId": "person_74761522a030ce66",
+      "person": "Taylor Wood",
+      "employerId": "organization_ea284edfc83cda3b",
+      "employerName": "Summers Fabrication",
+      "workId": "work-relationship_755c0e589ad8d01f",
+      "roleId": "work-role_6c1fb4d2f5b9ca33",
+      "payFlowId": "resource-flow_e01dd68d122bbd61",
+      "payTermsId": "resource-flow-terms_746f1bfaade06b08",
+      "weeklyMinor": 116000,
+      "currency": "USD",
+      "openingDate": "2026-01-05",
+      "paymentReceiptClaimed": false,
+      "caller": "generateOpeningLife",
+      "canonicalReloadAndRepeat": true
+    },
+    {
+      "seed": "setup-v3:fcabb1b8d2aec2d9:{\"v\":3,\"seed\":\"team4-a58-natural-opening-20261001:1304000\",\"placeKey\":\"1304000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "1304000",
+      "personId": "person_22d9c526f7ecef30",
+      "person": "Sonia Petersen",
+      "employerId": "organization_7c32996582646acf",
+      "employerName": "Page Trucking",
+      "workId": "work-relationship_a4f54b523759f3f3",
+      "roleId": "work-role_ecae74aa76de42d3",
+      "payFlowId": "resource-flow_ce9d20907362c3cd",
+      "payTermsId": "resource-flow-terms_3cca8ad545efb0ac",
+      "weeklyMinor": 113640,
+      "currency": "USD",
+      "openingDate": "2026-01-05",
+      "paymentReceiptClaimed": false,
+      "caller": "generateOpeningLife",
+      "canonicalReloadAndRepeat": true
+    },
+    {
+      "seed": "setup-v3:d93621067e5bbfdb:{\"v\":3,\"seed\":\"team4-a58-natural-opening-20261001:4159000\",\"placeKey\":\"4159000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "4159000",
+      "personId": "person_b82f5033bb64cad1",
+      "person": "Selena Coleman",
+      "employerId": "organization_465fc36c03bca5bd",
+      "employerName": "Le Roofing and Remodeling",
+      "workId": "work-relationship_768b1b1f279635ea",
+      "roleId": "work-role_b37012cfa4f6505c",
+      "payFlowId": "resource-flow_e9ac5c4140405b9e",
+      "payTermsId": "resource-flow-terms_5ff4331db318b1ab",
+      "weeklyMinor": 141760,
+      "currency": "USD",
+      "openingDate": "2026-01-05",
+      "paymentReceiptClaimed": false,
+      "caller": "generateOpeningLife",
+      "canonicalReloadAndRepeat": true
+    },
+    {
+      "seed": "setup-v3:09b2a3aab6b59c51:{\"v\":3,\"seed\":\"team4-a58-natural-opening-20261001:0820000\",\"placeKey\":\"0820000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "0820000",
+      "personId": "person_e8d0f32417accf0e",
+      "person": "Rebekah Ali",
+      "employerId": "organization_627297ac9f947f23",
+      "employerName": "Juarez Distributing",
+      "workId": "work-relationship_f1b8387c48411b0f",
+      "roleId": "work-role_b2fa57acb7738063",
+      "payFlowId": "resource-flow_da435012adc05e6e",
+      "payTermsId": "resource-flow-terms_66ff070b07965373",
+      "weeklyMinor": 155880,
+      "currency": "USD",
+      "openingDate": "2026-01-05",
+      "paymentReceiptClaimed": false,
+      "caller": "generateOpeningLife",
+      "canonicalReloadAndRepeat": true
+    },
+    {
+      "seed": "setup-v3:68826635ae02f087:{\"v\":3,\"seed\":\"team4-a58-natural-opening-20261001:1921000\",\"placeKey\":\"1921000\",\"startAge\":24,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "1921000",
+      "personId": "person_5e982dbcd01bc34e",
+      "person": "Amy Gill",
+      "employerId": "organization_29fec35ad05d9db1",
+      "employerName": "Hometown Janitorial",
+      "workId": "work-relationship_8a2184fc2ce435d9",
+      "roleId": "work-role_1ba96778343014d1",
+      "payFlowId": "resource-flow_9797a053f77af6a2",
+      "payTermsId": "resource-flow-terms_9690f58d88d0f21b",
+      "weeklyMinor": 86880,
+      "currency": "USD",
+      "openingDate": "2026-01-05",
+      "paymentReceiptClaimed": false,
+      "caller": "generateOpeningLife",
+      "canonicalReloadAndRepeat": true
+    }
+  ],
+  "limits": [
+    "No payment receipt or natural year",
+    "Remaining pre-start/background legacy callers not transferred",
+    "No broad local-economy deletion",
+    "No full current-main/runtime installed claim",
+    "No simulation speed claim"
+  ]
+}
