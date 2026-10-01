@@ -213,19 +213,21 @@ describe("members amend a bill for their own reasons in a watched world", () => 
       (part) => part.answers?.propositionId,
     );
     const offered = amendment!.proposedSections![0]!.answers!.propositionId;
-    // The author offered from a view the clock saved through the one belief
-    // pipeline, with its decision trace, and it is the part they offered.
-    const authorView = latestPrivateBelief(
-      done,
-      amendment!.offeredByPersonId!,
-      offered,
-    )!;
-    expect(authorView.position).toBe(
-      amendment!.proposedSections![0]!.answers!.answer === "yes"
-        ? "support"
-        : "oppose",
-    );
-    expect(authorView.formation.decisionTraceIds.length).toBeGreaterThan(0);
+    // A member may add a part they hold no settled view on, for what it does
+    // to the count (a sink or a pass amendment); one who holds a settled view
+    // never offers the opposite of it. A view the clock formed for this floor
+    // came through the one belief pipeline, with its decision trace.
+    const author = amendment!.offeredByPersonId!;
+    const heldBefore = latestPrivateBelief(world, author, offered);
+    const authorView = latestPrivateBelief(done, author, offered);
+    if (authorView?.position === "support" || authorView?.position === "oppose")
+      expect(authorView.position).toBe(
+        amendment!.proposedSections![0]!.answers!.answer === "yes"
+          ? "support"
+          : "oppose",
+      );
+    if (authorView && authorView.id !== heldBefore?.id)
+      expect(authorView.formation.decisionTraceIds.length).toBeGreaterThan(0);
     // An adopted amendment's part is on the bill the chamber passed or
     // refused; a rejected one's is not.
     expect(parts.includes(offered)).toBe(amendment!.status === "adopted");
