@@ -125,6 +125,7 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import { applyLawConsequences } from "../enacted-law-effects";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import { TOWN_RENT_COUNTIES, TOWN_RENT_TOWNS } from "./town-rent.generated";
@@ -1718,6 +1719,13 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       provenance,
       supersedesTermsId: current.id,
       ...(lawEffectStamps ? { lawEffectStamps } : {}),
+    });
+    const renewal = next.history.resourceFlowTerms.at(-1)!;
+    next = applyLawConsequences(next, {
+      activity: "renewal",
+      activityId: renewal.id,
+      subjectIds: [lease.leaseholderId],
+      onDate: dueOn,
     });
   }
   return next;

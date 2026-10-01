@@ -102,7 +102,7 @@ export function GoverningOfficeDesk({
         </ul>
       )}
 
-      {office.controlledByPlayer ? (
+      {office.controlledByPlayer && office.organizationId ? (
         <OfficeStaffHiring
           world={world}
           office={executiveStaffOffice(office)}

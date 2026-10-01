@@ -939,3 +939,7 @@ Coordinator unified-contract ownership includes law-consequence-validation.ts an
 ## CTO4:00 parallel kind handlers
 
 Coordinator sole law-consequence-registry.ts append/sharedengine/schema/catalog; Team2pay (town-pay adapter); Team9legal-outcome;Team8coverage-eligibility;Team3tax;Team4price-cost;Team5service-delivered,Team6transit contributor;Team1right-permission/institution-rule usingTeam2eventcontracts. New isolated modules src/simulation/law-consequences/team-N.ts andfocusedtests belong respectiveowner pendingexactack; no overlapping legacywriter edits withouttransfer. Registration submissions integrated bycoordinator, no concurrentregistrywrites. Proofdue6:30,pay5pm.
+
+## Engine rebuild narrow releases — September 30 night
+
+Current function-level ownership is in [engine-rebuild-ownership.md](engine-rebuild-ownership.md), including the released executive, payment, completed-service, permission integrity and juvenile-filter hunks. These supersede earlier whole-file claims only for the named hunks. Coordinator owns registry and catalog admission; Audit owns clock and analysis. No other surface is transferred.

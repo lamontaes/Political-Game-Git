@@ -456,6 +456,10 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
     titleLabel: "President",
     presentmentRequired: knownRule(true, ART1_SEC7),
     actionWindowDaysInSession: knownRule(10, ART1_SEC7),
+    actionWindowDayBasisInSession: knownRule("SUNDAYS_EXCEPTED", ART1_SEC7),
+    actionWindowDayBasisAfterAdjournment: unknownRule(
+      "Adjournment's effect on the presentment window remains unresolved.",
+    ),
     actionWindowDaysAfterAdjournment: unknownRule(
       "A bill whose return an adjournment prevents does not become law (the pocket veto); the pocket veto is not modeled.",
     ),
