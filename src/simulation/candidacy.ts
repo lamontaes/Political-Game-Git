@@ -232,6 +232,8 @@ export type CandidacyBlockKind =
   | "sourced-state-residence"
   | "unproved-district-residence"
   | "unusable-district-binding"
+  | "county-seat-unrecorded"
+  | "county-voter-unrecorded"
   | "unusable-municipal-seat"
   | "office-does-not-exist"
   | "unproved-sourced-qualification"
@@ -324,7 +326,8 @@ export function districtSeatMustBeNamed(
   // its separate filing route need not claim the candidate lives in it.
   if (congressSeatIdentityForOfficeKey(officeKey)) return false;
   // A town's governing body has no districts the game has read.
-  if (localGoverningBodyIdentityForOfficeKey(officeKey)) return false;
+  const localOffice = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (localOffice) return localOffice.unit.unitType === "county";
   const authority = candidacyAuthority(jurisdictionId);
   const pack = authority.pack;
   if (!pack?.offices.some((office) => office.officeKey === officeKey))
@@ -495,6 +498,22 @@ export function candidacyEligibility(
     pack?.offices.find(
       (candidate) => candidate.officeKey === input.officeKey,
     ) ?? null;
+  if (local?.unit.unitType === "county") {
+    if (input.districtBinding?.chamber !== "county-governing-body") {
+      blocks.push({
+        kind: "county-seat-unrecorded",
+        reason:
+          "This county campaign needs its actual sourced seat and electorate.",
+      });
+    }
+    // No canonical dated county voter-registration producer has been admitted.
+    // Residence or selecting a seat cannot certify that missing fact.
+    blocks.push({
+      kind: "county-voter-unrecorded",
+      reason:
+        "The game has not recorded the voter eligibility needed for this county office.",
+    });
+  }
   let boundOption = option;
   if (option && input.districtBinding) {
     const bound = bindOfficeToDistrict(
@@ -503,6 +522,7 @@ export function candidacyEligibility(
       authority.stateJurisdictionKey
         ? authority.stateJurisdictionKey.replace(/^US-/, "")
         : null,
+      world.currentDate,
     );
     if (bound.kind === "refused") {
       blocks.push({

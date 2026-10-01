@@ -1,3 +1,8 @@
+import { countyGeoidsForPlace } from "./government-units";
+import {
+  countySeatCatalog,
+  resolveCountySeatBinding,
+} from "../districts/county-seat-catalog";
 /**
  * District residence intervals and seat intents.
  *
@@ -64,6 +69,7 @@ const MEMBERSHIP_PROVENANCE_METHODS =
     "simulated-event",
     "canonical-home-join",
     "split-home-assignment",
+    "county-home-join",
   ]);
 
 /**
@@ -128,6 +134,12 @@ export function desiredDistrictBinding(
 export function isSupportedDistrictMembership(
   interval: DistrictResidenceInterval,
 ): boolean {
+  if (
+    interval.binding.chamber === "county-governing-body" &&
+    (interval.provenance.method !== "county-home-join" ||
+      interval.provenance.sourceEventId === null)
+  )
+    return false;
   if (!MEMBERSHIP_PROVENANCE_METHODS.has(interval.provenance.method)) {
     return false;
   }
@@ -144,9 +156,42 @@ export function bindOfficeToDistrict(
   option: ElectiveOfficeOption,
   binding: DistrictSeatBinding,
   expectedStateUsps: string | null,
+  onDate?: IsoDate,
 ):
   | { readonly kind: "bound"; readonly option: ElectiveOfficeOption }
   | { readonly kind: "refused"; readonly reason: string } {
+  if (binding.chamber === "county-governing-body") {
+    if (!onDate)
+      return {
+        kind: "refused",
+        reason:
+          "Binding this county office requires its actual assessment date.",
+      };
+    const resolved = resolveCountySeatBinding(
+      countySeatCatalog(),
+      binding,
+      onDate,
+      { officeKey: option.officeKey },
+    );
+    if (resolved.kind === "refused") return resolved;
+    if (expectedStateUsps && resolved.binding.stateUsps !== expectedStateUsps) {
+      return {
+        kind: "refused",
+        reason: "This county seat belongs to a different state.",
+      };
+    }
+    return {
+      kind: "bound",
+      option: {
+        ...option,
+        office: {
+          ...option.office,
+          seatKey: resolved.binding.seatKey,
+          districtBinding: resolved.binding,
+        },
+      },
+    };
+  }
   const chamberKey = option.officeKey.split(":").at(-1) ?? "";
   const expectedChamber = gazetteerChamberForOfficeChamberKey(chamberKey);
   if (expectedChamber === null) {
@@ -185,7 +230,7 @@ export function districtResidenceSince(
   binding: DistrictSeatBinding,
   onDate: IsoDate,
 ): IsoDate | null {
-  const resolved = resolveDistrictBinding(districtIdentityCatalog(), binding);
+  const resolved = resolveResidenceBinding(binding, onDate);
   if (resolved.kind === "refused") return null;
   const covering = districtResidenceIntervals(world)
     .filter(
@@ -334,7 +379,7 @@ export function selectDesiredDistrict(
       world,
     };
   }
-  const resolved = resolveDistrictBinding(districtIdentityCatalog(), binding);
+  const resolved = resolveResidenceBinding(binding, world.currentDate);
   if (resolved.kind === "refused") {
     return { kind: "refused", reason: resolved.reason, world };
   }
@@ -347,7 +392,7 @@ export function selectDesiredDistrict(
     ...districtSeatIntents(world).filter(
       (existing) =>
         existing.personId !== personId ||
-        existing.binding.chamber !== resolved.binding.chamber,
+        !sameResidenceScope(existing.binding, resolved.binding),
     ),
     intent,
   ];
@@ -407,14 +452,84 @@ export function establishDistrictResidence(
       world,
     };
   }
-  const resolved = resolveDistrictBinding(
-    districtIdentityCatalog(),
-    input.binding,
-  );
+  const resolved = resolveResidenceBinding(input.binding, startedOn);
   if (resolved.kind === "refused") {
     return { kind: "refused", reason: resolved.reason, world };
   }
   const binding = resolved.binding;
+  if (binding.chamber === "county-governing-body") {
+    if (
+      input.provenance.method !== "county-home-join" ||
+      input.provenance.sourceEventId !==
+        currentResidenceFactId(world, input.personId)
+    ) {
+      return {
+        kind: "refused",
+        world,
+        reason:
+          "County domicile needs the actual current residence fact and a sourced county home join.",
+      };
+    }
+    const seat = resolveCountySeatBinding(
+      countySeatCatalog(),
+      binding,
+      startedOn,
+    );
+    const home =
+      seat.kind === "accepted" ? seat.identity.homeMembership : undefined;
+    const place = canonicalHomePlaceGeoid(world, input.personId);
+    const fact = factsForPerson(person).find(
+      (item) => item.id === input.provenance.sourceEventId,
+    );
+    let homeSourceDatesValid = false;
+    if (home) {
+      try {
+        makeIsoDate(home.source.readOn);
+        makeIsoDate(home.source.effectiveFrom);
+        if (home.source.effectiveUntil !== null)
+          makeIsoDate(home.source.effectiveUntil);
+        homeSourceDatesValid =
+          home.source.effectiveUntil === null ||
+          home.source.effectiveUntil > home.source.effectiveFrom;
+      } catch {
+        homeSourceDatesValid = false;
+      }
+    }
+    const counties = place ? countyGeoidsForPlace(place) : [];
+    if (
+      !home ||
+      !homeSourceDatesValid ||
+      counties.length !== 1 ||
+      counties[0] !== binding.geoid ||
+      home.source.status !== "adopted" ||
+      !place ||
+      !home.wholePlaceGeoids.includes(place) ||
+      home.source.effectiveFrom > startedOn ||
+      (home.source.effectiveUntil !== null &&
+        home.source.effectiveUntil <= startedOn) ||
+      !home.source.documentId ||
+      !home.source.version ||
+      !home.source.url.startsWith("https://") ||
+      !fact ||
+      fact.kind !== "residence" ||
+      fact.jurisdictionId !== person.homeJurisdictionId ||
+      fact.occurredAt > startedOn
+    ) {
+      return {
+        kind: "refused",
+        world,
+        reason:
+          "No dated sourced home join establishes this person's county seat territory.",
+      };
+    }
+  } else if (input.provenance.method === "county-home-join") {
+    return {
+      kind: "refused",
+      world,
+      reason:
+        "A county home join cannot establish another chamber's district residence.",
+    };
+  }
   if (input.provenance.method === "split-home-assignment") {
     const confirmed = confirmSplitHomeAssignment(
       world,
@@ -440,7 +555,7 @@ export function establishDistrictResidence(
   const openSameChamber = districtResidenceIntervals(world).filter(
     (interval) =>
       interval.personId === input.personId &&
-      interval.binding.chamber === binding.chamber &&
+      sameResidenceScope(interval.binding, binding) &&
       interval.endedOn === null,
   );
   let nextIntervals = [...districtResidenceIntervals(world)];
@@ -584,6 +699,11 @@ function confirmCanonicalHomeJoin(
         "A canonical home join needs the residence fact that established the home. Selecting a district is not that fact.",
     };
   }
+  if (binding.chamber === "county-governing-body")
+    return {
+      kind: "refused",
+      reason: "A Gazetteer home join cannot establish county domicile.",
+    };
   const person = world.people[personId];
   if (!person) {
     return {
@@ -730,8 +850,9 @@ export function bindElectiveOfficeOption(
   option: ElectiveOfficeOption,
   binding: DistrictSeatBinding,
   expectedStateUsps: string | null,
+  onDate?: IsoDate,
 ): ReturnType<typeof bindOfficeToDistrict> {
-  return bindOfficeToDistrict(option, binding, expectedStateUsps);
+  return bindOfficeToDistrict(option, binding, expectedStateUsps, onDate);
 }
 
 /**
@@ -783,6 +904,11 @@ function confirmSplitHomeAssignment(
         "Placing a home in one district of a split town needs the current residence fact.",
     };
   }
+  if (binding.chamber === "county-governing-body")
+    return {
+      kind: "refused",
+      reason: "A split-town choice cannot establish county domicile.",
+    };
   const crossing = splitHomeDistricts(world, personId, binding.chamber);
   if (!crossing.some((identity) => identity.recordId === binding.recordId)) {
     return {
@@ -864,6 +990,12 @@ export function chooseSplitHomeDistrict(
   personId: EntityId,
   binding: DistrictSeatBinding,
 ): DistrictResidenceWriteResult {
+  if (binding.chamber === "county-governing-body")
+    return {
+      kind: "refused",
+      world,
+      reason: "A player seat choice cannot establish county domicile.",
+    };
   const residenceId = currentResidenceFactId(world, personId);
   const open = districtResidenceIntervals(world).find(
     (interval) =>
@@ -884,4 +1016,28 @@ export function chooseSplitHomeDistrict(
       note: "Chosen by the player among the districts crossing their town.",
     },
   });
+}
+
+function resolveResidenceBinding(binding: DistrictSeatBinding, onDate: string) {
+  return binding.chamber === "county-governing-body"
+    ? resolveCountySeatBinding(countySeatCatalog(), binding, onDate)
+    : resolveDistrictBinding(districtIdentityCatalog(), binding);
+}
+
+function sameResidenceScope(
+  left: DistrictSeatBinding,
+  right: DistrictSeatBinding,
+): boolean {
+  if (
+    left.chamber === "county-governing-body" ||
+    right.chamber === "county-governing-body"
+  ) {
+    return (
+      left.chamber === "county-governing-body" &&
+      right.chamber === "county-governing-body" &&
+      left.governmentUnitId === right.governmentUnitId &&
+      left.officeKey === right.officeKey
+    );
+  }
+  return left.chamber === right.chamber;
 }

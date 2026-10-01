@@ -3,6 +3,7 @@ import type {
   DistrictBindingResolution,
   DistrictIdentity,
   DistrictSeatBinding,
+  GazetteerDistrictSeatBinding,
 } from "./types";
 import { placeDistrictJoin } from "./place-membership";
 
@@ -89,7 +90,7 @@ export function districtMembershipFromInteriorPoint(input: {
 export type DistrictHomeMembership =
   | {
       readonly kind: "known";
-      readonly binding: DistrictSeatBinding;
+      readonly binding: GazetteerDistrictSeatBinding;
       readonly identity: DistrictIdentity;
     }
   | { readonly kind: "unknown"; readonly reason: string }
@@ -190,6 +191,14 @@ export function resolveDistrictBinding(
     readonly stateUsps?: string;
   },
 ): DistrictBindingResolution {
+  if (candidate.chamber === "county-governing-body") {
+    return {
+      kind: "refused",
+      refusalKind: "malformed-key",
+      reason:
+        "County seats require their dated source catalog, not the Gazetteer district catalog.",
+    };
+  }
   if (
     candidate.recordId !== districtRecordId(candidate.chamber, candidate.geoid)
   ) {
@@ -200,11 +209,12 @@ export function resolveDistrictBinding(
         "The district binding's record id does not reassemble from its chamber and GEOID, so the game will not use it.",
     };
   }
-  if (candidate.vintage !== DISTRICT_IDENTITY_VINTAGE) {
+  const candidateVintage: string = candidate.vintage;
+  if (candidateVintage !== DISTRICT_IDENTITY_VINTAGE) {
     return {
       kind: "refused",
       refusalKind: "vintage-mismatch",
-      reason: `The district binding cites vintage "${candidate.vintage}", which is not the accepted Gazetteer vintage ${DISTRICT_IDENTITY_VINTAGE}.`,
+      reason: `The district binding cites vintage "${candidateVintage}", which is not the accepted Gazetteer vintage ${DISTRICT_IDENTITY_VINTAGE}.`,
     };
   }
   const identity = districtIdentityByRecordId(catalog, candidate.recordId);
@@ -279,7 +289,7 @@ export function resolveDistrictBinding(
 
 export function bindingFromIdentity(
   identity: DistrictIdentity,
-): DistrictSeatBinding {
+): GazetteerDistrictSeatBinding {
   return {
     vintage: identity.vintage,
     compilerVersion: identity.compilerVersion,

@@ -1,4 +1,8 @@
 import {
+  countySeatCatalog,
+  resolveCountySeatBinding,
+} from "../districts/county-seat-catalog";
+import {
   assertPermitIntegrity,
   permitApplications,
   permitStatuses,
@@ -2295,6 +2299,24 @@ function validateHistoryIntegrity(
   assertPermitIntegrity(world, ids);
   assertLegalOutcomeConsequenceIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
+    if (interval.binding.chamber === "county-governing-body") {
+      const resolved = resolveCountySeatBinding(
+        countySeatCatalog(),
+        interval.binding,
+        interval.startedOn,
+      );
+      if (
+        resolved.kind === "refused" ||
+        interval.provenance.method !== "county-home-join" ||
+        interval.provenance.sourceEventId === null ||
+        interval.startedOn > world.currentDate ||
+        (interval.endedOn !== null && interval.endedOn < interval.startedOn)
+      ) {
+        throw new Error(
+          `County residence interval lacks its dated sourced seat and home provenance: ${interval.id}`,
+        );
+      }
+    }
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
       throw new Error(
