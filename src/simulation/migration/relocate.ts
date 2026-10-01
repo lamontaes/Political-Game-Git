@@ -21,12 +21,10 @@
 import { appendChildhoodEntry } from "../childhood-record";
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
-import {
-  currentSchooling,
-  leaveSchoolOnMove,
-  schoolGradeOn,
-  schoolTermOn,
-} from "../school-stages";
+// Not `school-stages.ts`: importing it from here makes the module loader
+// enter the stage handlers before the campaign clock's registries read them.
+import { schoolGradeOn, schoolTermOn } from "../school-calendar";
+import { attendingSchool, leaveSchoolOnMove } from "../school-moves";
 import {
   buildHouseholdLocationRecord,
   recordOrganizationParticipationState,
@@ -551,12 +549,9 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   // session, and the school they leave reads it.
   const term = schoolTermOn(date);
   for (const personId of move.personIds) {
-    const schooling = currentSchooling(next, personId);
-    if (!schooling) continue;
     const grade = schoolGradeOn(next, personId, date);
-    const child =
-      ageOnDate(next.people[personId]!.birthDate, date) < 18;
-    if (term && child && schooling.status === "active" && grade !== null)
+    const child = ageOnDate(next.people[personId]!.birthDate, date) < 18;
+    if (term && child && grade !== null && attendingSchool(next, personId))
       next = appendChildhoodEntry(next, {
         kind: "school-year-move",
         stableKey: `${eventStableKey}:childhood:${personId}`,

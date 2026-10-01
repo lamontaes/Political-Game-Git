@@ -36,7 +36,12 @@ export function childhoodRecord(
   const empty = witnessedThrough < witnessedFrom;
   const days = empty
     ? 0
-    : daysEligible(world, personId, witnessedFrom, addDays(witnessedThrough, 1));
+    : daysEligible(
+        world,
+        personId,
+        witnessedFrom,
+        addDays(witnessedThrough, 1),
+      );
   return {
     personId,
     witnessedFrom,
@@ -63,7 +68,8 @@ function daysEligible(
 ): number {
   const rows = healthCoverageRecords(world)
     .filter(
-      (row) => row.personId === personId && row.effectiveAt <= world.currentDate,
+      (row) =>
+        row.personId === personId && row.effectiveAt <= world.currentDate,
     )
     .slice()
     .sort(

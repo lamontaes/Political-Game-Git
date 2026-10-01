@@ -24,11 +24,8 @@ import {
   relocateHousehold,
 } from "./migration";
 import { recordFamilyAddition } from "./people-family";
-import {
-  currentSchooling,
-  leaveSchoolOnMove,
-  schoolTermOn,
-} from "./school-stages";
+import { currentSchooling, schoolTermOn } from "./school-stages";
+import { leaveSchoolOnMove } from "./school-moves";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, World } from "./types";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
@@ -184,9 +181,7 @@ describe(`Fable gap 5: the childhood record, in ${label}`, () => {
       recordedAt: start.world.currentDate,
       jurisdictionId: start.world.people[pupil]!.homeJurisdictionId,
       involvedEntityIds: [pupil],
-      participants: [
-        { personId: pupil, role: "agency:mover", detail: null },
-      ],
+      participants: [{ personId: pupil, role: "agency:mover", detail: null }],
       personFactConstraints: [],
       visibility: "limited",
       tags: [],
@@ -224,8 +219,7 @@ describe(`Fable gap 5: the childhood record, in ${label}`, () => {
       expect.objectContaining({
         kind: "birth",
         birthDate: child.birthDate,
-        jurisdictionId:
-          start.world.people[start.playerId]!.homeJurisdictionId,
+        jurisdictionId: start.world.people[start.playerId]!.homeJurisdictionId,
       }),
     ]);
     expect(record.yearsWitnessed).toBe(0);

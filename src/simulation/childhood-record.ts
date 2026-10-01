@@ -58,7 +58,10 @@ export function appendChildhoodEntry(world: World, input: EntryInput): World {
     throw new Error("A childhood entry cannot take effect in the future.");
   if (!eventById(world, input.sourceRecordId))
     throw new Error("A childhood entry cites a record the World holds.");
-  const id = createStableId("childhood-entry", `${world.id}:${input.stableKey}`);
+  const id = createStableId(
+    "childhood-entry",
+    `${world.id}:${input.stableKey}`,
+  );
   if (childhoodRecordEntries(world).some((entry) => entry.id === id))
     throw new Error(`Duplicate childhood entry: ${input.stableKey}`);
   const entry = {

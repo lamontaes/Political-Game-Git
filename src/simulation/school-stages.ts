@@ -1,4 +1,3 @@
-import { childhoodRecordEntries } from "./childhood-record";
 import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import {
   futureDueItemStateAt,
@@ -11,7 +10,12 @@ import {
 } from "./life";
 import { residentNameForJurisdiction } from "./life-places";
 import {
-  educationEnrollmentHistoryForPerson,
+  kindergartenYear,
+  onCalendar,
+  SCHOOL_STAGE_CALENDAR,
+  schoolGradeOn,
+} from "./school-calendar";
+import {
   educationEnrollmentStateAt,
   organizationProfileAt,
 } from "./life-queries";
@@ -66,20 +70,12 @@ export const SCHOOL_STAGES_V2 = "school-stages-v2" as const;
 export type SchoolStageVersion =
   typeof SCHOOL_STAGES_V1 | typeof SCHOOL_STAGES_V2;
 
-export const SCHOOL_STAGE_CALENDAR = {
-  schoolAgeCutoff: "09-01",
-  /** The first Monday on or after this day. */
-  termStarts: { month: 8, day: 24 },
-  /**
-   * A school year runs forty weeks, to the Friday of the last: about 180
-   * days of instruction and twenty of holidays and breaks.
-   */
-  termEnds: { weeksLong: 40 },
-  /** Years after kindergarten begins that each stage ends. */
-  endsAfterYears: { elementary: 6, middle: 9, high: 13 },
-  /** Years after kindergarten begins that each stage starts. */
-  startsAfterYears: { elementary: 0, middle: 6, high: 9 },
-} as const;
+export {
+  kindergartenYear,
+  SCHOOL_STAGE_CALENDAR,
+  schoolGradeOn,
+  schoolTermOn,
+} from "./school-calendar";
 
 export type SchoolStageKey = keyof typeof SCHOOL_STAGE_CALENDAR.endsAfterYears;
 
@@ -107,62 +103,6 @@ const PROVENANCE = {
   kind: "generated" as const,
   generatorKey: "school-stages-v1",
 };
-
-/** The fall a child starts kindergarten, which is also the class they are in. */
-export function kindergartenYear(birthDate: IsoDate): number {
-  const year = Number(birthDate.slice(0, 4));
-  return birthDate.slice(5) <= SCHOOL_STAGE_CALENDAR.schoolAgeCutoff
-    ? year + 5
-    : year + 6;
-}
-
-/**
- * The first day of the school year that starts in `year`: the first Monday on
- * or after August 24. Every child in a district shares it, so classmates start
- * and finish together; nothing is drawn per child or per school (A140).
- */
-function termStartsIn(year: number): IsoDate {
-  const { month, day } = SCHOOL_STAGE_CALENDAR.termStarts;
-  const earliest = makeIsoDate(
-    `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-  );
-  const weekday = new Date(`${earliest}T00:00:00Z`).getUTCDay();
-  return addDays(earliest, (8 - weekday) % 7);
-}
-
-/**
- * A date on the school calendar: the first day of the school year that
- * starts in `year`, or the last day of the one that ends in `year`, the
- * Friday of its fortieth week.
- */
-function onCalendar(year: number, which: "starts" | "ends"): IsoDate {
-  return which === "starts"
-    ? termStartsIn(year)
-    : addDays(
-        termStartsIn(year - 1),
-        SCHOOL_STAGE_CALENDAR.termEnds.weeksLong * 7 - 3,
-      );
-}
-
-/**
- * The school year in session on this date, from the one calendar every child
- * shares: the first day through the last day of instruction. Null in the
- * summer between them.
- */
-export function schoolTermOn(date: IsoDate): {
-  readonly schoolYear: number;
-  readonly startsAt: IsoDate;
-  readonly endsAt: IsoDate;
-} | null {
-  const year = Number(date.slice(0, 4));
-  for (const schoolYear of [year - 1, year]) {
-    const startsAt = onCalendar(schoolYear, "starts");
-    const endsAt = onCalendar(schoolYear + 1, "ends");
-    if (date >= startsAt && date <= endsAt)
-      return { schoolYear, startsAt, endsAt };
-  }
-  return null;
-}
 
 /**
  * The day a stage's last school year ends for this child. A start that placed
@@ -300,29 +240,6 @@ function openSchooling(
   );
 }
 
-/**
- * The grade the school calendar puts a child in on a date: 0 for
- * kindergarten, then 1 through 12, or null before kindergarten or after
- * senior year.
- *
- * The same calendar that moves children through school: kindergarten in the
- * fall after they are five by September 1. The summer counts as the grade
- * just finished, until this child's next school year starts.
- */
-export function schoolGradeOn(
-  world: World,
-  personId: EntityId,
-  date: IsoDate = world.currentDate,
-): number | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const year = Number(date.slice(0, 4));
-  const starts = onCalendar(year, "starts");
-  const schoolYear = date >= starts ? year : year - 1;
-  const grade = schoolYear - kindergartenYear(person.birthDate);
-  return grade >= 0 && grade <= 12 ? grade : null;
-}
-
 export interface CurrentSchooling {
   readonly enrollment: EducationEnrollment;
   /** "expected" is a place waiting for the next school year. */
@@ -433,62 +350,6 @@ export function highSchoolEndsAt(
       })?.status === "scheduled",
   );
   return scheduled?.dueAt ?? schoolStageEndsAt(world, personId, "high");
-}
-
-/**
- * A pupil who moves away leaves the school they attended, and the place
- * waiting for them in the fall, as transferred.
- *
- * The childhood record says whether the move landed in the middle of a school
- * year (`school-move-to-scores`, W-S29): a move with a `school-year-move`
- * entry citing it is marked on the study record as a mid-year transfer, with
- * the grade it interrupted; any other move is a change of school over the
- * summer. Enrolling at a school in the new place is not built yet.
- */
-export function leaveSchoolOnMove(
-  world: World,
-  personId: EntityId,
-  moveEventId: EntityId,
-  date: IsoDate,
-): World {
-  const midYear = childhoodRecordEntries(world).find(
-    (entry) =>
-      entry.kind === "school-year-move" &&
-      entry.personId === personId &&
-      entry.sourceRecordId === moveEventId,
-  );
-  const reason =
-    midYear?.kind === "school-year-move"
-      ? `Moved away in the middle of the ${midYear.schoolYear}-${midYear.schoolYear + 1} school year, in ${gradeName(midYear.grade)}.`
-      : "Moved away between school years.";
-  let next = world;
-  for (const enrollment of educationEnrollmentHistoryForPerson(
-    world,
-    personId,
-  )) {
-    if (!enrollment.programKind.startsWith("schooling:")) continue;
-    const previous = educationEnrollmentStateAt(next, enrollment.id);
-    if (previous?.status !== "active" && previous?.status !== "expected")
-      continue;
-    next = recordEducationEnrollmentState(next, {
-      stableKey: `${enrollment.stableKey}:transferred:${moveEventId}`,
-      enrollmentId: enrollment.id,
-      effectiveAt: date,
-      status: "transferred",
-      contextKind: previous.contextKind,
-      reason,
-      provenance: { kind: "simulated-event", eventId: moveEventId },
-      supersedesStateId: previous.id,
-    });
-  }
-  return next;
-}
-
-function gradeName(grade: number): string {
-  if (grade === 0) return "kindergarten";
-  const suffix =
-    grade === 1 ? "st" : grade === 2 ? "nd" : grade === 3 ? "rd" : "th";
-  return `${grade}${suffix} grade`;
 }
 
 /** Everybody in the same class at the same school: started there together. */
