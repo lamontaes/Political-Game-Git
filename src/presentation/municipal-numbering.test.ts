@@ -79,7 +79,7 @@ describe("municipal numbering presentation boundary", () => {
       municipalMeasureNumberingInput(
         createScenarioWorld(
           "uninstalled-municipal-context",
-          requireLifePlace("2124000").context,
+          requireLifePlace("1150000").context,
         ),
         government.key,
       ),
