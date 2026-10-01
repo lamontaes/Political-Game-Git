@@ -100,6 +100,7 @@ import { hasStableKey } from "../history-index";
 import {
   recordCurrentServicesBudgetDraft,
   currentServicesBudgetFiscalWindow,
+  budgetRequestMatchesIntake,
 } from "./current-services-budget";
 
 /**
@@ -2204,6 +2205,7 @@ export function fileRecordedGoverningBudgetRequest(
   world: World,
   input: {
     readonly matterId: EntityId;
+    readonly intakeKey: string;
     readonly fiscalWindow: {
       readonly startsOn: IsoDate;
       readonly endsOn: IsoDate;
@@ -2230,10 +2232,31 @@ export function fileRecordedGoverningBudgetRequest(
       world,
       reason: "No current governor's recorded budget request is available.",
     };
+  if (
+    !budgetRequestMatchesIntake(world, {
+      matterId: matter.id,
+      officeKey: office.officeKey,
+      termId: office.termId,
+      intakeKey: input.intakeKey,
+    })
+  )
+    return {
+      ok: false,
+      world,
+      reason: "The budget request is not bound to this session intake.",
+    };
+  if (!matter.decision.tags.includes("choice:budget:hold-flat"))
+    return {
+      ok: false,
+      world,
+      reason:
+        "This budget choice requests changed amounts that are not supported by the current-services draft.",
+    };
   const filed = recordCurrentServicesBudgetDraft(world, {
     jurisdictionId: office.jurisdictionId,
     governorPersonId: office.holderPersonId,
     requestEventId: matter.decision.id,
+    intakeKey: input.intakeKey,
     fiscalWindow: input.fiscalWindow,
   });
   return filed
@@ -2242,7 +2265,7 @@ export function fileRecordedGoverningBudgetRequest(
         ok: false,
         world,
         reason:
-          "The recorded request has no adopted current-services lines or seated originating chamber.",
+          "The request has no usable current-services lines or seated chamber, or the existing draft belongs to another request.",
       };
 }
 
@@ -2268,6 +2291,12 @@ function fileSessionBudgetRequest(
     .filter(
       (matter) =>
         matter.holderPersonId === office.holderPersonId &&
+        budgetRequestMatchesIntake(world, {
+          matterId: matter.id,
+          officeKey: office.officeKey,
+          termId: office.termId,
+          intakeKey,
+        }) &&
         matter.status === "decided" &&
         matter.decision,
     )
@@ -2278,6 +2307,7 @@ function fileSessionBudgetRequest(
     request && fiscalWindow
       ? fileRecordedGoverningBudgetRequest(next, {
           matterId: request.id,
+          intakeKey,
           fiscalWindow,
         })
       : null;
@@ -2289,6 +2319,12 @@ function fileSessionBudgetRequest(
           .filter(
             (matter) =>
               matter.holderPersonId === office.holderPersonId &&
+              budgetRequestMatchesIntake(world, {
+                matterId: matter.id,
+                officeKey: office.officeKey,
+                termId: office.termId,
+                intakeKey,
+              }) &&
               matter.status === "open",
           )
           .sort(

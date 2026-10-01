@@ -76,6 +76,36 @@ export function currentServicesBudgetFiscalWindow(
   };
 }
 
+/** Match the existing matter key and the saved intake outcome, not just its holder. */
+export function budgetRequestMatchesIntake(
+  world: World,
+  input: {
+    readonly matterId: EntityId;
+    readonly officeKey: string;
+    readonly termId: string;
+    readonly intakeKey: string;
+  },
+): boolean {
+  const matter = world.history.events.find(
+    (event) => event.id === input.matterId,
+  );
+  return (
+    matter?.type === "governing.matter-opened" &&
+    matter.stableKey ===
+      `state-governing/v1:${input.officeKey}:${input.termId}:budget:session-budget:${input.intakeKey}` &&
+    world.history.events.some(
+      (event) =>
+        event.type === "governing.outcome" &&
+        event.jurisdictionId === matter.jurisdictionId &&
+        event.recordedAt <= world.currentDate &&
+        event.tags.includes("matter-family:budget") &&
+        event.tags.includes(`office:${input.officeKey}`) &&
+        event.tags.includes(`matter:${matter.id}`) &&
+        event.tags.includes(`budget-intake:${input.intakeKey}`),
+    )
+  );
+}
+
 /**
  * A source-backed executive request uses the existing introduction/provision
  * writers. The caller supplies its declared fiscal window; no date or amount
@@ -87,6 +117,7 @@ export function recordCurrentServicesBudgetDraft(
     readonly jurisdictionId: EntityId;
     readonly governorPersonId: EntityId;
     readonly requestEventId: EntityId;
+    readonly intakeKey: string;
     readonly fiscalWindow: {
       readonly startsOn: IsoDate;
       readonly endsOn: IsoDate;
@@ -103,20 +134,26 @@ export function recordCurrentServicesBudgetDraft(
   const officeKey = request?.tags
     .find((tag) => tag.startsWith("office:"))
     ?.slice("office:".length);
+  const holder = currentStateExecutiveHolders(world).find(
+    (holder) =>
+      holder.officeKey === officeKey &&
+      holder.personId === input.governorPersonId,
+  );
   if (
     !request ||
     request.type !== "governing.matter-decided" ||
     !request.tags.includes("matter-family:budget") ||
-    !request.tags.some(
-      (tag) => tag.startsWith("choice:") && tag !== "choice:lapsed",
-    ) ||
+    !request.tags.includes("choice:budget:hold-flat") ||
     request.jurisdictionId !== input.jurisdictionId ||
     request.recordedAt > world.currentDate ||
-    !currentStateExecutiveHolders(world).some(
-      (holder) =>
-        holder.officeKey === officeKey &&
-        holder.personId === input.governorPersonId,
-    ) ||
+    !holder ||
+    !matterId ||
+    !budgetRequestMatchesIntake(world, {
+      matterId: matter!.id,
+      officeKey: holder.officeKey,
+      termId: holder.termId,
+      intakeKey: input.intakeKey,
+    }) ||
     !matter?.participants.some(
       (participant) =>
         participant.role === "agency:officeholder" &&
@@ -214,7 +251,10 @@ export function recordCurrentServicesBudgetDraft(
   const existing = world.history.legislativeMeasures?.find(
     (measure) => measure.stableKey === stableKey,
   );
-  if (existing) return { world, measureId: existing.id };
+  if (existing)
+    return existing.sourceDocumentKey === request.id
+      ? { world, measureId: existing.id }
+      : null;
   let next = introduceMeasure(world, {
     stableKey,
     jurisdictionId: input.jurisdictionId,
