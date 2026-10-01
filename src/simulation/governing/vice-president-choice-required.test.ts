@@ -101,7 +101,7 @@ function vacancy() {
       effectiveAt: world.currentDate,
       reasonKey: "civic:fixture-isolation",
       context:
-        "Scoped Vice-President nomination callback; other due families are cancelled, not silently skipped.",
+        "Scoped Vice-President nomination callback; other due families are canceled, not silently skipped.",
     });
   }
   world = {
