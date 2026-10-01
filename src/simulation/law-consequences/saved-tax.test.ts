@@ -20,7 +20,7 @@ it("assesses an actually enacted questionless levy once and collects it after Sa
     registry,
   );
   const measure = world.history.legislativeMeasures!.find(
-    (row) => row.id === fixture.measureId,
+    (row) => row.id === fixture.procedure.measureId,
   )!;
   expect(measure.propositionIds ?? []).toHaveLength(0);
   world = declarePersonalTaxOccurrence(world, {
@@ -40,7 +40,7 @@ it("assesses an actually enacted questionless levy once and collects it after Sa
     activity: "assessment",
     activityId: base.id,
     subjectIds: [fixture.personId],
-    governingLawId: fixture.measureId,
+    governingLawId: fixture.procedure.measureId,
   });
   expect(world.history.taxAssessments).toHaveLength(1);
   world = advanceWorld(deserializeWorld(serializeWorld(world)), 2, registry);
